@@ -8,8 +8,10 @@ import {
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { DEFAULT_PAYMENT_METHODS } from '../constants';
 import type {
+  EventMetadata,
   FundButtonStateReact,
   FundCardProviderReact,
+  OnrampError,
   PaymentMethodReact,
 } from '../types';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
@@ -36,6 +38,9 @@ type FundCardContextType = {
   country: string;
   subdivision?: string;
   inputType?: 'fiat' | 'crypto';
+  onError?: (e: OnrampError | undefined) => void;
+  onStatus?: (lifecycleStatus: EventMetadata) => void;
+  onSuccess?: () => void;
 };
 
 const FundContext = createContext<FundCardContextType | undefined>(undefined);
@@ -49,6 +54,9 @@ export function FundCardProvider({
   country,
   subdivision,
   inputType,
+  onError,
+  onStatus,
+  onSuccess,
 }: FundCardProviderReact) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
     PaymentMethodReact | undefined
@@ -109,6 +117,9 @@ export function FundCardProvider({
     buttonText,
     country,
     subdivision,
+    onError,
+    onStatus,
+    onSuccess,
   });
   return <FundContext.Provider value={value}>{children}</FundContext.Provider>;
 }

@@ -1,11 +1,17 @@
 import { memo } from 'react';
-import { border, cn, color, pressable, text } from '../../styles/theme';
+import {
+  background,
+  border,
+  cn,
+  color,
+  pressable,
+  text,
+} from '../../styles/theme';
 import type { FundCardPaymentMethodSelectRowPropsReact } from '../types';
 import { FundCardPaymentMethodImage } from './FundCardPaymentMethodImage';
 
 export const FundCardPaymentMethodSelectRow = memo(
   ({
-    className,
     paymentMethod,
     onClick,
     hideImage,
@@ -21,9 +27,9 @@ export const FundCardPaymentMethodSelectRow = memo(
         className={cn(
           pressable.default,
           border.radius,
-          'flex w-full items-center justify-between px-2 py-1',
+          background.inverse,
+          'flex w-full items-center justify-between px-4 py-2',
           disabled && 'cursor-not-allowed opacity-50',
-          className,
         )}
         onClick={() => !disabled && onClick?.(paymentMethod)}
         disabled={disabled}

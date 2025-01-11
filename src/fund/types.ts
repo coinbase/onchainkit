@@ -316,6 +316,9 @@ export type FundCardPropsReact = {
    */
   paymentMethods?: PaymentMethodReact[];
   className?: string;
+  onError?: (e: OnrampError | undefined) => void;
+  onStatus?: (lifecycleStatus: EventMetadata) => void;
+  onSuccess?: () => void;
 };
 export type FundCardContentPropsReact = {
   children?: ReactNode;
@@ -329,7 +332,6 @@ export type FundCardPaymentMethodSelectorTogglePropsReact = {
 };
 
 export type FundCardPaymentMethodSelectRowPropsReact = {
-  className?: string;
   paymentMethod: PaymentMethodReact;
   onClick?: (paymentMethod: PaymentMethodReact) => void;
   hideImage?: boolean;
@@ -348,4 +350,7 @@ export type FundCardProviderReact = {
   country: string;
   subdivision?: string;
   inputType?: 'fiat' | 'crypto';
+  onError?: (e: OnrampError | undefined) => void;
+  onStatus?: (lifecycleStatus: EventMetadata) => void;
+  onSuccess?: () => void;
 };

@@ -119,7 +119,6 @@ export function FundCardPaymentMethodDropdown({
               const isDisabled = isPaymentMethodDisabled(paymentMethod);
               return (
                 <FundCardPaymentMethodSelectRow
-                  className={cn(background.inverse, 'px-4 py-2')}
                   key={paymentMethod.name}
                   testId={`ockFundCardPaymentMethodSelectRow__${paymentMethod.id}`}
                   paymentMethod={paymentMethod}

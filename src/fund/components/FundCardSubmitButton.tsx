@@ -1,5 +1,4 @@
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
-import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
 import { FundButton } from './FundButton';
 import { useFundContext } from './FundCardProvider';
 
@@ -13,9 +12,6 @@ export function FundCardSubmitButton() {
   } = useFundContext();
 
   const fundingUrl = useFundCardFundingUrl();
-
-  // Setup event listeners for the onramp
-  useFundCardSetupOnrampEventListeners();
 
   return (
     <FundButton
