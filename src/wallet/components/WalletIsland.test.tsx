@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
-import { WalletIsland } from './WalletIslandDraggable';
+import { WalletIsland } from './WalletIsland';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('wagmi', () => ({

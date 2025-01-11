@@ -3,7 +3,7 @@ export { ConnectWallet } from './components/ConnectWallet';
 export { ConnectWalletText } from './components/ConnectWalletText';
 export { Wallet } from './components/Wallet';
 export { WalletDefault } from './components/WalletDefault';
-export { WalletIsland } from './components/WalletIslandDraggable';
+export { WalletIsland } from './components/WalletIsland';
 export { WalletDropdown } from './components/WalletDropdown';
 export { WalletDropdownBasename } from './components/WalletDropdownBasename';
 export { WalletDropdownDisconnect } from './components/WalletDropdownDisconnect';

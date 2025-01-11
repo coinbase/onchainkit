@@ -5,7 +5,7 @@ import { Draggable } from '@/internal/components/Draggable';
 import { cn } from '@/styles/theme';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 import { Children, useMemo, useRef } from 'react';
-import type { WalletReact } from '../types';
+import type { WalletReact, WalletSubComponentReact } from '../types';
 import { WALLET_DRAGGABLE_DEFAULT_STARTING_POSITION } from '../constants';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletAdvanced } from './WalletAdvanced';
@@ -128,15 +128,7 @@ function WalletSubComponent({
   isSubComponentOpen,
   alignSubComponentRight,
   showSubComponentAbove,
-}: {
-  connect: React.ReactNode;
-  connectRef: React.RefObject<HTMLDivElement>;
-  dropdown: React.ReactNode;
-  advanced: React.ReactNode;
-  isSubComponentOpen: boolean;
-  alignSubComponentRight: boolean;
-  showSubComponentAbove: boolean;
-}) {
+}: WalletSubComponentReact) {
   if (dropdown) {
     return (
       <>

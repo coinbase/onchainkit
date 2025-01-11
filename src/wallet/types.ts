@@ -105,8 +105,8 @@ export type WalletSubComponentReact = {
   connect: React.ReactNode;
   connectRef: React.RefObject<HTMLDivElement>;
   dropdown: React.ReactNode;
-  island: React.ReactNode;
-  isOpen: boolean;
+  advanced: React.ReactNode;
+  isSubComponentOpen: boolean;
   alignSubComponentRight: boolean;
   showSubComponentAbove: boolean;
 };

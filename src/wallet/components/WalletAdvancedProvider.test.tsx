@@ -52,7 +52,7 @@ describe('useWalletAdvancedContext', () => {
     });
   });
 
-  it('should provide wallet island context when used within provider', () => {
+  it('should provide wallet advanced context when used within provider', () => {
     const { result } = renderHook(() => useWalletAdvancedContext(), {
       wrapper: WalletAdvancedProvider,
     });
