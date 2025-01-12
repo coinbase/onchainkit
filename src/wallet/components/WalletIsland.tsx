@@ -13,10 +13,12 @@ import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionAct
 import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
 
 export function WalletIsland({
-  startingPosition = {
-    x: window.innerWidth - 125,
-    y: window.innerHeight - 125,
-  },
+  startingPosition = typeof window !== 'undefined'
+    ? {
+        x: window.innerWidth - 125,
+        y: window.innerHeight - 125,
+      }
+    : { x: 0, y: 0 },
 }: {
   startingPosition?: { x: number; y: number };
 }) {
