@@ -1,3 +1,5 @@
+'use client';
+
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { baseScanSvg } from '@/internal/svg/baseScanSvg';
 import { disconnectSvg } from '@/internal/svg/disconnectSvg';

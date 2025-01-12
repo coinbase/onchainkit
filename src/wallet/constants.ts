@@ -1,3 +1,5 @@
+'use client';
+
 import type { Token } from '@/token';
 import { ethToken, usdcToken } from '@/token/constants';
 

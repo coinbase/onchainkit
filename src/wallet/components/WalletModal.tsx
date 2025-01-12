@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';

@@ -1,3 +1,5 @@
+'use client';
+
 import {
   createContext,
   useCallback,
@@ -43,6 +45,10 @@ export function WalletProvider({ children }: WalletProviderReact) {
 
   useEffect(() => {
     if (isSubComponentOpen && connectRef?.current) {
+      if (typeof window === 'undefined') {
+        return;
+      }
+
       const connectRect = connectRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
       const viewportWidth = window.innerWidth;

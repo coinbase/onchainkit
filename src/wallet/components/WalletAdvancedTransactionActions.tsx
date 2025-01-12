@@ -1,3 +1,5 @@
+'use client';
+
 import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { addSvgForeground } from '@/internal/svg/addForegroundSvg';
 import { arrowUpRightSvg } from '@/internal/svg/arrowUpRightSvg';
