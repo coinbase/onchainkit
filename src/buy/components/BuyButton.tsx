@@ -1,12 +1,13 @@
 import { useCallback, useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
 import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
-import { closeSvg } from '../../internal/svg/closeSvg';
+import { CloseSvg } from '../../internal/svg/closeSvg';
 import {
   background,
   border,
   cn,
   color,
+  icon,
   pressable,
   text,
 } from '../../styles/theme';
@@ -69,7 +70,7 @@ export function BuyButton() {
       return checkmarkSvg;
     }
     if (isDropdownOpen) {
-      return closeSvg;
+      return <CloseSvg className={icon.inverse} />;
     }
     return 'Buy';
   }, [statusName, isDropdownOpen]);

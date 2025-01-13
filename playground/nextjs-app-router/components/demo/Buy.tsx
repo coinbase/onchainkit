@@ -45,7 +45,9 @@ function BuyComponent() {
         </div>
       ) : null}
       <Buy
-        className="w-full"
+        disabled={
+          ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
+        }
         onStatus={handleOnStatus}
         onSuccess={handleOnSuccess}
         onError={handleOnError}
