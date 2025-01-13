@@ -5,8 +5,8 @@ import { Draggable } from '@/internal/components/Draggable';
 import { cn } from '@/styles/theme';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 import { Children, useMemo, useRef } from 'react';
-import { WALLET_DRAGGABLE_DEFAULT_STARTING_POSITION } from '../constants';
 import type { WalletReact, WalletSubComponentReact } from '../types';
+import { getDraggableWalletDefaultStartingPosition } from '../utils/getDraggableWalletDefaultStartingPosition';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletAdvanced } from './WalletAdvanced';
 import { WalletDropdown } from './WalletDropdown';
@@ -35,7 +35,7 @@ export const Wallet = ({
               draggable,
               draggableStartingPosition:
                 draggableStartingPosition ??
-                WALLET_DRAGGABLE_DEFAULT_STARTING_POSITION,
+                getDraggableWalletDefaultStartingPosition(),
             }
           : { draggable })}
       >
