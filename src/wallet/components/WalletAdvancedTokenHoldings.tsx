@@ -24,9 +24,9 @@ export function WalletAdvancedTokenHoldings() {
   return (
     <div
       className={cn(
-        'max-h-44 overflow-y-auto',
-        'flex min-h-44 w-full flex-col items-center gap-4',
-        'my-2',
+        'flex flex-col items-center gap-4',
+        'my-2 h-44 max-h-44 w-full',
+        'scrollbar-hidden overflow-y-auto',
         animations.content,
       )}
       data-testid="ockWalletAdvanced_TokenHoldings"
