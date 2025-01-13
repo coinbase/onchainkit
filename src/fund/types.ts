@@ -286,7 +286,8 @@ export type PaymentAccountReact =
   | 'FIAT_WALLET'
   | 'CARD'
   | 'ACH_BANK_ACCOUNT'
-  | 'APPLE_PAY';
+  | 'APPLE_PAY'
+  | ''; // Empty string represents Coinbase default payment method
 
 export type PaymentMethodReact = {
   id: PaymentAccountReact;

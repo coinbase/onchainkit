@@ -47,7 +47,7 @@ export function FundCardPaymentMethodDropdown({
       selectedPaymentMethod &&
       isPaymentMethodDisabled(selectedPaymentMethod)
     ) {
-      const coinbaseMethod = paymentMethods.find((m) => m.id === 'FIAT_WALLET');
+      const coinbaseMethod = paymentMethods.find((m) => m.id === '');
       if (coinbaseMethod) {
         setSelectedPaymentMethod(coinbaseMethod);
       }
