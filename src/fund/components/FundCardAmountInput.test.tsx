@@ -79,12 +79,12 @@ describe('FundCardAmountInput', () => {
   it('renders correctly with fiat input type', () => {
     renderWithProvider();
     expect(screen.getByTestId('ockFundCardAmountInput')).toBeInTheDocument();
-    expect(screen.getByTestId('currencySpan')).toHaveTextContent('USD');
+    expect(screen.getByTestId('ockCurrencySpan')).toHaveTextContent('USD');
   });
 
   it('renders correctly with crypto input type', () => {
     renderWithProvider({ inputType: 'crypto' });
-    expect(screen.getByTestId('currencySpan')).toHaveTextContent('ETH');
+    expect(screen.getByTestId('ockCurrencySpan')).toHaveTextContent('ETH');
   });
 
   it('handles fiat input change', async () => {
@@ -288,7 +288,7 @@ describe('FundCardAmountInput', () => {
       configurable: true,
     });
 
-    const currencyLabel = screen.getByTestId('currencySpan');
+    const currencyLabel = screen.getByTestId('ockCurrencySpan');
     Object.defineProperty(currencyLabel, 'getBoundingClientRect', {
       value: () => ({ width: 20 }),
       configurable: true,

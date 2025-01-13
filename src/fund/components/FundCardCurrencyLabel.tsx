@@ -15,7 +15,7 @@ export const FundCardCurrencyLabel = forwardRef<
         'flex items-center justify-center bg-transparent',
         'text-6xl leading-none outline-none',
       )}
-      data-testid="currencySpan"
+      data-testid="ockCurrencySpan"
     >
       {label}
     </span>

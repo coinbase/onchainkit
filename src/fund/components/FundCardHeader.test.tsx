@@ -16,7 +16,7 @@ describe('FundCardHeader', () => {
         <FundCardHeader />
       </FundCardProvider>,
     );
-    expect(screen.getByTestId('fundCardHeader')).toHaveTextContent(
+    expect(screen.getByTestId('ockFundCardHeader')).toHaveTextContent(
       'Custom header',
     );
   });
@@ -27,6 +27,8 @@ describe('FundCardHeader', () => {
         <FundCardHeader />
       </FundCardProvider>,
     );
-    expect(screen.getByTestId('fundCardHeader')).toHaveTextContent('Buy ETH');
+    expect(screen.getByTestId('ockFundCardHeader')).toHaveTextContent(
+      'Buy ETH',
+    );
   });
 });

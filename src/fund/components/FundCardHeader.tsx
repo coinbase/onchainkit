@@ -6,7 +6,10 @@ export function FundCardHeader({ className }: FundCardHeaderPropsReact) {
   const { headerText } = useFundContext();
 
   return (
-    <div className={cn(text.headline, className)} data-testid="fundCardHeader">
+    <div
+      className={cn(text.headline, className)}
+      data-testid="ockFundCardHeader"
+    >
       {headerText}
     </div>
   );
