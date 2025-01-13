@@ -1,0 +1,112 @@
+# Troubleshooting
+
+This guide covers common issues you may encounter while using OnchainKit. If you don't find your issue here, try searching our [GitHub Issues](https://github.com/coinbase/onchainkit/issues) or joining our [Discord Community](https://discord.gg/vbpeXpkPkw).
+
+## Common Issues
+
+### Environment Setup
+- **Missing API Key**
+  - Error: "Project ID is required for this component"
+  - Solution: Add your Client API Key to `.env`:
+  ```dotenv
+  NEXT_PUBLIC_CDP_API_KEY=YOUR_PUBLIC_API_KEY
+  ```
+
+- **Invalid Environment Variables**
+  - Error: "Cannot find environment variable"
+  - Solution: Use the correct variable name for your framework:
+    - Next.js: `NEXT_PUBLIC_CDP_API_KEY`
+    - Vite: `VITE_PUBLIC_ONCHAINKIT_API_KEY`
+    - Astro: `PUBLIC_ONCHAINKIT_API_KEY`
+
+- **Contracts Not Available**
+  - Error: "Contracts are not available" or "Contracts not available for LifecycleStatus"
+  - Solutions:
+    - Verify `NEXT_PUBLIC_ONCHAINKIT_API_KEY` is set correctly
+    - For Checkout component with `chargeHandler`, also set:
+      ```dotenv
+      NEXT_PUBLIC_COINBASE_COMMERCE_API_KEY=YOUR_COMMERCE_API_KEY
+      ```
+    - Ensure API keys are properly exposed in your environment
+
+### Dependencies
+- **Version Compatibility**
+  - Issue: Unexpected behavior or type errors
+  - Solution: Ensure compatible versions:
+    ```json
+    {
+      "dependencies": {
+        "@coinbase/onchainkit": "latest",
+        "viem": "^2.0.0",
+        "@wagmi/core": "^2.0.0"
+      }
+    }
+    ```
+
+### Provider Configuration
+- **Missing OnchainKitProvider**
+  - Error: "OnchainKit context not found"
+  - Solution: Wrap your app with OnchainKitProvider and [configure](/getting-started) properly:
+  ```tsx
+  import { OnchainKitProvider } from '@coinbase/onchainkit';
+  import { base } from 'viem/chains';
+
+  export default function App({ children }) {
+    return (
+      <OnchainKitProvider
+        apiKey={process.env.NEXT_PUBLIC_CDP_API_KEY}
+        chain={base}
+      >
+        {children}
+      </OnchainKitProvider>
+    );
+  }
+  ```
+
+### Wallet Connection
+- **Connection Failed**
+  - Error: "Unable to connect wallet"
+  - Solutions:
+    - Verify wallet extension is installed and unlocked
+    - Check [supported chains configuration](/wallet/wallet)
+    - Ensure proper network selection in wallet
+    - Verify RPC endpoints are accessible
+
+- **Chain Switching Issues**
+  - Error: "Failed to switch chain"
+  - Solutions:
+    - Verify chain ID is supported by OnchainKit
+    - Check wallet has required permissions
+    - Ensure RPC endpoints are configured correctly
+    - Add chain to wallet if not already added
+
+### Transaction Issues
+- **Gas Estimation Failed**
+  - Error: "Gas estimation failed"
+  - Solutions:
+    - Verify sufficient balance for gas
+    - Check transaction parameters are valid
+    - Ensure proper network [configuration](/transaction/transaction)
+
+### Identity Components
+
+### Theme Issues
+- **Dark Mode Not Working**
+  - Error: "Dark mode styles not applying"
+  - Solution: Configure Tailwind and OnchainKit properly:
+  ```js
+  // tailwind.config.js
+  module.exports = {
+    darkMode: ['class'],
+    safelist: ['dark'],
+    // ... rest of config
+  }
+  ```
+
+## Getting Help
+
+Need more help?
+
+- [Discord Community](https://discord.gg/vbpeXpkPkw)
+- [X/Twitter Support](https://x.com/onchainkit)
+- [GitHub Issues](https://github.com/coinbase/onchainkit/issues)
