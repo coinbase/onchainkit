@@ -102,7 +102,7 @@ describe('FundCardPaymentMethodDropdown', () => {
 
     // Check Coinbase is not disabled
     const coinbaseButton = screen.getByTestId(
-      'ockFundCardPaymentMethodSelectRow__FIAT_WALLET',
+      'ockFundCardPaymentMethodSelectRow__',
     );
     expect(coinbaseButton).not.toBeDisabled();
   });
@@ -126,7 +126,7 @@ describe('FundCardPaymentMethodDropdown', () => {
       'ockFundCardPaymentMethodSelectRow__ACH_BANK_ACCOUNT',
     );
     const coinbaseButton = screen.getByTestId(
-      'ockFundCardPaymentMethodSelectRow__FIAT_WALLET',
+      'ockFundCardPaymentMethodSelectRow__',
     );
 
     expect(applePayButton).not.toBeDisabled();
@@ -181,10 +181,12 @@ describe('FundCardPaymentMethodDropdown', () => {
 
     // Check descriptions are original
     expect(
-      screen.getByText('Buy with your Coinbase account'),
+      screen.getByText('ACH, cash, crypto and balance'),
     ).toBeInTheDocument();
 
-    expect(screen.getAllByText('Up to $500/week')).toHaveLength(2);
+    expect(
+      screen.getAllByText('Up to $500/week. No sign up required.'),
+    ).toHaveLength(2);
   });
 
   it('closes dropdown when clicking outside', () => {
@@ -297,7 +299,7 @@ describe('FundCardPaymentMethodDropdown', () => {
 
     // Other payment methods should still be there
     expect(
-      screen.getByTestId('ockFundCardPaymentMethodSelectRow__FIAT_WALLET'),
+      screen.getByTestId('ockFundCardPaymentMethodSelectRow__'),
     ).toBeInTheDocument();
     expect(
       screen.getByTestId('ockFundCardPaymentMethodSelectRow__ACH_BANK_ACCOUNT'),

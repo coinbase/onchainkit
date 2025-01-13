@@ -71,7 +71,7 @@ export const FundCardAmountInput = ({
   );
 
   // Update width when value changes
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: We want to update the input width when the value changes
   useEffect(() => {
     updateInputWidth();
   }, [value, updateInputWidth]);
