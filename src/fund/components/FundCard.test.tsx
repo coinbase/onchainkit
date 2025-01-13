@@ -14,7 +14,7 @@ import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCard } from './FundCard';
-import { useFundContext } from './FundCardProvider';
+import { FundCardProvider, useFundContext } from './FundCardProvider';
 
 const mockUpdateInputWidth = vi.fn();
 vi.mock('../hooks/useInputResize', () => ({
@@ -112,10 +112,10 @@ const TestComponent = () => {
 
 const renderComponent = () =>
   render(
-    <>
+    <FundCardProvider asset="BTC" country="US">
       <FundCard assetSymbol="BTC" country="US" />
       <TestComponent />
-    </>,
+    </FundCardProvider>,
   );
 
 describe('FundCard', () => {

@@ -71,7 +71,7 @@ describe('FundCardAmountInput', () => {
   it('renders correctly with fiat input type', () => {
     renderWithProvider();
     expect(screen.getByTestId('ockFundCardAmountInput')).toBeInTheDocument();
-    expect(screen.getByTestId('currencySpan')).toHaveTextContent('$');
+    expect(screen.getByTestId('currencySpan')).toHaveTextContent('USD');
   });
 
   it('renders correctly with crypto input type', () => {
