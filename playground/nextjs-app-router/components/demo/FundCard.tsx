@@ -19,18 +19,18 @@ export default function FundCardDemo() {
       type: 'crypto' as AmountInputTypeReact,
     },
     {
-      value: '100',
-      currencySignOrSymbol: '$',
+      value: '1000',
+      currencySignOrSymbol: 'USD',
       type: 'fiat' as AmountInputTypeReact,
     },
     {
-      value: '200',
-      currencySignOrSymbol: '$',
+      value: '2000',
+      currencySignOrSymbol: 'USD',
       type: 'fiat' as AmountInputTypeReact,
     },
     {
       value: '25',
-      currencySignOrSymbol: '$',
+      currencySignOrSymbol: 'USD',
       type: 'fiat' as AmountInputTypeReact,
     },
   ];

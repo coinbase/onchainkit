@@ -46,7 +46,6 @@ export function AmountInputSnippet({
 
         // Layout & Sizing
         'inline-block',
-        'w-[60px]',
         'm-1 p-1',
 
         // Text overflow handling
