@@ -318,7 +318,7 @@ export type FundCardPropsReact = {
   paymentMethods?: PaymentMethodReact[];
 
   /**
-   * Amount input snippets to display next to the input field: i.e. [$10] [$50] [$100]
+   * Amount input snippets to display next to the input field: i.e. [10 USD] [50 USD] [100 USD]
    */
   amountInputSnippets?: AmountInputSnippetReact[];
   className?: string;
@@ -364,13 +364,13 @@ export type FundCardProviderReact = {
 
 export type AmountInputSnippetPropsReact = {
   amountInputSnippet: AmountInputSnippetReact;
+  selectedInputType?: AmountInputTypeReact;
   onClick: (snippet: AmountInputSnippetReact) => void;
 };
 
 export type AmountInputSnippetReact = {
   value: string;
   type: AmountInputTypeReact;
-  currencySignOrSymbol: string;
 };
 
 export type AmountInputTypeReact = 'fiat' | 'crypto';

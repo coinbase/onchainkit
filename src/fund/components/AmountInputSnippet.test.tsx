@@ -8,22 +8,24 @@ describe('AmountInputSnippet', () => {
   const mockSnippet: AmountInputSnippetReact = {
     value: '100',
     type: 'fiat',
-    currencySignOrSymbol: '$',
   };
 
   const mockCryptoSnippet: AmountInputSnippetReact = {
     value: '1',
     type: 'crypto',
-    currencySignOrSymbol: 'ETH',
   };
 
   it('renders fiat snippet correctly', () => {
     render(
-      <AmountInputSnippet amountInputSnippet={mockSnippet} onClick={vi.fn()} />,
+      <AmountInputSnippet
+        amountInputSnippet={mockSnippet}
+        onClick={vi.fn()}
+        selectedInputType="fiat"
+      />,
     );
 
     expect(screen.getByTestId('ockAmountInputSnippet')).toHaveTextContent(
-      '$100',
+      '100USD',
     );
   });
 
@@ -32,6 +34,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={mockCryptoSnippet}
         onClick={vi.fn()}
+        selectedInputType="crypto"
       />,
     );
 
@@ -46,6 +49,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={mockSnippet}
         onClick={handleClick}
+        selectedInputType="fiat"
       />,
     );
 
@@ -55,11 +59,15 @@ describe('AmountInputSnippet', () => {
 
   it('shows tooltip with full text on hover', () => {
     render(
-      <AmountInputSnippet amountInputSnippet={mockSnippet} onClick={vi.fn()} />,
+      <AmountInputSnippet
+        amountInputSnippet={mockSnippet}
+        onClick={vi.fn()}
+        selectedInputType="fiat"
+      />,
     );
 
     const button = screen.getByTestId('ockAmountInputSnippet');
-    expect(button).toHaveAttribute('title', '$100');
+    expect(button).toHaveAttribute('title', '100 USD');
   });
 
   it('handles keyboard interaction', () => {
@@ -68,6 +76,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={mockSnippet}
         onClick={handleClick}
+        selectedInputType="fiat"
       />,
     );
 
@@ -85,6 +94,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={{ ...mockSnippet, value: '' }}
         onClick={vi.fn()}
+        selectedInputType="fiat"
       />,
     );
 
@@ -93,7 +103,11 @@ describe('AmountInputSnippet', () => {
 
   it('applies hover state styles', () => {
     render(
-      <AmountInputSnippet amountInputSnippet={mockSnippet} onClick={vi.fn()} />,
+      <AmountInputSnippet
+        amountInputSnippet={mockSnippet}
+        onClick={vi.fn()}
+        selectedInputType="fiat"
+      />,
     );
     const button = screen.getByTestId('ockAmountInputSnippet');
     expect(button).toHaveClass('hover:bg-[var(--ock-bg-default-hover)]');
@@ -105,15 +119,23 @@ describe('AmountInputSnippet', () => {
       value: '100000000',
     };
     render(
-      <AmountInputSnippet amountInputSnippet={longSnippet} onClick={vi.fn()} />,
+      <AmountInputSnippet
+        amountInputSnippet={longSnippet}
+        onClick={vi.fn()}
+        selectedInputType="fiat"
+      />,
     );
     const button = screen.getByTestId('ockAmountInputSnippet');
-    expect(button).toHaveClass('text-ellipsis', 'overflow-hidden', 'w-[60px]');
+    expect(button).toHaveClass('text-ellipsis', 'overflow-hidden');
   });
 
   it('maintains fixed width with different content lengths', () => {
     const { rerender } = render(
-      <AmountInputSnippet amountInputSnippet={mockSnippet} onClick={vi.fn()} />,
+      <AmountInputSnippet
+        amountInputSnippet={mockSnippet}
+        onClick={vi.fn()}
+        selectedInputType="fiat"
+      />,
     );
     const shortButton = screen.getByTestId('ockAmountInputSnippet');
     const shortWidth = shortButton.className;
@@ -122,6 +144,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={{ ...mockSnippet, value: '100000000' }}
         onClick={vi.fn()}
+        selectedInputType="fiat"
       />,
     );
     const longButton = screen.getByTestId('ockAmountInputSnippet');

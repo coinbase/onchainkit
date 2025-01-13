@@ -4,15 +4,15 @@ import type { AmountInputSnippetPropsReact } from '../types';
 
 export function AmountInputSnippet({
   amountInputSnippet,
+  selectedInputType = 'fiat',
   onClick,
 }: AmountInputSnippetPropsReact) {
-  const fullText = useMemo(
-    () =>
-      amountInputSnippet.type === 'fiat'
-        ? `${amountInputSnippet.currencySignOrSymbol}${amountInputSnippet.value}`
-        : `${amountInputSnippet.value} ${amountInputSnippet.currencySignOrSymbol}`,
-    [amountInputSnippet],
-  );
+  // TODO: Get currency label from country (In follow up PR )
+  const currencyLabel = selectedInputType === 'fiat' ? 'USD' : 'ETH';
+
+  const buttonText = useMemo(() => {
+    return `${amountInputSnippet.value} ${currencyLabel}`;
+  }, [amountInputSnippet, currencyLabel]);
 
   const handleClick = useCallback(() => {
     onClick(amountInputSnippet);
@@ -21,6 +21,7 @@ export function AmountInputSnippet({
   const handleKeyPress = useCallback(
     (event: React.KeyboardEvent) => {
       if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
         onClick(amountInputSnippet);
       }
     },
@@ -57,17 +58,12 @@ export function AmountInputSnippet({
         'hover:bg-[var(--ock-bg-default-hover)]',
         'focus:outline-none focus:ring-2',
       )}
-      title={fullText}
+      title={buttonText}
       onClick={handleClick}
       onKeyDown={handleKeyPress}
     >
-      {amountInputSnippet.type === 'fiat' && (
-        <span>{amountInputSnippet.currencySignOrSymbol}</span>
-      )}
       {amountInputSnippet.value}
-      {amountInputSnippet.type === 'crypto' && (
-        <span className="pl-1">{amountInputSnippet.currencySignOrSymbol}</span>
-      )}
+      <span className="pl-1">{currencyLabel}</span>
     </button>
   );
 }

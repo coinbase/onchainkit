@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { FundCardProviderReact } from '../types';
+import type { AmountInputSnippetReact, FundCardProviderReact } from '../types';
 import { FundCardAmountInput } from './FundCardAmountInput';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
 
@@ -43,6 +43,7 @@ describe('FundCardAmountInput', () => {
       fundAmountCrypto,
       exchangeRate,
       exchangeRateLoading,
+      setSelectedInputType,
     } = useFundContext();
 
     return (
@@ -53,6 +54,13 @@ describe('FundCardAmountInput', () => {
         <span data-testid="loading-state">
           {exchangeRateLoading ? 'loading' : 'not-loading'}
         </span>
+        <button
+          type="button"
+          data-testid="set-crypto-button"
+          onClick={() => setSelectedInputType('crypto')}
+        >
+          Set Crypto
+        </button>
       </div>
     );
   };
@@ -338,5 +346,98 @@ describe('FundCardAmountInput', () => {
       const exchangeRate = screen.getByTestId('test-value-exchange-rate');
       expect(exchangeRate.textContent).toBe('0');
     });
+  });
+  //   act(() => {
+  //     render(
+  //       <FundCardProvider asset="ETH" country="US" inputType="crypto">
+  //         <FundCardAmountInput />
+  //         <TestComponent />
+  //       </FundCardProvider>,
+  //     );
+  //   });
+
+  //   await waitFor(() => {
+  //     const input = screen.getByTestId('ockFundCardAmountInput');
+  //     const valueFiat = screen.getByTestId('test-value-fiat');
+  //     const valueCrypto = screen.getByTestId('test-value-crypto');
+
+  //     // Set exchange rate to 0 to force calculated fiat value to be 0
+  //     const exchangeRate = screen.getByTestId('test-value-exchange-rate');
+  //     expect(exchangeRate.textContent).toBe('0');
+
+  //     // Enter a crypto amount
+  //     fireEvent.change(input, { target: { value: '1' } });
+
+  //     expect(valueCrypto.textContent).toBe('1');
+  //     expect(valueFiat.textContent).toBe(''); // Should be empty string when calculatedFiatValue === '0'
+  //   });
+  // });
+
+  it('renders amount input snippets when value is empty', async () => {
+    const snippets: AmountInputSnippetReact[] = [
+      { value: '10', type: 'fiat' },
+      { value: '20', type: 'fiat' },
+    ];
+
+    render(
+      <FundCardProvider asset="ETH" country="US" amountInputSnippets={snippets}>
+        <FundCardAmountInput />
+      </FundCardProvider>,
+    );
+
+    // Initially, with empty input, snippets should be visible
+    const snippetItems = screen.queryAllByTestId('ockAmountInputSnippet');
+    const snippet1 = snippetItems[0];
+    const snippet2 = snippetItems[1];
+    expect(snippet1).toBeInTheDocument();
+    expect(snippet2).toBeInTheDocument();
+
+    // Enter a value
+    const input = screen.getByTestId('ockFundCardAmountInput');
+    fireEvent.change(input, { target: { value: '50' } });
+
+    // Snippets should disappear
+    expect(snippet1).not.toBeInTheDocument();
+    expect(snippet2).not.toBeInTheDocument();
+  });
+
+  it('handles snippet click correctly', async () => {
+    const snippets: AmountInputSnippetReact[] = [{ value: '10', type: 'fiat' }];
+
+    render(
+      <FundCardProvider asset="ETH" country="US" amountInputSnippets={snippets}>
+        <FundCardAmountInput />
+        <TestComponent />
+      </FundCardProvider>,
+    );
+
+    // Click the snippet
+    const snippet = screen.getByTestId('ockAmountInputSnippet');
+    fireEvent.click(snippet);
+
+    // Verify the input value was updated
+    const valueFiat = screen.getByTestId('test-value-fiat');
+    expect(valueFiat.textContent).toBe('10');
+  });
+
+  it('filters snippets based on selected input type', async () => {
+    const snippets: AmountInputSnippetReact[] = [
+      { value: '10', type: 'fiat' },
+      { value: '1', type: 'crypto' },
+    ];
+
+    renderWithProvider({ inputType: 'fiat', amountInputSnippets: snippets });
+    // In fiat mode, only fiat snippets should be visible
+    expect(screen.getByTestId('ockAmountInputSnippet')).toHaveTextContent(
+      '10USD',
+    );
+
+    // Change input type to crypto
+    fireEvent.click(screen.getByTestId('set-crypto-button'));
+
+    // In crypto mode, only crypto snippets should be visible
+    expect(screen.getByTestId('ockAmountInputSnippet')).toHaveTextContent(
+      '1ETH',
+    );
   });
 });

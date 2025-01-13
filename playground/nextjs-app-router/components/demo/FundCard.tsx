@@ -5,32 +5,26 @@ export default function FundCardDemo() {
   const amountInputSnippets = [
     {
       value: '1',
-      currencySignOrSymbol: 'ETH',
       type: 'crypto' as AmountInputTypeReact,
     },
     {
       value: '2',
-      currencySignOrSymbol: 'ETH',
       type: 'crypto' as AmountInputTypeReact,
     },
     {
-      value: '3.12387687687',
-      currencySignOrSymbol: 'ETH',
+      value: '3.25',
       type: 'crypto' as AmountInputTypeReact,
     },
     {
-      value: '1000',
-      currencySignOrSymbol: 'USD',
+      value: '10',
       type: 'fiat' as AmountInputTypeReact,
     },
     {
-      value: '2000',
-      currencySignOrSymbol: 'USD',
+      value: '20',
       type: 'fiat' as AmountInputTypeReact,
     },
     {
-      value: '25',
-      currencySignOrSymbol: 'USD',
+      value: '50',
       type: 'fiat' as AmountInputTypeReact,
     },
   ];

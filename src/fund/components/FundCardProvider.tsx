@@ -9,6 +9,7 @@ import { useValue } from '../../core-react/internal/hooks/useValue';
 import { DEFAULT_PAYMENT_METHODS } from '../constants';
 import type {
   AmountInputSnippetReact,
+  AmountInputTypeReact,
   EventMetadata,
   FundButtonStateReact,
   FundCardProviderReact,
@@ -21,8 +22,8 @@ type FundCardContextType = {
   asset: string;
   selectedPaymentMethod?: PaymentMethodReact;
   setSelectedPaymentMethod: (paymentMethod: PaymentMethodReact) => void;
-  selectedInputType?: 'fiat' | 'crypto';
-  setSelectedInputType: (inputType: 'fiat' | 'crypto') => void;
+  selectedInputType?: AmountInputTypeReact;
+  setSelectedInputType: (inputType: AmountInputTypeReact) => void;
   fundAmountFiat: string;
   setFundAmountFiat: (amount: string) => void;
   fundAmountCrypto: string;
@@ -38,7 +39,7 @@ type FundCardContextType = {
   buttonText?: string;
   country: string;
   subdivision?: string;
-  inputType?: 'fiat' | 'crypto';
+  inputType?: AmountInputTypeReact;
   onError?: (e: OnrampError | undefined) => void;
   onStatus?: (lifecycleStatus: EventMetadata) => void;
   onSuccess?: () => void;
@@ -64,9 +65,8 @@ export function FundCardProvider({
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
     PaymentMethodReact | undefined
   >();
-  const [selectedInputType, setSelectedInputType] = useState<'fiat' | 'crypto'>(
-    inputType || 'fiat',
-  );
+  const [selectedInputType, setSelectedInputType] =
+    useState<AmountInputTypeReact>(inputType || 'fiat');
   const [fundAmountFiat, setFundAmountFiat] = useState<string>('');
   const [fundAmountCrypto, setFundAmountCrypto] = useState<string>('');
   const [exchangeRate, setExchangeRate] = useState<number>(0);

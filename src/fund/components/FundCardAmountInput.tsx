@@ -1,4 +1,10 @@
-import { type ChangeEvent, useCallback, useEffect, useRef } from 'react';
+import {
+  type ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react';
 import { cn, text } from '../../styles/theme';
 import { useInputResize } from '../hooks/useInputResize';
 import type {
@@ -110,13 +116,19 @@ export const FundCardAmountInput = ({
     }
   };
 
+  const filteredAmountInputSnippets = useMemo(
+    () =>
+      amountInputSnippets?.filter(
+        (snippet) => snippet.type === selectedInputType,
+      ),
+    [amountInputSnippets, selectedInputType],
+  );
+
   return (
     <div
       ref={containerRef}
       data-testid="ockFundCardAmountInputContainer"
       className={cn('flex cursor-text py-6', className)}
-      onClick={handleFocusInput}
-      onKeyUp={handleFocusInput}
     >
       <div className="flex h-20">
         <input
@@ -147,17 +159,17 @@ export const FundCardAmountInput = ({
 
       {!value && (
         <div className="flex w-[100%] flex-wrap items-center justify-end">
-          {amountInputSnippets
-            ?.filter((snippet) => snippet.type === selectedInputType)
-            .map((snippet) => (
-              <AmountInputSnippet
-                key={snippet.type + snippet.value}
-                amountInputSnippet={snippet}
-                onClick={handleAmountInputSnippetClick}
-              />
-            ))}
+          {filteredAmountInputSnippets?.map((snippet) => (
+            <AmountInputSnippet
+              key={snippet.value}
+              amountInputSnippet={snippet}
+              selectedInputType={selectedInputType}
+              onClick={handleAmountInputSnippetClick}
+            />
+          ))}
         </div>
       )}
+
       {/* Hidden span for measuring text width 
           Without this span the input field would not adjust its width based on the text width and would look like this:
           [0.12--------Empty Space-------][ETH] - As you can see the currency symbol is far away from the inputed value
