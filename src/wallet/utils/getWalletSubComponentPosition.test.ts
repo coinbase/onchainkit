@@ -1,6 +1,9 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import {
+  WALLET_ADVANCED_MAX_HEIGHT,
+  WALLET_ADVANCED_MAX_WIDTH,
+} from '../constants';
 import { calculateSubComponentPosition } from './getWalletSubComponentPosition';
-import { WALLET_ADVANCED_MAX_HEIGHT, WALLET_ADVANCED_MAX_WIDTH } from '../constants';
 
 describe('calculateSubComponentPosition', () => {
   // Mock window dimensions

@@ -7,7 +7,7 @@ import { findComponent } from '@/core-react/internal/utils/findComponent';
 import { Children, useMemo } from 'react';
 import { defaultAvatarSVG } from '../../../../internal/svg/defaultAvatarSVG';
 import { defaultLoadingSVG } from '../../../../internal/svg/defaultLoadingSVG';
-import { cn, border } from '../../../../styles/theme';
+import { border, cn } from '../../../../styles/theme';
 import { Badge } from './Badge';
 import { DisplayBadge } from './DisplayBadge';
 
