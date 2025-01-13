@@ -36,7 +36,11 @@ export default function FundCardDemo() {
   ];
   return (
     <div className="mx-auto grid w-1/2 gap-8">
-      <FundCard assetSymbol="ETH" amountInputSnippets={amountInputSnippets} />
+      <FundCard
+        assetSymbol="ETH"
+        country="US"
+        amountInputSnippets={amountInputSnippets}
+      />
     </div>
   );
 }

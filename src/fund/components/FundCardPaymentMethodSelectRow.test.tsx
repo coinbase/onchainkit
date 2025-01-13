@@ -1,56 +1,61 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
-import { act } from 'react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import type { PaymentMethodReact } from '../types';
 import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow';
-import { FundCardProvider } from './FundCardProvider';
-
-const paymentMethods: PaymentMethodReact[] = [
-  {
-    icon: 'sampleIcon',
-    id: 'ACH_BANK_ACCOUNT',
-    name: 'Bank account',
-    description: 'Up to $500',
-  },
-  {
-    icon: 'anotherIcon',
-    id: 'APPLE_PAY',
-    name: 'Apple Pay',
-    description: 'Up to $500',
-  },
-];
 
 describe('FundCardPaymentMethodSelectRow', () => {
-  it('renders payment method name and description', () => {
+  const mockPaymentMethod: PaymentMethodReact = {
+    id: 'APPLE_PAY',
+    name: 'Apple Pay',
+    description: 'Up to $500/week',
+    icon: 'applePay',
+  };
+
+  it('renders disabled state correctly', () => {
+    const onClick = vi.fn();
     render(
-      <FundCardProvider asset="BTC">
-        <FundCardPaymentMethodSelectRow
-          paymentMethod={paymentMethods[0]}
-          onClick={vi.fn()}
-        />
-      </FundCardProvider>,
+      <FundCardPaymentMethodSelectRow
+        paymentMethod={mockPaymentMethod}
+        testId="ockFundCardPaymentMethodSelectRow"
+        onClick={onClick}
+        disabled={true}
+        disabledReason="Minimum amount required"
+      />,
     );
-    expect(screen.getByText('Bank account')).toBeInTheDocument();
-    expect(screen.getByText('Up to $500')).toBeInTheDocument();
+
+    const button = screen.getByTestId('ockFundCardPaymentMethodSelectRow');
+
+    expect(button).toBeDisabled();
+    expect(button).toHaveClass('cursor-not-allowed', 'opacity-50');
+    expect(button).toHaveAttribute('title', 'Minimum amount required');
+    expect(screen.getByText('Minimum amount required')).toBeInTheDocument();
   });
 
-  it('calls onClick with payment method when clicked', () => {
-    const handleClick = vi.fn();
+  it('does not call onClick when disabled', () => {
+    const onClick = vi.fn();
     render(
-      <FundCardProvider asset="BTC">
-        <FundCardPaymentMethodSelectRow
-          paymentMethod={paymentMethods[1]}
-          onClick={handleClick}
-        />
-      </FundCardProvider>,
+      <FundCardPaymentMethodSelectRow
+        paymentMethod={mockPaymentMethod}
+        onClick={onClick}
+        disabled={true}
+        testId="ockFundCardPaymentMethodSelectRow"
+      />,
     );
-    const button = screen.getByTestId(
-      'ockFundCardPaymentMethodSelectRow__button',
+
+    fireEvent.click(screen.getByTestId('ockFundCardPaymentMethodSelectRow'));
+    expect(onClick).not.toHaveBeenCalled();
+  });
+
+  it('shows original description when not disabled', () => {
+    render(
+      <FundCardPaymentMethodSelectRow
+        paymentMethod={mockPaymentMethod}
+        onClick={vi.fn()}
+        testId="ockFundCardPaymentMethodSelectRow"
+      />,
     );
-    act(() => {
-      button.click();
-    });
-    expect(handleClick).toHaveBeenCalledWith(paymentMethods[1]);
+
+    expect(screen.getByText('Up to $500/week')).toBeInTheDocument();
   });
 });

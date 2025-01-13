@@ -1,16 +1,24 @@
-import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
-import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
+import { DEFAULT_PAYMENT_METHODS } from '../constants';
 import type {
+  AmountInputSnippetReact,
+  EventMetadata,
   FundButtonStateReact,
   FundCardProviderReact,
+  OnrampError,
   PaymentMethodReact,
 } from '../types';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 type FundCardContextType = {
-  selectedAsset: string;
-  setSelectedAsset: (asset: string) => void;
+  asset: string;
   selectedPaymentMethod?: PaymentMethodReact;
   setSelectedPaymentMethod: (paymentMethod: PaymentMethodReact) => void;
   selectedInputType?: 'fiat' | 'crypto';
@@ -25,35 +33,58 @@ type FundCardContextType = {
   setExchangeRateLoading: (loading: boolean) => void;
   submitButtonState: FundButtonStateReact;
   setSubmitButtonState: (state: FundButtonStateReact) => void;
+  paymentMethods: PaymentMethodReact[];
+  headerText?: string;
+  buttonText?: string;
+  country: string;
+  subdivision?: string;
+  inputType?: 'fiat' | 'crypto';
+  onError?: (e: OnrampError | undefined) => void;
+  onStatus?: (lifecycleStatus: EventMetadata) => void;
+  onSuccess?: () => void;
+  amountInputSnippets?: AmountInputSnippetReact[];
 };
 
 const FundContext = createContext<FundCardContextType | undefined>(undefined);
 
-export function FundCardProvider({ children, asset }: FundCardProviderReact) {
-  const [selectedAsset, setSelectedAsset] = useState<string>(asset);
+export function FundCardProvider({
+  children,
+  asset,
+  paymentMethods,
+  headerText = `Buy ${asset.toUpperCase()}`,
+  buttonText,
+  country,
+  subdivision,
+  inputType,
+  onError,
+  onStatus,
+  onSuccess,
+  amountInputSnippets,
+}: FundCardProviderReact) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
     PaymentMethodReact | undefined
   >();
   const [selectedInputType, setSelectedInputType] = useState<'fiat' | 'crypto'>(
-    'fiat',
+    inputType || 'fiat',
   );
   const [fundAmountFiat, setFundAmountFiat] = useState<string>('');
   const [fundAmountCrypto, setFundAmountCrypto] = useState<string>('');
-  const [exchangeRate, setExchangeRate] = useState<number | undefined>();
+  const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [exchangeRateLoading, setExchangeRateLoading] = useState<
     boolean | undefined
   >();
   const [submitButtonState, setSubmitButtonState] =
     useState<FundButtonStateReact>('default');
 
-  const fetchExchangeRate = useDebounce(async () => {
+  const fetchExchangeRate = useCallback(async () => {
     setExchangeRateLoading(true);
     const quote = await fetchOnrampQuote({
-      purchaseCurrency: selectedAsset,
+      purchaseCurrency: asset,
       paymentCurrency: 'USD',
       paymentAmount: '100',
       paymentMethod: 'CARD',
-      country: 'US',
+      country,
+      subdivision,
     });
 
     setExchangeRateLoading(false);
@@ -61,7 +92,7 @@ export function FundCardProvider({ children, asset }: FundCardProviderReact) {
     setExchangeRate(
       Number(quote.purchaseAmount.value) / Number(quote.paymentSubtotal.value),
     );
-  }, 1000);
+  }, [asset, country, subdivision]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
   useEffect(() => {
@@ -69,8 +100,7 @@ export function FundCardProvider({ children, asset }: FundCardProviderReact) {
   }, []);
 
   const value = useValue<FundCardContextType>({
-    selectedAsset,
-    setSelectedAsset,
+    asset,
     selectedPaymentMethod,
     setSelectedPaymentMethod,
     fundAmountFiat,
@@ -85,6 +115,15 @@ export function FundCardProvider({ children, asset }: FundCardProviderReact) {
     setExchangeRateLoading,
     submitButtonState,
     setSubmitButtonState,
+    paymentMethods: paymentMethods || DEFAULT_PAYMENT_METHODS,
+    headerText,
+    buttonText,
+    country,
+    subdivision,
+    onError,
+    onStatus,
+    onSuccess,
+    amountInputSnippets,
   });
   return <FundContext.Provider value={value}>{children}</FundContext.Provider>;
 }

@@ -1,5 +1,6 @@
 import { type ChangeEvent, useCallback, useEffect, useRef } from 'react';
 import { cn, text } from '../../styles/theme';
+import { useInputResize } from '../hooks/useInputResize';
 import type {
   AmountInputSnippetReact,
   FundCardAmountInputPropsReact,
@@ -8,67 +9,78 @@ import { formatDecimalInputValue } from '../utils/formatDecimalInputValue';
 import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
 import { AmountInputSnippet } from './AmountInputSnippet';
 import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
+import { useFundContext } from './FundCardProvider';
 
 export const FundCardAmountInput = ({
-  fiatValue,
-  setFiatValue,
-  cryptoValue,
-  setCryptoValue,
-  currencySign,
-  assetSymbol,
-  inputType = 'fiat',
-  exchangeRate = 1,
-  amountInputSnippets,
+  className,
 }: FundCardAmountInputPropsReact) => {
+  // TODO: Get currency label from country
+  const currencyLabel = 'USD';
+  const {
+    fundAmountFiat,
+    setFundAmountFiat,
+    fundAmountCrypto,
+    setFundAmountCrypto,
+    asset,
+    selectedInputType,
+    exchangeRate,
+    amountInputSnippets,
+  } = useFundContext();
+
+  const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const hiddenSpanRef = useRef<HTMLSpanElement>(null);
   const currencySpanRef = useRef<HTMLSpanElement>(null);
 
-  const value = inputType === 'fiat' ? fiatValue : cryptoValue;
+  const value =
+    selectedInputType === 'fiat' ? fundAmountFiat : fundAmountCrypto;
+
+  const updateInputWidth = useInputResize(
+    containerRef,
+    inputRef,
+    hiddenSpanRef,
+    currencySpanRef,
+  );
 
   const handleSetAmount = useCallback(
     (amount: string) => {
-      const formattedAmount = formatDecimalInputValue(amount);
+      if (selectedInputType === 'fiat') {
+        const fiatValue = truncateDecimalPlaces(amount, 2);
+        setFundAmountFiat(fiatValue);
 
-      if (inputType === 'fiat') {
-        const fiatValue = truncateDecimalPlaces(formattedAmount, 2);
-        setFiatValue(fiatValue);
-
-        const truncatedValue = truncateDecimalPlaces(formattedAmount, 2);
-
-        // Calculate the crypto value based on the exchange rate
         const calculatedCryptoValue = String(
-          Number(truncatedValue) * Number(exchangeRate),
+          Number(fiatValue) * Number(exchangeRate),
         );
-
         const resultCryptoValue = truncateDecimalPlaces(
           calculatedCryptoValue,
           8,
         );
-        setCryptoValue(calculatedCryptoValue === '0' ? '' : resultCryptoValue);
+        setFundAmountCrypto(
+          calculatedCryptoValue === '0' ? '' : resultCryptoValue,
+        );
       } else {
-        setCryptoValue(formattedAmount);
+        const truncatedValue = truncateDecimalPlaces(amount, 8);
+        setFundAmountCrypto(truncatedValue);
 
-        const truncatedValue = truncateDecimalPlaces(formattedAmount, 8);
-
-        // Calculate the fiat value based on the exchange rate
         const calculatedFiatValue = String(
           Number(truncatedValue) / Number(exchangeRate),
         );
+
         const resultFiatValue = truncateDecimalPlaces(calculatedFiatValue, 2);
-        setFiatValue(resultFiatValue === '0' ? '' : resultFiatValue);
+        setFundAmountFiat(resultFiatValue === '0' ? '' : resultFiatValue);
       }
 
       if (inputRef.current) {
         inputRef.current.focus();
       }
     },
-    [exchangeRate, setFiatValue, setCryptoValue, inputType],
+    [exchangeRate, setFundAmountFiat, setFundAmountCrypto, selectedInputType],
   );
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
+      const value = formatDecimalInputValue(e.target.value);
+
       handleSetAmount(value);
     },
     [handleSetAmount],
@@ -83,24 +95,14 @@ export const FundCardAmountInput = ({
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: When value changes, we want to update the input width
   useEffect(() => {
-    if (hiddenSpanRef.current) {
-      const width = Math.max(42, hiddenSpanRef.current.offsetWidth);
-      const currencyWidth =
-        currencySpanRef.current?.getBoundingClientRect().width || 0;
-
-      // Set the input width based on the span width
-      if (inputRef.current) {
-        inputRef.current.style.width = `${width}px`;
-        inputRef.current.style.maxWidth = `${390 - currencyWidth}px`;
-      }
-    }
-  }, [value]);
+    updateInputWidth();
+  }, [value, updateInputWidth]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: We only want to focus the input when the input type changes
   useEffect(() => {
     // focus the input when the input type changes
     handleFocusInput();
-  }, [inputType]);
+  }, [selectedInputType]);
 
   const handleFocusInput = () => {
     if (inputRef.current) {
@@ -109,15 +111,14 @@ export const FundCardAmountInput = ({
   };
 
   return (
-    <div className="flex cursor-text py-6">
+    <div
+      ref={containerRef}
+      data-testid="ockFundCardAmountInputContainer"
+      className={cn('flex cursor-text py-6', className)}
+      onClick={handleFocusInput}
+      onKeyUp={handleFocusInput}
+    >
       <div className="flex h-20">
-        {inputType === 'fiat' && currencySign && (
-          <FundCardCurrencyLabel
-            ref={currencySpanRef}
-            currencySign={currencySign}
-          />
-        )}
-
         <input
           className={cn(
             text.body,
@@ -134,22 +135,20 @@ export const FundCardAmountInput = ({
           onClick={handleFocusInput}
           ref={inputRef}
           inputMode="decimal"
-          minLength={1}
           placeholder="0"
           data-testid="ockFundCardAmountInput"
         />
-        {inputType === 'crypto' && assetSymbol && (
-          <FundCardCurrencyLabel
-            ref={currencySpanRef}
-            currencySign={assetSymbol}
-          />
-        )}
+
+        <FundCardCurrencyLabel
+          ref={currencySpanRef}
+          label={selectedInputType === 'crypto' ? asset : currencyLabel}
+        />
       </div>
 
       {!value && (
         <div className="flex w-[100%] flex-wrap items-center justify-end">
           {amountInputSnippets
-            ?.filter((snippet) => snippet.type === inputType)
+            ?.filter((snippet) => snippet.type === selectedInputType)
             .map((snippet) => (
               <AmountInputSnippet
                 key={snippet.type + snippet.value}
@@ -174,6 +173,7 @@ export const FundCardAmountInput = ({
           'border-none bg-transparent',
           'text-6xl leading-none outline-none',
           'pointer-events-none absolute whitespace-nowrap opacity-0',
+          'left-[-9999px]', // Hide the span from the DOM
         )}
       >
         {value ? `${value}.` : '0.'}

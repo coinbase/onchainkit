@@ -12,6 +12,7 @@ import type { Address, TransactionReceipt } from 'viem';
 export type BuyReact = {
   className?: string; // Optional className override for top div element.
   config?: SwapConfig;
+  disabled?: boolean; // Disables Buy button
   experimental?: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
   };
@@ -26,6 +27,7 @@ export type BuyReact = {
 export type BuyContextType = {
   address?: Address; // Used to check if user is connected in SwapButton
   config: SwapConfig;
+  disabled?: boolean;
   fromETH: SwapUnit;
   fromUSDC: SwapUnit;
   lifecycleStatus: LifecycleStatus;
@@ -48,6 +50,7 @@ export type BuyProviderReact = {
   config?: {
     maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
+  disabled?: boolean;
   experimental: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
   };

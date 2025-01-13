@@ -11,6 +11,9 @@ export default {
       sans: ['Inter', 'sans-serif'],
     },
     extend: {
+      spacing: {
+        88: '22rem',
+      },
       fontFamily: {
         display: 'DM Sans, sans-serif',
       },

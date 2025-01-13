@@ -27,6 +27,9 @@ vi.mock('../../core-react/useOnchainKit', () => ({
 vi.mock('wagmi/connectors', () => ({
   coinbaseWallet: () => ({ preference: 'all' }),
   metaMask: ({ dappMetadata }: MetaMaskParameters) => ({ dappMetadata }),
+  injected: ({ target }: { target: string }) => ({
+    target,
+  }),
 }));
 
 describe('WalletModal', () => {
@@ -490,6 +493,64 @@ describe('WalletModal', () => {
     );
     expect(console.error).toHaveBeenCalledWith(
       'MetaMask connection error:',
+      'Some string error',
+    );
+  });
+
+  it('connects with Phantom when clicking Phantom button', () => {
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    fireEvent.click(screen.getByText('Phantom'));
+
+    expect(mockConnect).toHaveBeenCalledWith({
+      connector: {
+        target: 'phantom',
+      },
+    });
+    expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('handles Phantom connection errors', () => {
+    const mockError = new Error('Phantom connection failed');
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw mockError;
+      }),
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Phantom'));
+
+    expect(mockOnError).toHaveBeenCalledWith(mockError);
+    expect(console.error).toHaveBeenCalledWith(
+      'Phantom connection error:',
+      mockError,
+    );
+  });
+
+  it('handles non-Error objects in Phantom connection errors', () => {
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw 'Some string error';
+      }),
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Phantom'));
+
+    expect(mockOnError).toHaveBeenCalledWith(
+      new Error('Failed to connect wallet'),
+    );
+    expect(console.error).toHaveBeenCalledWith(
+      'Phantom connection error:',
       'Some string error',
     );
   });

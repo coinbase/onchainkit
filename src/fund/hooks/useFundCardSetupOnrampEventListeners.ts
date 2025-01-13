@@ -4,12 +4,14 @@ import { FUND_BUTTON_RESET_TIMEOUT } from '../constants';
 import { setupOnrampEventListeners } from '../utils/setupOnrampEventListeners';
 
 export const useFundCardSetupOnrampEventListeners = () => {
-  const { setSubmitButtonState } = useFundContext();
+  const { setSubmitButtonState, onError, onStatus, onSuccess } =
+    useFundContext();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: Only want to run this effect once
   useEffect(() => {
     const unsubscribe = setupOnrampEventListeners({
       onEvent: (event) => {
+        onStatus?.(event);
         if (event.eventName === 'error') {
           setSubmitButtonState('error');
 
@@ -19,10 +21,12 @@ export const useFundCardSetupOnrampEventListeners = () => {
         }
       },
       onExit: (event) => {
+        onError?.(event);
         setSubmitButtonState('default');
         console.log('onExit', event);
       },
       onSuccess: () => {
+        onSuccess?.();
         setSubmitButtonState('success');
 
         setTimeout(() => {

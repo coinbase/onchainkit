@@ -1,197 +1,342 @@
+import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
-import type {
-  AmountInputSnippetReact,
-  FundCardAmountInputPropsReact,
-} from '../types';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act } from 'react';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { FundCardProviderReact } from '../types';
 import { FundCardAmountInput } from './FundCardAmountInput';
+import { FundCardProvider, useFundContext } from './FundCardProvider';
+
+const mockResponseData = {
+  payment_total: { value: '100.00', currency: 'USD' },
+  payment_subtotal: { value: '120.00', currency: 'USD' },
+  purchase_amount: { value: '0.1', currency: 'BTC' },
+  coinbase_fee: { value: '2.00', currency: 'USD' },
+  network_fee: { value: '1.00', currency: 'USD' },
+  quote_id: 'quote-id-123',
+};
+
+global.fetch = vi.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve(mockResponseData),
+  }),
+) as Mock;
+
+// Mock ResizeObserver
+class ResizeObserverMock {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
 
 describe('FundCardAmountInput', () => {
-  const defaultProps: FundCardAmountInputPropsReact = {
-    fiatValue: '100',
-    setFiatValue: vi.fn(),
-    cryptoValue: '0.05',
-    setCryptoValue: vi.fn(),
-    currencySign: '$',
-    assetSymbol: 'ETH',
-    inputType: 'fiat',
-    exchangeRate: 2,
+  beforeEach(() => {
+    global.ResizeObserver = ResizeObserverMock;
+    setOnchainKitConfig({ apiKey: '123456789' });
+    vi.clearAllMocks();
+  });
+
+  // Test component to access context values
+  const TestComponent = () => {
+    const {
+      fundAmountFiat,
+      fundAmountCrypto,
+      exchangeRate,
+      exchangeRateLoading,
+    } = useFundContext();
+
+    return (
+      <div>
+        <span data-testid="test-value-fiat">{fundAmountFiat}</span>
+        <span data-testid="test-value-crypto">{fundAmountCrypto}</span>
+        <span data-testid="test-value-exchange-rate">{exchangeRate}</span>
+        <span data-testid="loading-state">
+          {exchangeRateLoading ? 'loading' : 'not-loading'}
+        </span>
+      </div>
+    );
+  };
+
+  const renderWithProvider = (
+    initialProps: Partial<FundCardProviderReact> = {},
+  ) => {
+    return render(
+      <FundCardProvider asset="ETH" country="US" {...initialProps}>
+        <FundCardAmountInput />
+        <TestComponent />
+      </FundCardProvider>,
+    );
   };
 
   it('renders correctly with fiat input type', () => {
-    render(<FundCardAmountInput {...defaultProps} />);
+    renderWithProvider();
     expect(screen.getByTestId('ockFundCardAmountInput')).toBeInTheDocument();
-    expect(screen.getByTestId('currencySpan')).toHaveTextContent('$');
+    expect(screen.getByTestId('currencySpan')).toHaveTextContent('USD');
   });
 
   it('renders correctly with crypto input type', () => {
-    render(<FundCardAmountInput {...defaultProps} inputType="crypto" />);
+    renderWithProvider({ inputType: 'crypto' });
     expect(screen.getByTestId('currencySpan')).toHaveTextContent('ETH');
   });
 
-  it('handles fiat input change', () => {
-    render(<FundCardAmountInput {...defaultProps} />);
-    const input = screen.getByTestId('ockFundCardAmountInput');
-    fireEvent.change(input, { target: { value: '10' } });
-    expect(defaultProps.setFiatValue).toHaveBeenCalledWith('10');
-    expect(defaultProps.setCryptoValue).toHaveBeenCalledWith('20');
+  it('handles fiat input change', async () => {
+    act(() => {
+      renderWithProvider({ inputType: 'fiat' });
+    });
+
+    await waitFor(() => {
+      const input = screen.getByTestId('ockFundCardAmountInput');
+
+      fireEvent.change(input, { target: { value: '10' } });
+      const valueFiat = screen.getByTestId('test-value-fiat');
+      const valueCrypto = screen.getByTestId('test-value-crypto');
+      expect(valueFiat.textContent).toBe('10');
+      expect(valueCrypto.textContent).toBe('');
+    });
   });
 
-  it('handles crypto input change', () => {
-    render(<FundCardAmountInput {...defaultProps} inputType="crypto" />);
-    const input = screen.getByTestId('ockFundCardAmountInput');
-    fireEvent.change(input, { target: { value: '0.1' } });
-    expect(defaultProps.setCryptoValue).toHaveBeenCalledWith('0.1');
-    expect(defaultProps.setFiatValue).toHaveBeenCalledWith('0.05');
+  it('handles crypto input change', async () => {
+    act(() => {
+      renderWithProvider({ inputType: 'crypto' });
+    });
+    await waitFor(() => {
+      const input = screen.getByTestId('ockFundCardAmountInput');
+
+      fireEvent.change(input, { target: { value: '1' } });
+
+      const valueCrypto = screen.getByTestId('test-value-crypto');
+      expect(valueCrypto.textContent).toBe('1');
+    });
   });
 
-  it('formats input value correctly when starting with a dot', () => {
-    render(<FundCardAmountInput {...defaultProps} />);
-    const input = screen.getByTestId('ockFundCardAmountInput');
-    fireEvent.change(input, { target: { value: '.5' } });
-    expect(defaultProps.setFiatValue).toHaveBeenCalledWith('0.5');
+  it('formats input value correctly when starting with a dot', async () => {
+    act(() => {
+      renderWithProvider();
+    });
+
+    await waitFor(() => {
+      const input = screen.getByTestId('ockFundCardAmountInput');
+
+      fireEvent.change(input, { target: { value: '.5' } });
+
+      const valueFiat = screen.getByTestId('test-value-fiat');
+      expect(valueFiat.textContent).toBe('0.5');
+    });
   });
 
-  it('formats input value correctly when starting with zero', () => {
-    render(<FundCardAmountInput {...defaultProps} />);
-    const input = screen.getByTestId('ockFundCardAmountInput');
-    fireEvent.change(input, { target: { value: '01' } });
-    expect(defaultProps.setFiatValue).toHaveBeenCalledWith('0.1');
-    expect(defaultProps.setCryptoValue).toHaveBeenCalledWith('0.2');
+  it('applies custom className', () => {
+    act(() => {
+      render(
+        <FundCardProvider asset="ETH" country="US">
+          <FundCardAmountInput className="custom-class" />
+        </FundCardProvider>,
+      );
+    });
+
+    const container = screen.getByTestId('ockFundCardAmountInputContainer');
+    expect(container).toHaveClass('custom-class');
   });
 
-  it('limits decimal places to two', () => {
-    render(<FundCardAmountInput {...defaultProps} />);
-    const input = screen.getByTestId('ockFundCardAmountInput');
-    fireEvent.change(input, { target: { value: '123.456' } });
-    expect(defaultProps.setFiatValue).toHaveBeenCalledWith('123.45');
+  it('handles truncation of crypto decimals', async () => {
+    act(() => {
+      renderWithProvider({ inputType: 'crypto' });
+    });
+
+    await waitFor(() => {
+      const input = screen.getByTestId('ockFundCardAmountInput');
+
+      // Test decimal truncation
+      fireEvent.change(input, { target: { value: '0.123456789' } });
+
+      const valueCrypto = screen.getByTestId('test-value-crypto');
+      expect(valueCrypto.textContent).toBe('0.12345678'); // Truncated to 8 decimals
+    });
   });
 
-  it('focuses input when input type changes', () => {
-    const { rerender } = render(<FundCardAmountInput {...defaultProps} />);
-    const input = screen.getByTestId('ockFundCardAmountInput');
-    const focusSpy = vi.spyOn(input, 'focus');
-    rerender(<FundCardAmountInput {...defaultProps} inputType="crypto" />);
-    expect(focusSpy).toHaveBeenCalled();
+  it('handles truncation of fiat decimals', async () => {
+    act(() => {
+      renderWithProvider({ inputType: 'fiat' });
+    });
+
+    await waitFor(() => {
+      const input = screen.getByTestId('ockFundCardAmountInput');
+      fireEvent.change(input, { target: { value: '1000.123456789' } });
+      const valueFiat = screen.getByTestId('test-value-fiat');
+      expect(valueFiat.textContent).toBe('1000.12');
+    });
   });
 
-  it('sets crypto value to empty string when input is "0"', () => {
-    render(<FundCardAmountInput {...defaultProps} />);
+  it('handles zero and empty values in crypto mode', async () => {
+    act(() => {
+      render(
+        <FundCardProvider asset="ETH" country="US" inputType="crypto">
+          <FundCardAmountInput />
+          <TestComponent />
+        </FundCardProvider>,
+      );
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('loading-state').textContent).toBe(
+        'not-loading',
+      );
+
+      const input = screen.getByTestId('ockFundCardAmountInput');
+      const valueFiat = screen.getByTestId('test-value-fiat');
+      const valueCrypto = screen.getByTestId('test-value-crypto');
+
+      // Test zero value
+      fireEvent.change(input, { target: { value: '0' } });
+      expect(valueCrypto.textContent).toBe('0');
+      expect(valueFiat.textContent).toBe('');
+
+      // Test empty value
+      fireEvent.change(input, { target: { value: '' } });
+      expect(valueCrypto.textContent).toBe('');
+      expect(valueFiat.textContent).toBe('');
+    });
+  });
+
+  it('handles zero and empty values in fiat mode', async () => {
+    act(() => {
+      render(
+        <FundCardProvider asset="ETH" country="US">
+          <FundCardAmountInput />
+          <TestComponent />
+        </FundCardProvider>,
+      );
+    });
+
     const input = screen.getByTestId('ockFundCardAmountInput');
+
     fireEvent.change(input, { target: { value: '0' } });
-    expect(defaultProps.setCryptoValue).toHaveBeenCalledWith('');
+
+    await waitFor(() => {
+      expect(screen.getByTestId('loading-state').textContent).toBe(
+        'not-loading',
+      );
+
+      const valueFiat = screen.getByTestId('test-value-fiat');
+      const valueCrypto = screen.getByTestId('test-value-crypto');
+
+      expect(valueCrypto.textContent).toBe('');
+      expect(valueFiat.textContent).toBe('0');
+    });
+  });
+  it('handles non zero values in fiat mode', async () => {
+    act(() => {
+      render(
+        <FundCardProvider asset="ETH" country="US">
+          <FundCardAmountInput />
+          <TestComponent />
+        </FundCardProvider>,
+      );
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('loading-state').textContent).toBe(
+        'not-loading',
+      );
+      const input = screen.getByTestId('ockFundCardAmountInput');
+
+      fireEvent.change(input, { target: { value: '400' } });
+
+      const valueFiat = screen.getByTestId('test-value-fiat');
+      const valueCrypto = screen.getByTestId('test-value-crypto');
+      expect(valueCrypto.textContent).toBe('0.33333333');
+      expect(valueFiat.textContent).toBe('400');
+    });
   });
 
-  it('sets fiat value to empty string when crypto input is "0"', () => {
-    render(<FundCardAmountInput {...defaultProps} inputType="crypto" />);
+  it('updates width based on currency label', async () => {
+    const mockResizeObserver = vi.fn();
+    global.ResizeObserver = vi.fn().mockImplementation((callback) => {
+      // Call the callback to simulate resize
+      callback([
+        {
+          contentRect: { width: 300 },
+          target: screen.getByTestId('ockFundCardAmountInputContainer'),
+        },
+      ]);
+      return {
+        observe: mockResizeObserver,
+        unobserve: vi.fn(),
+        disconnect: vi.fn(),
+      };
+    });
+
+    render(
+      <FundCardProvider asset="ETH" country="US">
+        <FundCardAmountInput />
+      </FundCardProvider>,
+    );
+
     const input = screen.getByTestId('ockFundCardAmountInput');
-    fireEvent.change(input, { target: { value: '0' } });
-    expect(defaultProps.setFiatValue).toHaveBeenCalledWith('');
-  });
+    const container = screen.getByTestId('ockFundCardAmountInputContainer');
 
-  it('correctly handles when exchange rate is not available', () => {
-    render(<FundCardAmountInput {...defaultProps} exchangeRate={undefined} />);
-    const input = screen.getByTestId('ockFundCardAmountInput');
-    fireEvent.change(input, { target: { value: '200' } });
-    expect(defaultProps.setCryptoValue).toHaveBeenCalledWith('');
-    expect(defaultProps.setFiatValue).toHaveBeenCalledWith('200');
-  });
-
-  it('hidden span has correct text value when value exist', async () => {
-    render(<FundCardAmountInput {...defaultProps} />);
-    const hiddenSpan = screen.getByTestId('ockHiddenSpan');
-
-    expect(hiddenSpan).toHaveTextContent('100.');
-  });
-
-  it('hidden span has correct text value when value does not exist', async () => {
-    render(<FundCardAmountInput {...defaultProps} fiatValue="" />);
-    const hiddenSpan = screen.getByTestId('ockHiddenSpan');
-
-    expect(hiddenSpan).toHaveTextContent('0.');
-  });
-
-  describe('AmountInputSnippets', () => {
-    const mockSnippets: AmountInputSnippetReact[] = [
-      { type: 'fiat', value: '50', currencySignOrSymbol: '$' },
-      { type: 'fiat', value: '100', currencySignOrSymbol: '$' },
-      { type: 'crypto', value: '1', currencySignOrSymbol: 'ETH' },
-    ];
-
-    it('renders amount input snippets when value is empty', () => {
-      render(
-        <FundCardAmountInput
-          {...defaultProps}
-          fiatValue=""
-          amountInputSnippets={mockSnippets}
-        />,
-      );
-
-      const snippets = screen.getAllByTestId('ockAmountInputSnippet');
-      expect(snippets).toHaveLength(2); // Only fiat snippets when inputType is fiat
+    // Mock getBoundingClientRect for container and currency label
+    Object.defineProperty(container, 'getBoundingClientRect', {
+      value: () => ({ width: 300 }),
+      configurable: true,
     });
 
-    it('shows crypto snippets when input type is crypto', () => {
-      render(
-        <FundCardAmountInput
-          {...defaultProps}
-          inputType="crypto"
-          cryptoValue=""
-          amountInputSnippets={mockSnippets}
-        />,
-      );
-
-      const snippets = screen.getAllByTestId('ockAmountInputSnippet');
-      expect(snippets).toHaveLength(1); // Only crypto snippets
-      expect(snippets[0]).toHaveTextContent('1ETH');
+    const currencyLabel = screen.getByTestId('currencySpan');
+    Object.defineProperty(currencyLabel, 'getBoundingClientRect', {
+      value: () => ({ width: 20 }),
+      configurable: true,
     });
 
-    it('hides snippets when input has value', () => {
-      render(
-        <FundCardAmountInput
-          {...defaultProps}
-          fiatValue="75"
-          amountInputSnippets={mockSnippets}
-        />,
-      );
-
-      expect(
-        screen.queryByTestId('ockAmountInputSnippet'),
-      ).not.toBeInTheDocument();
+    //const input = screen.getByTestId('ockFundCardAmountInput');
+    // Trigger width update
+    act(() => {
+      fireEvent.change(input, { target: { value: '10' } });
+      window.dispatchEvent(new Event('resize'));
     });
 
-    it('calls setFiatValue when fiat snippet is clicked', () => {
+    await waitFor(() => {
+      expect(input.style.maxWidth).toBe('280px'); // 300 - 20
+    });
+  });
+
+  it('sets empty string for crypto when calculated value is zero', async () => {
+    // Mock fetch to return an exchange rate that will make calculatedCryptoValue === '0'
+    global.fetch = vi.fn(() =>
+      Promise.resolve({
+        json: () =>
+          Promise.resolve({
+            payment_total: { value: '100.00', currency: 'USD' },
+            payment_subtotal: { value: '0', currency: 'USD' },
+            purchase_amount: { value: '0', currency: 'ETH' }, // This will make exchange rate 0
+            coinbase_fee: { value: '0', currency: 'USD' },
+            network_fee: { value: '0', currency: 'USD' },
+            quote_id: 'quote-id-123',
+          }),
+      }),
+    ) as Mock;
+
+    act(() => {
       render(
-        <FundCardAmountInput
-          {...defaultProps}
-          fiatValue=""
-          amountInputSnippets={mockSnippets}
-        />,
+        <FundCardProvider asset="ETH" country="US">
+          <FundCardAmountInput />
+          <TestComponent />
+        </FundCardProvider>,
       );
-
-      const snippets = screen.getAllByTestId('ockAmountInputSnippet');
-      fireEvent.click(snippets[0]); // Click first snippet ($50)
-
-      expect(defaultProps.setFiatValue).toHaveBeenCalledWith('50');
-      expect(defaultProps.setCryptoValue).toHaveBeenCalledWith('100'); // Based on exchange rate of 2
     });
 
-    it('calls setCryptoValue when crypto snippet is clicked', () => {
-      render(
-        <FundCardAmountInput
-          {...defaultProps}
-          inputType="crypto"
-          cryptoValue=""
-          amountInputSnippets={mockSnippets}
-        />,
-      );
+    await waitFor(() => {
+      const input = screen.getByTestId('ockFundCardAmountInput');
+      const valueFiat = screen.getByTestId('test-value-fiat');
+      const valueCrypto = screen.getByTestId('test-value-crypto');
 
-      const snippet = screen.getByTestId('ockAmountInputSnippet');
-      fireEvent.click(snippet);
+      // Enter a value that will result in calculatedCryptoValue === '0'
+      fireEvent.change(input, { target: { value: '1' } });
 
-      expect(defaultProps.setCryptoValue).toHaveBeenCalledWith('1');
-      expect(defaultProps.setFiatValue).toHaveBeenCalledWith('0.5'); // Based on exchange rate of 2
+      expect(valueFiat.textContent).toBe('1');
+      expect(valueCrypto.textContent).toBe(''); // Should be empty string when calculatedCryptoValue === '0'
+
+      // Verify the actual calculated value was '0'
+      const exchangeRate = screen.getByTestId('test-value-exchange-rate');
+      expect(exchangeRate.textContent).toBe('0');
     });
   });
 });

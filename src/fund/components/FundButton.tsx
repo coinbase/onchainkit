@@ -2,6 +2,7 @@ import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
 import { ErrorSvg } from '@/internal/svg/errorSvg';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import { useCallback, useMemo } from 'react';
+import { useAccount } from 'wagmi';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { Spinner } from '../../internal/components/Spinner';
 import { AddSvg } from '../../internal/svg/addSvg';
@@ -14,6 +15,7 @@ import {
   pressable,
   text,
 } from '../../styles/theme';
+import { ConnectWallet } from '../../wallet/components/ConnectWallet';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
@@ -38,8 +40,10 @@ export function FundButton({
   const componentTheme = useTheme();
   // If the fundingUrl prop is undefined, fallback to our recommended funding URL based on the wallet type
   const fallbackFundingUrl = useGetFundingUrl();
+  const { address } = useAccount();
   const fundingUrlToRender = fundingUrl ?? fallbackFundingUrl;
   const isDisabled = disabled || !fundingUrlToRender;
+  const shouldShowConnectWallet = !address;
 
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
 
@@ -156,6 +160,10 @@ export function FundButton({
         {buttonContent}
       </a>
     );
+  }
+
+  if (shouldShowConnectWallet) {
+    return <ConnectWallet className={cn('w-full', className)} />;
   }
 
   return (

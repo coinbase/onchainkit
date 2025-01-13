@@ -1,7 +1,7 @@
-import { useCallback, useRef, useState } from 'react';
-import { background, border, cn } from '../../styles/theme';
-
+import { isApplePaySupported } from '@/buy/utils/isApplePaySupported';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { background, border, cn } from '../../styles/theme';
 import type {
   FundCardPaymentMethodDropdownPropsReact,
   PaymentMethodReact,
@@ -10,19 +10,63 @@ import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow
 import { FundCardPaymentMethodSelectorToggle } from './FundCardPaymentMethodSelectorToggle';
 import { useFundContext } from './FundCardProvider';
 
+const MIN_AMOUNT_FOR_CARD_PAYMENTS = 5;
+
 export function FundCardPaymentMethodDropdown({
-  paymentMethods,
+  className,
 }: FundCardPaymentMethodDropdownPropsReact) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { selectedPaymentMethod, setSelectedPaymentMethod } = useFundContext();
+  const {
+    selectedPaymentMethod,
+    setSelectedPaymentMethod,
+    paymentMethods,
+    fundAmountFiat,
+  } = useFundContext();
+
+  const filteredPaymentMethods = useMemo(() => {
+    return paymentMethods.filter(
+      (method) => method.id !== 'APPLE_PAY' || isApplePaySupported(),
+    );
+  }, [paymentMethods]);
+
+  const isPaymentMethodDisabled = useCallback(
+    (method: PaymentMethodReact) => {
+      const amount = Number(fundAmountFiat);
+      return (
+        (method.id === 'APPLE_PAY' || method.id === 'ACH_BANK_ACCOUNT') &&
+        amount < MIN_AMOUNT_FOR_CARD_PAYMENTS
+      );
+    },
+    [fundAmountFiat],
+  );
+
+  // If current selected method becomes disabled, switch to Coinbase
+  useEffect(() => {
+    if (
+      selectedPaymentMethod &&
+      isPaymentMethodDisabled(selectedPaymentMethod)
+    ) {
+      const coinbaseMethod = paymentMethods.find((m) => m.id === '');
+      if (coinbaseMethod) {
+        setSelectedPaymentMethod(coinbaseMethod);
+      }
+    }
+  }, [
+    selectedPaymentMethod,
+    paymentMethods,
+    setSelectedPaymentMethod,
+    isPaymentMethodDisabled,
+  ]);
 
   const handlePaymentMethodSelect = useCallback(
     (paymentMethod: PaymentMethodReact) => {
-      setSelectedPaymentMethod(paymentMethod);
-      setIsOpen(false);
+      if (!isPaymentMethodDisabled(paymentMethod)) {
+        setSelectedPaymentMethod(paymentMethod);
+        setIsOpen(false);
+      }
     },
-    [setSelectedPaymentMethod],
+    [setSelectedPaymentMethod, isPaymentMethodDisabled],
   );
 
   const handleToggle = useCallback(() => {
@@ -50,7 +94,7 @@ export function FundCardPaymentMethodDropdown({
 
   return (
     <div
-      className="relative py-4"
+      className={cn('relative py-4', className)}
       ref={dropdownContainerRef}
       data-testid="ockFundCardPaymentMethodDropdownContainer"
       onKeyUp={handleEscKeyPress}
@@ -59,7 +103,7 @@ export function FundCardPaymentMethodDropdown({
         ref={buttonRef}
         onClick={handleToggle}
         isOpen={isOpen}
-        paymentMethod={selectedPaymentMethod || paymentMethods[0]}
+        paymentMethod={selectedPaymentMethod || filteredPaymentMethods[0]}
       />
       {isOpen && (
         <div
@@ -71,14 +115,23 @@ export function FundCardPaymentMethodDropdown({
           )}
         >
           <div className={cn(background.inverse, 'overflow-y-auto p-2')}>
-            {paymentMethods.map((paymentMethod) => (
-              <FundCardPaymentMethodSelectRow
-                className={cn(background.inverse, 'px-4 py-2')}
-                key={paymentMethod.name}
-                paymentMethod={paymentMethod}
-                onClick={handlePaymentMethodSelect}
-              />
-            ))}
+            {filteredPaymentMethods.map((paymentMethod) => {
+              const isDisabled = isPaymentMethodDisabled(paymentMethod);
+              return (
+                <FundCardPaymentMethodSelectRow
+                  key={paymentMethod.name}
+                  testId={`ockFundCardPaymentMethodSelectRow__${paymentMethod.id}`}
+                  paymentMethod={paymentMethod}
+                  onClick={handlePaymentMethodSelect}
+                  disabled={isDisabled}
+                  disabledReason={
+                    isDisabled
+                      ? `Minimum amount of $${MIN_AMOUNT_FOR_CARD_PAYMENTS} required`
+                      : undefined
+                  }
+                />
+              );
+            })}
           </div>
         </div>
       )}

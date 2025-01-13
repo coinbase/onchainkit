@@ -7,15 +7,22 @@ import { setupOnrampEventListeners } from '../../fund/utils/setupOnrampEventList
 type UseOnrampLifecycleParams = {
   updateLifecycleStatus: (status: LifecycleStatus) => void;
   maxSlippage: number;
+  lifecycleStatus: LifecycleStatus;
 };
 
 export const useOnrampEventListeners = ({
   updateLifecycleStatus,
   maxSlippage,
+  lifecycleStatus,
 }: UseOnrampLifecycleParams) => {
   const handleOnrampEvent = useCallback(
     (data: EventMetadata) => {
-      if (data.eventName === 'transition_view') {
+      // Only update the lifecycle status if the current status is not 'transactionPending'
+      // Onramp emits a 'transition_view' event multiple times
+      if (
+        data.eventName === 'transition_view' &&
+        lifecycleStatus?.statusName !== 'transactionPending'
+      ) {
         updateLifecycleStatus({
           statusName: 'transactionPending',
           statusData: {
@@ -25,7 +32,7 @@ export const useOnrampEventListeners = ({
         });
       }
     },
-    [maxSlippage, updateLifecycleStatus],
+    [maxSlippage, updateLifecycleStatus, lifecycleStatus?.statusName],
   );
 
   const handleOnrampSuccess = useCallback(() => {

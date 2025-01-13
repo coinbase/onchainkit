@@ -1,27 +1,32 @@
+import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { FundCardHeader } from './FundCardHeader';
+import { FundCardProvider } from './FundCardProvider';
 
 describe('FundCardHeader', () => {
-  afterEach(() => {
-    vi.clearAllMocks();
+  beforeEach(() => {
+    setOnchainKitConfig({ apiKey: 'mock-api-key' });
   });
 
   it('renders the provided headerText', () => {
-    render(<FundCardHeader headerText="Custom Header" assetSymbol="btc" />);
+    render(
+      <FundCardProvider asset="ETH" country="US" headerText="Custom header">
+        <FundCardHeader />
+      </FundCardProvider>,
+    );
     expect(screen.getByTestId('fundCardHeader')).toHaveTextContent(
-      'Custom Header',
+      'Custom header',
     );
   });
 
   it('renders the default header text when headerText is not provided', () => {
-    render(<FundCardHeader assetSymbol="eth" />);
+    render(
+      <FundCardProvider asset="ETH" country="US">
+        <FundCardHeader />
+      </FundCardProvider>,
+    );
     expect(screen.getByTestId('fundCardHeader')).toHaveTextContent('Buy ETH');
-  });
-
-  it('converts assetSymbol to uppercase in default header text', () => {
-    render(<FundCardHeader assetSymbol="usdt" />);
-    expect(screen.getByTestId('fundCardHeader')).toHaveTextContent('Buy USDT');
   });
 });

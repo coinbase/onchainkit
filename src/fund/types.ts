@@ -263,30 +263,15 @@ export type OnrampPaymentCurrency = {
 };
 
 export type FundCardAmountInputPropsReact = {
-  fiatValue: string;
-  setFiatValue: (s: string) => void;
-  cryptoValue: string;
-  setCryptoValue: (s: string) => void;
-  currencySign?: string;
-  assetSymbol?: string;
-  inputType?: AmountInputTypeReact;
-  exchangeRate?: number;
-  amountInputSnippets?: AmountInputSnippetReact[];
+  className?: string;
 };
 
 export type FundCardAmountInputTypeSwitchPropsReact = {
-  selectedInputType?: AmountInputTypeReact;
-  setSelectedInputType: (inputType: AmountInputTypeReact) => void;
-  selectedAsset?: string;
-  fundAmountFiat: string;
-  fundAmountCrypto: string;
-  exchangeRate?: number;
-  isLoading?: boolean;
+  className?: string;
 };
 
 export type FundCardHeaderPropsReact = {
-  headerText?: string;
-  assetSymbol: string;
+  className?: string;
 };
 
 export type FundCardPaymentMethodImagePropsReact = {
@@ -296,11 +281,13 @@ export type FundCardPaymentMethodImagePropsReact = {
 };
 
 export type PaymentAccountReact =
+  | 'COINBASE'
   | 'CRYPTO_ACCOUNT'
   | 'FIAT_WALLET'
   | 'CARD'
   | 'ACH_BANK_ACCOUNT'
-  | 'APPLE_PAY';
+  | 'APPLE_PAY'
+  | ''; // Empty string represents Coinbase default payment method
 
 export type PaymentMethodReact = {
   id: PaymentAccountReact;
@@ -310,11 +297,11 @@ export type PaymentMethodReact = {
 };
 
 export type FundCardPaymentMethodDropdownPropsReact = {
-  paymentMethods: PaymentMethodReact[];
+  className?: string;
 };
 
 export type FundCardCurrencyLabelPropsReact = {
-  currencySign: string;
+  label: string;
 };
 
 export type FundCardPropsReact = {
@@ -323,7 +310,8 @@ export type FundCardPropsReact = {
   placeholder?: string | React.ReactNode;
   headerText?: string;
   buttonText?: string;
-
+  country: string;
+  subdivision?: string;
   /**
    * Payment methods to display in the dropdown
    */
@@ -333,33 +321,14 @@ export type FundCardPropsReact = {
    * Amount input snippets to display next to the input field: i.e. [$10] [$50] [$100]
    */
   amountInputSnippets?: AmountInputSnippetReact[];
+  className?: string;
+  onError?: (e: OnrampError | undefined) => void;
+  onStatus?: (lifecycleStatus: EventMetadata) => void;
+  onSuccess?: () => void;
 };
-
 export type FundCardContentPropsReact = {
-  /**
-   * Custom component for the amount input
-   */
-  amountInputComponent?: React.ReactElement<FundCardAmountInputPropsReact>;
-  /**
-   * Custom component for the header
-   */
-  headerComponent?: React.ReactElement<FundCardHeaderPropsReact>;
-
-  /**
-   * Custom component for the amount input type switch
-   */
-  amountInputTypeSwitchComponent?: React.ReactElement<FundCardAmountInputTypeSwitchPropsReact>;
-
-  /**
-   * Custom component for the payment method selector dropdown
-   */
-  paymentMethodDropdownComponent?: React.ReactElement<FundCardPaymentMethodDropdownPropsReact>;
-
-  /**
-   * Custom component for the submit button
-   */
-  submitButtonComponent?: React.ReactElement<FundButtonReact>;
-} & FundCardPropsReact;
+  children?: ReactNode;
+};
 
 export type FundCardPaymentMethodSelectorTogglePropsReact = {
   className?: string;
@@ -369,16 +338,28 @@ export type FundCardPaymentMethodSelectorTogglePropsReact = {
 };
 
 export type FundCardPaymentMethodSelectRowPropsReact = {
-  className?: string;
   paymentMethod: PaymentMethodReact;
   onClick?: (paymentMethod: PaymentMethodReact) => void;
   hideImage?: boolean;
   hideDescription?: boolean;
+  disabled?: boolean;
+  disabledReason?: string;
+  testId?: string;
 };
 
 export type FundCardProviderReact = {
   children: ReactNode;
   asset: string;
+  paymentMethods?: PaymentMethodReact[];
+  headerText?: string;
+  buttonText?: string;
+  country: string;
+  subdivision?: string;
+  inputType?: 'fiat' | 'crypto';
+  onError?: (e: OnrampError | undefined) => void;
+  onStatus?: (lifecycleStatus: EventMetadata) => void;
+  onSuccess?: () => void;
+  amountInputSnippets?: AmountInputSnippetReact[];
 };
 
 export type AmountInputSnippetPropsReact = {
