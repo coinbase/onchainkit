@@ -3,6 +3,7 @@
 import { portfolioSvg } from '@/internal/svg/portfolioSvg';
 import { Avatar } from '@/ui/react/identity';
 import { useAccount } from 'wagmi';
+import { getDraggableWalletDefaultStartingPosition } from '../utils/getDraggableWalletDefaultStartingPosition';
 import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';
 import { Wallet } from './Wallet';
@@ -13,12 +14,7 @@ import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionAct
 import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
 
 export function WalletIsland({
-  startingPosition = typeof window !== 'undefined'
-    ? {
-        x: window.innerWidth - 125,
-        y: window.innerHeight - 125,
-      }
-    : { x: 100, y: 100 },
+  startingPosition = getDraggableWalletDefaultStartingPosition(),
 }: {
   startingPosition?: { x: number; y: number };
 }) {

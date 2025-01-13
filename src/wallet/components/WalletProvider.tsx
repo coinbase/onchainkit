@@ -12,11 +12,8 @@ import type { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
-import {
-  WALLET_ADVANCED_MAX_HEIGHT,
-  WALLET_ADVANCED_MAX_WIDTH,
-} from '../constants';
 import type { WalletContextType } from '../types';
+import { calculateSubComponentPosition } from '../utils/getWalletSubComponentPosition';
 
 const emptyContext = {} as WalletContextType;
 
@@ -45,23 +42,10 @@ export function WalletProvider({ children }: WalletProviderReact) {
 
   useEffect(() => {
     if (isSubComponentOpen && connectRef?.current) {
-      if (typeof window === 'undefined') {
-        return;
-      }
-
       const connectRect = connectRef.current.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const viewportWidth = window.innerWidth;
-
-      const spaceAvailableBelow = viewportHeight - connectRect.bottom;
-      const spaceAvailableRight = viewportWidth - connectRect.left;
-
-      setShowSubComponentAbove(
-        spaceAvailableBelow < WALLET_ADVANCED_MAX_HEIGHT,
-      );
-      setAlignSubComponentRight(
-        spaceAvailableRight < WALLET_ADVANCED_MAX_WIDTH,
-      );
+      const position = calculateSubComponentPosition(connectRect);
+      setShowSubComponentAbove(position.showAbove);
+      setAlignSubComponentRight(position.alignRight);
     }
   }, [isSubComponentOpen]);
 

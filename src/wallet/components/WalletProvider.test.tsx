@@ -85,7 +85,7 @@ describe('useWalletContext', () => {
     expect(result.current.isSubComponentClosing).toBe(true);
   });
 
-  it('should keep alignSubComponentRight false when there is enough space on the right', () => {
+  it('should keep alignSubComponentRight default value when there is enough space on the right', () => {
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
       configurable: true,
@@ -165,7 +165,7 @@ describe('useWalletContext', () => {
     expect(result.current.alignSubComponentRight).toBe(true);
   });
 
-  it('should keep showSubComponentAbove false when there is enough space below', () => {
+  it('should keep showSubComponentAbove default value when there is enough space below', () => {
     Object.defineProperty(window, 'innerHeight', {
       writable: true,
       configurable: true,
