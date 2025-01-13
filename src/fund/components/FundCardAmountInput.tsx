@@ -10,8 +10,9 @@ import { useFundContext } from './FundCardProvider';
 export const FundCardAmountInput = ({
   className,
 }: FundCardAmountInputPropsReact) => {
-  // TODO: Get currency label from country
+  // TODO: Get currency label from country (This is coming in the follow up PRs)
   const currencyLabel = 'USD';
+
   const {
     fundAmountFiat,
     setFundAmountFiat,
