@@ -136,13 +136,15 @@ describe('FundCard', () => {
 
   it('renders without crashing', () => {
     renderComponent();
-    expect(screen.getByTestId('fundCardHeader')).toBeInTheDocument();
+    expect(screen.getByTestId('ockFundCardHeader')).toBeInTheDocument();
     expect(screen.getByTestId('ockFundButtonTextContent')).toBeInTheDocument();
   });
 
   it('displays the correct header text', () => {
     renderComponent();
-    expect(screen.getByTestId('fundCardHeader')).toHaveTextContent('Buy BTC');
+    expect(screen.getByTestId('ockFundCardHeader')).toHaveTextContent(
+      'Buy BTC',
+    );
   });
 
   it('displays the correct button text', () => {
@@ -174,7 +176,7 @@ describe('FundCard', () => {
       fireEvent.click(switchButton);
     });
 
-    expect(screen.getByTestId('currencySpan')).toHaveTextContent('BTC');
+    expect(screen.getByTestId('ockCurrencySpan')).toHaveTextContent('BTC');
   });
 
   it('disables the submit button when fund amount is zero and type is fiat', () => {
@@ -291,6 +293,6 @@ describe('FundCard', () => {
     );
 
     expect(screen.getByTestId('custom-child')).toBeInTheDocument();
-    expect(screen.queryByTestId('fundCardHeader')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ockFundCardHeader')).not.toBeInTheDocument();
   });
 });
