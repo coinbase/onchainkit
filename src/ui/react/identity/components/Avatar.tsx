@@ -7,7 +7,7 @@ import { findComponent } from '@/core-react/internal/utils/findComponent';
 import { Children, useMemo } from 'react';
 import { defaultAvatarSVG } from '../../../../internal/svg/defaultAvatarSVG';
 import { defaultLoadingSVG } from '../../../../internal/svg/defaultLoadingSVG';
-import { cn } from '../../../../styles/theme';
+import { cn, border } from '../../../../styles/theme';
 import { Badge } from './Badge';
 import { DisplayBadge } from './DisplayBadge';
 
@@ -87,7 +87,9 @@ export function Avatar({
             {...props}
           />
         ) : (
-          defaultAvatar
+          <div className={cn(border.default, 'h-full w-full border')}>
+            {defaultAvatar}
+          </div>
         )}
       </div>
       {badge && (
