@@ -10,7 +10,7 @@ type DraggableProps = {
   gridSize?: number;
   startingPosition?: { x: number; y: number };
   snapToGrid?: boolean;
-  draggingDisabled?: boolean;
+  disabled?: boolean;
 };
 
 export function Draggable({
@@ -18,7 +18,7 @@ export function Draggable({
   gridSize = 1,
   startingPosition = { x: 20, y: 20 },
   snapToGrid = false,
-  draggingDisabled = false,
+  disabled = false,
 }: DraggableProps) {
   const [position, setPosition] = useState(startingPosition);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -28,13 +28,13 @@ export function Draggable({
   const draggableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (draggingDisabled) {
+    if (disabled) {
       setCursorDisplay('default');
       return;
     }
 
     setCursorDisplay(isDragging ? 'cursor-grabbing' : 'cursor-grab');
-  }, [draggingDisabled, isDragging]);
+  }, [disabled, isDragging]);
 
   const calculateSnapToGrid = useCallback(
     (positionValue: number) => {
@@ -45,7 +45,7 @@ export function Draggable({
 
   const handleDragStart = useCallback(
     (e: React.PointerEvent) => {
-      if (draggingDisabled) {
+      if (disabled) {
         return;
       }
 
@@ -56,7 +56,7 @@ export function Draggable({
         y: e.clientY - position.y,
       });
     },
-    [position, draggingDisabled],
+    [position, disabled],
   );
 
   useEffect(() => {

@@ -1,5 +1,3 @@
-'use client';
-
 export function getDraggableWalletDefaultStartingPosition() {
   if (typeof window === 'undefined') {
     return { x: 100, y: 100 };
