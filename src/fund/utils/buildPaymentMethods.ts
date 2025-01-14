@@ -16,7 +16,11 @@ const PAYMENT_METHOD_ICONS_MAP: Record<string, string> = {
   FIAT_WALLET: 'fundWallet',
 };
 
-export const buildCoinbasePaymentDescription = (
+/**
+ * Coinbase payment method description is built using the available payment methods and adding Cash and Crypto Balance to the end of the array.
+ * i.e. If the API returns Card and ACH, the description will be "Card, ACH, Cash, Crypto Balance".
+ */
+export const buildCoinbasePaymentMethodDescription = (
   paymentMethodLimits: Array<{ id: string }>,
 ) => {
   // Map the IDs to their readable names
@@ -43,7 +47,9 @@ export const buildPaymentMethods = (
     return [];
   }
 
-  const description = buildCoinbasePaymentDescription(paymentMethod.limits);
+  const description = buildCoinbasePaymentMethodDescription(
+    paymentMethod.limits,
+  );
 
   const coinbasePaymentMethod: PaymentMethodReact = {
     id: '',
