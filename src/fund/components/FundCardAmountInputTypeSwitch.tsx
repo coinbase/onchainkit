@@ -88,7 +88,7 @@ export const FundCardAmountInputTypeSwitch = ({
       >
         <div className="h-[1.125rem] w-[1.125rem]">{iconSvg}</div>
       </button>
-      <div className="w-[390px] truncate">
+      <div className="w-full truncate">
         {amountLine}
         {exchangeRateLine}
       </div>
