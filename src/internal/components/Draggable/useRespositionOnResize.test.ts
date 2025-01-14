@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
-import { useRespositionOnWindowResize } from './useRespositionOnResize';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useRespositionOnWindowResize } from './useRespositionOnResize';
 
 describe('useRespositionOnWindowResize', () => {
   const mockRef = { current: document.createElement('div') };
@@ -10,7 +10,7 @@ describe('useRespositionOnWindowResize', () => {
     vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(1024);
     vi.spyOn(window, 'innerHeight', 'get').mockReturnValue(768);
     mockRef.current = document.createElement('div');
-    
+
     vi.clearAllMocks();
   });
 
@@ -22,14 +22,12 @@ describe('useRespositionOnWindowResize', () => {
       top: 100,
       left: 100,
       right: 200,
-      bottom: 200
+      bottom: 200,
     });
 
-    renderHook(() => useRespositionOnWindowResize(
-      mockRef,
-      initialPosition,
-      mockResetPosition
-    ));
+    renderHook(() =>
+      useRespositionOnWindowResize(mockRef, initialPosition, mockResetPosition),
+    );
 
     window.dispatchEvent(new Event('resize'));
 
@@ -44,11 +42,9 @@ describe('useRespositionOnWindowResize', () => {
     // @ts-expect-error - we are testing the case where ref.current is falsey
     mockRef.current = null;
 
-    renderHook(() => useRespositionOnWindowResize(
-      mockRef,
-      initialPosition,
-      mockResetPosition
-    ));
+    renderHook(() =>
+      useRespositionOnWindowResize(mockRef, initialPosition, mockResetPosition),
+    );
 
     window.dispatchEvent(new Event('resize'));
     expect(mockResetPosition).not.toHaveBeenCalled();
@@ -61,14 +57,16 @@ describe('useRespositionOnWindowResize', () => {
       top: 100,
       left: 1000,
       right: 1100,
-      bottom: 200
+      bottom: 200,
     });
 
-    renderHook(() => useRespositionOnWindowResize(
-      mockRef,
-      { x: 1000, y: 100 },
-      mockResetPosition
-    ));
+    renderHook(() =>
+      useRespositionOnWindowResize(
+        mockRef,
+        { x: 1000, y: 100 },
+        mockResetPosition,
+      ),
+    );
 
     window.dispatchEvent(new Event('resize'));
     const callback = mockResetPosition.mock.calls[0][0];
@@ -84,14 +82,16 @@ describe('useRespositionOnWindowResize', () => {
       top: 700,
       left: 100,
       right: 200,
-      bottom: 800
+      bottom: 800,
     });
 
-    renderHook(() => useRespositionOnWindowResize(
-      mockRef,
-      { x: 100, y: 700 },
-      mockResetPosition
-    ));
+    renderHook(() =>
+      useRespositionOnWindowResize(
+        mockRef,
+        { x: 100, y: 700 },
+        mockResetPosition,
+      ),
+    );
 
     window.dispatchEvent(new Event('resize'));
     const callback = mockResetPosition.mock.calls[0][0];
@@ -107,14 +107,16 @@ describe('useRespositionOnWindowResize', () => {
       top: 100,
       left: -100,
       right: 0,
-      bottom: 200
+      bottom: 200,
     });
 
-    renderHook(() => useRespositionOnWindowResize(
-      mockRef,
-      { x: -100, y: 100 },
-      mockResetPosition
-    ));
+    renderHook(() =>
+      useRespositionOnWindowResize(
+        mockRef,
+        { x: -100, y: 100 },
+        mockResetPosition,
+      ),
+    );
 
     window.dispatchEvent(new Event('resize'));
     const callback = mockResetPosition.mock.calls[0][0];
@@ -134,14 +136,16 @@ describe('useRespositionOnWindowResize', () => {
       top: -50,
       left: 100,
       right: 200,
-      bottom: 50
+      bottom: 50,
     });
 
-    renderHook(() => useRespositionOnWindowResize(
-      mockRef,
-      { x: 100, y: -50 },
-      mockResetPosition
-    ));
+    renderHook(() =>
+      useRespositionOnWindowResize(
+        mockRef,
+        { x: 100, y: -50 },
+        mockResetPosition,
+      ),
+    );
 
     window.dispatchEvent(new Event('resize'));
 
@@ -150,6 +154,4 @@ describe('useRespositionOnWindowResize', () => {
     expect(newPosition.x).toBe(100); // x shouldn't change
     expect(newPosition.y).toBe(10); // reset to 10
   });
-
-
 });
