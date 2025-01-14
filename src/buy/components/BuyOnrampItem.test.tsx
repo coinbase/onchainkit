@@ -38,7 +38,7 @@ describe('BuyOnrampItem', () => {
     expect(screen.getByRole('button')).toBeInTheDocument();
     expect(screen.getByText('Apple Pay')).toBeInTheDocument();
     expect(screen.getByText('Fast and secure payments.')).toBeInTheDocument();
-    expect(screen.getByTestId('appleSvg')).toBeInTheDocument();
+    expect(screen.getByTestId('ock-applePaySvg')).toBeInTheDocument();
   });
 
   it('handles icon rendering based on the icon prop', () => {
