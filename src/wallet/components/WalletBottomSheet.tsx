@@ -1,3 +1,5 @@
+import { background, cn } from '@/styles/theme';
+import { Identity } from '@/ui/react/identity/components/Identity';
 import {
   Children,
   cloneElement,
@@ -6,8 +8,6 @@ import {
   useMemo,
 } from 'react';
 import { useAccount } from 'wagmi';
-import { background, cn } from '../../styles/theme';
-import { Identity } from '../../ui/react/identity/components/Identity';
 import type { WalletBottomSheetReact } from '../types';
 import { useWalletContext } from './WalletProvider';
 
@@ -15,8 +15,8 @@ export function WalletBottomSheet({
   children,
   className,
 }: WalletBottomSheetReact) {
-  const { isOpen, setIsOpen } = useWalletContext();
   const { address } = useAccount();
+  const { isSubComponentOpen, setIsSubComponentOpen } = useWalletContext();
 
   const childrenArray = useMemo(() => {
     return Children.toArray(children).map((child) => {
@@ -29,16 +29,16 @@ export function WalletBottomSheet({
   }, [children, address]);
 
   const handleOverlayClick = useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
+    setIsSubComponentOpen(false);
+  }, [setIsSubComponentOpen]);
 
   const handleEscKeyPress = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === 'Escape') {
-        setIsOpen(false);
+        setIsSubComponentOpen(false);
       }
     },
-    [setIsOpen],
+    [setIsSubComponentOpen],
   );
 
   if (!address) {
@@ -47,7 +47,7 @@ export function WalletBottomSheet({
 
   return (
     <>
-      {isOpen && (
+      {isSubComponentOpen && (
         <div
           className="fixed inset-0 z-40 bg-black bg-opacity-20"
           onClick={handleOverlayClick}
@@ -61,7 +61,7 @@ export function WalletBottomSheet({
           background.default,
           'fixed right-0 bottom-0 left-0 z-50',
           'transform rounded-[20px_20px_0_0] p-4 transition-transform',
-          `${isOpen ? 'translate-y-0' : 'translate-y-full'}`,
+          `${isSubComponentOpen ? 'translate-y-0' : 'translate-y-full'}`,
           className,
         )}
         data-testid="ockWalletBottomSheet"

@@ -1,20 +1,18 @@
+'use client';
+
+import { useCallback } from 'react';
+import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { border, cn, color, pressable, text } from '../../styles/theme';
+
 import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
 import { ErrorSvg } from '@/internal/svg/errorSvg';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { Spinner } from '../../internal/components/Spinner';
 import { AddSvg } from '../../internal/svg/addSvg';
 import { SuccessSvg } from '../../internal/svg/successSvg';
-import {
-  background,
-  border,
-  cn,
-  color,
-  pressable,
-  text,
-} from '../../styles/theme';
+import { background } from '../../styles/theme';
 import { ConnectWallet } from '../../wallet/components/ConnectWallet';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';

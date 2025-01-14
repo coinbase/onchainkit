@@ -13,6 +13,7 @@ export default {
     extend: {
       spacing: {
         88: '22rem',
+        120: '30rem',
       },
       fontFamily: {
         display: 'DM Sans, sans-serif',

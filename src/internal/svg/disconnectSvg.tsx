@@ -10,6 +10,7 @@ export const disconnectSvg = (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
+    <title>Disconnect</title>
     <path
       d="M11.0668 0.91803L11.0668 2.93852L2.02049 2.93852L2.02049 15.0615L11.0668 15.0615L11.0668 17.082L-7.06549e-07 17.082L0 0.918029L11.0668 0.91803Z"
       className={icon.foreground}

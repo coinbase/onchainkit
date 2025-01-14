@@ -1,3 +1,5 @@
+'use client';
+
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 import { useRef } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
@@ -35,6 +37,7 @@ function BuyContent({ className }: { className?: string }) {
     </div>
   );
 }
+
 export function Buy({
   config = {
     maxSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,

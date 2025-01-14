@@ -1,17 +1,25 @@
 import QRCode from 'qrcode';
 import { useMemo } from 'react';
 
+/**
+ * useMatrix generates a QR code matrix from a given value.
+ * @param errorCorrectionLevel QR code error correction level (L, M, Q, H)
+ * @param value String value to encode in QR code. useMatrix adds an 'ethereum:' prefix to the value as we only support EVM addresseses
+ * @returns 2D array representing the QR code matrix, where 1 = black pixel and 0 = white pixel
+ */
 export function useMatrix(
-  value: string,
   errorCorrectionLevel: 'L' | 'M' | 'Q' | 'H',
+  value?: string | null,
 ) {
   const matrix = useMemo(() => {
     if (!value) {
       return [];
     }
 
+    const transformedValue = `ethereum:${value}`;
+
     const arr = Array.from(
-      QRCode.create(value, { errorCorrectionLevel }).modules.data,
+      QRCode.create(transformedValue, { errorCorrectionLevel }).modules.data,
     );
 
     const sqrt = Math.sqrt(arr.length);

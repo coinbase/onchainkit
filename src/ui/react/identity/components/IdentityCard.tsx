@@ -1,3 +1,4 @@
+'use client';
 import type { Address, Chain } from 'viem';
 import { Address as AddressComponent } from './Address';
 import { Avatar } from './Avatar';
