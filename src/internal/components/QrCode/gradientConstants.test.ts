@@ -9,7 +9,7 @@ import {
   QR_LOGO_SIZE,
   linearGradientStops,
   ockThemeToLinearGradientColorMap,
-  ockThemeToRadiamGradientColorMap,
+  ockThemeToRadialGradientColorMap,
   presetGradients,
 } from './gradientConstants';
 
@@ -45,7 +45,7 @@ describe('Theme Maps', () => {
   });
 
   it('should have correct radial gradient theme mappings', () => {
-    expect(ockThemeToRadiamGradientColorMap).toEqual({
+    expect(ockThemeToRadialGradientColorMap).toEqual({
       default: 'default',
       base: 'blue',
       cyberpunk: 'magenta',

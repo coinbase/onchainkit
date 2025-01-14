@@ -68,7 +68,7 @@ const components: Component[] = [
     description: 'Fund wallets with a debit card or a coinbase account.',
   },
   {
-    name: 'Identity Card',
+    name: 'Identity',
     component: IdentityCardDemo,
     code: identityCardDemoCode,
     description:

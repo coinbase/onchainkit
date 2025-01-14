@@ -83,8 +83,8 @@ export function WalletModal({
     };
   }, [isOpen, onClose]);
 
-  const appLogo = config?.appearance?.logo;
-  const appName = config?.appearance?.name;
+  const appLogo = config?.appearance?.logo ?? undefined;
+  const appName = config?.appearance?.name ?? undefined;
   const privacyPolicyUrl = config?.wallet?.privacyUrl ?? undefined;
   const termsOfServiceUrl = config?.wallet?.termsUrl ?? undefined;
 
@@ -92,8 +92,9 @@ export function WalletModal({
     try {
       const cbConnector = coinbaseWallet({
         preference: 'all',
+        appName,
+        appLogoUrl: appLogo,
       });
-
       connect({ connector: cbConnector });
       onClose();
     } catch (error) {
@@ -106,7 +107,7 @@ export function WalletModal({
         );
       }
     }
-  }, [connect, onClose, onError]);
+  }, [appName, appLogo, connect, onClose, onError]);
 
   const handleMetaMaskConnection = useCallback(() => {
     try {
@@ -114,7 +115,7 @@ export function WalletModal({
         dappMetadata: {
           name: appName || 'OnchainKit App',
           url: window.location.origin,
-          iconUrl: appLogo || undefined,
+          iconUrl: appLogo,
         },
       });
 
@@ -170,6 +171,7 @@ export function WalletModal({
       onKeyDown={(e) => e.key === 'Enter' && onClose()}
       role="presentation"
       data-testid="ockModalOverlay"
+      data-modal-overlay="true"
     >
       <div
         ref={modalRef}
