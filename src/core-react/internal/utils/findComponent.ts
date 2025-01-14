@@ -3,7 +3,7 @@ import type { ComponentType, ReactElement, ReactNode } from 'react';
 
 // Type for Next.js Server Component Payload
 // Temporary patch until we update to deafult children and remove internal findComponent
-interface ServerComponentPayload {
+export interface ServerComponentPayload {
   _payload: {
     value: [string, string[], string]; // [modulePath, chunks, componentName]
   };
