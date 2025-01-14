@@ -52,6 +52,10 @@ export const sidebar = [
         link: '/guides/themes',
       },
       {
+        text: 'Troubleshooting',
+        link: '/guides/troubleshooting',
+      },
+      {
         text: 'Use Basename',
         link: '/guides/use-basename-in-onchain-app',
       },

@@ -1,5 +1,6 @@
+import { applePaySvg } from '@/internal/svg/applePaySvg';
 import { isValidElement, useMemo } from 'react';
-import { applePaySvg } from '../../../internal/svg/applePaySvg';
+import { appleSvg } from '../../../internal/svg/appleSvg';
 import { coinbaseLogoSvg } from '../../../internal/svg/coinbaseLogoSvg';
 import { coinbasePaySvg } from '../../../internal/svg/coinbasePaySvg';
 import { creditCardSvg } from '../../../internal/svg/creditCardSvg';
@@ -28,6 +29,8 @@ export const useIcon = ({ icon }: { icon?: React.ReactNode }) => {
         return toggleSvg;
       case 'applePay':
         return applePaySvg;
+      case 'apple':
+        return appleSvg;
       case 'creditCard':
         return creditCardSvg;
     }

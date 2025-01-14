@@ -146,7 +146,9 @@ describe('FundCardPaymentMethodDropdown', () => {
         'ockFundCardPaymentMethodSelectorToggle__paymentMethodName',
       ),
     );
-    fireEvent.click(screen.getByText('Apple Pay'));
+    fireEvent.click(
+      screen.getByTestId('ockFundCardPaymentMethodSelectRow__APPLE_PAY'),
+    );
 
     // Verify Apple Pay is selected
     expect(

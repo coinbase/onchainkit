@@ -1,20 +1,18 @@
+'use client';
+
+import { useCallback } from 'react';
+import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { border, cn, color, pressable, text } from '../../styles/theme';
+
 import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
 import { ErrorSvg } from '@/internal/svg/errorSvg';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { Spinner } from '../../internal/components/Spinner';
 import { AddSvg } from '../../internal/svg/addSvg';
 import { SuccessSvg } from '../../internal/svg/successSvg';
-import {
-  background,
-  border,
-  cn,
-  color,
-  pressable,
-  text,
-} from '../../styles/theme';
+import { background } from '../../styles/theme';
 import { ConnectWallet } from '../../wallet/components/ConnectWallet';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
@@ -73,22 +71,19 @@ export function FundButton({
   );
 
   const buttonColorClass = useMemo(() => {
-    switch (buttonState) {
-      case 'error':
-        return background.error;
-      case 'loading':
-      case 'success':
-        return pressable.primary;
-      default:
-        return pressable.primary;
+    if (buttonState === 'error') {
+      return background.error;
     }
+    return pressable.primary;
   }, [buttonState]);
 
   const classNames = cn(
     componentTheme,
     buttonColorClass,
     'px-4 py-3 inline-flex items-center justify-center space-x-2',
-    isDisabled && pressable.disabled,
+    {
+      [pressable.disabled]: isDisabled,
+    },
     text.headline,
     border.radius,
     color.inverse,

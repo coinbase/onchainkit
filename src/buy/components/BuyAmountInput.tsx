@@ -18,6 +18,7 @@ export function BuyAmountInput() {
         'flex h-12 items-center border px-2 pl-4',
         background.default,
         border.radius,
+        border.lineDefault,
       )}
     >
       <TextInput

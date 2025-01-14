@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { appleSvg } from '../../internal/svg/appleSvg';
+import { applePaySvg } from '../../internal/svg/applePaySvg';
 import { cardSvg } from '../../internal/svg/cardSvg';
 import { coinbaseLogoSvg } from '../../internal/svg/coinbaseLogoSvg';
 import { cn, color, pressable, text } from '../../styles/theme';
@@ -15,7 +15,7 @@ type OnrampItemReact = {
 };
 
 const ONRAMP_ICON_MAP: Record<string, React.ReactNode> = {
-  applePay: appleSvg,
+  applePay: applePaySvg,
   coinbasePay: coinbaseLogoSvg,
   creditCard: cardSvg,
 };
