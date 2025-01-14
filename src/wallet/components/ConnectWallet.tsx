@@ -36,13 +36,13 @@ export function ConnectWallet({
     setIsSubComponentOpen,
     handleClose,
   } = useWalletContext();
-  const [isOpen, setIsOpen] = useState(false);
   const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
 
   // State
+  const [isOpen, setIsOpen] = useState(false);
   const [hasClickedConnect, setHasClickedConnect] = useState(false);
-
+  
   // Get connectWalletText from children when present,
   // this is used to customize the connect wallet button text
   const { connectWalletText } = useMemo(() => {
@@ -78,13 +78,13 @@ export function ConnectWallet({
   const handleCloseConnectModal = useCallback(() => {
     setIsOpen(false);
     setIsConnectModalOpen?.(false);
-  }, [setIsConnectModalOpen, setIsOpen]);
+  }, [setIsConnectModalOpen]);
 
   const handleOpenConnectModal = useCallback(() => {
     setIsOpen(true);
     setIsConnectModalOpen?.(true);
     setHasClickedConnect(true);
-  }, [setIsConnectModalOpen, setIsOpen]);
+  }, [setIsConnectModalOpen]);
 
   // Effects
   useEffect(() => {
