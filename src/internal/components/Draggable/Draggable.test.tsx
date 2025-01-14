@@ -199,11 +199,11 @@ describe('Draggable', () => {
     expect(removeSpy).toHaveBeenCalledWith('pointerup', expect.any(Function));
   });
 
-  it('disables dragging and sets cursor display to default when draggingDisabled is true', async () => {
+  it('disables dragging and sets cursor display to default when disabled is true', async () => {
     const user = userEvent.setup();
 
     render(
-      <Draggable startingPosition={{ x: 0, y: 0 }} draggingDisabled={true}>
+      <Draggable startingPosition={{ x: 0, y: 0 }} disabled={true}>
         <div>Drag me</div>
       </Draggable>,
     );
