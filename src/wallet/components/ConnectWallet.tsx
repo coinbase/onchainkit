@@ -31,12 +31,12 @@ export function ConnectWallet({
 
   // Core Hooks
   const {
-    isConnectModalOpen,
     setIsConnectModalOpen,
     isSubComponentOpen,
     setIsSubComponentOpen,
     handleClose,
   } = useWalletContext();
+  const [isOpen, setIsOpen] = useState(false);
   const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
 
@@ -68,21 +68,23 @@ export function ConnectWallet({
 
   // Handles
   const handleToggle = useCallback(() => {
-    if (isSubComponentOpen) {
+    if (isSubComponentOpen && handleClose) {
       handleClose();
-    } else {
+    } else if (!isSubComponentOpen) {
       setIsSubComponentOpen(true);
     }
   }, [isSubComponentOpen, handleClose, setIsSubComponentOpen]);
 
   const handleCloseConnectModal = useCallback(() => {
-    setIsConnectModalOpen(false);
-  }, [setIsConnectModalOpen]);
+    setIsOpen(false);
+    setIsConnectModalOpen?.(false);
+  }, [setIsConnectModalOpen, setIsOpen]);
 
   const handleOpenConnectModal = useCallback(() => {
-    setIsConnectModalOpen(true);
+    setIsOpen(true);
+    setIsConnectModalOpen?.(true);
     setHasClickedConnect(true);
-  }, [setIsConnectModalOpen]);
+  }, [setIsConnectModalOpen, setIsOpen]);
 
   // Effects
   useEffect(() => {
@@ -105,7 +107,7 @@ export function ConnectWallet({
             }}
             text={text}
           />
-          {isConnectModalOpen && (
+          {isOpen && (
             <WalletModal isOpen={true} onClose={handleCloseConnectModal} />
           )}
         </div>
