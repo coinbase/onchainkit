@@ -9,7 +9,7 @@ describe('FundCardPaymentMethodSelectRow', () => {
     id: 'APPLE_PAY',
     name: 'Apple Pay',
     description: 'Up to $500/week',
-    icon: 'applePay',
+    icon: 'apple',
   };
 
   it('renders disabled state correctly', () => {

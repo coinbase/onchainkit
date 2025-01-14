@@ -30,7 +30,7 @@ export const APPLE_PAY: PaymentMethodReact = {
   id: 'APPLE_PAY',
   name: 'Apple Pay',
   description: 'Up to $500/week. No sign up required.',
-  icon: 'applePay',
+  icon: 'apple',
 };
 
 export const ALL_PAYMENT_METHODS = [COINBASE, DEBIT_CARD, APPLE_PAY];
