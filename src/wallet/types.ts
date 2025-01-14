@@ -1,8 +1,14 @@
+import type {
+  PortfolioTokenBalances,
+  PortfolioTokenWithFiatValue,
+} from '@/core/api/types';
+import type { SwapError } from '@/swap';
+import type { Token } from '@/token';
+import type { QueryObserverResult } from '@tanstack/react-query';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Chain, PublicClient } from 'viem';
 import type { UserOperation } from 'viem/_types/account-abstraction';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
-import type { SwapError } from '../swap';
 
 export type ConnectButtonReact = {
   className?: string; // Optional className override for button element
@@ -72,11 +78,16 @@ export type UseGetTokenBalanceResponse = {
 export type WalletContextType = {
   address?: Address | null; // The Ethereum address to fetch the avatar and name for.
   chain?: Chain; // Optional chain for domain resolution
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  isClosing: boolean;
-  setIsClosing: Dispatch<SetStateAction<boolean>>;
+  isConnectModalOpen: boolean;
+  setIsConnectModalOpen: Dispatch<SetStateAction<boolean>>;
+  isSubComponentOpen: boolean;
+  setIsSubComponentOpen: Dispatch<SetStateAction<boolean>>;
+  isSubComponentClosing: boolean;
+  setIsSubComponentClosing: Dispatch<SetStateAction<boolean>>;
   handleClose: () => void;
+  connectRef: React.RefObject<HTMLDivElement>;
+  showSubComponentAbove: boolean;
+  alignSubComponentRight: boolean;
 };
 
 /**
@@ -85,6 +96,19 @@ export type WalletContextType = {
 export type WalletReact = {
   children: React.ReactNode;
   className?: string;
+} & (
+  | { draggable?: true; draggableStartingPosition?: { x: number; y: number } }
+  | { draggable?: false; draggableStartingPosition?: never }
+);
+
+export type WalletSubComponentReact = {
+  connect: React.ReactNode;
+  connectRef: React.RefObject<HTMLDivElement>;
+  dropdown: React.ReactNode;
+  advanced: React.ReactNode;
+  isSubComponentOpen: boolean;
+  alignSubComponentRight: boolean;
+  showSubComponentAbove: boolean;
 };
 
 /**
@@ -148,4 +172,37 @@ export type WalletDropdownLinkReact = {
   icon?: 'wallet' & ReactNode;
   rel?: string;
   target?: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type WalletAdvancedReact = {
+  children: React.ReactNode;
+  swappableTokens?: Token[];
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type WalletAdvancedContextType = {
+  showSwap: boolean;
+  setShowSwap: Dispatch<SetStateAction<boolean>>;
+  isSwapClosing: boolean;
+  setIsSwapClosing: Dispatch<SetStateAction<boolean>>;
+  showQr: boolean;
+  setShowQr: Dispatch<SetStateAction<boolean>>;
+  isQrClosing: boolean;
+  setIsQrClosing: Dispatch<SetStateAction<boolean>>;
+  tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
+  portfolioFiatValue: number | undefined;
+  isFetchingPortfolioData: boolean;
+  portfolioDataUpdatedAt: number | undefined;
+  refetchPortfolioData: () => Promise<
+    QueryObserverResult<PortfolioTokenBalances, Error>
+  >;
+  animations: {
+    container: string;
+    content: string;
+  };
 };

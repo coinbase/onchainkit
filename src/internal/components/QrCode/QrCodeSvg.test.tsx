@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { cbwSvg } from '../../svg/cbwSvg';
+import { coinbaseWalletSvg } from '../../svg/coinbaseWalletSvg';
 import { QrCodeSvg } from './QrCodeSvg';
 
 vi.mock('../../../core-react/internal/hooks/useTheme', () => ({
@@ -22,7 +22,7 @@ describe('QRCodeSVG', () => {
   });
 
   it('renders with logo', () => {
-    render(<QrCodeSvg value="test" logo={cbwSvg} />);
+    render(<QrCodeSvg value="test" logo={coinbaseWalletSvg} />);
 
     expect(screen.getByTestId('qr-code-logo')).toBeInTheDocument();
   });

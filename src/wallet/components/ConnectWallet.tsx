@@ -30,8 +30,13 @@ export function ConnectWallet({
   const { config = { wallet: { display: undefined } } } = useOnchainKit();
 
   // Core Hooks
-  const { isOpen, setIsOpen, handleClose } = useWalletContext();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {
+    isConnectModalOpen,
+    setIsConnectModalOpen,
+    isSubComponentOpen,
+    setIsSubComponentOpen,
+    handleClose,
+  } = useWalletContext();
   const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
 
@@ -63,21 +68,21 @@ export function ConnectWallet({
 
   // Handles
   const handleToggle = useCallback(() => {
-    if (isOpen) {
+    if (isSubComponentOpen) {
       handleClose();
     } else {
-      setIsOpen(true);
+      setIsSubComponentOpen(true);
     }
-  }, [isOpen, handleClose, setIsOpen]);
+  }, [isSubComponentOpen, handleClose, setIsSubComponentOpen]);
 
-  const handleCloseModal = useCallback(() => {
-    setIsModalOpen(false);
-  }, []);
+  const handleCloseConnectModal = useCallback(() => {
+    setIsConnectModalOpen(false);
+  }, [setIsConnectModalOpen]);
 
-  const handleOpenModal = useCallback(() => {
-    setIsModalOpen(true);
+  const handleOpenConnectModal = useCallback(() => {
+    setIsConnectModalOpen(true);
     setHasClickedConnect(true);
-  }, []);
+  }, [setIsConnectModalOpen]);
 
   // Effects
   useEffect(() => {
@@ -95,13 +100,13 @@ export function ConnectWallet({
             className={className}
             connectWalletText={connectWalletText}
             onClick={() => {
-              handleOpenModal();
+              handleOpenConnectModal();
               setHasClickedConnect(true);
             }}
             text={text}
           />
-          {isModalOpen && (
-            <WalletModal isOpen={true} onClose={handleCloseModal} />
+          {isConnectModalOpen && (
+            <WalletModal isOpen={true} onClose={handleCloseConnectModal} />
           )}
         </div>
       );
@@ -160,12 +165,15 @@ export function ConnectWallet({
             border.radius,
             color.foreground,
             'px-4 py-3',
-            isOpen && 'ock-bg-secondary-active hover:ock-bg-secondary-active',
+            isSubComponentOpen &&
+              'ock-bg-secondary-active hover:ock-bg-secondary-active',
             className,
           )}
           onClick={handleToggle}
         >
-          <div className="flex gap-2">{childrenWithoutConnectWalletText}</div>
+          <div className="flex items-center justify-center gap-2">
+            {childrenWithoutConnectWalletText}
+          </div>
         </button>
       </div>
     </IdentityProvider>

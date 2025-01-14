@@ -1,3 +1,6 @@
+import type { Token } from '@/token';
+import { ethToken, usdcToken } from '@/token/constants';
+
 // The bytecode for the Coinbase Smart Wallet proxy contract.
 export const CB_SW_PROXY_BYTECODE =
   '0x363d3d373d3d363d7f360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc545af43d6000803e6038573d6000fd5b3d6000f3';
@@ -10,3 +13,9 @@ export const ERC_1967_PROXY_IMPLEMENTATION_SLOT =
 // The Coinbase Smart Wallet factory address.
 export const CB_SW_FACTORY_ADDRESS =
   '0x0BA5ED0c6AA8c49038F819E587E2633c4A9F428a';
+export const WALLET_ADVANCED_MAX_HEIGHT = 400;
+export const WALLET_ADVANCED_MAX_WIDTH = 352;
+export const WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS: Token[] = [
+  ethToken,
+  usdcToken,
+];

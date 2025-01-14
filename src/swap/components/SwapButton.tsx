@@ -1,13 +1,6 @@
-import { Spinner } from '../../internal/components/Spinner';
-import {
-  background,
-  border,
-  cn,
-  color,
-  pressable,
-  text,
-} from '../../styles/theme';
-import { ConnectWallet } from '../../wallet';
+import { Spinner } from '@/internal/components/Spinner';
+import { background, border, cn, color, pressable, text } from '@/styles/theme';
+import { ConnectWallet } from '@/wallet/components/ConnectWallet';
 import type { SwapButtonReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 

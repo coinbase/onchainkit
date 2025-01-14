@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
@@ -169,6 +171,7 @@ export function WalletModal({
       onKeyDown={(e) => e.key === 'Enter' && onClose()}
       role="presentation"
       data-testid="ockModalOverlay"
+      data-modal-overlay="true"
     >
       <div
         ref={modalRef}

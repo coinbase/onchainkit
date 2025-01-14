@@ -9,7 +9,7 @@ import {
   QR_LOGO_SIZE,
   linearGradientStops,
   ockThemeToLinearGradientColorMap,
-  ockThemeToRadiamGradientColorMap,
+  ockThemeToRadialGradientColorMap,
   presetGradients,
 } from './gradientConstants';
 import { useCorners } from './useCorners';
@@ -22,7 +22,7 @@ function coordinateAsPercentage(coordinate: number) {
 }
 
 export type QRCodeSVGProps = {
-  value: string;
+  value?: string | null;
   size?: number;
   backgroundColor?: string;
   logo?: React.ReactNode;
@@ -66,20 +66,20 @@ export function QrCodeSvg({
   const linearGradientColor =
     ockThemeToLinearGradientColorMap[
       themeName as keyof typeof ockThemeToLinearGradientColorMap
-    ];
+    ] ?? ockThemeToLinearGradientColorMap.default;
   const linearColors = [
     linearGradientStops[linearGradientColor].startColor,
     linearGradientStops[linearGradientColor].endColor,
   ];
 
+  const radialGradientColor =
+    ockThemeToRadialGradientColorMap[
+      themeName as keyof typeof ockThemeToLinearGradientColorMap
+    ] ?? ockThemeToRadialGradientColorMap.default;
   const presetGradientForColor =
-    presetGradients[
-      ockThemeToRadiamGradientColorMap[
-        themeName as keyof typeof ockThemeToLinearGradientColorMap
-      ] as keyof typeof presetGradients
-    ];
+    presetGradients[radialGradientColor as keyof typeof presetGradients];
 
-  const matrix = useMatrix(value, ecl);
+  const matrix = useMatrix(ecl, value);
   const corners = useCorners(size, matrix.length, bgColor, fillColor, uid);
   const { x: x1, y: y1 } = GRADIENT_START_COORDINATES;
   const { x: x2, y: y2 } = GRADIENT_END_COORDINATES;

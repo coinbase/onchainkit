@@ -4,12 +4,12 @@ import { useMatrix } from './useMatrix';
 
 describe('useMatrix', () => {
   it('returns empty array when value is empty', () => {
-    const { result } = renderHook(() => useMatrix('', 'L'));
+    const { result } = renderHook(() => useMatrix('L', ''));
     expect(result.current).toEqual([]);
   });
 
   it('generates correct QR matrix for simple value', () => {
-    const { result } = renderHook(() => useMatrix('test', 'L'));
+    const { result } = renderHook(() => useMatrix('L', 'test'));
 
     expect(Array.isArray(result.current)).toBe(true);
     expect(result.current.length).toBeGreaterThan(0);
@@ -23,15 +23,15 @@ describe('useMatrix', () => {
   });
 
   it('generates different matrices for different error correction levels', () => {
-    const { result: resultL } = renderHook(() => useMatrix('test', 'L'));
-    const { result: resultH } = renderHook(() => useMatrix('test', 'H'));
+    const { result: resultL } = renderHook(() => useMatrix('L', 'test'));
+    const { result: resultH } = renderHook(() => useMatrix('H', 'test'));
 
     expect(resultL.current).not.toEqual(resultH.current);
   });
 
   it('memoizes result for same inputs', () => {
     const { result, rerender } = renderHook(
-      ({ value, level }) => useMatrix(value, level),
+      ({ value, level }) => useMatrix(level, value),
       {
         initialProps: { value: 'test', level: 'L' as const },
       },
