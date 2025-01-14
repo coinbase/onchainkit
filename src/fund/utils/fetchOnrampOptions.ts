@@ -18,7 +18,7 @@ export async function fetchOnrampOptions({
 }): Promise<OnrampOptionsResponseData> {
   const apiKey = getApiKey();
 
-  let queryParams = `?country=${'IE'}`;
+  let queryParams = `?country=${country}`;
 
   if (subdivision) {
     queryParams = `${queryParams}&subdivision=${subdivision}`;
@@ -36,5 +36,5 @@ export async function fetchOnrampOptions({
 
   const responseJson = await response.json();
 
-  return convertSnakeToCamelCase<OnrampOptionsResponseData>(responseJson.data);
+  return convertSnakeToCamelCase<OnrampOptionsResponseData>(responseJson);
 }

@@ -271,7 +271,7 @@ export type OnrampPurchaseCurrency = {
 
 export type OnrampPaymentCurrency = {
   id: string;
-  paymentMethodLimits: OnrampPaymentMethodLimit[];
+  limits: OnrampPaymentMethodLimit[];
 };
 
 export type FundCardAmountInputPropsReact = {
@@ -362,6 +362,10 @@ export type FundCardPaymentMethodSelectRowPropsReact = {
 export type FundCardProviderReact = {
   children: ReactNode;
   asset: string;
+  /**
+   * Three letter currency code. Defaults to USD.
+   */
+  currency?: string;
   paymentMethods?: PaymentMethodReact[];
   headerText?: string;
   buttonText?: string;

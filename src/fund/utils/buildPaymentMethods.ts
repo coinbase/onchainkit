@@ -1,19 +1,19 @@
 import type { OnrampOptionsResponseData, PaymentMethodReact } from '../types';
 
 const PAYMENT_METHOD_NAMES_MAP: Record<string, string> = {
-  card: 'debit',
-  ach_bank_account: 'ACH',
-  apple_pay: 'Apple Pay',
-  crypto_account: 'crypto balance',
-  fiat_wallet: 'cash',
+  CARD: 'Debit card',
+  ACH_BANK_ACCOUNT: 'ACH',
+  APPLE_PAY: 'Apple Pay',
+  // CRYPTO_ACCOUNT: 'Crypto Balance',
+  // FIAT_WALLET: 'Cash',
 };
 
 const PAYMENT_METHOD_ICONS_MAP: Record<string, string> = {
-  card: 'creditCard',
-  ach_bank_account: 'bank',
-  apple_pay: 'applePay',
-  crypto_account: 'coinbaseLogo',
-  fiat_wallet: 'fundWallet',
+  CARD: 'creditCard',
+  ACH_BANK_ACCOUNT: 'bank',
+  APPLE_PAY: 'applePay',
+  CRYPTO_ACCOUNT: 'coinbaseLogo',
+  FIAT_WALLET: 'fundWallet',
 };
 
 export const buildCoinbasePaymentDescription = (
@@ -24,52 +24,51 @@ export const buildCoinbasePaymentDescription = (
     (limit) => PAYMENT_METHOD_NAMES_MAP[limit.id],
   );
 
-  // Handle empty case
-  if (methods.length === 0) {
-    return '';
-  }
+  // Add Cash and Crypto Balance to the end of the array (These are not returned by the API)
+  methods.push('Cash');
+  methods.push('Crypto Balance');
 
-  if (methods.length === 1) {
-    return methods[0];
-  }
-  if (methods.length === 2) {
-    return `${methods[0]} and ${methods[1]}`;
-  }
-
-  const lastMethod = methods.pop();
-  return `${methods.join(', ')}, and ${lastMethod}`;
+  return methods.join(', ');
 };
 
 export const buildPaymentMethods = (
   paymentOptions: OnrampOptionsResponseData,
+  currency: string,
 ) => {
-  const paymentMethods = paymentOptions.paymentCurrencies[0];
-
-  const description = buildCoinbasePaymentDescription(
-    paymentMethods.paymentMethodLimits,
+  const paymentMethod = paymentOptions.paymentCurrencies.find(
+    (paymentCurrency) => paymentCurrency.id === currency,
   );
+
+  if (!paymentMethod) {
+    return [];
+  }
+
+  const description = buildCoinbasePaymentDescription(paymentMethod.limits);
 
   const coinbasePaymentMethod: PaymentMethodReact = {
     id: '',
     name: 'Coinbase',
     description, // e.g. "card, ACH, and balance"
-    icon: PAYMENT_METHOD_ICONS_MAP.coinbase,
+    icon: 'coinbaseLogo',
   };
 
-  const otherPaymentMethods: PaymentMethodReact[] =
-    paymentMethods.paymentMethodLimits
-      .filter(
-        (limit) =>
-          limit.id === 'ach_bank_account' ||
-          limit.id === 'card' ||
-          limit.id === 'cash',
-      )
-      .map((limit) => ({
-        id: limit.id,
-        name: PAYMENT_METHOD_NAMES_MAP[limit.id],
-        description: limit.id,
-        icon: PAYMENT_METHOD_ICONS_MAP[limit.id],
-      }));
+  /**
+   * We need to show to the user Card and Apple Pay if they are returned by the API.
+   */
+  const otherPaymentMethods: PaymentMethodReact[] = paymentMethod.limits
+    .filter(
+      (limit) =>
+        //limit.id === 'ACH_BANK_ACCOUNT' ||
+        limit.id === 'CARD' || limit.id === 'APPLE_PAY',
+    )
+    .map((limit) => ({
+      id: limit.id,
+      name: PAYMENT_METHOD_NAMES_MAP[limit.id],
+      description: limit.id,
+      icon: PAYMENT_METHOD_ICONS_MAP[limit.id],
+      minAmount: limit.min,
+      maxAmount: limit.max,
+    }));
 
   return [coinbasePaymentMethod, ...otherPaymentMethods];
 };

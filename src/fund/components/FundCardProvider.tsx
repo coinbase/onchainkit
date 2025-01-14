@@ -22,6 +22,7 @@ import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 type FundCardContextType = {
   asset: string;
+  currency: string;
   selectedPaymentMethod?: PaymentMethodReact;
   setSelectedPaymentMethod: (paymentMethod: PaymentMethodReact) => void;
   selectedInputType?: AmountInputTypeReact;
@@ -53,6 +54,7 @@ const FundContext = createContext<FundCardContextType | undefined>(undefined);
 export function FundCardProvider({
   children,
   asset,
+  currency = 'USD',
   headerText = `Buy ${asset.toUpperCase()}`,
   buttonText,
   country,
@@ -83,9 +85,10 @@ export function FundCardProvider({
 
   const fetchExchangeRate = useCallback(async () => {
     setExchangeRateLoading(true);
+
     const quote = await fetchOnrampQuote({
       purchaseCurrency: asset,
-      paymentCurrency: 'USD',
+      paymentCurrency: currency,
       paymentAmount: '100',
       paymentMethod: 'CARD',
       country,
@@ -97,7 +100,7 @@ export function FundCardProvider({
     setExchangeRate(
       Number(quote.purchaseAmount.value) / Number(quote.paymentSubtotal.value),
     );
-  }, [asset, country, subdivision]);
+  }, [asset, country, subdivision, currency]);
 
   const fetchPaymentOptions = useCallback(async () => {
     const paymentOptions = await fetchOnrampOptions({
@@ -105,10 +108,10 @@ export function FundCardProvider({
       subdivision,
     });
 
-    const paymentMethods = buildPaymentMethods(paymentOptions);
+    const paymentMethods = buildPaymentMethods(paymentOptions, currency);
 
     setPaymentMethods(paymentMethods);
-  }, [country, subdivision]);
+  }, [country, subdivision, currency]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
   useEffect(() => {
@@ -118,6 +121,7 @@ export function FundCardProvider({
 
   const value = useValue<FundCardContextType>({
     asset,
+    currency,
     selectedPaymentMethod,
     setSelectedPaymentMethod,
     fundAmountFiat,
