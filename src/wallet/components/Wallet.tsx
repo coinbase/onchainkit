@@ -86,7 +86,7 @@ function WalletContent({
       >
         <Draggable
           startingPosition={draggableStartingPosition}
-          draggingDisabled={isConnectModalOpen}
+          disabled={isConnectModalOpen}
         >
           <WalletSubComponent
             connect={connect}
