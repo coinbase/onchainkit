@@ -1,3 +1,4 @@
+'use client';
 import { Children, useMemo } from 'react';
 import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';

@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { background, cn, text } from '../../styles/theme';
 import type { Token, TokenSelectModalReact } from '../types';
