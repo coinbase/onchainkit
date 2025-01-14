@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext, useCallback, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useAccount } from 'wagmi';

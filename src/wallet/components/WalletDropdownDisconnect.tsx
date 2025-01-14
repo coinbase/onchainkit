@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback } from 'react';
 import { useDisconnect } from 'wagmi';
 import { disconnectSvg } from '../../internal/svg/disconnectSvg';

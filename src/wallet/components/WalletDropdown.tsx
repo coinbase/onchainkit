@@ -1,3 +1,5 @@
+'use client';
+
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { cn, color, pressable } from '../../styles/theme';

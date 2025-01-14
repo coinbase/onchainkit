@@ -1,3 +1,5 @@
+'use client';
+
 import { color } from '../../styles/theme';
 import {
   Address,
