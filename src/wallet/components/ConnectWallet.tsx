@@ -31,7 +31,6 @@ export function ConnectWallet({
 
   // Core Hooks
   const {
-    isConnectModalOpen,
     setIsConnectModalOpen,
     isSubComponentOpen,
     setIsSubComponentOpen,
@@ -42,6 +41,7 @@ export function ConnectWallet({
 
   // State
   const [hasClickedConnect, setHasClickedConnect] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // duplicate modal state because ConnectWallet not always within WalletProvider
 
   // Get connectWalletText from children when present,
   // this is used to customize the connect wallet button text
@@ -69,18 +69,20 @@ export function ConnectWallet({
   // Handles
   const handleToggle = useCallback(() => {
     if (isSubComponentOpen) {
-      handleClose();
+      handleClose?.(); // optional because ConnectWallet not always within WalletProvider
     } else {
       setIsSubComponentOpen(true);
     }
   }, [isSubComponentOpen, handleClose, setIsSubComponentOpen]);
 
   const handleCloseConnectModal = useCallback(() => {
-    setIsConnectModalOpen(false);
+    setIsModalOpen(false); // duplicate state because ConnectWallet not always within WalletProvider
+    setIsConnectModalOpen?.(false); // optional because ConnectWallet not always within WalletProvider
   }, [setIsConnectModalOpen]);
 
   const handleOpenConnectModal = useCallback(() => {
-    setIsConnectModalOpen(true);
+    setIsModalOpen(true); // duplicate state because ConnectWallet not always within WalletProvider
+    setIsConnectModalOpen?.(true); // optional because ConnectWallet not always within WalletProvider
     setHasClickedConnect(true);
   }, [setIsConnectModalOpen]);
 
@@ -105,7 +107,7 @@ export function ConnectWallet({
             }}
             text={text}
           />
-          {isConnectModalOpen && (
+          {isModalOpen && (
             <WalletModal isOpen={true} onClose={handleCloseConnectModal} />
           )}
         </div>

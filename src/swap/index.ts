@@ -1,4 +1,5 @@
 // 🌲☀🌲
+// Components
 export { Swap } from './components/Swap';
 export { SwapAmountInput } from './components/SwapAmountInput';
 export { SwapButton } from './components/SwapButton';
@@ -10,6 +11,8 @@ export { SwapSettingsSlippageInput } from './components/SwapSettingsSlippageInpu
 export { SwapSettingsSlippageTitle } from './components/SwapSettingsSlippageTitle';
 export { SwapToast } from './components/SwapToast';
 export { SwapToggleButton } from './components/SwapToggleButton';
+
+// Types
 export type {
   /** @deprecated Prefer import from `api` module */
   BuildSwapTransaction,

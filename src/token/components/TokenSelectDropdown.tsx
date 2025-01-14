@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, border, cn } from '../../styles/theme';

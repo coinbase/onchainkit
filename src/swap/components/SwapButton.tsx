@@ -1,3 +1,4 @@
+'use client';
 import { Spinner } from '@/internal/components/Spinner';
 import { background, border, cn, color, pressable, text } from '@/styles/theme';
 import { ConnectWallet } from '@/wallet/components/ConnectWallet';
