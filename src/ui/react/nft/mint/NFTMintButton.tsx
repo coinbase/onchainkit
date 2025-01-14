@@ -136,15 +136,11 @@ export function NFTMintButton({
   }
 
   if (!address) {
-    return (
-      <div className={cn(className)}>
-        <ConnectWallet className="w-full" />
-      </div>
-    );
+    return <ConnectWallet className={cn('w-full', className)} />;
   }
 
   return (
-    <div className={cn(className)}>
+    <>
       <Transaction
         isSponsored={isSponsored}
         chainId={chainId}
@@ -152,6 +148,7 @@ export function NFTMintButton({
         onStatus={handleOnStatus}
       >
         <TransactionButton
+          className={className}
           text={transactionButtonLabel}
           pendingOverride={pendingOverride}
           successOverride={successOverride}
@@ -169,6 +166,6 @@ export function NFTMintButton({
           {mintError}
         </div>
       )}
-    </div>
+    </>
   );
 }
