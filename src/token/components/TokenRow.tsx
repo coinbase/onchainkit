@@ -1,3 +1,5 @@
+'use client';
+
 import { memo } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { cn, color, pressable, text } from '../../styles/theme';

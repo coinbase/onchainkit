@@ -1,3 +1,4 @@
+'use client';
 import { cn, color, text } from '../../styles/theme';
 import type { SwapSettingsSlippageTitleReact } from '../types';
 

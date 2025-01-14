@@ -1,3 +1,4 @@
+'use client';
 import { useCallback } from 'react';
 import { cn, color, text } from '../../styles/theme';
 

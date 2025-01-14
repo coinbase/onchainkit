@@ -1,10 +1,12 @@
+'use client';
+
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, cn, pressable, text } from '../../styles/theme';
 import type { TokenChipReact } from '../types';
 import { TokenImage } from './TokenImage';
 
 /**
- * Small button that display a given token symbol and image.
+ * Small button that displays a given token symbol and image.
  *
  * WARNING: This component is under development and
  *          may change in the next few weeks.

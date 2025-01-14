@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useState } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { TextInput } from '../../internal/components/TextInput';

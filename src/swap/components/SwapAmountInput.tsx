@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
