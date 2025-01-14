@@ -2,7 +2,7 @@ import type { ReactElement, ReactNode } from 'react';
 import { describe, expect, it } from 'vitest';
 import { Avatar } from '../../../ui/react/identity/components/Avatar';
 import { Name } from '../../../ui/react/identity/components/Name';
-import { ServerComponentPayload, findComponent } from './findComponent';
+import { type ServerComponentPayload, findComponent } from './findComponent';
 
 describe('findComponent', () => {
   it('should find the Name component in the array', () => {
