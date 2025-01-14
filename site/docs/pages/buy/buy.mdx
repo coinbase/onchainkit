@@ -21,10 +21,14 @@ The `Buy` components provide a comprehensive interface for users to purchase [To
 
 The `Buy` component supports token swaps from USDC and ETH by default with the option to provide an additional token of choice using the `fromToken` prop. In addition, users are able to purchase tokens using their Coinbase account, Apple Pay, or debit card.
 
+:::info
+The Apple Pay and Debit Card onramp options are only available for Coinbase supported assets.  
+:::
+
 Before using, ensure you've completed all [Getting Started steps](/getting-started).
 
 :::info
-Note: this component requires a `projectId` to be set in the `OnchainKitProvider`. You can find your `projectId` on [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
+This component requires a `projectId` to be set in the `OnchainKitProvider`. You can find your `projectId` on [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
 :::
 
 ## Usage

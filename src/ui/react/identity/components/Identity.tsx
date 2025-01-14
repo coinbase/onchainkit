@@ -1,3 +1,4 @@
+'use client';
 import { IdentityProvider } from '@/core-react/identity/providers/IdentityProvider';
 import type { IdentityReact } from '@/core-react/identity/types';
 import { useOnchainKit } from '@/core-react/useOnchainKit';

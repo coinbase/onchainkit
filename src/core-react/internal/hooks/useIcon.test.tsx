@@ -1,6 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { applePaySvg } from '../../../internal/svg/applePaySvg';
+import { appleSvg } from '../../../internal/svg/appleSvg';
 import { coinbasePaySvg } from '../../../internal/svg/coinbasePaySvg';
 import { creditCardSvg } from '../../../internal/svg/creditCardSvg';
 import { fundWalletSvg } from '../../../internal/svg/fundWallet';
@@ -23,6 +24,11 @@ describe('useIcon', () => {
   it('should return toggleSvg when icon is "toggle"', () => {
     const { result } = renderHook(() => useIcon({ icon: 'toggle' }));
     expect(result.current).toBe(toggleSvg);
+  });
+
+  it('should return appleSvg when icon is "apple"', () => {
+    const { result } = renderHook(() => useIcon({ icon: 'apple' }));
+    expect(result.current).toBe(appleSvg);
   });
 
   it('should return applePaySvg when icon is "applePay"', () => {

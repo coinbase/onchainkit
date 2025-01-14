@@ -1,3 +1,4 @@
+'use client';
 import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
 import type { AddressReact } from '@/core-react/identity/types';
 import { getSlicedAddress } from '@/core/identity/utils/getSlicedAddress';

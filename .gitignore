@@ -62,3 +62,6 @@ docs/.vitepress/dist
 
 *storybook.log
 storybook-static/
+
+# Tarballs  
+*.tgz

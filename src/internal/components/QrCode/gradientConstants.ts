@@ -15,7 +15,7 @@ export const ockThemeToLinearGradientColorMap = {
   hacker: 'black',
 };
 
-export const ockThemeToRadiamGradientColorMap = {
+export const ockThemeToRadialGradientColorMap = {
   default: 'default',
   base: 'blue',
   cyberpunk: 'magenta',
