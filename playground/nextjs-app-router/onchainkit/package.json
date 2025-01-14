@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.36.0",
+  "version": "0.36.4",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -30,15 +30,16 @@
     "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch"
   },
   "peerDependencies": {
-    "@types/react": "^18",
-    "react": "^18",
-    "react-dom": "^18"
+    "@types/react": "^18 || ^19",
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19"
   },
   "dependencies": {
     "@tanstack/react-query": "^5",
     "clsx": "^2.1.1",
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
+    "qrcode": "^1.5.4",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "viem": "^2.21.33",
@@ -59,6 +60,7 @@
     "@storybook/test-runner": "^0.19.1",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^14.2.0",
+    "@types/qrcode": "^1",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@vitest/coverage-v8": "^2.0.5",
@@ -119,6 +121,12 @@
       "import": "./esm/core/api/index.js",
       "default": "./esm/core/api/index.js"
     },
+    "./buy": {
+      "types": "./esm/buy/index.d.ts",
+      "module": "./esm/buy/index.js",
+      "import": "./esm/buy/index.js",
+      "default": "./esm/buy/index.js"
+    },
     "./checkout": {
       "types": "./esm/checkout/index.d.ts",
       "module": "./esm/checkout/index.js",
@@ -138,10 +146,10 @@
       "default": "./esm/fund/index.js"
     },
     "./identity": {
-      "types": "./esm/identity/index.d.ts",
-      "module": "./esm/identity/index.js",
-      "import": "./esm/identity/index.js",
-      "default": "./esm/identity/index.js"
+      "types": "./esm/ui/react/identity/index.d.ts",
+      "module": "./esm/ui/react/identity/index.js",
+      "import": "./esm/ui/react/identity/index.js",
+      "default": "./esm/ui/react/identity/index.js"
     },
     "./nft": {
       "types": "./esm/ui/react/nft/index.d.ts",

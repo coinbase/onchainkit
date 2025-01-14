@@ -53,7 +53,7 @@ describe('WalletDropdown', () => {
 
   it('renders null when address is not provided', () => {
     useAccountMock.mockReturnValue({ address: undefined });
-    useWalletContextMock.mockReturnValue({ isOpen: true });
+    useWalletContextMock.mockReturnValue({ isSubComponentOpen: true });
     render(<WalletDropdown>Test Children</WalletDropdown>);
     expect(screen.queryByText('Test Children')).not.toBeInTheDocument();
   });
@@ -93,7 +93,7 @@ describe('WalletDropdown', () => {
 
   it('injects address prop to Identity component', async () => {
     const address = '0x123';
-    useWalletContextMock.mockReturnValue({ isOpen: true });
+    useWalletContextMock.mockReturnValue({ isSubComponentOpen: true });
     useAccountMock.mockReturnValue({ address });
 
     const { result } = renderHook(() => useIdentityContext(), {
@@ -110,14 +110,20 @@ describe('WalletDropdown', () => {
   });
 
   it('sets animation classes correctly based on isClosing', () => {
-    useWalletContextMock.mockReturnValue({ isOpen: true, isClosing: false });
+    useWalletContextMock.mockReturnValue({
+      isSubComponentOpen: true,
+      isSubComponentClosing: false,
+    });
     const { rerender } = render(<WalletDropdown>Content</WalletDropdown>);
     const dropdown = screen.getByTestId('ockWalletDropdown');
     expect(dropdown).toHaveClass(
       'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
     );
 
-    useWalletContextMock.mockReturnValue({ isOpen: true, isClosing: true });
+    useWalletContextMock.mockReturnValue({
+      isSubComponentOpen: true,
+      isSubComponentClosing: true,
+    });
     rerender(<WalletDropdown>Content</WalletDropdown>);
     expect(dropdown).toHaveClass(
       'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out',
@@ -125,14 +131,14 @@ describe('WalletDropdown', () => {
   });
 
   it('should handle wallet closing correctly', async () => {
-    const mockSetIsOpen = vi.fn();
-    const mockSetIsClosing = vi.fn();
+    const mockSetIsSubComponentOpen = vi.fn();
+    const mockSetIsSubComponentClosing = vi.fn();
 
     useWalletContextMock.mockReturnValue({
-      isOpen: true,
-      isClosing: false,
-      setIsOpen: mockSetIsOpen,
-      setIsClosing: mockSetIsClosing,
+      isSubComponentOpen: true,
+      isSubComponentClosing: false,
+      setIsSubComponentOpen: mockSetIsSubComponentOpen,
+      setIsSubComponentClosing: mockSetIsSubComponentClosing,
     });
 
     const { rerender } = render(
@@ -145,10 +151,10 @@ describe('WalletDropdown', () => {
     expect(dropdown).toHaveClass('fade-in slide-in-from-top-1.5');
 
     useWalletContextMock.mockReturnValue({
-      isOpen: true,
-      isClosing: true,
-      setIsOpen: mockSetIsOpen,
-      setIsClosing: mockSetIsClosing,
+      isSubComponentOpen: true,
+      isSubComponentClosing: true,
+      setIsSubComponentOpen: mockSetIsSubComponentOpen,
+      setIsSubComponentClosing: mockSetIsSubComponentClosing,
     });
 
     rerender(
@@ -159,7 +165,7 @@ describe('WalletDropdown', () => {
 
     fireEvent.animationEnd(dropdown);
 
-    expect(mockSetIsOpen).toHaveBeenCalledWith(false);
-    expect(mockSetIsClosing).toHaveBeenCalledWith(false);
+    expect(mockSetIsSubComponentOpen).toHaveBeenCalledWith(false);
+    expect(mockSetIsSubComponentClosing).toHaveBeenCalledWith(false);
   });
 });

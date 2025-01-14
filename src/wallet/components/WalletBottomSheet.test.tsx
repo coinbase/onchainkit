@@ -35,14 +35,14 @@ const useAccountMock = useAccount as Mock;
 
 describe('WalletBottomSheet', () => {
   it('renders null when address is not provided', () => {
-    useWalletContextMock.mockReturnValue({ isOpen: true });
+    useWalletContextMock.mockReturnValue({ isSubComponentOpen: true });
     useAccountMock.mockReturnValue({ address: null });
     render(<WalletBottomSheet>Test Children</WalletBottomSheet>);
     expect(screen.queryByText('Test Children')).not.toBeInTheDocument();
   });
 
-  it('renders children when isOpen is true and address is provided', () => {
-    useWalletContextMock.mockReturnValue({ isOpen: true });
+  it('renders children when isSubComponentOpen is true and address is provided', () => {
+    useWalletContextMock.mockReturnValue({ isSubComponentOpen: true });
     useAccountMock.mockReturnValue({ address: '0x123' });
     render(<WalletBottomSheet>Test Children</WalletBottomSheet>);
     expect(screen.getByText('Test Children')).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe('WalletBottomSheet', () => {
 
   it('injects address prop to Identity component', async () => {
     const address = '0x123';
-    useWalletContextMock.mockReturnValue({ isOpen: true });
+    useWalletContextMock.mockReturnValue({ isSubComponentOpen: true });
     useAccountMock.mockReturnValue({ address });
     const { result } = renderHook(() => useIdentityContext(), {
       wrapper: ({ children }) => (
@@ -64,44 +64,50 @@ describe('WalletBottomSheet', () => {
     });
   });
 
-  it('does not render overlay when isOpen is false', () => {
+  it('does not render overlay when isSubComponentOpen is false', () => {
     useAccountMock.mockReturnValue({ address: '0x123' });
-    useWalletContextMock.mockReturnValue({ isOpen: false, setIsOpen: vi.fn() });
+    useWalletContextMock.mockReturnValue({
+      isSubComponentOpen: false,
+      setIsSubComponentOpen: vi.fn(),
+    });
     render(<WalletBottomSheet>Content</WalletBottomSheet>);
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 
-  it('renders overlay when isOpen is true', () => {
+  it('renders overlay when isSubComponentOpen is true', () => {
     useAccountMock.mockReturnValue({ address: '0x123' });
-    useWalletContextMock.mockReturnValue({ isOpen: true, setIsOpen: vi.fn() });
+    useWalletContextMock.mockReturnValue({
+      isSubComponentOpen: true,
+      setIsSubComponentOpen: vi.fn(),
+    });
     render(<WalletBottomSheet>Content</WalletBottomSheet>);
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
   it('closes the bottom sheet when the overlay is clicked', () => {
-    const setIsOpenMock = vi.fn();
+    const setIsSubComponentOpenMock = vi.fn();
     useAccountMock.mockReturnValue({ address: '0x123' });
     useWalletContextMock.mockReturnValue({
-      isOpen: true,
-      setIsOpen: setIsOpenMock,
+      isSubComponentOpen: true,
+      setIsSubComponentOpen: setIsSubComponentOpenMock,
     });
     render(<WalletBottomSheet>Content</WalletBottomSheet>);
     fireEvent.click(screen.getByRole('button'));
-    expect(setIsOpenMock).toHaveBeenCalledWith(false);
+    expect(setIsSubComponentOpenMock).toHaveBeenCalledWith(false);
   });
 
   it('closes the bottom sheet when Escape key is pressed', () => {
-    const setIsOpenMock = vi.fn();
+    const setIsSubComponentOpenMock = vi.fn();
     useAccountMock.mockReturnValue({ address: '0x123' });
     useWalletContextMock.mockReturnValue({
-      isOpen: true,
-      setIsOpen: setIsOpenMock,
+      isSubComponentOpen: true,
+      setIsSubComponentOpen: setIsSubComponentOpenMock,
     });
     render(<WalletBottomSheet>Content</WalletBottomSheet>);
     fireEvent.keyDown(screen.getByRole('button'), {
       key: 'Escape',
       code: 'Escape',
     });
-    expect(setIsOpenMock).toHaveBeenCalledWith(false);
+    expect(setIsSubComponentOpenMock).toHaveBeenCalledWith(false);
   });
 });
