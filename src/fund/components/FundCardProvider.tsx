@@ -38,6 +38,7 @@ type FundCardContextType = {
   submitButtonState: FundButtonStateReact;
   setSubmitButtonState: (state: FundButtonStateReact) => void;
   paymentMethods: PaymentMethodReact[];
+  paymentOptionsLoading: boolean;
   headerText?: string;
   buttonText?: string;
   country: string;
@@ -73,9 +74,10 @@ export function FundCardProvider({
   const [fundAmountFiat, setFundAmountFiat] = useState<string>('');
   const [fundAmountCrypto, setFundAmountCrypto] = useState<string>('');
   const [exchangeRate, setExchangeRate] = useState<number>(0);
-  const [exchangeRateLoading, setExchangeRateLoading] = useState<
-    boolean | undefined
-  >();
+  const [exchangeRateLoading, setExchangeRateLoading] = useState<boolean>(true);
+  const [paymentOptionsLoading, setPaymentOptionsLoading] =
+    useState<boolean>(true);
+
   const [submitButtonState, setSubmitButtonState] =
     useState<FundButtonStateReact>('default');
 
@@ -103,6 +105,8 @@ export function FundCardProvider({
   }, [asset, country, subdivision, currency]);
 
   const fetchPaymentOptions = useCallback(async () => {
+    setPaymentOptionsLoading(true);
+
     const paymentOptions = await fetchOnrampOptions({
       country,
       subdivision,
@@ -111,6 +115,8 @@ export function FundCardProvider({
     const paymentMethods = buildPaymentMethods(paymentOptions, currency);
 
     setPaymentMethods(paymentMethods);
+
+    setPaymentOptionsLoading(false);
   }, [country, subdivision, currency]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
@@ -136,7 +142,8 @@ export function FundCardProvider({
     setExchangeRateLoading,
     submitButtonState,
     setSubmitButtonState,
-    paymentMethods, //: paymentMethods || DEFAULT_PAYMENT_METHODS,
+    paymentMethods,
+    paymentOptionsLoading,
     headerText,
     buttonText,
     country,

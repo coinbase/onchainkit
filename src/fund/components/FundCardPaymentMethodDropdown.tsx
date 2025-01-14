@@ -1,4 +1,5 @@
 import { isApplePaySupported } from '@/buy/utils/isApplePaySupported';
+import { Skeleton } from '@/internal/components/Skeleton';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { background, border, cn } from '../../styles/theme';
@@ -22,6 +23,7 @@ export function FundCardPaymentMethodDropdown({
     setSelectedPaymentMethod,
     paymentMethods,
     fundAmountFiat,
+    paymentOptionsLoading,
   } = useFundContext();
 
   const filteredPaymentMethods = useMemo(() => {
@@ -92,10 +94,6 @@ export function FundCardPaymentMethodDropdown({
     [],
   );
 
-  if (!paymentMethods) {
-    return null;
-  }
-
   return (
     <div
       className={cn('relative py-4', className)}
@@ -103,12 +101,16 @@ export function FundCardPaymentMethodDropdown({
       data-testid="ockFundCardPaymentMethodDropdownContainer"
       onKeyUp={handleEscKeyPress}
     >
-      <FundCardPaymentMethodSelectorToggle
-        ref={buttonRef}
-        onClick={handleToggle}
-        isOpen={isOpen}
-        paymentMethod={selectedPaymentMethod || filteredPaymentMethods[0]}
-      />
+      {paymentOptionsLoading ? (
+        <Skeleton className="h-12 w-full" />
+      ) : (
+        <FundCardPaymentMethodSelectorToggle
+          ref={buttonRef}
+          onClick={handleToggle}
+          isOpen={isOpen}
+          paymentMethod={selectedPaymentMethod || filteredPaymentMethods[0]}
+        />
+      )}
       {isOpen && (
         <div
           ref={dropdownRef}
