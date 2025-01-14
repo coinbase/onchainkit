@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { addSvg } from '../../internal/svg/addSvg';

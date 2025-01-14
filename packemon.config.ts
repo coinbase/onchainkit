@@ -24,7 +24,11 @@ const config = {
           // Remove the original directive and split into lines
           const lines = code.replace("'use client';", '').split('\n');
           // Filter out any empty lines and reconstruct
-          return `'use client';\n${lines.filter((line) => line.trim()).join('\n')}`;
+
+          return {
+            code: `'use client';\n${lines.filter((line) => line.trim()).join('\n')}`,
+            map: null,
+          };
         }
         return null; // Return null to keep the original code (https://rollupjs.org/plugin-development/#renderchunk)
       },
