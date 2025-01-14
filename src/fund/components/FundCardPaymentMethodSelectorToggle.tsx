@@ -14,6 +14,10 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
     }: FundCardPaymentMethodSelectorTogglePropsReact,
     ref: ForwardedRef<HTMLButtonElement>,
   ) => {
+    if (!paymentMethod) {
+      return null;
+    }
+
     return (
       <button
         type="button"

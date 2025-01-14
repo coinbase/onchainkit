@@ -94,7 +94,7 @@ type GetOnrampBuyUrlOptionalProps = {
   /**
    * The default payment method that will be selected for the user in the Onramp UI. Should be one of the payment methods
    */
-  defaultPaymentMethod?: PaymentAccountReact;
+  defaultPaymentMethod?: string;
   /**
    * The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR.
    */
@@ -249,6 +249,18 @@ type OnrampNetwork = {
   contractAddress: string;
 };
 
+export type OnrampOptionsResponseData = {
+  /**
+   * List of supported fiat currencies that can be exchanged for crypto on Onramp in the given location.
+   * Each currency contains a list of available payment methods, with min and max transaction limits for that currency.
+   */
+  paymentCurrencies: OnrampPaymentCurrency[];
+  /**
+   * List of available crypto assets that can be bought on Onramp in the given location.
+   */
+  purchaseCurrencies: OnrampPurchaseCurrency[];
+};
+
 export type OnrampPurchaseCurrency = {
   id: string;
   name: string;
@@ -280,17 +292,17 @@ export type FundCardPaymentMethodImagePropsReact = {
   paymentMethod: PaymentMethodReact;
 };
 
-export type PaymentAccountReact =
-  | 'COINBASE'
-  | 'CRYPTO_ACCOUNT'
-  | 'FIAT_WALLET'
-  | 'CARD'
-  | 'ACH_BANK_ACCOUNT'
-  | 'APPLE_PAY'
-  | ''; // Empty string represents Coinbase default payment method
+// export type PaymentAccountReact =
+//   | 'COINBASE'
+//   | 'CRYPTO_ACCOUNT'
+//   | 'FIAT_WALLET'
+//   | 'CARD'
+//   | 'ACH_BANK_ACCOUNT'
+//   | 'APPLE_PAY'
+//   | ''; // Empty string represents Coinbase default payment method
 
 export type PaymentMethodReact = {
-  id: PaymentAccountReact;
+  id: string;
   name: string;
   description: string;
   icon: string;

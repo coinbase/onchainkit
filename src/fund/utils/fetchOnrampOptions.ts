@@ -1,19 +1,7 @@
 import { convertSnakeToCamelCase } from '../../core/utils/convertSnakeToCamelCase';
 import { getApiKey } from '../../core/utils/getApiKey';
 import { ONRAMP_API_BASE_URL } from '../constants';
-import type { OnrampPaymentCurrency, OnrampPurchaseCurrency } from '../types';
-
-type OnrampOptionsResponseData = {
-  /**
-   * List of supported fiat currencies that can be exchanged for crypto on Onramp in the given location.
-   * Each currency contains a list of available payment methods, with min and max transaction limits for that currency.
-   */
-  paymentCurrencies: OnrampPaymentCurrency[];
-  /**
-   * List of available crypto assets that can be bought on Onramp in the given location.
-   */
-  purchaseCurrencies: OnrampPurchaseCurrency[];
-};
+import type { OnrampOptionsResponseData } from '../types';
 
 /**
  * Returns supported fiat currencies and available crypto assets that can be passed into the Buy Quote API.
@@ -30,8 +18,14 @@ export async function fetchOnrampOptions({
 }): Promise<OnrampOptionsResponseData> {
   const apiKey = getApiKey();
 
+  let queryParams = `?country=${'IE'}`;
+
+  if (subdivision) {
+    queryParams = `${queryParams}&subdivision=${subdivision}`;
+  }
+
   const response = await fetch(
-    `${ONRAMP_API_BASE_URL}/buy/options?country=${country}&subdivision=${subdivision}`,
+    `${ONRAMP_API_BASE_URL}/buy/options${queryParams}`,
     {
       method: 'GET',
       headers: {

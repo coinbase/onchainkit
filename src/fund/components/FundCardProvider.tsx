@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
-import { DEFAULT_PAYMENT_METHODS } from '../constants';
+// import { DEFAULT_PAYMENT_METHODS } from '../constants';
 import type {
   AmountInputSnippetReact,
   AmountInputTypeReact,
@@ -16,6 +16,8 @@ import type {
   OnrampError,
   PaymentMethodReact,
 } from '../types';
+import { buildPaymentMethods } from '../utils/buildPaymentMethods';
+import { fetchOnrampOptions } from '../utils/fetchOnrampOptions';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 type FundCardContextType = {
@@ -51,7 +53,6 @@ const FundContext = createContext<FundCardContextType | undefined>(undefined);
 export function FundCardProvider({
   children,
   asset,
-  paymentMethods,
   headerText = `Buy ${asset.toUpperCase()}`,
   buttonText,
   country,
@@ -76,6 +77,10 @@ export function FundCardProvider({
   const [submitButtonState, setSubmitButtonState] =
     useState<FundButtonStateReact>('default');
 
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethodReact[]>(
+    [],
+  );
+
   const fetchExchangeRate = useCallback(async () => {
     setExchangeRateLoading(true);
     const quote = await fetchOnrampQuote({
@@ -94,9 +99,21 @@ export function FundCardProvider({
     );
   }, [asset, country, subdivision]);
 
+  const fetchPaymentOptions = useCallback(async () => {
+    const paymentOptions = await fetchOnrampOptions({
+      country,
+      subdivision,
+    });
+
+    const paymentMethods = buildPaymentMethods(paymentOptions);
+
+    setPaymentMethods(paymentMethods);
+  }, [country, subdivision]);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
   useEffect(() => {
     fetchExchangeRate();
+    fetchPaymentOptions();
   }, []);
 
   const value = useValue<FundCardContextType>({
@@ -115,7 +132,7 @@ export function FundCardProvider({
     setExchangeRateLoading,
     submitButtonState,
     setSubmitButtonState,
-    paymentMethods: paymentMethods || DEFAULT_PAYMENT_METHODS,
+    paymentMethods, //: paymentMethods || DEFAULT_PAYMENT_METHODS,
     headerText,
     buttonText,
     country,

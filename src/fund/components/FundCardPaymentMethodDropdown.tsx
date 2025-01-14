@@ -92,6 +92,10 @@ export function FundCardPaymentMethodDropdown({
     [],
   );
 
+  if (!paymentMethods) {
+    return null;
+  }
+
   return (
     <div
       className={cn('relative py-4', className)}
