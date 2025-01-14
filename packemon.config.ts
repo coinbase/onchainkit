@@ -24,7 +24,6 @@ const config = {
           // Remove the original directive and split into lines
           const lines = code.replace("'use client';", '').split('\n');
           // Filter out any empty lines and reconstruct
-
           return {
             code: `'use client';\n${lines.filter((line) => line.trim()).join('\n')}`,
             map: null,

@@ -1,3 +1,4 @@
+'use client';
 import type { SwapDefaultReact } from '../types';
 import { Swap } from './Swap';
 import { SwapAmountInput } from './SwapAmountInput';
