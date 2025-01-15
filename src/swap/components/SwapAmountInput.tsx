@@ -29,9 +29,12 @@ export function SwapAmountInput({
   const { address, to, from, handleAmountChange, classNames: swapClassNames } = useSwapContext();
 
   const componentStyles = {
+    inputContainer: swapClassNames?.inputContainer ?? classNames?.inputContainer,
     input: swapClassNames?.input ?? classNames?.input,
-    token: swapClassNames?.token ?? classNames?.token,
-    balance: swapClassNames?.balance ?? classNames?.balance,
+    tokenContainer: swapClassNames?.tokenContainer ?? classNames?.tokenContainer,
+    tokenButton: swapClassNames?.tokenButton ?? classNames?.tokenButton,
+    tokenDropdown: swapClassNames?.tokenDropdown ?? classNames?.tokenDropdown,
+    balanceContainer: swapClassNames?.balanceContainer ?? classNames?.balanceContainer,
   };
 
   const source = useValue(type === 'from' ? from : to);
@@ -92,19 +95,20 @@ export function SwapAmountInput({
         background.secondary,
         border.radius,
         'my-0.5 box-border flex h-[148px] w-full flex-col items-start p-4',
-        componentStyles.input,
+        componentStyles.inputContainer,
       )}
       data-testid="ockSwapAmountInput_Container"
     >
       <div className={cn(text.label2, color.foregroundMuted, 'flex w-full items-center justify-between')}>
         {label}
       </div>
-      <div className={cn('flex w-full items-center justify-between', componentStyles.token)}>
+      <div className={cn('flex w-full items-center justify-between', componentStyles.tokenContainer)}>
         <TextInput
           className={cn(
             'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
             'leading-none outline-none',
             hasInsufficientBalance && address ? color.error : color.foreground,
+            componentStyles.input,
           )}
           placeholder="0.0"
           delayMs={delayMs}
@@ -119,14 +123,18 @@ export function SwapAmountInput({
             token={source.token}
             setToken={handleSetToken}
             options={sourceTokenOptions}
+            classNames={{
+              dropdown: componentStyles.tokenDropdown, 
+              button: componentStyles.tokenButton
+            }}
           />
         ) : (
           source.token && (
-            <TokenChip className={pressable.inverse} token={source.token} />
+            <TokenChip className={cn(pressable.inverse, componentStyles.tokenButton)} token={source.token} />
           )
         )}
       </div>
-      <div className={cn('mt-4 flex w-full items-center justify-between', componentStyles.balance)}>
+      <div className={cn('mt-4 flex w-full items-center justify-between', componentStyles.balanceContainer)}>
           <span className={cn(text.label2, color.foregroundMuted, 'grow')}>
             {formatUSD(source.amountUSD)}
           </span>

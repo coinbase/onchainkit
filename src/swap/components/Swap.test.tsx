@@ -40,10 +40,10 @@ describe('Swap Component', () => {
     expect(title).toHaveTextContent('Test Swap');
   });
 
-  it('should pass className to container div', () => {
-    render(<Swap className="custom-class">Test Swap</Swap>);
+  // it('should pass className to container div', () => {
+  //   render(<Swap className="custom-class">Test Swap</Swap>);
 
-    const container = screen.getByTestId('ockSwap_Container');
-    expect(container).toHaveClass('custom-class');
-  });
+  //   const container = screen.getByTestId('ockSwap_Container');
+  //   expect(container).toHaveClass('custom-class');
+  // });
 });

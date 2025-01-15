@@ -181,7 +181,7 @@ export type ProcessSwapTransactionParams = {
  * Note: exported as public Type
  */
 export type SwapAmountInputReact = {
-  classNames?: Pick<SwapClassNames, 'input' | 'token' | 'balance'>;
+  classNames?: Pick<SwapClassNames, 'inputContainer' | 'input' | 'tokenContainer' |'tokenButton' | 'tokenDropdown' | 'balanceContainer'>;
   delayMs?: number; // The debounce delay in milliseconds
   label: ReactNode; // Descriptive label for the input field
   swappableTokens?: Token[]; // Swappable tokens
@@ -276,7 +276,7 @@ export type SwapParams = {
   to: Token;
 };
 
-type SwapClassNames = Partial<Record<'container' | 'input' | 'token' | 'balance', string>>;
+type SwapClassNames = Partial<Record<'container' | 'inputContainer' | 'input' | 'tokenContainer' | 'tokenButton' | 'tokenDropdown' | 'balanceContainer', string>>;
 
 export type SwapProviderReact = {
   children: React.ReactNode;
