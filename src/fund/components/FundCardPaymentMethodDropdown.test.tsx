@@ -2,7 +2,6 @@ import { isApplePaySupported } from '@/buy/utils/isApplePaySupported';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { DEFAULT_PAYMENT_METHODS } from '../constants';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
@@ -75,11 +74,7 @@ describe('FundCardPaymentMethodDropdown', () => {
 
   const renderWithProvider = ({ amount = '5' }: { amount?: string }) => {
     return render(
-      <FundCardProvider
-        asset="ETH"
-        country="US"
-        paymentMethods={DEFAULT_PAYMENT_METHODS}
-      >
+      <FundCardProvider asset="ETH" country="US">
         <TestComponent amount={amount} />
       </FundCardProvider>,
     );

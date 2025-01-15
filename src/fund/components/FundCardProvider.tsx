@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
-// import { DEFAULT_PAYMENT_METHODS } from '../constants';
+import { usePaymentMethods } from '../hooks/usePaymentMethods';
 import type {
   AmountInputSnippetReact,
   AmountInputTypeReact,
@@ -16,8 +16,6 @@ import type {
   OnrampError,
   PaymentMethodReact,
 } from '../types';
-import { buildPaymentMethods } from '../utils/buildPaymentMethods';
-import { fetchOnrampOptions } from '../utils/fetchOnrampOptions';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 type FundCardContextType = {
@@ -38,7 +36,9 @@ type FundCardContextType = {
   submitButtonState: FundButtonStateReact;
   setSubmitButtonState: (state: FundButtonStateReact) => void;
   paymentMethods: PaymentMethodReact[];
-  paymentOptionsLoading: boolean;
+  setPaymentMethods: (paymentMethods: PaymentMethodReact[]) => void;
+  paymentMethodsLoading: boolean;
+  setPaymentMethodsLoading: (loading: boolean) => void;
   headerText?: string;
   buttonText?: string;
   country: string;
@@ -75,8 +75,6 @@ export function FundCardProvider({
   const [fundAmountCrypto, setFundAmountCrypto] = useState<string>('');
   const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [exchangeRateLoading, setExchangeRateLoading] = useState<boolean>(true);
-  const [paymentOptionsLoading, setPaymentOptionsLoading] =
-    useState<boolean>(true);
 
   const [submitButtonState, setSubmitButtonState] =
     useState<FundButtonStateReact>('default');
@@ -84,6 +82,8 @@ export function FundCardProvider({
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethodReact[]>(
     [],
   );
+  const [paymentMethodsLoading, setPaymentMethodsLoading] =
+    useState<boolean>(true);
 
   const fetchExchangeRate = useCallback(async () => {
     setExchangeRateLoading(true);
@@ -104,26 +104,19 @@ export function FundCardProvider({
     );
   }, [asset, country, subdivision, currency]);
 
-  const fetchPaymentOptions = useCallback(async () => {
-    setPaymentOptionsLoading(true);
-
-    const paymentOptions = await fetchOnrampOptions({
-      country,
-      subdivision,
-    });
-
-    const paymentMethods = buildPaymentMethods(paymentOptions, currency);
-
-    setPaymentMethods(paymentMethods);
-
-    setPaymentOptionsLoading(false);
-  }, [country, subdivision, currency]);
-
   // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
   useEffect(() => {
     fetchExchangeRate();
-    fetchPaymentOptions();
   }, []);
+
+  // Fetches and sets the payment methods to the context
+  usePaymentMethods({
+    country,
+    subdivision,
+    currency,
+    setPaymentMethods,
+    setPaymentMethodsLoading,
+  });
 
   const value = useValue<FundCardContextType>({
     asset,
@@ -143,7 +136,9 @@ export function FundCardProvider({
     submitButtonState,
     setSubmitButtonState,
     paymentMethods,
-    paymentOptionsLoading,
+    setPaymentMethods,
+    paymentMethodsLoading,
+    setPaymentMethodsLoading,
     headerText,
     buttonText,
     country,

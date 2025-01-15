@@ -292,15 +292,6 @@ export type FundCardPaymentMethodImagePropsReact = {
   paymentMethod: PaymentMethodReact;
 };
 
-// export type PaymentAccountReact =
-//   | 'COINBASE'
-//   | 'CRYPTO_ACCOUNT'
-//   | 'FIAT_WALLET'
-//   | 'CARD'
-//   | 'ACH_BANK_ACCOUNT'
-//   | 'APPLE_PAY'
-//   | ''; // Empty string represents Coinbase default payment method
-
 export type PaymentMethodReact = {
   id: string;
   name: string;
@@ -326,10 +317,6 @@ export type FundCardPropsReact = {
   buttonText?: string;
   country: string;
   subdivision?: string;
-  /**
-   * Payment methods to display in the dropdown
-   */
-  paymentMethods?: PaymentMethodReact[];
 
   /**
    * Amount input snippets to display next to the input field: i.e. [10 USD] [50 USD] [100 USD]
@@ -368,7 +355,6 @@ export type FundCardProviderReact = {
    * Three letter currency code. Defaults to USD.
    */
   currency?: string;
-  paymentMethods?: PaymentMethodReact[];
   headerText?: string;
   buttonText?: string;
   country: string;
