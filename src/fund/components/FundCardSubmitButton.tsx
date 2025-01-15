@@ -15,7 +15,10 @@ export function FundCardSubmitButton() {
 
   return (
     <FundButton
-      disabled={!fundAmountFiat && !fundAmountCrypto}
+      disabled={
+        (!fundAmountFiat || Number(fundAmountCrypto) === 0) &&
+        (!fundAmountCrypto || Number(fundAmountFiat) === 0)
+      }
       hideIcon={submitButtonState === 'default'}
       text={buttonText}
       className="w-full"

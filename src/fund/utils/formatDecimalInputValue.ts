@@ -3,11 +3,6 @@
  */
 export const formatDecimalInputValue = (value: string) => {
   let resultValue = value;
-  // Add a leading zero if the value starts with a dot. (i.e. ".1" -> "0.1")
-  if (resultValue[0] === '.') {
-    resultValue = `0${resultValue}`;
-  }
-
   // Add a leading zero if the value starts with a zero and is not a decimal. (i.e. "01" -> "0.1")
   if (
     resultValue.length === 2 &&

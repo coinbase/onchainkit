@@ -37,7 +37,7 @@ vi.mock('../utils/setupOnrampEventListeners', () => ({
 vi.mock('@/ui-react/internal/utils/openPopup', () => ({
   openPopup: vi.fn(),
 }));
-/////
+
 vi.mock('../hooks/useFundCardFundingUrl', () => ({
   useFundCardFundingUrl: vi.fn(),
 }));
@@ -82,6 +82,7 @@ const TestHelperComponent = () => {
     exchangeRate,
     exchangeRateLoading,
     setFundAmountFiat,
+    setFundAmountCrypto,
   } = useFundContext();
 
   return (
@@ -99,8 +100,18 @@ const TestHelperComponent = () => {
       />
       <button
         type="button"
+        data-testid="set-crypto-amount"
+        onClick={() => setFundAmountCrypto('1')}
+      />
+      <button
+        type="button"
         data-testid="set-fiat-amount-zero"
-        onClick={() => setFundAmountFiat('')}
+        onClick={() => setFundAmountFiat('0')}
+      />
+      <button
+        type="button"
+        data-testid="set-crypto-amount-zero"
+        onClick={() => setFundAmountCrypto('0')}
       />
     </div>
   );
@@ -137,8 +148,11 @@ describe('FundCardSubmitButton', () => {
 
   it('enables when fiat amount is set', async () => {
     renderComponent();
-    const button = screen.getByTestId('set-fiat-amount');
-    fireEvent.click(button);
+    const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
+    fireEvent.click(setFiatAmountButton);
+
+    const setCryptoAmountButton = screen.getByTestId('set-crypto-amount');
+    fireEvent.click(setCryptoAmountButton);
 
     await waitFor(() => {
       expect(screen.getByTestId('ockFundButton')).not.toBeDisabled();
@@ -156,11 +170,25 @@ describe('FundCardSubmitButton', () => {
     });
   });
 
+  it('disables when crypto amount is set to zero', async () => {
+    renderComponent();
+
+    const setCryptoAmountButton = screen.getByTestId('set-crypto-amount-zero');
+    fireEvent.click(setCryptoAmountButton);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('ockFundButton')).toBeDisabled();
+    });
+  });
+
   it('shows loading state when clicked', async () => {
     renderComponent();
 
     const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
     fireEvent.click(setFiatAmountButton);
+
+    const setCryptoAmountButton = screen.getByTestId('set-crypto-amount');
+    fireEvent.click(setCryptoAmountButton);
 
     const fundButton = screen.getByTestId('ockFundButton');
     fireEvent.click(fundButton);
@@ -188,6 +216,9 @@ describe('FundCardSubmitButton', () => {
     // Simulate entering a valid amount
     const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
     fireEvent.click(setFiatAmountButton);
+
+    const setCryptoAmountButton = screen.getByTestId('set-crypto-amount');
+    fireEvent.click(setCryptoAmountButton);
 
     // Click the submit button to trigger loading state
     act(() => {

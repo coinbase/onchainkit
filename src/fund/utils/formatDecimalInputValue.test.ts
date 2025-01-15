@@ -2,10 +2,6 @@ import { describe, expect, it } from 'vitest';
 import { formatDecimalInputValue } from './formatDecimalInputValue';
 
 describe('formatDecimalInputValue', () => {
-  it('adds a leading zero if the value starts with a dot', () => {
-    expect(formatDecimalInputValue('.1')).toBe('0.1');
-  });
-
   it('adds a decimal point if the value starts with zero and is not decimal', () => {
     expect(formatDecimalInputValue('01')).toBe('0.1');
   });
