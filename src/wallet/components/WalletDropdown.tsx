@@ -1,18 +1,22 @@
 'use client';
 
+import { cn, color, pressable } from '@/styles/theme';
+import { Identity } from '@/ui/react/identity/components/Identity';
+import { useBreakpoints } from '@/ui/react/internal/hooks/useBreakpoints';
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import { useAccount } from 'wagmi';
-import { cn, color, pressable } from '../../styles/theme';
-import { Identity } from '../../ui/react/identity/components/Identity';
-import { useBreakpoints } from '../../ui/react/internal/hooks/useBreakpoints';
 import type { WalletDropdownReact } from '../types';
 import { WalletBottomSheet } from './WalletBottomSheet';
 import { useWalletContext } from './WalletProvider';
 
 export function WalletDropdown({ children, className }: WalletDropdownReact) {
-  const breakpoint = useBreakpoints();
   const { address } = useAccount();
-  const { isClosing, setIsOpen, setIsClosing } = useWalletContext();
+  const breakpoint = useBreakpoints();
+  const {
+    isSubComponentClosing,
+    setIsSubComponentOpen,
+    setIsSubComponentClosing,
+  } = useWalletContext();
 
   const childrenArray = useMemo(() => {
     return Children.toArray(children).map((child) => {
@@ -44,15 +48,15 @@ export function WalletDropdown({ children, className }: WalletDropdownReact) {
         pressable.default,
         color.foreground,
         'absolute right-0 z-10 mt-1.5 flex w-max min-w-[300px] cursor-default flex-col overflow-hidden rounded-xl',
-        isClosing
+        isSubComponentClosing
           ? 'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
         className,
       )}
       onAnimationEnd={() => {
-        if (isClosing) {
-          setIsOpen(false);
-          setIsClosing(false);
+        if (isSubComponentClosing) {
+          setIsSubComponentOpen(false);
+          setIsSubComponentClosing(false);
         }
       }}
       data-testid="ockWalletDropdown"

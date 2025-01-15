@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import Draggable from './Draggable';
+import { Draggable } from './Draggable';
 
 describe('Draggable', () => {
   beforeEach(() => {
@@ -155,6 +155,32 @@ describe('Draggable', () => {
     expect(draggable).toHaveStyle({ left: '100px', top: '75px' });
   });
 
+  it('prevents click after dragging but allows normal clicks', async () => {
+    const onClick = vi.fn();
+    const user = userEvent.setup();
+    render(
+      <Draggable startingPosition={{ x: 0, y: 0 }}>
+        <button onClick={onClick} data-testid="clickable" type="button">
+          Drag me
+        </button>
+      </Draggable>,
+    );
+    const clickable = screen.getByTestId('clickable');
+
+    await user.pointer([
+      { keys: '[MouseLeft>]', target: clickable, coords: { x: 0, y: 0 } },
+      { coords: { x: 50, y: 50 } },
+      { keys: '[/MouseLeft]' },
+    ]);
+    expect(onClick).not.toHaveBeenCalled();
+
+    await user.pointer([
+      { keys: '[MouseLeft>]', target: clickable, coords: { x: 0, y: 0 } },
+      { keys: '[/MouseLeft]' },
+    ]);
+    expect(onClick).toHaveBeenCalled();
+  });
+
   it('cleans up event listeners when unmounted during drag', () => {
     const { unmount } = render(
       <Draggable>
@@ -171,5 +197,29 @@ describe('Draggable', () => {
 
     expect(removeSpy).toHaveBeenCalledWith('pointermove', expect.any(Function));
     expect(removeSpy).toHaveBeenCalledWith('pointerup', expect.any(Function));
+  });
+
+  it('disables dragging and sets cursor display to default when disabled is true', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <Draggable startingPosition={{ x: 0, y: 0 }} disabled={true}>
+        <div>Drag me</div>
+      </Draggable>,
+    );
+
+    const draggable = screen.getByTestId('ockDraggable');
+    expect(draggable).toHaveClass('default');
+
+    // Attempt to drag
+    await user.pointer([
+      { keys: '[MouseLeft>]', target: draggable, coords: { x: 0, y: 0 } },
+      { coords: { x: 50, y: 50 } },
+      { keys: '[/MouseLeft]' },
+    ]);
+
+    // Position should not change
+    expect(draggable).toHaveStyle({ left: '0px', top: '0px' });
+    expect(draggable).toHaveClass('default');
   });
 });
