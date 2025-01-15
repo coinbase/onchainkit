@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.36.6
+
+### Patch Changes
+
+- 033982d: - **fix**: ConnectWallet handler bug
+
 ## 0.36.5
 
 ### Patch Changes
