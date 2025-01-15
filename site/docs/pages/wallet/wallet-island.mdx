@@ -28,6 +28,10 @@ import AppWithWalletModal from '../../components/AppWithWalletModal';
 
 # `<WalletIsland />`
 
+<img alt="WalletIsland"
+  src="https://onchainkit.xyz/assets/wallet-island.gif"
+  height="364"/>
+
 `WalletIsland` is our flagship implementation of the new `<WalletAdvanced />`
 component, providing an advanced Wallet interface for users, including:
 
@@ -85,42 +89,7 @@ different positions depending on the component's location in the window:
 - If there is enough space below, it will open below.
 - If there is not enough space below, it will open above.
 
-## Walkthrough
-
-::::steps
-
-### Set up your wallet connections
-
-Kick off your wallet connection setup by configuring the `wagmi` provider.
-
-Make sure to update the `appName` as that will be displayed to the user when
-they connect their wallet.
-
-```tsx twoslash
-import { ReactNode } from 'react';
-import { WagmiProvider, createConfig, http } from 'wagmi';
-import { baseSepolia } from 'wagmi/chains';
-import { coinbaseWallet } from 'wagmi/connectors';
-
-const wagmiConfig = createConfig({
-  chains: [baseSepolia],
-  connectors: [
-    coinbaseWallet({
-      appName: 'onchainkit',
-    }),
-  ],
-  ssr: true,
-  transports: {
-    [baseSepolia.id]: http(),
-  },
-});
-
-function App({ children }: { children: ReactNode }) {
-  return <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>;
-}
-```
-
-### Drop in the `<Wallet />` and `<WalletAdvanced />` components
+## Configuring `WalletIsland` and `WalletAdvanced`
 
 Experience the magic by simply dropping in `<Wallet />` and `<WalletAdvanced />`
 components, and watch your component seamlessly come to life.
@@ -227,8 +196,6 @@ export function DraggableWalletAdvanced() {
   );
 }
 ```
-
-::::
 
 ## Customize Connect button text and style
 

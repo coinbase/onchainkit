@@ -9,7 +9,7 @@ type WalletComponentsReact = {
 export default function WalletComponents({ children }: WalletComponentsReact) {
   return (
     <App>
-      <div className="my-10 flex justify-center">{children}</div>
+      <div className="z-[1000] my-10 flex justify-center">{children}</div>
     </App>
   );
 }
