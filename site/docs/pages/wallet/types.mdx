@@ -47,6 +47,17 @@ export type IsWalletACoinbaseSmartWalletResponse =
 ```ts
 type WalletContextType = {
   address?: Address | null; // The Ethereum address to fetch the avatar and name for.
+  chain?: Chain; // Optional chain for domain resolution
+  isConnectModalOpen: boolean;
+  setIsConnectModalOpen: Dispatch<SetStateAction<boolean>>;
+  isSubComponentOpen: boolean;
+  setIsSubComponentOpen: Dispatch<SetStateAction<boolean>>;
+  isSubComponentClosing: boolean;
+  setIsSubComponentClosing: Dispatch<SetStateAction<boolean>>;
+  handleClose: () => void;
+  connectRef: React.RefObject<HTMLDivElement>;
+  showSubComponentAbove: boolean;
+  alignSubComponentRight: boolean;
 };
 ```
 
@@ -55,7 +66,11 @@ type WalletContextType = {
 ```ts
 type WalletReact = {
   children: React.ReactNode;
-};
+  className?: string;
+} & (
+  | { draggable?: true; draggableStartingPosition?: { x: number; y: number } }
+  | { draggable?: false; draggableStartingPosition?: never }
+); // discriminated union to allow for optional draggable and draggableStartingPosition
 ```
 
 ## `WalletDropdownBasenameReact`
@@ -79,8 +94,8 @@ type WalletDropdownReact = {
 
 ```ts
 export type WalletDropdownDisconnectReact = {
- className?: string; // Optional className override for the element
- text?: string; // Optional text override for the button
+  className?: string; // Optional className override for the element
+  text?: string; // Optional text override for the button
 };
 ```
 
@@ -108,5 +123,40 @@ export type WalletDropdownLinkReact = {
   icon?: 'wallet' & ReactNode;
   rel?: string;
   target?: string;
+};
+```
+
+## `WalletAdvancedReact`
+
+```ts
+export type WalletAdvancedReact = {
+  children: React.ReactNode;
+  swappableTokens?: Token[];
+};
+```
+
+## `WalletAdvancedContextType`
+
+```ts
+export type WalletAdvancedContextType = {
+  showSwap: boolean;
+  setShowSwap: Dispatch<SetStateAction<boolean>>;
+  isSwapClosing: boolean;
+  setIsSwapClosing: Dispatch<SetStateAction<boolean>>;
+  showQr: boolean;
+  setShowQr: Dispatch<SetStateAction<boolean>>;
+  isQrClosing: boolean;
+  setIsQrClosing: Dispatch<SetStateAction<boolean>>;
+  tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
+  portfolioFiatValue: number | undefined;
+  isFetchingPortfolioData: boolean;
+  portfolioDataUpdatedAt: number | undefined;
+  refetchPortfolioData: () => Promise<
+    QueryObserverResult<PortfolioTokenBalances, Error>
+  >;
+  animations: {
+    container: string;
+    content: string;
+  };
 };
 ```
