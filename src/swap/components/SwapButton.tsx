@@ -5,7 +5,7 @@ import { ConnectWallet } from '@/wallet/components/ConnectWallet';
 import type { SwapButtonReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 
-export function SwapButton({ className, disabled = false }: SwapButtonReact) {
+export function SwapButton({ className, label = 'Swap',disabled = false }: SwapButtonReact) {
   const {
     address,
     to,
@@ -55,7 +55,7 @@ export function SwapButton({ className, disabled = false }: SwapButtonReact) {
       {isLoading ? (
         <Spinner />
       ) : (
-        <span className={cn(text.headline, color.inverse)}>Swap</span>
+        <span className={cn(text.headline, color.inverse)}>{label}</span>
       )}
     </button>
   );

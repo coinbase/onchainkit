@@ -183,7 +183,7 @@ export type ProcessSwapTransactionParams = {
 export type SwapAmountInputReact = {
   className?: string; // Optional className override for top div element.
   delayMs?: number; // The debounce delay in milliseconds
-  label: string; // Descriptive label for the input field
+  label: ReactNode; // Descriptive label for the input field
   swappableTokens?: Token[]; // Swappable tokens
   token?: Token; // Selected token
   type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
@@ -202,6 +202,7 @@ export type SwapAPIResponse = {
  */
 export type SwapButtonReact = {
   className?: string; // Optional className override for top div element.
+  label?: ReactNode; // Label for the swap button
   disabled?: boolean; // Disables swap button
 };
 
