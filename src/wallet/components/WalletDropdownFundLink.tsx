@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useMemo } from 'react';
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
 import { useGetFundingUrl } from '../../fund/hooks/useGetFundingUrl';

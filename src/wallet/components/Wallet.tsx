@@ -1,3 +1,5 @@
+'use client';
+
 import { useIsMounted } from '@/core-react/internal/hooks/useIsMounted';
 import { useTheme } from '@/core-react/internal/hooks/useTheme';
 import { findComponent } from '@/core-react/internal/utils/findComponent';
