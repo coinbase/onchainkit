@@ -306,6 +306,8 @@ export type PaymentMethodReact = {
   name: string;
   description: string;
   icon: string;
+  minAmount?: number;
+  maxAmount?: number;
 };
 
 export type FundCardPaymentMethodDropdownPropsReact = {

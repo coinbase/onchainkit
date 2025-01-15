@@ -1,3 +1,4 @@
+import { formatFiatAmount } from '@/core/utils/formatFiatAmount';
 import type { OnrampOptionsResponseData, PaymentMethodReact } from '../types';
 
 const PAYMENT_METHOD_NAMES_MAP: Record<string, string> = {
@@ -11,7 +12,7 @@ const PAYMENT_METHOD_NAMES_MAP: Record<string, string> = {
 const PAYMENT_METHOD_ICONS_MAP: Record<string, string> = {
   CARD: 'creditCard',
   ACH_BANK_ACCOUNT: 'bank',
-  APPLE_PAY: 'applePay',
+  APPLE_PAY: 'apple',
   CRYPTO_ACCOUNT: 'coinbaseLogo',
   FIAT_WALLET: 'fundWallet',
 };
@@ -59,22 +60,39 @@ export const buildPaymentMethods = (
   };
 
   /**
-   * We need to show to the user Card and Apple Pay if they are returned by the API.
+   * We need to show to the user "Card" and "Apple Pay" if they are returned by the API.
    */
   const otherPaymentMethods: PaymentMethodReact[] = paymentMethod.limits
-    .filter(
-      (limit) =>
-        //limit.id === 'ACH_BANK_ACCOUNT' ||
-        limit.id === 'CARD' || limit.id === 'APPLE_PAY',
-    )
+    .filter((limit) => limit.id === 'CARD' || limit.id === 'APPLE_PAY')
     .map((limit) => ({
       id: limit.id,
       name: PAYMENT_METHOD_NAMES_MAP[limit.id],
-      description: limit.id,
+      description: `Up to ${formatFiatAmount({
+        amount: limit.max,
+        currency,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })}/week. No sign up required.`,
       icon: PAYMENT_METHOD_ICONS_MAP[limit.id],
-      minAmount: limit.min,
-      maxAmount: limit.max,
+      minAmount: Number(limit.min),
+      maxAmount: Number(limit.max),
     }));
+
+  //The API does not return Apple Pay yet, so we need to add it manually.
+  const applePayExists = otherPaymentMethods.some(
+    (method) => method.id === 'APPLE_PAY',
+  );
+
+  if (!applePayExists) {
+    otherPaymentMethods.push({
+      id: 'APPLE_PAY',
+      name: PAYMENT_METHOD_NAMES_MAP.APPLE_PAY,
+      description: 'Up to $500/week. No sign up required.',
+      icon: PAYMENT_METHOD_ICONS_MAP.APPLE_PAY,
+      minAmount: 0,
+      maxAmount: 0,
+    });
+  }
 
   return [coinbasePaymentMethod, ...otherPaymentMethods];
 };

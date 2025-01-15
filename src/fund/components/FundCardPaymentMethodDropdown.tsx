@@ -11,8 +11,6 @@ import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow
 import { FundCardPaymentMethodSelectorToggle } from './FundCardPaymentMethodSelectorToggle';
 import { useFundContext } from './FundCardProvider';
 
-const MIN_AMOUNT_FOR_CARD_PAYMENTS = 5;
-
 export function FundCardPaymentMethodDropdown({
   className,
 }: FundCardPaymentMethodDropdownPropsReact) {
@@ -34,11 +32,37 @@ export function FundCardPaymentMethodDropdown({
 
   const isPaymentMethodDisabled = useCallback(
     (method: PaymentMethodReact) => {
+      if (!fundAmountFiat) {
+        return false;
+      }
+
       const amount = Number(fundAmountFiat);
-      return (
-        (method.id === 'APPLE_PAY' || method.id === 'ACH_BANK_ACCOUNT') &&
-        amount < MIN_AMOUNT_FOR_CARD_PAYMENTS
+
+      return Boolean(
+        (method.minAmount && amount < method.minAmount) ||
+          (method.maxAmount && amount > method.maxAmount),
       );
+    },
+    [fundAmountFiat],
+  );
+
+  const getPaymentMethodDisabledReason = useCallback(
+    (method: PaymentMethodReact) => {
+      if (!fundAmountFiat) {
+        return undefined;
+      }
+
+      const amount = Number(fundAmountFiat);
+
+      if (method.minAmount && amount < method.minAmount) {
+        return `Minimum amount of $${method.minAmount} required`;
+      }
+
+      if (method.maxAmount && amount > method.maxAmount) {
+        return `Maximum amount allowed is $${method.maxAmount}`;
+      }
+
+      return undefined;
     },
     [fundAmountFiat],
   );
@@ -132,7 +156,7 @@ export function FundCardPaymentMethodDropdown({
                   disabled={isDisabled}
                   disabledReason={
                     isDisabled
-                      ? `Minimum amount of $${MIN_AMOUNT_FOR_CARD_PAYMENTS} required`
+                      ? getPaymentMethodDisabledReason(paymentMethod)
                       : undefined
                   }
                 />
