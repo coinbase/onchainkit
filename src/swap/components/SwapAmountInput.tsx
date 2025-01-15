@@ -19,14 +19,20 @@ import { formatAmount } from '../utils/formatAmount';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapAmountInput({
-  className,
+  classNames,
   delayMs = 1000,
   label,
   token,
   type,
   swappableTokens,
 }: SwapAmountInputReact) {
-  const { address, to, from, handleAmountChange } = useSwapContext();
+  const { address, to, from, handleAmountChange, classNames: swapClassNames } = useSwapContext();
+
+  const componentStyles = {
+    input: swapClassNames?.input ?? classNames?.input,
+    token: swapClassNames?.token ?? classNames?.token,
+    balance: swapClassNames?.balance ?? classNames?.balance,
+  };
 
   const source = useValue(type === 'from' ? from : to);
   const destination = useValue(type === 'from' ? to : from);
@@ -86,14 +92,14 @@ export function SwapAmountInput({
         background.secondary,
         border.radius,
         'my-0.5 box-border flex h-[148px] w-full flex-col items-start p-4',
-        className,
+        componentStyles.input,
       )}
       data-testid="ockSwapAmountInput_Container"
     >
       <div className={cn(text.label2, color.foregroundMuted, 'flex w-full items-center justify-between')}>
         {label}
       </div>
-      <div className="flex w-full items-center justify-between">
+      <div className={cn('flex w-full items-center justify-between', componentStyles.token)}>
         <TextInput
           className={cn(
             'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
@@ -120,7 +126,7 @@ export function SwapAmountInput({
           )
         )}
       </div>
-      <div className='mt-4 flex w-full items-center justify-between'>
+      <div className={cn('mt-4 flex w-full items-center justify-between', componentStyles.balance)}>
           <span className={cn(text.label2, color.foregroundMuted, 'grow')}>
             {formatUSD(source.amountUSD)}
           </span>

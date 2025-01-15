@@ -181,7 +181,7 @@ export type ProcessSwapTransactionParams = {
  * Note: exported as public Type
  */
 export type SwapAmountInputReact = {
-  className?: string; // Optional className override for top div element.
+  classNames?: Pick<SwapClassNames, 'input' | 'token' | 'balance'>;
   delayMs?: number; // The debounce delay in milliseconds
   label: ReactNode; // Descriptive label for the input field
   swappableTokens?: Token[]; // Swappable tokens
@@ -214,6 +214,7 @@ export type SwapContextType = {
   address?: Address; // Used to check if user is connected in SwapButton
   config: SwapConfig;
   from: SwapUnit;
+  classNames?: SwapClassNames;
   lifecycleStatus: LifecycleStatus;
   handleAmountChange: (
     t: 'from' | 'to',
@@ -275,8 +276,11 @@ export type SwapParams = {
   to: Token;
 };
 
+type SwapClassNames = Partial<Record<'container' | 'input' | 'token' | 'balance', string>>;
+
 export type SwapProviderReact = {
   children: React.ReactNode;
+  classNames?: SwapClassNames;
   config?: {
     maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
@@ -294,7 +298,7 @@ export type SwapProviderReact = {
  */
 export type SwapReact = {
   children: ReactNode;
-  className?: string; // Optional className override for top div element.
+  classNames?: SwapClassNames; // Optional className override for top div element.
   config?: SwapConfig;
   experimental?: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)

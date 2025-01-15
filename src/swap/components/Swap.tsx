@@ -11,7 +11,7 @@ export function Swap({
   config = {
     maxSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
   },
-  className,
+  classNames,
   experimental = { useAggregator: false },
   isSponsored = false,
   onError,
@@ -43,7 +43,7 @@ export function Swap({
           border.radius,
           color.foreground,
           'flex w-[500px] flex-col px-6 pt-6 pb-4',
-          className,
+          classNames?.container,
         )}
         data-testid="ockSwap_Container"
       >
