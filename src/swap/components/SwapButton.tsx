@@ -33,7 +33,7 @@ export function SwapButton({ className, label = 'Swap',disabled = false }: SwapB
 
   // prompt user to connect wallet
   if (!isDisabled && !address) {
-    return <ConnectWallet className="mt-4 w-full" />;
+    return <ConnectWallet className={cn("mt-4 w-full", className)} />;
   }
 
   return (
