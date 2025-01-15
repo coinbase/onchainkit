@@ -1,3 +1,5 @@
+'use client';
+
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
 import { cn } from '@/styles/theme';
