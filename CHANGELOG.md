@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- **fix**: ConnectWallet handler bug
+- **fix**: ConnectWallet handler bug by @brendan-defi #1814
 
 ## 0.36.5
 
