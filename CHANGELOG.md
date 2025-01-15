@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 033982d: - **fix**: ConnectWallet handler bug
+- **fix**: ConnectWallet handler bug
 
 ## 0.36.5
 
