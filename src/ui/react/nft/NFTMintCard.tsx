@@ -1,3 +1,4 @@
+'use client';
 import { useIsMounted } from '@/core-react/internal/hooks/useIsMounted';
 import { useTheme } from '@/core-react/internal/hooks/useTheme';
 import { useMintData as defaultUseMintData } from '@/core-react/nft/hooks/useMintData';
