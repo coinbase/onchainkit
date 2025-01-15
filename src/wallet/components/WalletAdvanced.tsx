@@ -1,3 +1,5 @@
+'use client';
+
 import type { WalletAdvancedReact } from '../types';
 import { WalletAdvancedContent } from './WalletAdvancedContent';
 import { WalletAdvancedProvider } from './WalletAdvancedProvider';
