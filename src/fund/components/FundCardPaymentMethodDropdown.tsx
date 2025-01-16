@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { background, border, cn } from '../../styles/theme';
 import type {
   FundCardPaymentMethodDropdownPropsReact,
-  PaymentMethodReact,
+  PaymentMethod,
 } from '../types';
 import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow';
 import { FundCardPaymentMethodSelectorToggle } from './FundCardPaymentMethodSelectorToggle';
@@ -31,7 +31,7 @@ export function FundCardPaymentMethodDropdown({
   }, [paymentMethods]);
 
   const isPaymentMethodDisabled = useCallback(
-    (method: PaymentMethodReact) => {
+    (method: PaymentMethod) => {
       if (!fundAmountFiat) {
         return false;
       }
@@ -47,7 +47,7 @@ export function FundCardPaymentMethodDropdown({
   );
 
   const getPaymentMethodDisabledReason = useCallback(
-    (method: PaymentMethodReact) => {
+    (method: PaymentMethod) => {
       if (!fundAmountFiat) {
         return undefined;
       }
@@ -86,7 +86,7 @@ export function FundCardPaymentMethodDropdown({
   ]);
 
   const handlePaymentMethodSelect = useCallback(
-    (paymentMethod: PaymentMethodReact) => {
+    (paymentMethod: PaymentMethod) => {
       if (!isPaymentMethodDisabled(paymentMethod)) {
         setSelectedPaymentMethod(paymentMethod);
         setIsOpen(false);

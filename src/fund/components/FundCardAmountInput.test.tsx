@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { AmountInputSnippetReact, FundCardProviderReact } from '../types';
+import type { FundCardProviderReact, PresetAmountInputReact } from '../types';
 import { FundCardAmountInput } from './FundCardAmountInput';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
 
@@ -347,71 +347,79 @@ describe('FundCardAmountInput', () => {
     });
   });
 
-  it('renders amount input snippets when value is empty', async () => {
-    const snippets: AmountInputSnippetReact[] = [
+  it('renders preset amount inputs when value is empty', async () => {
+    const presetAmountInputs: PresetAmountInputReact[] = [
       { value: '10', type: 'fiat' },
       { value: '20', type: 'fiat' },
     ];
 
     render(
-      <FundCardProvider asset="ETH" country="US" amountInputSnippets={snippets}>
+      <FundCardProvider
+        asset="ETH"
+        country="US"
+        presetAmountInputs={presetAmountInputs}
+      >
         <FundCardAmountInput />
       </FundCardProvider>,
     );
 
-    // Initially, with empty input, snippets should be visible
-    const snippetItems = screen.queryAllByTestId('ockAmountInputSnippet');
-    const snippet1 = snippetItems[0];
-    const snippet2 = snippetItems[1];
-    expect(snippet1).toBeInTheDocument();
-    expect(snippet2).toBeInTheDocument();
+    // Initially, with empty input, preset amount inputs should be visible
+    const presetAmountInputItems = screen.queryAllByTestId(
+      'ockPresetAmountInput',
+    );
+    const presetAmountInput1 = presetAmountInputItems[0];
+    const presetAmountInput2 = presetAmountInputItems[1];
+    expect(presetAmountInput1).toBeInTheDocument();
+    expect(presetAmountInput2).toBeInTheDocument();
 
     // Enter a value
     const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: '50' } });
 
-    // Snippets should disappear
-    expect(snippet1).not.toBeInTheDocument();
-    expect(snippet2).not.toBeInTheDocument();
+    // Preset amount inputs should disappear
+    expect(presetAmountInput1).not.toBeInTheDocument();
+    expect(presetAmountInput2).not.toBeInTheDocument();
   });
 
-  it('handles snippet click correctly', async () => {
-    const snippets: AmountInputSnippetReact[] = [{ value: '10', type: 'fiat' }];
+  it('handles preset amount input click correctly', async () => {
+    const presetAmountInputs: PresetAmountInputReact[] = [
+      { value: '10', type: 'fiat' },
+    ];
 
     render(
-      <FundCardProvider asset="ETH" country="US" amountInputSnippets={snippets}>
+      <FundCardProvider
+        asset="ETH"
+        country="US"
+        presetAmountInputs={presetAmountInputs}
+      >
         <FundCardAmountInput />
         <TestComponent />
       </FundCardProvider>,
     );
 
-    // Click the snippet
-    const snippet = screen.getByTestId('ockAmountInputSnippet');
-    fireEvent.click(snippet);
+    // Click the preset amount input
+    const presetAmountInput = screen.getByTestId('ockPresetAmountInput');
+    fireEvent.click(presetAmountInput);
 
     // Verify the input value was updated
     const valueFiat = screen.getByTestId('test-value-fiat');
     expect(valueFiat.textContent).toBe('10');
   });
 
-  it('filters snippets based on selected input type', async () => {
-    const snippets: AmountInputSnippetReact[] = [
+  it('filters preset amount inputs based on selected input type', async () => {
+    const presetAmountInputs: PresetAmountInputReact[] = [
       { value: '10', type: 'fiat' },
       { value: '1', type: 'crypto' },
     ];
 
-    renderWithProvider({ inputType: 'fiat', amountInputSnippets: snippets });
-    // In fiat mode, only fiat snippets should be visible
-    expect(screen.getByTestId('ockAmountInputSnippet')).toHaveTextContent(
-      '10 USD',
-    );
+    renderWithProvider({ inputType: 'fiat', presetAmountInputs });
+    // In fiat mode, only fiat preset amount inputs should be visible
+    expect(screen.getByTestId('ockPresetAmountInput')).toHaveTextContent('10');
 
     // Change input type to crypto
     fireEvent.click(screen.getByTestId('set-crypto-button'));
 
-    // In crypto mode, only crypto snippets should be visible
-    expect(screen.getByTestId('ockAmountInputSnippet')).toHaveTextContent(
-      '1 ETH',
-    );
+    // In crypto mode, only crypto preset amount inputs should be visible
+    expect(screen.getByTestId('ockPresetAmountInput')).toHaveTextContent('1');
   });
 });

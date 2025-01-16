@@ -4,13 +4,13 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { cn, text } from '../../styles/theme';
 import { useInputResize } from '../hooks/useInputResize';
 import type {
-  AmountInputSnippetReact,
   FundCardAmountInputPropsReact,
+  PresetAmountInputReact,
 } from '../types';
 import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
-import { AmountInputSnippet } from './AmountInputSnippet';
 import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
 import { useFundContext } from './FundCardProvider';
+import { PresetAmountInput } from './PresetAmountInput';
 
 export const FundCardAmountInput = ({
   className,
@@ -23,7 +23,7 @@ export const FundCardAmountInput = ({
     asset,
     selectedInputType,
     exchangeRate,
-    amountInputSnippets,
+    presetAmountInputs,
   } = useFundContext();
 
   // Next PR will include a support for any currency
@@ -90,9 +90,9 @@ export const FundCardAmountInput = ({
     [handleFiatChange, handleCryptoChange, selectedInputType],
   );
 
-  const handleAmountInputSnippetClick = useCallback(
-    (snippet: AmountInputSnippetReact) => {
-      handleChange(snippet.value);
+  const handlePresetAmountInputClick = useCallback(
+    (presetAmountInput: PresetAmountInputReact) => {
+      handleChange(presetAmountInput.value);
     },
     [handleChange],
   );
@@ -115,19 +115,19 @@ export const FundCardAmountInput = ({
   };
 
   /**
-   * Filter amount input snippets based on the selected input type.
-   * If the selected input type is 'fiat', we only want to display the snippets that have a type of 'fiat'.
+   * Filter preset amount inputs based on the selected input type.
+   * If the selected input type is 'fiat', we only want to display the preset amount inputs that have a type of 'fiat'.
    * i.e [10 USD] [50 USD] [100 USD]
    *
-   * If the selected input type is 'crypto', we only want to display the snippets that have a type of 'crypto'.
+   * If the selected input type is 'crypto', we only want to display the preset amount inputs that have a type of 'crypto'.
    * i.e [0.1 ETH] [0.2 ETH] [0.3 ETH]
    */
-  const filteredAmountInputSnippets = useMemo(
+  const filteredPresetAmountInputs = useMemo(
     () =>
-      amountInputSnippets?.filter(
-        (snippet) => snippet.type === selectedInputType,
+      presetAmountInputs?.filter(
+        (presetAmount) => presetAmount.type === selectedInputType,
       ),
-    [amountInputSnippets, selectedInputType],
+    [presetAmountInputs, selectedInputType],
   );
 
   return (
@@ -157,13 +157,14 @@ export const FundCardAmountInput = ({
         <FundCardCurrencyLabel ref={currencySpanRef} label={currencyOrAsset} />
       </div>
 
-      {!value && (
+      {!value && filteredPresetAmountInputs && (
         <div className="flex w-[100%] flex-wrap items-center justify-end">
-          {filteredAmountInputSnippets?.map((snippet) => (
-            <AmountInputSnippet
-              key={snippet.value}
-              amountInputSnippet={snippet}
-              onClick={handleAmountInputSnippetClick}
+          {filteredPresetAmountInputs?.map((presetAmountInput, index) => (
+            <PresetAmountInput
+              // biome-ignore lint/suspicious/noArrayIndexKey: Users may supply duplicate values so making the index the key. (In this case its safe because the preset amount inputs are static and no updates to the list are expected)
+              key={index}
+              presetAmountInput={presetAmountInput}
+              onClick={handlePresetAmountInputClick}
               currencyOrAsset={currencyOrAsset}
             />
           ))}

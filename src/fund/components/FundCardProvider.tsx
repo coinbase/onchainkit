@@ -9,23 +9,23 @@ import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useEmitLifecycleStatus } from '../hooks/useEmitLifecycleStatus';
 import { usePaymentMethods } from '../hooks/usePaymentMethods';
 import type {
-  AmountInputSnippetReact,
-  AmountInputTypeReact,
+  AmountInputType,
   FundButtonStateReact,
   FundCardProviderReact,
   LifecycleStatus,
   LifecycleStatusUpdate,
-  PaymentMethodReact,
+  PaymentMethod,
+  PresetAmountInputReact,
 } from '../types';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 type FundCardContextType = {
   asset: string;
   currency: string;
-  selectedPaymentMethod?: PaymentMethodReact;
-  setSelectedPaymentMethod: (paymentMethod: PaymentMethodReact) => void;
-  selectedInputType?: AmountInputTypeReact;
-  setSelectedInputType: (inputType: AmountInputTypeReact) => void;
+  selectedPaymentMethod?: PaymentMethod;
+  setSelectedPaymentMethod: (paymentMethod: PaymentMethod) => void;
+  selectedInputType?: AmountInputType;
+  setSelectedInputType: (inputType: AmountInputType) => void;
   fundAmountFiat: string;
   setFundAmountFiat: (amount: string) => void;
   fundAmountCrypto: string;
@@ -36,8 +36,8 @@ type FundCardContextType = {
   setExchangeRateLoading: (loading: boolean) => void;
   submitButtonState: FundButtonStateReact;
   setSubmitButtonState: (state: FundButtonStateReact) => void;
-  paymentMethods: PaymentMethodReact[];
-  setPaymentMethods: (paymentMethods: PaymentMethodReact[]) => void;
+  paymentMethods: PaymentMethod[];
+  setPaymentMethods: (paymentMethods: PaymentMethod[]) => void;
   paymentMethodsLoading: boolean;
   setPaymentMethodsLoading: (loading: boolean) => void;
   headerText?: string;
@@ -47,7 +47,7 @@ type FundCardContextType = {
   inputType?: 'fiat' | 'crypto';
   lifecycleStatus: LifecycleStatus;
   updateLifecycleStatus: (newStatus: LifecycleStatusUpdate) => void;
-  amountInputSnippets?: AmountInputSnippetReact[];
+  presetAmountInputs?: PresetAmountInputReact[];
 };
 
 const FundContext = createContext<FundCardContextType | undefined>(undefined);
@@ -64,13 +64,14 @@ export function FundCardProvider({
   onError,
   onStatus,
   onSuccess,
-  amountInputSnippets,
+  presetAmountInputs,
 }: FundCardProviderReact) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
-    PaymentMethodReact | undefined
+    PaymentMethod | undefined
   >();
-  const [selectedInputType, setSelectedInputType] =
-    useState<AmountInputTypeReact>(inputType || 'fiat');
+  const [selectedInputType, setSelectedInputType] = useState<AmountInputType>(
+    inputType || 'fiat',
+  );
   const [fundAmountFiat, setFundAmountFiat] = useState<string>('');
   const [fundAmountCrypto, setFundAmountCrypto] = useState<string>('');
   const [exchangeRate, setExchangeRate] = useState<number>(0);
@@ -79,9 +80,7 @@ export function FundCardProvider({
   const [submitButtonState, setSubmitButtonState] =
     useState<FundButtonStateReact>('default');
 
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethodReact[]>(
-    [],
-  );
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [paymentMethodsLoading, setPaymentMethodsLoading] =
     useState<boolean>(true);
   const { lifecycleStatus, updateLifecycleStatus } = useEmitLifecycleStatus({
@@ -150,7 +149,7 @@ export function FundCardProvider({
     subdivision,
     lifecycleStatus,
     updateLifecycleStatus,
-    amountInputSnippets,
+    presetAmountInputs,
   });
   return <FundContext.Provider value={value}>{children}</FundContext.Provider>;
 }

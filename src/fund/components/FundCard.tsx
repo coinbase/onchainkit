@@ -16,7 +16,7 @@ export function FundCard({
   headerText,
   country = 'US',
   subdivision,
-  amountInputSnippets,
+  presetAmountInputs,
   children = <DefaultFundCardContent />,
   className,
   onError,
@@ -35,7 +35,7 @@ export function FundCard({
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}
-      amountInputSnippets={amountInputSnippets}
+      presetAmountInputs={presetAmountInputs}
     >
       <div
         className={cn(

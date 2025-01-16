@@ -1,97 +1,97 @@
 // import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import type { AmountInputSnippetReact } from '../types';
-import { AmountInputSnippet } from './AmountInputSnippet';
+import type { PresetAmountInputReact } from '../types';
+import { PresetAmountInput } from './PresetAmountInput';
 
-describe('AmountInputSnippet', () => {
-  const mockSnippet: AmountInputSnippetReact = {
+describe('PresetAmountInput', () => {
+  const mockPresetAmountInput: PresetAmountInputReact = {
     value: '100',
     type: 'fiat',
   };
 
-  const mockCryptoSnippet: AmountInputSnippetReact = {
+  const mockCryptoPresetAmountInput: PresetAmountInputReact = {
     value: '1',
     type: 'crypto',
   };
 
-  it('renders fiat snippet correctly', () => {
+  it('renders fiat preset amount input correctly', () => {
     render(
-      <AmountInputSnippet
-        amountInputSnippet={mockSnippet}
+      <PresetAmountInput
+        presetAmountInput={mockPresetAmountInput}
         onClick={vi.fn()}
         currencyOrAsset="USD"
       />,
     );
 
-    expect(screen.getByTestId('ockAmountInputSnippet')).toHaveTextContent(
+    expect(screen.getByTestId('ockPresetAmountInput')).toHaveTextContent(
       '100 USD',
     );
   });
 
-  it('renders crypto snippet correctly', () => {
+  it('renders crypto preset amount input correctly', () => {
     render(
-      <AmountInputSnippet
-        amountInputSnippet={mockCryptoSnippet}
+      <PresetAmountInput
+        presetAmountInput={mockCryptoPresetAmountInput}
         onClick={vi.fn()}
         currencyOrAsset="ETH"
       />,
     );
 
-    const button = screen.getByTestId('ockAmountInputSnippet');
+    const button = screen.getByTestId('ockPresetAmountInput');
     expect(button.textContent).toBe('1 ETH');
   });
 
   it('calls onClick when clicked', () => {
     const handleClick = vi.fn();
     render(
-      <AmountInputSnippet
-        amountInputSnippet={mockSnippet}
+      <PresetAmountInput
+        presetAmountInput={mockPresetAmountInput}
         onClick={handleClick}
         currencyOrAsset="USD"
       />,
     );
 
-    fireEvent.click(screen.getByTestId('ockAmountInputSnippet'));
-    expect(handleClick).toHaveBeenCalledWith(mockSnippet);
+    fireEvent.click(screen.getByTestId('ockPresetAmountInput'));
+    expect(handleClick).toHaveBeenCalledWith(mockPresetAmountInput);
   });
 
   it('shows tooltip with full text on hover', () => {
     render(
-      <AmountInputSnippet
-        amountInputSnippet={mockSnippet}
+      <PresetAmountInput
+        presetAmountInput={mockPresetAmountInput}
         onClick={vi.fn()}
         currencyOrAsset="USD"
       />,
     );
 
-    const button = screen.getByTestId('ockAmountInputSnippet');
+    const button = screen.getByTestId('ockPresetAmountInput');
     expect(button).toHaveAttribute('title', '100 USD');
   });
 
   it('handles keyboard interaction', () => {
     const handleClick = vi.fn();
     render(
-      <AmountInputSnippet
-        amountInputSnippet={mockSnippet}
+      <PresetAmountInput
+        presetAmountInput={mockPresetAmountInput}
         onClick={handleClick}
         currencyOrAsset="USD"
       />,
     );
 
-    const button = screen.getByTestId('ockAmountInputSnippet');
+    const button = screen.getByTestId('ockPresetAmountInput');
     fireEvent.keyDown(button, { key: 'Enter' });
-    expect(handleClick).toHaveBeenCalledWith(mockSnippet);
+    expect(handleClick).toHaveBeenCalledWith(mockPresetAmountInput);
 
     handleClick.mockClear();
     fireEvent.keyDown(button, { key: ' ' });
-    expect(handleClick).toHaveBeenCalledWith(mockSnippet);
+    expect(handleClick).toHaveBeenCalledWith(mockPresetAmountInput);
   });
 
   it('returns null when value is empty', () => {
     const { container } = render(
-      <AmountInputSnippet
-        amountInputSnippet={{ ...mockSnippet, value: '' }}
+      <PresetAmountInput
+        presetAmountInput={{ ...mockPresetAmountInput, value: '' }}
         onClick={vi.fn()}
         currencyOrAsset="USD"
       />,
@@ -102,51 +102,51 @@ describe('AmountInputSnippet', () => {
 
   it('applies hover state styles', () => {
     render(
-      <AmountInputSnippet
-        amountInputSnippet={mockSnippet}
+      <PresetAmountInput
+        presetAmountInput={mockPresetAmountInput}
         onClick={vi.fn()}
         currencyOrAsset="USD"
       />,
     );
-    const button = screen.getByTestId('ockAmountInputSnippet');
+    const button = screen.getByTestId('ockPresetAmountInput');
     expect(button).toHaveClass('hover:bg-[var(--ock-bg-default-hover)]');
   });
 
   it('handles long content with ellipsis', () => {
-    const longSnippet = {
-      ...mockSnippet,
+    const longPresetAmountInput = {
+      ...mockPresetAmountInput,
       value: '100000000',
     };
     render(
-      <AmountInputSnippet
-        amountInputSnippet={longSnippet}
+      <PresetAmountInput
+        presetAmountInput={longPresetAmountInput}
         onClick={vi.fn()}
         currencyOrAsset="USD"
       />,
     );
-    const button = screen.getByTestId('ockAmountInputSnippet');
+    const button = screen.getByTestId('ockPresetAmountInput');
     expect(button).toHaveClass('text-ellipsis', 'overflow-hidden');
   });
 
   it('maintains fixed width with different content lengths', () => {
     const { rerender } = render(
-      <AmountInputSnippet
-        amountInputSnippet={mockSnippet}
+      <PresetAmountInput
+        presetAmountInput={mockPresetAmountInput}
         onClick={vi.fn()}
         currencyOrAsset="USD"
       />,
     );
-    const shortButton = screen.getByTestId('ockAmountInputSnippet');
+    const shortButton = screen.getByTestId('ockPresetAmountInput');
     const shortWidth = shortButton.className;
 
     rerender(
-      <AmountInputSnippet
-        amountInputSnippet={{ ...mockSnippet, value: '100000000' }}
+      <PresetAmountInput
+        presetAmountInput={{ ...mockPresetAmountInput, value: '100000000' }}
         onClick={vi.fn()}
         currencyOrAsset="USD"
       />,
     );
-    const longButton = screen.getByTestId('ockAmountInputSnippet');
+    const longButton = screen.getByTestId('ockPresetAmountInput');
     const longWidth = longButton.className;
 
     expect(shortWidth).toBe(longWidth);

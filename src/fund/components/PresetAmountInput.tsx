@@ -1,38 +1,38 @@
+import { border, cn, color, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
-import { border, cn, color, text } from '../../styles/theme';
-import type { AmountInputSnippetPropsReact } from '../types';
+import type { PresetAmountInputPropsReact } from '../types';
 
-export function AmountInputSnippet({
-  amountInputSnippet,
+export function PresetAmountInput({
+  presetAmountInput,
   currencyOrAsset,
   onClick,
-}: AmountInputSnippetPropsReact) {
-  const snippetText = useMemo(() => {
-    return `${amountInputSnippet.value} ${currencyOrAsset}`;
-  }, [amountInputSnippet, currencyOrAsset]);
+}: PresetAmountInputPropsReact) {
+  const presetAmountInputText = useMemo(() => {
+    return `${presetAmountInput.value} ${currencyOrAsset}`;
+  }, [presetAmountInput, currencyOrAsset]);
 
   const handleClick = useCallback(() => {
-    onClick(amountInputSnippet);
-  }, [amountInputSnippet, onClick]);
+    onClick(presetAmountInput);
+  }, [presetAmountInput, onClick]);
 
   const handleKeyPress = useCallback(
     (event: React.KeyboardEvent) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        onClick(amountInputSnippet);
+        onClick(presetAmountInput);
       }
     },
-    [amountInputSnippet, onClick],
+    [presetAmountInput, onClick],
   );
 
-  if (!amountInputSnippet.value) {
+  if (!presetAmountInput.value) {
     return null;
   }
 
   return (
     <button
       type="button"
-      data-testid="ockAmountInputSnippet"
+      data-testid="ockPresetAmountInput"
       className={cn(
         text.body,
         color.foreground,
@@ -45,11 +45,11 @@ export function AmountInputSnippet({
         'hover:bg-[var(--ock-bg-default-hover)]',
         'focus:outline-none focus:ring-2',
       )}
-      title={snippetText}
+      title={presetAmountInputText}
       onClick={handleClick}
       onKeyDown={handleKeyPress}
     >
-      {snippetText}
+      {presetAmountInputText}
     </button>
   );
 }

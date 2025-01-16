@@ -297,10 +297,10 @@ export type FundCardHeaderPropsReact = {
 export type FundCardPaymentMethodImagePropsReact = {
   className?: string;
   size?: number;
-  paymentMethod: PaymentMethodReact;
+  paymentMethod: PaymentMethod;
 };
 
-export type PaymentMethodReact = {
+export type PaymentMethod = {
   id: string;
   name: string;
   description: string;
@@ -330,6 +330,7 @@ export type FundCardPropsReact = {
    */
   amountInputSnippets?: AmountInputSnippetReact[];
   className?: string;
+  presetAmountInputs?: PresetAmountInputReact[];
 } & LifecycleEvents;
 
 export type FundCardContentPropsReact = {
@@ -340,12 +341,12 @@ export type FundCardPaymentMethodSelectorTogglePropsReact = {
   className?: string;
   isOpen: boolean; // Determines carot icon direction
   onClick: () => void; // Button on click handler
-  paymentMethod: PaymentMethodReact;
+  paymentMethod: PaymentMethod;
 };
 
 export type FundCardPaymentMethodSelectRowPropsReact = {
-  paymentMethod: PaymentMethodReact;
-  onClick?: (paymentMethod: PaymentMethodReact) => void;
+  paymentMethod: PaymentMethod;
+  onClick?: (paymentMethod: PaymentMethod) => void;
   hideImage?: boolean;
   hideDescription?: boolean;
   disabled?: boolean;
@@ -360,32 +361,33 @@ export type FundCardProviderReact = {
    * Three letter currency code. Defaults to USD.
    */
   currency?: string;
+  paymentMethods?: PaymentMethod[];
   headerText?: string;
   buttonText?: string;
   country: string;
   subdivision?: string;
-  inputType?: 'fiat' | 'crypto';
+  inputType?: AmountInputType;
+  presetAmountInputs?: PresetAmountInputReact[];
 } & LifecycleEvents;
 
 export type LifecycleEvents = {
   onError?: (e: OnrampError | undefined) => void;
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   onSuccess?: (result: SuccessEventData) => void;
-  amountInputSnippets?: AmountInputSnippetReact[];
 };
 
-export type AmountInputSnippetPropsReact = {
-  amountInputSnippet: AmountInputSnippetReact;
+export type PresetAmountInputPropsReact = {
+  presetAmountInput: PresetAmountInputReact;
   currencyOrAsset: string;
-  onClick: (snippet: AmountInputSnippetReact) => void;
+  onClick: (presetAmountInput: PresetAmountInputReact) => void;
 };
 
-export type AmountInputSnippetReact = {
+export type PresetAmountInputReact = {
   value: string;
-  type: AmountInputTypeReact;
+  type: AmountInputType;
 };
 
-export type AmountInputTypeReact = 'fiat' | 'crypto';
+export type AmountInputType = 'fiat' | 'crypto';
 
 export type LifecycleStatus =
   | {
@@ -432,17 +434,17 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
     ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
         ? { statusData: D }
         : AllKeysInShared<D> extends true // is statusData is LifecycleStatusDataShared, make optional
-          ? {
-              statusData?: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            } // make all keys in LifecycleStatusDataShared optional
-          : {
-              statusData: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            })
+        ? {
+            statusData?: PartialKeys<
+              D,
+              keyof D & keyof LifecycleStatusDataShared
+            >;
+          } // make all keys in LifecycleStatusDataShared optional
+        : {
+            statusData: PartialKeys<
+              D,
+              keyof D & keyof LifecycleStatusDataShared
+            >;
+          })
     : never
   : never;
