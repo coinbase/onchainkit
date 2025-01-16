@@ -1,26 +1,27 @@
 import { useCallback, useState } from 'react';
 import type { LifecycleStatus, LifecycleStatusUpdate } from '../types';
+import type { NFTError } from '@/core/api/types';
 
-type UseLifecycleStatusReturn = [
-  lifecycleStatus: LifecycleStatus,
-  updatelifecycleStatus: (newStatus: LifecycleStatusUpdate) => void,
+type UseLifecycleStatusReturn<T extends LifecycleStatus> = [
+  lifecycleStatus: T,
+  updatelifecycleStatus: (newStatus: LifecycleStatusUpdate<T>) => void,
 ];
 
-export function useLifecycleStatus(
-  initialState: LifecycleStatus,
-): UseLifecycleStatusReturn {
+export function useLifecycleStatus<T extends LifecycleStatus>(
+  initialState: T,
+): UseLifecycleStatusReturn<T> {
   const [lifecycleStatus, setLifecycleStatus] =
-    useState<LifecycleStatus>(initialState); // Component lifecycle
+    useState<T>(initialState); // Component lifecycle
 
   // Update lifecycle status, statusData will be persisted for the full lifecycle
   const updateLifecycleStatus = useCallback(
-    (newStatus: LifecycleStatusUpdate) => {
-      setLifecycleStatus((prevStatus: LifecycleStatus) => {
+    (newStatus: LifecycleStatusUpdate<T>) => {
+      setLifecycleStatus((prevStatus: T) => {
         // do not persist errors
         const persistedStatusData =
           prevStatus.statusName === 'error'
             ? (({ error, code, message, ...statusData }) => statusData)(
-                prevStatus.statusData,
+                (prevStatus.statusData as {statusData: NFTError}).statusData,
               )
             : prevStatus.statusData;
         return {
@@ -29,7 +30,7 @@ export function useLifecycleStatus(
             ...persistedStatusData,
             ...newStatus.statusData,
           },
-        } as LifecycleStatus;
+        } as T;
       });
     },
     [],

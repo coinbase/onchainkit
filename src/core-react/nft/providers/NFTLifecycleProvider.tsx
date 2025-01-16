@@ -2,14 +2,17 @@ import { createContext, useContext, useEffect } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
 import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
 import type {
+  LifecycleStatus,
   NFTLifecycleContextType,
   NFTLifecycleProviderReact,
 } from '../types';
+import type { TransactionReceipt } from 'viem';
+import type { NFTError } from '@/core/api/types';
 
-const emptyContext = {} as NFTLifecycleContextType;
+const emptyContext = {} as NFTLifecycleContextType<LifecycleStatus>;
 
 export const NFTLifecycleContext =
-  createContext<NFTLifecycleContextType>(emptyContext);
+  createContext<NFTLifecycleContextType<LifecycleStatus>>(emptyContext);
 
 export function useNFTLifecycleContext() {
   const context = useContext(NFTLifecycleContext);
@@ -21,27 +24,25 @@ export function useNFTLifecycleContext() {
   return context;
 }
 
-export function NFTLifecycleProvider({
+export function NFTLifecycleProvider<T extends LifecycleStatus>({
   type,
   onStatus,
   onError,
   onSuccess,
   children,
-}: NFTLifecycleProviderReact) {
-  const [lifecycleStatus, updateLifecycleStatus] = useLifecycleStatus({
-    statusName: 'init',
-    statusData: null,
-  }); // Component lifecycle
+  initialState = { statusName: 'init', statusData: null } as T,
+}: NFTLifecycleProviderReact<T>) {
+  const [lifecycleStatus, updateLifecycleStatus] = useLifecycleStatus<T>(initialState); // Component lifecycle
 
   // Component lifecycle emitters
   useEffect(() => {
     // Error
     if (lifecycleStatus.statusName === 'error') {
-      onError?.(lifecycleStatus.statusData);
+      onError?.(lifecycleStatus.statusData as NFTError);
     }
     // Success
     if (lifecycleStatus.statusName === 'success') {
-      onSuccess?.(lifecycleStatus.statusData?.transactionReceipts?.[0]);
+      onSuccess?.(lifecycleStatus.statusData?.transactionReceipts?.[0] as unknown as TransactionReceipt);
     }
     // Emit Status
     onStatus?.(lifecycleStatus);

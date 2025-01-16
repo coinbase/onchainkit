@@ -17,18 +17,19 @@ export enum LifecycleType {
   MINT = 'mint',
 }
 
-export type NFTLifecycleProviderReact = {
+export type NFTLifecycleProviderReact<T extends LifecycleStatus> = {
   type: LifecycleType;
   onError?: (error: NFTError) => void;
-  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  onStatus?: (lifecycleStatus: T) => void;
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
   children: ReactNode;
+  initialState?: T;
 };
 
-export type NFTLifecycleContextType = {
+export type NFTLifecycleContextType<T extends LifecycleStatus> = {
   type: LifecycleType;
-  lifecycleStatus: LifecycleStatus;
-  updateLifecycleStatus: (status: LifecycleStatusUpdate) => void;
+  lifecycleStatus: T;
+  updateLifecycleStatus: (status: LifecycleStatusUpdate<T>) => void;
 };
 
 /* NFT Provider */
@@ -120,7 +121,7 @@ export type NFTCardReact = {
   tokenId: string; // Required Token ID of the NFT
   useNFTData?: UseNFTData; // Optional hook to override the default useNftData hook
   onError?: (error: NFTError) => void; // An optional callback function that handles errors within the provider.
-  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onStatus?: (lifecycleStatus: LifecycleStatusView) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // card will not pass transactionReceipt
 };
 
@@ -143,7 +144,7 @@ export type NFTMintCardReact = {
   useNFTData?: UseNFTData; // Optional hook to override the default useNFTData hook
   buildMintTransaction?: BuildMintTransaction; // Optional function to override the default function that builds the mint transaction
   onError?: (error: NFTError) => void; // An optional callback function that handles errors within the provider.
-  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onStatus?: (lifecycleStatus: LifecycleStatusMint) => void; // An optional callback function that exposes the component lifecycle state
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // mint will pass transactionReceipt
 };
 
@@ -153,7 +154,56 @@ export type NFTMintCardReact = {
  */
 export type NFTMintCardDefaultReact = Omit<NFTMintCardReact, 'children'>;
 
-export type LifecycleStatus =
+export type LifecycleStatus = {
+  statusName: string;
+  statusData: any;
+} | {
+  statusName: 'init' | 'error' | 'success';
+  statusData: any;
+};
+// type LifecycleStatusInit = {
+//   statusName: 'init';
+//   statusData: null;
+// }
+// export type LifecycleStatusError = {
+//   statusName: 'error';
+//   statusData: NFTError;
+// }
+// type LifecycleStatusSuccess = {
+//   statusName: 'success';
+//   statusData: null;
+// }
+// type LifecycleStatusGeneric = {
+//   statusName: string;
+//   statusData: null | object;
+// }
+
+// export type LifecycleStatus = LifecycleStatusInit | LifecycleStatusError | LifecycleStatusSuccess | LifecycleStatusGeneric;
+
+
+export type LifecycleStatusView =   
+  | {
+    statusName: 'init';
+    statusData: null;
+  }
+  | {
+    statusName: 'error';
+    statusData: NFTError;
+  }
+  | {
+    statusName: 'mediaLoading';
+    statusData: {
+      mediaType: MediaType;
+      mediaUrl: string;
+    };
+  }
+  | {
+    statusName: 'success';
+    statusData: null
+  };
+
+
+export type LifecycleStatusMint =
   | {
       statusName: 'init';
       statusData: null;
@@ -208,8 +258,7 @@ type AllKeysInShared<T> = keyof T extends keyof LifecycleStatusDataShared
  * Used to type the statuses used to update LifecycleStatus
  * LifecycleStatusData is persisted across state updates allowing SharedData to be optional except for in init step
  */
-export type LifecycleStatusUpdate = LifecycleStatus extends infer T
-  ? T extends { statusName: infer N; statusData: infer D }
+export type LifecycleStatusUpdate<T extends LifecycleStatus> = T extends { statusName: infer N; statusData: infer D }
     ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
         ? { statusData: D }
         : AllKeysInShared<D> extends true // is statusData is LifecycleStatusDataShared, make optional
@@ -225,5 +274,4 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
                 keyof D & keyof LifecycleStatusDataShared
               >;
             })
-    : never
-  : never;
+    : never;
