@@ -181,6 +181,14 @@ export type ExitEvent = {
 
 export type SuccessEvent = {
   eventName: 'success';
+  data?: SuccessEventData;
+};
+
+export type SuccessEventData = {
+  assetImageUrl: string;
+  assetName: string;
+  assetSymbol: string;
+  chainId: string;
 };
 
 export type RequestOpenUrlEvent = {
@@ -322,10 +330,8 @@ export type FundCardPropsReact = {
    */
   amountInputSnippets?: AmountInputSnippetReact[];
   className?: string;
-  onError?: (e: OnrampError | undefined) => void;
-  onStatus?: (lifecycleStatus: EventMetadata) => void;
-  onSuccess?: () => void;
-};
+} & LifecycleEvents;
+
 export type FundCardContentPropsReact = {
   children?: ReactNode;
 };
@@ -356,6 +362,9 @@ export type FundCardProviderReact = {
   country: string;
   subdivision?: string;
   inputType?: 'fiat' | 'crypto';
+} & LifecycleEvents;
+
+export type LifecycleEvents = {
   onError?: (e: OnrampError | undefined) => void;
   onStatus?: (lifecycleStatus: EventMetadata) => void;
   onSuccess?: () => void;
@@ -374,3 +383,63 @@ export type AmountInputSnippetReact = {
 };
 
 export type AmountInputTypeReact = 'fiat' | 'crypto';
+
+export type LifecycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'exit';
+      statusData: null;
+    }
+  | {
+      statusName: 'error';
+      statusData: OnrampError;
+    }
+  | {
+      statusName: 'transactionSuccess';
+      statusData: SuccessEventData;
+    }
+  | {
+      statusName: 'transactionPending';
+      statusData: null;
+    };
+
+type LifecycleStatusDataShared = Record<string, never>;
+
+// make all keys in T optional if they are in K
+type PartialKeys<T, K extends keyof T> = Omit<T, K> &
+  Partial<Pick<T, K>> extends infer O
+  ? { [P in keyof O]: O[P] }
+  : never;
+
+// check if all keys in T are a key of LifecycleStatusDataShared
+type AllKeysInShared<T> = keyof T extends keyof LifecycleStatusDataShared
+  ? true
+  : false;
+
+/**
+ * LifecycleStatus updater type
+ * Used to type the statuses used to update LifecycleStatus
+ * LifecycleStatusData is persisted across state updates allowing SharedData to be optional except for in init step
+ */
+export type LifecycleStatusUpdate = LifecycleStatus extends infer T
+  ? T extends { statusName: infer N; statusData: infer D }
+    ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
+        ? { statusData: D }
+        : AllKeysInShared<D> extends true // is statusData is LifecycleStatusDataShared, make optional
+        ? {
+            statusData?: PartialKeys<
+              D,
+              keyof D & keyof LifecycleStatusDataShared
+            >;
+          } // make all keys in LifecycleStatusDataShared optional
+        : {
+            statusData: PartialKeys<
+              D,
+              keyof D & keyof LifecycleStatusDataShared
+            >;
+          })
+    : never
+  : never;

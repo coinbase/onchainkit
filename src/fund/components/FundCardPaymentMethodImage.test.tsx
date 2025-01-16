@@ -22,7 +22,7 @@ describe('FundCardPaymentMethodImage', () => {
       />,
     );
     expect(
-      screen.queryByTestId('fundCardPaymentMethodImage__iconContainer'),
+      screen.queryByTestId('ockFundCardPaymentMethodImage__iconContainer'),
     ).toBeInTheDocument();
   });
 
@@ -40,7 +40,7 @@ describe('FundCardPaymentMethodImage', () => {
       />,
     );
     expect(
-      screen.getByTestId('fundCardPaymentMethodImage__iconContainer'),
+      screen.getByTestId('ockFundCardPaymentMethodImage__iconContainer'),
     ).toBeInTheDocument();
   });
 
@@ -59,7 +59,7 @@ describe('FundCardPaymentMethodImage', () => {
       />,
     );
     const container = screen.getByTestId(
-      'fundCardPaymentMethodImage__iconContainer',
+      'ockFundCardPaymentMethodImage__iconContainer',
     );
     expect(container).toHaveClass('custom-class');
   });
@@ -77,7 +77,7 @@ describe('FundCardPaymentMethodImage', () => {
       />,
     );
     const container = screen.getByTestId(
-      'fundCardPaymentMethodImage__iconContainer',
+      'ockFundCardPaymentMethodImage__iconContainer',
     );
     expect(container).not.toHaveClass('primary');
   });

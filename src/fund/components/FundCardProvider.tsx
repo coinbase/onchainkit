@@ -7,13 +7,14 @@ import {
 } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { DEFAULT_PAYMENT_METHODS } from '../constants';
+import { useEmitLifecycleStatus } from '../hooks/useEmitLifecycleStatus';
 import type {
   AmountInputSnippetReact,
   AmountInputTypeReact,
-  EventMetadata,
   FundButtonStateReact,
   FundCardProviderReact,
-  OnrampError,
+  LifecycleStatus,
+  LifecycleStatusUpdate,
   PaymentMethodReact,
 } from '../types';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
@@ -39,10 +40,9 @@ type FundCardContextType = {
   buttonText?: string;
   country: string;
   subdivision?: string;
-  inputType?: AmountInputTypeReact;
-  onError?: (e: OnrampError | undefined) => void;
-  onStatus?: (lifecycleStatus: EventMetadata) => void;
-  onSuccess?: () => void;
+  inputType?: 'fiat' | 'crypto';
+  lifecycleStatus: LifecycleStatus;
+  updateLifecycleStatus: (newStatus: LifecycleStatusUpdate) => void;
   amountInputSnippets?: AmountInputSnippetReact[];
 };
 
@@ -75,6 +75,12 @@ export function FundCardProvider({
   >();
   const [submitButtonState, setSubmitButtonState] =
     useState<FundButtonStateReact>('default');
+
+  const { lifecycleStatus, updateLifecycleStatus } = useEmitLifecycleStatus({
+    onError,
+    onSuccess,
+    onStatus,
+  });
 
   const fetchExchangeRate = useCallback(async () => {
     setExchangeRateLoading(true);
@@ -120,9 +126,8 @@ export function FundCardProvider({
     buttonText,
     country,
     subdivision,
-    onError,
-    onStatus,
-    onSuccess,
+    lifecycleStatus,
+    updateLifecycleStatus,
     amountInputSnippets,
   });
   return <FundContext.Provider value={value}>{children}</FundContext.Provider>;
