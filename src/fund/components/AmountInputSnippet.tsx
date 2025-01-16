@@ -34,24 +34,14 @@ export function AmountInputSnippet({
       type="button"
       data-testid="ockAmountInputSnippet"
       className={cn(
-        // Typography & Colors
         text.body,
         color.foreground,
-
-        // Border styles
         border.radius,
         border.lineDefault,
-
-        // Layout & Sizing
-        'inline-block',
         'm-1 p-1',
-
-        // Text overflow handling
         'overflow-hidden',
         'whitespace-nowrap',
         'text-ellipsis',
-
-        // Interactive states
         'hover:bg-[var(--ock-bg-default-hover)]',
         'focus:outline-none focus:ring-2',
       )}
