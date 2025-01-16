@@ -25,9 +25,10 @@ describe('useLifecycleStatus', () => {
       }),
     );
 
+    const [, updateStatus] = result.current;
     // Update to pending
     act(() => {
-      result.current[1]({
+      updateStatus({
         statusName: 'transactionPending',
         statusData: {
           abc: 'def',
@@ -38,25 +39,28 @@ describe('useLifecycleStatus', () => {
     expect(result.current[0]).toEqual({
       statusName: 'transactionPending',
       statusData: {
-        test: 'any',
+        abc: 'def',
       },
     });
 
     // Update to success
 
-    result.current[1]({
-      statusName: 'transactionSuccess',
-      statusData: {
-        assetImageUrl: 'a',
-        assetName: 'b',
-        assetSymbol: 'c',
-        chainId: 'd',
-      },
+    act(() => {
+      updateStatus({
+        statusName: 'transactionSuccess',
+        statusData: {
+          assetImageUrl: 'a',
+          assetName: 'b',
+          assetSymbol: 'c',
+          chainId: 'd',
+        },
+      });
     });
 
     expect(result.current[0]).toEqual({
       statusName: 'transactionSuccess',
       statusData: {
+        abc: 'def',
         assetImageUrl: 'a',
         assetName: 'b',
         assetSymbol: 'c',
