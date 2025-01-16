@@ -10,7 +10,7 @@ export function AmountInputSnippet({
   // TODO: Get currency label from country (In follow up PR )
   const currencyLabel = selectedInputType === 'fiat' ? 'USD' : 'ETH';
 
-  const buttonText = useMemo(() => {
+  const snippetText = useMemo(() => {
     return `${amountInputSnippet.value} ${currencyLabel}`;
   }, [amountInputSnippet, currencyLabel]);
 
@@ -58,12 +58,11 @@ export function AmountInputSnippet({
         'hover:bg-[var(--ock-bg-default-hover)]',
         'focus:outline-none focus:ring-2',
       )}
-      title={buttonText}
+      title={snippetText}
       onClick={handleClick}
       onKeyDown={handleKeyPress}
     >
-      {amountInputSnippet.value}
-      <span className="pl-1">{currencyLabel}</span>
+      {snippetText}
     </button>
   );
 }

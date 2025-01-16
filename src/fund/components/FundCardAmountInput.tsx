@@ -90,15 +90,6 @@ export const FundCardAmountInput = ({
     [handleFiatChange, handleCryptoChange, selectedInputType],
   );
 
-  // const handleChange = useCallback(
-  //   (e: ChangeEvent<HTMLInputElement>) => {
-  //     const value = formatDecimalInputValue(e.target.value);
-
-  //     handleSetAmount(value);
-  //   },
-  //   [handleSetAmount],
-  // );
-
   const handleAmountInputSnippetClick = useCallback(
     (snippet: AmountInputSnippetReact) => {
       handleChange(snippet.value);
@@ -149,8 +140,6 @@ export const FundCardAmountInput = ({
           )}
           value={value}
           onChange={handleChange}
-          //onKeyUp={handleFocusInput}
-          //onClick={handleFocusInput}
           inputValidator={isValidAmount}
           ref={inputRef}
           inputMode="decimal"
