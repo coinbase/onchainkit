@@ -346,31 +346,6 @@ describe('FundCardAmountInput', () => {
       expect(exchangeRate.textContent).toBe('0');
     });
   });
-  //   act(() => {
-  //     render(
-  //       <FundCardProvider asset="ETH" country="US" inputType="crypto">
-  //         <FundCardAmountInput />
-  //         <TestComponent />
-  //       </FundCardProvider>,
-  //     );
-  //   });
-
-  //   await waitFor(() => {
-  //     const input = screen.getByTestId('ockFundCardAmountInput');
-  //     const valueFiat = screen.getByTestId('test-value-fiat');
-  //     const valueCrypto = screen.getByTestId('test-value-crypto');
-
-  //     // Set exchange rate to 0 to force calculated fiat value to be 0
-  //     const exchangeRate = screen.getByTestId('test-value-exchange-rate');
-  //     expect(exchangeRate.textContent).toBe('0');
-
-  //     // Enter a crypto amount
-  //     fireEvent.change(input, { target: { value: '1' } });
-
-  //     expect(valueCrypto.textContent).toBe('1');
-  //     expect(valueFiat.textContent).toBe(''); // Should be empty string when calculatedFiatValue === '0'
-  //   });
-  // });
 
   it('renders amount input snippets when value is empty', async () => {
     const snippets: AmountInputSnippetReact[] = [
@@ -392,7 +367,7 @@ describe('FundCardAmountInput', () => {
     expect(snippet2).toBeInTheDocument();
 
     // Enter a value
-    const input = screen.getByTestId('ockFundCardAmountInput');
+    const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: '50' } });
 
     // Snippets should disappear
