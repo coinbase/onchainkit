@@ -17,7 +17,6 @@ export function FundCard({
   headerText,
   country = 'US',
   subdivision,
-  paymentMethods = DEFAULT_PAYMENT_METHODS,
   children = <DefaultFundCardContent />,
   className,
   onError,
@@ -29,7 +28,7 @@ export function FundCard({
   return (
     <FundCardProvider
       asset={assetSymbol}
-      paymentMethods={paymentMethods}
+      paymentMethods={DEFAULT_PAYMENT_METHODS}
       headerText={headerText}
       buttonText={buttonText}
       country={country}
