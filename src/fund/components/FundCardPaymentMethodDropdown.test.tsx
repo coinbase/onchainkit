@@ -2,11 +2,13 @@ import { isApplePaySupported } from '@/buy/utils/isApplePaySupported';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { OnrampOptionsResponseData } from '../types';
+import { fetchOnrampOptions } from '../utils/fetchOnrampOptions';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
 
-const mockResponseData = {
+const quoteMockResponseData = {
   paymentTotal: { value: '100.00', currency: 'USD' },
   paymentSubtotal: { value: '120.00', currency: 'USD' },
   purchaseAmount: { value: '0.1', currency: 'BTC' },
@@ -15,7 +17,24 @@ const mockResponseData = {
   quoteId: 'quote-id-123',
 };
 
+const optionsMockResponseData: OnrampOptionsResponseData = {
+  purchaseCurrencies: [],
+  paymentCurrencies: [
+    {
+      id: 'ACH_BANK_ACCOUNT',
+      limits: [
+        {
+          id: 'ACH_BANK_ACCOUNT',
+          min: '5',
+          max: '500',
+        },
+      ],
+    },
+  ],
+};
+
 vi.mock('../utils/fetchOnrampQuote');
+vi.mock('../utils/fetchOnrampOptions');
 
 // Mock the useOutsideClick hook
 vi.mock('@/ui-react/internal/hooks/useOutsideClick', () => ({
@@ -69,7 +88,8 @@ describe('FundCardPaymentMethodDropdown', () => {
     vi.resetAllMocks();
     setOnchainKitConfig({ apiKey: 'mock-api-key' });
     (isApplePaySupported as Mock).mockResolvedValue(true); // Default to supported
-    (fetchOnrampQuote as Mock).mockResolvedValue(mockResponseData);
+    (fetchOnrampQuote as Mock).mockResolvedValue(quoteMockResponseData);
+    (fetchOnrampOptions as Mock).mockResolvedValue(optionsMockResponseData);
   });
 
   const renderWithProvider = ({ amount = '5' }: { amount?: string }) => {

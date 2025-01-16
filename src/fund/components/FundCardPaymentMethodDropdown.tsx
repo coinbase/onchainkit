@@ -21,7 +21,7 @@ export function FundCardPaymentMethodDropdown({
     setSelectedPaymentMethod,
     paymentMethods,
     fundAmountFiat,
-    paymentOptionsLoading,
+    paymentMethodsLoading,
   } = useFundContext();
 
   const filteredPaymentMethods = useMemo(() => {
@@ -125,7 +125,7 @@ export function FundCardPaymentMethodDropdown({
       data-testid="ockFundCardPaymentMethodDropdownContainer"
       onKeyUp={handleEscKeyPress}
     >
-      {paymentOptionsLoading ? (
+      {paymentMethodsLoading ? (
         <Skeleton className="h-12 w-full" />
       ) : (
         <FundCardPaymentMethodSelectorToggle
