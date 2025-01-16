@@ -1,3 +1,5 @@
+'use client';
+
 import { cn, color, text } from '@/styles/theme';
 import { type Token, TokenImage } from '@/token';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';

@@ -320,15 +320,6 @@ export type FundCardPropsReact = {
   buttonText?: string;
   country: string;
   subdivision?: string;
-  /**
-   * Payment methods to display in the dropdown
-   */
-  paymentMethods?: PaymentMethodReact[];
-
-  /**
-   * Amount input snippets to display next to the input field: i.e. [10 USD] [50 USD] [100 USD]
-   */
-  amountInputSnippets?: AmountInputSnippetReact[];
   className?: string;
 } & LifecycleEvents;
 

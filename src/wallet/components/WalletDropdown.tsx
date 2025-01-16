@@ -1,3 +1,5 @@
+'use client';
+
 import { cn, color, pressable } from '@/styles/theme';
 import { Identity } from '@/ui/react/identity/components/Identity';
 import { useBreakpoints } from '@/ui/react/internal/hooks/useBreakpoints';

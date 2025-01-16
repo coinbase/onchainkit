@@ -1,8 +1,9 @@
 // 🌲☀🌲
-export { ConnectWallet } from './components/ConnectWallet';
-export { ConnectWalletText } from './components/ConnectWalletText';
+// Components
 export { Wallet } from './components/Wallet';
 export { WalletDefault } from './components/WalletDefault';
+export { ConnectWallet } from './components/ConnectWallet';
+export { ConnectWalletText } from './components/ConnectWalletText';
 export { WalletIsland } from './components/WalletIsland';
 export { WalletDropdown } from './components/WalletDropdown';
 export { WalletDropdownBasename } from './components/WalletDropdownBasename';
@@ -17,8 +18,12 @@ export { WalletAdvancedTokenHoldings } from './components/WalletAdvancedTokenHol
 export { WalletAdvancedQrReceive } from './components/WalletAdvancedQrReceive';
 export { WalletAdvancedSwap } from './components/WalletAdvancedSwap';
 export { WalletAdvancedWalletActions } from './components/WalletAdvancedWalletActions';
+
+// Utils
 export { isValidAAEntrypoint } from './utils/isValidAAEntrypoint';
 export { isWalletACoinbaseSmartWallet } from './utils/isWalletACoinbaseSmartWallet';
+
+// Types
 export type {
   ConnectWalletReact,
   ConnectWalletTextReact,

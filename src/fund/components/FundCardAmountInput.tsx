@@ -114,6 +114,14 @@ export const FundCardAmountInput = ({
     }
   };
 
+  /**
+   * Filter amount input snippets based on the selected input type.
+   * If the selected input type is 'fiat', we only want to display the snippets that have a type of 'fiat'.
+   * i.e [10 USD] [50 USD] [100 USD]
+   *
+   * If the selected input type is 'crypto', we only want to display the snippets that have a type of 'crypto'.
+   * i.e [0.1 ETH] [0.2 ETH] [0.3 ETH]
+   */
   const filteredAmountInputSnippets = useMemo(
     () =>
       amountInputSnippets?.filter(
@@ -127,6 +135,8 @@ export const FundCardAmountInput = ({
       ref={containerRef}
       data-testid="ockFundCardAmountInputContainer"
       className={cn('flex cursor-text py-6', className)}
+      onClick={handleFocusInput}
+      onKeyUp={handleFocusInput}
     >
       <div className="flex h-20">
         <TextInput
