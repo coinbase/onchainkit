@@ -414,12 +414,12 @@ describe('FundCardAmountInput', () => {
 
     renderWithProvider({ inputType: 'fiat', presetAmountInputs });
     // In fiat mode, only fiat preset amount inputs should be visible
-    expect(screen.getByTestId('test-value-fiat')).toHaveTextContent('10');
+    expect(screen.getByTestId('ockPresetAmountInput')).toHaveTextContent('10');
 
     // Change input type to crypto
     fireEvent.click(screen.getByTestId('set-crypto-button'));
 
     // In crypto mode, only crypto preset amount inputs should be visible
-    expect(screen.getByTestId('test-value-crypto')).toHaveTextContent('1');
+    expect(screen.getByTestId('ockPresetAmountInput')).toHaveTextContent('1');
   });
 });

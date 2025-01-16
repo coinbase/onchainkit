@@ -321,6 +321,7 @@ export type FundCardPropsReact = {
   country: string;
   subdivision?: string;
   className?: string;
+  presetAmountInputs?: PresetAmountInputReact[];
 } & LifecycleEvents;
 
 export type FundCardContentPropsReact = {
