@@ -432,17 +432,17 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
     ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
         ? { statusData: D }
         : AllKeysInShared<D> extends true // is statusData is LifecycleStatusDataShared, make optional
-        ? {
-            statusData?: PartialKeys<
-              D,
-              keyof D & keyof LifecycleStatusDataShared
-            >;
-          } // make all keys in LifecycleStatusDataShared optional
-        : {
-            statusData: PartialKeys<
-              D,
-              keyof D & keyof LifecycleStatusDataShared
-            >;
-          })
+          ? {
+              statusData?: PartialKeys<
+                D,
+                keyof D & keyof LifecycleStatusDataShared
+              >;
+            } // make all keys in LifecycleStatusDataShared optional
+          : {
+              statusData: PartialKeys<
+                D,
+                keyof D & keyof LifecycleStatusDataShared
+              >;
+            })
     : never
   : never;
