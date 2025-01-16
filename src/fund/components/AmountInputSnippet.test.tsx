@@ -25,7 +25,7 @@ describe('AmountInputSnippet', () => {
     );
 
     expect(screen.getByTestId('ockAmountInputSnippet')).toHaveTextContent(
-      '100USD',
+      '100 USD',
     );
   });
 
@@ -39,8 +39,7 @@ describe('AmountInputSnippet', () => {
     );
 
     const button = screen.getByTestId('ockAmountInputSnippet');
-    expect(button.textContent).toBe('1ETH');
-    expect(button.querySelector('span')).toHaveClass('pl-1');
+    expect(button.textContent).toBe('1 ETH');
   });
 
   it('calls onClick when clicked', () => {
