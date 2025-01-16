@@ -366,7 +366,7 @@ export type FundCardProviderReact = {
 
 export type LifecycleEvents = {
   onError?: (e: OnrampError | undefined) => void;
-  onStatus?: (lifecycleStatus: EventMetadata) => void;
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   onSuccess?: () => void;
   amountInputSnippets?: AmountInputSnippetReact[];
 };
