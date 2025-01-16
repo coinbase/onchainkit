@@ -78,7 +78,7 @@ describe('FundCardAmountInput', () => {
 
   it('renders correctly with fiat input type', () => {
     renderWithProvider();
-    expect(screen.getByTestId('ockFundCardAmountInput')).toBeInTheDocument();
+    expect(screen.getByTestId('ockTextInput_Input')).toBeInTheDocument();
     expect(screen.getByTestId('ockCurrencySpan')).toHaveTextContent('USD');
   });
 
@@ -93,7 +93,7 @@ describe('FundCardAmountInput', () => {
     });
 
     await waitFor(() => {
-      const input = screen.getByTestId('ockFundCardAmountInput');
+      const input = screen.getByTestId('ockTextInput_Input');
 
       fireEvent.change(input, { target: { value: '10' } });
       const valueFiat = screen.getByTestId('test-value-fiat');
@@ -108,7 +108,7 @@ describe('FundCardAmountInput', () => {
       renderWithProvider({ inputType: 'crypto' });
     });
     await waitFor(() => {
-      const input = screen.getByTestId('ockFundCardAmountInput');
+      const input = screen.getByTestId('ockTextInput_Input');
 
       fireEvent.change(input, { target: { value: '1' } });
 
@@ -117,18 +117,18 @@ describe('FundCardAmountInput', () => {
     });
   });
 
-  it('formats input value correctly when starting with a dot', async () => {
+  it('does not allow non-numeric input', async () => {
     act(() => {
       renderWithProvider();
     });
 
     await waitFor(() => {
-      const input = screen.getByTestId('ockFundCardAmountInput');
+      const input = screen.getByTestId('ockTextInput_Input');
 
-      fireEvent.change(input, { target: { value: '.5' } });
+      fireEvent.change(input, { target: { value: 'ABC' } });
 
       const valueFiat = screen.getByTestId('test-value-fiat');
-      expect(valueFiat.textContent).toBe('0.5');
+      expect(valueFiat.textContent).toBe('');
     });
   });
 
@@ -151,7 +151,7 @@ describe('FundCardAmountInput', () => {
     });
 
     await waitFor(() => {
-      const input = screen.getByTestId('ockFundCardAmountInput');
+      const input = screen.getByTestId('ockTextInput_Input');
 
       // Test decimal truncation
       fireEvent.change(input, { target: { value: '0.123456789' } });
@@ -167,7 +167,7 @@ describe('FundCardAmountInput', () => {
     });
 
     await waitFor(() => {
-      const input = screen.getByTestId('ockFundCardAmountInput');
+      const input = screen.getByTestId('ockTextInput_Input');
       fireEvent.change(input, { target: { value: '1000.123456789' } });
       const valueFiat = screen.getByTestId('test-value-fiat');
       expect(valueFiat.textContent).toBe('1000.12');
@@ -189,7 +189,7 @@ describe('FundCardAmountInput', () => {
         'not-loading',
       );
 
-      const input = screen.getByTestId('ockFundCardAmountInput');
+      const input = screen.getByTestId('ockTextInput_Input');
       const valueFiat = screen.getByTestId('test-value-fiat');
       const valueCrypto = screen.getByTestId('test-value-crypto');
 
@@ -215,7 +215,7 @@ describe('FundCardAmountInput', () => {
       );
     });
 
-    const input = screen.getByTestId('ockFundCardAmountInput');
+    const input = screen.getByTestId('ockTextInput_Input');
 
     fireEvent.change(input, { target: { value: '0' } });
 
@@ -245,7 +245,7 @@ describe('FundCardAmountInput', () => {
       expect(screen.getByTestId('loading-state').textContent).toBe(
         'not-loading',
       );
-      const input = screen.getByTestId('ockFundCardAmountInput');
+      const input = screen.getByTestId('ockTextInput_Input');
 
       fireEvent.change(input, { target: { value: '400' } });
 
@@ -279,7 +279,7 @@ describe('FundCardAmountInput', () => {
       </FundCardProvider>,
     );
 
-    const input = screen.getByTestId('ockFundCardAmountInput');
+    const input = screen.getByTestId('ockTextInput_Input');
     const container = screen.getByTestId('ockFundCardAmountInputContainer');
 
     // Mock getBoundingClientRect for container and currency label
@@ -294,7 +294,6 @@ describe('FundCardAmountInput', () => {
       configurable: true,
     });
 
-    //const input = screen.getByTestId('ockFundCardAmountInput');
     // Trigger width update
     act(() => {
       fireEvent.change(input, { target: { value: '10' } });
@@ -332,7 +331,7 @@ describe('FundCardAmountInput', () => {
     });
 
     await waitFor(() => {
-      const input = screen.getByTestId('ockFundCardAmountInput');
+      const input = screen.getByTestId('ockTextInput_Input');
       const valueFiat = screen.getByTestId('test-value-fiat');
       const valueCrypto = screen.getByTestId('test-value-crypto');
 
@@ -347,31 +346,6 @@ describe('FundCardAmountInput', () => {
       expect(exchangeRate.textContent).toBe('0');
     });
   });
-  //   act(() => {
-  //     render(
-  //       <FundCardProvider asset="ETH" country="US" inputType="crypto">
-  //         <FundCardAmountInput />
-  //         <TestComponent />
-  //       </FundCardProvider>,
-  //     );
-  //   });
-
-  //   await waitFor(() => {
-  //     const input = screen.getByTestId('ockFundCardAmountInput');
-  //     const valueFiat = screen.getByTestId('test-value-fiat');
-  //     const valueCrypto = screen.getByTestId('test-value-crypto');
-
-  //     // Set exchange rate to 0 to force calculated fiat value to be 0
-  //     const exchangeRate = screen.getByTestId('test-value-exchange-rate');
-  //     expect(exchangeRate.textContent).toBe('0');
-
-  //     // Enter a crypto amount
-  //     fireEvent.change(input, { target: { value: '1' } });
-
-  //     expect(valueCrypto.textContent).toBe('1');
-  //     expect(valueFiat.textContent).toBe(''); // Should be empty string when calculatedFiatValue === '0'
-  //   });
-  // });
 
   it('renders amount input snippets when value is empty', async () => {
     const snippets: AmountInputSnippetReact[] = [
@@ -393,7 +367,7 @@ describe('FundCardAmountInput', () => {
     expect(snippet2).toBeInTheDocument();
 
     // Enter a value
-    const input = screen.getByTestId('ockFundCardAmountInput');
+    const input = screen.getByTestId('ockTextInput_Input');
     fireEvent.change(input, { target: { value: '50' } });
 
     // Snippets should disappear
@@ -429,7 +403,7 @@ describe('FundCardAmountInput', () => {
     renderWithProvider({ inputType: 'fiat', amountInputSnippets: snippets });
     // In fiat mode, only fiat snippets should be visible
     expect(screen.getByTestId('ockAmountInputSnippet')).toHaveTextContent(
-      '10USD',
+      '10 USD',
     );
 
     // Change input type to crypto
@@ -437,7 +411,7 @@ describe('FundCardAmountInput', () => {
 
     // In crypto mode, only crypto snippets should be visible
     expect(screen.getByTestId('ockAmountInputSnippet')).toHaveTextContent(
-      '1ETH',
+      '1 ETH',
     );
   });
 });

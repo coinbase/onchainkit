@@ -34,6 +34,15 @@ export default function FundCardDemo() {
         assetSymbol="ETH"
         country="US"
         amountInputSnippets={amountInputSnippets}
+        onError={(error) => {
+          console.log('FundCard onError', error);
+        }}
+        onStatus={(status) => {
+          console.log('FundCard onStatus', status);
+        }}
+        onSuccess={() => {
+          console.log('FundCard onSuccess');
+        }}
       />
     </div>
   );

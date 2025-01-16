@@ -4,15 +4,12 @@ import type { AmountInputSnippetPropsReact } from '../types';
 
 export function AmountInputSnippet({
   amountInputSnippet,
-  selectedInputType = 'fiat',
+  currencyOrAsset,
   onClick,
 }: AmountInputSnippetPropsReact) {
-  // TODO: Get currency label from country (In follow up PR )
-  const currencyLabel = selectedInputType === 'fiat' ? 'USD' : 'ETH';
-
-  const buttonText = useMemo(() => {
-    return `${amountInputSnippet.value} ${currencyLabel}`;
-  }, [amountInputSnippet, currencyLabel]);
+  const snippetText = useMemo(() => {
+    return `${amountInputSnippet.value} ${currencyOrAsset}`;
+  }, [amountInputSnippet, currencyOrAsset]);
 
   const handleClick = useCallback(() => {
     onClick(amountInputSnippet);
@@ -37,33 +34,22 @@ export function AmountInputSnippet({
       type="button"
       data-testid="ockAmountInputSnippet"
       className={cn(
-        // Typography & Colors
         text.body,
         color.foreground,
-
-        // Border styles
         border.radius,
         border.lineDefault,
-
-        // Layout & Sizing
-        'inline-block',
         'm-1 p-1',
-
-        // Text overflow handling
         'overflow-hidden',
         'whitespace-nowrap',
         'text-ellipsis',
-
-        // Interactive states
         'hover:bg-[var(--ock-bg-default-hover)]',
         'focus:outline-none focus:ring-2',
       )}
-      title={buttonText}
+      title={snippetText}
       onClick={handleClick}
       onKeyDown={handleKeyPress}
     >
-      {amountInputSnippet.value}
-      <span className="pl-1">{currencyLabel}</span>
+      {snippetText}
     </button>
   );
 }

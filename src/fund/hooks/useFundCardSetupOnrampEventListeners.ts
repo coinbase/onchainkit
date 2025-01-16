@@ -1,38 +1,65 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useFundContext } from '../components/FundCardProvider';
 import { FUND_BUTTON_RESET_TIMEOUT } from '../constants';
+import type { EventMetadata, SuccessEventData } from '../types';
 import { setupOnrampEventListeners } from '../utils/setupOnrampEventListeners';
 
 export const useFundCardSetupOnrampEventListeners = () => {
-  const { setSubmitButtonState, onError, onStatus, onSuccess } =
-    useFundContext();
+  const { setSubmitButtonState, updateLifecycleStatus } = useFundContext();
+
+  const handleOnrampEvent = useCallback(
+    (data: EventMetadata) => {
+      if (data.eventName === 'transition_view') {
+        updateLifecycleStatus({
+          statusName: 'transactionPending',
+          statusData: undefined,
+        });
+      } else if (data.eventName === 'error') {
+        updateLifecycleStatus({
+          statusName: 'error',
+          statusData: data.error,
+        });
+
+        setSubmitButtonState('error');
+        setTimeout(() => {
+          setSubmitButtonState('default');
+        }, FUND_BUTTON_RESET_TIMEOUT);
+      }
+    },
+    [updateLifecycleStatus, setSubmitButtonState],
+  );
+
+  const handleOnrampSuccess = useCallback(
+    (data?: SuccessEventData) => {
+      updateLifecycleStatus({
+        statusName: 'transactionSuccess',
+        statusData: data,
+      });
+
+      setSubmitButtonState('success');
+
+      setTimeout(() => {
+        setSubmitButtonState('default');
+      }, FUND_BUTTON_RESET_TIMEOUT);
+    },
+    [updateLifecycleStatus, setSubmitButtonState],
+  );
+
+  const handleOnrampExit = useCallback(() => {
+    setSubmitButtonState('default');
+
+    updateLifecycleStatus({
+      statusName: 'exit',
+      statusData: undefined,
+    });
+  }, [updateLifecycleStatus, setSubmitButtonState]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: Only want to run this effect once
   useEffect(() => {
     const unsubscribe = setupOnrampEventListeners({
-      onEvent: (event) => {
-        onStatus?.(event);
-        if (event.eventName === 'error') {
-          setSubmitButtonState('error');
-
-          setTimeout(() => {
-            setSubmitButtonState('default');
-          }, FUND_BUTTON_RESET_TIMEOUT);
-        }
-      },
-      onExit: (event) => {
-        onError?.(event);
-        setSubmitButtonState('default');
-        console.log('onExit', event);
-      },
-      onSuccess: () => {
-        onSuccess?.();
-        setSubmitButtonState('success');
-
-        setTimeout(() => {
-          setSubmitButtonState('default');
-        }, FUND_BUTTON_RESET_TIMEOUT);
-      },
+      onEvent: handleOnrampEvent,
+      onExit: handleOnrampExit,
+      onSuccess: handleOnrampSuccess,
     });
 
     return () => {

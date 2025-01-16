@@ -12,7 +12,7 @@ export function FundCardPaymentMethodImage({
 
   return (
     <div
-      data-testid="fundCardPaymentMethodImage__iconContainer"
+      data-testid="ockFundCardPaymentMethodImage__iconContainer"
       className={cn(
         'flex items-center justify-center overflow-hidden rounded-[50%]',
         className,

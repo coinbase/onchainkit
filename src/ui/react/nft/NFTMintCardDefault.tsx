@@ -1,3 +1,4 @@
+'use client';
 import type { NFTMintCardDefaultReact } from '@/core-react/nft/types';
 import { NFTMintCard } from './NFTMintCard';
 import {

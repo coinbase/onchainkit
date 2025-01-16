@@ -1,3 +1,5 @@
+'use client';
+
 import { Spinner } from '@/internal/components/Spinner';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { Avatar, Badge, Name } from '@/ui/react/identity';

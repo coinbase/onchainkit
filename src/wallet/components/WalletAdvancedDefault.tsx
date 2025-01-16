@@ -1,3 +1,5 @@
+'use client';
+
 import { Avatar, Name } from '@/ui/react/identity';
 import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';

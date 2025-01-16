@@ -22,9 +22,9 @@ export const FundCardAmountInputTypeSwitch = ({
 
   const iconSvg = useIcon({ icon: 'toggle' });
 
-  const handleToggle = () => {
+  const handleToggle = useCallback(() => {
     setSelectedInputType(selectedInputType === 'fiat' ? 'crypto' : 'fiat');
-  };
+  }, [selectedInputType, setSelectedInputType]);
 
   const formatUSD = useCallback((amount: string) => {
     const roundedAmount = Number(getRoundedAmount(amount || '0', 2));

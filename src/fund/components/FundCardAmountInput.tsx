@@ -1,17 +1,12 @@
-import {
-  type ChangeEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react';
+import { isValidAmount } from '@/core/utils/isValidAmount';
+import { TextInput } from '@/internal/components/TextInput';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { cn, text } from '../../styles/theme';
 import { useInputResize } from '../hooks/useInputResize';
 import type {
   AmountInputSnippetReact,
   FundCardAmountInputPropsReact,
 } from '../types';
-import { formatDecimalInputValue } from '../utils/formatDecimalInputValue';
 import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
 import { AmountInputSnippet } from './AmountInputSnippet';
 import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
@@ -20,9 +15,6 @@ import { useFundContext } from './FundCardProvider';
 export const FundCardAmountInput = ({
   className,
 }: FundCardAmountInputPropsReact) => {
-  // TODO: Get currency label from country (This is coming in the follow up PRs)
-  const currencyLabel = 'USD';
-
   const {
     fundAmountFiat,
     setFundAmountFiat,
@@ -33,6 +25,9 @@ export const FundCardAmountInput = ({
     exchangeRate,
     amountInputSnippets,
   } = useFundContext();
+
+  // Next PR will include a support for any currency
+  const currencyOrAsset = selectedInputType === 'fiat' ? 'USD' : asset;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -49,55 +44,57 @@ export const FundCardAmountInput = ({
     currencySpanRef,
   );
 
-  const handleSetAmount = useCallback(
-    (amount: string) => {
+  const handleFiatChange = useCallback(
+    (value: string) => {
+      const fiatValue = truncateDecimalPlaces(value, 2);
+      setFundAmountFiat(fiatValue);
+
+      const calculatedCryptoValue = String(
+        Number(fiatValue) * Number(exchangeRate),
+      );
+      const resultCryptoValue = truncateDecimalPlaces(calculatedCryptoValue, 8);
+      setFundAmountCrypto(
+        calculatedCryptoValue === '0' ? '' : resultCryptoValue,
+      );
+    },
+    [exchangeRate, setFundAmountFiat, setFundAmountCrypto],
+  );
+
+  const handleCryptoChange = useCallback(
+    (value: string) => {
+      const truncatedValue = truncateDecimalPlaces(value, 8);
+      setFundAmountCrypto(truncatedValue);
+
+      const calculatedFiatValue = String(
+        Number(truncatedValue) / Number(exchangeRate),
+      );
+
+      const resultFiatValue = truncateDecimalPlaces(calculatedFiatValue, 2);
+      setFundAmountFiat(resultFiatValue === '0' ? '' : resultFiatValue);
+    },
+    [exchangeRate, setFundAmountFiat, setFundAmountCrypto],
+  );
+
+  const handleChange = useCallback(
+    (value: string) => {
       if (selectedInputType === 'fiat') {
-        const fiatValue = truncateDecimalPlaces(amount, 2);
-        setFundAmountFiat(fiatValue);
-
-        const calculatedCryptoValue = String(
-          Number(fiatValue) * Number(exchangeRate),
-        );
-        const resultCryptoValue = truncateDecimalPlaces(
-          calculatedCryptoValue,
-          8,
-        );
-        setFundAmountCrypto(
-          calculatedCryptoValue === '0' ? '' : resultCryptoValue,
-        );
+        handleFiatChange(value);
       } else {
-        const truncatedValue = truncateDecimalPlaces(amount, 8);
-        setFundAmountCrypto(truncatedValue);
-
-        const calculatedFiatValue = String(
-          Number(truncatedValue) / Number(exchangeRate),
-        );
-
-        const resultFiatValue = truncateDecimalPlaces(calculatedFiatValue, 2);
-        setFundAmountFiat(resultFiatValue === '0' ? '' : resultFiatValue);
+        handleCryptoChange(value);
       }
 
       if (inputRef.current) {
         inputRef.current.focus();
       }
     },
-    [exchangeRate, setFundAmountFiat, setFundAmountCrypto, selectedInputType],
-  );
-
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const value = formatDecimalInputValue(e.target.value);
-
-      handleSetAmount(value);
-    },
-    [handleSetAmount],
+    [handleFiatChange, handleCryptoChange, selectedInputType],
   );
 
   const handleAmountInputSnippetClick = useCallback(
     (snippet: AmountInputSnippetReact) => {
-      handleSetAmount(snippet.value);
+      handleChange(snippet.value);
     },
-    [handleSetAmount],
+    [handleChange],
   );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: When value changes, we want to update the input width
@@ -117,6 +114,14 @@ export const FundCardAmountInput = ({
     }
   };
 
+  /**
+   * Filter amount input snippets based on the selected input type.
+   * If the selected input type is 'fiat', we only want to display the snippets that have a type of 'fiat'.
+   * i.e [10 USD] [50 USD] [100 USD]
+   *
+   * If the selected input type is 'crypto', we only want to display the snippets that have a type of 'crypto'.
+   * i.e [0.1 ETH] [0.2 ETH] [0.3 ETH]
+   */
   const filteredAmountInputSnippets = useMemo(
     () =>
       amountInputSnippets?.filter(
@@ -132,7 +137,7 @@ export const FundCardAmountInput = ({
       className={cn('flex cursor-text py-6', className)}
     >
       <div className="flex h-20">
-        <input
+        <TextInput
           className={cn(
             text.body,
             'border-none bg-transparent',
@@ -141,21 +146,15 @@ export const FundCardAmountInput = ({
             '[&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none',
             '[&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
           )}
-          type="number"
           value={value}
           onChange={handleChange}
-          onKeyUp={handleFocusInput}
-          onClick={handleFocusInput}
+          inputValidator={isValidAmount}
           ref={inputRef}
           inputMode="decimal"
           placeholder="0"
-          data-testid="ockFundCardAmountInput"
         />
 
-        <FundCardCurrencyLabel
-          ref={currencySpanRef}
-          label={selectedInputType === 'crypto' ? asset : currencyLabel}
-        />
+        <FundCardCurrencyLabel ref={currencySpanRef} label={currencyOrAsset} />
       </div>
 
       {!value && (
@@ -164,8 +163,8 @@ export const FundCardAmountInput = ({
             <AmountInputSnippet
               key={snippet.value}
               amountInputSnippet={snippet}
-              selectedInputType={selectedInputType}
               onClick={handleAmountInputSnippetClick}
+              currencyOrAsset={currencyOrAsset}
             />
           ))}
         </div>

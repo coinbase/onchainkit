@@ -157,9 +157,7 @@ describe('FundCard', () => {
   it('handles input changes for fiat amount', () => {
     renderComponent();
 
-    const input = screen.getByTestId(
-      'ockFundCardAmountInput',
-    ) as HTMLInputElement;
+    const input = screen.getByTestId('ockTextInput_Input') as HTMLInputElement;
 
     act(() => {
       fireEvent.change(input, { target: { value: '100' } });
@@ -208,7 +206,7 @@ describe('FundCard', () => {
       expect(screen.getByTestId('loading-state').textContent).toBe(
         'not-loading',
       );
-      const input = screen.getByTestId('ockFundCardAmountInput');
+      const input = screen.getByTestId('ockTextInput_Input');
       fireEvent.change(input, { target: { value: '1000' } });
 
       const button = screen.getByTestId('ockFundButton');
@@ -227,7 +225,7 @@ describe('FundCard', () => {
       expect(screen.getByTestId('loading-state').textContent).toBe(
         'not-loading',
       );
-      const input = screen.getByTestId('ockFundCardAmountInput');
+      const input = screen.getByTestId('ockTextInput_Input');
       fireEvent.change(input, { target: { value: '1000' } });
 
       const button = screen.getByTestId('ockFundButton');
@@ -242,7 +240,7 @@ describe('FundCard', () => {
       expect(screen.getByTestId('loading-state').textContent).toBe(
         'not-loading',
       );
-      const input = screen.getByTestId('ockFundCardAmountInput');
+      const input = screen.getByTestId('ockTextInput_Input');
 
       fireEvent.change(input, { target: { value: '1000' } });
 
@@ -257,32 +255,32 @@ describe('FundCard', () => {
     });
   });
 
-  it('sets submit button state to default on popup close', () => {
-    vi.useFakeTimers();
-
+  it('sets submit button state to default on popup close', async () => {
     (openPopup as Mock).mockImplementation(() => ({ closed: true }));
+
     renderComponent();
+
     const button = screen.getByTestId('ockFundButton');
-
-    // Simulate entering a valid amount
-    const input = screen.getByTestId(
-      'ockFundCardAmountInput',
-    ) as HTMLInputElement;
-    act(() => {
-      fireEvent.change(input, { target: { value: '100' } });
-    });
-
-    // Click the submit button to trigger loading state
-    act(() => {
-      fireEvent.click(button);
-    });
-
-    vi.runOnlyPendingTimers();
 
     const submitButton = screen.getByTestId('ockFundButton');
 
-    // Assert that the submit button state is set to 'default'
-    expect(submitButton).not.toBeDisabled();
+    await waitFor(() => {
+      expect(screen.getByTestId('loading-state').textContent).toBe(
+        'not-loading',
+      );
+
+      // Simulate entering a valid amount
+      const input = screen.getByTestId(
+        'ockTextInput_Input',
+      ) as HTMLInputElement;
+
+      fireEvent.change(input, { target: { value: '100' } });
+
+      fireEvent.click(button);
+
+      // Assert that the submit button state is set to 'default'
+      expect(submitButton).not.toBeDisabled();
+    });
   });
 
   it('renders custom children instead of default children', () => {

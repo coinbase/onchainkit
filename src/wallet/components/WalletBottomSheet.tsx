@@ -1,3 +1,5 @@
+'use client';
+
 import { background, cn } from '@/styles/theme';
 import { Identity } from '@/ui/react/identity/components/Identity';
 import {
