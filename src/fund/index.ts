@@ -20,5 +20,5 @@ export type {
   GetOnrampUrlWithProjectIdParams,
   GetOnrampUrlWithSessionTokenParams,
   OnrampError,
-  PaymentMethodReact,
+  PaymentMethod as PaymentMethodReact,
 } from './types';

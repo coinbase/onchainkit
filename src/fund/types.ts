@@ -285,7 +285,7 @@ export type FundCardHeaderPropsReact = {
 export type FundCardPaymentMethodImagePropsReact = {
   className?: string;
   size?: number;
-  paymentMethod: PaymentMethodReact;
+  paymentMethod: PaymentMethod;
 };
 
 export type PaymentAccountReact =
@@ -297,7 +297,7 @@ export type PaymentAccountReact =
   | 'APPLE_PAY'
   | ''; // Empty string represents Coinbase default payment method
 
-export type PaymentMethodReact = {
+export type PaymentMethod = {
   id: PaymentAccountReact;
   name: string;
   description: string;
@@ -331,12 +331,12 @@ export type FundCardPaymentMethodSelectorTogglePropsReact = {
   className?: string;
   isOpen: boolean; // Determines carot icon direction
   onClick: () => void; // Button on click handler
-  paymentMethod: PaymentMethodReact;
+  paymentMethod: PaymentMethod;
 };
 
 export type FundCardPaymentMethodSelectRowPropsReact = {
-  paymentMethod: PaymentMethodReact;
-  onClick?: (paymentMethod: PaymentMethodReact) => void;
+  paymentMethod: PaymentMethod;
+  onClick?: (paymentMethod: PaymentMethod) => void;
   hideImage?: boolean;
   hideDescription?: boolean;
   disabled?: boolean;
@@ -347,33 +347,33 @@ export type FundCardPaymentMethodSelectRowPropsReact = {
 export type FundCardProviderReact = {
   children: ReactNode;
   asset: string;
-  paymentMethods?: PaymentMethodReact[];
+  paymentMethods?: PaymentMethod[];
   headerText?: string;
   buttonText?: string;
   country: string;
   subdivision?: string;
-  inputType?: 'fiat' | 'crypto';
+  inputType?: AmountInputType;
+  presetAmountInputs?: PresetAmountInputReact[];
 } & LifecycleEvents;
 
 export type LifecycleEvents = {
   onError?: (e: OnrampError | undefined) => void;
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   onSuccess?: (result: SuccessEventData) => void;
-  amountInputSnippets?: AmountInputSnippetReact[];
 };
 
-export type AmountInputSnippetPropsReact = {
-  amountInputSnippet: AmountInputSnippetReact;
+export type PresetAmountInputPropsReact = {
+  presetAmountInput: PresetAmountInputReact;
   currencyOrAsset: string;
-  onClick: (snippet: AmountInputSnippetReact) => void;
+  onClick: (presetAmountInput: PresetAmountInputReact) => void;
 };
 
-export type AmountInputSnippetReact = {
+export type PresetAmountInputReact = {
   value: string;
-  type: AmountInputTypeReact;
+  type: AmountInputType;
 };
 
-export type AmountInputTypeReact = 'fiat' | 'crypto';
+export type AmountInputType = 'fiat' | 'crypto';
 
 export type LifecycleStatus =
   | {

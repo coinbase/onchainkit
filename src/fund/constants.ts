@@ -1,4 +1,4 @@
-import type { PaymentMethodReact } from './types';
+import type { PaymentMethod } from './types';
 
 export const DEFAULT_ONRAMP_URL = 'https://pay.coinbase.com';
 // The base URL for the Coinbase Onramp widget.
@@ -12,21 +12,21 @@ export const ONRAMP_API_BASE_URL =
 // Time in milliseconds to wait before resetting the button state to default after a transaction is completed.
 export const FUND_BUTTON_RESET_TIMEOUT = 3000;
 
-export const COINBASE: PaymentMethodReact = {
+export const COINBASE: PaymentMethod = {
   id: '',
   name: 'Coinbase',
   description: 'ACH, cash, crypto and balance',
   icon: 'coinbaseLogo',
 };
 
-export const DEBIT_CARD: PaymentMethodReact = {
+export const DEBIT_CARD: PaymentMethod = {
   id: 'ACH_BANK_ACCOUNT',
   name: 'Debit Card',
   description: 'Up to $500/week. No sign up required.',
   icon: 'creditCard',
 };
 
-export const APPLE_PAY: PaymentMethodReact = {
+export const APPLE_PAY: PaymentMethod = {
   id: 'APPLE_PAY',
   name: 'Apple Pay',
   description: 'Up to $500/week. No sign up required.',
