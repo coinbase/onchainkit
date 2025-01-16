@@ -24,6 +24,7 @@ export default defineConfig({
         'playground/**',
         'site/**',
         'create-onchain/**',
+        '**/**.test.tsx',
       ],
       reportOnFailure: true,
       thresholds: {

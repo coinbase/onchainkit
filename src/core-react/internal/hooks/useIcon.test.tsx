@@ -1,8 +1,12 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import { applePaySvg } from '../../../internal/svg/applePaySvg';
+import { appleSvg } from '../../../internal/svg/appleSvg';
 import { coinbasePaySvg } from '../../../internal/svg/coinbasePaySvg';
+import { creditCardSvg } from '../../../internal/svg/creditCardSvg';
 import { fundWalletSvg } from '../../../internal/svg/fundWallet';
 import { swapSettingsSvg } from '../../../internal/svg/swapSettings';
+import { toggleSvg } from '../../../internal/svg/toggleSvg';
 import { walletSvg } from '../../../internal/svg/walletSvg';
 import { useIcon } from './useIcon';
 
@@ -17,7 +21,27 @@ describe('useIcon', () => {
     expect(result.current).toBe(walletSvg);
   });
 
-  it('should return coinbasePaySvg when icon is "coinbasePay"', () => {
+  it('should return toggleSvg when icon is "toggle"', () => {
+    const { result } = renderHook(() => useIcon({ icon: 'toggle' }));
+    expect(result.current).toBe(toggleSvg);
+  });
+
+  it('should return appleSvg when icon is "apple"', () => {
+    const { result } = renderHook(() => useIcon({ icon: 'apple' }));
+    expect(result.current).toBe(appleSvg);
+  });
+
+  it('should return applePaySvg when icon is "applePay"', () => {
+    const { result } = renderHook(() => useIcon({ icon: 'applePay' }));
+    expect(result.current).toBe(applePaySvg);
+  });
+
+  it('should return creditCardSvg when icon is "creditCard"', () => {
+    const { result } = renderHook(() => useIcon({ icon: 'creditCard' }));
+    expect(result.current).toBe(creditCardSvg);
+  });
+
+  it('should return CoinbasePaySvg when icon is "coinbasePay"', () => {
     const { result } = renderHook(() => useIcon({ icon: 'coinbasePay' }));
     expect(result.current).toBe(coinbasePaySvg);
   });

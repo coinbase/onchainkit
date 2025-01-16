@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 /**
  * Props used to get an Onramp buy URL by directly providing a CDP project ID.
  * See https://docs.cdp.coinbase.com/onramp/docs/api-initializing#generating-the-coinbase-onramp-buysell-url
@@ -88,6 +90,11 @@ type GetOnrampBuyUrlOptionalProps = {
    * choose to change this amount in the UI. Only one of presetCryptoAmount or presetFiatAmount should be provided.
    */
   presetFiatAmount?: number;
+
+  /**
+   * The default payment method that will be selected for the user in the Onramp UI. Should be one of the payment methods
+   */
+  defaultPaymentMethod?: PaymentAccountReact;
   /**
    * The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR.
    */
@@ -106,6 +113,9 @@ export type FundButtonReact = {
   className?: string; // An optional CSS class name for styling the button component
   disabled?: boolean; // A optional prop to disable the fund button
   text?: string; // An optional text to be displayed in the button component
+  successText?: string; // An optional text to be displayed in the button component when the transaction is successful
+  errorText?: string; // An optional text to be displayed in the button component when the transaction fails
+  state?: FundButtonStateReact; // The state of the button component
   hideText?: boolean; // An optional prop to hide the text in the button component
   hideIcon?: boolean; // An optional prop to hide the icon in the button component
   fundingUrl?: string; // An optional prop to provide a custom funding URL
@@ -117,7 +127,11 @@ export type FundButtonReact = {
   popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
   rel?: string; // Specifies the relationship between the current document and the linked document
   target?: string; // Where to open the target if `openIn` is set to tab
+  onPopupClose?: () => void; // A callback function that will be called when the popup window is closed
+  onClick?: () => void; // A callback function that will be called when the button is clicked
 };
+
+export type FundButtonStateReact = 'default' | 'success' | 'error' | 'loading';
 
 /**
  * Matches a JSON object.
@@ -167,6 +181,14 @@ export type ExitEvent = {
 
 export type SuccessEvent = {
   eventName: 'success';
+  data?: SuccessEventData;
+};
+
+export type SuccessEventData = {
+  assetImageUrl: string;
+  assetName: string;
+  assetSymbol: string;
+  chainId: string;
 };
 
 export type RequestOpenUrlEvent = {
@@ -196,7 +218,7 @@ export type OnrampTransactionStatusName =
   | 'ONRAMP_TRANSACTION_STATUS_FAILED';
 
 export type OnrampAmount = {
-  amount: string;
+  value: string;
   currency: string;
 };
 
@@ -247,3 +269,154 @@ export type OnrampPaymentCurrency = {
   id: string;
   paymentMethodLimits: OnrampPaymentMethodLimit[];
 };
+
+export type FundCardAmountInputPropsReact = {
+  className?: string;
+};
+
+export type FundCardAmountInputTypeSwitchPropsReact = {
+  className?: string;
+};
+
+export type FundCardHeaderPropsReact = {
+  className?: string;
+};
+
+export type FundCardPaymentMethodImagePropsReact = {
+  className?: string;
+  size?: number;
+  paymentMethod: PaymentMethodReact;
+};
+
+export type PaymentAccountReact =
+  | 'COINBASE'
+  | 'CRYPTO_ACCOUNT'
+  | 'FIAT_WALLET'
+  | 'CARD'
+  | 'ACH_BANK_ACCOUNT'
+  | 'APPLE_PAY'
+  | ''; // Empty string represents Coinbase default payment method
+
+export type PaymentMethodReact = {
+  id: PaymentAccountReact;
+  name: string;
+  description: string;
+  icon: string;
+};
+
+export type FundCardPaymentMethodDropdownPropsReact = {
+  className?: string;
+};
+
+export type FundCardCurrencyLabelPropsReact = {
+  label: string;
+};
+
+export type FundCardPropsReact = {
+  children?: ReactNode;
+  assetSymbol: string;
+  placeholder?: string | React.ReactNode;
+  headerText?: string;
+  buttonText?: string;
+  country: string;
+  subdivision?: string;
+  className?: string;
+} & LifecycleEvents;
+
+export type FundCardContentPropsReact = {
+  children?: ReactNode;
+};
+
+export type FundCardPaymentMethodSelectorTogglePropsReact = {
+  className?: string;
+  isOpen: boolean; // Determines carot icon direction
+  onClick: () => void; // Button on click handler
+  paymentMethod: PaymentMethodReact;
+};
+
+export type FundCardPaymentMethodSelectRowPropsReact = {
+  paymentMethod: PaymentMethodReact;
+  onClick?: (paymentMethod: PaymentMethodReact) => void;
+  hideImage?: boolean;
+  hideDescription?: boolean;
+  disabled?: boolean;
+  disabledReason?: string;
+  testId?: string;
+};
+
+export type FundCardProviderReact = {
+  children: ReactNode;
+  asset: string;
+  paymentMethods?: PaymentMethodReact[];
+  headerText?: string;
+  buttonText?: string;
+  country: string;
+  subdivision?: string;
+  inputType?: 'fiat' | 'crypto';
+} & LifecycleEvents;
+
+export type LifecycleEvents = {
+  onError?: (e: OnrampError | undefined) => void;
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  onSuccess?: (result: SuccessEventData) => void;
+};
+
+export type LifecycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'exit';
+      statusData: null;
+    }
+  | {
+      statusName: 'error';
+      statusData: OnrampError;
+    }
+  | {
+      statusName: 'transactionSuccess';
+      statusData: SuccessEventData;
+    }
+  | {
+      statusName: 'transactionPending';
+      statusData: null;
+    };
+
+type LifecycleStatusDataShared = Record<string, never>;
+
+// make all keys in T optional if they are in K
+type PartialKeys<T, K extends keyof T> = Omit<T, K> &
+  Partial<Pick<T, K>> extends infer O
+  ? { [P in keyof O]: O[P] }
+  : never;
+
+// check if all keys in T are a key of LifecycleStatusDataShared
+type AllKeysInShared<T> = keyof T extends keyof LifecycleStatusDataShared
+  ? true
+  : false;
+
+/**
+ * LifecycleStatus updater type
+ * Used to type the statuses used to update LifecycleStatus
+ * LifecycleStatusData is persisted across state updates allowing SharedData to be optional except for in init step
+ */
+export type LifecycleStatusUpdate = LifecycleStatus extends infer T
+  ? T extends { statusName: infer N; statusData: infer D }
+    ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
+        ? { statusData: D }
+        : AllKeysInShared<D> extends true // is statusData is LifecycleStatusDataShared, make optional
+          ? {
+              statusData?: PartialKeys<
+                D,
+                keyof D & keyof LifecycleStatusDataShared
+              >;
+            } // make all keys in LifecycleStatusDataShared optional
+          : {
+              statusData: PartialKeys<
+                D,
+                keyof D & keyof LifecycleStatusDataShared
+              >;
+            })
+    : never
+  : never;
