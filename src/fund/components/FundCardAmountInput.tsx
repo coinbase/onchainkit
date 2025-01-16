@@ -1,8 +1,9 @@
-import { type ChangeEvent, useCallback, useEffect, useRef } from 'react';
+import { isValidAmount } from '@/core/utils/isValidAmount';
+import { TextInput } from '@/internal/components/TextInput';
+import { useCallback, useEffect, useRef } from 'react';
 import { cn, text } from '../../styles/theme';
 import { useInputResize } from '../hooks/useInputResize';
 import type { FundCardAmountInputPropsReact } from '../types';
-import { formatDecimalInputValue } from '../utils/formatDecimalInputValue';
 import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
 import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
 import { useFundContext } from './FundCardProvider';
@@ -38,37 +39,46 @@ export const FundCardAmountInput = ({
     currencySpanRef,
   );
 
+  const handleFiatChange = useCallback(
+    (value: string) => {
+      const fiatValue = truncateDecimalPlaces(value, 2);
+      setFundAmountFiat(fiatValue);
+
+      const calculatedCryptoValue = String(
+        Number(fiatValue) * Number(exchangeRate),
+      );
+      const resultCryptoValue = truncateDecimalPlaces(calculatedCryptoValue, 8);
+      setFundAmountCrypto(
+        calculatedCryptoValue === '0' ? '' : resultCryptoValue,
+      );
+    },
+    [exchangeRate, setFundAmountFiat, setFundAmountCrypto],
+  );
+
+  const handleCryptoChange = useCallback(
+    (value: string) => {
+      const truncatedValue = truncateDecimalPlaces(value, 8);
+      setFundAmountCrypto(truncatedValue);
+
+      const calculatedFiatValue = String(
+        Number(truncatedValue) / Number(exchangeRate),
+      );
+
+      const resultFiatValue = truncateDecimalPlaces(calculatedFiatValue, 2);
+      setFundAmountFiat(resultFiatValue === '0' ? '' : resultFiatValue);
+    },
+    [exchangeRate, setFundAmountFiat, setFundAmountCrypto],
+  );
+
   const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const value = formatDecimalInputValue(e.target.value);
-
+    (value: string) => {
       if (selectedInputType === 'fiat') {
-        const fiatValue = truncateDecimalPlaces(value, 2);
-        setFundAmountFiat(fiatValue);
-
-        const calculatedCryptoValue = String(
-          Number(fiatValue) * Number(exchangeRate),
-        );
-        const resultCryptoValue = truncateDecimalPlaces(
-          calculatedCryptoValue,
-          8,
-        );
-        setFundAmountCrypto(
-          calculatedCryptoValue === '0' ? '' : resultCryptoValue,
-        );
+        handleFiatChange(value);
       } else {
-        const truncatedValue = truncateDecimalPlaces(value, 8);
-        setFundAmountCrypto(truncatedValue);
-
-        const calculatedFiatValue = String(
-          Number(truncatedValue) / Number(exchangeRate),
-        );
-
-        const resultFiatValue = truncateDecimalPlaces(calculatedFiatValue, 2);
-        setFundAmountFiat(resultFiatValue === '0' ? '' : resultFiatValue);
+        handleCryptoChange(value);
       }
     },
-    [exchangeRate, setFundAmountFiat, setFundAmountCrypto, selectedInputType],
+    [handleFiatChange, handleCryptoChange, selectedInputType],
   );
 
   // Update width when value changes
@@ -98,7 +108,7 @@ export const FundCardAmountInput = ({
       onKeyUp={handleFocusInput}
     >
       <div className="flex h-20">
-        <input
+        <TextInput
           className={cn(
             text.body,
             'border-none bg-transparent',
@@ -107,13 +117,12 @@ export const FundCardAmountInput = ({
             '[&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none',
             '[&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
           )}
-          type="number"
           value={value}
           onChange={handleChange}
+          inputValidator={isValidAmount}
           ref={inputRef}
           inputMode="decimal"
           placeholder="0"
-          data-testid="ockFundCardAmountInput"
         />
 
         <FundCardCurrencyLabel

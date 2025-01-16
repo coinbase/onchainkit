@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import {
   background,
   border,
@@ -20,6 +20,11 @@ export const FundCardPaymentMethodSelectRow = memo(
     disabledReason,
     testId,
   }: FundCardPaymentMethodSelectRowPropsReact) => {
+    const handleOnClick = useCallback(
+      () => !disabled && onClick?.(paymentMethod),
+      [disabled, onClick, paymentMethod],
+    );
+
     return (
       <button
         data-testid={testId}
@@ -31,7 +36,7 @@ export const FundCardPaymentMethodSelectRow = memo(
           'flex w-full items-center justify-between px-4 py-2',
           disabled && 'cursor-not-allowed opacity-50',
         )}
-        onClick={() => !disabled && onClick?.(paymentMethod)}
+        onClick={handleOnClick}
         disabled={disabled}
         title={disabledReason}
       >

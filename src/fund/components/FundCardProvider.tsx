@@ -7,11 +7,12 @@ import {
 } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { DEFAULT_PAYMENT_METHODS } from '../constants';
+import { useEmitLifecycleStatus } from '../hooks/useEmitLifecycleStatus';
 import type {
-  EventMetadata,
   FundButtonStateReact,
   FundCardProviderReact,
-  OnrampError,
+  LifecycleStatus,
+  LifecycleStatusUpdate,
   PaymentMethodReact,
 } from '../types';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
@@ -38,9 +39,8 @@ type FundCardContextType = {
   country: string;
   subdivision?: string;
   inputType?: 'fiat' | 'crypto';
-  onError?: (e: OnrampError | undefined) => void;
-  onStatus?: (lifecycleStatus: EventMetadata) => void;
-  onSuccess?: () => void;
+  lifecycleStatus: LifecycleStatus;
+  updateLifecycleStatus: (newStatus: LifecycleStatusUpdate) => void;
 };
 
 const FundContext = createContext<FundCardContextType | undefined>(undefined);
@@ -72,6 +72,12 @@ export function FundCardProvider({
   >();
   const [submitButtonState, setSubmitButtonState] =
     useState<FundButtonStateReact>('default');
+
+  const { lifecycleStatus, updateLifecycleStatus } = useEmitLifecycleStatus({
+    onError,
+    onSuccess,
+    onStatus,
+  });
 
   const fetchExchangeRate = useCallback(async () => {
     setExchangeRateLoading(true);
@@ -117,9 +123,8 @@ export function FundCardProvider({
     buttonText,
     country,
     subdivision,
-    onError,
-    onStatus,
-    onSuccess,
+    lifecycleStatus,
+    updateLifecycleStatus,
   });
   return <FundContext.Provider value={value}>{children}</FundContext.Provider>;
 }

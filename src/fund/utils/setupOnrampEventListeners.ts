@@ -1,10 +1,10 @@
 import { DEFAULT_ONRAMP_URL } from '../constants';
-import type { EventMetadata, OnrampError } from '../types';
+import type { EventMetadata, OnrampError, SuccessEventData } from '../types';
 import { subscribeToWindowMessage } from './subscribeToWindowMessage';
 
 type SetupOnrampEventListenersParams = {
   host?: string;
-  onSuccess?: () => void;
+  onSuccess?: (data?: SuccessEventData) => void;
   onExit?: (error?: OnrampError) => void;
   onEvent?: (event: EventMetadata) => void;
 };
@@ -28,7 +28,7 @@ export function setupOnrampEventListeners({
       const metadata = data as EventMetadata;
 
       if (metadata.eventName === 'success') {
-        onSuccess?.();
+        onSuccess?.(metadata.data);
       }
       if (metadata.eventName === 'exit') {
         onExit?.(metadata.error);
