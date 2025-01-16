@@ -20,7 +20,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={mockSnippet}
         onClick={vi.fn()}
-        selectedInputType="fiat"
+        currencyOrAsset="USD"
       />,
     );
 
@@ -34,7 +34,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={mockCryptoSnippet}
         onClick={vi.fn()}
-        selectedInputType="crypto"
+        currencyOrAsset="ETH"
       />,
     );
 
@@ -48,7 +48,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={mockSnippet}
         onClick={handleClick}
-        selectedInputType="fiat"
+        currencyOrAsset="USD"
       />,
     );
 
@@ -61,7 +61,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={mockSnippet}
         onClick={vi.fn()}
-        selectedInputType="fiat"
+        currencyOrAsset="USD"
       />,
     );
 
@@ -75,7 +75,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={mockSnippet}
         onClick={handleClick}
-        selectedInputType="fiat"
+        currencyOrAsset="USD"
       />,
     );
 
@@ -93,7 +93,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={{ ...mockSnippet, value: '' }}
         onClick={vi.fn()}
-        selectedInputType="fiat"
+        currencyOrAsset="USD"
       />,
     );
 
@@ -105,7 +105,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={mockSnippet}
         onClick={vi.fn()}
-        selectedInputType="fiat"
+        currencyOrAsset="USD"
       />,
     );
     const button = screen.getByTestId('ockAmountInputSnippet');
@@ -121,7 +121,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={longSnippet}
         onClick={vi.fn()}
-        selectedInputType="fiat"
+        currencyOrAsset="USD"
       />,
     );
     const button = screen.getByTestId('ockAmountInputSnippet');
@@ -133,7 +133,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={mockSnippet}
         onClick={vi.fn()}
-        selectedInputType="fiat"
+        currencyOrAsset="USD"
       />,
     );
     const shortButton = screen.getByTestId('ockAmountInputSnippet');
@@ -143,7 +143,7 @@ describe('AmountInputSnippet', () => {
       <AmountInputSnippet
         amountInputSnippet={{ ...mockSnippet, value: '100000000' }}
         onClick={vi.fn()}
-        selectedInputType="fiat"
+        currencyOrAsset="USD"
       />,
     );
     const longButton = screen.getByTestId('ockAmountInputSnippet');

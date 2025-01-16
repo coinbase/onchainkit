@@ -15,9 +15,6 @@ import { useFundContext } from './FundCardProvider';
 export const FundCardAmountInput = ({
   className,
 }: FundCardAmountInputPropsReact) => {
-  // TODO: Get currency label from country (This is coming in the follow up PRs)
-  const currencyLabel = 'USD';
-
   const {
     fundAmountFiat,
     setFundAmountFiat,
@@ -28,6 +25,9 @@ export const FundCardAmountInput = ({
     exchangeRate,
     amountInputSnippets,
   } = useFundContext();
+
+  // Next PR will include a support for any currency
+  const currencyOrAsset = selectedInputType === 'fiat' ? 'USD' : asset;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -135,8 +135,6 @@ export const FundCardAmountInput = ({
       ref={containerRef}
       data-testid="ockFundCardAmountInputContainer"
       className={cn('flex cursor-text py-6', className)}
-      onClick={handleFocusInput}
-      onKeyUp={handleFocusInput}
     >
       <div className="flex h-20">
         <TextInput
@@ -156,10 +154,7 @@ export const FundCardAmountInput = ({
           placeholder="0"
         />
 
-        <FundCardCurrencyLabel
-          ref={currencySpanRef}
-          label={selectedInputType === 'crypto' ? asset : currencyLabel}
-        />
+        <FundCardCurrencyLabel ref={currencySpanRef} label={currencyOrAsset} />
       </div>
 
       {!value && (
@@ -168,8 +163,8 @@ export const FundCardAmountInput = ({
             <AmountInputSnippet
               key={snippet.value}
               amountInputSnippet={snippet}
-              selectedInputType={selectedInputType}
               onClick={handleAmountInputSnippetClick}
+              currencyOrAsset={currencyOrAsset}
             />
           ))}
         </div>

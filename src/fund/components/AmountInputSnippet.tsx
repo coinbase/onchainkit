@@ -4,15 +4,12 @@ import type { AmountInputSnippetPropsReact } from '../types';
 
 export function AmountInputSnippet({
   amountInputSnippet,
-  selectedInputType = 'fiat',
+  currencyOrAsset,
   onClick,
 }: AmountInputSnippetPropsReact) {
-  // TODO: Get currency label from country (In follow up PR )
-  const currencyLabel = selectedInputType === 'fiat' ? 'USD' : 'ETH';
-
   const snippetText = useMemo(() => {
-    return `${amountInputSnippet.value} ${currencyLabel}`;
-  }, [amountInputSnippet, currencyLabel]);
+    return `${amountInputSnippet.value} ${currencyOrAsset}`;
+  }, [amountInputSnippet, currencyOrAsset]);
 
   const handleClick = useCallback(() => {
     onClick(amountInputSnippet);

@@ -403,7 +403,7 @@ describe('FundCardAmountInput', () => {
     renderWithProvider({ inputType: 'fiat', amountInputSnippets: snippets });
     // In fiat mode, only fiat snippets should be visible
     expect(screen.getByTestId('ockAmountInputSnippet')).toHaveTextContent(
-      '10USD',
+      '10 USD',
     );
 
     // Change input type to crypto
