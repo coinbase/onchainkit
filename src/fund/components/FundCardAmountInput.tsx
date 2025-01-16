@@ -159,9 +159,10 @@ export const FundCardAmountInput = ({
 
       {!value && filteredPresetAmountInputs && (
         <div className="flex w-[100%] flex-wrap items-center justify-end">
-          {filteredPresetAmountInputs?.map((presetAmountInput) => (
+          {filteredPresetAmountInputs?.map((presetAmountInput, index) => (
             <PresetAmountInput
-              key={presetAmountInput.value}
+              // biome-ignore lint/suspicious/noArrayIndexKey: Users may supply duplicate values so making the index the key. (In this case its safe because the preset amount inputs are static and no updates to the list are expected)
+              key={index}
               presetAmountInput={presetAmountInput}
               onClick={handlePresetAmountInputClick}
               currencyOrAsset={currencyOrAsset}
