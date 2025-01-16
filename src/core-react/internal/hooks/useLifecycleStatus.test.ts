@@ -1,18 +1,21 @@
+import type { LifecycleStatus } from '@/swap/types';
 import { renderHook } from '@testing-library/react';
 import { act } from 'react';
 import { describe, expect, it } from 'vitest';
-import { type LifecycleStatus, MediaType } from '../types';
 import { useLifecycleStatus } from './useLifecycleStatus';
 
 const initialLifecycleStatus = {
   statusName: 'init',
-  statusData: null,
+  statusData: {
+    isMissingRequiredField: true,
+    maxSlippage: 0.5,
+  },
 } as LifecycleStatus;
 
 describe('useLifecycleStatus', () => {
   it('should initialize correctly', () => {
     const { result } = renderHook(() =>
-      useLifecycleStatus(initialLifecycleStatus),
+      useLifecycleStatus<LifecycleStatus>(initialLifecycleStatus),
     );
 
     const [lifecycleStatus] = result.current;
@@ -21,7 +24,7 @@ describe('useLifecycleStatus', () => {
 
   it('should persist statusData for the full lifecycle', async () => {
     const { result } = renderHook(() =>
-      useLifecycleStatus(initialLifecycleStatus),
+      useLifecycleStatus<LifecycleStatus>(initialLifecycleStatus),
     );
 
     const [initialStatus, updateLifecycleStatus] = result.current;
@@ -30,34 +33,24 @@ describe('useLifecycleStatus', () => {
 
     await act(async () => {
       updateLifecycleStatus({
-        statusName: 'mediaLoading',
-        statusData: {
-          mediaType: MediaType.Image,
-          mediaUrl: 'https://example.com/image.png',
-        },
-      });
-    });
-
-    await act(async () => {
-      updateLifecycleStatus({
-        statusName: 'mediaLoaded',
+        statusName: 'transactionPending',
       });
     });
 
     const [updatedStatus] = result.current;
 
     expect(updatedStatus).toEqual({
-      statusName: 'mediaLoaded',
+      statusName: 'transactionPending',
       statusData: {
-        mediaType: 'image',
-        mediaUrl: 'https://example.com/image.png',
+        isMissingRequiredField: true,
+        maxSlippage: 0.5,
       },
     });
   });
 
   it('should not persist errors', async () => {
     const { result } = renderHook(() =>
-      useLifecycleStatus(initialLifecycleStatus),
+      useLifecycleStatus<LifecycleStatus>(initialLifecycleStatus),
     );
 
     const [initialStatus, updateLifecycleStatus] = result.current;
@@ -83,36 +76,40 @@ describe('useLifecycleStatus', () => {
         error: 'error',
         code: 'error code',
         message: 'error message',
+        isMissingRequiredField: true,
+        maxSlippage: 0.5,
       },
     });
 
     await act(async () => {
       updateLifecycleStatus({
-        statusName: 'mediaLoaded',
+        statusName: 'transactionPending',
       });
     });
 
     [updatedStatus] = result.current;
 
     expect(updatedStatus).toEqual({
-      statusName: 'mediaLoaded',
-      statusData: {},
+      statusName: 'transactionPending',
+      statusData: {
+        isMissingRequiredField: true,
+        maxSlippage: 0.5,
+      },
     });
   });
 
   it('should overwrite passed in statusData', async () => {
     const { result } = renderHook(() =>
-      useLifecycleStatus(initialLifecycleStatus),
+      useLifecycleStatus<LifecycleStatus>(initialLifecycleStatus),
     );
 
     const [, updateLifecycleStatus] = result.current;
 
     await act(async () => {
       updateLifecycleStatus({
-        statusName: 'mediaLoading',
+        statusName: 'slippageChange',
         statusData: {
-          mediaType: MediaType.Image,
-          mediaUrl: 'https://example.com/image.png',
+          maxSlippage: 3,
         },
       });
     });
@@ -120,10 +117,10 @@ describe('useLifecycleStatus', () => {
     const [updatedStatus] = result.current;
 
     expect(updatedStatus).toEqual({
-      statusName: 'mediaLoading',
+      statusName: 'slippageChange',
       statusData: {
-        mediaType: 'image',
-        mediaUrl: 'https://example.com/image.png',
+        maxSlippage: 3,
+        isMissingRequiredField: true,
       },
     });
   });

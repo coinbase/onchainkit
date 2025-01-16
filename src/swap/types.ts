@@ -1,3 +1,4 @@
+import type { LifecycleStatusUpdate } from '@/core-react/internal/types';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type {
   Address,
@@ -29,7 +30,9 @@ export type SendSwapTransactionParams = {
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   transactions: SwapTransaction[]; // A list of transactions to execute
-  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
+  updateLifecycleStatus: (
+    state: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void;
   walletCapabilities: WalletCapabilities; // EIP-5792 wallet capabilities
 };
 
@@ -37,7 +40,9 @@ export type SendSingleTransactionsParams = {
   config: Config;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   transactions: SwapTransaction[]; // A list of transactions to execute
-  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void;
+  updateLifecycleStatus: (
+    state: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void;
 };
 
 /**
@@ -126,42 +131,6 @@ export type LifecycleStatus =
       } & LifecycleStatusDataShared;
     };
 
-// make all keys in T optional if they are in K
-type PartialKeys<T, K extends keyof T> = Omit<T, K> &
-  Partial<Pick<T, K>> extends infer O
-  ? { [P in keyof O]: O[P] }
-  : never;
-
-// check if all keys in T are a key of LifecycleStatusDataShared
-type AllKeysInShared<T> = keyof T extends keyof LifecycleStatusDataShared
-  ? true
-  : false;
-
-/**
- * LifecycleStatus updater type
- * Used to type the statuses used to update LifecycleStatus
- * LifecycleStatusData is persisted across state updates allowing SharedData to be optional except for in init step
- */
-export type LifecycleStatusUpdate = LifecycleStatus extends infer T
-  ? T extends { statusName: infer N; statusData: infer D }
-    ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
-        ? { statusData: D }
-        : AllKeysInShared<D> extends true // is statusData is LifecycleStatusDataShared, make optional
-          ? {
-              statusData?: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            } // make all keys in LifecycleStatusDataShared optional
-          : {
-              statusData: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            })
-    : never
-  : never;
-
 export type ProcessSwapTransactionParams = {
   chainId?: number; // The chain ID
   config: Config;
@@ -172,7 +141,9 @@ export type ProcessSwapTransactionParams = {
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   swapTransaction: BuildSwapTransaction; // The response from the Swap API
   switchChainAsync: SwitchChainMutateAsync<Config, unknown>; // To switch the chain to Base if not already provided
-  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
+  updateLifecycleStatus: (
+    state: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void; // A function to set the lifecycle status of the component
   useAggregator: boolean;
   walletCapabilities: WalletCapabilities; // EIP-5792 wallet capabilities
 };
@@ -222,7 +193,9 @@ export type SwapContextType = {
   ) => void;
   handleSubmit: () => void;
   handleToggle: () => void;
-  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
+  updateLifecycleStatus: (
+    state: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void; // A function to set the lifecycle status of the component
   to: SwapUnit;
   isToastVisible: boolean;
   setIsToastVisible: (visible: boolean) => void;
@@ -407,5 +380,7 @@ export type SwapTransaction = {
 export type UseAwaitCallsParams = {
   accountConfig: Config;
   lifecycleStatus: LifecycleStatus;
-  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
+  updateLifecycleStatus: (
+    state: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void; // A function to set the lifecycle status of the component
 };
