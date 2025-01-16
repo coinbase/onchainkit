@@ -411,7 +411,7 @@ describe('FundCardAmountInput', () => {
 
     // In crypto mode, only crypto snippets should be visible
     expect(screen.getByTestId('ockAmountInputSnippet')).toHaveTextContent(
-      '1ETH',
+      '1 ETH',
     );
   });
 });
