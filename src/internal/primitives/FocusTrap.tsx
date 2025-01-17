@@ -2,7 +2,7 @@ import type React from 'react';
 import { useEffect, useRef } from 'react';
 
 const FOCUSABLE_ELEMENTS_SELECTOR =
-  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 interface FocusTrapProps {
   active?: boolean;

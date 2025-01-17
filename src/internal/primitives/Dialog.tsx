@@ -11,9 +11,9 @@ type DialogProps = {
   isOpen?: boolean;
   onClose?: () => void;
   modal?: boolean;
-  ariaLabel?: string;
-  ariaLabelledby?: string;
-  ariaDescribedby?: string;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+  'aria-describedby'?: string;
 };
 
 /**
@@ -28,9 +28,9 @@ export function Dialog({
   isOpen,
   modal = true,
   onClose,
-  ariaLabel,
-  ariaLabelledby,
-  ariaDescribedby,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
 }: DialogProps) {
   const componentTheme = useTheme();
   const dialogRef = useRef<HTMLDivElement>(null);
