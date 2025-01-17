@@ -12,6 +12,7 @@ import {
 import { FundCardProvider } from '../components/FundCardProvider';
 import { FUND_BUTTON_RESET_TIMEOUT } from '../constants';
 import type { EventMetadata, OnrampError } from '../types';
+import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { setupOnrampEventListeners } from '../utils/setupOnrampEventListeners';
 import { useFundCardSetupOnrampEventListeners } from './useFundCardSetupOnrampEventListeners';
 
@@ -19,10 +20,22 @@ vi.mock('../utils/setupOnrampEventListeners', () => ({
   setupOnrampEventListeners: vi.fn(),
 }));
 
+vi.mock('../utils/fetchOnrampQuote');
+
+const mockResponseData = {
+  paymentTotal: { value: '100.00', currency: 'USD' },
+  paymentSubtotal: { value: '120.00', currency: 'USD' },
+  purchaseAmount: { value: '0.1', currency: 'BTC' },
+  coinbaseFee: { value: '2.00', currency: 'USD' },
+  networkFee: { value: '1.00', currency: 'USD' },
+  quoteId: 'quote-id-123',
+};
+
 describe('useFundCardSetupOnrampEventListeners', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.useFakeTimers();
+    (fetchOnrampQuote as Mock).mockResolvedValue(mockResponseData);
     setOnchainKitConfig({ apiKey: 'mock-api-key' });
   });
 
