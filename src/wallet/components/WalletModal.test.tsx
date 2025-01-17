@@ -3,7 +3,6 @@ import {
   type Mock,
   afterAll,
   afterEach,
-  beforeAll,
   beforeEach,
   describe,
   expect,
@@ -32,6 +31,28 @@ vi.mock('wagmi/connectors', () => ({
   }),
 }));
 
+vi.mock('../../internal/primitives/Dialog', () => ({
+  Dialog: vi.fn(
+    ({
+      children,
+      isOpen,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledBy,
+      'aria-describedby': ariaDescribedBy,
+    }) =>
+      isOpen ? (
+        <div
+          role="dialog"
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
+          aria-describedby={ariaDescribedBy}
+        >
+          {children}
+        </div>
+      ) : null,
+  ),
+}));
+
 describe('WalletModal', () => {
   const mockConnect = vi.fn();
   const mockOnClose = vi.fn();
@@ -42,9 +63,6 @@ describe('WalletModal', () => {
   ];
 
   const originalWindowOpen = window.open;
-  beforeAll(() => {
-    window.open = vi.fn();
-  });
 
   afterAll(() => {
     window.open = originalWindowOpen;
@@ -68,20 +86,37 @@ describe('WalletModal', () => {
     vi.useRealTimers();
   });
 
-  it('renders null when not open and animation completed', () => {
+  it('renders null when not open', () => {
     const { container } = render(
       <WalletModal isOpen={false} onClose={mockOnClose} />,
     );
-
-    vi.advanceTimersByTime(100);
     expect(container.firstChild).toBeNull();
   });
 
-  it('renders modal content when open', () => {
+  it('renders modal content correctly', () => {
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
 
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toBeInTheDocument();
     expect(screen.getByText('Sign up')).toBeInTheDocument();
-    expect(screen.getByText('Coinbase Wallet')).toBeInTheDocument();
+  });
+
+  it('passes correct props to Dialog component', () => {
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toHaveAttribute('aria-label', 'Connect Wallet');
+  });
+
+  it('handles focus management through Dialog component', () => {
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    const dialog = screen.getByRole('dialog');
+    const focusableElements = dialog.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+
+    expect(focusableElements.length).toBeGreaterThan(0);
   });
 
   it('renders app logo and name when provided', () => {
@@ -203,14 +238,6 @@ describe('WalletModal', () => {
     );
   });
 
-  it('closes modal when clicking overlay', () => {
-    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-
-    const overlay = screen.getByTestId('ockModalOverlay');
-    fireEvent.click(overlay);
-    expect(mockOnClose).toHaveBeenCalled();
-  });
-
   it('closes modal when clicking close button', () => {
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
 
@@ -238,36 +265,6 @@ describe('WalletModal', () => {
     expect(privacyLink).toHaveAttribute('href', 'https://privacy.test');
   });
 
-  it('applies custom className when provided', () => {
-    render(
-      <WalletModal
-        isOpen={true}
-        onClose={mockOnClose}
-        className="custom-class"
-      />,
-    );
-
-    const overlay = screen.getByTestId('ockModalOverlay');
-    expect(overlay).toHaveClass('custom-class');
-  });
-
-  it('applies correct transition classes based on isOpen state', () => {
-    const { rerender } = render(
-      <WalletModal isOpen={true} onClose={mockOnClose} />,
-    );
-
-    const overlay = screen.getByTestId('ockModalOverlay');
-    const modal = overlay.children[0];
-
-    expect(overlay).toHaveClass('opacity-100');
-    expect(modal).toHaveClass('opacity-100');
-
-    rerender(<WalletModal isOpen={false} onClose={mockOnClose} />);
-
-    expect(overlay).toHaveClass('opacity-0');
-    expect(modal).toHaveClass('opacity-0');
-  });
-
   it('uses "App" as fallback in alt text when appName is not provided', () => {
     (useOnchainKit as Mock).mockReturnValue({
       config: {
@@ -281,28 +278,6 @@ describe('WalletModal', () => {
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
 
     expect(screen.getByAltText('App icon')).toBeInTheDocument();
-  });
-
-  it('propagates className to both overlay and modal', () => {
-    const customClass = 'my-custom-class';
-    render(
-      <WalletModal
-        isOpen={true}
-        onClose={mockOnClose}
-        className={customClass}
-      />,
-    );
-
-    const overlay = screen.getByTestId('ockModalOverlay');
-    expect(overlay).toHaveClass(customClass, 'bg-black/70');
-  });
-
-  it('closes modal on Escape key press', () => {
-    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-    const modal = screen.getByRole('dialog');
-
-    fireEvent.keyDown(modal, { key: 'Escape' });
-    expect(mockOnClose).toHaveBeenCalled();
   });
 
   it('handles Coinbase Wallet connection errors', () => {
@@ -346,24 +321,6 @@ describe('WalletModal', () => {
     );
   });
 
-  it('traps focus within the modal when open', () => {
-    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-    const modal = screen.getByRole('dialog');
-    const focusableElements = modal.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-    );
-
-    focusableElements[focusableElements.length - 1].focus();
-    fireEvent.keyDown(modal, { key: 'Tab' });
-    expect(document.activeElement).toBe(focusableElements[0]);
-
-    focusableElements[0].focus();
-    fireEvent.keyDown(modal, { key: 'Tab', shiftKey: true });
-    expect(document.activeElement).toBe(
-      focusableElements[focusableElements.length - 1],
-    );
-  });
-
   it('renders terms and privacy links correctly', () => {
     (useOnchainKit as Mock).mockReturnValue({
       config: {
@@ -384,7 +341,7 @@ describe('WalletModal', () => {
     expect(privacyLink).toHaveAttribute('href', 'https://privacy.test');
   });
 
-  it('opens terms and privacy links in a new tab on Enter key press', () => {
+  it('renders terms and privacy links with correct attributes', () => {
     (useOnchainKit as Mock).mockReturnValue({
       config: {
         appearance: {},
@@ -400,28 +357,13 @@ describe('WalletModal', () => {
     const termsLink = screen.getByText('Terms of Service');
     const privacyLink = screen.getByText('Privacy Policy');
 
-    fireEvent.keyDown(termsLink, { key: 'Enter' });
-    fireEvent.keyDown(privacyLink, { key: 'Enter' });
+    expect(termsLink).toHaveAttribute('href', 'https://terms.test');
+    expect(termsLink).toHaveAttribute('target', '_blank');
+    expect(termsLink).toHaveAttribute('rel', 'noopener noreferrer');
 
-    expect(window.open).toHaveBeenCalledWith(
-      'https://terms.test',
-      '_blank',
-      'noopener,noreferrer',
-    );
-    expect(window.open).toHaveBeenCalledWith(
-      'https://privacy.test',
-      '_blank',
-      'noopener,noreferrer',
-    );
-  });
-
-  it('closes modal on Enter key press on overlay', () => {
-    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-
-    const overlay = screen.getByTestId('ockModalOverlay');
-    fireEvent.keyDown(overlay, { key: 'Enter' });
-
-    expect(mockOnClose).toHaveBeenCalled();
+    expect(privacyLink).toHaveAttribute('href', 'https://privacy.test');
+    expect(privacyLink).toHaveAttribute('target', '_blank');
+    expect(privacyLink).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
   it('does not render when shouldRender is false', () => {
@@ -430,48 +372,6 @@ describe('WalletModal', () => {
     );
 
     expect(container.firstChild).toBeNull();
-  });
-
-  it('opens terms and privacy links on Enter key press', () => {
-    (useOnchainKit as Mock).mockReturnValue({
-      config: {
-        appearance: {},
-        wallet: {
-          termsUrl: 'https://terms.test',
-          privacyUrl: 'https://privacy.test',
-        },
-      },
-    });
-
-    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-
-    const termsLink = screen.getByText('Terms of Service');
-    const privacyLink = screen.getByText('Privacy Policy');
-
-    fireEvent.keyDown(termsLink, { key: 'Enter' });
-    fireEvent.keyDown(privacyLink, { key: 'Enter' });
-
-    expect(window.open).toHaveBeenCalledWith(
-      'https://terms.test',
-      '_blank',
-      'noopener,noreferrer',
-    );
-    expect(window.open).toHaveBeenCalledWith(
-      'https://privacy.test',
-      '_blank',
-      'noopener,noreferrer',
-    );
-  });
-
-  it('resets body overflow style on modal close', () => {
-    const { rerender } = render(
-      <WalletModal isOpen={true} onClose={mockOnClose} />,
-    );
-
-    expect(document.body.style.overflow).toBe('hidden');
-
-    rerender(<WalletModal isOpen={false} onClose={mockOnClose} />);
-    expect(document.body.style.overflow).toBe('');
   });
 
   it('handles non-Error objects in MetaMask connection errors', () => {
