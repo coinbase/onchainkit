@@ -1,3 +1,4 @@
+import type { LifecycleStatusUpdate } from '@/core-react/internal/types';
 import {
   createContext,
   useCallback,
@@ -13,7 +14,6 @@ import type {
   FundButtonStateReact,
   FundCardProviderReact,
   LifecycleStatus,
-  LifecycleStatusUpdate,
   PaymentMethod,
   PresetAmountInputs,
 } from '../types';
@@ -42,8 +42,11 @@ type FundCardContextType = {
   subdivision?: string;
   inputType?: 'fiat' | 'crypto';
   lifecycleStatus: LifecycleStatus;
-  updateLifecycleStatus: (newStatus: LifecycleStatusUpdate) => void;
+
   presetAmountInputs?: PresetAmountInputs;
+  updateLifecycleStatus: (
+    newStatus: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void;
 };
 
 const FundContext = createContext<FundCardContextType | undefined>(undefined);

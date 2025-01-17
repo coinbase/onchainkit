@@ -1,16 +1,17 @@
+import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStatus';
 import { useEffect, useMemo } from 'react';
-import type { LifecycleEvents } from '../types';
-import { useLifecycleStatus } from './useLifecycleStatus';
+import type { LifecycleEvents, LifecycleStatus } from '../types';
 
 export const useEmitLifecycleStatus = ({
   onError,
   onSuccess,
   onStatus,
 }: LifecycleEvents) => {
-  const [lifecycleStatus, updateLifecycleStatus] = useLifecycleStatus({
-    statusName: 'init',
-    statusData: null,
-  });
+  const [lifecycleStatus, updateLifecycleStatus] =
+    useLifecycleStatus<LifecycleStatus>({
+      statusName: 'init',
+      statusData: null,
+    });
 
   // Lifecycle emitters
   useEffect(() => {

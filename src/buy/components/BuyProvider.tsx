@@ -1,3 +1,4 @@
+import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStatus';
 import {
   createContext,
   useCallback,
@@ -15,8 +16,7 @@ import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
 import { useAwaitCalls } from '../../swap/hooks/useAwaitCalls';
-import { useLifecycleStatus } from '../../swap/hooks/useLifecycleStatus';
-import type { SwapUnit } from '../../swap/types';
+import type { LifecycleStatus, SwapUnit } from '../../swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
 import { processSwapTransaction } from '../../swap/utils/processSwapTransaction';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
@@ -70,13 +70,14 @@ export function BuyProvider({
   const walletCapabilities = useCapabilitiesSafe({
     chainId: base.id,
   }); // Swap is only available on Base
-  const [lifecycleStatus, updateLifecycleStatus] = useLifecycleStatus({
-    statusName: 'init',
-    statusData: {
-      isMissingRequiredField: true,
-      maxSlippage: config.maxSlippage,
-    },
-  }); // Component lifecycle
+  const [lifecycleStatus, updateLifecycleStatus] =
+    useLifecycleStatus<LifecycleStatus>({
+      statusName: 'init',
+      statusData: {
+        isMissingRequiredField: true,
+        maxSlippage: config.maxSlippage,
+      },
+    }); // Component lifecycle
 
   const [transactionHash, setTransactionHash] = useState('');
   const [hasHandledSuccess, setHasHandledSuccess] = useState(false);

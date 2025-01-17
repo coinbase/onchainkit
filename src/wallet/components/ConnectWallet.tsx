@@ -109,9 +109,7 @@ export function ConnectWallet({
             }}
             text={text}
           />
-          {isModalOpen && (
-            <WalletModal isOpen={true} onClose={handleCloseConnectModal} />
-          )}
+          <WalletModal isOpen={isModalOpen} onClose={handleCloseConnectModal} />
         </div>
       );
     }

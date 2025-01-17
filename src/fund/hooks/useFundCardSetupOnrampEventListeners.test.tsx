@@ -30,6 +30,17 @@ const mockResponseData = {
   quoteId: 'quote-id-123',
 };
 
+vi.mock('../utils/fetchOnrampQuote');
+
+const mockResponseData = {
+  paymentTotal: { value: '100.00', currency: 'USD' },
+  paymentSubtotal: { value: '120.00', currency: 'USD' },
+  purchaseAmount: { value: '0.1', currency: 'BTC' },
+  coinbaseFee: { value: '2.00', currency: 'USD' },
+  networkFee: { value: '1.00', currency: 'USD' },
+  quoteId: 'quote-id-123',
+};
+
 describe('useFundCardSetupOnrampEventListeners', () => {
   beforeEach(() => {
     vi.clearAllMocks();

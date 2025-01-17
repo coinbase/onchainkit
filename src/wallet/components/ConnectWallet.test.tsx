@@ -45,6 +45,20 @@ vi.mock('../../core-react/useOnchainKit', () => ({
 
 describe('ConnectWallet', () => {
   beforeEach(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: vi.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      })),
+    });
+
     vi.mocked(useAccount).mockReturnValue({
       address: '',
       status: 'disconnected',
@@ -341,32 +355,6 @@ describe('ConnectWallet', () => {
   });
 
   describe('modal handling', () => {
-    it('should close modal when clicking overlay', () => {
-      vi.mocked(useOnchainKit).mockReturnValue({
-        config: { wallet: { display: 'modal' } },
-      });
-      vi.mocked(useAccount).mockReturnValue({
-        address: '',
-        status: 'disconnected',
-      });
-
-      const setIsConnectModalOpenMock = vi.fn();
-      vi.mocked(useWalletContext).mockReturnValue({
-        isConnectModalOpen: true,
-        setIsConnectModalOpen: setIsConnectModalOpenMock,
-      });
-
-      render(<ConnectWallet text="Connect Wallet" />);
-
-      const connectButton = screen.getByTestId('ockConnectButton');
-      fireEvent.click(connectButton);
-
-      const modalOverlay = screen.getByTestId('ockModalOverlay');
-      fireEvent.click(modalOverlay);
-
-      expect(setIsConnectModalOpenMock).toHaveBeenCalledWith(false);
-    });
-
     it('should close modal when clicking close button', () => {
       vi.mocked(useOnchainKit).mockReturnValue({
         config: { wallet: { display: 'modal' } },

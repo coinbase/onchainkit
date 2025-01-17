@@ -1,3 +1,4 @@
+import type { LifecycleStatusUpdate } from '@/core-react/internal/types';
 import type { ContractFunctionParameters, TransactionReceipt } from 'viem';
 import type { Address } from 'viem';
 import type { Config } from 'wagmi';
@@ -45,17 +46,6 @@ export type LifecycleStatus =
 
 type LifecycleStatusDataShared = Record<string, never>;
 
-// make all keys in T optional if they are in K
-type PartialKeys<T, K extends keyof T> = Omit<T, K> &
-  Partial<Pick<T, K>> extends infer O
-  ? { [P in keyof O]: O[P] }
-  : never;
-
-// check if all keys in T are a key of LifecycleStatusDataShared
-type AllKeysInShared<T> = keyof T extends keyof LifecycleStatusDataShared
-  ? true
-  : false;
-
 export type GetCommerceContractsParams = {
   transaction: PayTransaction;
 };
@@ -72,31 +62,6 @@ export type HandlePayRequestParams = {
 };
 
 /**
- * LifecycleStatus updater type
- * Used to type the statuses used to update LifecycleStatus
- * LifecycleStatusData is persisted across state updates allowing SharedData to be optional except for in init step
- */
-export type LifecycleStatusUpdate = LifecycleStatus extends infer T
-  ? T extends { statusName: infer N; statusData: infer D }
-    ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
-        ? { statusData: D }
-        : AllKeysInShared<D> extends true // is statusData is LifecycleStatusDataShared, make optional
-          ? {
-              statusData?: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            } // make all keys in LifecycleStatusDataShared optional
-          : {
-              statusData: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            })
-    : never
-  : never;
-
-/**
  * Note: exported as public Type
  */
 export type CheckoutButtonReact = {
@@ -111,7 +76,9 @@ export type CheckoutContextType = {
   errorMessage?: string;
   lifecycleStatus?: LifecycleStatus;
   onSubmit: () => void;
-  updateLifecycleStatus: (status: LifecycleStatus) => void;
+  updateLifecycleStatus: (
+    status: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void;
 };
 
 export type CheckoutProviderReact = {
@@ -142,9 +109,4 @@ export type CheckoutStatusReact = { className?: string };
 export type UseCommerceContractsParams = {
   chargeHandler?: () => Promise<string>;
   productId?: string;
-};
-
-export type UseLifecycleStatusReturn = {
-  lifecycleStatus: LifecycleStatus;
-  updateLifecycleStatus: (newStatus: LifecycleStatusUpdate) => void;
 };

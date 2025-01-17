@@ -1,7 +1,8 @@
+import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStatus';
 import { createContext, useContext, useEffect } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
-import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
 import type {
+  LifecycleStatus,
   NFTLifecycleContextType,
   NFTLifecycleProviderReact,
 } from '../types';
@@ -28,10 +29,11 @@ export function NFTLifecycleProvider({
   onSuccess,
   children,
 }: NFTLifecycleProviderReact) {
-  const [lifecycleStatus, updateLifecycleStatus] = useLifecycleStatus({
-    statusName: 'init',
-    statusData: null,
-  }); // Component lifecycle
+  const [lifecycleStatus, updateLifecycleStatus] =
+    useLifecycleStatus<LifecycleStatus>({
+      statusName: 'init',
+      statusData: null,
+    }); // Component lifecycle
 
   // Component lifecycle emitters
   useEffect(() => {
