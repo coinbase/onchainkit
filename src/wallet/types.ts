@@ -223,6 +223,7 @@ export type WalletAdvancedContextType = {
   refetchPortfolioData: () => Promise<QueryObserverResult<Portfolio, Error>>;
   animations: {
     container: string;
+    mobileContainer: string;
     content: string;
   };
 };
