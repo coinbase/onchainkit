@@ -10,7 +10,7 @@ export function useSinglePortfolio({
   address: Address | undefined | null;
 }): UseQueryResult<PortfolioTokenBalances> {
   return useQuery({
-    queryKey: ['usePortfolioTokenBalances', address],
+    queryKey: ['useSinglePortfolio', address],
     queryFn: async () => {
       const response = await getPortfolios({
         addresses: [address as Address], // Safe to coerce to Address because useQuery's enabled flag will prevent the query from running if address is undefined
