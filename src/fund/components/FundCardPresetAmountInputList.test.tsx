@@ -1,7 +1,7 @@
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { type Mock, beforeEach, describe, expect, it } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { PresetAmountInputs } from '../types';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { FundCardPresetAmountInputList } from './FundCardPresetAmountInputList';
@@ -15,6 +15,8 @@ const mockResponseData = {
   networkFee: { value: '1.00', currency: 'USD' },
   quoteId: 'quote-id-123',
 };
+
+vi.mock('../utils/fetchOnrampQuote');
 
 describe('FundCardPresetAmountInputList', () => {
   beforeEach(() => {
