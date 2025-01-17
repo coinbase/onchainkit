@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import type { PaymentMethodReact } from '../types';
+import type { PaymentMethod } from '../types';
 import { buildPaymentMethods } from '../utils/buildPaymentMethods';
 import { fetchOnrampOptions } from '../utils/fetchOnrampOptions';
 
@@ -13,7 +13,7 @@ export const usePaymentMethods = ({
   country: string;
   subdivision?: string;
   currency: string;
-  setPaymentMethods: (paymentMethods: PaymentMethodReact[]) => void;
+  setPaymentMethods: (paymentMethods: PaymentMethod[]) => void;
   setPaymentMethodsLoading: (loading: boolean) => void;
 }) => {
   const handleFetchPaymentMethods = useCallback(async () => {

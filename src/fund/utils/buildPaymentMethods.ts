@@ -1,4 +1,4 @@
-import type { OnrampOptionsResponseData, PaymentMethodReact } from '../types';
+import type { OnrampOptionsResponseData, PaymentMethod } from '../types';
 
 const PAYMENT_METHOD_NAMES_MAP: Record<string, string> = {
   CARD: 'Debit card',
@@ -61,7 +61,7 @@ export const buildPaymentMethods = (
     return Math.min(min, Number(limit.min));
   }, Number.POSITIVE_INFINITY);
 
-  const coinbasePaymentMethod: PaymentMethodReact = {
+  const coinbasePaymentMethod: PaymentMethod = {
     id: '',
     name: 'Coinbase',
     description, // e.g. "card, ACH, and balance"
@@ -73,7 +73,7 @@ export const buildPaymentMethods = (
   /**
    * We need to show to the US user "Card" and "Apple Pay" options
    */
-  const usPaymentMethods: PaymentMethodReact[] = [];
+  const usPaymentMethods: PaymentMethod[] = [];
 
   if (country === 'US' && currency === 'USD') {
     const applePayLimit = paymentMethod.limits.find(
