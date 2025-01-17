@@ -11,7 +11,7 @@ export const FundCardCurrencyLabel = forwardRef<
       ref={ref}
       className={cn(
         text.body,
-        color.foregroundMuted,
+        color.disabled,
         'flex items-center justify-center bg-transparent',
         'text-6xl leading-none outline-none',
       )}

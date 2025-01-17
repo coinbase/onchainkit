@@ -32,7 +32,7 @@ export const FundCardPaymentMethodSelectRow = memo(
         className={cn(
           pressable.default,
           border.radius,
-          background.inverse,
+          background.default,
           'flex w-full items-center justify-between px-4 py-2',
           disabled && 'cursor-not-allowed opacity-50',
         )}
