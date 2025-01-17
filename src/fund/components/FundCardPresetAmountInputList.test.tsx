@@ -1,14 +1,25 @@
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it } from 'vitest';
 import type { PresetAmountInputs } from '../types';
+import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { FundCardPresetAmountInputList } from './FundCardPresetAmountInputList';
 import { FundCardProvider } from './FundCardProvider';
+
+const mockResponseData = {
+  paymentTotal: { value: '100.00', currency: 'USD' },
+  paymentSubtotal: { value: '120.00', currency: 'USD' },
+  purchaseAmount: { value: '0.1', currency: 'BTC' },
+  coinbaseFee: { value: '2.00', currency: 'USD' },
+  networkFee: { value: '1.00', currency: 'USD' },
+  quoteId: 'quote-id-123',
+};
 
 describe('FundCardPresetAmountInputList', () => {
   beforeEach(() => {
     setOnchainKitConfig({ apiKey: '123456789' });
+    (fetchOnrampQuote as Mock).mockResolvedValue(mockResponseData);
   });
 
   const renderWithProvider = (presetAmountInputs?: PresetAmountInputs) => {
