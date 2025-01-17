@@ -4,6 +4,11 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { WalletAdvancedContent } from './WalletAdvancedContent';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
+import { useBreakpoints } from '@/ui-react/internal/hooks/useBreakpoints';
+
+vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
+  useBreakpoints: vi.fn(),
+}))
 
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
@@ -41,6 +46,7 @@ vi.mock('./WalletProvider', () => ({
 }));
 
 describe('WalletAdvancedContent', () => {
+  const mockUseBreakpoints = useBreakpoints as ReturnType<typeof vi.fn>;
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
   const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
@@ -60,6 +66,7 @@ describe('WalletAdvancedContent', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseBreakpoints.mockReturnValue('md');
     mockUseWalletAdvancedContext.mockReturnValue(
       defaultMockUseWalletAdvancedContext,
     );
@@ -313,5 +320,17 @@ describe('WalletAdvancedContent', () => {
         name: token.name,
       })),
     );
+  });
+
+  it('renders MobileTray when breakpoint is sm', () => {
+    mockUseBreakpoints.mockReturnValue('sm');
+
+    render(
+      <WalletAdvancedContent>
+        <div>WalletAdvancedContent</div>
+      </WalletAdvancedContent>,
+    );
+
+    expect(screen.getByTestId('ockMobileTray')).toBeDefined();
   });
 });
