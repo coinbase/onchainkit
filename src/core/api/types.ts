@@ -251,14 +251,14 @@ export type BuildMintTransactionResponse = MintTransaction | APIError;
 /**
  * Note: exported as public Type
  */
-export type GetPortfolioTokenBalancesParams = {
+export type GetPortfoliosParams = {
   addresses: Address[] | null | undefined;
 };
 
 /**
  * Note: exported as public Type
  */
-export type GetPortfolioTokenBalancesResponse = {
+export type GetPortfoliosResponse = {
   portfolios: PortfolioTokenBalances[];
 };
 

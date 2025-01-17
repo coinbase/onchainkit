@@ -1,4 +1,4 @@
-import { usePortfolioTokenBalances } from '@/core-react/wallet/hooks/usePortfolioTokenBalances';
+import { useSinglePortfolio } from '@/core-react/wallet/hooks/useSinglePortfolio';
 import { render, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
@@ -12,8 +12,8 @@ vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
 
-vi.mock('../../core-react/wallet/hooks/usePortfolioTokenBalances', () => ({
-  usePortfolioTokenBalances: vi.fn(),
+vi.mock('../../core-react/wallet/hooks/useSinglePortfolio', () => ({
+  useSinglePortfolio: vi.fn(),
 }));
 
 vi.mock('./WalletProvider', () => ({
@@ -31,7 +31,7 @@ describe('useWalletAdvancedContext', () => {
     isSubComponentClosing: false,
   };
 
-  const mockUsePortfolioTokenBalances = usePortfolioTokenBalances as ReturnType<
+  const mockUseSinglePortfolio = useSinglePortfolio as ReturnType<
     typeof vi.fn
   >;
 
@@ -40,7 +40,7 @@ describe('useWalletAdvancedContext', () => {
       address: '0x123',
     });
     mockUseWalletContext.mockReturnValue(defaultWalletContext);
-    mockUsePortfolioTokenBalances.mockReturnValue({
+    mockUseSinglePortfolio.mockReturnValue({
       data: {
         address: '0x123',
         tokenBalances: [],
@@ -105,7 +105,7 @@ describe('useWalletAdvancedContext', () => {
       wrapper: WalletAdvancedProvider,
     });
 
-    expect(mockUsePortfolioTokenBalances).toHaveBeenCalledWith({
+    expect(mockUseSinglePortfolio).toHaveBeenCalledWith({
       address: null,
     });
 
@@ -116,7 +116,7 @@ describe('useWalletAdvancedContext', () => {
 
     rerender();
 
-    expect(mockUsePortfolioTokenBalances).toHaveBeenCalledWith({
+    expect(mockUseSinglePortfolio).toHaveBeenCalledWith({
       address: '0x123',
     });
   });

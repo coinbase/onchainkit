@@ -1,5 +1,5 @@
 import { useValue } from '@/core-react/internal/hooks/useValue';
-import { usePortfolioTokenBalances } from '@/core-react/wallet/hooks/usePortfolioTokenBalances';
+import { useSinglePortfolio } from '@/core-react/wallet/hooks/useSinglePortfolio';
 import { type ReactNode, createContext, useContext, useState } from 'react';
 import type { WalletAdvancedContextType } from '../types';
 import { useWalletContext } from './WalletProvider';
@@ -37,7 +37,7 @@ export function WalletAdvancedProvider({
     refetch: refetchPortfolioData,
     isFetching: isFetchingPortfolioData,
     dataUpdatedAt: portfolioDataUpdatedAt,
-  } = usePortfolioTokenBalances({ address });
+  } = useSinglePortfolio({ address });
 
   const portfolioFiatValue = portfolioData?.portfolioBalanceInUsd;
   const tokenBalances = portfolioData?.tokenBalances;

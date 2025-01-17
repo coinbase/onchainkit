@@ -5,7 +5,7 @@ export { buildPayTransaction } from './buildPayTransaction';
 export { getMintDetails } from './getMintDetails';
 export { getSwapQuote } from './getSwapQuote';
 export { getTokenDetails } from './getTokenDetails';
-export { getPortfolioTokenBalances } from './getPortfolioTokenBalances';
+export { getPortfolios } from './getPortfolios';
 export { getTokens } from './getTokens';
 export type {
   APIError,
@@ -24,6 +24,6 @@ export type {
   GetTokenDetailsResponse,
   GetTokensOptions,
   GetTokensResponse,
-  GetPortfolioTokenBalancesParams,
-  GetPortfolioTokenBalancesResponse,
+  GetPortfoliosParams,
+  GetPortfoliosResponse,
 } from './types';

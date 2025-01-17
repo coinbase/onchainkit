@@ -1,4 +1,4 @@
-import { getPortfolioTokenBalances } from '@/core/api/getPortfolioTokenBalances';
+import { getPortfolios } from '@/core/api/getPortfolios';
 import type {
   PortfolioTokenBalances,
   PortfolioTokenWithFiatValue,
@@ -6,9 +6,9 @@ import type {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { usePortfolioTokenBalances } from './usePortfolioTokenBalances';
+import { useSinglePortfolio } from './useSinglePortfolio';
 
-vi.mock('@/core/api/getPortfolioTokenBalances');
+vi.mock('@/core/api/getPortfolios');
 
 const mockAddress: `0x${string}` = '0x123';
 const mockTokens: PortfolioTokenWithFiatValue[] = [
@@ -48,12 +48,12 @@ describe('usePortfolioTokenBalances', () => {
   });
 
   it('should fetch token balances successfully', async () => {
-    vi.mocked(getPortfolioTokenBalances).mockResolvedValueOnce({
+    vi.mocked(getPortfolios).mockResolvedValueOnce({
       portfolios: [mockPortfolioTokenBalances],
     });
 
     const { result } = renderHook(
-      () => usePortfolioTokenBalances({ address: mockAddress }),
+      () => useSinglePortfolio({ address: mockAddress }),
       { wrapper: createWrapper() },
     );
 
@@ -61,7 +61,7 @@ describe('usePortfolioTokenBalances', () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    expect(getPortfolioTokenBalances).toHaveBeenCalledWith({
+    expect(getPortfolios).toHaveBeenCalledWith({
       addresses: [mockAddress],
     });
 
@@ -69,14 +69,14 @@ describe('usePortfolioTokenBalances', () => {
   });
 
   it('should handle API errors', async () => {
-    vi.mocked(getPortfolioTokenBalances).mockResolvedValueOnce({
+    vi.mocked(getPortfolios).mockResolvedValueOnce({
       code: 'API Error',
       error: 'API Error',
       message: 'API Error',
     });
 
     const { result } = renderHook(
-      () => usePortfolioTokenBalances({ address: mockAddress }),
+      () => useSinglePortfolio({ address: mockAddress }),
       { wrapper: createWrapper() },
     );
 
@@ -87,31 +87,28 @@ describe('usePortfolioTokenBalances', () => {
   });
 
   it('should not fetch when address is empty', () => {
-    renderHook(
-      () => usePortfolioTokenBalances({ address: '' as `0x${string}` }),
-      {
-        wrapper: createWrapper(),
-      },
-    );
-
-    expect(getPortfolioTokenBalances).not.toHaveBeenCalled();
-  });
-
-  it('should not fetch when address is undefined', () => {
-    renderHook(() => usePortfolioTokenBalances({ address: undefined }), {
+    renderHook(() => useSinglePortfolio({ address: '' as `0x${string}` }), {
       wrapper: createWrapper(),
     });
 
-    expect(getPortfolioTokenBalances).not.toHaveBeenCalled();
+    expect(getPortfolios).not.toHaveBeenCalled();
+  });
+
+  it('should not fetch when address is undefined', () => {
+    renderHook(() => useSinglePortfolio({ address: undefined }), {
+      wrapper: createWrapper(),
+    });
+
+    expect(getPortfolios).not.toHaveBeenCalled();
   });
 
   it('should return empty data when portfolios is empty', async () => {
-    vi.mocked(getPortfolioTokenBalances).mockResolvedValueOnce({
+    vi.mocked(getPortfolios).mockResolvedValueOnce({
       portfolios: [],
     });
 
     const { result } = renderHook(
-      () => usePortfolioTokenBalances({ address: mockAddress }),
+      () => useSinglePortfolio({ address: mockAddress }),
       { wrapper: createWrapper() },
     );
 

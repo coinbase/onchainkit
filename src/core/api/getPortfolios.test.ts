@@ -6,7 +6,7 @@ import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '../network/definitions/wallet';
 import { sendRequest } from '../network/request';
-import { getPortfolioTokenBalances } from './getPortfolioTokenBalances';
+import { getPortfolios } from './getPortfolios';
 
 vi.mock('../network/request', () => ({
   sendRequest: vi.fn(),
@@ -45,7 +45,7 @@ describe('getPortfolioTokenBalances', () => {
       result: mockSuccessResponse,
     });
 
-    const result = await getPortfolioTokenBalances({
+    const result = await getPortfolios({
       addresses: mockAddresses,
     });
 
@@ -67,7 +67,7 @@ describe('getPortfolioTokenBalances', () => {
       error: mockError,
     });
 
-    const result = await getPortfolioTokenBalances({
+    const result = await getPortfolios({
       addresses: mockAddresses,
     });
 
@@ -82,7 +82,7 @@ describe('getPortfolioTokenBalances', () => {
     const errorMessage = 'Network Error';
     mockSendRequest.mockRejectedValueOnce(new Error(errorMessage));
 
-    const result = await getPortfolioTokenBalances({
+    const result = await getPortfolios({
       addresses: mockAddresses,
     });
 
