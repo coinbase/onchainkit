@@ -38,7 +38,7 @@ export function WalletAdvancedContent({
       <div
         className={cn(
           'flex flex-col items-center justify-center',
-          'h-120 w-88',
+          'h-120 w-full',
           showQr ? '' : 'hidden',
         )}
       >
@@ -47,7 +47,7 @@ export function WalletAdvancedContent({
       <div
         className={cn(
           'flex flex-col items-center justify-center',
-          'h-120 w-88',
+          'h-120 w-full',
           showSwap ? '' : 'hidden',
         )}
       >
@@ -74,7 +74,7 @@ export function WalletAdvancedContent({
       <div
         className={cn(
           'flex flex-col items-center justify-between',
-          'h-120 w-88',
+          'h-120 w-full',
           'px-4 py-3',
           showQr || showSwap ? 'hidden' : '',
         )}
@@ -91,7 +91,10 @@ export function WalletAdvancedContent({
         onOverlayClick={handleClose}
         onEscKeyPress={handleClose}
         onAnimationEnd={handleAnimationEnd}
-        animation={animations.mobileContainer}
+        animation={{
+          tray: animations.mobileContainer,
+          overlay: animations.mobileContainerOverlay,
+        }}
       >
         <div className="flex h-full w-full flex-col items-center justify-center">
           {content}

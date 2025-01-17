@@ -7,7 +7,10 @@ type MobileTrayProps = {
   onAnimationEnd?: () => void;
   onOverlayClick: () => void;
   onEscKeyPress: (event: React.KeyboardEvent<HTMLDivElement>) => void;
-  animation?: string;
+  animation?: {
+    tray: string;
+    overlay: string;
+  };
   className?: string;
 };
 
@@ -27,6 +30,7 @@ export function MobileTray({
           className={cn(
             'fixed inset-0',
             'bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-10',
+            animation?.overlay,
             zIndex.modal,
           )}
           onClick={onOverlayClick}
@@ -42,7 +46,7 @@ export function MobileTray({
           'fixed right-0 bottom-0 left-0',
           'transform rounded-t-3xl p-2 transition-transform',
           animation
-            ? animation
+            ? animation.tray
             : `${isOpen ? 'translate-y-0' : 'translate-y-full'}`,
           className,
         )}

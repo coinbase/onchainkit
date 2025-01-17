@@ -46,9 +46,15 @@ describe('MobileTray', () => {
     expect(defaultProps.onAnimationEnd).toHaveBeenCalled();
   });
 
-  it('applies custom animation class when provided', () => {
-    render(<MobileTray {...defaultProps} animation="custom-animation" />);
-    expect(screen.getByTestId('ockMobileTray')).toHaveClass('custom-animation');
+  it('applies custom animation classes when provided', () => {
+    render(
+      <MobileTray
+        {...defaultProps}
+        animation={{ tray: 'custom-tray', overlay: 'custom-overlay' }}
+      />,
+    );
+    expect(screen.getByTestId('ockMobileTray')).toHaveClass('custom-tray');
+    expect(screen.getByRole('presentation')).toHaveClass('custom-overlay');
   });
 
   it('applies default translation classes when no animation prop is provided', () => {

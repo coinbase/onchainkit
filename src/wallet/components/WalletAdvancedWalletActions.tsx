@@ -39,7 +39,7 @@ export function WalletAdvancedWalletActions() {
   return (
     <div
       className={cn(
-        'flex w-80 items-center justify-between',
+        'flex w-full items-center justify-between',
         animations.content,
       )}
     >
