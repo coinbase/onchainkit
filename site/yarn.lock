@@ -479,9 +479,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coinbase/onchainkit@npm:0.36.6":
-  version: 0.36.6
-  resolution: "@coinbase/onchainkit@npm:0.36.6"
+"@coinbase/onchainkit@npm:0.36.7":
+  version: 0.36.7
+  resolution: "@coinbase/onchainkit@npm:0.36.7"
   dependencies:
     "@tanstack/react-query": "npm:^5"
     clsx: "npm:^2.1.1"
@@ -496,7 +496,7 @@ __metadata:
     "@types/react": ^18 || ^19
     react: ^18 || ^19
     react-dom: ^18 || ^19
-  checksum: fb1ff3da478d098454a5b9f2b88304da7882e25f58f047d24d62930de3cb30ac027253ad2cda65121b191a4d5134eb2e44cdc2352addffcfc7f06e56fbd292d0
+  checksum: 3ffca599b9a4f2a33e9aef0aec15b3d03ec6009ea8863152117e02e4f51f84e86950779b6594f49c46f9bfd6c1ae2eae2d47b58d14fa29bf1534f44b738e7826
   languageName: node
   linkType: hard
 
@@ -8408,7 +8408,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "onchainkit@workspace:."
   dependencies:
-    "@coinbase/onchainkit": "npm:0.36.6"
+    "@coinbase/onchainkit": "npm:0.36.7"
     "@types/express": "npm:^4"
     "@types/react": "npm:latest"
     "@types/sitemap-generator": "npm:^8"
