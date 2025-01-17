@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import type { LifecycleStatus, LifecycleStatusUpdate } from '../types';
-import type { NFTError } from '@/core/api/types';
+import type { APIError } from '@/core/api/types';
 
 type UseLifecycleStatusReturn<T extends LifecycleStatus> = [
   lifecycleStatus: T,
@@ -21,7 +21,7 @@ export function useLifecycleStatus<T extends LifecycleStatus>(
         const persistedStatusData =
           prevStatus.statusName === 'error'
             ? (({ error, code, message, ...statusData }) => statusData)(
-                (prevStatus.statusData as {statusData: NFTError}).statusData,
+                prevStatus.statusData as APIError
               )
             : prevStatus.statusData;
         return {

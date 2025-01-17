@@ -161,25 +161,6 @@ export type LifecycleStatus = {
   statusName: 'init' | 'error' | 'success';
   statusData: any;
 };
-// type LifecycleStatusInit = {
-//   statusName: 'init';
-//   statusData: null;
-// }
-// export type LifecycleStatusError = {
-//   statusName: 'error';
-//   statusData: NFTError;
-// }
-// type LifecycleStatusSuccess = {
-//   statusName: 'success';
-//   statusData: null;
-// }
-// type LifecycleStatusGeneric = {
-//   statusName: string;
-//   statusData: null | object;
-// }
-
-// export type LifecycleStatus = LifecycleStatusInit | LifecycleStatusError | LifecycleStatusSuccess | LifecycleStatusGeneric;
-
 
 export type LifecycleStatusView =   
   | {
