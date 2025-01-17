@@ -1,14 +1,14 @@
 import type { SwapDefaultReact } from '@/swap/types';
+import { useBreakpoints } from '@/ui-react/internal/hooks/useBreakpoints';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { WalletAdvancedContent } from './WalletAdvancedContent';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
-import { useBreakpoints } from '@/ui-react/internal/hooks/useBreakpoints';
 
 vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
-}))
+}));
 
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),

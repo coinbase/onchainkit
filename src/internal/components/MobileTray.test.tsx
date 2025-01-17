@@ -1,5 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import { MobileTray } from './MobileTray';
 
 describe('MobileTray', () => {
@@ -18,7 +18,9 @@ describe('MobileTray', () => {
 
   it('renders overlay when open', () => {
     render(<MobileTray {...defaultProps} />);
-    expect(screen.getByRole('presentation')).toHaveClass('bg-black bg-opacity-20');
+    expect(screen.getByRole('presentation')).toHaveClass(
+      'bg-black bg-opacity-20',
+    );
   });
 
   it('does not render overlay when closed', () => {
