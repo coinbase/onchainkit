@@ -1,9 +1,17 @@
 import type { APIError } from '@/core/api/types';
 
-export type AbstractLifecycleStatus = {
-  statusName: string;
-  statusData: null | object | APIError;
+type ErrorStatus = {
+  statusName: 'error';
+  statusData: APIError;
 };
+
+type GenericStatus<T> = {
+  statusName: string;
+  statusData: T;
+};
+
+// biome-ignore lint/suspicious/noExplicitAny: generic status can be any type
+export type AbstractLifecycleStatus = ErrorStatus | GenericStatus<any>;
 
 export type UseLifecycleStatusReturn<T extends AbstractLifecycleStatus> = [
   lifecycleStatus: T,

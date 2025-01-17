@@ -1,4 +1,3 @@
-import type { APIError } from '@/core/api/types';
 import { useCallback, useState } from 'react';
 import type {
   AbstractLifecycleStatus,
@@ -19,7 +18,7 @@ export function useLifecycleStatus<T extends AbstractLifecycleStatus>(
         const persistedStatusData =
           prevStatus.statusName === 'error'
             ? (({ error, code, message, ...statusData }) => statusData)(
-                prevStatus.statusData as APIError,
+                prevStatus.statusData,
               )
             : prevStatus.statusData;
         return {
