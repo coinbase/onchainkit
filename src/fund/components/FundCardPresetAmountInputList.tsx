@@ -9,7 +9,6 @@ export function FundCardPresetAmountInputList() {
 
   const { handleFiatChange } = useAmountInput();
 
-  console.log('presetAmountInputs', presetAmountInputs);
   if (!presetAmountInputs) {
     return null;
   }
