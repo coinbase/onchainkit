@@ -325,12 +325,8 @@ export type FundCardPropsReact = {
   buttonText?: string;
   country: string;
   subdivision?: string;
-  /**
-   * Amount input snippets to display next to the input field: i.e. [10 USD] [50 USD] [100 USD]
-   */
-  amountInputSnippets?: AmountInputSnippetReact[];
   className?: string;
-  presetAmountInputs?: PresetAmountInputReact[];
+  presetAmountInputs?: PresetAmountInputs;
 } & LifecycleEvents;
 
 export type FundCardContentPropsReact = {
@@ -367,24 +363,13 @@ export type FundCardProviderReact = {
   country: string;
   subdivision?: string;
   inputType?: AmountInputType;
-  presetAmountInputs?: PresetAmountInputReact[];
+  presetAmountInputs?: PresetAmountInputs;
 } & LifecycleEvents;
 
 export type LifecycleEvents = {
   onError?: (e: OnrampError | undefined) => void;
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   onSuccess?: (result: SuccessEventData) => void;
-};
-
-export type PresetAmountInputPropsReact = {
-  presetAmountInput: PresetAmountInputReact;
-  currencyOrAsset: string;
-  onClick: (presetAmountInput: PresetAmountInputReact) => void;
-};
-
-export type PresetAmountInputReact = {
-  value: string;
-  type: AmountInputType;
 };
 
 export type AmountInputType = 'fiat' | 'crypto';
@@ -411,40 +396,17 @@ export type LifecycleStatus =
       statusData: null;
     };
 
-type LifecycleStatusDataShared = Record<string, never>;
-
-// make all keys in T optional if they are in K
-type PartialKeys<T, K extends keyof T> = Omit<T, K> &
-  Partial<Pick<T, K>> extends infer O
-  ? { [P in keyof O]: O[P] }
-  : never;
-
-// check if all keys in T are a key of LifecycleStatusDataShared
-type AllKeysInShared<T> = keyof T extends keyof LifecycleStatusDataShared
-  ? true
-  : false;
+export type PresetAmountInputItemPropsReact = {
+  presetAmountInput: string;
+  currency: string;
+  onClick: (presetAmountInput: string) => void;
+};
 
 /**
- * LifecycleStatus updater type
- * Used to type the statuses used to update LifecycleStatus
- * LifecycleStatusData is persisted across state updates allowing SharedData to be optional except for in init step
+ * To use this type, you must provide a tuple of strings with a length of 3.
+ *
+ * Example:
+ *
+ * const presetAmountInputs: PresetAmountInputs = ['100', '200', '300'];
  */
-export type LifecycleStatusUpdate = LifecycleStatus extends infer T
-  ? T extends { statusName: infer N; statusData: infer D }
-    ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
-        ? { statusData: D }
-        : AllKeysInShared<D> extends true // is statusData is LifecycleStatusDataShared, make optional
-        ? {
-            statusData?: PartialKeys<
-              D,
-              keyof D & keyof LifecycleStatusDataShared
-            >;
-          } // make all keys in LifecycleStatusDataShared optional
-        : {
-            statusData: PartialKeys<
-              D,
-              keyof D & keyof LifecycleStatusDataShared
-            >;
-          })
-    : never
-  : never;
+export type PresetAmountInputs = readonly [string, string, string];

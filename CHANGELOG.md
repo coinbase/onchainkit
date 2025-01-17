@@ -1,16 +1,23 @@
 # Changelog
 
+## 0.36.7
+
+### Patch Changes
+
+  - **feat** Implemented `FundCard` component by @rustam-cb #1718
+  - **fix** Updated client boundaries for `NFT`, `Wallet*`, and `WalletAdvanced*` components by @dschlabach #1809, #1810, #1821
+
 ## 0.36.6
 
 ### Patch Changes
 
-- **fix**: ConnectWallet handler bug by @brendan-defi #1814
+- **fix**: Fixed ConnectWallet handler bug by @brendan-defi #1814
 
 ## 0.36.5
 
 ### Patch Changes
 
-- **chore**: Remove Jest config files. By @cpcramer #1811
+- **chore**: Removed Jest config files. By @cpcramer #1811
 - **docs**: Added Troubleshooting section. By @cpcramer #1803
 - **fix**: Updated NFT Mint Button for easier styling. By @alessey #1807
 - **fix**: Updated wallet modal to pass through app name and logo. By @alessey #1808
