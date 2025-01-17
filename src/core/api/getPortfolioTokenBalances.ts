@@ -2,7 +2,7 @@ import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '../network/definitions/wallet'
 import { sendRequest } from '../network/request';
 import type {
   GetPortfolioTokenBalancesParams,
-  GetPortfoliosAPIResponse,
+  GetPortfolioTokenBalancesResponse,
 } from './types';
 
 export async function getPortfolioTokenBalances({
@@ -11,7 +11,7 @@ export async function getPortfolioTokenBalances({
   try {
     const res = await sendRequest<
       GetPortfolioTokenBalancesParams,
-      GetPortfoliosAPIResponse
+      GetPortfolioTokenBalancesResponse
     >(CDP_GET_PORTFOLIO_TOKEN_BALANCES, [{ addresses }]);
     if (res.error) {
       return {
