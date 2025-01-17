@@ -31,8 +31,7 @@ export function MobileTray({
           )}
           onClick={onOverlayClick}
           onKeyDown={onEscKeyPress}
-          role="button"
-          tabIndex={0}
+          role="presentation"
         />
       )}
       <div
