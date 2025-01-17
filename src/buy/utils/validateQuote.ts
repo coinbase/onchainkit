@@ -1,12 +1,15 @@
+import type { LifecycleStatusUpdate } from '@/core-react/internal/types';
 import type { GetSwapQuoteResponse } from '@/core/api/types';
-import type { LifecycleStatusUpdate, SwapUnit } from '@/swap/types';
+import type { LifecycleStatus, SwapUnit } from '@/swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
 
 type ValidateQuoteParams = {
   responseETH?: GetSwapQuoteResponse;
   responseUSDC?: GetSwapQuoteResponse;
   responseFrom?: GetSwapQuoteResponse;
-  updateLifecycleStatus: (status: LifecycleStatusUpdate) => void;
+  updateLifecycleStatus: (
+    status: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void;
   to: SwapUnit;
 };
 export function validateQuote({

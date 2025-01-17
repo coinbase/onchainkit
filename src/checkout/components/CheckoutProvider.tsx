@@ -1,3 +1,4 @@
+import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStatus';
 import { getWindowDimensions } from '@/ui-react/internal/utils/getWindowDimensions';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import {
@@ -27,8 +28,11 @@ import {
 } from '../constants';
 import { CHECKOUT_LIFECYCLESTATUS, CheckoutErrorCode } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
-import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
-import type { CheckoutContextType, CheckoutProviderReact } from '../types';
+import type {
+  CheckoutContextType,
+  CheckoutProviderReact,
+  LifecycleStatus,
+} from '../types';
 
 const emptyContext = {} as CheckoutContextType;
 export const CheckoutContext = createContext<CheckoutContextType>(emptyContext);
@@ -115,10 +119,11 @@ export function CheckoutProvider({
   );
 
   // Component lifecycle
-  const { lifecycleStatus, updateLifecycleStatus } = useLifecycleStatus({
-    statusName: CHECKOUT_LIFECYCLESTATUS.INIT,
-    statusData: {},
-  });
+  const [lifecycleStatus, updateLifecycleStatus] =
+    useLifecycleStatus<LifecycleStatus>({
+      statusName: CHECKOUT_LIFECYCLESTATUS.INIT,
+      statusData: {},
+    });
 
   // Transaction hooks
   const fetchContracts = useCommerceContracts({

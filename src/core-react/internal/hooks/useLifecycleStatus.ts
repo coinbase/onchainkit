@@ -1,21 +1,19 @@
 import { useCallback, useState } from 'react';
-import type { LifecycleStatus, LifecycleStatusUpdate } from '../types';
+import type {
+  AbstractLifecycleStatus,
+  LifecycleStatusUpdate,
+  UseLifecycleStatusReturn,
+} from '../types';
 
-type UseLifecycleStatusReturn = [
-  lifecycleStatus: LifecycleStatus,
-  updatelifecycleStatus: (newStatus: LifecycleStatusUpdate) => void,
-];
-
-export function useLifecycleStatus(
-  initialState: LifecycleStatus,
-): UseLifecycleStatusReturn {
-  const [lifecycleStatus, setLifecycleStatus] =
-    useState<LifecycleStatus>(initialState); // Component lifecycle
+export function useLifecycleStatus<T extends AbstractLifecycleStatus>(
+  initialState: T,
+): UseLifecycleStatusReturn<T> {
+  const [lifecycleStatus, setLifecycleStatus] = useState<T>(initialState); // Component lifecycle
 
   // Update lifecycle status, statusData will be persisted for the full lifecycle
   const updateLifecycleStatus = useCallback(
-    (newStatus: LifecycleStatusUpdate) => {
-      setLifecycleStatus((prevStatus: LifecycleStatus) => {
+    (newStatus: LifecycleStatusUpdate<T>) => {
+      setLifecycleStatus((prevStatus: T) => {
         // do not persist errors
         const persistedStatusData =
           prevStatus.statusName === 'error'
@@ -29,7 +27,7 @@ export function useLifecycleStatus(
             ...persistedStatusData,
             ...newStatus.statusData,
           },
-        } as LifecycleStatus;
+        } as T;
       });
     },
     [],
