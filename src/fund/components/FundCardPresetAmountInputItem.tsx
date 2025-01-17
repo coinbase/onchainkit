@@ -1,15 +1,16 @@
 import { border, cn, color, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
-import type { PresetAmountInputPropsReact } from '../types';
+import type { PresetAmountInputItemPropsReact } from '../types';
 
-export function PresetAmountInput({
+export function FundCardPresetAmountInputItem({
   presetAmountInput,
-  currencyOrAsset,
+  currency,
   onClick,
-}: PresetAmountInputPropsReact) {
+}: PresetAmountInputItemPropsReact) {
   const presetAmountInputText = useMemo(() => {
-    return `${presetAmountInput.value} ${currencyOrAsset}`;
-  }, [presetAmountInput, currencyOrAsset]);
+    // TODO: This is going to be formatted in the next PR where we add the currency symbol so that instead of USD we have $ or other currency symbols
+    return `${presetAmountInput} ${currency}`;
+  }, [presetAmountInput, currency]);
 
   const handleClick = useCallback(() => {
     onClick(presetAmountInput);
@@ -25,7 +26,7 @@ export function PresetAmountInput({
     [presetAmountInput, onClick],
   );
 
-  if (!presetAmountInput.value) {
+  if (!presetAmountInput) {
     return null;
   }
 
@@ -38,7 +39,8 @@ export function PresetAmountInput({
         color.foreground,
         border.radius,
         border.lineDefault,
-        'm-1 p-1',
+        'flex-1',
+        'p-1',
         'overflow-hidden',
         'whitespace-nowrap',
         'text-ellipsis',

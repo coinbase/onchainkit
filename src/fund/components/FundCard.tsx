@@ -8,6 +8,7 @@ import FundCardAmountInput from './FundCardAmountInput';
 import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
 import { FundCardHeader } from './FundCardHeader';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
+import { FundCardPresetAmountInputList } from './FundCardPresetAmountInputList';
 import { FundCardProvider } from './FundCardProvider';
 import { FundCardSubmitButton } from './FundCardSubmitButton';
 
@@ -73,6 +74,7 @@ function DefaultFundCardContent() {
       <FundCardHeader />
       <FundCardAmountInput />
       <FundCardAmountInputTypeSwitch />
+      <FundCardPresetAmountInputList />
       <FundCardPaymentMethodDropdown />
       <FundCardSubmitButton />
     </>

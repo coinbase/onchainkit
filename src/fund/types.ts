@@ -321,7 +321,7 @@ export type FundCardPropsReact = {
   country: string;
   subdivision?: string;
   className?: string;
-  presetAmountInputs?: PresetAmountInputReact[];
+  presetAmountInputs?: PresetAmountInputs;
 } & LifecycleEvents;
 
 export type FundCardContentPropsReact = {
@@ -354,24 +354,13 @@ export type FundCardProviderReact = {
   country: string;
   subdivision?: string;
   inputType?: AmountInputType;
-  presetAmountInputs?: PresetAmountInputReact[];
+  presetAmountInputs?: PresetAmountInputs;
 } & LifecycleEvents;
 
 export type LifecycleEvents = {
   onError?: (e: OnrampError | undefined) => void;
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   onSuccess?: (result: SuccessEventData) => void;
-};
-
-export type PresetAmountInputPropsReact = {
-  presetAmountInput: PresetAmountInputReact;
-  currencyOrAsset: string;
-  onClick: (presetAmountInput: PresetAmountInputReact) => void;
-};
-
-export type PresetAmountInputReact = {
-  value: string;
-  type: AmountInputType;
 };
 
 export type AmountInputType = 'fiat' | 'crypto';
@@ -421,17 +410,32 @@ export type LifecycleStatusUpdate = LifecycleStatus extends infer T
     ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
         ? { statusData: D }
         : AllKeysInShared<D> extends true // is statusData is LifecycleStatusDataShared, make optional
-          ? {
-              statusData?: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            } // make all keys in LifecycleStatusDataShared optional
-          : {
-              statusData: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            })
+        ? {
+            statusData?: PartialKeys<
+              D,
+              keyof D & keyof LifecycleStatusDataShared
+            >;
+          } // make all keys in LifecycleStatusDataShared optional
+        : {
+            statusData: PartialKeys<
+              D,
+              keyof D & keyof LifecycleStatusDataShared
+            >;
+          })
     : never
   : never;
+
+export type PresetAmountInputItemPropsReact = {
+  presetAmountInput: string;
+  currency: string;
+  onClick: (presetAmountInput: string) => void;
+};
+
+/**
+ * To use this type, you must provide a tuple of strings with a length of 3.
+ *
+ * Example:
+ *
+ * const presetAmountInputs: PresetAmountInputs = ['100', '200', '300'];
+ */
+export type PresetAmountInputs = readonly [string, string, string];

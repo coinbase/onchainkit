@@ -15,7 +15,7 @@ import type {
   LifecycleStatus,
   LifecycleStatusUpdate,
   PaymentMethod,
-  PresetAmountInputReact,
+  PresetAmountInputs,
 } from '../types';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
@@ -43,7 +43,7 @@ type FundCardContextType = {
   inputType?: 'fiat' | 'crypto';
   lifecycleStatus: LifecycleStatus;
   updateLifecycleStatus: (newStatus: LifecycleStatusUpdate) => void;
-  presetAmountInputs?: PresetAmountInputReact[];
+  presetAmountInputs?: PresetAmountInputs;
 };
 
 const FundContext = createContext<FundCardContextType | undefined>(undefined);

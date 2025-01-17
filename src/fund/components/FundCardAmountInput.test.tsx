@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { FundCardProviderReact, PresetAmountInputReact } from '../types';
+import type { FundCardProviderReact } from '../types';
 import { FundCardAmountInput } from './FundCardAmountInput';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
 
@@ -231,6 +231,7 @@ describe('FundCardAmountInput', () => {
       expect(valueFiat.textContent).toBe('0');
     });
   });
+
   it('handles non zero values in fiat mode', async () => {
     act(() => {
       render(
@@ -345,81 +346,5 @@ describe('FundCardAmountInput', () => {
       const exchangeRate = screen.getByTestId('test-value-exchange-rate');
       expect(exchangeRate.textContent).toBe('0');
     });
-  });
-
-  it('renders preset amount inputs when value is empty', async () => {
-    const presetAmountInputs: PresetAmountInputReact[] = [
-      { value: '10', type: 'fiat' },
-      { value: '20', type: 'fiat' },
-    ];
-
-    render(
-      <FundCardProvider
-        asset="ETH"
-        country="US"
-        presetAmountInputs={presetAmountInputs}
-      >
-        <FundCardAmountInput />
-      </FundCardProvider>,
-    );
-
-    // Initially, with empty input, preset amount inputs should be visible
-    const presetAmountInputItems = screen.queryAllByTestId(
-      'ockPresetAmountInput',
-    );
-    const presetAmountInput1 = presetAmountInputItems[0];
-    const presetAmountInput2 = presetAmountInputItems[1];
-    expect(presetAmountInput1).toBeInTheDocument();
-    expect(presetAmountInput2).toBeInTheDocument();
-
-    // Enter a value
-    const input = screen.getByTestId('ockTextInput_Input');
-    fireEvent.change(input, { target: { value: '50' } });
-
-    // Preset amount inputs should disappear
-    expect(presetAmountInput1).not.toBeInTheDocument();
-    expect(presetAmountInput2).not.toBeInTheDocument();
-  });
-
-  it('handles preset amount input click correctly', async () => {
-    const presetAmountInputs: PresetAmountInputReact[] = [
-      { value: '10', type: 'fiat' },
-    ];
-
-    render(
-      <FundCardProvider
-        asset="ETH"
-        country="US"
-        presetAmountInputs={presetAmountInputs}
-      >
-        <FundCardAmountInput />
-        <TestComponent />
-      </FundCardProvider>,
-    );
-
-    // Click the preset amount input
-    const presetAmountInput = screen.getByTestId('ockPresetAmountInput');
-    fireEvent.click(presetAmountInput);
-
-    // Verify the input value was updated
-    const valueFiat = screen.getByTestId('test-value-fiat');
-    expect(valueFiat.textContent).toBe('10');
-  });
-
-  it('filters preset amount inputs based on selected input type', async () => {
-    const presetAmountInputs: PresetAmountInputReact[] = [
-      { value: '10', type: 'fiat' },
-      { value: '1', type: 'crypto' },
-    ];
-
-    renderWithProvider({ inputType: 'fiat', presetAmountInputs });
-    // In fiat mode, only fiat preset amount inputs should be visible
-    expect(screen.getByTestId('ockPresetAmountInput')).toHaveTextContent('10');
-
-    // Change input type to crypto
-    fireEvent.click(screen.getByTestId('set-crypto-button'));
-
-    // In crypto mode, only crypto preset amount inputs should be visible
-    expect(screen.getByTestId('ockPresetAmountInput')).toHaveTextContent('1');
   });
 });

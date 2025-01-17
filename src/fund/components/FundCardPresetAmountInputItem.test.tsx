@@ -1,26 +1,18 @@
 // import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import type { PresetAmountInputReact } from '../types';
-import { PresetAmountInput } from './PresetAmountInput';
+import { FundCardPresetAmountInputItem } from './FundCardPresetAmountInputItem';
 
-describe('PresetAmountInput', () => {
-  const mockPresetAmountInput: PresetAmountInputReact = {
-    value: '100',
-    type: 'fiat',
-  };
-
-  const mockCryptoPresetAmountInput: PresetAmountInputReact = {
-    value: '1',
-    type: 'crypto',
-  };
+describe('FundCardPresetAmountInputItem', () => {
+  const mockPresetAmountInput = '100';
+  const mockCryptoPresetAmountInput = '1';
 
   it('renders fiat preset amount input correctly', () => {
     render(
-      <PresetAmountInput
+      <FundCardPresetAmountInputItem
         presetAmountInput={mockPresetAmountInput}
         onClick={vi.fn()}
-        currencyOrAsset="USD"
+        currency="USD"
       />,
     );
 
@@ -31,10 +23,10 @@ describe('PresetAmountInput', () => {
 
   it('renders crypto preset amount input correctly', () => {
     render(
-      <PresetAmountInput
+      <FundCardPresetAmountInputItem
         presetAmountInput={mockCryptoPresetAmountInput}
         onClick={vi.fn()}
-        currencyOrAsset="ETH"
+        currency="ETH"
       />,
     );
 
@@ -45,10 +37,10 @@ describe('PresetAmountInput', () => {
   it('calls onClick when clicked', () => {
     const handleClick = vi.fn();
     render(
-      <PresetAmountInput
+      <FundCardPresetAmountInputItem
         presetAmountInput={mockPresetAmountInput}
         onClick={handleClick}
-        currencyOrAsset="USD"
+        currency="USD"
       />,
     );
 
@@ -58,10 +50,10 @@ describe('PresetAmountInput', () => {
 
   it('shows tooltip with full text on hover', () => {
     render(
-      <PresetAmountInput
+      <FundCardPresetAmountInputItem
         presetAmountInput={mockPresetAmountInput}
         onClick={vi.fn()}
-        currencyOrAsset="USD"
+        currency="USD"
       />,
     );
 
@@ -72,10 +64,10 @@ describe('PresetAmountInput', () => {
   it('handles keyboard interaction', () => {
     const handleClick = vi.fn();
     render(
-      <PresetAmountInput
+      <FundCardPresetAmountInputItem
         presetAmountInput={mockPresetAmountInput}
         onClick={handleClick}
-        currencyOrAsset="USD"
+        currency="USD"
       />,
     );
 
@@ -90,10 +82,10 @@ describe('PresetAmountInput', () => {
 
   it('returns null when value is empty', () => {
     const { container } = render(
-      <PresetAmountInput
-        presetAmountInput={{ ...mockPresetAmountInput, value: '' }}
+      <FundCardPresetAmountInputItem
+        presetAmountInput={''}
         onClick={vi.fn()}
-        currencyOrAsset="USD"
+        currency="USD"
       />,
     );
 
@@ -102,10 +94,10 @@ describe('PresetAmountInput', () => {
 
   it('applies hover state styles', () => {
     render(
-      <PresetAmountInput
+      <FundCardPresetAmountInputItem
         presetAmountInput={mockPresetAmountInput}
         onClick={vi.fn()}
-        currencyOrAsset="USD"
+        currency="USD"
       />,
     );
     const button = screen.getByTestId('ockPresetAmountInput');
@@ -113,15 +105,12 @@ describe('PresetAmountInput', () => {
   });
 
   it('handles long content with ellipsis', () => {
-    const longPresetAmountInput = {
-      ...mockPresetAmountInput,
-      value: '100000000',
-    };
+    const longPresetAmountInput = '100000000';
     render(
-      <PresetAmountInput
+      <FundCardPresetAmountInputItem
         presetAmountInput={longPresetAmountInput}
         onClick={vi.fn()}
-        currencyOrAsset="USD"
+        currency="USD"
       />,
     );
     const button = screen.getByTestId('ockPresetAmountInput');
@@ -130,20 +119,20 @@ describe('PresetAmountInput', () => {
 
   it('maintains fixed width with different content lengths', () => {
     const { rerender } = render(
-      <PresetAmountInput
+      <FundCardPresetAmountInputItem
         presetAmountInput={mockPresetAmountInput}
         onClick={vi.fn()}
-        currencyOrAsset="USD"
+        currency="USD"
       />,
     );
     const shortButton = screen.getByTestId('ockPresetAmountInput');
     const shortWidth = shortButton.className;
 
     rerender(
-      <PresetAmountInput
-        presetAmountInput={{ ...mockPresetAmountInput, value: '100000000' }}
+      <FundCardPresetAmountInputItem
+        presetAmountInput="100000000"
         onClick={vi.fn()}
-        currencyOrAsset="USD"
+        currency="USD"
       />,
     );
     const longButton = screen.getByTestId('ockPresetAmountInput');
