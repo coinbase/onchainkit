@@ -43,7 +43,6 @@ describe('FundCardAmountInput', () => {
       fundAmountCrypto,
       exchangeRate,
       exchangeRateLoading,
-      setSelectedInputType,
     } = useFundContext();
 
     return (
@@ -54,13 +53,6 @@ describe('FundCardAmountInput', () => {
         <span data-testid="loading-state">
           {exchangeRateLoading ? 'loading' : 'not-loading'}
         </span>
-        <button
-          type="button"
-          data-testid="set-crypto-button"
-          onClick={() => setSelectedInputType('crypto')}
-        >
-          Set Crypto
-        </button>
       </div>
     );
   };
