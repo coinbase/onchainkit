@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.36.7
+
+### Patch Changes
+
+- 497633d: - **feat**: Add UI Primitives - FocusTrap, DismissableLayer, and Dialog. By @cpcramer #1822
+  - **feat** implement `FundCard` component by @rustam-cb #1718
+  - **fix** update client boundaries for `NFT`, `Wallet*`, and `WalletAdvanced*` components by @dschlabach #1809, #1810, #1821
+
 ## 0.36.6
 
 ### Patch Changes
