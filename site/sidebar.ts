@@ -301,6 +301,19 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Mint',
+        items: [
+          {
+            text: 'useTokenDetails',
+            link: '/hooks/use-token-details',
+          },
+          {
+            text: 'useMintDetails',
+            link: '/hooks/use-mint-details',
+          },
+        ],
+      },
+      {
         text: 'Fund',
         items: [
           {
