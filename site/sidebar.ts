@@ -3,7 +3,10 @@ import type { Sidebar } from 'vocs';
 export const sidebar = [
   {
     text: 'Introduction',
-    items: [{ text: 'Getting Started', link: '/getting-started' }],
+    items: [
+      { text: 'Getting Started', link: '/getting-started' },
+      { text: 'Troubleshooting', link: '/guides/troubleshooting' },
+    ],
   },
   {
     text: 'Installation',
@@ -50,10 +53,6 @@ export const sidebar = [
       {
         text: 'Theme Customization',
         link: '/guides/themes',
-      },
-      {
-        text: 'Troubleshooting',
-        link: '/guides/troubleshooting',
       },
       {
         text: 'Use Basename',
