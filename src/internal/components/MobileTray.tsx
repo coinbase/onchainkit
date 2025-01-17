@@ -1,5 +1,5 @@
-import { background, cn } from '@/styles/theme';
 import { zIndex } from '@/styles/constants';
+import { background, cn } from '@/styles/theme';
 
 type MobileTrayProps = {
   children: React.ReactNode;
