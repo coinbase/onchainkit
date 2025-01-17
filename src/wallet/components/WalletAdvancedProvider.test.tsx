@@ -31,9 +31,7 @@ describe('useWalletAdvancedContext', () => {
     isSubComponentClosing: false,
   };
 
-  const mockUseSinglePortfolio = useSinglePortfolio as ReturnType<
-    typeof vi.fn
-  >;
+  const mockUseSinglePortfolio = useSinglePortfolio as ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     mockUseAccount.mockReturnValue({
