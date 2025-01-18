@@ -239,7 +239,7 @@ describe('NFTMintButton', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('should disble button if disabled props is true', async () => {
+  it('should disable button if disabled props is true', async () => {
     const { findByText } = render(
       <TestProviders>
         <NFTMintButton disabled={true} />
