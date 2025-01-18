@@ -1,7 +1,7 @@
 import { MobileTray } from '@/internal/components/MobileTray';
 import { background, border, cn, text } from '@/styles/theme';
 import { useBreakpoints } from '@/ui-react/internal/hooks/useBreakpoints';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
 import type { WalletAdvancedReact } from '../types';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
@@ -33,63 +33,51 @@ export function WalletAdvancedContent({
     }
   }, [isSubComponentClosing, setIsSubComponentOpen, setIsSubComponentClosing]);
 
-  const content = (
-    <>
-      <div
-        className={cn(
-          'flex flex-col items-center justify-center',
-          'h-120 w-full',
-          showQr ? '' : 'hidden',
-        )}
-      >
-        <WalletAdvancedQrReceive />
-      </div>
-      <div
-        className={cn(
-          'flex flex-col items-center justify-center',
-          'h-120 w-full',
-          showSwap ? '' : 'hidden',
-        )}
-      >
-        <WalletAdvancedSwap
-          title={
-            <div className={cn(text.headline, 'w-full text-center text-base')}>
-              Swap
-            </div>
-          }
-          to={swappableTokens ?? WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS}
-          from={
-            tokenBalances?.map((token) => ({
-              address: token.address,
-              chainId: token.chainId,
-              symbol: token.symbol,
-              decimals: token.decimals,
-              image: token.image,
-              name: token.name,
-            })) ?? []
-          }
-          className="w-full px-4 pt-3 pb-4"
-        />
-      </div>
-      <div
-        className={cn(
-          'flex flex-col items-center justify-between',
-          'h-120 w-full',
-          'px-4 py-3',
-          showQr || showSwap ? 'hidden' : '',
-        )}
-      >
-        {children}
-      </div>
-    </>
-  );
+  const content = useMemo(() => {
+    if (showQr) {
+      return (
+        <ContentWrapper>
+          <WalletAdvancedQrReceive />
+        </ContentWrapper>
+      );
+    }
+
+    if (showSwap) {
+      return (
+        <ContentWrapper>
+          <WalletAdvancedSwap
+            title={
+              <div
+                className={cn(text.headline, 'w-full text-center text-base')}
+              >
+                Swap
+              </div>
+            }
+            to={swappableTokens ?? WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS}
+            from={
+              tokenBalances?.map((token) => ({
+                address: token.address,
+                chainId: token.chainId,
+                symbol: token.symbol,
+                decimals: token.decimals,
+                image: token.image,
+                name: token.name,
+              })) ?? []
+            }
+            className="w-full px-4 pt-3 pb-4"
+          />
+        </ContentWrapper>
+      );
+    }
+
+    return <ContentWrapper className="px-4 py-3">{children}</ContentWrapper>;
+  }, [showQr, showSwap, swappableTokens, tokenBalances, children]);
 
   if (breakpoint === 'sm') {
     return (
       <MobileTray
         isOpen={isSubComponentOpen}
-        onOverlayClick={handleClose}
-        onEscKeyPress={handleClose}
+        onClose={handleClose}
         onAnimationEnd={handleAnimationEnd}
         animation={{
           tray: animations.mobileContainer,
@@ -117,6 +105,26 @@ export function WalletAdvancedContent({
       onAnimationEnd={handleAnimationEnd}
     >
       {content}
+    </div>
+  );
+}
+
+function ContentWrapper({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        'flex flex-col items-center justify-center',
+        'h-120 w-full',
+        className,
+      )}
+    >
+      {children}
     </div>
   );
 }
