@@ -2,36 +2,11 @@ import { isApplePaySupported } from '@/buy/utils/isApplePaySupported';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { OnrampOptionsResponseData } from '../types';
+import { optionsResponseDataMock, quoteResponseDataMock } from '../mocks';
 import { fetchOnrampOptions } from '../utils/fetchOnrampOptions';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
-
-const quoteMockResponseData = {
-  paymentTotal: { value: '100.00', currency: 'USD' },
-  paymentSubtotal: { value: '120.00', currency: 'USD' },
-  purchaseAmount: { value: '0.1', currency: 'BTC' },
-  coinbaseFee: { value: '2.00', currency: 'USD' },
-  networkFee: { value: '1.00', currency: 'USD' },
-  quoteId: 'quote-id-123',
-};
-
-const optionsMockResponseData: OnrampOptionsResponseData = {
-  purchaseCurrencies: [],
-  paymentCurrencies: [
-    {
-      id: 'ACH_BANK_ACCOUNT',
-      limits: [
-        {
-          id: 'ACH_BANK_ACCOUNT',
-          min: '5',
-          max: '500',
-        },
-      ],
-    },
-  ],
-};
 
 vi.mock('../utils/fetchOnrampQuote');
 vi.mock('../utils/fetchOnrampOptions');
@@ -88,8 +63,8 @@ describe('FundCardPaymentMethodDropdown', () => {
     vi.resetAllMocks();
     setOnchainKitConfig({ apiKey: 'mock-api-key' });
     (isApplePaySupported as Mock).mockResolvedValue(true); // Default to supported
-    (fetchOnrampQuote as Mock).mockResolvedValue(quoteMockResponseData);
-    (fetchOnrampOptions as Mock).mockResolvedValue(optionsMockResponseData);
+    (fetchOnrampQuote as Mock).mockResolvedValue(quoteResponseDataMock);
+    (fetchOnrampOptions as Mock).mockResolvedValue(optionsResponseDataMock);
   });
 
   const renderWithProvider = ({ amount = '5' }: { amount?: string }) => {
@@ -100,13 +75,16 @@ describe('FundCardPaymentMethodDropdown', () => {
     );
   };
 
-  it('disables card payment methods when amount is less than minimum', () => {
+  it('disables card payment methods when amount is less than minimum', async () => {
     renderWithProvider({ amount: '1' });
+    fireEvent.click(screen.getByTestId('setAmount1'));
 
-    // Open dropdown
-    fireEvent.click(
-      screen.getByTestId('ockFundCardPaymentMethodSelectorToggle'),
-    );
+    await waitFor(() => {
+      // Open dropdown
+      fireEvent.click(
+        screen.getByTestId('ockFundCardPaymentMethodSelectorToggle'),
+      );
+    });
 
     // Check Apple Pay is disabled
     const applePayButton = screen.getByTestId(
@@ -120,7 +98,7 @@ describe('FundCardPaymentMethodDropdown', () => {
 
     // Check Debit Card is disabled
     const debitCardButton = screen.getByTestId(
-      'ockFundCardPaymentMethodSelectRow__ACH_BANK_ACCOUNT',
+      'ockFundCardPaymentMethodSelectRow__CARD',
     );
     expect(debitCardButton).toBeDisabled();
     expect(debitCardButton).toHaveAttribute(
@@ -128,30 +106,70 @@ describe('FundCardPaymentMethodDropdown', () => {
       'Minimum amount of $5 required',
     );
 
-    // Check Coinbase is not disabled
+    // Check Coinbase is disabled
     const coinbaseButton = screen.getByTestId(
       'ockFundCardPaymentMethodSelectRow__',
     );
-    expect(coinbaseButton).not.toBeDisabled();
+    expect(coinbaseButton).toBeDisabled();
   });
 
-  it('enables card payment methods when amount meets minimum', () => {
+  it('disables card payment methods when amount is more than maximum', async () => {
+    renderWithProvider({ amount: '1000000' });
+    fireEvent.click(screen.getByTestId('setAmount'));
+
+    await waitFor(() => {
+      // Open dropdown
+      fireEvent.click(
+        screen.getByTestId('ockFundCardPaymentMethodSelectorToggle'),
+      );
+    });
+
+    // Check Apple Pay is disabled
+    const applePayButton = screen.getByTestId(
+      'ockFundCardPaymentMethodSelectRow__APPLE_PAY',
+    );
+    expect(applePayButton).toBeDisabled();
+    expect(applePayButton).toHaveAttribute(
+      'title',
+      'Maximum amount allowed is $500',
+    );
+
+    // Check Debit Card is disabled
+    const debitCardButton = screen.getByTestId(
+      'ockFundCardPaymentMethodSelectRow__CARD',
+    );
+    expect(debitCardButton).toBeDisabled();
+    expect(debitCardButton).toHaveAttribute(
+      'title',
+      'Maximum amount allowed is $500',
+    );
+
+    // Check Coinbase is disabled
+    const coinbaseButton = screen.getByTestId(
+      'ockFundCardPaymentMethodSelectRow__',
+    );
+    expect(coinbaseButton).toBeDisabled();
+  });
+
+  it('enables card payment methods when amount meets minimum', async () => {
     renderWithProvider({ amount: '5' });
 
     // Set amount to 5
     fireEvent.click(screen.getByTestId('setAmount'));
 
-    // Open dropdown
-    fireEvent.click(
-      screen.getByTestId('ockFundCardPaymentMethodSelectorToggle'),
-    );
+    await waitFor(() => {
+      // Open dropdown
+      fireEvent.click(
+        screen.getByTestId('ockFundCardPaymentMethodSelectorToggle'),
+      );
+    });
 
     // Check all payment methods are enabled
     const applePayButton = screen.getByTestId(
       'ockFundCardPaymentMethodSelectRow__APPLE_PAY',
     );
     const debitCardButton = screen.getByTestId(
-      'ockFundCardPaymentMethodSelectRow__ACH_BANK_ACCOUNT',
+      'ockFundCardPaymentMethodSelectRow__CARD',
     );
     const coinbaseButton = screen.getByTestId(
       'ockFundCardPaymentMethodSelectRow__',
@@ -168,12 +186,15 @@ describe('FundCardPaymentMethodDropdown', () => {
     // Set amount to 5
     fireEvent.click(screen.getByTestId('setAmount'));
 
-    // Open dropdown and select Apple Pay
-    fireEvent.click(
-      screen.getByTestId(
-        'ockFundCardPaymentMethodSelectorToggle__paymentMethodName',
-      ),
-    );
+    await waitFor(() => {
+      // Open dropdown and select Apple Pay
+      fireEvent.click(
+        screen.getByTestId(
+          'ockFundCardPaymentMethodSelectorToggle__paymentMethodName',
+        ),
+      );
+    });
+
     fireEvent.click(
       screen.getByTestId('ockFundCardPaymentMethodSelectRow__APPLE_PAY'),
     );
@@ -198,11 +219,38 @@ describe('FundCardPaymentMethodDropdown', () => {
     });
   });
 
-  it('shows original description when payment method is not disabled', () => {
+  it('shows disabled reason when payment method is disabled', async () => {
+    renderWithProvider({ amount: '1' });
+
+    await waitFor(() => {
+      // Set amount to 5
+      fireEvent.click(screen.getByTestId('setAmount'));
+    });
+
+    await waitFor(() => {
+      // Open dropdown
+      fireEvent.click(
+        screen.getByTestId('ockFundCardPaymentMethodSelectorToggle'),
+      );
+    });
+
+    // Check descriptions are original
+    expect(
+      screen.queryByText('ACH, debit, cash, crypto balance'),
+    ).not.toBeInTheDocument();
+
+    expect(screen.getAllByText('Minimum amount of $5 required')).toHaveLength(
+      3,
+    );
+  });
+
+  it('shows original description when payment method is not disabled', async () => {
     renderWithProvider({ amount: '5' });
 
-    // Set amount to 5
-    fireEvent.click(screen.getByTestId('setAmount'));
+    await waitFor(() => {
+      // Set amount to 5
+      fireEvent.click(screen.getByTestId('setAmount'));
+    });
 
     // Open dropdown
     fireEvent.click(
@@ -211,7 +259,7 @@ describe('FundCardPaymentMethodDropdown', () => {
 
     // Check descriptions are original
     expect(
-      screen.getByText('ACH, cash, crypto and balance'),
+      screen.getByText('ACH, debit, cash, crypto balance'),
     ).toBeInTheDocument();
 
     expect(
@@ -219,13 +267,18 @@ describe('FundCardPaymentMethodDropdown', () => {
     ).toHaveLength(2);
   });
 
-  it('closes dropdown when clicking outside', () => {
+  it('closes dropdown when clicking outside', async () => {
     renderWithProvider({ amount: '5' });
+    // Set amount to 5
+    fireEvent.click(screen.getByTestId('setAmount'));
 
-    // Open dropdown
-    fireEvent.click(
-      screen.getByTestId('ockFundCardPaymentMethodSelectorToggle'),
-    );
+    await waitFor(() => {
+      // Open dropdown
+      fireEvent.click(
+        screen.getByTestId('ockFundCardPaymentMethodSelectorToggle'),
+      );
+    });
+
     expect(
       screen.getByTestId('ockFundCardPaymentMethodDropdown'),
     ).toBeInTheDocument();
@@ -239,13 +292,19 @@ describe('FundCardPaymentMethodDropdown', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('closes dropdown when pressing Escape key', () => {
+  it('closes dropdown when pressing Escape key', async () => {
     renderWithProvider({ amount: '5' });
 
-    // Open dropdown
-    fireEvent.click(
-      screen.getByTestId('ockFundCardPaymentMethodSelectorToggle'),
-    );
+    // Set amount to 5
+    fireEvent.click(screen.getByTestId('setAmount'));
+
+    await waitFor(() => {
+      // Open dropdown
+      fireEvent.click(
+        screen.getByTestId('ockFundCardPaymentMethodSelectorToggle'),
+      );
+    });
+
     expect(
       screen.getByTestId('ockFundCardPaymentMethodDropdown'),
     ).toBeInTheDocument();
@@ -262,13 +321,18 @@ describe('FundCardPaymentMethodDropdown', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('toggles dropdown visibility when clicking the toggle button', () => {
+  it('toggles dropdown visibility when clicking the toggle button', async () => {
     renderWithProvider({ amount: '5' });
 
-    // Initially dropdown should be closed
-    expect(
-      screen.queryByTestId('ockFundCardPaymentMethodDropdown'),
-    ).not.toBeInTheDocument();
+    // Set amount to 5
+    fireEvent.click(screen.getByTestId('setAmount'));
+
+    await waitFor(() => {
+      // Initially dropdown should be closed
+      expect(
+        screen.queryByTestId('ockFundCardPaymentMethodDropdown'),
+      ).not.toBeInTheDocument();
+    });
 
     // Open dropdown
     fireEvent.click(
@@ -287,13 +351,19 @@ describe('FundCardPaymentMethodDropdown', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('ignores non-Escape key presses', () => {
+  it('ignores non-Escape key presses', async () => {
     renderWithProvider({ amount: '5' });
 
-    // Open dropdown
-    fireEvent.click(
-      screen.getByTestId('ockFundCardPaymentMethodSelectorToggle'),
-    );
+    // Set amount to 5
+    fireEvent.click(screen.getByTestId('setAmount'));
+
+    await waitFor(() => {
+      // Open dropdown
+      fireEvent.click(
+        screen.getByTestId('ockFundCardPaymentMethodSelectorToggle'),
+      );
+    });
+
     expect(
       screen.getByTestId('ockFundCardPaymentMethodDropdown'),
     ).toBeInTheDocument();
@@ -314,6 +384,9 @@ describe('FundCardPaymentMethodDropdown', () => {
     (isApplePaySupported as Mock).mockReturnValue(false);
     renderWithProvider({ amount: '5' });
 
+    // Set amount to 5
+    fireEvent.click(screen.getByTestId('setAmount'));
+
     // Wait for Apple Pay check
     await waitFor(() => {
       // Open dropdown
@@ -332,7 +405,7 @@ describe('FundCardPaymentMethodDropdown', () => {
       screen.getByTestId('ockFundCardPaymentMethodSelectRow__'),
     ).toBeInTheDocument();
     expect(
-      screen.getByTestId('ockFundCardPaymentMethodSelectRow__ACH_BANK_ACCOUNT'),
+      screen.getByTestId('ockFundCardPaymentMethodSelectRow__CARD'),
     ).toBeInTheDocument();
   });
 

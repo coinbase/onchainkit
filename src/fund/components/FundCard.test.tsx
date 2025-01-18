@@ -11,7 +11,9 @@ import {
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
+import { optionsResponseDataMock, quoteResponseDataMock } from '../mocks';
 import type { PresetAmountInputs } from '../types';
+import { fetchOnrampOptions } from '../utils/fetchOnrampOptions';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCard } from './FundCard';
@@ -49,7 +51,9 @@ vi.mock('../utils/getFundingPopupSize', () => ({
 }));
 
 vi.mock('../hooks/useFundCardSetupOnrampEventListeners');
+
 vi.mock('../utils/fetchOnrampQuote');
+vi.mock('../utils/fetchOnrampOptions');
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -63,15 +67,6 @@ vi.mock('../../wallet/components/ConnectWallet', () => ({
     </div>
   ),
 }));
-
-const mockResponseData = {
-  paymentTotal: { value: '100.00', currency: 'USD' },
-  paymentSubtotal: { value: '120.00', currency: 'USD' },
-  purchaseAmount: { value: '0.1', currency: 'BTC' },
-  coinbaseFee: { value: '2.00', currency: 'USD' },
-  networkFee: { value: '1.00', currency: 'USD' },
-  quoteId: 'quote-id-123',
-};
 
 // Test component to access context values
 const TestComponent = () => {
@@ -137,7 +132,8 @@ describe('FundCard', () => {
       width: 100,
     }));
     (useFundCardFundingUrl as Mock).mockReturnValue('mock-funding-url');
-    (fetchOnrampQuote as Mock).mockResolvedValue(mockResponseData);
+    (fetchOnrampQuote as Mock).mockResolvedValue(quoteResponseDataMock);
+    (fetchOnrampOptions as Mock).mockResolvedValue(optionsResponseDataMock);
     (useAccount as Mock).mockReturnValue({
       address: '0x123',
     });
@@ -314,7 +310,7 @@ describe('FundCard', () => {
       );
 
       // Click the preset amount input
-      const presetAmountInput = screen.getByText('12345 USD');
+      const presetAmountInput = screen.getByText('$12,345');
 
       // Verify the input value was updated
       expect(presetAmountInput).toBeInTheDocument();

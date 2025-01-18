@@ -1,18 +1,8 @@
-import type { OnrampOptionsResponseData, PaymentMethod } from '../types';
-
-const PAYMENT_METHOD_NAMES_MAP: Record<string, string> = {
-  CARD: 'Debit card',
-  ACH_BANK_ACCOUNT: 'ACH',
-  APPLE_PAY: 'Apple Pay',
-};
-
-const PAYMENT_METHOD_ICONS_MAP: Record<string, string> = {
-  CARD: 'creditCard',
-  ACH_BANK_ACCOUNT: 'bank',
-  APPLE_PAY: 'apple',
-  CRYPTO_ACCOUNT: 'coinbaseLogo',
-  FIAT_WALLET: 'fundWallet',
-};
+import type {
+  OnrampOptionsResponseData,
+  OnrampPaymentCurrency,
+  PaymentMethod,
+} from '../types';
 
 const DEFAULT_MIN_AMOUNT = 2;
 const DEFAULT_MAX_AMOUNT = 500;
@@ -24,16 +14,58 @@ const DEFAULT_MAX_AMOUNT = 500;
 export const buildCoinbasePaymentMethodDescription = (
   paymentMethodLimits: Array<{ id: string }>,
 ) => {
-  // Map the IDs to their readable names
-  const methods = paymentMethodLimits.map(
-    (limit) => PAYMENT_METHOD_NAMES_MAP[limit.id],
-  );
+  const availableMethods = [
+    // Check API-provided methods
+    paymentMethodLimits.some((limit) => limit.id === 'ACH_BANK_ACCOUNT') &&
+      'ACH',
+    paymentMethodLimits.some((limit) => limit.id === 'CARD') && 'debit',
+    // Always include these methods
+    'cash',
+    'crypto balance',
+  ].filter(Boolean); // Remove falsy values
 
-  // Add Cash and Crypto Balance to the end of the array (These are not returned by the API)
-  methods.push('Cash');
-  methods.push('Crypto Balance');
+  return availableMethods.join(', ');
+};
 
-  return methods.join(', ');
+const buildCoinbasePaymentMethod = ({
+  limits,
+}: OnrampPaymentCurrency): PaymentMethod => ({
+  id: '',
+  name: 'Coinbase',
+  description: buildCoinbasePaymentMethodDescription(limits),
+  icon: 'coinbaseLogo',
+  minAmount: Math.min(...limits.map((l) => Number(l.min))),
+  maxAmount: Math.max(...limits.map((l) => Number(l.max))),
+});
+
+const buildUSPaymentMethods = (
+  paymentCurrency: OnrampPaymentCurrency,
+): PaymentMethod[] => {
+  const paymentMethodConfigs = [
+    {
+      id: 'APPLE_PAY',
+      name: 'Apple Pay',
+      icon: 'apple',
+    },
+    {
+      id: 'CARD',
+      name: 'Debit card',
+      icon: 'creditCard',
+    },
+  ];
+
+  return paymentMethodConfigs.map((config) => {
+    const limit = paymentCurrency.limits.find(
+      (limit) => limit.id === config.id,
+    );
+
+    return {
+      ...config,
+      description: 'Up to $500/week. No sign up required.',
+      minAmount: Number(limit?.min) || DEFAULT_MIN_AMOUNT,
+      maxAmount: Number(limit?.max) || DEFAULT_MAX_AMOUNT,
+    };
+  });
 };
 
 export const buildPaymentMethods = (
@@ -41,70 +73,19 @@ export const buildPaymentMethods = (
   currency: string,
   country: string,
 ) => {
-  const paymentMethod = paymentOptions.paymentCurrencies.find(
+  const paymentCurrency = paymentOptions.paymentCurrencies.find(
     (paymentCurrency) => paymentCurrency.id === currency,
   );
 
-  if (!paymentMethod) {
+  if (!paymentCurrency) {
     return [];
   }
 
-  const description = buildCoinbasePaymentMethodDescription(
-    paymentMethod.limits,
-  );
+  const coinbasePaymentMethod = buildCoinbasePaymentMethod(paymentCurrency);
 
-  const largestLimit = paymentMethod.limits.reduce((max, limit) => {
-    return Math.max(max, Number(limit.max));
-  }, 0);
-
-  const smallestLimit = paymentMethod.limits.reduce((min, limit) => {
-    return Math.min(min, Number(limit.min));
-  }, Number.POSITIVE_INFINITY);
-
-  const coinbasePaymentMethod: PaymentMethod = {
-    id: '',
-    name: 'Coinbase',
-    description, // e.g. "card, ACH, and balance"
-    icon: 'coinbaseLogo',
-    minAmount: smallestLimit,
-    maxAmount: largestLimit,
-  };
-
-  /**
-   * We need to show to the US user "Card" and "Apple Pay" options
-   */
-  const usPaymentMethods: PaymentMethod[] = [];
-
+  let usPaymentMethods: PaymentMethod[] = [];
   if (country === 'US' && currency === 'USD') {
-    const applePayLimit = paymentMethod.limits.find(
-      (limit) => limit.id === 'APPLE_PAY',
-    );
-
-    const applePayMinAmount = Number(applePayLimit?.min) || DEFAULT_MIN_AMOUNT;
-    const applePayMaxAmount = Number(applePayLimit?.max) || DEFAULT_MAX_AMOUNT;
-
-    usPaymentMethods.push({
-      id: 'APPLE_PAY',
-      name: PAYMENT_METHOD_NAMES_MAP.APPLE_PAY,
-      description: 'Up to $500/week. No sign up required.',
-      icon: PAYMENT_METHOD_ICONS_MAP.APPLE_PAY,
-      minAmount: applePayMinAmount,
-      maxAmount: applePayMaxAmount,
-    });
-
-    const cardLimit = paymentMethod.limits.find((limit) => limit.id === 'CARD');
-
-    const cardMinAmount = Number(cardLimit?.min) || DEFAULT_MIN_AMOUNT;
-    const cardMaxAmount = Number(cardLimit?.max) || DEFAULT_MAX_AMOUNT;
-
-    usPaymentMethods.push({
-      id: 'CARD',
-      name: PAYMENT_METHOD_NAMES_MAP.CARD,
-      description: 'Up to $500/week. No sign up required.',
-      icon: PAYMENT_METHOD_ICONS_MAP.CARD,
-      minAmount: cardMinAmount,
-      maxAmount: cardMaxAmount,
-    });
+    usPaymentMethods = buildUSPaymentMethods(paymentCurrency);
   }
 
   return [coinbasePaymentMethod, ...usPaymentMethods];

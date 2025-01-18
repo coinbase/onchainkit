@@ -2,26 +2,18 @@ import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { quoteResponseDataMock } from '../mocks';
 import type { PresetAmountInputs } from '../types';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { FundCardPresetAmountInputList } from './FundCardPresetAmountInputList';
 import { FundCardProvider } from './FundCardProvider';
-
-const mockResponseData = {
-  paymentTotal: { value: '100.00', currency: 'USD' },
-  paymentSubtotal: { value: '120.00', currency: 'USD' },
-  purchaseAmount: { value: '0.1', currency: 'BTC' },
-  coinbaseFee: { value: '2.00', currency: 'USD' },
-  networkFee: { value: '1.00', currency: 'USD' },
-  quoteId: 'quote-id-123',
-};
 
 vi.mock('../utils/fetchOnrampQuote');
 
 describe('FundCardPresetAmountInputList', () => {
   beforeEach(() => {
     setOnchainKitConfig({ apiKey: '123456789' });
-    (fetchOnrampQuote as Mock).mockResolvedValue(mockResponseData);
+    (fetchOnrampQuote as Mock).mockResolvedValue(quoteResponseDataMock);
   });
 
   const renderWithProvider = (presetAmountInputs?: PresetAmountInputs) => {
@@ -48,9 +40,9 @@ describe('FundCardPresetAmountInputList', () => {
     renderWithProvider(presetAmounts);
 
     // Check each preset amount is rendered
-    expect(screen.getByText('10 USD')).toBeInTheDocument();
-    expect(screen.getByText('20 USD')).toBeInTheDocument();
-    expect(screen.getByText('50 USD')).toBeInTheDocument();
+    expect(screen.getByText('$10')).toBeInTheDocument();
+    expect(screen.getByText('$20')).toBeInTheDocument();
+    expect(screen.getByText('$50')).toBeInTheDocument();
   });
 
   it('renders with correct layout classes', () => {

@@ -2,20 +2,12 @@ import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { quoteResponseDataMock } from '../mocks';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
-
-const mockResponseData = {
-  payment_total: { value: '100.00', currency: 'USD' },
-  payment_subtotal: { value: '120.00', currency: 'USD' },
-  purchase_amount: { value: '0.1', currency: 'BTC' },
-  coinbase_fee: { value: '2.00', currency: 'USD' },
-  network_fee: { value: '1.00', currency: 'USD' },
-  quote_id: 'quote-id-123',
-};
 
 global.fetch = vi.fn(() =>
   Promise.resolve({
-    json: () => Promise.resolve(mockResponseData),
+    json: () => Promise.resolve(quoteResponseDataMock),
   }),
 ) as Mock;
 

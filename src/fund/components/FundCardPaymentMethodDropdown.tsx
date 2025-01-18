@@ -48,10 +48,6 @@ export function FundCardPaymentMethodDropdown({
 
   const getPaymentMethodDisabledReason = useCallback(
     (method: PaymentMethod) => {
-      if (!fundAmountFiat) {
-        return undefined;
-      }
-
       const amount = Number(fundAmountFiat);
 
       if (method.minAmount && amount < method.minAmount) {
@@ -61,8 +57,6 @@ export function FundCardPaymentMethodDropdown({
       if (method.maxAmount && amount > method.maxAmount) {
         return `Maximum amount allowed is $${method.maxAmount}`;
       }
-
-      return undefined;
     },
     [fundAmountFiat],
   );
