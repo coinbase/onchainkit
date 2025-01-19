@@ -1,15 +1,22 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { MobileTray } from './MobileTray';
+
+vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(),
+}));
 
 describe('MobileTray', () => {
   const defaultProps = {
     isOpen: true,
-    onOverlayClick: vi.fn(),
-    onEscKeyPress: vi.fn(),
+    onClose: vi.fn(),
     onAnimationEnd: vi.fn(),
     children: <div>Test Content</div>,
   };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('renders children when open', () => {
     render(<MobileTray {...defaultProps} />);
@@ -18,26 +25,24 @@ describe('MobileTray', () => {
 
   it('renders overlay when open', () => {
     render(<MobileTray {...defaultProps} />);
-    expect(screen.getByRole('presentation')).toHaveClass(
-      'bg-black bg-opacity-20',
-    );
+    expect(screen.getByTestId('ockMobileTrayOverlay')).toBeInTheDocument();
   });
 
   it('does not render overlay when closed', () => {
     render(<MobileTray {...defaultProps} isOpen={false} />);
-    expect(screen.queryByRole('presentation')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ockMobileTrayOverlay')).not.toBeInTheDocument();
   });
 
-  it('calls onOverlayClick when overlay is clicked', () => {
+  it('calls onClose when overlay is clicked', () => {
     render(<MobileTray {...defaultProps} />);
-    fireEvent.click(screen.getByRole('presentation'));
-    expect(defaultProps.onOverlayClick).toHaveBeenCalled();
+    fireEvent.pointerDown(screen.getByTestId('ockMobileTrayOverlay'));
+    expect(defaultProps.onClose).toHaveBeenCalled();
   });
 
-  it('calls onEscKeyPress when Escape key is pressed on overlay', () => {
+  it('calls onClose when Escape key is pressed on overlay', () => {
     render(<MobileTray {...defaultProps} />);
-    fireEvent.keyDown(screen.getByRole('presentation'), { key: 'Escape' });
-    expect(defaultProps.onEscKeyPress).toHaveBeenCalled();
+    fireEvent.keyDown(screen.getByTestId('ockDismissableLayer'), { key: 'Escape' });
+    expect(defaultProps.onClose).toHaveBeenCalled();
   });
 
   it('calls onAnimationEnd when animation completes', () => {
@@ -54,15 +59,7 @@ describe('MobileTray', () => {
       />,
     );
     expect(screen.getByTestId('ockMobileTray')).toHaveClass('custom-tray');
-    expect(screen.getByRole('presentation')).toHaveClass('custom-overlay');
-  });
-
-  it('applies default translation classes when no animation prop is provided', () => {
-    const { rerender } = render(<MobileTray {...defaultProps} />);
-    expect(screen.getByTestId('ockMobileTray')).toHaveClass('translate-y-0');
-
-    rerender(<MobileTray {...defaultProps} isOpen={false} />);
-    expect(screen.getByTestId('ockMobileTray')).toHaveClass('translate-y-full');
+    expect(screen.getByTestId('ockMobileTrayOverlay')).toHaveClass('custom-overlay');
   });
 
   it('applies custom className when provided', () => {

@@ -25,6 +25,11 @@ export function MobileTray({
   onClose,
 }: MobileTrayProps) {
   const componentTheme = useTheme();
+
+  if (!isOpen) {
+    return null;
+  }
+
   return (
     <div
       className={cn(
@@ -34,22 +39,21 @@ export function MobileTray({
         animation?.overlay,
         zIndex.modal,
       )}
+      data-testid="ockMobileTrayOverlay"
     >
       <FocusTrap active={isOpen}>
         <DismissableLayer onDismiss={onClose}>
           <div
+            data-testid="ockMobileTray"
             onAnimationEnd={onAnimationEnd}
             className={cn(
               background.default,
               zIndex.tray,
               'fixed right-0 bottom-0 left-0',
               'transform rounded-t-3xl p-2 transition-transform',
-              animation
-                ? animation.tray
-                : `${isOpen ? 'translate-y-0' : 'translate-y-full'}`,
+              animation?.tray,
               className,
             )}
-            data-testid="ockMobileTray"
           >
             {children}
           </div>
