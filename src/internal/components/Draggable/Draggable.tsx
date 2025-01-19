@@ -24,17 +24,7 @@ export function Draggable({
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [dragStartPosition, setDragStartPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const [cursorDisplay, setCursorDisplay] = useState('default');
   const draggableRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (disabled) {
-      setCursorDisplay('default');
-      return;
-    }
-
-    setCursorDisplay(isDragging ? 'cursor-grabbing' : 'cursor-grab');
-  }, [disabled, isDragging]);
 
   const calculateSnapToGrid = useCallback(
     (positionValue: number) => {
@@ -118,8 +108,8 @@ export function Draggable({
       data-testid="ockDraggable"
       className={cn(
         'fixed touch-none select-none',
+        'cursor-grab active:cursor-grabbing',
         zIndex.modal,
-        cursorDisplay,
       )}
       style={{
         left: `${position.x}px`,
