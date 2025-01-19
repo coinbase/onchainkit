@@ -72,4 +72,23 @@ describe('MobileTray', () => {
     render(<MobileTray {...defaultProps} className="custom-class" />);
     expect(screen.getByTestId('ockMobileTray')).toHaveClass('custom-class');
   });
+
+  it('sets all ARIA attributes correctly', () => {
+    render(
+      <MobileTray
+        {...defaultProps}
+        aria-label="Test Dialog"
+        aria-describedby="desc"
+        aria-labelledby="title"
+      >
+        <div>Content</div>
+      </MobileTray>,
+    );
+
+    const tray = screen.getByTestId('ockMobileTray');
+    expect(tray).toHaveAttribute('role', 'dialog');
+    expect(tray).toHaveAttribute('aria-label', 'Test Dialog');
+    expect(tray).toHaveAttribute('aria-describedby', 'desc');
+    expect(tray).toHaveAttribute('aria-labelledby', 'title');
+  });
 });

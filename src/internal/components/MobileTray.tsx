@@ -14,6 +14,9 @@ type MobileTrayProps = {
     overlay: string;
   };
   className?: string;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
+  'aria-describedby'?: string;
 };
 
 export function MobileTray({
@@ -23,6 +26,9 @@ export function MobileTray({
   isOpen,
   onAnimationEnd,
   onClose,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
 }: MobileTrayProps) {
   const componentTheme = useTheme();
 
@@ -45,6 +51,10 @@ export function MobileTray({
         <DismissableLayer onDismiss={onClose}>
           <div
             data-testid="ockMobileTray"
+            role="dialog"
+            aria-label={ariaLabel}
+            aria-labelledby={ariaLabelledby}
+            aria-describedby={ariaDescribedby}
             onAnimationEnd={onAnimationEnd}
             className={cn(
               background.default,
