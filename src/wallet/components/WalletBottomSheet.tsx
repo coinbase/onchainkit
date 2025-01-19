@@ -9,7 +9,6 @@ import {
   useCallback,
   useMemo,
 } from 'react';
-import { useAccount } from 'wagmi';
 import type { WalletBottomSheetReact } from '../types';
 import { useWalletContext } from './WalletProvider';
 
@@ -17,8 +16,8 @@ export function WalletBottomSheet({
   children,
   className,
 }: WalletBottomSheetReact) {
-  const { address } = useAccount();
-  const { isSubComponentOpen, setIsSubComponentOpen } = useWalletContext();
+  const { address, isSubComponentOpen, setIsSubComponentOpen } =
+    useWalletContext();
 
   const childrenArray = useMemo(() => {
     return Children.toArray(children).map((child) => {
