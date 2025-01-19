@@ -1,17 +1,44 @@
 import { renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useRespositionOnWindowResize } from './useRespositionOnResize';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useBoundedPosition } from './useBoundedPosition';
 
-describe('useRespositionOnWindowResize', () => {
+describe('useBoundedPosition', () => {
   const mockRef = { current: document.createElement('div') };
   const mockResetPosition = vi.fn();
 
   beforeEach(() => {
+    vi.useFakeTimers();
     vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(1024);
     vi.spyOn(window, 'innerHeight', 'get').mockReturnValue(768);
     mockRef.current = document.createElement('div');
-
     vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('should debounce position updates', () => {
+    const initialPosition = { x: 100, y: 100 };
+    mockRef.current.getBoundingClientRect = vi.fn().mockReturnValue({
+      width: 100,
+      height: 100,
+      top: 100,
+      left: 100,
+      right: 200,
+      bottom: 200,
+    });
+
+    renderHook(() =>
+      useBoundedPosition(mockRef, initialPosition, mockResetPosition),
+    );
+
+    // Position should not update immediately
+    expect(mockResetPosition).not.toHaveBeenCalled();
+
+    // Fast forward past debounce timeout
+    vi.advanceTimersByTime(100);
+    expect(mockResetPosition).not.toHaveBeenCalled();
   });
 
   it('should not reposition when element is within viewport', () => {
@@ -26,15 +53,11 @@ describe('useRespositionOnWindowResize', () => {
     });
 
     renderHook(() =>
-      useRespositionOnWindowResize(mockRef, initialPosition, mockResetPosition),
+      useBoundedPosition(mockRef, initialPosition, mockResetPosition),
     );
 
     window.dispatchEvent(new Event('resize'));
-
-    // Get the callback function that was passed to resetPosition
-    const callback = mockResetPosition.mock.calls[0][0];
-    // Call the callback with current position and verify it returns same position
-    expect(callback(initialPosition)).toEqual(initialPosition);
+    expect(mockResetPosition).toHaveBeenCalledWith(initialPosition);
   });
 
   it('should not reposition when ref.current is falsey', () => {
@@ -43,7 +66,7 @@ describe('useRespositionOnWindowResize', () => {
     mockRef.current = null;
 
     renderHook(() =>
-      useRespositionOnWindowResize(mockRef, initialPosition, mockResetPosition),
+      useBoundedPosition(mockRef, initialPosition, mockResetPosition),
     );
 
     window.dispatchEvent(new Event('resize'));
@@ -61,18 +84,11 @@ describe('useRespositionOnWindowResize', () => {
     });
 
     renderHook(() =>
-      useRespositionOnWindowResize(
-        mockRef,
-        { x: 1000, y: 100 },
-        mockResetPosition,
-      ),
+      useBoundedPosition(mockRef, { x: 1000, y: 100 }, mockResetPosition),
     );
 
-    window.dispatchEvent(new Event('resize'));
-    const callback = mockResetPosition.mock.calls[0][0];
-    const newPosition = callback({ x: 1000, y: 100 });
-    expect(newPosition.x).toBe(914); // 1024 - 100 - 10
-    expect(newPosition.y).toBe(100); // y shouldn't change
+    vi.advanceTimersByTime(100);
+    expect(mockResetPosition).toHaveBeenCalledWith({ x: 914, y: 100 }); // 1024 - 100 - 10
   });
 
   it('should reposition when element is outside bottom viewport boundary', () => {
@@ -86,18 +102,11 @@ describe('useRespositionOnWindowResize', () => {
     });
 
     renderHook(() =>
-      useRespositionOnWindowResize(
-        mockRef,
-        { x: 100, y: 700 },
-        mockResetPosition,
-      ),
+      useBoundedPosition(mockRef, { x: 100, y: 700 }, mockResetPosition),
     );
 
     window.dispatchEvent(new Event('resize'));
-    const callback = mockResetPosition.mock.calls[0][0];
-    const newPosition = callback({ x: 100, y: 700 });
-    expect(newPosition.x).toBe(100); // x shouldn't change
-    expect(newPosition.y).toBe(658); // 768 - 100 - 10
+    expect(mockResetPosition).toHaveBeenCalledWith({ x: 100, y: 658 }); // 768 - 100 - 10
   });
 
   it('should reposition when element is outside left viewport boundary', () => {
@@ -111,18 +120,11 @@ describe('useRespositionOnWindowResize', () => {
     });
 
     renderHook(() =>
-      useRespositionOnWindowResize(
-        mockRef,
-        { x: -100, y: 100 },
-        mockResetPosition,
-      ),
+      useBoundedPosition(mockRef, { x: -100, y: 100 }, mockResetPosition),
     );
 
     window.dispatchEvent(new Event('resize'));
-    const callback = mockResetPosition.mock.calls[0][0];
-    const newPosition = callback({ x: -100, y: 100 });
-    expect(newPosition.x).toBe(10); // reset to 10
-    expect(newPosition.y).toBe(100); // y shouldn't change
+    expect(mockResetPosition).toHaveBeenCalledWith({ x: 10, y: 100 }); // reset to 10
   });
 
   it('should reposition when element is outside top viewport boundary', () => {
@@ -140,18 +142,23 @@ describe('useRespositionOnWindowResize', () => {
     });
 
     renderHook(() =>
-      useRespositionOnWindowResize(
-        mockRef,
-        { x: 100, y: -50 },
-        mockResetPosition,
-      ),
+      useBoundedPosition(mockRef, { x: 100, y: -50 }, mockResetPosition),
     );
 
     window.dispatchEvent(new Event('resize'));
 
-    const callback = mockResetPosition.mock.calls[0][0];
-    const newPosition = callback({ x: 100, y: -50 });
-    expect(newPosition.x).toBe(100); // x shouldn't change
-    expect(newPosition.y).toBe(10); // reset to 10
+    expect(mockResetPosition).toHaveBeenCalledWith({ x: 100, y: 10 }); // reset to 10
+  });
+
+  it('should not reposition when getBoundingClientRect returns null', () => {
+    mockRef.current.getBoundingClientRect = vi.fn().mockReturnValue(null);
+
+    renderHook(() =>
+      useBoundedPosition(mockRef, { x: 100, y: 100 }, mockResetPosition),
+    );
+
+    window.dispatchEvent(new Event('resize'));
+    vi.advanceTimersByTime(100);
+    expect(mockResetPosition).not.toHaveBeenCalled();
   });
 });

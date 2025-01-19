@@ -3,7 +3,7 @@
 import { zIndex } from '@/styles/constants';
 import { cn } from '@/styles/theme';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRespositionOnWindowResize } from './useRespositionOnResize';
+import { useBoundedPosition } from './useBoundedPosition';
 
 type DraggableProps = {
   children: React.ReactNode;
@@ -100,7 +100,7 @@ export function Draggable({
     dragStartPosition,
   ]);
 
-  useRespositionOnWindowResize(draggableRef, position, setPosition);
+  useBoundedPosition(draggableRef, position, setPosition);
 
   return (
     <div
