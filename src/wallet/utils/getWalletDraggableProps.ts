@@ -1,4 +1,4 @@
-import { getDraggableWalletDefaultStartingPosition } from './getDraggableWalletDefaultStartingPosition';
+import { getDefaultStartingPosition } from '@/internal/components/Draggable/getDefaultStartingPosition';
 
 export function getWalletDraggableProps({
   draggable,
@@ -14,6 +14,6 @@ export function getWalletDraggableProps({
   return {
     draggable,
     draggableStartingPosition:
-      draggableStartingPosition ?? getDraggableWalletDefaultStartingPosition(),
+      draggableStartingPosition ?? getDefaultStartingPosition(),
   };
 }

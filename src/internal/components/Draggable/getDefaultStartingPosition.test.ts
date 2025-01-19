@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
-import { getDraggableWalletDefaultStartingPosition } from './getDraggableWalletDefaultStartingPosition';
+import { getDefaultStartingPosition } from './getDefaultStartingPosition';
 
-describe('getDraggableWalletDefaultStartingPosition', () => {
+describe('getDefaultStartingPosition', () => {
   it('returns default position when window is undefined', () => {
     vi.stubGlobal('window', undefined);
-    const position = getDraggableWalletDefaultStartingPosition();
+    const position = getDefaultStartingPosition();
     expect(position).toEqual({ x: 100, y: 100 });
     vi.unstubAllGlobals();
   });
@@ -15,8 +15,8 @@ describe('getDraggableWalletDefaultStartingPosition', () => {
       innerHeight: 768,
     });
 
-    const position = getDraggableWalletDefaultStartingPosition();
-    expect(position).toEqual({ x: 899, y: 643 }); // 1024-125, 768-125
+    const position = getDefaultStartingPosition();
+    expect(position).toEqual({ x: 1024 * 0.95, y: 768 * 0.95 });
 
     vi.unstubAllGlobals();
   });

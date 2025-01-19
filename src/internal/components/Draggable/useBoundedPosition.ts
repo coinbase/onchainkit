@@ -5,6 +5,10 @@ export function useBoundedPosition(
   position: { x: number; y: number },
   resetPosition: Dispatch<React.SetStateAction<{ x: number; y: number }>>,
 ) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
   const repositionDraggable = useCallback(
     (rect: DOMRect, currentPosition: { x: number; y: number }) => {
       const viewportWidth = window.innerWidth;
@@ -59,6 +63,9 @@ export function useBoundedPosition(
     }
 
     const rect = draggableRef.current.getBoundingClientRect();
+    if (!rect) {
+      return;
+    }
     const newPosition = repositionDraggable(rect, position);
     resetPosition(newPosition);
   }, [draggableRef, position, repositionDraggable, resetPosition]);

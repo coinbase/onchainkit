@@ -16,6 +16,22 @@ describe('useBoundedPosition', () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
+
+  it('should not reposition when window is undefined', () => {
+    const originalWindow = global.window;
+    // @ts-expect-error - intentionally setting window to undefined
+    global.window = undefined;
+
+    const result = useBoundedPosition(
+      mockRef,
+      { x: 100, y: 100 },
+      mockResetPosition,
+    );
+    expect(result).toBeUndefined();
+
+    global.window = originalWindow;
   });
 
   it('should debounce position updates', () => {
