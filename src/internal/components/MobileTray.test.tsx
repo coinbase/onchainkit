@@ -30,7 +30,9 @@ describe('MobileTray', () => {
 
   it('does not render overlay when closed', () => {
     render(<MobileTray {...defaultProps} isOpen={false} />);
-    expect(screen.queryByTestId('ockMobileTrayOverlay')).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('ockMobileTrayOverlay'),
+    ).not.toBeInTheDocument();
   });
 
   it('calls onClose when overlay is clicked', () => {
@@ -41,7 +43,9 @@ describe('MobileTray', () => {
 
   it('calls onClose when Escape key is pressed on overlay', () => {
     render(<MobileTray {...defaultProps} />);
-    fireEvent.keyDown(screen.getByTestId('ockDismissableLayer'), { key: 'Escape' });
+    fireEvent.keyDown(screen.getByTestId('ockDismissableLayer'), {
+      key: 'Escape',
+    });
     expect(defaultProps.onClose).toHaveBeenCalled();
   });
 
@@ -59,7 +63,9 @@ describe('MobileTray', () => {
       />,
     );
     expect(screen.getByTestId('ockMobileTray')).toHaveClass('custom-tray');
-    expect(screen.getByTestId('ockMobileTrayOverlay')).toHaveClass('custom-overlay');
+    expect(screen.getByTestId('ockMobileTrayOverlay')).toHaveClass(
+      'custom-overlay',
+    );
   });
 
   it('applies custom className when provided', () => {

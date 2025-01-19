@@ -324,7 +324,7 @@ describe('WalletAdvancedContent', () => {
     mockUseBreakpoints.mockReturnValue('sm');
     mockUseWalletContext.mockReturnValue({
       isSubComponentOpen: true,
-      isSubComponentClosing: false
+      isSubComponentClosing: false,
     });
 
     render(
