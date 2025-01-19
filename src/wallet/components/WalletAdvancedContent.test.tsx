@@ -99,11 +99,11 @@ describe('WalletAdvancedContent', () => {
       'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
     );
     expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedSwap'),
+    ).not.toBeInTheDocument();
   });
 
   it('renders WalletAdvancedContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is true', () => {
@@ -133,11 +133,11 @@ describe('WalletAdvancedContent', () => {
       'fade-in slide-in-from-bottom-1.5 animate-in duration-300 ease-out',
     );
     expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedSwap'),
+    ).not.toBeInTheDocument();
   });
 
   it('closes WalletAdvancedContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is false', () => {
@@ -166,11 +166,11 @@ describe('WalletAdvancedContent', () => {
       'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out',
     );
     expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedSwap'),
+    ).not.toBeInTheDocument();
   });
 
   it('closes WalletAdvancedContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is true', () => {
@@ -199,11 +199,11 @@ describe('WalletAdvancedContent', () => {
       'fade-out slide-out-to-bottom-1.5 animate-out fill-mode-forwards ease-in-out',
     );
     expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedSwap'),
+    ).not.toBeInTheDocument();
   });
 
   it('handles animation end when closing', () => {
@@ -243,11 +243,11 @@ describe('WalletAdvancedContent', () => {
 
     expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toBeDefined();
     expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
-    ).not.toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedSwap'),
+    ).not.toBeInTheDocument();
   });
 
   it('renders WalletAdvancedSwap when showSwap is true', () => {
@@ -263,12 +263,10 @@ describe('WalletAdvancedContent', () => {
     );
 
     expect(screen.getByTestId('ockWalletAdvancedSwap')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletAdvancedSwap')).toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
-    ).not.toHaveClass('hidden');
-    expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
   });
 
   it('correctly maps token balances to the swap component', () => {
@@ -324,6 +322,10 @@ describe('WalletAdvancedContent', () => {
 
   it('renders MobileTray when breakpoint is sm', () => {
     mockUseBreakpoints.mockReturnValue('sm');
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
+      isSubComponentClosing: false
+    });
 
     render(
       <WalletAdvancedContent>
