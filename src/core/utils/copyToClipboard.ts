@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 type CopyToClipboardParams = {
   text: string;
@@ -17,4 +17,4 @@ export async function copyToClipboard({
   } catch (err) {
     onError?.(err);
   }
-};
+}

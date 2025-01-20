@@ -1,8 +1,9 @@
 'use client';
-import { copyToClipboard } from '@/core/utils/copyToClipboard';
+
 import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
 import type { AddressReact } from '@/core-react/identity/types';
 import { getSlicedAddress } from '@/core/identity/utils/getSlicedAddress';
+import { copyToClipboard } from '@/core/utils/copyToClipboard';
 import { useState } from 'react';
 import { border, cn, color, pressable, text } from '../../styles/theme';
 
@@ -51,8 +52,8 @@ export function Address({
         console.error('Failed to copy address:', err);
         setCopyText('Failed to copy');
         setTimeout(() => setCopyText('Copy'), 2000);
-      }
-    })
+      },
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
