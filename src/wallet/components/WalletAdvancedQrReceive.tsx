@@ -1,5 +1,6 @@
 'use client';
 
+import { copyToClipboard } from '@/core/utils/copyToClipboard';
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { QrCodeSvg } from '@/internal/components/QrCode/QrCodeSvg';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
@@ -28,29 +29,29 @@ export function WalletAdvancedQrReceive() {
 
   const handleCopyAddress = useCallback(
     async (element: 'button' | 'icon') => {
-      try {
-        await navigator.clipboard.writeText(address ?? '');
-        if (element === 'button') {
-          setCopyButtonText('Address copied');
-        } else {
-          setCopyText('Copied');
-        }
+      const resetAffordanceText = () => {
         setTimeout(() => {
           setCopyText('Copy');
           setCopyButtonText('Copy address');
         }, 2000);
-      } catch (err) {
-        console.error('Failed to copy address:', err);
-        if (element === 'button') {
-          setCopyButtonText('Failed to copy address');
-        } else {
-          setCopyText('Failed to copy');
-        }
-        setTimeout(() => {
-          setCopyText('Copy');
-          setCopyButtonText('Copy address');
-        }, 2000);
-      }
+      };
+
+      await copyToClipboard({
+        text: address ?? '',
+        onSuccess: () => {
+          element === 'button'
+            ? setCopyButtonText('Address copied')
+            : setCopyText('Copied');
+          resetAffordanceText();
+        },
+        onError: (err: unknown) => {
+          console.error('Failed to copy address:', err);
+          element === 'button'
+            ? setCopyButtonText('Failed to copy address')
+            : setCopyText('Failed to copy');
+          resetAffordanceText();
+        },
+      });
     },
     [address],
   );
