@@ -27,7 +27,7 @@ describe('FundCardPaymentMethodSelectRow', () => {
     const button = screen.getByTestId('ockFundCardPaymentMethodSelectRow');
 
     expect(button).toBeDisabled();
-    expect(button).toHaveClass('cursor-not-allowed', 'opacity-50');
+    expect(button).toHaveClass('opacity-[0.38] pointer-events-none');
     expect(button).toHaveAttribute('title', 'Minimum amount required');
     expect(screen.getByText('Minimum amount required')).toBeInTheDocument();
   });
