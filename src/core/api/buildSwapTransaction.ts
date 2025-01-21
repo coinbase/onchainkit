@@ -22,14 +22,13 @@ export async function buildSwapTransaction(
     isAmountInDecimals: false,
   };
 
-  const apiParamsOrError = getAPIParamsForToken({
+  let apiParams = getAPIParamsForToken({
     ...defaultParams,
     ...params,
   });
-  if ('error' in apiParamsOrError) {
-    return apiParamsOrError;
+  if ('error' in apiParams) {
+    return apiParams;
   }
-  let apiParams = apiParamsOrError;
 
   if (!params.useAggregator) {
     apiParams = {
