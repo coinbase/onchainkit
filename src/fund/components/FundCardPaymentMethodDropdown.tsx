@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { background, border, cn } from '../../styles/theme';
 import type {
   FundCardPaymentMethodDropdownPropsReact,
-  PaymentMethodReact,
+  PaymentMethod,
 } from '../types';
 import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow';
 import { FundCardPaymentMethodSelectorToggle } from './FundCardPaymentMethodSelectorToggle';
@@ -31,7 +31,7 @@ export function FundCardPaymentMethodDropdown({
   }, [paymentMethods]);
 
   const isPaymentMethodDisabled = useCallback(
-    (method: PaymentMethodReact) => {
+    (method: PaymentMethod) => {
       const amount = Number(fundAmountFiat);
       return (
         (method.id === 'APPLE_PAY' || method.id === 'ACH_BANK_ACCOUNT') &&
@@ -60,7 +60,7 @@ export function FundCardPaymentMethodDropdown({
   ]);
 
   const handlePaymentMethodSelect = useCallback(
-    (paymentMethod: PaymentMethodReact) => {
+    (paymentMethod: PaymentMethod) => {
       if (!isPaymentMethodDisabled(paymentMethod)) {
         setSelectedPaymentMethod(paymentMethod);
         setIsOpen(false);
