@@ -208,7 +208,7 @@ export function TransactionProvider({
     });
   }, [receipt]);
 
-  // When all transactions are succesful, get the receipts
+  // When all transactions are successful, get the receipts
   useEffect(() => {
     if (
       !transactions ||

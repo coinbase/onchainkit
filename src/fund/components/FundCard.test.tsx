@@ -2,18 +2,22 @@ import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import '@testing-library/jest-dom';
 import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
+    act,
+    fireEvent,
+    render,
+    screen,
+    waitFor,
 } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
+<<<<<<< HEAD
 import { optionsResponseDataMock, quoteResponseDataMock } from '../mocks';
 import type { PresetAmountInputs } from '../types';
 import { fetchOnrampOptions } from '../utils/fetchOnrampOptions';
+=======
+import type { PresetAmountInputs } from '../types';
+>>>>>>> main
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCard } from './FundCard';

@@ -13,7 +13,7 @@ export function FundCardPresetAmountInputList() {
   return (
     <div
       data-testid="ockPresetAmountInputList"
-      className="flex w-[100%] flex-wrap items-center justify-between gap-2 pt-8"
+      className="flex w-full flex-wrap items-center justify-between gap-2 pt-8"
     >
       {presetAmountInputs.map((amount, index) => (
         <FundCardPresetAmountInputItem
