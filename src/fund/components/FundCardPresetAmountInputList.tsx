@@ -3,7 +3,7 @@ import { FundCardPresetAmountInputItem } from './FundCardPresetAmountInputItem';
 import { useFundContext } from './FundCardProvider';
 
 export function FundCardPresetAmountInputList() {
-  const { presetAmountInputs } = useFundContext();
+  const { presetAmountInputs, currency } = useFundContext();
   const { handleFiatChange } = useAmountInput();
 
   if (!presetAmountInputs) {
@@ -21,7 +21,7 @@ export function FundCardPresetAmountInputList() {
           key={index}
           presetAmountInput={amount}
           onClick={handleFiatChange}
-          currency="USD" // Will be configurable in next PR
+          currency={currency}
         />
       ))}
     </div>

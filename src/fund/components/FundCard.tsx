@@ -17,6 +17,7 @@ export function FundCard({
   headerText,
   country = 'US',
   subdivision,
+  currency,
   presetAmountInputs,
   children = <DefaultFundCardContent />,
   className,
@@ -33,6 +34,7 @@ export function FundCard({
       buttonText={buttonText}
       country={country}
       subdivision={subdivision}
+      currency={currency}
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}

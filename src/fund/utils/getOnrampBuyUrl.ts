@@ -36,5 +36,6 @@ export function getOnrampBuyUrl({
 
   url.searchParams.sort();
 
+  console.log('FINAL URL', url.toString());
   return url.toString();
 }
