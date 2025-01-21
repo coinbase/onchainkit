@@ -19,14 +19,23 @@ import { formatAmount } from '../utils/formatAmount';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapAmountInput({
-  className,
+  classNames,
   delayMs = 1000,
   label,
   token,
   type,
   swappableTokens,
 }: SwapAmountInputReact) {
-  const { address, to, from, handleAmountChange } = useSwapContext();
+  const { address, to, from, handleAmountChange, classNames: swapClassNames } = useSwapContext();
+
+  const componentStyles = {
+    inputContainer: swapClassNames?.inputContainer ?? classNames?.inputContainer,
+    input: swapClassNames?.input ?? classNames?.input,
+    tokenContainer: swapClassNames?.tokenContainer ?? classNames?.tokenContainer,
+    tokenButton: swapClassNames?.tokenButton ?? classNames?.tokenButton,
+    tokenDropdown: swapClassNames?.tokenDropdown ?? classNames?.tokenDropdown,
+    balanceContainer: swapClassNames?.balanceContainer ?? classNames?.balanceContainer,
+  };
 
   const source = useValue(type === 'from' ? from : to);
   const destination = useValue(type === 'from' ? to : from);
@@ -85,20 +94,21 @@ export function SwapAmountInput({
       className={cn(
         background.secondary,
         border.radius,
-        'box-border flex h-[148px] w-full flex-col items-start p-4',
-        className,
+        'my-0.5 box-border flex h-[148px] w-full flex-col items-start p-4',
+        componentStyles.inputContainer,
       )}
       data-testid="ockSwapAmountInput_Container"
     >
-      <div className="flex w-full items-center justify-between">
-        <span className={cn(text.label2, color.foregroundMuted)}>{label}</span>
+      <div className={cn(text.label2, color.foregroundMuted, 'flex w-full items-center justify-between')}>
+        {label}
       </div>
-      <div className="flex w-full items-center justify-between">
+      <div className={cn('flex w-full items-center justify-between', componentStyles.tokenContainer)}>
         <TextInput
           className={cn(
             'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
             'leading-none outline-none',
             hasInsufficientBalance && address ? color.error : color.foreground,
+            componentStyles.input,
           )}
           placeholder="0.0"
           delayMs={delayMs}
@@ -113,37 +123,36 @@ export function SwapAmountInput({
             token={source.token}
             setToken={handleSetToken}
             options={sourceTokenOptions}
+            classNames={{
+              dropdown: componentStyles.tokenDropdown, 
+              button: componentStyles.tokenButton
+            }}
           />
         ) : (
           source.token && (
-            <TokenChip className={pressable.inverse} token={source.token} />
+            <TokenChip className={cn(pressable.inverse, componentStyles.tokenButton)} token={source.token} />
           )
         )}
       </div>
-      <div className="mt-4 flex w-full justify-between">
-        <div className="flex items-center">
-          <span className={cn(text.label2, color.foregroundMuted)}>
+      <div className={cn('mt-4 flex w-full items-center justify-between', componentStyles.balanceContainer)}>
+          <span className={cn(text.label2, color.foregroundMuted, 'grow')}>
             {formatUSD(source.amountUSD)}
           </span>
-        </div>
-        <span className={cn(text.label2, color.foregroundMuted)}>{''}</span>
-        <div className="flex items-center">
           {source.balance && (
             <span
               className={cn(text.label2, color.foregroundMuted)}
-            >{`Balance: ${getRoundedAmount(source.balance, 8)}`}</span>
+            >Balance: {getRoundedAmount(source.balance, 8)}</span>
           )}
           {type === 'from' && address && (
             <button
               type="button"
-              className="flex cursor-pointer items-center justify-center px-2 py-1"
+              className={cn(text.label1, color.primary, 'flex cursor-pointer items-center justify-center px-2 py-1')}
               data-testid="ockSwapAmountInput_MaxButton"
               onClick={handleMaxButtonClick}
             >
-              <span className={cn(text.label1, color.primary)}>Max</span>
+              Max
             </button>
           )}
-        </div>
       </div>
     </div>
   );

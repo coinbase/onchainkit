@@ -45,6 +45,7 @@ export function useSwapContext() {
 
 export function SwapProvider({
   children,
+  classNames,
   config = {
     maxSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
   },
@@ -369,6 +370,7 @@ export function SwapProvider({
 
   const value = useValue({
     address,
+    classNames,
     config,
     from,
     handleAmountChange,

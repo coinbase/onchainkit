@@ -122,6 +122,12 @@ function SwapComponent() {
           <SwapSettingsSlippageInput />
         </SwapSettings>
         <SwapAmountInput
+          classNames={{
+            inputContainer: 'bg-red-500',
+            tokenButton: 'bg-blue-500',
+            tokenDropdown: 'bg-green-500',
+            balanceContainer: 'bg-yellow-500',
+          }}
           label="Sell"
           swappableTokens={swappableTokens}
           token={ethToken}

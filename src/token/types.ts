@@ -84,6 +84,7 @@ export type TokenSelectDropdownReact = {
   options: Token[]; // List of tokens
   setToken: (token: Token) => void; // Token setter
   token?: Token; // Selected token
+  classNames?: Partial<Record<'button' | 'dropdown', string>>;
 };
 
 /**

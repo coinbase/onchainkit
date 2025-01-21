@@ -152,9 +152,9 @@ export type ProcessSwapTransactionParams = {
  * Note: exported as public Type
  */
 export type SwapAmountInputReact = {
-  className?: string; // Optional className override for top div element.
+  classNames?: Pick<SwapClassNames, 'inputContainer' | 'input' | 'tokenContainer' |'tokenButton' | 'tokenDropdown' | 'balanceContainer'>;
   delayMs?: number; // The debounce delay in milliseconds
-  label: string; // Descriptive label for the input field
+  label: ReactNode; // Descriptive label for the input field
   swappableTokens?: Token[]; // Swappable tokens
   token?: Token; // Selected token
   type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
@@ -173,6 +173,7 @@ export type SwapAPIResponse = {
  */
 export type SwapButtonReact = {
   className?: string; // Optional className override for top div element.
+  label?: ReactNode; // Label for the swap button
   disabled?: boolean; // Disables swap button
 };
 
@@ -184,6 +185,7 @@ export type SwapContextType = {
   address?: Address; // Used to check if user is connected in SwapButton
   config: SwapConfig;
   from: SwapUnit;
+  classNames?: SwapClassNames;
   lifecycleStatus: LifecycleStatus;
   handleAmountChange: (
     t: 'from' | 'to',
@@ -247,8 +249,11 @@ export type SwapParams = {
   to: Token;
 };
 
+type SwapClassNames = Partial<Record<'container' | 'inputContainer' | 'input' | 'tokenContainer' | 'tokenButton' | 'tokenDropdown' | 'balanceContainer', string>>;
+
 export type SwapProviderReact = {
   children: React.ReactNode;
+  classNames?: SwapClassNames;
   config?: {
     maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
@@ -266,7 +271,7 @@ export type SwapProviderReact = {
  */
 export type SwapReact = {
   children: ReactNode;
-  className?: string; // Optional className override for top div element.
+  classNames?: SwapClassNames; // Optional className override for top div element.
   config?: SwapConfig;
   experimental?: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)

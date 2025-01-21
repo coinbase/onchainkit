@@ -11,6 +11,7 @@ export function TokenSelectDropdown({
   options,
   setToken,
   token,
+  classNames,
 }: TokenSelectDropdownReact) {
   const componentTheme = useTheme();
 
@@ -55,6 +56,7 @@ export function TokenSelectDropdown({
         onClick={handleToggle}
         isOpen={isOpen}
         token={token}
+        className={classNames?.button}
       />
       {isOpen && (
         <div
@@ -70,7 +72,7 @@ export function TokenSelectDropdown({
           <div className="overflow-y-auto bg-[#ffffff]">
             {options.map((token) => (
               <TokenRow
-                className={cn(background.inverse, 'px-4 py-2')}
+                className={cn(background.inverse, 'px-4 py-2', classNames?.dropdown)}
                 key={token.name + token.address}
                 token={token}
                 onClick={() => {
