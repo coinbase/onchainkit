@@ -1,3 +1,5 @@
+'use client';
+
 import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
 import { useName } from '../../core-react/identity/hooks/useName';

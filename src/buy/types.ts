@@ -1,7 +1,7 @@
+import type { LifecycleStatusUpdate } from '@/core-react/internal/types';
 import type { APIError, GetSwapQuoteResponse } from '@/core/api/types';
 import type {
   LifecycleStatus,
-  LifecycleStatusUpdate,
   SwapConfig,
   SwapError,
   SwapUnit,
@@ -33,7 +33,9 @@ export type BuyContextType = {
   lifecycleStatus: LifecycleStatus;
   handleAmountChange: (amount: string) => void;
   handleSubmit: (fromToken: SwapUnit) => void;
-  updateLifecycleStatus: (state: LifecycleStatusUpdate) => void; // A function to set the lifecycle status of the component
+  updateLifecycleStatus: (
+    state: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void; // A function to set the lifecycle status of the component
   setTransactionHash: (hash: string) => void;
   fromToken?: Token;
   to?: SwapUnit;

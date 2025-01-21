@@ -1,19 +1,19 @@
+'use client';
+
+import { useCallback } from 'react';
+import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { border, cn, color, pressable, text } from '../../styles/theme';
+
 import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
 import { ErrorSvg } from '@/internal/svg/errorSvg';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
-import { useCallback, useMemo } from 'react';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { useMemo } from 'react';
+import { useAccount } from 'wagmi';
 import { Spinner } from '../../internal/components/Spinner';
 import { AddSvg } from '../../internal/svg/addSvg';
 import { SuccessSvg } from '../../internal/svg/successSvg';
-import {
-  background,
-  border,
-  cn,
-  color,
-  pressable,
-  text,
-} from '../../styles/theme';
+import { background } from '../../styles/theme';
+import { ConnectWallet } from '../../wallet/components/ConnectWallet';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
@@ -32,14 +32,17 @@ export function FundButton({
   successText: buttonSuccessText = 'Success',
   errorText: buttonErrorText = 'Something went wrong',
   state: buttonState = 'default',
+  fiatCurrency = 'USD',
   onPopupClose,
   onClick,
 }: FundButtonReact) {
   const componentTheme = useTheme();
   // If the fundingUrl prop is undefined, fallback to our recommended funding URL based on the wallet type
-  const fallbackFundingUrl = useGetFundingUrl();
+  const fallbackFundingUrl = useGetFundingUrl(fiatCurrency);
+  const { address } = useAccount();
   const fundingUrlToRender = fundingUrl ?? fallbackFundingUrl;
   const isDisabled = disabled || !fundingUrlToRender;
+  const shouldShowConnectWallet = !address;
 
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
 
@@ -69,22 +72,19 @@ export function FundButton({
   );
 
   const buttonColorClass = useMemo(() => {
-    switch (buttonState) {
-      case 'error':
-        return background.error;
-      case 'loading':
-      case 'success':
-        return pressable.primary;
-      default:
-        return pressable.primary;
+    if (buttonState === 'error') {
+      return background.error;
     }
+    return pressable.primary;
   }, [buttonState]);
 
   const classNames = cn(
     componentTheme,
     buttonColorClass,
     'px-4 py-3 inline-flex items-center justify-center space-x-2',
-    isDisabled && pressable.disabled,
+    {
+      [pressable.disabled]: isDisabled,
+    },
     text.headline,
     border.radius,
     color.inverse,
@@ -156,6 +156,10 @@ export function FundButton({
         {buttonContent}
       </a>
     );
+  }
+
+  if (shouldShowConnectWallet) {
+    return <ConnectWallet className={cn('w-full', className)} />;
   }
 
   return (

@@ -1,15 +1,15 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import type { PaymentMethodReact } from '../types';
+import type { PaymentMethod } from '../types';
 import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow';
 
 describe('FundCardPaymentMethodSelectRow', () => {
-  const mockPaymentMethod: PaymentMethodReact = {
+  const mockPaymentMethod: PaymentMethod = {
     id: 'APPLE_PAY',
     name: 'Apple Pay',
     description: 'Up to $500/week',
-    icon: 'applePay',
+    icon: 'apple',
   };
 
   it('renders disabled state correctly', () => {

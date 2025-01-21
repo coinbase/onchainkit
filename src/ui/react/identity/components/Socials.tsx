@@ -1,3 +1,4 @@
+'use client';
 import type { Address, Chain } from 'viem';
 import { useName } from '../../../../core-react/identity/hooks/useName';
 import { useSocials } from '../../../../core-react/identity/hooks/useSocials';

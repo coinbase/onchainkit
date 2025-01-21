@@ -1,5 +1,4 @@
 import { type ForwardedRef, forwardRef } from 'react';
-import { caretDownSvg } from '../../internal/svg/caretDownSvg';
 import { caretUpSvg } from '../../internal/svg/caretUpSvg';
 import { border, cn, color, pressable, text } from '../../styles/theme';
 import type { FundCardPaymentMethodSelectorTogglePropsReact } from '../types';
@@ -43,10 +42,14 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
           {paymentMethod.name}
         </span>
 
-        <div className="relative flex items-center justify-center">
-          <div className="absolute top-0 left-0 h-4 w-4" />
-          {isOpen ? caretUpSvg : caretDownSvg}
-        </div>
+        <span
+          className={cn(
+            'rotate-90 transition-transform duration-200',
+            isOpen && 'rotate-180',
+          )}
+        >
+          {caretUpSvg}
+        </span>
       </button>
     );
   },

@@ -1,8 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+'use client';
+
+import { useCallback } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
-import { closeSvg } from '../../internal/svg/closeSvg';
+import { Dialog } from '../../internal/primitives/Dialog';
+import { CloseSvg } from '../../internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '../../internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
 import { metamaskSvg } from '../../internal/svg/metamaskSvg';
@@ -25,64 +28,16 @@ type WalletModalProps = {
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
 export function WalletModal({
+  className,
   isOpen,
   onClose,
-  className,
   onError,
 }: WalletModalProps) {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const [shouldRender, setShouldRender] = useState(isOpen);
   const { connect } = useConnect();
   const { config } = useOnchainKit();
 
-  useEffect(() => {
-    if (isOpen) {
-      setShouldRender(true);
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = '';
-      };
-    }
-  }, [isOpen]);
-
-  // Handle focus trap and keyboard interactions
-  useEffect(() => {
-    if (!isOpen || !modalRef.current) {
-      return;
-    }
-
-    const modal = modalRef.current;
-    const focusableElements = modal.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-    );
-
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      } else if (e.key === 'Tab') {
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-
-        if (!e.shiftKey && document.activeElement === lastElement) {
-          e.preventDefault();
-          firstElement?.focus();
-        } else if (e.shiftKey && document.activeElement === firstElement) {
-          e.preventDefault();
-          lastElement?.focus();
-        }
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen, onClose]);
-
-  const appLogo = config?.appearance?.logo;
-  const appName = config?.appearance?.name;
+  const appLogo = config?.appearance?.logo ?? undefined;
+  const appName = config?.appearance?.name ?? undefined;
   const privacyPolicyUrl = config?.wallet?.privacyUrl ?? undefined;
   const termsOfServiceUrl = config?.wallet?.termsUrl ?? undefined;
 
@@ -90,8 +45,9 @@ export function WalletModal({
     try {
       const cbConnector = coinbaseWallet({
         preference: 'all',
+        appName,
+        appLogoUrl: appLogo,
       });
-
       connect({ connector: cbConnector });
       onClose();
     } catch (error) {
@@ -104,7 +60,7 @@ export function WalletModal({
         );
       }
     }
-  }, [connect, onClose, onError]);
+  }, [appName, appLogo, connect, onClose, onError]);
 
   const handleMetaMaskConnection = useCallback(() => {
     try {
@@ -112,7 +68,7 @@ export function WalletModal({
         dappMetadata: {
           name: appName || 'OnchainKit App',
           url: window.location.origin,
-          iconUrl: appLogo || undefined,
+          iconUrl: appLogo,
         },
       });
 
@@ -142,49 +98,18 @@ export function WalletModal({
     }
   }, [connect, onClose, onError]);
 
-  const handleLinkKeyDown = (
-    event: React.KeyboardEvent<HTMLAnchorElement>,
-    url: string,
-  ) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
-  };
-
-  if (!shouldRender) {
-    return null;
-  }
-
   return (
-    <div
-      className={cn(
-        'fixed inset-0 z-50 flex items-center justify-center',
-        'bg-black/70 transition-opacity duration-200',
-        isOpen ? 'opacity-100' : 'opacity-0',
-        className,
-      )}
-      onClick={onClose}
-      onKeyDown={(e) => e.key === 'Enter' && onClose()}
-      role="presentation"
-      data-testid="ockModalOverlay"
-    >
+    <Dialog isOpen={isOpen} onClose={onClose} aria-label="Connect Wallet">
       <div
-        ref={modalRef}
+        data-testid="ockModalOverlay"
         className={cn(
           border.lineDefault,
           border.radius,
           background.default,
           'w-[22rem] p-6 pb-4',
           'relative flex flex-col items-center gap-4',
-          '-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2',
-          'transition-opacity duration-200',
-          isOpen ? 'opacity-100' : 'opacity-0',
+          className,
         )}
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.key === 'Enter' && e.stopPropagation()}
-        role="dialog"
-        aria-modal="true"
       >
         <button
           type="button"
@@ -195,12 +120,13 @@ export function WalletModal({
             border.default,
             'absolute top-4 right-4',
             'flex items-center justify-center p-1',
+            'bg-current',
             'transition-colors duration-200',
           )}
           aria-label="Close modal"
         >
           <div className={cn('flex h-4 w-4 items-center justify-center')}>
-            {closeSvg}
+            <CloseSvg />
           </div>
         </button>
 
@@ -334,7 +260,6 @@ export function WalletModal({
                 target="_blank"
                 rel="noopener noreferrer"
                 tabIndex={0}
-                onKeyDown={(e) => handleLinkKeyDown(e, termsOfServiceUrl)}
               >
                 Terms of Service
               </a>
@@ -347,7 +272,6 @@ export function WalletModal({
                 target="_blank"
                 rel="noopener noreferrer"
                 tabIndex={0}
-                onKeyDown={(e) => handleLinkKeyDown(e, privacyPolicyUrl)}
               >
                 Privacy Policy
               </a>
@@ -356,6 +280,6 @@ export function WalletModal({
           </span>
         </div>
       </div>
-    </div>
+    </Dialog>
   );
 }

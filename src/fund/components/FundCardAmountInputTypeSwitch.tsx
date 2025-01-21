@@ -13,7 +13,7 @@ export const FundCardAmountInputTypeSwitch = ({
   const {
     selectedInputType,
     setSelectedInputType,
-    selectedAsset,
+    asset,
     fundAmountFiat,
     fundAmountCrypto,
     exchangeRate,
@@ -22,9 +22,9 @@ export const FundCardAmountInputTypeSwitch = ({
 
   const iconSvg = useIcon({ icon: 'toggle' });
 
-  const handleToggle = () => {
+  const handleToggle = useCallback(() => {
     setSelectedInputType(selectedInputType === 'fiat' ? 'crypto' : 'fiat');
-  };
+  }, [selectedInputType, setSelectedInputType]);
 
   const formatUSD = useCallback((amount: string) => {
     const roundedAmount = Number(getRoundedAmount(amount || '0', 2));
@@ -33,9 +33,9 @@ export const FundCardAmountInputTypeSwitch = ({
 
   const formatCrypto = useCallback(
     (amount: string) => {
-      return `${truncateDecimalPlaces(amount || '0', 8)} ${selectedAsset}`;
+      return `${truncateDecimalPlaces(amount || '0', 8)} ${asset}`;
     },
-    [selectedAsset],
+    [asset],
   );
 
   const exchangeRateLine = useMemo(() => {
@@ -49,10 +49,10 @@ export const FundCardAmountInputTypeSwitch = ({
           'pl-1',
         )}
       >
-        ({formatUSD('1')} = {exchangeRate?.toFixed(8)} {selectedAsset})
+        ({formatUSD('1')} = {exchangeRate?.toFixed(8)} {asset})
       </span>
     );
-  }, [formatUSD, exchangeRate, selectedAsset]);
+  }, [formatUSD, exchangeRate, asset]);
 
   const amountLine = useMemo(() => {
     return (
@@ -88,7 +88,7 @@ export const FundCardAmountInputTypeSwitch = ({
       >
         <div className="h-[1.125rem] w-[1.125rem]">{iconSvg}</div>
       </button>
-      <div className="w-[390px] truncate">
+      <div className="w-full truncate">
         {amountLine}
         {exchangeRateLine}
       </div>

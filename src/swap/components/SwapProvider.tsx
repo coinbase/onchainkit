@@ -10,6 +10,7 @@ import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
 import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
+import { useLifecycleStatus } from '../../core-react/internal/hooks/useLifecycleStatus';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
@@ -21,9 +22,12 @@ import { isUserRejectedRequestError } from '../../transaction/utils/isUserReject
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useAwaitCalls } from '../hooks/useAwaitCalls';
 import { useFromTo } from '../hooks/useFromTo';
-import { useLifecycleStatus } from '../hooks/useLifecycleStatus';
 import { useResetInputs } from '../hooks/useResetInputs';
-import type { SwapContextType, SwapProviderReact } from '../types';
+import type {
+  LifecycleStatus,
+  SwapContextType,
+  SwapProviderReact,
+} from '../types';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
 
@@ -63,13 +67,14 @@ export function SwapProvider({
   const walletCapabilities = useCapabilitiesSafe({
     chainId: base.id,
   }); // Swap is only available on Base
-  const [lifecycleStatus, updateLifecycleStatus] = useLifecycleStatus({
-    statusName: 'init',
-    statusData: {
-      isMissingRequiredField: true,
-      maxSlippage: config.maxSlippage,
-    },
-  }); // Component lifecycle
+  const [lifecycleStatus, updateLifecycleStatus] =
+    useLifecycleStatus<LifecycleStatus>({
+      statusName: 'init',
+      statusData: {
+        isMissingRequiredField: true,
+        maxSlippage: config.maxSlippage,
+      },
+    }); // Component lifecycle
 
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [transactionHash, setTransactionHash] = useState('');

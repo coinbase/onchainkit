@@ -38,7 +38,7 @@ describe('useFundCardFundingUrl', () => {
       selectedInputType: 'fiat',
       fundAmountFiat: '100',
       fundAmountCrypto: '0',
-      selectedAsset: 'ETH',
+      asset: 'ETH',
     });
 
     const { result } = renderHook(() => useFundCardFundingUrl());
@@ -61,7 +61,7 @@ describe('useFundCardFundingUrl', () => {
       selectedInputType: 'fiat',
       fundAmountFiat: '100',
       fundAmountCrypto: '0',
-      selectedAsset: 'ETH',
+      asset: 'ETH',
     });
 
     const { result } = renderHook(() => useFundCardFundingUrl());
@@ -84,7 +84,7 @@ describe('useFundCardFundingUrl', () => {
       selectedInputType: 'fiat',
       fundAmountFiat: '100',
       fundAmountCrypto: '0',
-      selectedAsset: 'ETH',
+      asset: 'ETH',
     });
 
     const { result } = renderHook(() => useFundCardFundingUrl());
@@ -108,7 +108,7 @@ describe('useFundCardFundingUrl', () => {
       selectedInputType: 'crypto',
       fundAmountFiat: '0',
       fundAmountCrypto: '1.5',
-      selectedAsset: 'ETH',
+      asset: 'ETH',
     });
 
     const { result } = renderHook(() => useFundCardFundingUrl());
@@ -132,7 +132,7 @@ describe('useFundCardFundingUrl', () => {
       selectedInputType: 'fiat',
       fundAmountFiat: '100',
       fundAmountCrypto: '0',
-      selectedAsset: 'ETH',
+      asset: 'ETH',
     });
 
     const { result } = renderHook(() => useFundCardFundingUrl());

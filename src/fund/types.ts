@@ -94,7 +94,7 @@ type GetOnrampBuyUrlOptionalProps = {
   /**
    * The default payment method that will be selected for the user in the Onramp UI. Should be one of the payment methods
    */
-  defaultPaymentMethod?: PaymentAccountReact;
+  defaultPaymentMethod?: string;
   /**
    * The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR.
    */
@@ -127,6 +127,7 @@ export type FundButtonReact = {
   popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
   rel?: string; // Specifies the relationship between the current document and the linked document
   target?: string; // Where to open the target if `openIn` is set to tab
+  fiatCurrency?: string; // The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR.
   onPopupClose?: () => void; // A callback function that will be called when the popup window is closed
   onClick?: () => void; // A callback function that will be called when the button is clicked
 };
@@ -181,6 +182,14 @@ export type ExitEvent = {
 
 export type SuccessEvent = {
   eventName: 'success';
+  data?: SuccessEventData;
+};
+
+export type SuccessEventData = {
+  assetImageUrl: string;
+  assetName: string;
+  assetSymbol: string;
+  chainId: string;
 };
 
 export type RequestOpenUrlEvent = {
@@ -249,6 +258,18 @@ type OnrampNetwork = {
   contractAddress: string;
 };
 
+export type OnrampOptionsResponseData = {
+  /**
+   * List of supported fiat currencies that can be exchanged for crypto on Onramp in the given location.
+   * Each currency contains a list of available payment methods, with min and max transaction limits for that currency.
+   */
+  paymentCurrencies: OnrampPaymentCurrency[];
+  /**
+   * List of available crypto assets that can be bought on Onramp in the given location.
+   */
+  purchaseCurrencies: OnrampPurchaseCurrency[];
+};
+
 export type OnrampPurchaseCurrency = {
   id: string;
   name: string;
@@ -259,7 +280,7 @@ export type OnrampPurchaseCurrency = {
 
 export type OnrampPaymentCurrency = {
   id: string;
-  paymentMethodLimits: OnrampPaymentMethodLimit[];
+  limits: OnrampPaymentMethodLimit[];
 };
 
 export type FundCardAmountInputPropsReact = {
@@ -277,21 +298,16 @@ export type FundCardHeaderPropsReact = {
 export type FundCardPaymentMethodImagePropsReact = {
   className?: string;
   size?: number;
-  paymentMethod: PaymentMethodReact;
+  paymentMethod: PaymentMethod;
 };
 
-export type PaymentAccountReact =
-  | 'CRYPTO_ACCOUNT'
-  | 'FIAT_WALLET'
-  | 'CARD'
-  | 'ACH_BANK_ACCOUNT'
-  | 'APPLE_PAY';
-
-export type PaymentMethodReact = {
-  id: PaymentAccountReact;
+export type PaymentMethod = {
+  id: string;
   name: string;
   description: string;
   icon: string;
+  minAmount?: number;
+  maxAmount?: number;
 };
 
 export type FundCardPaymentMethodDropdownPropsReact = {
@@ -299,7 +315,7 @@ export type FundCardPaymentMethodDropdownPropsReact = {
 };
 
 export type FundCardCurrencyLabelPropsReact = {
-  currencySign: string;
+  label: string;
 };
 
 export type FundCardPropsReact = {
@@ -308,13 +324,13 @@ export type FundCardPropsReact = {
   placeholder?: string | React.ReactNode;
   headerText?: string;
   buttonText?: string;
-  currencySign?: string;
-  /**
-   * Payment methods to display in the dropdown
-   */
-  paymentMethods?: PaymentMethodReact[];
+  country: string;
+  subdivision?: string;
+  currency?: string;
   className?: string;
-};
+  presetAmountInputs?: PresetAmountInputs;
+} & LifecycleEvents;
+
 export type FundCardContentPropsReact = {
   children?: ReactNode;
 };
@@ -323,13 +339,12 @@ export type FundCardPaymentMethodSelectorTogglePropsReact = {
   className?: string;
   isOpen: boolean; // Determines carot icon direction
   onClick: () => void; // Button on click handler
-  paymentMethod: PaymentMethodReact;
+  paymentMethod: PaymentMethod;
 };
 
 export type FundCardPaymentMethodSelectRowPropsReact = {
-  className?: string;
-  paymentMethod: PaymentMethodReact;
-  onClick?: (paymentMethod: PaymentMethodReact) => void;
+  paymentMethod: PaymentMethod;
+  onClick?: (paymentMethod: PaymentMethod) => void;
   hideImage?: boolean;
   hideDescription?: boolean;
   disabled?: boolean;
@@ -340,9 +355,60 @@ export type FundCardPaymentMethodSelectRowPropsReact = {
 export type FundCardProviderReact = {
   children: ReactNode;
   asset: string;
-  paymentMethods?: PaymentMethodReact[];
+  /**
+   * Three letter currency code. Defaults to USD.
+   */
+  currency?: string;
+  paymentMethods?: PaymentMethod[];
   headerText?: string;
   buttonText?: string;
-  currencySign?: string;
-  inputType?: 'fiat' | 'crypto';
+  country: string;
+  subdivision?: string;
+  inputType?: AmountInputType;
+  presetAmountInputs?: PresetAmountInputs;
+} & LifecycleEvents;
+
+export type LifecycleEvents = {
+  onError?: (e: OnrampError | undefined) => void;
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  onSuccess?: (result: SuccessEventData) => void;
 };
+
+export type AmountInputType = 'fiat' | 'crypto';
+
+export type LifecycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'exit';
+      statusData: null;
+    }
+  | {
+      statusName: 'error';
+      statusData: OnrampError;
+    }
+  | {
+      statusName: 'transactionSuccess';
+      statusData: SuccessEventData;
+    }
+  | {
+      statusName: 'transactionPending';
+      statusData: null;
+    };
+
+export type PresetAmountInputItemPropsReact = {
+  presetAmountInput: string;
+  currency: string;
+  onClick: (presetAmountInput: string) => void;
+};
+
+/**
+ * To use this type, you must provide a tuple of strings with a length of 3.
+ *
+ * Example:
+ *
+ * const presetAmountInputs: PresetAmountInputs = ['100', '200', '300'];
+ */
+export type PresetAmountInputs = readonly [string, string, string];

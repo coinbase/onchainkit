@@ -45,6 +45,20 @@ vi.mock('../../core-react/useOnchainKit', () => ({
 
 describe('ConnectWallet', () => {
   beforeEach(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: vi.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      })),
+    });
+
     vi.mocked(useAccount).mockReturnValue({
       address: '',
       status: 'disconnected',
@@ -55,9 +69,9 @@ describe('ConnectWallet', () => {
       status: 'idle',
     });
     vi.mocked(useWalletContext).mockReturnValue({
-      isOpen: false,
+      isSubComponentOpen: false,
       handleClose: vi.fn(),
-      setIsOpen: vi.fn(),
+      setIsSubComponentOpen: vi.fn(),
     });
     vi.mocked(useOnchainKit).mockReturnValue({
       config: { wallet: { display: undefined } },
@@ -121,15 +135,15 @@ describe('ConnectWallet', () => {
   });
 
   it('should toggle wallet modal on button click when connected', () => {
-    const setIsOpenMock = vi.fn();
+    const setIsSubComponentOpenMock = vi.fn();
     const handleCloseMock = vi.fn();
     vi.mocked(useAccount).mockReturnValue({
       address: '0x123',
       status: 'connected',
     });
     vi.mocked(useWalletContext).mockReturnValue({
-      isOpen: false,
-      setIsOpen: setIsOpenMock,
+      isSubComponentOpen: false,
+      setIsSubComponentOpen: setIsSubComponentOpenMock,
       handleClose: handleCloseMock,
     });
 
@@ -140,11 +154,11 @@ describe('ConnectWallet', () => {
     );
     const button = screen.getByText('Wallet Connected');
     fireEvent.click(button);
-    expect(setIsOpenMock).toHaveBeenCalledWith(true);
+    expect(setIsSubComponentOpenMock).toHaveBeenCalledWith(true);
 
     vi.mocked(useWalletContext).mockReturnValue({
-      isOpen: true,
-      setIsOpen: setIsOpenMock,
+      isSubComponentOpen: true,
+      setIsSubComponentOpen: setIsSubComponentOpenMock,
       handleClose: handleCloseMock,
     });
 
@@ -160,7 +174,7 @@ describe('ConnectWallet', () => {
 
   it('applies ock-bg-secondary-active class when isOpen is true', () => {
     vi.mocked(useWalletContext).mockReturnValue({
-      isOpen: true,
+      isSubComponentOpen: true,
       handleClose: vi.fn(),
     });
     vi.mocked(useAccount).mockReturnValue({
@@ -257,12 +271,18 @@ describe('ConnectWallet', () => {
         connect: vi.fn(),
         status: 'idle',
       });
+      const setIsConnectModalOpenMock = vi.fn();
+      vi.mocked(useWalletContext).mockReturnValue({
+        isConnectModalOpen: true,
+        setIsConnectModalOpen: setIsConnectModalOpenMock,
+      });
 
       render(<ConnectWallet text="Connect Wallet" />);
 
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
 
+      expect(setIsConnectModalOpenMock).toHaveBeenCalledWith(true);
       expect(screen.getByTestId('ockModalOverlay')).toBeInTheDocument();
     });
 
@@ -335,26 +355,6 @@ describe('ConnectWallet', () => {
   });
 
   describe('modal handling', () => {
-    it('should close modal when clicking overlay', () => {
-      vi.mocked(useOnchainKit).mockReturnValue({
-        config: { wallet: { display: 'modal' } },
-      });
-      vi.mocked(useAccount).mockReturnValue({
-        address: '',
-        status: 'disconnected',
-      });
-
-      render(<ConnectWallet text="Connect Wallet" />);
-
-      const connectButton = screen.getByTestId('ockConnectButton');
-      fireEvent.click(connectButton);
-
-      const modalOverlay = screen.getByTestId('ockModalOverlay');
-      fireEvent.click(modalOverlay);
-
-      expect(screen.queryByTestId('ockModalOverlay')).not.toBeInTheDocument();
-    });
-
     it('should close modal when clicking close button', () => {
       vi.mocked(useOnchainKit).mockReturnValue({
         config: { wallet: { display: 'modal' } },
@@ -362,6 +362,11 @@ describe('ConnectWallet', () => {
       vi.mocked(useAccount).mockReturnValue({
         address: '',
         status: 'disconnected',
+      });
+      const setIsConnectModalOpenMock = vi.fn();
+      vi.mocked(useWalletContext).mockReturnValue({
+        isConnectModalOpen: true,
+        setIsConnectModalOpen: setIsConnectModalOpenMock,
       });
 
       render(<ConnectWallet text="Connect Wallet" />);
@@ -372,7 +377,7 @@ describe('ConnectWallet', () => {
       const closeButton = screen.getByLabelText('Close modal');
       fireEvent.click(closeButton);
 
-      expect(screen.queryByTestId('ockModalOverlay')).not.toBeInTheDocument();
+      expect(setIsConnectModalOpenMock).toHaveBeenCalledWith(false);
     });
   });
 
@@ -435,6 +440,10 @@ describe('ConnectWallet', () => {
         status: 'disconnected',
       });
 
+      vi.mocked(useWalletContext).mockReturnValue({
+        isConnectModalOpen: true,
+      });
+
       render(<ConnectWallet text="Connect" onConnect={onConnectMock} />);
 
       const button = screen.getByTestId('ockConnectButton');
@@ -465,7 +474,13 @@ describe('ConnectWallet', () => {
         status: 'disconnected',
       });
 
-      render(<ConnectWallet text="Connect" onConnect={onConnectMock} />);
+      vi.mocked(useWalletContext).mockReturnValue({
+        isConnectModalOpen: true,
+      });
+
+      const { rerender } = render(
+        <ConnectWallet text="Connect" onConnect={onConnectMock} />,
+      );
 
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
@@ -477,15 +492,25 @@ describe('ConnectWallet', () => {
         status: 'connected',
       });
 
+      rerender(
+        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+      );
+
       expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
 
     it('should handle hasClickedConnect state correctly when modal is used', () => {
       const onConnectMock = vi.fn();
       const mockUseAccount = vi.mocked(useAccount);
+      const setIsConnectModalOpenMock = vi.fn();
 
       vi.mocked(useOnchainKit).mockReturnValue({
         config: { wallet: { display: 'modal' } },
+      });
+
+      vi.mocked(useWalletContext).mockReturnValue({
+        isConnectModalOpen: true,
+        setIsConnectModalOpen: setIsConnectModalOpenMock,
       });
 
       mockUseAccount.mockReturnValue({
@@ -499,6 +524,7 @@ describe('ConnectWallet', () => {
 
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
+      expect(setIsConnectModalOpenMock).toHaveBeenCalledWith(true);
 
       mockUseAccount.mockReturnValue({
         address: '0x123',

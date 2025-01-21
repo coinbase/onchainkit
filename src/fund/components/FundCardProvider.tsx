@@ -1,21 +1,31 @@
-import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
-import { createContext, useContext, useEffect, useState } from 'react';
+import type { LifecycleStatusUpdate } from '@/core-react/internal/types';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
-import { DEFAULT_PAYMENT_METHODS } from '../constants';
+import { useEmitLifecycleStatus } from '../hooks/useEmitLifecycleStatus';
+import { usePaymentMethods } from '../hooks/usePaymentMethods';
 import type {
+  AmountInputType,
   FundButtonStateReact,
   FundCardProviderReact,
-  PaymentMethodReact,
+  LifecycleStatus,
+  PaymentMethod,
+  PresetAmountInputs,
 } from '../types';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 type FundCardContextType = {
-  selectedAsset: string;
-  setSelectedAsset: (asset: string) => void;
-  selectedPaymentMethod?: PaymentMethodReact;
-  setSelectedPaymentMethod: (paymentMethod: PaymentMethodReact) => void;
-  selectedInputType?: 'fiat' | 'crypto';
-  setSelectedInputType: (inputType: 'fiat' | 'crypto') => void;
+  asset: string;
+  currency: string;
+  selectedPaymentMethod?: PaymentMethod;
+  setSelectedPaymentMethod: (paymentMethod: PaymentMethod) => void;
+  selectedInputType?: AmountInputType;
+  setSelectedInputType: (inputType: AmountInputType) => void;
   fundAmountFiat: string;
   setFundAmountFiat: (amount: string) => void;
   fundAmountCrypto: string;
@@ -26,11 +36,21 @@ type FundCardContextType = {
   setExchangeRateLoading: (loading: boolean) => void;
   submitButtonState: FundButtonStateReact;
   setSubmitButtonState: (state: FundButtonStateReact) => void;
-  paymentMethods: PaymentMethodReact[];
+  paymentMethods: PaymentMethod[];
+  setPaymentMethods: (paymentMethods: PaymentMethod[]) => void;
+  paymentMethodsLoading: boolean;
+  setPaymentMethodsLoading: (loading: boolean) => void;
   headerText?: string;
   buttonText?: string;
-  currencySign?: string;
+  country: string;
+  subdivision?: string;
   inputType?: 'fiat' | 'crypto';
+  lifecycleStatus: LifecycleStatus;
+
+  presetAmountInputs?: PresetAmountInputs;
+  updateLifecycleStatus: (
+    newStatus: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void;
 };
 
 const FundContext = createContext<FundCardContextType | undefined>(undefined);
@@ -38,36 +58,50 @@ const FundContext = createContext<FundCardContextType | undefined>(undefined);
 export function FundCardProvider({
   children,
   asset,
-  paymentMethods,
-  headerText,
+  currency = 'USD',
+  headerText = `Buy ${asset.toUpperCase()}`,
   buttonText,
-  currencySign,
+  country,
+  subdivision,
   inputType,
+  onError,
+  onStatus,
+  onSuccess,
+  presetAmountInputs,
 }: FundCardProviderReact) {
-  const [selectedAsset, setSelectedAsset] = useState<string>(asset);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
-    PaymentMethodReact | undefined
+    PaymentMethod | undefined
   >();
-  const [selectedInputType, setSelectedInputType] = useState<'fiat' | 'crypto'>(
+  const [selectedInputType, setSelectedInputType] = useState<AmountInputType>(
     inputType || 'fiat',
   );
   const [fundAmountFiat, setFundAmountFiat] = useState<string>('');
   const [fundAmountCrypto, setFundAmountCrypto] = useState<string>('');
-  const [exchangeRate, setExchangeRate] = useState<number | undefined>();
-  const [exchangeRateLoading, setExchangeRateLoading] = useState<
-    boolean | undefined
-  >();
+  const [exchangeRate, setExchangeRate] = useState<number>(0);
+  const [exchangeRateLoading, setExchangeRateLoading] = useState<boolean>(true);
+
   const [submitButtonState, setSubmitButtonState] =
     useState<FundButtonStateReact>('default');
 
-  const fetchExchangeRate = useDebounce(async () => {
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const [paymentMethodsLoading, setPaymentMethodsLoading] =
+    useState<boolean>(true);
+  const { lifecycleStatus, updateLifecycleStatus } = useEmitLifecycleStatus({
+    onError,
+    onSuccess,
+    onStatus,
+  });
+
+  const fetchExchangeRate = useCallback(async () => {
     setExchangeRateLoading(true);
+
     const quote = await fetchOnrampQuote({
-      purchaseCurrency: selectedAsset,
-      paymentCurrency: 'USD',
+      purchaseCurrency: asset,
+      paymentCurrency: currency,
       paymentAmount: '100',
       paymentMethod: 'CARD',
-      country: 'US',
+      country,
+      subdivision,
     });
 
     setExchangeRateLoading(false);
@@ -75,16 +109,25 @@ export function FundCardProvider({
     setExchangeRate(
       Number(quote.purchaseAmount.value) / Number(quote.paymentSubtotal.value),
     );
-  }, 1000);
+  }, [asset, country, subdivision, currency]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
   useEffect(() => {
     fetchExchangeRate();
   }, []);
 
+  // Fetches and sets the payment methods to the context
+  usePaymentMethods({
+    country,
+    subdivision,
+    currency,
+    setPaymentMethods,
+    setPaymentMethodsLoading,
+  });
+
   const value = useValue<FundCardContextType>({
-    selectedAsset,
-    setSelectedAsset,
+    asset,
+    currency,
     selectedPaymentMethod,
     setSelectedPaymentMethod,
     fundAmountFiat,
@@ -99,10 +142,17 @@ export function FundCardProvider({
     setExchangeRateLoading,
     submitButtonState,
     setSubmitButtonState,
-    paymentMethods: paymentMethods || DEFAULT_PAYMENT_METHODS,
+    paymentMethods,
+    setPaymentMethods,
+    paymentMethodsLoading,
+    setPaymentMethodsLoading,
     headerText,
     buttonText,
-    currencySign,
+    country,
+    subdivision,
+    lifecycleStatus,
+    updateLifecycleStatus,
+    presetAmountInputs,
   });
   return <FundContext.Provider value={value}>{children}</FundContext.Provider>;
 }

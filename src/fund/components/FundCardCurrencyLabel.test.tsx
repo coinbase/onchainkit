@@ -5,12 +5,12 @@ import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
 
 describe('FundCardCurrencyLabel', () => {
   it('renders the currency sign', () => {
-    render(<FundCardCurrencyLabel currencySign="$" />);
+    render(<FundCardCurrencyLabel label="$" />);
     expect(screen.getByText('$')).toBeInTheDocument();
   });
 
   it('applies the correct classes', () => {
-    render(<FundCardCurrencyLabel currencySign="$" />);
+    render(<FundCardCurrencyLabel label="$" />);
     const spanElement = screen.getByText('$');
     expect(spanElement).toHaveClass(
       'flex items-center justify-center bg-transparent text-6xl leading-none outline-none',

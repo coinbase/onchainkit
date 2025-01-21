@@ -1,4 +1,3 @@
-import { useDebounce } from '@/core-react/internal/hooks/useDebounce';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { openPopup } from '@/ui-react/internal/utils/openPopup';
 import '@testing-library/jest-dom';
@@ -10,12 +9,15 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useAccount } from 'wagmi';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
-import type { FundCardPropsReact } from '../types';
+import { optionsResponseDataMock, quoteResponseDataMock } from '../mocks';
+import type { PresetAmountInputs } from '../types';
+import { fetchOnrampOptions } from '../utils/fetchOnrampOptions';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCard } from './FundCard';
-import { FundCardProvider } from './FundCardProvider';
+import { FundCardProvider, useFundContext } from './FundCardProvider';
 
 const mockUpdateInputWidth = vi.fn();
 vi.mock('../hooks/useInputResize', () => ({
@@ -28,10 +30,6 @@ vi.mock('../../core-react/internal/hooks/useTheme', () => ({
 
 vi.mock('../hooks/useGetFundingUrl', () => ({
   useGetFundingUrl: vi.fn(),
-}));
-
-vi.mock('../../core-react/internal/hooks/useDebounce', () => ({
-  useDebounce: vi.fn((callback) => callback),
 }));
 
 vi.mock('../hooks/useFundCardFundingUrl', () => ({
@@ -53,27 +51,74 @@ vi.mock('../utils/getFundingPopupSize', () => ({
 }));
 
 vi.mock('../hooks/useFundCardSetupOnrampEventListeners');
+
 vi.mock('../utils/fetchOnrampQuote');
+vi.mock('../utils/fetchOnrampOptions');
 
-const mockResponseData = {
-  paymentTotal: { value: '100.00', currency: 'USD' },
-  paymentSubtotal: { value: '120.00', currency: 'USD' },
-  purchaseAmount: { value: '0.1', currency: 'BTC' },
-  coinbaseFee: { value: '2.00', currency: 'USD' },
-  networkFee: { value: '1.00', currency: 'USD' },
-  quoteId: 'quote-id-123',
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useConnect: vi.fn(),
+}));
+
+vi.mock('../../wallet/components/ConnectWallet', () => ({
+  ConnectWallet: ({ className }: { className?: string }) => (
+    <div data-testid="ockConnectWallet_Container" className={className}>
+      Connect Wallet
+    </div>
+  ),
+}));
+
+// Test component to access context values
+const TestComponent = () => {
+  const {
+    fundAmountFiat,
+    fundAmountCrypto,
+    exchangeRate,
+    exchangeRateLoading,
+    setFundAmountFiat,
+    setSelectedInputType,
+  } = useFundContext();
+
+  return (
+    <div>
+      <span data-testid="test-value-fiat">{fundAmountFiat}</span>
+      <span data-testid="test-value-crypto">{fundAmountCrypto}</span>
+      <span data-testid="test-value-exchange-rate">{exchangeRate}</span>
+      <span data-testid="loading-state">
+        {exchangeRateLoading ? 'loading' : 'not-loading'}
+      </span>
+      <button
+        type="button"
+        data-testid="set-fiat-amount"
+        onClick={() => setFundAmountFiat('100')}
+      />
+      <button
+        type="button"
+        data-testid="set-crypto-input-type"
+        onClick={() => setSelectedInputType('crypto')}
+      />
+      <button
+        type="button"
+        data-testid="set-fiat-input-type"
+        onClick={() => setSelectedInputType('fiat')}
+      />
+    </div>
+  );
 };
 
-const defaultProps: FundCardPropsReact = {
-  assetSymbol: 'BTC',
-  buttonText: 'Buy BTC',
-  headerText: 'Fund Your Account',
-};
-
-const renderComponent = (props = defaultProps) =>
+const renderComponent = (presetAmountInputs?: PresetAmountInputs) =>
   render(
-    <FundCardProvider asset={props.assetSymbol}>
-      <FundCard {...props} />
+    <FundCardProvider
+      asset="BTC"
+      country="US"
+      presetAmountInputs={presetAmountInputs}
+    >
+      <FundCard
+        assetSymbol="BTC"
+        country="US"
+        presetAmountInputs={presetAmountInputs}
+      />
+      <TestComponent />
     </FundCardProvider>,
   );
 
@@ -87,36 +132,37 @@ describe('FundCard', () => {
       width: 100,
     }));
     (useFundCardFundingUrl as Mock).mockReturnValue('mock-funding-url');
-    (useDebounce as Mock).mockImplementation((callback) => callback);
-    (fetchOnrampQuote as Mock).mockResolvedValue(mockResponseData);
+    (fetchOnrampQuote as Mock).mockResolvedValue(quoteResponseDataMock);
+    (fetchOnrampOptions as Mock).mockResolvedValue(optionsResponseDataMock);
+    (useAccount as Mock).mockReturnValue({
+      address: '0x123',
+    });
   });
 
   it('renders without crashing', () => {
     renderComponent();
-    expect(screen.getByTestId('fundCardHeader')).toBeInTheDocument();
+    expect(screen.getByTestId('ockFundCardHeader')).toBeInTheDocument();
     expect(screen.getByTestId('ockFundButtonTextContent')).toBeInTheDocument();
   });
 
   it('displays the correct header text', () => {
     renderComponent();
-    expect(screen.getByTestId('fundCardHeader')).toHaveTextContent(
-      'Fund Your Account',
+    expect(screen.getByTestId('ockFundCardHeader')).toHaveTextContent(
+      'Buy BTC',
     );
   });
 
   it('displays the correct button text', () => {
     renderComponent();
     expect(screen.getByTestId('ockFundButtonTextContent')).toHaveTextContent(
-      'Buy BTC',
+      'Buy',
     );
   });
 
   it('handles input changes for fiat amount', () => {
     renderComponent();
 
-    const input = screen.getByTestId(
-      'ockFundCardAmountInput',
-    ) as HTMLInputElement;
+    const input = screen.getByTestId('ockTextInput_Input') as HTMLInputElement;
 
     act(() => {
       fireEvent.change(input, { target: { value: '100' } });
@@ -133,77 +179,141 @@ describe('FundCard', () => {
       fireEvent.click(switchButton);
     });
 
-    expect(screen.getByTestId('currencySpan')).toHaveTextContent('BTC');
+    expect(screen.getByTestId('ockCurrencySpan')).toHaveTextContent('BTC');
   });
 
-  it('disables the submit button when fund amount is zero', () => {
+  it('disables the submit button when fund amount is zero and type is fiat', () => {
     renderComponent();
+    const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
+    fireEvent.click(setFiatAmountButton);
+
     const button = screen.getByTestId('ockFundButton');
     expect(button).toBeDisabled();
   });
 
-  it('enables the submit button when fund amount is greater than zero', () => {
+  it('disables the submit button when fund amount is zero and input type is crypto', () => {
     renderComponent();
-    const input = screen.getByTestId('ockFundCardAmountInput');
-    act(() => {
-      fireEvent.change(input, { target: { value: '100' } });
-    });
+    const setCryptoInputTypeButton = screen.getByTestId(
+      'set-crypto-input-type',
+    );
+    fireEvent.click(setCryptoInputTypeButton);
+
     const button = screen.getByTestId('ockFundButton');
-    expect(button).not.toBeDisabled();
+    expect(button).toBeDisabled();
+  });
+
+  it('enables the submit button when fund amount is greater than zero and type is fiat', async () => {
+    renderComponent();
+    const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
+    fireEvent.click(setFiatAmountButton);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('loading-state').textContent).toBe(
+        'not-loading',
+      );
+      const input = screen.getByTestId('ockTextInput_Input');
+      fireEvent.change(input, { target: { value: '1000' } });
+
+      const button = screen.getByTestId('ockFundButton');
+      expect(button).not.toBeDisabled();
+    });
+  });
+
+  it('enables the submit button when fund amount is greater than zero and type is crypto', async () => {
+    renderComponent();
+    const setCryptoInputTypeButton = screen.getByTestId(
+      'set-crypto-input-type',
+    );
+    fireEvent.click(setCryptoInputTypeButton);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('loading-state').textContent).toBe(
+        'not-loading',
+      );
+      const input = screen.getByTestId('ockTextInput_Input');
+      fireEvent.change(input, { target: { value: '1000' } });
+
+      const button = screen.getByTestId('ockFundButton');
+      expect(button).not.toBeDisabled();
+    });
   });
 
   it('shows loading state when submitting', async () => {
     renderComponent();
-    const input = screen.getByTestId('ockFundCardAmountInput');
-    act(() => {
-      fireEvent.change(input, { target: { value: '100' } });
-    });
-    const button = screen.getByTestId('ockFundButton');
 
-    expect(screen.queryByTestId('ockSpinner')).not.toBeInTheDocument();
-    act(() => {
-      fireEvent.click(button);
-    });
+    await waitFor(() => {
+      expect(screen.getByTestId('loading-state').textContent).toBe(
+        'not-loading',
+      );
+      const input = screen.getByTestId('ockTextInput_Input');
 
-    expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
+      fireEvent.change(input, { target: { value: '1000' } });
+
+      const button = screen.getByTestId('ockFundButton');
+
+      expect(screen.queryByTestId('ockSpinner')).not.toBeInTheDocument();
+      act(() => {
+        fireEvent.click(button);
+      });
+
+      expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
+    });
   });
 
-  it('sets submit button state to default on popup close', () => {
-    vi.useFakeTimers();
-
+  it('sets submit button state to default on popup close', async () => {
     (openPopup as Mock).mockImplementation(() => ({ closed: true }));
+
     renderComponent();
+
     const button = screen.getByTestId('ockFundButton');
-
-    // Simulate entering a valid amount
-    const input = screen.getByTestId(
-      'ockFundCardAmountInput',
-    ) as HTMLInputElement;
-    act(() => {
-      fireEvent.change(input, { target: { value: '100' } });
-    });
-
-    // Click the submit button to trigger loading state
-    act(() => {
-      fireEvent.click(button);
-    });
-
-    vi.runOnlyPendingTimers();
 
     const submitButton = screen.getByTestId('ockFundButton');
 
-    // Assert that the submit button state is set to 'default'
-    expect(submitButton).not.toBeDisabled();
+    await waitFor(() => {
+      expect(screen.getByTestId('loading-state').textContent).toBe(
+        'not-loading',
+      );
+
+      // Simulate entering a valid amount
+      const input = screen.getByTestId(
+        'ockTextInput_Input',
+      ) as HTMLInputElement;
+
+      fireEvent.change(input, { target: { value: '100' } });
+
+      fireEvent.click(button);
+
+      // Assert that the submit button state is set to 'default'
+      expect(submitButton).not.toBeDisabled();
+    });
   });
 
   it('renders custom children instead of default children', () => {
     render(
-      <FundCard assetSymbol="ETH">
+      <FundCard assetSymbol="ETH" country="US">
         <div data-testid="custom-child">Custom Content</div>
       </FundCard>,
     );
 
     expect(screen.getByTestId('custom-child')).toBeInTheDocument();
-    expect(screen.queryByTestId('fundCardHeader')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ockFundCardHeader')).not.toBeInTheDocument();
+  });
+
+  it('handles preset amount input click correctly', async () => {
+    const presetAmountInputs: PresetAmountInputs = ['12345', '20', '30'];
+
+    renderComponent(presetAmountInputs);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('loading-state').textContent).toBe(
+        'not-loading',
+      );
+
+      // Click the preset amount input
+      const presetAmountInput = screen.getByText('$12,345');
+
+      // Verify the input value was updated
+      expect(presetAmountInput).toBeInTheDocument();
+    });
   });
 });

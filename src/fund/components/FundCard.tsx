@@ -1,94 +1,82 @@
-import { useMemo } from 'react';
+import type { ReactNode } from 'react';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
-import { DEFAULT_PAYMENT_METHODS } from '../constants';
-import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
-import type { FundCardContentPropsReact, FundCardPropsReact } from '../types';
-import { FundButton } from './FundButton';
+import type { FundCardPropsReact } from '../types';
 import FundCardAmountInput from './FundCardAmountInput';
 import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
 import { FundCardHeader } from './FundCardHeader';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
-import { FundCardProvider, useFundContext } from './FundCardProvider';
+import { FundCardPresetAmountInputList } from './FundCardPresetAmountInputList';
+import { FundCardProvider } from './FundCardProvider';
+import { FundCardSubmitButton } from './FundCardSubmitButton';
 
 export function FundCard({
   assetSymbol,
   buttonText = 'Buy',
   headerText,
-  currencySign = '$',
-  paymentMethods = DEFAULT_PAYMENT_METHODS,
-  children,
+  country = 'US',
+  subdivision,
+  currency,
+  presetAmountInputs,
+  children = <DefaultFundCardContent />,
   className,
+  onError,
+  onStatus,
+  onSuccess,
 }: FundCardPropsReact) {
   const componentTheme = useTheme();
-
-  const defaultChildren = useMemo(
-    () => (
-      <>
-        <FundCardHeader />
-        <FundCardAmountInput />
-        <FundCardAmountInputTypeSwitch />
-        <FundCardPaymentMethodDropdown />
-      </>
-    ),
-    [],
-  ); // Empty dependency array since these components don't depend on props
 
   return (
     <FundCardProvider
       asset={assetSymbol}
-      paymentMethods={paymentMethods}
       headerText={headerText}
       buttonText={buttonText}
-      currencySign={currencySign}
+      country={country}
+      subdivision={subdivision}
+      currency={currency}
+      onError={onError}
+      onStatus={onStatus}
+      onSuccess={onSuccess}
+      presetAmountInputs={presetAmountInputs}
     >
       <div
         className={cn(
           componentTheme,
           background.default,
           color.foreground,
-          'flex w-[440px] flex-col p-6',
+          'flex w-full flex-col p-6',
           text.headline,
           border.radius,
           border.lineDefault,
           className,
         )}
       >
-        <FundCardContent>{children ?? defaultChildren}</FundCardContent>
+        <FundCardContent>{children}</FundCardContent>
       </div>
     </FundCardProvider>
   );
 }
 
-function FundCardContent({ children }: FundCardContentPropsReact) {
-  const {
-    fundAmountFiat,
-    fundAmountCrypto,
-    submitButtonState,
-    setSubmitButtonState,
-    buttonText,
-  } = useFundContext();
-
-  const fundingUrl = useFundCardFundingUrl();
-
+function FundCardContent({ children }: { children: ReactNode }) {
   // Setup event listeners for the onramp
   useFundCardSetupOnrampEventListeners();
-
   return (
     <form className="w-full" data-testid="ockFundCardForm">
       {children}
-
-      <FundButton
-        disabled={!fundAmountFiat || !fundAmountCrypto}
-        hideIcon={submitButtonState === 'default'}
-        text={buttonText}
-        className="w-full"
-        fundingUrl={fundingUrl}
-        state={submitButtonState}
-        onClick={() => setSubmitButtonState('loading')}
-        onPopupClose={() => setSubmitButtonState('default')}
-      />
     </form>
+  );
+}
+
+function DefaultFundCardContent() {
+  return (
+    <>
+      <FundCardHeader />
+      <FundCardAmountInput />
+      <FundCardAmountInputTypeSwitch />
+      <FundCardPresetAmountInputList />
+      <FundCardPaymentMethodDropdown />
+      <FundCardSubmitButton />
+    </>
   );
 }

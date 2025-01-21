@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
@@ -11,8 +12,8 @@ import {
   pressable,
   text,
 } from '../../styles/theme';
-import { TokenChip, TokenSelectDropdown } from '../../token';
 import type { Token } from '../../token';
+import { TokenChip, TokenSelectDropdown } from '../../token';
 import type { SwapAmountInputReact } from '../types';
 import { formatAmount } from '../utils/formatAmount';
 import { useSwapContext } from './SwapProvider';

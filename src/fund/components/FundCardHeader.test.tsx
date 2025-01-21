@@ -1,27 +1,39 @@
+import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { quoteResponseDataMock } from '../mocks';
+import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { FundCardHeader } from './FundCardHeader';
 import { FundCardProvider } from './FundCardProvider';
 
+vi.mock('../utils/fetchOnrampQuote');
+
 describe('FundCardHeader', () => {
+  beforeEach(() => {
+    setOnchainKitConfig({ apiKey: 'mock-api-key' });
+    (fetchOnrampQuote as Mock).mockResolvedValue(quoteResponseDataMock);
+  });
+
   it('renders the provided headerText', () => {
     render(
-      <FundCardProvider asset="ETH" headerText="Custom header">
+      <FundCardProvider asset="ETH" country="US" headerText="Custom header">
         <FundCardHeader />
       </FundCardProvider>,
     );
-    expect(screen.getByTestId('fundCardHeader')).toHaveTextContent(
+    expect(screen.getByTestId('ockFundCardHeader')).toHaveTextContent(
       'Custom header',
     );
   });
 
   it('renders the default header text when headerText is not provided', () => {
     render(
-      <FundCardProvider asset="ETH">
+      <FundCardProvider asset="ETH" country="US">
         <FundCardHeader />
       </FundCardProvider>,
     );
-    expect(screen.getByTestId('fundCardHeader')).toHaveTextContent('Buy ETH');
+    expect(screen.getByTestId('ockFundCardHeader')).toHaveTextContent(
+      'Buy ETH',
+    );
   });
 });

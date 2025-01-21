@@ -1,3 +1,4 @@
+'use client';
 import { useName } from '@/core-react/identity/hooks/useName';
 import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
 import type { NameReact } from '@/core-react/identity/types';
