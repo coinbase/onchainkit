@@ -34,7 +34,9 @@ export const FundCardPaymentMethodSelectRow = memo(
           border.radius,
           background.default,
           'flex w-full items-center justify-between px-4 py-2',
-          disabled && 'cursor-not-allowed opacity-50',
+          {
+            [pressable.disabled]: disabled,
+          },
         )}
         onClick={handleOnClick}
         disabled={disabled}
@@ -44,13 +46,21 @@ export const FundCardPaymentMethodSelectRow = memo(
           {!hideImage && (
             <FundCardPaymentMethodImage
               paymentMethod={paymentMethod}
-              className={cn('h-4 w-4', disabled && 'opacity-50')}
+              className={cn('h-4 w-4', {
+                [pressable.disabled]: disabled,
+              })}
             />
           )}
           <span className="flex flex-col items-start">
             <span className={cn(text.headline)}>{paymentMethod.name}</span>
             {!hideDescription && (
-              <span className={cn(text.body, color.foregroundMuted)}>
+              <span
+                className={cn(
+                  text.label2,
+                  color.foregroundMuted,
+                  'font-normal',
+                )}
+              >
                 {disabledReason || paymentMethod.description}
               </span>
             )}
