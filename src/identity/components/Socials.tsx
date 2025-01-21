@@ -1,9 +1,9 @@
 'use client';
 import type { Address, Chain } from 'viem';
-import { useName } from '../../../../core-react/identity/hooks/useName';
-import { useSocials } from '../../../../core-react/identity/hooks/useSocials';
-import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
-import { border, cn } from '../../../../styles/theme';
+import { useName } from '../../core-react/identity/hooks/useName';
+import { useSocials } from '../../core-react/identity/hooks/useSocials';
+import { useIdentityContext } from './IdentityProvider';
+import { border, cn } from '../../styles/theme';
 import { GetSocialPlatformDetails } from './getSocialPlatformDetails';
 import type { SocialPlatform } from './getSocialPlatformDetails';
 

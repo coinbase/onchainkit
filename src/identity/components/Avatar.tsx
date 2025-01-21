@@ -1,13 +1,13 @@
 'use client';
 import { useAvatar } from '@/core-react/identity/hooks/useAvatar';
 import { useName } from '@/core-react/identity/hooks/useName';
-import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
+import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import type { AvatarReact } from '@/core-react/identity/types';
 import { findComponent } from '@/core-react/internal/utils/findComponent';
 import { Children, useMemo } from 'react';
-import { defaultAvatarSVG } from '../../../../internal/svg/defaultAvatarSVG';
-import { defaultLoadingSVG } from '../../../../internal/svg/defaultLoadingSVG';
-import { border, cn } from '../../../../styles/theme';
+import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
+import { defaultLoadingSVG } from '../../internal/svg/defaultLoadingSVG';
+import { border, cn } from '../../styles/theme';
 import { Badge } from './Badge';
 import { DisplayBadge } from './DisplayBadge';
 

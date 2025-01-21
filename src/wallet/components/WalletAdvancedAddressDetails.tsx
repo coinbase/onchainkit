@@ -2,7 +2,7 @@
 
 import { Spinner } from '@/internal/components/Spinner';
 import { border, cn, color, pressable, text } from '@/styles/theme';
-import { Avatar, Badge, Name } from '@/ui/react/identity';
+import { Avatar, Badge, Name } from '@/identity';
 import { useCallback, useState } from 'react';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';

@@ -1,9 +1,9 @@
 'use client';
-import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
+import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import type { EthBalanceReact } from '@/core-react/identity/types';
 import { getRoundedAmount } from '@/core/utils/getRoundedAmount';
-import { cn, color, text } from '../../../../styles/theme';
-import { useGetETHBalance } from '../../../../wallet/hooks/useGetETHBalance';
+import { cn, color, text } from '../../styles/theme';
+import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
 
 export function EthBalance({ address, className }: EthBalanceReact) {
   const { address: contextAddress } = useIdentityContext();

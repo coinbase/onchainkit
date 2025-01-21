@@ -3,10 +3,10 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { base, baseSepolia, optimism } from 'viem/chains';
 
-import { useAttestations } from '../../../../core-react/identity/hooks/useAttestations';
-import { useName } from '../../../../core-react/identity/hooks/useName';
-import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
-import { getSlicedAddress } from '../../../../identity/utils/getSlicedAddress';
+import { useAttestations } from '../../core-react/identity/hooks/useAttestations';
+import { useName } from '../../core-react/identity/hooks/useName';
+import { useIdentityContext } from './IdentityProvider';
+import { getSlicedAddress } from '../utils/getSlicedAddress';
 import { Badge } from './Badge';
 import { Name } from './Name';
 

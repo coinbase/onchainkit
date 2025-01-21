@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest';
 import { WagmiProvider } from 'wagmi';
 import { http, createConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
-import { OnchainKitProvider } from '../../OnchainKitProvider';
+import { OnchainKitProvider } from '../../core-react/OnchainKitProvider';
 
 const queryClient = new QueryClient();
 const mockConfig = createConfig({

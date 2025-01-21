@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { useAvatar } from '@/core-react/identity/hooks/useAvatar';
 import { useName } from '@/core-react/identity/hooks/useName';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { useGetETHBalance } from '../../../../wallet/hooks/useGetETHBalance';
+import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
 import { Address } from './Address';
 import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';

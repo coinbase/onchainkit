@@ -1,7 +1,7 @@
 'use client';
 
 import { portfolioSvg } from '@/internal/svg/portfolioSvg';
-import { Avatar } from '@/ui/react/identity';
+import { Avatar } from '@/identity';
 import { useAccount } from 'wagmi';
 import { getDraggableWalletDefaultStartingPosition } from '../utils/getDraggableWalletDefaultStartingPosition';
 import { ConnectWallet } from './ConnectWallet';

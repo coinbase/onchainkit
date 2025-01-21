@@ -1,9 +1,9 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { useAttestations } from '../../../../core-react/identity/hooks/useAttestations';
-import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
-import { useOnchainKit } from '../../../../core-react/useOnchainKit';
+import { useAttestations } from '../../core-react/identity/hooks/useAttestations';
+import { useIdentityContext } from './IdentityProvider';
+import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { Badge } from './Badge';
 import { DisplayBadge } from './DisplayBadge';
 

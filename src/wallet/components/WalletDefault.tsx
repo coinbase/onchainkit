@@ -1,13 +1,7 @@
 'use client';
 
 import { color } from '../../styles/theme';
-import {
-  Address,
-  Avatar,
-  EthBalance,
-  Identity,
-  Name,
-} from '../../ui/react/identity';
+import { Address, Avatar, EthBalance, Identity, Name } from '../../identity';
 import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';
 import { Wallet } from './Wallet';

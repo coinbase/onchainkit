@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { useAttestations } from '@/core-react/identity/hooks/useAttestations';
 import { useAvatar } from '@/core-react/identity/hooks/useAvatar';
 import { useName } from '@/core-react/identity/hooks/useName';
-import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
+import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Avatar } from './Avatar';

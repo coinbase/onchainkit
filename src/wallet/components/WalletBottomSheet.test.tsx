@@ -11,8 +11,8 @@ import { useAccount } from 'wagmi';
 import {
   IdentityProvider,
   useIdentityContext,
-} from '../../core-react/identity/providers/IdentityProvider';
-import { Identity } from '../../ui/react/identity';
+} from '../../identity/components/IdentityProvider';
+import { Identity } from '../../identity';
 import { WalletBottomSheet } from './WalletBottomSheet';
 import { useWalletContext } from './WalletProvider';
 

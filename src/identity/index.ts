@@ -6,16 +6,16 @@ export { EthBalance } from './components/EthBalance';
 export { Identity } from './components/Identity';
 export { Name } from './components/Name';
 export { Socials } from './components/Socials';
-export { isBasename } from '../../../identity/utils/isBasename';
+export { isBasename } from './utils/isBasename';
 export { IdentityCard } from './components/IdentityCard';
-export { getAddress } from '../../../identity/utils/getAddress';
-export { getAttestations } from '../../../identity/utils/getAttestations';
-export { getAvatar } from '../../../identity/utils/getAvatar';
-export { getName } from '../../../identity/utils/getName';
-export { useAddress } from '../../../core-react/identity/hooks/useAddress';
-export { useAttestations } from '../../../core-react/identity/hooks/useAttestations';
-export { useAvatar } from '../../../core-react/identity/hooks/useAvatar';
-export { useName } from '../../../core-react/identity/hooks/useName';
+export { getAddress } from './utils/getAddress';
+export { getAttestations } from './utils/getAttestations';
+export { getAvatar } from './utils/getAvatar';
+export { getName } from './utils/getName';
+export { useAddress } from './hooks/useAddress';
+export { useAttestations } from './hooks/useAttestations';
+export { useAvatar } from './hooks/useAvatar';
+export { useName } from './hooks/useName';
 export type {
   AddressReact,
   Attestation,
@@ -41,4 +41,4 @@ export type {
   UseAvatarOptions,
   UseQueryOptions,
   UseNameOptions,
-} from '../../../core-react/identity/types';
+} from '../core-react/identity/types';
