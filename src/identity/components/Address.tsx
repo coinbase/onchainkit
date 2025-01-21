@@ -1,6 +1,6 @@
 'use client';
-import type { AddressReact } from '@/core-react/identity/types';
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
+import type { AddressReact } from '@/identity/types';
 import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
 import { useState } from 'react';
 import { border, cn, color, pressable, text } from '../../styles/theme';
