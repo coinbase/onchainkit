@@ -1,4 +1,4 @@
-import type { APIError } from '@/core/api';
+import type { APIError } from '@/api';
 
 export function isApiError(response: unknown): response is APIError {
   return (

@@ -1,4 +1,4 @@
-import type { GetSwapQuoteResponse } from '@/core/api';
+import type { GetSwapQuoteResponse } from '@/api';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   fireEvent,
@@ -22,9 +22,9 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { useSendCalls } from 'wagmi/experimental';
+import { buildSwapTransaction } from '../../api/buildSwapTransaction';
+import { getSwapQuote } from '../../api/getSwapQuote';
 import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
-import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
-import { getSwapQuote } from '../../core/api/getSwapQuote';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import type { LifecycleStatus, SwapError } from '../types';
 import { getSwapErrorCode } from '../utils/getSwapErrorCode';
@@ -35,11 +35,11 @@ vi.mock('../hooks/useResetInputs', () => ({
   useResetInputs: () => useCallback(mockResetFunction, []),
 }));
 
-vi.mock('../../core/api/getSwapQuote', () => ({
+vi.mock('@/api/getSwapQuote', () => ({
   getSwapQuote: vi.fn(),
 }));
 
-vi.mock('../../core/api/buildSwapTransaction', () => ({
+vi.mock('@/api/buildSwapTransaction', () => ({
   buildSwapTransaction: vi
     .fn()
     .mockRejectedValue(new Error('buildSwapTransaction')),

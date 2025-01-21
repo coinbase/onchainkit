@@ -1,14 +1,14 @@
-import { getPortfolioTokenBalances } from '@/core/api/getPortfolioTokenBalances';
+import { getPortfolioTokenBalances } from '@/api/getPortfolioTokenBalances';
 import type {
   PortfolioTokenBalances,
   PortfolioTokenWithFiatValue,
-} from '@/core/api/types';
+} from '@/api/types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { usePortfolioTokenBalances } from './usePortfolioTokenBalances';
 
-vi.mock('@/core/api/getPortfolioTokenBalances');
+vi.mock('@/api/getPortfolioTokenBalances');
 
 const mockAddress: `0x${string}` = '0x123';
 const mockTokens: PortfolioTokenWithFiatValue[] = [

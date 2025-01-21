@@ -1,10 +1,10 @@
+import { CDP_MINT_TOKEN } from '@/core/network/definitions/nft';
+import { sendRequest } from '@/core/network/request';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { CDP_MINT_TOKEN } from '../network/definitions/nft';
-import { sendRequest } from '../network/request';
 import { buildMintTransaction } from './buildMintTransaction';
 import type { BuildMintTransactionParams } from './types';
 
-vi.mock('../network/request', () => ({
+vi.mock('@/core/network/request', () => ({
   sendRequest: vi.fn(),
 }));
 

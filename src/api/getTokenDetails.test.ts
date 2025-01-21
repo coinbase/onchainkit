@@ -1,10 +1,10 @@
+import { CDP_GET_TOKEN_DETAILS } from '@/core/network/definitions/nft';
+import { sendRequest } from '@/core/network/request';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { CDP_GET_TOKEN_DETAILS } from '../network/definitions/nft';
-import { sendRequest } from '../network/request';
 import { getTokenDetails } from './getTokenDetails';
 import type { GetTokenDetailsParams } from './types';
 
-vi.mock('../network/request', () => ({
+vi.mock('@/core/network/request', () => ({
   sendRequest: vi.fn(),
 }));
 

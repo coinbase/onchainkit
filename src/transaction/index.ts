@@ -25,4 +25,4 @@ export type {
   TransactionToastLabelReact,
   WalletCapabilities,
 } from './types';
-export type { TransactionError } from '@/core/api/types';
+export type { TransactionError } from '@/api/types';
