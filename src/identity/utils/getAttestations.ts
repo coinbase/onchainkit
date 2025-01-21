@@ -1,9 +1,6 @@
+import { getAttestationsByFilter } from '@/core/network/attestations';
+import type { Attestation, GetAttestationsOptions } from '@/identity/types';
 import type { Address, Chain } from 'viem';
-import type {
-  Attestation,
-  GetAttestationsOptions,
-} from '../../core-react/identity/types';
-import { getAttestationsByFilter } from '../../core/network/attestations';
 import { isChainSupported } from './easSupportedChains';
 
 /**

@@ -1,4 +1,4 @@
-import type { Basename } from '../../core-react/identity/types';
+import type { Basename } from '@/identity/types';
 import { BASE_DEFAULT_PROFILE_PICTURES } from '../constants';
 import { getBaseDefaultProfilePictureIndex } from './getBaseDefaultProfilePictureIndex';
 

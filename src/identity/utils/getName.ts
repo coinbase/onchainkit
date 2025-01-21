@@ -1,9 +1,5 @@
+import type { Basename, GetName, GetNameReturnType } from '@/identity/types';
 import { base, mainnet } from 'viem/chains';
-import type {
-  Basename,
-  GetName,
-  GetNameReturnType,
-} from '../../core-react/identity/types';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { isBase } from '../../core/utils/isBase';
 import { isEthereum } from '../../core/utils/isEthereum';

@@ -1,9 +1,6 @@
+import { getChainPublicClient } from '@/core/network/getChainPublicClient';
+import type { GetAddress, GetAddressReturnType } from '@/identity/types';
 import { mainnet } from 'viem/chains';
-import type {
-  GetAddress,
-  GetAddressReturnType,
-} from '../../core-react/identity/types';
-import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 
 /**
  * Get address from ENS name or Basename.

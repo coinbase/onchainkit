@@ -1,8 +1,8 @@
+import { easChainBase } from '@/core/network/definitions/base';
+import { easChainBaseSepolia } from '@/core/network/definitions/baseSepolia';
+import { easChainOptimism } from '@/core/network/definitions/optimism';
+import type { EASChainDefinition } from '@/identity/types';
 import type { Chain } from 'viem';
-import type { EASChainDefinition } from '../../core-react/identity/types';
-import { easChainBase } from '../../core/network/definitions/base';
-import { easChainBaseSepolia } from '../../core/network/definitions/baseSepolia';
-import { easChainOptimism } from '../../core/network/definitions/optimism';
 
 export type EASSupportedChains = Record<number, EASChainDefinition>;
 

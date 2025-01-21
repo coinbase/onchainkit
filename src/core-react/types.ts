@@ -1,8 +1,8 @@
+import type { EASSchemaUid } from '@/identity/types';
 import type { ReactNode } from 'react';
 import type { Address } from 'viem';
 import type { Chain } from 'wagmi/chains';
 import type { AppConfig } from '../core/types';
-import type { EASSchemaUid } from './identity/types';
 
 /**
  * Note: exported as public Type

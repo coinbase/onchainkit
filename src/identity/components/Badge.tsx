@@ -1,7 +1,7 @@
 'use client';
-import type { BadgeReact } from '../../core-react/identity/types';
-import { badgeSvg } from '../../internal/svg/badgeSvg';
-import { background, cn } from '../../styles/theme';
+import type { BadgeReact } from '@/identity/types';
+import { badgeSvg } from '@/internal/svg/badgeSvg';
+import { background, cn } from '@/styles/theme';
 
 /**
  * Badge component.
