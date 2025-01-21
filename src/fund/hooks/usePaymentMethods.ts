@@ -8,16 +8,16 @@ export const usePaymentMethods = ({
   subdivision,
   currency,
   setPaymentMethods,
-  setPaymentMethodsLoading,
+  setIsPaymentMethodsLoading,
 }: {
   country: string;
   subdivision?: string;
   currency: string;
   setPaymentMethods: (paymentMethods: PaymentMethod[]) => void;
-  setPaymentMethodsLoading: (loading: boolean) => void;
+  setIsPaymentMethodsLoading: (loading: boolean) => void;
 }) => {
   const handleFetchPaymentMethods = useCallback(async () => {
-    setPaymentMethodsLoading(true);
+    setIsPaymentMethodsLoading(true);
 
     try {
       const paymentOptions = await fetchOnrampOptions({
@@ -35,14 +35,14 @@ export const usePaymentMethods = ({
     } catch (error) {
       console.error('Error fetching payment options:', error);
     } finally {
-      setPaymentMethodsLoading(false);
+      setIsPaymentMethodsLoading(false);
     }
   }, [
     country,
     subdivision,
     currency,
     setPaymentMethods,
-    setPaymentMethodsLoading,
+    setIsPaymentMethodsLoading,
   ]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: initial effect

@@ -38,8 +38,8 @@ type FundCardContextType = {
   setSubmitButtonState: (state: FundButtonStateReact) => void;
   paymentMethods: PaymentMethod[];
   setPaymentMethods: (paymentMethods: PaymentMethod[]) => void;
-  paymentMethodsLoading: boolean;
-  setPaymentMethodsLoading: (loading: boolean) => void;
+  isPaymentMethodsLoading: boolean;
+  setIsPaymentMethodsLoading: (loading: boolean) => void;
   headerText?: string;
   buttonText?: string;
   country: string;
@@ -84,7 +84,7 @@ export function FundCardProvider({
     useState<FundButtonStateReact>('default');
 
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
-  const [paymentMethodsLoading, setPaymentMethodsLoading] =
+  const [isPaymentMethodsLoading, setIsPaymentMethodsLoading] =
     useState<boolean>(true);
   const { lifecycleStatus, updateLifecycleStatus } = useEmitLifecycleStatus({
     onError,
@@ -122,7 +122,7 @@ export function FundCardProvider({
     subdivision,
     currency,
     setPaymentMethods,
-    setPaymentMethodsLoading,
+    setIsPaymentMethodsLoading,
   });
 
   const value = useValue<FundCardContextType>({
@@ -144,8 +144,8 @@ export function FundCardProvider({
     setSubmitButtonState,
     paymentMethods,
     setPaymentMethods,
-    paymentMethodsLoading,
-    setPaymentMethodsLoading,
+    isPaymentMethodsLoading,
+    setIsPaymentMethodsLoading,
     headerText,
     buttonText,
     country,

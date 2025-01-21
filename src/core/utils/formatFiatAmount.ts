@@ -8,7 +8,7 @@
 export const formatFiatAmount = ({
   amount,
   currency = 'USD',
-  locale = 'en-US',
+  locale,
   minimumFractionDigits = 2,
   maximumFractionDigits = 2,
 }: {
