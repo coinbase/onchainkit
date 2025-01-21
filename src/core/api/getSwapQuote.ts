@@ -3,7 +3,6 @@ import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import { CDP_GET_SWAP_QUOTE } from '../network/definitions/swap';
 import { sendRequest } from '../network/request';
 import type {
-  APIError,
   GetSwapQuoteParams,
   GetSwapQuoteResponse,
   SwapAPIParams,
@@ -21,14 +20,13 @@ export async function getSwapQuote(
     amountReference: 'from',
     isAmountInDecimals: false,
   };
-  const apiParamsOrError = getAPIParamsForToken({
+  let apiParams = getAPIParamsForToken({
     ...defaultParams,
     ...params,
   });
-  if ((apiParamsOrError as APIError).error) {
-    return apiParamsOrError as APIError;
+  if ('error' in apiParams) {
+    return apiParams;
   }
-  let apiParams = apiParamsOrError as SwapAPIParams;
 
   if (!params.useAggregator) {
     apiParams = {
