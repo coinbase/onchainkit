@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import type { Chain } from 'viem';
 import { mainnet } from 'viem/chains';
-import { getSocials } from '../../../identity/utils/getSocials';
-import type { GetSocialsReturnType, UseQueryOptions } from '../types';
+import { getSocials } from '@/identity/utils/getSocials';
+import type { GetSocialsReturnType, UseQueryOptions } from '@/identity/types';
 
 type UseSocialsOptions = {
   ensName: string;

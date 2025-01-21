@@ -1,34 +1,34 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { Address } from './Address';
-import { Avatar } from './Avatar';
-import { EthBalance } from './EthBalance';
-import { IdentityLayout } from './IdentityLayout';
-import { Name } from './Name';
-import { Socials } from './Socials';
+import { Address } from '@/identity/components/Address';
+import { Avatar } from '@/identity/components/Avatar';
+import { EthBalance } from '@/identity/components/EthBalance';
+import { IdentityLayout } from '@/identity/components/IdentityLayout';
+import { Name } from '@/identity/components/Name';
+import { Socials } from '@/identity/components/Socials';
 
-vi.mock('./Avatar', () => ({
+vi.mock('@/identity/components/Avatar', () => ({
   Avatar: vi.fn(() => <div>Avatar</div>),
 }));
 
-vi.mock('./Name', () => ({
+vi.mock('@/identity/components/Name', () => ({
   Name: vi.fn(() => <div>Name</div>),
 }));
 
-vi.mock('./Address', () => ({
+vi.mock('@/identity/components/Address', () => ({
   Address: vi.fn(() => <div>Address</div>),
 }));
 
-vi.mock('./EthBalance', () => ({
+vi.mock('@/identity/components/EthBalance', () => ({
   EthBalance: vi.fn(() => <div>EthBalance</div>),
 }));
 
-vi.mock('./Socials', () => ({
+vi.mock('@/identity/components/Socials', () => ({
   Socials: vi.fn(() => <div>Socials</div>),
 }));
 
-vi.mock('../../../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

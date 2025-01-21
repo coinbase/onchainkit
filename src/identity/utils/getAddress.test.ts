@@ -1,13 +1,13 @@
 import { base, baseSepolia, mainnet } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { publicClient } from '../../core/network/client';
-import { getChainPublicClient } from '../../core/network/getChainPublicClient';
+import { publicClient } from '@/core/network/client';
+import { getChainPublicClient } from '@/core/network/getChainPublicClient';
 import { getAddress } from './getAddress';
 
-vi.mock('../../../core/network/client');
+vi.mock('@/core/network/client');
 
-vi.mock('../../../core/network/getChainPublicClient', () => ({
-  ...vi.importActual('../../../core/network/getChainPublicClient'),
+vi.mock('@/core/network/getChainPublicClient', () => ({
+  ...vi.importActual('@/core/network/getChainPublicClient'),
   getChainPublicClient: vi.fn(() => publicClient),
 }));
 

@@ -11,8 +11,8 @@ import { useAccount } from 'wagmi';
 import {
   IdentityProvider,
   useIdentityContext,
-} from '../../identity/components/IdentityProvider';
-import { Identity } from '../../identity';
+} from '@/identity/components/IdentityProvider';
+import { Identity } from '@/identity';
 import { WalletBottomSheet } from './WalletBottomSheet';
 import { useWalletContext } from './WalletProvider';
 
@@ -24,7 +24,7 @@ vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
 }));
 
-vi.mock('../../ui/react/identity/components/Identity', () => ({
+vi.mock('@/identity/components/Identity', () => ({
   Identity: vi.fn(({ address, children }) => (
     <IdentityProvider address={address}>{children}</IdentityProvider>
   )),

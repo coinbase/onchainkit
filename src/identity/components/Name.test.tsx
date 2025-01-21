@@ -2,27 +2,26 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { base, baseSepolia, optimism } from 'viem/chains';
-
-import { useAttestations } from '../../core-react/identity/hooks/useAttestations';
-import { useName } from '../../core-react/identity/hooks/useName';
+import { useAttestations } from '@/identity/hooks/useAttestations';
+import { useName } from '@/identity/hooks/useName';
 import { useIdentityContext } from './IdentityProvider';
 import { getSlicedAddress } from '../utils/getSlicedAddress';
 import { Badge } from './Badge';
 import { Name } from './Name';
 
-vi.mock('../../../../core-react/identity/hooks/useAttestations', () => ({
+vi.mock('@/identity/hooks/useAttestations', () => ({
   useAttestations: vi.fn(),
 }));
 
-vi.mock('../../../../core-react/identity/hooks/useName', () => ({
+vi.mock('@/identity/hooks/useName', () => ({
   useName: vi.fn(),
 }));
 
-vi.mock('../../../../core/identity/utils/getSlicedAddress', () => ({
+vi.mock('@/identity/utils/getSlicedAddress', () => ({
   getSlicedAddress: vi.fn(),
 }));
 
-vi.mock('../../../../core-react/identity/providers/IdentityProvider', () => ({
+vi.mock('@/identity/components/IdentityProvider', () => ({
   useIdentityContext: vi.fn(),
 }));
 

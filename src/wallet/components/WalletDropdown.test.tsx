@@ -35,7 +35,7 @@ vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 
-vi.mock('../../ui/react/identity/components/Identity', () => ({
+vi.mock('@/identity/components/Identity', () => ({
   Identity: vi.fn(({ address, children }) => (
     <IdentityProvider address={address}>{children}</IdentityProvider>
   )),

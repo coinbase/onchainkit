@@ -5,10 +5,10 @@ import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { getAvatar } from './getAvatar';
 
-vi.mock('../../../core/network/client');
+vi.mock('@/core/network/client');
 
-vi.mock('../../../core/network/getChainPublicClient', () => ({
-  ...vi.importActual('../../../core/network/getChainPublicClient'),
+vi.mock('@/core/network/getChainPublicClient', () => ({
+  ...vi.importActual('@/core/network/getChainPublicClient'),
   getChainPublicClient: vi.fn(() => publicClient),
 }));
 

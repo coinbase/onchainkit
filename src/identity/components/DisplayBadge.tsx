@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Address } from 'viem';
-import { useAttestations } from '../../core-react/identity/hooks/useAttestations';
+import { useAttestations } from '@/identity/hooks/useAttestations';
 import { useIdentityContext } from './IdentityProvider';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
 

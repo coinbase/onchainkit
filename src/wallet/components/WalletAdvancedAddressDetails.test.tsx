@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useIdentityContext } from '../../identity/components/IdentityProvider';
+import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
@@ -9,21 +9,21 @@ vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../core-react/identity/providers/IdentityProvider', () => ({
+vi.mock('@/identity/components/IdentityProvider', () => ({
   useIdentityContext: vi.fn().mockReturnValue({
     schemaId: '1',
   }),
 }));
 
-vi.mock('../../core-react/identity/hooks/useAttestations', () => ({
+vi.mock('@/identity/hooks/useAttestations', () => ({
   useAttestations: () => [{ testAttestation: 'Test Attestation' }],
 }));
 
-vi.mock('../../core-react/identity/hooks/useAvatar', () => ({
+vi.mock('@/identity/hooks/useAvatar', () => ({
   useAvatar: () => ({ data: null, isLoading: false }),
 }));
 
-vi.mock('../../core-react/identity/hooks/useName', () => ({
+vi.mock('@/identity/hooks/useName', () => ({
   useName: () => ({ data: null, isLoading: false }),
 }));
 

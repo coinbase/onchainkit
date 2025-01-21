@@ -1,4 +1,4 @@
-import { getNewReactQueryTestProvider } from '@/core-react/identity/hooks/getNewReactQueryTestProvider';
+import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { getTokenDetails } from '@/core/api/getTokenDetails';
 import { renderHook, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';

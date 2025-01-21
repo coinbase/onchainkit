@@ -1,9 +1,9 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
-import { useAvatar } from '@/core-react/identity/hooks/useAvatar';
-import { useName } from '@/core-react/identity/hooks/useName';
+import { useAvatar } from '@/identity/hooks/useAvatar';
+import { useName } from '@/identity/hooks/useName';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
+import { useGetETHBalance } from '@/wallet/hooks/useGetETHBalance';
 import { Address } from './Address';
 import { Avatar } from './Avatar';
 import { EthBalance } from './EthBalance';
@@ -14,14 +14,14 @@ function mock<T>(func: T) {
   return func as Mock;
 }
 
-vi.mock('@/core-react/identity/hooks/useAvatar', () => ({
+vi.mock('@/identity/hooks/useAvatar', () => ({
   useAvatar: vi.fn(),
 }));
-vi.mock('@/core-react/identity/hooks/useName', () => ({
+vi.mock('@/identity/hooks/useName', () => ({
   useName: vi.fn(),
 }));
 
-vi.mock('../../../../wallet/hooks/useGetETHBalance', () => ({
+vi.mock('@/wallet/hooks/useGetETHBalance', () => ({
   useGetETHBalance: vi.fn(),
 }));
 

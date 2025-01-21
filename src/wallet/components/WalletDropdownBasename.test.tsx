@@ -4,7 +4,7 @@ import type { GetAccountReturnType } from '@wagmi/core';
 import { base, mainnet } from 'viem/chains';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-import { useName } from '../../core-react/identity/hooks/useName';
+import { useName } from '@/identity/hooks/useName';
 import { WalletDropdownBasename } from './WalletDropdownBasename';
 import { useWalletContext } from './WalletProvider';
 
@@ -12,7 +12,7 @@ vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
 
-vi.mock('../../core-react/identity/hooks/useName', () => ({
+vi.mock('@/identity/hooks/useName', () => ({
   useName: vi.fn(),
 }));
 

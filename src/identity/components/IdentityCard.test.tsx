@@ -5,19 +5,19 @@ import { goerli, baseSepolia as sepolia } from 'viem/chains';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
 import { OnchainKitProvider } from '../../core-react/OnchainKitProvider';
-import { useAvatar } from '../../core-react/identity/hooks/useAvatar';
-import { useName } from '../../core-react/identity/hooks/useName';
+import { useAvatar } from '@/identity/hooks/useAvatar';
+import { useName } from '@/identity/hooks/useName';
 import { IdentityCard } from './IdentityCard';
 
 function mock<T>(func: T) {
   return func as Mock;
 }
 
-vi.mock('../../../../core-react/identity/hooks/useAvatar', () => ({
+vi.mock('@/identity/hooks/useAvatar', () => ({
   useAvatar: vi.fn(),
 }));
 
-vi.mock('../../../../core-react/identity/hooks/useName', () => ({
+vi.mock('@/identity/hooks/useName', () => ({
   useName: vi.fn(),
 }));
 

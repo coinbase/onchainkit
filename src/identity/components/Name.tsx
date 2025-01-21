@@ -1,7 +1,7 @@
 'use client';
-import { useName } from '@/core-react/identity/hooks/useName';
+import { useName } from '@/identity/hooks/useName';
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
-import type { NameReact } from '@/core-react/identity/types';
+import type { NameReact } from '@/identity/types';
 import { findComponent } from '@/core-react/internal/utils/findComponent';
 import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
 import { Children, useMemo } from 'react';

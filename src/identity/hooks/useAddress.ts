@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { mainnet } from 'viem/chains';
-import { getAddress } from '../../../identity/utils/getAddress';
+import { getAddress } from '@/identity/utils/getAddress';
 import type {
   GetAddressReturnType,
   UseAddressOptions,
   UseQueryOptions,
-} from '../types';
+} from '@/identity/types';
 
 export const useAddress = (
   { name, chain = mainnet }: UseAddressOptions,

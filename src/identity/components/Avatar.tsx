@@ -1,8 +1,8 @@
 'use client';
-import { useAvatar } from '@/core-react/identity/hooks/useAvatar';
-import { useName } from '@/core-react/identity/hooks/useName';
+import { useAvatar } from '@/identity/hooks/useAvatar';
+import { useName } from '@/identity/hooks/useName';
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
-import type { AvatarReact } from '@/core-react/identity/types';
+import type { AvatarReact } from '@/identity/types';
 import { findComponent } from '@/core-react/internal/utils/findComponent';
 import { Children, useMemo } from 'react';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';

@@ -1,24 +1,24 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { useIdentityContext } from './IdentityProvider';
-import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
-import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
+import { useIdentityContext } from '@/identity/components/IdentityProvider';
+import { getRoundedAmount } from '@/core/utils/getRoundedAmount';
+import { useGetETHBalance } from '@/wallet/hooks/useGetETHBalance';
 import { EthBalance } from './EthBalance';
 
 function mock<T>(func: T) {
   return func as Mock;
 }
 
-vi.mock('../../../../core-react/identity/providers/IdentityProvider', () => ({
+vi.mock('@/identity/components/IdentityProvider', () => ({
   useIdentityContext: vi.fn(),
 }));
 
-vi.mock('../../../../wallet/hooks/useGetETHBalance', () => ({
+vi.mock('@/wallet/hooks/useGetETHBalance', () => ({
   useGetETHBalance: vi.fn(),
 }));
 
-vi.mock('../../../../core/utils/getRoundedAmount', () => ({
+vi.mock('@/core/utils/getRoundedAmount', () => ({
   getRoundedAmount: vi.fn(),
 }));
 

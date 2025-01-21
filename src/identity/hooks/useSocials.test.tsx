@@ -2,12 +2,11 @@ import { renderHook } from '@testing-library/react';
 import { base, mainnet } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
-
-import { getSocials } from '../../../identity/utils/getSocials';
+import { getSocials } from '@/identity/utils/getSocials';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 import { useSocials } from './useSocials';
 
-vi.mock('../../../core/identity/utils/getSocials');
+vi.mock('@/identity/utils/getSocials');
 
 describe('useSocials', () => {
   const mockGetSocials = getSocials as Mock;

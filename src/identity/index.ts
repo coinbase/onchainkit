@@ -41,4 +41,4 @@ export type {
   UseAvatarOptions,
   UseQueryOptions,
   UseNameOptions,
-} from '../core-react/identity/types';
+} from './types';

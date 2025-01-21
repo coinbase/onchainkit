@@ -10,11 +10,11 @@ function mock<T>(func: T) {
   return func as Mock;
 }
 
-vi.mock('../../../../core/identity/utils/getSlicedAddress', () => ({
+vi.mock('@/identity/utils/getSlicedAddress', () => ({
   getSlicedAddress: vi.fn(),
 }));
 
-vi.mock('../../../../core-react/identity/providers/IdentityProvider', () => ({
+vi.mock('@/identity/components/IdentityProvider', () => ({
   useIdentityContext: vi.fn(() => ({
     address: undefined,
     ensName: undefined,
