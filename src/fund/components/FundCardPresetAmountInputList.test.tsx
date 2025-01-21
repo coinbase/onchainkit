@@ -60,7 +60,7 @@ describe('FundCardPresetAmountInputList', () => {
     const container = screen.getByTestId('ockPresetAmountInputList');
     expect(container).toHaveClass(
       'flex',
-      'w-[100%]',
+      'w-full',
       'flex-wrap',
       'items-center',
       'justify-between',
