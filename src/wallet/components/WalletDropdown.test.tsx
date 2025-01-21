@@ -8,11 +8,11 @@ import {
 } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
+import { Identity } from '../../identity';
 import {
   IdentityProvider,
   useIdentityContext,
 } from '../../identity/components/IdentityProvider';
-import { Identity } from '../../identity';
 import { useBreakpoints } from '../../ui/react/internal/hooks/useBreakpoints';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';

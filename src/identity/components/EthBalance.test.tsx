@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { type Mock, describe, expect, it, vi } from 'vitest';
-import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { getRoundedAmount } from '@/core/utils/getRoundedAmount';
+import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useGetETHBalance } from '@/wallet/hooks/useGetETHBalance';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import { EthBalance } from './EthBalance';
 
 function mock<T>(func: T) {

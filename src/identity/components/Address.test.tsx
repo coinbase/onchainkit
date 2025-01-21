@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
-import { useIdentityContext } from './IdentityProvider';
 import { getSlicedAddress } from '../utils/getSlicedAddress';
+import { useIdentityContext } from './IdentityProvider';
 
 import { Address } from './Address';
 

@@ -1,9 +1,9 @@
+import { getAttestationsByFilter } from '@/core/network/attestations';
 /**
  * @vitest-environment jsdom
  */
 import { base, opBNBTestnet } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { getAttestationsByFilter } from '@/core/network/attestations';
 
 import type { GetAttestationsOptions } from '../types';
 import { getAttestations } from './getAttestations';

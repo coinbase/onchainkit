@@ -1,8 +1,8 @@
+import { useAttestations } from '@/identity/hooks/useAttestations';
 import type { ReactNode } from 'react';
 import type { Address } from 'viem';
-import { useAttestations } from '@/identity/hooks/useAttestations';
-import { useIdentityContext } from './IdentityProvider';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { useIdentityContext } from './IdentityProvider';
 
 type DisplayBadgeReact = {
   children: ReactNode;

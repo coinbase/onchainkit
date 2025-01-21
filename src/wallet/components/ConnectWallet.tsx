@@ -4,9 +4,9 @@ import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
-import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { findComponent } from '../../core-react/internal/utils/findComponent';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
 import {
   border,

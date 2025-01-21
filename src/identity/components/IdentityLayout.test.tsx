@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
 import { Address } from '@/identity/components/Address';
 import { Avatar } from '@/identity/components/Avatar';
 import { EthBalance } from '@/identity/components/EthBalance';
 import { IdentityLayout } from '@/identity/components/IdentityLayout';
 import { Name } from '@/identity/components/Name';
 import { Socials } from '@/identity/components/Socials';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('@/identity/components/Avatar', () => ({
   Avatar: vi.fn(() => <div>Avatar</div>),

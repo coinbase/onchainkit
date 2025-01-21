@@ -1,7 +1,7 @@
-import { base, baseSepolia, mainnet } from 'viem/chains';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { publicClient } from '@/core/network/client';
 import { getChainPublicClient } from '@/core/network/getChainPublicClient';
+import { base, baseSepolia, mainnet } from 'viem/chains';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getAddress } from './getAddress';
 
 vi.mock('@/core/network/client');

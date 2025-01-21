@@ -1,6 +1,6 @@
+import { getAvatar } from '@/identity/utils/getAvatar';
 import { useQuery } from '@tanstack/react-query';
 import { mainnet } from 'viem/chains';
-import { getAvatar } from '@/identity/utils/getAvatar';
 import type {
   GetAvatarReturnType,
   UseAvatarOptions,

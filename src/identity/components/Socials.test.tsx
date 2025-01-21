@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useName } from '@/identity/hooks/useName';
 import { useSocials } from '@/identity/hooks/useSocials';
-import { useIdentityContext } from '@/identity/components/IdentityProvider';
+import { render, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Socials } from './Socials';
 
 vi.mock('@/identity/components/IdentityProvider', () => ({

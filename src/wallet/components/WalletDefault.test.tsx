@@ -1,8 +1,8 @@
+import { useAvatar } from '@/identity/hooks/useAvatar';
+import { useName } from '@/identity/hooks/useName';
 import { render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
-import { useAvatar } from '@/identity/hooks/useAvatar';
-import { useName } from '@/identity/hooks/useName';
 import { WalletDefault } from './WalletDefault';
 import { type WalletProviderReact, useWalletContext } from './WalletProvider';
 

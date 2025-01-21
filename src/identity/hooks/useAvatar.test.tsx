@@ -1,8 +1,8 @@
+import { publicClient } from '@/core/network/client';
+import { getChainPublicClient } from '@/core/network/getChainPublicClient';
 import { renderHook, waitFor } from '@testing-library/react';
 import { base, baseSepolia, mainnet, optimism } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { publicClient } from '@/core/network/client';
-import { getChainPublicClient } from '@/core/network/getChainPublicClient';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 import { useAvatar } from './useAvatar';
 

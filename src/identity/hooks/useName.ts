@@ -1,6 +1,6 @@
+import { getName } from '@/identity/utils/getName';
 import { useQuery } from '@tanstack/react-query';
 import { mainnet } from 'viem/chains';
-import { getName } from '@/identity/utils/getName';
 import type {
   GetNameReturnType,
   UseNameOptions,

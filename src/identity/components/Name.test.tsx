@@ -1,12 +1,12 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
-import { base, baseSepolia, optimism } from 'viem/chains';
 import { useAttestations } from '@/identity/hooks/useAttestations';
 import { useName } from '@/identity/hooks/useName';
-import { useIdentityContext } from './IdentityProvider';
+import { render, screen, waitFor } from '@testing-library/react';
+import { base, baseSepolia, optimism } from 'viem/chains';
 import { getSlicedAddress } from '../utils/getSlicedAddress';
 import { Badge } from './Badge';
+import { useIdentityContext } from './IdentityProvider';
 import { Name } from './Name';
 
 vi.mock('@/identity/hooks/useAttestations', () => ({

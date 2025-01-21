@@ -1,11 +1,11 @@
 import { base, baseSepolia, optimism } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
+import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useAttestations } from '@/identity/hooks/useAttestations';
 import { useAvatar } from '@/identity/hooks/useAvatar';
 import { useName } from '@/identity/hooks/useName';
-import { useIdentityContext } from '@/identity/components/IdentityProvider';
-import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Avatar } from './Avatar';
 import { Badge } from './Badge';

@@ -1,10 +1,10 @@
+import { useName } from '@/identity/hooks/useName';
 import type { UseQueryResult } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 import type { GetAccountReturnType } from '@wagmi/core';
 import { base, mainnet } from 'viem/chains';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-import { useName } from '@/identity/hooks/useName';
 import { WalletDropdownBasename } from './WalletDropdownBasename';
 import { useWalletContext } from './WalletProvider';
 

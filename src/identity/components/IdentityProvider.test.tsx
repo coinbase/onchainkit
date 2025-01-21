@@ -1,14 +1,14 @@
 import '@testing-library/jest-dom';
+import { OnchainKitProvider } from '@/core-react/OnchainKitProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
 import type { Address, Chain } from 'viem';
 import { baseSepolia, optimism, sepolia } from 'viem/chains';
-import { IdentityProvider, useIdentityContext } from './IdentityProvider';
 import { describe, expect, it } from 'vitest';
 import { WagmiProvider } from 'wagmi';
 import { http, createConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
-import { OnchainKitProvider } from '@/core-react/OnchainKitProvider';
+import { IdentityProvider, useIdentityContext } from './IdentityProvider';
 
 const queryClient = new QueryClient();
 const mockConfig = createConfig({

@@ -1,8 +1,8 @@
+import { getSocials } from '@/identity/utils/getSocials';
 import { renderHook } from '@testing-library/react';
 import { base, mainnet } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
-import { getSocials } from '@/identity/utils/getSocials';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 import { useSocials } from './useSocials';
 

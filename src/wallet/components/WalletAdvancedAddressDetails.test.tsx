@@ -1,6 +1,6 @@
+import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';

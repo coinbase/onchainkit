@@ -1,8 +1,8 @@
 'use client';
-import { IdentityProvider } from '@/identity/components/IdentityProvider';
-import type { IdentityReact } from '@/identity/types';
 import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { IdentityLayout } from '@/identity/components/IdentityLayout';
+import { IdentityProvider } from '@/identity/components/IdentityProvider';
+import type { IdentityReact } from '@/identity/types';
 
 export function Identity({
   address,

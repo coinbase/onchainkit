@@ -1,4 +1,9 @@
 import '@testing-library/jest-dom';
+import { Identity } from '@/identity';
+import {
+  IdentityProvider,
+  useIdentityContext,
+} from '@/identity/components/IdentityProvider';
 import {
   fireEvent,
   render,
@@ -8,11 +13,6 @@ import {
 } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-import {
-  IdentityProvider,
-  useIdentityContext,
-} from '@/identity/components/IdentityProvider';
-import { Identity } from '@/identity';
 import { WalletBottomSheet } from './WalletBottomSheet';
 import { useWalletContext } from './WalletProvider';
 

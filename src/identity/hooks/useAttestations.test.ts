@@ -1,10 +1,10 @@
+import { getAttestations } from '@/identity/utils/getAttestations';
 /**
  * @vitest-environment jsdom
  */
 import { renderHook, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { getAttestations } from '@/identity/utils/getAttestations';
 import { useAttestations } from './useAttestations';
 
 vi.mock('@/identity/utils/getAttestations', () => ({

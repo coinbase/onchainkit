@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { getAttestations } from '@/identity/utils/getAttestations';
 import type { Attestation, UseAttestations } from '@/identity/types';
+import { getAttestations } from '@/identity/utils/getAttestations';
+import { useEffect, useState } from 'react';
 
 /**
  * Fetches EAS Attestations for a given address, chain, and schemaId.
