@@ -3,10 +3,10 @@ import type {
   Basename,
   GetName,
   GetNameReturnType,
-} from '../../../core-react/identity/types';
-import { getChainPublicClient } from '../../network/getChainPublicClient';
-import { isBase } from '../../utils/isBase';
-import { isEthereum } from '../../utils/isEthereum';
+} from '../../core-react/identity/types';
+import { getChainPublicClient } from '../../core/network/getChainPublicClient';
+import { isBase } from '../../core/utils/isBase';
+import { isEthereum } from '../../core/utils/isEthereum';
 import L2ResolverAbi from '../abis/L2ResolverAbi';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';

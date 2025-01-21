@@ -4,10 +4,10 @@ import type {
   Basename,
   GetAvatar,
   GetAvatarReturnType,
-} from '../../../core-react/identity/types';
-import { getChainPublicClient } from '../../network/getChainPublicClient';
-import { isBase } from '../../utils/isBase';
-import { isEthereum } from '../../utils/isEthereum';
+} from '../../core-react/identity/types';
+import { getChainPublicClient } from '../../core/network/getChainPublicClient';
+import { isBase } from '../../core/utils/isBase';
+import { isEthereum } from '../../core/utils/isEthereum';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { getBaseDefaultProfilePicture } from './getBaseDefaultProfilePicture';
 import { isBasename } from './isBasename';

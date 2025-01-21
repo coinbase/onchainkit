@@ -1,7 +1,7 @@
 import { base, baseSepolia, mainnet, optimism } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { publicClient } from '../../../core/network/client';
-import { getChainPublicClient } from '../../../core/network/getChainPublicClient';
+import { publicClient } from '../../core/network/client';
+import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { getAvatar } from './getAvatar';
 

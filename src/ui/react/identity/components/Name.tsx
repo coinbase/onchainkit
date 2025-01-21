@@ -3,7 +3,7 @@ import { useName } from '@/core-react/identity/hooks/useName';
 import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
 import type { NameReact } from '@/core-react/identity/types';
 import { findComponent } from '@/core-react/internal/utils/findComponent';
-import { getSlicedAddress } from '@/core/identity/utils/getSlicedAddress';
+import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
 import { Children, useMemo } from 'react';
 import { cn, color, text } from '../../../../styles/theme';
 import { Badge } from './Badge';

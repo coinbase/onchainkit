@@ -3,9 +3,9 @@
  */
 import { base, opBNBTestnet } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { getAttestationsByFilter } from '../../../core/network/attestations';
+import { getAttestationsByFilter } from '../../core/network/attestations';
 
-import type { GetAttestationsOptions } from '../../../core-react/identity/types';
+import type { GetAttestationsOptions } from '../../core-react/identity/types';
 import { getAttestations } from './getAttestations';
 
 vi.mock('../../../core/network/attestations');

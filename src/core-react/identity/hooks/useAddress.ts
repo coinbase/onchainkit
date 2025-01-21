@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { mainnet } from 'viem/chains';
-import { getAddress } from '../../../core/identity/utils/getAddress';
+import { getAddress } from '../../../identity/utils/getAddress';
 import type {
   GetAddressReturnType,
   UseAddressOptions,

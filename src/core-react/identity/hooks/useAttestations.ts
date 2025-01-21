@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAttestations } from '../../../core/identity/utils/getAttestations';
+import { getAttestations } from '../../../identity/utils/getAttestations';
 import type { Attestation, UseAttestations } from '../types';
 
 /**

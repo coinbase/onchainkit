@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
-import { getSlicedAddress } from '../../../../core/identity/utils/getSlicedAddress';
+import { getSlicedAddress } from '../../../../identity/utils/getSlicedAddress';
 
 import { Address } from './Address';
 

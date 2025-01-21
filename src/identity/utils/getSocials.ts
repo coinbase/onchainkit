@@ -1,10 +1,10 @@
 import type { Chain } from 'viem';
 import { mainnet } from 'viem/chains';
 import { normalize } from 'viem/ens';
-import type { GetSocialsReturnType } from '../../../core-react/identity/types';
-import { getChainPublicClient } from '../../network/getChainPublicClient';
-import { isBase } from '../../utils/isBase';
-import { isEthereum } from '../../utils/isEthereum';
+import type { GetSocialsReturnType } from '../../core-react/identity/types';
+import { getChainPublicClient } from '../../core/network/getChainPublicClient';
+import { isBase } from '../../core/utils/isBase';
+import { isEthereum } from '../../core/utils/isEthereum';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 
 export type GetSocials = {

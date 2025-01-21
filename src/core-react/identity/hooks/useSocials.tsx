@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { Chain } from 'viem';
 import { mainnet } from 'viem/chains';
-import { getSocials } from '../../../core/identity/utils/getSocials';
+import { getSocials } from '../../../identity/utils/getSocials';
 import type { GetSocialsReturnType, UseQueryOptions } from '../types';
 
 type UseSocialsOptions = {

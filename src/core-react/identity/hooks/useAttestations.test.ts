@@ -4,7 +4,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { getAttestations } from '../../../core/identity/utils/getAttestations';
+import { getAttestations } from '../../../identity/utils/getAttestations';
 import { useAttestations } from './useAttestations';
 
 vi.mock('../../../core/identity/utils/getAttestations', () => ({

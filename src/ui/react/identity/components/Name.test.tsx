@@ -6,7 +6,7 @@ import { base, baseSepolia, optimism } from 'viem/chains';
 import { useAttestations } from '../../../../core-react/identity/hooks/useAttestations';
 import { useName } from '../../../../core-react/identity/hooks/useName';
 import { useIdentityContext } from '../../../../core-react/identity/providers/IdentityProvider';
-import { getSlicedAddress } from '../../../../core/identity/utils/getSlicedAddress';
+import { getSlicedAddress } from '../../../../identity/utils/getSlicedAddress';
 import { Badge } from './Badge';
 import { Name } from './Name';
 
