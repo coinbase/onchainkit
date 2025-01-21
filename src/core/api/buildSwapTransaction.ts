@@ -3,7 +3,6 @@ import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import { CDP_GET_SWAP_TRADE } from '../network/definitions/swap';
 import { sendRequest } from '../network/request';
 import type {
-  APIError,
   BuildSwapTransactionParams,
   BuildSwapTransactionResponse,
   SwapAPIParams,
@@ -27,10 +26,10 @@ export async function buildSwapTransaction(
     ...defaultParams,
     ...params,
   });
-  if ((apiParamsOrError as APIError).error) {
-    return apiParamsOrError as APIError;
+  if ('error' in apiParamsOrError) {
+    return apiParamsOrError;
   }
-  let apiParams = apiParamsOrError as SwapAPIParams;
+  let apiParams = apiParamsOrError;
 
   if (!params.useAggregator) {
     apiParams = {
