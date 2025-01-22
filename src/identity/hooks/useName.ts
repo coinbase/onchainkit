@@ -18,9 +18,8 @@ export const useName = (
   queryOptions?: UseQueryOptions,
 ) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
-  const ensActionKey = `ens-name-${address}-${chain.id}`;
   return useQuery<GetNameReturnType>({
-    queryKey: ['useName', ensActionKey],
+    queryKey: ['useName', address, chain.id],
     queryFn: async () => {
       return await getName({ address, chain });
     },
