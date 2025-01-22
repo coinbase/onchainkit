@@ -5,15 +5,18 @@ import {
 } from '@/earn/constants';
 import { encodeFunctionData, parseUnits } from 'viem';
 import { describe, expect, it } from 'vitest';
-import { buildDepositToMorphoTx } from './buildDepositToMorphoTx';
+import {
+  type DepositToMorphoArgs,
+  buildDepositToMorphoTx,
+} from './buildDepositToMorphoTx';
 
 describe('buildDepositToMorphoTx', () => {
-  const mockArgs = {
+  const mockArgs: DepositToMorphoArgs = {
     vaultAddress: '0xd63070114470f685b75B74D60EEc7c1113d33a3D',
     tokenAddress: USDC_ADDRESS,
     amount: parseUnits('1000', USDC_DECIMALS),
     receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
-  } as const;
+  };
 
   it('should return an array with two transactions', async () => {
     const result = buildDepositToMorphoTx(mockArgs);
@@ -90,4 +93,11 @@ describe('buildDepositToMorphoTx', () => {
       }),
     ).toBe(result[1].data);
   });
+});
+
+buildDepositToMorphoTx({
+  vaultAddress: '0x',
+  tokenAddress: '0x',
+  amount: 0n,
+  receiverAddress: '0x',
 });
