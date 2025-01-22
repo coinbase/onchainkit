@@ -1,10 +1,10 @@
 'use client';
 
-import { copyToClipboard } from '@/core/utils/copyToClipboard';
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { QrCodeSvg } from '@/internal/components/QrCode/QrCodeSvg';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
 import { copySvg } from '@/internal/svg/copySvg';
+import { zIndex } from '@/styles/constants';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
@@ -28,27 +28,36 @@ export function WalletAdvancedQrReceive() {
     }
   }, [isQrClosing, setShowQr, setIsQrClosing]);
 
-  const handleCopyAddress = useCallback(async () => {
-    const resetAffordanceText = () => {
-      setTimeout(() => {
-        setCopyText('Copy');
-        setCopyButtonText('Copy address');
-      }, 2000);
-    };
+  const resetAffordanceText = useCallback(() => {
+    setTimeout(() => {
+      setCopyText('Copy');
+      setCopyButtonText('Copy address');
+    }, 2000);
+  }, []);
 
-    await copyToClipboard({
-      copyValue: address ?? '',
-      onSuccess: () => {
+  const handleCopySuccess = useCallback(
+    (element: 'button' | 'icon') => {
+      if (element === 'button') {
+        setCopyButtonText('Address copied');
+      } else {
         setCopyText('Copied');
-        resetAffordanceText();
-      },
-      onError: (err: unknown) => {
-        console.error('Failed to copy address:', err);
+      }
+      resetAffordanceText();
+    },
+    [resetAffordanceText],
+  );
+
+  const handleCopyError = useCallback(
+    (element: 'button' | 'icon') => {
+      if (element === 'button') {
+        setCopyButtonText('Failed to copy address');
+      } else {
         setCopyText('Failed to copy');
-        resetAffordanceText();
-      },
-    });
-  }, [address]);
+      }
+      resetAffordanceText();
+    },
+    [resetAffordanceText],
+  );
 
   if (isSubComponentClosing) {
     return null;
@@ -75,34 +84,34 @@ export function WalletAdvancedQrReceive() {
         </PressableIcon>
         <span>Scan to receive</span>
         <div className="group relative">
-          <PressableIcon
-            ariaLabel="Copy your address"
-            onClick={handleCopyAddress}
-          >
-            <div
-              className="p-2"
-              data-testid="ockWalletAdvancedQrReceive_CopyIcon"
-            >
-              {copySvg}
-            </div>
-          </PressableIcon>
-          <button
-            type="button"
-            onClick={handleCopyAddress}
+          <CopyButton
+            label={copySvg}
+            copyValue={address ?? ''}
+            onSuccess={() => handleCopySuccess('icon')}
+            onError={() => handleCopyError('icon')}
+            className={cn(
+              pressable.default,
+              border.radiusInner,
+              border.default,
+              'flex items-center justify-center p-2',
+            )}
+          />
+          <CopyButton
+            label={copyText}
+            copyValue={address ?? ''}
+            onSuccess={() => handleCopySuccess('icon')}
+            onError={() => handleCopyError('icon')}
             className={cn(
               pressable.alternate,
               text.legal,
               color.foreground,
               border.default,
               border.radius,
-              'absolute top-full right-0 z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
+              zIndex.dropdown,
+              'absolute top-full right-0 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
             )}
-            aria-live="polite"
             aria-label="Copy your address"
-            data-testid="ockWalletAdvancedQrReceive_CopyTooltip"
-          >
-            {copyText}
-          </button>
+          />
         </div>
       </div>
       <QrCodeSvg value={address} />
@@ -110,8 +119,8 @@ export function WalletAdvancedQrReceive() {
         copyValue={address ?? ''}
         label={copyButtonText}
         className={cn(border.radius, pressable.alternate, 'w-full p-3')}
-        onSuccess={() => setCopyButtonText('Address copied')}
-        onError={() => setCopyButtonText('Failed to copy address')}
+        onSuccess={() => handleCopySuccess('button')}
+        onError={() => handleCopyError('button')}
       />
     </div>
   );

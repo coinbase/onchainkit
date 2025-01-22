@@ -1,7 +1,8 @@
 import { copyToClipboard } from '@/core/utils/copyToClipboard';
+import type { ReactNode } from 'react';
 
 type CopyButtonProps = {
-  label: string;
+  label: string | ReactNode;
   copyValue: string;
   onSuccess?: () => void;
   onError?: (error: unknown) => void;
@@ -22,7 +23,10 @@ export function CopyButton({
       type="button"
       data-testid="ockCopyButton"
       className={className}
-      onClick={() => copyToClipboard({ copyValue, onSuccess, onError })}
+      onClick={() => {
+        console.log('clicked copyButton');
+        copyToClipboard({ copyValue, onSuccess, onError });
+      }}
       aria-label={ariaLabel}
     >
       {label}
