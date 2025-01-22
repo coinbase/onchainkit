@@ -285,7 +285,7 @@ export type FundCardHeaderPropsReact = {
 export type FundCardPaymentMethodImagePropsReact = {
   className?: string;
   size?: number;
-  paymentMethod: PaymentMethodReact;
+  paymentMethod: PaymentMethod;
 };
 
 export type PaymentAccountReact =
@@ -297,7 +297,7 @@ export type PaymentAccountReact =
   | 'APPLE_PAY'
   | ''; // Empty string represents Coinbase default payment method
 
-export type PaymentMethodReact = {
+export type PaymentMethod = {
   id: PaymentAccountReact;
   name: string;
   description: string;
@@ -321,6 +321,7 @@ export type FundCardPropsReact = {
   country: string;
   subdivision?: string;
   className?: string;
+  presetAmountInputs?: PresetAmountInputs;
 } & LifecycleEvents;
 
 export type FundCardContentPropsReact = {
@@ -331,12 +332,12 @@ export type FundCardPaymentMethodSelectorTogglePropsReact = {
   className?: string;
   isOpen: boolean; // Determines carot icon direction
   onClick: () => void; // Button on click handler
-  paymentMethod: PaymentMethodReact;
+  paymentMethod: PaymentMethod;
 };
 
 export type FundCardPaymentMethodSelectRowPropsReact = {
-  paymentMethod: PaymentMethodReact;
-  onClick?: (paymentMethod: PaymentMethodReact) => void;
+  paymentMethod: PaymentMethod;
+  onClick?: (paymentMethod: PaymentMethod) => void;
   hideImage?: boolean;
   hideDescription?: boolean;
   disabled?: boolean;
@@ -347,12 +348,13 @@ export type FundCardPaymentMethodSelectRowPropsReact = {
 export type FundCardProviderReact = {
   children: ReactNode;
   asset: string;
-  paymentMethods?: PaymentMethodReact[];
+  paymentMethods?: PaymentMethod[];
   headerText?: string;
   buttonText?: string;
   country: string;
   subdivision?: string;
-  inputType?: 'fiat' | 'crypto';
+  inputType?: AmountInputType;
+  presetAmountInputs?: PresetAmountInputs;
 } & LifecycleEvents;
 
 export type LifecycleEvents = {
@@ -360,6 +362,8 @@ export type LifecycleEvents = {
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   onSuccess?: (result: SuccessEventData) => void;
 };
+
+export type AmountInputType = 'fiat' | 'crypto';
 
 export type LifecycleStatus =
   | {
@@ -382,3 +386,18 @@ export type LifecycleStatus =
       statusName: 'transactionPending';
       statusData: null;
     };
+
+export type PresetAmountInputItemPropsReact = {
+  presetAmountInput: string;
+  currency: string;
+  onClick: (presetAmountInput: string) => void;
+};
+
+/**
+ * To use this type, you must provide a tuple of strings with a length of 3.
+ *
+ * Example:
+ *
+ * const presetAmountInputs: PresetAmountInputs = ['100', '200', '300'];
+ */
+export type PresetAmountInputs = readonly [string, string, string];

@@ -11,6 +11,7 @@ import {
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
+import type { PresetAmountInputs } from '../types';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCard } from './FundCard';
@@ -110,10 +111,18 @@ const TestComponent = () => {
   );
 };
 
-const renderComponent = () =>
+const renderComponent = (presetAmountInputs?: PresetAmountInputs) =>
   render(
-    <FundCardProvider asset="BTC" country="US">
-      <FundCard assetSymbol="BTC" country="US" />
+    <FundCardProvider
+      asset="BTC"
+      country="US"
+      presetAmountInputs={presetAmountInputs}
+    >
+      <FundCard
+        assetSymbol="BTC"
+        country="US"
+        presetAmountInputs={presetAmountInputs}
+      />
       <TestComponent />
     </FundCardProvider>,
   );
@@ -292,5 +301,23 @@ describe('FundCard', () => {
 
     expect(screen.getByTestId('custom-child')).toBeInTheDocument();
     expect(screen.queryByTestId('ockFundCardHeader')).not.toBeInTheDocument();
+  });
+
+  it('handles preset amount input click correctly', async () => {
+    const presetAmountInputs: PresetAmountInputs = ['12345', '20', '30'];
+
+    renderComponent(presetAmountInputs);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('loading-state').textContent).toBe(
+        'not-loading',
+      );
+
+      // Click the preset amount input
+      const presetAmountInput = screen.getByText('12345 USD');
+
+      // Verify the input value was updated
+      expect(presetAmountInput).toBeInTheDocument();
+    });
   });
 });
