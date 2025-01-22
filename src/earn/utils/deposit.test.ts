@@ -7,21 +7,18 @@ describe('buildDepositToMorphoTx', () => {
   const mockArgs = {
     vaultAddress: '0xd63070114470f685b75B74D60EEc7c1113d33a3D',
     tokenAddress: USDC_ADDRESS,
-    amount: 1000,
+    amount: parseUnits('1000', USDC_DECIMALS),
     receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
   } as const;
 
   it('should return an array with two transactions', async () => {
-    const result = await buildDepositToMorphoTx(mockArgs);
+    const result = buildDepositToMorphoTx(mockArgs);
     expect(result).toHaveLength(2);
   });
 
   it('should build correct approve transaction', async () => {
-    const result = await buildDepositToMorphoTx(mockArgs);
-    const expectedAmount = parseUnits(
-      mockArgs.amount.toString(),
-      USDC_DECIMALS,
-    );
+    const result = buildDepositToMorphoTx(mockArgs);
+    const expectedAmount = mockArgs.amount;
 
     const expectedApproveData = encodeFunctionData({
       abi: [
@@ -47,11 +44,8 @@ describe('buildDepositToMorphoTx', () => {
   });
 
   it('should build correct deposit transaction', async () => {
-    const result = await buildDepositToMorphoTx(mockArgs);
-    const expectedAmount = parseUnits(
-      mockArgs.amount.toString(),
-      USDC_DECIMALS,
-    );
+    const result = buildDepositToMorphoTx(mockArgs);
+    const expectedAmount = mockArgs.amount;
 
     const expectedDepositData = encodeFunctionData({
       abi: METAMORPHO_ABI,
@@ -66,9 +60,9 @@ describe('buildDepositToMorphoTx', () => {
   });
 
   it('should handle zero amount', async () => {
-    const result = await buildDepositToMorphoTx({
+    const result = buildDepositToMorphoTx({
       ...mockArgs,
-      amount: 0,
+      amount: 0n,
     });
 
     expect(result).toHaveLength(2);
@@ -77,9 +71,9 @@ describe('buildDepositToMorphoTx', () => {
   });
 
   it('should handle decimal amounts', async () => {
-    const result = await buildDepositToMorphoTx({
+    const result = buildDepositToMorphoTx({
       ...mockArgs,
-      amount: 100.5,
+      amount: parseUnits('100.5', USDC_DECIMALS),
     });
 
     const expectedAmount = parseUnits('100.5', USDC_DECIMALS);

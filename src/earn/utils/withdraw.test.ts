@@ -6,7 +6,7 @@ import { encodeFunctionData, parseUnits } from 'viem';
 describe('buildWithdrawFromMorphoTx', () => {
   const mockArgs = {
     vaultAddress: '0xd63070114470f685b75B74D60EEc7c1113d33a3D',
-    amount: 1000,
+    amount: parseUnits('1000', USDC_DECIMALS),
     receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
   } as const;
 
@@ -17,10 +17,7 @@ describe('buildWithdrawFromMorphoTx', () => {
 
   it('should build correct withdraw transaction', async () => {
     const result = await buildWithdrawFromMorphoTx(mockArgs);
-    const expectedAmount = parseUnits(
-      mockArgs.amount.toString(),
-      USDC_DECIMALS,
-    );
+    const expectedAmount = mockArgs.amount;
 
     const expectedWithdrawData = encodeFunctionData({
       abi: METAMORPHO_ABI,
@@ -41,7 +38,7 @@ describe('buildWithdrawFromMorphoTx', () => {
   it('should handle zero amount', async () => {
     const result = await buildWithdrawFromMorphoTx({
       ...mockArgs,
-      amount: 0,
+      amount: 0n,
     });
 
     const expectedAmount = parseUnits('0', USDC_DECIMALS);
@@ -62,7 +59,7 @@ describe('buildWithdrawFromMorphoTx', () => {
   it('should handle decimal amounts', async () => {
     const result = await buildWithdrawFromMorphoTx({
       ...mockArgs,
-      amount: 100.5,
+      amount: parseUnits('100.5', USDC_DECIMALS),
     });
 
     const expectedAmount = parseUnits('100.5', USDC_DECIMALS);
