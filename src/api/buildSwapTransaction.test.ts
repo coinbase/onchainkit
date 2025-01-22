@@ -3,6 +3,7 @@ import { sendRequest } from '@/core/network/request';
 import { SwapMessage } from '@/swap/constants';
 import { UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE } from '@/swap/constants';
 import { DEGEN_TOKEN, ETH_TOKEN } from '@/swap/mocks';
+import type { Address } from 'viem';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildSwapTransaction } from './buildSwapTransaction';
 import type { BuildSwapTransaction } from './types';
@@ -11,7 +12,6 @@ import type { BuildSwapTransaction } from './types';
  */
 import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
 import { getSwapTransaction } from './utils/getSwapTransaction';
-import type { Address } from 'viem';
 
 vi.mock('@/core/network/request');
 
@@ -27,7 +27,7 @@ describe('buildSwapTransaction', () => {
   it('should return a swap', async () => {
     const mockParams = {
       useAggregator: true,
-      fromAddress: testFromAddress ,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,
