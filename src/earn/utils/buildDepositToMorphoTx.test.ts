@@ -94,10 +94,3 @@ describe('buildDepositToMorphoTx', () => {
     ).toBe(result[1].data);
   });
 });
-
-buildDepositToMorphoTx({
-  vaultAddress: '0x',
-  tokenAddress: '0x',
-  amount: 0n,
-  receiverAddress: '0x',
-});
