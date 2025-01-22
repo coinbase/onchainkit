@@ -11,10 +11,11 @@ import type { BuildSwapTransaction } from './types';
  */
 import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
 import { getSwapTransaction } from './utils/getSwapTransaction';
+import type { Address } from 'viem';
 
 vi.mock('@/core/network/request');
 
-const testFromAddress = '0x6Cd01c0F55ce9E0Bf78f5E90f72b4345b16d515d';
+const testFromAddress: Address = '0x6Cd01c0F55ce9E0Bf78f5E90f72b4345b16d515d';
 const testAmount = '3305894409732200';
 const testAmountReference = 'from' as const;
 
@@ -26,7 +27,7 @@ describe('buildSwapTransaction', () => {
   it('should return a swap', async () => {
     const mockParams = {
       useAggregator: true,
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress ,
       amountReference: testAmountReference,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,
@@ -122,7 +123,7 @@ describe('buildSwapTransaction', () => {
   it('should return a swap with useAggregator=false', async () => {
     const mockParams = {
       useAggregator: false,
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,
@@ -204,7 +205,7 @@ describe('buildSwapTransaction', () => {
   it('should return an error for an unsupported amount reference', async () => {
     const mockParams = {
       useAggregator: true,
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: 'to' as const,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,
@@ -222,7 +223,7 @@ describe('buildSwapTransaction', () => {
     const mockParams = {
       useAggregator: true,
       maxSlippage: '3',
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: DEGEN_TOKEN,
       to: ETH_TOKEN,
@@ -311,7 +312,7 @@ describe('buildSwapTransaction', () => {
   it('should return an error if sendRequest fails', async () => {
     const mockParams = {
       useAggregator: true,
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,
@@ -337,7 +338,7 @@ describe('buildSwapTransaction', () => {
   it('should return an error object from buildSwapTransaction', async () => {
     const mockParams = {
       useAggregator: true,
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,
@@ -368,7 +369,7 @@ describe('buildSwapTransaction', () => {
   it('should return an error object from buildSwapTransaction for invalid `amount` input', async () => {
     const mockParams = {
       useAggregator: true,
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,
@@ -387,7 +388,7 @@ describe('buildSwapTransaction', () => {
     const mockParams = {
       useAggregator: true,
       maxSlippage: '3',
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,

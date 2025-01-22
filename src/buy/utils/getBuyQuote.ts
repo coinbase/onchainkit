@@ -31,9 +31,9 @@ export async function getBuyQuote({
   let response: GetSwapQuoteResponse | undefined;
   // only fetch quote if the from and to tokens are different
   if (to?.symbol !== from?.symbol) {
-    // we are trying to swap from the token we are buying "to" the token we are selling
-    // instead of using amountRefence: 'to', we can use amountRefence: 'from'
-    // and then swap to and from to get the quote
+    // switching to and from here
+    // instead of getting a quote for how much of X do we need to sell to get the input token amount
+    // we can get a quote for how much of X we will recieve if we sell the input token amount
     response = await getSwapQuote({
       amount,
       amountReference: 'from',
