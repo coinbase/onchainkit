@@ -23,10 +23,7 @@ export function CopyButton({
       type="button"
       data-testid="ockCopyButton"
       className={className}
-      onClick={() => {
-        console.log('clicked copyButton');
-        copyToClipboard({ copyValue, onSuccess, onError });
-      }}
+      onClick={() => copyToClipboard({ copyValue, onSuccess, onError })}
       aria-label={ariaLabel}
     >
       {label}
