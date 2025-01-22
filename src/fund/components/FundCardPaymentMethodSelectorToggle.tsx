@@ -19,7 +19,6 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
         type="button"
         className={cn(
           pressable.default,
-          pressable.shadow,
           border.radius,
           border.lineDefault,
           'flex h-12 w-full items-center gap-2 px-3 py-1',

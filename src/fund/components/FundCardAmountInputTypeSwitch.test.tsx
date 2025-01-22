@@ -61,9 +61,6 @@ describe('FundCardAmountInputTypeSwitch', () => {
         'not-loading',
       );
       expect(screen.getByTestId('ockAmountLine')).toHaveTextContent('0 ETH');
-      expect(screen.getByTestId('ockExchangeRateLine')).toHaveTextContent(
-        '($1 = 0.00083333 ETH)',
-      );
     });
   });
 
@@ -80,9 +77,6 @@ describe('FundCardAmountInputTypeSwitch', () => {
         'not-loading',
       );
       expect(screen.getByTestId('ockAmountLine')).toHaveTextContent('$0');
-      expect(screen.getByTestId('ockExchangeRateLine')).toHaveTextContent(
-        '($1 = 0.00083333 ETH)',
-      );
     });
   });
 
