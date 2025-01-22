@@ -10,6 +10,16 @@ type GenericStatus<T> = {
   statusData: T;
 };
 
+export enum AnalyticsEvent {
+  CONNECT_WALLET = 'connect_wallet',
+}
+
+export type AnalyticsEventData = {
+  [AnalyticsEvent.CONNECT_WALLET]: {
+    address: string;
+  };
+};
+
 // biome-ignore lint/suspicious/noExplicitAny: generic status can be any type
 export type AbstractLifecycleStatus = ErrorStatus | GenericStatus<any>;
 
@@ -44,16 +54,16 @@ export type LifecycleStatusUpdate<T extends AbstractLifecycleStatus> =
     ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
         ? { statusData: D }
         : AllKeysInShared<D> extends true // is statusData is LifecycleStatusDataShared, make optional
-          ? {
-              statusData?: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            } // make all keys in LifecycleStatusDataShared optional
-          : {
-              statusData: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            })
+        ? {
+            statusData?: PartialKeys<
+              D,
+              keyof D & keyof LifecycleStatusDataShared
+            >;
+          } // make all keys in LifecycleStatusDataShared optional
+        : {
+            statusData: PartialKeys<
+              D,
+              keyof D & keyof LifecycleStatusDataShared
+            >;
+          })
     : never;
