@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
-import { getDefaultStartingPosition } from './getDefaultStartingPosition';
+import { getDefaultDraggableStartingPosition } from './getDefaultDraggableStartingPosition';
 
-describe('getDefaultStartingPosition', () => {
+describe('getDefaultDraggableStartingPosition', () => {
   it('returns default position when window is undefined', () => {
     vi.stubGlobal('window', undefined);
-    const position = getDefaultStartingPosition();
+    const position = getDefaultDraggableStartingPosition();
     expect(position).toEqual({ x: 100, y: 100 });
     vi.unstubAllGlobals();
   });
@@ -15,7 +15,7 @@ describe('getDefaultStartingPosition', () => {
       innerHeight: 768,
     });
 
-    const position = getDefaultStartingPosition();
+    const position = getDefaultDraggableStartingPosition();
     expect(position).toEqual({ x: 1024 * 0.95, y: 768 * 0.95 });
 
     vi.unstubAllGlobals();

@@ -1,18 +1,18 @@
 'use client';
 
 type CopyToClipboardParams = {
-  text: string;
+  copyValue: string;
   onSuccess?: () => void;
   onError?: (error: unknown) => void;
 };
 
 export async function copyToClipboard({
-  text,
+  copyValue,
   onSuccess,
   onError,
 }: CopyToClipboardParams) {
   try {
-    await navigator.clipboard.writeText(text);
+    await navigator.clipboard.writeText(copyValue);
     onSuccess?.();
   } catch (err) {
     onError?.(err);

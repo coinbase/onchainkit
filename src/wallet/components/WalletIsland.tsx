@@ -3,7 +3,7 @@
 import { Avatar } from '@/identity';
 import { portfolioSvg } from '@/internal/svg/portfolioSvg';
 import { useAccount } from 'wagmi';
-import { getDefaultStartingPosition } from '../../internal/components/Draggable/getDefaultStartingPosition';
+import { getDefaultDraggableStartingPosition } from '../utils/getDefaultDraggableStartingPosition';
 import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';
 import { Wallet } from './Wallet';
@@ -14,7 +14,7 @@ import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionAct
 import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
 
 export function WalletIsland({
-  startingPosition = getDefaultStartingPosition(),
+  startingPosition = getDefaultDraggableStartingPosition(),
 }: {
   startingPosition?: { x: number; y: number };
 }) {

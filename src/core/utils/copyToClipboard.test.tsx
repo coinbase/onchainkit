@@ -16,7 +16,7 @@ describe('copyToClipboard', () => {
     mockWriteText.mockResolvedValueOnce(undefined);
 
     await copyToClipboard({
-      text: 'test text',
+      copyValue: 'test text',
       onSuccess: mockSuccess,
     });
 
@@ -31,7 +31,7 @@ describe('copyToClipboard', () => {
     mockWriteText.mockRejectedValueOnce(testError);
 
     await copyToClipboard({
-      text: 'test text',
+      copyValue: 'test text',
       onError: mockError,
     });
 
@@ -43,7 +43,9 @@ describe('copyToClipboard', () => {
     const mockWriteText = navigator.clipboard.writeText as Mock;
     mockWriteText.mockResolvedValueOnce(undefined);
 
-    await expect(copyToClipboard({ text: 'test text' })).resolves.not.toThrow();
+    await expect(
+      copyToClipboard({ copyValue: 'test text' }),
+    ).resolves.not.toThrow();
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('test text');
   });
 });

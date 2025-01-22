@@ -3,7 +3,7 @@
 import { zIndex } from '@/styles/constants';
 import { cn } from '@/styles/theme';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useBoundedPosition } from './useBoundedPosition';
+import { getBoundedPosition } from './getBoundedPosition';
 
 type DraggableProps = {
   children: React.ReactNode;
@@ -55,10 +55,14 @@ export function Draggable({
     }
 
     const handleGlobalMove = (e: PointerEvent) => {
-      setPosition({
-        x: e.clientX - dragOffset.x,
-        y: e.clientY - dragOffset.y,
+      const newPosition = getBoundedPosition({
+        draggableRef,
+        position: {
+          x: e.clientX - dragOffset.x,
+          y: e.clientY - dragOffset.y,
+        },
       });
+      setPosition(newPosition);
     };
 
     const handleGlobalEnd = (e: PointerEvent) => {
@@ -99,8 +103,6 @@ export function Draggable({
     calculateSnapToGrid,
     dragStartPosition,
   ]);
-
-  useBoundedPosition(draggableRef, position, setPosition);
 
   return (
     <div
