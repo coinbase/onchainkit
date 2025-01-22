@@ -1,5 +1,7 @@
 import { CDP_GET_SWAP_TRADE } from '@/core/network/definitions/swap';
 import { sendRequest } from '@/core/network/request';
+import { SwapMessage } from '@/swap/constants';
+import { UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE } from '@/swap/constants';
 import { DEGEN_TOKEN, ETH_TOKEN } from '@/swap/mocks';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildSwapTransaction } from './buildSwapTransaction';
@@ -9,8 +11,6 @@ import type { BuildSwapTransaction } from './types';
  */
 import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
 import { getSwapTransaction } from './utils/getSwapTransaction';
-import { SwapMessage } from '@/swap/constants';
-import { UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE } from '@/swap/constants';
 
 vi.mock('@/core/network/request');
 

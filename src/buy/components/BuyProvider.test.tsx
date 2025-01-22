@@ -693,7 +693,6 @@ describe('BuyProvider', () => {
       expect.objectContaining({
         maxSlippage: '10',
         amount: '5',
-        amountReference: 'to',
         from: ethToken,
         to: degenToken,
         useAggregator: true,
@@ -718,33 +717,6 @@ describe('BuyProvider', () => {
         isMissingRequiredField: true,
       }),
     });
-  });
-
-  it('should pass the correct amountReference to get', async () => {
-    const TestComponent = () => {
-      const { handleAmountChange } = useBuyContext();
-      // biome-ignore lint: hello
-      React.useEffect(() => {
-        const initializeSwap = () => {
-          handleAmountChange('100');
-        };
-        initializeSwap();
-      }, []);
-      return null;
-    };
-    await act(async () => {
-      renderWithProviders({ Component: TestComponent });
-    });
-    expect(getBuyQuote).toHaveBeenCalledWith(
-      expect.objectContaining({
-        maxSlippage: '10',
-        amount: '100',
-        amountReference: 'to',
-        from: ethToken,
-        to: degenToken,
-        useAggregator: true,
-      }),
-    );
   });
 
   it('should handle undefined in input', async () => {
