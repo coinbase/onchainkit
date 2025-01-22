@@ -12,8 +12,8 @@ describe('getWalletDraggableProps', () => {
     expect(props).toEqual({
       draggable: true,
       draggableStartingPosition: {
-        x: 1024 * 0.95,
-        y: 768 * 0.95,
+        x: 1024 - 56 - 16,
+        y: 768 - 56 - 16,
       },
     });
   });

@@ -248,7 +248,7 @@ describe('WalletAdvancedQrReceive', () => {
     render(<WalletAdvancedQrReceive />);
 
     const copyButton = screen.getByTestId(
-      'ockWalletAdvancedQrReceive_CopyButton',
+      'ockCopyButton',
     );
 
     await act(async () => {
@@ -293,7 +293,7 @@ describe('WalletAdvancedQrReceive', () => {
 
     mockSetCopyButtonText.mockClear();
     const copyButton = screen.getByTestId(
-      'ockWalletAdvancedQrReceive_CopyButton',
+      'ockCopyButton',
     );
     await act(async () => {
       fireEvent.click(copyButton);

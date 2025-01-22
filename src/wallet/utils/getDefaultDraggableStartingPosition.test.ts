@@ -16,7 +16,7 @@ describe('getDefaultDraggableStartingPosition', () => {
     });
 
     const position = getDefaultDraggableStartingPosition();
-    expect(position).toEqual({ x: 1024 * 0.95, y: 768 * 0.95 });
+    expect(position).toEqual({ x: 1024 - 56 - 16, y: 768 - 56 - 16 });
 
     vi.unstubAllGlobals();
   });

@@ -9,7 +9,7 @@ import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
-import { CopyButton } from '@/internal/components/CoptyButton';
+import { CopyButton } from '@/internal/components/CopyButton';
 
 export function WalletAdvancedQrReceive() {
   const { address, isSubComponentClosing } = useWalletContext();

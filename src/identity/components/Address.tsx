@@ -43,7 +43,7 @@ export function Address({
   // Interactive version with copy functionality
   const handleClick = async () => {
     await copyToClipboard({
-      text: accountAddress,
+      copyValue: accountAddress,
       onSuccess: () => {
         setCopyText('Copied');
         setTimeout(() => setCopyText('Copy'), 2000);
