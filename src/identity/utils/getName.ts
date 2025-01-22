@@ -29,9 +29,10 @@ export const getName = async ({
   const client = getChainPublicClient(chain);
 
   if (chainIsBase) {
+    const baseClient = getChainPublicClient(chain);
     const addressReverseNode = convertReverseNodeToBytes(address, base.id);
     try {
-      const basename = await client.readContract({
+      const basename = await baseClient.readContract({
         abi: L2ResolverAbi,
         address: RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id],
         functionName: 'name',
