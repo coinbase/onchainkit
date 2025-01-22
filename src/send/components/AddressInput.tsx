@@ -1,6 +1,6 @@
 import { TextInput } from '@/internal/components/TextInput';
-import { useSendContext } from '@/send/components/SendProvider';
-import { border, cn, color } from '@/styles/theme';
+import { background, border, cn, color } from '@/styles/theme';
+import type { Dispatch, SetStateAction } from 'react';
 
 /***
   delayMs?: number;
@@ -10,9 +10,17 @@ import { border, cn, color } from '@/styles/theme';
 };
  */
 
-export function AddressInput() {
-  const { recipientInput, setRecipientInput } = useSendContext();
+type AddressInputProps = {
+  addressInput: string | null;
+  setAddressInput: Dispatch<SetStateAction<string | null>>;
+  className?: string;
+};
 
+export function AddressInput({
+  addressInput,
+  setAddressInput,
+  className,
+}: AddressInputProps) {
   return (
     <div
       className={cn(
@@ -21,6 +29,7 @@ export function AddressInput() {
         'w-full',
         'flex items-center gap-2',
         'px-4 py-3',
+        className,
       )}
     >
       <span className={cn(color.foregroundMuted)}>To</span>
@@ -28,9 +37,9 @@ export function AddressInput() {
         inputMode="text"
         placeholder="Basename, ENS, or Address"
         aria-label="Input Receiver Address"
-        value={recipientInput ?? ''}
-        onChange={setRecipientInput}
-        className="w-full outline-none"
+        value={addressInput ?? ''}
+        onChange={setAddressInput}
+        className={cn(background.default, 'w-full outline-none')}
       />
     </div>
   );
