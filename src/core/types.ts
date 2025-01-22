@@ -1,5 +1,5 @@
+import type { EASSchemaUid } from '@/identity/types';
 import type { Address, Chain } from 'viem';
-import type { EASSchemaUid } from '../core-react/identity/types';
 
 /**
  * Note: exported as public Type

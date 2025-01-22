@@ -10,15 +10,15 @@ vi.mock('wagmi', () => ({
   useConfig: vi.fn(),
 }));
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../core-react/identity/hooks/useAvatar', () => ({
+vi.mock('@/identity/hooks/useAvatar', () => ({
   useAvatar: () => ({ data: null, isLoading: false }),
 }));
 
-vi.mock('../../core-react/identity/hooks/useName', () => ({
+vi.mock('@/identity/hooks/useName', () => ({
   useName: () => ({ data: null, isLoading: false }),
 }));
 

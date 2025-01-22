@@ -1,5 +1,5 @@
+import type { EASChainDefinition } from '@/identity/types';
 import { optimism } from 'viem/chains';
-import type { EASChainDefinition } from '../../../core-react/identity/types';
 
 // More details in https://docs.optimism.io/chain/identity/schemas
 export const easChainOptimism: EASChainDefinition = {

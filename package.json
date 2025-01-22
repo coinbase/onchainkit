@@ -146,10 +146,10 @@
       "default": "./esm/fund/index.js"
     },
     "./identity": {
-      "types": "./esm/ui/react/identity/index.d.ts",
-      "module": "./esm/ui/react/identity/index.js",
-      "import": "./esm/ui/react/identity/index.js",
-      "default": "./esm/ui/react/identity/index.js"
+      "types": "./esm/identity/index.d.ts",
+      "module": "./esm/identity/index.js",
+      "import": "./esm/identity/index.js",
+      "default": "./esm/identity/index.js"
     },
     "./nft": {
       "types": "./esm/ui/react/nft/index.d.ts",
