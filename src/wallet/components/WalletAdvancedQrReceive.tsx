@@ -1,5 +1,6 @@
 'use client';
 
+import { CopyButton } from '@/internal/components/CopyButton';
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { QrCodeSvg } from '@/internal/components/QrCode/QrCodeSvg';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
@@ -9,7 +10,6 @@ import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
-import { CopyButton } from '@/internal/components/CopyButton';
 
 export function WalletAdvancedQrReceive() {
   const { address, isSubComponentClosing } = useWalletContext();
