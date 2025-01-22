@@ -1,4 +1,4 @@
-export const METAMORPHO_ABI = [
+export const MORPHO_VAULT_ABI = [
   {
     inputs: [
       { internalType: 'uint256', name: 'assets', type: 'uint256' },
