@@ -3,7 +3,7 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 import '@coinbase/onchainkit/styles.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
-import { createConfig, http, WagmiProvider } from 'wagmi';
+import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { useTheme } from '../contexts/Theme.tsx';
@@ -29,11 +29,8 @@ export default function App({ children }: { children: ReactNode }) {
   if (isServer) {
     return null;
   }
-  const viteCdpApiKey =
-    import.meta.env.VITE_CDP_API_KEY || 'VmvIBxCiyNgDQ78njUIAql86kEokLMQ1';
-  const viteProjectId =
-    import.meta.env.VITE_CDP_PROJECT_ID ||
-    '6eceb045-266a-4940-9d22-35952496ff00';
+  const viteCdpApiKey = import.meta.env.VITE_CDP_API_KEY || 'VmvIBxCiyNgDQ78njUIAql86kEokLMQ1';
+  const viteProjectId = import.meta.env.VITE_CDP_PROJECT_ID || '6eceb045-266a-4940-9d22-35952496ff00';
   const { theme } = useTheme();
 
   return (
