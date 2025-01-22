@@ -1,6 +1,6 @@
 import { METAMORPHO_ABI } from '@/earn/constants';
 import type { Call } from '@/transaction/types';
-import { encodeFunctionData, type Address, erc20Abi } from 'viem';
+import { type Address, encodeFunctionData, erc20Abi } from 'viem';
 
 type DepositToMorphoArgs = {
   vaultAddress: Address;

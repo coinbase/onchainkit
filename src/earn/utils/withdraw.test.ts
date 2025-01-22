@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import { buildWithdrawFromMorphoTx } from './withdraw';
 import { METAMORPHO_ABI, USDC_DECIMALS } from '@/earn/constants';
 import { encodeFunctionData, parseUnits } from 'viem';
+import { describe, expect, it } from 'vitest';
+import { buildWithdrawFromMorphoTx } from './withdraw';
 
 describe('buildWithdrawFromMorphoTx', () => {
   const mockArgs = {

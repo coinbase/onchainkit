@@ -1,5 +1,5 @@
 import { useValue } from '@/core-react/internal/hooks/useValue';
-import { createContext, useContext, type ReactNode } from 'react';
+import { type ReactNode, createContext, useContext } from 'react';
 import type { Address } from 'viem';
 
 interface EarnContextType {

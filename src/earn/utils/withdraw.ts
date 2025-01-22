@@ -1,6 +1,6 @@
 import { METAMORPHO_ABI } from '@/earn/constants';
 import type { Call } from '@/transaction/types';
-import { encodeFunctionData, type Address } from 'viem';
+import { type Address, encodeFunctionData } from 'viem';
 
 type WithdrawFromMorphoArgs = {
   vaultAddress: Address;

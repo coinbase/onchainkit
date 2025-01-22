@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import { buildDepositToMorphoTx } from './deposit';
 import { METAMORPHO_ABI, USDC_ADDRESS, USDC_DECIMALS } from '@/earn/constants';
 import { encodeFunctionData, parseUnits } from 'viem';
+import { describe, expect, it } from 'vitest';
+import { buildDepositToMorphoTx } from './deposit';
 
 describe('buildDepositToMorphoTx', () => {
   const mockArgs = {
