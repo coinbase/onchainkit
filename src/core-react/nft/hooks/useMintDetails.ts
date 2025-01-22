@@ -1,16 +1,17 @@
 import { getMintDetails } from '@/api/getMintDetails';
-import type { GetMintDetailsParams, MintDetails } from '@/api/types';
+import type { MintDetails } from '@/api/types';
 import { isNFTError } from '@/core/nft/utils/isNFTError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { UseMintDetailsParams } from '../types';
 
 export function useMintDetails({
   contractAddress,
   takerAddress,
   tokenId,
-}: GetMintDetailsParams): UseQueryResult<MintDetails> {
-  const actionKey = `useMintDetails-${contractAddress}-${takerAddress}-${tokenId}`;
+  queryOptions,
+}: UseMintDetailsParams<MintDetails>): UseQueryResult<MintDetails> {
   return useQuery({
-    queryKey: ['useMintDetails', actionKey],
+    queryKey: ['useMintDetails', contractAddress, takerAddress, tokenId],
     queryFn: async () => {
       const mintDetails = await getMintDetails({
         contractAddress,
@@ -26,5 +27,6 @@ export function useMintDetails({
     },
     retry: false,
     refetchOnWindowFocus: false,
+    ...queryOptions,
   });
 }
