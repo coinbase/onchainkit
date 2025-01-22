@@ -15,9 +15,8 @@ export const useAvatar = (
   queryOptions?: UseQueryOptions,
 ) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
-  const ensActionKey = `ens-avatar-${ensName}-${chain.id}`;
   return useQuery<GetAvatarReturnType>({
-    queryKey: ['useAvatar', ensActionKey],
+    queryKey: ['useAvatar', ensName, chain.id],
     queryFn: async () => {
       return getAvatar({ ensName, chain });
     },

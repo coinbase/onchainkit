@@ -12,9 +12,8 @@ export const useAddress = (
   queryOptions?: UseQueryOptions,
 ) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
-  const actionKey = `useAddress-${name}-${chain.id}`;
   return useQuery<GetAddressReturnType>({
-    queryKey: ['useAddress', actionKey],
+    queryKey: ['useAddress', name, chain.id],
     queryFn: async () => {
       return await getAddress({ name, chain });
     },
