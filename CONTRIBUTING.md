@@ -15,7 +15,7 @@ The following is a set of guidelines for contributing to Base Web. These are jus
 
 ## Code of Conduct
 
-This project and everyone participating in it are governed by our [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+This project and everyone participating in it is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
 
 ## How Can I Contribute?
 
