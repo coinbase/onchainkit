@@ -3,29 +3,43 @@ import { formatFiatAmount } from './formatFiatAmount';
 
 describe('formatFiatAmount', () => {
   it('uses USD as default currency', () => {
-    expect(formatFiatAmount({ amount: 100 })).toBe('$100.00');
+    expect(formatFiatAmount({ amount: 100, locale: 'en-US' })).toBe('$100.00');
   });
 
   it('formats whole numbers with default 2 decimal places', () => {
-    expect(formatFiatAmount({ amount: 100 })).toBe('$100.00');
-    expect(formatFiatAmount({ amount: '100' })).toBe('$100.00');
+    expect(formatFiatAmount({ amount: 100, locale: 'en-US' })).toBe('$100.00');
+    expect(formatFiatAmount({ amount: '100', locale: 'en-US' })).toBe(
+      '$100.00',
+    );
   });
 
   it('formats decimal numbers correctly', () => {
-    expect(formatFiatAmount({ amount: 100.5 })).toBe('$100.50');
-    expect(formatFiatAmount({ amount: '100.5' })).toBe('$100.50');
-    expect(formatFiatAmount({ amount: 100.55 })).toBe('$100.55');
+    expect(formatFiatAmount({ amount: 100.5, locale: 'en-US' })).toBe(
+      '$100.50',
+    );
+    expect(formatFiatAmount({ amount: '100.5', locale: 'en-US' })).toBe(
+      '$100.50',
+    );
+    expect(formatFiatAmount({ amount: 100.55, locale: 'en-US' })).toBe(
+      '$100.55',
+    );
   });
 
   it('handles zero correctly', () => {
-    expect(formatFiatAmount({ amount: 0 })).toBe('$0.00');
-    expect(formatFiatAmount({ amount: '0' })).toBe('$0.00');
+    expect(formatFiatAmount({ amount: 0, locale: 'en-US' })).toBe('$0.00');
+    expect(formatFiatAmount({ amount: '0', locale: 'en-US' })).toBe('$0.00');
   });
 
   it('formats different currencies correctly', () => {
-    expect(formatFiatAmount({ amount: 100, currency: 'EUR' })).toBe('€100.00');
-    expect(formatFiatAmount({ amount: 100, currency: 'GBP' })).toBe('£100.00');
-    expect(formatFiatAmount({ amount: 100, currency: 'JPY' })).toBe('¥100.00');
+    expect(
+      formatFiatAmount({ amount: 100, currency: 'EUR', locale: 'en-US' }),
+    ).toBe('€100.00');
+    expect(
+      formatFiatAmount({ amount: 100, currency: 'GBP', locale: 'en-US' }),
+    ).toBe('£100.00');
+    expect(
+      formatFiatAmount({ amount: 100, currency: 'JPY', locale: 'en-US' }),
+    ).toBe('¥100.00');
   });
 
   it('respects different locales', () => {
