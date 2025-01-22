@@ -30,6 +30,7 @@ export function BuyAmountInput() {
         )}
         placeholder="0.0"
         delayMs={1000}
+        inputMode="decimal"
         value={formatAmount(to.amount)}
         setValue={to.setAmount}
         disabled={to.loading}
