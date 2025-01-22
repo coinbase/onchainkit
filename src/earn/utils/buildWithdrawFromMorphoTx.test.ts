@@ -1,7 +1,7 @@
-import { METAMORPHO_ABI, USDC_DECIMALS } from '@/earn/constants';
+import { MORPHO_VAULT_ABI, USDC_DECIMALS } from '@/earn/constants';
 import { encodeFunctionData, parseUnits } from 'viem';
 import { describe, expect, it } from 'vitest';
-import { buildWithdrawFromMorphoTx } from './withdraw';
+import { buildWithdrawFromMorphoTx } from './buildWithdrawFromMorphoTx';
 
 describe('buildWithdrawFromMorphoTx', () => {
   const mockArgs = {
@@ -20,7 +20,7 @@ describe('buildWithdrawFromMorphoTx', () => {
     const expectedAmount = mockArgs.amount;
 
     const expectedWithdrawData = encodeFunctionData({
-      abi: METAMORPHO_ABI,
+      abi: MORPHO_VAULT_ABI,
       functionName: 'withdraw',
       args: [
         expectedAmount,
@@ -45,7 +45,7 @@ describe('buildWithdrawFromMorphoTx', () => {
     expect(result).toHaveLength(1);
     expect(
       encodeFunctionData({
-        abi: METAMORPHO_ABI,
+        abi: MORPHO_VAULT_ABI,
         functionName: 'withdraw',
         args: [
           expectedAmount,
@@ -66,7 +66,7 @@ describe('buildWithdrawFromMorphoTx', () => {
     expect(result).toHaveLength(1);
     expect(
       encodeFunctionData({
-        abi: METAMORPHO_ABI,
+        abi: MORPHO_VAULT_ABI,
         functionName: 'withdraw',
         args: [
           expectedAmount,

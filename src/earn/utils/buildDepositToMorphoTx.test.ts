@@ -1,7 +1,11 @@
-import { METAMORPHO_ABI, USDC_ADDRESS, USDC_DECIMALS } from '@/earn/constants';
+import {
+  MORPHO_VAULT_ABI,
+  USDC_ADDRESS,
+  USDC_DECIMALS,
+} from '@/earn/constants';
 import { encodeFunctionData, parseUnits } from 'viem';
 import { describe, expect, it } from 'vitest';
-import { buildDepositToMorphoTx } from './deposit';
+import { buildDepositToMorphoTx } from './buildDepositToMorphoTx';
 
 describe('buildDepositToMorphoTx', () => {
   const mockArgs = {
@@ -48,7 +52,7 @@ describe('buildDepositToMorphoTx', () => {
     const expectedAmount = mockArgs.amount;
 
     const expectedDepositData = encodeFunctionData({
-      abi: METAMORPHO_ABI,
+      abi: MORPHO_VAULT_ABI,
       functionName: 'deposit',
       args: [expectedAmount, mockArgs.receiverAddress],
     });
@@ -80,7 +84,7 @@ describe('buildDepositToMorphoTx', () => {
     expect(result).toHaveLength(2);
     expect(
       encodeFunctionData({
-        abi: METAMORPHO_ABI,
+        abi: MORPHO_VAULT_ABI,
         functionName: 'deposit',
         args: [expectedAmount, mockArgs.receiverAddress],
       }),

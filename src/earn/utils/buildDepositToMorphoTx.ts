@@ -1,11 +1,15 @@
-import { METAMORPHO_ABI } from '@/earn/constants';
+import { MORPHO_VAULT_ABI } from '@/earn/constants';
 import type { Call } from '@/transaction/types';
 import { type Address, encodeFunctionData, erc20Abi } from 'viem';
 
 type DepositToMorphoArgs = {
+  /** The address of the Morpho vault */
   vaultAddress: Address;
+  /** The address of the token to deposit */
   tokenAddress: Address;
+  /** The amount of tokens to deposit */
   amount: bigint;
+  /** The address which can withdraw the deposited tokens */
   receiverAddress: Address;
 };
 
@@ -24,7 +28,7 @@ export function buildDepositToMorphoTx({
 
   // Once approved, user can deposit the token into the vault
   const depositTxData = encodeFunctionData({
-    abi: METAMORPHO_ABI,
+    abi: MORPHO_VAULT_ABI,
     functionName: 'deposit',
     args: [amount, receiverAddress],
   });
