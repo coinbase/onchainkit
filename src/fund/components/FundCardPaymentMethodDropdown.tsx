@@ -1,4 +1,5 @@
 import { isApplePaySupported } from '@/buy/utils/isApplePaySupported';
+import { formatFiatAmount } from '@/core/utils/formatFiatAmount';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -22,6 +23,7 @@ export function FundCardPaymentMethodDropdown({
     paymentMethods,
     fundAmountFiat,
     isPaymentMethodsLoading,
+    currency,
   } = useFundContext();
 
   const filteredPaymentMethods = useMemo(() => {
@@ -51,14 +53,22 @@ export function FundCardPaymentMethodDropdown({
       const amount = Number(fundAmountFiat);
 
       if (method.minAmount && amount < method.minAmount) {
-        return `Minimum amount of $${method.minAmount} required`;
+        return `Minimum amount of ${formatFiatAmount({
+          amount: method.minAmount,
+          currency: currency,
+          minimumFractionDigits: 0,
+        })} required`;
       }
 
       if (method.maxAmount && amount > method.maxAmount) {
-        return `Maximum amount allowed is $${method.maxAmount}`;
+        return `Maximum amount allowed is ${formatFiatAmount({
+          amount: method.maxAmount,
+          currency: currency,
+          minimumFractionDigits: 0,
+        })}`;
       }
     },
-    [fundAmountFiat],
+    [fundAmountFiat, currency],
   );
 
   // If current selected method becomes disabled, switch to Coinbase

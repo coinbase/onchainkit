@@ -1,3 +1,4 @@
+import { formatFiatAmount } from '@/core/utils/formatFiatAmount';
 import { useCallback, useMemo } from 'react';
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
 import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
@@ -18,6 +19,7 @@ export const FundCardAmountInputTypeSwitch = ({
     fundAmountCrypto,
     exchangeRate,
     exchangeRateLoading,
+    currency,
   } = useFundContext();
 
   const iconSvg = useIcon({ icon: 'toggle' });
@@ -59,15 +61,19 @@ export const FundCardAmountInputTypeSwitch = ({
       <span data-testid="ockAmountLine" className={cn(text.label1)}>
         {selectedInputType === 'fiat'
           ? formatCrypto(fundAmountCrypto)
-          : formatUSD(fundAmountFiat)}
+          : formatFiatAmount({
+              amount: fundAmountFiat,
+              currency: currency,
+              minimumFractionDigits: 0,
+            })}
       </span>
     );
   }, [
     fundAmountCrypto,
     fundAmountFiat,
     selectedInputType,
-    formatUSD,
     formatCrypto,
+    currency,
   ]);
 
   if (exchangeRateLoading || !exchangeRate) {
