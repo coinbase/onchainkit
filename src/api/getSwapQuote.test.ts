@@ -7,11 +7,13 @@ import { DEGEN_TOKEN, ETH_TOKEN } from '../swap/mocks';
  */
 import { getSwapQuote } from './getSwapQuote';
 import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
+import { SwapMessage } from '@/swap/constants';
+import { UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE } from '@/swap/constants';
 
 vi.mock('@/core/network/request');
 
 const testAmount = '3305894409732200';
-const testAmountReference = 'from';
+const testAmountReference = 'from' as const;
 
 describe('getSwapQuote', () => {
   afterEach(() => {
@@ -89,6 +91,22 @@ describe('getSwapQuote', () => {
         ...mockApiParams,
       },
     ]);
+  });
+
+  it('should return an error for an unsupported amount reference', async () => {
+    const mockParams = {
+      useAggregator: true,
+      amountReference: 'to' as const,
+      from: ETH_TOKEN,
+      to: DEGEN_TOKEN,
+      amount: testAmount,
+    };
+    const error = await getSwapQuote(mockParams);
+    expect(error).toEqual({
+      code: UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE,
+      error: SwapMessage.UNSUPPORTED_AMOUNT_REFERENCE,
+      message: '',
+    });
   });
 
   it('should return an error if sendRequest fails', async () => {

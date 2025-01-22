@@ -9,12 +9,14 @@ import type { BuildSwapTransaction } from './types';
  */
 import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
 import { getSwapTransaction } from './utils/getSwapTransaction';
+import { SwapMessage } from '@/swap/constants';
+import { UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE } from '@/swap/constants';
 
 vi.mock('@/core/network/request');
 
 const testFromAddress = '0x6Cd01c0F55ce9E0Bf78f5E90f72b4345b16d515d';
 const testAmount = '3305894409732200';
-const testAmountReference = 'from';
+const testAmountReference = 'from' as const;
 
 describe('buildSwapTransaction', () => {
   beforeEach(() => {
@@ -197,6 +199,23 @@ describe('buildSwapTransaction', () => {
     expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
       mockApiParams,
     ]);
+  });
+
+  it('should return an error for an unsupported amount reference', async () => {
+    const mockParams = {
+      useAggregator: true,
+      fromAddress: testFromAddress as `0x${string}`,
+      amountReference: 'to' as const,
+      from: ETH_TOKEN,
+      to: DEGEN_TOKEN,
+      amount: testAmount,
+    };
+    const error = await buildSwapTransaction(mockParams);
+    expect(error).toEqual({
+      code: UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE,
+      error: SwapMessage.UNSUPPORTED_AMOUNT_REFERENCE,
+      message: '',
+    });
   });
 
   it('should return a swap with an approve transaction', async () => {
