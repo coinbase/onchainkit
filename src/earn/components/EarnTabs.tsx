@@ -31,7 +31,13 @@ export function EarnTabs({ className }: EarnTabsReact) {
   const { selectedTab, setSelectedTab } = useEarnContext();
 
   return (
-    <div className={cn('flex overflow-hidden', className)}>
+    <div
+      className={cn(
+        border.lineDefault,
+        'flex overflow-hidden !border-r-0 !border-l-0 !border-t-0',
+        className,
+      )}
+    >
       <EarnTab
         onTabClick={setSelectedTab}
         title="Deposit"

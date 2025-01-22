@@ -1,3 +1,4 @@
+import { cn, background } from '@/styles/theme';
 import { EarnWithdrawReact } from '../types';
 import { useEarnContext } from './EarnProvider';
 
@@ -8,5 +9,9 @@ export function EarnWithdraw({ children }: EarnWithdrawReact) {
     return null;
   }
 
-  return <div className="flex flex-col p-4 gap-4">{children}</div>;
+  return (
+    <div className={cn('flex flex-col p-4 gap-4', background.default)}>
+      {children}
+    </div>
+  );
 }

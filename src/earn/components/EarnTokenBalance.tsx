@@ -4,14 +4,18 @@ import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import { useCallback } from 'react';
 import { useAccount } from 'wagmi';
 import { EarnTokenBalanceParams } from '../types';
+import { useEarnContext } from './EarnProvider';
 
 export function EarnTokenBalance({ className }: EarnTokenBalanceParams) {
   const { address } = useAccount();
-  const data = useGetTokenBalance(address, usdcToken);
+  const { setDepositAmount } = useEarnContext();
+  const { convertedBalance } = useGetTokenBalance(address, usdcToken);
 
-  const handleUseMax = useCallback(() => {
-    // TODO: Implement use max
-  }, []);
+  const handleUseMaxPress = useCallback(() => {
+    if (convertedBalance) {
+      setDepositAmount(convertedBalance);
+    }
+  }, [convertedBalance, setDepositAmount]);
 
   return (
     <div
@@ -25,14 +29,19 @@ export function EarnTokenBalance({ className }: EarnTokenBalanceParams) {
       <div className={cn('flex flex-col', color.foreground)}>
         <div
           className={text.headline}
-        >{`${data.roundedBalance} ${usdcToken.symbol}`}</div>
+        >{`${convertedBalance} ${usdcToken.symbol}`}</div>
         <div className={cn(text.label2, color.foregroundMuted)}>
           Available to deposit
         </div>
       </div>
-      <div onClick={handleUseMax} className={cn(text.label2, color.primary)}>
-        Use max
-      </div>
+      {convertedBalance && (
+        <div
+          onClick={handleUseMaxPress}
+          className={cn(text.label2, color.primary)}
+        >
+          Use max
+        </div>
+      )}
     </div>
   );
 }
