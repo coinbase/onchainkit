@@ -2,7 +2,7 @@ import { useNFTContext } from '@/core-react/nft/providers/NFTProvider';
 import { useOnchainKit } from '@/core-react/useOnchainKit';
 import type { ReactNode } from 'react';
 
-import { Avatar, Badge, Identity, Name } from '@/ui-react/identity';
+import { Avatar, Badge, Identity, Name } from '@/identity';
 import { cn, color, text } from '../../../../styles/theme';
 
 type NFTOwnerReact = {

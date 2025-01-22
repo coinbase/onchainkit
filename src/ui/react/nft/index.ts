@@ -16,4 +16,12 @@ export type {
   NFTMintCardDefaultReact,
   UseNFTData,
 } from '@/core-react/nft/types';
-export type { NFTError } from '@/core/api/types';
+export type { NFTError } from '@/api/types';
+
+// Hooks
+export { useTokenDetails } from '@/core-react/nft/hooks/useTokenDetails';
+export { useMintDetails } from '@/core-react/nft/hooks/useMintDetails';
+export type {
+  UseTokenDetailsParams,
+  UseMintDetailsParams,
+} from '@/core-react/nft/types';

@@ -1,4 +1,4 @@
-import type { ContractType, NFTError } from '@/core/api/types';
+import type { ContractType, NFTError } from '@/api/types';
 import { convertIpfsToHttps } from '@/core/nft/utils/ipfs';
 import { useEffect, useState } from 'react';
 import { useNFTLifecycleContext } from '../providers/NFTLifecycleProvider';

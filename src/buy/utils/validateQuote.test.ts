@@ -1,5 +1,5 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { GetSwapQuoteResponse } from '../../core/api/types';
+import type { GetSwapQuoteResponse } from '../../api/types';
 import type { SwapUnit } from '../../swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
 import { validateQuote } from './validateQuote';

@@ -1,4 +1,4 @@
-import type { PayTransaction } from '@/core/api/types';
+import type { PayTransaction } from '@/api/types';
 import { erc20Abi } from 'viem';
 import { describe, expect, it } from 'vitest';
 import { COMMERCE_ABI, CONTRACT_METHODS } from '../constants';

@@ -1,4 +1,5 @@
 import { isApplePaySupported } from '@/buy/utils/isApplePaySupported';
+import { formatFiatAmount } from '@/core/utils/formatFiatAmount';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -21,7 +22,8 @@ export function FundCardPaymentMethodDropdown({
     setSelectedPaymentMethod,
     paymentMethods,
     fundAmountFiat,
-    paymentMethodsLoading,
+    isPaymentMethodsLoading,
+    currency,
   } = useFundContext();
 
   const filteredPaymentMethods = useMemo(() => {
@@ -36,12 +38,7 @@ export function FundCardPaymentMethodDropdown({
         return false;
       }
 
-      const amount = Number(fundAmountFiat);
-
-      return Boolean(
-        (method.minAmount && amount < method.minAmount) ||
-          (method.maxAmount && amount > method.maxAmount),
-      );
+      return Boolean(getPaymentMethodDisabledReason(method));
     },
     [fundAmountFiat],
   );
@@ -51,14 +48,24 @@ export function FundCardPaymentMethodDropdown({
       const amount = Number(fundAmountFiat);
 
       if (method.minAmount && amount < method.minAmount) {
-        return `Minimum amount of $${method.minAmount} required`;
+        return `Minimum amount of ${formatFiatAmount({
+          amount: method.minAmount,
+          currency: currency,
+          minimumFractionDigits: 0,
+        })} required`;
       }
 
       if (method.maxAmount && amount > method.maxAmount) {
-        return `Maximum amount allowed is $${method.maxAmount}`;
+        return `Maximum amount allowed is ${formatFiatAmount({
+          amount: method.maxAmount,
+          currency: currency,
+          minimumFractionDigits: 0,
+        })}`;
       }
+
+      return undefined;
     },
-    [fundAmountFiat],
+    [fundAmountFiat, currency],
   );
 
   // If current selected method becomes disabled, switch to Coinbase
@@ -112,6 +119,8 @@ export function FundCardPaymentMethodDropdown({
     [],
   );
 
+  const paymentMethod = selectedPaymentMethod || filteredPaymentMethods[0];
+
   return (
     <div
       className={cn('relative py-4', className)}
@@ -119,14 +128,14 @@ export function FundCardPaymentMethodDropdown({
       data-testid="ockFundCardPaymentMethodDropdownContainer"
       onKeyUp={handleEscKeyPress}
     >
-      {paymentMethodsLoading ? (
+      {isPaymentMethodsLoading || !paymentMethod ? (
         <Skeleton className="h-12 w-full" />
       ) : (
         <FundCardPaymentMethodSelectorToggle
           ref={buttonRef}
           onClick={handleToggle}
           isOpen={isOpen}
-          paymentMethod={selectedPaymentMethod || filteredPaymentMethods[0]}
+          paymentMethod={paymentMethod}
         />
       )}
       {isOpen && (
@@ -135,10 +144,11 @@ export function FundCardPaymentMethodDropdown({
           data-testid="ockFundCardPaymentMethodDropdown"
           className={cn(
             border.radius,
-            'ock-scrollbar absolute z-10 flex w-full flex-col overflow-y-hidden',
+            border.lineDefault,
+            'ock-scrollbar absolute z-10 mt-2 flex w-full flex-col overflow-y-hidden',
           )}
         >
-          <div className={cn(background.inverse, 'overflow-y-auto p-2')}>
+          <div className={cn(background.default, 'overflow-y-auto p-2')}>
             {filteredPaymentMethods.map((paymentMethod) => {
               const isDisabled = isPaymentMethodDisabled(paymentMethod);
               return (
@@ -148,11 +158,7 @@ export function FundCardPaymentMethodDropdown({
                   paymentMethod={paymentMethod}
                   onClick={handlePaymentMethodSelect}
                   disabled={isDisabled}
-                  disabledReason={
-                    isDisabled
-                      ? getPaymentMethodDisabledReason(paymentMethod)
-                      : undefined
-                  }
+                  disabledReason={getPaymentMethodDisabledReason(paymentMethod)}
                 />
               );
             })}

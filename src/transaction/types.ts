@@ -1,5 +1,5 @@
 // 🌲☀🌲
-import type { TransactionError } from '@/core/api/types';
+import type { TransactionError } from '@/api/types';
 import type { ReactNode } from 'react';
 import type {
   Address,

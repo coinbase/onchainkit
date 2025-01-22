@@ -17,7 +17,7 @@ export function FundCard({
   headerText,
   country = 'US',
   subdivision,
-  currency,
+  currency = 'USD',
   presetAmountInputs,
   children = <DefaultFundCardContent />,
   className,

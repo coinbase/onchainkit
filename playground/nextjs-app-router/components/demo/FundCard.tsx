@@ -5,11 +5,11 @@ export default function FundCardDemo() {
   const presetAmountInputs: PresetAmountInputs = ['10', '20', '100'];
 
   return (
-    <div className="mx-auto grid w-[500px] gap-8">
+    <div className="mx-auto min-w-[394px] max-w-[800px] gap-8">
       <FundCard
         assetSymbol="ETH"
         country="US"
-        currency="GBP"
+        currency="USD"
         presetAmountInputs={presetAmountInputs}
         onError={(error) => {
           console.log('FundCard onError', error);

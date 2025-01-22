@@ -1,10 +1,10 @@
 import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 
-import { buildPayTransaction } from '../../core/api';
+import { buildPayTransaction } from '@/api';
 import { handlePayRequest } from './handlePayRequest';
 
-vi.mock('../../core/api', () => ({
+vi.mock('@/api', () => ({
   buildPayTransaction: vi.fn(),
 }));
 

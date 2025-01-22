@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import type { NFTError } from '@/core/api/types';
+import type { NFTError } from '@/api/types';
 import { fireEvent, render } from '@testing-library/react';
 import type { TransactionReceipt } from 'viem';
 import { describe, expect, it, vi } from 'vitest';

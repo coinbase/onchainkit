@@ -1,10 +1,10 @@
-import { getNewReactQueryTestProvider } from '@/core-react/identity/hooks/getNewReactQueryTestProvider';
-import { getTokenDetails } from '@/core/api/getTokenDetails';
+import { getTokenDetails } from '@/api/getTokenDetails';
+import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { renderHook, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useTokenDetails } from './useTokenDetails';
 
-vi.mock('@/core/api/getTokenDetails');
+vi.mock('@/api/getTokenDetails');
 
 describe('useTokenDetails', () => {
   beforeEach(() => {

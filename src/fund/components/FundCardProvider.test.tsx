@@ -81,4 +81,24 @@ describe('FundCardProvider', () => {
       'useFundContext must be used within a FundCardProvider',
     );
   });
+
+  it('handles exchange rate fetch error', async () => {
+    const mockError = new Error('Failed to fetch exchange rate');
+    const mockOnError = vi.fn();
+    global.fetch = vi.fn(() => Promise.reject(mockError)) as Mock;
+
+    render(
+      <FundCardProvider asset="ETH" country="US" onError={mockOnError}>
+        <TestComponent />
+      </FundCardProvider>,
+    );
+
+    await waitFor(() => {
+      expect(mockOnError).toHaveBeenCalledWith({
+        errorType: 'handled_error',
+        code: 'EXCHANGE_RATE_ERROR',
+        debugMessage: 'Failed to fetch exchange rate',
+      });
+    });
+  });
 });

@@ -1,5 +1,12 @@
+import type {
+  ContractType,
+  GetMintDetailsParams,
+  GetTokenDetailsParams,
+  NFTError,
+  NFTPrice,
+} from '@/api/types';
 import type { LifecycleStatusUpdate } from '@/core-react/internal/types';
-import type { ContractType, NFTError, NFTPrice } from '@/core/api/types';
+import type { UseQueryOptions } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 import type { Address, Hex, TransactionReceipt } from 'viem';
 import type { Call } from '../../transaction/types';
@@ -106,6 +113,20 @@ export type BuildMintTransactionDataProps = {
   tokenId?: string; // Token ID of the NFT
   quantity: number; // Quantity of the NFT to mint
   network?: string; // Network of the NFT
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseTokenDetailsParams<T> = GetTokenDetailsParams & {
+  queryOptions?: Omit<UseQueryOptions<T>, 'queryKey' | 'queryFn'>;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseMintDetailsParams<T> = GetMintDetailsParams & {
+  queryOptions?: Omit<UseQueryOptions<T>, 'queryKey' | 'queryFn'>;
 };
 
 export type NFTReact = {

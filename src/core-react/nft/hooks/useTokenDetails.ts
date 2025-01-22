@@ -1,15 +1,16 @@
-import { getTokenDetails } from '@/core/api/getTokenDetails';
-import type { GetTokenDetailsParams, TokenDetails } from '@/core/api/types';
+import { getTokenDetails } from '@/api/getTokenDetails';
+import type { TokenDetails } from '@/api/types';
 import { isNFTError } from '@/core/nft/utils/isNFTError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
+import type { UseTokenDetailsParams } from '../types';
 
 export function useTokenDetails({
   contractAddress,
   tokenId,
-}: GetTokenDetailsParams): UseQueryResult<TokenDetails> {
-  const actionKey = `useTokenDetails-${contractAddress}-${tokenId}`;
+  queryOptions,
+}: UseTokenDetailsParams<TokenDetails>): UseQueryResult<TokenDetails> {
   return useQuery({
-    queryKey: ['useTokenDetails', actionKey],
+    queryKey: ['useTokenDetails', contractAddress, tokenId],
     queryFn: async () => {
       const tokenDetails = await getTokenDetails({
         contractAddress,
@@ -24,5 +25,6 @@ export function useTokenDetails({
     },
     retry: false,
     refetchOnWindowFocus: false,
+    ...queryOptions,
   });
 }

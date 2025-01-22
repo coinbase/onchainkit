@@ -1,10 +1,10 @@
-import { getNewReactQueryTestProvider } from '@/core-react/identity/hooks/getNewReactQueryTestProvider';
-import { getMintDetails } from '@/core/api/getMintDetails';
+import { getMintDetails } from '@/api/getMintDetails';
+import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { renderHook, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useMintDetails } from './useMintDetails';
 
-vi.mock('@/core/api/getMintDetails');
+vi.mock('@/api/getMintDetails');
 
 describe('useMintDetails', () => {
   beforeEach(() => {

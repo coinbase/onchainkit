@@ -1,8 +1,8 @@
+import { formatFiatAmount } from '@/core/utils/formatFiatAmount';
 import { useCallback, useMemo } from 'react';
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
-import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { Skeleton } from '../../internal/components/Skeleton';
-import { cn, color, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { FundCardAmountInputTypeSwitchPropsReact } from '../types';
 import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';
 import { useFundContext } from './FundCardProvider';
@@ -18,6 +18,7 @@ export const FundCardAmountInputTypeSwitch = ({
     fundAmountCrypto,
     exchangeRate,
     exchangeRateLoading,
+    currency,
   } = useFundContext();
 
   const iconSvg = useIcon({ icon: 'toggle' });
@@ -26,11 +27,6 @@ export const FundCardAmountInputTypeSwitch = ({
     setSelectedInputType(selectedInputType === 'fiat' ? 'crypto' : 'fiat');
   }, [selectedInputType, setSelectedInputType]);
 
-  const formatUSD = useCallback((amount: string) => {
-    const roundedAmount = Number(getRoundedAmount(amount || '0', 2));
-    return `$${roundedAmount}`;
-  }, []);
-
   const formatCrypto = useCallback(
     (amount: string) => {
       return `${truncateDecimalPlaces(amount || '0', 8)} ${asset}`;
@@ -38,36 +34,24 @@ export const FundCardAmountInputTypeSwitch = ({
     [asset],
   );
 
-  const exchangeRateLine = useMemo(() => {
-    return (
-      <span
-        data-testid="ockExchangeRateLine"
-        className={cn(
-          text.label2,
-          color.foregroundMuted,
-          'font-normal',
-          'pl-1',
-        )}
-      >
-        ({formatUSD('1')} = {exchangeRate?.toFixed(8)} {asset})
-      </span>
-    );
-  }, [formatUSD, exchangeRate, asset]);
-
   const amountLine = useMemo(() => {
     return (
       <span data-testid="ockAmountLine" className={cn(text.label1)}>
         {selectedInputType === 'fiat'
           ? formatCrypto(fundAmountCrypto)
-          : formatUSD(fundAmountFiat)}
+          : formatFiatAmount({
+              amount: fundAmountFiat,
+              currency: currency,
+              minimumFractionDigits: 0,
+            })}
       </span>
     );
   }, [
     fundAmountCrypto,
     fundAmountFiat,
     selectedInputType,
-    formatUSD,
     formatCrypto,
+    currency,
   ]);
 
   if (exchangeRateLoading || !exchangeRate) {
@@ -88,10 +72,7 @@ export const FundCardAmountInputTypeSwitch = ({
       >
         <div className="h-[1.125rem] w-[1.125rem]">{iconSvg}</div>
       </button>
-      <div className="w-full truncate">
-        {amountLine}
-        {exchangeRateLine}
-      </div>
+      <div className="w-full truncate">{amountLine}</div>
     </div>
   );
 };
