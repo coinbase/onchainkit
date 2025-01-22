@@ -165,7 +165,9 @@ describe('WalletAdvancedQrReceive', () => {
 
     render(<WalletAdvancedQrReceive />);
 
-    const copyIcon = screen.getByTestId('ockWalletAdvancedQrReceive_CopyIcon');
+    const copyIcon = screen.getByRole('button', {
+      name: 'Copy your address by clicking the icon',
+    });
 
     await act(async () => {
       fireEvent.click(copyIcon);
@@ -176,9 +178,9 @@ describe('WalletAdvancedQrReceive', () => {
     expect(mockClipboard.writeText).toHaveBeenCalledWith('0x1234567890');
     expect(mockSetCopyText).toHaveBeenCalledWith('Copied');
 
-    const tooltip = screen.getByTestId(
-      'ockWalletAdvancedQrReceive_CopyTooltip',
-    );
+    const tooltip = screen.getByRole('button', {
+      name: 'Copy your address by clicking the tooltip',
+    });
     expect(tooltip).toBeInTheDocument();
 
     vi.advanceTimersByTime(2000);
@@ -205,9 +207,9 @@ describe('WalletAdvancedQrReceive', () => {
 
     render(<WalletAdvancedQrReceive />);
 
-    const copyTooltip = screen.getByTestId(
-      'ockWalletAdvancedQrReceive_CopyTooltip',
-    );
+    const copyTooltip = screen.getByRole('button', {
+      name: 'Copy your address by clicking the tooltip',
+    });
 
     await act(async () => {
       fireEvent.click(copyTooltip);
@@ -218,9 +220,9 @@ describe('WalletAdvancedQrReceive', () => {
     expect(mockClipboard.writeText).toHaveBeenCalledWith('0x1234567890');
     expect(mockSetCopyText).toHaveBeenCalledWith('Copied');
 
-    const tooltip = screen.getByTestId(
-      'ockWalletAdvancedQrReceive_CopyTooltip',
-    );
+    const tooltip = screen.getByRole('button', {
+      name: 'Copy your address by clicking the tooltip',
+    });
     expect(tooltip).toBeInTheDocument();
 
     vi.advanceTimersByTime(2000);
@@ -247,9 +249,9 @@ describe('WalletAdvancedQrReceive', () => {
 
     render(<WalletAdvancedQrReceive />);
 
-    const copyButton = screen.getByTestId(
-      'ockCopyButton',
-    );
+    const copyButton = screen.getByRole('button', {
+      name: 'Copy your address by clicking the button',
+    });
 
     await act(async () => {
       fireEvent.click(copyButton);
@@ -280,7 +282,9 @@ describe('WalletAdvancedQrReceive', () => {
     render(<WalletAdvancedQrReceive />);
 
     mockSetCopyText.mockClear();
-    const copyIcon = screen.getByTestId('ockWalletAdvancedQrReceive_CopyIcon');
+    const copyIcon = screen.getByRole('button', {
+      name: 'Copy your address by clicking the icon',
+    });
     await act(async () => {
       fireEvent.click(copyIcon);
       await Promise.resolve();
@@ -292,9 +296,9 @@ describe('WalletAdvancedQrReceive', () => {
     vi.advanceTimersByTime(2000);
 
     mockSetCopyButtonText.mockClear();
-    const copyButton = screen.getByTestId(
-      'ockCopyButton',
-    );
+    const copyButton = screen.getByRole('button', {
+      name: 'Copy your address by clicking the button',
+    });
     await act(async () => {
       fireEvent.click(copyButton);
       await Promise.resolve();
@@ -315,7 +319,9 @@ describe('WalletAdvancedQrReceive', () => {
 
     render(<WalletAdvancedQrReceive />);
 
-    const copyIcon = screen.getByTestId('ockWalletAdvancedQrReceive_CopyIcon');
+    const copyIcon = screen.getByRole('button', {
+      name: 'Copy your address by clicking the icon',
+    });
     fireEvent.click(copyIcon);
 
     expect(mockClipboard.writeText).toHaveBeenCalledWith('');

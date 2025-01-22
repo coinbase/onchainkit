@@ -35,29 +35,25 @@ export function WalletAdvancedQrReceive() {
     }, 2000);
   }, []);
 
-  const handleCopySuccess = useCallback(
-    (element: 'button' | 'icon') => {
-      if (element === 'button') {
-        setCopyButtonText('Address copied');
-      } else {
-        setCopyText('Copied');
-      }
-      resetAffordanceText();
-    },
-    [resetAffordanceText],
-  );
+  const handleCopyButtonSuccess = useCallback(() => {
+    setCopyButtonText('Address copied');
+    resetAffordanceText();
+  }, [resetAffordanceText]);
 
-  const handleCopyError = useCallback(
-    (element: 'button' | 'icon') => {
-      if (element === 'button') {
-        setCopyButtonText('Failed to copy address');
-      } else {
-        setCopyText('Failed to copy');
-      }
-      resetAffordanceText();
-    },
-    [resetAffordanceText],
-  );
+  const handleCopyButtonError = useCallback(() => {
+    setCopyButtonText('Failed to copy address');
+    resetAffordanceText();
+  }, [resetAffordanceText]);
+
+  const handleCopyIconSuccess = useCallback(() => {
+    setCopyText('Copied');
+    resetAffordanceText();
+  }, [resetAffordanceText]);
+
+  const handleCopyIconError = useCallback(() => {
+    setCopyText('Failed to copy');
+    resetAffordanceText();
+  }, [resetAffordanceText]);
 
   if (isSubComponentClosing) {
     return null;
@@ -87,20 +83,21 @@ export function WalletAdvancedQrReceive() {
           <CopyButton
             label={copySvg}
             copyValue={address ?? ''}
-            onSuccess={() => handleCopySuccess('icon')}
-            onError={() => handleCopyError('icon')}
+            onSuccess={handleCopyIconSuccess}
+            onError={handleCopyIconError}
             className={cn(
               pressable.default,
               border.radiusInner,
               border.default,
               'flex items-center justify-center p-2',
             )}
+            aria-label="Copy your address by clicking the icon"
           />
           <CopyButton
             label={copyText}
             copyValue={address ?? ''}
-            onSuccess={() => handleCopySuccess('icon')}
-            onError={() => handleCopyError('icon')}
+            onSuccess={handleCopyIconSuccess}
+            onError={handleCopyIconError}
             className={cn(
               pressable.alternate,
               text.legal,
@@ -110,7 +107,7 @@ export function WalletAdvancedQrReceive() {
               zIndex.dropdown,
               'absolute top-full right-0 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
             )}
-            aria-label="Copy your address"
+            aria-label="Copy your address by clicking the tooltip"
           />
         </div>
       </div>
@@ -119,8 +116,9 @@ export function WalletAdvancedQrReceive() {
         copyValue={address ?? ''}
         label={copyButtonText}
         className={cn(border.radius, pressable.alternate, 'w-full p-3')}
-        onSuccess={() => handleCopySuccess('button')}
-        onError={() => handleCopyError('button')}
+        onSuccess={handleCopyButtonSuccess}
+        onError={handleCopyButtonError}
+        aria-label="Copy your address by clicking the button"
       />
     </div>
   );
