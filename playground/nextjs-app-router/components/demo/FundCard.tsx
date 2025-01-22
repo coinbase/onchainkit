@@ -9,7 +9,7 @@ export default function FundCardDemo() {
       <FundCard
         assetSymbol="ETH"
         country="US"
-        currency="GBP"
+        currency="USD"
         presetAmountInputs={presetAmountInputs}
         onError={(error) => {
           console.log('FundCard onError', error);

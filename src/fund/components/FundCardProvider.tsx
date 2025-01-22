@@ -95,21 +95,33 @@ export function FundCardProvider({
   const fetchExchangeRate = useCallback(async () => {
     setExchangeRateLoading(true);
 
-    const quote = await fetchOnrampQuote({
-      purchaseCurrency: asset,
-      paymentCurrency: currency,
-      paymentAmount: '100',
-      paymentMethod: 'CARD',
-      country,
-      subdivision,
-    });
+    try {
+      const quote = await fetchOnrampQuote({
+        purchaseCurrency: asset,
+        paymentCurrency: currency,
+        paymentAmount: '100',
+        paymentMethod: 'CARD',
+        country,
+        subdivision,
+      });
 
-    setExchangeRateLoading(false);
-
-    setExchangeRate(
-      Number(quote.purchaseAmount.value) / Number(quote.paymentSubtotal.value),
-    );
-  }, [asset, country, subdivision, currency]);
+      setExchangeRate(
+        Number(quote.purchaseAmount.value) /
+          Number(quote.paymentSubtotal.value),
+      );
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error('Error fetching exchange rate:', err);
+        onError?.({
+          errorType: 'handled_error',
+          code: 'EXCHANGE_RATE_ERROR',
+          debugMessage: err.message,
+        });
+      }
+    } finally {
+      setExchangeRateLoading(false);
+    }
+  }, [asset, country, subdivision, currency, onError]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
   useEffect(() => {
@@ -123,6 +135,7 @@ export function FundCardProvider({
     currency,
     setPaymentMethods,
     setIsPaymentMethodsLoading,
+    onError,
   });
 
   const value = useValue<FundCardContextType>({

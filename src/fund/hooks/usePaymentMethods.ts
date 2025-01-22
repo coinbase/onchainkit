@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import type { PaymentMethod } from '../types';
+import type { OnrampError, PaymentMethod } from '../types';
 import { buildPaymentMethods } from '../utils/buildPaymentMethods';
 import { fetchOnrampOptions } from '../utils/fetchOnrampOptions';
 
@@ -9,12 +9,14 @@ export const usePaymentMethods = ({
   currency,
   setPaymentMethods,
   setIsPaymentMethodsLoading,
+  onError,
 }: {
   country: string;
   subdivision?: string;
   currency: string;
   setPaymentMethods: (paymentMethods: PaymentMethod[]) => void;
   setIsPaymentMethodsLoading: (loading: boolean) => void;
+  onError?: (e: OnrampError | undefined) => void;
 }) => {
   const handleFetchPaymentMethods = useCallback(async () => {
     setIsPaymentMethodsLoading(true);
@@ -31,9 +33,28 @@ export const usePaymentMethods = ({
         country,
       );
 
+      if (paymentMethods.length === 0) {
+        console.error(
+          'No payment methods found for the selected country and currency. See docs for more information: https://docs.cdp.coinbase.com/onramp/docs/api-configurations',
+        );
+        onError?.({
+          errorType: 'handled_error',
+          code: 'NO_PAYMENT_METHODS',
+          debugMessage:
+            'No payment methods found for the selected country and currency. See docs for more information: https://docs.cdp.coinbase.com/onramp/docs/api-configurations',
+        });
+      }
+
       setPaymentMethods(paymentMethods);
     } catch (error) {
-      console.error('Error fetching payment options:', error);
+      if (error instanceof Error) {
+        console.error('Error fetching payment options:', error);
+        onError?.({
+          errorType: 'handled_error',
+          code: 'PAYMENT_METHODS_ERROR',
+          debugMessage: error.message,
+        });
+      }
     } finally {
       setIsPaymentMethodsLoading(false);
     }
@@ -43,6 +64,7 @@ export const usePaymentMethods = ({
     currency,
     setPaymentMethods,
     setIsPaymentMethodsLoading,
+    onError,
   ]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: initial effect

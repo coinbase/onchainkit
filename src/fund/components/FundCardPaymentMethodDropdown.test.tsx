@@ -426,4 +426,14 @@ describe('FundCardPaymentMethodDropdown', () => {
       screen.getByTestId('ockFundCardPaymentMethodSelectRow__APPLE_PAY'),
     ).toBeInTheDocument();
   });
+
+  it('shows loading state when there are no payment methods', async () => {
+    (fetchOnrampOptions as Mock).mockResolvedValue({
+      paymentCurrencies: [],
+      purchaseCurrencies: [],
+    });
+    renderWithProvider({ amount: '5' });
+
+    expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
+  });
 });

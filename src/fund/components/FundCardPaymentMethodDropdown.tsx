@@ -119,6 +119,8 @@ export function FundCardPaymentMethodDropdown({
     [],
   );
 
+  const paymentMethod = selectedPaymentMethod || filteredPaymentMethods[0];
+
   return (
     <div
       className={cn('relative py-4', className)}
@@ -126,14 +128,14 @@ export function FundCardPaymentMethodDropdown({
       data-testid="ockFundCardPaymentMethodDropdownContainer"
       onKeyUp={handleEscKeyPress}
     >
-      {isPaymentMethodsLoading ? (
+      {isPaymentMethodsLoading || !paymentMethod ? (
         <Skeleton className="h-12 w-full" />
       ) : (
         <FundCardPaymentMethodSelectorToggle
           ref={buttonRef}
           onClick={handleToggle}
           isOpen={isOpen}
-          paymentMethod={selectedPaymentMethod || filteredPaymentMethods[0]}
+          paymentMethod={paymentMethod}
         />
       )}
       {isOpen && (
