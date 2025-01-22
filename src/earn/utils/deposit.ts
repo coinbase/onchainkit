@@ -9,12 +9,12 @@ type DepositToMorphoArgs = {
   receiverAddress: Address;
 };
 
-export async function buildDepositToMorphoTx({
+export function buildDepositToMorphoTx({
   vaultAddress,
   tokenAddress,
   amount,
   receiverAddress,
-}: DepositToMorphoArgs): Promise<Call[]> {
+}: DepositToMorphoArgs): Call[] {
   // Convert amount to BigInt, adjusted for token decimals
   // May want to make this more generic in the future (fetch token decimals from chain or allow user to pass it in)
   const amountInBigInt = parseUnits(amount.toString(), USDC_DECIMALS);
