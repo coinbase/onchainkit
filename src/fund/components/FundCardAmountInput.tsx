@@ -54,10 +54,17 @@ export const FundCardAmountInput = ({
     updateInputWidth();
   }, [value, updateInputWidth]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: We only want to focus the input when the input type changes
+  const selectedInputTypeRef = useRef(selectedInputType);
+
   useEffect(() => {
-    // focus the input when the input type changes
-    handleFocusInput();
+    /**
+     * We need to focus the input when the input type changes
+     * but not on the initial render.
+     */
+    if (selectedInputTypeRef.current !== selectedInputType) {
+      selectedInputTypeRef.current = selectedInputType;
+      handleFocusInput();
+    }
   }, [selectedInputType]);
 
   const handleFocusInput = () => {
