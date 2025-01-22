@@ -33,27 +33,26 @@ const fromToken: Token = {
 const mockResponse = {
   from: fromToken,
   to: toToken,
-  fromAmount: '100000000000000000',
-  toAmount: '16732157880511600003860',
+  fromAmount: '16732157880511600003860',
+  toAmount: '100000000000000000',
   amountReference: 'from',
   priceImpact: '0.07',
   chainId: 8453,
   hasHighPriceImpact: false,
   slippage: '3',
-  fromAmountUSD: '100',
+  toAmountUSD: '100',
 };
 
 const mockEmptyResponse = {
   from: fromToken,
   to: toToken,
-  fromAmount: '',
-  toAmount: '16732157880511600003860',
-  amountReference: 'from',
+  toAmount: '',
+  fromAmount: '16732157880511600003860',
   priceImpact: '0.07',
   chainId: 8453,
   hasHighPriceImpact: false,
   slippage: '3',
-  fromAmountUSD: '',
+  toAmountUSD: '',
 };
 
 const mockFromSwapUnit = {
@@ -74,7 +73,6 @@ describe('getBuyQuote', () => {
   it('should return default values if `from` token is not provided', async () => {
     const result = await getBuyQuote({
       amount: '1',
-      amountReference: 'exactIn',
       maxSlippage: '0.5',
       to: toToken,
       useAggregator: true,
@@ -95,7 +93,6 @@ describe('getBuyQuote', () => {
 
     const result = await getBuyQuote({
       amount: '1',
-      amountReference: 'exactIn',
       from: fromToken,
       maxSlippage: '0.5',
       to: toToken,
@@ -105,10 +102,10 @@ describe('getBuyQuote', () => {
 
     expect(getSwapQuote).toHaveBeenCalledWith({
       amount: '1',
-      amountReference: 'exactIn',
-      from: fromToken,
+      amountReference: 'from',
+      from: toToken,
       maxSlippage: '0.5',
-      to: toToken,
+      to: fromToken,
       useAggregator: true,
     });
 
@@ -130,7 +127,6 @@ describe('getBuyQuote', () => {
 
     const result = await getBuyQuote({
       amount: '1',
-      amountReference: 'exactIn',
       from: fromToken,
       maxSlippage: '0.5',
       to: toToken,
@@ -140,10 +136,10 @@ describe('getBuyQuote', () => {
 
     expect(getSwapQuote).toHaveBeenCalledWith({
       amount: '1',
-      amountReference: 'exactIn',
-      from: fromToken,
+      amountReference: 'from',
+      from: toToken,
       maxSlippage: '0.5',
-      to: toToken,
+      to: fromToken,
       useAggregator: true,
     });
 
@@ -170,7 +166,6 @@ describe('getBuyQuote', () => {
 
     const result = await getBuyQuote({
       amount: '1',
-      amountReference: 'exactIn',
       from: fromToken,
       maxSlippage: '0.5',
       to: toToken,
@@ -189,7 +184,7 @@ describe('getBuyQuote', () => {
   it('should not call `getSwapQuote` if `from` and `to` tokens are the same', async () => {
     const result = await getBuyQuote({
       amount: '1',
-      amountReference: 'exactIn',
+      amountReference: 'from' as const,
       from: fromToken,
       maxSlippage: '0.5',
       to: fromToken,
