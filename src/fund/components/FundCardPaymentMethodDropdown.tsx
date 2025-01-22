@@ -38,12 +38,7 @@ export function FundCardPaymentMethodDropdown({
         return false;
       }
 
-      const amount = Number(fundAmountFiat);
-
-      return Boolean(
-        (method.minAmount && amount < method.minAmount) ||
-          (method.maxAmount && amount > method.maxAmount),
-      );
+      return Boolean(getPaymentMethodDisabledReason(method));
     },
     [fundAmountFiat],
   );
@@ -67,6 +62,8 @@ export function FundCardPaymentMethodDropdown({
           minimumFractionDigits: 0,
         })}`;
       }
+
+      return undefined;
     },
     [fundAmountFiat, currency],
   );
@@ -159,11 +156,7 @@ export function FundCardPaymentMethodDropdown({
                   paymentMethod={paymentMethod}
                   onClick={handlePaymentMethodSelect}
                   disabled={isDisabled}
-                  disabledReason={
-                    isDisabled
-                      ? getPaymentMethodDisabledReason(paymentMethod)
-                      : undefined
-                  }
+                  disabledReason={getPaymentMethodDisabledReason(paymentMethod)}
                 />
               );
             })}
