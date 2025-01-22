@@ -8,11 +8,11 @@ import {
 } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
+import { Identity } from '../../identity';
 import {
   IdentityProvider,
   useIdentityContext,
-} from '../../core-react/identity/providers/IdentityProvider';
-import { Identity } from '../../ui/react/identity';
+} from '../../identity/components/IdentityProvider';
 import { useBreakpoints } from '../../ui/react/internal/hooks/useBreakpoints';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
@@ -35,7 +35,7 @@ vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 
-vi.mock('../../ui/react/identity/components/Identity', () => ({
+vi.mock('@/identity/components/Identity', () => ({
   Identity: vi.fn(({ address, children }) => (
     <IdentityProvider address={address}>{children}</IdentityProvider>
   )),

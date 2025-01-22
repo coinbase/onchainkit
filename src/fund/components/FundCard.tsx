@@ -8,6 +8,7 @@ import FundCardAmountInput from './FundCardAmountInput';
 import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
 import { FundCardHeader } from './FundCardHeader';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
+import { FundCardPresetAmountInputList } from './FundCardPresetAmountInputList';
 import { FundCardProvider } from './FundCardProvider';
 import { FundCardSubmitButton } from './FundCardSubmitButton';
 
@@ -17,6 +18,7 @@ export function FundCard({
   headerText,
   country = 'US',
   subdivision,
+  presetAmountInputs,
   children = <DefaultFundCardContent />,
   className,
   onError,
@@ -36,6 +38,7 @@ export function FundCard({
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}
+      presetAmountInputs={presetAmountInputs}
     >
       <div
         className={cn(
@@ -71,6 +74,7 @@ function DefaultFundCardContent() {
       <FundCardHeader />
       <FundCardAmountInput />
       <FundCardAmountInputTypeSwitch />
+      <FundCardPresetAmountInputList />
       <FundCardPaymentMethodDropdown />
       <FundCardSubmitButton />
     </>

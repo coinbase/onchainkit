@@ -1,10 +1,10 @@
 'use client';
 
+import { useName } from '@/identity/hooks/useName';
+import { Spinner } from '@/internal/components/Spinner';
+import { basenameSvg } from '@/internal/svg/basenameSvg';
 import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
-import { useName } from '../../core-react/identity/hooks/useName';
-import { Spinner } from '../../internal/components/Spinner';
-import { basenameSvg } from '../../internal/svg/basenameSvg';
 import { cn, color, pressable, text } from '../../styles/theme';
 import type { WalletDropdownBasenameReact } from '../types';
 

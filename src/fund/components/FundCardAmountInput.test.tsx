@@ -223,6 +223,7 @@ describe('FundCardAmountInput', () => {
       expect(valueFiat.textContent).toBe('0');
     });
   });
+
   it('handles non zero values in fiat mode', async () => {
     act(() => {
       render(
