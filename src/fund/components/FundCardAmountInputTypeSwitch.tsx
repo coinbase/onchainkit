@@ -1,7 +1,6 @@
 import { formatFiatAmount } from '@/core/utils/formatFiatAmount';
 import { useCallback, useMemo } from 'react';
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
-import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
 import { Skeleton } from '../../internal/components/Skeleton';
 import { cn, pressable, text } from '../../styles/theme';
 import type { FundCardAmountInputTypeSwitchPropsReact } from '../types';
@@ -27,11 +26,6 @@ export const FundCardAmountInputTypeSwitch = ({
   const handleToggle = useCallback(() => {
     setSelectedInputType(selectedInputType === 'fiat' ? 'crypto' : 'fiat');
   }, [selectedInputType, setSelectedInputType]);
-
-  const formatUSD = useCallback((amount: string) => {
-    const roundedAmount = Number(getRoundedAmount(amount || '0', 2));
-    return `$${roundedAmount}`;
-  }, []);
 
   const formatCrypto = useCallback(
     (amount: string) => {
