@@ -116,10 +116,10 @@
       "default": "./esm/index.js"
     },
     "./api": {
-      "types": "./esm/core/api/index.d.ts",
-      "module": "./esm/core/api/index.js",
-      "import": "./esm/core/api/index.js",
-      "default": "./esm/core/api/index.js"
+      "types": "./esm/api/index.d.ts",
+      "module": "./esm/api/index.js",
+      "import": "./esm/api/index.js",
+      "default": "./esm/api/index.js"
     },
     "./buy": {
       "types": "./esm/buy/index.d.ts",
