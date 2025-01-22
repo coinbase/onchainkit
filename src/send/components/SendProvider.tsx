@@ -31,7 +31,6 @@ type SendProviderReact = {
   address?: Address;
   chain?: Chain;
   tokenBalances?: PortfolioTokenWithFiatValue[];
-  ethBalance?: number;
 };
 
 const emptyContext = {} as SendContextType;
