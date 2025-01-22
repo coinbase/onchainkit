@@ -10,6 +10,7 @@ export function FundCardSubmitButton() {
     submitButtonState,
     setSubmitButtonState,
     buttonText,
+    currency,
     updateLifecycleStatus,
   } = useFundContext();
 
@@ -42,6 +43,7 @@ export function FundCardSubmitButton() {
       state={submitButtonState}
       onClick={handleOnClick}
       onPopupClose={handleOnPopupClose}
+      fiatCurrency={currency}
     />
   );
 }

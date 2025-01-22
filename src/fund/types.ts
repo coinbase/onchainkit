@@ -94,7 +94,7 @@ type GetOnrampBuyUrlOptionalProps = {
   /**
    * The default payment method that will be selected for the user in the Onramp UI. Should be one of the payment methods
    */
-  defaultPaymentMethod?: PaymentAccountReact;
+  defaultPaymentMethod?: string;
   /**
    * The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR.
    */
@@ -127,6 +127,7 @@ export type FundButtonReact = {
   popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
   rel?: string; // Specifies the relationship between the current document and the linked document
   target?: string; // Where to open the target if `openIn` is set to tab
+  fiatCurrency?: string; // The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR.
   onPopupClose?: () => void; // A callback function that will be called when the popup window is closed
   onClick?: () => void; // A callback function that will be called when the button is clicked
 };
@@ -257,6 +258,18 @@ type OnrampNetwork = {
   contractAddress: string;
 };
 
+export type OnrampOptionsResponseData = {
+  /**
+   * List of supported fiat currencies that can be exchanged for crypto on Onramp in the given location.
+   * Each currency contains a list of available payment methods, with min and max transaction limits for that currency.
+   */
+  paymentCurrencies: OnrampPaymentCurrency[];
+  /**
+   * List of available crypto assets that can be bought on Onramp in the given location.
+   */
+  purchaseCurrencies: OnrampPurchaseCurrency[];
+};
+
 export type OnrampPurchaseCurrency = {
   id: string;
   name: string;
@@ -267,7 +280,7 @@ export type OnrampPurchaseCurrency = {
 
 export type OnrampPaymentCurrency = {
   id: string;
-  paymentMethodLimits: OnrampPaymentMethodLimit[];
+  limits: OnrampPaymentMethodLimit[];
 };
 
 export type FundCardAmountInputPropsReact = {
@@ -288,20 +301,13 @@ export type FundCardPaymentMethodImagePropsReact = {
   paymentMethod: PaymentMethod;
 };
 
-export type PaymentAccountReact =
-  | 'COINBASE'
-  | 'CRYPTO_ACCOUNT'
-  | 'FIAT_WALLET'
-  | 'CARD'
-  | 'ACH_BANK_ACCOUNT'
-  | 'APPLE_PAY'
-  | ''; // Empty string represents Coinbase default payment method
-
 export type PaymentMethod = {
-  id: PaymentAccountReact;
+  id: string;
   name: string;
   description: string;
   icon: string;
+  minAmount?: number;
+  maxAmount?: number;
 };
 
 export type FundCardPaymentMethodDropdownPropsReact = {
@@ -320,6 +326,7 @@ export type FundCardPropsReact = {
   buttonText?: string;
   country: string;
   subdivision?: string;
+  currency?: string;
   className?: string;
   presetAmountInputs?: PresetAmountInputs;
 } & LifecycleEvents;
@@ -348,6 +355,10 @@ export type FundCardPaymentMethodSelectRowPropsReact = {
 export type FundCardProviderReact = {
   children: ReactNode;
   asset: string;
+  /**
+   * Three letter currency code. Defaults to USD.
+   */
+  currency?: string;
   paymentMethods?: PaymentMethod[];
   headerText?: string;
   buttonText?: string;

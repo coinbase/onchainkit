@@ -10,7 +10,7 @@ import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
  * user to keys.coinbase.com, otherwise it will send them to pay.coinbase.com.
  * @returns the funding URL and optional popup dimensions if the URL requires them
  */
-export function useGetFundingUrl(): string | undefined {
+export function useGetFundingUrl(fiatCurrency?: string): string | undefined {
   const { projectId, chain: defaultChain } = useOnchainKit();
   const { address, chain: accountChain } = useAccount();
   const isCoinbaseSmartWallet = useIsWalletACoinbaseSmartWallet();
@@ -31,6 +31,7 @@ export function useGetFundingUrl(): string | undefined {
     return getOnrampBuyUrl({
       projectId,
       addresses: { [address]: [chain.name.toLowerCase()] },
+      fiatCurrency,
     });
-  }, [isCoinbaseSmartWallet, projectId, address, chain]);
+  }, [isCoinbaseSmartWallet, projectId, address, chain, fiatCurrency]);
 }

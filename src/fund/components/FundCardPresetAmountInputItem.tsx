@@ -1,3 +1,4 @@
+import { formatFiatAmount } from '@/core/utils/formatFiatAmount';
 import { border, cn, color, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import type { PresetAmountInputItemPropsReact } from '../types';
@@ -8,8 +9,11 @@ export function FundCardPresetAmountInputItem({
   onClick,
 }: PresetAmountInputItemPropsReact) {
   const presetAmountInputText = useMemo(() => {
-    // TODO: This is going to be formatted in the next PR where we add the currency symbol so that instead of USD we have $ or other currency symbols
-    return `${presetAmountInput} ${currency}`;
+    return formatFiatAmount({
+      amount: presetAmountInput,
+      currency,
+      minimumFractionDigits: 0,
+    });
   }, [presetAmountInput, currency]);
 
   const handleClick = useCallback(() => {

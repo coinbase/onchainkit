@@ -3,10 +3,7 @@ import { FundCardPresetAmountInputItem } from './FundCardPresetAmountInputItem';
 import { useFundContext } from './FundCardProvider';
 
 export function FundCardPresetAmountInputList() {
-  const { presetAmountInputs } = useFundContext();
-  // Next PR will include a support for any currency
-  const currency = 'USD';
-
+  const { presetAmountInputs, currency } = useFundContext();
   const { handleFiatChange } = useAmountInput();
 
   if (!presetAmountInputs) {
@@ -18,11 +15,11 @@ export function FundCardPresetAmountInputList() {
       data-testid="ockPresetAmountInputList"
       className="flex w-full flex-wrap items-center justify-between gap-2 pt-8"
     >
-      {presetAmountInputs.map((presetAmountInput, index) => (
+      {presetAmountInputs.map((amount, index) => (
         <FundCardPresetAmountInputItem
-          // biome-ignore lint/suspicious/noArrayIndexKey: Users may supply duplicate values so making the index the key. (In this case its safe because the preset amount inputs are static and no updates to the list are expected)
+          // biome-ignore lint/suspicious/noArrayIndexKey: Preset amounts are static
           key={index}
-          presetAmountInput={presetAmountInput}
+          presetAmountInput={amount}
           onClick={handleFiatChange}
           currency={currency}
         />

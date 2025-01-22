@@ -13,6 +13,7 @@ export const useFundCardFundingUrl = () => {
     fundAmountFiat,
     fundAmountCrypto,
     asset,
+    currency,
   } = useFundContext();
 
   const chain = accountChain || defaultChain;
@@ -34,6 +35,7 @@ export const useFundCardFundingUrl = () => {
         selectedInputType === 'crypto' ? Number(fundAmount) : undefined,
       defaultPaymentMethod: selectedPaymentMethod?.id,
       addresses: { [address]: [chain.name.toLowerCase()] },
+      fiatCurrency: currency,
     });
   }, [
     asset,
@@ -44,5 +46,6 @@ export const useFundCardFundingUrl = () => {
     projectId,
     address,
     chain,
+    currency,
   ]);
 };
