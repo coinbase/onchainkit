@@ -1,4 +1,4 @@
-import type { NFTError } from '@/core/api/types';
+import type { NFTError } from '@/api/types';
 import { convertIpfsToHttps } from '@/core/nft/utils/ipfs';
 import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';

@@ -1,11 +1,6 @@
 import type { Address } from 'viem';
-import type {
-  Fee,
-  QuoteWarning,
-  SwapQuote,
-  Transaction,
-} from '../../swap/types';
-import type { Token } from '../../token/types';
+import type { Fee, QuoteWarning, SwapQuote, Transaction } from '../swap/types';
+import type { Token } from '../token/types';
 
 export type AddressOrETH = Address | 'ETH';
 

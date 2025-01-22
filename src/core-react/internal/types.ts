@@ -1,4 +1,4 @@
-import type { APIError } from '@/core/api/types';
+import type { APIError } from '@/api/types';
 
 type ErrorStatus = {
   statusName: 'error';

@@ -1,4 +1,4 @@
-import type { NFTError } from '@/core/api/types';
+import type { NFTError } from '@/api/types';
 
 export function isNFTError(response: unknown): response is NFTError {
   return (

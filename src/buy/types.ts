@@ -1,5 +1,5 @@
+import type { APIError, GetSwapQuoteResponse } from '@/api/types';
 import type { LifecycleStatusUpdate } from '@/core-react/internal/types';
-import type { APIError, GetSwapQuoteResponse } from '@/core/api/types';
 import type {
   LifecycleStatus,
   SwapConfig,

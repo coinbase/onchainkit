@@ -1,14 +1,14 @@
 import type {
   PortfolioTokenBalances,
   PortfolioTokenWithFiatValue,
-} from '@/core/api/types';
+} from '@/api/types';
+import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '@/core/network/definitions/wallet';
 import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '../network/definitions/wallet';
-import { sendRequest } from '../network/request';
+import { sendRequest } from '../core/network/request';
 import { getPortfolioTokenBalances } from './getPortfolioTokenBalances';
 
-vi.mock('../network/request', () => ({
+vi.mock('@/core/network/request', () => ({
   sendRequest: vi.fn(),
 }));
 

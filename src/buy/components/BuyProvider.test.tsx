@@ -29,10 +29,10 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
 import { useSendCalls } from 'wagmi/experimental';
+import { buildSwapTransaction } from '../../api/buildSwapTransaction';
+import type { GetSwapQuoteResponse } from '../../api/types';
 import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
 import { useOnchainKit } from '../../core-react/useOnchainKit';
-import { buildSwapTransaction } from '../../core/api/buildSwapTransaction';
-import type { GetSwapQuoteResponse } from '../../core/api/types';
 import type { LifecycleStatus, SwapError, SwapUnit } from '../../swap/types';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import {
@@ -63,7 +63,7 @@ vi.mock('../hooks/useBuyTokens', () => ({
   useBuyTokens: vi.fn(),
 }));
 
-vi.mock('../../core/api/buildSwapTransaction', () => ({
+vi.mock('@/api/buildSwapTransaction', () => ({
   buildSwapTransaction: vi
     .fn()
     .mockRejectedValue(new Error('buildSwapTransaction')),

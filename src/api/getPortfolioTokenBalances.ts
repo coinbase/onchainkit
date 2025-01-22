@@ -1,5 +1,5 @@
-import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '../network/definitions/wallet';
-import { sendRequest } from '../network/request';
+import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '@/core/network/definitions/wallet';
+import { sendRequest } from '@/core/network/request';
 import type {
   GetPortfolioTokenBalancesParams,
   GetPortfoliosAPIResponse,

@@ -1,12 +1,12 @@
+import { CDP_LIST_SWAP_ASSETS } from '@/core/network/definitions/swap';
+import { sendRequest } from '@/core/network/request';
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
-import { CDP_LIST_SWAP_ASSETS } from '../network/definitions/swap';
-import { sendRequest } from '../network/request';
 /**
  * @vitest-environment node
  */
 import { getTokens } from './getTokens';
 
-vi.mock('../network/request');
+vi.mock('@/core/network/request');
 
 describe('getTokens', () => {
   afterEach(() => {

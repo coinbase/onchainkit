@@ -1,8 +1,5 @@
-import { getSwapQuote } from '@/core/api/getSwapQuote';
-import type {
-  GetSwapQuoteParams,
-  GetSwapQuoteResponse,
-} from '@/core/api/types';
+import { getSwapQuote } from '@/api/getSwapQuote';
+import type { GetSwapQuoteParams, GetSwapQuoteResponse } from '@/api/types';
 import { formatTokenAmount } from '@/core/utils/formatTokenAmount';
 import type { SwapError, SwapUnit } from '../../swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
