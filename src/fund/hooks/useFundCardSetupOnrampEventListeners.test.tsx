@@ -19,7 +19,6 @@ import { useFundCardSetupOnrampEventListeners } from './useFundCardSetupOnrampEv
 vi.mock('../utils/setupOnrampEventListeners', () => ({
   setupOnrampEventListeners: vi.fn(),
 }));
-
 vi.mock('../utils/fetchOnrampQuote');
 
 const mockResponseData = {

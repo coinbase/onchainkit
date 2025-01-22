@@ -75,7 +75,7 @@ export function OnchainKitProvider({
 
   const defaultConfig = useMemo(() => {
     // IMPORTANT: Don't create a new Wagmi configuration if one already exists
-    // This prevents the user-provided WagmiConfig from being overriden
+    // This prevents the user-provided WagmiConfig from being overridden
     return (
       providedWagmiConfig ||
       createWagmiConfig({
@@ -92,7 +92,7 @@ export function OnchainKitProvider({
   ]);
   const defaultQueryClient = useMemo(() => {
     // IMPORTANT: Don't create a new QueryClient if one already exists
-    // This prevents the user-provided QueryClient from being overriden
+    // This prevents the user-provided QueryClient from being overridden
     return providedQueryClient || new QueryClient();
   }, [providedQueryClient]);
 
