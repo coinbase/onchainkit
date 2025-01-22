@@ -11,7 +11,11 @@ const APY = '6.47%';
 export function EarnDepositDetails({ className }: EarnDepositDetailsParams) {
   return (
     <div
-      className={cn(border.radius, 'flex p-3 items-center gap-4', className)}
+      className={cn(
+        border.radius,
+        'flex items-center gap-4 w-full justify-between',
+        className,
+      )}
     >
       <TokenChip
         className={'!bg-[transparent]'}

@@ -18,7 +18,7 @@ export function EarnTokenBalance({ className }: EarnTokenBalanceParams) {
       className={cn(
         background.alternate,
         border.radius,
-        'flex p-3 items-center gap-4',
+        'flex p-3 px-4 items-center gap-4 justify-between',
         className,
       )}
     >

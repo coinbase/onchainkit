@@ -37,7 +37,12 @@ export function EarnCollateralization({
   }, [isOn]);
 
   return (
-    <div className={cn('flex p-3 items-center gap-4', className)}>
+    <div
+      className={cn(
+        'flex w-full justify-between items-center gap-4',
+        className,
+      )}
+    >
       <div className={cn(text.label2, color.foregroundMuted)}>
         Collateralization
       </div>
