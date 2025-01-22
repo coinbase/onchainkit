@@ -1,37 +1,78 @@
 import { useValue } from '@/core-react/internal/hooks/useValue';
 import { usePortfolioTokenBalances } from '@/core-react/wallet/hooks/usePortfolioTokenBalances';
-import type { PortfolioTokenWithFiatValue } from '@/core/api/types';
+import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { useGetETHBalance } from '@/wallet/hooks/useGetETHBalance';
-// import { useWalletAdvancedContext } from '@/wallet/components/WalletAdvancedProvider';
-// import { useWalletContext } from '@/wallet/components/WalletProvider';
 import {
   createContext,
   type Dispatch,
   type ReactNode,
   type SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from 'react';
-import type { Address, Chain } from 'viem';
+import type { Address, Chain, Hex, TransactionReceipt } from 'viem';
 import { useAccount } from 'wagmi';
+import { validateAddressInput } from '@/send/validateAddressInput';
 
 type SendContextType = {
-  address: Address | undefined;
-  chain: Chain | undefined;
+  lifecycleStatus: LifecycleStatus;
+  senderAddress: Address | undefined;
+  senderChain: Chain | undefined;
   ethBalance: number | undefined;
   tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
   recipientInput: string | null;
   setRecipientInput: Dispatch<SetStateAction<string | null>>;
-  recipientAddress: Address | null;
-  setRecipientAddress: Dispatch<SetStateAction<Address | null>>;
+  validatedRecipientAddress: Address | null;
+  setValidatedRecipientAddress: Dispatch<SetStateAction<Address | null>>;
+  selectedRecipientAddress: Address | null;
+  setSelectedRecipientAddress: Dispatch<SetStateAction<Address | null>>;
 };
 
 type SendProviderReact = {
   children: ReactNode;
-  address?: Address;
-  chain?: Chain;
-  tokenBalances?: PortfolioTokenWithFiatValue[];
 };
+
+type LifecycleStatus =
+  | {
+      statusName: 'init';
+      statusData: {
+        isMissingRequiredField: true;
+      };
+    }
+  | {
+      statusName: 'addressSelected';
+      statusData: {
+        isMissingRequiredField: boolean;
+      };
+    }
+  | {
+      statusName: 'amountChange';
+      statusData: {
+        isMissingRequiredField: boolean;
+      };
+    }
+  | {
+      statusName: 'transactionPending';
+      statusData: {
+        isMissingRequiredField: false;
+      };
+    }
+  | {
+      statusName: 'transactionApproved';
+      statusData: {
+        isMissingRequiredField: boolean;
+        callsId?: Hex;
+        transactionHash?: Hex;
+      };
+    }
+  | {
+      statusName: 'success';
+      statusData: {
+        isMissingRequiredField: false;
+        transactionReceipt: TransactionReceipt;
+      };
+    };
 
 const emptyContext = {} as SendContextType;
 
@@ -41,50 +82,82 @@ export function useSendContext() {
   return useContext(SendContext);
 }
 
-export function SendProvider({
-  children,
-  address,
-  chain,
-  tokenBalances,
-}: SendProviderReact) {
-  // const { address: senderAddress, chain: senderChain } = useWalletContext() ?? {};
-  // const { tokenBalances: senderTokenBalances } = useWalletAdvancedContext() ?? {};
-  const [recipientInput, setRecipientInput] = useState<string | null>(null);
-  const [recipientAddress, setRecipientAddress] = useState<Address | null>(
-    null,
+export function SendProvider({ children }: SendProviderReact) {
+  const [senderAddress, setSenderAddress] = useState<Address | undefined>(
+    undefined,
   );
+  const [senderChain, setSenderChain] = useState<Chain | undefined>(undefined);
+  const [ethBalance, setEthBalance] = useState<number | undefined>(undefined);
+  const [tokenBalances, setTokenBalances] = useState<
+    PortfolioTokenWithFiatValue[] | undefined
+  >(undefined);
+  const [recipientInput, setRecipientInput] = useState<string | null>(null);
+  const [validatedRecipientAddress, setValidatedRecipientAddress] =
+    useState<Address | null>(null);
+  const [selectedRecipientAddress, setSelectedRecipientAddress] =
+    useState<Address | null>(null);
+  const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
+    statusName: 'init',
+    statusData: {
+      isMissingRequiredField: true,
+    },
+  });
 
-  let ethBalance: number | undefined;
-  const { response } = useGetETHBalance(address);
-  if (response?.data?.value) {
-    ethBalance = Number(response.data.value) / 10 ** response.data.decimals;
-  }
+  const { address, chain } = useAccount();
+  useEffect(() => {
+    if (address) {
+      setSenderAddress(address);
+    }
+    if (chain) {
+      setSenderChain(chain);
+    }
+  }, [address, chain]);
 
-  let senderAddress = address;
-  let senderChain = chain;
-  if (!senderAddress || !senderChain) {
-    const { address: userAddress, chain: userChain } = useAccount();
-    senderAddress = userAddress;
-    senderChain = userChain;
-  }
+  const { response: ethBalanceResponse } = useGetETHBalance(senderAddress);
+  useEffect(() => {
+    if (ethBalanceResponse?.data?.value) {
+      setEthBalance(
+        Number(ethBalanceResponse.data.value) /
+          10 ** ethBalanceResponse.data.decimals,
+      );
+    }
+  }, [ethBalanceResponse]);
 
-  let senderTokenBalances = tokenBalances;
-  if (!senderTokenBalances) {
-    const { data } = usePortfolioTokenBalances({
-      address: senderAddress,
-    });
-    senderTokenBalances = data?.tokenBalances ?? [];
-  }
+  const { data } = usePortfolioTokenBalances({
+    address: senderAddress,
+  });
+  useEffect(() => {
+    if (data?.tokenBalances) {
+      setTokenBalances(data.tokenBalances);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    async function validateRecipientInput() {
+      if (recipientInput) {
+        const validatedInput = await validateAddressInput(recipientInput);
+        if (validatedInput) {
+          setValidatedRecipientAddress(validatedInput);
+        } else {
+          setValidatedRecipientAddress(null);
+        }
+      }
+    }
+    validateRecipientInput();
+  }, [recipientInput]);
 
   const value = useValue({
-    address: senderAddress,
-    chain: senderChain,
-    tokenBalances: senderTokenBalances,
+    lifecycleStatus,
+    senderAddress,
+    senderChain,
+    tokenBalances,
     ethBalance,
     recipientInput,
     setRecipientInput,
-    recipientAddress,
-    setRecipientAddress,
+    validatedRecipientAddress,
+    setValidatedRecipientAddress,
+    selectedRecipientAddress,
+    setSelectedRecipientAddress,
   });
 
   return <SendContext.Provider value={value}>{children}</SendContext.Provider>;
