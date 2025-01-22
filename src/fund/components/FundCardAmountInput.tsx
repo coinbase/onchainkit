@@ -11,11 +11,15 @@ import { useFundContext } from './FundCardProvider';
 export const FundCardAmountInput = ({
   className,
 }: FundCardAmountInputPropsReact) => {
-  const { fundAmountFiat, fundAmountCrypto, asset, selectedInputType } =
-    useFundContext();
+  const {
+    fundAmountFiat,
+    fundAmountCrypto,
+    asset,
+    selectedInputType,
+    currency,
+  } = useFundContext();
 
-  // Next PR will include a support for any currency
-  const currencyOrAsset = selectedInputType === 'fiat' ? 'USD' : asset;
+  const currencyOrAsset = selectedInputType === 'fiat' ? currency : asset;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);

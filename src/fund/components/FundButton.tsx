@@ -32,12 +32,13 @@ export function FundButton({
   successText: buttonSuccessText = 'Success',
   errorText: buttonErrorText = 'Something went wrong',
   state: buttonState = 'default',
+  fiatCurrency = 'USD',
   onPopupClose,
   onClick,
 }: FundButtonReact) {
   const componentTheme = useTheme();
   // If the fundingUrl prop is undefined, fallback to our recommended funding URL based on the wallet type
-  const fallbackFundingUrl = useGetFundingUrl();
+  const fallbackFundingUrl = useGetFundingUrl(fiatCurrency);
   const { address } = useAccount();
   const fundingUrlToRender = fundingUrl ?? fallbackFundingUrl;
   const isDisabled = disabled || !fundingUrlToRender;

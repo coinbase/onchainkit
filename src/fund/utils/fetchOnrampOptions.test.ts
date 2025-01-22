@@ -15,10 +15,8 @@ const mockApiKey = 'test-api-key';
 const country = 'US';
 const subdivision = 'NY';
 const mockResponseData = {
-  data: {
-    payment_currencies: [],
-    purchase_currencies: [],
-  },
+  payment_currencies: [],
+  purchase_currencies: [],
 };
 
 global.fetch = vi.fn(() =>

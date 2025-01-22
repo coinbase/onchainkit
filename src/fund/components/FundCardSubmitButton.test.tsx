@@ -11,6 +11,7 @@ import {
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
+import { quoteResponseDataMock } from '../mocks';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
@@ -65,15 +66,6 @@ vi.mock('../../wallet/components/ConnectWallet', () => ({
   ),
 }));
 
-const mockResponseData = {
-  paymentTotal: { value: '100.00', currency: 'USD' },
-  paymentSubtotal: { value: '120.00', currency: 'USD' },
-  purchaseAmount: { value: '0.1', currency: 'BTC' },
-  coinbaseFee: { value: '2.00', currency: 'USD' },
-  networkFee: { value: '1.00', currency: 'USD' },
-  quoteId: 'quote-id-123',
-};
-
 // Test component to access context values
 const TestHelperComponent = () => {
   const {
@@ -126,7 +118,7 @@ describe('FundCardSubmitButton', () => {
       width: 100,
     }));
     (useFundCardFundingUrl as Mock).mockReturnValue('mock-funding-url');
-    (fetchOnrampQuote as Mock).mockResolvedValue(mockResponseData);
+    (fetchOnrampQuote as Mock).mockResolvedValue(quoteResponseDataMock);
     (useAccount as Mock).mockReturnValue({
       address: '0x123',
     });

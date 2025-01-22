@@ -1,11 +1,9 @@
-// import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { FundCardPresetAmountInputItem } from './FundCardPresetAmountInputItem';
 
 describe('FundCardPresetAmountInputItem', () => {
   const mockPresetAmountInput = '100';
-  const mockCryptoPresetAmountInput = '1';
 
   it('renders fiat preset amount input correctly', () => {
     render(
@@ -17,21 +15,8 @@ describe('FundCardPresetAmountInputItem', () => {
     );
 
     expect(screen.getByTestId('ockPresetAmountInput')).toHaveTextContent(
-      '100 USD',
+      '$100',
     );
-  });
-
-  it('renders crypto preset amount input correctly', () => {
-    render(
-      <FundCardPresetAmountInputItem
-        presetAmountInput={mockCryptoPresetAmountInput}
-        onClick={vi.fn()}
-        currency="ETH"
-      />,
-    );
-
-    const button = screen.getByTestId('ockPresetAmountInput');
-    expect(button.textContent).toBe('1 ETH');
   });
 
   it('calls onClick when clicked', () => {
@@ -58,7 +43,7 @@ describe('FundCardPresetAmountInputItem', () => {
     );
 
     const button = screen.getByTestId('ockPresetAmountInput');
-    expect(button).toHaveAttribute('title', '100 USD');
+    expect(button).toHaveAttribute('title', '$100');
   });
 
   it('handles keyboard interaction', () => {

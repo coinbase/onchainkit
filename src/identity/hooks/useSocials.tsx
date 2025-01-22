@@ -14,9 +14,8 @@ export const useSocials = (
   queryOptions?: UseQueryOptions,
 ) => {
   const { enabled = true, cacheTime } = queryOptions ?? {};
-  const ensActionKey = `ens-socials-${ensName}-${chain.id}`;
   return useQuery<GetSocialsReturnType>({
-    queryKey: ['useSocials', ensActionKey],
+    queryKey: ['useSocials', ensName, chain.id],
     queryFn: async () => {
       return getSocials({ ensName, chain });
     },

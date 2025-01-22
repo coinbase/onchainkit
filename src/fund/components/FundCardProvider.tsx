@@ -7,8 +7,8 @@ import {
   useState,
 } from 'react';
 import { useValue } from '../../core-react/internal/hooks/useValue';
-import { DEFAULT_PAYMENT_METHODS } from '../constants';
 import { useEmitLifecycleStatus } from '../hooks/useEmitLifecycleStatus';
+import { usePaymentMethods } from '../hooks/usePaymentMethods';
 import type {
   AmountInputType,
   FundButtonStateReact,
@@ -21,6 +21,7 @@ import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 type FundCardContextType = {
   asset: string;
+  currency: string;
   selectedPaymentMethod?: PaymentMethod;
   setSelectedPaymentMethod: (paymentMethod: PaymentMethod) => void;
   selectedInputType?: AmountInputType;
@@ -36,6 +37,9 @@ type FundCardContextType = {
   submitButtonState: FundButtonStateReact;
   setSubmitButtonState: (state: FundButtonStateReact) => void;
   paymentMethods: PaymentMethod[];
+  setPaymentMethods: (paymentMethods: PaymentMethod[]) => void;
+  isPaymentMethodsLoading: boolean;
+  setIsPaymentMethodsLoading: (loading: boolean) => void;
   headerText?: string;
   buttonText?: string;
   country: string;
@@ -54,7 +58,7 @@ const FundContext = createContext<FundCardContextType | undefined>(undefined);
 export function FundCardProvider({
   children,
   asset,
-  paymentMethods,
+  currency = 'USD',
   headerText = `Buy ${asset.toUpperCase()}`,
   buttonText,
   country,
@@ -74,12 +78,14 @@ export function FundCardProvider({
   const [fundAmountFiat, setFundAmountFiat] = useState<string>('');
   const [fundAmountCrypto, setFundAmountCrypto] = useState<string>('');
   const [exchangeRate, setExchangeRate] = useState<number>(0);
-  const [exchangeRateLoading, setExchangeRateLoading] = useState<
-    boolean | undefined
-  >();
+  const [exchangeRateLoading, setExchangeRateLoading] = useState<boolean>(true);
+
   const [submitButtonState, setSubmitButtonState] =
     useState<FundButtonStateReact>('default');
 
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const [isPaymentMethodsLoading, setIsPaymentMethodsLoading] =
+    useState<boolean>(true);
   const { lifecycleStatus, updateLifecycleStatus } = useEmitLifecycleStatus({
     onError,
     onSuccess,
@@ -88,29 +94,53 @@ export function FundCardProvider({
 
   const fetchExchangeRate = useCallback(async () => {
     setExchangeRateLoading(true);
-    const quote = await fetchOnrampQuote({
-      purchaseCurrency: asset,
-      paymentCurrency: 'USD',
-      paymentAmount: '100',
-      paymentMethod: 'CARD',
-      country,
-      subdivision,
-    });
 
-    setExchangeRateLoading(false);
+    try {
+      const quote = await fetchOnrampQuote({
+        purchaseCurrency: asset,
+        paymentCurrency: currency,
+        paymentAmount: '100',
+        paymentMethod: 'CARD',
+        country,
+        subdivision,
+      });
 
-    setExchangeRate(
-      Number(quote.purchaseAmount.value) / Number(quote.paymentSubtotal.value),
-    );
-  }, [asset, country, subdivision]);
+      setExchangeRate(
+        Number(quote.purchaseAmount.value) /
+          Number(quote.paymentSubtotal.value),
+      );
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error('Error fetching exchange rate:', err);
+        onError?.({
+          errorType: 'handled_error',
+          code: 'EXCHANGE_RATE_ERROR',
+          debugMessage: err.message,
+        });
+      }
+    } finally {
+      setExchangeRateLoading(false);
+    }
+  }, [asset, country, subdivision, currency, onError]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
   useEffect(() => {
     fetchExchangeRate();
   }, []);
 
+  // Fetches and sets the payment methods to the context
+  usePaymentMethods({
+    country,
+    subdivision,
+    currency,
+    setPaymentMethods,
+    setIsPaymentMethodsLoading,
+    onError,
+  });
+
   const value = useValue<FundCardContextType>({
     asset,
+    currency,
     selectedPaymentMethod,
     setSelectedPaymentMethod,
     fundAmountFiat,
@@ -125,7 +155,10 @@ export function FundCardProvider({
     setExchangeRateLoading,
     submitButtonState,
     setSubmitButtonState,
-    paymentMethods: paymentMethods || DEFAULT_PAYMENT_METHODS,
+    paymentMethods,
+    setPaymentMethods,
+    isPaymentMethodsLoading,
+    setIsPaymentMethodsLoading,
     headerText,
     buttonText,
     country,
