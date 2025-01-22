@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-This Code of Conduct outlines our expectations for all those who participate in our community, as well as the consequences for unacceptable behavior. The primary goal is to create a safe and inclusive environment for everyone, regardless of age, gender, sexual orientation, disability, ethnicity, or religion.
+This Code of Conduct outlines our expectations for all those who participate in our community, as well as the consequences of unacceptable behavior. The primary goal is to create a safe and inclusive environment for everyone, regardless of age, gender, sexual orientation, disability, ethnicity, or religion.
 
 ## 2. Expected Behavior
 
@@ -23,7 +23,7 @@ Unacceptable behavior from any community member will not be tolerated and includ
 - Personal attacks or intimidation.
 - Public or private harassment.
 - Publishing others' private information, such as a physical or email address, without explicit permission.
-- Other conduct which could reasonably be considered inappropriate in a professional setting.
+- Other conduct that could reasonably be considered inappropriate in a professional setting.
 
 ## 4. Reporting Issues
 
