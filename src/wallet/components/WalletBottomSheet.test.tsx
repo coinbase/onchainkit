@@ -12,7 +12,6 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { useAccount } from 'wagmi';
 import { WalletBottomSheet } from './WalletBottomSheet';
 import { useWalletContext } from './WalletProvider';
 

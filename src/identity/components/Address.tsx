@@ -1,11 +1,11 @@
 'use client';
 
-import { useIdentityContext } from '@/core-react/identity/providers/IdentityProvider';
-import type { AddressReact } from '@/core-react/identity/types';
-import { getSlicedAddress } from '@/core/identity/utils/getSlicedAddress';
 import { copyToClipboard } from '@/core/utils/copyToClipboard';
 import { useState } from 'react';
 import { border, cn, color, pressable, text } from '../../styles/theme';
+import type { AddressReact } from '../types';
+import { getSlicedAddress } from '../utils/getSlicedAddress';
+import { useIdentityContext } from './IdentityProvider';
 
 export function Address({
   address = null,
