@@ -1,4 +1,5 @@
 import { useValue } from '@/core-react/internal/hooks/useValue';
+import { background, border, cn, color, text } from '@/styles/theme';
 import { createContext, useCallback, useContext, useState } from 'react';
 
 export function Tabs({ children }: { children: React.ReactNode }) {
@@ -34,14 +35,26 @@ type TabReact = {
 };
 
 export function Tab({ value, children, className }: TabReact) {
-  const { setSelectedTab } = useTabsContext();
+  const { selectedTab, setSelectedTab } = useTabsContext();
+
+  const isSelected = selectedTab === value;
 
   const handleClick = useCallback(() => {
     setSelectedTab(value);
   }, [value, setSelectedTab]);
 
   return (
-    <div className={className} onClick={handleClick}>
+    <div
+      className={cn(
+        text.label1,
+        isSelected ? color.primary : color.foreground,
+        isSelected ? background.washed : background.default,
+        'w-[50%] text-center border-b-none border-r',
+        'cursor-pointer px-3 py-4',
+        className,
+      )}
+      onClick={handleClick}
+    >
       {children}
     </div>
   );
@@ -53,7 +66,17 @@ type TabsListReact = {
 };
 
 export function TabsList({ className, children }: TabsListReact) {
-  return <div className={className}>{children}</div>;
+  return (
+    <div
+      className={cn(
+        border.lineDefault,
+        'flex overflow-hidden !border-r-0 !border-l-0 !border-t-0',
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
 }
 
 type TabContentReact = {
