@@ -1,4 +1,4 @@
-import { MORPHO_VAULT_ABI } from '@/earn/constants';
+import { MORPHO_VAULT_ABI } from '@/earn/abis/morpho';
 import type { Call } from '@/transaction/types';
 import { type Address, encodeFunctionData } from 'viem';
 
