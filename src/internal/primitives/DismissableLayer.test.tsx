@@ -106,4 +106,21 @@ describe('DismissableLayer', () => {
     fireEvent.keyDown(document, { key: 'Escape' });
     fireEvent.pointerDown(document.body);
   });
+
+  it('does not call onDismiss when clicking the trigger button', () => {
+    render(
+      <>
+        <button type="button" aria-label="Toggle swap settings">
+          Trigger
+        </button>
+        <DismissableLayer onDismiss={onDismiss}>
+          <div>Test Content</div>
+        </DismissableLayer>
+      </>,
+    );
+
+    const triggerButton = screen.getByLabelText('Toggle swap settings');
+    fireEvent.pointerDown(triggerButton);
+    expect(onDismiss).not.toHaveBeenCalled();
+  });
 });
