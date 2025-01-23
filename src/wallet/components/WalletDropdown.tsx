@@ -4,15 +4,14 @@ import { Identity } from '@/identity/components/Identity';
 import { cn, color, pressable } from '@/styles/theme';
 import { useBreakpoints } from '@/ui/react/internal/hooks/useBreakpoints';
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
-import { useAccount } from 'wagmi';
 import type { WalletDropdownReact } from '../types';
 import { WalletBottomSheet } from './WalletBottomSheet';
 import { useWalletContext } from './WalletProvider';
 
 export function WalletDropdown({ children, className }: WalletDropdownReact) {
-  const { address } = useAccount();
   const breakpoint = useBreakpoints();
   const {
+    address,
     isSubComponentClosing,
     setIsSubComponentOpen,
     setIsSubComponentClosing,

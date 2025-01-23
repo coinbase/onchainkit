@@ -37,20 +37,14 @@ describe('Draggable', () => {
     expect(draggable).toHaveStyle({ left: '100px', top: '100px' });
   });
 
-  it('changes cursor style when dragging', () => {
+  it('has correct cursor styles', () => {
     render(
       <Draggable>
         <div>Drag me</div>
       </Draggable>,
     );
     const draggable = screen.getByTestId('ockDraggable');
-    expect(draggable).toHaveClass('cursor-grab');
-
-    fireEvent.pointerDown(draggable);
-    expect(draggable).toHaveClass('cursor-grabbing');
-
-    fireEvent.pointerUp(draggable);
-    expect(draggable).toHaveClass('cursor-grab');
+    expect(draggable).toHaveClass('cursor-grab active:cursor-grabbing');
   });
 
   it('snaps to grid when dragging ends if enableSnapToGrid is true', async () => {
@@ -93,29 +87,6 @@ describe('Draggable', () => {
       { keys: '[/MouseLeft]' },
     ]);
     expect(draggable).toHaveStyle({ left: '14px', top: '16px' });
-  });
-
-  it('handles touch events', () => {
-    render(
-      <Draggable>
-        <div>Drag me</div>
-      </Draggable>,
-    );
-    const draggable = screen.getByTestId('ockDraggable');
-
-    fireEvent.pointerDown(draggable, {
-      clientX: 0,
-      clientY: 0,
-    });
-    expect(draggable).toHaveClass('cursor-grabbing');
-
-    fireEvent.pointerMove(document, {
-      clientX: 50,
-      clientY: 50,
-    });
-
-    fireEvent.pointerUp(document);
-    expect(draggable).toHaveClass('cursor-grab');
   });
 
   it('calculates drag offset correctly', async () => {
@@ -209,7 +180,6 @@ describe('Draggable', () => {
     );
 
     const draggable = screen.getByTestId('ockDraggable');
-    expect(draggable).toHaveClass('default');
 
     // Attempt to drag
     await user.pointer([
@@ -220,6 +190,5 @@ describe('Draggable', () => {
 
     // Position should not change
     expect(draggable).toHaveStyle({ left: '0px', top: '0px' });
-    expect(draggable).toHaveClass('default');
   });
 });

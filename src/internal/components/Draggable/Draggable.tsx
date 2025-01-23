@@ -3,7 +3,7 @@
 import { zIndex } from '@/styles/constants';
 import { cn } from '@/styles/theme';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRespositionOnWindowResize } from './useRespositionOnResize';
+import { getBoundedPosition } from './getBoundedPosition';
 
 type DraggableProps = {
   children: React.ReactNode;
@@ -24,17 +24,7 @@ export function Draggable({
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [dragStartPosition, setDragStartPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const [cursorDisplay, setCursorDisplay] = useState('default');
   const draggableRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (disabled) {
-      setCursorDisplay('default');
-      return;
-    }
-
-    setCursorDisplay(isDragging ? 'cursor-grabbing' : 'cursor-grab');
-  }, [disabled, isDragging]);
 
   const calculateSnapToGrid = useCallback(
     (positionValue: number) => {
@@ -65,10 +55,14 @@ export function Draggable({
     }
 
     const handleGlobalMove = (e: PointerEvent) => {
-      setPosition({
-        x: e.clientX - dragOffset.x,
-        y: e.clientY - dragOffset.y,
+      const newPosition = getBoundedPosition({
+        draggableRef,
+        position: {
+          x: e.clientX - dragOffset.x,
+          y: e.clientY - dragOffset.y,
+        },
       });
+      setPosition(newPosition);
     };
 
     const handleGlobalEnd = (e: PointerEvent) => {
@@ -110,16 +104,14 @@ export function Draggable({
     dragStartPosition,
   ]);
 
-  useRespositionOnWindowResize(draggableRef, position, setPosition);
-
   return (
     <div
       ref={draggableRef}
       data-testid="ockDraggable"
       className={cn(
         'fixed touch-none select-none',
+        'cursor-grab active:cursor-grabbing',
         zIndex.modal,
-        cursorDisplay,
       )}
       style={{
         left: `${position.x}px`,

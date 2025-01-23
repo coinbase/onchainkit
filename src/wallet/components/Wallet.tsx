@@ -8,7 +8,7 @@ import { cn } from '@/styles/theme';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 import { Children, useMemo, useRef } from 'react';
 import type { WalletReact, WalletSubComponentReact } from '../types';
-import { getDraggableWalletDefaultStartingPosition } from '../utils/getDraggableWalletDefaultStartingPosition';
+import { getWalletDraggableProps } from '../utils/getWalletDraggableProps';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletAdvanced } from './WalletAdvanced';
 import { WalletDropdown } from './WalletDropdown';
@@ -32,14 +32,7 @@ export const Wallet = ({
     <WalletProvider>
       <WalletContent
         className={cn(componentTheme, className)}
-        {...(draggable
-          ? {
-              draggable,
-              draggableStartingPosition:
-                draggableStartingPosition ??
-                getDraggableWalletDefaultStartingPosition(),
-            }
-          : { draggable })}
+        {...getWalletDraggableProps({ draggable, draggableStartingPosition })}
       >
         {children}
       </WalletContent>
