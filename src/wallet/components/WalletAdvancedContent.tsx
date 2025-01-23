@@ -1,4 +1,4 @@
-import { MobileTray } from '@/internal/components/MobileTray';
+import { BottomSheet } from '@/internal/components/BottomSheet';
 import { background, border, cn, text } from '@/styles/theme';
 import { useBreakpoints } from '@/ui-react/internal/hooks/useBreakpoints';
 import { useCallback, useMemo } from 'react';
@@ -78,11 +78,11 @@ export function WalletAdvancedContent({
 
   if (breakpoint === 'sm') {
     return (
-      <MobileTray isOpen={isSubComponentOpen} onClose={handleMobileTrayClose}>
+      <BottomSheet isOpen={isSubComponentOpen} onClose={handleMobileTrayClose}>
         <div className="flex h-full w-full flex-col items-center justify-center">
           {content}
         </div>
-      </MobileTray>
+      </BottomSheet>
     );
   }
 

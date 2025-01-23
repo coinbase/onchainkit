@@ -220,7 +220,7 @@ describe('WalletAdvancedContent', () => {
       </WalletAdvancedContent>,
     );
 
-    const overlay = screen.getByTestId('ockMobileTrayOverlay');
+    const overlay = screen.getByTestId('ockBottomSheetOverlay');
     fireEvent.pointerDown(overlay);
 
     expect(setIsSubComponentOpen).toHaveBeenCalledWith(false);
@@ -340,7 +340,7 @@ describe('WalletAdvancedContent', () => {
     );
   });
 
-  it('renders MobileTray when breakpoint is sm', () => {
+  it('renders BottomSheet when breakpoint is sm', () => {
     mockUseBreakpoints.mockReturnValue('sm');
     mockUseWalletContext.mockReturnValue({
       isSubComponentOpen: true,
@@ -353,6 +353,6 @@ describe('WalletAdvancedContent', () => {
       </WalletAdvancedContent>,
     );
 
-    expect(screen.getByTestId('ockMobileTray')).toBeDefined();
+    expect(screen.getByTestId('ockBottomSheet')).toBeDefined();
   });
 });

@@ -4,7 +4,7 @@ import { FocusTrap } from '@/internal/primitives/FocusTrap';
 import { zIndex } from '@/styles/constants';
 import { background, cn } from '@/styles/theme';
 
-type MobileTrayProps = {
+type BottomSheetProps = {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
@@ -14,7 +14,7 @@ type MobileTrayProps = {
   'aria-describedby'?: string;
 };
 
-export function MobileTray({
+export function BottomSheet({
   children,
   className,
   isOpen,
@@ -22,7 +22,7 @@ export function MobileTray({
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
-}: MobileTrayProps) {
+}: BottomSheetProps) {
   const componentTheme = useTheme();
 
   return (
@@ -31,16 +31,16 @@ export function MobileTray({
         <div
           className={cn(
             'fixed inset-0',
-            'bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-10',
+            'bg-black bg-opacity-20',
             zIndex.modal,
           )}
-          data-testid="ockMobileTrayOverlay"
+          data-testid="ockBottomSheetOverlay"
         />
       )}
       <FocusTrap active={isOpen}>
         <DismissableLayer onDismiss={onClose}>
           <div
-            data-testid="ockMobileTray"
+            data-testid="ockBottomSheet"
             role="dialog"
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledby}

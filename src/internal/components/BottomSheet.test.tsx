@@ -1,12 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { MobileTray } from './MobileTray';
+import { BottomSheet } from './BottomSheet';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-describe('MobileTray', () => {
+describe('BottomSheet', () => {
   const defaultProps = {
     isOpen: true,
     onClose: vi.fn(),
@@ -18,30 +18,30 @@ describe('MobileTray', () => {
   });
 
   it('renders children when open', () => {
-    render(<MobileTray {...defaultProps} />);
+    render(<BottomSheet {...defaultProps} />);
     expect(screen.getByText('Test Content')).toBeInTheDocument();
   });
 
   it('renders overlay when open', () => {
-    render(<MobileTray {...defaultProps} />);
-    expect(screen.getByTestId('ockMobileTrayOverlay')).toBeInTheDocument();
+    render(<BottomSheet {...defaultProps} />);
+    expect(screen.getByTestId('ockBottomSheetOverlay')).toBeInTheDocument();
   });
 
   it('does not render overlay when closed', () => {
-    render(<MobileTray {...defaultProps} isOpen={false} />);
+    render(<BottomSheet {...defaultProps} isOpen={false} />);
     expect(
-      screen.queryByTestId('ockMobileTrayOverlay'),
+      screen.queryByTestId('ockBottomSheetOverlay'),
     ).not.toBeInTheDocument();
   });
 
   it('calls onClose when overlay is clicked', () => {
-    render(<MobileTray {...defaultProps} />);
-    fireEvent.pointerDown(screen.getByTestId('ockMobileTrayOverlay'));
+    render(<BottomSheet {...defaultProps} />);
+    fireEvent.pointerDown(screen.getByTestId('ockBottomSheetOverlay'));
     expect(defaultProps.onClose).toHaveBeenCalled();
   });
 
   it('calls onClose when Escape key is pressed on overlay', () => {
-    render(<MobileTray {...defaultProps} />);
+    render(<BottomSheet {...defaultProps} />);
     fireEvent.keyDown(screen.getByTestId('ockDismissableLayer'), {
       key: 'Escape',
     });
@@ -49,23 +49,23 @@ describe('MobileTray', () => {
   });
 
   it('applies custom className when provided', () => {
-    render(<MobileTray {...defaultProps} className="custom-class" />);
-    expect(screen.getByTestId('ockMobileTray')).toHaveClass('custom-class');
+    render(<BottomSheet {...defaultProps} className="custom-class" />);
+    expect(screen.getByTestId('ockBottomSheet')).toHaveClass('custom-class');
   });
 
   it('sets all ARIA attributes correctly', () => {
     render(
-      <MobileTray
+      <BottomSheet
         {...defaultProps}
         aria-label="Test Dialog"
         aria-describedby="desc"
         aria-labelledby="title"
       >
         <div>Content</div>
-      </MobileTray>,
+      </BottomSheet>,
     );
 
-    const tray = screen.getByTestId('ockMobileTray');
+    const tray = screen.getByTestId('ockBottomSheet');
     expect(tray).toHaveAttribute('role', 'dialog');
     expect(tray).toHaveAttribute('aria-label', 'Test Dialog');
     expect(tray).toHaveAttribute('aria-describedby', 'desc');
