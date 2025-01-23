@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { useTheme } from '../../internal/hooks/useTheme';
 import { TextInput } from '../../internal/components/TextInput';
 import { CloseSvg } from '../../internal/svg/closeSvg';
 import { searchIconSvg } from '../../internal/svg/searchIconSvg';

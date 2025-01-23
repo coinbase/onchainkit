@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { useTheme } from '../../internal/hooks/useTheme';
 import { background, border, cn } from '../../styles/theme';
 import type { TokenSelectDropdownReact } from '../types';
 import { TokenRow } from './TokenRow';

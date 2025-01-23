@@ -5,7 +5,7 @@ import { Wallet } from './Wallet';
 import { WalletAdvanced } from './WalletAdvanced';
 import { useWalletContext } from './WalletProvider';
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

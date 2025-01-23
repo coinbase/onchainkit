@@ -3,7 +3,7 @@ import type {
   AbstractLifecycleStatus,
   LifecycleStatusUpdate,
   UseLifecycleStatusReturn,
-} from '../../../internal/types';
+} from '../types';
 
 export function useLifecycleStatus<T extends AbstractLifecycleStatus>(
   initialState: T,

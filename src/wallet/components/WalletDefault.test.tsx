@@ -6,11 +6,11 @@ import { useAccount, useConnect } from 'wagmi';
 import { WalletDefault } from './WalletDefault';
 import { type WalletProviderReact, useWalletContext } from './WalletProvider';
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../useBreakpoints', () => ({
+vi.mock('@/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 

@@ -10,7 +10,7 @@ import { http, WagmiProvider, createConfig } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { OnchainKitProvider } from './OnchainKitProvider';
-import { useProviderDependencies } from './core-react/internal/hooks/useProviderDependencies';
+import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
 import { useOnchainKit } from './useOnchainKit';
 
 vi.mock('wagmi', async (importOriginal) => {
@@ -21,7 +21,7 @@ vi.mock('wagmi', async (importOriginal) => {
   };
 });
 
-vi.mock('./core-react/internal/hooks/useProviderDependencies', () => ({
+vi.mock('@/internal/hooks/useProviderDependencies', () => ({
   useProviderDependencies: vi.fn(() => ({
     providedWagmiConfig: null,
     providedQueryClient: null,

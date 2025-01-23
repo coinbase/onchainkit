@@ -1,7 +1,7 @@
 'use client';
 import { Children, useMemo } from 'react';
-import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { useIsMounted } from '../../internal/hooks/useIsMounted';
+import { useTheme } from '../../internal/hooks/useTheme';
 import { findComponent } from '../../internal/utils/findComponent';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';

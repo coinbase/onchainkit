@@ -1,13 +1,13 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { applePaySvg } from '../../../internal/svg/applePaySvg';
-import { appleSvg } from '../../../internal/svg/appleSvg';
-import { coinbasePaySvg } from '../../../internal/svg/coinbasePaySvg';
-import { creditCardSvg } from '../../../internal/svg/creditCardSvg';
-import { fundWalletSvg } from '../../../internal/svg/fundWallet';
-import { swapSettingsSvg } from '../../../internal/svg/swapSettings';
-import { toggleSvg } from '../../../internal/svg/toggleSvg';
-import { walletSvg } from '../../../internal/svg/walletSvg';
+import { applePaySvg } from '../svg/applePaySvg';
+import { appleSvg } from '../svg/appleSvg';
+import { coinbasePaySvg } from '../svg/coinbasePaySvg';
+import { creditCardSvg } from '../svg/creditCardSvg';
+import { fundWalletSvg } from '../svg/fundWallet';
+import { swapSettingsSvg } from '../svg/swapSettings';
+import { toggleSvg } from '../svg/toggleSvg';
+import { walletSvg } from '../svg/walletSvg';
 import { useIcon } from './useIcon';
 
 describe('useIcon', () => {

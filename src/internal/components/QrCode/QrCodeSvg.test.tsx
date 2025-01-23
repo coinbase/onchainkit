@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { coinbaseWalletSvg } from '../../svg/coinbaseWalletSvg';
 import { QrCodeSvg } from './QrCodeSvg';
 
-vi.mock('../../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(() => 'default'),
 }));
 

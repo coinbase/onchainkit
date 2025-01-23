@@ -26,7 +26,7 @@ const tokens: Token[] = [
   },
 ];
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

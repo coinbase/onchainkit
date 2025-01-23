@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { useTheme } from '../../internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
 import type { FundCardPropsReact } from '../types';

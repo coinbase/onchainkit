@@ -12,7 +12,7 @@ vi.mock('../utils/fetchOnrampQuote');
 vi.mock('../utils/fetchOnrampOptions');
 
 // Mock the useOutsideClick hook
-vi.mock('@/ui-react/internal/hooks/useOutsideClick', () => ({
+vi.mock('@/internal/hooks/useOutsideClick', () => ({
   useOutsideClick: (ref: React.RefObject<HTMLElement>, handler: () => void) => {
     // Add click listener to document that calls handler when clicking outside ref
     document.addEventListener('mousedown', (event) => {

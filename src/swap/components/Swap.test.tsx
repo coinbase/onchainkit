@@ -9,15 +9,15 @@ vi.mock('./SwapProvider', () => ({
   useSwapContext: vi.fn(),
 }));
 
-vi.mock('../../internal/svg/closeSvg', () => ({
+vi.mock('@/internal/svg/closeSvg', () => ({
   CloseSvg: () => <div data-testid="mock-close-svg" />,
 }));
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../styles/theme', async (importOriginal) => {
+vi.mock('@/styles/theme', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../styles/theme')>();
   return {
     ...actual,

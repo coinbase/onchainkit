@@ -1,5 +1,5 @@
-import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { useIsMounted } from '../../internal/hooks/useIsMounted';
+import { useTheme } from '../../internal/hooks/useTheme';
 import { cn } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
 import type { TransactionReact } from '../types';

@@ -1,4 +1,4 @@
-import { useValue } from '@/core-react/internal/hooks/useValue';
+import { useValue } from '@/internal/hooks/useValue';
 import type {
   IdentityContextType,
   IdentityProviderReact,

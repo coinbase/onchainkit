@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback } from 'react';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { useTheme } from '../../internal/hooks/useTheme';
 import { border, cn, color, pressable, text } from '../../styles/theme';
 
 import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';

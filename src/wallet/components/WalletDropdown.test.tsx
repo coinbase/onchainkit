@@ -11,8 +11,8 @@ import { Identity } from '../../identity';
 import {
   IdentityProvider,
   useIdentityContext,
-} from '../../identity/components/IdentityProvider';
-import { useBreakpoints } from '../../ui/react/internal/hooks/useBreakpoints';
+} from '@/identity/components/IdentityProvider';
+import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
 
@@ -23,7 +23,7 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
-vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
+vi.mock('@/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 

@@ -1,6 +1,6 @@
 import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { useCallback, useMemo } from 'react';
-import { useIcon } from '../../core-react/internal/hooks/useIcon';
+import { useIcon } from '../../internal/hooks/useIcon';
 import { Skeleton } from '../../internal/components/Skeleton';
 import { cn, pressable, text } from '../../styles/theme';
 import type { FundCardAmountInputTypeSwitchPropsReact } from '../types';

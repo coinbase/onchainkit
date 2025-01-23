@@ -2,14 +2,14 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { useIcon } from '../../core-react/internal/hooks/useIcon';
-import { useBreakpoints } from '../../ui/react/internal/hooks/useBreakpoints';
+import { useIcon } from '../../internal/hooks/useIcon';
+import { useBreakpoints } from '../../internal/hooks/useBreakpoints';
 import { SwapSettings } from './SwapSettings';
 import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
 import { SwapSettingsSlippageTitle } from './SwapSettingsSlippageTitle';
 
-vi.mock('../../core-react/internal/hooks/useIcon', () => ({
+vi.mock('@/internal/hooks/useIcon', () => ({
   useIcon: vi.fn(() => <svg data-testid="mock-icon" />),
 }));
 
@@ -37,7 +37,7 @@ vi.mock('./SwapSettingsSlippageInput', () => ({
   SwapSettingsSlippageInput: vi.fn(() => <div>Input</div>),
 }));
 
-vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
+vi.mock('@/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 

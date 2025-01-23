@@ -1,6 +1,6 @@
-import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStatus';
+import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { createContext, useContext, useEffect } from 'react';
-import { useValue } from '../../core-react/internal/hooks/useValue';
+import { useValue } from '../../internal/hooks/useValue';
 import type {
   LifecycleStatus,
   NFTLifecycleContextType,
