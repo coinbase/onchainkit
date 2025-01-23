@@ -206,6 +206,26 @@ describe('WalletAdvancedContent', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('closes WalletAdvancedContent when mobile tray is closed', () => {
+    mockUseBreakpoints.mockReturnValue('sm');
+    const setIsSubComponentOpen = vi.fn();
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
+      setIsSubComponentOpen,
+    });
+
+    render(
+      <WalletAdvancedContent>
+        <div>WalletAdvancedContent</div>
+      </WalletAdvancedContent>,
+    );
+
+    const overlay = screen.getByTestId('ockMobileTrayOverlay');
+    fireEvent.pointerDown(overlay);
+
+    expect(setIsSubComponentOpen).toHaveBeenCalledWith(false);
+  });
+
   it('handles animation end when closing', () => {
     const setIsSubComponentOpen = vi.fn();
     const setIsSubComponentClosing = vi.fn();

@@ -25,6 +25,10 @@ export function WalletAdvancedContent({
   const { showQr, showSwap, tokenBalances, animations } =
     useWalletAdvancedContext();
 
+  const handleMobileTrayClose = useCallback(() => {
+    setIsSubComponentOpen(false);
+  }, [setIsSubComponentOpen]);
+
   const handleAnimationEnd = useCallback(() => {
     if (isSubComponentClosing) {
       setIsSubComponentOpen(false);
@@ -74,10 +78,7 @@ export function WalletAdvancedContent({
 
   if (breakpoint === 'sm') {
     return (
-      <MobileTray
-        isOpen={isSubComponentOpen}
-        onClose={() => setIsSubComponentOpen(false)}
-      >
+      <MobileTray isOpen={isSubComponentOpen} onClose={handleMobileTrayClose}>
         <div className="flex h-full w-full flex-col items-center justify-center">
           {content}
         </div>

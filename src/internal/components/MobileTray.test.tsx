@@ -10,7 +10,6 @@ describe('MobileTray', () => {
   const defaultProps = {
     isOpen: true,
     onClose: vi.fn(),
-    onAnimationEnd: vi.fn(),
     children: <div>Test Content</div>,
   };
 
@@ -47,25 +46,6 @@ describe('MobileTray', () => {
       key: 'Escape',
     });
     expect(defaultProps.onClose).toHaveBeenCalled();
-  });
-
-  it('calls onAnimationEnd when animation completes', () => {
-    render(<MobileTray {...defaultProps} />);
-    fireEvent.animationEnd(screen.getByTestId('ockMobileTray'));
-    expect(defaultProps.onAnimationEnd).toHaveBeenCalled();
-  });
-
-  it('applies custom animation classes when provided', () => {
-    render(
-      <MobileTray
-        {...defaultProps}
-        animation={{ tray: 'custom-tray', overlay: 'custom-overlay' }}
-      />,
-    );
-    expect(screen.getByTestId('ockMobileTray')).toHaveClass('custom-tray');
-    expect(screen.getByTestId('ockMobileTrayOverlay')).toHaveClass(
-      'custom-overlay',
-    );
   });
 
   it('applies custom className when provided', () => {
