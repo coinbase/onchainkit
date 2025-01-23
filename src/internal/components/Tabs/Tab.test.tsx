@@ -46,7 +46,7 @@ describe('Tab', () => {
   it('applies the correct aria-label and role', () => {
     render(
       <Tabs defaultValue="tab1">
-        <Tab value="tab1" ariaLabel="Tab 1 Label">
+        <Tab value="tab1" aria-label="Tab 1 Label">
           Tab 1
         </Tab>
       </Tabs>,
