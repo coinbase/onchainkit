@@ -195,7 +195,7 @@ describe('DismissableLayer', () => {
     expect(onDismiss).not.toHaveBeenCalled();
   });
 
-  it('handles null event target gracefully', () => {
+  it('handles non-Node event target gracefully', () => {
     render(
       <DismissableLayer onDismiss={onDismiss}>
         <div>Test Content</div>
@@ -203,7 +203,8 @@ describe('DismissableLayer', () => {
     );
 
     const event = new Event('pointerdown', { bubbles: true });
-    Object.defineProperty(event, 'target', { value: null });
+    // Create a non-Node object as target
+    Object.defineProperty(event, 'target', { value: {} });
     document.dispatchEvent(event);
 
     expect(onDismiss).not.toHaveBeenCalled();

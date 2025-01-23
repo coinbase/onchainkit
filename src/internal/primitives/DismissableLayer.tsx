@@ -50,11 +50,11 @@ export function DismissableLayer({
         return;
       }
 
-      if (!event.target) {
+      if (!(event.target instanceof Node)) {
         return;
       }
 
-      const target = event.target as Node;
+      const target = event.target;
 
       if (triggerRef?.current?.contains(target)) {
         handleTriggerClick(event);
