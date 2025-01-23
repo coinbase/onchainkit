@@ -116,10 +116,10 @@
       "default": "./esm/index.js"
     },
     "./api": {
-      "types": "./esm/core/api/index.d.ts",
-      "module": "./esm/core/api/index.js",
-      "import": "./esm/core/api/index.js",
-      "default": "./esm/core/api/index.js"
+      "types": "./esm/api/index.d.ts",
+      "module": "./esm/api/index.js",
+      "import": "./esm/api/index.js",
+      "default": "./esm/api/index.js"
     },
     "./buy": {
       "types": "./esm/buy/index.d.ts",
@@ -146,10 +146,10 @@
       "default": "./esm/fund/index.js"
     },
     "./identity": {
-      "types": "./esm/ui/react/identity/index.d.ts",
-      "module": "./esm/ui/react/identity/index.js",
-      "import": "./esm/ui/react/identity/index.js",
-      "default": "./esm/ui/react/identity/index.js"
+      "types": "./esm/identity/index.d.ts",
+      "module": "./esm/identity/index.js",
+      "import": "./esm/identity/index.js",
+      "default": "./esm/identity/index.js"
     },
     "./nft": {
       "types": "./esm/ui/react/nft/index.d.ts",
