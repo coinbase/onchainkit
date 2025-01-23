@@ -1,4 +1,4 @@
-import { Address } from 'viem';
+import type { Address } from 'viem';
 
 export type EarnProviderReact = {
   children: React.ReactNode;

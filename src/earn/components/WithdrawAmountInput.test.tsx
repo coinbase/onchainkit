@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { WithdrawAmountInput } from './WithdrawAmountInput';
 import { useEarnContext } from './EarnProvider';
+import { WithdrawAmountInput } from './WithdrawAmountInput';
 
 vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),

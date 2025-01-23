@@ -1,8 +1,8 @@
-import { cn } from '@/styles/theme';
-import { EarnAmountInputReact } from '../types';
-import { TextInput } from '@/internal/components/TextInput';
 import { isValidAmount } from '@/core/utils/isValidAmount';
+import { TextInput } from '@/internal/components/TextInput';
+import { cn } from '@/styles/theme';
 import { formatAmount } from '@/swap/utils/formatAmount';
+import type { EarnAmountInputReact } from '../types';
 
 export function EarnAmountInput({
   className,
