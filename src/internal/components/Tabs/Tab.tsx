@@ -24,7 +24,7 @@ export function Tab({ value, children, className, ariaLabel }: TabReact) {
         text.label1,
         isSelected ? color.primary : color.foreground,
         isSelected ? background.washed : background.default,
-        'w-[50%] text-center border-b-none border-r',
+        'w-1/2 text-center',
         'cursor-pointer px-3 py-4',
         className,
       )}
