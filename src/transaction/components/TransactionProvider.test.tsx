@@ -51,7 +51,7 @@ vi.mock('../../core-react/internal/hooks/useCapabilitiesSafe', () => ({
   useCapabilitiesSafe: vi.fn(),
 }));
 
-vi.mock('../../core-react/useOnchainKit', () => ({
+vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

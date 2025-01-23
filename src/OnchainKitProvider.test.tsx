@@ -21,7 +21,7 @@ vi.mock('wagmi', async (importOriginal) => {
   };
 });
 
-vi.mock('./internal/hooks/useProviderDependencies', () => ({
+vi.mock('./core-react/internal/hooks/useProviderDependencies', () => ({
   useProviderDependencies: vi.fn(() => ({
     providedWagmiConfig: null,
     providedQueryClient: null,

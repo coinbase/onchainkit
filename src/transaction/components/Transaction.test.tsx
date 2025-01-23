@@ -10,7 +10,7 @@ import {
   vi,
 } from 'vitest';
 
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '@/useOnchainKit';
 import { Transaction } from './Transaction';
 import { TransactionProvider } from './TransactionProvider';
 
@@ -29,11 +29,11 @@ vi.mock('./TransactionProvider', () => ({
   ),
 }));
 
-vi.mock('../../core-react/useOnchainKit', () => ({
+vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

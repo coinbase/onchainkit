@@ -1,9 +1,9 @@
 'use client';
-import { findComponent } from '@/internal/utils/findComponent';
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useAvatar } from '@/identity/hooks/useAvatar';
 import { useName } from '@/identity/hooks/useName';
 import type { AvatarReact } from '@/identity/types';
+import { findComponent } from '@/internal/utils/findComponent';
 import { Children, useMemo } from 'react';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
 import { defaultLoadingSVG } from '../../internal/svg/defaultLoadingSVG';

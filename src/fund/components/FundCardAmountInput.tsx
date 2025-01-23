@@ -1,5 +1,5 @@
-import { isValidAmount } from '@/internal/utils/isValidAmount';
 import { TextInput } from '@/internal/components/TextInput';
+import { isValidAmount } from '@/internal/utils/isValidAmount';
 import { useCallback, useEffect, useRef } from 'react';
 import { cn, text } from '../../styles/theme';
 import { useAmountInput } from '../hooks/useAmountInput';

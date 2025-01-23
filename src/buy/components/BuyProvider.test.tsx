@@ -32,7 +32,6 @@ import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import type { GetSwapQuoteResponse } from '../../api/types';
 import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
-import { useOnchainKit } from '../../useOnchainKit';
 import type { LifecycleStatus, SwapError, SwapUnit } from '../../swap/types';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import {
@@ -41,6 +40,7 @@ import {
   ethToken,
   usdcToken,
 } from '../../token/constants';
+import { useOnchainKit } from '../../useOnchainKit';
 import { useBuyTokens } from '../hooks/useBuyTokens';
 import { getBuyQuote } from '../utils/getBuyQuote';
 import { validateQuote } from '../utils/validateQuote';
@@ -73,7 +73,7 @@ vi.mock('../../swap/utils/processSwapTransaction', () => ({
   processSwapTransaction: vi.fn(),
 }));
 
-vi.mock('../../core-react/useOnchainKit', () => ({
+vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

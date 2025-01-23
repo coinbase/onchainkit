@@ -3,7 +3,7 @@ import { getWindowDimensions } from '../../internal/utils/getWindowDimensions';
 import { ONRAMP_POPUP_HEIGHT, ONRAMP_POPUP_WIDTH } from '../constants';
 import { getFundingPopupSize } from './getFundingPopupSize';
 
-vi.mock('../../ui/react/internal/utils/getWindowDimensions', () => ({
+vi.mock('@/internal/utils/getWindowDimensions', () => ({
   getWindowDimensions: vi.fn(),
 }));
 

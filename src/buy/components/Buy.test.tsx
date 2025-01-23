@@ -1,3 +1,6 @@
+import { degenToken } from '@/token/constants';
+import { useOutsideClick } from '@/ui/react/internal/hooks/useOutsideClick';
+import { useOnchainKit } from '@/useOnchainKit';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
@@ -6,9 +9,6 @@ import {
   useAccount,
   useConnect,
 } from 'wagmi';
-import { useOnchainKit } from '../../useOnchainKit';
-import { degenToken } from '../../token/constants';
-import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 import { Buy } from './Buy';
 import { useBuyContext } from './BuyProvider';
 
@@ -23,15 +23,15 @@ vi.mock('./BuyDropdown', () => ({
   BuyDropdown: () => <div data-testid="mock-BuyDropdown">BuyDropdown</div>,
 }));
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../ui/react/internal/hooks/useOutsideClick', () => ({
+vi.mock('@/ui/react/internal/hooks/useOutsideClick', () => ({
   useOutsideClick: vi.fn(),
 }));
 
-vi.mock('../../core-react/useOnchainKit', () => ({
+vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

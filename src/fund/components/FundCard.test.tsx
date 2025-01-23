@@ -36,13 +36,13 @@ vi.mock('../hooks/useFundCardFundingUrl', () => ({
   useFundCardFundingUrl: vi.fn(),
 }));
 
-vi.mock('../../useOnchainKit');
+vi.mock('@/useOnchainKit');
 
 vi.mock('../utils/setupOnrampEventListeners', () => ({
   setupOnrampEventListeners: vi.fn(),
 }));
 
-vi.mock('@/ui-react/internal/utils/openPopup', () => ({
+vi.mock('@/internal/utils/openPopup', () => ({
   openPopup: vi.fn(),
 }));
 

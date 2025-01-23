@@ -1,5 +1,5 @@
-import { pressable } from '@/styles/theme';
 import { openPopup } from '@/internal/utils/openPopup';
+import { pressable } from '@/styles/theme';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import {
@@ -25,7 +25,7 @@ vi.mock('../utils/getFundingPopupSize', () => ({
   getFundingPopupSize: vi.fn(),
 }));
 
-vi.mock('@/ui-react/internal/utils/openPopup', () => ({
+vi.mock('@/internal/utils/openPopup', () => ({
   openPopup: vi.fn(),
 }));
 

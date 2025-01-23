@@ -1,5 +1,5 @@
-import { useOnchainKit } from '@/useOnchainKit';
 import { useNFTContext } from '@/nft/components/NFTProvider';
+import { useOnchainKit } from '@/useOnchainKit';
 import type { ReactNode } from 'react';
 
 import { Avatar, Badge, Identity, Name } from '@/identity';

@@ -1,8 +1,8 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { useAttestations } from '@/identity/hooks/useAttestations';
+import { useOnchainKit } from '@/useOnchainKit';
 import { render, screen } from '@testing-library/react';
-import { useOnchainKit } from '../../useOnchainKit';
 import { Badge } from './Badge';
 import { DisplayBadge } from './DisplayBadge';
 import { useIdentityContext } from './IdentityProvider';
@@ -11,7 +11,7 @@ function mock<T>(func: T) {
   return func as Mock;
 }
 
-vi.mock('../../core-react/useOnchainKit', () => ({
+vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 vi.mock('@/identity/hooks/useAttestations', () => ({

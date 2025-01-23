@@ -1,7 +1,7 @@
+import { getRoundedAmount } from '@/internal/utils/getRoundedAmount';
+import { ethToken } from '@/token/constants';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
-import { ethToken } from '../../token/constants';
 import { useBuyContext } from './BuyProvider';
 import { BuyTokenItem } from './BuyTokenItem';
 
@@ -9,7 +9,7 @@ vi.mock('./BuyProvider', () => ({
   useBuyContext: vi.fn(),
 }));
 
-vi.mock('../../core/utils/getRoundedAmount', () => ({
+vi.mock('@/internal/utils/getRoundedAmount', () => ({
   getRoundedAmount: vi.fn((value) => value),
 }));
 

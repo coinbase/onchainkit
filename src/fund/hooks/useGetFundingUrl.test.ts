@@ -1,14 +1,13 @@
+import { useOnchainKit } from '@/useOnchainKit';
+import { useIsWalletACoinbaseSmartWallet } from '@/wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { renderHook } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-
-import { useOnchainKit } from '../../useOnchainKit';
-import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { getCoinbaseSmartWalletFundUrl } from '../utils/getCoinbaseSmartWalletFundUrl';
 import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
 import { useGetFundingUrl } from './useGetFundingUrl';
 
-vi.mock('../../core-react/useOnchainKit', () => ({
+vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
@@ -16,15 +15,15 @@ vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
 
-vi.mock('../../wallet/hooks/useIsWalletACoinbaseSmartWallet', () => ({
+vi.mock('@/wallet/hooks/useIsWalletACoinbaseSmartWallet', () => ({
   useIsWalletACoinbaseSmartWallet: vi.fn(),
 }));
 
-vi.mock('../../fund/utils/getCoinbaseSmartWalletFundUrl', () => ({
+vi.mock('@/fund/utils/getCoinbaseSmartWalletFundUrl', () => ({
   getCoinbaseSmartWalletFundUrl: vi.fn(),
 }));
 
-vi.mock('../../fund/utils/getOnrampBuyUrl', () => ({
+vi.mock('@/fund/utils/getOnrampBuyUrl', () => ({
   getOnrampBuyUrl: vi.fn(),
 }));
 

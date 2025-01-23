@@ -39,7 +39,7 @@ vi.mock('@rainbow-me/rainbowkit', () => ({
   },
 }));
 
-vi.mock('../../core-react/useOnchainKit', () => ({
+vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

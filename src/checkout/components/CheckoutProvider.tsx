@@ -17,8 +17,8 @@ import { coinbaseWallet } from 'wagmi/connectors';
 import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useValue } from '../../core-react/internal/hooks/useValue';
-import { useOnchainKit } from '../../useOnchainKit';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
+import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import {
   GENERIC_ERROR_MESSAGE,

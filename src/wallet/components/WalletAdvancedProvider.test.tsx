@@ -12,7 +12,7 @@ vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
 
-vi.mock('../../core-react/wallet/hooks/usePortfolioTokenBalances', () => ({
+vi.mock('@/wallet/hooks/usePortfolioTokenBalances', () => ({
   usePortfolioTokenBalances: vi.fn(),
 }));
 

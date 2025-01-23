@@ -1,14 +1,14 @@
 import { getSwapQuote } from '@/api/getSwapQuote';
 import { formatTokenAmount } from '@/internal/utils/formatTokenAmount';
+import { isSwapError } from '@/swap/utils/isSwapError';
 import type { Token } from '@/token/types';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { isSwapError } from '../../swap/utils/isSwapError';
 import { getBuyQuote } from './getBuyQuote';
 
 vi.mock('@/api/getSwapQuote');
-vi.mock('@/core/utils/formatTokenAmount');
-vi.mock('../../swap/utils/isSwapError');
+vi.mock('@/internal/utils/formatTokenAmount');
+vi.mock('@/swap/utils/isSwapError');
 
 const toToken: Token = {
   name: 'DEGEN',

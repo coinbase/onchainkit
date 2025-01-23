@@ -3,7 +3,6 @@
 import { useCallback } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
-import { useOnchainKit } from '../../useOnchainKit';
 import { Dialog } from '../../internal/primitives/Dialog';
 import { CloseSvg } from '../../internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '../../internal/svg/coinbaseWalletSvg';
@@ -18,6 +17,7 @@ import {
   pressable,
   text,
 } from '../../styles/theme';
+import { useOnchainKit } from '../../useOnchainKit';
 
 type WalletModalProps = {
   isOpen: boolean;

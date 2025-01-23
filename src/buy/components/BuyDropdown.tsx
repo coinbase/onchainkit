@@ -1,10 +1,10 @@
-import { useOnchainKit } from '@/useOnchainKit';
 import { openPopup } from '@/internal/utils/openPopup';
+import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useAccount } from 'wagmi';
-import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { ONRAMP_BUY_URL } from '../../fund/constants';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
+import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { ONRAMP_PAYMENT_METHODS } from '../constants';
 import { isApplePaySupported } from '../utils/isApplePaySupported';
