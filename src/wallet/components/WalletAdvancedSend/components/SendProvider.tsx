@@ -33,6 +33,14 @@ type SendContextType = {
   selectedToken: Token | null;
   setSelectedToken: Dispatch<SetStateAction<Token | null>>;
   handleTokenSelection: (token: Token) => void;
+  fiatAmount: string | null;
+  setFiatAmount: Dispatch<SetStateAction<string | null>>;
+  cryptoAmount: string | null;
+  setCryptoAmount: Dispatch<SetStateAction<string | null>>;
+  exchangeRate: number;
+  setExchangeRate: Dispatch<SetStateAction<number>>;
+  exchangeRateLoading: boolean;
+  setExchangeRateLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 type SendProviderReact = {
@@ -115,6 +123,13 @@ export function SendProvider({ children }: SendProviderReact) {
   const [selectedRecipientAddress, setSelectedRecipientAddress] =
     useState<Address | null>(null);
   const [selectedToken, setSelectedToken] = useState<Token | null>(null);
+  const [fiatAmount, setFiatAmount] = useState<string | null>(null);
+  const [cryptoAmount, setCryptoAmount] = useState<string | null>(null);
+  const [exchangeRate, setExchangeRate] = useState<number>(100);
+  const [exchangeRateLoading, setExchangeRateLoading] = useState<boolean>(true);
+
+  // TODO FETCH EXCHANGE RATE
+
   const [lifecycleStatus, updateLifecycleStatus] =
     useLifecycleStatus<LifecycleStatus>({
       statusName: 'init',
@@ -220,6 +235,14 @@ export function SendProvider({ children }: SendProviderReact) {
     selectedToken,
     setSelectedToken,
     handleTokenSelection,
+    fiatAmount,
+    setFiatAmount,
+    cryptoAmount,
+    setCryptoAmount,
+    exchangeRate,
+    setExchangeRate,
+    exchangeRateLoading,
+    setExchangeRateLoading,
   });
 
   return <SendContext.Provider value={value}>{children}</SendContext.Provider>;

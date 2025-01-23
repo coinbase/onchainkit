@@ -7,6 +7,7 @@ import { AddressInput } from '@/wallet/components/WalletAdvancedSend/components/
 import { AddressSelector } from '@/wallet/components/WalletAdvancedSend/components/AddressSelector';
 import { TokenSelector } from '@/wallet/components/WalletAdvancedSend/components/TokenSelector';
 import { SendAmountInput } from '@/wallet/components/WalletAdvancedSend/components/SendAmountInput';
+import { SendFundingWallet } from '@/wallet/components/WalletAdvancedSend/components/SendFundingWallet';
 
 type SendReact = {
   children?: ReactNode;
@@ -63,6 +64,10 @@ function SendDefaultChildren() {
   });
 
   const activeStep = useMemo(() => {
+    if (!context.ethBalance) {
+      return <SendFundingWallet />;
+    }
+
     if (!context.selectedRecipientAddress) {
       return (
         <>
@@ -89,6 +94,7 @@ function SendDefaultChildren() {
 
     return <SendAmountInput />;
   }, [
+    context.ethBalance,
     context.selectedRecipientAddress,
     context.selectedToken,
     context.recipientInput,
