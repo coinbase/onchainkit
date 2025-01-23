@@ -4,6 +4,9 @@ import type { ReactNode } from 'react';
 import { SendHeader } from './SendHeader';
 import { SendProvider, useSendContext } from './SendProvider';
 import { AddressInput } from '@/send/components/AddressInput';
+import { AddressSelector } from '@/send/components/AddressSelector';
+import { TokenSelector } from '@/send/components/TokenSelector';
+import { ConnectWallet } from '@/wallet';
 
 type SendReact = {
   children?: ReactNode;
@@ -31,25 +34,10 @@ export function Send({ children, className }: SendReact) {
 }
 
 function SendContent({ children, className }: SendReact) {
-  const {
-    senderAddress,
-    senderChain,
-    tokenBalances,
-    ethBalance,
-    recipientInput,
-    setRecipientInput,
-    validatedRecipientAddress,
-    selectedRecipientAddress,
-  } = useSendContext();
+  const context = useSendContext();
 
   console.log({
-    senderAddress,
-    senderChain,
-    tokenBalances,
-    ethBalance,
-    recipientInput,
-    validatedRecipientAddress,
-    selectedRecipientAddress,
+    context
   });
 
   if (!children) {
@@ -61,16 +49,29 @@ function SendContent({ children, className }: SendReact) {
           border.lineDefault,
           color.foreground,
           'h-96 w-88',
-          'flex flex-col',
+          'flex flex-col items-center',
           'p-4',
           className,
         )}
       >
         <SendHeader />
-        <AddressInput
-          addressInput={recipientInput}
-          setAddressInput={setRecipientInput}
-        />
+        {
+          context.lifecycleStatus.statusName === 'connectingWallet' && (
+            <div className='flex h-full w-full items-center justify-center'>
+            <ConnectWallet />
+            </div>
+          )
+        }
+        {
+          context.lifecycleStatus.statusName !== 'connectingWallet' && (
+            <AddressInput
+              addressInput={context.recipientInput}
+              setAddressInput={context.setRecipientInput}
+            />
+          )
+        }
+        <AddressSelector />
+        <TokenSelector />
       </div>
     );
   }

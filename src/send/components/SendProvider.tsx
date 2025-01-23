@@ -7,6 +7,7 @@ import {
   type Dispatch,
   type ReactNode,
   type SetStateAction,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -14,6 +15,8 @@ import {
 import type { Address, Chain, Hex, TransactionReceipt } from 'viem';
 import { useAccount } from 'wagmi';
 import { validateAddressInput } from '@/send/validateAddressInput';
+import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStatus';
+import type { Token } from '@/token';
 
 type SendContextType = {
   lifecycleStatus: LifecycleStatus;
@@ -27,6 +30,10 @@ type SendContextType = {
   setValidatedRecipientAddress: Dispatch<SetStateAction<Address | null>>;
   selectedRecipientAddress: Address | null;
   setSelectedRecipientAddress: Dispatch<SetStateAction<Address | null>>;
+  handleAddressSelection: (address: Address) => void;
+  selectedToken: Token | null;
+  setSelectedToken: Dispatch<SetStateAction<Token | null>>;
+  handleTokenSelection: (token: Token) => void;
 };
 
 type SendProviderReact = {
@@ -41,7 +48,31 @@ type LifecycleStatus =
       };
     }
   | {
+      statusName: 'connectingWallet';
+      statusData: {
+        isMissingRequiredField: true;
+      };
+    }
+  | {
+      statusName: 'selectingAddress';
+      statusData: {
+        isMissingRequiredField: true;
+      };
+    }
+  | {
       statusName: 'addressSelected';
+      statusData: {
+        isMissingRequiredField: boolean;
+      };
+    }
+  | {
+      statusName: 'selectingToken';
+      statusData: {
+        isMissingRequiredField: true;
+      };
+    }
+  | {
+      statusName: 'tokenSelected';
       statusData: {
         isMissingRequiredField: boolean;
       };
@@ -61,7 +92,7 @@ type LifecycleStatus =
   | {
       statusName: 'transactionApproved';
       statusData: {
-        isMissingRequiredField: boolean;
+        isMissingRequiredField: false;
         callsId?: Hex;
         transactionHash?: Hex;
       };
@@ -88,20 +119,22 @@ export function SendProvider({ children }: SendProviderReact) {
   );
   const [senderChain, setSenderChain] = useState<Chain | undefined>(undefined);
   const [ethBalance, setEthBalance] = useState<number | undefined>(undefined);
-  const [tokenBalances, setTokenBalances] = useState<
-    PortfolioTokenWithFiatValue[] | undefined
-  >(undefined);
   const [recipientInput, setRecipientInput] = useState<string | null>(null);
   const [validatedRecipientAddress, setValidatedRecipientAddress] =
     useState<Address | null>(null);
   const [selectedRecipientAddress, setSelectedRecipientAddress] =
     useState<Address | null>(null);
-  const [lifecycleStatus, setLifecycleStatus] = useState<LifecycleStatus>({
-    statusName: 'init',
-    statusData: {
-      isMissingRequiredField: true,
-    },
-  });
+  const [tokenBalances, setTokenBalances] = useState<
+    PortfolioTokenWithFiatValue[] | undefined
+  >(undefined);
+  const [selectedToken, setSelectedToken] = useState<Token | null>(null);
+  const [lifecycleStatus, updateLifecycleStatus] =
+    useLifecycleStatus<LifecycleStatus>({
+      statusName: 'init',
+      statusData: {
+        isMissingRequiredField: true,
+      },
+    });
 
   const { address, chain } = useAccount();
   useEffect(() => {
@@ -146,6 +179,65 @@ export function SendProvider({ children }: SendProviderReact) {
     validateRecipientInput();
   }, [recipientInput]);
 
+  useEffect(() => {
+    if (lifecycleStatus.statusName === 'init') {
+      if (senderAddress) {
+        updateLifecycleStatus({
+          statusName: 'selectingAddress',
+          statusData: {
+            isMissingRequiredField: true,
+          },
+        });
+      } else {
+        updateLifecycleStatus({
+          statusName: 'connectingWallet',
+          statusData: {
+            isMissingRequiredField: true,
+          },
+        });
+      }
+    }
+  }, [senderAddress, lifecycleStatus, updateLifecycleStatus]);
+
+  useEffect(() => {
+    if (lifecycleStatus.statusName === 'connectingWallet') {
+      if (senderAddress) {
+        updateLifecycleStatus({
+          statusName: 'selectingAddress',
+          statusData: {
+            isMissingRequiredField: true,
+          },
+        });
+      }
+    }
+  }, [senderAddress, lifecycleStatus, updateLifecycleStatus]);
+
+  const handleAddressSelection = useCallback(
+    (address: Address) => {
+      setSelectedRecipientAddress(address);
+      updateLifecycleStatus({
+        statusName: 'selectingToken',
+        statusData: {
+          isMissingRequiredField: true,
+        },
+      });
+    },
+    [updateLifecycleStatus],
+  );
+
+  const handleTokenSelection = useCallback(
+    (token: Token) => {
+      setSelectedToken(token);
+      updateLifecycleStatus({
+        statusName: 'tokenSelected',
+        statusData: {
+          isMissingRequiredField: true,
+        },
+      });
+    },
+    [updateLifecycleStatus],
+  );
+
   const value = useValue({
     lifecycleStatus,
     senderAddress,
@@ -158,6 +250,10 @@ export function SendProvider({ children }: SendProviderReact) {
     setValidatedRecipientAddress,
     selectedRecipientAddress,
     setSelectedRecipientAddress,
+    handleAddressSelection,
+    selectedToken,
+    setSelectedToken,
+    handleTokenSelection,
   });
 
   return <SendContext.Provider value={value}>{children}</SendContext.Provider>;
