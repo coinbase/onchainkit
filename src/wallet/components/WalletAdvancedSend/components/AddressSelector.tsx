@@ -25,7 +25,7 @@ export function AddressSelector() {
     >
       <Identity
         address={validatedRecipientAddress}
-        chain={senderChain}
+        chain={senderChain || undefined}
         hasCopyAddressOnClick={false}
         className={cn(
           background.default,

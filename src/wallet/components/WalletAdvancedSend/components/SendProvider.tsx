@@ -46,12 +46,6 @@ type LifecycleStatus =
         isMissingRequiredField: true;
       };
     }
-  // | {
-  //     statusName: 'connectingWallet';
-  //     statusData: {
-  //       isMissingRequiredField: true;
-  //     };
-  //   }
   | {
       statusName: 'fundingWallet';
       statusData: {
@@ -64,12 +58,6 @@ type LifecycleStatus =
         isMissingRequiredField: true;
       };
     }
-  // | {
-  //     statusName: 'addressSelected';
-  //     statusData: {
-  //       isMissingRequiredField: boolean;
-  //     };
-  //   }
   | {
       statusName: 'selectingToken';
       statusData: {

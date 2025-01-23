@@ -216,6 +216,10 @@ export type WalletAdvancedContextType = {
   setShowQr: Dispatch<SetStateAction<boolean>>;
   isQrClosing: boolean;
   setIsQrClosing: Dispatch<SetStateAction<boolean>>;
+  showSend: boolean;
+  setShowSend: Dispatch<SetStateAction<boolean>>;
+  isSendClosing: boolean;
+  setIsSendClosing: Dispatch<SetStateAction<boolean>>;
   tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
   portfolioFiatValue: number | undefined;
   isFetchingPortfolioData: boolean;

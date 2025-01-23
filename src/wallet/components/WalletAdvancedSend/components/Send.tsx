@@ -6,7 +6,6 @@ import { SendProvider, useSendContext } from './SendProvider';
 import { AddressInput } from '@/wallet/components/WalletAdvancedSend/components/AddressInput';
 import { AddressSelector } from '@/wallet/components/WalletAdvancedSend/components/AddressSelector';
 import { TokenSelector } from '@/wallet/components/WalletAdvancedSend/components/TokenSelector';
-import { ConnectWallet } from '@/wallet';
 
 type SendReact = {
   children?: ReactNode;
@@ -55,12 +54,7 @@ function SendContent({ children, className }: SendReact) {
         )}
       >
         <SendHeader />
-        {context.lifecycleStatus.statusName === 'connectingWallet' && (
-          <div className="flex h-full w-full items-center justify-center">
-            <ConnectWallet />
-          </div>
-        )}
-        {context.lifecycleStatus.statusName !== 'connectingWallet' && (
+        {context.lifecycleStatus.statusName !== 'init' && (
           <AddressInput
             addressInput={context.recipientInput}
             setAddressInput={context.setRecipientInput}

@@ -32,6 +32,8 @@ export function WalletAdvancedProvider({
   const [isSwapClosing, setIsSwapClosing] = useState(false);
   const [showQr, setShowQr] = useState(false);
   const [isQrClosing, setIsQrClosing] = useState(false);
+  const [showSend, setShowSend] = useState(false);
+  const [isSendClosing, setIsSendClosing] = useState(false);
   const {
     data: portfolioData,
     refetch: refetchPortfolioData,
@@ -56,6 +58,10 @@ export function WalletAdvancedProvider({
     setShowQr,
     isQrClosing,
     setIsQrClosing,
+    showSend,
+    setShowSend,
+    isSendClosing,
+    setIsSendClosing,
     tokenBalances,
     portfolioFiatValue,
     isFetchingPortfolioData,

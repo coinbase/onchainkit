@@ -18,7 +18,7 @@ type TransactionActionProps = {
 export function WalletAdvancedTransactionActions() {
   const { address, chain } = useWalletContext();
   const { projectId } = useOnchainKit();
-  const { isFetchingPortfolioData, setShowSwap, animations } =
+  const { isFetchingPortfolioData, setShowSwap, setShowSend, animations } =
     useWalletAdvancedContext();
 
   const handleBuy = useCallback(() => {
@@ -48,8 +48,8 @@ export function WalletAdvancedTransactionActions() {
   }, [address, chain?.name, projectId]);
 
   const handleSend = useCallback(() => {
-    window.open('https://wallet.coinbase.com', '_blank');
-  }, []);
+    setShowSend(true);
+  }, [setShowSend]);
 
   const handleSwap = useCallback(() => {
     setShowSwap(true);
