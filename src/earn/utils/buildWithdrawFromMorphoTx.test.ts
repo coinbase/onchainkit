@@ -1,14 +1,17 @@
 import { MORPHO_VAULT_ABI, USDC_DECIMALS } from '@/earn/constants';
 import { encodeFunctionData, parseUnits } from 'viem';
 import { describe, expect, it } from 'vitest';
-import { buildWithdrawFromMorphoTx } from './buildWithdrawFromMorphoTx';
+import {
+  type WithdrawFromMorphoArgs,
+  buildWithdrawFromMorphoTx,
+} from './buildWithdrawFromMorphoTx';
 
 describe('buildWithdrawFromMorphoTx', () => {
-  const mockArgs = {
+  const mockArgs: WithdrawFromMorphoArgs = {
     vaultAddress: '0xd63070114470f685b75B74D60EEc7c1113d33a3D',
     amount: parseUnits('1000', USDC_DECIMALS),
     receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
-  } as const;
+  };
 
   it('should return an array with one transaction', async () => {
     const result = await buildWithdrawFromMorphoTx(mockArgs);

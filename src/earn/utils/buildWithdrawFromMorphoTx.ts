@@ -2,7 +2,7 @@ import { MORPHO_VAULT_ABI } from '@/earn/constants';
 import type { Call } from '@/transaction/types';
 import { type Address, encodeFunctionData } from 'viem';
 
-type WithdrawFromMorphoArgs = {
+export type WithdrawFromMorphoArgs = {
   /** The address of the Morpho vault */
   vaultAddress: Address;
   /** The amount of tokens to withdraw */
