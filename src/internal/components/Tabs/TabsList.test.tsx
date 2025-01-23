@@ -23,9 +23,7 @@ describe('TabsList', () => {
     );
 
     const tabsList = screen.getByText('Tab 1').parentElement;
-    expect(tabsList).toHaveClass(
-      'flex overflow-hidden !border-r-0 !border-l-0 !border-t-0',
-    );
+    expect(tabsList).toHaveClass('flex overflow-hidden');
   });
 
   it('applies custom className', () => {
@@ -47,8 +45,6 @@ describe('TabsList', () => {
     );
 
     const tabsList = screen.getByText('Tab 1').parentElement;
-    expect(tabsList).toHaveClass(
-      'flex overflow-hidden !border-r-0 !border-l-0 !border-t-0 custom-class',
-    );
+    expect(tabsList).toHaveClass('flex overflow-hidden custom-class');
   });
 });
