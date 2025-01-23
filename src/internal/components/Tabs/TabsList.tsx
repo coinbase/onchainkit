@@ -1,4 +1,4 @@
-import { border, cn } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 
 type TabsListReact = {
   className?: string;
@@ -7,14 +7,6 @@ type TabsListReact = {
 
 export function TabsList({ className, children }: TabsListReact) {
   return (
-    <div
-      className={cn(
-        border.lineDefault,
-        'flex overflow-hidden !border-r-0 !border-l-0 !border-t-0',
-        className,
-      )}
-    >
-      {children}
-    </div>
+    <div className={cn('flex overflow-hidden', className)}>{children}</div>
   );
 }
