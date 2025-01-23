@@ -158,16 +158,16 @@
       "default": "./esm/nft/index.js"
     },
     "./nft/view": {
-      "types": "./esm/nft/view/index.d.ts",
-      "module": "./esm/nft/view/index.js",
-      "import": "./esm/nft/view/index.js",
-      "default": "./esm/nft/view/index.js"
+      "types": "./esm/nft/components/view/index.d.ts",
+      "module": "./esm/nft/components/view/index.js",
+      "import": "./esm/nft/components/view/index.js",
+      "default": "./esm/nft/components/view/index.js"
     },
     "./nft/mint": {
-      "types": "./esm/nft/mint/index.d.ts",
-      "module": "./esm/nft/mint/index.js",
-      "import": "./esm/nft/mint/index.js",
-      "default": "./esm/nft/mint/index.js"
+      "types": "./esm/nft/components/mint/index.d.ts",
+      "module": "./esm/nft/components/mint/index.js",
+      "import": "./esm/nft/components/mint/index.js",
+      "default": "./esm/nft/components/mint/index.js"
     },
     "./swap": {
       "types": "./esm/swap/index.d.ts",
