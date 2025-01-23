@@ -1,21 +1,19 @@
 import { useValue } from '@/core-react/internal/hooks/useValue';
-import { type ReactNode, createContext, useContext } from 'react';
-import type { Address } from 'viem';
-
-interface EarnContextType {
-  vaultAddress: Address;
-}
+import { createContext, useContext, useState } from 'react';
+import type { EarnContextType, EarnProviderReact } from '../types';
 
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 
-interface EarnProviderProps {
-  vaultAddress: Address;
-  children: ReactNode;
-}
+export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
+  const [depositAmount, setDepositAmount] = useState('');
+  const [withdrawAmount, setWithdrawAmount] = useState('');
 
-export function EarnProvider({ vaultAddress, children }: EarnProviderProps) {
   const value = useValue({
     vaultAddress,
+    depositAmount,
+    setDepositAmount,
+    withdrawAmount,
+    setWithdrawAmount,
   });
 
   return <EarnContext.Provider value={value}>{children}</EarnContext.Provider>;
