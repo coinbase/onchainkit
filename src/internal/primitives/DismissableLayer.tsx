@@ -50,6 +50,10 @@ export function DismissableLayer({
         return;
       }
 
+      if (!event.target) {
+        return;
+      }
+
       const target = event.target as Node;
 
       if (triggerRef?.current?.contains(target)) {

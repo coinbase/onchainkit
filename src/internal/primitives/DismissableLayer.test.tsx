@@ -194,4 +194,18 @@ describe('DismissableLayer', () => {
     fireEvent.pointerDown(document.body);
     expect(onDismiss).not.toHaveBeenCalled();
   });
+
+  it('handles null event target gracefully', () => {
+    render(
+      <DismissableLayer onDismiss={onDismiss}>
+        <div>Test Content</div>
+      </DismissableLayer>,
+    );
+
+    const event = new Event('pointerdown', { bubbles: true });
+    Object.defineProperty(event, 'target', { value: null });
+    document.dispatchEvent(event);
+
+    expect(onDismiss).not.toHaveBeenCalled();
+  });
 });
