@@ -1,11 +1,25 @@
 import { MORPHO_VAULT_ABI } from '@/earn/abis/morpho';
-import { erc20Abi, type Address } from 'viem';
+import { erc20Abi, type Address, formatUnits } from 'viem';
 import { useReadContract, useReadContracts } from 'wagmi';
+
+type UseMorphoVaultParams = {
+  vaultAddress: Address;
+  address: Address;
+};
+
+export type UseMorphoVaultReturnType = {
+  status: 'pending' | 'success' | 'error';
+  asset: Address | undefined;
+  assetDecimals: number | undefined;
+  vaultDecimals: number | undefined;
+  name: string | undefined;
+  balance: string | undefined;
+};
 
 export function useMorphoVault({
   vaultAddress,
   address,
-}: { vaultAddress: Address; address: Address }) {
+}: UseMorphoVaultParams): UseMorphoVaultReturnType {
   const { data, status } = useReadContracts({
     contracts: [
       {
@@ -24,6 +38,11 @@ export function useMorphoVault({
         functionName: 'balanceOf',
         args: [address],
       },
+      {
+        abi: MORPHO_VAULT_ABI,
+        address: vaultAddress,
+        functionName: 'decimals',
+      },
     ],
   });
 
@@ -33,11 +52,17 @@ export function useMorphoVault({
     functionName: 'decimals',
   });
 
+  const formattedBalance =
+    data?.[2].result && data?.[3].result
+      ? formatUnits(data?.[2].result, data?.[3].result)
+      : undefined;
+
   return {
     status,
     asset: data?.[0].result,
     assetDecimals: tokenDecimals,
+    vaultDecimals: data?.[3].result,
     name: data?.[1].result,
-    balance: data?.[2].result,
+    balance: formattedBalance,
   };
 }

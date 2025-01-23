@@ -3,29 +3,49 @@ import { buildWithdrawFromMorphoTx } from '@/earn/utils/buildWithdrawFromMorphoT
 import type { Call } from '@/transaction/types';
 import { parseUnits, type Address } from 'viem';
 
+export type UseBuildMorphoWithdrawTxParams = {
+  vaultAddress: Address;
+  receiverAddress: Address;
+  amount: number;
+};
+
 /**
  * Generates Call[] for a Morpho withdraw transaction
  * to be used with <Transaction />
  */
-export function useBuildMorphoDepositTx({
+export function useBuildMorphoWithdrawTx({
   vaultAddress,
   amount,
   receiverAddress,
-}: { vaultAddress: Address; receiverAddress: Address; amount: number }): {
+}: UseBuildMorphoWithdrawTxParams): {
   calls: Call[];
 } {
-  const { asset, balance, decimals } = useMorphoVault({
+  const { asset, balance, assetDecimals, vaultDecimals } = useMorphoVault({
     vaultAddress,
     address: receiverAddress,
   });
 
-  if (!asset || balance === undefined || !decimals) {
+  const amountIsGreaterThanBalance = amount > Number(balance);
+  console.log('amountIsGreaterThanBalance:', amountIsGreaterThanBalance);
+
+  console.log('asset:', asset);
+  console.log('balance:', balance);
+  console.log('assetDecimals:', assetDecimals);
+  console.log('vaultDecimals:', vaultDecimals);
+
+  if (
+    !asset ||
+    balance === undefined ||
+    !assetDecimals ||
+    !vaultDecimals ||
+    amountIsGreaterThanBalance
+  ) {
     return {
       calls: [],
     };
   }
 
-  const parsedAmount = parseUnits(amount.toString(), decimals);
+  const parsedAmount = parseUnits(amount.toString(), assetDecimals);
 
   const calls = buildWithdrawFromMorphoTx({
     receiverAddress,
