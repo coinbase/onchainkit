@@ -8,11 +8,6 @@ type MobileTrayProps = {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
-  onAnimationEnd?: () => void;
-  animation?: {
-    tray: string;
-    overlay: string;
-  };
   className?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
@@ -22,9 +17,7 @@ type MobileTrayProps = {
 export function MobileTray({
   children,
   className,
-  animation,
   isOpen,
-  onAnimationEnd,
   onClose,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledby,
@@ -32,21 +25,18 @@ export function MobileTray({
 }: MobileTrayProps) {
   const componentTheme = useTheme();
 
-  if (!isOpen) {
-    return null;
-  }
-
   return (
-    <div
-      className={cn(
-        componentTheme,
-        'fixed inset-0',
-        'bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-10',
-        animation?.overlay,
-        zIndex.modal,
+    <>
+      {isOpen && (
+        <div
+          className={cn(
+            'fixed inset-0',
+            'bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-10',
+            zIndex.modal,
+          )}
+          data-testid="ockMobileTrayOverlay"
+        />
       )}
-      data-testid="ockMobileTrayOverlay"
-    >
       <FocusTrap active={isOpen}>
         <DismissableLayer onDismiss={onClose}>
           <div
@@ -55,13 +45,13 @@ export function MobileTray({
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledby}
             aria-describedby={ariaDescribedby}
-            onAnimationEnd={onAnimationEnd}
             className={cn(
+              componentTheme,
               background.default,
               zIndex.tray,
               'fixed right-0 bottom-0 left-0',
               'transform rounded-t-3xl p-2 transition-transform',
-              animation?.tray,
+              'fade-in slide-in-from-bottom-1/2 animate-in',
               className,
             )}
           >
@@ -69,6 +59,6 @@ export function MobileTray({
           </div>
         </DismissableLayer>
       </FocusTrap>
-    </div>
+    </>
   );
 }

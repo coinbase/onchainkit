@@ -20,7 +20,6 @@ export function WalletAdvancedContent({
     setIsSubComponentOpen,
     isSubComponentClosing,
     setIsSubComponentClosing,
-    handleClose,
   } = useWalletContext();
 
   const { showQr, showSwap, tokenBalances, animations } =
@@ -77,12 +76,7 @@ export function WalletAdvancedContent({
     return (
       <MobileTray
         isOpen={isSubComponentOpen}
-        onClose={handleClose}
-        onAnimationEnd={handleAnimationEnd}
-        animation={{
-          tray: animations.mobileContainer,
-          overlay: animations.mobileContainerOverlay,
-        }}
+        onClose={() => setIsSubComponentOpen(false)}
       >
         <div className="flex h-full w-full flex-col items-center justify-center">
           {content}
