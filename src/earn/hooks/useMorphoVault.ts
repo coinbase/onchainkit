@@ -4,7 +4,7 @@ import { useReadContract, useReadContracts } from 'wagmi';
 
 type UseMorphoVaultParams = {
   vaultAddress: Address;
-  address: Address;
+  receiverAddress: Address;
 };
 
 export type UseMorphoVaultReturnType = {
@@ -18,7 +18,7 @@ export type UseMorphoVaultReturnType = {
 
 export function useMorphoVault({
   vaultAddress,
-  address,
+  receiverAddress,
 }: UseMorphoVaultParams): UseMorphoVaultReturnType {
   const { data, status } = useReadContracts({
     contracts: [
@@ -36,7 +36,7 @@ export function useMorphoVault({
         abi: MORPHO_VAULT_ABI,
         address: vaultAddress,
         functionName: 'balanceOf',
-        args: [address],
+        args: [receiverAddress],
       },
       {
         abi: MORPHO_VAULT_ABI,

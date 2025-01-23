@@ -19,7 +19,7 @@ vi.mock('wagmi', () => ({
 describe('useMorphoVault', () => {
   const mockParams = {
     vaultAddress: DUMMY_ADDRESS,
-    address: DUMMY_ADDRESS,
+    receiverAddress: DUMMY_ADDRESS,
   };
 
   it('returns undefined values when contract reads are pending', () => {

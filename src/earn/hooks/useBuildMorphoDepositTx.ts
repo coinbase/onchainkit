@@ -22,7 +22,7 @@ export function useBuildMorphoDepositTx({
 } {
   const { asset, balance, assetDecimals } = useMorphoVault({
     vaultAddress,
-    address: receiverAddress,
+    receiverAddress,
   });
 
   if (!asset || balance === undefined || !assetDecimals) {

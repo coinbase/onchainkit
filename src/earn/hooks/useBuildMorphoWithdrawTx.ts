@@ -22,7 +22,7 @@ export function useBuildMorphoWithdrawTx({
 } {
   const { asset, balance, assetDecimals, vaultDecimals } = useMorphoVault({
     vaultAddress,
-    address: receiverAddress,
+    receiverAddress,
   });
 
   const amountIsGreaterThanBalance = amount > Number(balance);
