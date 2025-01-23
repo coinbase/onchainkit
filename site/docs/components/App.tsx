@@ -6,9 +6,11 @@ import type { ReactNode } from 'react';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
+import {
+  WORKAROUND_CDP_API_KEY,
+  WORKAROUND_CDP_PROJECT_ID,
+} from '../constants.ts';
 import { useTheme } from '../contexts/Theme.tsx';
-import { WORKAROUND_CDP_PROJECT_ID } from '../constants.ts';
-import { WORKAROUND_CDP_API_KEY } from '../constants.ts';
 const queryClient = new QueryClient();
 
 const wagmiConfig = createConfig({
@@ -31,8 +33,10 @@ export default function App({ children }: { children: ReactNode }) {
     return null;
   }
 
-  const viteCdpApiKey = import.meta.env.VITE_CDP_API_KEY ?? WORKAROUND_CDP_API_KEY;
-  const viteProjectId = import.meta.env.VITE_CDP_PROJECT_ID ?? WORKAROUND_CDP_PROJECT_ID;
+  const viteCdpApiKey =
+    import.meta.env.VITE_CDP_API_KEY ?? WORKAROUND_CDP_API_KEY;
+  const viteProjectId =
+    import.meta.env.VITE_CDP_PROJECT_ID ?? WORKAROUND_CDP_PROJECT_ID;
   const { theme } = useTheme();
 
   return (
