@@ -9,7 +9,7 @@ interface FocusTrapProps {
   children?: React.ReactNode;
 }
 
-// FocusTrap ensures keyboard focus remains within a contained area for accessibility
+/** FocusTrap ensures keyboard focus remains within a contained area for accessibility */
 export function FocusTrap({ active = true, children }: FocusTrapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);

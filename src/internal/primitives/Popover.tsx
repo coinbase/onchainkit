@@ -10,21 +10,25 @@ type Position = 'top' | 'right' | 'bottom' | 'left';
 type Alignment = 'start' | 'center' | 'end';
 
 type PopoverProps = {
-  align?: Alignment; // Determines how the popover aligns with the anchor
-  anchorEl: HTMLElement | null;
+  /** Determines how the popover aligns with the anchor */
+  align?: Alignment;
+  /** The element that the popover will be positioned relative to. */
+  anchor: HTMLElement | null;
   children?: React.ReactNode;
   onClose?: () => void;
-  offset?: number; // Spacing (in pixels) between the anchor element and the popover content.
-  position?: Position; // Determines which side of the anchor element the popover will appear.
+  /** Spacing (in pixels) between the anchor element and the popover content. */
+  offset?: number;
+  /** Determines which side of the anchor element the popover will appear. */
+  position?: Position;
   isOpen?: boolean;
+  /** Reference to the element that triggered the popover (e.g., a button that opened it). */
+  trigger?: React.RefObject<HTMLElement>;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-describedby'?: string;
 };
 
-/**
- * Calculates the initial position of the popover based on the position prop.
- */
+/** Calculates the initial position of the popover based on the position prop. */
 function getInitialPosition(
   triggerRect: DOMRect,
   contentRect: DOMRect,
@@ -52,9 +56,7 @@ function getInitialPosition(
   return { top, left };
 }
 
-/**
- * Adjusts the initial position based on the alignment prop.
- */
+/** Adjusts the initial position based on the alignment prop. */
 function adjustAlignment(
   triggerRect: DOMRect,
   contentRect: DOMRect,
@@ -95,22 +97,21 @@ function adjustAlignment(
   return { top, left };
 }
 
-/**
- * Popover primitive that handles:
+/** Popover primitive that handles:
  * - Positioning relative to anchor element
  * - Focus management
  * - Click outside and escape key dismissal
  * - Portal rendering
- * - Proper ARIA attributes
- */
+ * - Proper ARIA attributes */
 export function Popover({
   children,
-  anchorEl,
+  anchor,
   isOpen,
   onClose,
   position = 'bottom',
   align = 'center',
   offset = 8,
+  trigger,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
@@ -119,11 +120,11 @@ export function Popover({
   const componentTheme = useTheme();
 
   const updatePosition = useCallback(() => {
-    if (!anchorEl || !contentRef.current) {
+    if (!anchor || !contentRef.current) {
       return;
     }
 
-    const triggerRect = anchorEl.getBoundingClientRect();
+    const triggerRect = anchor.getBoundingClientRect();
     const contentRect = contentRef.current?.getBoundingClientRect();
 
     if (!triggerRect || !contentRect) {
@@ -146,7 +147,7 @@ export function Popover({
 
     contentRef.current.style.top = `${finalPosition.top}px`;
     contentRef.current.style.left = `${finalPosition.left}px`;
-  }, [anchorEl, position, offset, align]);
+  }, [anchor, position, offset, align]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -170,7 +171,7 @@ export function Popover({
   const popover = (
     <div className={cn(componentTheme, 'fixed z-50', 'pointer-events-none')}>
       <FocusTrap active={isOpen}>
-        <DismissableLayer onDismiss={onClose}>
+        <DismissableLayer onDismiss={onClose} triggerRef={trigger}>
           <div
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledby}

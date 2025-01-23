@@ -41,6 +41,50 @@ vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 
+vi.mock('../../internal/primitives/FocusTrap', () => ({
+  FocusTrap: vi.fn(({ children }) => (
+    <div data-testid="mock-focus-trap">{children}</div>
+  )),
+}));
+
+vi.mock('../../internal/primitives/DismissableLayer', () => ({
+  DismissableLayer: vi.fn(({ children, onDismiss }) => (
+    <div
+      data-testid="mock-dismissable-layer"
+      onClick={onDismiss}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          onDismiss();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+    >
+      {children}
+    </div>
+  )),
+}));
+
+vi.mock('../../internal/primitives/Popover', () => ({
+  Popover: vi.fn(({ children, isOpen, onClose }) =>
+    isOpen ? (
+      <div
+        data-testid="mock-popover"
+        onClick={onClose}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            onClose();
+          }
+        }}
+        role="button"
+        tabIndex={0}
+      >
+        {children}
+      </div>
+    ) : null,
+  ),
+}));
+
 const useBreakpointsMock = useBreakpoints as Mock;
 
 const renderComponent = (props = {}) => {
@@ -57,6 +101,20 @@ const renderComponent = (props = {}) => {
 
 describe('SwapSettings', () => {
   beforeEach(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: vi.fn().mockImplementation((query) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      })),
+    });
+
     vi.clearAllMocks();
     useBreakpointsMock.mockReturnValue('md');
   });
@@ -102,14 +160,18 @@ describe('SwapSettings', () => {
       'custom-class',
     );
     expect(useIcon).toHaveBeenCalledWith({ icon: 'custom-icon' });
+
     const button = screen.getByRole('button', {
       name: /toggle swap settings/i,
     });
     fireEvent.click(button);
+
     await waitFor(() => {
       expect(screen.getByTestId('ockSwapSettingsDropdown')).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByTestId('outside'));
+
+    fireEvent.click(screen.getByTestId('mock-popover'));
+
     await waitFor(() => {
       expect(
         screen.queryByTestId('ockSwapSettingsDropdown'),
@@ -143,44 +205,84 @@ describe('SwapSettings', () => {
     const button = screen.getByRole('button', {
       name: /toggle swap settings/i,
     });
+
     const initialBottomSheet = screen.getByTestId(
       'ockSwapSettingsSlippageLayoutBottomSheet_container',
     );
-    expect(initialBottomSheet).toHaveClass('ease-in-out');
-    expect(initialBottomSheet).toHaveClass('group-[]:bottom-0');
+    expect(initialBottomSheet).toHaveClass('transition-[bottom]');
+    expect(initialBottomSheet).toHaveClass('duration-300');
+    expect(initialBottomSheet).toHaveClass('-bottom-[12.875rem]');
+
     fireEvent.click(button);
+
     await waitFor(() => {
       const parentDiv = screen
         .getByTestId('ockSwapSettings_Settings')
         .querySelector('div');
       expect(parentDiv).toHaveClass('group');
+
       const openBottomSheet = screen.getByTestId(
         'ockSwapSettingsSlippageLayoutBottomSheet_container',
       );
-      expect(openBottomSheet).toHaveClass('group-[]:bottom-0');
+      expect(openBottomSheet).toHaveClass('bottom-0');
     });
+
     fireEvent.click(button);
+
     await waitFor(() => {
       const parentDiv = screen
         .getByTestId('ockSwapSettings_Settings')
         .querySelector('div');
       expect(parentDiv).not.toHaveClass('group');
+
       const closedBottomSheet = screen.getByTestId(
         'ockSwapSettingsSlippageLayoutBottomSheet_container',
       );
-      expect(closedBottomSheet).toHaveClass('ease-in-out');
+      expect(closedBottomSheet).toHaveClass('-bottom-[12.875rem]');
     });
   });
 
-  it('removes event listener on unmount', () => {
-    const removeEventListenerSpy = vi.spyOn(document, 'removeEventListener');
-    const { unmount } = renderComponent();
-    unmount();
-    expect(removeEventListenerSpy).toHaveBeenCalledWith(
-      'click',
-      expect.any(Function),
-      { capture: true },
-    );
-    removeEventListenerSpy.mockRestore();
+  it('renders mobile view with FocusTrap and DismissableLayer when breakpoint is "sm"', async () => {
+    useBreakpointsMock.mockReturnValue('sm');
+    renderComponent();
+
+    const button = screen.getByRole('button', {
+      name: /toggle swap settings/i,
+    });
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('mock-focus-trap')).toBeInTheDocument();
+      expect(screen.getByTestId('mock-dismissable-layer')).toBeInTheDocument();
+      expect(screen.getByTestId('mock-bottom-sheet')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByTestId('mock-dismissable-layer'));
+    await waitFor(() => {
+      const bottomSheet = screen.getByTestId(
+        'ockSwapSettingsSlippageLayoutBottomSheet_container',
+      );
+      expect(bottomSheet).toHaveClass('-bottom-[12.875rem]');
+    });
+  });
+
+  it('renders desktop view with Popover when breakpoint is not "sm"', async () => {
+    useBreakpointsMock.mockReturnValue('md');
+    renderComponent();
+
+    const button = screen.getByRole('button', {
+      name: /toggle swap settings/i,
+    });
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('mock-popover')).toBeInTheDocument();
+      expect(screen.getByTestId('ockSwapSettingsDropdown')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByTestId('mock-popover'));
+    await waitFor(() => {
+      expect(screen.queryByTestId('mock-popover')).not.toBeInTheDocument();
+    });
   });
 });
