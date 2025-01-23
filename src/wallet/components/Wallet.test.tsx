@@ -1,6 +1,6 @@
+import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
 import { WalletAdvanced } from './WalletAdvanced';

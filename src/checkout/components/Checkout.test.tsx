@@ -1,3 +1,4 @@
+import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { render, screen } from '@testing-library/react';
 import type React from 'react';
 import {
@@ -9,7 +10,6 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { Checkout } from './Checkout';
 
 function mock<T>(func: T) {

@@ -2,8 +2,8 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { useIcon } from '../../internal/hooks/useIcon';
 import { useBreakpoints } from '../../internal/hooks/useBreakpoints';
+import { useIcon } from '../../internal/hooks/useIcon';
 import { SwapSettings } from './SwapSettings';
 import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';

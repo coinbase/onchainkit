@@ -1,7 +1,7 @@
 import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { useCallback, useMemo } from 'react';
-import { useIcon } from '../../internal/hooks/useIcon';
 import { Skeleton } from '../../internal/components/Skeleton';
+import { useIcon } from '../../internal/hooks/useIcon';
 import { cn, pressable, text } from '../../styles/theme';
 import type { FundCardAmountInputTypeSwitchPropsReact } from '../types';
 import { truncateDecimalPlaces } from '../utils/truncateDecimalPlaces';

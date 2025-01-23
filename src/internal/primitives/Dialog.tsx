@@ -1,8 +1,8 @@
 import type React from 'react';
 import { useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { useTheme } from '../hooks/useTheme';
 import { cn } from '../../styles/theme';
+import { useTheme } from '../hooks/useTheme';
 import { DismissableLayer } from './DismissableLayer';
 import { FocusTrap } from './FocusTrap';
 

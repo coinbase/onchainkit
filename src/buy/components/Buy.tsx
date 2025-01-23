@@ -1,10 +1,10 @@
 'use client';
 
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
-import { useRef } from 'react';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { cn } from '@/styles/theme';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '@/swap/constants';
+import { useRef } from 'react';
 import type { BuyReact } from '../types';
 import { BuyAmountInput } from './BuyAmountInput';
 import { BuyButton } from './BuyButton';

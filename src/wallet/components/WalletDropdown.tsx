@@ -1,8 +1,8 @@
 'use client';
 
 import { Identity } from '@/identity/components/Identity';
-import { cn, color, pressable } from '@/styles/theme';
 import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
+import { cn, color, pressable } from '@/styles/theme';
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import type { WalletDropdownReact } from '../types';
 import { WalletBottomSheet } from './WalletBottomSheet';

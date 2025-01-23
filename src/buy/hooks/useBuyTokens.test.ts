@@ -1,9 +1,9 @@
-import { act, renderHook } from '@testing-library/react';
-import { base } from 'viem/chains';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useValue } from '@/internal/hooks/useValue';
 import { useSwapBalances } from '@/swap/hooks/useSwapBalances';
 import type { Token } from '@/token';
+import { act, renderHook } from '@testing-library/react';
+import { base } from 'viem/chains';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   daiToken,
   degenToken,
