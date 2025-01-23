@@ -1,9 +1,11 @@
 'use client';
-import { useIdentityContext } from '@/identity/components/IdentityProvider';
-import type { AddressReact } from '@/identity/types';
-import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
+
+import { copyToClipboard } from '@/core/utils/copyToClipboard';
 import { useState } from 'react';
 import { border, cn, color, pressable, text } from '../../styles/theme';
+import type { AddressReact } from '../types';
+import { getSlicedAddress } from '../utils/getSlicedAddress';
+import { useIdentityContext } from './IdentityProvider';
 
 export function Address({
   address = null,
@@ -40,15 +42,18 @@ export function Address({
 
   // Interactive version with copy functionality
   const handleClick = async () => {
-    try {
-      await navigator.clipboard.writeText(accountAddress);
-      setCopyText('Copied');
-      setTimeout(() => setCopyText('Copy'), 2000);
-    } catch (err) {
-      console.error('Failed to copy address:', err);
-      setCopyText('Failed to copy');
-      setTimeout(() => setCopyText('Copy'), 2000);
-    }
+    await copyToClipboard({
+      copyValue: accountAddress,
+      onSuccess: () => {
+        setCopyText('Copied');
+        setTimeout(() => setCopyText('Copy'), 2000);
+      },
+      onError: (err: unknown) => {
+        console.error('Failed to copy address:', err);
+        setCopyText('Failed to copy');
+        setTimeout(() => setCopyText('Copy'), 2000);
+      },
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
