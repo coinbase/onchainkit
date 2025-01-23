@@ -5,33 +5,43 @@ import type { Address } from 'viem';
  * Note: exported as public Type
  */
 export type FormatAmountOptions = {
-  locale?: string; // User locale (default: browser locale)
-  minimumFractionDigits?: number; // Minimum fraction digits for number decimals
-  maximumFractionDigits?: number; // Maximum fraction digits for number decimals
+  /** User locale (default: browser locale) */
+  locale?: string;
+  /** Minimum fraction digits for number decimals */
+  minimumFractionDigits?: number;
+  /** Maximum fraction digits for number decimals */
+  maximumFractionDigits?: number;
 };
 
 /**
  * Note: exported as public Type
+ * See Number.prototype.toLocaleString for more info
  */
-export type FormatAmountResponse = string; // See Number.prototype.toLocaleString for more info
+export type FormatAmountResponse = string;
 
 /**
  * Note: exported as public Type
  */
 export type Token = {
-  address: Address | ''; // The address of the token contract, this value will be empty for native ETH
-  chainId: number; // The chain id of the token contract
-  decimals: number; // The number of token decimals
-  image: string | null; // A string url of the token logo
+  /** The address of the token contract, this value will be empty for native ETH */
+  address: Address | '';
+  /** The chain id of the token contract */
+  chainId: number;
+  /** The number of token decimals */
+  decimals: number;
+  /** A string url of the token logo */
+  image: string | null;
   name: string;
-  symbol: string; // A ticker symbol or shorthand, up to 11 characters
+  /** A ticker symbol or shorthand, up to 11 characters */
+  symbol: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type TokenChipReact = {
-  token: Token; // Rendered token
+  /** Rendered token */
+  token: Token;
   onClick?: (token: Token) => void;
   className?: string;
   isPressable?: boolean;
@@ -41,8 +51,10 @@ export type TokenChipReact = {
  * Note: exported as public Type
  */
 export type TokenImageReact = {
-  className?: string; // Optional additional CSS class to apply to the component
-  size?: number; // size of the image in px (default: 24)
+  /** Optional additional CSS class to apply to the component */
+  className?: string;
+  /** size of the image in px (default: 24) */
+  size?: number;
   token: Token;
 };
 
@@ -50,12 +62,15 @@ export type TokenImageReact = {
  * Note: exported as public Type
  */
 export type TokenRowReact = {
-  amount?: string; // Token amount
+  /** Token amount */
+  amount?: string;
   className?: string;
   hideImage?: boolean;
   hideSymbol?: boolean;
-  onClick?: (token: Token) => void; // Component on click handler
-  token: Token; // Rendered token
+  /** Component on click handler */
+  onClick?: (token: Token) => void;
+  /** Rendered token */
+  token: Token;
 };
 
 /**
@@ -63,8 +78,10 @@ export type TokenRowReact = {
  */
 export type TokenSearchReact = {
   className?: string;
-  delayMs?: number; // Debounce delay in milliseconds
-  onChange: (value: string) => void; // Search callback function
+  /** Debounce delay in milliseconds */
+  delayMs?: number;
+  /** Search callback function */
+  onChange: (value: string) => void;
 };
 
 /**
@@ -72,25 +89,34 @@ export type TokenSearchReact = {
  */
 export type TokenSelectButtonReact = {
   className?: string;
-  isOpen: boolean; // Determines carot icon direction
-  onClick: () => void; // Button on click handler
-  token?: Token; // Selected token
+  /** Determines carot icon direction */
+  isOpen: boolean;
+  /** Button on click handler */
+  onClick: () => void;
+  /** Selected token */
+  token?: Token;
 };
 
 /**
  * Note: exported as public Type
  */
 export type TokenSelectDropdownReact = {
-  options: Token[]; // List of tokens
-  setToken: (token: Token) => void; // Token setter
-  token?: Token; // Selected token
+  /** List of tokens */
+  options: Token[];
+  /** Token setter */
+  setToken: (token: Token) => void;
+  /** Selected token */
+  token?: Token;
 };
 
 /**
  * Note: exported as public Type
  */
 export type TokenSelectModalReact = {
-  options: Token[]; // List of tokens
-  setToken: (token: Token) => void; // Token setter
-  token?: Token; // Selected token
+  /** List of tokens */
+  options: Token[];
+  /** Token setter */
+  setToken: (token: Token) => void;
+  /** Selected token */
+  token?: Token;
 };

@@ -1,7 +1,9 @@
 import { useCallback } from 'react';
 import type { BuyTokens } from '../types';
 
-// Refreshes balances and inputs post-swap
+/**
+ * Refreshes balances and inputs post-swap
+ */
 export const useResetBuyInputs = ({
   fromETH,
   fromUSDC,
