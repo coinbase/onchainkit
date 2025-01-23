@@ -17,7 +17,6 @@ type GetBuyQuoteParams = Omit<GetSwapQuoteParams, 'from'> & {
 
 export async function getBuyQuote({
   amount,
-  amountReference,
   from,
   maxSlippage,
   to,
@@ -32,23 +31,26 @@ export async function getBuyQuote({
   let response: GetSwapQuoteResponse | undefined;
   // only fetch quote if the from and to tokens are different
   if (to?.symbol !== from?.symbol) {
+    // switching to and from here
+    // instead of getting a quote for how much of X do we need to sell to get the input token amount
+    // we can get a quote for how much of X we will recieve if we sell the input token amount
     response = await getSwapQuote({
       amount,
-      amountReference,
-      from,
+      amountReference: 'from',
+      from: to,
       maxSlippage,
-      to,
+      to: from,
       useAggregator,
     });
   }
 
   let formattedFromAmount = '';
   if (response && !isSwapError(response)) {
-    formattedFromAmount = response?.fromAmount
-      ? formatTokenAmount(response.fromAmount, response.from.decimals)
+    formattedFromAmount = response?.toAmount
+      ? formatTokenAmount(response.toAmount, response.to.decimals)
       : '';
 
-    fromSwapUnit?.setAmountUSD(response?.fromAmountUSD || '');
+    fromSwapUnit?.setAmountUSD(response?.toAmountUSD || '');
     fromSwapUnit?.setAmount(formattedFromAmount || '');
   }
 

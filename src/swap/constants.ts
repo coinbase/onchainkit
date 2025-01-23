@@ -11,6 +11,8 @@ export const UNCAUGHT_SWAP_ERROR_CODE = 'UNCAUGHT_SWAP_ERROR';
 export const UNIVERSALROUTER_CONTRACT_ADDRESS =
   '0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD';
 export const USER_REJECTED_ERROR_CODE = 'USER_REJECTED';
+export const UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE =
+  'UNSUPPORTED_AMOUNT_REFERENCE_ERROR';
 export enum SwapMessage {
   BALANCE_ERROR = 'Error fetching token balance',
   CONFIRM_IN_WALLET = 'Confirm in wallet',
@@ -22,6 +24,7 @@ export enum SwapMessage {
   SWAP_IN_PROGRESS = 'Swap in progress...',
   TOO_MANY_REQUESTS = 'Too many requests. Please try again later.',
   USER_REJECTED = 'User rejected the transaction',
+  UNSUPPORTED_AMOUNT_REFERENCE = 'useAggregator does not support amountReference: to, please use useAggregator: false',
 }
 
 export const ONRAMP_PAYMENT_METHODS = [
