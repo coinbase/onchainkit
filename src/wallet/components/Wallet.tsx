@@ -2,7 +2,7 @@
 
 import { useIsMounted } from '@/core-react/internal/hooks/useIsMounted';
 import { useTheme } from '@/core-react/internal/hooks/useTheme';
-import { findComponent } from '@/core-react/internal/utils/findComponent';
+import { findComponent } from '@/internal/utils/findComponent';
 import { Draggable } from '@/internal/components/Draggable/Draggable';
 import { cn } from '@/styles/theme';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';

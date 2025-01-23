@@ -6,7 +6,7 @@ import {
   useAccount,
   useConnect,
 } from 'wagmi';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { useOnchainKit } from '../../useOnchainKit';
 import { degenToken } from '../../token/constants';
 import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 import { Buy } from './Buy';

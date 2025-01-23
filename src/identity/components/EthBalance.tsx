@@ -1,5 +1,5 @@
 'use client';
-import { getRoundedAmount } from '@/core/utils/getRoundedAmount';
+import { getRoundedAmount } from '@/internal/utils/getRoundedAmount';
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import type { EthBalanceReact } from '@/identity/types';
 import { cn, color, text } from '../../styles/theme';

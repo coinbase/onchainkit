@@ -1,6 +1,6 @@
 import { getPortfolioTokenBalances } from '@/api/getPortfolioTokenBalances';
 import type { PortfolioTokenBalances } from '@/api/types';
-import { isApiError } from '@/core/utils/isApiResponseError';
+import { isApiError } from '@/internal/utils/isApiResponseError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { Address } from 'viem';
 

@@ -2,7 +2,7 @@
 import { Children, useMemo } from 'react';
 import { useIsMounted } from '../../core-react/internal/hooks/useIsMounted';
 import { useTheme } from '../../core-react/internal/hooks/useTheme';
-import { findComponent } from '../../core-react/internal/utils/findComponent';
+import { findComponent } from '../../internal/utils/findComponent';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import type { SwapReact } from '../types';

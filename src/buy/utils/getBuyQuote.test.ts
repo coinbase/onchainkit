@@ -1,5 +1,5 @@
 import { getSwapQuote } from '@/api/getSwapQuote';
-import { formatTokenAmount } from '@/core/utils/formatTokenAmount';
+import { formatTokenAmount } from '@/internal/utils/formatTokenAmount';
 import type { Token } from '@/token/types';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';

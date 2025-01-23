@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { useOnchainKit } from '@/useOnchainKit';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { NFTMintButton } from '@/nft/components/mint/NFTMintButton';

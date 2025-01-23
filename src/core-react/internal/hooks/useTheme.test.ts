@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
 import type { UseThemeReact } from '../../../core/types';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../../useOnchainKit';
 import { usePreferredColorScheme } from './usePreferredColorScheme';
 import { useTheme } from './useTheme';
 

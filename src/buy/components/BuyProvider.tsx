@@ -13,7 +13,7 @@ import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../core-react/internal/hooks/useValue';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { useOnchainKit } from '../../useOnchainKit';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
 import { useAwaitCalls } from '../../swap/hooks/useAwaitCalls';
 import type { LifecycleStatus, SwapUnit } from '../../swap/types';

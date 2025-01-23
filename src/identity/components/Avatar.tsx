@@ -1,5 +1,5 @@
 'use client';
-import { findComponent } from '@/core-react/internal/utils/findComponent';
+import { findComponent } from '@/internal/utils/findComponent';
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useAvatar } from '@/identity/hooks/useAvatar';
 import { useName } from '@/identity/hooks/useName';

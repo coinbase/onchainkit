@@ -1,4 +1,4 @@
-import { multiplyFloats } from '@/core/utils/multiplyFloats';
+import { multiplyFloats } from '@/internal/utils/multiplyFloats';
 import { infoSvg } from '@/internal/svg/infoSvg';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { background, border, cn, text } from '@/styles/theme';

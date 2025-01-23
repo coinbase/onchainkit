@@ -1,5 +1,5 @@
 'use client';
-import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { useOnchainKit } from '@/useOnchainKit';
 import { IdentityLayout } from '@/identity/components/IdentityLayout';
 import { IdentityProvider } from '@/identity/components/IdentityProvider';
 import type { IdentityReact } from '@/identity/types';

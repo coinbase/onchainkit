@@ -32,7 +32,7 @@ import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import type { GetSwapQuoteResponse } from '../../api/types';
 import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { useOnchainKit } from '../../useOnchainKit';
 import type { LifecycleStatus, SwapError, SwapUnit } from '../../swap/types';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import {

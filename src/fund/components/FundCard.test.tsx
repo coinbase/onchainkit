@@ -1,5 +1,5 @@
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
-import { openPopup } from '@/ui-react/internal/utils/openPopup';
+import { openPopup } from '@/internal/utils/openPopup';
 import '@testing-library/jest-dom';
 import {
   act,

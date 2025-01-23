@@ -11,7 +11,7 @@ import {
 } from 'vitest';
 import { useConnect, useConnectors } from 'wagmi';
 import type { MetaMaskParameters } from 'wagmi/connectors';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { useOnchainKit } from '../../useOnchainKit';
 import { WalletModal } from './WalletModal';
 
 vi.mock('wagmi', () => ({

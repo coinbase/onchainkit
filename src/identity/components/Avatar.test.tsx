@@ -1,7 +1,7 @@
 import { base, baseSepolia, optimism } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
-import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { useOnchainKit } from '@/useOnchainKit';
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useAttestations } from '@/identity/hooks/useAttestations';
 import { useAvatar } from '@/identity/hooks/useAvatar';

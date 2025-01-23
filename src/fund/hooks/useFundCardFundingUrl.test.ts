@@ -1,4 +1,4 @@
-import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { useOnchainKit } from '@/useOnchainKit';
 import { renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';

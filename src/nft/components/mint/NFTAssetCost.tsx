@@ -1,4 +1,4 @@
-import { multiplyFloats } from '@/core/utils/multiplyFloats';
+import { multiplyFloats } from '@/internal/utils/multiplyFloats';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { cn, text } from '@/styles/theme';
 import { formatAmount as formatSN } from '@/swap/utils/formatAmount';

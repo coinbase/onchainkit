@@ -1,4 +1,4 @@
-import { openPopup } from '@/ui-react/internal/utils/openPopup';
+import { openPopup } from '@/internal/utils/openPopup';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import {
   type Mock,
@@ -13,7 +13,7 @@ import { useAccount, useConnect, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useWriteContracts } from 'wagmi/experimental';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';

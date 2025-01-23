@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { getRoundedAmount } from '@/core/utils/getRoundedAmount';
+import { getRoundedAmount } from '@/internal/utils/getRoundedAmount';
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useGetETHBalance } from '@/wallet/hooks/useGetETHBalance';
 import { type Mock, describe, expect, it, vi } from 'vitest';

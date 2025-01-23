@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
+import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { ethToken } from '../../token/constants';
 import { useBuyContext } from './BuyProvider';
 import { BuyTokenItem } from './BuyTokenItem';

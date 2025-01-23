@@ -1,4 +1,4 @@
-import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { useOnchainKit } from '@/useOnchainKit';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import type { ReactNode } from 'react';
 

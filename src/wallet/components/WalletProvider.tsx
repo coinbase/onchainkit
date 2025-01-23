@@ -11,7 +11,7 @@ import {
 import type { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
 import { useValue } from '../../core-react/internal/hooks/useValue';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { useOnchainKit } from '../../useOnchainKit';
 import type { WalletContextType } from '../types';
 import { calculateSubComponentPosition } from '../utils/getWalletSubComponentPosition';
 

@@ -1,7 +1,7 @@
-import { openPopup } from '@/ui-react/internal/utils/openPopup';
+import { openPopup } from '@/internal/utils/openPopup';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { useOnchainKit } from '../../useOnchainKit';
 import { degenToken, ethToken, usdcToken } from '../../token/constants';
 import { BuyDropdown } from './BuyDropdown';
 import { useBuyContext } from './BuyProvider';

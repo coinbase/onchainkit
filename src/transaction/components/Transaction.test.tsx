@@ -10,7 +10,7 @@ import {
   vi,
 } from 'vitest';
 
-import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { useOnchainKit } from '../../useOnchainKit';
 import { Transaction } from './Transaction';
 import { TransactionProvider } from './TransactionProvider';
 

@@ -1,4 +1,4 @@
-import { isValidAmount } from '@/core/utils/isValidAmount';
+import { isValidAmount } from '@/internal/utils/isValidAmount';
 import { TextInput } from '@/internal/components/TextInput';
 import { useCallback, useEffect, useRef } from 'react';
 import { cn, text } from '../../styles/theme';

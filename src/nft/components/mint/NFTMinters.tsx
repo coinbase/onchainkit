@@ -1,4 +1,4 @@
-import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { useOnchainKit } from '@/useOnchainKit';
 import { Avatar, Identity, Name } from '@/identity';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { cn, color, text } from '@/styles/theme';

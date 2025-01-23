@@ -6,7 +6,7 @@ import { border, cn, color, pressable, text } from '../../styles/theme';
 
 import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
 import { ErrorSvg } from '@/internal/svg/errorSvg';
-import { openPopup } from '@/ui-react/internal/utils/openPopup';
+import { openPopup } from '@/internal/utils/openPopup';
 import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { Spinner } from '../../internal/components/Spinner';

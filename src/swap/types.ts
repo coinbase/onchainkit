@@ -1,4 +1,4 @@
-import type { LifecycleStatusUpdate } from '@/core-react/internal/types';
+import type { LifecycleStatusUpdate } from '@/internal/types';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type {
   Address,

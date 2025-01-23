@@ -1,8 +1,8 @@
-import { useOnchainKit } from '@/core-react/useOnchainKit';
-import { openPopup } from '@/ui-react/internal/utils/openPopup';
+import { useOnchainKit } from '@/useOnchainKit';
+import { openPopup } from '@/internal/utils/openPopup';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useAccount } from 'wagmi';
-import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
+import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { ONRAMP_BUY_URL } from '../../fund/constants';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
 import { background, border, cn, color, text } from '../../styles/theme';

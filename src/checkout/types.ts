@@ -1,4 +1,4 @@
-import type { LifecycleStatusUpdate } from '@/core-react/internal/types';
+import type { LifecycleStatusUpdate } from '@/internal/types';
 import type { ContractFunctionParameters, TransactionReceipt } from 'viem';
 import type { Address } from 'viem';
 import type { Config } from 'wagmi';

@@ -1,7 +1,7 @@
 import type { ReactElement, ReactNode } from 'react';
 import { describe, expect, it } from 'vitest';
-import { Avatar } from '../../../identity/components/Avatar';
-import { Name } from '../../../identity/components/Name';
+import { Avatar } from '../../identity/components/Avatar';
+import { Name } from '../../identity/components/Name';
 import { type ServerComponentPayload, findComponent } from './findComponent';
 
 describe('findComponent', () => {

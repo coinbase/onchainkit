@@ -1,4 +1,4 @@
-import { isValidAmount } from '../../core/utils/isValidAmount';
+import { isValidAmount } from '../../internal/utils/isValidAmount';
 import { TextInput } from '../../internal/components/TextInput';
 import { background, border, cn, color } from '../../styles/theme';
 import { formatAmount } from '../../swap/utils/formatAmount';

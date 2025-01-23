@@ -1,5 +1,5 @@
 import { pressable } from '@/styles/theme';
-import { openPopup } from '@/ui-react/internal/utils/openPopup';
+import { openPopup } from '@/internal/utils/openPopup';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import {

@@ -1,5 +1,5 @@
 import { useValue } from '@/core-react/internal/hooks/useValue';
-import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { useOnchainKit } from '@/useOnchainKit';
 import type {
   IdentityContextType,
   IdentityProviderReact,
