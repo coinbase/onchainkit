@@ -3,23 +3,6 @@ import { useValue } from '@/core-react/internal/hooks/useValue';
 import { cn } from '@/styles/theme';
 import { createContext, useContext, useState } from 'react';
 
-type TabsReact = {
-  children: React.ReactNode;
-  defaultValue: string;
-  className?: string;
-};
-
-export function Tabs({ children, defaultValue, className }: TabsReact) {
-  const componentTheme = useTheme();
-  return (
-    <TabsProvider defaultValue={defaultValue}>
-      <div className={cn(componentTheme, 'flex flex-col', className)}>
-        {children}
-      </div>
-    </TabsProvider>
-  );
-}
-
 type TabsContextType = {
   selectedTab: string;
   setSelectedTab: (tab: string) => void;
@@ -45,4 +28,21 @@ export function useTabsContext() {
     throw new Error('useTabsContext must be used within an TabsProvider');
   }
   return context;
+}
+
+type TabsReact = {
+  children: React.ReactNode;
+  defaultValue: string;
+  className?: string;
+};
+
+export function Tabs({ children, defaultValue, className }: TabsReact) {
+  const componentTheme = useTheme();
+  return (
+    <TabsProvider defaultValue={defaultValue}>
+      <div className={cn(componentTheme, 'flex flex-col', className)}>
+        {children}
+      </div>
+    </TabsProvider>
+  );
 }
