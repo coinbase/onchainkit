@@ -1,11 +1,22 @@
 # Changelog
 
+## 0.36.8
+
+### Patch Changes
+
+- 31f1cc2: - **feat**: Add Popover UI Primitive. By @cpcramer #1849
+- b54bf07: **_feat_** Added NFT data hooks. By @alessey #1838
+  **_fix_** Made improvements to FundCard component. By @rustam-cb #1806 #1818 #1839
+  **_fix_** Made improvements to WalletIsland component. By @brendan-cb #1842
+  **_fix_** Made internal typesafety and efficiency improvements. By @dschlabach #1855 #1843
+  **_fix_** Fixed typos in documentation and commments. By @youyyytrok @vipocenka #1840 #1841
+
 ## 0.36.7
 
 ### Patch Changes
 
-  - **feat** Implemented `FundCard` component by @rustam-cb #1718
-  - **fix** Updated client boundaries for `NFT`, `Wallet*`, and `WalletAdvanced*` components by @dschlabach #1809, #1810, #1821
+- **feat** Implemented `FundCard` component by @rustam-cb #1718
+- **fix** Updated client boundaries for `NFT`, `Wallet*`, and `WalletAdvanced*` components by @dschlabach #1809, #1810, #1821
 
 ## 0.36.6
 
