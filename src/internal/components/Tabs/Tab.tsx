@@ -6,10 +6,15 @@ type TabReact = {
   value: string;
   children: React.ReactNode;
   className?: string;
-  ariaLabel?: string;
+  'aria-label'?: string;
 };
 
-export function Tab({ value, children, className, ariaLabel }: TabReact) {
+export function Tab({
+  value,
+  children,
+  className,
+  'aria-label': ariaLabel,
+}: TabReact) {
   const { selectedTab, setSelectedTab } = useTabsContext();
 
   const isSelected = selectedTab === value;
@@ -30,6 +35,8 @@ export function Tab({ value, children, className, ariaLabel }: TabReact) {
       )}
       onClick={handleClick}
       aria-label={ariaLabel}
+      aria-selected={isSelected}
+      aria-controls={`${value}-panel`}
       role="tab"
       type="button"
     >

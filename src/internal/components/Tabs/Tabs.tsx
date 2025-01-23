@@ -1,13 +1,23 @@
+import { useTheme } from '@/core-react/internal/hooks/useTheme';
 import { useValue } from '@/core-react/internal/hooks/useValue';
+import { cn } from '@/styles/theme';
 import { createContext, useContext, useState } from 'react';
 
 type TabsReact = {
   children: React.ReactNode;
   defaultValue: string;
+  className?: string;
 };
 
-export function Tabs({ children, defaultValue }: TabsReact) {
-  return <TabsProvider defaultValue={defaultValue}>{children}</TabsProvider>;
+export function Tabs({ children, defaultValue, className }: TabsReact) {
+  const componentTheme = useTheme();
+  return (
+    <TabsProvider defaultValue={defaultValue}>
+      <div className={cn(componentTheme, 'flex flex-col', className)}>
+        {children}
+      </div>
+    </TabsProvider>
+  );
 }
 
 type TabsContextType = {

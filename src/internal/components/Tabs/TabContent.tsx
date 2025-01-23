@@ -13,5 +13,13 @@ export function TabContent({ children, value, className }: TabContentReact) {
     return null;
   }
 
-  return <div className={className}>{children}</div>;
+  return (
+    <div
+      className={className}
+      role="tabpanel"
+      aria-labelledby={`${value}-panel`}
+    >
+      {children}
+    </div>
+  );
 }
