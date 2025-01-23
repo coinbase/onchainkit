@@ -2,8 +2,13 @@ import { useValue } from '@/core-react/internal/hooks/useValue';
 import { background, border, cn, color, text } from '@/styles/theme';
 import { createContext, useCallback, useContext, useState } from 'react';
 
-export function Tabs({ children }: { children: React.ReactNode }) {
-  return <TabsProvider>{children}</TabsProvider>;
+type TabsReact = {
+  children: React.ReactNode;
+  defaultValue: string;
+};
+
+export function Tabs({ children, defaultValue }: TabsReact) {
+  return <TabsProvider defaultValue={defaultValue}>{children}</TabsProvider>;
 }
 
 type TabsContextType = {
@@ -13,8 +18,13 @@ type TabsContextType = {
 
 const TabsContext = createContext<TabsContextType | undefined>(undefined);
 
-function TabsProvider({ children }: { children: React.ReactNode }) {
-  const [selectedTab, setSelectedTab] = useState<string>('');
+type TabsProviderReact = {
+  children: React.ReactNode;
+  defaultValue: string;
+};
+
+function TabsProvider({ children, defaultValue }: TabsProviderReact) {
+  const [selectedTab, setSelectedTab] = useState<string>(defaultValue);
   const value = useValue({ selectedTab, setSelectedTab });
 
   return <TabsContext.Provider value={value}>{children}</TabsContext.Provider>;
@@ -32,9 +42,10 @@ type TabReact = {
   value: string;
   children: React.ReactNode;
   className?: string;
+  ariaLabel?: string;
 };
 
-export function Tab({ value, children, className }: TabReact) {
+export function Tab({ value, children, className, ariaLabel }: TabReact) {
   const { selectedTab, setSelectedTab } = useTabsContext();
 
   const isSelected = selectedTab === value;
@@ -54,6 +65,8 @@ export function Tab({ value, children, className }: TabReact) {
         className,
       )}
       onClick={handleClick}
+      aria-label={ariaLabel}
+      role="tab"
     >
       {children}
     </div>
