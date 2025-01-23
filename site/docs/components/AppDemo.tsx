@@ -6,7 +6,7 @@ import type { ReactNode } from 'react';
 import { createWalletClient } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import type { Config } from 'wagmi';
-import { createConfig, http, WagmiProvider } from 'wagmi';
+import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 import {
