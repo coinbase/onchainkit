@@ -19,7 +19,7 @@ export function Tab({ value, children, className, ariaLabel }: TabReact) {
   }, [value, setSelectedTab]);
 
   return (
-    <div
+    <button
       className={cn(
         text.label1,
         isSelected ? color.primary : color.foreground,
@@ -33,6 +33,6 @@ export function Tab({ value, children, className, ariaLabel }: TabReact) {
       role="tab"
     >
       {children}
-    </div>
+    </button>
   );
 }
