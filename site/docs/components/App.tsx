@@ -3,15 +3,14 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 import '@coinbase/onchainkit/styles.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
-import { http, WagmiProvider, createConfig } from 'wagmi';
+import { createConfig, http, WagmiProvider } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 import {
   WORKAROUND_CDP_API_KEY,
   WORKAROUND_CDP_PROJECT_ID,
-} from '../../vocs.config.tsx';
+} from '../constants.ts';
 import { useTheme } from '../contexts/Theme.tsx';
-
 const queryClient = new QueryClient();
 
 const wagmiConfig = createConfig({
