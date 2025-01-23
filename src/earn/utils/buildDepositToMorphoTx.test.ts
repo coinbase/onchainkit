@@ -1,8 +1,5 @@
-import {
-  MORPHO_VAULT_ABI,
-  USDC_ADDRESS,
-  USDC_DECIMALS,
-} from '@/earn/constants';
+import { MORPHO_VAULT_ABI } from '@/earn/abis/morpho';
+import { USDC_ADDRESS, USDC_DECIMALS } from '@/earn/constants';
 import { encodeFunctionData, parseUnits } from 'viem';
 import { describe, expect, it } from 'vitest';
 import {
