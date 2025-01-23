@@ -1,7 +1,5 @@
 import { useValue } from '@/core-react/internal/hooks/useValue';
-import { usePortfolioTokenBalances } from '@/core-react/wallet/hooks/usePortfolioTokenBalances';
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
-import { useGetETHBalance } from '@/wallet/hooks/useGetETHBalance';
 import {
   createContext,
   type Dispatch,
@@ -13,15 +11,16 @@ import {
   useState,
 } from 'react';
 import type { Address, Chain, Hex, TransactionReceipt } from 'viem';
-import { useAccount } from 'wagmi';
-import { validateAddressInput } from '@/send/validateAddressInput';
+import { validateAddressInput } from '@/wallet/components/WalletAdvancedSend/validateAddressInput';
 import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStatus';
 import type { Token } from '@/token';
+import { useWalletContext } from '@/wallet/components/WalletProvider';
+import { useWalletAdvancedContext } from '@/wallet/components/WalletAdvancedProvider';
 
 type SendContextType = {
   lifecycleStatus: LifecycleStatus;
-  senderAddress: Address | undefined;
-  senderChain: Chain | undefined;
+  senderAddress: Address | null | undefined;
+  senderChain: Chain | null | undefined;
   ethBalance: number | undefined;
   tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
   recipientInput: string | null;
@@ -47,8 +46,14 @@ type LifecycleStatus =
         isMissingRequiredField: true;
       };
     }
+  // | {
+  //     statusName: 'connectingWallet';
+  //     statusData: {
+  //       isMissingRequiredField: true;
+  //     };
+  //   }
   | {
-      statusName: 'connectingWallet';
+      statusName: 'fundingWallet';
       statusData: {
         isMissingRequiredField: true;
       };
@@ -59,12 +64,12 @@ type LifecycleStatus =
         isMissingRequiredField: true;
       };
     }
-  | {
-      statusName: 'addressSelected';
-      statusData: {
-        isMissingRequiredField: boolean;
-      };
-    }
+  // | {
+  //     statusName: 'addressSelected';
+  //     statusData: {
+  //       isMissingRequiredField: boolean;
+  //     };
+  //   }
   | {
       statusName: 'selectingToken';
       statusData: {
@@ -81,6 +86,7 @@ type LifecycleStatus =
       statusName: 'amountChange';
       statusData: {
         isMissingRequiredField: boolean;
+        sufficientBalance: boolean;
       };
     }
   | {
@@ -114,19 +120,12 @@ export function useSendContext() {
 }
 
 export function SendProvider({ children }: SendProviderReact) {
-  const [senderAddress, setSenderAddress] = useState<Address | undefined>(
-    undefined,
-  );
-  const [senderChain, setSenderChain] = useState<Chain | undefined>(undefined);
   const [ethBalance, setEthBalance] = useState<number | undefined>(undefined);
   const [recipientInput, setRecipientInput] = useState<string | null>(null);
   const [validatedRecipientAddress, setValidatedRecipientAddress] =
     useState<Address | null>(null);
   const [selectedRecipientAddress, setSelectedRecipientAddress] =
     useState<Address | null>(null);
-  const [tokenBalances, setTokenBalances] = useState<
-    PortfolioTokenWithFiatValue[] | undefined
-  >(undefined);
   const [selectedToken, setSelectedToken] = useState<Token | null>(null);
   const [lifecycleStatus, updateLifecycleStatus] =
     useLifecycleStatus<LifecycleStatus>({
@@ -136,35 +135,47 @@ export function SendProvider({ children }: SendProviderReact) {
       },
     });
 
-  const { address, chain } = useAccount();
-  useEffect(() => {
-    if (address) {
-      setSenderAddress(address);
-    }
-    if (chain) {
-      setSenderChain(chain);
-    }
-  }, [address, chain]);
+  const { address: senderAddress, chain: senderChain } = useWalletContext();
+  const { tokenBalances } = useWalletAdvancedContext();
 
-  const { response: ethBalanceResponse } = useGetETHBalance(senderAddress);
-  useEffect(() => {
-    if (ethBalanceResponse?.data?.value) {
-      setEthBalance(
-        Number(ethBalanceResponse.data.value) /
-          10 ** ethBalanceResponse.data.decimals,
-      );
-    }
-  }, [ethBalanceResponse]);
 
-  const { data } = usePortfolioTokenBalances({
-    address: senderAddress,
-  });
   useEffect(() => {
-    if (data?.tokenBalances) {
-      setTokenBalances(data.tokenBalances);
+    if (lifecycleStatus.statusName === 'init') {
+      if (senderAddress) {
+        updateLifecycleStatus({
+          statusName: 'selectingAddress',
+          statusData: {
+            isMissingRequiredField: true,
+          },
+        });
+      }
     }
-  }, [data]);
+  }, [senderAddress, lifecycleStatus, updateLifecycleStatus]);
 
+  // Set Lifecycle Status after fetching token balances
+  useEffect(() => {
+    const ethBalance = tokenBalances?.filter(
+      (token) => token.symbol === 'ETH',
+    )[0];
+    if (!ethBalance || ethBalance.cryptoBalance === 0) {
+      updateLifecycleStatus({
+        statusName: 'fundingWallet',
+        statusData: {
+          isMissingRequiredField: true,
+        },
+      });
+    } else if (ethBalance.cryptoBalance > 0) {
+      setEthBalance(ethBalance.cryptoBalance);
+      updateLifecycleStatus({
+        statusName: 'selectingAddress',
+        statusData: {
+          isMissingRequiredField: true,
+        },
+      });
+    }
+  }, [tokenBalances, updateLifecycleStatus]);
+
+  // Validate Recipient Input
   useEffect(() => {
     async function validateRecipientInput() {
       if (recipientInput) {
@@ -178,39 +189,6 @@ export function SendProvider({ children }: SendProviderReact) {
     }
     validateRecipientInput();
   }, [recipientInput]);
-
-  useEffect(() => {
-    if (lifecycleStatus.statusName === 'init') {
-      if (senderAddress) {
-        updateLifecycleStatus({
-          statusName: 'selectingAddress',
-          statusData: {
-            isMissingRequiredField: true,
-          },
-        });
-      } else {
-        updateLifecycleStatus({
-          statusName: 'connectingWallet',
-          statusData: {
-            isMissingRequiredField: true,
-          },
-        });
-      }
-    }
-  }, [senderAddress, lifecycleStatus, updateLifecycleStatus]);
-
-  useEffect(() => {
-    if (lifecycleStatus.statusName === 'connectingWallet') {
-      if (senderAddress) {
-        updateLifecycleStatus({
-          statusName: 'selectingAddress',
-          statusData: {
-            isMissingRequiredField: true,
-          },
-        });
-      }
-    }
-  }, [senderAddress, lifecycleStatus, updateLifecycleStatus]);
 
   const handleAddressSelection = useCallback(
     (address: Address) => {

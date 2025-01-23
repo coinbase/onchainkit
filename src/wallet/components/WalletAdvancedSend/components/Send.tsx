@@ -3,9 +3,9 @@ import { background, border, cn, color } from '@/styles/theme';
 import type { ReactNode } from 'react';
 import { SendHeader } from './SendHeader';
 import { SendProvider, useSendContext } from './SendProvider';
-import { AddressInput } from '@/send/components/AddressInput';
-import { AddressSelector } from '@/send/components/AddressSelector';
-import { TokenSelector } from '@/send/components/TokenSelector';
+import { AddressInput } from '@/wallet/components/WalletAdvancedSend/components/AddressInput';
+import { AddressSelector } from '@/wallet/components/WalletAdvancedSend/components/AddressSelector';
+import { TokenSelector } from '@/wallet/components/WalletAdvancedSend/components/TokenSelector';
 import { ConnectWallet } from '@/wallet';
 
 type SendReact = {
@@ -37,7 +37,7 @@ function SendContent({ children, className }: SendReact) {
   const context = useSendContext();
 
   console.log({
-    context
+    context,
   });
 
   if (!children) {
@@ -55,21 +55,17 @@ function SendContent({ children, className }: SendReact) {
         )}
       >
         <SendHeader />
-        {
-          context.lifecycleStatus.statusName === 'connectingWallet' && (
-            <div className='flex h-full w-full items-center justify-center'>
+        {context.lifecycleStatus.statusName === 'connectingWallet' && (
+          <div className="flex h-full w-full items-center justify-center">
             <ConnectWallet />
-            </div>
-          )
-        }
-        {
-          context.lifecycleStatus.statusName !== 'connectingWallet' && (
-            <AddressInput
-              addressInput={context.recipientInput}
-              setAddressInput={context.setRecipientInput}
-            />
-          )
-        }
+          </div>
+        )}
+        {context.lifecycleStatus.statusName !== 'connectingWallet' && (
+          <AddressInput
+            addressInput={context.recipientInput}
+            setAddressInput={context.setRecipientInput}
+          />
+        )}
         <AddressSelector />
         <TokenSelector />
       </div>

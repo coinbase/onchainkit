@@ -1,5 +1,5 @@
 import { Address, Avatar, Identity, Name } from '@/identity';
-import { useSendContext } from '@/send/components/SendProvider';
+import { useSendContext } from '@/wallet/components/WalletAdvancedSend/components/SendProvider';
 import { background, border, cn, pressable } from '@/styles/theme';
 
 export function AddressSelector() {

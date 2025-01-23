@@ -1,4 +1,4 @@
-import { useSendContext } from '@/send/components/SendProvider';
+import { useSendContext } from '@/wallet/components/WalletAdvancedSend/components/SendProvider';
 import { TokenRow } from '@/token';
 
 export function TokenSelector() {
