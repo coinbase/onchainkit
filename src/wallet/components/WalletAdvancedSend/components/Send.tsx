@@ -1,11 +1,12 @@
 import { useTheme } from '@/core-react/internal/hooks/useTheme';
 import { background, border, cn, color } from '@/styles/theme';
-import type { ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
 import { SendHeader } from './SendHeader';
 import { SendProvider, useSendContext } from './SendProvider';
 import { AddressInput } from '@/wallet/components/WalletAdvancedSend/components/AddressInput';
 import { AddressSelector } from '@/wallet/components/WalletAdvancedSend/components/AddressSelector';
 import { TokenSelector } from '@/wallet/components/WalletAdvancedSend/components/TokenSelector';
+import { SendAmountInput } from '@/wallet/components/WalletAdvancedSend/components/SendAmountInput';
 
 type SendReact = {
   children?: ReactNode;
@@ -32,40 +33,10 @@ export function Send({ children, className }: SendReact) {
   );
 }
 
-function SendContent({ children, className }: SendReact) {
-  const context = useSendContext();
-
-  console.log({
-    context,
-  });
-
-  if (!children) {
-    return (
-      <div
-        className={cn(
-          background.default,
-          border.radius,
-          border.lineDefault,
-          color.foreground,
-          'h-96 w-88',
-          'flex flex-col items-center',
-          'p-4',
-          className,
-        )}
-      >
-        <SendHeader />
-        {context.lifecycleStatus.statusName !== 'init' && (
-          <AddressInput
-            addressInput={context.recipientInput}
-            setAddressInput={context.setRecipientInput}
-          />
-        )}
-        <AddressSelector />
-        <TokenSelector />
-      </div>
-    );
-  }
-
+function SendContent({
+  children = <SendDefaultChildren />,
+  className,
+}: SendReact) {
   return (
     <div
       className={cn(
@@ -81,5 +52,53 @@ function SendContent({ children, className }: SendReact) {
     >
       {children}
     </div>
+  );
+}
+
+function SendDefaultChildren() {
+  const context = useSendContext();
+
+  console.log({
+    context,
+  });
+
+  const activeStep = useMemo(() => {
+    if (!context.selectedRecipientAddress) {
+      return (
+        <>
+          <AddressInput
+            addressInput={context.recipientInput}
+            setAddressInput={context.setRecipientInput}
+          />
+          <AddressSelector />
+        </>
+      );
+    }
+
+    if (!context.selectedToken) {
+      return (
+        <>
+          <AddressInput
+            addressInput={context.recipientInput}
+            setAddressInput={context.setRecipientInput}
+          />
+          <TokenSelector />
+        </>
+      );
+    }
+
+    return <SendAmountInput />;
+  }, [
+    context.selectedRecipientAddress,
+    context.selectedToken,
+    context.recipientInput,
+    context.setRecipientInput,
+  ]);
+
+  return (
+    <>
+      <SendHeader />
+      {activeStep}
+    </>
   );
 }

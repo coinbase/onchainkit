@@ -3,17 +3,10 @@ import { useSendContext } from '@/wallet/components/WalletAdvancedSend/component
 import { background, border, cn, pressable } from '@/styles/theme';
 
 export function AddressSelector() {
-  const {
-    senderChain,
-    validatedRecipientAddress,
-    handleAddressSelection,
-    lifecycleStatus,
-  } = useSendContext();
+  const { senderChain, validatedRecipientAddress, handleAddressSelection } =
+    useSendContext();
 
-  if (
-    !validatedRecipientAddress ||
-    lifecycleStatus.statusName !== 'selectingAddress'
-  ) {
+  if (!validatedRecipientAddress) {
     return null;
   }
 
