@@ -45,6 +45,7 @@ export function DismissableLayer({
       return layerRef.current?.contains(target);
     };
 
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     const handlePointerDownCapture = (event: PointerEvent) => {
       if (disableOutsideClick) {
         return;
