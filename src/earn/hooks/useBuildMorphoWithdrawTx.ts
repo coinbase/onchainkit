@@ -1,7 +1,7 @@
 import { useMorphoVault } from '@/earn/hooks/useMorphoVault';
 import { buildWithdrawFromMorphoTx } from '@/earn/utils/buildWithdrawFromMorphoTx';
 import type { Call } from '@/transaction/types';
-import { parseUnits, type Address } from 'viem';
+import { type Address, parseUnits } from 'viem';
 
 export type UseBuildMorphoWithdrawTxParams = {
   vaultAddress: Address;

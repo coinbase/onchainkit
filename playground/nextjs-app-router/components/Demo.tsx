@@ -23,7 +23,6 @@ import WalletDemo from './demo/Wallet';
 import WalletAdvancedDefaultDemo from './demo/WalletAdvancedDefault';
 import WalletDefaultDemo from './demo/WalletDefault';
 import WalletIslandDemo from './demo/WalletIsland';
-import { TestHook } from '@coinbase/onchainkit/earn';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.FundButton]: FundButtonDemo,
@@ -155,7 +154,6 @@ export default function Demo() {
               : 'justify-center',
           )}
         >
-          <TestHook />
           {ActiveComponent && <ActiveComponent />}
         </div>
       </div>

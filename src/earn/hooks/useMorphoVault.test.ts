@@ -1,12 +1,12 @@
-import { useMorphoVault } from './useMorphoVault';
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import {
-  type UseReadContractsReturnType,
   type UseReadContractReturnType,
+  type UseReadContractsReturnType,
   useReadContract,
   useReadContracts,
 } from 'wagmi';
+import { useMorphoVault } from './useMorphoVault';
 
 const DUMMY_ADDRESS = '0x9E95f497a7663B70404496dB6481c890C4825fe1' as const;
 

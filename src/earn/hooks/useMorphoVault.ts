@@ -1,5 +1,5 @@
 import { MORPHO_VAULT_ABI } from '@/earn/abis/morpho';
-import { erc20Abi, type Address, formatUnits } from 'viem';
+import { type Address, erc20Abi, formatUnits } from 'viem';
 import { useReadContract, useReadContracts } from 'wagmi';
 
 type UseMorphoVaultParams = {
