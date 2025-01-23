@@ -13,6 +13,7 @@ import { createWagmiConfig } from './core/createWagmiConfig';
 import type { OnchainKitContextType } from './core/types';
 import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
 import { checkHashLength } from './internal/utils/checkHashLength';
+import { useAnalytics } from './core-react/internal/hooks/useAnalytics';
 import type { OnchainKitProviderReact } from './types';
 
 export const OnchainKitContext =
@@ -34,6 +35,12 @@ export function OnchainKitProvider({
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
+
+  const { generateInteractionId } = useAnalytics();
+  const interactionId = useMemo(
+    () => generateInteractionId(),
+    [generateInteractionId],
+  );
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
   const value = useMemo(() => {
@@ -63,10 +70,20 @@ export function OnchainKitProvider({
       projectId: projectId ?? null,
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
+      interactionId: interactionId ?? null,
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
-  }, [address, apiKey, chain, config, projectId, rpcUrl, schemaId]);
+  }, [
+    address,
+    apiKey,
+    chain,
+    config,
+    projectId,
+    rpcUrl,
+    schemaId,
+    interactionId,
+  ]);
 
   // Check the React context for WagmiProvider and QueryClientProvider
   const { providedWagmiConfig, providedQueryClient } =

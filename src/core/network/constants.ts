@@ -6,3 +6,4 @@ export const JSON_HEADERS = {
   'OnchainKit-Version': version,
 };
 export const JSON_RPC_VERSION = '2.0';
+export const ANALYTICS_API_URL = 'https://api.developer.coinbase.com/analytics';

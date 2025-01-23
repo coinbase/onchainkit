@@ -5,7 +5,15 @@ import type { EASSchemaUid } from '@/identity/types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  type Mock,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
@@ -187,6 +195,7 @@ describe('OnchainKitProvider', () => {
       rpcUrl: null,
       schemaId,
       projectId: null,
+      interactionId: null,
     });
   });
 
@@ -311,5 +320,34 @@ describe('OnchainKitProvider', () => {
         }),
       );
     });
+  });
+
+  it('should handle null interactionId', async () => {
+    vi.mock('./internal/hooks/useAnalytics', () => ({
+      useAnalytics: () => ({
+        generateInteractionId: () => null,
+        sendAnalytics: vi.fn(),
+      }),
+    }));
+
+    render(
+      <WagmiProvider config={mockConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    expect(setOnchainKitConfig).toHaveBeenCalledWith(
+      expect.objectContaining({
+        interactionId: null,
+      }),
+    );
+  });
+
+  afterEach(() => {
+    vi.resetModules();
   });
 });

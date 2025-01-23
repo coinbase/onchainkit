@@ -10,6 +10,16 @@ type GenericStatus<T> = {
   statusData: T;
 };
 
+export enum AnalyticsEvent {
+  WALLET_CONNECTED = 'walletConnected',
+}
+
+export type AnalyticsEventData = {
+  [AnalyticsEvent.WALLET_CONNECTED]: {
+    address: string;
+  };
+};
+
 // biome-ignore lint/suspicious/noExplicitAny: generic status can be any type
 export type AbstractLifecycleStatus = ErrorStatus | GenericStatus<any>;
 

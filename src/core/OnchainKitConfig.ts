@@ -26,6 +26,7 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
   rpcUrl: null,
   schemaId: null,
   projectId: null,
+  interactionId: null,
 };
 
 /**
