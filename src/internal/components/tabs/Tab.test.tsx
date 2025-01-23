@@ -1,52 +1,40 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Tab } from './Tab';
-import { Tabs, useTabsContext } from './Tabs';
+import { useTabsContext } from './Tabs';
 
 vi.mock('@/core-react/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('./Tabs', async (importOriginal) => {
+vi.mock('./Tabs', () => {
   return {
-    ...(await importOriginal<typeof import('./Tabs')>()),
     useTabsContext: vi.fn(),
   };
 });
 
 const mockSetSelectedTab = vi.fn();
-const mockUseTabsContext = vi.fn().mockReturnValue({
-  selectedTab: 'tab1',
-  setSelectedTab: mockSetSelectedTab,
-});
+const mockUseTabsContext = useTabsContext as Mock;
 
 describe('Tab', () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    (useTabsContext as Mock) = mockUseTabsContext;
+    mockUseTabsContext.mockReturnValue({
+      selectedTab: 'tab1',
+      setSelectedTab: mockSetSelectedTab,
+    });
   });
 
   it('renders children correctly', () => {
-    render(
-      <Tabs defaultValue="tab1">
-        <Tab value="tab1">Tab 1</Tab>
-        <Tab value="tab2">Tab 2</Tab>
-      </Tabs>,
-    );
+    render(<Tab value="tab1">Tab 1</Tab>);
 
     expect(screen.getByText('Tab 1')).toBeInTheDocument();
-    expect(screen.getByText('Tab 2')).toBeInTheDocument();
   });
 
   it('calls setSelectedTab when the tab is clicked', () => {
-    render(
-      <Tabs defaultValue="tab1">
-        <Tab value="tab1">Tab 1</Tab>
-        <Tab value="tab2">Tab 2</Tab>
-      </Tabs>,
-    );
-    
+    render(<Tab value="tab2">Tab 2</Tab>);
+
     const tab2 = screen.getByText('Tab 2');
     fireEvent.click(tab2);
 
@@ -55,11 +43,9 @@ describe('Tab', () => {
 
   it('applies custom className', () => {
     render(
-      <Tabs defaultValue="tab1">
-        <Tab value="tab1" className="custom-class">
-          Tab 1
-        </Tab>
-      </Tabs>,
+      <Tab value="tab1" className="custom-class">
+        Tab 1
+      </Tab>,
     );
 
     const tab1 = screen.getByText('Tab 1');
@@ -68,11 +54,9 @@ describe('Tab', () => {
 
   it('applies the correct aria-label and role', () => {
     render(
-      <Tabs defaultValue="tab1">
-        <Tab value="tab1" aria-label="Tab 1 Label">
-          Tab 1
-        </Tab>
-      </Tabs>,
+      <Tab value="tab1" aria-label="Tab 1 Label">
+        Tab 1
+      </Tab>,
     );
 
     const tab1 = screen.getByText('Tab 1');
