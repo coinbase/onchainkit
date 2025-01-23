@@ -2,6 +2,10 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { Tabs, useTabsContext } from './Tabs';
 
+vi.mock('@/core-react/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 function Tab({ name }: { name: string }) {
   const { selectedTab, setSelectedTab } = useTabsContext();
   return (

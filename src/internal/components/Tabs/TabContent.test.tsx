@@ -3,6 +3,10 @@ import { describe, expect, it, vi } from 'vitest';
 import { TabContent } from './TabContent';
 import { Tabs } from './Tabs';
 
+vi.mock('@/core-react/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
 describe('TabContent', () => {
   it('renders children when the value matches the selected tab', () => {
     render(
