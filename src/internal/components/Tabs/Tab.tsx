@@ -31,6 +31,7 @@ export function Tab({ value, children, className, ariaLabel }: TabReact) {
       onClick={handleClick}
       aria-label={ariaLabel}
       role="tab"
+      type="button"
     >
       {children}
     </button>

@@ -9,7 +9,9 @@ type TabContentReact = {
 export function TabContent({ children, value, className }: TabContentReact) {
   const { selectedTab } = useTabsContext();
 
-  if (selectedTab !== value) return null;
+  if (selectedTab !== value) {
+    return null;
+  }
 
   return <div className={className}>{children}</div>;
 }

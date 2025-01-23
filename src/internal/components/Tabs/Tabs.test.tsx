@@ -9,6 +9,7 @@ function Tab({ name }: { name: string }) {
       <button
         onClick={() => setSelectedTab(name)}
         data-testid={`tab-button-${name}`}
+        type="button"
       >
         {name}
       </button>
