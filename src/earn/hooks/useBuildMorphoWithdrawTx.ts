@@ -26,12 +26,6 @@ export function useBuildMorphoWithdrawTx({
   });
 
   const amountIsGreaterThanBalance = amount > Number(balance);
-  console.log('amountIsGreaterThanBalance:', amountIsGreaterThanBalance);
-
-  console.log('asset:', asset);
-  console.log('balance:', balance);
-  console.log('assetDecimals:', assetDecimals);
-  console.log('vaultDecimals:', vaultDecimals);
 
   if (
     !asset ||
