@@ -155,8 +155,8 @@ export default function Demo() {
               : 'justify-center',
           )}
         >
-          {/* {ActiveComponent && <ActiveComponent />} */}
           <TestHook />
+          {ActiveComponent && <ActiveComponent />}
         </div>
       </div>
     </>

@@ -1,11 +1,23 @@
 import { EarnProvider } from '@/earn/components/EarnProvider';
-import { useMorphoVault } from '@/earn/hooks/useMorphoVault';
+import { useBuildMorphoDepositTx } from '@/earn/hooks/useBuildMorphoDepositTx';
+import { TransactionDefault } from '@/transaction';
+import { base } from 'viem/chains';
 
-const vaultAddress = '0xa0E430870c4604CcfC7B38Ca7845B1FF653D0ff1' as const;
+const vaultAddress = '0xc1256Ae5FF1cf2719D4937adb3bbCCab2E00A2Ca' as const;
+const address = '0x9E95f497a7663B70404496dB6481c890C4825fe1' as const;
 
 export function TestHook() {
-  const result = useMorphoVault({ vaultAddress });
-  console.log('asset:', result);
+  const { calls } = useBuildMorphoDepositTx({
+    vaultAddress,
+    receiverAddress: address,
+    amount: 0.25,
+  });
 
-  return <EarnProvider vaultAddress={vaultAddress}>test</EarnProvider>;
+  console.log('calls:', calls);
+
+  return (
+    <EarnProvider vaultAddress={vaultAddress}>
+      <TransactionDefault calls={calls} disabled={false} chainId={base.id} />
+    </EarnProvider>
+  );
 }

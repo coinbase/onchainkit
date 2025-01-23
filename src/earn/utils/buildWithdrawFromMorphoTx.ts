@@ -11,11 +11,11 @@ export type WithdrawFromMorphoArgs = {
   receiverAddress: Address;
 };
 
-export async function buildWithdrawFromMorphoTx({
+export function buildWithdrawFromMorphoTx({
   vaultAddress,
   amount,
   receiverAddress,
-}: WithdrawFromMorphoArgs): Promise<Call[]> {
+}: WithdrawFromMorphoArgs): Call[] {
   const withdrawTxData = encodeFunctionData({
     abi: MORPHO_VAULT_ABI,
     functionName: 'withdraw',
