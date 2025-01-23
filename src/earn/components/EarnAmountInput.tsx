@@ -9,6 +9,7 @@ export function EarnAmountInput({
   disabled,
   value,
   onChange,
+  'aria-label': ariaLabel,
 }: EarnAmountInputReact) {
   return (
     <div className={cn('flex flex-col', className)}>
@@ -22,6 +23,7 @@ export function EarnAmountInput({
         onChange={onChange}
         inputValidator={isValidAmount}
         disabled={disabled}
+        aria-label={ariaLabel}
       />
     </div>
   );

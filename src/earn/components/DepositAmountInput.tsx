@@ -10,6 +10,7 @@ export function DepositAmountInput({ className }: DepositAmountInputReact) {
       className={className}
       value={depositAmount}
       onChange={setDepositAmount}
+      aria-label="Deposit Amount"
     />
   );
 }

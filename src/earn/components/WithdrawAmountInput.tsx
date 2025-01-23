@@ -10,6 +10,7 @@ export function WithdrawAmountInput({ className }: WithdrawAmountInputReact) {
       className={className}
       value={withdrawAmount}
       onChange={setWithdrawAmount}
+      aria-label="Withdraw Amount"
     />
   );
 }

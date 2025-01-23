@@ -18,6 +18,7 @@ export type EarnAmountInputReact = {
   onChange: (value: string) => void;
   value: string;
   disabled?: boolean;
+  'aria-label'?: string;
 };
 
 export type WithdrawAmountInputReact = {
