@@ -1,8 +1,8 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import type { Address } from 'viem';
 import { describe, it, expect, vi } from 'vitest';
 import { DepositBalance } from './DepositBalance';
 import { useEarnContext } from './EarnProvider';
-import type { Address } from 'viem';
 
 vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),

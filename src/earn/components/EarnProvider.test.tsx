@@ -1,5 +1,5 @@
-import { renderHook } from '@testing-library/react';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
+import { renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { EarnProvider, useEarnContext } from './EarnProvider';

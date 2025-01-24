@@ -1,4 +1,5 @@
 import { background, border, cn, color, text } from '@/styles/theme';
+import { useCallback } from 'react';
 import type { EarnBalanceReact } from '../types';
 
 export function EarnBalance({
@@ -8,12 +9,22 @@ export function EarnBalance({
   subtitle,
   showAction = false,
 }: EarnBalanceReact) {
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        onActionPress();
+      }
+    },
+    [onActionPress],
+  );
+
   return (
     <div
       className={cn(
         background.alternate,
         border.radius,
-        'flex p-3 px-4 items-center gap-4 justify-between',
+        'flex items-center justify-between gap-4 p-3 px-4',
         className,
       )}
       data-testid="ockEarnBalance"
@@ -23,9 +34,14 @@ export function EarnBalance({
         <div className={cn(text.label2, color.foregroundMuted)}>{subtitle}</div>
       </div>
       {showAction && (
-        <div onClick={onActionPress} className={cn(text.label2, color.primary)}>
+        <button
+          onClick={onActionPress}
+          className={cn(text.label2, color.primary)}
+          type="button"
+          onKeyDown={handleKeyDown}
+        >
           Use max
-        </div>
+        </button>
       )}
     </div>
   );

@@ -1,8 +1,8 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import { WithdrawBalance } from './WithdrawBalance';
-import { useEarnContext } from './EarnProvider';
+import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
+import { describe, it, expect, vi } from 'vitest';
+import { useEarnContext } from './EarnProvider';
+import { WithdrawBalance } from './WithdrawBalance';
 
 vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),
