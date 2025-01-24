@@ -4,6 +4,7 @@ import { zIndex } from '@/styles/constants';
 import { cn } from '@/styles/theme';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getBoundedPosition } from './getBoundedPosition';
+import { useRespositionOnWindowResize } from './useRepositionOnResize';
 
 type DraggableProps = {
   children: React.ReactNode;
@@ -103,6 +104,8 @@ export function Draggable({
     calculateSnapToGrid,
     dragStartPosition,
   ]);
+
+  useRespositionOnWindowResize(draggableRef, position, setPosition);
 
   return (
     <div
