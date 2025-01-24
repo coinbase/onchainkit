@@ -1,7 +1,4 @@
-import type {
-  PortfolioTokenBalances,
-  PortfolioTokenWithFiatValue,
-} from '@/api/types';
+import type { Portfolio, PortfolioTokenWithFiatValue } from '@/api/types';
 import type { SwapError } from '@/swap';
 import type { Token } from '@/token';
 import type { QueryObserverResult } from '@tanstack/react-query';
@@ -223,9 +220,7 @@ export type WalletAdvancedContextType = {
   portfolioFiatValue: number | undefined;
   isFetchingPortfolioData: boolean;
   portfolioDataUpdatedAt: number | undefined;
-  refetchPortfolioData: () => Promise<
-    QueryObserverResult<PortfolioTokenBalances, Error>
-  >;
+  refetchPortfolioData: () => Promise<QueryObserverResult<Portfolio, Error>>;
   animations: {
     container: string;
     content: string;

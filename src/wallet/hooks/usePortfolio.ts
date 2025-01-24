@@ -1,18 +1,22 @@
-import { getPortfolioTokenBalances } from '@/api/getPortfolioTokenBalances';
-import type { PortfolioTokenBalances } from '@/api/types';
+import { getPortfolios } from '@/api/getPortfolios';
+import type { Portfolio } from '@/api/types';
 import { isApiError } from '@/internal/utils/isApiResponseError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { Address } from 'viem';
 
-export function usePortfolioTokenBalances({
+/**
+ * Retrieves the portfolio for the provided address
+ * portfolio includes the address, the balance of the address in USD, and the tokens in the address
+ */
+export function usePortfolio({
   address,
 }: {
   address: Address | undefined | null;
-}): UseQueryResult<PortfolioTokenBalances> {
+}): UseQueryResult<Portfolio> {
   return useQuery({
-    queryKey: ['usePortfolioTokenBalances', address],
+    queryKey: ['usePortfolio', address],
     queryFn: async () => {
-      const response = await getPortfolioTokenBalances({
+      const response = await getPortfolios({
         addresses: [address as Address], // Safe to coerce to Address because useQuery's enabled flag will prevent the query from running if address is undefined
       });
 

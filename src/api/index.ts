@@ -6,6 +6,7 @@ export { getMintDetails } from './getMintDetails';
 export { getSwapQuote } from './getSwapQuote';
 export { getTokenDetails } from './getTokenDetails';
 export { getTokens } from './getTokens';
+export { getPortfolios } from './getPortfolios';
 export type {
   APIError,
   BuildMintTransactionParams,
@@ -23,4 +24,6 @@ export type {
   GetTokenDetailsResponse,
   GetTokensOptions,
   GetTokensResponse,
+  GetPortfoliosParams,
+  GetPortfoliosResponse,
 } from './types';

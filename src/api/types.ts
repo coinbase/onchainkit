@@ -338,30 +338,31 @@ export type BuildMintTransactionResponse = MintTransaction | APIError;
 /**
  * Note: exported as public Type
  */
-export type GetPortfolioTokenBalancesParams = {
+export type GetPortfoliosParams = {
+  /** The addresses of the wallets to get the portfolio for */
   addresses: Address[] | null | undefined;
 };
 
-/**
- * Note: exported as public Type
- */
-export type PortfolioTokenBalances = {
+export type Portfolio = {
+  /** The address of the wallet */
   address: Address;
+  /** The balance of the wallet in USD */
   portfolioBalanceInUsd: number;
+  /** The tokens in the wallet */
   tokenBalances: PortfolioTokenWithFiatValue[];
 };
 
-/**
- * Note: exported as public Type
- */
 export type PortfolioTokenWithFiatValue = Token & {
+  /** The crypto balance of the token in the wallet */
   cryptoBalance: number;
+  /** The USD balance of the token in the wallet */
   fiatBalance: number;
 };
 
 /**
  * Note: exported as public Type
  */
-export type GetPortfoliosAPIResponse = {
-  portfolios: PortfolioTokenBalances[];
+export type GetPortfoliosResponse = {
+  /** The portfolios for the provided addresses */
+  portfolios: Portfolio[];
 };
