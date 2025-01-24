@@ -9,16 +9,6 @@ export function EarnBalance({
   subtitle,
   showAction = false,
 }: EarnBalanceReact) {
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        onActionPress();
-      }
-    },
-    [onActionPress],
-  );
-
   return (
     <div
       className={cn(
@@ -38,7 +28,6 @@ export function EarnBalance({
           onClick={onActionPress}
           className={cn(text.label2, color.primary)}
           type="button"
-          onKeyDown={handleKeyDown}
           aria-label="Use max"
         >
           Use max
