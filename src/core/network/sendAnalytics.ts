@@ -3,7 +3,7 @@ import { ANALYTICS_API_URL, JSON_HEADERS } from '@/core/network/constants';
 interface AnalyticsParams {
   appName: string;
   apiKey: string | null;
-  data: any;
+  data: Record<string, unknown>;
   event: string;
   interactionId: string | null;
 }

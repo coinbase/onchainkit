@@ -43,7 +43,7 @@ describe('useAnalytics', () => {
     const event = AnalyticsEvent.WALLET_CONNECTED;
     const data = { address: '0x0000000000000000000000000000000000000000' };
 
-    result.current.sendAnalytics(event as any, data);
+    result.current.sendAnalytics(event, data);
 
     expect(sendAnalytics).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -67,7 +67,7 @@ describe('useAnalytics', () => {
     const event = AnalyticsEvent.WALLET_CONNECTED;
     const data = { address: '0x0000000000000000000000000000000000000000' };
 
-    result.current.sendAnalytics(event as any, data);
+    result.current.sendAnalytics(event, data);
 
     expect(sendAnalytics).toHaveBeenCalledWith(
       expect.objectContaining({
