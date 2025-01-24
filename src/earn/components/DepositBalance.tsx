@@ -6,7 +6,7 @@ import { useEarnContext } from './EarnProvider';
 export function DepositBalance({ className }: DepositBalanceReact) {
   const { convertedBalance, setDepositAmount } = useEarnContext();
 
-  const handleUseMaxPress = useCallback(() => {
+  const handleMaxPress = useCallback(() => {
     if (convertedBalance) {
       setDepositAmount(convertedBalance);
     }
@@ -17,7 +17,7 @@ export function DepositBalance({ className }: DepositBalanceReact) {
       className={className}
       title={`${convertedBalance} USDC`}
       subtitle="Available to deposit"
-      onActionPress={handleUseMaxPress}
+      onActionPress={handleMaxPress}
       showAction={!!convertedBalance}
     />
   );

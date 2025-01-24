@@ -6,7 +6,7 @@ import { useEarnContext } from './EarnProvider';
 export function WithdrawBalance({ className }: WithdrawBalanceReact) {
   const { depositedAmount, setWithdrawAmount } = useEarnContext();
 
-  const handleUseMaxPress = useCallback(() => {
+  const handleMaxPress = useCallback(() => {
     if (depositedAmount) {
       setWithdrawAmount(depositedAmount);
     }
@@ -17,7 +17,7 @@ export function WithdrawBalance({ className }: WithdrawBalanceReact) {
       className={className}
       title={`${depositedAmount} USDC`}
       subtitle="Available to withdraw"
-      onActionPress={handleUseMaxPress}
+      onActionPress={handleMaxPress}
       showAction={!!depositedAmount}
     />
   );
