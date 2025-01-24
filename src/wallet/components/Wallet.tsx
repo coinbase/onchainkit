@@ -75,6 +75,8 @@ function WalletContent({
     );
   }
 
+  // dragging should be disabled when the connect wallet modal is open
+  // or when subcomponent open on mobile (because then we use bottom sheet)
   const disableDraggable =
     isConnectModalOpen || (breakpoint === 'sm' && isSubComponentOpen);
 

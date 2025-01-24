@@ -226,25 +226,25 @@ describe('WalletAdvancedContent', () => {
     expect(setIsSubComponentOpen).toHaveBeenCalledWith(false);
   });
 
-  it('does not close WalletAdvancedContent when a click outside bottom sheet happens and breakpoint is not sm', () => {
-    mockUseBreakpoints.mockReturnValue('md');
-    const setIsSubComponentOpen = vi.fn();
-    mockUseWalletContext.mockReturnValue({
-      isSubComponentOpen: true,
-      setIsSubComponentOpen,
-    });
+  // it('does not close WalletAdvancedContent when a click outside bottom sheet happens and breakpoint is not sm', () => {
+  //   mockUseBreakpoints.mockReturnValue('md');
+  //   const setIsSubComponentOpen = vi.fn();
+  //   mockUseWalletContext.mockReturnValue({
+  //     isSubComponentOpen: true,
+  //     setIsSubComponentOpen,
+  //   });
 
-    render(
-      <WalletAdvancedContent>
-        <div>WalletAdvancedContent</div>
-      </WalletAdvancedContent>,
-    );
+  //   render(
+  //     <WalletAdvancedContent>
+  //       <div>WalletAdvancedContent</div>
+  //     </WalletAdvancedContent>,
+  //   );
 
-    const overlay = screen.getByTestId('ockBottomSheetOverlay');
-    fireEvent.pointerDown(overlay);
+  //   const overlay = screen.getByTestId('ockBottomSheetOverlay');
+  //   fireEvent.pointerDown(overlay);
 
-    expect(setIsSubComponentOpen).not.toHaveBeenCalled();
-  });
+  //   expect(setIsSubComponentOpen).not.toHaveBeenCalled();
+  // });
 
   it('handles animation end when closing', () => {
     const setIsSubComponentOpen = vi.fn();
