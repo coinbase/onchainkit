@@ -1,4 +1,4 @@
-import { formatFiatAmount } from '@/core/utils/formatFiatAmount';
+import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { useCallback, useMemo } from 'react';
 import { useIcon } from '@/core-react/internal/hooks/useIcon';
 import { Skeleton } from '@/internal/components/Skeleton';

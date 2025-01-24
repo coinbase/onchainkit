@@ -16,7 +16,7 @@ import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStat
 import type { Token } from '@/token';
 import { useWalletContext } from '@/wallet/components/WalletProvider';
 import { useWalletAdvancedContext } from '@/wallet/components/WalletAdvancedProvider';
-import { useExchangeRate } from '@/core-react/internal/hooks/useExchangeRate';
+import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
 
 type SendContextType = {
   lifecycleStatus: LifecycleStatus;

@@ -1,10 +1,10 @@
-import { isValidAmount } from '@/core/utils/isValidAmount';
-import { TextInput } from '@/internal/components/TextInput';
-import { useCallback, useEffect, useRef } from 'react';
-import { cn, text } from '@/styles/theme';
-import { useAmountInput } from '@/core-react/internal/hooks/useAmountInput';
-import { useInputResize } from '@/core-react/wallet/hooks/useInputResize';
 import { CurrencyLabel } from '@/internal/components/AmountInput/CurrencyLabel';
+import { TextInput } from '@/internal/components/TextInput';
+import { useAmountInput } from '@/internal/hooks/useAmountInput';
+import { useInputResize } from '@/internal/hooks/useInputResize';
+import { isValidAmount } from '@/internal/utils/isValidAmount';
+import { cn, text } from '@/styles/theme';
+import { useCallback, useEffect, useRef } from 'react';
 
 type AmountInputProps = {
   asset: string;
