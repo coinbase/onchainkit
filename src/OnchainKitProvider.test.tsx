@@ -178,6 +178,7 @@ describe('OnchainKitProvider', () => {
       address: null,
       apiKey,
       config: {
+        analyticsUrl: null,
         appearance: {
           logo: appLogo,
           name: appName,
@@ -214,6 +215,7 @@ describe('OnchainKitProvider', () => {
       expect(setOnchainKitConfig).toHaveBeenCalledWith(
         expect.objectContaining({
           config: {
+            analyticsUrl: null,
             appearance: {
               logo: appLogo,
               name: appName,
@@ -234,6 +236,7 @@ describe('OnchainKitProvider', () => {
 
   it('should use custom values when override in config is provided', async () => {
     const customConfig = {
+      analyticsUrl: 'https://example.com',
       appearance: {
         name: 'custom name',
         logo: 'https://example.com/logo.png',
@@ -263,6 +266,7 @@ describe('OnchainKitProvider', () => {
           apiKey: apiKey,
           chain: base,
           config: {
+            analyticsUrl: 'https://example.com',
             appearance: {
               name: 'custom name',
               logo: 'https://example.com/logo.png',

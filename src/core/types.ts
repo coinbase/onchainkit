@@ -5,6 +5,8 @@ import type { Address, Chain } from 'viem';
  * Note: exported as public Type
  */
 export type AppConfig = {
+  /** Optional analytics URL for analytics data, defaults to Coinbase */
+  analyticsUrl?: string | null;
   appearance?: {
     /** The name of your application */
     name?: string | null;

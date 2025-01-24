@@ -54,6 +54,7 @@ export function OnchainKitProvider({
       apiKey: apiKey ?? null,
       chain: chain,
       config: {
+        analyticsUrl: config?.analyticsUrl ?? null,
         appearance: {
           name: config?.appearance?.name ?? 'Dapp',
           logo: config?.appearance?.logo ?? '',
