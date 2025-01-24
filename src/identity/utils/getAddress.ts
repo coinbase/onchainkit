@@ -5,8 +5,6 @@ import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '@/identity/constants';
 import type { GetAddress, GetAddressReturnType } from '@/identity/types';
 import { isBasename } from '@/identity/utils/isBasename';
 import { mainnet } from 'viem/chains';
-import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '@/identity/constants';
-import { isBasename } from '@/identity/utils/isBasename';
 
 /**
  * Get address from ENS name or Basename.
