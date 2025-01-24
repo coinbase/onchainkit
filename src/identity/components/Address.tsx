@@ -1,6 +1,6 @@
 'use client';
 
-import { copyToClipboard } from '@/core/utils/copyToClipboard';
+import { copyToClipboard } from '@/internal/utils/copyToClipboard';
 import { useState } from 'react';
 import { border, cn, color, pressable, text } from '../../styles/theme';
 import type { AddressReact } from '../types';

@@ -1,8 +1,8 @@
-import { openPopup } from '@/ui-react/internal/utils/openPopup';
+import { openPopup } from '@/internal/utils/openPopup';
+import { degenToken, ethToken, usdcToken } from '@/token/constants';
+import { useOnchainKit } from '@/useOnchainKit';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
-import { degenToken, ethToken, usdcToken } from '../../token/constants';
 import { BuyDropdown } from './BuyDropdown';
 import { useBuyContext } from './BuyProvider';
 
@@ -10,15 +10,15 @@ vi.mock('./BuyProvider', () => ({
   useBuyContext: vi.fn(),
 }));
 
-vi.mock('@/ui-react/internal/utils/openPopup', () => ({
+vi.mock('@/internal/utils/openPopup', () => ({
   openPopup: vi.fn(),
 }));
 
-vi.mock('../../core/utils/getRoundedAmount', () => ({
+vi.mock('@/internal/utils/getRoundedAmount', () => ({
   getRoundedAmount: vi.fn(() => '10'),
 }));
 
-vi.mock('../../fund/utils/getFundingPopupSize', () => ({
+vi.mock('@/fund/utils/getFundingPopupSize', () => ({
   getFundingPopupSize: vi.fn(() => ({ height: 600, width: 400 })),
 }));
 
@@ -30,7 +30,7 @@ vi.mock('wagmi', async () => {
   };
 });
 
-vi.mock('../../core-react/useOnchainKit', () => ({
+vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

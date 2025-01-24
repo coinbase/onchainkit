@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base, baseSepolia } from 'viem/chains';
-import { OnchainKitProvider } from '../../core-react/OnchainKitProvider';
+import { OnchainKitProvider } from '../../OnchainKitProvider';
 import { Avatar } from './Avatar';
 import { Badge } from './Badge';
 

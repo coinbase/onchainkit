@@ -1,11 +1,11 @@
+import type { UseThemeReact } from '@/core/types';
+import { useOnchainKit } from '@/useOnchainKit';
 import { renderHook } from '@testing-library/react';
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
-import type { UseThemeReact } from '../../../core/types';
-import { useOnchainKit } from '../../useOnchainKit';
 import { usePreferredColorScheme } from './usePreferredColorScheme';
 import { useTheme } from './useTheme';
 
-vi.mock('../../useOnchainKit');
+vi.mock('@/useOnchainKit');
 vi.mock('./usePreferredColorScheme');
 
 describe('useTheme', () => {

@@ -1,5 +1,5 @@
-import { isValidAmount } from '../../core/utils/isValidAmount';
 import { TextInput } from '../../internal/components/TextInput';
+import { isValidAmount } from '../../internal/utils/isValidAmount';
 import { background, border, cn, color } from '../../styles/theme';
 import { formatAmount } from '../../swap/utils/formatAmount';
 import { TokenChip } from '../../token';

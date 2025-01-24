@@ -1,4 +1,4 @@
-import { copyToClipboard } from '@/core/utils/copyToClipboard';
+import { copyToClipboard } from '@/internal/utils/copyToClipboard';
 import type { ReactNode } from 'react';
 
 type CopyButtonProps = {

@@ -1,4 +1,4 @@
-import { usePortfolioTokenBalances } from '@/core-react/wallet/hooks/usePortfolioTokenBalances';
+import { usePortfolioTokenBalances } from '@/wallet/hooks/usePortfolioTokenBalances';
 import { render, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
@@ -12,7 +12,7 @@ vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
 
-vi.mock('../../core-react/wallet/hooks/usePortfolioTokenBalances', () => ({
+vi.mock('@/wallet/hooks/usePortfolioTokenBalances', () => ({
   usePortfolioTokenBalances: vi.fn(),
 }));
 

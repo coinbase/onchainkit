@@ -1,4 +1,4 @@
-import { formatFiatAmount } from '@/core/utils/formatFiatAmount';
+import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { border, cn, color, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import type { PresetAmountInputItemPropsReact } from '../types';

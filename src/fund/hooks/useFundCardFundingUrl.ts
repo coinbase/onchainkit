@@ -1,4 +1,4 @@
-import { useOnchainKit } from '@/core-react/useOnchainKit';
+import { useOnchainKit } from '@/useOnchainKit';
 import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { useFundContext } from '../components/FundCardProvider';

@@ -1,5 +1,5 @@
 import { useValue } from '@/core-react/internal/hooks/useValue';
-import { usePortfolioTokenBalances } from '@/core-react/wallet/hooks/usePortfolioTokenBalances';
+import { usePortfolioTokenBalances } from '@/wallet/hooks/usePortfolioTokenBalances';
 import { type ReactNode, createContext, useContext, useState } from 'react';
 import type { WalletAdvancedContextType } from '../types';
 import { useWalletContext } from './WalletProvider';

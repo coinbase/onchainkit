@@ -1,3 +1,4 @@
+import { useOnchainKit } from '@/useOnchainKit';
 import { fireEvent, render, screen } from '@testing-library/react';
 import {
   type Mock,
@@ -11,7 +12,6 @@ import {
 } from 'vitest';
 import { useConnect, useConnectors } from 'wagmi';
 import type { MetaMaskParameters } from 'wagmi/connectors';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
 import { WalletModal } from './WalletModal';
 
 vi.mock('wagmi', () => ({
@@ -19,7 +19,7 @@ vi.mock('wagmi', () => ({
   useConnectors: vi.fn(),
 }));
 
-vi.mock('../../core-react/useOnchainKit', () => ({
+vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

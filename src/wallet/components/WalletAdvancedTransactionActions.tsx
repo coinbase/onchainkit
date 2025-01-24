@@ -1,10 +1,10 @@
 'use client';
 
-import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { addSvgForeground } from '@/internal/svg/addForegroundSvg';
 import { arrowUpRightSvg } from '@/internal/svg/arrowUpRightSvg';
 import { toggleSvg } from '@/internal/svg/toggleSvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
+import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';

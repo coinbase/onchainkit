@@ -1,4 +1,4 @@
-import type { LifecycleStatusUpdate } from '@/core-react/internal/types';
+import type { LifecycleStatusUpdate } from '@/internal/types';
 import {
   createContext,
   useCallback,

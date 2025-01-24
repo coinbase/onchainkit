@@ -1,7 +1,7 @@
 import { useAttestations } from '@/identity/hooks/useAttestations';
 import type { ReactNode } from 'react';
 import type { Address } from 'viem';
-import { useOnchainKit } from '../../core-react/useOnchainKit';
+import { useOnchainKit } from '../../useOnchainKit';
 import { useIdentityContext } from './IdentityProvider';
 
 type DisplayBadgeReact = {

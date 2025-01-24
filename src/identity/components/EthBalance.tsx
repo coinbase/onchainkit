@@ -1,7 +1,7 @@
 'use client';
-import { getRoundedAmount } from '@/core/utils/getRoundedAmount';
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import type { EthBalanceReact } from '@/identity/types';
+import { getRoundedAmount } from '@/internal/utils/getRoundedAmount';
 import { cn, color, text } from '../../styles/theme';
 import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
 

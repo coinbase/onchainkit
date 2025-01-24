@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { getRoundedAmount } from '../../core/utils/getRoundedAmount';
+import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { cn, color, pressable, text } from '../../styles/theme';
 import type { SwapUnit } from '../../swap/types';
 import { TokenImage } from '../../token';

@@ -1,5 +1,5 @@
 import { useTheme } from '@/core-react/internal/hooks/useTheme';
-import { findComponent } from '@/core-react/internal/utils/findComponent';
+import { findComponent } from '@/internal/utils/findComponent';
 import { background, cn, color } from '@/styles/theme';
 import { Children, cloneElement, useMemo } from 'react';
 import type { ReactNode } from 'react';

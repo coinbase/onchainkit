@@ -1,6 +1,6 @@
 import { isApplePaySupported } from '@/buy/utils/isApplePaySupported';
-import { formatFiatAmount } from '@/core/utils/formatFiatAmount';
 import { Skeleton } from '@/internal/components/Skeleton';
+import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { background, border, cn } from '../../styles/theme';

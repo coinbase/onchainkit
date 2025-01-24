@@ -1,5 +1,5 @@
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
-import { openPopup } from '@/ui-react/internal/utils/openPopup';
+import { openPopup } from '@/internal/utils/openPopup';
 import '@testing-library/jest-dom';
 import {
   act,
@@ -17,48 +17,48 @@ import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
 import { FundCardSubmitButton } from './FundCardSubmitButton';
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/core-react/internal/hooks/useTheme', () => ({
   useTheme: () => 'mocked-theme-class',
 }));
 
-vi.mock('../hooks/useGetFundingUrl', () => ({
+vi.mock('@/fund/hooks/useGetFundingUrl', () => ({
   useGetFundingUrl: vi.fn(),
 }));
 
-vi.mock('../hooks/useFundCardFundingUrl', () => ({
+vi.mock('@/fund/hooks/useFundCardFundingUrl', () => ({
   useFundCardFundingUrl: vi.fn(),
 }));
 
-vi.mock('../../useOnchainKit');
+vi.mock('@/useOnchainKit');
 
-vi.mock('../utils/setupOnrampEventListeners', () => ({
+vi.mock('@/fund/utils/setupOnrampEventListeners', () => ({
   setupOnrampEventListeners: vi.fn(),
 }));
 
-vi.mock('@/ui-react/internal/utils/openPopup', () => ({
+vi.mock('@/internal/utils/openPopup', () => ({
   openPopup: vi.fn(),
 }));
 
-vi.mock('../hooks/useFundCardFundingUrl', () => ({
+vi.mock('@/fund/hooks/useFundCardFundingUrl', () => ({
   useFundCardFundingUrl: vi.fn(),
 }));
 
-vi.mock('../hooks/useFundCardSetupOnrampEventListeners', () => ({
+vi.mock('@/fund/hooks/useFundCardSetupOnrampEventListeners', () => ({
   useFundCardSetupOnrampEventListeners: vi.fn(),
 }));
 
-vi.mock('../utils/getFundingPopupSize', () => ({
+vi.mock('@/fund/utils/getFundingPopupSize', () => ({
   getFundingPopupSize: vi.fn(),
 }));
 
-vi.mock('../utils/fetchOnrampQuote');
+vi.mock('@/fund/utils/fetchOnrampQuote');
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
   useConnect: vi.fn(),
 }));
 
-vi.mock('../../wallet/components/ConnectWallet', () => ({
+vi.mock('@/wallet/components/ConnectWallet', () => ({
   ConnectWallet: ({ className }: { className?: string }) => (
     <div data-testid="ockConnectWallet_Container" className={className}>
       Connect Wallet
