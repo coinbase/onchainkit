@@ -15,7 +15,7 @@ export function EarnAmountInput({
     <div className={cn('flex flex-col', className)}>
       <TextInput
         className={cn(
-          'w-full border-[none] bg-transparent font-display text-5xl',
+          'w-full border-none bg-transparent font-display text-5xl',
           'leading-none outline-none',
         )}
         placeholder="0.0"
