@@ -23,4 +23,6 @@ export type {
   GetTokenDetailsResponse,
   GetTokensOptions,
   GetTokensResponse,
+  GetPortfoliosParams,
+  GetPortfoliosResponse,
 } from './types';
