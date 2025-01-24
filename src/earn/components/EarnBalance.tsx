@@ -1,5 +1,4 @@
 import { background, border, cn, color, text } from '@/styles/theme';
-import { useCallback } from 'react';
 import type { EarnBalanceReact } from '../types';
 
 export function EarnBalance({
