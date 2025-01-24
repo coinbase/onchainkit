@@ -5,10 +5,12 @@ import { isAddress } from 'viem';
 import { base, mainnet } from 'viem/chains';
 
 export async function getValidatedAddress(input: string) {
-  if (isBasename(input) || isEns(input)) {
+  const inputIsBasename = isBasename(input);
+  const inputIsEns = isEns(input);
+  if (inputIsBasename || inputIsEns) {
     const address = await getAddress({
       name: input,
-      chain: isBasename(input) ? base : mainnet,
+      chain: inputIsBasename ? base : mainnet,
     });
     if (address) {
       return address;
