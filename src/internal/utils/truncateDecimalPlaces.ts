@@ -5,13 +5,16 @@ export const truncateDecimalPlaces = (
   value: string | number,
   decimalPlaces: number,
 ) => {
-  if (value === '' || value === '.') {
-    return value;
+  const stringValue = String(value);
+  const decimalIndex = stringValue.indexOf('.');
+  let resultValue = stringValue;
+
+  if (
+    decimalIndex !== -1 &&
+    stringValue.length - decimalIndex - 1 > decimalPlaces
+  ) {
+    resultValue = stringValue.substring(0, decimalIndex + decimalPlaces + 1);
   }
 
-  return new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: decimalPlaces,
-    useGrouping: false,
-  }).format(Number(value));
+  return resultValue;
 };

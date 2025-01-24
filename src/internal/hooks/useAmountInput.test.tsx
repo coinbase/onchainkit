@@ -23,7 +23,7 @@ describe('useAmountInput', () => {
         result.current.handleFiatChange('100.456');
       });
 
-      expect(defaultProps.setFiatAmount).toHaveBeenCalledWith('100.46');
+      expect(defaultProps.setFiatAmount).toHaveBeenCalledWith('100.45');
       expect(defaultProps.setCryptoAmount).toHaveBeenCalledWith('200.92');
     });
 

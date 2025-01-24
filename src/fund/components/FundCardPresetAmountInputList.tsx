@@ -1,10 +1,23 @@
-import { useAmountInput } from '../hooks/useAmountInput';
+import { useAmountInput } from '@/internal/hooks/useAmountInput';
 import { FundCardPresetAmountInputItem } from './FundCardPresetAmountInputItem';
 import { useFundContext } from './FundCardProvider';
 
 export function FundCardPresetAmountInputList() {
-  const { presetAmountInputs, currency } = useFundContext();
-  const { handleFiatChange } = useAmountInput();
+  const {
+    presetAmountInputs,
+    currency,
+    selectedInputType,
+    exchangeRate,
+    setFundAmountFiat,
+    setFundAmountCrypto,
+  } = useFundContext();
+
+  const { handleFiatChange } = useAmountInput({
+    setFiatAmount: setFundAmountFiat,
+    setCryptoAmount: setFundAmountCrypto,
+    selectedInputType: selectedInputType as 'fiat' | 'crypto',
+    exchangeRate: String(exchangeRate),
+  });
 
   if (!presetAmountInputs) {
     return null;
