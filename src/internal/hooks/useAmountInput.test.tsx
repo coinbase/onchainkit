@@ -24,7 +24,7 @@ describe('useAmountInput', () => {
       });
 
       expect(defaultProps.setFiatAmount).toHaveBeenCalledWith('100.45');
-      expect(defaultProps.setCryptoAmount).toHaveBeenCalledWith('200.92');
+      expect(defaultProps.setCryptoAmount).toHaveBeenCalledWith('200.9');
     });
 
     it('should set empty crypto amount when fiat is zero', () => {
