@@ -1,4 +1,4 @@
-import { isValidAmount } from '@/core/utils/isValidAmount';
+import { isValidAmount } from '@/internal/utils/isValidAmount';
 import { formatAmount } from '@/swap/utils/formatAmount';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
@@ -8,7 +8,7 @@ vi.mock('@/swap/utils/formatAmount', () => ({
   formatAmount: vi.fn((value) => value),
 }));
 
-vi.mock('@/core/utils/isValidAmount', () => ({
+vi.mock('@/internal/utils/isValidAmount', () => ({
   isValidAmount: vi.fn((value) => /^\d*(\.\d{0,2})?$/.test(value)),
 }));
 
