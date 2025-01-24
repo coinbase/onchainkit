@@ -5,7 +5,7 @@ import { cleanup, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAnalytics } from './useAnalytics';
 
-vi.mock('@/core-react/useOnchainKit', () => ({
+vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
