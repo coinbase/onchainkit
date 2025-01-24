@@ -4,7 +4,7 @@ import { getAddress } from '@/identity/utils/getAddress';
 import { isAddress } from 'viem';
 import { base, mainnet } from 'viem/chains';
 
-export async function validateAddressInput(input: string) {
+export async function getValidatedAddress(input: string) {
   if (isBasename(input) || isEns(input)) {
     const address = await getAddress({
       name: input,
