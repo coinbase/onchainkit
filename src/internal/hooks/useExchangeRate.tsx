@@ -1,5 +1,5 @@
 import { getSwapQuote } from '@/api';
-import { isApiError } from '@/core/utils/isApiResponseError';
+import { isApiError } from '@/internal/utils/isApiResponseError';
 import type { Token } from '@/token';
 import { usdcToken } from '@/token/constants';
 import type { Dispatch, SetStateAction } from 'react';
