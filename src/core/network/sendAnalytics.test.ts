@@ -97,4 +97,41 @@ describe('sendAnalytics', () => {
 
     expect(consoleSpy).toHaveBeenCalledWith('Error sending analytics:', error);
   });
+
+  it('should use provided analyticsUrl when specified', async () => {
+    const customUrl = 'https://custom-analytics.example.com';
+    const params = {
+      analyticsUrl: customUrl,
+      appName: 'TestApp',
+      apiKey: 'test-api-key',
+      data: { foo: 'bar' },
+      event: 'test-event',
+      interactionId: 'test-interaction-id',
+    };
+
+    mockFetch.mockResolvedValueOnce({});
+
+    await sendAnalytics(params);
+
+    expect(mockFetch).toHaveBeenCalledWith(customUrl, expect.any(Object));
+  });
+
+  it('should use default ANALYTICS_API_URL when analyticsUrl is not provided', async () => {
+    const params = {
+      appName: 'TestApp',
+      apiKey: 'test-api-key',
+      data: { foo: 'bar' },
+      event: 'test-event',
+      interactionId: 'test-interaction-id',
+    };
+
+    mockFetch.mockResolvedValueOnce({});
+
+    await sendAnalytics(params);
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      ANALYTICS_API_URL,
+      expect.any(Object),
+    );
+  });
 });

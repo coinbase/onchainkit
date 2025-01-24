@@ -97,4 +97,61 @@ describe('useAnalytics', () => {
     expect(generatedId).toBe(mockUUID);
     expect(mockCrypto.randomUUID).toHaveBeenCalled();
   });
+
+  it('should handle analyticsUrl from config correctly', () => {
+    const mockTitle = 'Test App';
+    const customAnalyticsUrl = 'https://custom-analytics.example.com';
+
+    Object.defineProperty(global.document, 'title', {
+      value: mockTitle,
+      writable: true,
+    });
+
+    (useOnchainKit as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+      apiKey: mockApiKey,
+      interactionId: mockInteractionId,
+      config: {
+        analyticsUrl: customAnalyticsUrl,
+      },
+    });
+
+    const { result: resultWithUrl } = renderHook(() => useAnalytics());
+    const event = AnalyticsEvent.WALLET_CONNECTED;
+    const data = { address: '0x0000000000000000000000000000000000000000' };
+
+    resultWithUrl.current.sendAnalytics(event, data);
+
+    expect(sendAnalytics).toHaveBeenCalledWith(
+      expect.objectContaining({
+        analyticsUrl: customAnalyticsUrl,
+        event,
+        data,
+        appName: mockTitle,
+        apiKey: mockApiKey,
+        interactionId: mockInteractionId,
+      }),
+    );
+
+    (useOnchainKit as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+      apiKey: mockApiKey,
+      interactionId: mockInteractionId,
+      config: {
+        analyticsUrl: null,
+      },
+    });
+
+    const { result: resultWithNull } = renderHook(() => useAnalytics());
+    resultWithNull.current.sendAnalytics(event, data);
+
+    expect(sendAnalytics).toHaveBeenCalledWith(
+      expect.objectContaining({
+        analyticsUrl: undefined,
+        event,
+        data,
+        appName: mockTitle,
+        apiKey: mockApiKey,
+        interactionId: mockInteractionId,
+      }),
+    );
+  });
 });

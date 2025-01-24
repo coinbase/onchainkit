@@ -1,6 +1,7 @@
 import { ANALYTICS_API_URL, JSON_HEADERS } from '@/core/network/constants';
 
 interface AnalyticsParams {
+  analyticsUrl?: string;
   appName: string;
   apiKey: string | null;
   data: Record<string, unknown>;
@@ -9,6 +10,7 @@ interface AnalyticsParams {
 }
 
 export const sendAnalytics = async ({
+  analyticsUrl = ANALYTICS_API_URL,
   appName,
   apiKey,
   data,
@@ -16,7 +18,7 @@ export const sendAnalytics = async ({
   interactionId,
 }: AnalyticsParams) => {
   try {
-    await fetch(ANALYTICS_API_URL, {
+    await fetch(analyticsUrl, {
       method: 'POST',
       headers: {
         ...JSON_HEADERS,
