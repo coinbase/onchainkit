@@ -61,6 +61,38 @@ describe('EarnBalance', () => {
     expect(mockOnActionPress).toHaveBeenCalledTimes(1);
   });
 
+  it('calls onActionPress when the button is focused and Enter is pressed', () => {
+    const mockOnActionPress = vi.fn();
+    render(
+      <EarnBalance
+        title="Test Title"
+        subtitle="Test Subtitle"
+        showAction={true}
+        onActionPress={mockOnActionPress}
+      />,
+    );
+    const button = screen.getByText('Use max');
+    button.focus();
+    fireEvent.keyDown(button, { key: 'Enter', code: 'Enter', charCode: 13 });
+    expect(mockOnActionPress).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not call onActionPress for keys other than Enter', () => {
+    const mockOnActionPress = vi.fn();
+    render(
+      <EarnBalance
+        title="Test Title"
+        subtitle="Test Subtitle"
+        showAction={true}
+        onActionPress={mockOnActionPress}
+      />,
+    );
+    const button = screen.getByText('Use max');
+    button.focus();
+    fireEvent.keyDown(button, { key: 'Space', code: 'Space', charCode: 32 });
+    expect(mockOnActionPress).not.toHaveBeenCalled();
+  });
+
   it('applies custom className', () => {
     const customClass = 'custom-class';
 
