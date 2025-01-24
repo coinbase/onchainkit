@@ -13,7 +13,6 @@ import { ConnectWallet } from './ConnectWallet';
 import { WalletAdvanced } from './WalletAdvanced';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
-import { useBreakpoints } from '@/ui-react/internal/hooks/useBreakpoints';
 
 export const Wallet = ({
   children,
