@@ -17,7 +17,6 @@ export async function useExchangeRate({
   setExchangeRate,
   setExchangeRateLoading,
 }: UseExchangeRateParams) {
-  console.log('useing exchange rate hook');
   if (!token) {
     return;
   }
