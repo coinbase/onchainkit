@@ -75,7 +75,9 @@ function SendDefaultChildren() {
             addressInput={context.recipientInput}
             setAddressInput={context.setRecipientInput}
           />
-          <AddressSelector />
+          {context.validatedRecipientAddress && (
+            <AddressSelector address={context.validatedRecipientAddress} />
+          )}
         </>
       );
     }
@@ -99,6 +101,7 @@ function SendDefaultChildren() {
     context.selectedToken,
     context.recipientInput,
     context.setRecipientInput,
+    context.validatedRecipientAddress,
   ]);
 
   return (

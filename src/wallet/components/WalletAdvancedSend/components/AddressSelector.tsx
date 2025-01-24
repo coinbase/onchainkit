@@ -1,23 +1,24 @@
 import { Address, Avatar, Identity, Name } from '@/identity';
 import { useSendContext } from '@/wallet/components/WalletAdvancedSend/components/SendProvider';
 import { background, border, cn, pressable } from '@/styles/theme';
+import { useCallback } from 'react';
+import type { Address as AddressType } from 'viem';
 
-export function AddressSelector() {
-  const { senderChain, validatedRecipientAddress, handleAddressSelection } =
-    useSendContext();
+type AddressSelectorProps = {
+  address: AddressType;
+};
 
-  if (!validatedRecipientAddress) {
-    return null;
-  }
+export function AddressSelector({ address }: AddressSelectorProps) {
+  const { senderChain, handleAddressSelection } = useSendContext();
+
+  const handleClick = useCallback(() => {
+    handleAddressSelection(address);
+  }, [handleAddressSelection, address]);
 
   return (
-    <button
-      type="button"
-      onClick={() => handleAddressSelection(validatedRecipientAddress)}
-      className="text-left"
-    >
+    <button type="button" onClick={handleClick} className="text-left">
       <Identity
-        address={validatedRecipientAddress}
+        address={address}
         chain={senderChain || undefined}
         hasCopyAddressOnClick={false}
         className={cn(

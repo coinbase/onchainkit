@@ -2,14 +2,6 @@ import { TextInput } from '@/internal/components/TextInput';
 import { background, border, cn, color } from '@/styles/theme';
 import type { Dispatch, SetStateAction } from 'react';
 
-/***
-  delayMs?: number;
-  disabled?: boolean;
-  onBlur?: () => void;
-  inputValidator?: (s: string) => boolean;
-};
- */
-
 type AddressInputProps = {
   addressInput: string | null;
   setAddressInput: Dispatch<SetStateAction<string | null>>;
@@ -36,9 +28,9 @@ export function AddressInput({
       <TextInput
         inputMode="text"
         placeholder="Basename, ENS, or Address"
-        aria-label="Input Receiver Address"
         value={addressInput ?? ''}
         onChange={setAddressInput}
+        aria-label="Input Receiver Address"
         className={cn(background.default, 'w-full outline-none')}
       />
     </div>

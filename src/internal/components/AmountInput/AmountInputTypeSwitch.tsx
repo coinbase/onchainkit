@@ -9,8 +9,8 @@ type AmountInputTypeSwitchPropsReact = {
   selectedInputType: 'fiat' | 'crypto';
   setSelectedInputType: (type: 'fiat' | 'crypto') => void;
   asset: string;
-  fundAmountFiat: string;
-  fundAmountCrypto: string;
+  fiatAmount: string;
+  cryptoAmount: string;
   exchangeRate: number;
   exchangeRateLoading: boolean;
   currency: string;
@@ -21,8 +21,8 @@ export function AmountInputTypeSwitch({
   selectedInputType,
   setSelectedInputType,
   asset,
-  fundAmountFiat,
-  fundAmountCrypto,
+  fiatAmount,
+  cryptoAmount,
   exchangeRate,
   exchangeRateLoading,
   currency,
@@ -45,17 +45,17 @@ export function AmountInputTypeSwitch({
     return (
       <span data-testid="ockAmountLine" className={cn(text.label1)}>
         {selectedInputType === 'fiat'
-          ? formatCrypto(fundAmountCrypto)
+          ? formatCrypto(cryptoAmount)
           : formatFiatAmount({
-              amount: fundAmountFiat,
+              amount: fiatAmount,
               currency: currency,
               minimumFractionDigits: 0,
             })}
       </span>
     );
   }, [
-    fundAmountCrypto,
-    fundAmountFiat,
+    cryptoAmount,
+    fiatAmount,
     selectedInputType,
     formatCrypto,
     currency,

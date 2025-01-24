@@ -16,6 +16,10 @@ import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStat
 import type { Token } from '@/token';
 import { useWalletContext } from '@/wallet/components/WalletProvider';
 import { useWalletAdvancedContext } from '@/wallet/components/WalletAdvancedProvider';
+import { getSwapQuote } from '@/api';
+import { usdcToken } from '@/token/constants';
+import { isApiError } from '@/core/utils/isApiResponseError';
+import { useExchangeRate } from '@/core-react/internal/hooks/useExchangeRate';
 
 type SendContextType = {
   lifecycleStatus: LifecycleStatus;
@@ -41,6 +45,8 @@ type SendContextType = {
   setExchangeRate: Dispatch<SetStateAction<number>>;
   exchangeRateLoading: boolean;
   setExchangeRateLoading: Dispatch<SetStateAction<boolean>>;
+  selectedInputType: 'fiat' | 'crypto';
+  setSelectedInputType: Dispatch<SetStateAction<'fiat' | 'crypto'>>;
 };
 
 type SendProviderReact = {
@@ -123,12 +129,14 @@ export function SendProvider({ children }: SendProviderReact) {
   const [selectedRecipientAddress, setSelectedRecipientAddress] =
     useState<Address | null>(null);
   const [selectedToken, setSelectedToken] = useState<Token | null>(null);
+  const [selectedInputType, setSelectedInputType] = useState<'fiat' | 'crypto'>(
+    'crypto',
+  );
   const [fiatAmount, setFiatAmount] = useState<string | null>(null);
   const [cryptoAmount, setCryptoAmount] = useState<string | null>(null);
-  const [exchangeRate, setExchangeRate] = useState<number>(100);
-  const [exchangeRateLoading, setExchangeRateLoading] = useState<boolean>(true);
-
-  // TODO FETCH EXCHANGE RATE
+  const [exchangeRate, setExchangeRate] = useState<number>(0);
+  const [exchangeRateLoading, setExchangeRateLoading] =
+    useState<boolean>(false);
 
   const [lifecycleStatus, updateLifecycleStatus] =
     useLifecycleStatus<LifecycleStatus>({
@@ -141,44 +149,16 @@ export function SendProvider({ children }: SendProviderReact) {
   const { address: senderAddress, chain: senderChain } = useWalletContext();
   const { tokenBalances } = useWalletAdvancedContext();
 
-
   useEffect(() => {
-    if (lifecycleStatus.statusName === 'init') {
-      if (senderAddress) {
-        updateLifecycleStatus({
-          statusName: 'selectingAddress',
-          statusData: {
-            isMissingRequiredField: true,
-          },
-        });
-      }
+    const ethBalance = tokenBalances?.find((token) => token.address === '');
+    if (ethBalance && ethBalance.cryptoBalance > 0) {
+      setEthBalance(
+        Number(ethBalance.cryptoBalance / 10 ** ethBalance.decimals),
+      );
     }
-  }, [senderAddress, lifecycleStatus, updateLifecycleStatus]);
+  }, [tokenBalances]);
 
-  // Set Lifecycle Status after fetching token balances
-  useEffect(() => {
-    const ethBalance = tokenBalances?.filter(
-      (token) => token.symbol === 'ETH',
-    )[0];
-    if (!ethBalance || ethBalance.cryptoBalance === 0) {
-      updateLifecycleStatus({
-        statusName: 'fundingWallet',
-        statusData: {
-          isMissingRequiredField: true,
-        },
-      });
-    } else if (ethBalance.cryptoBalance > 0) {
-      setEthBalance(ethBalance.cryptoBalance);
-      updateLifecycleStatus({
-        statusName: 'selectingAddress',
-        statusData: {
-          isMissingRequiredField: true,
-        },
-      });
-    }
-  }, [tokenBalances, updateLifecycleStatus]);
-
-  // Validate Recipient Input
+  // Validate recipient input and set validated recipient address
   useEffect(() => {
     async function validateRecipientInput() {
       if (recipientInput) {
@@ -219,6 +199,59 @@ export function SendProvider({ children }: SendProviderReact) {
     [updateLifecycleStatus],
   );
 
+  // const fetchExchangeRate = useCallback(async () => {
+  //   if (!selectedToken) {
+  //     return;
+  //   }
+
+  //   if (selectedToken.address === usdcToken.address) {
+  //     setExchangeRate(1);
+  //     return;
+  //   }
+
+  //   setExchangeRateLoading(true);
+
+  //   const fromToken =
+  //     selectedInputType === 'crypto' ? selectedToken : usdcToken;
+  //   const toToken =
+  //     selectedInputType === 'crypto' ? usdcToken : selectedToken;
+
+  //   try {
+  //     const response = await getSwapQuote({
+  //       amount: '1', // hardcoded amount because we only need the exchange rate
+  //       from: fromToken,
+  //       to: toToken,
+  //       useAggregator: false,
+  //     });
+  //     if (isApiError(response)) {
+  //       console.error('Error fetching exchange rate:', response.error);
+  //       return;
+  //     }
+  //     const rate =
+  //       selectedInputType === 'crypto'
+  //         ? 1 / Number(response.fromAmountUSD)
+  //         : Number(response.toAmount) / 10 ** response.to.decimals;
+  //     setExchangeRate(rate);
+  //   } catch (error) {
+  //     console.error('Uncaught error fetching exchange rate:', error);
+  //   } finally {
+  //     setExchangeRateLoading(false);
+  //   }
+  // }, [selectedToken, selectedInputType]);
+
+  useEffect(() => {
+    if (!selectedToken) {
+      return;
+    }
+
+    useExchangeRate({
+      token: selectedToken,
+      selectedInputType,
+      setExchangeRate,
+      setExchangeRateLoading,
+    });
+  }, [selectedToken, selectedInputType]);
+
   const value = useValue({
     lifecycleStatus,
     senderAddress,
@@ -243,6 +276,8 @@ export function SendProvider({ children }: SendProviderReact) {
     setExchangeRate,
     exchangeRateLoading,
     setExchangeRateLoading,
+    selectedInputType,
+    setSelectedInputType,
   });
 
   return <SendContext.Provider value={value}>{children}</SendContext.Provider>;

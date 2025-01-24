@@ -2,12 +2,8 @@ import { AmountInput } from '@/internal/components/AmountInput/AmountInput';
 import { AmountInputTypeSwitch } from '@/internal/components/AmountInput/AmountInputTypeSwitch';
 // import { cn } from '@/styles/theme';
 import { useSendContext } from '@/wallet/components/WalletAdvancedSend/components/SendProvider';
-import { useState } from 'react';
 
 export function SendAmountInput({ className }: { className?: string }) {
-  const [selectedInputType, setSelectedInputType] = useState<'fiat' | 'crypto'>(
-    'crypto',
-  );
   const {
     fiatAmount,
     cryptoAmount,
@@ -15,6 +11,8 @@ export function SendAmountInput({ className }: { className?: string }) {
     setFiatAmount,
     setCryptoAmount,
     exchangeRate,
+    selectedInputType,
+    setSelectedInputType,
   } = useSendContext();
 
   return (
@@ -32,8 +30,8 @@ export function SendAmountInput({ className }: { className?: string }) {
       />
       <AmountInputTypeSwitch
         asset={selectedToken?.symbol ?? ''}
-        fundAmountFiat={fiatAmount ?? ''}
-        fundAmountCrypto={cryptoAmount ?? ''}
+        fiatAmount={fiatAmount ?? ''}
+        cryptoAmount={cryptoAmount ?? ''}
         exchangeRate={exchangeRate}
         exchangeRateLoading={false}
         currency={'USD'}
