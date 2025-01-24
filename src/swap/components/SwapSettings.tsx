@@ -1,10 +1,10 @@
+import { useIcon } from '@/core-react/internal/hooks/useIcon';
+import { DismissableLayer } from '@/internal/components/primitives/DismissableLayer';
+import { FocusTrap } from '@/internal/components/primitives/FocusTrap';
+import { Popover } from '@/internal/components/primitives/Popover';
+import { background, border, cn, pressable, text } from '@/styles/theme';
+import { useBreakpoints } from '@/ui/react/internal/hooks/useBreakpoints';
 import { useCallback, useRef, useState } from 'react';
-import { useIcon } from '../../core-react/internal/hooks/useIcon';
-import { DismissableLayer } from '../../internal/primitives/DismissableLayer';
-import { FocusTrap } from '../../internal/primitives/FocusTrap';
-import { Popover } from '../../internal/primitives/Popover';
-import { background, border, cn, pressable, text } from '../../styles/theme';
-import { useBreakpoints } from '../../ui/react/internal/hooks/useBreakpoints';
 import type { SwapSettingsReact } from '../types';
 import { SwapSettingsSlippageLayout } from './SwapSettingsSlippageLayout';
 import { SwapSettingsSlippageLayoutBottomSheet } from './SwapSettingsSlippageLayoutBottomSheet';
