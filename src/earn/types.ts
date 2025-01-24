@@ -6,8 +6,10 @@ export type EarnProviderReact = {
 };
 
 export type EarnContextType = {
+  convertedBalance?: string;
   vaultAddress: Address;
   depositAmount: string;
+  depositedAmount: string;
   setDepositAmount: (amount: string) => void;
   withdrawAmount: string;
   setWithdrawAmount: (amount: string) => void;
@@ -26,5 +28,20 @@ export type WithdrawAmountInputReact = {
 };
 
 export type DepositAmountInputReact = {
+  className?: string;
+};
+export type EarnBalanceReact = {
+  className?: string;
+  onActionPress: () => void;
+  title: string;
+  subtitle: string;
+  showAction?: boolean;
+};
+
+export type DepositBalanceReact = {
+  className?: string;
+};
+
+export type WithdrawBalanceReact = {
   className?: string;
 };
