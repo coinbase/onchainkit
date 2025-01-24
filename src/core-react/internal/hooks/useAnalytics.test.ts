@@ -1,8 +1,8 @@
-import { useOnchainKit } from '@/core-react/useOnchainKit';
 import { sendAnalytics } from '@/core/network/sendAnalytics';
+import { AnalyticsEvent } from '@/internal/types';
+import { useOnchainKit } from '@/useOnchainKit';
 import { cleanup, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { AnalyticsEvent } from '../types';
 import { useAnalytics } from './useAnalytics';
 
 vi.mock('@/core-react/useOnchainKit', () => ({
