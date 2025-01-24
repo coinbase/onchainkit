@@ -65,10 +65,10 @@ describe('BottomSheet', () => {
       </BottomSheet>,
     );
 
-    const tray = screen.getByTestId('ockBottomSheet');
-    expect(tray).toHaveAttribute('role', 'dialog');
-    expect(tray).toHaveAttribute('aria-label', 'Test Dialog');
-    expect(tray).toHaveAttribute('aria-describedby', 'desc');
-    expect(tray).toHaveAttribute('aria-labelledby', 'title');
+    const sheet = screen.getByTestId('ockBottomSheet');
+    expect(sheet).toHaveAttribute('role', 'dialog');
+    expect(sheet).toHaveAttribute('aria-label', 'Test Dialog');
+    expect(sheet).toHaveAttribute('aria-describedby', 'desc');
+    expect(sheet).toHaveAttribute('aria-labelledby', 'title');
   });
 });

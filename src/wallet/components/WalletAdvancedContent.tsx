@@ -25,7 +25,7 @@ export function WalletAdvancedContent({
   const { showQr, showSwap, tokenBalances, animations } =
     useWalletAdvancedContext();
 
-  const handleMobileTrayClose = useCallback(() => {
+  const handleBottomSheetClose = useCallback(() => {
     if (breakpoint !== 'sm') {
       return;
     }
@@ -83,7 +83,7 @@ export function WalletAdvancedContent({
     <>
       <BottomSheet
         isOpen={isSubComponentOpen}
-        onClose={handleMobileTrayClose}
+        onClose={handleBottomSheetClose}
         className="md:hidden"
         overlayClassName="md:hidden"
       >

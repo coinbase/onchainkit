@@ -1,6 +1,6 @@
 import type { SwapDefaultReact } from '@/swap/types';
 import { useBreakpoints } from '@/ui-react/internal/hooks/useBreakpoints';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { WalletAdvancedContent } from './WalletAdvancedContent';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
@@ -206,7 +206,7 @@ describe('WalletAdvancedContent', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('closes WalletAdvancedContent when mobile tray is closed', () => {
+  it('closes WalletAdvancedContent when a click outside bottom sheet happens and breakpoint is sm', () => {
     mockUseBreakpoints.mockReturnValue('sm');
     const setIsSubComponentOpen = vi.fn();
     mockUseWalletContext.mockReturnValue({
@@ -224,6 +224,26 @@ describe('WalletAdvancedContent', () => {
     fireEvent.pointerDown(overlay);
 
     expect(setIsSubComponentOpen).toHaveBeenCalledWith(false);
+  });
+
+  it('does not close WalletAdvancedContent when a click outside bottom sheet happens and breakpoint is not sm', () => {
+    mockUseBreakpoints.mockReturnValue('md');
+    const setIsSubComponentOpen = vi.fn();
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
+      setIsSubComponentOpen,
+    });
+
+    render(
+      <WalletAdvancedContent>
+        <div>WalletAdvancedContent</div>
+      </WalletAdvancedContent>,
+    );
+
+    const overlay = screen.getByTestId('ockBottomSheetOverlay');
+    fireEvent.pointerDown(overlay);
+
+    expect(setIsSubComponentOpen).not.toHaveBeenCalled();
   });
 
   it('handles animation end when closing', () => {
@@ -261,12 +281,12 @@ describe('WalletAdvancedContent', () => {
       </WalletAdvancedContent>,
     );
 
-    expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toBeDefined();
+    const desktopContainer = screen.getByTestId('ockWalletAdvancedContent');
     expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+      within(desktopContainer).getByTestId('ockWalletAdvancedQrReceive'),
     ).toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockWalletAdvancedSwap'),
+      within(desktopContainer).queryByTestId('ockWalletAdvancedSwap'),
     ).not.toBeInTheDocument();
   });
 
@@ -282,10 +302,12 @@ describe('WalletAdvancedContent', () => {
       </WalletAdvancedContent>,
     );
 
-    expect(screen.getByTestId('ockWalletAdvancedSwap')).toBeDefined();
-    expect(screen.queryByTestId('ockWalletAdvancedSwap')).toBeInTheDocument();
+    const desktopContainer = screen.getByTestId('ockWalletAdvancedContent');
     expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+      within(desktopContainer).getByTestId('ockWalletAdvancedSwap'),
+    ).toBeInTheDocument();
+    expect(
+      within(desktopContainer).queryByTestId('ockWalletAdvancedQrReceive'),
     ).not.toBeInTheDocument();
   });
 
@@ -323,7 +345,10 @@ describe('WalletAdvancedContent', () => {
       </WalletAdvancedContent>,
     );
 
-    const swapComponent = screen.getByTestId('ockWalletAdvancedSwap');
+    const desktopContainer = screen.getByTestId('ockWalletAdvancedContent');
+    const swapComponent = within(desktopContainer).getByTestId(
+      'ockWalletAdvancedSwap',
+    );
     const props = JSON.parse(
       swapComponent.getAttribute('data-props') as string,
     );
@@ -340,8 +365,7 @@ describe('WalletAdvancedContent', () => {
     );
   });
 
-  it('renders BottomSheet when breakpoint is sm', () => {
-    mockUseBreakpoints.mockReturnValue('sm');
+  it('renders BottomSheet and advanced content with the correct classes', () => {
     mockUseWalletContext.mockReturnValue({
       isSubComponentOpen: true,
       isSubComponentClosing: false,
@@ -353,6 +377,11 @@ describe('WalletAdvancedContent', () => {
       </WalletAdvancedContent>,
     );
 
-    expect(screen.getByTestId('ockBottomSheet')).toBeDefined();
+    const bottomSheet = screen.getByTestId('ockBottomSheet');
+    expect(bottomSheet).toHaveClass('md:hidden');
+
+    // Also verify desktop container is hidden on mobile
+    const desktopContainer = screen.getByTestId('ockWalletAdvancedContent');
+    expect(desktopContainer).toHaveClass('hidden', 'md:block');
   });
 });
