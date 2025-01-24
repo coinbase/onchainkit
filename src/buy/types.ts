@@ -10,22 +10,32 @@ import type { Token } from '@/token';
 import type { Address, TransactionReceipt } from 'viem';
 
 export type BuyReact = {
-  className?: string; // Optional className override for top div element.
+  /** Optional className override for top div element. */
+  className?: string;
   config?: SwapConfig;
-  disabled?: boolean; // Disables Buy button
+  /** Disables Buy button */
+  disabled?: boolean;
   experimental?: {
-    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+    /** Whether to use a DEX aggregator. (default: false) */
+    useAggregator: boolean;
   };
-  isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
-  onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
-  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
-  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
-  fromToken?: Token; // An optional token to swap from
-  toToken: Token; // The token to swap to
+  /** An optional setting to sponsor swaps with a Paymaster. (default: false) */
+  isSponsored?: boolean;
+  /** An optional callback function that handles errors within the provider. */
+  onError?: (error: SwapError) => void;
+  /** An optional callback function that exposes the component lifecycle state */
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  /** An optional callback function that exposes the transaction receipt */
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
+  /** An optional token to swap from */
+  fromToken?: Token;
+  /** The token to swap to */
+  toToken: Token;
 };
 
 export type BuyContextType = {
-  address?: Address; // Used to check if user is connected in SwapButton
+  /** Used to check if user is connected in SwapButton */
+  address?: Address;
   config: SwapConfig;
   disabled?: boolean;
   fromETH: SwapUnit;
@@ -33,9 +43,10 @@ export type BuyContextType = {
   lifecycleStatus: LifecycleStatus;
   handleAmountChange: (amount: string) => void;
   handleSubmit: (fromToken: SwapUnit) => void;
+  /** A function to set the lifecycle status of the component */
   updateLifecycleStatus: (
     state: LifecycleStatusUpdate<LifecycleStatus>,
-  ) => void; // A function to set the lifecycle status of the component
+  ) => void;
   setTransactionHash: (hash: string) => void;
   fromToken?: Token;
   to?: SwapUnit;
@@ -50,16 +61,22 @@ export type BuyContextType = {
 export type BuyProviderReact = {
   children: React.ReactNode;
   config?: {
-    maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
+    /** Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points */
+    maxSlippage: number;
   };
   disabled?: boolean;
   experimental: {
-    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+    /** Whether to use a DEX aggregator. (default: false) */
+    useAggregator: boolean;
   };
-  isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
-  onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
-  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
-  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  /** An optional setting to sponsor swaps with a Paymaster. (default: false) */
+  isSponsored?: boolean;
+  /** An optional callback function that handles errors within the provider. */
+  onError?: (error: SwapError) => void;
+  /** An optional callback function that exposes the component lifecycle state */
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  /** An optional callback function that exposes the transaction receipt */
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
   fromToken?: Token;
   toToken: Token;
 };

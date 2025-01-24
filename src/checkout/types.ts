@@ -5,8 +5,7 @@ import type { Config } from 'wagmi';
 import type { PayTransaction } from '../api/types';
 import type { TransactionError } from '../transaction';
 
-/**
- * List of Pay lifecycle statuses.
+/** List of Pay lifecycle statuses.
  * The order of the statuses loosely follows the transaction lifecycle.
  *
  * Note: exported as public Type
@@ -61,9 +60,7 @@ export type HandlePayRequestParams = {
   productId?: string;
 };
 
-/**
- * Note: exported as public Type
- */
+/** Note: exported as public Type */
 export type CheckoutButtonReact = {
   className?: string;
   coinbaseBranded?: boolean;
@@ -89,9 +86,7 @@ export type CheckoutProviderReact = {
   productId?: string;
 };
 
-/**
- * Note: exported as public Type
- */
+/** Note: exported as public Type */
 export type CheckoutReact = {
   chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
@@ -101,9 +96,7 @@ export type CheckoutReact = {
   productId?: string;
 };
 
-/**
- * Note: exported as public Type
- */
+/** Note: exported as public Type */
 export type CheckoutStatusReact = { className?: string };
 
 export type UseCommerceContractsParams = {

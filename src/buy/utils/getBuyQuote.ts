@@ -6,15 +6,19 @@ import { isSwapError } from '../../swap/utils/isSwapError';
 import type { Token } from '../../token';
 import type { GetBuyQuoteResponse } from '../types';
 
+/**
+ * Parameters for getting a buy quote, extending GetSwapQuoteParams but omitting 'from'
+ */
 type GetBuyQuoteParams = Omit<GetSwapQuoteParams, 'from'> & {
+  /** Optional swap unit for the 'from' token */
   fromSwapUnit?: SwapUnit;
+  /** Optional 'from' token */
   from?: Token;
 };
 
 /**
  * Fetches a quote for a swap, but only if the from and to tokens are different.
  */
-
 export async function getBuyQuote({
   amount,
   from,

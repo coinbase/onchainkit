@@ -46,9 +46,12 @@ export type SendSingleTransactionsParams = {
  * Note: exported as public Type
  */
 export type Fee = {
-  amount: string; // The amount of the fee
-  baseAsset: Token; // The base asset for the fee
-  percentage: string; // The percentage of the fee
+  /** The amount of the fee */
+  amount: string;
+  /** The base asset for the fee */
+  baseAsset: Token;
+  /** The percentage of the fee */
+  percentage: string;
 };
 
 export type FromTo = {
@@ -67,9 +70,12 @@ export type GetSwapMessageParams = {
  * Note: exported as public Type
  */
 export type QuoteWarning = {
-  description?: string; // The description of the warning
-  message?: string; // The message of the warning
-  type?: string; // The type of the warning
+  /** The description of the warning */
+  description?: string;
+  /** The message of the warning */
+  message?: string;
+  /** The type of the warning */
+  type?: string;
 };
 
 type LifecycleStatusDataShared = {
@@ -149,12 +155,18 @@ export type ProcessSwapTransactionParams = {
  * Note: exported as public Type
  */
 export type SwapAmountInputReact = {
-  className?: string; // Optional className override for top div element.
-  delayMs?: number; // The debounce delay in milliseconds
-  label: string; // Descriptive label for the input field
-  swappableTokens?: Token[]; // Swappable tokens
-  token?: Token; // Selected token
-  type: 'to' | 'from'; // Identifies if component is for toToken or fromToken
+  /** Optional className override for top div element */
+  className?: string;
+  /** The debounce delay in milliseconds */
+  delayMs?: number;
+  /** Descriptive label for the input field */
+  label: string;
+  /** Swappable tokens */
+  swappableTokens?: Token[];
+  /** Selected token */
+  token?: Token;
+  /** Identifies if component is for toToken or fromToken */
+  type: 'to' | 'from';
 };
 
 export type SwapAPIResponse = {
@@ -169,8 +181,10 @@ export type SwapAPIResponse = {
  * Note: exported as public Type
  */
 export type SwapButtonReact = {
-  className?: string; // Optional className override for top div element.
-  disabled?: boolean; // Disables swap button
+  /** Optional className override for top div element */
+  className?: string;
+  /** Disables swap button */
+  disabled?: boolean;
 };
 
 export type SwapConfig = {
@@ -204,9 +218,12 @@ export type SwapContextType = {
  * Note: exported as public Type
  */
 export type SwapError = {
-  code: string; // The error code representing the type of swap error.
-  error: string; // The error message providing details about the swap error.
-  message: string; // The error message providing details about the swap error.
+  /** The error code representing the type of swap error */
+  code: string;
+  /** The error message providing details about the swap error */
+  error: string;
+  /** The error message providing details about the swap error */
+  message: string;
 };
 
 export type SwapLoadingState = {
@@ -217,24 +234,36 @@ export type SwapLoadingState = {
  * Note: exported as public Type
  */
 export type SwapMessageReact = {
-  className?: string; // Optional className override for top div element.
+  /** Optional className override for top div element */
+  className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type SwapQuote = {
-  amountReference: string; // The reference amount for the quote
-  from: Token; // The source token for the swap
-  fromAmount: string; // The amount of the source token
-  fromAmountUSD: string; // The USD value of the source token
-  hasHighPriceImpact: boolean; // Whether the price impact is high
-  priceImpact: string; // The price impact of the swap
-  slippage: string; // The slippage of the swap
-  to: Token; // The destination token for the swap
-  toAmount: string; // The amount of the destination token
-  toAmountUSD: string; // The USD value of the destination token
-  warning?: QuoteWarning; // The warning associated with the quote
+  /** The reference amount for the quote */
+  amountReference: string;
+  /** The source token for the swap */
+  from: Token;
+  /** The amount of the source token */
+  fromAmount: string;
+  /** The USD value of the source token */
+  fromAmountUSD: string;
+  /** Whether the price impact is high */
+  hasHighPriceImpact: boolean;
+  /** The price impact of the swap */
+  priceImpact: string;
+  /** The slippage of the swap */
+  slippage: string;
+  /** The destination token for the swap */
+  to: Token;
+  /** The amount of the destination token */
+  toAmount: string;
+  /** The USD value of the destination token */
+  toAmountUSD: string;
+  /** The warning associated with the quote */
+  warning?: QuoteWarning;
 };
 
 export type SwapParams = {
@@ -250,7 +279,7 @@ export type SwapProviderReact = {
     maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
   };
   experimental: {
-    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+    useAggregator: boolean; // Whether to use a DEX aggregator. (default: false)
   };
   isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
@@ -262,27 +291,41 @@ export type SwapProviderReact = {
  * Note: exported as public Type
  */
 export type SwapReact = {
+  /** React children */
   children: ReactNode;
-  className?: string; // Optional className override for top div element.
+  /** Optional className override for top div element */
+  className?: string;
+  /** Configuration options */
   config?: SwapConfig;
+  /** Experimental features */
   experimental?: {
-    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+    /** Whether to use a DEX aggregator. (default: false) */
+    useAggregator: boolean;
   };
-  isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
-  onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
-  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
-  onSuccess?: (transactionReceipt: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
-  title?: ReactNode; // Title for the Swap component. (default: "Swap")
-  headerLeftContent?: ReactNode; // Header left content for the Swap component (eg. back button).
+  /** An optional setting to sponsor swaps with a Paymaster. (default: false) */
+  isSponsored?: boolean;
+  /** An optional callback function that handles errors within the provider */
+  onError?: (error: SwapError) => void;
+  /** An optional callback function that exposes the component lifecycle state */
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  /** An optional callback function that exposes the transaction receipt */
+  onSuccess?: (transactionReceipt: TransactionReceipt) => void;
+  /** Title for the Swap component. (default: "Swap") */
+  title?: ReactNode;
+  /** Header left content for the Swap component (eg. back button) */
+  headerLeftContent?: ReactNode;
 };
 
 /**
  * Note: exported as public Type
  */
 export type SwapDefaultReact = {
-  to: Token[]; // Swappable tokens
-  from: Token[]; // Swappable tokens
-  disabled?: boolean; // Disables swap button
+  /** Swappable tokens */
+  to: Token[];
+  /** Swappable tokens */
+  from: Token[];
+  /** Disables swap button */
+  disabled?: boolean;
 } & Omit<SwapReact, 'children'>;
 
 /**
@@ -290,9 +333,12 @@ export type SwapDefaultReact = {
  */
 export type SwapSettingsReact = {
   children: ReactNode;
-  className?: string; // Optional className override for top div element.
-  icon?: ReactNode; // Optional icon override
-  text?: string; // Optional text override
+  /** Optional className override for top div element */
+  className?: string;
+  /** Optional icon override */
+  icon?: ReactNode;
+  /** Optional text override */
+  text?: string;
 };
 
 /**
@@ -300,19 +346,22 @@ export type SwapSettingsReact = {
  */
 export type SwapSettingsSlippageDescriptionReact = {
   children: ReactNode;
-  className?: string; // Optional className override for top div element.
+  /** Optional className override for top div element */
+  className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type SwapSettingsSlippageInputReact = {
-  className?: string; // Optional className override for top div element.
+  /** Optional className override for top div element */
+  className?: string;
 };
 
 export type SwapSettingsSlippageLayoutReact = {
   children: ReactNode;
-  className?: string; // Optional className override for top div element.
+  /** Optional className override for top div element */
+  className?: string;
 };
 
 /**
@@ -320,20 +369,23 @@ export type SwapSettingsSlippageLayoutReact = {
  */
 export type SwapSettingsSlippageTitleReact = {
   children: ReactNode;
-  className?: string; // Optional className override for top div element.
+  /** Optional className override for top div element */
+  className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type SwapToggleButtonReact = {
-  className?: string; // Optional className override for top div element.
+  /** Optional className override for top div element */
+  className?: string;
 };
 
 /**
  * Note: exported as public Type
+ * Consists of atomic batch transactions, ERC-20 approvals, Permit2 approvals, and Swaps
  */
-export type SwapTransactionType = 'Batched' | 'ERC20' | 'Permit2' | 'Swap'; // Consists of atomic batch transactions, ERC-20 approvals, Permit2 approvals, and Swaps
+export type SwapTransactionType = 'Batched' | 'ERC20' | 'Permit2' | 'Swap';
 
 export type SwapUnit = {
   amount: string;
@@ -353,20 +405,31 @@ export type SwapUnit = {
  * Note: exported as public Type
  */
 export type Transaction = {
-  chainId: number; // The chain ID
-  data: Hex; // The data for the transaction
-  gas: bigint; // The gas limit
-  maxFeePerGas?: bigint | undefined; // The maximum fee per gas
-  maxPriorityFeePerGas?: bigint | undefined; // The maximum priority fee per gas
-  nonce?: number; // The nonce for the transaction
-  to: Address; // The recipient address
-  value: bigint; // The value of the transaction
+  /** The chain ID */
+  chainId: number;
+  /** The data for the transaction */
+  data: Hex;
+  /** The gas limit */
+  gas: bigint;
+  /** The maximum fee per gas */
+  maxFeePerGas?: bigint | undefined;
+  /** The maximum priority fee per gas */
+  maxPriorityFeePerGas?: bigint | undefined;
+  /** The nonce for the transaction */
+  nonce?: number;
+  /** The recipient address */
+  to: Address;
+  /** The value of the transaction */
+  value: bigint;
 };
 
 export type SwapToastReact = {
-  className?: string; // An optional CSS class name for styling the toast component.
-  durationMs?: number; // An optional value to customize time until toast disappears
-  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right'; // An optional position property to specify the toast's position on the screen.
+  /** An optional CSS class name for styling the toast component */
+  className?: string;
+  /** An optional value to customize time until toast disappears */
+  durationMs?: number;
+  /** An optional position property to specify the toast's position on the screen */
+  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
 };
 
 export type SwapTransaction = {
@@ -377,7 +440,8 @@ export type SwapTransaction = {
 export type UseAwaitCallsParams = {
   accountConfig: Config;
   lifecycleStatus: LifecycleStatus;
+  /** A function to set the lifecycle status of the component */
   updateLifecycleStatus: (
     state: LifecycleStatusUpdate<LifecycleStatus>,
-  ) => void; // A function to set the lifecycle status of the component
+  ) => void;
 };

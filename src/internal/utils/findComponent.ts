@@ -1,11 +1,12 @@
 import { isValidElement } from 'react';
 import type { ComponentType, ReactElement, ReactNode } from 'react';
 
-// Type for Next.js Server Component Payload
-// Temporary patch until we update to default children and remove internal findComponent
+/** Type for Next.js Server Component Payload
+ * Temporary patch until we update to default children and remove internal findComponent */
 export interface ServerComponentPayload {
   _payload: {
-    value: [string, string[], string]; // [modulePath, chunks, componentName]
+    /** [modulePath, chunks, componentName] */
+    value: [string, string[], string];
   };
 }
 
