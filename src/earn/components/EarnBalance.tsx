@@ -39,6 +39,7 @@ export function EarnBalance({
           className={cn(text.label2, color.primary)}
           type="button"
           onKeyDown={handleKeyDown}
+          aria-label="Use max"
         >
           Use max
         </button>
