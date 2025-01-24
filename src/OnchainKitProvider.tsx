@@ -7,7 +7,6 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createContext, useMemo } from 'react';
 import { WagmiProvider } from 'wagmi';
-import { useAnalytics } from './core-react/internal/hooks/useAnalytics';
 import { useProviderDependencies } from './core-react/internal/hooks/useProviderDependencies';
 import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from './core/constants';
 import { createWagmiConfig } from './core/createWagmiConfig';
@@ -36,11 +35,7 @@ export function OnchainKitProvider({
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
 
-  const { generateInteractionId } = useAnalytics();
-  const interactionId = useMemo(
-    () => generateInteractionId(),
-    [generateInteractionId],
-  );
+  const interactionId = useMemo(() => crypto.randomUUID(), []);
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
   const value = useMemo(() => {
@@ -71,7 +66,7 @@ export function OnchainKitProvider({
       projectId: projectId ?? null,
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
-      interactionId: interactionId ?? null,
+      interactionId,
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;

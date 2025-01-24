@@ -25,8 +25,5 @@ export const useAnalytics = () => {
         interactionId,
       });
     },
-    generateInteractionId: () => {
-      return crypto.randomUUID();
-    },
   };
 };

@@ -31,11 +31,9 @@ describe('useAnalytics', () => {
     vi.restoreAllMocks();
   });
 
-  it('should return sendAnalytics function and generateInteractionId', () => {
+  it('should return sendAnalytics function', () => {
     const { result } = renderHook(() => useAnalytics());
-
     expect(result.current.sendAnalytics).toBeDefined();
-    expect(result.current.generateInteractionId).toBeDefined();
   });
 
   it('should call sendAnalytics with correct parameters', () => {
@@ -78,24 +76,6 @@ describe('useAnalytics', () => {
         interactionId: mockInteractionId,
       }),
     );
-  });
-
-  it('should generate a valid UUID', () => {
-    const mockUUID = 'test-uuid';
-    const mockCrypto = {
-      randomUUID: vi.fn().mockReturnValue(mockUUID),
-    };
-    Object.defineProperty(global, 'crypto', {
-      value: mockCrypto,
-      writable: true,
-      configurable: true,
-    });
-
-    const { result } = renderHook(() => useAnalytics());
-    const generatedId = result.current.generateInteractionId();
-
-    expect(generatedId).toBe(mockUUID);
-    expect(mockCrypto.randomUUID).toHaveBeenCalled();
   });
 
   it('should handle analyticsUrl from config correctly', () => {

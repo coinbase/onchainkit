@@ -196,7 +196,7 @@ describe('OnchainKitProvider', () => {
       rpcUrl: null,
       schemaId,
       projectId: null,
-      interactionId: null,
+      interactionId: expect.any(String),
     });
   });
 
@@ -324,31 +324,6 @@ describe('OnchainKitProvider', () => {
         }),
       );
     });
-  });
-
-  it('should handle null interactionId', async () => {
-    vi.mock('./internal/hooks/useAnalytics', () => ({
-      useAnalytics: () => ({
-        generateInteractionId: () => null,
-        sendAnalytics: vi.fn(),
-      }),
-    }));
-
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base} schemaId={schemaId} apiKey={apiKey}>
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    expect(setOnchainKitConfig).toHaveBeenCalledWith(
-      expect.objectContaining({
-        interactionId: null,
-      }),
-    );
   });
 
   afterEach(() => {
