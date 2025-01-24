@@ -1,10 +1,10 @@
 import { getChainPublicClient } from '@/core/network/getChainPublicClient';
 import { isBase } from '@/core/utils/isBase';
 import { isEthereum } from '@/core/utils/isEthereum';
-import type { GetAddress, GetAddressReturnType } from '@/identity/types';
-import { mainnet } from 'viem/chains';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '@/identity/constants';
+import type { GetAddress, GetAddressReturnType } from '@/identity/types';
 import { isBasename } from '@/identity/utils/isBasename';
+import { mainnet } from 'viem/chains';
 
 /**
  * Get address from ENS name or Basename.

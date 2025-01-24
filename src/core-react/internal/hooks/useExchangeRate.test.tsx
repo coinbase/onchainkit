@@ -1,9 +1,9 @@
+import { getSwapQuote } from '@/api';
+import type { Token } from '@/token';
 import { ethToken, usdcToken } from '@/token/constants';
 import { renderHook, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useExchangeRate } from './useExchangeRate';
-import type { Token } from '@/token';
-import { getSwapQuote } from '@/api';
 
 vi.mock('@/api', () => ({
   getSwapQuote: vi.fn(),

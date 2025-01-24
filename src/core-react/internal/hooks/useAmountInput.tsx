@@ -1,5 +1,5 @@
-import { useCallback, useMemo } from 'react';
 import { truncateDecimalPlaces } from '@/core/utils/truncateDecimalPlaces';
+import { useCallback, useMemo } from 'react';
 
 type UseAmountInputParams = {
   setFiatAmount: (value: string) => void;
@@ -14,7 +14,6 @@ export const useAmountInput = ({
   selectedInputType,
   exchangeRate,
 }: UseAmountInputParams) => {
-
   const handleFiatChange = useCallback(
     (value: string) => {
       const fiatValue = truncateDecimalPlaces(value, 2);
@@ -24,9 +23,7 @@ export const useAmountInput = ({
         Number(fiatValue) * Number(exchangeRate),
       );
       const resultCryptoValue = truncateDecimalPlaces(calculatedCryptoValue, 8);
-      setCryptoAmount(
-        calculatedCryptoValue === '0' ? '' : resultCryptoValue,
-      );
+      setCryptoAmount(calculatedCryptoValue === '0' ? '' : resultCryptoValue);
     },
     [exchangeRate, setFiatAmount, setCryptoAmount],
   );

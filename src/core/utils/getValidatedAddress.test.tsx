@@ -1,10 +1,10 @@
+import { getAddress } from '@/identity/utils/getAddress';
+import { isBasename } from '@/identity/utils/isBasename';
+import { isEns } from '@/identity/utils/isEns';
+import { isAddress } from 'viem';
+import { base, mainnet } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getValidatedAddress } from './getValidatedAddress';
-import { isAddress } from 'viem';
-import { isBasename } from '../../identity/utils/isBasename';
-import { isEns } from '@/identity/utils/isEns';
-import { getAddress } from '@/identity/utils/getAddress';
-import { base, mainnet } from 'viem/chains';
 
 vi.mock('viem', () => {
   return {
@@ -33,7 +33,7 @@ vi.mock('../../identity/utils/getAddress', () => {
 describe('getValidatedAddress', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-  })
+  });
 
   it('should return the input if it is a valid address', async () => {
     const input = '0x1234';
@@ -54,10 +54,9 @@ describe('getValidatedAddress', () => {
       chain: base,
     });
     expect(testAddress).toBe(expectedAddress);
-  })
+  });
 
   it('should return an address if the input is a valid ens name', async () => {
-
     const input = 'blahblah';
     const expectedAddress = '0xABCD';
     vi.mocked(isBasename).mockReturnValue(false);
@@ -71,7 +70,7 @@ describe('getValidatedAddress', () => {
       chain: mainnet,
     });
     expect(testAddress).toBe(expectedAddress);
-  })
+  });
 
   it('should return null if the input is not a valid address, basename, or ens name', async () => {
     const input = 'invalid';
@@ -79,5 +78,5 @@ describe('getValidatedAddress', () => {
     vi.mocked(isEns).mockReturnValue(false);
     vi.mocked(isAddress).mockReturnValue(false);
     expect(await getValidatedAddress(input)).toBeNull();
-  })
+  });
 });

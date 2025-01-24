@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
-import { useAmountInput } from './useAmountInput';
 import { act } from 'react-dom/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useAmountInput } from './useAmountInput';
 
 describe('useAmountInput', () => {
   const defaultProps = {
@@ -75,10 +75,12 @@ describe('useAmountInput', () => {
     });
 
     it('should call handleCryptoChange when selectedInputType is crypto', () => {
-      const { result } = renderHook(() => useAmountInput({
-        ...defaultProps,
-        selectedInputType: 'crypto',
-      }));
+      const { result } = renderHook(() =>
+        useAmountInput({
+          ...defaultProps,
+          selectedInputType: 'crypto',
+        }),
+      );
       const onChange = vi.fn();
 
       act(() => {

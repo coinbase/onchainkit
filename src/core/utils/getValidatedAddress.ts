@@ -1,6 +1,6 @@
+import { getAddress } from '@/identity/utils/getAddress';
 import { isBasename } from '@/identity/utils/isBasename';
 import { isEns } from '@/identity/utils/isEns';
-import { getAddress } from '@/identity/utils/getAddress';
 import { isAddress } from 'viem';
 import { base, mainnet } from 'viem/chains';
 
