@@ -1,4 +1,4 @@
-import { truncateDecimalPlaces } from '@/core/utils/truncateDecimalPlaces';
+import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
 import { useCallback, useMemo } from 'react';
 
 type UseAmountInputParams = {
