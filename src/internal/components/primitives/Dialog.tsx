@@ -1,8 +1,8 @@
+import { useTheme } from '@/core-react/internal/hooks/useTheme';
+import { cn } from '@/styles/theme';
 import type React from 'react';
 import { useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
-import { cn } from '../../styles/theme';
 import { DismissableLayer } from './DismissableLayer';
 import { FocusTrap } from './FocusTrap';
 
