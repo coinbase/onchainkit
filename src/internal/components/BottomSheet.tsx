@@ -43,11 +43,11 @@ export function BottomSheet({
       <FocusTrap active={isOpen}>
         <DismissableLayer onDismiss={onClose} preventTriggerEvents={true}>
           <div
-            data-testid="ockBottomSheet"
-            role="dialog"
+            aria-describedby={ariaDescribedby}
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledby}
-            aria-describedby={ariaDescribedby}
+            data-testid="ockBottomSheet"
+            role="dialog"
             className={cn(
               componentTheme,
               background.default,

@@ -13,6 +13,7 @@ import { ConnectWallet } from './ConnectWallet';
 import { WalletAdvanced } from './WalletAdvanced';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
+import { useBreakpoints } from '@/ui-react/internal/hooks/useBreakpoints';
 
 export const Wallet = ({
   children,
@@ -55,6 +56,7 @@ function WalletContent({
     alignSubComponentRight,
   } = useWalletContext();
   const walletContainerRef = useRef<HTMLDivElement>(null);
+  const breakpoint = useBreakpoints();
 
   useOutsideClick(walletContainerRef, handleClose);
 
@@ -73,6 +75,9 @@ function WalletContent({
     );
   }
 
+  const disableDraggable =
+    isConnectModalOpen || (breakpoint === 'sm' && isSubComponentOpen);
+
   if (draggable) {
     return (
       <div
@@ -81,7 +86,7 @@ function WalletContent({
       >
         <Draggable
           startingPosition={draggableStartingPosition}
-          disabled={isConnectModalOpen}
+          disabled={disableDraggable}
         >
           <WalletSubComponent
             connect={connect}
