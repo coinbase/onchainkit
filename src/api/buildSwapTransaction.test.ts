@@ -1,6 +1,9 @@
 import { CDP_GET_SWAP_TRADE } from '@/core/network/definitions/swap';
 import { sendRequest } from '@/core/network/request';
+import { SwapMessage } from '@/swap/constants';
+import { UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE } from '@/swap/constants';
 import { DEGEN_TOKEN, ETH_TOKEN } from '@/swap/mocks';
+import type { Address } from 'viem';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildSwapTransaction } from './buildSwapTransaction';
 import type { BuildSwapTransaction } from './types';
@@ -12,9 +15,9 @@ import { getSwapTransaction } from './utils/getSwapTransaction';
 
 vi.mock('@/core/network/request');
 
-const testFromAddress = '0x6Cd01c0F55ce9E0Bf78f5E90f72b4345b16d515d';
+const testFromAddress: Address = '0x6Cd01c0F55ce9E0Bf78f5E90f72b4345b16d515d';
 const testAmount = '3305894409732200';
-const testAmountReference = 'from';
+const testAmountReference = 'from' as const;
 
 describe('buildSwapTransaction', () => {
   beforeEach(() => {
@@ -24,7 +27,7 @@ describe('buildSwapTransaction', () => {
   it('should return a swap', async () => {
     const mockParams = {
       useAggregator: true,
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,
@@ -120,7 +123,7 @@ describe('buildSwapTransaction', () => {
   it('should return a swap with useAggregator=false', async () => {
     const mockParams = {
       useAggregator: false,
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,
@@ -199,11 +202,28 @@ describe('buildSwapTransaction', () => {
     ]);
   });
 
+  it('should return an error for an unsupported amount reference', async () => {
+    const mockParams = {
+      useAggregator: true,
+      fromAddress: testFromAddress,
+      amountReference: 'to' as const,
+      from: ETH_TOKEN,
+      to: DEGEN_TOKEN,
+      amount: testAmount,
+    };
+    const error = await buildSwapTransaction(mockParams);
+    expect(error).toEqual({
+      code: UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE,
+      error: SwapMessage.UNSUPPORTED_AMOUNT_REFERENCE,
+      message: '',
+    });
+  });
+
   it('should return a swap with an approve transaction', async () => {
     const mockParams = {
       useAggregator: true,
       maxSlippage: '3',
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: DEGEN_TOKEN,
       to: ETH_TOKEN,
@@ -292,7 +312,7 @@ describe('buildSwapTransaction', () => {
   it('should return an error if sendRequest fails', async () => {
     const mockParams = {
       useAggregator: true,
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,
@@ -318,7 +338,7 @@ describe('buildSwapTransaction', () => {
   it('should return an error object from buildSwapTransaction', async () => {
     const mockParams = {
       useAggregator: true,
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,
@@ -349,7 +369,7 @@ describe('buildSwapTransaction', () => {
   it('should return an error object from buildSwapTransaction for invalid `amount` input', async () => {
     const mockParams = {
       useAggregator: true,
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,
@@ -368,7 +388,7 @@ describe('buildSwapTransaction', () => {
     const mockParams = {
       useAggregator: true,
       maxSlippage: '3',
-      fromAddress: testFromAddress as `0x${string}`,
+      fromAddress: testFromAddress,
       amountReference: testAmountReference,
       from: ETH_TOKEN,
       to: DEGEN_TOKEN,

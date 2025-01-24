@@ -256,7 +256,6 @@ export function BuyProvider({
           formattedFromAmount: formattedAmountETH,
         } = await getBuyQuote({
           amount,
-          amountReference: 'to',
           from: fromETH.token,
           maxSlippage: String(maxSlippage),
           to: to.token,
@@ -269,7 +268,6 @@ export function BuyProvider({
           formattedFromAmount: formattedAmountUSDC,
         } = await getBuyQuote({
           amount,
-          amountReference: 'to',
           from: fromUSDC.token,
           maxSlippage: String(maxSlippage),
           to: to.token,
@@ -282,7 +280,6 @@ export function BuyProvider({
           formattedFromAmount: formattedAmountFrom,
         } = await getBuyQuote({
           amount,
-          amountReference: 'to',
           from: from?.token,
           maxSlippage: String(maxSlippage),
           to: to.token,

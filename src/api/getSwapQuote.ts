@@ -1,3 +1,5 @@
+import { SwapMessage } from '@/swap/constants';
+import { UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE } from '@/swap/constants';
 import { CDP_GET_SWAP_QUOTE } from '../core/network/definitions/swap';
 import { sendRequest } from '../core/network/request';
 import type { SwapQuote } from '../swap/types';
@@ -17,7 +19,7 @@ export async function getSwapQuote(
 ): Promise<GetSwapQuoteResponse> {
   // Default parameters
   const defaultParams = {
-    amountReference: 'from',
+    amountReference: 'from' as const,
     isAmountInDecimals: false,
   };
   let apiParams = getAPIParamsForToken({
@@ -26,6 +28,15 @@ export async function getSwapQuote(
   });
   if ('error' in apiParams) {
     return apiParams;
+  }
+
+  if (params.useAggregator && params.amountReference === 'to') {
+    console.error(SwapMessage.UNSUPPORTED_AMOUNT_REFERENCE);
+    return {
+      code: UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE,
+      error: SwapMessage.UNSUPPORTED_AMOUNT_REFERENCE,
+      message: '',
+    };
   }
 
   if (!params.useAggregator) {

@@ -16,8 +16,6 @@ export function DismissableLayer({
   onDismiss,
 }: DismissableLayerProps) {
   const layerRef = useRef<HTMLDivElement>(null);
-  // Tracks whether the pointer event originated inside the React component tree
-  const isPointerInsideReactTreeRef = useRef(false);
 
   useEffect(() => {
     if (disableOutsideClick && disableEscapeKey) {
@@ -30,24 +28,30 @@ export function DismissableLayer({
       }
     };
 
-    const shouldDismiss = (target: Node) => {
-      return layerRef.current && !layerRef.current.contains(target);
-    };
-
-    // Handle clicks outside the layer
     const handlePointerDown = (event: PointerEvent) => {
-      // Skip if outside clicks are disabled or if the click started inside the component
-      if (disableOutsideClick || isPointerInsideReactTreeRef.current) {
-        isPointerInsideReactTreeRef.current = false;
+      if (disableOutsideClick) {
         return;
       }
 
-      // Dismiss if click is outside the layer
-      if (shouldDismiss(event.target as Node)) {
-        onDismiss?.();
+      // If the click is inside the dismissable layer content, don't dismiss
+      // This prevents the popover from closing when clicking inside it
+      if (layerRef.current?.contains(event.target as Node)) {
+        return;
       }
-      // Reset the flag after handling the event
-      isPointerInsideReactTreeRef.current = false;
+
+      // Handling for the trigger button (e.g., settings toggle)
+      // Without this, clicking the trigger would cause both:
+      // 1. The button's onClick to fire (toggling isOpen)
+      // 2. This dismissal logic to fire (forcing close)
+      // This would create a race condition where the popover rapidly closes and reopens
+      const isTriggerClick = (event.target as HTMLElement).closest(
+        '[aria-label="Toggle swap settings"]',
+      );
+      if (isTriggerClick) {
+        return;
+      }
+
+      onDismiss?.();
     };
 
     document.addEventListener('keydown', handleKeyDown);
@@ -60,15 +64,7 @@ export function DismissableLayer({
   }, [disableOutsideClick, disableEscapeKey, onDismiss]);
 
   return (
-    <div
-      data-testid="ockDismissableLayer"
-      // Set flag when pointer event starts inside the component
-      // This prevents dismissal when dragging from inside to outside
-      onPointerDownCapture={() => {
-        isPointerInsideReactTreeRef.current = true;
-      }}
-      ref={layerRef}
-    >
+    <div data-testid="ockDismissableLayer" ref={layerRef}>
       {children}
     </div>
   );
