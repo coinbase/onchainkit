@@ -16,9 +16,6 @@ import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStat
 import type { Token } from '@/token';
 import { useWalletContext } from '@/wallet/components/WalletProvider';
 import { useWalletAdvancedContext } from '@/wallet/components/WalletAdvancedProvider';
-import { getSwapQuote } from '@/api';
-import { usdcToken } from '@/token/constants';
-import { isApiError } from '@/core/utils/isApiResponseError';
 import { useExchangeRate } from '@/core-react/internal/hooks/useExchangeRate';
 
 type SendContextType = {
@@ -198,46 +195,6 @@ export function SendProvider({ children }: SendProviderReact) {
     },
     [updateLifecycleStatus],
   );
-
-  // const fetchExchangeRate = useCallback(async () => {
-  //   if (!selectedToken) {
-  //     return;
-  //   }
-
-  //   if (selectedToken.address === usdcToken.address) {
-  //     setExchangeRate(1);
-  //     return;
-  //   }
-
-  //   setExchangeRateLoading(true);
-
-  //   const fromToken =
-  //     selectedInputType === 'crypto' ? selectedToken : usdcToken;
-  //   const toToken =
-  //     selectedInputType === 'crypto' ? usdcToken : selectedToken;
-
-  //   try {
-  //     const response = await getSwapQuote({
-  //       amount: '1', // hardcoded amount because we only need the exchange rate
-  //       from: fromToken,
-  //       to: toToken,
-  //       useAggregator: false,
-  //     });
-  //     if (isApiError(response)) {
-  //       console.error('Error fetching exchange rate:', response.error);
-  //       return;
-  //     }
-  //     const rate =
-  //       selectedInputType === 'crypto'
-  //         ? 1 / Number(response.fromAmountUSD)
-  //         : Number(response.toAmount) / 10 ** response.to.decimals;
-  //     setExchangeRate(rate);
-  //   } catch (error) {
-  //     console.error('Uncaught error fetching exchange rate:', error);
-  //   } finally {
-  //     setExchangeRateLoading(false);
-  //   }
-  // }, [selectedToken, selectedInputType]);
 
   useEffect(() => {
     if (!selectedToken) {
