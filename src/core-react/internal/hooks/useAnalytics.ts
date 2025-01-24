@@ -1,8 +1,5 @@
-import type {
-  AnalyticsEvent,
-  AnalyticsEventData,
-} from '@/core-react/internal/types';
-import { useOnchainKit } from '@/core-react/useOnchainKit';
+import type { AnalyticsEvent, AnalyticsEventData } from '@/internal/types';
+import { useOnchainKit } from '@/useOnchainKit';
 import { sendAnalytics } from '@/core/network/sendAnalytics';
 import { useEffect, useState } from 'react';
 
