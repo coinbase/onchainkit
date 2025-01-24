@@ -1,6 +1,6 @@
 import { publicClient } from '@/core/network/client';
 import { getChainPublicClient } from '@/core/network/getChainPublicClient';
-import { base, baseSepolia, mainnet } from 'viem/chains';
+import { base, baseSepolia, mainnet, optimism } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getAddress } from './getAddress';
 
@@ -54,5 +54,13 @@ describe('getAddress', () => {
     expect(address).toBeNull();
     expect(mockGetEnsAddress).toHaveBeenCalledWith({ name });
     expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
+  });
+
+  it('should throw an error on unsupported chain', async () => {
+    await expect(
+      getAddress({ name: 'test.ens', chain: optimism }),
+    ).rejects.toBe(
+      'ChainId not supported, name resolution is only supported on Ethereum and Base.',
+    );
   });
 });
