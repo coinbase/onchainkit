@@ -5,6 +5,68 @@ description: Glossary of Types.
 
 # Types [Glossary of Types in Fund components & utilities.]
 
+## `FundCardPropsReact`
+
+```ts
+type FundCardPropsReact = {
+  children?: ReactNode;
+  assetSymbol: string;
+  placeholder?: string | React.ReactNode;
+  headerText?: string;
+  buttonText?: string;
+  country: string;
+  subdivision?: string;
+  currency?: string;
+  className?: string;
+  presetAmountInputs?: PresetAmountInputs;
+} & LifecycleEvents;
+```
+
+## `LifecycleStatus`
+
+```ts
+type LifecycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'exit';
+      statusData: null;
+    }
+  | {
+      statusName: 'error';
+      statusData: OnrampError;
+    }
+  | {
+      statusName: 'transactionSuccess';
+      statusData: SuccessEventData;
+    }
+  | {
+      statusName: 'transactionPending';
+      statusData: null;
+    };
+```
+
+## `PresetAmountInputs`
+
+```ts
+ type PresetAmountInputItemPropsReact = {
+  presetAmountInput: string;
+  currency: string;
+  onClick: (presetAmountInput: string) => void;
+};
+
+/**
+ * To use this type, you must provide a tuple of strings with a length of 3.
+ *
+ * Example:
+ *
+ * const presetAmountInputs: PresetAmountInputs = ['100', '200', '300'];
+ */
+type PresetAmountInputs = readonly [string, string, string];
+```
+
 ## `FundButtonReact`
 
 ```ts
@@ -17,7 +79,7 @@ type FundButtonReact = {
   fundingUrl?: string; // An optional prop to provide a custom funding URL
   openIn?: 'popup' | 'tab'; // Whether to open the funding flow in a tab or a popup window
   /**
-   * Note: popupSize will be ignored when using a Coinbase Onramp URL 
+   * Note: popupSize will be ignored when using a Coinbase Onramp URL
    * (i.e. https://pay.coinbase.com/*) as it requires a fixed popup size.
    */
   popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
@@ -80,8 +142,8 @@ See https://docs.cdp.coinbase.com/onramp/docs/api-initializing#getting-an-coinba
 ```ts
 type GetOnrampUrlWithSessionTokenParams = {
   /**
-   * A session token created using the Onramp session token API. The token will 
-   * be linked to the project ID, addresses, and assets params provided in the 
+   * A session token created using the Onramp session token API. The token will
+   * be linked to the project ID, addresses, and assets params provided in the
    */
   sessionToken: string;
   projectId?: never; // You cannot provide projectId when using sessionToken
@@ -97,43 +159,43 @@ The optional properties that can be used to create an Onramp buy URL.
 ```ts
 type GetOnrampBuyUrlOptionalProps = {
   /**
-   * If specified, this asset will be automatically selected for the user in 
+   * If specified, this asset will be automatically selected for the user in
    * the Onramp UI. Should be a valid asset symbol e.g. BTC, ETH, USDC.
    */
   defaultAsset?: string;
   /**
-   * If specified, this network will be automatically selected for the user in 
-   * the Onramp UI. Should be a valid network name in lower case e.g. ethereum, 
+   * If specified, this network will be automatically selected for the user in
+   * the Onramp UI. Should be a valid network name in lower case e.g. ethereum,
    * base.
    */
   defaultNetwork?: string;
   /**
-   * A unique identifier that will be associated with any transactions created 
-   * by the user during their Onramp session. You can use this with the 
+   * A unique identifier that will be associated with any transactions created
+   * by the user during their Onramp session. You can use this with the
    * Transaction Status API to check the status of the user's transaction.
    * See https://docs.cdp.coinbase.com/onramp/docs/api-reporting#buy-transaction-status
    */
   partnerUserId?: string;
   /**
-   * This amount will be used to pre-fill the amount of crypto the user is 
-   * buying or sending. The user can choose to change this amount in the UI. 
+   * This amount will be used to pre-fill the amount of crypto the user is
+   * buying or sending. The user can choose to change this amount in the UI.
    * Only one of presetCryptoAmount or presetFiatAmount should be provided.
    */
   presetCryptoAmount?: number;
   /**
    * This amount will be used to pre-fill the fiat value of the crypto the user
-   * is buying or sending. The user can choose to change this amount in the UI. 
+   * is buying or sending. The user can choose to change this amount in the UI.
    * Only one of presetCryptoAmount or presetFiatAmount should be provided.
    */
   presetFiatAmount?: number;
   /**
-   * The currency code of the fiat amount provided in the presetFiatAmount 
+   * The currency code of the fiat amount provided in the presetFiatAmount
    * param e.g. USD, CAD, EUR.
    */
   fiatCurrency?: string;
   /**
-   * A URL that the user will be automatically redirected to after a successful 
-   * buy/send. The domain must match a domain on the domain allowlist in 
+   * A URL that the user will be automatically redirected to after a successful
+   * buy/send. The domain must match a domain on the domain allowlist in
    * Coinbase Developer Platform (https://portal.cdp.coinbase.com/products/onramp).
    */
   redirectUrl?: string;

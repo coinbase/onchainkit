@@ -1,8 +1,10 @@
 import { useCallback, useRef, useState } from 'react';
 import { useIcon } from '../../core-react/internal/hooks/useIcon';
+import { DismissableLayer } from '../../internal/primitives/DismissableLayer';
+import { FocusTrap } from '../../internal/primitives/FocusTrap';
+import { Popover } from '../../internal/primitives/Popover';
 import { background, border, cn, pressable, text } from '../../styles/theme';
 import { useBreakpoints } from '../../ui/react/internal/hooks/useBreakpoints';
-import { useOutsideClick } from '../../ui/react/internal/hooks/useOutsideClick';
 import type { SwapSettingsReact } from '../types';
 import { SwapSettingsSlippageLayout } from './SwapSettingsSlippageLayout';
 import { SwapSettingsSlippageLayoutBottomSheet } from './SwapSettingsSlippageLayoutBottomSheet';
@@ -16,14 +18,16 @@ export function SwapSettings({
   const breakpoint = useBreakpoints();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
-  const handleToggle = useCallback(() => {
+  const handleToggle = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsOpen((prev) => !prev);
   }, []);
 
-  useOutsideClick(dropdownRef, () => {
+  const handleClose = useCallback(() => {
     setIsOpen(false);
-  });
+  }, []);
 
   const iconSvg = useIcon({ icon });
 
@@ -38,6 +42,7 @@ export function SwapSettings({
       {buttonText && <span className={cn(text.body)}>{buttonText}</span>}
       <div className={cn('relative', isOpen && 'group')} ref={dropdownRef}>
         <button
+          ref={triggerRef}
           type="button"
           aria-label="Toggle swap settings"
           className={cn(
@@ -49,22 +54,38 @@ export function SwapSettings({
           <div className="h-[1.125rem] w-[1.125rem]">{iconSvg}</div>
         </button>
         {breakpoint === 'sm' ? (
-          <div
-            className={cn(
-              background.inverse,
-              pressable.shadow,
-              'fixed inset-x-0 z-50 transition-[bottom] duration-300 ease-in-out',
-              '-bottom-[12.875rem] h-[12.875rem] rounded-t-lg group-[]:bottom-0',
-              className,
-            )}
-            data-testid="ockSwapSettingsSlippageLayoutBottomSheet_container"
-          >
-            <SwapSettingsSlippageLayoutBottomSheet className={className}>
-              {children}
-            </SwapSettingsSlippageLayoutBottomSheet>
-          </div>
+          <FocusTrap active={isOpen}>
+            <DismissableLayer
+              onDismiss={handleClose}
+              triggerRef={triggerRef}
+              preventTriggerEvents={true}
+            >
+              <div
+                className={cn(
+                  background.inverse,
+                  pressable.shadow,
+                  'fixed inset-x-0 z-50 transition-[bottom] duration-300 ease-in-out',
+                  isOpen ? 'bottom-0' : '-bottom-[12.875rem]',
+                  'h-[12.875rem] rounded-t-lg',
+                  className,
+                )}
+                data-testid="ockSwapSettingsSlippageLayoutBottomSheet_container"
+              >
+                <SwapSettingsSlippageLayoutBottomSheet className={className}>
+                  {children}
+                </SwapSettingsSlippageLayoutBottomSheet>
+              </div>
+            </DismissableLayer>
+          </FocusTrap>
         ) : (
-          isOpen && (
+          <Popover
+            isOpen={isOpen}
+            onClose={handleClose}
+            anchor={dropdownRef.current}
+            position="bottom"
+            align="end"
+            trigger={triggerRef}
+          >
             <div
               className={cn(
                 border.radius,
@@ -78,7 +99,7 @@ export function SwapSettings({
                 {children}
               </SwapSettingsSlippageLayout>
             </div>
-          )
+          </Popover>
         )}
       </div>
     </div>

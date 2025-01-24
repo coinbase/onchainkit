@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Popover } from './Popover';
 
 describe('Popover', () => {
-  let anchorEl: HTMLElement;
+  let anchor: HTMLElement;
 
   beforeEach(() => {
     Object.defineProperty(window, 'matchMedia', {
@@ -21,9 +21,9 @@ describe('Popover', () => {
       })),
     });
 
-    anchorEl = document.createElement('button');
-    anchorEl.setAttribute('data-testid', 'anchor');
-    document.body.appendChild(anchorEl);
+    anchor = document.createElement('button');
+    anchor.setAttribute('data-testid', 'anchor');
+    document.body.appendChild(anchor);
   });
 
   afterEach(() => {
@@ -35,7 +35,7 @@ describe('Popover', () => {
   describe('rendering', () => {
     it('should not render when isOpen is false', () => {
       render(
-        <Popover anchorEl={anchorEl} isOpen={false}>
+        <Popover anchor={anchor} isOpen={false}>
           Content
         </Popover>,
       );
@@ -45,7 +45,7 @@ describe('Popover', () => {
 
     it('should render when isOpen is true', () => {
       render(
-        <Popover anchorEl={anchorEl} isOpen={true}>
+        <Popover anchor={anchor} isOpen={true}>
           Content
         </Popover>,
       );
@@ -54,9 +54,9 @@ describe('Popover', () => {
       expect(screen.getByText('Content')).toBeInTheDocument();
     });
 
-    it('should handle null anchorEl gracefully', () => {
+    it('should handle null anchor gracefully', () => {
       render(
-        <Popover anchorEl={null} isOpen={true}>
+        <Popover anchor={null} isOpen={true}>
           Content
         </Popover>,
       );
@@ -74,7 +74,7 @@ describe('Popover', () => {
         it(`should position correctly with position=${position} and align=${align}`, () => {
           render(
             <Popover
-              anchorEl={anchorEl}
+              anchor={anchor}
               isOpen={true}
               position={position}
               align={align}
@@ -95,7 +95,7 @@ describe('Popover', () => {
 
     it('should update position on window resize', async () => {
       render(
-        <Popover anchorEl={anchorEl} isOpen={true}>
+        <Popover anchor={anchor} isOpen={true}>
           Content
         </Popover>,
       );
@@ -107,7 +107,7 @@ describe('Popover', () => {
 
     it('should update position on scroll', async () => {
       render(
-        <Popover anchorEl={anchorEl} isOpen={true}>
+        <Popover anchor={anchor} isOpen={true}>
           Content
         </Popover>,
       );
@@ -125,7 +125,7 @@ describe('Popover', () => {
         .mockReturnValue(undefined);
 
       render(
-        <Popover anchorEl={anchorEl} isOpen={true}>
+        <Popover anchor={anchor} isOpen={true}>
           Content
         </Popover>,
       );
@@ -141,7 +141,7 @@ describe('Popover', () => {
     it('should not call onClose when clicking inside', async () => {
       const onClose = vi.fn();
       render(
-        <Popover anchorEl={anchorEl} isOpen={true} onClose={onClose}>
+        <Popover anchor={anchor} isOpen={true} onClose={onClose}>
           Content
         </Popover>,
       );
@@ -153,7 +153,7 @@ describe('Popover', () => {
     it('should call onClose when pressing Escape', async () => {
       const onClose = vi.fn();
       render(
-        <Popover anchorEl={anchorEl} isOpen={true} onClose={onClose}>
+        <Popover anchor={anchor} isOpen={true} onClose={onClose}>
           Content
         </Popover>,
       );
@@ -167,7 +167,7 @@ describe('Popover', () => {
     it('should have correct ARIA attributes', () => {
       render(
         <Popover
-          anchorEl={anchorEl}
+          anchor={anchor}
           isOpen={true}
           aria-label="Test Label"
           aria-labelledby="labelId"
@@ -187,7 +187,7 @@ describe('Popover', () => {
     it('should trap focus when open', async () => {
       const user = userEvent.setup();
       render(
-        <Popover anchorEl={anchorEl} isOpen={true}>
+        <Popover anchor={anchor} isOpen={true}>
           <button type="button">First</button>
           <button type="button">Second</button>
         </Popover>,
@@ -210,7 +210,7 @@ describe('Popover', () => {
   describe('cleanup', () => {
     it('should remove event listeners on unmount', () => {
       const { unmount } = render(
-        <Popover anchorEl={anchorEl} isOpen={true}>
+        <Popover anchor={anchor} isOpen={true}>
           Content
         </Popover>,
       );
