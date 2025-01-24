@@ -18,7 +18,9 @@ type DismissableLayerProps = {
   preventTriggerEvents?: boolean;
 };
 
-/** DismissableLayer handles dismissal using outside clicks and escape key events */
+/**
+ * DismissableLayer handles dismissal using outside clicks and escape key events
+ */
 export function DismissableLayer({
   children,
   disableEscapeKey = false,

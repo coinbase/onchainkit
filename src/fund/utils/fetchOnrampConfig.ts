@@ -15,7 +15,6 @@ type OnrampConfigCountry = {
 
 /**
  * Returns list of countries supported by Coinbase Onramp, and the payment methods available in each country.
- *
  */
 export async function fetchOnrampConfig(): Promise<OnrampConfigResponseData> {
   const apiKey = getApiKey();

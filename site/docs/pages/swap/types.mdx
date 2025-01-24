@@ -143,7 +143,7 @@ type SwapReact = {
     maxSlippage: number; // Maximum acceptable slippage for a swap (e.g., 3 for 3%). This is a percentage, not basis points;
   };
   experimental?: {
-    useAggregator: boolean; // Whether to use a DEX aggregator. (default: true)
+    useAggregator: boolean; // Whether to use a DEX aggregator. (default: false)
   };
   isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
   onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.

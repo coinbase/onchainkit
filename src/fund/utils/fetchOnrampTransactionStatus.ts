@@ -4,17 +4,11 @@ import { ONRAMP_API_BASE_URL } from '../constants';
 import type { OnrampTransaction } from '../types';
 
 type OnrampTransactionStatusResponseData = {
-  /**
-   * List of `OnrampTransactions` in reverse chronological order.
-   */
+  /** List of `OnrampTransactions` in reverse chronological order. */
   transactions: OnrampTransaction[];
-  /**
-   * A reference to the next page of transactions.
-   */
+  /** A reference to the next page of transactions. */
   nextPageKey: string;
-  /**
-   * The total number of transactions made by the user.
-   */
+  /** The total number of transactions made by the user. */
   totalCount: string;
 };
 

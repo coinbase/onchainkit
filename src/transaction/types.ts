@@ -70,31 +70,53 @@ export type IsSpinnerDisplayedProps = {
  * Note: exported as public Type
  */
 export type TransactionButtonReact = {
-  className?: string; // An optional CSS class name for styling the button component.
-  disabled?: boolean; // A optional prop to disable the submit button
-  text?: ReactNode; // An optional text to be displayed in the button component.
-  errorOverride?: TransactionButtonOverride; // Optional overrides for text and onClick handler in error state (default is resubmit txn)
-  successOverride?: TransactionButtonOverride; // Optional overrides for text and onClick handler in success state (default is view txn on block explorer)
-  pendingOverride?: Pick<TransactionButtonOverride, 'text'>; // Optional overrides for text in pending state (default is loading spinner)
+  /** An optional CSS class name for styling the button component */
+  className?: string;
+  /** A optional prop to disable the submit button */
+  disabled?: boolean;
+  /** An optional text to be displayed in the button component */
+  text?: ReactNode;
+  /** Optional overrides for text and onClick handler in error state (default is resubmit txn) */
+  errorOverride?: TransactionButtonOverride;
+  /** Optional overrides for text and onClick handler in success state (default is view txn on block explorer) */
+  successOverride?: TransactionButtonOverride;
+  /** Optional overrides for text in pending state (default is loading spinner) */
+  pendingOverride?: Pick<TransactionButtonOverride, 'text'>;
 };
 
 export type TransactionContextType = {
-  chainId?: number; // The chainId for the transaction.
-  errorCode?: string; // An error code used to localize errors and provide more context with unit-tests.
-  errorMessage?: string; // An error message string if the transaction encounters an issue.
-  isLoading: boolean; // A boolean indicating if the transaction is currently loading.
-  isToastVisible: boolean; // A boolean indicating if the transaction toast notification is visible.
-  onSubmit: () => void; // A function called when the transaction is submitted.
-  paymasterUrl: string | null; // The paymaster URL for the transaction.
-  receipt?: TransactionReceipt; // The receipt of the transaction
-  lifecycleStatus: LifecycleStatus; // The lifecycle status of the transaction.
-  setIsToastVisible: (isVisible: boolean) => void; // A function to set the visibility of the transaction toast.
-  setLifecycleStatus: (state: LifecycleStatus) => void; // A function to set the lifecycle status of the component
-  setTransactionId: (id: string) => void; // A function to set the transaction ID.
-  transactions?: Calls | Contracts | (Call | ContractFunctionParameters)[]; // An array of transactions for the component or a promise that resolves to an array of transactions.
-  transactionId?: string; // An optional string representing the ID of the transaction.
-  transactionHash?: string; // An optional string representing the hash of the transaction.
-  transactionCount?: number; // Number of transactions being executed
+  /** The chainId for the transaction */
+  chainId?: number;
+  /** An error code used to localize errors and provide more context with unit-tests */
+  errorCode?: string;
+  /** An error message string if the transaction encounters an issue */
+  errorMessage?: string;
+  /** A boolean indicating if the transaction is currently loading */
+  isLoading: boolean;
+  /** A boolean indicating if the transaction toast notification is visible */
+  isToastVisible: boolean;
+  /** A function called when the transaction is submitted */
+  onSubmit: () => void;
+  /** The paymaster URL for the transaction */
+  paymasterUrl: string | null;
+  /** The receipt of the transaction */
+  receipt?: TransactionReceipt;
+  /** The lifecycle status of the transaction */
+  lifecycleStatus: LifecycleStatus;
+  /** A function to set the visibility of the transaction toast */
+  setIsToastVisible: (isVisible: boolean) => void;
+  /** A function to set the lifecycle status of the component */
+  setLifecycleStatus: (state: LifecycleStatus) => void;
+  /** A function to set the transaction ID */
+  setTransactionId: (id: string) => void;
+  /** An array of transactions for the component or a promise that resolves to an array of transactions */
+  transactions?: Calls | Contracts | (Call | ContractFunctionParameters)[];
+  /** An optional string representing the ID of the transaction */
+  transactionId?: string;
+  /** An optional string representing the hash of the transaction */
+  transactionHash?: string;
+  /** Number of transactions being executed */
+  transactionCount?: number;
 };
 
 type PaymasterService = {
@@ -128,43 +150,58 @@ export type Contracts =
   | (() => Promise<ContractFunctionParameters[]>);
 
 export type TransactionProviderReact = {
-  calls?: Calls | Contracts | (Call | ContractFunctionParameters)[]; // An array of calls to be made in the transaction.
+  /** An array of calls to be made in the transaction */
+  calls?: Calls | Contracts | (Call | ContractFunctionParameters)[];
   /**
    * @deprecated Use `isSponsored` instead.
    */
-  capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
-  chainId: number; // The chainId for the transaction.
-  children: ReactNode; // The child components to be rendered within the provider component.
+  capabilities?: WalletCapabilities;
+  /** The chainId for the transaction */
+  chainId: number;
+  /** The child components to be rendered within the provider component */
+  children: ReactNode;
   /**
    * @deprecated Use `calls` instead.
    */
-  contracts?: Calls | Contracts | (Call | ContractFunctionParameters)[]; // An array of calls to be made in the transaction.
-  isSponsored?: boolean; // Whether the transactions are sponsored (default: false)
-  onError?: (e: TransactionError) => void; // An optional callback function that handles errors within the provider.
-  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
-  onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
+  contracts?: Calls | Contracts | (Call | ContractFunctionParameters)[];
+  /** Whether the transactions are sponsored (default: false) */
+  isSponsored?: boolean;
+  /** An optional callback function that handles errors within the provider */
+  onError?: (e: TransactionError) => void;
+  /** An optional callback function that exposes the component lifecycle state */
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  /** An optional callback function that exposes the transaction receipts */
+  onSuccess?: (response: TransactionResponse) => void;
 };
 
 /**
  * Note: exported as public Type
  */
 export type TransactionReact = {
-  calls?: Calls | Contracts | (Call | ContractFunctionParameters)[]; // An array of calls to be made in the transaction.
+  /** An array of calls to be made in the transaction */
+  calls?: Calls | Contracts | (Call | ContractFunctionParameters)[];
   /**
    * @deprecated Use `isSponsored` instead.
    */
-  capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
-  chainId?: number; // The chainId for the transaction.
-  children: ReactNode; // The child components to be rendered within the transaction component.
-  className?: string; // An optional CSS class name for styling the component.
+  capabilities?: WalletCapabilities;
+  /** The chainId for the transaction */
+  chainId?: number;
+  /** The child components to be rendered within the transaction component */
+  children: ReactNode;
+  /** An optional CSS class name for styling the component */
+  className?: string;
   /**
    * @deprecated Use `calls` instead.
    */
-  contracts?: Calls | Contracts | (Call | ContractFunctionParameters)[]; // An array of calls to be made in the transaction.
-  isSponsored?: boolean; // Whether the transactions are sponsored (default: false)
-  onError?: (e: TransactionError) => void; // An optional callback function that handles transaction errors.
-  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
-  onSuccess?: (response: TransactionResponse) => void; // An optional callback function that exposes the transaction receipts
+  contracts?: Calls | Contracts | (Call | ContractFunctionParameters)[];
+  /** Whether the transactions are sponsored (default: false) */
+  isSponsored?: boolean;
+  /** An optional callback function that handles transaction errors */
+  onError?: (e: TransactionError) => void;
+  /** An optional callback function that exposes the component lifecycle state */
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  /** An optional callback function that exposes the transaction receipts */
+  onSuccess?: (response: TransactionResponse) => void;
 };
 
 /**
@@ -178,60 +215,72 @@ export type TransactionResponse = {
  * Note: exported as public Type
  */
 export type TransactionSponsorReact = {
-  className?: string; // An optional CSS class name for styling the sponsor component.
+  /** An optional CSS class name for styling the sponsor component */
+  className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type TransactionStatusReact = {
-  children: ReactNode; // The child components to be rendered within the status component.
-  className?: string; // An optional CSS class name for styling the status component.
+  /** The child components to be rendered within the status component */
+  children: ReactNode;
+  /** An optional CSS class name for styling the status component */
+  className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type TransactionStatusActionReact = {
-  className?: string; // An optional CSS class name for styling.
+  /** An optional CSS class name for styling */
+  className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type TransactionStatusLabelReact = {
-  className?: string; // An optional CSS class name for styling.
+  /** An optional CSS class name for styling */
+  className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type TransactionToastReact = {
-  children: ReactNode; // The child components to be rendered within the toast component.
-  className?: string; // An optional CSS class name for styling the toast component.
-  durationMs?: number; // An optional value to customize time until toast disappears
-  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right'; // An optional position property to specify the toast's position on the screen.
+  /** The child components to be rendered within the toast component */
+  children: ReactNode;
+  /** An optional CSS class name for styling the toast component */
+  className?: string;
+  /** An optional value to customize time until toast disappears */
+  durationMs?: number;
+  /** An optional position property to specify the toast's position on the screen */
+  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
 };
 
 /**
  * Note: exported as public Type
  */
 export type TransactionToastActionReact = {
-  className?: string; // An optional CSS class name for styling.
+  /** An optional CSS class name for styling */
+  className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type TransactionToastIconReact = {
-  className?: string; // An optional CSS class name for styling.
+  /** An optional CSS class name for styling */
+  className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type TransactionToastLabelReact = {
-  className?: string; // An optional CSS class name for styling.
+  /** An optional CSS class name for styling */
+  className?: string;
 };
 
 export type UseCallsStatusParams = {
