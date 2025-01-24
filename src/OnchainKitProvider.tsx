@@ -35,6 +35,8 @@ export function OnchainKitProvider({
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
 
+  const interactionId = useMemo(() => crypto.randomUUID(), []);
+
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
   const value = useMemo(() => {
     const defaultPaymasterUrl = apiKey
@@ -47,6 +49,7 @@ export function OnchainKitProvider({
       apiKey: apiKey ?? null,
       chain: chain,
       config: {
+        analyticsUrl: config?.analyticsUrl ?? null,
         appearance: {
           name: config?.appearance?.name ?? 'Dapp',
           logo: config?.appearance?.logo ?? '',
@@ -63,10 +66,20 @@ export function OnchainKitProvider({
       projectId: projectId ?? null,
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
+      interactionId,
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
-  }, [address, apiKey, chain, config, projectId, rpcUrl, schemaId]);
+  }, [
+    address,
+    apiKey,
+    chain,
+    config,
+    projectId,
+    rpcUrl,
+    schemaId,
+    interactionId,
+  ]);
 
   // Check the React context for WagmiProvider and QueryClientProvider
   const { providedWagmiConfig, providedQueryClient } =
