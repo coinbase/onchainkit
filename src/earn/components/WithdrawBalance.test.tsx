@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { useEarnContext } from './EarnProvider';
 import { WithdrawBalance } from './WithdrawBalance';
 
