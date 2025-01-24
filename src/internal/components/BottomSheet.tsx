@@ -9,6 +9,7 @@ type BottomSheetProps = {
   isOpen: boolean;
   onClose: () => void;
   className?: string;
+  overlayClassName?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-describedby'?: string;
@@ -17,6 +18,7 @@ type BottomSheetProps = {
 export function BottomSheet({
   children,
   className,
+  overlayClassName,
   isOpen,
   onClose,
   'aria-label': ariaLabel,
@@ -33,12 +35,13 @@ export function BottomSheet({
             'fixed inset-0',
             'bg-black bg-opacity-20',
             zIndex.modal,
+            overlayClassName,
           )}
           data-testid="ockBottomSheetOverlay"
         />
       )}
       <FocusTrap active={isOpen}>
-        <DismissableLayer onDismiss={onClose}>
+        <DismissableLayer onDismiss={onClose} preventTriggerEvents={true}>
           <div
             data-testid="ockBottomSheet"
             role="dialog"

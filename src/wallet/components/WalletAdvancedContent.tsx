@@ -26,8 +26,11 @@ export function WalletAdvancedContent({
     useWalletAdvancedContext();
 
   const handleMobileTrayClose = useCallback(() => {
+    if (breakpoint !== 'sm') {
+      return;
+    }
     setIsSubComponentOpen(false);
-  }, [setIsSubComponentOpen]);
+  }, [breakpoint, setIsSubComponentOpen]);
 
   const handleAnimationEnd = useCallback(() => {
     if (isSubComponentClosing) {
@@ -76,31 +79,34 @@ export function WalletAdvancedContent({
     return <ContentWrapper className="px-4 py-3">{children}</ContentWrapper>;
   }, [showQr, showSwap, swappableTokens, tokenBalances, children]);
 
-  if (breakpoint === 'sm') {
-    return (
-      <BottomSheet isOpen={isSubComponentOpen} onClose={handleMobileTrayClose}>
+  return (
+    <>
+      <BottomSheet
+        isOpen={isSubComponentOpen}
+        onClose={handleMobileTrayClose}
+        className="md:hidden"
+        overlayClassName="md:hidden"
+      >
         <div className="flex h-full w-full flex-col items-center justify-center">
           {content}
         </div>
       </BottomSheet>
-    );
-  }
-
-  return (
-    <div
-      data-testid="ockWalletAdvancedContent"
-      className={cn(
-        background.default,
-        border.radius,
-        border.lineDefault,
-        'my-1.5 h-auto w-88',
-        'flex items-center justify-center',
-        animations.container,
-      )}
-      onAnimationEnd={handleAnimationEnd}
-    >
-      {content}
-    </div>
+      <div
+        data-testid="ockWalletAdvancedContent"
+        className={cn(
+          background.default,
+          border.radius,
+          border.lineDefault,
+          'my-1.5 h-auto w-88',
+          'flex items-center justify-center',
+          'hidden md:block',
+          animations.container,
+        )}
+        onAnimationEnd={handleAnimationEnd}
+      >
+        {content}
+      </div>
+    </>
   );
 }
 
