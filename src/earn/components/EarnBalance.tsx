@@ -16,6 +16,7 @@ export function EarnBalance({
         'flex p-3 px-4 items-center gap-4 justify-between',
         className,
       )}
+      data-testid="ockEarnBalance"
     >
       <div className={cn('flex flex-col', color.foreground)}>
         <div className={text.headline}>{title}</div>
