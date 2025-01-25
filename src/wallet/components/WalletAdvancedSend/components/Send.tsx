@@ -71,10 +71,7 @@ function SendDefaultChildren() {
     if (!context.selectedRecipientAddress) {
       return (
         <>
-          <AddressInput
-            addressInput={context.recipientInput}
-            setAddressInput={context.setRecipientInput}
-          />
+          <AddressInput />
           {context.validatedRecipientAddress && (
             <AddressSelector address={context.validatedRecipientAddress} />
           )}
@@ -85,10 +82,7 @@ function SendDefaultChildren() {
     if (!context.selectedToken) {
       return (
         <>
-          <AddressInput
-            addressInput={context.recipientInput}
-            setAddressInput={context.setRecipientInput}
-          />
+          <AddressInput />
           <TokenSelector />
         </>
       );
@@ -99,8 +93,6 @@ function SendDefaultChildren() {
     context.ethBalance,
     context.selectedRecipientAddress,
     context.selectedToken,
-    context.recipientInput,
-    context.setRecipientInput,
     context.validatedRecipientAddress,
   ]);
 

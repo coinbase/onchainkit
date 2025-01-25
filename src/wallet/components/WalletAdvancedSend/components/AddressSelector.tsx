@@ -25,7 +25,8 @@ export function AddressSelector({ address }: AddressSelectorProps) {
           background.default,
           border.radius,
           pressable.default,
-          'items-left flex min-w-[300px] p-2',
+          'items-left flex min-w-[300px]',
+          'mt-2 p-2',
         )}
       >
         <Avatar />
