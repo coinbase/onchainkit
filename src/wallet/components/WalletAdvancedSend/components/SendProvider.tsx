@@ -13,7 +13,6 @@ import {
 import type { Address, Chain, Hex, TransactionReceipt } from 'viem';
 import { validateAddressInput } from '@/wallet/components/WalletAdvancedSend/validateAddressInput';
 import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStatus';
-import type { Token } from '@/token';
 import { useWalletContext } from '@/wallet/components/WalletProvider';
 import { useWalletAdvancedContext } from '@/wallet/components/WalletAdvancedProvider';
 import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
@@ -31,9 +30,9 @@ type SendContextType = {
   selectedRecipientAddress: Address | null;
   setSelectedRecipientAddress: Dispatch<SetStateAction<Address | null>>;
   handleAddressSelection: (address: Address) => void;
-  selectedToken: Token | null;
-  setSelectedToken: Dispatch<SetStateAction<Token | null>>;
-  handleTokenSelection: (token: Token) => void;
+  selectedToken: PortfolioTokenWithFiatValue | null;
+  setSelectedToken: Dispatch<SetStateAction<PortfolioTokenWithFiatValue | null>>;
+  handleTokenSelection: (token: PortfolioTokenWithFiatValue) => void;
   fiatAmount: string | null;
   setFiatAmount: Dispatch<SetStateAction<string | null>>;
   cryptoAmount: string | null;
@@ -125,7 +124,7 @@ export function SendProvider({ children }: SendProviderReact) {
     useState<Address | null>(null);
   const [selectedRecipientAddress, setSelectedRecipientAddress] =
     useState<Address | null>(null);
-  const [selectedToken, setSelectedToken] = useState<Token | null>(null);
+  const [selectedToken, setSelectedToken] = useState<PortfolioTokenWithFiatValue | null>(null);
   const [selectedInputType, setSelectedInputType] = useState<'fiat' | 'crypto'>(
     'crypto',
   );
@@ -184,7 +183,7 @@ export function SendProvider({ children }: SendProviderReact) {
   );
 
   const handleTokenSelection = useCallback(
-    (token: Token) => {
+    (token: PortfolioTokenWithFiatValue) => {
       setSelectedToken(token);
       updateLifecycleStatus({
         statusName: 'tokenSelected',
