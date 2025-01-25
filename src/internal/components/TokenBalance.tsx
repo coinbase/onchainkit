@@ -3,6 +3,7 @@ import { TokenImage, type Token } from '@/token';
 
 type TokenBalanceProps = {
   className?: string;
+  onClick?: () => void;
   onActionPress: () => void;
   token: Token;
   amount: string;
@@ -19,7 +20,41 @@ export function TokenBalance({
   subtitle,
   showAction = false,
   showImage = true,
+  onClick,
 }: TokenBalanceProps) {
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        className={cn(
+          background.alternate,
+          border.radius,
+          'flex items-center justify-start gap-4 p-3 px-4',
+          className,
+        )}
+        data-testid="ockTokenBalance"
+      >
+        {showImage && <TokenImage token={token} size={28} />}
+        <div className={cn('flex flex-col', color.foreground)}>
+          <div className={text.headline}>{`${amount} ${token.symbol}`}</div>
+          <div className={cn(text.label2, color.foregroundMuted)}>
+            {subtitle}
+          </div>
+        </div>
+        {showAction && (
+          <button
+            onClick={onActionPress}
+            className={cn(text.label2, color.primary, 'ml-auto')}
+            type="button"
+            aria-label="Use max"
+          >
+            Use max
+          </button>
+        )}
+      </button>
+    );
+  }
   return (
     <div
       className={cn(
@@ -28,7 +63,7 @@ export function TokenBalance({
         'flex items-center justify-start gap-4 p-3 px-4',
         className,
       )}
-      data-testid="ockEarnBalance"
+      data-testid="ockTokenBalance"
     >
       {showImage && <TokenImage token={token} size={28} />}
       <div className={cn('flex flex-col', color.foreground)}>
