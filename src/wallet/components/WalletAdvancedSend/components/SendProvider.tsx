@@ -33,6 +33,7 @@ type SendContextType = {
   selectedToken: PortfolioTokenWithFiatValue | null;
   setSelectedToken: Dispatch<SetStateAction<PortfolioTokenWithFiatValue | null>>;
   handleTokenSelection: (token: PortfolioTokenWithFiatValue) => void;
+  handleResetTokenSelection: () => void;
   fiatAmount: string | null;
   setFiatAmount: Dispatch<SetStateAction<string | null>>;
   cryptoAmount: string | null;
@@ -195,6 +196,16 @@ export function SendProvider({ children }: SendProviderReact) {
     [updateLifecycleStatus],
   );
 
+  const handleResetTokenSelection = useCallback(() => {
+    setSelectedToken(null);
+    updateLifecycleStatus({
+      statusName: 'selectingAddress',
+      statusData: {
+        isMissingRequiredField: true,
+      },
+    });
+  }, [updateLifecycleStatus]);
+
   useEffect(() => {
     if (!selectedToken) {
       return;
@@ -224,6 +235,7 @@ export function SendProvider({ children }: SendProviderReact) {
     selectedToken,
     setSelectedToken,
     handleTokenSelection,
+    handleResetTokenSelection,
     fiatAmount,
     setFiatAmount,
     cryptoAmount,

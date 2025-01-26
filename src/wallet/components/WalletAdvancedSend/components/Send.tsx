@@ -8,7 +8,6 @@ import { AddressSelector } from '@/wallet/components/WalletAdvancedSend/componen
 import { TokenSelector } from '@/wallet/components/WalletAdvancedSend/components/TokenSelector';
 import { SendAmountInput } from '@/wallet/components/WalletAdvancedSend/components/SendAmountInput';
 import { SendFundingWallet } from '@/wallet/components/WalletAdvancedSend/components/SendFundingWallet';
-import { TokenBalance } from '@/internal/components/TokenBalance';
 
 type SendReact = {
   children?: ReactNode;
@@ -90,19 +89,10 @@ function SendDefaultChildren() {
     }
 
     return (
-      <div className='flex h-full flex-col justify-between'>
+      <div className="flex h-full flex-col justify-between">
         <AddressInput />
         <SendAmountInput className="pb-2" />
-        <TokenBalance
-          token={context.selectedToken}
-          amount={String(context.selectedToken?.cryptoBalance)}
-          subtitle="Available to send"
-          showAction={true}
-          showImage={true}
-          onActionPress={() => {
-            console.log('clicked token');
-          }}
-        />
+        <TokenSelector />
       </div>
     );
   }, [

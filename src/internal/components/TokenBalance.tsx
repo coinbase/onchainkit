@@ -1,85 +1,117 @@
-import { background, border, cn, color, text } from '@/styles/theme';
-import { TokenImage, type Token } from '@/token';
+import type { PortfolioTokenWithFiatValue } from '@/api/types';
+import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
+import { cn, color, text } from '@/styles/theme';
+import { TokenImage } from '@/token';
+import { useMemo } from 'react';
 
 type TokenBalanceProps = {
-  className?: string;
-  onClick?: () => void;
-  onActionPress: () => void;
-  token: Token;
-  amount: string;
+  token: PortfolioTokenWithFiatValue;
   subtitle: string;
-  showAction?: boolean;
   showImage?: boolean;
-};
+  onClick?: (token: PortfolioTokenWithFiatValue) => void;
+  className?: string;
+} & (
+  | { showAction?: true; onActionPress?: () => void }
+  | { showAction?: false; onActionPress?: never }
+);
 
 export function TokenBalance({
-  className,
-  onActionPress,
   token,
-  amount,
   subtitle,
-  showAction = false,
   showImage = true,
   onClick,
+  showAction = false,
+  onActionPress,
+  className,
 }: TokenBalanceProps) {
+  const formattedValueInFiat = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(token.fiatBalance);
+
+  const tokenContent = useMemo(() => {
+    return (
+      <>
+        {showImage && <TokenImage token={token} size={32} />}
+        <div className="flex flex-col text-left">
+          <span
+            className={cn(
+              text.label1,
+              color.foreground,
+              'max-w-52 overflow-hidden text-ellipsis whitespace-nowrap text-left',
+            )}
+          >
+            {token.name?.trim()}
+          </span>
+          <span className={cn(text.legal, color.foregroundMuted)}>
+            {`${truncateDecimalPlaces(
+              token.cryptoBalance / 10 ** token.decimals,
+              2,
+            )} ${token.symbol} ${subtitle}`}
+          </span>
+        </div>
+        {showAction ? (
+          <span
+            onClick={(e) => {
+              e.stopPropagation();
+              onActionPress?.();
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.stopPropagation();
+                onActionPress?.();
+              }
+            }}
+            className={cn(
+              text.label2,
+              color.primary,
+              'ml-auto p-0.5 hover:font-bold',
+            )}
+            aria-label="Use max"
+          >
+            Use max
+          </span>
+        ) : (
+          <span className={cn(text.label2, color.foregroundMuted, 'ml-auto')}>
+            {formattedValueInFiat}
+          </span>
+        )}
+      </>
+    );
+  }, [
+    showAction,
+    token,
+    formattedValueInFiat,
+    showImage,
+    onActionPress,
+    subtitle,
+  ]);
+
   if (onClick) {
     return (
       <button
         type="button"
-        onClick={onClick}
+        onClick={() => onClick(token)}
         className={cn(
-          background.alternate,
-          border.radius,
-          'flex items-center justify-start gap-4 p-3 px-4',
+          'flex w-full items-center justify-start gap-4 p-3 px-4',
           className,
         )}
-        data-testid="ockTokenBalance"
+        data-testid="ockTokenBalanceButton"
       >
-        {showImage && <TokenImage token={token} size={28} />}
-        <div className={cn('flex flex-col', color.foreground)}>
-          <div className={text.headline}>{`${amount} ${token.symbol}`}</div>
-          <div className={cn(text.label2, color.foregroundMuted)}>
-            {subtitle}
-          </div>
-        </div>
-        {showAction && (
-          <button
-            onClick={onActionPress}
-            className={cn(text.label2, color.primary, 'ml-auto')}
-            type="button"
-            aria-label="Use max"
-          >
-            Use max
-          </button>
-        )}
+        {tokenContent}
       </button>
     );
   }
+
   return (
     <div
       className={cn(
-        background.alternate,
-        border.radius,
-        'flex items-center justify-start gap-4 p-3 px-4',
+        'flex w-full items-center justify-start gap-4 p-3 px-4',
         className,
       )}
-      data-testid="ockTokenBalance"
+      data-testid="ockTokenBalanceDiv"
     >
-      {showImage && <TokenImage token={token} size={28} />}
-      <div className={cn('flex flex-col', color.foreground)}>
-        <div className={text.headline}>{`${amount} ${token.symbol}`}</div>
-        <div className={cn(text.label2, color.foregroundMuted)}>{subtitle}</div>
-      </div>
-      {showAction && (
-        <button
-          onClick={onActionPress}
-          className={cn(text.label2, color.primary, 'ml-auto')}
-          type="button"
-          aria-label="Use max"
-        >
-          Use max
-        </button>
-      )}
+      {tokenContent}
     </div>
   );
 }
