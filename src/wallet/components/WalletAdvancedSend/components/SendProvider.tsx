@@ -1,4 +1,3 @@
-import { useValue } from '@/core-react/internal/hooks/useValue';
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import {
   createContext,
@@ -12,7 +11,8 @@ import {
 } from 'react';
 import type { Address, Chain, Hex, TransactionReceipt } from 'viem';
 import { validateAddressInput } from '@/wallet/components/WalletAdvancedSend/validateAddressInput';
-import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStatus';
+import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
+import { useValue } from '@/internal/hooks/useValue';
 import { useWalletContext } from '@/wallet/components/WalletProvider';
 import { useWalletAdvancedContext } from '@/wallet/components/WalletAdvancedProvider';
 import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
@@ -31,7 +31,9 @@ type SendContextType = {
   setSelectedRecipientAddress: Dispatch<SetStateAction<Address | null>>;
   handleAddressSelection: (address: Address) => void;
   selectedToken: PortfolioTokenWithFiatValue | null;
-  setSelectedToken: Dispatch<SetStateAction<PortfolioTokenWithFiatValue | null>>;
+  setSelectedToken: Dispatch<
+    SetStateAction<PortfolioTokenWithFiatValue | null>
+  >;
   handleTokenSelection: (token: PortfolioTokenWithFiatValue) => void;
   handleResetTokenSelection: () => void;
   fiatAmount: string | null;
@@ -125,7 +127,8 @@ export function SendProvider({ children }: SendProviderReact) {
     useState<Address | null>(null);
   const [selectedRecipientAddress, setSelectedRecipientAddress] =
     useState<Address | null>(null);
-  const [selectedToken, setSelectedToken] = useState<PortfolioTokenWithFiatValue | null>(null);
+  const [selectedToken, setSelectedToken] =
+    useState<PortfolioTokenWithFiatValue | null>(null);
   const [selectedInputType, setSelectedInputType] = useState<'fiat' | 'crypto'>(
     'crypto',
   );

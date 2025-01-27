@@ -1,9 +1,9 @@
 import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { useCallback, useMemo } from 'react';
-import { useIcon } from '@/core-react/internal/hooks/useIcon';
 import { Skeleton } from '@/internal/components/Skeleton';
+import { useIcon } from '@/internal/hooks/useIcon';
+import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
 import { cn, pressable, text } from '@/styles/theme';
-import { truncateDecimalPlaces } from '@/core/utils/truncateDecimalPlaces';
 
 type AmountInputTypeSwitchPropsReact = {
   selectedInputType: 'fiat' | 'crypto';
@@ -53,13 +53,7 @@ export function AmountInputTypeSwitch({
             })}
       </span>
     );
-  }, [
-    cryptoAmount,
-    fiatAmount,
-    selectedInputType,
-    formatCrypto,
-    currency,
-  ]);
+  }, [cryptoAmount, fiatAmount, selectedInputType, formatCrypto, currency]);
 
   if (exchangeRateLoading || !exchangeRate) {
     return <Skeleton className="h-[1.625rem]" />;

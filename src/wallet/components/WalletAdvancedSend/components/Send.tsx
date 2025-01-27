@@ -1,4 +1,4 @@
-import { useTheme } from '@/core-react/internal/hooks/useTheme';
+import { useTheme } from '@/internal/hooks/useTheme';
 import { background, border, cn, color } from '@/styles/theme';
 import { useMemo, type ReactNode } from 'react';
 import { SendHeader } from './SendHeader';
