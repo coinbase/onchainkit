@@ -29,13 +29,12 @@ export function AmountInput({
   setCryptoAmount,
   exchangeRate,
 }: AmountInputProps) {
-  const currencyOrAsset = selectedInputType === 'fiat' ? currency : asset;
-
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const hiddenSpanRef = useRef<HTMLSpanElement>(null);
   const currencySpanRef = useRef<HTMLSpanElement>(null);
 
+  const currencyOrAsset = selectedInputType === 'fiat' ? currency : asset;
   const value = selectedInputType === 'fiat' ? fiatAmount : cryptoAmount;
 
   const updateInputWidth = useInputResize(

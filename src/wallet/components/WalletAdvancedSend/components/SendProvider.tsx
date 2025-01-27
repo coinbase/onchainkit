@@ -198,6 +198,9 @@ export function SendProvider({ children }: SendProviderReact) {
 
   const handleResetTokenSelection = useCallback(() => {
     setSelectedToken(null);
+    setFiatAmount(null);
+    setCryptoAmount(null);
+    setExchangeRate(0);
     updateLifecycleStatus({
       statusName: 'selectingAddress',
       statusData: {

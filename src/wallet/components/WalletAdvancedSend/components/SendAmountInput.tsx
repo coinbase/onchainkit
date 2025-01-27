@@ -28,16 +28,18 @@ export function SendAmountInput({ className }: { className?: string }) {
           setCryptoAmount={setCryptoAmount}
           exchangeRate={String(exchangeRate)}
         />
-        <AmountInputTypeSwitch
-          asset={selectedToken?.symbol ?? ''}
-          fiatAmount={fiatAmount ?? ''}
-          cryptoAmount={cryptoAmount ?? ''}
-          exchangeRate={exchangeRate}
-          exchangeRateLoading={false}
-          currency={'USD'}
-          selectedInputType={selectedInputType}
-          setSelectedInputType={setSelectedInputType}
-        />
+        {exchangeRate > 0 && (
+          <AmountInputTypeSwitch
+            asset={selectedToken?.symbol ?? ''}
+            fiatAmount={fiatAmount ?? ''}
+            cryptoAmount={cryptoAmount ?? ''}
+            exchangeRate={exchangeRate}
+            exchangeRateLoading={false}
+            currency={'USD'}
+            selectedInputType={selectedInputType}
+            setSelectedInputType={setSelectedInputType}
+          />
+        )}
       </div>
     </div>
   );

@@ -5,9 +5,10 @@ import { SendHeader } from './SendHeader';
 import { SendProvider, useSendContext } from './SendProvider';
 import { AddressInput } from '@/wallet/components/WalletAdvancedSend/components/AddressInput';
 import { AddressSelector } from '@/wallet/components/WalletAdvancedSend/components/AddressSelector';
-import { TokenSelector } from '@/wallet/components/WalletAdvancedSend/components/TokenSelector';
+import { SendTokenSelector } from '@/wallet/components/WalletAdvancedSend/components/SendTokenSelector';
 import { SendAmountInput } from '@/wallet/components/WalletAdvancedSend/components/SendAmountInput';
 import { SendFundingWallet } from '@/wallet/components/WalletAdvancedSend/components/SendFundingWallet';
+import { SendButton } from '@/wallet/components/WalletAdvancedSend/components/SendButton';
 
 type SendReact = {
   children?: ReactNode;
@@ -83,7 +84,7 @@ function SendDefaultChildren() {
       return (
         <>
           <AddressInput />
-          <TokenSelector />
+          <SendTokenSelector />
         </>
       );
     }
@@ -92,7 +93,8 @@ function SendDefaultChildren() {
       <div className="flex h-full flex-col justify-between">
         <AddressInput />
         <SendAmountInput className="pb-2" />
-        <TokenSelector />
+        <SendTokenSelector />
+        <SendButton />
       </div>
     );
   }, [

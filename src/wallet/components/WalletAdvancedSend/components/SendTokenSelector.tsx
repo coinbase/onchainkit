@@ -2,12 +2,15 @@ import { useSendContext } from '@/wallet/components/WalletAdvancedSend/component
 import { TokenBalance } from '@/internal/components/TokenBalance';
 import { border, cn, pressable, text } from '@/styles/theme';
 
-export function TokenSelector() {
+export function SendTokenSelector() {
   const {
     tokenBalances,
     selectedToken,
     handleTokenSelection,
     handleResetTokenSelection,
+    setSelectedInputType,
+    setCryptoAmount,
+    setFiatAmount,
   } = useSendContext();
 
   if (!selectedToken) {
@@ -37,9 +40,16 @@ export function TokenSelector() {
       onClick={handleResetTokenSelection}
       showAction={true}
       onActionPress={() => {
-        console.log('clicked max');
+        setSelectedInputType('crypto');
+        setFiatAmount(String(selectedToken.fiatBalance));
+        setCryptoAmount(
+          String(
+            Number(selectedToken.cryptoBalance) /
+              10 ** Number(selectedToken.decimals),
+          ),
+        );
       }}
-      className={cn(pressable.default, border.radius)}
+      className={cn(pressable.alternate, border.radius)}
     />
   );
 }
