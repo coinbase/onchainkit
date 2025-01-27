@@ -11,6 +11,25 @@ vi.mock('wagmi', async (importOriginal) => {
   };
 });
 
+vi.mock('@/internal', () => ({
+  Tabs: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="ockTabs">{children}</div>
+  ),
+  TabsList: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="tabs-list">{children}</div>
+  ),
+  Tab: ({ value, children }: { value: string; children: React.ReactNode }) => (
+    <button data-testid={`tab-${value}`}>{children}</button>
+  ),
+  TabContent: ({
+    value,
+    children,
+  }: {
+    value: string;
+    children: React.ReactNode;
+  }) => <div data-testid={`tab-content-${value}`}>{children}</div>,
+}));
+
 vi.mock('@/wallet/hooks/useGetTokenBalance', () => ({
   useGetTokenBalance: vi.fn(),
 }));
