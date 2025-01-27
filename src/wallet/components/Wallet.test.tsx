@@ -1,5 +1,5 @@
-import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
+import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ConnectWallet } from './ConnectWallet';

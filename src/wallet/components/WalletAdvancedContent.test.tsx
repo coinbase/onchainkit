@@ -1,5 +1,5 @@
-import type { SwapDefaultReact } from '@/swap/types';
 import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
+import type { SwapDefaultReact } from '@/swap/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { WalletAdvancedContent } from './WalletAdvancedContent';

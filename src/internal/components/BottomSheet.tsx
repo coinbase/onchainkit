@@ -1,4 +1,3 @@
-
 import { DismissableLayer } from '@/internal/components/primitives/DismissableLayer';
 import { FocusTrap } from '@/internal/components/primitives/FocusTrap';
 import { useTheme } from '@/internal/hooks/useTheme';
@@ -30,10 +29,7 @@ export function BottomSheet({
     <>
       {isOpen && (
         <div
-          className={cn(
-            'fixed inset-0',
-            'bg-black bg-opacity-20',
-          )}
+          className={cn('fixed inset-0', 'bg-black bg-opacity-20')}
           data-testid="ockBottomSheetOverlay"
         />
       )}
