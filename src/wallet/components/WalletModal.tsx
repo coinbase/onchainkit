@@ -1,23 +1,16 @@
 'use client';
 
+import { Dialog } from '@/internal/components/primitives/Dialog';
+import { CloseSvg } from '@/internal/svg/closeSvg';
+import { coinbaseWalletSvg } from '@/internal/svg/coinbaseWalletSvg';
+import { defaultAvatarSVG } from '@/internal/svg/defaultAvatarSVG';
+import { metamaskSvg } from '@/internal/svg/metamaskSvg';
+import { phantomSvg } from '@/internal/svg/phantomSvg';
+import { background, border, cn, color, pressable, text } from '@/styles/theme';
+import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
-import { Dialog } from '../../internal/primitives/Dialog';
-import { CloseSvg } from '../../internal/svg/closeSvg';
-import { coinbaseWalletSvg } from '../../internal/svg/coinbaseWalletSvg';
-import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
-import { metamaskSvg } from '../../internal/svg/metamaskSvg';
-import { phantomSvg } from '../../internal/svg/phantomSvg';
-import {
-  background,
-  border,
-  cn,
-  color,
-  pressable,
-  text,
-} from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
 
 type WalletModalProps = {
   isOpen: boolean;

@@ -1,12 +1,9 @@
-import type {
-  PortfolioTokenBalances,
-  PortfolioTokenWithFiatValue,
-} from '@/api/types';
+import type { Portfolio, PortfolioTokenWithFiatValue } from '@/api/types';
 import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '@/core/network/definitions/wallet';
 import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { sendRequest } from '../core/network/request';
-import { getPortfolioTokenBalances } from './getPortfolioTokenBalances';
+import { getPortfolios } from './getPortfolios';
 
 vi.mock('@/core/network/request', () => ({
   sendRequest: vi.fn(),
@@ -25,7 +22,7 @@ const mockTokens: PortfolioTokenWithFiatValue[] = [
     fiatBalance: 100,
   },
 ];
-const mockPortfolioTokenBalances: PortfolioTokenBalances[] = [
+const mockPortfolioTokenBalances: Portfolio[] = [
   {
     address: mockAddresses[0],
     portfolioBalanceInUsd: 100,
@@ -33,7 +30,7 @@ const mockPortfolioTokenBalances: PortfolioTokenBalances[] = [
   },
 ];
 
-describe('getPortfolioTokenBalances', () => {
+describe('getPortfolios', () => {
   const mockSendRequest = sendRequest as Mock;
 
   const mockSuccessResponse = {
@@ -45,7 +42,7 @@ describe('getPortfolioTokenBalances', () => {
       result: mockSuccessResponse,
     });
 
-    const result = await getPortfolioTokenBalances({
+    const result = await getPortfolios({
       addresses: mockAddresses,
     });
 
@@ -67,7 +64,7 @@ describe('getPortfolioTokenBalances', () => {
       error: mockError,
     });
 
-    const result = await getPortfolioTokenBalances({
+    const result = await getPortfolios({
       addresses: mockAddresses,
     });
 
@@ -82,7 +79,7 @@ describe('getPortfolioTokenBalances', () => {
     const errorMessage = 'Network Error';
     mockSendRequest.mockRejectedValueOnce(new Error(errorMessage));
 
-    const result = await getPortfolioTokenBalances({
+    const result = await getPortfolios({
       addresses: mockAddresses,
     });
 

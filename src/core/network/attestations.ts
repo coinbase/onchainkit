@@ -19,9 +19,7 @@ type GetAttestationQueryVariablesFilters = {
   schemas?: EASSchemaUid[];
 };
 
-/**
- * Alias type for filter options when fetching attestations by filter.
- */
+/** Alias type for filter options when fetching attestations by filter. */
 export type GetAttestationsByFilterOptions =
   GetAttestationQueryVariablesFilters;
 
@@ -48,14 +46,10 @@ export type GetAttestationQueryResponse = {
   attestations: Attestation[];
 };
 
-/**
- * Type representing the response when fetching attestations by filter.
- */
+/** Type representing the response when fetching attestations by filter. */
 export type GetAttestationsByFilterResponse = Attestation[];
 
-/**
- * GraphQL query definition for fetching EAS Attestations for users.
- */
+/** GraphQL query definition for fetching EAS Attestations for users. */
 export const attestationQuery = gql`
   query AttestationsForUsers(
     $where: AttestationWhereInput

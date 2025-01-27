@@ -1,8 +1,31 @@
+import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import { renderHook } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useAccount } from 'wagmi';
 import { EarnProvider, useEarnContext } from './EarnProvider';
 
+vi.mock('@/wallet/hooks/useGetTokenBalance', () => ({
+  useGetTokenBalance: vi.fn(),
+}));
+
+vi.mock('wagmi', async (importOriginal) => {
+  return {
+    ...(await importOriginal<typeof import('wagmi')>()),
+    useAccount: vi.fn(),
+  };
+});
+
 describe('EarnProvider', () => {
+  beforeEach(() => {
+    (useAccount as Mock).mockReturnValue({
+      address: '0x123',
+    });
+    (useGetTokenBalance as Mock).mockReturnValue({
+      convertedBalance: '0.0',
+      error: null,
+    });
+  });
+
   const wrapper = ({ children }: { children: React.ReactNode }) => (
     <EarnProvider vaultAddress="0x123">{children}</EarnProvider>
   );

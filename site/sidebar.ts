@@ -109,6 +109,10 @@ export const sidebar = [
             text: 'FundButton',
             link: '/fund/fund-button',
           },
+          {
+            text: 'FundCard',
+            link: '/fund/fund-card',
+          },
         ],
       },
       {

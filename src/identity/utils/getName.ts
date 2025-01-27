@@ -26,7 +26,7 @@ export const getName = async ({
     );
   }
 
-  let client = getChainPublicClient(chain);
+  const client = getChainPublicClient(chain);
 
   if (chainIsBase) {
     const addressReverseNode = convertReverseNodeToBytes(address, base.id);
@@ -45,8 +45,6 @@ export const getName = async ({
     }
   }
 
-  // Default to mainnet
-  client = getChainPublicClient(mainnet);
   // ENS username
   const ensName = await client.getEnsName({
     address,

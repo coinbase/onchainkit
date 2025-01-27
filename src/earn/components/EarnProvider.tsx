@@ -1,21 +1,29 @@
 import { useValue } from '@/internal/hooks/useValue';
-import { type ReactNode, createContext, useContext } from 'react';
-import type { Address } from 'viem';
-
-interface EarnContextType {
-  vaultAddress: Address;
-}
+import { usdcToken } from '@/token/constants';
+import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
+import { createContext, useContext, useState } from 'react';
+import { useAccount } from 'wagmi';
+import type { EarnContextType, EarnProviderReact } from '../types';
 
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 
-interface EarnProviderProps {
-  vaultAddress: Address;
-  children: ReactNode;
-}
+export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
+  const { address } = useAccount();
 
-export function EarnProvider({ vaultAddress, children }: EarnProviderProps) {
+  const [depositAmount, setDepositAmount] = useState('');
+  const [withdrawAmount, setWithdrawAmount] = useState('');
+
+  const { convertedBalance } = useGetTokenBalance(address, usdcToken);
+
   const value = useValue({
+    convertedBalance,
     vaultAddress,
+    depositAmount,
+    setDepositAmount,
+    withdrawAmount,
+    setWithdrawAmount,
+    // TODO: update when we have logic to fetch deposited amount
+    depositedAmount: '',
   });
 
   return <EarnContext.Provider value={value}>{children}</EarnContext.Provider>;

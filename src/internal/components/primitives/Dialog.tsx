@@ -1,8 +1,8 @@
+import { useTheme } from '@/internal/hooks/useTheme';
+import { cn } from '@/styles/theme';
 import type React from 'react';
 import { useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { cn } from '../../styles/theme';
-import { useTheme } from '../hooks/useTheme';
 import { DismissableLayer } from './DismissableLayer';
 import { FocusTrap } from './FocusTrap';
 
@@ -51,10 +51,11 @@ export function Dialog({
       <FocusTrap active={isOpen}>
         <DismissableLayer onDismiss={onClose}>
           <div
-            aria-modal={modal}
+            aria-describedby={ariaDescribedby}
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledby}
-            aria-describedby={ariaDescribedby}
+            aria-modal={modal}
+            className="zoom-in-95 animate-in duration-200"
             data-testid="ockDialog"
             onClick={(e) => e.stopPropagation()}
             onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -64,7 +65,6 @@ export function Dialog({
             }}
             ref={dialogRef}
             role="dialog"
-            className="zoom-in-95 animate-in duration-200"
           >
             {children}
           </div>

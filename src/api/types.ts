@@ -8,9 +8,12 @@ export type AddressOrETH = Address | 'ETH';
  * Note: exported as public Type
  */
 export type APIError = {
-  code: string; // The Error code
-  error: string; // The Error long message
-  message: string; // The Error short message
+  /** The Error code */
+  code: string;
+  /** The Error long message */
+  error: string;
+  /** The Error short message */
+  message: string;
 };
 
 /**
@@ -18,7 +21,6 @@ export type APIError = {
  */
 export type TransactionError = APIError;
 
-/**
 /**
  * Note: exported as public Type
  */
@@ -28,9 +30,12 @@ export type NFTError = APIError | TransactionError;
  * Note: exported as public Type
  */
 export type BuildPayTransactionParams = {
-  address: Address; // The address of the wallet paying
-  chargeId?: string; // The ID of the Commerce Charge to be paid
-  productId?: string; // The ID of the product being paid for
+  /** The address of the wallet paying */
+  address: Address;
+  /** The ID of the Commerce Charge to be paid */
+  chargeId?: string;
+  /** The ID of the product being paid for */
+  productId?: string;
 };
 
 /**
@@ -42,18 +47,24 @@ export type BuildPayTransactionResponse = PayTransaction | APIError;
  * Note: exported as public Type
  */
 export type BuildSwapTransaction = {
-  approveTransaction?: Transaction; // ERC20 approve transaction which allows token holders to authorize spending
-  fee: Fee; // The fee for the swap
-  quote: SwapQuote; // The quote for the swap
-  transaction: Transaction; // The object developers should pass into Wagmi's signTransaction
-  warning?: QuoteWarning; // The warning associated with the swap
+  /** ERC20 approve transaction which allows token holders to authorize spending */
+  approveTransaction?: Transaction;
+  /** The fee for the swap */
+  fee: Fee;
+  /** The quote for the swap */
+  quote: SwapQuote;
+  /** The object developers should pass into Wagmi's signTransaction */
+  transaction: Transaction;
+  /** The warning associated with the swap */
+  warning?: QuoteWarning;
 };
 
 /**
  * Note: exported as public Type
  */
 export type BuildSwapTransactionParams = GetSwapQuoteParams & {
-  fromAddress: Address; // The address of the user
+  /** The address of the user */
+  fromAddress: Address;
 };
 
 /**
@@ -62,8 +73,10 @@ export type BuildSwapTransactionParams = GetSwapQuoteParams & {
 export type BuildSwapTransactionResponse = BuildSwapTransaction | APIError;
 
 export type CreateProductChargeParams = {
-  sender: Address; // The address of the wallet paying
-  productId: string; // The ID of the product being paid for
+  /** The address of the wallet paying */
+  sender: Address;
+  /** The ID of the product being paid for */
+  productId: string;
 };
 
 export type GetAPIParamsForToken =
@@ -71,29 +84,43 @@ export type GetAPIParamsForToken =
   | BuildSwapTransactionParams;
 
 export type GetQuoteAPIParams = {
-  amount: string; // The amount to be swapped
-  amountReference?: string; // The reference amount for the swap
-  from: AddressOrETH | ''; // The source address or 'ETH' for Ethereum
-  to: AddressOrETH | ''; // The destination address or 'ETH' for Ethereum
-  v2Enabled?: boolean; // Whether to use V2 of the API (default: false)
-  slippagePercentage?: string; // The slippage percentage for the swap
+  /** The amount to be swapped */
+  amount: string;
+  /** The reference amount for the swap, 'to' is only supported with v2Enabled: false */
+  amountReference?: 'to' | 'from';
+  /** The source address or 'ETH' for Ethereum */
+  from: AddressOrETH | '';
+  /** The destination address or 'ETH' for Ethereum */
+  to: AddressOrETH | '';
+  /** Whether to use V2 of the API (default: false) */
+  v2Enabled?: boolean;
+  /** The slippage percentage for the swap */
+  slippagePercentage?: string;
 };
 
 export type GetSwapAPIParams = GetQuoteAPIParams & {
-  fromAddress: Address; // The address of the user
+  /** The address of the user */
+  fromAddress: Address;
 };
 
 /**
  * Note: exported as public Type
  */
 export type GetSwapQuoteParams = {
-  amount: string; // The amount to be swapped
-  amountReference?: string; // The reference amount for the swap
-  from: Token; // The source token for the swap
-  isAmountInDecimals?: boolean; // Whether the amount is in decimals
-  maxSlippage?: string; // The slippage of the swap
-  to: Token; // The destination token for the swap
-  useAggregator: boolean; // Whether to use a DEX aggregator
+  /** The amount to be swapped */
+  amount: string;
+  /** The reference amount for the swap, 'to' is only supported with v2Enabled: false */
+  amountReference?: 'to' | 'from';
+  /** The source token for the swap */
+  from: Token;
+  /** Whether the amount is in decimals */
+  isAmountInDecimals?: boolean;
+  /** The slippage of the swap */
+  maxSlippage?: string;
+  /** The destination token for the swap */
+  to: Token;
+  /** Whether to use a DEX aggregator */
+  useAggregator: boolean;
 };
 
 /**
@@ -105,9 +132,12 @@ export type GetSwapQuoteResponse = SwapQuote | APIError;
  * Note: exported as public Type
  */
 export type GetTokensOptions = {
-  limit?: string; // The maximum number of tokens to return (default: 50)
-  page?: string; // The page number to return (default: 1)
-  search?: string; // A string to search for in the token name, symbol or address
+  /** The maximum number of tokens to return (default: 50) */
+  limit?: string;
+  /** The page number to return (default: 1) */
+  page?: string;
+  /** A string to search for in the token name, symbol or address */
+  search?: string;
 };
 
 /**
@@ -116,41 +146,64 @@ export type GetTokensOptions = {
 export type GetTokensResponse = Token[] | APIError;
 
 export type HydrateChargeAPIParams = {
-  sender: Address; // The address of the wallet paying
-  chargeId: string; // The ID of the Commerce Charge to be paid
+  /** The address of the wallet paying */
+  sender: Address;
+  /** The ID of the Commerce Charge to be paid */
+  chargeId: string;
 };
 
 export type PayTransaction = {
-  id: string; // The id of the Commerce Charge to be paid
+  /** The id of the Commerce Charge to be paid */
+  id: string;
+  /** Collection of fields used to make the contract call to the Payment contract */
   callData: {
-    // Collection of fields used to make the contract call to the Payment contract
-    deadline: string; // Timestamp of when the payment will expire and be unpayable
-    feeAmount: string; // The amount of the processing fee in the recipient currency
-    id: string; // The id of the prepared transaction
-    operator: Address; // The address of the operator of the Payment contract
-    prefix: Address; // The prefix of the signature generated by Commerce
-    recipient: Address; // The address funds will settle in
-    recipientAmount: string; // The amount the recipient will get in the recipient currency
-    recipientCurrency: Address; // The address of the currency being paid (always USDC)
-    refundDestination: Address; // The wallet address of the payer
-    signature: Address; // The signature generated by the Payment contract operator, encoding the payment details
+    /** Timestamp of when the payment will expire and be unpayable */
+    deadline: string;
+    /** The amount of the processing fee in the recipient currency */
+    feeAmount: string;
+    /** The id of the prepared transaction */
+    id: string;
+    /** The address of the operator of the Payment contract */
+    operator: Address;
+    /** The prefix of the signature generated by Commerce */
+    prefix: Address;
+    /** The address funds will settle in */
+    recipient: Address;
+    /** The amount the recipient will get in the recipient currency */
+    recipientAmount: string;
+    /** The address of the currency being paid (always USDC) */
+    recipientCurrency: Address;
+    /** The wallet address of the payer */
+    refundDestination: Address;
+    /** The signature generated by the Payment contract operator, encoding the payment details */
+    signature: Address;
   };
+  /** Collection of metadata needed to make the contract call to the Payment Contract */
   metaData: {
-    // Collection of metadata needed to make the contract call to the Payment Contract
-    chainId: number; // The chain this prepared transaction can be paid on
-    contractAddress: Address; // The address of the Payment contract
-    sender: Address; // The wallet address of the payer
-    settlementCurrencyAddress: Address; // The address of the currency being paid (always USDC)
+    /** The chain this prepared transaction can be paid on */
+    chainId: number;
+    /** The address of the Payment contract */
+    contractAddress: Address;
+    /** The wallet address of the payer */
+    sender: Address;
+    /** The address of the currency being paid (always USDC) */
+    settlementCurrencyAddress: Address;
   };
 };
 
 export type RawTransactionData = {
-  data: string; // The transaction data
-  from: string; // The sender address
-  gas: string; // The gas limit
-  gasPrice: string; // The gas price
-  to: string; // The recipient address
-  value: string; // The value of the transaction
+  /** The transaction data */
+  data: string;
+  /** The sender address */
+  from: string;
+  /** The gas limit */
+  gas: string;
+  /** The gas price */
+  gasPrice: string;
+  /** The recipient address */
+  to: string;
+  /** The value of the transaction */
+  value: string;
 };
 
 export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
@@ -158,28 +211,41 @@ export type SwapAPIParams = GetQuoteAPIParams | GetSwapAPIParams;
 export type ContractType = 'ERC721' | 'ERC1155';
 
 export type NFTPrice = {
-  amount?: string; // Amount in Currency
-  currency?: string; // Currency
-  amountUSD?: string; // Amount in USD
+  /** Amount in Currency */
+  amount?: string;
+  /** Currency */
+  currency?: string;
+  /** Amount in USD */
+  amountUSD?: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type GetTokenDetailsParams = {
-  contractAddress: Address; // The address of the token contract
-  tokenId?: string; // The ID of the token
+  /** The address of the token contract */
+  contractAddress: Address;
+  /** The ID of the token */
+  tokenId?: string;
 };
 
 export type TokenDetails = {
-  name: string; // The name of the token
-  description: string; // The description of the token
-  imageUrl: string; // The image URL of the token
-  animationUrl: string; // The animation URL of the token
-  mimeType: string; // The MIME type of the token
-  ownerAddress: Address; // The address of the owner of the token
-  lastSoldPrice: NFTPrice; // The last sold price of the token
-  contractType: ContractType; // ERC721, ERC1155
+  /** The name of the token */
+  name: string;
+  /** The description of the token */
+  description: string;
+  /** The image URL of the token */
+  imageUrl: string;
+  /** The animation URL of the token */
+  animationUrl: string;
+  /** The MIME type of the token */
+  mimeType: string;
+  /** The address of the owner of the token */
+  ownerAddress: Address;
+  /** The last sold price of the token */
+  lastSoldPrice: NFTPrice;
+  /** ERC721, ERC1155 */
+  contractType: ContractType;
 };
 
 /**
@@ -191,26 +257,43 @@ export type GetTokenDetailsResponse = TokenDetails | APIError;
  * Note: exported as public Type
  */
 export type GetMintDetailsParams = {
-  contractAddress: Address; // The address of the token contract
-  takerAddress?: Address; // The address of the user
-  tokenId?: string; // The ID of the token (required for ERC1155)
+  /** The address of the token contract */
+  contractAddress: Address;
+  /** The address of the user */
+  takerAddress?: Address;
+  /** The ID of the token (required for ERC1155) */
+  tokenId?: string;
 };
 
 export type MintDetails = {
-  name: string; // The name of the NFT
-  description: string; // The description of the NFT
-  imageUrl: string; // The image URL of the NFT
-  animationUrl: string; // The animation URL of the NFT
-  mimeType: string; // The MIME type of the NFT
-  contractType: ContractType; // ERC721, ERC1155
-  price: NFTPrice; // The price of the NFT
-  mintFee: NFTPrice; // The mint fee of the NFT
-  maxMintsPerWallet: number; // The maximum number of mints per wallet
-  isEligibleToMint: boolean; // Whether the user is eligible to mint
-  creatorAddress: Address; // The address of the creator of the NFT
-  totalTokens: string; // The total number of tokens
-  totalOwners: string; // The total number of owners of the NFT
-  network: string; // The network the NFT is on
+  /** The name of the NFT */
+  name: string;
+  /** The description of the NFT */
+  description: string;
+  /** The image URL of the NFT */
+  imageUrl: string;
+  /** The animation URL of the NFT */
+  animationUrl: string;
+  /** The MIME type of the NFT */
+  mimeType: string;
+  /** ERC721, ERC1155 */
+  contractType: ContractType;
+  /** The price of the NFT */
+  price: NFTPrice;
+  /** The mint fee of the NFT */
+  mintFee: NFTPrice;
+  /** The maximum number of mints per wallet */
+  maxMintsPerWallet: number;
+  /** Whether the user is eligible to mint */
+  isEligibleToMint: boolean;
+  /** The address of the creator of the NFT */
+  creatorAddress: Address;
+  /** The total number of tokens */
+  totalTokens: string;
+  /** The total number of owners of the NFT */
+  totalOwners: string;
+  /** The network the NFT is on */
+  network: string;
 };
 
 /**
@@ -222,19 +305,28 @@ export type GetMintDetailsResponse = MintDetails | APIError;
  * Note: exported as public Type
  */
 export type BuildMintTransactionParams = {
-  mintAddress: Address; // The address of the token contract to mint
-  takerAddress: Address; // The address of the user
-  tokenId?: string; // The ID of the token
-  quantity: number; // The number of tokens to mint
-  network?: string; // The network the mint contract is on
+  /** The address of the token contract to mint */
+  mintAddress: Address;
+  /** The address of the user */
+  takerAddress: Address;
+  /** The ID of the token */
+  tokenId?: string;
+  /** The number of tokens to mint */
+  quantity: number;
+  /** The network the mint contract is on */
+  network?: string;
 };
 
 type MintTransaction = {
   call_data: {
-    data: Address; // The transaction data
-    to: Address; // The recipient address
-    from: Address; // The sender address
-    value: string; // The value of the transaction
+    /** The transaction data */
+    data: Address;
+    /** The recipient address */
+    to: Address;
+    /** The sender address */
+    from: Address;
+    /** The value of the transaction */
+    value: string;
   };
 };
 
@@ -246,30 +338,31 @@ export type BuildMintTransactionResponse = MintTransaction | APIError;
 /**
  * Note: exported as public Type
  */
-export type GetPortfolioTokenBalancesParams = {
+export type GetPortfoliosParams = {
+  /** The addresses of the wallets to get the portfolio for */
   addresses: Address[] | null | undefined;
 };
 
-/**
- * Note: exported as public Type
- */
-export type PortfolioTokenBalances = {
+export type Portfolio = {
+  /** The address of the wallet */
   address: Address;
+  /** The balance of the wallet in USD */
   portfolioBalanceInUsd: number;
+  /** The tokens in the wallet */
   tokenBalances: PortfolioTokenWithFiatValue[];
 };
 
-/**
- * Note: exported as public Type
- */
 export type PortfolioTokenWithFiatValue = Token & {
+  /** The crypto balance of the token in the wallet */
   cryptoBalance: number;
+  /** The USD balance of the token in the wallet */
   fiatBalance: number;
 };
 
 /**
  * Note: exported as public Type
  */
-export type GetPortfoliosAPIResponse = {
-  portfolios: PortfolioTokenBalances[];
+export type GetPortfoliosResponse = {
+  /** The portfolios for the provided addresses */
+  portfolios: Portfolio[];
 };

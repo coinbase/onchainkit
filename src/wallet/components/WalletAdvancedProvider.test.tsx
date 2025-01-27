@@ -31,16 +31,14 @@ describe('useWalletAdvancedContext', () => {
     isSubComponentClosing: false,
   };
 
-  const mockUsePortfolioTokenBalances = usePortfolioTokenBalances as ReturnType<
-    typeof vi.fn
-  >;
+  const mockUsePortfolio = usePortfolio as ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     mockUseAccount.mockReturnValue({
       address: '0x123',
     });
     mockUseWalletContext.mockReturnValue(defaultWalletContext);
-    mockUsePortfolioTokenBalances.mockReturnValue({
+    mockUsePortfolio.mockReturnValue({
       data: {
         address: '0x123',
         tokenBalances: [],
@@ -95,7 +93,7 @@ describe('useWalletAdvancedContext', () => {
     console.error = originalError;
   });
 
-  it('should call usePortfolioTokenBalances with the correct address', () => {
+  it('should call usePortfolio with the correct address', () => {
     mockUseWalletContext.mockReturnValue({
       address: null,
       isSubComponentClosing: false,
@@ -105,7 +103,7 @@ describe('useWalletAdvancedContext', () => {
       wrapper: WalletAdvancedProvider,
     });
 
-    expect(mockUsePortfolioTokenBalances).toHaveBeenCalledWith({
+    expect(mockUsePortfolio).toHaveBeenCalledWith({
       address: null,
     });
 
@@ -116,7 +114,7 @@ describe('useWalletAdvancedContext', () => {
 
     rerender();
 
-    expect(mockUsePortfolioTokenBalances).toHaveBeenCalledWith({
+    expect(mockUsePortfolio).toHaveBeenCalledWith({
       address: '0x123',
     });
   });

@@ -1,7 +1,4 @@
-import type {
-  PortfolioTokenBalances,
-  PortfolioTokenWithFiatValue,
-} from '@/api/types';
+import type { Portfolio, PortfolioTokenWithFiatValue } from '@/api/types';
 import type { SwapError } from '@/swap';
 import type { Token } from '@/token';
 import type { QueryObserverResult } from '@tanstack/react-query';
@@ -11,29 +8,38 @@ import type { UserOperation } from 'viem/_types/account-abstraction';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 
 export type ConnectButtonReact = {
-  className?: string; // Optional className override for button element
-  connectWalletText: ReactNode | null; // Optional text override for button
-  onClick: () => void; // Function to call when the button is clicked
-  text: string; // Optional text override for button
+  /** Optional className override for button element */
+  className?: string;
+  /** Optional text override for button */
+  connectWalletText: ReactNode | null;
+  /** Function to call when the button is clicked */
+  onClick: () => void;
+  /** Optional text override for button */
+  text: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type ConnectWalletReact = {
-  children?: React.ReactNode; // Children can be utilized to display customized content when the wallet is connected.
-  className?: string; // Optional className override for button element
+  /** Children can be utilized to display customized content when the wallet is connected. */
+  children?: React.ReactNode;
+  /** Optional className override for button element */
+  className?: string;
   /** @deprecated Prefer `ConnectWalletText component` */
-  text?: string; // Optional text override for button
-  onConnect?: () => void; // Optional callback function to execute when the wallet is connected.
+  text?: string;
+  /** Optional callback function to execute when the wallet is connected. */
+  onConnect?: () => void;
 };
 
 /**
  * Note: exported as public Type
  */
 export type ConnectWalletTextReact = {
-  children: React.ReactNode; // The text to display
-  className?: string; // Optional className override for the element
+  /** The text to display */
+  children: React.ReactNode;
+  /** Optional className override for the element */
+  className?: string;
 };
 
 /**
@@ -76,8 +82,11 @@ export type UseGetTokenBalanceResponse = {
  * Note: exported as public Type
  */
 export type WalletContextType = {
-  address?: Address | null; // The Ethereum address to fetch the avatar and name for.
-  chain?: Chain; // Optional chain for domain resolution
+  /** The Ethereum address to fetch the avatar and name for. */
+  address?: Address | null;
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+  /** Whether the connect modal is open */
   isConnectModalOpen: boolean;
   setIsConnectModalOpen: Dispatch<SetStateAction<boolean>>;
   isSubComponentOpen: boolean;
@@ -116,14 +125,16 @@ export type WalletSubComponentReact = {
  */
 export type WalletBottomSheetReact = {
   children: React.ReactNode;
-  className?: string; // Optional className override for top div element
+  /** Optional className override for top div element */
+  className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type WalletDropdownBasenameReact = {
-  className?: string; // Optional className override for the element
+  /** Optional className override for the element */
+  className?: string;
 };
 
 /**
@@ -131,34 +142,44 @@ export type WalletDropdownBasenameReact = {
  */
 export type WalletDropdownReact = {
   children: React.ReactNode;
-  className?: string; // Optional className override for top div element
+  /** Optional className override for top div element */
+  className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type WalletDropdownDisconnectReact = {
-  className?: string; // Optional className override for the element
-  text?: string; // Optional text override for the button
+  /** Optional className override for the element */
+  className?: string;
+  /** Optional text override for the button */
+  text?: string;
 };
 
 /**
  * Note: exported as public Type
  */
 export type WalletDropdownFundLinkReact = {
-  className?: string; // Optional className override for the element
-  icon?: ReactNode; // Optional icon override
-  openIn?: 'popup' | 'tab'; // Whether to open the funding flow in a tab or a popup window
+  /** Optional className override for the element */
+  className?: string;
+  /** Optional icon override */
+  icon?: ReactNode;
+  /** Whether to open the funding flow in a tab or a popup window */
+  openIn?: 'popup' | 'tab';
   /**
    * Note: popupSize is only respected when providing your own funding link, or when a Coinbase Smart Wallet is
    * connected. For any other wallet popupSize will be ignored as the Coinbase Onramp widget requires a fixed size
    * popup window.
    */
-  popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
-  rel?: string; // Specifies the relationship between the current document and the linked document
-  target?: string; // Where to open the target if `openIn` is set to tab
-  text?: string; // Optional text override
-  fundingUrl?: string; // Optional funding URL override
+  popupSize?: 'sm' | 'md' | 'lg';
+  /** Specifies the relationship between the current document and the linked document */
+  rel?: string;
+  /** Where to open the target if `openIn` is set to tab */
+  target?: string;
+  /** Optional text override */
+  text?: string;
+  /** Optional funding URL override */
+  fundingUrl?: string;
 };
 
 /**
@@ -166,7 +187,8 @@ export type WalletDropdownFundLinkReact = {
  */
 export type WalletDropdownLinkReact = {
   children: string;
-  className?: string; // Optional className override for the element
+  /** Optional className override for the element */
+  className?: string;
   href: string;
   // TODO: fix this type - should be 'wallet' | ReactNode
   icon?: 'wallet' & ReactNode;
@@ -198,9 +220,7 @@ export type WalletAdvancedContextType = {
   portfolioFiatValue: number | undefined;
   isFetchingPortfolioData: boolean;
   portfolioDataUpdatedAt: number | undefined;
-  refetchPortfolioData: () => Promise<
-    QueryObserverResult<PortfolioTokenBalances, Error>
-  >;
+  refetchPortfolioData: () => Promise<QueryObserverResult<Portfolio, Error>>;
   animations: {
     container: string;
     content: string;

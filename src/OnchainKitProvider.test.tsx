@@ -5,7 +5,15 @@ import type { EASSchemaUid } from '@/identity/types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  type Mock,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
@@ -170,6 +178,7 @@ describe('OnchainKitProvider', () => {
       address: null,
       apiKey,
       config: {
+        analyticsUrl: null,
         appearance: {
           logo: appLogo,
           name: appName,
@@ -187,6 +196,7 @@ describe('OnchainKitProvider', () => {
       rpcUrl: null,
       schemaId,
       projectId: null,
+      interactionId: expect.any(String),
     });
   });
 
@@ -205,6 +215,7 @@ describe('OnchainKitProvider', () => {
       expect(setOnchainKitConfig).toHaveBeenCalledWith(
         expect.objectContaining({
           config: {
+            analyticsUrl: null,
             appearance: {
               logo: appLogo,
               name: appName,
@@ -225,6 +236,7 @@ describe('OnchainKitProvider', () => {
 
   it('should use custom values when override in config is provided', async () => {
     const customConfig = {
+      analyticsUrl: 'https://example.com',
       appearance: {
         name: 'custom name',
         logo: 'https://example.com/logo.png',
@@ -254,6 +266,7 @@ describe('OnchainKitProvider', () => {
           apiKey: apiKey,
           chain: base,
           config: {
+            analyticsUrl: 'https://example.com',
             appearance: {
               name: 'custom name',
               logo: 'https://example.com/logo.png',
@@ -311,5 +324,9 @@ describe('OnchainKitProvider', () => {
         }),
       );
     });
+  });
+
+  afterEach(() => {
+    vi.resetModules();
   });
 });

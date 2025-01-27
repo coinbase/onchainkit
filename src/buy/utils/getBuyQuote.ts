@@ -6,18 +6,21 @@ import { isSwapError } from '../../swap/utils/isSwapError';
 import type { Token } from '../../token';
 import type { GetBuyQuoteResponse } from '../types';
 
+/**
+ * Parameters for getting a buy quote, extending GetSwapQuoteParams but omitting 'from'
+ */
 type GetBuyQuoteParams = Omit<GetSwapQuoteParams, 'from'> & {
+  /** Optional swap unit for the 'from' token */
   fromSwapUnit?: SwapUnit;
+  /** Optional 'from' token */
   from?: Token;
 };
 
 /**
  * Fetches a quote for a swap, but only if the from and to tokens are different.
  */
-
 export async function getBuyQuote({
   amount,
-  amountReference,
   from,
   maxSlippage,
   to,
@@ -32,23 +35,26 @@ export async function getBuyQuote({
   let response: GetSwapQuoteResponse | undefined;
   // only fetch quote if the from and to tokens are different
   if (to?.symbol !== from?.symbol) {
+    // switching to and from here
+    // instead of getting a quote for how much of X do we need to sell to get the input token amount
+    // we can get a quote for how much of X we will recieve if we sell the input token amount
     response = await getSwapQuote({
       amount,
-      amountReference,
-      from,
+      amountReference: 'from',
+      from: to,
       maxSlippage,
-      to,
+      to: from,
       useAggregator,
     });
   }
 
   let formattedFromAmount = '';
   if (response && !isSwapError(response)) {
-    formattedFromAmount = response?.fromAmount
-      ? formatTokenAmount(response.fromAmount, response.from.decimals)
+    formattedFromAmount = response?.toAmount
+      ? formatTokenAmount(response.toAmount, response.to.decimals)
       : '';
 
-    fromSwapUnit?.setAmountUSD(response?.fromAmountUSD || '');
+    fromSwapUnit?.setAmountUSD(response?.toAmountUSD || '');
     fromSwapUnit?.setAmount(formattedFromAmount || '');
   }
 

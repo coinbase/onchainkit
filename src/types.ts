@@ -13,7 +13,8 @@ export type OnchainKitProviderReact = {
   chain: Chain;
   children: ReactNode;
   config?: AppConfig;
+  interactionId?: string;
+  projectId?: string;
   rpcUrl?: string;
   schemaId?: EASSchemaUid;
-  projectId?: string;
 };

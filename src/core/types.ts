@@ -5,23 +5,36 @@ import type { Address, Chain } from 'viem';
  * Note: exported as public Type
  */
 export type AppConfig = {
+  /** Optional analytics URL for analytics data, defaults to Coinbase */
+  analyticsUrl?: string | null;
   appearance?: {
-    name?: string | null; // The name of your application
-    logo?: string | null; // The URL of your application logo
-    mode?: Mode | null; // Optionally determines color scheme based on OS preference or user selection
-    theme?: ComponentTheme | null; // Optionally sets the visual style for components
+    /** The name of your application */
+    name?: string | null;
+    /** The URL of your application logo */
+    logo?: string | null;
+    /** Optionally determines color scheme based on OS preference or user selection */
+    mode?: Mode | null;
+    /** Optionally sets the visual style for components */
+    theme?: ComponentTheme | null;
   };
-  paymaster?: string | null; // Paymaster URL for gas sponsorship
+  /** Paymaster URL for gas sponsorship */
+  paymaster?: string | null;
   wallet?: {
-    display?: ConnectWalletDisplay | null; // Determines the display style of the wallet modal
-    termsUrl?: string | null; // URL to the terms of service for the wallet modal
-    privacyUrl?: string | null; // URL to the privacy policy for the wallet modal
+    /** Determines the display style of the wallet modal */
+    display?: ConnectWalletDisplay | null;
+    /** URL to the terms of service for the wallet modal */
+    termsUrl?: string | null;
+    /** URL to the privacy policy for the wallet modal */
+    privacyUrl?: string | null;
   };
 };
 
 export type CreateWagmiConfigParams = {
+  /** API key for configuration */
   apiKey?: string;
+  /** Application name */
   appName?: string;
+  /** Application logo URL */
   appLogoUrl?: string;
 };
 
@@ -29,21 +42,27 @@ export type CreateWagmiConfigParams = {
  * Note: exported as public Type
  */
 export type isBaseOptions = {
+  /** Chain ID for the network */
   chainId: number;
-  isMainnetOnly?: boolean; // If the chainId check is only allowed on mainnet
+  /** If the chainId check is only allowed on mainnet */
+  isMainnetOnly?: boolean;
 };
 
 /**
  * Note: exported as public Type
  */
 export type isEthereumOptions = {
+  /** Chain ID for the network */
   chainId: number;
-  isMainnetOnly?: boolean; // If the chainId check is only allowed on mainnet
+  /** If the chainId check is only allowed on mainnet */
+  isMainnetOnly?: boolean;
 };
 
 export type Mode = 'auto' | 'light' | 'dark';
 
-// External theme options for users
+/**
+ * External theme options for users
+ */
 export type ComponentTheme =
   | 'base'
   | 'cyberpunk'
@@ -51,7 +70,9 @@ export type ComponentTheme =
   | 'hacker'
   | string;
 
-// Internal theme options, including light/dark variants for 'default'
+/**
+ * Internal theme options, including light/dark variants for 'default'
+ */
 export type UseThemeReact =
   | 'base'
   | 'cyberpunk'
@@ -65,13 +86,22 @@ export type UseThemeReact =
  * Note: exported as public Type
  */
 export type OnchainKitConfig = {
-  address: Address | null; // Address is optional as we may not have an address for new users
-  apiKey: string | null; // ApiKey for Coinbase Developer Platform APIs
-  chain: Chain; // Chain must be provided as we need to know which chain to use
-  config?: AppConfig; // Configuration options for the app
-  rpcUrl: string | null; // RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set
-  schemaId: EASSchemaUid | null; // SchemaId is optional as not all apps need to use EAS
-  projectId: string | null; // ProjectId from Coinbase Developer Platform, only required for Coinbase Onramp support
+  /** Address is optional as we may not have an address for new users */
+  address: Address | null;
+  /** ApiKey for Coinbase Developer Platform APIs */
+  apiKey: string | null;
+  /** Chain must be provided as we need to know which chain to use */
+  chain: Chain;
+  /** Configuration options for the app */
+  config?: AppConfig;
+  /** RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set */
+  rpcUrl: string | null;
+  /** SchemaId is optional as not all apps need to use EAS */
+  schemaId: EASSchemaUid | null;
+  /** ProjectId from Coinbase Developer Platform, only required for Coinbase Onramp support */
+  projectId: string | null;
+  /** InteractionId, used for analytics */
+  interactionId: string | null;
 };
 
 export type SetOnchainKitConfig = Partial<OnchainKitConfig>;
@@ -82,6 +112,7 @@ export type SetOnchainKitConfig = Partial<OnchainKitConfig>;
 export type OnchainKitContextType = OnchainKitConfig;
 
 export type UseCapabilitiesSafeParams = {
+  /** Chain ID for the network */
   chainId: number;
 };
 
