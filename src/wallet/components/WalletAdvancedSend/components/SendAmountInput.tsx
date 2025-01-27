@@ -7,15 +7,15 @@ import { useSendContext } from '@/wallet/components/WalletAdvancedSend/component
 
 export function SendAmountInput({ className }: { className?: string }) {
   const {
-    fiatAmount,
-    cryptoAmount,
     selectedToken,
-    setFiatAmount,
-    setCryptoAmount,
-    exchangeRate,
-    exchangeRateLoading,
+    cryptoAmount,
+    handleCryptoAmountChange,
+    fiatAmount,
+    handleFiatAmountChange,
     selectedInputType,
     setSelectedInputType,
+    exchangeRate,
+    exchangeRateLoading,
   } = useSendContext();
 
   return (
@@ -28,8 +28,8 @@ export function SendAmountInput({ className }: { className?: string }) {
           currency={'USD'}
           selectedInputType={selectedInputType}
           className={className}
-          setFiatAmount={setFiatAmount}
-          setCryptoAmount={setCryptoAmount}
+          setFiatAmount={handleFiatAmountChange}
+          setCryptoAmount={handleCryptoAmountChange}
           exchangeRate={String(exchangeRate)}
         />
 

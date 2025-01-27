@@ -9,8 +9,8 @@ export function SendTokenSelector() {
     handleTokenSelection,
     handleResetTokenSelection,
     setSelectedInputType,
-    setCryptoAmount,
-    setFiatAmount,
+    handleCryptoAmountChange,
+    handleFiatAmountChange,
   } = useSendContext();
 
   if (!selectedToken) {
@@ -41,8 +41,8 @@ export function SendTokenSelector() {
       showAction={true}
       onActionPress={() => {
         setSelectedInputType('crypto');
-        setFiatAmount(String(selectedToken.fiatBalance));
-        setCryptoAmount(
+        handleFiatAmountChange(String(selectedToken.fiatBalance));
+        handleCryptoAmountChange(
           String(
             Number(selectedToken.cryptoBalance) /
               10 ** Number(selectedToken.decimals),

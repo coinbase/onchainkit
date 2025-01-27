@@ -1,116 +1,22 @@
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import {
   createContext,
-  type Dispatch,
-  type ReactNode,
-  type SetStateAction,
   useCallback,
   useContext,
   useEffect,
   useState,
 } from 'react';
-import type { Address, Chain, Hex, TransactionReceipt } from 'viem';
+import type { Address } from 'viem';
 import { validateAddressInput } from '@/wallet/components/WalletAdvancedSend/validateAddressInput';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useValue } from '@/internal/hooks/useValue';
 import { useWalletContext } from '@/wallet/components/WalletProvider';
 import { useWalletAdvancedContext } from '@/wallet/components/WalletAdvancedProvider';
 import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
-
-type SendContextType = {
-  lifecycleStatus: LifecycleStatus;
-  senderAddress: Address | null | undefined;
-  senderChain: Chain | null | undefined;
-  ethBalance: number | undefined;
-  tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
-  recipientInput: string | null;
-  setRecipientInput: Dispatch<SetStateAction<string | null>>;
-  validatedRecipientAddress: Address | null;
-  setValidatedRecipientAddress: Dispatch<SetStateAction<Address | null>>;
-  selectedRecipientAddress: Address | null;
-  setSelectedRecipientAddress: Dispatch<SetStateAction<Address | null>>;
-  handleAddressSelection: (address: Address) => void;
-  selectedToken: PortfolioTokenWithFiatValue | null;
-  setSelectedToken: Dispatch<
-    SetStateAction<PortfolioTokenWithFiatValue | null>
-  >;
-  handleTokenSelection: (token: PortfolioTokenWithFiatValue) => void;
-  handleResetTokenSelection: () => void;
-  fiatAmount: string | null;
-  setFiatAmount: Dispatch<SetStateAction<string | null>>;
-  cryptoAmount: string | null;
-  setCryptoAmount: Dispatch<SetStateAction<string | null>>;
-  exchangeRate: number;
-  setExchangeRate: Dispatch<SetStateAction<number>>;
-  exchangeRateLoading: boolean;
-  setExchangeRateLoading: Dispatch<SetStateAction<boolean>>;
-  selectedInputType: 'fiat' | 'crypto';
-  setSelectedInputType: Dispatch<SetStateAction<'fiat' | 'crypto'>>;
-};
-
-type SendProviderReact = {
-  children: ReactNode;
-};
-
-type LifecycleStatus =
-  | {
-      statusName: 'init';
-      statusData: {
-        isMissingRequiredField: true;
-      };
-    }
-  | {
-      statusName: 'fundingWallet';
-      statusData: {
-        isMissingRequiredField: true;
-      };
-    }
-  | {
-      statusName: 'selectingAddress';
-      statusData: {
-        isMissingRequiredField: true;
-      };
-    }
-  | {
-      statusName: 'selectingToken';
-      statusData: {
-        isMissingRequiredField: true;
-      };
-    }
-  | {
-      statusName: 'tokenSelected';
-      statusData: {
-        isMissingRequiredField: boolean;
-      };
-    }
-  | {
-      statusName: 'amountChange';
-      statusData: {
-        isMissingRequiredField: boolean;
-        sufficientBalance: boolean;
-      };
-    }
-  | {
-      statusName: 'transactionPending';
-      statusData: {
-        isMissingRequiredField: false;
-      };
-    }
-  | {
-      statusName: 'transactionApproved';
-      statusData: {
-        isMissingRequiredField: false;
-        callsId?: Hex;
-        transactionHash?: Hex;
-      };
-    }
-  | {
-      statusName: 'success';
-      statusData: {
-        isMissingRequiredField: false;
-        transactionReceipt: TransactionReceipt;
-      };
-    };
+import type { Call } from '@/transaction/types';
+import { useTransferTransaction } from '@/internal/hooks/useTransferTransaction';
+import type { LifecycleStatus, SendProviderReact } from '../types';
+import type { SendContextType } from '../types';
 
 const emptyContext = {} as SendContextType;
 
@@ -121,12 +27,17 @@ export function useSendContext() {
 }
 
 export function SendProvider({ children }: SendProviderReact) {
+  // state for ETH balance
   const [ethBalance, setEthBalance] = useState<number | undefined>(undefined);
+
+  // state for recipient address selection
   const [recipientInput, setRecipientInput] = useState<string | null>(null);
   const [validatedRecipientAddress, setValidatedRecipientAddress] =
     useState<Address | null>(null);
   const [selectedRecipientAddress, setSelectedRecipientAddress] =
     useState<Address | null>(null);
+
+  // state for token selection
   const [selectedToken, setSelectedToken] =
     useState<PortfolioTokenWithFiatValue | null>(null);
   const [selectedInputType, setSelectedInputType] = useState<'fiat' | 'crypto'>(
@@ -138,6 +49,13 @@ export function SendProvider({ children }: SendProviderReact) {
   const [exchangeRateLoading, setExchangeRateLoading] =
     useState<boolean>(false);
 
+  // state for transaction data
+  const [callData, setCallData] = useState<Call[]>([]);
+  const [sendTransactionError, setSendTransactionError] = useState<
+    string | null
+  >(null);
+
+  // data and utils from hooks
   const [lifecycleStatus, updateLifecycleStatus] =
     useLifecycleStatus<LifecycleStatus>({
       statusName: 'init',
@@ -145,7 +63,6 @@ export function SendProvider({ children }: SendProviderReact) {
         isMissingRequiredField: true,
       },
     });
-
   const { address: senderAddress, chain: senderChain } = useWalletContext();
   const { tokenBalances } = useWalletAdvancedContext();
 
@@ -155,8 +72,15 @@ export function SendProvider({ children }: SendProviderReact) {
       setEthBalance(
         Number(ethBalance.cryptoBalance / 10 ** ethBalance.decimals),
       );
+    } else {
+      updateLifecycleStatus({
+        statusName: 'fundingWallet',
+        statusData: {
+          isMissingRequiredField: true,
+        },
+      });
     }
-  }, [tokenBalances]);
+  }, [tokenBalances, updateLifecycleStatus]);
 
   // Validate recipient input and set validated recipient address
   useEffect(() => {
@@ -172,6 +96,21 @@ export function SendProvider({ children }: SendProviderReact) {
     }
     validateRecipientInput();
   }, [recipientInput]);
+
+  const handleRecipientInputChange = useCallback(
+    (input: string) => {
+      setRecipientInput(input);
+      setSelectedRecipientAddress(null);
+      setValidatedRecipientAddress(null);
+      updateLifecycleStatus({
+        statusName: 'selectingAddress',
+        statusData: {
+          isMissingRequiredField: true,
+        },
+      });
+    },
+    [updateLifecycleStatus],
+  );
 
   const handleAddressSelection = useCallback(
     (address: Address) => {
@@ -190,9 +129,10 @@ export function SendProvider({ children }: SendProviderReact) {
     (token: PortfolioTokenWithFiatValue) => {
       setSelectedToken(token);
       updateLifecycleStatus({
-        statusName: 'tokenSelected',
+        statusName: 'amountChange',
         statusData: {
           isMissingRequiredField: true,
+          sufficientBalance: false,
         },
       });
     },
@@ -205,18 +145,18 @@ export function SendProvider({ children }: SendProviderReact) {
     setCryptoAmount(null);
     setExchangeRate(0);
     updateLifecycleStatus({
-      statusName: 'selectingAddress',
+      statusName: 'selectingToken',
       statusData: {
         isMissingRequiredField: true,
       },
     });
   }, [updateLifecycleStatus]);
 
+  // fetch & set exchange rate
   useEffect(() => {
     if (!selectedToken) {
       return;
     }
-
     useExchangeRate({
       token: selectedToken,
       selectedInputType,
@@ -225,33 +165,106 @@ export function SendProvider({ children }: SendProviderReact) {
     });
   }, [selectedToken, selectedInputType]);
 
-  const value = useValue({
+  const handleFiatAmountChange = useCallback(
+    (value: string) => {
+      setFiatAmount(value);
+      updateLifecycleStatus({
+        statusName: 'amountChange',
+        statusData: {
+          isMissingRequiredField: true,
+          sufficientBalance:
+            Number(value) <= Number(selectedToken?.fiatBalance) ?? 0,
+        },
+      });
+    },
+    [updateLifecycleStatus, selectedToken],
+  );
+
+  const handleCryptoAmountChange = useCallback(
+    (value: string) => {
+      setCryptoAmount(value);
+      updateLifecycleStatus({
+        statusName: 'amountChange',
+        statusData: {
+          isMissingRequiredField: true,
+          sufficientBalance:
+            Number(value) <=
+              Number(selectedToken?.cryptoBalance) /
+                10 ** Number(selectedToken?.decimals) ?? 0,
+        },
+      });
+    },
+    [updateLifecycleStatus, selectedToken],
+  );
+
+  const handleTransactionError = useCallback(
+    (error: string) => {
+      updateLifecycleStatus({
+        statusName: 'error',
+        statusData: {
+          error: 'Error building send transaction',
+          code: 'SmWBc01', // Send module SendButton component 01 error
+          message: error,
+        },
+      });
+      setSendTransactionError(error);
+    },
+    [updateLifecycleStatus],
+  );
+
+  const fetchTransactionData = useCallback(() => {
+    if (!selectedRecipientAddress || !selectedToken || !cryptoAmount) {
+      return;
+    }
+
+    try {
+      setCallData([]);
+      setSendTransactionError(null);
+      const { calls } = useTransferTransaction({
+        recipientAddress: selectedRecipientAddress,
+        token: selectedToken,
+        amount: cryptoAmount,
+      });
+      setCallData(calls);
+    } catch (error) {
+      handleTransactionError(error as string);
+    }
+  }, [
+    selectedRecipientAddress,
+    selectedToken,
+    cryptoAmount,
+    handleTransactionError,
+  ]);
+
+  useEffect(() => {
+    fetchTransactionData();
+  }, [fetchTransactionData]);
+
+  const value = useValue<SendContextType>({
     lifecycleStatus,
+    updateLifecycleStatus,
     senderAddress,
     senderChain,
     tokenBalances,
     ethBalance,
     recipientInput,
-    setRecipientInput,
     validatedRecipientAddress,
-    setValidatedRecipientAddress,
     selectedRecipientAddress,
-    setSelectedRecipientAddress,
     handleAddressSelection,
     selectedToken,
-    setSelectedToken,
+    handleRecipientInputChange,
     handleTokenSelection,
     handleResetTokenSelection,
     fiatAmount,
-    setFiatAmount,
+    handleFiatAmountChange,
     cryptoAmount,
-    setCryptoAmount,
+    handleCryptoAmountChange,
     exchangeRate,
-    setExchangeRate,
     exchangeRateLoading,
-    setExchangeRateLoading,
     selectedInputType,
     setSelectedInputType,
+    callData,
+    sendTransactionError,
   });
 
   return <SendContext.Provider value={value}>{children}</SendContext.Provider>;

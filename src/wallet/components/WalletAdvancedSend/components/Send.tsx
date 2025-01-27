@@ -4,7 +4,7 @@ import { useMemo, type ReactNode } from 'react';
 import { SendHeader } from './SendHeader';
 import { SendProvider, useSendContext } from './SendProvider';
 import { AddressInput } from '@/wallet/components/WalletAdvancedSend/components/AddressInput';
-import { AddressSelector } from '@/wallet/components/WalletAdvancedSend/components/AddressSelector';
+import { SendAddressSelector } from '@/wallet/components/WalletAdvancedSend/components/SendAddressSelector';
 import { SendTokenSelector } from '@/wallet/components/WalletAdvancedSend/components/SendTokenSelector';
 import { SendAmountInput } from '@/wallet/components/WalletAdvancedSend/components/SendAmountInput';
 import { SendFundingWallet } from '@/wallet/components/WalletAdvancedSend/components/SendFundingWallet';
@@ -74,7 +74,7 @@ function SendDefaultChildren() {
         <>
           <AddressInput />
           {context.validatedRecipientAddress && (
-            <AddressSelector address={context.validatedRecipientAddress} />
+            <SendAddressSelector address={context.validatedRecipientAddress} />
           )}
         </>
       );

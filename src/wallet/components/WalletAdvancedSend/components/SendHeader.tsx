@@ -11,22 +11,22 @@ export function SendHeader({ label = 'Send' }: { label?: string }) {
 
   const {
     selectedRecipientAddress,
-    setSelectedRecipientAddress,
     selectedToken,
-    setSelectedToken,
+    handleResetTokenSelection,
+    handleRecipientInputChange,
   } = useSendContext();
 
   const handleBack = useCallback(() => {
     if (selectedToken) {
-      setSelectedToken(null);
+      handleResetTokenSelection();
     } else if (selectedRecipientAddress) {
-      setSelectedRecipientAddress(null);
+      handleRecipientInputChange(selectedRecipientAddress);
     }
   }, [
     selectedRecipientAddress,
     selectedToken,
-    setSelectedRecipientAddress,
-    setSelectedToken,
+    handleResetTokenSelection,
+    handleRecipientInputChange,
   ]);
 
   const handleClose = useCallback(() => {

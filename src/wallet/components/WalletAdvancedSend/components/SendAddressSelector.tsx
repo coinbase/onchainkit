@@ -4,11 +4,11 @@ import { background, border, cn, pressable } from '@/styles/theme';
 import { useCallback } from 'react';
 import type { Address as AddressType } from 'viem';
 
-type AddressSelectorProps = {
+type SendAddressSelectorProps = {
   address: AddressType;
 };
 
-export function AddressSelector({ address }: AddressSelectorProps) {
+export function SendAddressSelector({ address }: SendAddressSelectorProps) {
   const { senderChain, handleAddressSelection } = useSendContext();
 
   const handleClick = useCallback(() => {

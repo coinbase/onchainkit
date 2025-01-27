@@ -8,9 +8,8 @@ import {
   TransactionStatusAction,
   TransactionStatusLabel,
 } from '@/transaction';
-import type { Call } from '@/transaction/types';
 import { useSendContext } from '@/wallet/components/WalletAdvancedSend/components/SendProvider';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 type SendButtonProps = {
   label?: string;
@@ -30,10 +29,9 @@ export function SendButton({
 }: SendButtonProps) {
   const isSponsored = false;
   const chainId = 8453;
-  const [callData, setCallData] = useState<Call[]>([]);
-  const [sendError, setSendError] = useState<string | null>(null);
 
-  const { cryptoAmount, selectedToken } = useSendContext();
+  const { cryptoAmount, selectedToken, callData, sendTransactionError } =
+    useSendContext();
 
   const handleOnStatus = () => {};
 
@@ -81,15 +79,15 @@ export function SendButton({
           errorOverride={errorOverride}
           disabled={isDisabled}
         />
-        {!sendError && <TransactionSponsor />}
+        {!sendTransactionError && <TransactionSponsor />}
         <TransactionStatus>
           <TransactionStatusLabel />
           <TransactionStatusAction />
         </TransactionStatus>
       </Transaction>
-      {sendError && (
+      {sendTransactionError && (
         <div className={cn(text.label2, color.foregroundMuted, 'pb-2')}>
-          {sendError}
+          {sendTransactionError}
         </div>
       )}
     </>

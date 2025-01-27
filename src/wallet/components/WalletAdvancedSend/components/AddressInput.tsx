@@ -11,34 +11,30 @@ type AddressInputProps = {
 export function AddressInput({ className }: AddressInputProps) {
   const {
     selectedRecipientAddress,
-    setSelectedRecipientAddress,
-    setValidatedRecipientAddress,
     recipientInput,
-    setRecipientInput,
+    handleRecipientInputChange,
   } = useSendContext();
 
   const inputValue = selectedRecipientAddress
     ? getSlicedAddress(selectedRecipientAddress)
     : recipientInput;
 
-  const handleFocus = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
-    if (selectedRecipientAddress) {
-      setRecipientInput(selectedRecipientAddress);
-      setTimeout(() => {
-        // TODO: This is a hack to get the cursor to the end of the input, how to remove timeout?
-        e.target.setSelectionRange(selectedRecipientAddress.length, selectedRecipientAddress.length);
-        e.target.scrollLeft = e.target.scrollWidth;
-
-      }, 0);
-      setSelectedRecipientAddress(null);
-      setValidatedRecipientAddress(null);
-    }
-  }, [
-    selectedRecipientAddress,
-    setSelectedRecipientAddress,
-    setValidatedRecipientAddress,
-    setRecipientInput,
-  ]);
+  const handleFocus = useCallback(
+    (e: React.FocusEvent<HTMLInputElement>) => {
+      if (selectedRecipientAddress) {
+        handleRecipientInputChange(selectedRecipientAddress);
+        setTimeout(() => {
+          // TODO: This is a hack to get the cursor to the end of the input, how to remove timeout?
+          e.target.setSelectionRange(
+            selectedRecipientAddress.length,
+            selectedRecipientAddress.length,
+          );
+          e.target.scrollLeft = e.target.scrollWidth;
+        }, 0);
+      }
+    },
+    [selectedRecipientAddress, handleRecipientInputChange],
+  );
 
   return (
     <div
@@ -56,7 +52,7 @@ export function AddressInput({ className }: AddressInputProps) {
         inputMode="text"
         placeholder="Basename, ENS, or Address"
         value={inputValue ?? ''}
-        onChange={setRecipientInput}
+        onChange={handleRecipientInputChange}
         onFocus={handleFocus}
         aria-label="Input Receiver Address"
         className={cn(background.default, 'w-full outline-none')}
