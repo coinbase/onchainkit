@@ -28,6 +28,8 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     apy: '',
     // TODO: update when we have logic to fetch interest
     interest: '',
+    withdrawCalls: [],
+    depositCalls: [],
   });
 
   return <EarnContext.Provider value={value}>{children}</EarnContext.Provider>;

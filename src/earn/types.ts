@@ -1,4 +1,5 @@
 import type { Token } from '@/token';
+import type { Call } from '@/transaction/types';
 import type { Address } from 'viem';
 
 export type EarnReact = {
@@ -22,6 +23,8 @@ export type EarnContextType = {
   setDepositAmount: (amount: string) => void;
   setWithdrawAmount: (amount: string) => void;
   withdrawAmount: string;
+  withdrawCalls: Call[];
+  depositCalls: Call[];
 };
 
 export type EarnAmountInputReact = {
@@ -82,5 +85,13 @@ export type DepositDetailsReact = {
 };
 
 export type WithdrawDetailsReact = {
+  className?: string;
+};
+
+export type DepositButtonReact = {
+  className?: string;
+};
+
+export type WithdrawButtonReact = {
   className?: string;
 };
