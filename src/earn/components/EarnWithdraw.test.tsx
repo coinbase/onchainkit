@@ -41,7 +41,9 @@ vi.mock('@/transaction', () => ({
     </div>
   ),
   TransactionButton: ({ text }: { text: string }) => (
-    <button data-testid="transaction-button">{text}</button>
+    <button data-testid="transaction-button" type="button">
+      {text}
+    </button>
   ),
 }));
 
