@@ -1,4 +1,6 @@
 import { MORPHO_ADDRESS } from '@/earn/constants';
+import { fetchMorphoApy } from '@/earn/utils/fetchMorphoApy';
+import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { renderHook } from '@testing-library/react';
 import {
   type Mock,
@@ -16,8 +18,6 @@ import {
   useReadContracts,
 } from 'wagmi';
 import { useMorphoVault } from './useMorphoVault';
-import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
-import { fetchMorphoApy } from '@/earn/utils/fetchMorphoApy';
 
 const DUMMY_ADDRESS = '0x9E95f497a7663B70404496dB6481c890C4825fe1' as const;
 
