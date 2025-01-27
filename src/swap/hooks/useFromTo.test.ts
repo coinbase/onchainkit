@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { useValue } from '../../core-react/internal/hooks/useValue';
+import { useValue } from '@/internal/hooks/useValue';
 import { USDC_TOKEN } from '../mocks';
 import { useFromTo } from './useFromTo';
 import { useSwapBalances } from './useSwapBalances';
@@ -10,7 +10,7 @@ vi.mock('./useSwapBalances', () => ({
   useSwapBalances: vi.fn(),
 }));
 
-vi.mock('../../core-react/internal/hooks/useValue', () => ({
+vi.mock('@/internal/hooks/useValue', () => ({
   useValue: vi.fn(),
 }));
 

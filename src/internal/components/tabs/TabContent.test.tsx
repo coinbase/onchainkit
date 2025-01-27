@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { TabContent } from './TabContent';
 import { Tabs } from './Tabs';
 
-vi.mock('@/core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

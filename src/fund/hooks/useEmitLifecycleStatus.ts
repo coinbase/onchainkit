@@ -1,4 +1,4 @@
-import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStatus';
+import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useEffect, useMemo } from 'react';
 import type { LifecycleEvents, LifecycleStatus } from '../types';
 

@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
+import { useIcon } from '@/internal/hooks/useIcon';
 import { render, screen } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { useIcon } from '../../core-react/internal/hooks/useIcon';
 import { FundCardPaymentMethodImage } from './FundCardPaymentMethodImage';
 
-vi.mock('../../core-react/internal/hooks/useIcon', () => ({
+vi.mock('@/internal/hooks/useIcon', () => ({
   useIcon: vi.fn(),
 }));
 

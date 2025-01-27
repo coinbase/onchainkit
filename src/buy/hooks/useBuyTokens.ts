@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Address } from 'viem';
-import { useValue } from '../../core-react/internal/hooks/useValue';
+import { useValue } from '../../internal/hooks/useValue';
 import { useSwapBalances } from '../../swap/hooks/useSwapBalances';
 import type { Token } from '../../token';
 import { ethToken, usdcToken } from '../../token/constants';

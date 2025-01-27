@@ -31,7 +31,7 @@ import { mock } from 'wagmi/connectors';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import type { GetSwapQuoteResponse } from '../../api/types';
-import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
+import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import type { LifecycleStatus, SwapError, SwapUnit } from '../../swap/types';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import {
@@ -92,7 +92,7 @@ vi.mock('../../swap/hooks/useAwaitCalls', () => ({
   useAwaitCalls: () => useCallback(mockAwaitCalls, []),
 }));
 
-vi.mock('../../core-react/internal/hooks/useCapabilitiesSafe', () => ({
+vi.mock('@/internal/hooks/useCapabilitiesSafe', () => ({
   useCapabilitiesSafe: vi.fn(),
 }));
 

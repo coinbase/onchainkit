@@ -1,9 +1,9 @@
-import { useCallback, useState } from 'react';
 import type {
   AbstractLifecycleStatus,
   LifecycleStatusUpdate,
   UseLifecycleStatusReturn,
-} from '../../../internal/types';
+} from '@/internal/types';
+import { useCallback, useState } from 'react';
 
 export function useLifecycleStatus<T extends AbstractLifecycleStatus>(
   initialState: T,

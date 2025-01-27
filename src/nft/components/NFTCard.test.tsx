@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { useIsMounted } from '@/core-react/internal/hooks/useIsMounted';
+import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { NFTProvider } from '@/nft/components/NFTProvider';
 import { render } from '@testing-library/react';
 import {
@@ -17,10 +17,10 @@ import { NFTCard } from './NFTCard';
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
-vi.mock('@/core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
 }));
-vi.mock('@/core-react/internal/hooks/useIsMounted');
+vi.mock('@/internal/hooks/useIsMounted');
 vi.mock('@/nft/components/NFTProvider', () => ({
   NFTProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));

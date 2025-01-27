@@ -11,11 +11,11 @@ import type { SwapDefaultReact } from '../types';
 import { SwapDefault } from './SwapDefault';
 import { useSwapContext } from './SwapProvider';
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
+vi.mock('@/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 
@@ -42,7 +42,7 @@ vi.mock('./SwapProvider', () => ({
   useSwapContext: vi.fn(),
 }));
 
-vi.mock('../../useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

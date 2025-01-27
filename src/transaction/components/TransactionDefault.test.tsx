@@ -9,11 +9,11 @@ import type {
 import { TransactionDefault } from './TransactionDefault';
 import { useTransactionContext } from './TransactionProvider';
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../useBreakpoints', () => ({
+vi.mock('@/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 
@@ -44,7 +44,7 @@ vi.mock('./TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
 }));
 
-vi.mock('../../useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

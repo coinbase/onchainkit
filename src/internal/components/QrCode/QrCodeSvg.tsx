@@ -1,5 +1,5 @@
 import { useId, useMemo } from 'react';
-import { useTheme } from '../../../core-react/internal/hooks/useTheme';
+import { useTheme } from '../../hooks/useTheme';
 import {
   GRADIENT_END_COORDINATES,
   GRADIENT_START_COORDINATES,

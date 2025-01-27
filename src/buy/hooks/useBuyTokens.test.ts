@@ -1,9 +1,9 @@
+import { useValue } from '@/internal/hooks/useValue';
+import { useSwapBalances } from '@/swap/hooks/useSwapBalances';
+import type { Token } from '@/token';
 import { act, renderHook } from '@testing-library/react';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useValue } from '../../core-react/internal/hooks/useValue';
-import { useSwapBalances } from '../../swap/hooks/useSwapBalances';
-import type { Token } from '../../token';
 import {
   daiToken,
   degenToken,
@@ -15,7 +15,7 @@ import { useBuyTokens } from './useBuyTokens';
 
 vi.mock('./useBuyToken');
 vi.mock('../../swap/hooks/useSwapBalances');
-vi.mock('../../core-react/internal/hooks/useValue');
+vi.mock('@/internal/hooks/useValue');
 
 const toToken: Token = {
   name: 'DEGEN',

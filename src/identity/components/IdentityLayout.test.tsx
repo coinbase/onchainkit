@@ -28,7 +28,7 @@ vi.mock('@/identity/components/Socials', () => ({
   Socials: vi.fn(() => <div>Socials</div>),
 }));
 
-vi.mock('@/core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

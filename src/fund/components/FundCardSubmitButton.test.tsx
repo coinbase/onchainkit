@@ -17,7 +17,7 @@ import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
 import { FundCardSubmitButton } from './FundCardSubmitButton';
 
-vi.mock('@/core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: () => 'mocked-theme-class',
 }));
 

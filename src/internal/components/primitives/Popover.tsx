@@ -1,4 +1,4 @@
-import { useTheme } from '@/core-react/internal/hooks/useTheme';
+import { useTheme } from '@/internal/hooks/useTheme';
 import { cn } from '@/styles/theme';
 import type React from 'react';
 import { useCallback, useEffect, useRef } from 'react';

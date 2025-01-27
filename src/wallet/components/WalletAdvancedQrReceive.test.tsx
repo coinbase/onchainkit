@@ -1,11 +1,11 @@
-import { useTheme } from '@/core-react/internal/hooks/useTheme';
+import { useTheme } from '@/internal/hooks/useTheme';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
 import { useWalletContext } from './WalletProvider';
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

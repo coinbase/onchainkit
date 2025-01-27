@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { useValue } from '../../core-react/internal/hooks/useValue';
+import { useValue } from '../../internal/hooks/useValue';
 import { useEmitLifecycleStatus } from '../hooks/useEmitLifecycleStatus';
 import { usePaymentMethods } from '../hooks/usePaymentMethods';
 import type {
