@@ -22,6 +22,10 @@ export const FundCardAmountInput = ({
     setFundAmountCrypto,
   } = useFundContext();
 
+  if (!selectedInputType) {
+    return null;
+  }
+
   const currencyOrAsset = selectedInputType === 'fiat' ? currency : asset;
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -42,7 +46,7 @@ export const FundCardAmountInput = ({
   const { handleChange } = useAmountInput({
     setFiatAmount: setFundAmountFiat,
     setCryptoAmount: setFundAmountCrypto,
-    selectedInputType: selectedInputType as 'fiat' | 'crypto',
+    selectedInputType: selectedInputType,
     exchangeRate: String(exchangeRate),
   });
 
