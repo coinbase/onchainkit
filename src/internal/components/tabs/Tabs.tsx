@@ -40,7 +40,10 @@ export function Tabs({ children, defaultValue, className }: TabsReact) {
   const componentTheme = useTheme();
   return (
     <TabsProvider defaultValue={defaultValue}>
-      <div className={cn(componentTheme, 'flex flex-col', className)}>
+      <div
+        data-testid="ockTabs"
+        className={cn(componentTheme, 'flex flex-col', className)}
+      >
         {children}
       </div>
     </TabsProvider>
