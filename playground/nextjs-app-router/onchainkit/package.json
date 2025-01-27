@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.36.7",
+  "version": "0.36.8",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -152,22 +152,22 @@
       "default": "./esm/identity/index.js"
     },
     "./nft": {
-      "types": "./esm/ui/react/nft/index.d.ts",
-      "module": "./esm/ui/react/nft/index.js",
-      "import": "./esm/ui/react/nft/index.js",
-      "default": "./esm/ui/react/nft/index.js"
+      "types": "./esm/nft/index.d.ts",
+      "module": "./esm/nft/index.js",
+      "import": "./esm/nft/index.js",
+      "default": "./esm/nft/index.js"
     },
     "./nft/view": {
-      "types": "./esm/ui/react/nft/view/index.d.ts",
-      "module": "./esm/ui/react/nft/view/index.js",
-      "import": "./esm/ui/react/nft/view/index.js",
-      "default": "./esm/ui/react/nft/view/index.js"
+      "types": "./esm/nft/components/view/index.d.ts",
+      "module": "./esm/nft/components/view/index.js",
+      "import": "./esm/nft/components/view/index.js",
+      "default": "./esm/nft/components/view/index.js"
     },
     "./nft/mint": {
-      "types": "./esm/ui/react/nft/mint/index.d.ts",
-      "module": "./esm/ui/react/nft/mint/index.js",
-      "import": "./esm/ui/react/nft/mint/index.js",
-      "default": "./esm/ui/react/nft/mint/index.js"
+      "types": "./esm/nft/components/mint/index.d.ts",
+      "module": "./esm/nft/components/mint/index.js",
+      "import": "./esm/nft/components/mint/index.js",
+      "default": "./esm/nft/components/mint/index.js"
     },
     "./swap": {
       "types": "./esm/swap/index.d.ts",
