@@ -26,4 +26,6 @@ export type {
   GetTokensResponse,
   GetPortfoliosParams,
   GetPortfoliosResponse,
+  TokenDetails,
+  MintDetails,
 } from './types';

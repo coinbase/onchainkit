@@ -1,5 +1,3 @@
-// 🌲☀🌲
-import type { TransactionError } from '@/api/types';
 import type { ReactNode } from 'react';
 import type {
   Address,
@@ -10,6 +8,8 @@ import type {
 import type { WalletCapabilities as ViemWalletCapabilities } from 'viem';
 import type { Config } from 'wagmi';
 import type { SendTransactionMutateAsync } from 'wagmi/query';
+// 🌲☀🌲
+import type { TransactionError } from '../api/types';
 
 export type Call = { to: Hex; data?: Hex; value?: bigint };
 
