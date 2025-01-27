@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react';
 import { usdcToken } from '@/token/constants';
+import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
-import { type Mock, describe, it, expect, vi } from 'vitest';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useEarnContext } from './EarnProvider';
 import { WithdrawDetails } from './WithdrawDetails';
 

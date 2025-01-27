@@ -1,4 +1,4 @@
-import { Tabs, TabsList, Tab, TabContent } from '@/internal';
+import { Tab, TabContent, Tabs, TabsList } from '@/internal';
 import { border, cn } from '@/styles/theme';
 import type { EarnReact } from '../types';
 import { EarnDeposit } from './EarnDeposit';

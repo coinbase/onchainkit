@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { useEarnContext } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
 

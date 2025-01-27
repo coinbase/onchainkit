@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
-import { type Mock, beforeEach, describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { Earn } from './Earn';
 

@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
 import { usdcToken } from '@/token/constants';
-import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import { EarnDetails } from './EarnDetails';
 
 vi.mock('../../core-react/internal/hooks/useTheme', () => ({

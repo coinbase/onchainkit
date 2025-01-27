@@ -1,5 +1,5 @@
-import { TokenChip } from '@/token';
 import { background, border, cn, color, text } from '@/styles/theme';
+import { TokenChip } from '@/token';
 import type { EarnDetailsReact } from '../types';
 
 export function EarnDetails({
