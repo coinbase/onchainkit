@@ -1,8 +1,10 @@
 'use client';
 
+import { useAnalytics } from '@/internal/hooks/useAnalytics';
 import { addSvgForeground } from '@/internal/svg/addForegroundSvg';
 import { arrowUpRightSvg } from '@/internal/svg/arrowUpRightSvg';
 import { toggleSvg } from '@/internal/svg/toggleSvg';
+import { AnalyticsEvent, WalletOption } from '@/internal/types';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
@@ -20,11 +22,15 @@ export function WalletAdvancedTransactionActions() {
   const { projectId } = useOnchainKit();
   const { isFetchingPortfolioData, setShowSwap, animations } =
     useWalletAdvancedContext();
+  const { sendAnalytics } = useAnalytics();
 
   const handleBuy = useCallback(() => {
     if (!projectId || !address || !chain?.name) {
       return;
     }
+    sendAnalytics(AnalyticsEvent.WALLET_OPTION_SELECTED, {
+      option: WalletOption.BUY,
+    });
 
     const url = new URL('https://pay.coinbase.com/buy/select-asset');
     const params = new URLSearchParams({
@@ -48,12 +54,18 @@ export function WalletAdvancedTransactionActions() {
   }, [address, chain?.name, projectId]);
 
   const handleSend = useCallback(() => {
+    sendAnalytics(AnalyticsEvent.WALLET_OPTION_SELECTED, {
+      option: WalletOption.SEND,
+    });
     window.open('https://wallet.coinbase.com', '_blank');
-  }, []);
+  }, [sendAnalytics]);
 
   const handleSwap = useCallback(() => {
+    sendAnalytics(AnalyticsEvent.WALLET_OPTION_SELECTED, {
+      option: WalletOption.SWAP,
+    });
     setShowSwap(true);
-  }, [setShowSwap]);
+  }, [sendAnalytics, setShowSwap]);
 
   if (isFetchingPortfolioData) {
     return (

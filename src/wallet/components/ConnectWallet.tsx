@@ -1,5 +1,7 @@
 'use client';
 
+import { useAnalytics } from '@/internal/hooks/useAnalytics';
+import { AnalyticsEvent } from '@/internal/types';
 import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
@@ -40,6 +42,7 @@ export function ConnectWallet({
   } = useWalletContext();
   const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
+  const { sendAnalytics } = useAnalytics();
 
   // State
   const [hasClickedConnect, setHasClickedConnect] = useState(false);
@@ -90,11 +93,16 @@ export function ConnectWallet({
 
   // Effects
   useEffect(() => {
-    if (hasClickedConnect && status === 'connected' && onConnect) {
-      onConnect();
+    if (hasClickedConnect && status === 'connected') {
+      if (onConnect) {
+        onConnect();
+      }
+      sendAnalytics(AnalyticsEvent.WALLET_CONNECTED, {
+        address: accountAddress,
+      });
       setHasClickedConnect(false);
     }
-  }, [status, hasClickedConnect, onConnect]);
+  }, [status, hasClickedConnect, onConnect, accountAddress]);
 
   if (status === 'disconnected') {
     if (config?.wallet?.display === 'modal') {
