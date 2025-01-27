@@ -8,7 +8,7 @@ type AddressInputProps = {
   className?: string;
 };
 
-export function AddressInput({ className }: AddressInputProps) {
+export function SendAddressInput({ className }: AddressInputProps) {
   const {
     selectedRecipientAddress,
     recipientInput,

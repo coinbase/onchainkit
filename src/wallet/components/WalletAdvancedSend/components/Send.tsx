@@ -3,7 +3,7 @@ import { background, border, cn, color } from '@/styles/theme';
 import { useMemo, type ReactNode } from 'react';
 import { SendHeader } from './SendHeader';
 import { SendProvider, useSendContext } from './SendProvider';
-import { AddressInput } from '@/wallet/components/WalletAdvancedSend/components/AddressInput';
+import { SendAddressInput } from '@/wallet/components/WalletAdvancedSend/components/SendAddressInput';
 import { SendAddressSelector } from '@/wallet/components/WalletAdvancedSend/components/SendAddressSelector';
 import { SendTokenSelector } from '@/wallet/components/WalletAdvancedSend/components/SendTokenSelector';
 import { SendAmountInput } from '@/wallet/components/WalletAdvancedSend/components/SendAmountInput';
@@ -72,7 +72,7 @@ function SendDefaultChildren() {
     if (!context.selectedRecipientAddress) {
       return (
         <>
-          <AddressInput />
+          <SendAddressInput />
           {context.validatedRecipientAddress && (
             <SendAddressSelector address={context.validatedRecipientAddress} />
           )}
@@ -83,7 +83,7 @@ function SendDefaultChildren() {
     if (!context.selectedToken) {
       return (
         <>
-          <AddressInput />
+          <SendAddressInput />
           <SendTokenSelector />
         </>
       );
@@ -91,7 +91,7 @@ function SendDefaultChildren() {
 
     return (
       <div className="flex h-full flex-col justify-between">
-        <AddressInput />
+        <SendAddressInput />
         <SendAmountInput className="pb-2" />
         <SendTokenSelector />
         <SendButton />
