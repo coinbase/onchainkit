@@ -1,3 +1,5 @@
+import { useAnalytics } from '@/internal/hooks/useAnalytics';
+import { AnalyticsEvent } from '@/internal/types';
 import {
   createContext,
   useCallback,
@@ -82,6 +84,7 @@ export function SwapProvider({
   const { from, to } = useFromTo(address);
   const { sendTransactionAsync } = useSendTransaction(); // Sending the transaction (and approval, if applicable)
   const { sendCallsAsync } = useSendCalls(); // Atomic Batch transactions (and approval, if applicable)
+  const { sendAnalytics } = useAnalytics();
 
   // Refreshes balances and inputs post-swap
   const resetInputs = useResetInputs({ from, to });
@@ -336,6 +339,14 @@ export function SwapProvider({
         useAggregator,
         walletCapabilities,
       });
+      sendAnalytics(AnalyticsEvent.SWAP_SUCCESS, {
+        paymaster: paymaster || '',
+        transactionHash,
+        address,
+        amount: from.amount,
+        to: to.token.address,
+        from: from.token.address,
+      });
     } catch (err) {
       const errorMessage = isUserRejectedRequestError(err)
         ? 'Request denied.'
@@ -358,10 +369,12 @@ export function SwapProvider({
     isSponsored,
     lifecycleStatus,
     paymaster,
+    sendAnalytics,
     sendCallsAsync,
     sendTransactionAsync,
     switchChainAsync,
     to.token,
+    transactionHash,
     updateLifecycleStatus,
     useAggregator,
     walletCapabilities,
