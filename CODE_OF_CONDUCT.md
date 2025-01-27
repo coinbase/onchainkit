@@ -23,7 +23,7 @@ Unacceptable behavior from any community member will not be tolerated and includ
 - Personal attacks or intimidation.
 - Public or private harassment.
 - Publishing others' private information, such as a physical or email address, without explicit permission.
-- Other conduct that could reasonably be considered inappropriate in a professional setting.
+- Other conduct which could reasonably be considered inappropriate in a professional setting.
 
 ## 4. Reporting Issues
 
