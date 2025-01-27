@@ -12,11 +12,24 @@ type GenericStatus<T> = {
 
 export enum AnalyticsEvent {
   WALLET_CONNECTED = 'walletConnected',
+  WALLET_OPTION_SELECTED = 'walletOptionSelected',
+}
+
+export enum WalletOption {
+  BUY = 'buy',
+  SEND = 'send',
+  SWAP = 'swap',
+  RECEIVE = 'receive',
+  EXPLORER = 'explorer',
+  REFRESH = 'refresh',
 }
 
 export type AnalyticsEventData = {
   [AnalyticsEvent.WALLET_CONNECTED]: {
     address: string;
+  };
+  [AnalyticsEvent.WALLET_OPTION_SELECTED]: {
+    option: WalletOption;
   };
 };
 
