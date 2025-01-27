@@ -7,7 +7,7 @@ export function DepositButton({ className }: DepositButtonReact) {
 
   return (
     <Transaction className={className} calls={depositCalls}>
-      <TransactionButton text="Withdraw" />
+      <TransactionButton text="Deposit" />
     </Transaction>
   );
 }

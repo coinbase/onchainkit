@@ -118,6 +118,6 @@ describe('DepositButton Component', () => {
 
     const { container } = render(<DepositButton />);
 
-    expect(container).toHaveTextContent('Withdraw');
+    expect(container).toHaveTextContent('Deposit');
   });
 });
