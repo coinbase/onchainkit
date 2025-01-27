@@ -3,6 +3,7 @@
 import { Draggable } from '@/internal/components/Draggable/Draggable';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
+import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { findComponent } from '@/internal/utils/findComponent';
 import { cn } from '@/styles/theme';

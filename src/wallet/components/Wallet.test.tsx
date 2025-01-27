@@ -1,4 +1,5 @@
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
+import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ConnectWallet } from './ConnectWallet';
@@ -15,7 +16,7 @@ vi.mock('@/internal/hooks/useOutsideClick', () => ({
   useOutsideClick: vi.fn(),
 }));
 
-vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
+vi.mock('@/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 
