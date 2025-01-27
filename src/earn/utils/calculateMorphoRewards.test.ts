@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import calculateMorphoRewards from './calculateMorphoRewards';
 import type { MorphoVaultApiResponse } from '@/earn/utils/fetchMorphoApy';
+import { describe, expect, it } from 'vitest';
+import calculateMorphoRewards from './calculateMorphoRewards';
 
 const mockState: MorphoVaultApiResponse['data']['vaultByAddress']['state'] = {
   id: '1',

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fetchMorphoApy } from './fetchMorphoApy';
 import type { MorphoVaultApiResponse } from './fetchMorphoApy';
 
