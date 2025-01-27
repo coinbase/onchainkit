@@ -1,10 +1,9 @@
+import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
-import { type Mock, describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { DepositButton } from './DepositButton';
 import { useEarnContext } from './EarnProvider';
-import { Transaction, TransactionButton } from '@/transaction';
-import type { Call } from '@/transaction/types';
 
 vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),

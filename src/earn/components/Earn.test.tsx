@@ -1,3 +1,4 @@
+import type { Call } from '@/transaction/types';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import { render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -11,7 +12,11 @@ vi.mock('wagmi', () => ({
 }));
 
 vi.mock('@/transaction', () => ({
-  Transaction: ({ className, calls, children }: any) => (
+  Transaction: ({
+    className,
+    calls,
+    children,
+  }: { className: string; calls: Call[]; children: React.ReactNode }) => (
     <div
       data-testid="transaction"
       className={className}
@@ -21,7 +26,9 @@ vi.mock('@/transaction', () => ({
     </div>
   ),
   TransactionButton: ({ text }: { text: string }) => (
-    <button data-testid="transaction-button">{text}</button>
+    <button data-testid="transaction-button" type="button">
+      {text}
+    </button>
   ),
 }));
 
