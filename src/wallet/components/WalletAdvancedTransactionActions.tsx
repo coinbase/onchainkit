@@ -51,7 +51,7 @@ export function WalletAdvancedTransactionActions() {
       'popup',
       'width=400,height=600,scrollbars=yes',
     );
-  }, [address, chain?.name, projectId]);
+  }, [address, chain?.name, projectId, sendAnalytics]);
 
   const handleSend = useCallback(() => {
     sendAnalytics(AnalyticsEvent.WALLET_OPTION_SELECTED, {
