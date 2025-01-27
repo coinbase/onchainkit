@@ -11,8 +11,14 @@ type GenericStatus<T> = {
 };
 
 export enum AnalyticsEvent {
+  // Wallet
   WALLET_CONNECTED = 'walletConnected',
   WALLET_OPTION_SELECTED = 'walletOptionSelected',
+
+  // Swap
+  SLIPPAGE_CHANGED = 'slippageChanged',
+  TOKEN_SELECTED = 'tokenSelected',
+  SWAP_SUCCESS = 'swapSuccess',
 }
 
 export enum WalletOption {
@@ -25,11 +31,29 @@ export enum WalletOption {
 }
 
 export type AnalyticsEventData = {
+  // Wallet
   [AnalyticsEvent.WALLET_CONNECTED]: {
     address: string;
   };
   [AnalyticsEvent.WALLET_OPTION_SELECTED]: {
     option: WalletOption;
+  };
+
+  // Swap
+  [AnalyticsEvent.SLIPPAGE_CHANGED]: {
+    slippage: number;
+  };
+  [AnalyticsEvent.TOKEN_SELECTED]: {
+    token: string;
+    source: 'from' | 'to';
+  };
+  [AnalyticsEvent.SWAP_SUCCESS]: {
+    paymaster: string;
+    transactionHash: string;
+    address: string;
+    amount: string;
+    to: string;
+    from: string;
   };
 };
 
@@ -67,16 +91,16 @@ export type LifecycleStatusUpdate<T extends AbstractLifecycleStatus> =
     ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
         ? { statusData: D }
         : AllKeysInShared<D> extends true // is statusData is LifecycleStatusDataShared, make optional
-          ? {
-              statusData?: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            } // make all keys in LifecycleStatusDataShared optional
-          : {
-              statusData: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            })
+        ? {
+            statusData?: PartialKeys<
+              D,
+              keyof D & keyof LifecycleStatusDataShared
+            >;
+          } // make all keys in LifecycleStatusDataShared optional
+        : {
+            statusData: PartialKeys<
+              D,
+              keyof D & keyof LifecycleStatusDataShared
+            >;
+          })
     : never;
