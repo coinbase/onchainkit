@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { BottomSheet } from './BottomSheet';
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('../../internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

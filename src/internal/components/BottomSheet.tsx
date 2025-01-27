@@ -1,15 +1,15 @@
-import { useTheme } from '@/core-react/internal/hooks/useTheme';
-import { DismissableLayer } from '@/internal/primitives/DismissableLayer';
-import { FocusTrap } from '@/internal/primitives/FocusTrap';
-import { zIndex } from '@/styles/constants';
+
+import { DismissableLayer } from '@/internal/components/primitives/DismissableLayer';
+import { FocusTrap } from '@/internal/components/primitives/FocusTrap';
+import { useTheme } from '@/internal/hooks/useTheme';
 import { background, cn } from '@/styles/theme';
+import { createPortal } from 'react-dom';
 
 type BottomSheetProps = {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
   className?: string;
-  overlayClassName?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-describedby'?: string;
@@ -18,7 +18,6 @@ type BottomSheetProps = {
 export function BottomSheet({
   children,
   className,
-  overlayClassName,
   isOpen,
   onClose,
   'aria-label': ariaLabel,
@@ -27,15 +26,13 @@ export function BottomSheet({
 }: BottomSheetProps) {
   const componentTheme = useTheme();
 
-  return (
+  const bottomSheet = (
     <>
       {isOpen && (
         <div
           className={cn(
             'fixed inset-0',
             'bg-black bg-opacity-20',
-            zIndex.modal,
-            overlayClassName,
           )}
           data-testid="ockBottomSheetOverlay"
         />
@@ -51,7 +48,6 @@ export function BottomSheet({
             className={cn(
               componentTheme,
               background.default,
-              zIndex.bottomSheet,
               'fixed right-0 bottom-0 left-0',
               'transform rounded-t-3xl p-2 transition-transform',
               'fade-in slide-in-from-bottom-1/2 animate-in',
@@ -64,4 +60,6 @@ export function BottomSheet({
       </FocusTrap>
     </>
   );
+
+  return createPortal(bottomSheet, document.body);
 }
