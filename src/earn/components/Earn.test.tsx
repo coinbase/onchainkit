@@ -34,7 +34,7 @@ vi.mock('@/wallet/hooks/useGetTokenBalance', () => ({
   useGetTokenBalance: vi.fn(),
 }));
 
-vi.mock('@/core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

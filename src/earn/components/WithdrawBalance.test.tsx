@@ -16,6 +16,8 @@ const baseContext = {
   depositedAmount: '1000',
   withdrawAmount: '0',
   setWithdrawAmount: vi.fn(),
+  depositCalls: [],
+  withdrawCalls: [],
 };
 
 describe('WithdrawBalance', () => {

@@ -9,7 +9,7 @@ vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),
 }));
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
@@ -21,6 +21,8 @@ const baseContext = {
   depositedAmount: '0',
   withdrawAmount: '0',
   setWithdrawAmount: vi.fn(),
+  depositCalls: [],
+  withdrawCalls: [],
 };
 
 describe('WithdrawDetails Component', () => {

@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { EarnDetails } from './EarnDetails';
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 

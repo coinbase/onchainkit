@@ -4,7 +4,7 @@ import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { useEarnContext } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
@@ -21,6 +21,8 @@ const baseContext = {
   withdrawAmount: '0',
   setWithdrawAmount: vi.fn(),
   interest: '1.2k',
+  depositCalls: [],
+  withdrawCalls: [],
 };
 
 describe('EarnWithdraw Component', () => {
