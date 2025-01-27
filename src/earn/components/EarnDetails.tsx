@@ -13,6 +13,7 @@ export function EarnDetails({
   }
   return (
     <div
+      data-testid="ockEarnDetails"
       className={cn(
         border.radius,
         'flex w-full items-center justify-between gap-4',

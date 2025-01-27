@@ -12,7 +12,10 @@ export function EarnAmountInput({
   'aria-label': ariaLabel,
 }: EarnAmountInputReact) {
   return (
-    <div className={cn('flex flex-col', className)}>
+    <div
+      data-testid="ockEarnAmountInput"
+      className={cn('flex flex-col', className)}
+    >
       <TextInput
         className={cn(
           'w-full border-none bg-transparent font-display text-5xl',
