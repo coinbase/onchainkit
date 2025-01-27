@@ -1,6 +1,6 @@
 'use client';
-import { useIsMounted } from '@/core-react/internal/hooks/useIsMounted';
-import { useTheme } from '@/core-react/internal/hooks/useTheme';
+import { useIsMounted } from '@/internal/hooks/useIsMounted';
+import { useTheme } from '@/internal/hooks/useTheme';
 import { NFTLifecycleProvider } from '@/nft/components/NFTLifecycleProvider';
 import { NFTProvider } from '@/nft/components/NFTProvider';
 import { useMintData as defaultUseMintData } from '@/nft/hooks/useMintData';

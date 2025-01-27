@@ -14,9 +14,9 @@ import {
   useWaitForTransactionReceipt,
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
-import { useValue } from '../../core-react/internal/hooks/useValue';
 import { Capabilities } from '../../core/constants';
+import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
+import { useValue } from '../../internal/hooks/useValue';
 import { useOnchainKit } from '../../useOnchainKit';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';

@@ -1,4 +1,4 @@
-import { useValue } from '@/core-react/internal/hooks/useValue';
+import { useValue } from '@/internal/hooks/useValue';
 import { usePortfolio } from '@/wallet/hooks/usePortfolio';
 import { type ReactNode, createContext, useContext, useState } from 'react';
 import type { WalletAdvancedContextType } from '../types';

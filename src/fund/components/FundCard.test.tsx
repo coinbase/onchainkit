@@ -24,7 +24,7 @@ vi.mock('../hooks/useInputResize', () => ({
   useInputResize: () => mockUpdateInputWidth,
 }));
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: () => 'mocked-theme-class',
 }));
 

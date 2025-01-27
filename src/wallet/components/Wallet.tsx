@@ -1,11 +1,11 @@
 'use client';
 
-import { useIsMounted } from '@/core-react/internal/hooks/useIsMounted';
-import { useTheme } from '@/core-react/internal/hooks/useTheme';
 import { Draggable } from '@/internal/components/Draggable/Draggable';
+import { useIsMounted } from '@/internal/hooks/useIsMounted';
+import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
+import { useTheme } from '@/internal/hooks/useTheme';
 import { findComponent } from '@/internal/utils/findComponent';
 import { cn } from '@/styles/theme';
-import { useOutsideClick } from '@/ui-react/internal/hooks/useOutsideClick';
 import { Children, useMemo, useRef } from 'react';
 import type { WalletReact, WalletSubComponentReact } from '../types';
 import { getWalletDraggableProps } from '../utils/getWalletDraggableProps';

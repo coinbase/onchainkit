@@ -1,4 +1,4 @@
-import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStatus';
+import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import {
   createContext,
   useCallback,
@@ -11,8 +11,8 @@ import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
-import { useCapabilitiesSafe } from '../../core-react/internal/hooks/useCapabilitiesSafe';
-import { useValue } from '../../core-react/internal/hooks/useValue';
+import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
+import { useValue } from '../../internal/hooks/useValue';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
 import { useAwaitCalls } from '../../swap/hooks/useAwaitCalls';
 import type { LifecycleStatus, SwapUnit } from '../../swap/types';

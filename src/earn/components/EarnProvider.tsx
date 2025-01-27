@@ -1,4 +1,4 @@
-import { useValue } from '@/core-react/internal/hooks/useValue';
+import { useValue } from '@/internal/hooks/useValue';
 import { usdcToken } from '@/token/constants';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import { createContext, useContext, useState } from 'react';

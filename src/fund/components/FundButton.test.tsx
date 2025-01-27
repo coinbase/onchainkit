@@ -17,11 +17,11 @@ import { quoteResponseDataMock } from '../mocks';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundButton } from './FundButton';
 
-vi.mock('../hooks/useGetFundingUrl', () => ({
+vi.mock('@/fund/hooks/useGetFundingUrl', () => ({
   useGetFundingUrl: vi.fn(),
 }));
 
-vi.mock('../utils/getFundingPopupSize', () => ({
+vi.mock('@/fund/utils/getFundingPopupSize', () => ({
   getFundingPopupSize: vi.fn(),
 }));
 
@@ -29,11 +29,11 @@ vi.mock('@/internal/utils/openPopup', () => ({
   openPopup: vi.fn(),
 }));
 
-vi.mock('../../core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('../../wallet/components/ConnectWallet', () => ({
+vi.mock('@/wallet/components/ConnectWallet', () => ({
   ConnectWallet: ({ className }: { className?: string }) => (
     <div data-testid="ockConnectWallet_Container" className={className}>
       Connect Wallet

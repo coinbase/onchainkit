@@ -1,13 +1,13 @@
 import { applePaySvg } from '@/internal/svg/applePaySvg';
 import { isValidElement, useMemo } from 'react';
-import { appleSvg } from '../../../internal/svg/appleSvg';
-import { coinbaseLogoSvg } from '../../../internal/svg/coinbaseLogoSvg';
-import { coinbasePaySvg } from '../../../internal/svg/coinbasePaySvg';
-import { creditCardSvg } from '../../../internal/svg/creditCardSvg';
-import { fundWalletSvg } from '../../../internal/svg/fundWallet';
-import { swapSettingsSvg } from '../../../internal/svg/swapSettings';
-import { toggleSvg } from '../../../internal/svg/toggleSvg';
-import { walletSvg } from '../../../internal/svg/walletSvg';
+import { appleSvg } from '../svg/appleSvg';
+import { coinbaseLogoSvg } from '../svg/coinbaseLogoSvg';
+import { coinbasePaySvg } from '../svg/coinbasePaySvg';
+import { creditCardSvg } from '../svg/creditCardSvg';
+import { fundWalletSvg } from '../svg/fundWallet';
+import { swapSettingsSvg } from '../svg/swapSettings';
+import { toggleSvg } from '../svg/toggleSvg';
+import { walletSvg } from '../svg/walletSvg';
 
 export const useIcon = ({ icon }: { icon?: React.ReactNode }) => {
   return useMemo(() => {

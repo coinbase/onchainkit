@@ -1,7 +1,7 @@
 'use client';
 
 import { memo } from 'react';
-import { useTheme } from '../../core-react/internal/hooks/useTheme';
+import { useTheme } from '../../internal/hooks/useTheme';
 import { cn, color, pressable, text } from '../../styles/theme';
 import type { TokenRowReact } from '../types';
 import { formatAmount } from '../utils/formatAmount';

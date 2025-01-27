@@ -1,4 +1,4 @@
-import { useIcon } from '../../core-react/internal/hooks/useIcon';
+import { useIcon } from '../../internal/hooks/useIcon';
 import { cn } from '../../styles/theme';
 import type { FundCardPaymentMethodImagePropsReact } from '../types';
 

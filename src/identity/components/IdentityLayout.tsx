@@ -1,4 +1,4 @@
-import { useTheme } from '@/core-react/internal/hooks/useTheme';
+import { useTheme } from '@/internal/hooks/useTheme';
 import { findComponent } from '@/internal/utils/findComponent';
 import { background, cn, color } from '@/styles/theme';
 import { Children, cloneElement, useMemo } from 'react';

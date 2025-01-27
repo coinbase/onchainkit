@@ -4,7 +4,7 @@ import {
   forwardRef,
   useCallback,
 } from 'react';
-import { useDebounce } from '../../core-react/internal/hooks/useDebounce';
+import { useDebounce } from '../hooks/useDebounce';
 
 type TextInputReact = {
   'aria-label'?: string;

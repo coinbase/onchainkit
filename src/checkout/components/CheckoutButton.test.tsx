@@ -8,11 +8,11 @@ vi.mock('./CheckoutProvider', () => ({
   useCheckoutContext: vi.fn(),
 }));
 
-vi.mock('../../internal/components/Spinner', () => ({
+vi.mock('@/internal/components/Spinner', () => ({
   Spinner: () => <div data-testid="spinner">Loading...</div>,
 }));
 
-vi.mock('../../core-react/internal/hooks/useIcon', () => ({
+vi.mock('@/internal/hooks/useIcon', () => ({
   useIcon: vi.fn(() => <svg data-testid="icon" />),
 }));
 

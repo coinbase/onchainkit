@@ -1,4 +1,4 @@
-import { useLifecycleStatus } from '@/core-react/internal/hooks/useLifecycleStatus';
+import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { getWindowDimensions } from '@/internal/utils/getWindowDimensions';
 import { openPopup } from '@/internal/utils/openPopup';
 import {
@@ -16,7 +16,7 @@ import { useWaitForTransactionReceipt } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
-import { useValue } from '../../core-react/internal/hooks/useValue';
+import { useValue } from '../../internal/hooks/useValue';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';

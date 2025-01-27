@@ -1,5 +1,10 @@
 import '@testing-library/jest-dom';
 import {
+  IdentityProvider,
+  useIdentityContext,
+} from '@/identity/components/IdentityProvider';
+import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
+import {
   fireEvent,
   render,
   renderHook,
@@ -8,11 +13,6 @@ import {
 } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Identity } from '../../identity';
-import {
-  IdentityProvider,
-  useIdentityContext,
-} from '../../identity/components/IdentityProvider';
-import { useBreakpoints } from '../../ui/react/internal/hooks/useBreakpoints';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
 
@@ -23,7 +23,7 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
-vi.mock('../../ui/react/internal/hooks/useBreakpoints', () => ({
+vi.mock('@/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 

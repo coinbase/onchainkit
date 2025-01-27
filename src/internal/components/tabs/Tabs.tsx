@@ -1,5 +1,5 @@
-import { useTheme } from '@/core-react/internal/hooks/useTheme';
-import { useValue } from '@/core-react/internal/hooks/useValue';
+import { useTheme } from '@/internal/hooks/useTheme';
+import { useValue } from '@/internal/hooks/useValue';
 import { cn } from '@/styles/theme';
 import { createContext, useContext, useState } from 'react';
 

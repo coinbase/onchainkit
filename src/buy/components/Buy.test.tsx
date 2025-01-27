@@ -1,5 +1,5 @@
+import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { degenToken } from '@/token/constants';
-import { useOutsideClick } from '@/ui/react/internal/hooks/useOutsideClick';
 import { useOnchainKit } from '@/useOnchainKit';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -23,11 +23,11 @@ vi.mock('./BuyDropdown', () => ({
   BuyDropdown: () => <div data-testid="mock-BuyDropdown">BuyDropdown</div>,
 }));
 
-vi.mock('@/core-react/internal/hooks/useTheme', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('@/ui/react/internal/hooks/useOutsideClick', () => ({
+vi.mock('@/internal/hooks/useOutsideClick', () => ({
   useOutsideClick: vi.fn(),
 }));
 
