@@ -15,13 +15,13 @@ export type {
   NFTMintCardReact,
   NFTMintCardDefaultReact,
   UseNFTData,
-} from '@/nft/types';
-export type { NFTError } from '@/api/types';
+} from './types';
+export type { NFTError } from '../api/types';
 
 // Hooks
-export { useTokenDetails } from '@/nft/hooks/useTokenDetails';
-export { useMintDetails } from '@/nft/hooks/useMintDetails';
+export { useTokenDetails } from './hooks/useTokenDetails';
+export { useMintDetails } from './hooks/useMintDetails';
 export type {
   UseTokenDetailsParams,
   UseMintDetailsParams,
-} from '@/nft/types';
+} from './types';
