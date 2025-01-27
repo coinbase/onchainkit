@@ -15,7 +15,7 @@ export function FundCardPresetAmountInputList() {
   const { handleFiatChange } = useAmountInput({
     setFiatAmount: setFundAmountFiat,
     setCryptoAmount: setFundAmountCrypto,
-    selectedInputType: selectedInputType,
+    selectedInputType,
     exchangeRate: String(exchangeRate),
   });
 
