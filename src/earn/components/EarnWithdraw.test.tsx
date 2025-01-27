@@ -25,6 +25,21 @@ const baseContext = {
   withdrawCalls: [],
 };
 
+vi.mock('@/transaction', () => ({
+  Transaction: ({ className, calls, children }: any) => (
+    <div
+      data-testid="transaction"
+      className={className}
+      data-calls={JSON.stringify(calls)}
+    >
+      {children}
+    </div>
+  ),
+  TransactionButton: ({ text }: { text: string }) => (
+    <button data-testid="transaction-button">{text}</button>
+  ),
+}));
+
 describe('EarnWithdraw Component', () => {
   beforeEach(() => {
     vi.mocked(useEarnContext).mockReturnValue(baseContext);

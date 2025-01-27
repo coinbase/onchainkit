@@ -1,33 +1,28 @@
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import { render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useAccount } from 'wagmi';
+import { useAccount, useConfig } from 'wagmi';
 import { Earn } from './Earn';
 
-vi.mock('wagmi', async (importOriginal) => {
-  return {
-    ...(await importOriginal<typeof import('wagmi')>()),
-    useAccount: vi.fn(),
-  };
-});
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useConfig: vi.fn(),
+  useCapabilities: vi.fn(),
+}));
 
-vi.mock('@/internal', () => ({
-  Tabs: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="ockTabs">{children}</div>
+vi.mock('@/transaction', () => ({
+  Transaction: ({ className, calls, children }: any) => (
+    <div
+      data-testid="transaction"
+      className={className}
+      data-calls={JSON.stringify(calls)}
+    >
+      {children}
+    </div>
   ),
-  TabsList: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="tabs-list">{children}</div>
+  TransactionButton: ({ text }: { text: string }) => (
+    <button data-testid="transaction-button">{text}</button>
   ),
-  Tab: ({ value, children }: { value: string; children: React.ReactNode }) => (
-    <button data-testid={`tab-${value}`}>{children}</button>
-  ),
-  TabContent: ({
-    value,
-    children,
-  }: {
-    value: string;
-    children: React.ReactNode;
-  }) => <div data-testid={`tab-content-${value}`}>{children}</div>,
 }));
 
 vi.mock('@/wallet/hooks/useGetTokenBalance', () => ({
@@ -47,6 +42,7 @@ describe('Earn Component', () => {
       convertedBalance: '0.0',
       error: null,
     });
+    (useConfig as Mock).mockReturnValue({});
   });
 
   it('renders custom children when provided', () => {
