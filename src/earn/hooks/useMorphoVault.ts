@@ -50,6 +50,9 @@ export function useMorphoVault({
     abi: erc20Abi,
     address: data?.[0].result,
     functionName: 'decimals',
+    query: {
+      enabled: !!data?.[0].result,
+    },
   });
 
   const formattedBalance =
