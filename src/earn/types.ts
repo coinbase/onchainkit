@@ -76,3 +76,11 @@ export type EarnDetailsReact = {
   tag?: string;
   tagVariant?: 'default' | 'primary';
 };
+
+export type DepositDetailsReact = {
+  className?: string;
+};
+
+export type WithdrawDetailsReact = {
+  className?: string;
+};
