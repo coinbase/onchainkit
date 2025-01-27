@@ -102,7 +102,7 @@ export function ConnectWallet({
       });
       setHasClickedConnect(false);
     }
-  }, [status, hasClickedConnect, onConnect, accountAddress]);
+  }, [status, hasClickedConnect, onConnect, accountAddress, sendAnalytics]);
 
   if (status === 'disconnected') {
     if (config?.wallet?.display === 'modal') {
