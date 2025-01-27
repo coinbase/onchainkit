@@ -24,6 +24,10 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     setWithdrawAmount,
     // TODO: update when we have logic to fetch deposited amount
     depositedAmount: '',
+    // TODO: update when we have logic to fetch apy
+    apy: '',
+    // TODO: update when we have logic to fetch interest
+    interest: '',
   });
 
   return <EarnContext.Provider value={value}>{children}</EarnContext.Provider>;
