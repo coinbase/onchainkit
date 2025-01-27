@@ -1,6 +1,6 @@
-import { background, border, cn, color, text } from '@/styles/theme';
-import { EarnDetailsReact } from '../types';
 import { TokenChip } from '@/token';
+import { background, border, cn, color, text } from '@/styles/theme';
+import type { EarnDetailsReact } from '../types';
 
 export function EarnDetails({
   className,
@@ -15,7 +15,7 @@ export function EarnDetails({
     <div
       className={cn(
         border.radius,
-        'flex items-center gap-4 w-full justify-between',
+        'flex w-full items-center justify-between gap-4',
         className,
       )}
     >
@@ -30,7 +30,7 @@ export function EarnDetails({
             text.label1,
             tagVariant === 'default' ? color.foregroundMuted : color.primary,
             tagVariant === 'default' ? background.alternate : background.washed,
-            'p-1 px-3 rounded-full flex items-center justify-center',
+            'flex items-center justify-center rounded-full p-1 px-3',
           )}
         >
           {tag}

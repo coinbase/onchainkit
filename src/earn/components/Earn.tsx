@@ -1,16 +1,16 @@
-import { EarnProvider } from './EarnProvider';
-import type { EarnReact } from '../types';
-import { border, cn } from '@/styles/theme';
 import { Tabs, TabsList, Tab, TabContent } from '@/internal';
-import { EarnWithdraw } from './EarnWithdraw';
+import { border, cn } from '@/styles/theme';
+import type { EarnReact } from '../types';
 import { EarnDeposit } from './EarnDeposit';
+import { EarnProvider } from './EarnProvider';
+import { EarnWithdraw } from './EarnWithdraw';
 
 export function Earn({ children, className, vaultAddress }: EarnReact) {
   return (
     <EarnProvider vaultAddress={vaultAddress}>
       <div
         className={cn(
-          'flex flex-col overflow-hidden w-[375px]',
+          'flex w-[375px] flex-col overflow-hidden',
           border.radius,
           border.lineDefault,
           className,
