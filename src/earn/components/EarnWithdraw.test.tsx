@@ -1,3 +1,4 @@
+import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -26,7 +27,11 @@ const baseContext = {
 };
 
 vi.mock('@/transaction', () => ({
-  Transaction: ({ className, calls, children }: any) => (
+  Transaction: ({
+    className,
+    calls,
+    children,
+  }: { className: string; calls: Call[]; children: React.ReactNode }) => (
     <div
       data-testid="transaction"
       className={className}

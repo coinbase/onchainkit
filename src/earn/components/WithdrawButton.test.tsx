@@ -2,7 +2,7 @@ import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
 import { describe, expect, it, vi } from 'vitest';
-import { DepositButton } from './DepositButton';
+import { WithdrawButton } from './WithdrawButton';
 import { useEarnContext } from './EarnProvider';
 
 vi.mock('./EarnProvider', () => ({
@@ -96,7 +96,7 @@ vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-describe('DepositButton Component', () => {
+describe('WithdrawButton Component', () => {
   it('renders Transaction with depositCalls from EarnProvider', () => {
     const mockDepositCalls = [{ to: '0x123', data: '0x456' }] as Call[];
     vi.mocked(useEarnContext).mockReturnValue({
@@ -104,7 +104,7 @@ describe('DepositButton Component', () => {
       depositCalls: mockDepositCalls,
     });
 
-    render(<DepositButton />);
+    render(<WithdrawButton />);
 
     const transactionElement = screen.getByTestId('transaction');
     expect(transactionElement).toBeInTheDocument();
@@ -116,7 +116,7 @@ describe('DepositButton Component', () => {
       depositCalls: [],
     });
 
-    const { container } = render(<DepositButton />);
+    const { container } = render(<WithdrawButton />);
 
     expect(container).toHaveTextContent('Withdraw');
   });
