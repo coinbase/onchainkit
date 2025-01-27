@@ -1,8 +1,8 @@
 import { TextInput } from '@/internal/components/TextInput';
+import { useAmountInput } from '@/internal/hooks/useAmountInput';
 import { isValidAmount } from '@/internal/utils/isValidAmount';
 import { useCallback, useEffect, useRef } from 'react';
 import { cn, text } from '../../styles/theme';
-import { useAmountInput } from '../hooks/useAmountInput';
 import { useInputResize } from '../hooks/useInputResize';
 import type { FundCardAmountInputPropsReact } from '../types';
 import { FundCardCurrencyLabel } from './FundCardCurrencyLabel';
@@ -17,6 +17,9 @@ export const FundCardAmountInput = ({
     asset,
     selectedInputType,
     currency,
+    exchangeRate,
+    setFundAmountFiat,
+    setFundAmountCrypto,
   } = useFundContext();
 
   const currencyOrAsset = selectedInputType === 'fiat' ? currency : asset;
@@ -36,7 +39,12 @@ export const FundCardAmountInput = ({
     currencySpanRef,
   );
 
-  const { handleChange } = useAmountInput();
+  const { handleChange } = useAmountInput({
+    setFiatAmount: setFundAmountFiat,
+    setCryptoAmount: setFundAmountCrypto,
+    selectedInputType,
+    exchangeRate: String(exchangeRate),
+  });
 
   const handleAmountChange = useCallback(
     (value: string) => {
@@ -100,7 +108,7 @@ export const FundCardAmountInput = ({
         <FundCardCurrencyLabel ref={currencySpanRef} label={currencyOrAsset} />
       </div>
 
-      {/* Hidden span for measuring text width 
+      {/* Hidden span for measuring text width
           Without this span the input field would not adjust its width based on the text width and would look like this:
           [0.12--------Empty Space-------][ETH] - As you can see the currency symbol is far away from the inputed value
 
