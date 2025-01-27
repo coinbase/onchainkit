@@ -1,3 +1,4 @@
+import { usePortfolio } from '@/wallet/hooks/usePortfolio';
 import { render, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
@@ -6,7 +7,6 @@ import {
   useWalletAdvancedContext,
 } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
-import { usePortfolio } from '@/wallet/hooks/usePortfolio';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
