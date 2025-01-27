@@ -24,7 +24,7 @@ type FundCardContextType = {
   currency: string;
   selectedPaymentMethod?: PaymentMethod;
   setSelectedPaymentMethod: (paymentMethod: PaymentMethod) => void;
-  selectedInputType?: AmountInputType;
+  selectedInputType: AmountInputType;
   setSelectedInputType: (inputType: AmountInputType) => void;
   fundAmountFiat: string;
   setFundAmountFiat: (amount: string) => void;

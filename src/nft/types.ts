@@ -1,14 +1,14 @@
+import type { UseQueryOptions } from '@tanstack/react-query';
+import type { ReactNode } from 'react';
+import type { Address, Hex, TransactionReceipt } from 'viem';
 import type {
   ContractType,
   GetMintDetailsParams,
   GetTokenDetailsParams,
   NFTError,
   NFTPrice,
-} from '@/api/types';
-import type { LifecycleStatusUpdate } from '@/internal/types';
-import type { UseQueryOptions } from '@tanstack/react-query';
-import type { ReactNode } from 'react';
-import type { Address, Hex, TransactionReceipt } from 'viem';
+} from '../api/types';
+import type { LifecycleStatusUpdate } from '../internal/types';
 import type { Call } from '../transaction/types';
 
 export enum MediaType {
