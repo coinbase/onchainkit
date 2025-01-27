@@ -1,10 +1,5 @@
-<<<<<<<< HEAD:src/wallet/hooks/usePortfolioTokenBalances.ts
-import { getPortfolioTokenBalances } from '@/api/getPortfolioTokenBalances';
-import type { PortfolioTokenBalances } from '@/api/types';
-========
 import { getPortfolios } from '@/api/getPortfolios';
 import type { Portfolio } from '@/api/types';
->>>>>>>> main:src/wallet/hooks/usePortfolio.ts
 import { isApiError } from '@/internal/utils/isApiResponseError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { Address } from 'viem';
