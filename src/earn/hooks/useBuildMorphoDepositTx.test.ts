@@ -31,6 +31,9 @@ describe('useBuildMorphoDepositTx', () => {
       assetDecimals: undefined,
       vaultDecimals: undefined,
       name: undefined,
+      totalApy: undefined,
+      nativeApy: undefined,
+      rewards: undefined,
     });
 
     const { result } = renderHook(() => useBuildMorphoDepositTx(mockParams));
@@ -49,6 +52,9 @@ describe('useBuildMorphoDepositTx', () => {
       assetDecimals: mockDecimals,
       vaultDecimals: mockDecimals,
       name: 'Mock Name',
+      totalApy: 10,
+      nativeApy: 10,
+      rewards: [],
     });
 
     const { result } = renderHook(() => useBuildMorphoDepositTx(mockParams));

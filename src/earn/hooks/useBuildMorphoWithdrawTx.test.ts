@@ -31,6 +31,9 @@ describe('useBuildMorphoWithdrawTx', () => {
       assetDecimals: undefined,
       vaultDecimals: undefined,
       name: undefined,
+      totalApy: undefined,
+      nativeApy: undefined,
+      rewards: undefined,
     });
 
     const { result } = renderHook(() => useBuildMorphoWithdrawTx(mockParams));
@@ -46,6 +49,9 @@ describe('useBuildMorphoWithdrawTx', () => {
       assetDecimals: 18,
       vaultDecimals: 18,
       name: 'Mock Name',
+      totalApy: 10,
+      nativeApy: 10,
+      rewards: [],
     });
 
     const { result } = renderHook(() => useBuildMorphoWithdrawTx(mockParams));
@@ -61,6 +67,9 @@ describe('useBuildMorphoWithdrawTx', () => {
       assetDecimals: 18,
       vaultDecimals: 18,
       name: 'Mock Name',
+      totalApy: 10,
+      nativeApy: 10,
+      rewards: [],
     });
 
     const { result } = renderHook(() => useBuildMorphoWithdrawTx(mockParams));
