@@ -30,9 +30,9 @@ type FundCardContextType = {
   setFundAmountFiat: (amount: string) => void;
   fundAmountCrypto: string;
   setFundAmountCrypto: (amount: string) => void;
-  exchangeRate?: number;
+  exchangeRate: number;
   setExchangeRate: (exchangeRate: number) => void;
-  exchangeRateLoading?: boolean;
+  exchangeRateLoading: boolean;
   setExchangeRateLoading: (loading: boolean) => void;
   submitButtonState: FundButtonStateReact;
   setSubmitButtonState: (state: FundButtonStateReact) => void;
