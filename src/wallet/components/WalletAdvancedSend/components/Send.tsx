@@ -15,45 +15,30 @@ type SendReact = {
   className?: string;
 };
 
-export function Send({ children, className }: SendReact) {
-  const componentTheme = useTheme();
-
-  if (!children) {
-    return (
-      <SendProvider>
-        <SendContent className={cn(componentTheme, className)} />
-      </SendProvider>
-    );
-  }
-
-  return (
-    <SendProvider>
-      <SendContent className={cn(componentTheme, className)}>
-        {children}
-      </SendContent>
-    </SendProvider>
-  );
-}
-
-function SendContent({
+export function Send({
   children = <SendDefaultChildren />,
   className,
 }: SendReact) {
+  const componentTheme = useTheme();
+
   return (
-    <div
-      className={cn(
-        background.default,
-        border.radius,
-        border.lineDefault,
-        color.foreground,
-        'h-96 w-88',
-        'flex flex-col',
-        'p-4',
-        className,
-      )}
-    >
-      {children}
-    </div>
+    <SendProvider>
+      <div
+        className={cn(
+          componentTheme,
+          background.default,
+          border.radius,
+          border.lineDefault,
+          color.foreground,
+          'h-96 w-88',
+          'flex flex-col',
+          'p-4',
+          className,
+        )}
+      >
+        {children}
+      </div>
+    </SendProvider>
   );
 }
 
@@ -65,7 +50,7 @@ function SendDefaultChildren() {
   });
 
   const activeStep = useMemo(() => {
-    if (!context.ethBalance) {
+    if (!context.ethBalance || context.ethBalance < 0.0000001) {
       return <SendFundingWallet />;
     }
 
