@@ -47,17 +47,16 @@ describe('AmountInputTypeSwitch', () => {
   });
 
   it('applies custom className', () => {
-    render(<AmountInputTypeSwitch {...defaultProps} className="custom-class" />);
+    render(
+      <AmountInputTypeSwitch {...defaultProps} className="custom-class" />,
+    );
     const container = screen.getByTestId('ockAmountTypeSwitch').parentElement;
     expect(container).toHaveClass('custom-class');
   });
 
   it('truncates crypto amount to 8 decimal places', () => {
     render(
-      <AmountInputTypeSwitch
-        {...defaultProps}
-        cryptoAmount="0.123456789123"
-      />,
+      <AmountInputTypeSwitch {...defaultProps} cryptoAmount="0.123456789123" />,
     );
     expect(screen.getByTestId('ockAmountLine')).toHaveTextContent(
       '0.12345678 ETH',
@@ -66,11 +65,7 @@ describe('AmountInputTypeSwitch', () => {
 
   it('handles empty amounts', () => {
     render(
-      <AmountInputTypeSwitch
-        {...defaultProps}
-        fiatAmount=""
-        cryptoAmount=""
-      />,
+      <AmountInputTypeSwitch {...defaultProps} fiatAmount="" cryptoAmount="" />,
     );
     expect(screen.getByTestId('ockAmountLine')).toHaveTextContent('0 ETH');
   });

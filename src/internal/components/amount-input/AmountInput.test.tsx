@@ -57,7 +57,9 @@ describe('AmountInput', () => {
 
   it('applies custom className', () => {
     render(<AmountInput {...defaultProps} className="custom-class" />);
-    expect(screen.getByTestId('ockAmountInputContainer')).toHaveClass('custom-class');
+    expect(screen.getByTestId('ockAmountInputContainer')).toHaveClass(
+      'custom-class',
+    );
   });
 
   it('updates width based on currency label', async () => {

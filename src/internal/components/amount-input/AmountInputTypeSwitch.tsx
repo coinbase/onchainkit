@@ -1,9 +1,9 @@
-import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
-import { useCallback, useMemo } from 'react';
-import { Skeleton } from '@/internal/components/Skeleton';
-import { useIcon } from '@/internal/hooks/useIcon';
-import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
 import { cn, pressable, text } from '@/styles/theme';
+import { useCallback, useMemo } from 'react';
+import { useIcon } from '../../hooks/useIcon';
+import { formatFiatAmount } from '../../utils/formatFiatAmount';
+import { truncateDecimalPlaces } from '../../utils/truncateDecimalPlaces';
+import { Skeleton } from '../Skeleton';
 
 type AmountInputTypeSwitchPropsReact = {
   selectedInputType: 'fiat' | 'crypto';
