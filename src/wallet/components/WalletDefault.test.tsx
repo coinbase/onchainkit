@@ -10,10 +10,6 @@ vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('@/internal/hooks/useBreakpoints', () => ({
-  useBreakpoints: vi.fn(),
-}));
-
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
   useConnect: vi.fn(),

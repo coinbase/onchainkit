@@ -1,4 +1,3 @@
-import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -14,10 +13,6 @@ vi.mock('@/internal/hooks/useTheme', () => ({
 
 vi.mock('@/internal/hooks/useOutsideClick', () => ({
   useOutsideClick: vi.fn(),
-}));
-
-vi.mock('@/internal/hooks/useBreakpoints', () => ({
-  useBreakpoints: vi.fn(),
 }));
 
 vi.mock('./ConnectWallet', () => ({
@@ -215,8 +210,8 @@ describe('Wallet Component', () => {
       isSubComponentOpen: true,
       handleClose: mockHandleClose,
       containerRef: { current: document.createElement('div') },
+      breakpoint: 'sm',
     });
-    (useBreakpoints as ReturnType<typeof vi.fn>).mockReturnValue('sm');
 
     render(
       <Wallet draggable={true}>

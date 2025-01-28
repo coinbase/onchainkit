@@ -1,14 +1,9 @@
-import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import type { SwapDefaultReact } from '@/swap/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { WalletAdvancedContent } from './WalletAdvancedContent';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
-
-vi.mock('../../internal/hooks/useBreakpoints', () => ({
-  useBreakpoints: vi.fn(),
-}));
 
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
@@ -46,7 +41,6 @@ vi.mock('./WalletProvider', () => ({
 }));
 
 describe('WalletAdvancedContent', () => {
-  const mockUseBreakpoints = useBreakpoints as ReturnType<typeof vi.fn>;
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
   const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
@@ -66,7 +60,6 @@ describe('WalletAdvancedContent', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseBreakpoints.mockReturnValue('md');
     mockUseWalletAdvancedContext.mockReturnValue(
       defaultMockUseWalletAdvancedContext,
     );
@@ -207,11 +200,11 @@ describe('WalletAdvancedContent', () => {
   });
 
   it('closes WalletAdvancedContent when mobile tray is closed', () => {
-    mockUseBreakpoints.mockReturnValue('sm');
     const setIsSubComponentOpen = vi.fn();
     mockUseWalletContext.mockReturnValue({
       isSubComponentOpen: true,
       setIsSubComponentOpen,
+      breakpoint: 'sm',
     });
 
     render(
@@ -340,10 +333,10 @@ describe('WalletAdvancedContent', () => {
   });
 
   it('renders BottomSheet when breakpoint is sm', () => {
-    mockUseBreakpoints.mockReturnValue('sm');
     mockUseWalletContext.mockReturnValue({
       isSubComponentOpen: true,
       isSubComponentClosing: false,
+      breakpoint: 'sm',
     });
 
     render(
