@@ -3,17 +3,17 @@ import type { BuildSendTransactionResponse } from '@/api/types';
 import type { Token } from '@/token';
 import { type Address, parseUnits } from 'viem';
 
-type UseTransferTransactionParams = {
+type UseSendTransactionParams = {
   recipientAddress: Address;
   token: Token | null;
   amount: string;
 };
 
-export function useTransferTransaction({
+export function useSendTransaction({
   recipientAddress,
   token,
   amount,
-}: UseTransferTransactionParams): { calls: BuildSendTransactionResponse } {
+}: UseSendTransactionParams): { calls: BuildSendTransactionResponse } {
   if (!token) {
     return { calls: [] };
   }
