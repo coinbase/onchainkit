@@ -25,14 +25,16 @@ export function BottomSheet({
 }: BottomSheetProps) {
   const componentTheme = useTheme();
 
+  if (!isOpen) {
+    return null;
+  }
+
   const bottomSheet = (
     <>
-      {isOpen && (
-        <div
-          className={cn('fixed inset-0', 'bg-black bg-opacity-20')}
-          data-testid="ockBottomSheetOverlay"
-        />
-      )}
+      <div
+        className={cn('fixed inset-0', 'bg-black bg-opacity-20')}
+        data-testid="ockBottomSheetOverlay"
+      />
       <FocusTrap active={isOpen}>
         <DismissableLayer onDismiss={onClose} preventTriggerEvents={true}>
           <div

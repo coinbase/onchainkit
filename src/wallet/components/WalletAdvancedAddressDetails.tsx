@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar, Badge, Name } from '@/identity';
+import { Avatar, Name } from '@/identity';
 import { Spinner } from '@/internal/components/Spinner';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
@@ -8,7 +8,7 @@ import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
 export function WalletAdvancedAddressDetails() {
-  const { address, chain, isSubComponentClosing } = useWalletContext();
+  const { address, chain } = useWalletContext();
   const { animations } = useWalletAdvancedContext();
   const [copyText, setCopyText] = useState('Copy');
 
@@ -24,7 +24,7 @@ export function WalletAdvancedAddressDetails() {
     }
   }, [address]);
 
-  if (isSubComponentClosing || !chain) {
+  if (!address || !chain) {
     return <div className="mt-1 h-28 w-10" />; // Prevent layout shift
   }
 
@@ -38,9 +38,11 @@ export function WalletAdvancedAddressDetails() {
       )}
     >
       <div className="h-10 w-10">
-        <Avatar address={address} chain={chain} className="pointer-events-none">
-          <Badge />
-        </Avatar>
+        <Avatar
+          address={address}
+          chain={chain}
+          className="pointer-events-none"
+        />
       </div>
       <div className="group relative mt-2 text-base">
         <button
