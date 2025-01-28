@@ -30,7 +30,7 @@ export function buildSendTransaction({
       data: transferCallData,
     };
   } catch (error) {
-    const message = error instanceof Error ? error.message : `${String(error)}`;
+    const message = error instanceof Error ? error.message : `${error}`;
     return {
       code: 'AmBSeTa01', // Api Module Build Send Transaction Error 01
       error: message,
