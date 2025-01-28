@@ -10,13 +10,16 @@ async function getMintTransaction({
   quantity,
   takerAddress,
 }: BuildMintTransactionParams): Promise<Call[]> {
-  const mintTransactions = await buildMintTransactionApi({
-    mintAddress,
-    tokenId,
-    network,
-    quantity,
-    takerAddress,
-  });
+  const mintTransactions = await buildMintTransactionApi(
+    {
+      mintAddress,
+      tokenId,
+      network,
+      quantity,
+      takerAddress,
+    },
+    'nft',
+  );
 
   if ('error' in mintTransactions) {
     throw mintTransactions.message;

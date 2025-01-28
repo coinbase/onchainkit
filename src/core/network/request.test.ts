@@ -54,6 +54,78 @@ describe('request', () => {
       expect(response).toEqual(mockResponse);
     });
 
+    it('should set the Onchainkit-Referrer if one is set', async () => {
+      const mockResponse = {
+        jsonrpc: '2.0',
+        result: 'exampleResult',
+        id: 1,
+      };
+      const mockFetch = vi.fn().mockResolvedValue({
+        json: vi.fn().mockResolvedValue(mockResponse),
+      });
+      global.fetch = mockFetch;
+
+      const requestBody = {
+        id: 1,
+        jsonrpc: '2.0',
+        method: 'exampleMethod',
+        params: ['param1', 'param2'],
+      };
+
+      const response = await sendRequest(
+        'exampleMethod',
+        ['param1', 'param2'],
+        'api',
+      );
+
+      expect(mockFetch).toHaveBeenCalledWith(expect.any(String), {
+        method: 'POST',
+        body: JSON.stringify(requestBody),
+        headers: {
+          'Content-Type': 'application/json',
+          'OnchainKit-Version': version,
+          'OnchainKit-Referrer': 'api',
+        },
+      });
+      expect(response).toEqual(mockResponse);
+    });
+
+    it('should default to api if an invalid referrer is set', async () => {
+      const mockResponse = {
+        jsonrpc: '2.0',
+        result: 'exampleResult',
+        id: 1,
+      };
+      const mockFetch = vi.fn().mockResolvedValue({
+        json: vi.fn().mockResolvedValue(mockResponse),
+      });
+      global.fetch = mockFetch;
+
+      const requestBody = {
+        id: 1,
+        jsonrpc: '2.0',
+        method: 'exampleMethod',
+        params: ['param1', 'param2'],
+      };
+
+      const response = await sendRequest(
+        'exampleMethod',
+        ['param1', 'param2'],
+        'fake',
+      );
+
+      expect(mockFetch).toHaveBeenCalledWith(expect.any(String), {
+        method: 'POST',
+        body: JSON.stringify(requestBody),
+        headers: {
+          'Content-Type': 'application/json',
+          'OnchainKit-Version': version,
+          'OnchainKit-Referrer': 'api',
+        },
+      });
+      expect(response).toEqual(mockResponse);
+    });
+
     it('should throw an error if an error occurs while sending the request', async () => {
       const mockError = new Error('Example error');
       const mockFetch = vi.fn().mockRejectedValue(mockError);

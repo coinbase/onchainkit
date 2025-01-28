@@ -39,9 +39,11 @@ describe('getTokenDetails', () => {
     const result = await getTokenDetails(params);
 
     expect(result).toEqual(mockResponse.result);
-    expect(mockSendRequest).toHaveBeenCalledWith(CDP_GET_TOKEN_DETAILS, [
-      params,
-    ]);
+    expect(mockSendRequest).toHaveBeenCalledWith(
+      CDP_GET_TOKEN_DETAILS,
+      [params],
+      'api',
+    );
   });
 
   it('should return error details when request fails with an error', async () => {
@@ -61,9 +63,11 @@ describe('getTokenDetails', () => {
       error: 'Error fetching token details',
       message: 'Not Found',
     });
-    expect(mockSendRequest).toHaveBeenCalledWith(CDP_GET_TOKEN_DETAILS, [
-      params,
-    ]);
+    expect(mockSendRequest).toHaveBeenCalledWith(
+      CDP_GET_TOKEN_DETAILS,
+      [params],
+      'api',
+    );
   });
 
   it('should return uncaught error details when an exception is thrown', async () => {
@@ -76,8 +80,10 @@ describe('getTokenDetails', () => {
       error: 'Something went wrong',
       message: 'Error fetching token details',
     });
-    expect(mockSendRequest).toHaveBeenCalledWith(CDP_GET_TOKEN_DETAILS, [
-      params,
-    ]);
+    expect(mockSendRequest).toHaveBeenCalledWith(
+      CDP_GET_TOKEN_DETAILS,
+      [params],
+      'api',
+    );
   });
 });

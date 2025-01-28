@@ -7,3 +7,12 @@ export const JSON_HEADERS = {
 };
 export const JSON_RPC_VERSION = '2.0';
 export const ANALYTICS_API_URL = 'https://api.developer.coinbase.com/analytics';
+export const ALLOWABLE_REFERRERS = [
+  'api',
+  'buy',
+  'checkout',
+  'hook',
+  'nft',
+  'swap',
+  'wallet',
+];

@@ -103,9 +103,12 @@ describe('useWalletAdvancedContext', () => {
       wrapper: WalletAdvancedProvider,
     });
 
-    expect(mockUsePortfolio).toHaveBeenCalledWith({
-      address: null,
-    });
+    expect(mockUsePortfolio).toHaveBeenCalledWith(
+      {
+        address: null,
+      },
+      'wallet',
+    );
 
     mockUseWalletContext.mockReturnValue({
       address: '0x123',
@@ -114,9 +117,12 @@ describe('useWalletAdvancedContext', () => {
 
     rerender();
 
-    expect(mockUsePortfolio).toHaveBeenCalledWith({
-      address: '0x123',
-    });
+    expect(mockUsePortfolio).toHaveBeenCalledWith(
+      {
+        address: '0x123',
+      },
+      'wallet',
+    );
   });
 
   describe('getAnimations', () => {

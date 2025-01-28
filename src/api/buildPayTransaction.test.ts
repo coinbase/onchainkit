@@ -50,9 +50,11 @@ describe('buildPayTransaction', () => {
     const payTransaction = await buildPayTransaction(mockParams);
     expect(payTransaction).toEqual(MOCK_HYDRATE_CHARGE_SUCCESS_RESPONSE.result);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_HYDRATE_CHARGE, [
-      mockAPIParams,
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_HYDRATE_CHARGE,
+      [mockAPIParams],
+      'api',
+    );
   });
 
   it('should return a Pay Transaction with productId', async () => {
@@ -72,9 +74,11 @@ describe('buildPayTransaction', () => {
       MOCK_CREATE_PRODUCT_CHARGE_SUCCESS_RESPONSE.result,
     );
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_CREATE_PRODUCT_CHARGE, [
-      mockAPIParams,
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_CREATE_PRODUCT_CHARGE,
+      [mockAPIParams],
+      'api',
+    );
   });
 
   it('should return an error if neither chargeId nor productId is provided', async () => {
@@ -126,8 +130,10 @@ describe('buildPayTransaction', () => {
       message: CHECKOUT_INVALID_CHARGE_ERROR_MESSAGE,
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_HYDRATE_CHARGE, [
-      mockAPIParams,
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_HYDRATE_CHARGE,
+      [mockAPIParams],
+      'api',
+    );
   });
 });

@@ -17,7 +17,10 @@ export const handlePayRequest = async ({
     buildPayTransactionParams.productId = productId;
   }
 
-  const response = await buildPayTransaction(buildPayTransactionParams);
+  const response = await buildPayTransaction(
+    buildPayTransactionParams,
+    'checkout',
+  );
 
   if ('error' in response) {
     throw new Error(response.error);

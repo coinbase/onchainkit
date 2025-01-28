@@ -1,5 +1,6 @@
 import { getPortfolios } from '@/api/getPortfolios';
 import type { Portfolio } from '@/api/types';
+import type { JSONRPCReferrer } from '@/core/network/request';
 import { isApiError } from '@/internal/utils/isApiResponseError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { Address } from 'viem';
@@ -8,17 +9,19 @@ import type { Address } from 'viem';
  * Retrieves the portfolio for the provided address
  * portfolio includes the address, the balance of the address in USD, and the tokens in the address
  */
-export function usePortfolio({
-  address,
-}: {
-  address: Address | undefined | null;
-}): UseQueryResult<Portfolio> {
+export function usePortfolio(
+  { address }: { address: Address | undefined | null },
+  _referrer: JSONRPCReferrer = 'hook',
+): UseQueryResult<Portfolio> {
   return useQuery({
     queryKey: ['usePortfolio', address],
     queryFn: async () => {
-      const response = await getPortfolios({
-        addresses: [address as Address], // Safe to coerce to Address because useQuery's enabled flag will prevent the query from running if address is undefined
-      });
+      const response = await getPortfolios(
+        {
+          addresses: [address as Address], // Safe to coerce to Address because useQuery's enabled flag will prevent the query from running if address is undefined
+        },
+        _referrer,
+      );
 
       if (isApiError(response)) {
         throw new Error(response.message);

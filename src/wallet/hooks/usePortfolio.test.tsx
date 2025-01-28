@@ -58,9 +58,12 @@ describe('usePortfolio', () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    expect(getPortfolios).toHaveBeenCalledWith({
-      addresses: [mockAddress],
-    });
+    expect(getPortfolios).toHaveBeenCalledWith(
+      {
+        addresses: [mockAddress],
+      },
+      'hook',
+    );
 
     expect(result.current.data).toEqual(mockPortfolio);
   });

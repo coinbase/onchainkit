@@ -351,14 +351,17 @@ export function BuyProvider({
 
       try {
         const maxSlippage = lifecycleStatus.statusData.maxSlippage;
-        const response = await buildSwapTransaction({
-          amount: from.amount,
-          fromAddress: address,
-          from: from.token,
-          maxSlippage: String(maxSlippage),
-          to: to.token,
-          useAggregator,
-        });
+        const response = await buildSwapTransaction(
+          {
+            amount: from.amount,
+            fromAddress: address,
+            from: from.token,
+            maxSlippage: String(maxSlippage),
+            to: to.token,
+            useAggregator,
+          },
+          'buy',
+        );
         if (isSwapError(response)) {
           updateLifecycleStatus({
             statusName: 'error',

@@ -43,9 +43,11 @@ describe('getMintDetails', () => {
     const result = await getMintDetails(params);
 
     expect(result).toEqual(mockResponse.result);
-    expect(mockSendRequest).toHaveBeenCalledWith(CDP_GET_MINT_DETAILS, [
-      params,
-    ]);
+    expect(mockSendRequest).toHaveBeenCalledWith(
+      CDP_GET_MINT_DETAILS,
+      [params],
+      'api',
+    );
   });
 
   it('should return error details when request fails with an error', async () => {
@@ -65,9 +67,11 @@ describe('getMintDetails', () => {
       error: 'Error fetching mint details',
       message: 'Not Found',
     });
-    expect(mockSendRequest).toHaveBeenCalledWith(CDP_GET_MINT_DETAILS, [
-      params,
-    ]);
+    expect(mockSendRequest).toHaveBeenCalledWith(
+      CDP_GET_MINT_DETAILS,
+      [params],
+      'api',
+    );
   });
 
   it('should return uncaught error details when an exception is thrown', async () => {
@@ -80,8 +84,10 @@ describe('getMintDetails', () => {
       error: 'Something went wrong',
       message: 'Error fetching mint details',
     });
-    expect(mockSendRequest).toHaveBeenCalledWith(CDP_GET_MINT_DETAILS, [
-      params,
-    ]);
+    expect(mockSendRequest).toHaveBeenCalledWith(
+      CDP_GET_MINT_DETAILS,
+      [params],
+      'api',
+    );
   });
 });

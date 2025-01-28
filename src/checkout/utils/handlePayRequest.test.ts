@@ -21,10 +21,13 @@ describe('handlePayRequest', () => {
       chargeHandler: mockChargeHandler,
     });
     expect(mockChargeHandler).toHaveBeenCalled();
-    expect(buildPayTransaction).toHaveBeenCalledWith({
-      address: mockAddress,
-      chargeId: mockChargeId,
-    });
+    expect(buildPayTransaction).toHaveBeenCalledWith(
+      {
+        address: mockAddress,
+        chargeId: mockChargeId,
+      },
+      'checkout',
+    );
     expect(result).toEqual(mockResponse);
   });
 
@@ -36,10 +39,13 @@ describe('handlePayRequest', () => {
       address: mockAddress,
       productId: mockProductId,
     });
-    expect(buildPayTransaction).toHaveBeenCalledWith({
-      address: mockAddress,
-      productId: mockProductId,
-    });
+    expect(buildPayTransaction).toHaveBeenCalledWith(
+      {
+        address: mockAddress,
+        productId: mockProductId,
+      },
+      'checkout',
+    );
     expect(result).toEqual(mockResponse);
   });
 
@@ -47,7 +53,10 @@ describe('handlePayRequest', () => {
     const mockResponse = { success: true };
     (buildPayTransaction as Mock).mockResolvedValue(mockResponse);
     const result = await handlePayRequest({ address: mockAddress });
-    expect(buildPayTransaction).toHaveBeenCalledWith({ address: mockAddress });
+    expect(buildPayTransaction).toHaveBeenCalledWith(
+      { address: mockAddress },
+      'checkout',
+    );
     expect(result).toEqual(mockResponse);
   });
 

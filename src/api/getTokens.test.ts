@@ -56,9 +56,11 @@ describe('getTokens', () => {
       },
     ]);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_LIST_SWAP_ASSETS, [
-      { limit: '50', page: '1' },
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_LIST_SWAP_ASSETS,
+      [{ limit: '50', page: '1' }],
+      'api',
+    );
   });
 
   it('should accept options parameters', async () => {
@@ -88,9 +90,11 @@ describe('getTokens', () => {
       },
     ]);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_LIST_SWAP_ASSETS, [
-      { limit: '1', page: '1' },
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_LIST_SWAP_ASSETS,
+      [{ limit: '1', page: '1' }],
+      'api',
+    );
   });
 
   it('should return an error object if sendRequest returns an error', async () => {
@@ -109,9 +113,11 @@ describe('getTokens', () => {
       message: 'Request failed',
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_LIST_SWAP_ASSETS, [
-      { limit: '50', page: '1' },
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_LIST_SWAP_ASSETS,
+      [{ limit: '50', page: '1' }],
+      'api',
+    );
   });
 
   it('should rethrow the error if an error occurs during token retrieval', async () => {
@@ -126,8 +132,10 @@ describe('getTokens', () => {
       message: 'Request failed',
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_LIST_SWAP_ASSETS, [
-      { limit: '50', page: '1' },
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_LIST_SWAP_ASSETS,
+      [{ limit: '50', page: '1' }],
+      'api',
+    );
   });
 });

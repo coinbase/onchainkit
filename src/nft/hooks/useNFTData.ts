@@ -21,10 +21,13 @@ export function useNFTData(
     }
   }, [error, updateLifecycleStatus]);
 
-  const { error: tokenError, data: tokenDetails } = useTokenDetails({
-    contractAddress,
-    tokenId: tokenId,
-  });
+  const { error: tokenError, data: tokenDetails } = useTokenDetails(
+    {
+      contractAddress,
+      tokenId: tokenId,
+    },
+    'nft',
+  );
 
   if (tokenError && !error) {
     setError({

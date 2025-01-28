@@ -594,6 +594,7 @@ describe('SwapProvider', () => {
         to: DEGEN_TOKEN,
         useAggregator: true,
       }),
+      'swap',
     );
   });
 
@@ -621,6 +622,7 @@ describe('SwapProvider', () => {
         to: DEGEN_TOKEN,
         useAggregator: true,
       }),
+      'swap',
     );
   });
 

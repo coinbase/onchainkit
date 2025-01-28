@@ -23,11 +23,14 @@ export function useMintData(
     }
   }, [error, updateLifecycleStatus]);
 
-  const { error: mintError, data: mintData } = useMintDetails({
-    contractAddress,
-    takerAddress: address,
-    ...(tokenId ? { tokenId } : {}),
-  });
+  const { error: mintError, data: mintData } = useMintDetails(
+    {
+      contractAddress,
+      takerAddress: address,
+      ...(tokenId ? { tokenId } : {}),
+    },
+    'nft',
+  );
 
   if (mintError && !error) {
     setError({

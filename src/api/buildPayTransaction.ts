@@ -2,7 +2,11 @@ import {
   CDP_CREATE_PRODUCT_CHARGE,
   CDP_HYDRATE_CHARGE,
 } from '../core/network/definitions/pay';
-import { type JSONRPCResult, sendRequest } from '../core/network/request';
+import {
+  type JSONRPCReferrer,
+  type JSONRPCResult,
+  sendRequest,
+} from '../core/network/request';
 import type {
   BuildPayTransactionParams,
   BuildPayTransactionResponse,
@@ -11,33 +15,42 @@ import type {
 } from './types';
 import { getPayErrorMessage } from './utils/getPayErrorMessage';
 
-export async function buildPayTransaction({
-  address,
-  chargeId,
-  productId,
-}: BuildPayTransactionParams): Promise<BuildPayTransactionResponse> {
+export async function buildPayTransaction(
+  params: BuildPayTransactionParams,
+  _referrer: JSONRPCReferrer = 'api',
+): Promise<BuildPayTransactionResponse> {
+  const { address, chargeId, productId } = params;
+
   try {
     let res: JSONRPCResult<BuildPayTransactionResponse>;
     if (chargeId) {
       res = await sendRequest<
         HydrateChargeAPIParams,
         BuildPayTransactionResponse
-      >(CDP_HYDRATE_CHARGE, [
-        {
-          sender: address,
-          chargeId,
-        },
-      ]);
+      >(
+        CDP_HYDRATE_CHARGE,
+        [
+          {
+            sender: address,
+            chargeId,
+          },
+        ],
+        _referrer,
+      );
     } else if (productId) {
       res = await sendRequest<
         CreateProductChargeParams,
         BuildPayTransactionResponse
-      >(CDP_CREATE_PRODUCT_CHARGE, [
-        {
-          sender: address,
-          productId,
-        },
-      ]);
+      >(
+        CDP_CREATE_PRODUCT_CHARGE,
+        [
+          {
+            sender: address,
+            productId,
+          },
+        ],
+        _referrer,
+      );
     } else {
       return {
         code: 'AmBPTa01', // Api Module Build Pay Transaction Error 01

@@ -37,7 +37,7 @@ export function WalletAdvancedProvider({
     refetch: refetchPortfolioData,
     isFetching: isFetchingPortfolioData,
     dataUpdatedAt: portfolioDataUpdatedAt,
-  } = usePortfolio({ address });
+  } = usePortfolio({ address }, 'wallet');
 
   const portfolioFiatValue = portfolioData?.portfolioBalanceInUsd;
   const tokenBalances = portfolioData?.tokenBalances;

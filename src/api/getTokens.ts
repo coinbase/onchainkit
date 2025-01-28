@@ -1,5 +1,5 @@
 import { CDP_LIST_SWAP_ASSETS } from '../core/network/definitions/swap';
-import { sendRequest } from '../core/network/request';
+import { type JSONRPCReferrer, sendRequest } from '../core/network/request';
 import type { Token } from '../token/types';
 import type { GetTokensOptions, GetTokensResponse } from './types';
 
@@ -8,6 +8,7 @@ import type { GetTokensOptions, GetTokensResponse } from './types';
  */
 export async function getTokens(
   options?: GetTokensOptions,
+  _referrer: JSONRPCReferrer = 'api',
 ): Promise<GetTokensResponse> {
   // Default filter values
   const defaultFilter: GetTokensOptions = {
@@ -20,6 +21,7 @@ export async function getTokens(
     const res = await sendRequest<GetTokensOptions, Token[]>(
       CDP_LIST_SWAP_ASSETS,
       [filters],
+      _referrer,
     );
     if (res.error) {
       return {

@@ -100,14 +100,17 @@ describe('getBuyQuote', () => {
       fromSwapUnit: mockFromSwapUnit,
     });
 
-    expect(getSwapQuote).toHaveBeenCalledWith({
-      amount: '1',
-      amountReference: 'from',
-      from: toToken,
-      maxSlippage: '0.5',
-      to: fromToken,
-      useAggregator: true,
-    });
+    expect(getSwapQuote).toHaveBeenCalledWith(
+      {
+        amount: '1',
+        amountReference: 'from',
+        from: toToken,
+        maxSlippage: '0.5',
+        to: fromToken,
+        useAggregator: true,
+      },
+      'buy',
+    );
 
     expect(formatTokenAmount).toHaveBeenCalledWith('100000000000000000', 18);
     expect(mockFromSwapUnit.setAmountUSD).toHaveBeenCalledWith('100');
@@ -134,14 +137,17 @@ describe('getBuyQuote', () => {
       fromSwapUnit: mockFromSwapUnit,
     });
 
-    expect(getSwapQuote).toHaveBeenCalledWith({
-      amount: '1',
-      amountReference: 'from',
-      from: toToken,
-      maxSlippage: '0.5',
-      to: fromToken,
-      useAggregator: true,
-    });
+    expect(getSwapQuote).toHaveBeenCalledWith(
+      {
+        amount: '1',
+        amountReference: 'from',
+        from: toToken,
+        maxSlippage: '0.5',
+        to: fromToken,
+        useAggregator: true,
+      },
+      'buy',
+    );
 
     expect(formatTokenAmount).not.toHaveBeenCalled();
     expect(mockFromSwapUnit.setAmountUSD).toHaveBeenCalledWith('');

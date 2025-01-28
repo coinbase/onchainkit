@@ -50,6 +50,7 @@ describe('getPortfolios', () => {
     expect(mockSendRequest).toHaveBeenCalledWith(
       CDP_GET_PORTFOLIO_TOKEN_BALANCES,
       [{ addresses: mockAddresses }],
+      'api',
     );
   });
 
