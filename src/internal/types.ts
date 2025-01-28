@@ -16,8 +16,8 @@ export enum AnalyticsEvent {
   WALLET_OPTION_SELECTED = 'walletOptionSelected',
 
   // Swap
-  SLIPPAGE_CHANGED = 'slippageChanged',
-  TOKEN_SELECTED = 'tokenSelected',
+  SWAP_SLIPPAGE_CHANGED = 'swapSlippageChanged',
+  SWAP_TOKEN_SELECTED = 'swapTokenSelected',
   SWAP_SUCCESS = 'swapSuccess',
 }
 
@@ -40,10 +40,10 @@ export type AnalyticsEventData = {
   };
 
   // Swap
-  [AnalyticsEvent.SLIPPAGE_CHANGED]: {
+  [AnalyticsEvent.SWAP_SLIPPAGE_CHANGED]: {
     slippage: number;
   };
-  [AnalyticsEvent.TOKEN_SELECTED]: {
+  [AnalyticsEvent.SWAP_TOKEN_SELECTED]: {
     token: string;
     source: 'from' | 'to';
   };

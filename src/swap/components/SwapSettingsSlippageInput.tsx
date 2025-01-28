@@ -39,6 +39,9 @@ export function SwapSettingsSlippageInput({
   const updateSlippage = useCallback(
     (newSlippage: number) => {
       if (newSlippage !== lifecycleStatus.statusData.maxSlippage) {
+        sendAnalytics(AnalyticsEvent.SWAP_SLIPPAGE_CHANGED, {
+          slippage: newSlippage,
+        });
         updateLifecycleStatus({
           statusName: 'slippageChange',
           statusData: {
@@ -47,7 +50,11 @@ export function SwapSettingsSlippageInput({
         });
       }
     },
-    [lifecycleStatus.statusData.maxSlippage, updateLifecycleStatus],
+    [
+      lifecycleStatus.statusData.maxSlippage,
+      updateLifecycleStatus,
+      sendAnalytics,
+    ],
   );
 
   // Handles user input for custom slippage.
@@ -58,14 +65,10 @@ export function SwapSettingsSlippageInput({
       const parsedSlippage = Number.parseFloat(newSlippage);
       const isValidNumber = !Number.isNaN(parsedSlippage);
 
-      sendAnalytics(AnalyticsEvent.SLIPPAGE_CHANGED, {
-        slippage: parsedSlippage,
-      });
-
       // Update slippage to parsed value if valid, otherwise set to 0
       updateSlippage(isValidNumber ? parsedSlippage : 0);
     },
-    [updateSlippage, sendAnalytics],
+    [updateSlippage],
   );
 
   // Toggles between auto and custom slippage settings

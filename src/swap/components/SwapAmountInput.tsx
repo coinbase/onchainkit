@@ -56,7 +56,7 @@ export function SwapAmountInput({
 
   const handleSetToken = useCallback(
     (token: Token) => {
-      sendAnalytics(AnalyticsEvent.TOKEN_SELECTED, {
+      sendAnalytics(AnalyticsEvent.SWAP_TOKEN_SELECTED, {
         token: token.address,
         source: type,
       });
