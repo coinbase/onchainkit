@@ -99,7 +99,7 @@ export function WalletModal({
           border.lineDefault,
           border.radius,
           background.default,
-          'w-[22rem] p-6 pb-4',
+          'w-[90vw] sm:w-[22rem] p-6 pb-4',
           'relative flex flex-col items-center gap-4',
           className,
         )}

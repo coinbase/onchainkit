@@ -20,6 +20,7 @@ import { ConnectButton } from './ConnectButton';
 import { ConnectWalletText } from './ConnectWalletText';
 import { WalletModal } from './WalletModal';
 import { useWalletContext } from './WalletProvider';
+import debounce from 'lodash.debounce';
 
 export function ConnectWallet({
   children,
@@ -77,16 +78,34 @@ export function ConnectWallet({
     }
   }, [isSubComponentOpen, handleClose, setIsSubComponentOpen]);
 
-  const handleCloseConnectModal = useCallback(() => {
-    setIsModalOpen(false); // duplicate state because ConnectWallet not always within WalletProvider
-    setIsConnectModalOpen?.(false); // optional because ConnectWallet not always within WalletProvider
-  }, [setIsConnectModalOpen]);
+  const handleCloseConnectModal = useCallback(
+    debounce(() => {
+      setIsModalOpen((prevIsModalOpen) => {
+        if (prevIsModalOpen) {
+          setIsConnectModalOpen?.(false);
+          console.log('Modal closed');
+          return false;
+        }
+        return prevIsModalOpen;
+      });
+    }, 100), // Adjust the debounce delay as needed
+    [setIsConnectModalOpen]
+  );
 
-  const handleOpenConnectModal = useCallback(() => {
-    setIsModalOpen(true); // duplicate state because ConnectWallet not always within WalletProvider
-    setIsConnectModalOpen?.(true); // optional because ConnectWallet not always within WalletProvider
-    setHasClickedConnect(true);
-  }, [setIsConnectModalOpen]);
+  const handleOpenConnectModal = useCallback(
+    debounce(() => {
+      setIsModalOpen((prevIsModalOpen) => {
+        if (!prevIsModalOpen) {
+          setIsConnectModalOpen?.(true);
+          setHasClickedConnect(true);
+          console.log('Modal opened');
+          return true;
+        }
+        return prevIsModalOpen;
+      });
+    }, 100), // Adjust the debounce delay as needed
+    [setIsConnectModalOpen]
+  );
 
   // Effects
   useEffect(() => {

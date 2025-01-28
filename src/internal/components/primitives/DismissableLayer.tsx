@@ -32,6 +32,7 @@ export function DismissableLayer({
   const layerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // debugger;
     if (disableOutsideClick && disableEscapeKey) {
       return;
     }
