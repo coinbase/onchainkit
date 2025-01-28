@@ -4,11 +4,11 @@
 
 ### Patch Changes
 
-- 4501399: **_fix_** Fixed typos in documentation. By @rebustron #1850
-  **_chore_**: Deprecated amountReference: 'to' in V1 Swap. By @alessey #1851
-  **_feat_**: Implemented Popover, DismissableLayer, and FocusTrap primitives in SwapSettings. By @cpcramer #1856
-  **_chore_**: Standardized comment format to JSDoc-style syntax'. By @cpcramer #1868
-  **_feat_** Added analytics. By @0xAlec #1869
+- **fix** Fixed typos in documentation. By @rebustron #1850
+- **chore**: Deprecated amountReference: 'to' in V1 Swap. By @alessey #1851
+- **feat**: Implemented Popover, DismissableLayer, and FocusTrap primitives in SwapSettings. By @cpcramer #1856
+- **chore**: Standardized comment format to JSDoc-style syntax'. By @cpcramer #1868
+- **feat** Added analytics. By @0xAlec #1869
 
 ## 0.36.8
 
