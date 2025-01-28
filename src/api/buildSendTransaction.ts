@@ -32,7 +32,7 @@ export function buildSendTransaction({
   } catch (error) {
     return {
       code: 'AmBSeTa01', // Api Module Build Send Transaction Error 01
-      error: `Something went wrong: ${error}`,
+      error: `Error: ${error}`,
       message: 'Could not build transfer transaction',
     };
   }

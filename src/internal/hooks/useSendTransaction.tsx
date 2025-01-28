@@ -39,7 +39,7 @@ export function useSendTransaction({
     return sendTransaction;
   }
 
-  const parsedAmount = parseUnits(amount.toString(), token.decimals);
+  const parsedAmount = parseUnits(amount, token.decimals);
   const sendTransaction = buildSendTransaction({
     recipientAddress,
     tokenAddress: token.address,

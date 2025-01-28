@@ -51,7 +51,7 @@ describe('buildSendTransaction', () => {
     expect(result).toMatchObject({
       code: 'AmBSeTa01',
       message: 'Could not build transfer transaction',
-      error: expect.stringContaining('Something went wrong'),
+      error: expect.stringContaining('Error'),
     });
   });
 });
