@@ -20,7 +20,7 @@ import { ConnectButton } from './ConnectButton';
 import { ConnectWalletText } from './ConnectWalletText';
 import { WalletModal } from './WalletModal';
 import { useWalletContext } from './WalletProvider';
-import debounce from 'lodash.debounce';
+// import debounce from 'lodash.debounce';
 
 export function ConnectWallet({
   children,
@@ -78,34 +78,16 @@ export function ConnectWallet({
     }
   }, [isSubComponentOpen, handleClose, setIsSubComponentOpen]);
 
-  const handleCloseConnectModal = useCallback(
-    debounce(() => {
-      setIsModalOpen((prevIsModalOpen) => {
-        if (prevIsModalOpen) {
-          setIsConnectModalOpen?.(false);
-          console.log('Modal closed');
-          return false;
-        }
-        return prevIsModalOpen;
-      });
-    }, 100), // Adjust the debounce delay as needed
-    [setIsConnectModalOpen]
-  );
+  const handleCloseConnectModal = useCallback(() => {
+    setIsModalOpen(false);
+    setIsConnectModalOpen?.(false);
+  }, [setIsConnectModalOpen]);
 
-  const handleOpenConnectModal = useCallback(
-    debounce(() => {
-      setIsModalOpen((prevIsModalOpen) => {
-        if (!prevIsModalOpen) {
-          setIsConnectModalOpen?.(true);
-          setHasClickedConnect(true);
-          console.log('Modal opened');
-          return true;
-        }
-        return prevIsModalOpen;
-      });
-    }, 100), // Adjust the debounce delay as needed
-    [setIsConnectModalOpen]
-  );
+  const handleOpenConnectModal = useCallback(() => {
+    setIsModalOpen(true);
+    setIsConnectModalOpen?.(true);
+    setHasClickedConnect(true);
+  }, [setIsConnectModalOpen]);
 
   // Effects
   useEffect(() => {
@@ -122,13 +104,13 @@ export function ConnectWallet({
           <ConnectButton
             className={className}
             connectWalletText={connectWalletText}
-            onClick={() => {
-              handleOpenConnectModal();
-              setHasClickedConnect(true);
-            }}
+            onClick={handleOpenConnectModal}
             text={text}
           />
-          <WalletModal isOpen={isModalOpen} onClose={handleCloseConnectModal} />
+          <WalletModal 
+            isOpen={isModalOpen} 
+            onClose={handleCloseConnectModal}
+          />
         </div>
       );
     }
