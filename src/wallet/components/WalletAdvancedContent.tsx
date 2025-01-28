@@ -20,6 +20,7 @@ export function WalletAdvancedContent({
     setIsSubComponentOpen,
     isSubComponentClosing,
     setIsSubComponentClosing,
+    connectRef,
   } = useWalletContext();
 
   const { showQr, showSwap, tokenBalances, animations } =
@@ -78,7 +79,11 @@ export function WalletAdvancedContent({
 
   if (breakpoint === 'sm') {
     return (
-      <BottomSheet isOpen={isSubComponentOpen} onClose={handleBottomSheetClose}>
+      <BottomSheet
+        isOpen={isSubComponentOpen}
+        triggerRef={connectRef}
+        onClose={handleBottomSheetClose}
+      >
         <div className="flex h-full w-full flex-col items-center justify-center">
           {content}
         </div>

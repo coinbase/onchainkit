@@ -8,6 +8,7 @@ type BottomSheetProps = {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
+  triggerRef?: React.RefObject<HTMLElement>;
   className?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
@@ -19,6 +20,7 @@ export function BottomSheet({
   className,
   isOpen,
   onClose,
+  triggerRef,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
@@ -29,14 +31,15 @@ export function BottomSheet({
     return null;
   }
 
+  // TODO: add overlay when DismissableLayer can handle overlay/trigger clicks
   const bottomSheet = (
     <>
-      <div
-        className={cn('fixed inset-0', 'bg-black bg-opacity-20')}
-        data-testid="ockBottomSheetOverlay"
-      />
       <FocusTrap active={isOpen}>
-        <DismissableLayer onDismiss={onClose} preventTriggerEvents={true}>
+        <DismissableLayer
+          onDismiss={onClose}
+          triggerRef={triggerRef}
+          preventTriggerEvents={!!triggerRef}
+        >
           <div
             aria-describedby={ariaDescribedby}
             aria-label={ariaLabel}
