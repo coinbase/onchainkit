@@ -33,33 +33,31 @@ export function BottomSheet({
 
   // TODO: add overlay when DismissableLayer can handle overlay/trigger clicks
   const bottomSheet = (
-    <>
-      <FocusTrap active={isOpen}>
-        <DismissableLayer
-          onDismiss={onClose}
-          triggerRef={triggerRef}
-          preventTriggerEvents={!!triggerRef}
+    <FocusTrap active={isOpen}>
+      <DismissableLayer
+        onDismiss={onClose}
+        triggerRef={triggerRef}
+        preventTriggerEvents={!!triggerRef}
+      >
+        <div
+          aria-describedby={ariaDescribedby}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledby}
+          data-testid="ockBottomSheet"
+          role="dialog"
+          className={cn(
+            componentTheme,
+            background.default,
+            'fixed right-0 bottom-0 left-0',
+            'transform rounded-t-3xl p-2 transition-transform',
+            'fade-in slide-in-from-bottom-1/2 animate-in',
+            className,
+          )}
         >
-          <div
-            aria-describedby={ariaDescribedby}
-            aria-label={ariaLabel}
-            aria-labelledby={ariaLabelledby}
-            data-testid="ockBottomSheet"
-            role="dialog"
-            className={cn(
-              componentTheme,
-              background.default,
-              'fixed right-0 bottom-0 left-0',
-              'transform rounded-t-3xl p-2 transition-transform',
-              'fade-in slide-in-from-bottom-1/2 animate-in',
-              className,
-            )}
-          >
-            {children}
-          </div>
-        </DismissableLayer>
-      </FocusTrap>
-    </>
+          {children}
+        </div>
+      </DismissableLayer>
+    </FocusTrap>
   );
 
   return createPortal(bottomSheet, document.body);
