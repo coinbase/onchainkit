@@ -1,7 +1,6 @@
 'use client';
 
 import { Draggable } from '@/internal/components/Draggable/Draggable';
-import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { useTheme } from '@/internal/hooks/useTheme';
@@ -54,9 +53,9 @@ function WalletContent({
     connectRef,
     showSubComponentAbove,
     alignSubComponentRight,
+    breakpoint,
   } = useWalletContext();
   const walletContainerRef = useRef<HTMLDivElement>(null);
-  const breakpoint = useBreakpoints();
 
   useOutsideClick(walletContainerRef, handleClose);
 

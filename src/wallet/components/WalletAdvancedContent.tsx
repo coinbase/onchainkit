@@ -1,5 +1,4 @@
 import { BottomSheet } from '@/internal/components/BottomSheet';
-import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import { background, border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
@@ -13,7 +12,6 @@ export function WalletAdvancedContent({
   children,
   swappableTokens,
 }: WalletAdvancedReact) {
-  const breakpoint = useBreakpoints();
 
   const {
     isSubComponentOpen,
@@ -21,6 +19,7 @@ export function WalletAdvancedContent({
     isSubComponentClosing,
     setIsSubComponentClosing,
     connectRef,
+    breakpoint,
   } = useWalletContext();
 
   const { showQr, showSwap, tokenBalances, animations } =
