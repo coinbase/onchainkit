@@ -1,6 +1,14 @@
 import { type Address, encodeFunctionData, erc20Abi } from 'viem';
-import { describe, expect, it } from 'vitest';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import { buildSendTransaction } from './buildSendTransaction';
+
+vi.mock('viem', async () => {
+  const actual = await vi.importActual('viem');
+  return {
+    ...actual,
+    encodeFunctionData: vi.fn(),
+  };
+});
 
 describe('buildSendTransaction', () => {
   const mockRecipient = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e';
@@ -40,10 +48,12 @@ describe('buildSendTransaction', () => {
     });
   });
 
-  it('should handle errors and return error object', () => {
-    // Force an error by passing invalid args
+  it('should handle Error objects', () => {
+    (encodeFunctionData as Mock).mockImplementation(() => {
+      throw new Error('Test error');
+    });
     const result = buildSendTransaction({
-      recipientAddress: 'invalid-address' as unknown as Address, // type assertion okay because we're testing the case where recipientAddress is invalid
+      recipientAddress: mockRecipient,
       tokenAddress: mockToken,
       amount: mockAmount,
     });
@@ -51,7 +61,24 @@ describe('buildSendTransaction', () => {
     expect(result).toMatchObject({
       code: 'AmBSeTa01',
       message: 'Could not build transfer transaction',
-      error: expect.any(String),
+      error: 'Test error',
+    });
+  });
+
+  it('should handle non-Error objects', () => {
+    (encodeFunctionData as Mock).mockImplementation(() => {
+      throw 'Some string error';
+    });
+    const result = buildSendTransaction({
+      recipientAddress: mockRecipient,
+      tokenAddress: mockToken,
+      amount: mockAmount,
+    });
+
+    expect(result).toMatchObject({
+      code: 'AmBSeTa01',
+      message: 'Could not build transfer transaction',
+      error: 'Some string error',
     });
   });
 });
