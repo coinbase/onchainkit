@@ -90,6 +90,7 @@ import { NFTMintCard } from '@coinbase/onchainkit/nft'; // [!code focus]
 ### Add the NFTMintCard components
 
 ```tsx twoslash
+// @noErrors: 2739
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
 import { NFTMedia } from '@coinbase/onchainkit/nft/view'; // [!code ++]
 import {
@@ -207,6 +208,7 @@ The default `NFTMintCard` implementation uses Coinbase Developer Platform to pro
 You can also use a custom `buildMintTransaction` function to create your own Mint transaction.
 
 ```tsx twoslash
+// @noErrors: 2739
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
 import { NFTMedia } from '@coinbase/onchainkit/nft/view';
 import { NFTCollectionTitle, NFTMintButton } from '@coinbase/onchainkit/nft/mint';
