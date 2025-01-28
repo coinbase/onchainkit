@@ -11,8 +11,14 @@ type GenericStatus<T> = {
 };
 
 export enum AnalyticsEvent {
+  // Wallet
   WALLET_CONNECTED = 'walletConnected',
   WALLET_OPTION_SELECTED = 'walletOptionSelected',
+
+  // Swap
+  SWAP_SLIPPAGE_CHANGED = 'swapSlippageChanged',
+  SWAP_TOKEN_SELECTED = 'swapTokenSelected',
+  SWAP_SUCCESS = 'swapSuccess',
 }
 
 export enum WalletOption {
@@ -25,11 +31,29 @@ export enum WalletOption {
 }
 
 export type AnalyticsEventData = {
+  // Wallet
   [AnalyticsEvent.WALLET_CONNECTED]: {
     address: string;
   };
   [AnalyticsEvent.WALLET_OPTION_SELECTED]: {
     option: WalletOption;
+  };
+
+  // Swap
+  [AnalyticsEvent.SWAP_SLIPPAGE_CHANGED]: {
+    slippage: number;
+  };
+  [AnalyticsEvent.SWAP_TOKEN_SELECTED]: {
+    token: string;
+    source: 'from' | 'to';
+  };
+  [AnalyticsEvent.SWAP_SUCCESS]: {
+    paymaster: string;
+    transactionHash: string;
+    address: string;
+    amount: string;
+    to: string;
+    from: string;
   };
 };
 

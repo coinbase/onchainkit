@@ -1,4 +1,6 @@
 'use client';
+import { useAnalytics } from '@/internal/hooks/useAnalytics';
+import { AnalyticsEvent } from '@/internal/types';
 import { useCallback, useState } from 'react';
 import {
   background,
@@ -24,6 +26,7 @@ export function SwapSettingsSlippageInput({
     updateLifecycleStatus,
     lifecycleStatus,
   } = useSwapContext();
+  const { sendAnalytics } = useAnalytics();
 
   // Set initial slippage values to match previous selection or default,
   // ensuring consistency when dropdown is reopened
@@ -36,6 +39,9 @@ export function SwapSettingsSlippageInput({
   const updateSlippage = useCallback(
     (newSlippage: number) => {
       if (newSlippage !== lifecycleStatus.statusData.maxSlippage) {
+        sendAnalytics(AnalyticsEvent.SWAP_SLIPPAGE_CHANGED, {
+          slippage: newSlippage,
+        });
         updateLifecycleStatus({
           statusName: 'slippageChange',
           statusData: {
@@ -44,7 +50,11 @@ export function SwapSettingsSlippageInput({
         });
       }
     },
-    [lifecycleStatus.statusData.maxSlippage, updateLifecycleStatus],
+    [
+      lifecycleStatus.statusData.maxSlippage,
+      updateLifecycleStatus,
+      sendAnalytics,
+    ],
   );
 
   // Handles user input for custom slippage.
