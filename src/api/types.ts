@@ -1,6 +1,7 @@
 import type { Address } from 'viem';
 import type { Fee, QuoteWarning, SwapQuote, Transaction } from '../swap/types';
 import type { Token } from '../token/types';
+import type { Call } from '../transaction/types';
 
 export type AddressOrETH = Address | 'ETH';
 
@@ -366,3 +367,20 @@ export type GetPortfoliosResponse = {
   /** The portfolios for the provided addresses */
   portfolios: Portfolio[];
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type BuildSendTransactionParams = {
+  /** The address of the recipient */
+  recipientAddress: Address;
+  /** The address of the token to transfer */
+  tokenAddress: Address | null;
+  /** The amount of the transfer */
+  amount: bigint;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type BuildSendTransactionResponse = Call[] | APIError;
