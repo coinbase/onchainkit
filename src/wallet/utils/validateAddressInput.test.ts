@@ -1,8 +1,8 @@
 import { getAddress } from '@/identity/utils/getAddress';
 import { isBasename } from '@/identity/utils/isBasename';
 import { isEns } from '@/identity/utils/isEns';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { isAddress } from 'viem';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { validateAddressInput } from './validateAddressInput';
 
 vi.mock('@/identity/utils/isBasename', () => ({

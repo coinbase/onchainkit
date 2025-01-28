@@ -1,9 +1,9 @@
 import { buildSendTransaction } from '@/api/buildSendTransaction';
+import type { Token } from '@/token';
 import { renderHook } from '@testing-library/react';
 import { type Address, parseUnits } from 'viem';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { useSendTransaction } from './useSendTransaction';
-import type { Token } from '@/token';
 
 vi.mock('@/api/buildSendTransaction', () => ({
   buildSendTransaction: vi.fn().mockReturnValue(['mockedCall']),

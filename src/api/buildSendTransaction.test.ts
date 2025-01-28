@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
 import { type Address, encodeFunctionData, erc20Abi } from 'viem';
+import { describe, expect, it } from 'vitest';
 import { buildSendTransaction } from './buildSendTransaction';
 
 describe('buildSendTransaction', () => {
