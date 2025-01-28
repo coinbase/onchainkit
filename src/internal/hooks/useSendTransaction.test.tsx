@@ -2,59 +2,78 @@ import { buildSendTransaction } from '@/api/buildSendTransaction';
 import type { Token } from '@/token';
 import { renderHook } from '@testing-library/react';
 import { type Address, parseUnits } from 'viem';
-import { describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useSendTransaction } from './useSendTransaction';
 
 vi.mock('@/api/buildSendTransaction', () => ({
-  buildSendTransaction: vi.fn().mockReturnValue(['mockedCall']),
+  buildSendTransaction: vi.fn(),
 }));
 
-const mockToken: Token = {
-  symbol: 'ETH',
-  decimals: 18,
-  address: '',
-  chainId: 8453,
-  image: '',
-  name: '',
-};
-
 describe('useSendTransaction', () => {
-  const mockAddress = '0x1234567890123456789012345678901234567890';
-  const mockTokenAddress = '0x0987654321098765432109876543210987654321';
+  const mockToken: Token = {
+    symbol: 'TOKEN',
+    decimals: 18,
+    address: '0x0987654321098765432109876543210987654321',
+    chainId: 8453,
+    image: '',
+    name: '',
+  };
+  const mockRecipientAddress = '0x1234567890123456789012345678901234567890';
+  const mockCallData = {
+    to: mockRecipientAddress,
+    data: mockToken.address,
+    value: parseUnits('1.0', 18),
+  };
+
+  beforeEach(() => {
+    vi.resetAllMocks();
+  });
 
   it('returns empty calls when token is null', () => {
     const { result } = renderHook(() =>
       useSendTransaction({
-        recipientAddress: mockAddress,
+        recipientAddress: mockRecipientAddress,
         token: null,
         amount: '1.0',
       }),
     );
 
-    expect(result.current.calls).toEqual([]);
+    expect(result.current).toEqual({
+      code: 'AmBSeTx01', // Api Module Build Send Transaction Error 01
+      error: 'No token provided',
+      message: 'Could not build send transaction',
+    });
   });
 
   it('handles ETH transfers correctly', () => {
+    (buildSendTransaction as Mock).mockReturnValue({
+      ...mockCallData,
+      data: '',
+    });
     const { result } = renderHook(() =>
       useSendTransaction({
-        recipientAddress: mockAddress,
-        token: mockToken,
+        recipientAddress: mockRecipientAddress,
+        token: { ...mockToken, address: '', symbol: 'ETH' },
         amount: '1.0',
       }),
     );
 
     expect(buildSendTransaction).toHaveBeenCalledWith({
-      recipientAddress: mockAddress,
+      recipientAddress: mockRecipientAddress,
       tokenAddress: null,
       amount: parseUnits('1.0', 18),
     });
-    expect(result.current.calls).toEqual(['mockedCall']);
+    expect(result.current).toEqual({
+      to: mockRecipientAddress,
+      data: '',
+      value: parseUnits('1.0', 18),
+    });
   });
 
-  it('returns empty calls for non-ETH token without address', () => {
+  it('returns error for non-ETH token without address', () => {
     const { result } = renderHook(() =>
       useSendTransaction({
-        recipientAddress: mockAddress,
+        recipientAddress: mockRecipientAddress,
         token: {
           ...mockToken,
           symbol: 'INVALID',
@@ -64,50 +83,66 @@ describe('useSendTransaction', () => {
       }),
     );
 
-    expect(result.current.calls).toEqual([]);
+    expect(result.current).toEqual({
+      code: 'AmBSeTx02', // Api Module Build Send Transaction Error 02
+      error: 'No token address provided for non-ETH token',
+      message: 'Could not build send transaction',
+    });
   });
 
   it('handles ERC20 token transfers correctly', () => {
-    const { result } = renderHook(() =>
+    const mockDecimals = 6;
+    const expectedCallData = {
+      to: mockRecipientAddress,
+      data: mockToken.address,
+      value: parseUnits('100', mockDecimals),
+    };
+    (buildSendTransaction as Mock).mockReturnValue(expectedCallData);
+
+    renderHook(() =>
       useSendTransaction({
-        recipientAddress: mockAddress,
+        recipientAddress: mockRecipientAddress,
         token: {
           ...mockToken,
           symbol: 'USDC',
-          address: mockTokenAddress,
+          address: mockToken.address,
           decimals: 6,
         },
         amount: '100',
       }),
     );
-
     expect(buildSendTransaction).toHaveBeenCalledWith({
-      recipientAddress: mockAddress,
-      tokenAddress: mockTokenAddress,
+      recipientAddress: mockRecipientAddress,
+      tokenAddress: mockToken.address,
       amount: parseUnits('100', 6),
     });
-    expect(result.current.calls).toEqual(['mockedCall']);
   });
 
   it('handles different decimal places correctly', () => {
-    const { result } = renderHook(() =>
+    const mockDecimals = 12;
+    const expectedCallData = {
+      to: mockRecipientAddress,
+      data: mockToken.address,
+      value: parseUnits('0.5', mockDecimals),
+    };
+    (buildSendTransaction as Mock).mockReturnValue(expectedCallData);
+
+    renderHook(() =>
       useSendTransaction({
-        recipientAddress: mockAddress,
+        recipientAddress: mockRecipientAddress,
         token: {
           ...mockToken,
           symbol: 'TEST',
-          decimals: 12,
-          address: mockTokenAddress,
+          address: mockToken.address,
+          decimals: mockDecimals,
         },
         amount: '0.5',
       }),
     );
-
     expect(buildSendTransaction).toHaveBeenCalledWith({
-      recipientAddress: mockAddress,
-      tokenAddress: mockTokenAddress,
-      amount: parseUnits('0.5', 12),
+      recipientAddress: mockRecipientAddress,
+      tokenAddress: mockToken.address,
+      amount: parseUnits('0.5', mockDecimals),
     });
-    expect(result.current.calls).toEqual(['mockedCall']);
   });
 });

@@ -13,32 +13,38 @@ export function useSendTransaction({
   recipientAddress,
   token,
   amount,
-}: UseSendTransactionParams): { calls: BuildSendTransactionResponse } {
+}: UseSendTransactionParams): BuildSendTransactionResponse {
   if (!token) {
-    return { calls: [] };
+    return {
+      code: 'AmBSeTx01', // Api Module Build Send Transaction Error 01
+      error: 'No token provided',
+      message: 'Could not build send transaction',
+    };
   }
 
   if (!token.address) {
     if (token.symbol !== 'ETH') {
-      return { calls: [] };
+      return {
+        code: 'AmBSeTx02', // Api Module Build Send Transaction Error 02
+        error: 'No token address provided for non-ETH token',
+        message: 'Could not build send transaction',
+      };
     }
     const parsedAmount = parseUnits(amount, token.decimals);
-    return {
-      calls: buildSendTransaction({
-        recipientAddress,
-        tokenAddress: null,
-        amount: parsedAmount,
-      }),
-    };
+    const sendTransaction = buildSendTransaction({
+      recipientAddress,
+      tokenAddress: null,
+      amount: parsedAmount,
+    });
+    return sendTransaction;
   }
 
   const parsedAmount = parseUnits(amount.toString(), token.decimals);
+  const sendTransaction = buildSendTransaction({
+    recipientAddress,
+    tokenAddress: token.address,
+    amount: parsedAmount,
+  });
 
-  return {
-    calls: buildSendTransaction({
-      recipientAddress,
-      tokenAddress: token.address,
-      amount: parsedAmount,
-    }),
-  };
+  return sendTransaction;
 }

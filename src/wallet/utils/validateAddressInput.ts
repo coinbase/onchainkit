@@ -5,6 +5,10 @@ import { isAddress } from 'viem';
 import { base, mainnet } from 'viem/chains';
 
 export async function validateAddressInput(input: string) {
+  if (isAddress(input, { strict: false })) {
+    return input;
+  }
+
   if (isBasename(input) || isEns(input)) {
     const address = await getAddress({
       name: input,
@@ -13,8 +17,7 @@ export async function validateAddressInput(input: string) {
     if (address) {
       return address;
     }
-  } else if (isAddress(input, { strict: false })) {
-    return input;
   }
+
   return null;
 }

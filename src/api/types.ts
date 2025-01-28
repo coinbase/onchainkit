@@ -383,4 +383,4 @@ export type BuildSendTransactionParams = {
 /**
  * Note: exported as public Type
  */
-export type BuildSendTransactionResponse = Call[] | APIError;
+export type BuildSendTransactionResponse = Call | APIError;

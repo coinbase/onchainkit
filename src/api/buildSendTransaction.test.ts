@@ -14,13 +14,11 @@ describe('buildSendTransaction', () => {
       amount: mockAmount,
     });
 
-    expect(result).toEqual([
-      {
-        to: mockRecipient,
-        data: '0x',
-        value: mockAmount,
-      },
-    ]);
+    expect(result).toEqual({
+      to: mockRecipient,
+      data: '0x',
+      value: mockAmount,
+    });
   });
 
   it('should build ERC20 token transfer transaction', () => {
@@ -36,12 +34,10 @@ describe('buildSendTransaction', () => {
       amount: mockAmount,
     });
 
-    expect(result).toEqual([
-      {
-        to: mockToken,
-        data: expectedCallData,
-      },
-    ]);
+    expect(result).toEqual({
+      to: mockToken,
+      data: expectedCallData,
+    });
   });
 
   it('should handle errors and return error object', () => {

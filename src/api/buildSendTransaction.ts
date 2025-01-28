@@ -12,13 +12,11 @@ export function buildSendTransaction({
   // if no token address, we are sending native ETH
   // and the data prop is empty
   if (!tokenAddress) {
-    return [
-      {
-        to: recipientAddress,
-        data: '0x',
-        value: amount,
-      },
-    ];
+    return {
+      to: recipientAddress,
+      data: '0x',
+      value: amount,
+    };
   }
 
   try {
@@ -27,12 +25,10 @@ export function buildSendTransaction({
       functionName: 'transfer',
       args: [recipientAddress, amount],
     });
-    return [
-      {
-        to: tokenAddress,
-        data: transferCallData,
-      },
-    ];
+    return {
+      to: tokenAddress,
+      data: transferCallData,
+    };
   } catch (error) {
     return {
       code: 'AmBSeTa01', // Api Module Build Send Transaction Error 01
