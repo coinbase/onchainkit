@@ -5,17 +5,20 @@ import { WithdrawBalance } from './WithdrawBalance';
 import { WithdrawButton } from './WithdrawButton';
 import { WithdrawDetails } from './WithdrawDetails';
 
-export function EarnWithdraw({ children, className }: EarnWithdrawReact) {
-  if (children) {
-    return <EarnCard className={className}>{children}</EarnCard>;
-  }
+export function EarnWithdraw({
+  children = <EarnWithdrawDefaultContent />,
+  className,
+}: EarnWithdrawReact) {
+  return <EarnCard className={className}>{children}</EarnCard>;
+}
 
+function EarnWithdrawDefaultContent() {
   return (
-    <EarnCard className={className}>
+    <>
       <WithdrawDetails />
       <WithdrawAmountInput />
       <WithdrawBalance />
       <WithdrawButton />
-    </EarnCard>
+    </>
   );
 }

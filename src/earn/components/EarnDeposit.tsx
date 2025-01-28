@@ -5,17 +5,20 @@ import { DepositButton } from './DepositButton';
 import { DepositDetails } from './DepositDetails';
 import { EarnCard } from './EarnCard';
 
-export function EarnDeposit({ children, className }: EarnDepositReact) {
-  if (children) {
-    return <EarnCard className={className}>{children}</EarnCard>;
-  }
+export function EarnDeposit({
+  children = <EarnDepositDefaultContent />,
+  className,
+}: EarnDepositReact) {
+  return <EarnCard className={className}>{children}</EarnCard>;
+}
 
+function EarnDepositDefaultContent() {
   return (
-    <EarnCard className={className}>
+    <>
       <DepositDetails />
       <DepositAmountInput />
       <DepositBalance />
       <DepositButton />
-    </EarnCard>
+    </>
   );
 }

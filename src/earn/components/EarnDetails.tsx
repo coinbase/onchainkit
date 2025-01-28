@@ -21,7 +21,7 @@ export function EarnDetails({
       )}
     >
       <TokenChip
-        className={'!bg-[transparent]'}
+        className={'!bg-transparent'}
         token={token}
         isPressable={false}
       />

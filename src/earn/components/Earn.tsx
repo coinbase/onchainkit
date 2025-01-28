@@ -5,7 +5,11 @@ import { EarnDeposit } from './EarnDeposit';
 import { EarnProvider } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
 
-export function Earn({ children, className, vaultAddress }: EarnReact) {
+export function Earn({
+  children = <EarnDefaultContent />,
+  className,
+  vaultAddress,
+}: EarnReact) {
   return (
     <EarnProvider vaultAddress={vaultAddress}>
       <div
@@ -16,35 +20,37 @@ export function Earn({ children, className, vaultAddress }: EarnReact) {
           className,
         )}
       >
-        {children ? (
-          children
-        ) : (
-          <Tabs defaultValue="deposit">
-            <TabsList>
-              <Tab value="deposit">Deposit</Tab>
-              <Tab value="withdraw">Withdraw</Tab>
-            </TabsList>
-            <TabContent
-              value="deposit"
-              className={cn(
-                border.lineDefault,
-                '!border-l-0 !border-b-0 !border-r-0',
-              )}
-            >
-              <EarnDeposit />
-            </TabContent>
-            <TabContent
-              value="withdraw"
-              className={cn(
-                border.lineDefault,
-                '!border-l-0 !border-b-0 !border-r-0',
-              )}
-            >
-              <EarnWithdraw />
-            </TabContent>
-          </Tabs>
-        )}
+        {children}
       </div>
     </EarnProvider>
+  );
+}
+
+function EarnDefaultContent() {
+  return (
+    <Tabs defaultValue="deposit">
+      <TabsList>
+        <Tab value="deposit">Deposit</Tab>
+        <Tab value="withdraw">Withdraw</Tab>
+      </TabsList>
+      <TabContent
+        value="deposit"
+        className={cn(
+          border.lineDefault,
+          '!border-l-0 !border-b-0 !border-r-0',
+        )}
+      >
+        <EarnDeposit />
+      </TabContent>
+      <TabContent
+        value="withdraw"
+        className={cn(
+          border.lineDefault,
+          '!border-l-0 !border-b-0 !border-r-0',
+        )}
+      >
+        <EarnWithdraw />
+      </TabContent>
+    </Tabs>
   );
 }
