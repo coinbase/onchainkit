@@ -25,7 +25,7 @@ export function ConnectButton({
         border.radius,
         dsText.headline,
         color.inverse,
-        'inline-flex min-w-[153px] w-full sm:w-auto items-center justify-center px-4 py-3',
+        'inline-flex min-w-[153px] items-center justify-center px-4 py-3',
         className,
       )}
       onClick={onClick}
