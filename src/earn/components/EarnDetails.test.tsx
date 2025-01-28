@@ -19,7 +19,7 @@ describe('EarnDetails Component', () => {
     const tokenChip = screen.getByTestId('ockTokenChip_Button');
     expect(tokenChip).toBeInTheDocument();
     expect(tokenChip).toHaveTextContent('USDC');
-    expect(tokenChip).toHaveClass('!bg-[transparent]');
+    expect(tokenChip).toHaveClass('!bg-transparent');
   });
 
   it('renders tag with default styles when tagVariant is "default"', () => {
