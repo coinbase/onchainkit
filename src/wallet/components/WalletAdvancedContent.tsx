@@ -12,7 +12,6 @@ export function WalletAdvancedContent({
   children,
   swappableTokens,
 }: WalletAdvancedReact) {
-
   const {
     isSubComponentOpen,
     setIsSubComponentOpen,
