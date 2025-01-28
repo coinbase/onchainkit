@@ -36,7 +36,7 @@ export function SendTokenSelector() {
     <TokenBalance
       token={selectedToken}
       showImage={true}
-      subtitle="Available to send"
+      subtitle="available"
       onClick={handleResetTokenSelection}
       showAction={true}
       onActionPress={() => {
