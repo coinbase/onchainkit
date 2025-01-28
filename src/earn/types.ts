@@ -1,4 +1,12 @@
+import type { Token } from '@/token';
+import type { Call } from '@/transaction/types';
 import type { Address } from 'viem';
+
+export type EarnReact = {
+  children?: React.ReactNode;
+  className?: string;
+  vaultAddress: Address;
+};
 
 export type EarnProviderReact = {
   children: React.ReactNode;
@@ -6,13 +14,17 @@ export type EarnProviderReact = {
 };
 
 export type EarnContextType = {
+  apy?: string;
   convertedBalance?: string;
   vaultAddress: Address;
   depositAmount: string;
   depositedAmount: string;
+  interest?: string;
   setDepositAmount: (amount: string) => void;
-  withdrawAmount: string;
   setWithdrawAmount: (amount: string) => void;
+  withdrawAmount: string;
+  withdrawCalls: Call[];
+  depositCalls: Call[];
 };
 
 export type EarnAmountInputReact = {
@@ -43,5 +55,43 @@ export type DepositBalanceReact = {
 };
 
 export type WithdrawBalanceReact = {
+  className?: string;
+};
+
+export type EarnCardReact = {
+  children: React.ReactNode;
+  className?: string;
+};
+
+export type EarnDepositReact = {
+  children?: React.ReactNode;
+  className?: string;
+};
+
+export type EarnWithdrawReact = {
+  children?: React.ReactNode;
+  className?: string;
+};
+
+export type EarnDetailsReact = {
+  className?: string;
+  token?: Token;
+  tag?: string;
+  tagVariant?: 'default' | 'primary';
+};
+
+export type DepositDetailsReact = {
+  className?: string;
+};
+
+export type WithdrawDetailsReact = {
+  className?: string;
+};
+
+export type DepositButtonReact = {
+  className?: string;
+};
+
+export type WithdrawButtonReact = {
   className?: string;
 };
