@@ -1,5 +1,5 @@
 import { MORPHO_VAULT_ABI } from '@/earn/abis/morpho';
-import { MORPHO_ADDRESS } from '@/earn/constants';
+import { MORPHO_TOKEN_BASE_ADDRESS } from '@/earn/constants';
 import calculateMorphoRewards from '@/earn/utils/calculateMorphoRewards';
 import { fetchMorphoApy } from '@/earn/utils/fetchMorphoApy';
 import { useQuery } from '@tanstack/react-query';
@@ -93,7 +93,7 @@ export function useMorphoVault({
     nativeApy: vaultData?.state?.netApyWithoutRewards,
     rewards: [
       {
-        asset: MORPHO_ADDRESS,
+        asset: MORPHO_TOKEN_BASE_ADDRESS,
         assetName: 'Morpho',
         apy: morphoApr,
       },

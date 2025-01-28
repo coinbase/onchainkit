@@ -1,4 +1,4 @@
-import { MORPHO_ADDRESS } from '@/earn/constants';
+import { MORPHO_TOKEN_BASE_ADDRESS } from '@/earn/constants';
 import { fetchMorphoApy } from '@/earn/utils/fetchMorphoApy';
 import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { renderHook } from '@testing-library/react';
@@ -70,7 +70,7 @@ describe('useMorphoVault', () => {
       rewards: [
         {
           apy: 0,
-          asset: MORPHO_ADDRESS,
+          asset: MORPHO_TOKEN_BASE_ADDRESS,
           assetName: 'Morpho',
         },
       ],
@@ -124,7 +124,7 @@ describe('useMorphoVault', () => {
         rewards: [
           {
             apy: 0,
-            asset: MORPHO_ADDRESS,
+            asset: MORPHO_TOKEN_BASE_ADDRESS,
             assetName: 'Morpho',
           },
           {
@@ -188,7 +188,7 @@ describe('useMorphoVault', () => {
         nativeApy: 0.03,
         rewards: [
           {
-            asset: MORPHO_ADDRESS,
+            asset: MORPHO_TOKEN_BASE_ADDRESS,
             assetName: 'Morpho',
             apy: 0,
           },
@@ -232,7 +232,7 @@ describe('useMorphoVault', () => {
 
     expect(result.current.rewards).toEqual([
       {
-        asset: MORPHO_ADDRESS,
+        asset: MORPHO_TOKEN_BASE_ADDRESS,
         assetName: 'Morpho',
         apy: 0,
       },
