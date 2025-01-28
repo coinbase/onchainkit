@@ -14,7 +14,7 @@ export function WalletAdvancedAddressDetails() {
 
   const handleCopyAddress = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(address ?? '');
+      await navigator.clipboard.writeText(String(address));
       setCopyText('Copied');
       setTimeout(() => setCopyText('Copy'), 2000);
     } catch (err) {

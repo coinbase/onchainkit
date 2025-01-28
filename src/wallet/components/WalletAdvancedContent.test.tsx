@@ -220,8 +220,7 @@ describe('WalletAdvancedContent', () => {
       </WalletAdvancedContent>,
     );
 
-    const overlay = screen.getByTestId('ockBottomSheetOverlay');
-    fireEvent.pointerDown(overlay);
+    fireEvent.pointerDown(document.body);
 
     expect(setIsSubComponentOpen).toHaveBeenCalledWith(false);
   });

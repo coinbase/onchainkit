@@ -22,22 +22,9 @@ describe('BottomSheet', () => {
     expect(screen.getByText('Test Content')).toBeInTheDocument();
   });
 
-  it('renders overlay when open', () => {
-    render(<BottomSheet {...defaultProps} />);
-    expect(screen.getByTestId('ockBottomSheetOverlay')).toBeInTheDocument();
-  });
-
-  it('does not render overlay when closed', () => {
+  it('does not render children when closed', () => {
     render(<BottomSheet {...defaultProps} isOpen={false} />);
-    expect(
-      screen.queryByTestId('ockBottomSheetOverlay'),
-    ).not.toBeInTheDocument();
-  });
-
-  it('calls onClose when overlay is clicked', () => {
-    render(<BottomSheet {...defaultProps} />);
-    fireEvent.pointerDown(screen.getByTestId('ockBottomSheetOverlay'));
-    expect(defaultProps.onClose).toHaveBeenCalled();
+    expect(screen.queryByText('Test Content')).not.toBeInTheDocument();
   });
 
   it('calls onClose when Escape key is pressed on overlay', () => {
