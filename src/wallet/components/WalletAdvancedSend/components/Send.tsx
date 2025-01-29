@@ -75,9 +75,9 @@ function SendDefaultChildren() {
     }
 
     return (
-      <div className="flex h-full flex-col justify-between">
+      <div className="flex h-full flex-col justify-between gap-4">
         <SendAddressInput />
-        <SendAmountInput className="pb-2" />
+        <SendAmountInput className="p-0" textClassName="text-4xl" />
         <SendTokenSelector />
         <SendButton />
       </div>

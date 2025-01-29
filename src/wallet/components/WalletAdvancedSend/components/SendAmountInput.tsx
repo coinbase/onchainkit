@@ -5,7 +5,13 @@ import { Skeleton } from '@/internal/components/Skeleton';
 import { cn, color, text } from '@/styles/theme';
 import { useSendContext } from '@/wallet/components/WalletAdvancedSend/components/SendProvider';
 
-export function SendAmountInput({ className }: { className?: string }) {
+export function SendAmountInput({
+  className,
+  textClassName,
+}: {
+  className?: string;
+  textClassName?: string;
+}) {
   const {
     selectedToken,
     cryptoAmount,
@@ -19,8 +25,8 @@ export function SendAmountInput({ className }: { className?: string }) {
   } = useSendContext();
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="w-full p-10">
+    <div className="flex h-full w-full flex-1 flex-col items-center justify-center">
+      <div className="flex h-full w-full flex-col justify-center">
         <AmountInput
           fiatAmount={fiatAmount ?? ''}
           cryptoAmount={cryptoAmount ?? ''}
@@ -28,6 +34,7 @@ export function SendAmountInput({ className }: { className?: string }) {
           currency={'USD'}
           selectedInputType={selectedInputType}
           className={className}
+          textClassName={textClassName}
           setFiatAmount={handleFiatAmountChange}
           setCryptoAmount={handleCryptoAmountChange}
           exchangeRate={String(exchangeRate)}

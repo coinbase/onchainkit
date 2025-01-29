@@ -16,18 +16,20 @@ type AmountInputProps = {
   setCryptoAmount: (value: string) => void;
   exchangeRate: string;
   className?: string;
+  textClassName?: string;
 };
 
 export function AmountInput({
+  asset,
+  currency,
   fiatAmount,
   cryptoAmount,
-  asset,
   selectedInputType,
-  currency,
-  className,
   setFiatAmount,
   setCryptoAmount,
   exchangeRate,
+  className,
+  textClassName,
 }: AmountInputProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -101,6 +103,7 @@ export function AmountInput({
             '[appearance:textfield]',
             '[&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none',
             '[&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
+            textClassName,
           )}
           value={value}
           onChange={handleAmountChange}
@@ -110,7 +113,11 @@ export function AmountInput({
           placeholder="0"
         />
 
-        <CurrencyLabel ref={currencySpanRef} label={currencyOrAsset} />
+        <CurrencyLabel
+          ref={currencySpanRef}
+          label={currencyOrAsset}
+          className={textClassName}
+        />
       </div>
 
       {/* Hidden span for measuring text width
@@ -129,6 +136,7 @@ export function AmountInput({
           'text-6xl leading-none outline-none',
           'pointer-events-none absolute whitespace-nowrap opacity-0',
           'left-[-9999px]', // Hide the span from the DOM
+          textClassName,
         )}
       >
         {value ? `${value}.` : '0.'}

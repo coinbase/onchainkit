@@ -104,7 +104,7 @@ function ContentWrapper({
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-center',
+        'flex flex-col items-center justify-between',
         'h-120 w-full',
         className,
       )}

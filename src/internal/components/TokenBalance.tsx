@@ -11,8 +11,8 @@ type TokenBalanceProps = {
   onClick?: (token: PortfolioTokenWithFiatValue) => void;
   className?: string;
 } & (
-  | { showAction?: true; onActionPress?: () => void }
-  | { showAction?: false; onActionPress?: never }
+  | { showAction?: true; actionText?: string; onActionPress?: () => void }
+  | { showAction?: false; actionText?: never; onActionPress?: never }
 );
 
 export function TokenBalance({
@@ -21,6 +21,7 @@ export function TokenBalance({
   showImage = true,
   onClick,
   showAction = false,
+  actionText = 'Use max',
   onActionPress,
   className,
 }: TokenBalanceProps) {
@@ -31,14 +32,16 @@ export function TokenBalance({
 
   const tokenContent = useMemo(() => {
     return (
-      <>
-        {showImage && <TokenImage token={token} size={32} />}
-        <div className="flex flex-col text-left">
+      <div className="grid w-full grid-cols-[2rem_1fr_auto] items-center gap-4">
+        <div className="h-8 w-8">
+          {showImage && <TokenImage token={token} size={32} />}
+        </div>
+        <div className="flex min-w-0 flex-col text-left">
           <span
             className={cn(
               text.label1,
               color.foreground,
-              'max-w-52 overflow-hidden text-ellipsis whitespace-nowrap text-left',
+              'max-w-52 overflow-hidden text-ellipsis whitespace-nowrap',
             )}
           >
             {token.name?.trim()}
@@ -50,41 +53,50 @@ export function TokenBalance({
             )} ${token.symbol} ${subtitle}`}
           </span>
         </div>
-        {showAction ? (
-          <span
-            onClick={(e) => {
-              e.stopPropagation();
-              onActionPress?.();
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+        <div className="text-right">
+          {showAction ? (
+            <span
+              onClick={(e) => {
                 e.stopPropagation();
                 onActionPress?.();
-              }
-            }}
-            className={cn(
-              text.label2,
-              color.primary,
-              'ml-auto p-0.5 hover:font-bold',
-            )}
-            aria-label="Use max"
-          >
-            Use max
-          </span>
-        ) : (
-          <span className={cn(text.label2, color.foregroundMuted, 'ml-auto')}>
-            {formattedValueInFiat}
-          </span>
-        )}
-      </>
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.stopPropagation();
+                  onActionPress?.();
+                }
+              }}
+              className={cn(
+                text.label2,
+                color.primary,
+                'ml-auto p-0.5 font-bold transition-brightness hover:brightness-110',
+              )}
+              aria-label={actionText}
+            >
+              {actionText}
+            </span>
+          ) : (
+            <span
+              className={cn(
+                text.label2,
+                color.foregroundMuted,
+                'whitespace-nowrap',
+              )}
+            >
+              {formattedValueInFiat}
+            </span>
+          )}
+        </div>
+      </div>
     );
   }, [
-    showAction,
-    token,
-    formattedValueInFiat,
     showImage,
-    onActionPress,
+    token,
     subtitle,
+    showAction,
+    actionText,
+    onActionPress,
+    formattedValueInFiat,
   ]);
 
   if (onClick) {
@@ -93,7 +105,7 @@ export function TokenBalance({
         type="button"
         onClick={() => onClick(token)}
         className={cn(
-          'flex w-full items-center justify-start gap-4 p-3 px-4',
+          'flex w-full items-center justify-start gap-4 px-2 py-1',
           className,
         )}
         data-testid="ockTokenBalanceButton"
@@ -106,7 +118,7 @@ export function TokenBalance({
   return (
     <div
       className={cn(
-        'flex w-full items-center justify-start gap-4 p-3 px-4',
+        'flex w-full items-center justify-start gap-4 px-2 py-1',
         className,
       )}
       data-testid="ockTokenBalanceDiv"

@@ -3,12 +3,13 @@ import { cn, color, text } from '@/styles/theme';
 
 type CurrencyLabelProps = {
   label: string;
+  className?: string;
 };
 
 export const CurrencyLabel = forwardRef<
   HTMLSpanElement,
   CurrencyLabelProps
->(({ label }, ref) => {
+>(({ label, className }, ref) => {
   return (
     <span
       ref={ref}
@@ -17,6 +18,7 @@ export const CurrencyLabel = forwardRef<
         color.disabled,
         'flex items-center justify-center bg-transparent',
         'text-6xl leading-none outline-none',
+        className,
       )}
       data-testid="ockCurrencySpan"
     >
