@@ -27,8 +27,10 @@ export function useSendContext() {
 }
 
 export function SendProvider({ children }: SendProviderReact) {
+  const [isInitialized, setIsInitialized] = useState(false);
+
   // state for ETH balance
-  const [ethBalance, setEthBalance] = useState<number | undefined>(undefined);
+  const [ethBalance, setEthBalance] = useState<number>(0);
 
   // state for recipient address selection
   const [recipientInput, setRecipientInput] = useState<string | null>(null);
@@ -80,6 +82,7 @@ export function SendProvider({ children }: SendProviderReact) {
         },
       });
     }
+    setIsInitialized(true);
   }, [tokenBalances, updateLifecycleStatus]);
 
   // Validate recipient input and set validated recipient address
@@ -173,7 +176,7 @@ export function SendProvider({ children }: SendProviderReact) {
         statusData: {
           isMissingRequiredField: true,
           sufficientBalance:
-            Number(value) <= Number(selectedToken?.fiatBalance) ?? 0,
+            Number(value) <= Number(selectedToken?.fiatBalance),
         },
       });
     },
@@ -189,8 +192,8 @@ export function SendProvider({ children }: SendProviderReact) {
           isMissingRequiredField: true,
           sufficientBalance:
             Number(value) <=
-              Number(selectedToken?.cryptoBalance) /
-                10 ** Number(selectedToken?.decimals) ?? 0,
+            Number(selectedToken?.cryptoBalance) /
+              10 ** Number(selectedToken?.decimals),
         },
       });
     },
@@ -241,6 +244,7 @@ export function SendProvider({ children }: SendProviderReact) {
   }, [fetchTransactionData]);
 
   const value = useValue<SendContextType>({
+    isInitialized,
     lifecycleStatus,
     updateLifecycleStatus,
     senderAddress,

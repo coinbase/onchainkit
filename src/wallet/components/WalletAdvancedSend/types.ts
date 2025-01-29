@@ -9,6 +9,7 @@ export type SendProviderReact = {
 
 export type SendContextType = {
   // Lifecycle Status Context
+  isInitialized: boolean;
   lifecycleStatus: LifecycleStatus;
   updateLifecycleStatus: (newStatus: LifecycleStatus) => void;
 

@@ -50,6 +50,10 @@ function SendDefaultChildren() {
   });
 
   const activeStep = useMemo(() => {
+    if (!context.isInitialized) {
+      return null;
+    }
+
     if (!context.ethBalance || context.ethBalance < 0.0000001) {
       return <SendFundingWallet />;
     }
@@ -83,6 +87,7 @@ function SendDefaultChildren() {
       </div>
     );
   }, [
+    context.isInitialized,
     context.ethBalance,
     context.selectedRecipientAddress,
     context.selectedToken,
