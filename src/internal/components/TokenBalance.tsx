@@ -32,21 +32,21 @@ export function TokenBalance({
 
   const tokenContent = useMemo(() => {
     return (
-      <div className="grid w-full grid-cols-[2rem_1fr_auto] items-center gap-4">
-        <div className="h-8 w-8">
-          {showImage && <TokenImage token={token} size={32} />}
+      <div className="grid w-full grid-cols-[2.5rem_1fr_auto] items-center gap-3">
+        <div className="h-10 w-10">
+          {showImage && <TokenImage token={token} size={40} />}
         </div>
         <div className="flex min-w-0 flex-col text-left">
           <span
             className={cn(
-              text.label1,
+              text.headline,
               color.foreground,
               'max-w-52 overflow-hidden text-ellipsis whitespace-nowrap',
             )}
           >
             {token.name?.trim()}
           </span>
-          <span className={cn(text.legal, color.foregroundMuted)}>
+          <span className={cn(text.label2, color.foregroundMuted)}>
             {`${truncateDecimalPlaces(
               token.cryptoBalance / 10 ** token.decimals,
               2,
