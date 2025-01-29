@@ -1,7 +1,7 @@
 'use client';
 
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
-import { cn, color, text } from '@/styles/theme';
+import { getChainExplorer } from '@/core/network/getChainExplorer';
 import {
   Transaction,
   TransactionButton,
@@ -11,9 +11,14 @@ import {
   TransactionStatusAction,
   TransactionStatusLabel,
 } from '@/transaction';
+import { useTransactionContext } from '@/transaction/components/TransactionProvider';
 import type { Call } from '@/transaction/types';
-import { useMemo } from 'react';
+import { useWalletAdvancedContext } from '@/wallet/components/WalletAdvancedProvider';
+import { useWalletContext } from '@/wallet/components/WalletProvider';
+import { useCallback, useMemo } from 'react';
+import type { TransactionReceipt } from 'viem';
 import { type Chain, base } from 'viem/chains';
+import { useChainId } from 'wagmi';
 
 type SendButtonProps = {
   cryptoAmount: string | null;
@@ -72,31 +77,109 @@ export function SendButton({
   }, [cryptoAmount, disabled, selectedToken]);
 
   return (
-    <>
-      <Transaction
-        isSponsored={isSponsored}
-        chainId={senderChain?.id ?? base.id}
-        calls={callData ? [callData] : []}
-      >
-        <TransactionButton
-          className={className}
-          text={sendButtonLabel}
-          pendingOverride={pendingOverride}
-          successOverride={successOverride}
-          errorOverride={errorOverride}
-          disabled={isDisabled}
-        />
-        {!sendTransactionError && <TransactionSponsor />}
-        <TransactionStatus>
-          <TransactionStatusLabel />
-          <TransactionStatusAction />
-        </TransactionStatus>
-      </Transaction>
-      {sendTransactionError && (
-        <div className={cn(text.label2, color.foregroundMuted, 'pb-2')}>
-          {sendTransactionError}
-        </div>
-      )}
-    </>
+    <Transaction
+      isSponsored={isSponsored}
+      chainId={senderChain?.id ?? base.id}
+      calls={callData ? [callData] : []}
+    >
+      <SendTransactionButton
+        className={className}
+        senderChain={senderChain}
+        pendingOverride={pendingOverride}
+        errorOverride={errorOverride}
+        successOverride={successOverride}
+        disabled={isDisabled}
+        label={sendButtonLabel}
+      />
+      {!sendTransactionError && <TransactionSponsor />}
+      <TransactionStatus>
+        <TransactionStatusLabel />
+        <TransactionStatusAction />
+      </TransactionStatus>
+    </Transaction>
+  );
+}
+
+/**
+ * SendTransactionButton required to be a nested component in order to pull from TransactionContext.
+ * Need to pull from TransactionContext in order to get transactionHash and transactionId.
+ * Need transactionHash and transactionId in order to determine where to open the transaction in the wallet or explorer.
+ */
+function SendTransactionButton({
+  className,
+  senderChain,
+  pendingOverride,
+  errorOverride,
+  successOverride,
+  disabled,
+  label,
+}: {
+  className?: string;
+  senderChain?: Chain | null;
+  pendingOverride?: TransactionButtonReact['pendingOverride'];
+  errorOverride?: TransactionButtonReact['errorOverride'];
+  successOverride?: TransactionButtonReact['successOverride'];
+  disabled?: boolean;
+  label: string;
+}) {
+  const { address } = useWalletContext();
+  const { setShowSend } = useWalletAdvancedContext();
+
+  const { transactionHash, transactionId } = useTransactionContext();
+
+  const accountChainId = senderChain?.id ?? useChainId();
+
+  const defaultSuccessHandler = useCallback(
+    (receipt: TransactionReceipt | undefined) => {
+      // SW will have txn id so open in wallet
+      if (
+        receipt &&
+        transactionId &&
+        transactionHash &&
+        senderChain?.id &&
+        address
+      ) {
+        const url = new URL('https://wallet.coinbase.com/assets/transactions');
+        url.searchParams.set('contentParams[txHash]', transactionHash);
+        url.searchParams.set(
+          'contentParams[chainId]',
+          JSON.stringify(senderChain?.id),
+        );
+        url.searchParams.set('contentParams[fromAddress]', address);
+        window.open(url, '_blank', 'noopener,noreferrer');
+      } else {
+        // EOA will not have txn id so open in explorer
+        const chainExplorer = getChainExplorer(accountChainId);
+        window.open(
+          `${chainExplorer}/tx/${transactionHash}`,
+          '_blank',
+          'noopener,noreferrer',
+        );
+      }
+      setShowSend(false);
+    },
+    [
+      address,
+      senderChain,
+      transactionId,
+      transactionHash,
+      accountChainId,
+      setShowSend,
+    ],
+  );
+
+  const defaultSuccessOverride = {
+    onClick: defaultSuccessHandler,
+  };
+
+  return (
+    <TransactionButton
+      className={className}
+      text={label}
+      pendingOverride={pendingOverride}
+      successOverride={successOverride ?? defaultSuccessOverride}
+      errorOverride={errorOverride}
+      disabled={disabled}
+    />
   );
 }
