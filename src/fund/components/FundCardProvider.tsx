@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
 import { useEmitLifecycleStatus } from '../hooks/useEmitLifecycleStatus';
+import { useOnrampExchangeRate } from '../hooks/useOnrampExhangeRate';
 import { usePaymentMethods } from '../hooks/usePaymentMethods';
 import type {
   AmountInputType,
@@ -17,7 +18,6 @@ import type {
   PaymentMethod,
   PresetAmountInputs,
 } from '../types';
-import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 type FundCardContextType = {
   asset: string;
@@ -92,40 +92,24 @@ export function FundCardProvider({
     onStatus,
   });
 
-  const fetchExchangeRate = useCallback(async () => {
+  const { fetchExchangeRate } = useOnrampExchangeRate({
+    asset,
+    currency,
+    country,
+    subdivision,
+    setExchangeRate,
+    onError,
+  });
+
+  const handleFetchExchangeRate = useCallback(async () => {
     setExchangeRateLoading(true);
-
-    try {
-      const quote = await fetchOnrampQuote({
-        purchaseCurrency: asset,
-        paymentCurrency: currency,
-        paymentAmount: '100',
-        paymentMethod: 'CARD',
-        country,
-        subdivision,
-      });
-
-      setExchangeRate(
-        Number(quote.purchaseAmount.value) /
-          Number(quote.paymentSubtotal.value),
-      );
-    } catch (err) {
-      if (err instanceof Error) {
-        console.error('Error fetching exchange rate:', err);
-        onError?.({
-          errorType: 'handled_error',
-          code: 'EXCHANGE_RATE_ERROR',
-          debugMessage: err.message,
-        });
-      }
-    } finally {
-      setExchangeRateLoading(false);
-    }
-  }, [asset, country, subdivision, currency, onError]);
+    await fetchExchangeRate();
+    setExchangeRateLoading(false);
+  }, [fetchExchangeRate]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
   useEffect(() => {
-    fetchExchangeRate();
+    handleFetchExchangeRate();
   }, []);
 
   // Fetches and sets the payment methods to the context
