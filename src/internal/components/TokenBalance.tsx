@@ -41,7 +41,7 @@ export function TokenBalance({
             className={cn(
               text.headline,
               color.foreground,
-              'max-w-52 overflow-hidden text-ellipsis whitespace-nowrap',
+              'overflow-hidden text-ellipsis whitespace-nowrap',
             )}
           >
             {token.name?.trim()}

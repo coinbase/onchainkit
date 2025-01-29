@@ -35,7 +35,7 @@ export const TokenRow = memo(function TokenRow({
           <span
             className={cn(
               text.headline,
-              'max-w-52 overflow-hidden text-ellipsis whitespace-nowrap text-left',
+              'overflow-hidden text-ellipsis whitespace-nowrap text-left',
             )}
           >
             {token.name.trim()}
