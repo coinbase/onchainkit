@@ -2,9 +2,9 @@ import { background, border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
 import type { WalletAdvancedReact } from '../types';
-import { Send } from './WalletAdvancedSend/components/Send';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
+import { Send } from './WalletAdvancedSend/components/Send';
 import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
 

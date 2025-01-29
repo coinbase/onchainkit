@@ -1,14 +1,14 @@
 import { useTheme } from '@/internal/hooks/useTheme';
 import { background, border, cn, color } from '@/styles/theme';
-import { useMemo, type ReactNode } from 'react';
+import { type ReactNode, useMemo } from 'react';
+import { SendAddressInput } from './SendAddressInput';
+import { SendAddressSelector } from './SendAddressSelector';
+import { SendAmountInput } from './SendAmountInput';
+import { SendButton } from './SendButton';
+import { SendFundingWallet } from './SendFundingWallet';
 import { SendHeader } from './SendHeader';
 import { SendProvider, useSendContext } from './SendProvider';
-import { SendAddressInput } from '@/wallet/components/WalletAdvancedSend/components/SendAddressInput';
-import { SendAddressSelector } from '@/wallet/components/WalletAdvancedSend/components/SendAddressSelector';
-import { SendTokenSelector } from '@/wallet/components/WalletAdvancedSend/components/SendTokenSelector';
-import { SendAmountInput } from '@/wallet/components/WalletAdvancedSend/components/SendAmountInput';
-import { SendFundingWallet } from '@/wallet/components/WalletAdvancedSend/components/SendFundingWallet';
-import { SendButton } from '@/wallet/components/WalletAdvancedSend/components/SendButton';
+import { SendTokenSelector } from './SendTokenSelector';
 
 type SendReact = {
   children?: ReactNode;

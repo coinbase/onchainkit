@@ -1,6 +1,6 @@
-import { useSendContext } from '@/wallet/components/WalletAdvancedSend/components/SendProvider';
 import { TokenBalance } from '@/internal/components/TokenBalance';
 import { border, cn, color, pressable, text } from '@/styles/theme';
+import { useSendContext } from './SendProvider';
 
 export function SendTokenSelector() {
   const {
@@ -16,7 +16,9 @@ export function SendTokenSelector() {
   if (!selectedToken) {
     return (
       <div className="mt-4 flex max-h-80 flex-col gap-2">
-        <span className={cn(text.caption, color.foregroundMuted, 'uppercase')}>Select a token</span>
+        <span className={cn(text.caption, color.foregroundMuted, 'uppercase')}>
+          Select a token
+        </span>
         <div className="scrollbar-hidden overflow-y-auto">
           {tokenBalances?.map((token) => (
             <TokenBalance

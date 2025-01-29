@@ -1,10 +1,10 @@
-import { cn, text } from '@/styles/theme';
-import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
-import { useCallback } from 'react';
 import { PressableIcon } from '@/internal/components/PressableIcon';
-import { CloseSvg } from '@/internal/svg/closeSvg';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
-import { useSendContext } from '@/wallet/components/WalletAdvancedSend/components/SendProvider';
+import { CloseSvg } from '@/internal/svg/closeSvg';
+import { cn, text } from '@/styles/theme';
+import { useCallback } from 'react';
+import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
+import { useSendContext } from './SendProvider';
 
 export function SendHeader({ label = 'Send' }: { label?: string }) {
   const { setShowSend } = useWalletAdvancedContext();

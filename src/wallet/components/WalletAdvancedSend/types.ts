@@ -1,7 +1,7 @@
-import type { APIError, PortfolioTokenWithFiatValue } from '../../../api/types';
-import type { Call } from '../../../transaction/types';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Chain, Hex, TransactionReceipt } from 'viem';
+import type { APIError, PortfolioTokenWithFiatValue } from '../../../api/types';
+import type { Call } from '../../../transaction/types';
 
 export type SendProviderReact = {
   children: ReactNode;

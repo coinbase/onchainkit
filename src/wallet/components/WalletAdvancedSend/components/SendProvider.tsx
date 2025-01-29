@@ -1,4 +1,9 @@
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
+import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
+import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
+import { useTransferTransaction } from '@/internal/hooks/useTransferTransaction';
+import { useValue } from '@/internal/hooks/useValue';
+import type { Call } from '@/transaction/types';
 import {
   createContext,
   useCallback,
@@ -7,14 +12,9 @@ import {
   useState,
 } from 'react';
 import type { Address } from 'viem';
-import { validateAddressInput } from '@/wallet/components/WalletAdvancedSend/validateAddressInput';
-import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
-import { useValue } from '@/internal/hooks/useValue';
-import { useWalletContext } from '@/wallet/components/WalletProvider';
-import { useWalletAdvancedContext } from '@/wallet/components/WalletAdvancedProvider';
-import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
-import type { Call } from '@/transaction/types';
-import { useTransferTransaction } from '@/internal/hooks/useTransferTransaction';
+import { validateAddressInput } from '../../../utils/validateAddressInput';
+import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
+import { useWalletContext } from '../../WalletProvider';
 import type { LifecycleStatus, SendProviderReact } from '../types';
 import type { SendContextType } from '../types';
 

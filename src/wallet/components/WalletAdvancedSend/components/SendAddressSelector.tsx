@@ -1,8 +1,8 @@
 import { Address, Avatar, Identity, Name } from '@/identity';
-import { useSendContext } from '@/wallet/components/WalletAdvancedSend/components/SendProvider';
 import { background, border, cn, pressable } from '@/styles/theme';
 import { useCallback } from 'react';
 import type { Address as AddressType } from 'viem';
+import { useSendContext } from './SendProvider';
 
 type SendAddressSelectorProps = {
   address: AddressType;

@@ -1,15 +1,15 @@
 import { cn, color, text } from '@/styles/theme';
 import {
-  type TransactionButtonReact,
   Transaction,
   TransactionButton,
+  type TransactionButtonReact,
   TransactionSponsor,
   TransactionStatus,
   TransactionStatusAction,
   TransactionStatusLabel,
 } from '@/transaction';
-import { useSendContext } from '@/wallet/components/WalletAdvancedSend/components/SendProvider';
 import { useMemo } from 'react';
+import { useSendContext } from './SendProvider';
 
 type SendButtonProps = {
   label?: string;
