@@ -170,12 +170,6 @@
       "import": "./esm/nft/components/mint/index.js",
       "default": "./esm/nft/components/mint/index.js"
     },
-    "./send": {
-      "types": "./esm/send/index.d.ts",
-      "module": "./esm/send/index.js",
-      "import": "./esm/send/index.js",
-      "default": "./esm/send/index.js"
-    },
     "./swap": {
       "types": "./esm/swap/index.d.ts",
       "module": "./esm/swap/index.js",
