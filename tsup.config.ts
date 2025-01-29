@@ -48,6 +48,16 @@ export default defineConfig({
       },
     );
 
+    // Update any type aliases
+    spawnSync('tscpaths', [
+      '-p',
+      'tsconfig.esm.json',
+      '-s',
+      'src',
+      '-o',
+      'playground/nextjs-app-router/onchainkit/esm',
+    ]);
+
     // Copy tailwind styles
     spawnSync('cp', [
       'src/styles.css',
