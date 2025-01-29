@@ -1,11 +1,11 @@
 'use client';
 
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
+import { Skeleton } from '@/internal/components/Skeleton';
 import { AmountInput } from '@/internal/components/amount-input/AmountInput';
 import { AmountInputTypeSwitch } from '@/internal/components/amount-input/AmountInputTypeSwitch';
-import { Skeleton } from '@/internal/components/Skeleton';
 import { cn, color, text } from '@/styles/theme';
-import { useSendContext } from '@/wallet/components/WalletAdvancedSend/components/SendProvider';
+import { useSendContext } from './SendProvider';
 
 export function SendAmountInput({
   className,

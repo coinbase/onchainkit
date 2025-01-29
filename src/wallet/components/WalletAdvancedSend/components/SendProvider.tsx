@@ -3,6 +3,7 @@ import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useSendTransaction } from '@/internal/hooks/useSendTransaction';
 import { useValue } from '@/internal/hooks/useValue';
+import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
 import type { Call } from '@/transaction/types';
 import {
   createContext,
@@ -15,9 +16,11 @@ import type { Address } from 'viem';
 import { validateAddressInput } from '../../../utils/validateAddressInput';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
-import type { LifecycleStatus, SendProviderReact } from '../types';
-import type { SendContextType } from '../types';
-import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
+import type {
+  LifecycleStatus,
+  SendContextType,
+  SendProviderReact,
+} from '../types';
 
 const emptyContext = {} as SendContextType;
 
