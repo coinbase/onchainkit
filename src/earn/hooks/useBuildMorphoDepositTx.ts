@@ -5,7 +5,7 @@ import { type Address, parseUnits } from 'viem';
 
 export type UseBuildMorphoDepositTxParams = {
   vaultAddress: Address;
-  receiverAddress: Address;
+  receiverAddress?: Address;
   amount: number;
 };
 

@@ -27,7 +27,7 @@ const baseContext = {
 
 describe('DepositDetails Component', () => {
   it('renders EarnDetails with default APY tag when APY is provided', () => {
-    const mockApy = '5.00%';
+    const mockApy = 5;
     vi.mocked(useEarnContext).mockReturnValue({ ...baseContext, apy: mockApy });
 
     const { container } = render(<DepositDetails />);
@@ -40,7 +40,10 @@ describe('DepositDetails Component', () => {
   });
 
   it('renders EarnDetails with an empty tag when APY is not provided', () => {
-    vi.mocked(useEarnContext).mockReturnValue({ ...baseContext, apy: '' });
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      apy: undefined,
+    });
 
     render(<DepositDetails />);
 
@@ -50,7 +53,7 @@ describe('DepositDetails Component', () => {
 
   it('applies custom className to the EarnDetails container', () => {
     const customClass = 'custom-class';
-    (useEarnContext as Mock).mockReturnValue({ apy: null });
+    (useEarnContext as Mock).mockReturnValue({ apy: undefined });
 
     render(<DepositDetails className={customClass} />);
 

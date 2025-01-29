@@ -22,7 +22,7 @@ const baseContext = {
   withdrawAmount: '0',
   setWithdrawAmount: vi.fn(),
   interest: '1.2k',
-  apy: '5%',
+  apy: 5,
   depositCalls: [],
   withdrawCalls: [],
 };

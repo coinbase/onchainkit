@@ -1,3 +1,4 @@
+import { getRoundedAmount } from '@/internal/utils/getRoundedAmount';
 import { usdcToken } from '@/token/constants';
 import { useMemo } from 'react';
 import type { DepositDetailsReact } from '../types';
@@ -9,7 +10,7 @@ export function DepositDetails({ className }: DepositDetailsReact) {
 
   const tag = useMemo(() => {
     if (apy) {
-      return `APY ${apy}`;
+      return `APY ${getRoundedAmount(apy.toString(), 3)}%`;
     }
     return '';
   }, [apy]);

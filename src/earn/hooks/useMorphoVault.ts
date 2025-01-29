@@ -8,7 +8,7 @@ import { useReadContract, useReadContracts } from 'wagmi';
 
 type UseMorphoVaultParams = {
   vaultAddress: Address;
-  address: Address;
+  address?: Address;
 };
 
 export type UseMorphoVaultReturnType = {
@@ -49,7 +49,9 @@ export function useMorphoVault({
         abi: MORPHO_VAULT_ABI,
         address: vaultAddress,
         functionName: 'balanceOf',
-        args: [address],
+        // Safe to coerce to Address because useQuery's enabled
+        // flag will prevent the query from running if address is undefined
+        args: [address as Address],
       },
       {
         abi: MORPHO_VAULT_ABI,
@@ -57,6 +59,9 @@ export function useMorphoVault({
         functionName: 'decimals',
       },
     ],
+    query: {
+      enabled: !!address,
+    },
   });
 
   const { data: tokenDecimals } = useReadContract({
