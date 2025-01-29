@@ -1,0 +1,74 @@
+# `useTokenDetails`
+
+The `useTokenDetails` hook implements the `getTokenDetails` API, returning the data required to view an NFT.
+
+It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+
+Before using them, make sure to obtain a [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+
+## Usage
+
+:::code-group
+
+```tsx twoslash [code]
+import { useTokenDetails } from '@coinbase/onchainkit/nft';
+
+const Component = () => {
+  const { data, isLoading, error } = useTokenDetails({
+    contractAddress: '0x...',
+    tokenId: '1',
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  
+  return <div>{JSON.stringify(data)}</div>;
+};
+```
+
+```tsx [scaffolding]
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { useTokenDetails } from '@coinbase/onchainkit/nft';
+
+const queryClient = new QueryClient();
+
+<QueryClientProvider client={queryClient}>
+  <OnchainKitProvider
+    apiKey={...apiKey}
+    chain={base}
+  >
+    <Component />
+  </OnchainKitProvider>
+</QueryClientProvider>
+```
+
+```json [return value]
+{ 
+  "data": {
+    "collectionName": "NFT Collection Name",
+    "collectionDescription": "NFT Collection Description",
+    "name": "NFT Name",
+    "description": "NFT Description",
+    "imageUrl": "https://example.com/image.png",
+    "animationUrl": "",
+    "ownerAddress": "0x...",
+    "lastSoldPrice": {
+      "amount": "0.0001",
+      "currency": "ETH",
+      "amountUSD": "0.242271"
+    },
+    "mimeType": "image/png",
+    "contractType": "ERC721"
+  }
+}
+```
+
+:::
+
+## Returns
+
+[`UseQueryResult<TokenDetails>`](/api/types#gettokendetailsresponse)
+
+## Parameters
+
+[`GetTokenDetailsParams`](/api/types#gettokendetailsparams)
