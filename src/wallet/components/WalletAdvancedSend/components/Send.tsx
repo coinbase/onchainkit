@@ -5,7 +5,7 @@ import { SendAddressInput } from './SendAddressInput';
 import { SendAddressSelector } from './SendAddressSelector';
 import { SendAmountInput } from './SendAmountInput';
 import { SendButton } from './SendButton';
-import { SendFundingWallet } from './SendFundingWallet';
+import { SendFundWallet } from './SendFundWallet';
 import { SendHeader } from './SendHeader';
 import { SendProvider, useSendContext } from './SendProvider';
 import { SendTokenSelector } from './SendTokenSelector';
@@ -55,7 +55,7 @@ function SendDefaultChildren() {
     }
 
     if (!context.ethBalance || context.ethBalance < 0.0000001) {
-      return <SendFundingWallet />;
+      return <SendFundWallet />;
     }
 
     if (!context.selectedRecipientAddress) {
