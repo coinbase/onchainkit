@@ -55,10 +55,13 @@ export function TokenBalance({
         </div>
         <div className="text-right">
           {showAction ? (
-            <button
-              type="button"
+            <span
               aria-label={actionText}
               onClick={(e) => {
+                e.stopPropagation();
+                onActionPress?.();
+              }}
+              onKeyDown={(e) => {
                 e.stopPropagation();
                 onActionPress?.();
               }}
@@ -71,7 +74,7 @@ export function TokenBalance({
               )}
             >
               {actionText}
-            </button>
+            </span>
           ) : (
             <span
               className={cn(
