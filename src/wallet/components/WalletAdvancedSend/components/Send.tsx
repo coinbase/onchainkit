@@ -62,7 +62,6 @@ function SendDefaultChildren() {
       return (
         <>
           <SendAddressInput
-            // senderChain={context.senderChain}
             selectedRecipientAddress={context.selectedRecipientAddress}
             recipientInput={context.recipientInput}
             setRecipientInput={context.setRecipientInput}
@@ -83,7 +82,6 @@ function SendDefaultChildren() {
       return (
         <>
           <SendAddressInput
-            // senderChain={context.senderChain}
             selectedRecipientAddress={context.selectedRecipientAddress}
             recipientInput={context.recipientInput}
             setRecipientInput={context.setRecipientInput}
@@ -105,7 +103,6 @@ function SendDefaultChildren() {
     return (
       <div className="flex h-full flex-col justify-between gap-4">
         <SendAddressInput
-          // senderChain={context.senderChain}
           selectedRecipientAddress={context.selectedRecipientAddress}
           recipientInput={context.recipientInput}
           setRecipientInput={context.setRecipientInput}
@@ -124,6 +121,7 @@ function SendDefaultChildren() {
         <SendButton
           cryptoAmount={context.cryptoAmount}
           selectedToken={context.selectedToken}
+          senderChain={context.senderChain}
           callData={context.callData}
           sendTransactionError={context.sendTransactionError}
         />

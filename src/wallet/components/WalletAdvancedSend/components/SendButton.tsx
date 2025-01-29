@@ -13,11 +13,12 @@ import {
 } from '@/transaction';
 import type { Call } from '@/transaction/types';
 import { useMemo } from 'react';
-import { base } from 'viem/chains';
+import { type Chain, base } from 'viem/chains';
 
 type SendButtonProps = {
   cryptoAmount: string | null;
   selectedToken: PortfolioTokenWithFiatValue | null;
+  senderChain?: Chain | null;
   callData: Call | null;
   sendTransactionError: string | null;
   label?: string;
@@ -29,6 +30,7 @@ type SendButtonProps = {
 
 export function SendButton({
   label = 'Continue',
+  senderChain,
   className,
   disabled,
   successOverride,
@@ -40,9 +42,6 @@ export function SendButton({
   sendTransactionError,
 }: SendButtonProps) {
   const isSponsored = false;
-  const chainId = base.id;
-
-  const handleOnStatus = () => {};
 
   const sendButtonLabel = useMemo(() => {
     if (
@@ -76,9 +75,8 @@ export function SendButton({
     <>
       <Transaction
         isSponsored={isSponsored}
-        chainId={chainId}
+        chainId={senderChain?.id ?? base.id}
         calls={callData ? [callData] : []}
-        onStatus={handleOnStatus}
       >
         <TransactionButton
           className={className}
