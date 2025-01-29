@@ -21,6 +21,7 @@ export type SendContextType = {
 
   // Recipient Address Context
   recipientInput: string | null;
+  setRecipientInput: Dispatch<SetStateAction<string | null>>;
   validatedRecipientAddress: Address | null;
   selectedRecipientAddress: Address | null;
   handleAddressSelection: (address: Address) => void;

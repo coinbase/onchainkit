@@ -1,59 +1,46 @@
 'use client';
 
-import { getName } from '@/identity';
+import { getName, isBasename } from '@/identity';
 import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
 import { TextInput } from '@/internal/components/TextInput';
 import { background, border, cn, color } from '@/styles/theme';
-import { useCallback, useEffect, useState } from 'react';
-import type { Address, Chain } from 'viem';
-import { base } from 'viem/chains';
+import {
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useEffect,
+} from 'react';
+import type { Address } from 'viem';
+import { base, mainnet } from 'viem/chains';
 
 type AddressInputProps = {
   selectedRecipientAddress: Address | null;
   recipientInput: string | null;
+  setRecipientInput: Dispatch<SetStateAction<string | null>>;
   handleRecipientInputChange: (input: string) => void;
-  senderChain: Chain | null | undefined;
   className?: string;
 };
 
 export function SendAddressInput({
   selectedRecipientAddress,
   recipientInput,
+  setRecipientInput,
   handleRecipientInputChange,
-  senderChain,
   className,
 }: AddressInputProps) {
-  const [inputValue, setInputValue] = useState<string | null>(null);
-
   useEffect(() => {
-    getInputValue(selectedRecipientAddress, recipientInput, senderChain)
-      .then(setInputValue)
+    resolveInputDisplay(selectedRecipientAddress, recipientInput)
+      .then(setRecipientInput)
       .catch(console.error);
-  }, [selectedRecipientAddress, recipientInput, senderChain]);
+  }, [selectedRecipientAddress, recipientInput, setRecipientInput]);
 
-  const handleFocus = useCallback(
-    (e: React.FocusEvent<HTMLInputElement>) => {
-      if (selectedRecipientAddress) {
-        getInputValue(selectedRecipientAddress, recipientInput, senderChain)
-          .then((value) => handleRecipientInputChange(value ?? ''))
-          .catch(console.error);
-        setTimeout(() => {
-          // TODO: This is a hack to get the cursor to the end of the input, how to remove timeout?
-          e.target.setSelectionRange(
-            selectedRecipientAddress.length,
-            selectedRecipientAddress.length,
-          );
-          e.target.scrollLeft = e.target.scrollWidth;
-        }, 0);
-      }
-    },
-    [
-      selectedRecipientAddress,
-      handleRecipientInputChange,
-      recipientInput,
-      senderChain,
-    ],
-  );
+  const handleFocus = useCallback(() => {
+    if (selectedRecipientAddress) {
+      resolveInputDisplay(selectedRecipientAddress, recipientInput)
+        .then((value) => handleRecipientInputChange(value ?? ''))
+        .catch(console.error);
+    }
+  }, [selectedRecipientAddress, handleRecipientInputChange, recipientInput]);
 
   return (
     <div
@@ -70,7 +57,7 @@ export function SendAddressInput({
       <TextInput
         inputMode="text"
         placeholder="Basename, ENS, or Address"
-        value={inputValue ?? ''}
+        value={recipientInput ?? ''}
         onChange={handleRecipientInputChange}
         onFocus={handleFocus}
         aria-label="Input Receiver Address"
@@ -80,18 +67,21 @@ export function SendAddressInput({
   );
 }
 
-async function getInputValue(
+async function resolveInputDisplay(
   selectedRecipientAddress: Address | null,
   recipientInput: string | null,
-  senderChain: Chain | null | undefined,
 ) {
+  if (!recipientInput) {
+    return null;
+  }
+
   if (!selectedRecipientAddress) {
     return recipientInput;
   }
 
   const name = await getName({
     address: selectedRecipientAddress,
-    chain: senderChain ?? base,
+    chain: isBasename(recipientInput) ? base : mainnet,
   });
   if (name) {
     return name;

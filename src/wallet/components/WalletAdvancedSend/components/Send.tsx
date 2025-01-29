@@ -62,9 +62,10 @@ function SendDefaultChildren() {
       return (
         <>
           <SendAddressInput
-            senderChain={context.senderChain}
+            // senderChain={context.senderChain}
             selectedRecipientAddress={context.selectedRecipientAddress}
             recipientInput={context.recipientInput}
+            setRecipientInput={context.setRecipientInput}
             handleRecipientInputChange={context.handleRecipientInputChange}
           />
           {context.validatedRecipientAddress && (
@@ -82,9 +83,10 @@ function SendDefaultChildren() {
       return (
         <>
           <SendAddressInput
-            senderChain={context.senderChain}
+            // senderChain={context.senderChain}
             selectedRecipientAddress={context.selectedRecipientAddress}
             recipientInput={context.recipientInput}
+            setRecipientInput={context.setRecipientInput}
             handleRecipientInputChange={context.handleRecipientInputChange}
           />
           <SendTokenSelector
@@ -103,9 +105,10 @@ function SendDefaultChildren() {
     return (
       <div className="flex h-full flex-col justify-between gap-4">
         <SendAddressInput
-          senderChain={context.senderChain}
+          // senderChain={context.senderChain}
           selectedRecipientAddress={context.selectedRecipientAddress}
           recipientInput={context.recipientInput}
+          setRecipientInput={context.setRecipientInput}
           handleRecipientInputChange={context.handleRecipientInputChange}
         />
         <SendAmountInput className="p-0" textClassName="text-4xl" />
@@ -141,6 +144,7 @@ function SendDefaultChildren() {
     context.handleRecipientInputChange,
     context.handleAddressSelection,
     context.recipientInput,
+    context.setRecipientInput,
     context.senderChain,
     context.cryptoAmount,
     context.callData,

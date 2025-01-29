@@ -256,6 +256,7 @@ export function SendProvider({ children }: SendProviderReact) {
     tokenBalances,
     ethBalance,
     recipientInput,
+    setRecipientInput,
     validatedRecipientAddress,
     selectedRecipientAddress,
     handleAddressSelection,
