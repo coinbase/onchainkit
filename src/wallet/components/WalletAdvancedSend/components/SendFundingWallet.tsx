@@ -1,10 +1,19 @@
-import { FundCard } from '@/fund';
+import {
+  FundCard,
+  FundCardAmountInput,
+  FundCardAmountInputTypeSwitch,
+  FundCardHeader,
+  FundCardPaymentMethodDropdown,
+  FundCardPresetAmountInputList,
+  FundCardSubmitButton,
+} from '@/fund';
+import { text } from '@/styles/theme';
 
 export function SendFundingWallet() {
   return (
     <div className="flex flex-col items-center justify-center">
       <FundCard
-        headerText="Buy ETH for transaction fees"
+        headerText="Insufficient ETH balance to send transaction. Fund your wallet to continue."
         assetSymbol="ETH"
         country="US"
         currency="USD"
@@ -12,8 +21,15 @@ export function SendFundingWallet() {
         onError={() => {}}
         onStatus={() => {}}
         onSuccess={() => {}}
-        className="w-88 border-none"
-      />
+        className='mt-1 w-88 border-none pt-0'
+      >
+        <FundCardHeader className={text.label2}/>
+        <FundCardAmountInput />
+        <FundCardAmountInputTypeSwitch />
+        <FundCardPresetAmountInputList />
+        <FundCardPaymentMethodDropdown />
+        <FundCardSubmitButton />
+      </FundCard>
     </div>
   );
 }
