@@ -1,8 +1,8 @@
 'use client';
 
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
-import { AmountInput } from '@/internal/components/AmountInput/AmountInput';
-import { AmountInputTypeSwitch } from '@/internal/components/AmountInput/AmountInputTypeSwitch';
+import { AmountInput } from '@/internal/components/amount-input/AmountInput';
+import { AmountInputTypeSwitch } from '@/internal/components/amount-input/AmountInputTypeSwitch';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { cn, color, text } from '@/styles/theme';
 import { useSendContext } from '@/wallet/components/WalletAdvancedSend/components/SendProvider';
@@ -35,11 +35,11 @@ export function SendAmountInput({
           asset={selectedToken?.symbol ?? ''}
           currency={'USD'}
           selectedInputType={selectedInputType}
-          className={className}
-          textClassName={textClassName}
           setFiatAmount={handleFiatAmountChange}
           setCryptoAmount={handleCryptoAmountChange}
           exchangeRate={String(exchangeRate)}
+          className={className}
+          textClassName={textClassName}
         />
 
         <SendAmountInputTypeSwitch

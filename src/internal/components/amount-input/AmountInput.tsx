@@ -16,6 +16,7 @@ type AmountInputProps = {
   setCryptoAmount: (value: string) => void;
   exchangeRate: string;
   className?: string;
+  textClassName?: string;
 };
 
 export function AmountInput({
@@ -24,10 +25,11 @@ export function AmountInput({
   asset,
   selectedInputType,
   currency,
-  className,
   setFiatAmount,
   setCryptoAmount,
   exchangeRate,
+  className,
+  textClassName,
 }: AmountInputProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -101,6 +103,7 @@ export function AmountInput({
             '[appearance:textfield]',
             '[&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none',
             '[&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
+            textClassName,
           )}
           value={value}
           onChange={handleAmountChange}
@@ -110,12 +113,17 @@ export function AmountInput({
           placeholder="0"
         />
 
-        <CurrencyLabel ref={currencySpanRef} label={currencyOrAsset} />
+        <CurrencyLabel
+          ref={currencySpanRef}
+          label={currencyOrAsset}
+          className={textClassName}
+        />
       </div>
 
       {/* Hidden span for measuring text width
           Without this span the input field would not adjust its width based on the text width and would look like this:
           [0.12--------Empty Space-------][ETH] - As you can see the currency symbol is far away from the inputed value
+
           With this span we can measure the width of the text in the input field and set the width of the input field to match the text width
           [0.12][ETH] - Now the currency symbol is displayed next to the input field
       */}
@@ -128,6 +136,7 @@ export function AmountInput({
           'text-6xl leading-none outline-none',
           'pointer-events-none absolute whitespace-nowrap opacity-0',
           'left-[-9999px]', // Hide the span from the DOM
+          textClassName,
         )}
       >
         {value ? `${value}.` : '0.'}
