@@ -1,7 +1,7 @@
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
-import { useTransferTransaction } from '@/internal/hooks/useTransferTransaction';
+import { useSendTransaction } from '@/internal/hooks/useSendTransaction';
 import { useValue } from '@/internal/hooks/useValue';
 import type { Call } from '@/transaction/types';
 import {
@@ -52,7 +52,7 @@ export function SendProvider({ children }: SendProviderReact) {
     useState<boolean>(false);
 
   // state for transaction data
-  const [callData, setCallData] = useState<Call[]>([]);
+  const [callData, setCallData] = useState<Call | null>(null);
   const [sendTransactionError, setSendTransactionError] = useState<
     string | null
   >(null);
@@ -221,14 +221,18 @@ export function SendProvider({ children }: SendProviderReact) {
     }
 
     try {
-      setCallData([]);
+      setCallData(null);
       setSendTransactionError(null);
-      const { calls } = useTransferTransaction({
+      const calls = useSendTransaction({
         recipientAddress: selectedRecipientAddress,
         token: selectedToken,
         amount: cryptoAmount,
       });
-      setCallData(calls);
+      if ('error' in calls) {
+        handleTransactionError(calls.error);
+      } else {
+        setCallData(calls);
+      }
     } catch (error) {
       handleTransactionError(error as string);
     }

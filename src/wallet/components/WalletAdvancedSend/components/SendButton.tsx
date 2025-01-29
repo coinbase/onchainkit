@@ -68,7 +68,7 @@ export function SendButton({
       <Transaction
         isSponsored={isSponsored}
         chainId={chainId}
-        calls={callData}
+        calls={callData ? [callData] : []}
         onStatus={handleOnStatus}
       >
         <TransactionButton

@@ -42,7 +42,7 @@ export type SendContextType = {
   handleCryptoAmountChange: (value: string) => void;
 
   // Transaction Context
-  callData: Call[];
+  callData: Call | null;
   sendTransactionError: string | null;
 };
 
