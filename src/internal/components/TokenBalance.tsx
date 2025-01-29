@@ -1,6 +1,6 @@
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
-import { cn, color, text } from '@/styles/theme';
+import { border, cn, color, text } from '@/styles/theme';
 import { TokenImage } from '@/token';
 import { useMemo } from 'react';
 
@@ -55,26 +55,23 @@ export function TokenBalance({
         </div>
         <div className="text-right">
           {showAction ? (
-            <span
+            <button
+              type="button"
+              aria-label={actionText}
               onClick={(e) => {
                 e.stopPropagation();
                 onActionPress?.();
               }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.stopPropagation();
-                  onActionPress?.();
-                }
-              }}
               className={cn(
                 text.label2,
                 color.primary,
-                'ml-auto p-0.5 font-bold transition-brightness hover:brightness-110',
+                border.radius,
+                'ml-auto p-0.5 font-bold',
+                'border border-transparent hover:border-[--ock-line-primary]',
               )}
-              aria-label={actionText}
             >
               {actionText}
-            </span>
+            </button>
           ) : (
             <span
               className={cn(

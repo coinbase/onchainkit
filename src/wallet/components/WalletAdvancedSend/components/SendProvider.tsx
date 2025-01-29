@@ -17,6 +17,7 @@ import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
 import type { LifecycleStatus, SendProviderReact } from '../types';
 import type { SendContextType } from '../types';
+import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
 
 const emptyContext = {} as SendContextType;
 
@@ -185,7 +186,8 @@ export function SendProvider({ children }: SendProviderReact) {
 
   const handleCryptoAmountChange = useCallback(
     (value: string) => {
-      setCryptoAmount(value);
+      const truncatedValue = truncateDecimalPlaces(value, 8);
+      setCryptoAmount(truncatedValue);
       updateLifecycleStatus({
         statusName: 'amountChange',
         statusData: {
