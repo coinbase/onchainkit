@@ -1,3 +1,6 @@
+'use client';
+
+import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { cn, color, text } from '@/styles/theme';
 import {
   Transaction,
@@ -8,10 +11,15 @@ import {
   TransactionStatusAction,
   TransactionStatusLabel,
 } from '@/transaction';
+import type { Call } from '@/transaction/types';
 import { useMemo } from 'react';
-import { useSendContext } from './SendProvider';
+import { base } from 'viem/chains';
 
 type SendButtonProps = {
+  cryptoAmount: string | null;
+  selectedToken: PortfolioTokenWithFiatValue | null;
+  callData: Call | null;
+  sendTransactionError: string | null;
   label?: string;
   className?: string;
 } & Pick<
@@ -26,12 +34,13 @@ export function SendButton({
   successOverride,
   pendingOverride,
   errorOverride,
+  cryptoAmount,
+  selectedToken,
+  callData,
+  sendTransactionError,
 }: SendButtonProps) {
   const isSponsored = false;
-  const chainId = 8453;
-
-  const { cryptoAmount, selectedToken, callData, sendTransactionError } =
-    useSendContext();
+  const chainId = base.id;
 
   const handleOnStatus = () => {};
 

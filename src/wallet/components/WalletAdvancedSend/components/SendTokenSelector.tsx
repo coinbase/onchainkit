@@ -1,18 +1,28 @@
+'use client';
+
+import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { TokenBalance } from '@/internal/components/TokenBalance';
 import { border, cn, color, pressable, text } from '@/styles/theme';
-import { useSendContext } from './SendProvider';
+import type { Dispatch, SetStateAction } from 'react';
 
-export function SendTokenSelector() {
-  const {
-    tokenBalances,
-    selectedToken,
-    handleTokenSelection,
-    handleResetTokenSelection,
-    setSelectedInputType,
-    handleCryptoAmountChange,
-    handleFiatAmountChange,
-  } = useSendContext();
-
+type SendTokenSelectorProps = {
+  selectedToken: PortfolioTokenWithFiatValue | null;
+  tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
+  handleTokenSelection: (token: PortfolioTokenWithFiatValue) => void;
+  handleResetTokenSelection: () => void;
+  setSelectedInputType: Dispatch<SetStateAction<'crypto' | 'fiat'>>;
+  handleCryptoAmountChange: (value: string) => void;
+  handleFiatAmountChange: (value: string) => void;
+};
+export function SendTokenSelector({
+  selectedToken,
+  tokenBalances,
+  handleTokenSelection,
+  handleResetTokenSelection,
+  setSelectedInputType,
+  handleCryptoAmountChange,
+  handleFiatAmountChange,
+}: SendTokenSelectorProps) {
   if (!selectedToken) {
     return (
       <div className="mt-4 flex max-h-80 flex-col gap-2">

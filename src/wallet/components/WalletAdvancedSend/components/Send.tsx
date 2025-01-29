@@ -61,9 +61,18 @@ function SendDefaultChildren() {
     if (!context.selectedRecipientAddress) {
       return (
         <>
-          <SendAddressInput />
+          <SendAddressInput
+            senderChain={context.senderChain}
+            selectedRecipientAddress={context.selectedRecipientAddress}
+            recipientInput={context.recipientInput}
+            handleRecipientInputChange={context.handleRecipientInputChange}
+          />
           {context.validatedRecipientAddress && (
-            <SendAddressSelector address={context.validatedRecipientAddress} />
+            <SendAddressSelector
+              address={context.validatedRecipientAddress}
+              senderChain={context.senderChain}
+              handleAddressSelection={context.handleAddressSelection}
+            />
           )}
         </>
       );
@@ -72,18 +81,49 @@ function SendDefaultChildren() {
     if (!context.selectedToken) {
       return (
         <>
-          <SendAddressInput />
-          <SendTokenSelector />
+          <SendAddressInput
+            senderChain={context.senderChain}
+            selectedRecipientAddress={context.selectedRecipientAddress}
+            recipientInput={context.recipientInput}
+            handleRecipientInputChange={context.handleRecipientInputChange}
+          />
+          <SendTokenSelector
+            tokenBalances={context.tokenBalances}
+            selectedToken={context.selectedToken}
+            handleTokenSelection={context.handleTokenSelection}
+            handleResetTokenSelection={context.handleResetTokenSelection}
+            setSelectedInputType={context.setSelectedInputType}
+            handleCryptoAmountChange={context.handleCryptoAmountChange}
+            handleFiatAmountChange={context.handleFiatAmountChange}
+          />
         </>
       );
     }
 
     return (
       <div className="flex h-full flex-col justify-between gap-4">
-        <SendAddressInput />
+        <SendAddressInput
+          senderChain={context.senderChain}
+          selectedRecipientAddress={context.selectedRecipientAddress}
+          recipientInput={context.recipientInput}
+          handleRecipientInputChange={context.handleRecipientInputChange}
+        />
         <SendAmountInput className="p-0" textClassName="text-4xl" />
-        <SendTokenSelector />
-        <SendButton />
+        <SendTokenSelector
+          tokenBalances={context.tokenBalances}
+          selectedToken={context.selectedToken}
+          handleTokenSelection={context.handleTokenSelection}
+          handleResetTokenSelection={context.handleResetTokenSelection}
+          setSelectedInputType={context.setSelectedInputType}
+          handleCryptoAmountChange={context.handleCryptoAmountChange}
+          handleFiatAmountChange={context.handleFiatAmountChange}
+        />
+        <SendButton
+          cryptoAmount={context.cryptoAmount}
+          selectedToken={context.selectedToken}
+          callData={context.callData}
+          sendTransactionError={context.sendTransactionError}
+        />
       </div>
     );
   }, [
@@ -92,6 +132,19 @@ function SendDefaultChildren() {
     context.selectedRecipientAddress,
     context.selectedToken,
     context.validatedRecipientAddress,
+    context.tokenBalances,
+    context.setSelectedInputType,
+    context.handleTokenSelection,
+    context.handleResetTokenSelection,
+    context.handleCryptoAmountChange,
+    context.handleFiatAmountChange,
+    context.handleRecipientInputChange,
+    context.handleAddressSelection,
+    context.recipientInput,
+    context.senderChain,
+    context.cryptoAmount,
+    context.callData,
+    context.sendTransactionError,
   ]);
 
   return (

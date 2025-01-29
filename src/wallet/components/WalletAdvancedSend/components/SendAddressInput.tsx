@@ -1,28 +1,42 @@
+'use client';
+
+import { getName } from '@/identity';
 import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
 import { TextInput } from '@/internal/components/TextInput';
 import { background, border, cn, color } from '@/styles/theme';
-import { useSendContext } from '@/wallet/components/WalletAdvancedSend/components/SendProvider';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import type { Address, Chain } from 'viem';
+import { base } from 'viem/chains';
 
 type AddressInputProps = {
+  selectedRecipientAddress: Address | null;
+  recipientInput: string | null;
+  handleRecipientInputChange: (input: string) => void;
+  senderChain: Chain | null | undefined;
   className?: string;
 };
 
-export function SendAddressInput({ className }: AddressInputProps) {
-  const {
-    selectedRecipientAddress,
-    recipientInput,
-    handleRecipientInputChange,
-  } = useSendContext();
+export function SendAddressInput({
+  selectedRecipientAddress,
+  recipientInput,
+  handleRecipientInputChange,
+  senderChain,
+  className,
+}: AddressInputProps) {
+  const [inputValue, setInputValue] = useState<string | null>(null);
 
-  const inputValue = selectedRecipientAddress
-    ? getSlicedAddress(selectedRecipientAddress)
-    : recipientInput;
+  useEffect(() => {
+    getInputValue(selectedRecipientAddress, recipientInput, senderChain)
+      .then(setInputValue)
+      .catch(console.error);
+  }, [selectedRecipientAddress, recipientInput, senderChain]);
 
   const handleFocus = useCallback(
     (e: React.FocusEvent<HTMLInputElement>) => {
       if (selectedRecipientAddress) {
-        handleRecipientInputChange(selectedRecipientAddress);
+        getInputValue(selectedRecipientAddress, recipientInput, senderChain)
+          .then((value) => handleRecipientInputChange(value ?? ''))
+          .catch(console.error);
         setTimeout(() => {
           // TODO: This is a hack to get the cursor to the end of the input, how to remove timeout?
           e.target.setSelectionRange(
@@ -33,7 +47,12 @@ export function SendAddressInput({ className }: AddressInputProps) {
         }, 0);
       }
     },
-    [selectedRecipientAddress, handleRecipientInputChange],
+    [
+      selectedRecipientAddress,
+      handleRecipientInputChange,
+      recipientInput,
+      senderChain,
+    ],
   );
 
   return (
@@ -47,7 +66,7 @@ export function SendAddressInput({ className }: AddressInputProps) {
         className,
       )}
     >
-      <span className={cn(color.foregroundMuted)}>To</span>
+      <span className={cn(color.foreground)}>To</span>
       <TextInput
         inputMode="text"
         placeholder="Basename, ENS, or Address"
@@ -59,4 +78,24 @@ export function SendAddressInput({ className }: AddressInputProps) {
       />
     </div>
   );
+}
+
+async function getInputValue(
+  selectedRecipientAddress: Address | null,
+  recipientInput: string | null,
+  senderChain: Chain | null | undefined,
+) {
+  if (!selectedRecipientAddress) {
+    return recipientInput;
+  }
+
+  const name = await getName({
+    address: selectedRecipientAddress,
+    chain: senderChain ?? base,
+  });
+  if (name) {
+    return name;
+  }
+
+  return getSlicedAddress(selectedRecipientAddress);
 }

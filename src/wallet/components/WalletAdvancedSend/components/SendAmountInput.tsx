@@ -1,3 +1,5 @@
+'use client';
+
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { AmountInput } from '@/internal/components/AmountInput/AmountInput';
 import { AmountInputTypeSwitch } from '@/internal/components/AmountInput/AmountInputTypeSwitch';
