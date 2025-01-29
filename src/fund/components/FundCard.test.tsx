@@ -20,7 +20,7 @@ import { FundCard } from './FundCard';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
 
 const mockUpdateInputWidth = vi.fn();
-vi.mock('../hooks/useInputResize', () => ({
+vi.mock('../../internal/hooks/useInputResize', () => ({
   useInputResize: () => mockUpdateInputWidth,
 }));
 
