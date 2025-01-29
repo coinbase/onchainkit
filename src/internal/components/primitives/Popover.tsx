@@ -169,7 +169,7 @@ export function Popover({
   }
 
   const popover = (
-    <div className={cn(componentTheme, 'fixed z-50', 'pointer-events-none')}>
+    <div className={cn(componentTheme, 'pointer-events-none fixed z-50')}>
       <FocusTrap active={isOpen}>
         <DismissableLayer onDismiss={onClose} triggerRef={trigger}>
           <div

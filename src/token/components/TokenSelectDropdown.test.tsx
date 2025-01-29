@@ -5,6 +5,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Token } from '../types';
 import { TokenSelectDropdown } from './TokenSelectDropdown';
 
+vi.mock('react-dom', () => ({
+  createPortal: (node: React.ReactNode) => node,
+}));
+
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
@@ -17,8 +21,7 @@ describe('TokenSelectDropdown', () => {
       address: '' as Address,
       symbol: 'ETH',
       decimals: 18,
-      image:
-        'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+      image: 'https://example.com/eth.png',
       chainId: 8453,
     },
     {
@@ -26,8 +29,7 @@ describe('TokenSelectDropdown', () => {
       address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913' as Address,
       symbol: 'USDC',
       decimals: 6,
-      image:
-        'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+      image: 'https://example.com/usdc.png',
       chainId: 8453,
     },
   ];
@@ -36,42 +38,68 @@ describe('TokenSelectDropdown', () => {
     vi.clearAllMocks();
   });
 
-  it('renders the TokenSelectDropdown component', async () => {
+  it('renders the TokenSelectDropdown component', () => {
     render(<TokenSelectDropdown setToken={setToken} options={options} />);
 
-    await waitFor(() => {
-      const button = screen.getByTestId('ockTokenSelectButton_Button');
-      const list = screen.queryByTestId('ockTokenSelectDropdown_List');
-      expect(button).toBeInTheDocument();
-      expect(list).toBeNull();
-    });
+    const button = screen.getByTestId('ockTokenSelectButton_Button');
+    expect(button).toBeInTheDocument();
+    expect(screen.queryByTestId('ockDropdownMenu')).not.toBeInTheDocument();
   });
 
-  it('calls setToken when clicking on a token', async () => {
+  it('opens dropdown menu when clicking the button', async () => {
     render(<TokenSelectDropdown setToken={setToken} options={options} />);
 
     const button = screen.getByTestId('ockTokenSelectButton_Button');
     fireEvent.click(button);
 
     await waitFor(() => {
-      fireEvent.click(screen.getByText(options[0].name));
-
-      expect(setToken).toHaveBeenCalledWith(options[0]);
+      expect(screen.getByTestId('ockDropdownMenu')).toBeInTheDocument();
+      expect(screen.getByText(options[0].name)).toBeInTheDocument();
     });
   });
 
-  it('toggles when clicking outside the component', async () => {
+  it('calls setToken and closes dropdown when selecting a token', async () => {
+    render(<TokenSelectDropdown setToken={setToken} options={options} />);
+
+    const button = screen.getByTestId('ockTokenSelectButton_Button');
+    fireEvent.click(button);
+    await waitFor(() => {
+      const tokenOption = screen.getByText(options[0].name);
+      fireEvent.click(tokenOption);
+    });
+
+    expect(setToken).toHaveBeenCalledWith(options[0]);
+    expect(screen.queryByTestId('ockDropdownMenu')).not.toBeInTheDocument();
+  });
+
+  it('renders with a selected token', () => {
+    render(
+      <TokenSelectDropdown
+        setToken={setToken}
+        options={options}
+        token={options[0]}
+      />,
+    );
+
+    const button = screen.getByTestId('ockTokenSelectButton_Button');
+    expect(button).toBeInTheDocument();
+    expect(screen.getByText(options[0].symbol)).toBeInTheDocument();
+  });
+
+  it('closes dropdown when clicking outside', async () => {
     render(<TokenSelectDropdown setToken={setToken} options={options} />);
 
     const button = screen.getByTestId('ockTokenSelectButton_Button');
     fireEvent.click(button);
 
-    expect(
-      screen.getByTestId('ockTokenSelectDropdown_List'),
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId('ockDropdownMenu')).toBeInTheDocument();
+    });
 
-    fireEvent.click(button);
+    fireEvent.keyDown(document.body, { key: 'Escape' });
 
-    expect(screen.queryByTestId('ockTokenSelectDropdown_List')).toBeNull();
+    await waitFor(() => {
+      expect(screen.queryByTestId('ockDropdownMenu')).not.toBeInTheDocument();
+    });
   });
 });
