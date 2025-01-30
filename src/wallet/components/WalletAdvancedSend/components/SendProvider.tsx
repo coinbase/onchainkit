@@ -12,14 +12,13 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { formatUnits, type Address } from 'viem';
-import { validateAddressInput } from '../../../utils/validateAddressInput';
+import { formatUnits } from 'viem';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
-import { useWalletContext } from '../../WalletProvider';
 import type {
   SendContextType,
   SendLifecycleStatus,
   SendProviderReact,
+  RecipientAddress,
 } from '../types';
 
 const emptyContext = {} as SendContextType;
@@ -37,11 +36,11 @@ export function SendProvider({ children }: SendProviderReact) {
   const [ethBalance, setEthBalance] = useState<number>(0);
 
   // state for recipient address selection
-  const [recipientInput, setRecipientInput] = useState<string | null>(null);
-  const [validatedRecipientAddress, setValidatedRecipientAddress] =
-    useState<Address | null>(null);
   const [selectedRecipientAddress, setSelectedRecipientAddress] =
-    useState<Address | null>(null);
+    useState<RecipientAddress>({
+      display: '',
+      value: null,
+    });
 
   // state for token selection
   const [selectedToken, setSelectedToken] =
@@ -66,7 +65,7 @@ export function SendProvider({ children }: SendProviderReact) {
         isMissingRequiredField: true,
       },
     });
-  const { address: senderAddress, chain: senderChain } = useWalletContext();
+  // const { address: senderAddress, chain: senderChain } = useWalletContext();
   const { tokenBalances } = useWalletAdvancedContext();
 
   useEffect(() => {
@@ -94,21 +93,6 @@ export function SendProvider({ children }: SendProviderReact) {
     setIsInitialized(true);
   }, [tokenBalances, updateLifecycleStatus]);
 
-  // Validate recipient input and set validated recipient address
-  useEffect(() => {
-    async function validateRecipientInput() {
-      if (recipientInput) {
-        const validatedInput = await validateAddressInput(recipientInput);
-        if (validatedInput) {
-          setValidatedRecipientAddress(validatedInput);
-        } else {
-          setValidatedRecipientAddress(null);
-        }
-      }
-    }
-    validateRecipientInput();
-  }, [recipientInput]);
-
   // fetch & set exchange rate
   useEffect(() => {
     if (!selectedToken) {
@@ -122,24 +106,23 @@ export function SendProvider({ children }: SendProviderReact) {
     });
   }, [selectedToken, selectedInputType]);
 
-  const handleRecipientInputChange = useCallback(
-    (input: string) => {
-      setRecipientInput(input);
-      setSelectedRecipientAddress(null);
-      setValidatedRecipientAddress(null);
-      updateLifecycleStatus({
-        statusName: 'selectingAddress',
-        statusData: {
-          isMissingRequiredField: true,
-        },
-      });
-    },
-    [updateLifecycleStatus],
-  );
+  const handleRecipientInputChange = useCallback(() => {
+    console.log('provider handleRecipientInputChange');
+    setSelectedRecipientAddress({
+      display: '',
+      value: null,
+    });
+    updateLifecycleStatus({
+      statusName: 'selectingAddress',
+      statusData: {
+        isMissingRequiredField: true,
+      },
+    });
+  }, [updateLifecycleStatus]);
 
   const handleAddressSelection = useCallback(
-    (address: Address) => {
-      setSelectedRecipientAddress(address);
+    async (selection: RecipientAddress) => {
+      setSelectedRecipientAddress(selection);
       updateLifecycleStatus({
         statusName: 'selectingToken',
         statusData: {
@@ -229,14 +212,14 @@ export function SendProvider({ children }: SendProviderReact) {
   );
 
   const fetchTransactionData = useCallback(() => {
-    if (!selectedRecipientAddress || !selectedToken || !cryptoAmount) {
+    if (!selectedRecipientAddress.value || !selectedToken || !cryptoAmount) {
       return;
     }
 
     try {
       setCallData(null);
       const calls = useSendTransaction({
-        recipientAddress: selectedRecipientAddress,
+        recipientAddress: selectedRecipientAddress.value,
         token: selectedToken,
         amount: cryptoAmount,
       });
@@ -263,13 +246,7 @@ export function SendProvider({ children }: SendProviderReact) {
     isInitialized,
     lifecycleStatus,
     updateLifecycleStatus,
-    senderAddress,
-    senderChain,
-    tokenBalances,
     ethBalance,
-    recipientInput,
-    setRecipientInput,
-    validatedRecipientAddress,
     selectedRecipientAddress,
     handleAddressSelection,
     selectedToken,

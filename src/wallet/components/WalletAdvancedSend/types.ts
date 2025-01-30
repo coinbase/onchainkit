@@ -1,5 +1,5 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import type { Address, Chain, TransactionReceipt } from 'viem';
+import type { Address, TransactionReceipt } from 'viem';
 import type { APIError, PortfolioTokenWithFiatValue } from '../../../api/types';
 import type { Call } from '../../../transaction/types';
 import type { LifecycleStatusUpdate } from '@/internal/types';
@@ -16,19 +16,13 @@ export type SendContextType = {
     status: LifecycleStatusUpdate<SendLifecycleStatus>,
   ) => void;
 
-  // Wallet Context
-  senderAddress: Address | null | undefined;
-  senderChain: Chain | null | undefined;
+  // Sender Context
   ethBalance: number | undefined;
-  tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
 
   // Recipient Address Context
-  recipientInput: string | null;
-  setRecipientInput: Dispatch<SetStateAction<string | null>>;
-  validatedRecipientAddress: Address | null;
-  selectedRecipientAddress: Address | null;
-  handleAddressSelection: (address: Address) => void;
-  handleRecipientInputChange: (input: string) => void;
+  selectedRecipientAddress: RecipientAddress;
+  handleAddressSelection: (selection: RecipientAddress) => void;
+  handleRecipientInputChange: () => void;
 
   // Token Context
   selectedToken: PortfolioTokenWithFiatValue | null;
@@ -47,6 +41,11 @@ export type SendContextType = {
 
   // Transaction Context
   callData: Call | null;
+};
+
+export type RecipientAddress = {
+  display: string;
+  value: Address | null;
 };
 
 export type SendLifecycleStatus =
