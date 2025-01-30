@@ -2,6 +2,7 @@
 
 import { cn, color, text } from '@/styles/theme';
 import { type Token, TokenImage } from '@/token';
+import { formatUnits } from 'viem';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 
 type TokenDetailsProps = {
@@ -44,10 +45,12 @@ export function WalletAdvancedTokenHoldings() {
             name: tokenBalance.name,
             symbol: tokenBalance.symbol,
           }}
-          balance={
-            Number(tokenBalance.cryptoBalance) /
-            10 ** Number(tokenBalance.decimals)
-          }
+          balance={Number(
+            formatUnits(
+              BigInt(tokenBalance.cryptoBalance),
+              tokenBalance.decimals,
+            ),
+          )}
           valueInFiat={Number(tokenBalance.fiatBalance)}
         />
       ))}
