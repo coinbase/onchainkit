@@ -2,23 +2,22 @@
 
 import { Address, Avatar, Name } from '@/identity';
 import { background, border, cn, pressable } from '@/styles/theme';
-import { useCallback } from 'react';
 import type { Address as AddressType, Chain } from 'viem';
 
 type SendAddressSelectorProps = {
-  address: AddressType;
+  address: AddressType | null;
   senderChain: Chain | null | undefined;
-  handleAddressSelection: (address: AddressType) => void;
+  handleClick: () => Promise<void>;
 };
 
 export function SendAddressSelector({
   address,
   senderChain,
-  handleAddressSelection,
+  handleClick,
 }: SendAddressSelectorProps) {
-  const handleClick = useCallback(() => {
-    handleAddressSelection(address);
-  }, [handleAddressSelection, address]);
+  if (!address || !senderChain) {
+    return null;
+  }
 
   return (
     <button type="button" onClick={handleClick} className="text-left">
@@ -34,10 +33,10 @@ export function SendAddressSelector({
       >
         <div className="flex items-center space-x-3">
           <div className="flex-shrink-0">
-            <Avatar address={address} chain={senderChain ?? undefined} />
+            <Avatar address={address} chain={senderChain} />
           </div>
           <div className="flex flex-col">
-            <Name address={address} chain={senderChain ?? undefined} />
+            <Name address={address} chain={senderChain} />
             <Address address={address} hasCopyAddressOnClick={false} />
           </div>
         </div>
