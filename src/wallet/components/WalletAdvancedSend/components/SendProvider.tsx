@@ -17,8 +17,8 @@ import { validateAddressInput } from '../../../utils/validateAddressInput';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
 import type {
-  SendLifecycleStatus,
   SendContextType,
+  SendLifecycleStatus,
   SendProviderReact,
 } from '../types';
 
