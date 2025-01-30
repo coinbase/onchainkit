@@ -4,6 +4,8 @@ import { useOnrampExchangeRate } from '../hooks/useOnrampExhangeRate';
 import type { FundCardAmountInputPropsReact } from '../types';
 import { useFundContext } from './FundCardProvider';
 
+const COOLDOWN_TIME = 5000;
+
 export const FundCardAmountInput = ({
   className,
 }: FundCardAmountInputPropsReact) => {
@@ -43,7 +45,7 @@ export const FundCardAmountInput = ({
 
       cooldownTimeout.current = setTimeout(() => {
         isInCooldown.current = false;
-      }, 5000);
+      }, COOLDOWN_TIME);
     }
   }, [fetchExchangeRate]);
 
