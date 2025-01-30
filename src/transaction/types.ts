@@ -27,7 +27,7 @@ type TransactionButtonOverride = {
 export type LifecycleStatus =
   | {
       statusName: 'init';
-      statusData: null;
+      statusData: Record<string, never>;
     }
   | {
       statusName: 'error';
@@ -35,15 +35,15 @@ export type LifecycleStatus =
     }
   | {
       statusName: 'transactionIdle'; // initial status prior to the mutation function executing
-      statusData: null;
+      statusData: Record<string, never>;
     }
   | {
       statusName: 'buildingTransaction';
-      statusData: null;
+      statusData: Record<string, never>;
     }
   | {
       statusName: 'transactionPending'; // if the mutation is currently executing
-      statusData: null;
+      statusData: Record<string, never>;
     }
   | {
       statusName: 'transactionLegacyExecuted';
