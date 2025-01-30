@@ -4,15 +4,22 @@ import { isEns } from '@/identity/utils/isEns';
 import { isAddress } from 'viem';
 import { base, mainnet } from 'viem/chains';
 
-export async function validateAddressInput(input: string) {
+export async function validateAddressInput(input: string | null) {
+  if (!input) {
+    return null;
+  }
+
   if (isAddress(input, { strict: false })) {
     return input;
   }
 
-  if (isBasename(input) || isEns(input)) {
+  const inputIsBasename = isBasename(input);
+  const inputIsEns = isEns(input);
+
+  if (inputIsBasename || inputIsEns) {
     const address = await getAddress({
       name: input,
-      chain: isBasename(input) ? base : mainnet,
+      chain: inputIsBasename ? base : mainnet,
     });
     if (address) {
       return address;
