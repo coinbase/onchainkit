@@ -15,6 +15,7 @@ import type {
   FundButtonStateReact,
   FundCardProviderReact,
   LifecycleStatus,
+  OnrampError,
   PaymentMethod,
   PresetAmountInputs,
 } from '../types';
@@ -51,6 +52,7 @@ type FundCardContextType = {
   updateLifecycleStatus: (
     newStatus: LifecycleStatusUpdate<LifecycleStatus>,
   ) => void;
+  onError?: (error: OnrampError) => void;
 };
 
 const FundContext = createContext<FundCardContextType | undefined>(undefined);
@@ -150,6 +152,7 @@ export function FundCardProvider({
     lifecycleStatus,
     updateLifecycleStatus,
     presetAmountInputs,
+    onError,
   });
   return <FundContext.Provider value={value}>{children}</FundContext.Provider>;
 }
