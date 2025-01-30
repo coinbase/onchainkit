@@ -2,31 +2,30 @@
 
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { getChainExplorer } from '@/core/network/getChainExplorer';
-import {
-  Transaction,
-  TransactionButton,
-  type TransactionButtonReact,
-  TransactionSponsor,
-  TransactionStatus,
-  TransactionStatusAction,
-  TransactionStatusLabel,
-} from '@/transaction';
+import { Transaction } from '@/transaction/components/Transaction';
+import { TransactionButton } from '@/transaction/components/TransactionButton';
+import { TransactionSponsor } from '@/transaction/components/TransactionSponsor';
+import { TransactionStatus } from '@/transaction/components/TransactionStatus';
+import { TransactionStatusAction } from '@/transaction/components/TransactionStatusAction';
+import { TransactionStatusLabel } from '@/transaction/components/TransactionStatusLabel';
 import { useTransactionContext } from '@/transaction/components/TransactionProvider';
-import type { Call } from '@/transaction/types';
-import { useWalletAdvancedContext } from '@/wallet/components/WalletAdvancedProvider';
-import { useWalletContext } from '@/wallet/components/WalletProvider';
+import type { Call, TransactionButtonReact } from '@/transaction/types';
 import { useCallback, useMemo } from 'react';
 import type { TransactionReceipt } from 'viem';
 import { type Chain, base } from 'viem/chains';
 import { useChainId } from 'wagmi';
+import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
+import { useWalletContext } from '../../WalletProvider';
+import type { SendLifecycleStatus } from '../types';
 
 type SendButtonProps = {
+  label?: string;
+  senderChain?: Chain | null;
   cryptoAmount: string | null;
   selectedToken: PortfolioTokenWithFiatValue | null;
-  senderChain?: Chain | null;
   callData: Call | null;
   sendTransactionError: string | null;
-  label?: string;
+  onStatus?: (status: SendLifecycleStatus) => void;
   className?: string;
 } & Pick<
   TransactionButtonReact,
@@ -36,15 +35,16 @@ type SendButtonProps = {
 export function SendButton({
   label = 'Continue',
   senderChain,
-  className,
   disabled,
-  successOverride,
-  pendingOverride,
-  errorOverride,
-  cryptoAmount,
   selectedToken,
+  cryptoAmount,
   callData,
+  onStatus,
+  pendingOverride,
+  successOverride,
   sendTransactionError,
+  errorOverride,
+  className,
 }: SendButtonProps) {
   const isSponsored = false;
 
@@ -81,6 +81,7 @@ export function SendButton({
       isSponsored={isSponsored}
       chainId={senderChain?.id ?? base.id}
       calls={callData ? [callData] : []}
+      onStatus={onStatus}
     >
       <SendTransactionButton
         className={className}

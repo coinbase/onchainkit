@@ -1,7 +1,10 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import type { Address, Chain, Hex, TransactionReceipt } from 'viem';
-import type { APIError, PortfolioTokenWithFiatValue } from '../../../api/types';
-import type { Call } from '../../../transaction/types';
+import type { Address, Chain } from 'viem';
+import type { PortfolioTokenWithFiatValue } from '../../../api/types';
+import type {
+  Call,
+  LifecycleStatus as TransactionLifecycleStatus,
+} from '../../../transaction/types';
 
 export type SendProviderReact = {
   children: ReactNode;
@@ -10,8 +13,8 @@ export type SendProviderReact = {
 export type SendContextType = {
   // Lifecycle Status Context
   isInitialized: boolean;
-  lifecycleStatus: LifecycleStatus;
-  updateLifecycleStatus: (newStatus: LifecycleStatus) => void;
+  lifecycleStatus: SendLifecycleStatus;
+  updateLifecycleStatus: (newStatus: SendLifecycleStatus) => void;
 
   // Wallet Context
   senderAddress: Address | null | undefined;
@@ -47,7 +50,7 @@ export type SendContextType = {
   sendTransactionError: string | null;
 };
 
-export type LifecycleStatus =
+export type SendLifecycleStatus =
   | {
       statusName: 'init';
       statusData: {
@@ -79,28 +82,4 @@ export type LifecycleStatus =
         sufficientBalance: boolean;
       };
     }
-  | {
-      statusName: 'transactionPending';
-      statusData: {
-        isMissingRequiredField: false;
-      };
-    }
-  | {
-      statusName: 'transactionApproved';
-      statusData: {
-        isMissingRequiredField: false;
-        callsId?: Hex;
-        transactionHash?: Hex;
-      };
-    }
-  | {
-      statusName: 'success';
-      statusData: {
-        isMissingRequiredField: false;
-        transactionReceipt: TransactionReceipt;
-      };
-    }
-  | {
-      statusName: 'error';
-      statusData: APIError;
-    };
+  | TransactionLifecycleStatus;

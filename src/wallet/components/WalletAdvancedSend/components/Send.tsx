@@ -124,6 +124,7 @@ function SendDefaultChildren() {
           senderChain={context.senderChain}
           callData={context.callData}
           sendTransactionError={context.sendTransactionError}
+          onStatus={context.updateLifecycleStatus}
         />
       </div>
     );
@@ -147,6 +148,7 @@ function SendDefaultChildren() {
     context.cryptoAmount,
     context.callData,
     context.sendTransactionError,
+    context.updateLifecycleStatus,
   ]);
 
   return (

@@ -17,7 +17,7 @@ import { validateAddressInput } from '../../../utils/validateAddressInput';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
 import type {
-  LifecycleStatus,
+  SendLifecycleStatus,
   SendContextType,
   SendProviderReact,
 } from '../types';
@@ -63,7 +63,7 @@ export function SendProvider({ children }: SendProviderReact) {
 
   // data and utils from hooks
   const [lifecycleStatus, updateLifecycleStatus] =
-    useLifecycleStatus<LifecycleStatus>({
+    useLifecycleStatus<SendLifecycleStatus>({
       statusName: 'init',
       statusData: {
         isMissingRequiredField: true,
@@ -78,6 +78,12 @@ export function SendProvider({ children }: SendProviderReact) {
       setEthBalance(
         Number(ethBalance.cryptoBalance / 10 ** ethBalance.decimals),
       );
+      updateLifecycleStatus({
+        statusName: 'selectingAddress',
+        statusData: {
+          isMissingRequiredField: true,
+        },
+      });
     } else {
       updateLifecycleStatus({
         statusName: 'fundingWallet',
@@ -103,6 +109,19 @@ export function SendProvider({ children }: SendProviderReact) {
     }
     validateRecipientInput();
   }, [recipientInput]);
+
+  // fetch & set exchange rate
+  useEffect(() => {
+    if (!selectedToken) {
+      return;
+    }
+    useExchangeRate({
+      token: selectedToken,
+      selectedInputType,
+      setExchangeRate,
+      setExchangeRateLoading,
+    });
+  }, [selectedToken, selectedInputType]);
 
   const handleRecipientInputChange = useCallback(
     (input: string) => {
@@ -159,19 +178,6 @@ export function SendProvider({ children }: SendProviderReact) {
     });
   }, [updateLifecycleStatus]);
 
-  // fetch & set exchange rate
-  useEffect(() => {
-    if (!selectedToken) {
-      return;
-    }
-    useExchangeRate({
-      token: selectedToken,
-      selectedInputType,
-      setExchangeRate,
-      setExchangeRateLoading,
-    });
-  }, [selectedToken, selectedInputType]);
-
   const handleFiatAmountChange = useCallback(
     (value: string) => {
       setFiatAmount(value);
@@ -211,7 +217,7 @@ export function SendProvider({ children }: SendProviderReact) {
         statusName: 'error',
         statusData: {
           error: 'Error building send transaction',
-          code: 'SmWBc01', // Send module SendButton component 01 error
+          code: 'SmSeBc01', // Send module SendButton component 01 error
           message: error,
         },
       });
