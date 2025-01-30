@@ -5,7 +5,7 @@ import { useOnrampExchangeRate } from '../hooks/useOnrampExhangeRate';
 import type { FundCardAmountInputPropsReact } from '../types';
 import { useFundContext } from './FundCardProvider';
 
-const THROTTLE_DELAY = 5000;
+const THROTTLE_DELAY_MS = 5000;
 
 export const FundCardAmountInput = ({
   className,
@@ -36,7 +36,7 @@ export const FundCardAmountInput = ({
 
   const throttledFetchExchangeRate = useThrottle(
     fetchExchangeRate,
-    THROTTLE_DELAY,
+    THROTTLE_DELAY_MS,
   );
 
   /**
