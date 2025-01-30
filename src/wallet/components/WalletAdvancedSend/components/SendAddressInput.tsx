@@ -8,9 +8,9 @@ import {
   useCallback,
   useMemo,
 } from 'react';
+import type { RecipientAddress } from '../types';
 import { resolveAddressInput } from '../utils/resolveAddressInput';
-import type { RecipientAddress } from '@/wallet/components/WalletAdvancedSend/types';
-import { validateAddressInput } from '@/wallet/components/WalletAdvancedSend/utils/validateAddressInput';
+import { validateAddressInput } from '../utils/validateAddressInput';
 
 type AddressInputProps = {
   selectedRecipientAddress: RecipientAddress;

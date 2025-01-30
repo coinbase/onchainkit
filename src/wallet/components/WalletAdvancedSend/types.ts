@@ -1,8 +1,8 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, TransactionReceipt } from 'viem';
 import type { APIError, PortfolioTokenWithFiatValue } from '../../../api/types';
+import type { LifecycleStatusUpdate } from '../../../internal/types';
 import type { Call } from '../../../transaction/types';
-import type { LifecycleStatusUpdate } from '@/internal/types';
 
 export type SendProviderReact = {
   children: ReactNode;

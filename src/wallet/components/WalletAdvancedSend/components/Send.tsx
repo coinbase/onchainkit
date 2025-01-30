@@ -1,17 +1,17 @@
 import { useTheme } from '@/internal/hooks/useTheme';
 import { background, border, cn, color } from '@/styles/theme';
 import type { ReactNode } from 'react';
+import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
+import { useWalletContext } from '../../WalletProvider';
+import { getDefaultSendButtonLabel } from '../utils/getDefaultSendButtonLabel';
+import { validateAmountInput } from '../utils/validateAmountInput';
+import { SendAddressSelection } from './SendAddressSelection';
 import { SendAmountInput } from './SendAmountInput';
 import { SendButton } from './SendButton';
 import { SendFundWallet } from './SendFundWallet';
 import { SendHeader } from './SendHeader';
 import { SendProvider, useSendContext } from './SendProvider';
 import { SendTokenSelector } from './SendTokenSelector';
-import { validateAmountInput } from '../utils/validateAmountInput';
-import { SendAddressSelection } from '@/wallet/components/WalletAdvancedSend/components/SendAddressSelection';
-import { getDefaultSendButtonLabel } from '@/wallet/components/WalletAdvancedSend/utils/getDefaultSendButtonLabel';
-import { useWalletContext } from '@/wallet/components/WalletProvider';
-import { useWalletAdvancedContext } from '@/wallet/components/WalletAdvancedProvider';
 
 type SendReact = {
   children?: ReactNode;

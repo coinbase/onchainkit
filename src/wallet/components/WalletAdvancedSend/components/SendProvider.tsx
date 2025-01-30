@@ -15,10 +15,10 @@ import {
 import { formatUnits } from 'viem';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import type {
+  RecipientAddress,
   SendContextType,
   SendLifecycleStatus,
   SendProviderReact,
-  RecipientAddress,
 } from '../types';
 
 const emptyContext = {} as SendContextType;

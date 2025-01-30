@@ -1,20 +1,24 @@
 'use client';
 
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
+import type { LifecycleStatusUpdate } from '@/internal/types';
 import { Transaction } from '@/transaction/components/Transaction';
 import { TransactionButton } from '@/transaction/components/TransactionButton';
 import { useTransactionContext } from '@/transaction/components/TransactionProvider';
 import { TransactionStatus } from '@/transaction/components/TransactionStatus';
 import { TransactionStatusAction } from '@/transaction/components/TransactionStatusAction';
 import { TransactionStatusLabel } from '@/transaction/components/TransactionStatusLabel';
-import type { Call, LifecycleStatus, TransactionButtonReact } from '@/transaction/types';
+import type {
+  Call,
+  LifecycleStatus,
+  TransactionButtonReact,
+} from '@/transaction/types';
+import { useCallback } from 'react';
 import { type Chain, base } from 'viem/chains';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
 import type { SendLifecycleStatus } from '../types';
-import { defaultSendTxSuccessHandler } from '@/wallet/components/WalletAdvancedSend/utils/defaultSendTxSuccessHandler';
-import type { LifecycleStatusUpdate } from '@/internal/types';
-import { useCallback } from 'react';
+import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
 
 type SendButtonProps = {
   label?: string;
@@ -49,15 +53,17 @@ export function SendButton({
         'transactionLegacyExecuted',
         'success',
         'error',
-    ] as const;
-    if (
-      validStatuses.includes(
-        status.statusName as (typeof validStatuses)[number],
-      )
-    ) {
-      onStatus?.(status as LifecycleStatusUpdate<SendLifecycleStatus>);
-    }
-  }, [onStatus]);
+      ] as const;
+      if (
+        validStatuses.includes(
+          status.statusName as (typeof validStatuses)[number],
+        )
+      ) {
+        onStatus?.(status as LifecycleStatusUpdate<SendLifecycleStatus>);
+      }
+    },
+    [onStatus],
+  );
 
   return (
     <Transaction
