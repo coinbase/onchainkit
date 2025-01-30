@@ -47,7 +47,6 @@ export type SendContextType = {
 
   // Transaction Context
   callData: Call | null;
-  sendTransactionError: string | null;
 };
 
 export type SendLifecycleStatus =

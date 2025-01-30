@@ -12,7 +12,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import type { Address } from 'viem';
+import { formatUnits, type Address } from 'viem';
 import { validateAddressInput } from '../../../utils/validateAddressInput';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
@@ -57,9 +57,6 @@ export function SendProvider({ children }: SendProviderReact) {
 
   // state for transaction data
   const [callData, setCallData] = useState<Call | null>(null);
-  const [sendTransactionError, setSendTransactionError] = useState<
-    string | null
-  >(null);
 
   // data and utils from hooks
   const [lifecycleStatus, updateLifecycleStatus] =
@@ -76,7 +73,9 @@ export function SendProvider({ children }: SendProviderReact) {
     const ethBalance = tokenBalances?.find((token) => token.address === '');
     if (ethBalance && ethBalance.cryptoBalance > 0) {
       setEthBalance(
-        Number(ethBalance.cryptoBalance / 10 ** ethBalance.decimals),
+        Number(
+          formatUnits(BigInt(ethBalance.cryptoBalance), ethBalance.decimals),
+        ),
       );
       updateLifecycleStatus({
         statusName: 'selectingAddress',
@@ -203,8 +202,12 @@ export function SendProvider({ children }: SendProviderReact) {
           isMissingRequiredField: true,
           sufficientBalance:
             Number(value) <=
-            Number(selectedToken?.cryptoBalance) /
-              10 ** Number(selectedToken?.decimals),
+            Number(
+              formatUnits(
+                BigInt(selectedToken?.cryptoBalance ?? 0),
+                selectedToken?.decimals ?? 0,
+              ),
+            ),
         },
       });
     },
@@ -221,7 +224,6 @@ export function SendProvider({ children }: SendProviderReact) {
           message: error,
         },
       });
-      setSendTransactionError(error);
     },
     [updateLifecycleStatus],
   );
@@ -233,7 +235,6 @@ export function SendProvider({ children }: SendProviderReact) {
 
     try {
       setCallData(null);
-      setSendTransactionError(null);
       const calls = useSendTransaction({
         recipientAddress: selectedRecipientAddress,
         token: selectedToken,
@@ -284,7 +285,6 @@ export function SendProvider({ children }: SendProviderReact) {
     selectedInputType,
     setSelectedInputType,
     callData,
-    sendTransactionError,
   });
 
   return <SendContext.Provider value={value}>{children}</SendContext.Provider>;
