@@ -7,12 +7,14 @@ import { useTransactionContext } from '@/transaction/components/TransactionProvi
 import { TransactionStatus } from '@/transaction/components/TransactionStatus';
 import { TransactionStatusAction } from '@/transaction/components/TransactionStatusAction';
 import { TransactionStatusLabel } from '@/transaction/components/TransactionStatusLabel';
-import type { Call, TransactionButtonReact } from '@/transaction/types';
+import type { Call, LifecycleStatus, TransactionButtonReact } from '@/transaction/types';
 import { type Chain, base } from 'viem/chains';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
 import type { SendLifecycleStatus } from '../types';
 import { defaultSendTxSuccessHandler } from '@/wallet/components/WalletAdvancedSend/utils/defaultSendTxSuccessHandler';
+import type { LifecycleStatusUpdate } from '@/internal/types';
+import { useCallback } from 'react';
 
 type SendButtonProps = {
   label?: string;
@@ -21,7 +23,7 @@ type SendButtonProps = {
   selectedToken: PortfolioTokenWithFiatValue | null;
   isSponsored?: boolean;
   callData: Call | null;
-  onStatus?: (status: SendLifecycleStatus) => void;
+  onStatus?: (status: LifecycleStatusUpdate<SendLifecycleStatus>) => void;
   className?: string;
 } & Pick<
   TransactionButtonReact,
@@ -40,12 +42,29 @@ export function SendButton({
   errorOverride,
   className,
 }: SendButtonProps) {
+  const handleStatus = useCallback(
+    (status: LifecycleStatus) => {
+      const validStatuses = [
+        'transactionPending',
+        'transactionLegacyExecuted',
+        'success',
+        'error',
+    ] as const;
+    if (
+      validStatuses.includes(
+        status.statusName as (typeof validStatuses)[number],
+      )
+    ) {
+      onStatus?.(status as LifecycleStatusUpdate<SendLifecycleStatus>);
+    }
+  }, [onStatus]);
+
   return (
     <Transaction
       isSponsored={isSponsored}
       chainId={senderChain?.id ?? base.id}
       calls={callData ? [callData] : []}
-      onStatus={onStatus}
+      onStatus={handleStatus}
     >
       <SendTransactionButton
         label={label}
