@@ -3,7 +3,6 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useOnrampExchangeRate } from '../hooks/useOnrampExhangeRate';
 import { quoteResponseDataMock } from '../mocks';
 import type { FundCardProviderReact } from '../types';
 import { FundCardAmountInput } from './FundCardAmountInput';
@@ -22,18 +21,11 @@ class ResizeObserverMock {
   disconnect() {}
 }
 
-vi.mock('../hooks/useOnrampExhangeRate');
-
 describe('FundCardAmountInput', () => {
-  const mockFetchExchangeRate = vi.fn();
-
   beforeEach(() => {
     global.ResizeObserver = ResizeObserverMock;
     setOnchainKitConfig({ apiKey: '123456789' });
     vi.clearAllMocks();
-    (useOnrampExchangeRate as Mock).mockReturnValue({
-      fetchExchangeRate: mockFetchExchangeRate,
-    });
   });
 
   // Test component to access context values
@@ -338,51 +330,5 @@ describe('FundCardAmountInput', () => {
       const exchangeRate = screen.getByTestId('test-value-exchange-rate');
       expect(exchangeRate.textContent).toBe('0');
     });
-  });
-
-  it('cleans up cooldown timeout on unmount', async () => {
-    const clearTimeoutSpy = vi.spyOn(global, 'clearTimeout');
-
-    const { unmount } = render(
-      <FundCardProvider asset="ETH" country="US">
-        <FundCardAmountInput />
-      </FundCardProvider>,
-    );
-
-    // Trigger an amount change to create the timeout
-    const input = screen.getByTestId('ockTextInput_Input');
-    fireEvent.change(input, { target: { value: '100' } });
-
-    // Unmount should clear the timeout
-    unmount();
-
-    expect(clearTimeoutSpy).toHaveBeenCalled();
-  });
-
-  it('resets cooldown after timeout', async () => {
-    vi.useFakeTimers();
-
-    render(
-      <FundCardProvider asset="ETH" country="US">
-        <FundCardAmountInput />
-      </FundCardProvider>,
-    );
-
-    const input = screen.getByTestId('ockTextInput_Input');
-
-    // First change
-    fireEvent.change(input, { target: { value: '100' } });
-
-    // Advance past cooldown
-    await act(async () => {
-      vi.advanceTimersByTime(5000);
-    });
-
-    // Second change should work because cooldown was reset
-    fireEvent.change(input, { target: { value: '200' } });
-
-    expect(mockFetchExchangeRate).toHaveBeenCalledTimes(2);
-
-    vi.useRealTimers();
   });
 });

@@ -19,6 +19,7 @@ export const useOnrampExchangeRate = ({
 }) => {
   const fetchExchangeRate = useCallback(async () => {
     try {
+      console.log('fetching exchange rate');
       const quote = await fetchOnrampQuote({
         purchaseCurrency: asset,
         paymentCurrency: currency,

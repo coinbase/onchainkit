@@ -1,10 +1,11 @@
 import { AmountInput } from '@/internal/components/amount-input/AmountInput';
-import { useCallback, useEffect, useRef } from 'react';
+import { useThrottle } from '@/internal/hooks/useThrottle';
+import { useCallback } from 'react';
 import { useOnrampExchangeRate } from '../hooks/useOnrampExhangeRate';
 import type { FundCardAmountInputPropsReact } from '../types';
 import { useFundContext } from './FundCardProvider';
 
-const COOLDOWN_TIME = 5000;
+const THROTTLE_DELAY = 5000;
 
 export const FundCardAmountInput = ({
   className,
@@ -33,46 +34,22 @@ export const FundCardAmountInput = ({
     onError,
   });
 
-  // Ref to track if we're in cooldown
-  const isInCooldown = useRef(false);
-  const cooldownTimeout = useRef<NodeJS.Timeout>();
+  const throttledFetchExchangeRate = useThrottle(
+    fetchExchangeRate,
+    THROTTLE_DELAY,
+  );
 
-  // Exchange rate update with cooldown
-  const updateExchangeRate = useCallback(() => {
-    if (!isInCooldown.current) {
-      fetchExchangeRate();
-      isInCooldown.current = true;
-
-      cooldownTimeout.current = setTimeout(() => {
-        isInCooldown.current = false;
-      }, COOLDOWN_TIME);
-    }
-  }, [fetchExchangeRate]);
-
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (cooldownTimeout.current) {
-        clearTimeout(cooldownTimeout.current);
-      }
-    };
-  }, []);
-
-  // Handle amount changes with updates
+  /**
+   * Handle amount changes with throttled updates
+   *
+   * Both setFiatAmount and setCryptoAmount on the AmountInput component are called with the new amount so we only need to fetch exchange rate when either is called.
+   */
   const handleFiatAmountChange = useCallback(
     (amount: string) => {
       setFundAmountFiat(amount);
-      updateExchangeRate();
+      throttledFetchExchangeRate();
     },
-    [setFundAmountFiat, updateExchangeRate],
-  );
-
-  const handleCryptoAmountChange = useCallback(
-    (amount: string) => {
-      setFundAmountCrypto(amount);
-      updateExchangeRate();
-    },
-    [setFundAmountCrypto, updateExchangeRate],
+    [setFundAmountFiat, throttledFetchExchangeRate],
   );
 
   return (
@@ -84,7 +61,7 @@ export const FundCardAmountInput = ({
       currency={currency}
       className={className}
       setFiatAmount={handleFiatAmountChange}
-      setCryptoAmount={handleCryptoAmountChange}
+      setCryptoAmount={setFundAmountCrypto}
       exchangeRate={String(exchangeRate)}
     />
   );
