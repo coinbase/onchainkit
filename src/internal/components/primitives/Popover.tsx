@@ -1,4 +1,5 @@
 import { useTheme } from '@/internal/hooks/useTheme';
+import { zIndex } from '@/styles/constants';
 import { cn } from '@/styles/theme';
 import type React from 'react';
 import { useCallback, useEffect, useRef } from 'react';
@@ -169,7 +170,13 @@ export function Popover({
   }
 
   const popover = (
-    <div className={cn(componentTheme, 'pointer-events-none fixed z-50')}>
+    <div
+      className={cn(
+        componentTheme,
+        zIndex.dropdown,
+        'pointer-events-none fixed',
+      )}
+    >
       <FocusTrap active={isOpen}>
         <DismissableLayer onDismiss={onClose} triggerRef={trigger}>
           <div

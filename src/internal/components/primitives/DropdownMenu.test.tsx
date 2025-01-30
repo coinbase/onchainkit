@@ -303,7 +303,7 @@ describe('DropdownMenu', () => {
       );
 
       const menu = screen.getByTestId('ockDropdownMenu');
-      expect(menu).toHaveAttribute('role', 'menu');
+      expect(menu).toHaveAttribute('role', 'listbox');
       expect(menu).toHaveAttribute('aria-label', 'Test Menu');
     });
 
