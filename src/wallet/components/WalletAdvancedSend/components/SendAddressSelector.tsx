@@ -1,6 +1,6 @@
 'use client';
 
-import { Address, Avatar, Identity, Name } from '@/identity';
+import { Address, Avatar, Name } from '@/identity';
 import { background, border, cn, pressable } from '@/styles/theme';
 import { useCallback } from 'react';
 import type { Address as AddressType, Chain } from 'viem';
@@ -22,10 +22,7 @@ export function SendAddressSelector({
 
   return (
     <button type="button" onClick={handleClick} className="text-left">
-      <Identity
-        address={address}
-        chain={senderChain ?? undefined}
-        hasCopyAddressOnClick={false}
+      <div
         className={cn(
           background.default,
           border.radius,
@@ -33,11 +30,18 @@ export function SendAddressSelector({
           'items-left flex min-w-[300px]',
           'mt-2 p-2',
         )}
+        data-testid="ockSendAddressSelector_container"
       >
-        <Avatar />
-        <Name />
-        <Address />
-      </Identity>
+        <div className="flex items-center space-x-3">
+          <div className="flex-shrink-0">
+            <Avatar address={address} chain={senderChain ?? undefined} />
+          </div>
+          <div className="flex flex-col">
+            <Name address={address} chain={senderChain ?? undefined} />
+            <Address address={address} hasCopyAddressOnClick={false} />
+          </div>
+        </div>
+      </div>
     </button>
   );
 }
