@@ -21,8 +21,8 @@ export function SendHeader({ label = 'Send' }: { label?: string }) {
   const handleBack = useCallback(() => {
     if (selectedToken) {
       handleResetTokenSelection();
-    } else if (selectedRecipientAddress) {
-      handleRecipientInputChange(selectedRecipientAddress);
+    } else if (selectedRecipientAddress.value) {
+      handleRecipientInputChange();
     }
   }, [
     selectedRecipientAddress,
@@ -38,7 +38,7 @@ export function SendHeader({ label = 'Send' }: { label?: string }) {
   return (
     <div className="mb-4 grid grid-cols-3 items-center">
       <div className="justify-self-start">
-        {selectedRecipientAddress && (
+        {selectedRecipientAddress.value && (
           <PressableIcon onClick={handleBack} className="h-7 w-7 scale-110 p-2">
             {backArrowSvg}
           </PressableIcon>

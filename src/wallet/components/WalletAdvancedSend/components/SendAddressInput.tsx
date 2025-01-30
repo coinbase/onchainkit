@@ -38,10 +38,9 @@ export function SendAddressInput({
 
   const handleFocus = useCallback(() => {
     if (selectedRecipientAddress.value) {
-      setRecipientInput(selectedRecipientAddress.display);
       handleRecipientInputChange();
     }
-  }, [selectedRecipientAddress, handleRecipientInputChange, setRecipientInput]);
+  }, [selectedRecipientAddress, handleRecipientInputChange]);
 
   const handleSetValue = useCallback(
     async (input: string) => {
