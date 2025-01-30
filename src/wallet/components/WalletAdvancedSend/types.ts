@@ -1,10 +1,8 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import type { Address, Chain } from 'viem';
-import type { PortfolioTokenWithFiatValue } from '../../../api/types';
-import type {
-  Call,
-  LifecycleStatus as TransactionLifecycleStatus,
-} from '../../../transaction/types';
+import type { Address, Chain, TransactionReceipt } from 'viem';
+import type { APIError, PortfolioTokenWithFiatValue } from '../../../api/types';
+import type { Call } from '../../../transaction/types';
+import type { LifecycleStatusUpdate } from '@/internal/types';
 
 export type SendProviderReact = {
   children: ReactNode;
@@ -14,7 +12,9 @@ export type SendContextType = {
   // Lifecycle Status Context
   isInitialized: boolean;
   lifecycleStatus: SendLifecycleStatus;
-  updateLifecycleStatus: (newStatus: SendLifecycleStatus) => void;
+  updateLifecycleStatus: (
+    status: LifecycleStatusUpdate<SendLifecycleStatus>,
+  ) => void;
 
   // Wallet Context
   senderAddress: Address | null | undefined;
@@ -81,4 +81,23 @@ export type SendLifecycleStatus =
         sufficientBalance: boolean;
       };
     }
-  | TransactionLifecycleStatus;
+  | {
+      statusName: 'transactionPending'; // if the mutation is currently executing
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionLegacyExecuted';
+      statusData: {
+        transactionHashList: Address[];
+      };
+    }
+  | {
+      statusName: 'success'; // if the last mutation attempt was successful
+      statusData: {
+        transactionReceipts: TransactionReceipt[];
+      };
+    }
+  | {
+      statusName: 'error';
+      statusData: APIError;
+    };
