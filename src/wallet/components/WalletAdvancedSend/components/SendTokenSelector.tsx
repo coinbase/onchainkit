@@ -4,6 +4,7 @@ import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { TokenBalance } from '@/internal/components/TokenBalance';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import type { Dispatch, SetStateAction } from 'react';
+import { formatUnits } from 'viem';
 
 type SendTokenSelectorProps = {
   selectedToken: PortfolioTokenWithFiatValue | null;
@@ -56,8 +57,10 @@ export function SendTokenSelector({
         handleFiatAmountChange(String(selectedToken.fiatBalance));
         handleCryptoAmountChange(
           String(
-            Number(selectedToken.cryptoBalance) /
-              10 ** Number(selectedToken.decimals),
+            formatUnits(
+              BigInt(selectedToken.cryptoBalance),
+              selectedToken.decimals,
+            ),
           ),
         );
       }}
