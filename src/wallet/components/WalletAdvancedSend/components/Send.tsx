@@ -9,6 +9,8 @@ import { SendFundWallet } from './SendFundWallet';
 import { SendHeader } from './SendHeader';
 import { SendProvider, useSendContext } from './SendProvider';
 import { SendTokenSelector } from './SendTokenSelector';
+import { validateAmountInput } from '../utils/validateAmountInput';
+import { parseUnits } from 'viem';
 
 type SendReact = {
   children?: ReactNode;
@@ -44,6 +46,21 @@ export function Send({
 
 function SendDefaultChildren() {
   const context = useSendContext();
+  const disableSendButton = !validateAmountInput({
+    cryptoAmount: context.cryptoAmount ?? '',
+    selectedToken: context.selectedToken ?? undefined,
+  });
+  const buttonLabel = useMemo(() => {
+    if (
+      parseUnits(
+        context.cryptoAmount ?? '',
+        context.selectedToken?.decimals ?? 0,
+      ) > (context.selectedToken?.cryptoBalance ?? 0n)
+    ) {
+      return 'Insufficient balance';
+    }
+    return 'Continue';
+  }, [context.cryptoAmount, context.selectedToken]);
 
   console.log({
     context,
@@ -123,8 +140,9 @@ function SendDefaultChildren() {
           selectedToken={context.selectedToken}
           senderChain={context.senderChain}
           callData={context.callData}
-          sendTransactionError={context.sendTransactionError}
           onStatus={context.updateLifecycleStatus}
+          disabled={disableSendButton}
+          label={buttonLabel}
         />
       </div>
     );
@@ -147,8 +165,9 @@ function SendDefaultChildren() {
     context.senderChain,
     context.cryptoAmount,
     context.callData,
-    context.sendTransactionError,
     context.updateLifecycleStatus,
+    disableSendButton,
+    buttonLabel,
   ]);
 
   return (
