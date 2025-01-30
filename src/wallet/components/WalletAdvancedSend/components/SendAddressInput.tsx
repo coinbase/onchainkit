@@ -6,16 +6,18 @@ import {
   type Dispatch,
   type SetStateAction,
   useCallback,
-  useEffect,
+  useMemo,
 } from 'react';
-import type { Address } from 'viem';
 import { resolveAddressInput } from '../utils/resolveAddressInput';
+import type { RecipientAddress } from '@/wallet/components/WalletAdvancedSend/types';
+import { validateAddressInput } from '@/wallet/components/WalletAdvancedSend/utils/validateAddressInput';
 
 type AddressInputProps = {
-  selectedRecipientAddress: Address | null;
-  recipientInput: string | null;
-  setRecipientInput: Dispatch<SetStateAction<string | null>>;
-  handleRecipientInputChange: (input: string) => void;
+  selectedRecipientAddress: RecipientAddress;
+  recipientInput: string;
+  setRecipientInput: Dispatch<SetStateAction<string>>;
+  setValidatedInput: Dispatch<SetStateAction<RecipientAddress>>;
+  handleRecipientInputChange: () => void;
   className?: string;
 };
 
@@ -23,22 +25,35 @@ export function SendAddressInput({
   selectedRecipientAddress,
   recipientInput,
   setRecipientInput,
+  setValidatedInput,
   handleRecipientInputChange,
   className,
 }: AddressInputProps) {
-  useEffect(() => {
-    resolveAddressInput(selectedRecipientAddress, recipientInput)
-      .then(setRecipientInput)
-      .catch(console.error);
-  }, [selectedRecipientAddress, recipientInput, setRecipientInput]);
+  const displayValue = useMemo(() => {
+    if (selectedRecipientAddress?.display) {
+      return selectedRecipientAddress.display;
+    }
+    return recipientInput;
+  }, [selectedRecipientAddress, recipientInput]);
 
   const handleFocus = useCallback(() => {
-    if (selectedRecipientAddress) {
-      resolveAddressInput(selectedRecipientAddress, recipientInput)
-        .then((value) => handleRecipientInputChange(value ?? ''))
-        .catch(console.error);
+    if (selectedRecipientAddress.value) {
+      setRecipientInput(selectedRecipientAddress.display);
+      handleRecipientInputChange();
     }
-  }, [selectedRecipientAddress, handleRecipientInputChange, recipientInput]);
+  }, [selectedRecipientAddress, handleRecipientInputChange, setRecipientInput]);
+
+  const handleSetValue = useCallback(
+    async (input: string) => {
+      const resolved = await resolveAddressInput(
+        selectedRecipientAddress.value,
+        input,
+      );
+      setValidatedInput(resolved);
+      setRecipientInput(input);
+    },
+    [selectedRecipientAddress.value, setValidatedInput, setRecipientInput],
+  );
 
   return (
     <div
@@ -55,8 +70,10 @@ export function SendAddressInput({
       <TextInput
         inputMode="text"
         placeholder="Basename, ENS, or Address"
-        value={recipientInput ?? ''}
-        onChange={handleRecipientInputChange}
+        value={displayValue}
+        inputValidator={() => !!validateAddressInput(recipientInput)}
+        setValue={handleSetValue}
+        onChange={setRecipientInput}
         onFocus={handleFocus}
         aria-label="Input Receiver Address"
         className={cn(background.default, 'w-full outline-none')}
