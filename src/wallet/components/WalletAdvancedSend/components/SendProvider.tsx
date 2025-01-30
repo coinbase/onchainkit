@@ -57,7 +57,7 @@ export function SendProvider({ children }: SendProviderReact) {
   // state for transaction data
   const [callData, setCallData] = useState<Call | null>(null);
 
-  // data and utils from hooks
+  // lifecycle status
   const [lifecycleStatus, updateLifecycleStatus] =
     useLifecycleStatus<SendLifecycleStatus>({
       statusName: 'init',
@@ -65,9 +65,9 @@ export function SendProvider({ children }: SendProviderReact) {
         isMissingRequiredField: true,
       },
     });
-  // const { address: senderAddress, chain: senderChain } = useWalletContext();
-  const { tokenBalances } = useWalletAdvancedContext();
 
+  // fetch & set ETH balance
+  const { tokenBalances } = useWalletAdvancedContext();
   useEffect(() => {
     const ethBalance = tokenBalances?.find((token) => token.address === '');
     if (ethBalance && ethBalance.cryptoBalance > 0) {
@@ -106,8 +106,8 @@ export function SendProvider({ children }: SendProviderReact) {
     });
   }, [selectedToken, selectedInputType]);
 
+  // handlers
   const handleRecipientInputChange = useCallback(() => {
-    console.log('provider handleRecipientInputChange');
     setSelectedRecipientAddress({
       display: '',
       value: null,
