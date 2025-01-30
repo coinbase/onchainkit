@@ -1,8 +1,10 @@
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
+import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
 import { border, cn, color, text } from '@/styles/theme';
 import { TokenImage } from '@/token';
 import { useMemo } from 'react';
+import { formatUnits } from 'viem';
 
 type TokenBalanceProps = {
   token: PortfolioTokenWithFiatValue;
@@ -25,10 +27,15 @@ export function TokenBalance({
   onActionPress,
   className,
 }: TokenBalanceProps) {
-  const formattedValueInFiat = new Intl.NumberFormat('en-US', {
-    style: 'currency',
+  const formattedFiatValue = formatFiatAmount({
+    amount: token.fiatBalance,
     currency: 'USD',
-  }).format(token.fiatBalance);
+  });
+
+  const formattedCryptoValue = truncateDecimalPlaces(
+    formatUnits(BigInt(token.cryptoBalance), token.decimals),
+    3,
+  );
 
   const tokenContent = useMemo(() => {
     return (
@@ -47,10 +54,7 @@ export function TokenBalance({
             {token.name?.trim()}
           </span>
           <span className={cn(text.label2, color.foregroundMuted)}>
-            {`${truncateDecimalPlaces(
-              token.cryptoBalance / 10 ** token.decimals,
-              2,
-            )} ${token.symbol} ${subtitle}`}
+            {`${formattedCryptoValue} ${token.symbol} ${subtitle}`}
           </span>
         </div>
         <div className="text-right">
@@ -83,7 +87,7 @@ export function TokenBalance({
                 'whitespace-nowrap',
               )}
             >
-              {formattedValueInFiat}
+              {formattedFiatValue}
             </span>
           )}
         </div>
@@ -96,7 +100,8 @@ export function TokenBalance({
     showAction,
     actionText,
     onActionPress,
-    formattedValueInFiat,
+    formattedFiatValue,
+    formattedCryptoValue,
   ]);
 
   if (onClick) {
