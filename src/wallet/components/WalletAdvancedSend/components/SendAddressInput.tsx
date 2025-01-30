@@ -1,7 +1,5 @@
 'use client';
 
-import { getName, isBasename } from '@/identity';
-import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
 import { TextInput } from '@/internal/components/TextInput';
 import { background, border, cn, color } from '@/styles/theme';
 import {
@@ -11,7 +9,7 @@ import {
   useEffect,
 } from 'react';
 import type { Address } from 'viem';
-import { base, mainnet } from 'viem/chains';
+import { resolveAddressInput } from '../utils/resolveAddressInput';
 
 type AddressInputProps = {
   selectedRecipientAddress: Address | null;
@@ -29,14 +27,14 @@ export function SendAddressInput({
   className,
 }: AddressInputProps) {
   useEffect(() => {
-    resolveInputDisplay(selectedRecipientAddress, recipientInput)
+    resolveAddressInput(selectedRecipientAddress, recipientInput)
       .then(setRecipientInput)
       .catch(console.error);
   }, [selectedRecipientAddress, recipientInput, setRecipientInput]);
 
   const handleFocus = useCallback(() => {
     if (selectedRecipientAddress) {
-      resolveInputDisplay(selectedRecipientAddress, recipientInput)
+      resolveAddressInput(selectedRecipientAddress, recipientInput)
         .then((value) => handleRecipientInputChange(value ?? ''))
         .catch(console.error);
     }
@@ -65,27 +63,4 @@ export function SendAddressInput({
       />
     </div>
   );
-}
-
-async function resolveInputDisplay(
-  selectedRecipientAddress: Address | null,
-  recipientInput: string | null,
-) {
-  if (!recipientInput) {
-    return null;
-  }
-
-  if (!selectedRecipientAddress) {
-    return recipientInput;
-  }
-
-  const name = await getName({
-    address: selectedRecipientAddress,
-    chain: isBasename(recipientInput) ? base : mainnet,
-  });
-  if (name) {
-    return name;
-  }
-
-  return getSlicedAddress(selectedRecipientAddress);
 }
