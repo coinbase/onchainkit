@@ -121,8 +121,11 @@ export type SendFundingWalletProps = {
   onError?: () => void;
   onStatus?: () => void;
   onSuccess?: () => void;
-  className?: string;
-  subtitleClassName?: string;
+  classNames?: {
+    container?: string;
+    subtitle?: string;
+    fundCard?: string;
+  };
 };
 
 export type SendTokenSelectorProps = {

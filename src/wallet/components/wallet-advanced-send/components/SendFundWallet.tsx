@@ -13,16 +13,18 @@ export function SendFundWallet({
   onError,
   onStatus,
   onSuccess,
-  className,
-  subtitleClassName,
+  classNames,
 }: SendFundingWalletProps) {
   return (
     <div
-      className={cn('flex flex-col items-center justify-between', className)}
+      className={cn(
+        'flex flex-col items-center justify-between',
+        classNames?.container,
+      )}
       data-testid="ockSendFundWallet"
     >
       <div
-        className={cn(text.label2, color.foregroundMuted, subtitleClassName)}
+        className={cn(text.label2, color.foregroundMuted, classNames?.subtitle)}
       >
         Insufficient ETH balance to send transaction. Fund your wallet to
         continue.
@@ -35,7 +37,7 @@ export function SendFundWallet({
         onError={onError}
         onStatus={onStatus}
         onSuccess={onSuccess}
-        className={cn('mt-3 w-88 border-none py-0', className)}
+        className={cn('mt-3 w-88 border-none py-0', classNames?.fundCard)}
       >
         <FundCardAmountInput />
         <FundCardAmountInputTypeSwitch />
