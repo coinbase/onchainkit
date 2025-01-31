@@ -49,9 +49,8 @@ export function SendAddressInput({
         input,
       );
       setValidatedInput(resolved);
-      setRecipientInput(input);
     },
-    [selectedRecipientAddress.value, setValidatedInput, setRecipientInput],
+    [selectedRecipientAddress.value, setValidatedInput],
   );
 
   return (
@@ -71,8 +70,8 @@ export function SendAddressInput({
         placeholder="Basename, ENS, or Address"
         value={displayValue}
         inputValidator={() => !!validateAddressInput(recipientInput)}
-        setValue={handleSetValue}
-        onChange={setRecipientInput}
+        setValue={setRecipientInput}
+        onChange={handleSetValue}
         onFocus={handleFocus}
         aria-label="Input Receiver Address"
         className={cn(background.default, 'w-full outline-none')}
