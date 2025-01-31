@@ -66,6 +66,7 @@ export function WalletAdvancedTransactionActions({
 
   return (
     <div
+      data-testid="ockWalletAdvanced_TransactionActions"
       className={cn(
         'my-3 flex w-full flex-row justify-center gap-2',
         animations.content,
