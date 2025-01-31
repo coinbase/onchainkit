@@ -142,20 +142,18 @@ type BuildMintTransactionParams = {
 type BuildMintTransactionResponse = MintTransaction | APIError;
 ```
 
-## `GetPortfolioTokenBalancesParams`
+## `GetPortfolioParams`
 
 ```ts
-type GetPortfolioTokenBalancesParams = {
+type GetPortfolioParams = {
   addresses: Address[] | null | undefined;
 };
 ```
 
-## `PortfolioTokenBalances`
+## `GetPortfoliosResponse`
 
 ```ts
-type PortfolioTokenBalances = {
-  address: Address;
-  portfolioBalanceInUsd: number;
-  tokenBalances: PortfolioTokenWithFiatValue[];
+type GetPortfoliosResponse = {
+  portfolios: Portfolio[];
 };
 ```
