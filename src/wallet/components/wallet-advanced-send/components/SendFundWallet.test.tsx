@@ -1,0 +1,86 @@
+import { render, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  FundCard,
+  FundCardAmountInput,
+  FundCardAmountInputTypeSwitch,
+  FundCardPaymentMethodDropdown,
+  FundCardPresetAmountInputList,
+  FundCardSubmitButton,
+} from '@/fund';
+import { SendFundWallet } from './SendFundWallet';
+
+// Mock all fund components
+vi.mock('@/fund/components/FundCard');
+vi.mock('@/fund/components/FundCardAmountInput');
+vi.mock('@/fund/components/FundCardAmountInputTypeSwitch');
+vi.mock('@/fund/components/FundCardPaymentMethodDropdown');
+vi.mock('@/fund/components/FundCardPresetAmountInputList');
+vi.mock('@/fund/components/FundCardSubmitButton');
+
+describe('SendFundWallet', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const defaultProps = {
+    onError: vi.fn(),
+    onStatus: vi.fn(),
+    onSuccess: vi.fn(),
+    className: 'test-class',
+    subtitleClassName: 'test-subtitle-class',
+  };
+
+  it('renders with correct base structure', () => {
+    const { container } = render(<SendFundWallet {...defaultProps} />);
+    expect(screen.getByTestId('ockSendFundWallet')).toBeInTheDocument();
+    expect(container.firstChild).toHaveClass(
+      'flex',
+      'flex-col',
+      'items-center',
+      'justify-between',
+    );
+  });
+
+  it('passes correct props to FundCard', () => {
+    render(<SendFundWallet {...defaultProps} />);
+    expect(FundCard).toHaveBeenCalledWith(
+      {
+        assetSymbol: 'ETH',
+        country: 'US',
+        currency: 'USD',
+        presetAmountInputs: ['2', '5', '10'],
+        onError: defaultProps.onError,
+        onStatus: defaultProps.onStatus,
+        onSuccess: defaultProps.onSuccess,
+        className: expect.stringContaining('test-class'),
+        children: expect.any(Array),
+      },
+      {},
+    );
+  });
+
+  it('renders all child components in correct order', () => {
+    render(<SendFundWallet {...defaultProps} />);
+    const fundCardCall = vi.mocked(FundCard).mock.calls[0][0];
+    const children = fundCardCall.children as React.ReactElement[];
+
+    expect(children).toHaveLength(5);
+    expect(children?.[0].type).toBe(FundCardAmountInput);
+    expect(children?.[1].type).toBe(FundCardAmountInputTypeSwitch);
+    expect(children?.[2].type).toBe(FundCardPresetAmountInputList);
+    expect(children?.[3].type).toBe(FundCardPaymentMethodDropdown);
+    expect(children?.[4].type).toBe(FundCardSubmitButton);
+  });
+
+  it('applies correct className to subtitle', () => {
+    const { container } = render(<SendFundWallet {...defaultProps} />);
+    const subtitle = container.querySelector(
+      `.${defaultProps.subtitleClassName}`,
+    );
+    expect(subtitle).toBeInTheDocument();
+    expect(subtitle).toHaveTextContent(
+      'Insufficient ETH balance to send transaction. Fund your wallet to continue.',
+    );
+  });
+});
