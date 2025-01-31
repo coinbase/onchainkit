@@ -6,27 +6,37 @@ import { formatUnits } from 'viem';
 import type { TokenBalanceProps } from '../types';
 
 export function TokenBalance({
+  token,
   onClick,
   className,
-  token,
   ...contentProps
 }: TokenBalanceProps) {
-  const Wrapper = onClick ? 'button' : 'div';
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        onClick={() => onClick(token)}
+        className={cn(
+          'flex w-full items-center justify-start gap-4 px-2 py-1',
+          className,
+        )}
+        data-testid="ockTokenBalanceButton"
+      >
+        <TokenBalanceContent token={token} {...contentProps} />
+      </button>
+    );
+  }
 
   return (
-    <Wrapper
-      {...(onClick && {
-        type: 'button',
-        onClick: () => onClick(token),
-      })}
+    <div
       className={cn(
         'flex w-full items-center justify-start gap-4 px-2 py-1',
         className,
       )}
-      data-testid="ockTokenBalanceButton"
+      data-testid="ockTokenBalance"
     >
       <TokenBalanceContent token={token} {...contentProps} />
-    </Wrapper>
+    </div>
   );
 }
 
