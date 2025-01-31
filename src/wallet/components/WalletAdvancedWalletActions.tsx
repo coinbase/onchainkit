@@ -41,6 +41,7 @@ export function WalletAdvancedWalletActions({
 
   return (
     <div
+      data-testid="ockWalletAdvanced_WalletActions"
       className={cn(
         'flex w-80 items-center justify-between',
         animations.content,
