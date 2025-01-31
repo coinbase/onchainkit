@@ -19,7 +19,11 @@ export function WalletDropdownFundLink({
   text = 'Fund wallet',
 }: WalletDropdownFundLinkReact) {
   // If we can't get a funding URL, this component will be a no-op and render a disabled link
-  const fundingUrlToRender = fundingUrl ?? useGetFundingUrl({});
+  const fundingUrlToRender =
+    fundingUrl ??
+    useGetFundingUrl({
+      originComponentName: 'WalletDropdownFundLink',
+    });
   const iconSvg = useIcon({ icon });
 
   const handleClick = useCallback(
