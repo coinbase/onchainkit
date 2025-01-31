@@ -81,7 +81,7 @@ export type SendLifecycleStatus =
       };
     }
   | {
-      statusName: 'transactionPending'; // if the mutation is currently executing
+      statusName: 'transactionPending';
       statusData: null;
     }
   | {
@@ -91,7 +91,7 @@ export type SendLifecycleStatus =
       };
     }
   | {
-      statusName: 'success'; // if the last mutation attempt was successful
+      statusName: 'success';
       statusData: {
         transactionReceipts: TransactionReceipt[];
       };
@@ -122,6 +122,7 @@ export type SendFundingWalletProps = {
   onStatus?: () => void;
   onSuccess?: () => void;
   className?: string;
+  subtitleClassName?: string;
 };
 
 export type SendTokenSelectorProps = Pick<

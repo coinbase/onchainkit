@@ -147,8 +147,16 @@ export type TokenBalanceProps = {
   /** Optional additional CSS class to apply to the action button */
   actionClassName?: string;
 } & (
-  /** Hide the action button (default)*/
-  | { showAction?: false; actionText?: never; onActionPress?: never }
-  /** Show an additional action button (eg. "Use max") */
-  | { showAction?: true; actionText?: string; onActionPress?: () => void }
+  | {
+      /** Hide the action button (default)*/
+      showAction?: false;
+      actionText?: never;
+      onActionPress?: never;
+    }
+  | {
+      /** Show an additional action button (eg. "Use max") */
+      showAction?: true;
+      actionText?: string;
+      onActionPress?: () => void;
+    }
 );

@@ -1,10 +1,10 @@
 'use client';
 
-import { TokenBalance } from '@/token';
 import { border, cn, color, pressable, text } from '@/styles/theme';
+import { TokenBalance } from '@/token';
 import { formatUnits } from 'viem';
+import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import type { SendTokenSelectorProps } from '../types';
-import { useWalletAdvancedContext } from '@/wallet/components/WalletAdvancedProvider';
 
 export function SendTokenSelector({
   selectedToken,

@@ -14,6 +14,7 @@ export function SendFundWallet({
   onStatus,
   onSuccess,
   className,
+  subtitleClassName,
 }: SendFundingWalletProps) {
   return (
     <div
@@ -21,7 +22,7 @@ export function SendFundWallet({
       data-testid="ockSendFundWallet"
     >
       <div
-        className={cn(text.label2, color.foregroundMuted)}
+        className={cn(text.label2, color.foregroundMuted, subtitleClassName)}
       >
         Insufficient ETH balance to send transaction. Fund your wallet to
         continue.
