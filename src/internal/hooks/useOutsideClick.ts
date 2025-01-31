@@ -3,14 +3,9 @@ import { useCallback, useEffect } from 'react';
 export function useOutsideClick(
   elRef: React.RefObject<HTMLElement>,
   callback: () => void,
-  disabled = false,
 ) {
   const handleClickOutside = useCallback(
     (e: MouseEvent) => {
-      if (disabled) {
-        return;
-      }
-
       if (!elRef.current) {
         return;
       }
@@ -20,7 +15,7 @@ export function useOutsideClick(
         callback();
       }
     },
-    [callback, elRef, disabled],
+    [callback, elRef],
   );
 
   useEffect(() => {

@@ -57,7 +57,7 @@ function WalletContent({
   } = useWalletContext();
   const walletContainerRef = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(walletContainerRef, handleClose, breakpoint === 'sm');
+  useOutsideClick(walletContainerRef, handleClose);
 
   const { connect, dropdown, advanced } = useMemo(() => {
     const childrenArray = Children.toArray(children);
