@@ -124,10 +124,7 @@ describe('SendTokenSelector', () => {
     };
 
     const { rerender } = render(
-      <SendTokenSelector
-        {...defaultProps}
-        classNames={customClassNames}
-      />,
+      <SendTokenSelector {...defaultProps} classNames={customClassNames} />,
     );
     const buttons = screen.getAllByTestId('ockTokenBalanceButton');
     expect(buttons[0]).toHaveClass(customClassNames.container);

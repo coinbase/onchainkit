@@ -40,7 +40,13 @@ describe('TokenBalance', () => {
     it('applies custom classNames to the button container', () => {
       const customClassNames = { container: 'custom-class' };
       const handleClick = vi.fn();
-      render(<TokenBalance token={mockToken} onClick={handleClick} classNames={customClassNames} />);
+      render(
+        <TokenBalance
+          token={mockToken}
+          onClick={handleClick}
+          classNames={customClassNames}
+        />,
+      );
       expect(screen.getByTestId('ockTokenBalanceButton')).toHaveClass(
         customClassNames.container,
       );
@@ -103,12 +109,7 @@ describe('TokenBalance', () => {
 
     it('handles keyboard events on action button', () => {
       const onActionPress = vi.fn();
-      render(
-        <TokenBalance
-          token={mockToken}
-          onActionPress={onActionPress}
-        />,
-      );
+      render(<TokenBalance token={mockToken} onActionPress={onActionPress} />);
 
       const actionButton = screen.getByRole('button', { name: 'Use max' });
       fireEvent.keyDown(actionButton);

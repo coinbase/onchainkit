@@ -2,9 +2,9 @@ import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
 import { border, cn, color, text } from '@/styles/theme';
 import { TokenImage } from '@/token';
+import { useCallback } from 'react';
 import { formatUnits } from 'viem';
 import type { TokenBalanceProps } from '../types';
-import { useCallback } from 'react';
 
 export function TokenBalance({
   token,
@@ -23,7 +23,11 @@ export function TokenBalance({
         )}
         data-testid="ockTokenBalanceButton"
       >
-        <TokenBalanceContent token={token} {...contentProps} classNames={classNames}/>
+        <TokenBalanceContent
+          token={token}
+          {...contentProps}
+          classNames={classNames}
+        />
       </button>
     );
   }
@@ -36,7 +40,11 @@ export function TokenBalance({
       )}
       data-testid="ockTokenBalance"
     >
-      <TokenBalanceContent token={token} {...contentProps} classNames={classNames}/>
+      <TokenBalanceContent
+        token={token}
+        {...contentProps}
+        classNames={classNames}
+      />
     </div>
   );
 }
