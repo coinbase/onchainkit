@@ -1,7 +1,7 @@
-import { render } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { AmountInputTypeSwitch } from '@/internal/components/amount-input/AmountInputTypeSwitch';
+import { render } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SendAmountInputTypeSwitch } from './SendAmountInputTypeSwitch';
 
 vi.mock('@/internal/components/Skeleton');

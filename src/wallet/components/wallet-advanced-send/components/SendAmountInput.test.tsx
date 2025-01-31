@@ -1,6 +1,6 @@
-import { render } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AmountInput } from '@/internal/components/amount-input/AmountInput';
+import { render } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SendAmountInput } from './SendAmountInput';
 import { SendAmountInputTypeSwitch } from './SendAmountInputTypeSwitch';
 

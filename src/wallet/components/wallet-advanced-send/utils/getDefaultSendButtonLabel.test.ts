@@ -1,5 +1,5 @@
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { getDefaultSendButtonLabel } from './getDefaultSendButtonLabel';
 
 describe('getDefaultSendButtonLabel', () => {
@@ -33,9 +33,7 @@ describe('getDefaultSendButtonLabel', () => {
   });
 
   it('returns "Continue" when amount is valid and within balance', () => {
-    expect(getDefaultSendButtonLabel('0.0001', mockToken)).toBe(
-      'Continue',
-    );
+    expect(getDefaultSendButtonLabel('0.0001', mockToken)).toBe('Continue');
   });
 
   it('returns "Continue" when amount equals balance exactly', () => {

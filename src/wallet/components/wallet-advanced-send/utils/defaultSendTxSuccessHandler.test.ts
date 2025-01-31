@@ -1,6 +1,6 @@
 import { getChainExplorer } from '@/core/network/getChainExplorer';
 import type { Address, Chain, TransactionReceipt } from 'viem';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { defaultSendTxSuccessHandler } from './defaultSendTxSuccessHandler';
 
 vi.mock('@/core/network/getChainExplorer');

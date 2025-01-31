@@ -1,5 +1,3 @@
-import { render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   FundCard,
   FundCardAmountInput,
@@ -8,9 +6,10 @@ import {
   FundCardPresetAmountInputList,
   FundCardSubmitButton,
 } from '@/fund';
+import { render, screen } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SendFundWallet } from './SendFundWallet';
 
-// Mock all fund components
 vi.mock('@/fund/components/FundCard');
 vi.mock('@/fund/components/FundCardAmountInput');
 vi.mock('@/fund/components/FundCardAmountInputTypeSwitch');
