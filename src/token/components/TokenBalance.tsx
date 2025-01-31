@@ -23,7 +23,7 @@ export function TokenBalance({
         )}
         data-testid="ockTokenBalanceButton"
       >
-        <TokenBalanceContent token={token} {...contentProps} />
+        <TokenBalanceContent token={token} {...contentProps} classNames={classNames}/>
       </button>
     );
   }
@@ -36,7 +36,7 @@ export function TokenBalance({
       )}
       data-testid="ockTokenBalance"
     >
-      <TokenBalanceContent token={token} {...contentProps} />
+      <TokenBalanceContent token={token} {...contentProps} classNames={classNames}/>
     </div>
   );
 }
@@ -102,6 +102,7 @@ function TokenBalanceContent({
         {onActionPress ? (
           <div
             role="button"
+            data-testid="ockTokenBalanceAction"
             aria-label={actionText}
             onClick={handleActionPress}
             onKeyDown={handleActionPress}

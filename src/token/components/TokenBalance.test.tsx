@@ -29,11 +29,20 @@ describe('TokenBalance', () => {
       expect(onClick).toHaveBeenCalledWith(mockToken);
     });
 
-    it('applies custom className', () => {
-      const customClass = 'custom-class';
-      render(<TokenBalance token={mockToken} className={customClass} />);
+    it('applies custom classNames to the div container', () => {
+      const customClassNames = { container: 'custom-class' };
+      render(<TokenBalance token={mockToken} classNames={customClassNames} />);
+      expect(screen.getByTestId('ockTokenBalance')).toHaveClass(
+        customClassNames.container,
+      );
+    });
+
+    it('applies custom classNames to the button container', () => {
+      const customClassNames = { container: 'custom-class' };
+      const handleClick = vi.fn();
+      render(<TokenBalance token={mockToken} onClick={handleClick} classNames={customClassNames} />);
       expect(screen.getByTestId('ockTokenBalanceButton')).toHaveClass(
-        customClass,
+        customClassNames.container,
       );
     });
   });
@@ -78,7 +87,6 @@ describe('TokenBalance', () => {
       render(
         <TokenBalance
           token={mockToken}
-          showAction={true}
           actionText="Custom Action"
           onActionPress={onActionPress}
         />,
@@ -98,7 +106,6 @@ describe('TokenBalance', () => {
       render(
         <TokenBalance
           token={mockToken}
-          showAction={true}
           onActionPress={onActionPress}
         />,
       );
@@ -108,19 +115,40 @@ describe('TokenBalance', () => {
       expect(onActionPress).toHaveBeenCalled();
     });
 
-    it('applies custom class names to token elements', () => {
-      const customClasses = {
-        tokenNameClassName: 'custom-name',
-        tokenValueClassName: 'custom-value',
-        fiatValueClassName: 'custom-fiat',
-        actionClassName: 'custom-action',
+    it('applies custom class names to token elements when no action is provided', () => {
+      const customClassNames = {
+        tokenName: 'custom-name',
+        tokenValue: 'custom-value',
+        fiatValue: 'custom-fiat',
       };
 
-      render(<TokenBalance token={mockToken} {...customClasses} />);
+      render(<TokenBalance token={mockToken} classNames={customClassNames} />);
 
       expect(screen.getByText('Ethereum')).toHaveClass('custom-name');
       expect(screen.getByText('0.000 ETH')).toHaveClass('custom-value');
       expect(screen.getByText('$3,300.00')).toHaveClass('custom-fiat');
+    });
+
+    it('applies custom class names to token elements when action is provided', () => {
+      const customClassNames = {
+        tokenName: 'custom-name',
+        tokenValue: 'custom-value',
+        action: 'custom-action',
+      };
+
+      render(
+        <TokenBalance
+          token={mockToken}
+          classNames={customClassNames}
+          onActionPress={() => {}}
+        />,
+      );
+
+      expect(screen.getByText('Ethereum')).toHaveClass('custom-name');
+      expect(screen.getByText('0.000 ETH')).toHaveClass('custom-value');
+      expect(screen.getByTestId('ockTokenBalanceAction')).toHaveClass(
+        'custom-action',
+      );
     });
 
     it('handles token with empty/null name', () => {
