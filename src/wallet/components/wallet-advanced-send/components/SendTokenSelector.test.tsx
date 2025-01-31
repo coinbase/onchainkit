@@ -117,4 +117,30 @@ describe('SendTokenSelector', () => {
     render(<SendTokenSelector {...defaultProps} />);
     expect(screen.getByText('Select a token')).toBeInTheDocument();
   });
+
+  it('applies custom classNames when provided', () => {
+    const customClassNames = {
+      container: 'custom-button',
+    };
+
+    const { rerender } = render(
+      <SendTokenSelector
+        {...defaultProps}
+        classNames={customClassNames}
+      />,
+    );
+    const buttons = screen.getAllByTestId('ockTokenBalanceButton');
+    expect(buttons[0]).toHaveClass(customClassNames.container);
+    expect(buttons[1]).toHaveClass(customClassNames.container);
+
+    rerender(
+      <SendTokenSelector
+        {...defaultProps}
+        selectedToken={mockTokenBalances[0]}
+        classNames={customClassNames}
+      />,
+    );
+    const button = screen.getByTestId('ockTokenBalanceButton');
+    expect(button).toHaveClass(customClassNames.container);
+  });
 });

@@ -26,8 +26,11 @@ describe('SendFundWallet', () => {
     onError: vi.fn(),
     onStatus: vi.fn(),
     onSuccess: vi.fn(),
-    className: 'test-class',
-    subtitleClassName: 'test-subtitle-class',
+    classNames: {
+      container: 'test-class',
+      subtitle: 'test-subtitle-class',
+      fundCard: 'test-fund-card-class',
+    },
   };
 
   it('renders with correct base structure', () => {
@@ -38,6 +41,7 @@ describe('SendFundWallet', () => {
       'flex-col',
       'items-center',
       'justify-between',
+      defaultProps.classNames.container,
     );
   });
 
@@ -52,8 +56,14 @@ describe('SendFundWallet', () => {
         onError: defaultProps.onError,
         onStatus: defaultProps.onStatus,
         onSuccess: defaultProps.onSuccess,
-        className: expect.stringContaining('test-class'),
-        children: expect.any(Array),
+        className: expect.stringContaining(defaultProps.classNames.fundCard),
+        children: [
+          expect.any(Object), // FundCardAmountInput
+          expect.any(Object), // FundCardAmountInputTypeSwitch
+          expect.any(Object), // FundCardPresetAmountInputList
+          expect.any(Object), // FundCardPaymentMethodDropdown
+          expect.any(Object), // FundCardSubmitButton
+        ],
       },
       {},
     );
@@ -75,7 +85,7 @@ describe('SendFundWallet', () => {
   it('applies correct className to subtitle', () => {
     const { container } = render(<SendFundWallet {...defaultProps} />);
     const subtitle = container.querySelector(
-      `.${defaultProps.subtitleClassName}`,
+      `.${defaultProps.classNames.subtitle}`,
     );
     expect(subtitle).toBeInTheDocument();
     expect(subtitle).toHaveTextContent(

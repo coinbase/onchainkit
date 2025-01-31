@@ -18,7 +18,7 @@ const mockToken = {
   fiatBalance: 3300,
 };
 
-describe('SendAmountInput', () => {
+describe('SendAmountInputTypeSwitch', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -35,14 +35,18 @@ describe('SendAmountInput', () => {
     exchangeRateLoading: false,
     className: 'test-class',
     textClassName: 'test-text-class',
+    loadingDisplay: <div>test-loading-display</div>,
   };
 
-  it('shows error message when exchange rate is invalid', () => {
-    const { container } = render(
-      <SendAmountInputTypeSwitch {...defaultProps} exchangeRate={0} />,
+  it('passes an error state when exchange rate is invalid', () => {
+    render(<SendAmountInputTypeSwitch {...defaultProps} exchangeRate={0} />);
+    expect(AmountInputTypeSwitch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        loadingDisplay: <div>test-loading-display</div>,
+        exchangeRate: 0,
+      }),
+      {},
     );
-    expect(container).toHaveTextContent('Exchange rate unavailable');
-    expect(AmountInputTypeSwitch).not.toHaveBeenCalled();
   });
 
   it('shows skeleton when exchange rate is loading', () => {
@@ -67,6 +71,8 @@ describe('SendAmountInput', () => {
         currency: 'USD',
         selectedInputType: defaultProps.selectedInputType,
         setSelectedInputType: defaultProps.setSelectedInputType,
+        className: defaultProps.className,
+        loadingDisplay: defaultProps.loadingDisplay,
       },
       {},
     );
@@ -92,6 +98,8 @@ describe('SendAmountInput', () => {
         currency: 'USD',
         selectedInputType: defaultProps.selectedInputType,
         setSelectedInputType: defaultProps.setSelectedInputType,
+        className: defaultProps.className,
+        loadingDisplay: defaultProps.loadingDisplay,
       },
       {},
     );
