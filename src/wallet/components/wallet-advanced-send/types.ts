@@ -125,7 +125,15 @@ export type SendFundingWalletProps = {
   subtitleClassName?: string;
 };
 
-export type SendTokenSelectorProps = Pick<
+export type SendTokenSelectorProps = {
+  classNames?: {
+    container?: string;
+    tokenName?: string;
+    tokenValue?: string;
+    fiatValue?: string;
+    action?: string;
+  };
+} & Pick<
   SendContextType,
   | 'selectedToken'
   | 'handleTokenSelection'

@@ -136,27 +136,23 @@ export type TokenBalanceProps = {
   onClick?: (token: PortfolioTokenWithFiatValue) => void;
   /** Size of the token image in px (default: 40) */
   tokenSize?: number;
-  /** Optional additional CSS class to apply to the component */
-  className?: string;
-  /** Optional additional CSS class to apply to the token name */
-  tokenNameClassName?: string;
-  /** Optional additional CSS class to apply to the token value */
-  tokenValueClassName?: string;
-  /** Optional additional CSS class to apply to the fiat value */
-  fiatValueClassName?: string;
-  /** Optional additional CSS class to apply to the action button */
-  actionClassName?: string;
+  /** Optional additional CSS classes to apply to the component */
+  classNames?: {
+    container?: string;
+    tokenName?: string;
+    tokenValue?: string;
+    fiatValue?: string;
+    action?: string;
+  };
 } & (
   | {
       /** Hide the action button (default)*/
-      showAction?: false;
       actionText?: never;
       onActionPress?: never;
     }
   | {
       /** Show an additional action button (eg. "Use max") */
-      showAction?: true;
       actionText?: string;
-      onActionPress?: () => void;
+      onActionPress: () => void;
     }
 );

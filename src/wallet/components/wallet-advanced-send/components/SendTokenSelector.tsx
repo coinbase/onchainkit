@@ -13,6 +13,7 @@ export function SendTokenSelector({
   setSelectedInputType,
   handleCryptoAmountChange,
   handleFiatAmountChange,
+  classNames,
 }: SendTokenSelectorProps) {
   const { tokenBalances } = useWalletAdvancedContext();
 
@@ -29,7 +30,14 @@ export function SendTokenSelector({
               token={token}
               onClick={handleTokenSelection}
               subtitle=""
-              className={cn(pressable.default, border.radius)}
+              classNames={{
+                container: cn(
+                  pressable.default,
+                  border.radius,
+                  classNames?.container,
+                ),
+                ...classNames,
+              }}
             />
           ))}
         </div>
@@ -43,7 +51,6 @@ export function SendTokenSelector({
       showImage={true}
       subtitle="available"
       onClick={handleResetTokenSelection}
-      showAction={true}
       onActionPress={() => {
         setSelectedInputType('crypto');
         handleFiatAmountChange(String(selectedToken.fiatBalance));
@@ -56,7 +63,14 @@ export function SendTokenSelector({
           ),
         );
       }}
-      className={cn(pressable.alternate, border.radius, 'p-2')}
+      classNames={{
+        container: cn(
+          pressable.alternate,
+          border.radius,
+          classNames?.container,
+        ),
+        ...classNames,
+      }}
     />
   );
 }

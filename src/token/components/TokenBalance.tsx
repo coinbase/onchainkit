@@ -4,11 +4,12 @@ import { border, cn, color, text } from '@/styles/theme';
 import { TokenImage } from '@/token';
 import { formatUnits } from 'viem';
 import type { TokenBalanceProps } from '../types';
+import { useCallback } from 'react';
 
 export function TokenBalance({
   token,
   onClick,
-  className,
+  classNames,
   ...contentProps
 }: TokenBalanceProps) {
   if (onClick) {
@@ -18,7 +19,7 @@ export function TokenBalance({
         onClick={() => onClick(token)}
         className={cn(
           'flex w-full items-center justify-start gap-4 px-2 py-1',
-          className,
+          classNames?.container,
         )}
         data-testid="ockTokenBalanceButton"
       >
@@ -31,7 +32,7 @@ export function TokenBalance({
     <div
       className={cn(
         'flex w-full items-center justify-start gap-4 px-2 py-1',
-        className,
+        classNames?.container,
       )}
       data-testid="ockTokenBalance"
     >
@@ -44,14 +45,10 @@ function TokenBalanceContent({
   token,
   subtitle,
   showImage = true,
-  showAction = false,
   actionText = 'Use max',
   onActionPress,
   tokenSize = 40,
-  tokenNameClassName,
-  tokenValueClassName,
-  fiatValueClassName,
-  actionClassName,
+  classNames,
 }: TokenBalanceProps) {
   const formattedFiatValue = formatFiatAmount({
     amount: token.fiatBalance,
@@ -61,6 +58,18 @@ function TokenBalanceContent({
   const formattedCryptoValue = truncateDecimalPlaces(
     formatUnits(BigInt(token.cryptoBalance), token.decimals),
     3,
+  );
+
+  const handleActionPress = useCallback(
+    (
+      e:
+        | React.MouseEvent<HTMLDivElement, MouseEvent>
+        | React.KeyboardEvent<HTMLDivElement>,
+    ) => {
+      e.stopPropagation();
+      onActionPress?.();
+    },
+    [onActionPress],
   );
 
   return (
@@ -74,7 +83,7 @@ function TokenBalanceContent({
             text.headline,
             color.foreground,
             'overflow-hidden text-ellipsis whitespace-nowrap',
-            tokenNameClassName,
+            classNames?.tokenName,
           )}
         >
           {token.name?.trim()}
@@ -83,32 +92,26 @@ function TokenBalanceContent({
           className={cn(
             text.label2,
             color.foregroundMuted,
-            tokenValueClassName,
+            classNames?.tokenValue,
           )}
         >
           {`${formattedCryptoValue} ${token.symbol} ${subtitle ?? ''}`}
         </span>
       </div>
       <div className="text-right">
-        {showAction ? (
+        {onActionPress ? (
           <div
             role="button"
             aria-label={actionText}
-            onClick={(e) => {
-              e.stopPropagation();
-              onActionPress?.();
-            }}
-            onKeyDown={(e) => {
-              e.stopPropagation();
-              onActionPress?.();
-            }}
+            onClick={handleActionPress}
+            onKeyDown={handleActionPress}
             className={cn(
               text.label2,
               color.primary,
               border.radius,
               'ml-auto cursor-pointer p-0.5 font-bold',
               'border border-transparent hover:border-[--ock-line-primary]',
-              actionClassName,
+              classNames?.action,
             )}
           >
             {actionText}
@@ -119,7 +122,7 @@ function TokenBalanceContent({
               text.label2,
               color.foregroundMuted,
               'whitespace-nowrap',
-              fiatValueClassName,
+              classNames?.fiatValue,
             )}
           >
             {formattedFiatValue}
