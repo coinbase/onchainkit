@@ -1,5 +1,6 @@
 import type { Portfolio, PortfolioTokenWithFiatValue } from '@/api/types';
 import type { SwapError } from '@/swap';
+import type { SwapDefaultReact } from '@/swap/types';
 import type { Token } from '@/token';
 import type { QueryObserverResult } from '@tanstack/react-query';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
@@ -202,6 +203,11 @@ export type WalletDropdownLinkReact = {
 export type WalletAdvancedReact = {
   children: React.ReactNode;
   swappableTokens?: Token[];
+  classNames?: {
+    container?: string;
+    qr?: WalletAdvancedQrReceiveProps['classNames'];
+    swap?: WalletAdvancedSwapProps['classNames'];
+  };
 };
 
 /**
@@ -224,5 +230,92 @@ export type WalletAdvancedContextType = {
   animations: {
     container: string;
     content: string;
+  };
+};
+
+export type WalletAdvancedQrReceiveProps = {
+  classNames?: {
+    container?: string;
+    header?: string;
+    copyButton?: string;
+  };
+};
+
+export type WalletAdvancedSwapProps = {
+  classNames?: {
+    container?: string;
+    settings?: string;
+    settingsSlippageTitle?: string;
+    settingsSlippageDescription?: string;
+    settingsSlippageInput?: string;
+    toAmountInput?: string;
+    fromAmountInput?: string;
+    toggleButton?: string;
+    swapButton?: string;
+    message?: string;
+    toast?: string;
+  };
+} & Pick<
+  SwapDefaultReact,
+  | 'config'
+  | 'disabled'
+  | 'experimental'
+  | 'from'
+  | 'isSponsored'
+  | 'onError'
+  | 'onStatus'
+  | 'onSuccess'
+  | 'title'
+  | 'to'
+>;
+
+export type WalletAdvancedTokenHoldingsProps = {
+  classNames?: {
+    container: string;
+    tokenDetails: WalletAdvancedTokenDetailsProps['classNames'];
+  };
+};
+
+export type WalletAdvancedTokenDetailsProps = {
+  token: Token;
+  tokenImgSize?: number;
+  balance: number;
+  valueInFiat: number;
+  classNames?: {
+    container: string;
+    tokenImg: string;
+    tokenName: string;
+    tokenBalance: string;
+    fiatValue: string;
+  };
+};
+
+export type WalletAdvancedTransactionActionsProps = {
+  classNames?: {
+    container: string;
+    leftAction: WalletAdvancedTransactionActionProps['classNames'];
+    middleAction: WalletAdvancedTransactionActionProps['classNames'];
+    rightAction: WalletAdvancedTransactionActionProps['classNames'];
+  };
+};
+
+export type WalletAdvancedTransactionActionProps = {
+  icon: React.ReactNode;
+  label: string;
+  action: () => void;
+  classNames?: {
+    container: string;
+    icon: string;
+    label: string;
+  };
+};
+
+export type WalletAdvancedWalletActionsProps = {
+  classNames?: {
+    container: string;
+    iconOne: string;
+    iconTwo: string;
+    iconThree: string;
+    iconFour: string;
   };
 };

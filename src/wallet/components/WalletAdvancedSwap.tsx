@@ -13,13 +13,13 @@ import { SwapSettingsSlippageInput } from '@/swap/components/SwapSettingsSlippag
 import { SwapSettingsSlippageTitle } from '@/swap/components/SwapSettingsSlippageTitle';
 import { SwapToast } from '@/swap/components/SwapToast';
 import { SwapToggleButton } from '@/swap/components/SwapToggleButton';
-import type { SwapDefaultReact } from '@/swap/types';
 import { useCallback } from 'react';
+import type { WalletAdvancedSwapProps } from '../types';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 
 export function WalletAdvancedSwap({
   config,
-  className,
+  classNames,
   disabled,
   experimental,
   from,
@@ -29,7 +29,7 @@ export function WalletAdvancedSwap({
   onSuccess,
   title,
   to,
-}: SwapDefaultReact) {
+}: WalletAdvancedSwapProps) {
   const { setShowSwap, isSwapClosing, setIsSwapClosing } =
     useWalletAdvancedContext();
 
@@ -63,7 +63,7 @@ export function WalletAdvancedSwap({
       data-testid="ockWalletAdvancedSwap"
     >
       <Swap
-        className={className}
+        className={classNames?.container}
         onStatus={onStatus}
         onSuccess={onSuccess}
         onError={onError}
@@ -73,20 +73,38 @@ export function WalletAdvancedSwap({
         experimental={experimental}
         headerLeftContent={backButton}
       >
-        <SwapSettings className="w-auto">
-          <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
-          <SwapSettingsSlippageDescription>
+        <SwapSettings className={cn('w-auto', classNames?.settings)}>
+          <SwapSettingsSlippageTitle
+            className={classNames?.settingsSlippageTitle}
+          >
+            Max. slippage
+          </SwapSettingsSlippageTitle>
+          <SwapSettingsSlippageDescription
+            className={classNames?.settingsSlippageDescription}
+          >
             Your swap will revert if the prices change by more than the selected
             percentage.
           </SwapSettingsSlippageDescription>
-          <SwapSettingsSlippageInput />
+          <SwapSettingsSlippageInput
+            className={classNames?.settingsSlippageInput}
+          />
         </SwapSettings>
-        <SwapAmountInput label="Sell" swappableTokens={from} type="from" />
-        <SwapToggleButton />
-        <SwapAmountInput label="Buy" swappableTokens={to} type="to" />
-        <SwapButton disabled={disabled} />
-        <SwapMessage />
-        <SwapToast />
+        <SwapAmountInput
+          label="Sell"
+          swappableTokens={from}
+          type="from"
+          className={classNames?.fromAmountInput}
+        />
+        <SwapToggleButton className={classNames?.toggleButton} />
+        <SwapAmountInput
+          label="Buy"
+          swappableTokens={to}
+          type="to"
+          className={classNames?.toAmountInput}
+        />
+        <SwapButton disabled={disabled} className={classNames?.swapButton} />
+        <SwapMessage className={classNames?.message} />
+        <SwapToast className={classNames?.toast} />
       </Swap>
     </div>
   );

@@ -8,10 +8,13 @@ import { refreshSvg } from '@/internal/svg/refreshSvg';
 import { cn } from '@/styles/theme';
 import { useCallback } from 'react';
 import { useDisconnect } from 'wagmi';
+import type { WalletAdvancedWalletActionsProps } from '../types';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
-export function WalletAdvancedWalletActions() {
+export function WalletAdvancedWalletActions({
+  classNames,
+}: WalletAdvancedWalletActionsProps) {
   const { address, handleClose } = useWalletContext();
   const { setShowQr, refetchPortfolioData, animations } =
     useWalletAdvancedContext();
@@ -41,6 +44,7 @@ export function WalletAdvancedWalletActions() {
       className={cn(
         'flex w-80 items-center justify-between',
         animations.content,
+        classNames?.container,
       )}
     >
       <div className="flex items-center">
@@ -50,7 +54,7 @@ export function WalletAdvancedWalletActions() {
         >
           <div
             data-testid="ockWalletAdvanced_TransactionsButton"
-            className="h-7 w-7 scale-110 p-2"
+            className={cn('h-7 w-7 scale-110 p-2', classNames?.iconOne)}
           >
             {baseScanSvg}
           </div>
@@ -58,7 +62,7 @@ export function WalletAdvancedWalletActions() {
         <PressableIcon ariaLabel="Show QR code" onClick={handleQr}>
           <div
             data-testid="ockWalletAdvanced_QrButton"
-            className="h-7 w-7 scale-110"
+            className={cn('h-7 w-7 scale-110', classNames?.iconTwo)}
           >
             {qrIconSvg}
           </div>
@@ -68,7 +72,7 @@ export function WalletAdvancedWalletActions() {
         <PressableIcon ariaLabel="Disconnect wallet" onClick={handleDisconnect}>
           <div
             data-testid="ockWalletAdvanced_DisconnectButton"
-            className="h-7 w-7 scale-110 p-2"
+            className={cn('h-7 w-7 scale-110 p-2', classNames?.iconThree)}
           >
             {disconnectSvg}
           </div>
@@ -79,7 +83,7 @@ export function WalletAdvancedWalletActions() {
         >
           <div
             data-testid="ockWalletAdvanced_RefreshButton"
-            className="h-7 w-7 scale-110 p-2"
+            className={cn('h-7 w-7 scale-110 p-2', classNames?.iconFour)}
           >
             {refreshSvg}
           </div>

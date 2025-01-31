@@ -1,16 +1,16 @@
 'use client';
 
 import { cn, color, text } from '@/styles/theme';
-import { type Token, TokenImage } from '@/token';
+import { TokenImage } from '@/token';
+import type {
+  WalletAdvancedTokenHoldingsProps,
+  WalletAdvancedTokenDetailsProps,
+} from '../types';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 
-type TokenDetailsProps = {
-  token: Token;
-  balance: number;
-  valueInFiat: number;
-};
-
-export function WalletAdvancedTokenHoldings() {
+export function WalletAdvancedTokenHoldings({
+  classNames,
+}: WalletAdvancedTokenHoldingsProps) {
   const { tokenBalances, isFetchingPortfolioData, animations } =
     useWalletAdvancedContext();
 
@@ -30,6 +30,7 @@ export function WalletAdvancedTokenHoldings() {
         'my-2 h-44 max-h-44 w-full',
         'scrollbar-hidden overflow-y-auto',
         animations.content,
+        classNames?.container,
       )}
       data-testid="ockWalletAdvanced_TokenHoldings"
     >
@@ -55,7 +56,13 @@ export function WalletAdvancedTokenHoldings() {
   );
 }
 
-function TokenDetails({ token, balance, valueInFiat }: TokenDetailsProps) {
+function TokenDetails({
+  token,
+  balance,
+  valueInFiat,
+  classNames,
+  tokenImgSize = 32,
+}: WalletAdvancedTokenDetailsProps) {
   const formattedBalance = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 5,
@@ -67,25 +74,45 @@ function TokenDetails({ token, balance, valueInFiat }: TokenDetailsProps) {
   }).format(valueInFiat);
 
   return (
-    <div className="flex w-full flex-row items-center justify-between">
-      <div className="flex flex-row items-center gap-2">
-        <TokenImage token={token} size={32} />
+    <div
+      className={cn(
+        'flex w-full flex-row items-center justify-between',
+        classNames?.container,
+      )}
+    >
+      <div
+        className={cn('flex flex-row items-center gap-2', classNames?.tokenImg)}
+      >
+        <TokenImage token={token} size={tokenImgSize} />
         <div className="flex flex-col">
           <span
             className={cn(
               text.label1,
               color.foreground,
               'max-w-52 overflow-hidden text-ellipsis whitespace-nowrap text-left',
+              classNames?.tokenName,
             )}
           >
             {token.name?.trim()}
           </span>
-          <span className={cn(text.legal, color.foregroundMuted)}>
+          <span
+            className={cn(
+              text.legal,
+              color.foregroundMuted,
+              classNames?.tokenBalance,
+            )}
+          >
             {`${formattedBalance} ${token.symbol}`}
           </span>
         </div>
       </div>
-      <span className={cn(text.label2, color.foregroundMuted)}>
+      <span
+        className={cn(
+          text.label2,
+          color.foregroundMuted,
+          classNames?.fiatValue,
+        )}
+      >
         {formattedValueInFiat}
       </span>
     </div>
