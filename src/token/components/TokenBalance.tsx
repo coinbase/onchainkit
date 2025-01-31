@@ -76,7 +76,7 @@ function TokenBalanceContent({
             tokenValueClassName,
           )}
         >
-          {`${formattedCryptoValue} ${token.symbol} ${subtitle}`}
+          {`${formattedCryptoValue} ${token.symbol} ${subtitle ?? ''}`}
         </span>
       </div>
       <div className="text-right">

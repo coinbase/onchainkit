@@ -129,7 +129,7 @@ export type TokenBalanceProps = {
   /** Token with fiat and crypto balance*/
   token: PortfolioTokenWithFiatValue;
   /** Subtitle to display next to the token name (eg. "available") */
-  subtitle: string;
+  subtitle?: string;
   /** Show the token image (default: true) */
   showImage?: boolean;
   /** Click handler for the whole component*/
