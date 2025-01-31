@@ -272,8 +272,8 @@ export type WalletAdvancedSwapProps = {
 
 export type WalletAdvancedTokenHoldingsProps = {
   classNames?: {
-    container: string;
-    tokenDetails: WalletAdvancedTokenDetailsProps['classNames'];
+    container?: string;
+    tokenDetails?: WalletAdvancedTokenDetailsProps['classNames'];
   };
 };
 
@@ -283,20 +283,20 @@ export type WalletAdvancedTokenDetailsProps = {
   balance: number;
   valueInFiat: number;
   classNames?: {
-    container: string;
-    tokenImg: string;
-    tokenName: string;
-    tokenBalance: string;
-    fiatValue: string;
+    container?: string;
+    tokenImg?: string;
+    tokenName?: string;
+    tokenBalance?: string;
+    fiatValue?: string;
   };
 };
 
 export type WalletAdvancedTransactionActionsProps = {
   classNames?: {
-    container: string;
-    leftAction: WalletAdvancedTransactionActionProps['classNames'];
-    middleAction: WalletAdvancedTransactionActionProps['classNames'];
-    rightAction: WalletAdvancedTransactionActionProps['classNames'];
+    container?: string;
+    leftAction?: WalletAdvancedTransactionActionProps['classNames'];
+    middleAction?: WalletAdvancedTransactionActionProps['classNames'];
+    rightAction?: WalletAdvancedTransactionActionProps['classNames'];
   };
 };
 
@@ -305,19 +305,19 @@ export type WalletAdvancedTransactionActionProps = {
   label: string;
   action: () => void;
   classNames?: {
-    container: string;
-    icon: string;
-    label: string;
+    container?: string;
+    icon?: string;
+    label?: string;
   };
 };
 
 export type WalletAdvancedWalletActionsProps = {
   classNames?: {
-    container: string;
-    iconOne: string;
-    iconTwo: string;
-    iconThree: string;
-    iconFour: string;
+    container?: string;
+    iconOne?: string;
+    iconTwo?: string;
+    iconThree?: string;
+    iconFour?: string;
   };
 };
 
