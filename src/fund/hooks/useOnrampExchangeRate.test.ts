@@ -81,4 +81,28 @@ describe('useOnrampExchangeRate', () => {
       subdivision: 'CA',
     });
   });
+
+  it('handles unknown errors', async () => {
+    const error = { someField: 'unexpected error' };
+    (fetchOnrampQuote as Mock).mockRejectedValue(error);
+
+    const { result } = renderHook(() =>
+      useOnrampExchangeRate({
+        asset: 'ETH',
+        currency: 'USD',
+        country: 'US',
+        setExchangeRate: mockSetExchangeRate,
+        onError: mockOnError,
+      }),
+    );
+
+    await result.current.fetchExchangeRate();
+
+    // Should call onError with correct error object
+    expect(mockOnError).toHaveBeenCalledWith({
+      errorType: 'handled_error',
+      code: 'EXCHANGE_RATE_ERROR',
+      debugMessage: JSON.stringify(error),
+    } satisfies OnrampError);
+  });
 });
