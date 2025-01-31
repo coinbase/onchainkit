@@ -1,13 +1,13 @@
 import { getMintDetails } from '@/api/getMintDetails';
 import type { MintDetails } from '@/api/types';
-import type { JSONRPCReferrer } from '@/core/network/request';
+import type { JSONRPCContext } from '@/core/network/request';
 import { isNFTError } from '@/nft/utils/isNFTError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { UseMintDetailsParams } from '../types';
 
 export function useMintDetails(
   params: UseMintDetailsParams<MintDetails>,
-  _referrer: JSONRPCReferrer = 'hook',
+  _context: JSONRPCContext = 'hook',
 ): UseQueryResult<MintDetails> {
   const { contractAddress, takerAddress, tokenId, queryOptions } = params;
 
@@ -20,7 +20,7 @@ export function useMintDetails(
           takerAddress,
           tokenId,
         },
-        _referrer,
+        _context,
       );
 
       if (isNFTError(mintDetails)) {

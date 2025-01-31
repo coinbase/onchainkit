@@ -1,5 +1,5 @@
 import { CDP_GET_MINT_DETAILS } from '../core/network/definitions/nft';
-import { type JSONRPCReferrer, sendRequest } from '../core/network/request';
+import { type JSONRPCContext, sendRequest } from '../core/network/request';
 import type { GetMintDetailsParams, GetMintDetailsResponse } from './types';
 
 /**
@@ -7,7 +7,7 @@ import type { GetMintDetailsParams, GetMintDetailsResponse } from './types';
  */
 export async function getMintDetails(
   params: GetMintDetailsParams,
-  _referrer: JSONRPCReferrer = 'api',
+  _context: JSONRPCContext = 'api',
 ): Promise<GetMintDetailsResponse> {
   const { contractAddress, takerAddress, tokenId } = params;
 
@@ -21,7 +21,7 @@ export async function getMintDetails(
           tokenId,
         },
       ],
-      _referrer,
+      _context,
     );
     if (res.error) {
       return {

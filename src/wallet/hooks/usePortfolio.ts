@@ -1,6 +1,6 @@
 import { getPortfolios } from '@/api/getPortfolios';
 import type { Portfolio } from '@/api/types';
-import type { JSONRPCReferrer } from '@/core/network/request';
+import type { JSONRPCContext } from '@/core/network/request';
 import { isApiError } from '@/internal/utils/isApiResponseError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { Address } from 'viem';
@@ -11,7 +11,7 @@ import type { Address } from 'viem';
  */
 export function usePortfolio(
   { address }: { address: Address | undefined | null },
-  _referrer: JSONRPCReferrer = 'hook',
+  _context: JSONRPCContext = 'hook',
 ): UseQueryResult<Portfolio> {
   return useQuery({
     queryKey: ['usePortfolio', address],
@@ -20,7 +20,7 @@ export function usePortfolio(
         {
           addresses: [address as Address], // Safe to coerce to Address because useQuery's enabled flag will prevent the query from running if address is undefined
         },
-        _referrer,
+        _context,
       );
 
       if (isApiError(response)) {

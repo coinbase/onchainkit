@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { version } from '../../version';
 import { setOnchainKitConfig } from '../OnchainKitConfig';
-import { buildRequestBody, sendRequest } from './request';
+import { type JSONRPCContext, buildRequestBody, sendRequest } from './request';
 
 describe('request', () => {
   describe('buildRequestBody', () => {
@@ -54,7 +54,7 @@ describe('request', () => {
       expect(response).toEqual(mockResponse);
     });
 
-    it('should set the Onchainkit-Referrer if one is set', async () => {
+    it('should set the Onchainkit-Context if one is set', async () => {
       const mockResponse = {
         jsonrpc: '2.0',
         result: 'exampleResult',
@@ -84,13 +84,13 @@ describe('request', () => {
         headers: {
           'Content-Type': 'application/json',
           'OnchainKit-Version': version,
-          'OnchainKit-Referrer': 'api',
+          'OnchainKit-Context': 'api',
         },
       });
       expect(response).toEqual(mockResponse);
     });
 
-    it('should default to api if an invalid referrer is set', async () => {
+    it('should default to api if an invalid context is set', async () => {
       const mockResponse = {
         jsonrpc: '2.0',
         result: 'exampleResult',
@@ -111,7 +111,7 @@ describe('request', () => {
       const response = await sendRequest(
         'exampleMethod',
         ['param1', 'param2'],
-        'fake',
+        'fake' as JSONRPCContext,
       );
 
       expect(mockFetch).toHaveBeenCalledWith(expect.any(String), {
@@ -120,7 +120,7 @@ describe('request', () => {
         headers: {
           'Content-Type': 'application/json',
           'OnchainKit-Version': version,
-          'OnchainKit-Referrer': 'api',
+          'OnchainKit-Context': 'api',
         },
       });
       expect(response).toEqual(mockResponse);

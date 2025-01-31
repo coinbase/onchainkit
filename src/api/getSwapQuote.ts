@@ -1,7 +1,7 @@
 import { SwapMessage } from '@/swap/constants';
 import { UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE } from '@/swap/constants';
 import { CDP_GET_SWAP_QUOTE } from '../core/network/definitions/swap';
-import { type JSONRPCReferrer, sendRequest } from '../core/network/request';
+import { type JSONRPCContext, sendRequest } from '../core/network/request';
 import type { SwapQuote } from '../swap/types';
 import { getSwapErrorCode } from '../swap/utils/getSwapErrorCode';
 import type {
@@ -16,7 +16,7 @@ import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
  */
 export async function getSwapQuote(
   params: GetSwapQuoteParams,
-  _referrer: JSONRPCReferrer = 'api',
+  _context: JSONRPCContext = 'api',
 ): Promise<GetSwapQuoteResponse> {
   // Default parameters
   const defaultParams = {
@@ -63,7 +63,7 @@ export async function getSwapQuote(
     const res = await sendRequest<SwapAPIParams, SwapQuote>(
       CDP_GET_SWAP_QUOTE,
       [apiParams],
-      _referrer,
+      _context,
     );
     if (res.error) {
       return {

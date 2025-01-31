@@ -1,5 +1,5 @@
 import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '@/core/network/definitions/wallet';
-import { type JSONRPCReferrer, sendRequest } from '@/core/network/request';
+import { type JSONRPCContext, sendRequest } from '@/core/network/request';
 import type {
   APIError,
   GetPortfoliosParams,
@@ -11,7 +11,7 @@ import type {
  */
 export async function getPortfolios(
   params: GetPortfoliosParams,
-  _referrer: JSONRPCReferrer = 'api',
+  _context: JSONRPCContext = 'api',
 ): Promise<GetPortfoliosResponse | APIError> {
   const { addresses } = params;
 
@@ -19,7 +19,7 @@ export async function getPortfolios(
     const res = await sendRequest<GetPortfoliosParams, GetPortfoliosResponse>(
       CDP_GET_PORTFOLIO_TOKEN_BALANCES,
       [{ addresses }],
-      _referrer,
+      _context,
     );
     if (res.error) {
       return {

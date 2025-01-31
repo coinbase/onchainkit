@@ -1,5 +1,5 @@
 import { CDP_GET_TOKEN_DETAILS } from '../core/network/definitions/nft';
-import { type JSONRPCReferrer, sendRequest } from '../core/network/request';
+import { type JSONRPCContext, sendRequest } from '../core/network/request';
 import type { GetTokenDetailsParams, GetTokenDetailsResponse } from './types';
 
 /**
@@ -7,7 +7,7 @@ import type { GetTokenDetailsParams, GetTokenDetailsResponse } from './types';
  */
 export async function getTokenDetails(
   params: GetTokenDetailsParams,
-  _referrer: JSONRPCReferrer = 'api',
+  _context: JSONRPCContext = 'api',
 ): Promise<GetTokenDetailsResponse> {
   const { contractAddress, tokenId } = params;
 
@@ -23,7 +23,7 @@ export async function getTokenDetails(
           tokenId,
         },
       ],
-      _referrer,
+      _context,
     );
     if (res.error) {
       return {

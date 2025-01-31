@@ -1,8 +1,9 @@
 import {
-  ALLOWABLE_REFERRERS,
+  CONTEXT_HEADER,
   JSON_HEADERS,
   JSON_RPC_VERSION,
   POST_METHOD,
+  VALID_CONTEXTS,
 } from './constants';
 import { getRPCUrl } from './getRPCUrl';
 
@@ -25,7 +26,10 @@ export type JSONRPCResult<T> = {
   result: T;
 };
 
-export type JSONRPCReferrer = (typeof ALLOWABLE_REFERRERS)[number];
+/**
+ * Internal - specifies the context where the request originated
+ */
+export type JSONRPCContext = keyof typeof VALID_CONTEXTS;
 
 /**
  * Builds a JSON-RPC request body.
@@ -50,24 +54,24 @@ export function buildRequestBody<T>(
 /**
  * Builds the headers for a JSON-RPC request.
  *
- * @params referrer - The referrer to add to the header
+ * @params context - Tracks the context where the request originated
  * @returns The headers for the JSON-RPC request.
  */
 export function buildRequestHeaders(
-  referrer?: JSONRPCReferrer,
+  context?: JSONRPCContext,
 ): Record<string, string> {
-  if (referrer) {
-    // if an invalid referrer is provided, default to 'api'
-    if (!ALLOWABLE_REFERRERS.includes(referrer)) {
+  if (context) {
+    // if an invalid context is provided, default to 'api'
+    if (!VALID_CONTEXTS[context]) {
       return {
         ...JSON_HEADERS,
-        'OnchainKit-Referrer': 'api',
+        [CONTEXT_HEADER]: 'api',
       };
     }
 
     return {
       ...JSON_HEADERS,
-      'OnchainKit-Referrer': referrer,
+      [CONTEXT_HEADER]: context,
     };
   }
   return JSON_HEADERS;
@@ -85,14 +89,14 @@ export function buildRequestHeaders(
 export async function sendRequest<T, V>(
   method: string,
   params: T[],
-  referrer?: JSONRPCReferrer,
+  _context?: JSONRPCContext,
 ): Promise<JSONRPCResult<V>> {
   try {
     const body = buildRequestBody<T>(method, params);
     const url = getRPCUrl();
     const response = await fetch(url, {
       body: JSON.stringify(body),
-      headers: buildRequestHeaders(referrer),
+      headers: buildRequestHeaders(_context),
       method: POST_METHOD,
     });
     const data: JSONRPCResult<V> = await response.json();

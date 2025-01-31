@@ -3,7 +3,7 @@ import {
   CDP_HYDRATE_CHARGE,
 } from '../core/network/definitions/pay';
 import {
-  type JSONRPCReferrer,
+  type JSONRPCContext,
   type JSONRPCResult,
   sendRequest,
 } from '../core/network/request';
@@ -17,7 +17,7 @@ import { getPayErrorMessage } from './utils/getPayErrorMessage';
 
 export async function buildPayTransaction(
   params: BuildPayTransactionParams,
-  _referrer: JSONRPCReferrer = 'api',
+  _context: JSONRPCContext = 'api',
 ): Promise<BuildPayTransactionResponse> {
   const { address, chargeId, productId } = params;
 
@@ -35,7 +35,7 @@ export async function buildPayTransaction(
             chargeId,
           },
         ],
-        _referrer,
+        _context,
       );
     } else if (productId) {
       res = await sendRequest<
@@ -49,7 +49,7 @@ export async function buildPayTransaction(
             productId,
           },
         ],
-        _referrer,
+        _context,
       );
     } else {
       return {

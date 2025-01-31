@@ -1,13 +1,13 @@
 import { getTokenDetails } from '@/api/getTokenDetails';
 import type { TokenDetails } from '@/api/types';
-import type { JSONRPCReferrer } from '@/core/network/request';
+import type { JSONRPCContext } from '@/core/network/request';
 import { isNFTError } from '@/nft/utils/isNFTError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { UseTokenDetailsParams } from '../types';
 
 export function useTokenDetails(
   params: UseTokenDetailsParams<TokenDetails>,
-  _referrer: JSONRPCReferrer = 'hook',
+  _context: JSONRPCContext = 'hook',
 ): UseQueryResult<TokenDetails> {
   const { contractAddress, tokenId, queryOptions } = params;
 
@@ -19,7 +19,7 @@ export function useTokenDetails(
           contractAddress,
           tokenId,
         },
-        _referrer,
+        _context,
       );
 
       if (isNFTError(tokenDetails)) {
