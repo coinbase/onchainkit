@@ -13,7 +13,7 @@ const mockToken = {
   chainId: 8453,
   decimals: 18,
   image: null,
-  name: 'Base',
+  name: 'Ethereum',
   cryptoBalance: 1,
   fiatBalance: 3300,
 };
