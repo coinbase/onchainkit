@@ -7,8 +7,8 @@ import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
 import type {
-  WalletAdvancedTransactionActionsProps,
   WalletAdvancedTransactionActionProps,
+  WalletAdvancedTransactionActionsProps,
 } from '../types';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';

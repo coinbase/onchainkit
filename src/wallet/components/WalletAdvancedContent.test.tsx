@@ -1,6 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { WalletAdvancedQrReceiveProps, WalletAdvancedSwapProps } from '../types';
+import type {
+  WalletAdvancedQrReceiveProps,
+  WalletAdvancedSwapProps,
+} from '../types';
 import { WalletAdvancedContent } from './WalletAdvancedContent';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';

@@ -3,8 +3,8 @@
 import { cn, color, text } from '@/styles/theme';
 import { TokenImage } from '@/token';
 import type {
-  WalletAdvancedTokenHoldingsProps,
   WalletAdvancedTokenDetailsProps,
+  WalletAdvancedTokenHoldingsProps,
 } from '../types';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 
