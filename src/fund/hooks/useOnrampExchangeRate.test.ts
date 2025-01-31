@@ -100,7 +100,7 @@ describe('useOnrampExchangeRate', () => {
 
     // Should call onError with correct error object
     expect(mockOnError).toHaveBeenCalledWith({
-      errorType: 'handled_error',
+      errorType: 'unknown_error',
       code: 'EXCHANGE_RATE_ERROR',
       debugMessage: JSON.stringify(error),
     } satisfies OnrampError);
