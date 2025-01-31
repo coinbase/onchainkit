@@ -15,6 +15,7 @@ type AmountInputProps = {
   setFiatAmount: (value: string) => void;
   setCryptoAmount: (value: string) => void;
   exchangeRate: string;
+  delayMs?: number;
   className?: string;
   textClassName?: string;
 };
@@ -28,6 +29,7 @@ export function AmountInput({
   setFiatAmount,
   setCryptoAmount,
   exchangeRate,
+  delayMs,
   className,
   textClassName,
 }: AmountInputProps) {
@@ -96,6 +98,13 @@ export function AmountInput({
     >
       <div className="flex h-14">
         <TextInput
+          ref={inputRef}
+          value={value}
+          onChange={handleAmountChange}
+          inputValidator={isValidAmount}
+          delayMs={delayMs}
+          placeholder="0"
+          inputMode="decimal"
           className={cn(
             text.body,
             'border-none bg-transparent',
@@ -105,12 +114,6 @@ export function AmountInput({
             '[&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
             textClassName,
           )}
-          value={value}
-          onChange={handleAmountChange}
-          inputValidator={isValidAmount}
-          ref={inputRef}
-          inputMode="decimal"
-          placeholder="0"
         />
 
         <CurrencyLabel

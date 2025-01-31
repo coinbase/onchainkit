@@ -34,6 +34,7 @@ export function SendAmountInput({
           cryptoAmount={cryptoAmount ?? ''}
           asset={selectedToken?.symbol ?? ''}
           currency={'USD'}
+          delayMs={50}
           selectedInputType={selectedInputType}
           setFiatAmount={handleFiatAmountChange}
           setCryptoAmount={handleCryptoAmountChange}
