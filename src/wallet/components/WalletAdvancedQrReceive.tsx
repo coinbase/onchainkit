@@ -12,7 +12,7 @@ import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
 export function WalletAdvancedQrReceive() {
-  const { address, isSubComponentClosing } = useWalletContext();
+  const { address } = useWalletContext();
   const { setShowQr, isQrClosing, setIsQrClosing } = useWalletAdvancedContext();
   const [copyText, setCopyText] = useState('Copy');
   const [copyButtonText, setCopyButtonText] = useState('Copy address');
@@ -54,10 +54,6 @@ export function WalletAdvancedQrReceive() {
     setCopyText('Failed to copy');
     resetAffordanceText();
   }, [resetAffordanceText]);
-
-  if (isSubComponentClosing) {
-    return null;
-  }
 
   return (
     <div

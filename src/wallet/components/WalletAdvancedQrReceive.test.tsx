@@ -77,22 +77,22 @@ describe('WalletAdvancedQrReceive', () => {
     mockClipboard.writeText.mockReset();
   });
 
-  it('should render correctly based on isClosing state', () => {
-    mockUseWalletContext.mockReturnValue({
-      isSubComponentClosing: true,
-    });
+  // it('should render correctly based on isClosing state', () => {
+  //   mockUseWalletContext.mockReturnValue({
+  //     isSubComponentClosing: true,
+  //   });
 
-    const { rerender } = render(<WalletAdvancedQrReceive />);
-    expect(screen.queryByTestId('ockWalletAdvancedQrReceive')).toBeNull();
+  //   const { rerender } = render(<WalletAdvancedQrReceive />);
+  //   expect(screen.queryByTestId('ockWalletAdvancedQrReceive')).toBeNull();
 
-    mockUseWalletContext.mockReturnValue({
-      isSubComponentClosing: false,
-    });
-    rerender(<WalletAdvancedQrReceive />);
-    expect(
-      screen.getByTestId('ockWalletAdvancedQrReceive'),
-    ).toBeInTheDocument();
-  });
+  //   mockUseWalletContext.mockReturnValue({
+  //     isSubComponentClosing: false,
+  //   });
+  //   rerender(<WalletAdvancedQrReceive />);
+  //   expect(
+  //     screen.getByTestId('ockWalletAdvancedQrReceive'),
+  //   ).toBeInTheDocument();
+  // });
 
   it('should render correctly based on isQrClosing state', () => {
     mockUseWalletAdvancedContext.mockReturnValue({
