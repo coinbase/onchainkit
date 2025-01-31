@@ -20,6 +20,23 @@ describe('useOutsideClick', () => {
     document.body.removeChild(outsideElement);
   });
 
+  it('should not call callback when disabled', () => {
+    const callback = vi.fn();
+    const elementRef = { current: document.createElement('div') };
+    document.body.appendChild(elementRef.current);
+
+    renderHook(() => useOutsideClick(elementRef, callback, true));
+
+    const outsideElement = document.createElement('div');
+    document.body.appendChild(outsideElement);
+    outsideElement.click();
+
+    expect(callback).not.toHaveBeenCalled();
+
+    document.body.removeChild(elementRef.current);
+    document.body.removeChild(outsideElement);
+  });
+
   it('should not call callback when clicking inside element', () => {
     const callback = vi.fn();
     const elementRef = { current: document.createElement('div') };
