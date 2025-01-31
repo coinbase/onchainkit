@@ -76,23 +76,26 @@ function SendDefaultChildren() {
         <SendFundWallet />
       ) : (
         <div className="flex h-full flex-col justify-between gap-4">
-          <SendAddressSelection
-            selectedRecipientAddress={context.selectedRecipientAddress}
-            senderChain={senderChain}
-            handleAddressSelection={context.handleAddressSelection}
-            handleRecipientInputChange={context.handleRecipientInputChange}
-          />
-          {context.selectedRecipientAddress.value && !context.selectedToken && (
-            <SendTokenSelector
-              tokenBalances={tokenBalances}
-              selectedToken={context.selectedToken}
-              handleTokenSelection={context.handleTokenSelection}
-              handleResetTokenSelection={context.handleResetTokenSelection}
-              setSelectedInputType={context.setSelectedInputType}
-              handleCryptoAmountChange={context.handleCryptoAmountChange}
-              handleFiatAmountChange={context.handleFiatAmountChange}
+          <div>
+            <SendAddressSelection
+              selectedRecipientAddress={context.selectedRecipientAddress}
+              senderChain={senderChain}
+              handleAddressSelection={context.handleAddressSelection}
+              handleRecipientInputChange={context.handleRecipientInputChange}
             />
-          )}
+            {context.selectedRecipientAddress.value &&
+              !context.selectedToken && (
+                <SendTokenSelector
+                  tokenBalances={tokenBalances}
+                  selectedToken={context.selectedToken}
+                  handleTokenSelection={context.handleTokenSelection}
+                  handleResetTokenSelection={context.handleResetTokenSelection}
+                  setSelectedInputType={context.setSelectedInputType}
+                  handleCryptoAmountChange={context.handleCryptoAmountChange}
+                  handleFiatAmountChange={context.handleFiatAmountChange}
+                />
+              )}
+          </div>
           {context.selectedRecipientAddress.value && context.selectedToken && (
             <>
               <SendAmountInput className="p-0" textClassName="text-4xl" />
