@@ -11,7 +11,10 @@ export function SendAmountInputTypeSwitch({
   cryptoAmount,
   selectedInputType,
   setSelectedInputType,
-}: Pick<
+  className,
+}: {
+  className?: string;
+} & Pick<
   SendAmountInputProps,
   | 'exchangeRateLoading'
   | 'exchangeRate'
@@ -39,9 +42,10 @@ export function SendAmountInputTypeSwitch({
       exchangeRate={exchangeRate}
       exchangeRateLoading={false}
       loadingDisplay={loadingDisplay}
-      currency={'USD'}
+      currency="USD"
       selectedInputType={selectedInputType}
       setSelectedInputType={setSelectedInputType}
+      className={className}
     />
   );
 }
