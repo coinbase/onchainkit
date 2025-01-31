@@ -244,6 +244,7 @@ export type WalletAdvancedQrReceiveProps = {
 export type WalletAdvancedSwapProps = {
   classNames?: {
     container?: string;
+    swapContainer?: string;
     settings?: string;
     settingsSlippageTitle?: string;
     settingsSlippageDescription?: string;
@@ -317,5 +318,14 @@ export type WalletAdvancedWalletActionsProps = {
     iconTwo: string;
     iconThree: string;
     iconFour: string;
+  };
+};
+
+export type WalletAdvancedAddressDetailsProps = {
+  classNames?: {
+    container?: string;
+    avatar?: string;
+    nameButton?: string;
+    fiatBalance?: string;
   };
 };

@@ -4,19 +4,13 @@ import { Avatar, Badge, Name } from '@/identity';
 import { Spinner } from '@/internal/components/Spinner';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
+import type { WalletAdvancedAddressDetailsProps } from '../types';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
 export function WalletAdvancedAddressDetails({
   classNames,
-}: {
-  classNames?: {
-    container?: string;
-    avatar?: string;
-    nameButton?: string;
-    fiatBalance?: string;
-  };
-}) {
+}: WalletAdvancedAddressDetailsProps) {
   const { address, chain, isSubComponentClosing } = useWalletContext();
   const { animations } = useWalletAdvancedContext();
   const [copyText, setCopyText] = useState('Copy');
@@ -39,6 +33,7 @@ export function WalletAdvancedAddressDetails({
 
   return (
     <div
+      data-testid="ockWalletAdvanced_AddressDetails"
       className={cn(
         'mt-2 flex flex-col items-center justify-center',
         color.foreground,
