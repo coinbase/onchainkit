@@ -1,4 +1,4 @@
-import { REQUEST_CONTEXT } from '@/core/network/constants';
+import { RequestContext } from '@/core/network/constants';
 import { CDP_GET_TOKEN_DETAILS } from '../core/network/definitions/nft';
 import { sendRequest } from '../core/network/request';
 import type { GetTokenDetailsParams, GetTokenDetailsResponse } from './types';
@@ -8,7 +8,7 @@ import type { GetTokenDetailsParams, GetTokenDetailsResponse } from './types';
  */
 export async function getTokenDetails(
   params: GetTokenDetailsParams,
-  _context: REQUEST_CONTEXT = REQUEST_CONTEXT.API,
+  _context: RequestContext = RequestContext.API,
 ): Promise<GetTokenDetailsResponse> {
   const { contractAddress, tokenId } = params;
 

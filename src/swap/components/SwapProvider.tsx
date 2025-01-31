@@ -1,4 +1,4 @@
-import { REQUEST_CONTEXT } from '@/core/network/constants';
+import { RequestContext } from '@/core/network/constants';
 import {
   createContext,
   useCallback,
@@ -249,7 +249,7 @@ export function SwapProvider({
             to: destination.token,
             useAggregator,
           },
-          REQUEST_CONTEXT.SWAP,
+          RequestContext.Swap,
         );
         // If request resolves to error response set the quoteError
         // property of error state to the SwapError response
@@ -317,7 +317,7 @@ export function SwapProvider({
           to: to.token,
           useAggregator,
         },
-        REQUEST_CONTEXT.SWAP,
+        RequestContext.Swap,
       );
       if (isSwapError(response)) {
         updateLifecycleStatus({

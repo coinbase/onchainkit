@@ -1,4 +1,4 @@
-import { REQUEST_CONTEXT } from '@/core/network/constants';
+import { RequestContext } from '@/core/network/constants';
 import { usePortfolio } from '@/wallet/hooks/usePortfolio';
 import { render, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -108,7 +108,7 @@ describe('useWalletAdvancedContext', () => {
       {
         address: null,
       },
-      REQUEST_CONTEXT.WALLET,
+      RequestContext.Wallet,
     );
 
     mockUseWalletContext.mockReturnValue({
@@ -122,7 +122,7 @@ describe('useWalletAdvancedContext', () => {
       {
         address: '0x123',
       },
-      REQUEST_CONTEXT.WALLET,
+      RequestContext.Wallet,
     );
   });
 

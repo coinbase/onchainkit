@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import { version } from '../../version';
 import { setOnchainKitConfig } from '../OnchainKitConfig';
-import { type JSONRPCContext, buildRequestBody, sendRequest } from './request';
+import { RequestContext } from './constants';
+import { buildRequestBody, sendRequest } from './request';
 
 describe('request', () => {
   describe('buildRequestBody', () => {
@@ -75,7 +76,7 @@ describe('request', () => {
       const response = await sendRequest(
         'exampleMethod',
         ['param1', 'param2'],
-        'api',
+        RequestContext.API,
       );
 
       expect(mockFetch).toHaveBeenCalledWith(expect.any(String), {
@@ -111,7 +112,7 @@ describe('request', () => {
       const response = await sendRequest(
         'exampleMethod',
         ['param1', 'param2'],
-        'fake' as JSONRPCContext,
+        'fake' as RequestContext,
       );
 
       expect(mockFetch).toHaveBeenCalledWith(expect.any(String), {

@@ -1,6 +1,6 @@
 import { buildPayTransaction } from '@/api';
 import type { BuildPayTransactionParams } from '@/api';
-import { REQUEST_CONTEXT } from '@/core/network/constants';
+import { RequestContext } from '@/core/network/constants';
 import type { HandlePayRequestParams } from '../types';
 
 export const handlePayRequest = async ({
@@ -20,7 +20,7 @@ export const handlePayRequest = async ({
 
   const response = await buildPayTransaction(
     buildPayTransactionParams,
-    REQUEST_CONTEXT.CHECKOUT,
+    RequestContext.Checkout,
   );
 
   if ('error' in response) {

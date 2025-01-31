@@ -1,4 +1,4 @@
-import { REQUEST_CONTEXT } from '@/core/network/constants';
+import { RequestContext } from '@/core/network/constants';
 import { CDP_GET_SWAP_QUOTE } from '@/core/network/definitions/swap';
 import { sendRequest } from '@/core/network/request';
 import { SwapMessage } from '@/swap/constants';
@@ -52,7 +52,7 @@ describe('getSwapQuote', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_GET_SWAP_QUOTE,
       [mockApiParams],
-      REQUEST_CONTEXT.API,
+      RequestContext.API,
     );
   });
 
@@ -96,7 +96,7 @@ describe('getSwapQuote', () => {
           ...mockApiParams,
         },
       ],
-      REQUEST_CONTEXT.API,
+      RequestContext.API,
     );
   });
 
@@ -137,7 +137,7 @@ describe('getSwapQuote', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_GET_SWAP_QUOTE,
       [mockApiParams],
-      REQUEST_CONTEXT.API,
+      RequestContext.API,
     );
   });
 
@@ -169,7 +169,7 @@ describe('getSwapQuote', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_GET_SWAP_QUOTE,
       [mockApiParams],
-      REQUEST_CONTEXT.API,
+      RequestContext.API,
     );
   });
 
@@ -226,7 +226,7 @@ describe('getSwapQuote', () => {
           slippagePercentage: '30',
         },
       ],
-      REQUEST_CONTEXT.API,
+      RequestContext.API,
     );
   });
 
@@ -267,7 +267,7 @@ describe('getSwapQuote', () => {
           slippagePercentage: '3',
         },
       ],
-      REQUEST_CONTEXT.API,
+      RequestContext.API,
     );
   });
 });

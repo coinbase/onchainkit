@@ -1,6 +1,6 @@
 import { buildMintTransaction as buildMintTransactionApi } from '@/api/buildMintTransaction';
 import type { BuildMintTransactionParams } from '@/api/types';
-import { REQUEST_CONTEXT } from '@/core/network/constants';
+import { RequestContext } from '@/core/network/constants';
 import type { Address } from 'viem';
 import type { Call } from '../../transaction/types';
 
@@ -19,7 +19,7 @@ async function getMintTransaction({
       quantity,
       takerAddress,
     },
-    REQUEST_CONTEXT.NFT,
+    RequestContext.NFT,
   );
 
   if ('error' in mintTransactions) {

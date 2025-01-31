@@ -1,6 +1,6 @@
 import { getPortfolios } from '@/api/getPortfolios';
 import type { Portfolio } from '@/api/types';
-import { REQUEST_CONTEXT } from '@/core/network/constants';
+import { RequestContext } from '@/core/network/constants';
 import { isApiError } from '@/internal/utils/isApiResponseError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { Address } from 'viem';
@@ -11,7 +11,7 @@ import type { Address } from 'viem';
  */
 export function usePortfolio(
   { address }: { address: Address | undefined | null },
-  _context: REQUEST_CONTEXT = REQUEST_CONTEXT.HOOK,
+  _context: RequestContext = RequestContext.Hook,
 ): UseQueryResult<Portfolio> {
   return useQuery({
     queryKey: ['usePortfolio', address],

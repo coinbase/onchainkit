@@ -2,7 +2,7 @@ import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 
 import { buildPayTransaction } from '@/api';
-import { REQUEST_CONTEXT } from '@/core/network/constants';
+import { RequestContext } from '@/core/network/constants';
 import { handlePayRequest } from './handlePayRequest';
 
 vi.mock('@/api', () => ({
@@ -27,7 +27,7 @@ describe('handlePayRequest', () => {
         address: mockAddress,
         chargeId: mockChargeId,
       },
-      REQUEST_CONTEXT.CHECKOUT,
+      RequestContext.Checkout,
     );
     expect(result).toEqual(mockResponse);
   });
@@ -45,7 +45,7 @@ describe('handlePayRequest', () => {
         address: mockAddress,
         productId: mockProductId,
       },
-      REQUEST_CONTEXT.CHECKOUT,
+      RequestContext.Checkout,
     );
     expect(result).toEqual(mockResponse);
   });
@@ -56,7 +56,7 @@ describe('handlePayRequest', () => {
     const result = await handlePayRequest({ address: mockAddress });
     expect(buildPayTransaction).toHaveBeenCalledWith(
       { address: mockAddress },
-      REQUEST_CONTEXT.CHECKOUT,
+      RequestContext.Checkout,
     );
     expect(result).toEqual(mockResponse);
   });

@@ -15,12 +15,12 @@ export const ANALYTICS_API_URL = 'https://api.developer.coinbase.com/analytics';
  * @enum {string}
  * @readonly
  */
-export enum REQUEST_CONTEXT {
+export enum RequestContext {
   API = 'api',
-  BUY = 'buy',
-  CHECKOUT = 'checkout',
-  HOOK = 'hook',
+  Buy = 'buy',
+  Checkout = 'checkout',
+  Hook = 'hook',
   NFT = 'nft',
-  SWAP = 'swap',
-  WALLET = 'wallet',
+  Swap = 'swap',
+  Wallet = 'wallet',
 }

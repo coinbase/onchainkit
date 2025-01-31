@@ -2,7 +2,7 @@ import {
   CHECKOUT_INVALID_CHARGE_ERROR_MESSAGE,
   UNCAUGHT_CHECKOUT_ERROR_MESSAGE,
 } from '@/checkout/constants';
-import { REQUEST_CONTEXT } from '@/core/network/constants';
+import { RequestContext } from '@/core/network/constants';
 import {
   CDP_CREATE_PRODUCT_CHARGE,
   CDP_HYDRATE_CHARGE,
@@ -54,7 +54,7 @@ describe('buildPayTransaction', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_HYDRATE_CHARGE,
       [mockAPIParams],
-      REQUEST_CONTEXT.API,
+      RequestContext.API,
     );
   });
 
@@ -78,7 +78,7 @@ describe('buildPayTransaction', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_CREATE_PRODUCT_CHARGE,
       [mockAPIParams],
-      REQUEST_CONTEXT.API,
+      RequestContext.API,
     );
   });
 
@@ -134,7 +134,7 @@ describe('buildPayTransaction', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_HYDRATE_CHARGE,
       [mockAPIParams],
-      REQUEST_CONTEXT.API,
+      RequestContext.API,
     );
   });
 });

@@ -1,4 +1,4 @@
-import { REQUEST_CONTEXT } from '@/core/network/constants';
+import { RequestContext } from '@/core/network/constants';
 import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '@/core/network/definitions/wallet';
 import { sendRequest } from '@/core/network/request';
 import type {
@@ -12,7 +12,7 @@ import type {
  */
 export async function getPortfolios(
   params: GetPortfoliosParams,
-  _context: REQUEST_CONTEXT = REQUEST_CONTEXT.API,
+  _context: RequestContext = RequestContext.API,
 ): Promise<GetPortfoliosResponse | APIError> {
   const { addresses } = params;
 

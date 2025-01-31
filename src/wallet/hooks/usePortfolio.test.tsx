@@ -1,6 +1,6 @@
 import { getPortfolios } from '@/api/getPortfolios';
 import type { Portfolio, PortfolioTokenWithFiatValue } from '@/api/types';
-import { REQUEST_CONTEXT } from '@/core/network/constants';
+import { RequestContext } from '@/core/network/constants';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -63,7 +63,7 @@ describe('usePortfolio', () => {
       {
         addresses: [mockAddress],
       },
-      REQUEST_CONTEXT.HOOK,
+      RequestContext.Hook,
     );
 
     expect(result.current.data).toEqual(mockPortfolio);

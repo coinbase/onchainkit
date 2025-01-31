@@ -1,4 +1,4 @@
-import { REQUEST_CONTEXT } from '@/core/network/constants';
+import { RequestContext } from '@/core/network/constants';
 import { CDP_GET_TOKEN_DETAILS } from '@/core/network/definitions/nft';
 import { sendRequest } from '@/core/network/request';
 import { type Mock, describe, expect, it, vi } from 'vitest';
@@ -43,7 +43,7 @@ describe('getTokenDetails', () => {
     expect(mockSendRequest).toHaveBeenCalledWith(
       CDP_GET_TOKEN_DETAILS,
       [params],
-      REQUEST_CONTEXT.API,
+      RequestContext.API,
     );
   });
 
@@ -67,7 +67,7 @@ describe('getTokenDetails', () => {
     expect(mockSendRequest).toHaveBeenCalledWith(
       CDP_GET_TOKEN_DETAILS,
       [params],
-      REQUEST_CONTEXT.API,
+      RequestContext.API,
     );
   });
 
@@ -84,7 +84,7 @@ describe('getTokenDetails', () => {
     expect(mockSendRequest).toHaveBeenCalledWith(
       CDP_GET_TOKEN_DETAILS,
       [params],
-      REQUEST_CONTEXT.API,
+      RequestContext.API,
     );
   });
 });
