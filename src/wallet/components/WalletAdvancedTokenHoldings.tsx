@@ -50,6 +50,7 @@ export function WalletAdvancedTokenHoldings({
             10 ** Number(tokenBalance.decimals)
           }
           valueInFiat={Number(tokenBalance.fiatBalance)}
+          classNames={classNames?.tokenDetails}
         />
       ))}
     </div>
@@ -81,6 +82,7 @@ function TokenDetails({
       )}
     >
       <div
+        data-testid="ockWalletAdvanced_TokenDetails_TokenImg"
         className={cn('flex flex-row items-center gap-2', classNames?.tokenImg)}
       >
         <TokenImage token={token} size={tokenImgSize} />
