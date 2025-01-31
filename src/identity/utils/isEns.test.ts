@@ -8,7 +8,7 @@ describe('isEns', () => {
 
   it('Returns true for mainnet names', async () => {
     expect(isEns('shrek.eth')).toBe(true);
-    expect(isEns('shrek.optimisim.eth')).toBe(true);
+    expect(isEns('shrek.optimism.eth')).toBe(true);
     expect(isEns('shrek.baaaaaes.eth')).toBe(true);
   });
 
@@ -22,7 +22,7 @@ describe('isEns', () => {
   });
 
   it('Returns false for any other name', async () => {
-    expect(isEns('shrek.optimisim')).toBe(false);
+    expect(isEns('shrek.optimism')).toBe(false);
     expect(isEns('shrek.baaaaaes')).toBe(false);
     expect(isEns('shrek')).toBe(false);
     expect(isEns('shrek.sol')).toBe(false);
