@@ -1,13 +1,13 @@
 import { getTokenDetails } from '@/api/getTokenDetails';
 import type { TokenDetails } from '@/api/types';
-import type { JSONRPCContext } from '@/core/network/request';
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { isNFTError } from '@/nft/utils/isNFTError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { UseTokenDetailsParams } from '../types';
 
 export function useTokenDetails(
   params: UseTokenDetailsParams<TokenDetails>,
-  _context: JSONRPCContext = 'hook',
+  _context: REQUEST_CONTEXT = REQUEST_CONTEXT.HOOK,
 ): UseQueryResult<TokenDetails> {
   const { contractAddress, tokenId, queryOptions } = params;
 

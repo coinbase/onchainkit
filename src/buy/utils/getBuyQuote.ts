@@ -1,5 +1,6 @@
 import { getSwapQuote } from '@/api/getSwapQuote';
 import type { GetSwapQuoteParams, GetSwapQuoteResponse } from '@/api/types';
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { formatTokenAmount } from '@/internal/utils/formatTokenAmount';
 import type { SwapError, SwapUnit } from '../../swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
@@ -47,7 +48,7 @@ export async function getBuyQuote({
         to: from,
         useAggregator,
       },
-      'buy',
+      REQUEST_CONTEXT.BUY,
     );
   }
 

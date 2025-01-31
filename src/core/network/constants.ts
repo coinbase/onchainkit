@@ -8,12 +8,19 @@ export const JSON_HEADERS = {
 export const CONTEXT_HEADER = 'OnchainKit-Context';
 export const JSON_RPC_VERSION = '2.0';
 export const ANALYTICS_API_URL = 'https://api.developer.coinbase.com/analytics';
-export const VALID_CONTEXTS = {
-  api: true,
-  buy: true,
-  checkout: true,
-  hook: true,
-  nft: true,
-  swap: true,
-  wallet: true,
-};
+
+/**
+ * Internal - The context where the request originated
+ *
+ * @enum {string}
+ * @readonly
+ */
+export enum REQUEST_CONTEXT {
+  API = 'api',
+  BUY = 'buy',
+  CHECKOUT = 'checkout',
+  HOOK = 'hook',
+  NFT = 'nft',
+  SWAP = 'swap',
+  WALLET = 'wallet',
+}

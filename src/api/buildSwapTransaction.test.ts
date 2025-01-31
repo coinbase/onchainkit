@@ -1,3 +1,4 @@
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { CDP_GET_SWAP_TRADE } from '@/core/network/definitions/swap';
 import { sendRequest } from '@/core/network/request';
 import { SwapMessage } from '@/swap/constants';
@@ -118,7 +119,7 @@ describe('buildSwapTransaction', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_GET_SWAP_TRADE,
       [mockApiParams],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -202,7 +203,7 @@ describe('buildSwapTransaction', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_GET_SWAP_TRADE,
       [mockApiParams],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -341,7 +342,7 @@ describe('buildSwapTransaction', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_GET_SWAP_TRADE,
       [mockApiParams],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -374,7 +375,7 @@ describe('buildSwapTransaction', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_GET_SWAP_TRADE,
       [mockApiParams],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -415,7 +416,7 @@ describe('buildSwapTransaction', () => {
           slippagePercentage: '30',
         }),
       ],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 });

@@ -1,3 +1,4 @@
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { CDP_MINT_TOKEN } from '@/core/network/definitions/nft';
 import { sendRequest } from '@/core/network/request';
 import { type Mock, describe, expect, it, vi } from 'vitest';
@@ -38,7 +39,7 @@ describe('buildMintTransaction', () => {
     expect(mockSendRequest).toHaveBeenCalledWith(
       CDP_MINT_TOKEN,
       [params],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -62,7 +63,7 @@ describe('buildMintTransaction', () => {
     expect(mockSendRequest).toHaveBeenCalledWith(
       CDP_MINT_TOKEN,
       [params],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -79,7 +80,7 @@ describe('buildMintTransaction', () => {
     expect(mockSendRequest).toHaveBeenCalledWith(
       CDP_MINT_TOKEN,
       [params],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 });

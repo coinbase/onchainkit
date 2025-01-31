@@ -1,5 +1,6 @@
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { CDP_MINT_TOKEN } from '../core/network/definitions/nft';
-import { type JSONRPCContext, sendRequest } from '../core/network/request';
+import { sendRequest } from '../core/network/request';
 import type {
   BuildMintTransactionParams,
   BuildMintTransactionResponse,
@@ -10,7 +11,7 @@ import type {
  */
 export async function buildMintTransaction(
   params: BuildMintTransactionParams,
-  _context: JSONRPCContext = 'api',
+  _context: REQUEST_CONTEXT = REQUEST_CONTEXT.API,
 ): Promise<BuildMintTransactionResponse> {
   const { mintAddress, tokenId, network = '', quantity, takerAddress } = params;
 
@@ -29,7 +30,7 @@ export async function buildMintTransaction(
           tokenId,
         },
       ],
-      _context,
+      REQUEST_CONTEXT.API,
     );
     if (res.error) {
       return {

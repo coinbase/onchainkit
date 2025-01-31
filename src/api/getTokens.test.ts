@@ -1,3 +1,4 @@
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { CDP_LIST_SWAP_ASSETS } from '@/core/network/definitions/swap';
 import { sendRequest } from '@/core/network/request';
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
@@ -59,7 +60,7 @@ describe('getTokens', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_LIST_SWAP_ASSETS,
       [{ limit: '50', page: '1' }],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -93,7 +94,7 @@ describe('getTokens', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_LIST_SWAP_ASSETS,
       [{ limit: '1', page: '1' }],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -116,7 +117,7 @@ describe('getTokens', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_LIST_SWAP_ASSETS,
       [{ limit: '50', page: '1' }],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -135,7 +136,7 @@ describe('getTokens', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_LIST_SWAP_ASSETS,
       [{ limit: '50', page: '1' }],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 });

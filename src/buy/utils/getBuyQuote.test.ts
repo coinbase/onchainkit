@@ -1,4 +1,5 @@
 import { getSwapQuote } from '@/api/getSwapQuote';
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { formatTokenAmount } from '@/internal/utils/formatTokenAmount';
 import { isSwapError } from '@/swap/utils/isSwapError';
 import type { Token } from '@/token/types';
@@ -109,7 +110,7 @@ describe('getBuyQuote', () => {
         to: fromToken,
         useAggregator: true,
       },
-      'buy',
+      REQUEST_CONTEXT.BUY,
     );
 
     expect(formatTokenAmount).toHaveBeenCalledWith('100000000000000000', 18);
@@ -146,7 +147,7 @@ describe('getBuyQuote', () => {
         to: fromToken,
         useAggregator: true,
       },
-      'buy',
+      REQUEST_CONTEXT.BUY,
     );
 
     expect(formatTokenAmount).not.toHaveBeenCalled();

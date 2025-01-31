@@ -1,3 +1,4 @@
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { CDP_GET_SWAP_QUOTE } from '@/core/network/definitions/swap';
 import { sendRequest } from '@/core/network/request';
 import { SwapMessage } from '@/swap/constants';
@@ -51,7 +52,7 @@ describe('getSwapQuote', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_GET_SWAP_QUOTE,
       [mockApiParams],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -95,7 +96,7 @@ describe('getSwapQuote', () => {
           ...mockApiParams,
         },
       ],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -136,7 +137,7 @@ describe('getSwapQuote', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_GET_SWAP_QUOTE,
       [mockApiParams],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -168,7 +169,7 @@ describe('getSwapQuote', () => {
     expect(sendRequest).toHaveBeenCalledWith(
       CDP_GET_SWAP_QUOTE,
       [mockApiParams],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -225,7 +226,7 @@ describe('getSwapQuote', () => {
           slippagePercentage: '30',
         },
       ],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 
@@ -266,7 +267,7 @@ describe('getSwapQuote', () => {
           slippagePercentage: '3',
         },
       ],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 });

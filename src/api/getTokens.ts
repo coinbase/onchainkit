@@ -1,5 +1,6 @@
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { CDP_LIST_SWAP_ASSETS } from '../core/network/definitions/swap';
-import { type JSONRPCContext, sendRequest } from '../core/network/request';
+import { sendRequest } from '../core/network/request';
 import type { Token } from '../token/types';
 import type { GetTokensOptions, GetTokensResponse } from './types';
 
@@ -8,7 +9,7 @@ import type { GetTokensOptions, GetTokensResponse } from './types';
  */
 export async function getTokens(
   options?: GetTokensOptions,
-  _context: JSONRPCContext = 'api',
+  _context: REQUEST_CONTEXT = REQUEST_CONTEXT.API,
 ): Promise<GetTokensResponse> {
   // Default filter values
   const defaultFilter: GetTokensOptions = {

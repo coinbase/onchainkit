@@ -1,4 +1,5 @@
 import { getSwapQuote } from '@/api';
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { isApiError } from '@/internal/utils/isApiResponseError';
 import type { Token } from '@/token';
 import { usdcToken } from '@/token/constants';
@@ -39,7 +40,7 @@ export async function useExchangeRate({
         to: toToken,
         useAggregator: false,
       },
-      'wallet',
+      REQUEST_CONTEXT.WALLET,
     );
     if (isApiError(response)) {
       console.error('Error fetching exchange rate:', response.error);

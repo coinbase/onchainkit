@@ -1,4 +1,5 @@
 import type { NFTError } from '@/api/types';
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { convertIpfsToHttps } from '@/nft/utils/ipfs';
 import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
@@ -29,7 +30,7 @@ export function useMintData(
       takerAddress: address,
       ...(tokenId ? { tokenId } : {}),
     },
-    'nft',
+    REQUEST_CONTEXT.NFT,
   );
 
   if (mintError && !error) {

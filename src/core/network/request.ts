@@ -3,7 +3,7 @@ import {
   JSON_HEADERS,
   JSON_RPC_VERSION,
   POST_METHOD,
-  VALID_CONTEXTS,
+  REQUEST_CONTEXT,
 } from './constants';
 import { getRPCUrl } from './getRPCUrl';
 
@@ -25,11 +25,6 @@ export type JSONRPCResult<T> = {
   jsonrpc: string;
   result: T;
 };
-
-/**
- * Internal - specifies the context where the request originated
- */
-export type JSONRPCContext = keyof typeof VALID_CONTEXTS;
 
 /**
  * Builds a JSON-RPC request body.
@@ -58,14 +53,14 @@ export function buildRequestBody<T>(
  * @returns The headers for the JSON-RPC request.
  */
 export function buildRequestHeaders(
-  context?: JSONRPCContext,
+  context?: REQUEST_CONTEXT,
 ): Record<string, string> {
   if (context) {
     // if an invalid context is provided, default to 'api'
-    if (!VALID_CONTEXTS[context]) {
+    if (!Object.values(REQUEST_CONTEXT).includes(context)) {
       return {
         ...JSON_HEADERS,
-        [CONTEXT_HEADER]: 'api',
+        [CONTEXT_HEADER]: REQUEST_CONTEXT.API,
       };
     }
 
@@ -89,7 +84,7 @@ export function buildRequestHeaders(
 export async function sendRequest<T, V>(
   method: string,
   params: T[],
-  _context?: JSONRPCContext,
+  _context?: REQUEST_CONTEXT,
 ): Promise<JSONRPCResult<V>> {
   try {
     const body = buildRequestBody<T>(method, params);

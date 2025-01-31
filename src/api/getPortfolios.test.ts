@@ -1,4 +1,5 @@
 import type { Portfolio, PortfolioTokenWithFiatValue } from '@/api/types';
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '@/core/network/definitions/wallet';
 import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
@@ -50,7 +51,7 @@ describe('getPortfolios', () => {
     expect(mockSendRequest).toHaveBeenCalledWith(
       CDP_GET_PORTFOLIO_TOKEN_BALANCES,
       [{ addresses: mockAddresses }],
-      'api',
+      REQUEST_CONTEXT.API,
     );
   });
 

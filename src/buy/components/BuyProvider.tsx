@@ -1,3 +1,4 @@
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import {
   createContext,
@@ -360,7 +361,7 @@ export function BuyProvider({
             to: to.token,
             useAggregator,
           },
-          'buy',
+          REQUEST_CONTEXT.BUY,
         );
         if (isSwapError(response)) {
           updateLifecycleStatus({

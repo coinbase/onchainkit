@@ -1,5 +1,6 @@
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { CDP_GET_MINT_DETAILS } from '../core/network/definitions/nft';
-import { type JSONRPCContext, sendRequest } from '../core/network/request';
+import { sendRequest } from '../core/network/request';
 import type { GetMintDetailsParams, GetMintDetailsResponse } from './types';
 
 /**
@@ -7,7 +8,7 @@ import type { GetMintDetailsParams, GetMintDetailsResponse } from './types';
  */
 export async function getMintDetails(
   params: GetMintDetailsParams,
-  _context: JSONRPCContext = 'api',
+  _context: REQUEST_CONTEXT = REQUEST_CONTEXT.API,
 ): Promise<GetMintDetailsResponse> {
   const { contractAddress, takerAddress, tokenId } = params;
 
@@ -21,7 +22,7 @@ export async function getMintDetails(
           tokenId,
         },
       ],
-      _context,
+      REQUEST_CONTEXT.API,
     );
     if (res.error) {
       return {

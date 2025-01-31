@@ -1,7 +1,8 @@
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import { SwapMessage } from '@/swap/constants';
 import { UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE } from '@/swap/constants';
 import { CDP_GET_SWAP_TRADE } from '../core/network/definitions/swap';
-import { type JSONRPCContext, sendRequest } from '../core/network/request';
+import { sendRequest } from '../core/network/request';
 import type { SwapAPIResponse } from '../swap/types';
 import { getSwapErrorCode } from '../swap/utils/getSwapErrorCode';
 import type {
@@ -17,7 +18,7 @@ import { getSwapTransaction } from './utils/getSwapTransaction';
  */
 export async function buildSwapTransaction(
   params: BuildSwapTransactionParams,
-  _context: JSONRPCContext = 'api',
+  _context: REQUEST_CONTEXT = REQUEST_CONTEXT.API,
 ): Promise<BuildSwapTransactionResponse> {
   // Default parameters
   const defaultParams = {

@@ -1,12 +1,9 @@
+import { REQUEST_CONTEXT } from '@/core/network/constants';
 import {
   CDP_CREATE_PRODUCT_CHARGE,
   CDP_HYDRATE_CHARGE,
 } from '../core/network/definitions/pay';
-import {
-  type JSONRPCContext,
-  type JSONRPCResult,
-  sendRequest,
-} from '../core/network/request';
+import { type JSONRPCResult, sendRequest } from '../core/network/request';
 import type {
   BuildPayTransactionParams,
   BuildPayTransactionResponse,
@@ -17,7 +14,7 @@ import { getPayErrorMessage } from './utils/getPayErrorMessage';
 
 export async function buildPayTransaction(
   params: BuildPayTransactionParams,
-  _context: JSONRPCContext = 'api',
+  _context: REQUEST_CONTEXT = REQUEST_CONTEXT.API,
 ): Promise<BuildPayTransactionResponse> {
   const { address, chargeId, productId } = params;
 
