@@ -1,7 +1,7 @@
 import { AmountInput } from '@/internal/components/amount-input/AmountInput';
 import { useThrottle } from '@/internal/hooks/useThrottle';
 import { useCallback } from 'react';
-import { useOnrampExchangeRate } from '../hooks/useOnrampExhangeRate';
+import { useOnrampExchangeRate } from '../hooks/useOnrampExchangeRate';
 import type { FundCardAmountInputPropsReact } from '../types';
 import { useFundContext } from './FundCardProvider';
 

@@ -40,6 +40,13 @@ export const useOnrampExchangeRate = ({
           code: 'EXCHANGE_RATE_ERROR',
           debugMessage: err.message,
         });
+      } else {
+        console.error('Unknown error fetching exchange rate:', err);
+        onError?.({
+          errorType: 'unknown_error',
+          code: 'EXCHANGE_RATE_ERROR',
+          debugMessage: JSON.stringify(err),
+        });
       }
     }
   }, [asset, country, subdivision, currency, onError, setExchangeRate]);

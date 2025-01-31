@@ -206,7 +206,11 @@ export type EventMetadata =
   | RequestOpenUrlEvent;
 
 export type OnrampError = {
-  errorType: 'internal_error' | 'handled_error' | 'network_error';
+  errorType:
+    | 'internal_error'
+    | 'handled_error'
+    | 'network_error'
+    | 'unknown_error';
   code?: string;
   debugMessage?: string;
 };

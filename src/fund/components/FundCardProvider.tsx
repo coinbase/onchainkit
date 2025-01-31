@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
 import { useEmitLifecycleStatus } from '../hooks/useEmitLifecycleStatus';
-import { useOnrampExchangeRate } from '../hooks/useOnrampExhangeRate';
+import { useOnrampExchangeRate } from '../hooks/useOnrampExchangeRate';
 import { usePaymentMethods } from '../hooks/usePaymentMethods';
 import type {
   AmountInputType,

@@ -3,7 +3,7 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { quoteResponseDataMock } from '../mocks';
 import type { OnrampError } from '../types';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
-import { useOnrampExchangeRate } from './useOnrampExhangeRate';
+import { useOnrampExchangeRate } from './useOnrampExchangeRate';
 
 vi.mock('../utils/fetchOnrampQuote');
 
