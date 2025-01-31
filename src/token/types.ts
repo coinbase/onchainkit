@@ -1,5 +1,6 @@
 // 🌲☀🌲
 import type { Address } from 'viem';
+import type { PortfolioTokenWithFiatValue } from '../api/types';
 
 /**
  * Note: exported as public Type
@@ -120,3 +121,34 @@ export type TokenSelectModalReact = {
   /** Selected token */
   token?: Token;
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type TokenBalanceProps = {
+  /** Token with fiat and crypto balance*/
+  token: PortfolioTokenWithFiatValue;
+  /** Subtitle to display next to the token name (eg. "available") */
+  subtitle: string;
+  /** Show the token image (default: true) */
+  showImage?: boolean;
+  /** Click handler for the whole component*/
+  onClick?: (token: PortfolioTokenWithFiatValue) => void;
+  /** Size of the token image in px (default: 40) */
+  tokenSize?: number;
+  /** Optional additional CSS class to apply to the component */
+  className?: string;
+  /** Optional additional CSS class to apply to the token name */
+  tokenNameClassName?: string;
+  /** Optional additional CSS class to apply to the token value */
+  tokenValueClassName?: string;
+  /** Optional additional CSS class to apply to the fiat value */
+  fiatValueClassName?: string;
+  /** Optional additional CSS class to apply to the action button */
+  actionClassName?: string;
+} & (
+  /** Hide the action button (default)*/
+  | { showAction?: false; actionText?: never; onActionPress?: never }
+  /** Show an additional action button (eg. "Use max") */
+  | { showAction?: true; actionText?: string; onActionPress?: () => void }
+);

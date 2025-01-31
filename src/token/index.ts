@@ -6,6 +6,7 @@ export { TokenRow } from './components/TokenRow';
 export { TokenSearch } from './components/TokenSearch';
 export { TokenSelectDropdown } from './components/TokenSelectDropdown';
 export { TokenSelectModal } from './components/TokenSelectModal';
+export { TokenBalance } from './components/TokenBalance';
 
 // Utils
 export { formatAmount } from './utils/formatAmount';

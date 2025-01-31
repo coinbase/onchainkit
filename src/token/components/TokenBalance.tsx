@@ -1,25 +1,9 @@
-import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
 import { border, cn, color, text } from '@/styles/theme';
 import { TokenImage } from '@/token';
 import { formatUnits } from 'viem';
-
-type TokenBalanceProps = {
-  token: PortfolioTokenWithFiatValue;
-  subtitle: string;
-  showImage?: boolean;
-  onClick?: (token: PortfolioTokenWithFiatValue) => void;
-  className?: string;
-  tokenSize?: number;
-  tokenNameClassName?: string;
-  tokenValueClassName?: string;
-  fiatValueClassName?: string;
-  actionClassName?: string;
-} & (
-  | { showAction?: true; actionText?: string; onActionPress?: () => void }
-  | { showAction?: false; actionText?: never; onActionPress?: never }
-);
+import type { TokenBalanceProps } from '../types';
 
 export function TokenBalance({
   onClick,
