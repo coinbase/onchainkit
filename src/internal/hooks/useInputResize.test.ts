@@ -3,14 +3,19 @@ import type { RefObject } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useInputResize } from './useInputResize';
 
+type MockResizeObserver = {
+  observe: ReturnType<typeof vi.fn>;
+  unobserve: ReturnType<typeof vi.fn>;
+  disconnect: ReturnType<typeof vi.fn>;
+};
+
 describe('useInputResize', () => {
   let containerRef: RefObject<HTMLDivElement>;
   let wrapperRef: RefObject<HTMLDivElement>;
   let inputRef: RefObject<HTMLInputElement>;
   let measureRef: RefObject<HTMLSpanElement>;
   let labelRef: RefObject<HTMLSpanElement>;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  let resizeObserver: { observe: any; unobserve: any; disconnect: any };
+  let resizeObserver: MockResizeObserver;
   let nullRef: RefObject<HTMLDivElement>;
 
   beforeEach(() => {
@@ -50,8 +55,10 @@ describe('useInputResize', () => {
       unobserve: vi.fn(),
       disconnect: vi.fn(),
     };
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    (window as any).ResizeObserver = vi.fn(() => resizeObserver);
+
+    // Mock window.ResizeObserver
+    const MockResizeObserver = vi.fn(() => resizeObserver);
+    vi.stubGlobal('ResizeObserver', MockResizeObserver);
   });
 
   it('should set up resize observer', () => {
