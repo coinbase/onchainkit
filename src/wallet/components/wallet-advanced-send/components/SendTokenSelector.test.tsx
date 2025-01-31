@@ -18,7 +18,7 @@ const mockTokenBalances: PortfolioTokenWithFiatValue[] = [
     cryptoBalance: 1000000000,
     fiatBalance: 100,
     image: 'test.png',
-    chainId: 8543,
+    chainId: 8453,
   },
   {
     address: '0x4560000000000000000000000000000000000000',
@@ -28,7 +28,7 @@ const mockTokenBalances: PortfolioTokenWithFiatValue[] = [
     cryptoBalance: 2000000000000,
     fiatBalance: 200,
     image: 'test2.png',
-    chainId: 8543,
+    chainId: 8453,
   },
 ];
 

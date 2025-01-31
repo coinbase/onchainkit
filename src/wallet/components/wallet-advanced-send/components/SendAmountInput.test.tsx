@@ -10,10 +10,10 @@ vi.mock('./SendAmountInputTypeSwitch');
 const mockToken = {
   symbol: 'ETH',
   address: '' as const,
-  chainId: 8543,
+  chainId: 8453,
   decimals: 18,
   image: null,
-  name: 'Ethereum',
+  name: 'Base',
   cryptoBalance: 1,
   fiatBalance: 3300,
 };
