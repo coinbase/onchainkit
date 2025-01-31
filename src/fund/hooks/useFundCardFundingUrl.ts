@@ -36,6 +36,7 @@ export const useFundCardFundingUrl = () => {
       defaultPaymentMethod: selectedPaymentMethod?.id,
       addresses: { [address]: [chain.name.toLowerCase()] },
       fiatCurrency: currency,
+      originComponentName: 'FundCard',
     });
   }, [
     asset,

@@ -38,7 +38,10 @@ export function FundButton({
 }: FundButtonReact) {
   const componentTheme = useTheme();
   // If the fundingUrl prop is undefined, fallback to our recommended funding URL based on the wallet type
-  const fallbackFundingUrl = useGetFundingUrl(fiatCurrency);
+  const fallbackFundingUrl = useGetFundingUrl({
+    fiatCurrency,
+    originComponentName: 'FundButton',
+  });
   const { address } = useAccount();
   const fundingUrlToRender = fundingUrl ?? fallbackFundingUrl;
   const isDisabled = disabled || !fundingUrlToRender;

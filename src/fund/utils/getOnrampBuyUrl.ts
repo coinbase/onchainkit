@@ -12,6 +12,7 @@ import type {
  */
 export function getOnrampBuyUrl({
   projectId,
+  originComponentName,
   ...props
 }: GetOnrampUrlWithProjectIdParams | GetOnrampUrlWithSessionTokenParams) {
   const url = new URL(ONRAMP_BUY_URL);
@@ -32,7 +33,14 @@ export function getOnrampBuyUrl({
     }
   }
 
-  url.searchParams.append('sdkVersion', `onchainkit@${version}`);
+  if (originComponentName) {
+    url.searchParams.append(
+      'sdkVersion',
+      `onchainkit@${version}:${originComponentName}`,
+    );
+  } else {
+    url.searchParams.append('sdkVersion', `onchainkit@${version}`);
+  }
 
   url.searchParams.sort();
 
