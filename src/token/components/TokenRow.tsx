@@ -32,7 +32,14 @@ export const TokenRow = memo(function TokenRow({
       <span className="flex items-center gap-3">
         {!hideImage && <TokenImage token={token} size={28} />}
         <span className="flex flex-col items-start">
-          <span className={cn(text.headline)}>{token.name}</span>
+          <span
+            className={cn(
+              text.headline,
+              'overflow-hidden text-ellipsis whitespace-nowrap text-left',
+            )}
+          >
+            {token.name.trim()}
+          </span>
           {!hideSymbol && (
             <span className={cn(text.body, color.foregroundMuted)}>
               {token.symbol}
