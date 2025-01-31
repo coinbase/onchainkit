@@ -76,13 +76,8 @@ export function useInputResize(
     const resizeObserver = new ResizeObserver(updateScale);
     resizeObserver.observe(container);
 
-    // Listen for font size changes
-    //const mediaQueryList = window.matchMedia('(resolution: 1dppx)');
-    //mediaQueryList.addListener(updateScale);
-
     return () => {
       resizeObserver.disconnect();
-      //mediaQueryList.removeListener(updateScale);
     };
   }, [containerRef, updateScale]);
 

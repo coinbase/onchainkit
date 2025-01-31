@@ -64,7 +64,7 @@ export function AmountInput({
     [handleChange],
   );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: When value changes, we want to update the input width
   useEffect(() => {
     updateScale();
   }, [value, updateScale]);
@@ -120,6 +120,12 @@ export function AmountInput({
         </div>
       </div>
 
+      {/* Hidden span for measuring text width
+          Without this span the input field would not adjust its width based on the text width and would look like this:
+          [0.12--------Empty Space-------][ETH] - As you can see the currency symbol is far away from the inputed value
+          With this span we can measure the width of the text in the input field and set the width of the input field to match the text width
+          [0.12][ETH] - Now the currency symbol is displayed next to the input field
+      */}
       <span
         data-testid="ockHiddenSpan"
         ref={measureRef}
@@ -128,7 +134,7 @@ export function AmountInput({
           'border-none bg-transparent',
           'text-6xl leading-none outline-none',
           'pointer-events-none absolute whitespace-nowrap opacity-0',
-          'left-[-99999px]',
+          'left-[-99999px]', // Hide the span from the DOM
         )}
       >
         {value ? `${value}.` : '0.'}
