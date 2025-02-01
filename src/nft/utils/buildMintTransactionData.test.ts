@@ -1,4 +1,4 @@
-import { buildMintTransaction as buildMintTransationApi } from '@/api/buildMintTransaction';
+import { buildMintTransaction as buildMintTransactionApi } from '@/api/buildMintTransaction';
 import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { buildMintTransactionData } from './buildMintTransactionData';
@@ -6,7 +6,7 @@ import { buildMintTransactionData } from './buildMintTransactionData';
 vi.mock('@/api/buildMintTransaction');
 
 describe('buildMintTransactionData', () => {
-  const mockBuildMintTransaction = buildMintTransationApi as Mock;
+  const mockBuildMintTransaction = buildMintTransactionApi as Mock;
 
   const contractAddress: Address = '0x1234567890abcdef1234567890abcdef12345678';
   const tokenId = '1';
