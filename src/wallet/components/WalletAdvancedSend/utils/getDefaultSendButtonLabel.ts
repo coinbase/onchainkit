@@ -6,7 +6,7 @@ export function getDefaultSendButtonLabel(
   selectedToken: PortfolioTokenWithFiatValue | null,
 ) {
   if (!cryptoAmount) {
-    return 'Input amount';
+    return 'Enter an amount';
   }
 
   if (!selectedToken) {
