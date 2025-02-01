@@ -36,6 +36,6 @@ export async function fetchOnrampTransactionStatus({
   const responseJson = await response.json();
 
   return convertSnakeToCamelCase<OnrampTransactionStatusResponseData>(
-    responseJson.data,
+    responseJson,
   );
 }

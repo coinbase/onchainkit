@@ -320,6 +320,22 @@ export const sidebar = [
             text: 'getOnrampBuyUrl',
             link: '/fund/get-onramp-buy-url',
           },
+          {
+            text: 'fetchOnrampConfig',
+            link: '/fund/fetch-onramp-config',
+          },
+          {
+            text: 'fetchOnrampOptions',
+            link: '/fund/fetch-onramp-options',
+          },
+          {
+            text: 'fetchOnrampTransactionStatus',
+            link: '/fund/fetch-onramp-transaction-status',
+          },
+          {
+            text: 'setupOnrampEventListeners',
+            link: '/fund/setup-onramp-event-listeners',
+          },
         ],
       },
       {
