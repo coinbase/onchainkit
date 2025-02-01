@@ -50,10 +50,7 @@ function SendDefaultChildren() {
   const { tokenBalances } = useWalletAdvancedContext();
   const context = useSendContext();
 
-  const walletNeedsFunding =
-    context.isInitialized &&
-    context.ethBalance &&
-    context.ethBalance < 0.0000001;
+  const walletHasEth = context.isInitialized && context.ethBalance > 0.000001;
 
   const disableSendButton = !validateAmountInput({
     cryptoAmount: context.cryptoAmount ?? '',
@@ -72,9 +69,7 @@ function SendDefaultChildren() {
   return (
     <>
       <SendHeader />
-      {walletNeedsFunding ? (
-        <SendFundWallet />
-      ) : (
+      {walletHasEth ? (
         <div className="flex h-full flex-col justify-between gap-4">
           <div>
             <SendAddressSelection
@@ -120,6 +115,8 @@ function SendDefaultChildren() {
             </>
           )}
         </div>
+      ) : (
+        <SendFundWallet />
       )}
     </>
   );

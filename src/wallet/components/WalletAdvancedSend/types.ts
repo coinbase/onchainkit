@@ -17,7 +17,7 @@ export type SendContextType = {
   ) => void;
 
   // Sender Context
-  ethBalance: number | undefined;
+  ethBalance: number;
 
   // Recipient Address Context
   selectedRecipientAddress: RecipientAddress;
