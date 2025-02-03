@@ -5,10 +5,9 @@ import { useEarnContext } from './EarnProvider';
 
 export function DepositButton({ className }: DepositButtonReact) {
   const { address, depositCalls } = useEarnContext();
-  console.log('depositCalls:', depositCalls);
 
   if (!address) {
-    return <ConnectWallet text="Deposit" />;
+    return <ConnectWallet text="Deposit" className="w-full" />;
   }
 
   return (
