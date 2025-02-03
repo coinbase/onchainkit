@@ -5,7 +5,6 @@ import { Capabilities } from '../../core/constants';
 import type { Call, UseSendWalletTransactionsParams } from '../types';
 import { sendBatchedTransactions } from '../utils/sendBatchedTransactions';
 import { sendSingleTransactions } from '../utils/sendSingleTransactions';
-import { useConfig } from 'wagmi';
 
 /**
  * Sends transactions to the wallet using the appropriate hook based on Transaction props and wallet capabilities
