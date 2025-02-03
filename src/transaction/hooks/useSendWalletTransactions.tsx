@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import type { ContractFunctionParameters } from 'viem';
-import { useConfig } from 'wagmi';
 import { Capabilities } from '../../core/constants';
 import type { Call, UseSendWalletTransactionsParams } from '../types';
 import { sendBatchedTransactions } from '../utils/sendBatchedTransactions';
