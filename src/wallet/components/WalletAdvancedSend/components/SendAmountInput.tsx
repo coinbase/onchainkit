@@ -27,32 +27,30 @@ export function SendAmountInput({
   } = useSendContext();
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col items-center justify-center">
-      <div className="flex h-full w-full flex-col justify-center">
-        <AmountInput
-          fiatAmount={fiatAmount ?? ''}
-          cryptoAmount={cryptoAmount ?? ''}
-          asset={selectedToken?.symbol ?? ''}
-          currency={'USD'}
-          delayMs={50}
-          selectedInputType={selectedInputType}
-          setFiatAmount={handleFiatAmountChange}
-          setCryptoAmount={handleCryptoAmountChange}
-          exchangeRate={String(exchangeRate)}
-          className={className}
-          textClassName={textClassName}
-        />
+    <div className="flex h-full w-full flex-col justify-center">
+      <AmountInput
+        fiatAmount={fiatAmount ?? ''}
+        cryptoAmount={cryptoAmount ?? ''}
+        asset={selectedToken?.symbol ?? ''}
+        currency={'USD'}
+        delayMs={50}
+        selectedInputType={selectedInputType}
+        setFiatAmount={handleFiatAmountChange}
+        setCryptoAmount={handleCryptoAmountChange}
+        exchangeRate={String(exchangeRate)}
+        className={className}
+        textClassName={textClassName}
+      />
 
-        <SendAmountInputTypeSwitch
-          selectedToken={selectedToken ?? null}
-          fiatAmount={fiatAmount ?? ''}
-          cryptoAmount={cryptoAmount ?? ''}
-          selectedInputType={selectedInputType}
-          setSelectedInputType={setSelectedInputType}
-          exchangeRate={exchangeRate}
-          exchangeRateLoading={exchangeRateLoading}
-        />
-      </div>
+      <SendAmountInputTypeSwitch
+        selectedToken={selectedToken ?? null}
+        fiatAmount={fiatAmount ?? ''}
+        cryptoAmount={cryptoAmount ?? ''}
+        selectedInputType={selectedInputType}
+        setSelectedInputType={setSelectedInputType}
+        exchangeRate={exchangeRate}
+        exchangeRateLoading={exchangeRateLoading}
+      />
     </div>
   );
 }
