@@ -211,6 +211,12 @@ type OnrampConfigResponseData = {
 
 type OnrampConfigCountry = {
   id: string;
+  /**
+   * ISO 3166-2 two-digit country subdivision code representing
+   * the purchasing user’s subdivision of residence within their country,
+   * e.g. NY. Required if the country=“US” because certain states (e.g., NY)
+   * have state specific asset restrictions.
+   */
   subdivisions: string[];
   paymentMethods: OnrampPaymentMethod[];
 };

@@ -16,7 +16,7 @@ const transactions = await fetchOnrampTransactionStatus({
 });
 ```
 
-```ts [return value]
+```json [return value]
 {
   transactions: [
     {
@@ -39,6 +39,12 @@ const transactions = await fetchOnrampTransactionStatus({
 
 ```typescript
 {
+  /**
+   * A unique identifier that will be associated with any transactions created
+   * by the user during their Onramp session. You can use this with the
+   * Transaction Status API to check the status of the user's transaction.
+   * See https://docs.cdp.coinbase.com/onramp/docs/api-reporting#buy-transaction-status
+   */
   partnerUserId: string; // Your unique identifier for the user
   nextPageKey: string;   // Token for pagination
   pageSize: string;      // Number of transactions per page
