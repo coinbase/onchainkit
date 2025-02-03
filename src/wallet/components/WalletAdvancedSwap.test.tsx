@@ -260,10 +260,12 @@ describe('WalletAdvancedSwap', () => {
     const customClassNames = {
       container: 'custom-container',
       swapContainer: 'custom-swap',
-      settings: 'custom-settings',
-      settingsSlippageTitle: 'custom-slippage-title',
-      settingsSlippageDescription: 'custom-slippage-desc',
-      settingsSlippageInput: 'custom-slippage-input',
+      settings: {
+        container: 'custom-settings',
+        slippageTitle: 'custom-slippage-title',
+        slippageDescription: 'custom-slippage-desc',
+        slippageInput: 'custom-slippage-input',
+      },
       fromAmountInput: 'custom-from-input',
       toggleButton: 'custom-toggle',
       toAmountInput: 'custom-to-input',
