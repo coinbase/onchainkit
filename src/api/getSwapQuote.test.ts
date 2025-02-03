@@ -1,3 +1,4 @@
+import { RequestContext } from '@/core/network/constants';
 import { CDP_GET_SWAP_QUOTE } from '@/core/network/definitions/swap';
 import { sendRequest } from '@/core/network/request';
 import { SwapMessage } from '@/swap/constants';
@@ -48,9 +49,11 @@ describe('getSwapQuote', () => {
     const quote = await getSwapQuote(mockParams);
     expect(quote).toEqual(mockResponse.result);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
-      mockApiParams,
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_GET_SWAP_QUOTE,
+      [mockApiParams],
+      RequestContext.API,
+    );
   });
 
   it('should return a quote for a swap with useAggregator=false', async () => {
@@ -85,12 +88,16 @@ describe('getSwapQuote', () => {
     const quote = await getSwapQuote(mockParams);
     expect(quote).toEqual(mockResponse.result);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
-      {
-        slippagePercentage: '3',
-        ...mockApiParams,
-      },
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_GET_SWAP_QUOTE,
+      [
+        {
+          slippagePercentage: '3',
+          ...mockApiParams,
+        },
+      ],
+      RequestContext.API,
+    );
   });
 
   it('should return an error for an unsupported amount reference', async () => {
@@ -127,9 +134,11 @@ describe('getSwapQuote', () => {
       message: '',
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
-      mockApiParams,
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_GET_SWAP_QUOTE,
+      [mockApiParams],
+      RequestContext.API,
+    );
   });
 
   it('should return an error object from getSwapQuote', async () => {
@@ -157,9 +166,11 @@ describe('getSwapQuote', () => {
       message: '',
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
-      mockApiParams,
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_GET_SWAP_QUOTE,
+      [mockApiParams],
+      RequestContext.API,
+    );
   });
 
   it('should return a SwapError from getSwapQuote for invalid `amount` input', async () => {
@@ -207,12 +218,16 @@ describe('getSwapQuote', () => {
     (sendRequest as Mock).mockResolvedValue(mockResponse);
     await getSwapQuote(mockParams);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
-      {
-        ...mockApiParams,
-        slippagePercentage: '30',
-      },
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_GET_SWAP_QUOTE,
+      [
+        {
+          ...mockApiParams,
+          slippagePercentage: '30',
+        },
+      ],
+      RequestContext.API,
+    );
   });
 
   it('should not adjust slippage when useAggregator is false', async () => {
@@ -243,12 +258,16 @@ describe('getSwapQuote', () => {
     (sendRequest as Mock).mockResolvedValue(mockResponse);
     await getSwapQuote(mockParams);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_QUOTE, [
-      {
-        ...mockApiParams,
-        v2Enabled: true,
-        slippagePercentage: '3',
-      },
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_GET_SWAP_QUOTE,
+      [
+        {
+          ...mockApiParams,
+          v2Enabled: true,
+          slippagePercentage: '3',
+        },
+      ],
+      RequestContext.API,
+    );
   });
 });

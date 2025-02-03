@@ -1,3 +1,4 @@
+import { RequestContext } from '@/core/network/constants';
 import { usePortfolio } from '@/wallet/hooks/usePortfolio';
 import { render, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -103,9 +104,12 @@ describe('useWalletAdvancedContext', () => {
       wrapper: WalletAdvancedProvider,
     });
 
-    expect(mockUsePortfolio).toHaveBeenCalledWith({
-      address: null,
-    });
+    expect(mockUsePortfolio).toHaveBeenCalledWith(
+      {
+        address: null,
+      },
+      RequestContext.Wallet,
+    );
 
     mockUseWalletContext.mockReturnValue({
       address: '0x123',
@@ -114,9 +118,12 @@ describe('useWalletAdvancedContext', () => {
 
     rerender();
 
-    expect(mockUsePortfolio).toHaveBeenCalledWith({
-      address: '0x123',
-    });
+    expect(mockUsePortfolio).toHaveBeenCalledWith(
+      {
+        address: '0x123',
+      },
+      RequestContext.Wallet,
+    );
   });
 
   describe('getAnimations', () => {

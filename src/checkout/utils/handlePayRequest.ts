@@ -1,5 +1,6 @@
 import { buildPayTransaction } from '@/api';
 import type { BuildPayTransactionParams } from '@/api';
+import { RequestContext } from '@/core/network/constants';
 import type { HandlePayRequestParams } from '../types';
 
 export const handlePayRequest = async ({
@@ -17,7 +18,10 @@ export const handlePayRequest = async ({
     buildPayTransactionParams.productId = productId;
   }
 
-  const response = await buildPayTransaction(buildPayTransactionParams);
+  const response = await buildPayTransaction(
+    buildPayTransactionParams,
+    RequestContext.Checkout,
+  );
 
   if ('error' in response) {
     throw new Error(response.error);

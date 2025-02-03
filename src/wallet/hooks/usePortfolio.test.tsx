@@ -1,5 +1,6 @@
 import { getPortfolios } from '@/api/getPortfolios';
 import type { Portfolio, PortfolioTokenWithFiatValue } from '@/api/types';
+import { RequestContext } from '@/core/network/constants';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -58,9 +59,12 @@ describe('usePortfolio', () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    expect(getPortfolios).toHaveBeenCalledWith({
-      addresses: [mockAddress],
-    });
+    expect(getPortfolios).toHaveBeenCalledWith(
+      {
+        addresses: [mockAddress],
+      },
+      RequestContext.Hook,
+    );
 
     expect(result.current.data).toEqual(mockPortfolio);
   });

@@ -1,4 +1,5 @@
 import type { GetSwapQuoteResponse } from '@/api';
+import { RequestContext } from '@/core/network/constants';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   fireEvent,
@@ -594,6 +595,7 @@ describe('SwapProvider', () => {
         to: DEGEN_TOKEN,
         useAggregator: true,
       }),
+      RequestContext.Swap,
     );
   });
 
@@ -621,6 +623,7 @@ describe('SwapProvider', () => {
         to: DEGEN_TOKEN,
         useAggregator: true,
       }),
+      RequestContext.Swap,
     );
   });
 

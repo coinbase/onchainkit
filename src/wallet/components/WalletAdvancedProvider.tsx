@@ -1,3 +1,4 @@
+import { RequestContext } from '@/core/network/constants';
 import { useValue } from '@/internal/hooks/useValue';
 import { usePortfolio } from '@/wallet/hooks/usePortfolio';
 import { type ReactNode, createContext, useContext, useState } from 'react';
@@ -37,7 +38,7 @@ export function WalletAdvancedProvider({
     refetch: refetchPortfolioData,
     isFetching: isFetchingPortfolioData,
     dataUpdatedAt: portfolioDataUpdatedAt,
-  } = usePortfolio({ address });
+  } = usePortfolio({ address }, RequestContext.Wallet);
 
   const portfolioFiatValue = portfolioData?.portfolioBalanceInUsd;
   const tokenBalances = portfolioData?.tokenBalances;

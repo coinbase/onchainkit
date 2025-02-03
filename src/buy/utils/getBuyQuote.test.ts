@@ -1,4 +1,5 @@
 import { getSwapQuote } from '@/api/getSwapQuote';
+import { RequestContext } from '@/core/network/constants';
 import { formatTokenAmount } from '@/internal/utils/formatTokenAmount';
 import { isSwapError } from '@/swap/utils/isSwapError';
 import type { Token } from '@/token/types';
@@ -100,14 +101,17 @@ describe('getBuyQuote', () => {
       fromSwapUnit: mockFromSwapUnit,
     });
 
-    expect(getSwapQuote).toHaveBeenCalledWith({
-      amount: '1',
-      amountReference: 'from',
-      from: toToken,
-      maxSlippage: '0.5',
-      to: fromToken,
-      useAggregator: true,
-    });
+    expect(getSwapQuote).toHaveBeenCalledWith(
+      {
+        amount: '1',
+        amountReference: 'from',
+        from: toToken,
+        maxSlippage: '0.5',
+        to: fromToken,
+        useAggregator: true,
+      },
+      RequestContext.Buy,
+    );
 
     expect(formatTokenAmount).toHaveBeenCalledWith('100000000000000000', 18);
     expect(mockFromSwapUnit.setAmountUSD).toHaveBeenCalledWith('100');
@@ -134,14 +138,17 @@ describe('getBuyQuote', () => {
       fromSwapUnit: mockFromSwapUnit,
     });
 
-    expect(getSwapQuote).toHaveBeenCalledWith({
-      amount: '1',
-      amountReference: 'from',
-      from: toToken,
-      maxSlippage: '0.5',
-      to: fromToken,
-      useAggregator: true,
-    });
+    expect(getSwapQuote).toHaveBeenCalledWith(
+      {
+        amount: '1',
+        amountReference: 'from',
+        from: toToken,
+        maxSlippage: '0.5',
+        to: fromToken,
+        useAggregator: true,
+      },
+      RequestContext.Buy,
+    );
 
     expect(formatTokenAmount).not.toHaveBeenCalled();
     expect(mockFromSwapUnit.setAmountUSD).toHaveBeenCalledWith('');

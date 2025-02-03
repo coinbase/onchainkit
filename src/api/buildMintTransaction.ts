@@ -1,3 +1,4 @@
+import { RequestContext } from '@/core/network/constants';
 import { CDP_MINT_TOKEN } from '../core/network/definitions/nft';
 import { sendRequest } from '../core/network/request';
 import type {
@@ -8,26 +9,29 @@ import type {
 /**
  * Retrieves contract to mint an NFT
  */
-export async function buildMintTransaction({
-  mintAddress,
-  tokenId,
-  network = '',
-  quantity,
-  takerAddress,
-}: BuildMintTransactionParams): Promise<BuildMintTransactionResponse> {
+export async function buildMintTransaction(
+  params: BuildMintTransactionParams,
+  _context: RequestContext = RequestContext.API,
+): Promise<BuildMintTransactionResponse> {
+  const { mintAddress, tokenId, network = '', quantity, takerAddress } = params;
+
   try {
     const res = await sendRequest<
       BuildMintTransactionParams,
       BuildMintTransactionResponse
-    >(CDP_MINT_TOKEN, [
-      {
-        mintAddress,
-        network,
-        quantity,
-        takerAddress,
-        tokenId,
-      },
-    ]);
+    >(
+      CDP_MINT_TOKEN,
+      [
+        {
+          mintAddress,
+          network,
+          quantity,
+          takerAddress,
+          tokenId,
+        },
+      ],
+      RequestContext.API,
+    );
     if (res.error) {
       return {
         code: `${res.error.code}`,

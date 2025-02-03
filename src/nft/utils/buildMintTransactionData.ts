@@ -1,5 +1,6 @@
 import { buildMintTransaction as buildMintTransactionApi } from '@/api/buildMintTransaction';
 import type { BuildMintTransactionParams } from '@/api/types';
+import { RequestContext } from '@/core/network/constants';
 import type { Address } from 'viem';
 import type { Call } from '../../transaction/types';
 
@@ -10,13 +11,16 @@ async function getMintTransaction({
   quantity,
   takerAddress,
 }: BuildMintTransactionParams): Promise<Call[]> {
-  const mintTransactions = await buildMintTransactionApi({
-    mintAddress,
-    tokenId,
-    network,
-    quantity,
-    takerAddress,
-  });
+  const mintTransactions = await buildMintTransactionApi(
+    {
+      mintAddress,
+      tokenId,
+      network,
+      quantity,
+      takerAddress,
+    },
+    RequestContext.NFT,
+  );
 
   if ('error' in mintTransactions) {
     throw mintTransactions.message;
