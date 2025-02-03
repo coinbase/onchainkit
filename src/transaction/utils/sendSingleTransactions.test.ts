@@ -2,6 +2,7 @@ import { http, encodeFunctionData, erc20Abi } from 'viem';
 import { baseSepolia } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createConfig } from 'wagmi';
+import { waitForTransactionReceipt } from 'wagmi/actions';
 import { mock } from 'wagmi/connectors';
 import type { Call } from '../types';
 import { sendSingleTransactions } from './sendSingleTransactions';
@@ -13,6 +14,11 @@ vi.mock('viem', async (importOriginal) => {
     encodeFunctionData: vi.fn(),
   };
 });
+vi.mock('wagmi/actions', () => ({
+  waitForTransactionReceipt: vi.fn().mockResolvedValue({
+    transactionHash: 'receiptHash',
+  }),
+}));
 
 const mockConfig = createConfig({
   chains: [baseSepolia],
@@ -93,5 +99,34 @@ describe('sendSingleTransactions', () => {
       data: '123',
       to: '0x123',
     });
+  });
+
+  it('should wait for transaction receipt when txHash is returned', async () => {
+    const transactions: Call[] = [{ to: '0x123', data: '0x456' }];
+    mockSendCallAsync.mockResolvedValueOnce('0xhash');
+
+    await sendSingleTransactions({
+      config: mockConfig,
+      sendCallAsync: mockSendCallAsync,
+      transactions,
+    });
+
+    expect(waitForTransactionReceipt).toHaveBeenCalledWith(mockConfig, {
+      hash: '0xhash',
+      confirmations: 1,
+    });
+  });
+
+  it('should skip waiting for receipt when txHash is null', async () => {
+    const transactions: Call[] = [{ to: '0x123', data: '0x456' }];
+    mockSendCallAsync.mockResolvedValueOnce(null);
+
+    await sendSingleTransactions({
+      config: mockConfig,
+      sendCallAsync: mockSendCallAsync,
+      transactions,
+    });
+
+    expect(waitForTransactionReceipt).not.toHaveBeenCalled();
   });
 });
