@@ -1,25 +1,30 @@
 'use client';
 
 import { PressableIcon } from '@/internal/components/PressableIcon';
+import { useAnalytics } from '@/internal/hooks/useAnalytics';
 import { baseScanSvg } from '@/internal/svg/baseScanSvg';
 import { disconnectSvg } from '@/internal/svg/disconnectSvg';
 import { qrIconSvg } from '@/internal/svg/qrIconSvg';
 import { refreshSvg } from '@/internal/svg/refreshSvg';
+import { AnalyticsEvent, WalletOption } from '@/internal/types';
 import { cn } from '@/styles/theme';
 import { useCallback } from 'react';
 import { useDisconnect } from 'wagmi';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
-
 export function WalletAdvancedWalletActions() {
   const { address, handleClose } = useWalletContext();
   const { setShowQr, refetchPortfolioData, animations } =
     useWalletAdvancedContext();
   const { disconnect, connectors } = useDisconnect();
+  const { sendAnalytics } = useAnalytics();
 
   const handleTransactions = useCallback(() => {
+    sendAnalytics(AnalyticsEvent.WALLET_OPTION_SELECTED, {
+      option: WalletOption.EXPLORER,
+    });
     window.open(`https://basescan.org/address/${address}`, '_blank');
-  }, [address]);
+  }, [address, sendAnalytics]);
 
   const handleDisconnect = useCallback(() => {
     handleClose();
@@ -29,12 +34,18 @@ export function WalletAdvancedWalletActions() {
   }, [disconnect, connectors, handleClose]);
 
   const handleQr = useCallback(() => {
+    sendAnalytics(AnalyticsEvent.WALLET_OPTION_SELECTED, {
+      option: WalletOption.RECEIVE,
+    });
     setShowQr(true);
-  }, [setShowQr]);
+  }, [sendAnalytics, setShowQr]);
 
   const handleRefreshPortfolioData = useCallback(async () => {
+    sendAnalytics(AnalyticsEvent.WALLET_OPTION_SELECTED, {
+      option: WalletOption.REFRESH,
+    });
     await refetchPortfolioData();
-  }, [refetchPortfolioData]);
+  }, [refetchPortfolioData, sendAnalytics]);
 
   return (
     <div
