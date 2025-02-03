@@ -46,7 +46,7 @@ export function TokenSelectDropdown({
             'ock-scrollbar',
           )}
         >
-          <div className={cn('overflow-y-auto bg-[#ffffff]')}>
+          <div className="overflow-y-auto">
             {options.map((token) => (
               <TokenRow
                 className={cn(background.inverse, 'px-4 py-2')}
