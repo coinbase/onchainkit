@@ -31,7 +31,6 @@ export function BottomSheet({
     return null;
   }
 
-  // TODO: add overlay when DismissableLayer can handle overlay/trigger clicks
   const bottomSheet = (
     <FocusTrap active={isOpen}>
       <DismissableLayer
