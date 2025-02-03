@@ -1,4 +1,5 @@
 import type { ContractType, NFTError } from '@/api/types';
+import { RequestContext } from '@/core/network/constants';
 import { convertIpfsToHttps } from '@/nft/utils/ipfs';
 import { useEffect, useState } from 'react';
 import { useNFTLifecycleContext } from '../components/NFTLifecycleProvider';
@@ -21,10 +22,13 @@ export function useNFTData(
     }
   }, [error, updateLifecycleStatus]);
 
-  const { error: tokenError, data: tokenDetails } = useTokenDetails({
-    contractAddress,
-    tokenId: tokenId,
-  });
+  const { error: tokenError, data: tokenDetails } = useTokenDetails(
+    {
+      contractAddress,
+      tokenId: tokenId,
+    },
+    RequestContext.NFT,
+  );
 
   if (tokenError && !error) {
     setError({

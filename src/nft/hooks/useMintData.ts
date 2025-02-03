@@ -1,4 +1,5 @@
 import type { NFTError } from '@/api/types';
+import { RequestContext } from '@/core/network/constants';
 import { convertIpfsToHttps } from '@/nft/utils/ipfs';
 import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
@@ -23,11 +24,14 @@ export function useMintData(
     }
   }, [error, updateLifecycleStatus]);
 
-  const { error: mintError, data: mintData } = useMintDetails({
-    contractAddress,
-    takerAddress: address,
-    ...(tokenId ? { tokenId } : {}),
-  });
+  const { error: mintError, data: mintData } = useMintDetails(
+    {
+      contractAddress,
+      takerAddress: address,
+      ...(tokenId ? { tokenId } : {}),
+    },
+    RequestContext.NFT,
+  );
 
   if (mintError && !error) {
     setError({

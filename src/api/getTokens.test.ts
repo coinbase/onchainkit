@@ -1,3 +1,4 @@
+import { RequestContext } from '@/core/network/constants';
 import { CDP_LIST_SWAP_ASSETS } from '@/core/network/definitions/swap';
 import { sendRequest } from '@/core/network/request';
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
@@ -56,9 +57,11 @@ describe('getTokens', () => {
       },
     ]);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_LIST_SWAP_ASSETS, [
-      { limit: '50', page: '1' },
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_LIST_SWAP_ASSETS,
+      [{ limit: '50', page: '1' }],
+      RequestContext.API,
+    );
   });
 
   it('should accept options parameters', async () => {
@@ -88,9 +91,11 @@ describe('getTokens', () => {
       },
     ]);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_LIST_SWAP_ASSETS, [
-      { limit: '1', page: '1' },
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_LIST_SWAP_ASSETS,
+      [{ limit: '1', page: '1' }],
+      RequestContext.API,
+    );
   });
 
   it('should return an error object if sendRequest returns an error', async () => {
@@ -109,9 +114,11 @@ describe('getTokens', () => {
       message: 'Request failed',
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_LIST_SWAP_ASSETS, [
-      { limit: '50', page: '1' },
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_LIST_SWAP_ASSETS,
+      [{ limit: '50', page: '1' }],
+      RequestContext.API,
+    );
   });
 
   it('should rethrow the error if an error occurs during token retrieval', async () => {
@@ -126,8 +133,10 @@ describe('getTokens', () => {
       message: 'Request failed',
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_LIST_SWAP_ASSETS, [
-      { limit: '50', page: '1' },
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_LIST_SWAP_ASSETS,
+      [{ limit: '50', page: '1' }],
+      RequestContext.API,
+    );
   });
 });

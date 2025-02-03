@@ -1,3 +1,4 @@
+import { RequestContext } from '@/core/network/constants';
 import {
   createContext,
   useCallback,
@@ -239,14 +240,17 @@ export function SwapProvider({
 
       try {
         const maxSlippage = lifecycleStatus.statusData.maxSlippage;
-        const response = await getSwapQuote({
-          amount,
-          amountReference: 'from',
-          from: source.token,
-          maxSlippage: String(maxSlippage),
-          to: destination.token,
-          useAggregator,
-        });
+        const response = await getSwapQuote(
+          {
+            amount,
+            amountReference: 'from',
+            from: source.token,
+            maxSlippage: String(maxSlippage),
+            to: destination.token,
+            useAggregator,
+          },
+          RequestContext.Swap,
+        );
         // If request resolves to error response set the quoteError
         // property of error state to the SwapError response
         if (isSwapError(response)) {
@@ -304,14 +308,17 @@ export function SwapProvider({
 
     try {
       const maxSlippage = lifecycleStatus.statusData.maxSlippage;
-      const response = await buildSwapTransaction({
-        amount: from.amount,
-        fromAddress: address,
-        from: from.token,
-        maxSlippage: String(maxSlippage),
-        to: to.token,
-        useAggregator,
-      });
+      const response = await buildSwapTransaction(
+        {
+          amount: from.amount,
+          fromAddress: address,
+          from: from.token,
+          maxSlippage: String(maxSlippage),
+          to: to.token,
+          useAggregator,
+        },
+        RequestContext.Swap,
+      );
       if (isSwapError(response)) {
         updateLifecycleStatus({
           statusName: 'error',

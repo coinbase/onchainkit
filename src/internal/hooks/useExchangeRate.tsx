@@ -1,4 +1,5 @@
 import { getSwapQuote } from '@/api';
+import { RequestContext } from '@/core/network/constants';
 import { isApiError } from '@/internal/utils/isApiResponseError';
 import type { Token } from '@/token';
 import { usdcToken } from '@/token/constants';
@@ -32,12 +33,15 @@ export async function useExchangeRate({
   const toToken = selectedInputType === 'crypto' ? usdcToken : token;
 
   try {
-    const response = await getSwapQuote({
-      amount: '1', // hardcoded amount of 1 because we only need the exchange rate
-      from: fromToken,
-      to: toToken,
-      useAggregator: false,
-    });
+    const response = await getSwapQuote(
+      {
+        amount: '1', // hardcoded amount of 1 because we only need the exchange rate
+        from: fromToken,
+        to: toToken,
+        useAggregator: false,
+      },
+      RequestContext.Wallet,
+    );
     if (isApiError(response)) {
       console.error('Error fetching exchange rate:', response.error);
       return;
