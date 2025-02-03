@@ -9,11 +9,9 @@ const nextPageKey = 'test-next-page-key';
 const pageSize = '10';
 
 const mockResponseData = {
-  data: {
-    transactions: [],
-    next_page_key: 'next-page-key',
-    total_count: '100',
-  },
+  transactions: [],
+  next_page_key: 'next-page-key',
+  total_count: '100',
 };
 
 describe('fetchOnrampTransactionStatus', () => {
