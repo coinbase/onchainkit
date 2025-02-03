@@ -1,10 +1,10 @@
-import { encodeFunctionData, erc20Abi, http } from 'viem';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { Call } from '../types';
-import { sendSingleTransactions } from './sendSingleTransactions';
+import { http, encodeFunctionData, erc20Abi } from 'viem';
 import { baseSepolia } from 'viem/chains';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
+import type { Call } from '../types';
+import { sendSingleTransactions } from './sendSingleTransactions';
 
 vi.mock('viem', async (importOriginal) => {
   const actual = await importOriginal<typeof import('viem')>();
