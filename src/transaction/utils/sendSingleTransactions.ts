@@ -1,7 +1,7 @@
 import { encodeFunctionData } from 'viem';
-import { waitForTransactionReceipt } from 'wagmi/actions';
 import type { SendSingleTransactionParams } from '../types';
 import { isContract } from './isContract';
+import { waitForTransactionReceipt } from 'wagmi/actions';
 
 export const sendSingleTransactions = async ({
   config,

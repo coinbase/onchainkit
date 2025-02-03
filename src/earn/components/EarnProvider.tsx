@@ -11,6 +11,10 @@ import { useBuildMorphoDepositTx } from '../hooks/useBuildMorphoDepositTx';
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 
 export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
+  if (!vaultAddress) {
+    throw new Error('vaultAddress is required');
+  }
+
   const { address } = useAccount();
 
   const [depositAmount, setDepositAmount] = useState('');
@@ -18,7 +22,12 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
 
   const { convertedBalance } = useGetTokenBalance(address, usdcToken);
 
-  const { asset, balance, totalApy } = useMorphoVault({
+  // TODO: implement
+  const {
+    asset: _asset,
+    balance,
+    totalApy,
+  } = useMorphoVault({
     vaultAddress,
     address,
   });

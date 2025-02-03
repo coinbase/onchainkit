@@ -20,12 +20,13 @@ export function useBuildMorphoDepositTx({
 }: UseBuildMorphoDepositTxParams): {
   calls: Call[];
 } {
-  const { asset, balance, assetDecimals } = useMorphoVault({
+  const { asset, assetDecimals } = useMorphoVault({
     vaultAddress,
     address: receiverAddress,
   });
 
-  if (!asset || balance === undefined || !assetDecimals) {
+  if (!asset || !assetDecimals) {
+    console.log('no asset or assetDecimals');
     return {
       calls: [],
     };
