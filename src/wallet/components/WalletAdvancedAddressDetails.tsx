@@ -42,15 +42,13 @@ export function WalletAdvancedAddressDetails({
         classNames?.container,
       )}
     >
-      <div className="h-10 w-10">
-        <Avatar
-          address={address}
-          chain={chain}
-          className={cn('pointer-events-none', classNames?.avatar)}
-        >
-          <Badge />
-        </Avatar>
-      </div>
+      <Avatar
+        address={address}
+        chain={chain}
+        className={cn('pointer-events-none h-10 w-10', classNames?.avatar)}
+      >
+        <Badge />
+      </Avatar>
       <div className="group relative mt-2 text-base">
         <button
           type="button"

@@ -148,7 +148,7 @@ describe('WalletAdvancedTokenHoldings', () => {
       container: 'custom-container',
       tokenDetails: {
         container: 'custom-token-details-container',
-        tokenImg: 'custom-token-img',
+        tokenImage: 'custom-token-img',
         tokenName: 'custom-token-name',
         tokenBalance: 'custom-token-balance',
         fiatValue: 'custom-fiat-value',
@@ -165,10 +165,10 @@ describe('WalletAdvancedTokenHoldings', () => {
     const container = screen.getByTestId('ockWalletAdvanced_TokenHoldings');
     expect(container).toHaveClass('custom-container');
 
-    const tokenImgContainer = screen.getByTestId(
-      'ockWalletAdvanced_TokenDetails_TokenImg',
+    const tokenImageContainer = screen.getByTestId(
+      'ockWalletAdvanced_TokenDetails_TokenImage',
     );
-    expect(tokenImgContainer).toHaveClass('custom-token-img');
+    expect(tokenImageContainer).toHaveClass('custom-token-img');
 
     const tokenName = screen.getByText('Test Token');
     expect(tokenName).toHaveClass('custom-token-name');

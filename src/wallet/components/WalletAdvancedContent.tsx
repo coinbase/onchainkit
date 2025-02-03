@@ -71,10 +71,7 @@ export function WalletAdvancedContent({
               name: token.name,
             })) ?? []
           }
-          classNames={{
-            container: cn('w-full px-4 pt-3 pb-4', classNames?.swap?.container),
-            ...classNames?.swap,
-          }}
+          classNames={classNames?.swap}
         />
       </div>
       <div

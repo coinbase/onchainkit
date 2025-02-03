@@ -279,12 +279,12 @@ export type WalletAdvancedTokenHoldingsProps = {
 
 export type WalletAdvancedTokenDetailsProps = {
   token: Token;
-  tokenImgSize?: number;
+  tokenImageSize?: number;
   balance: number;
   valueInFiat: number;
   classNames?: {
     container?: string;
-    tokenImg?: string;
+    tokenImage?: string;
     tokenName?: string;
     tokenBalance?: string;
     fiatValue?: string;

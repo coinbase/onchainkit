@@ -62,7 +62,7 @@ function TokenDetails({
   balance,
   valueInFiat,
   classNames,
-  tokenImgSize = 32,
+  tokenImageSize = 32,
 }: WalletAdvancedTokenDetailsProps) {
   const formattedBalance = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
@@ -82,10 +82,10 @@ function TokenDetails({
       )}
     >
       <div
-        data-testid="ockWalletAdvanced_TokenDetails_TokenImg"
-        className={cn('flex flex-row items-center gap-2', classNames?.tokenImg)}
+        data-testid="ockWalletAdvanced_TokenDetails_TokenImage"
+        className={cn('flex flex-row items-center gap-2', classNames?.tokenImage)}
       >
-        <TokenImage token={token} size={tokenImgSize} />
+        <TokenImage token={token} size={tokenImageSize} />
         <div className="flex flex-col">
           <span
             className={cn(

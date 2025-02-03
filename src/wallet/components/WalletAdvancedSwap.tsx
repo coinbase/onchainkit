@@ -53,7 +53,7 @@ export function WalletAdvancedSwap({
   return (
     <div
       className={cn(
-        'h-full w-full',
+        'h-full w-full px-4 pt-3 pb-4',
         isSwapClosing
           ? 'fade-out slide-out-to-right-5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-right-5 linear animate-in duration-150',
@@ -64,7 +64,7 @@ export function WalletAdvancedSwap({
       data-testid="ockWalletAdvancedSwap"
     >
       <Swap
-        className={classNames?.swapContainer}
+        className={cn('w-full px-4 pt-3 pb-4', classNames?.swapContainer)}
         onStatus={onStatus}
         onSuccess={onSuccess}
         onError={onError}
