@@ -66,6 +66,7 @@ export function WalletAdvancedQrReceive({
     <div
       data-testid="ockWalletAdvancedQrReceive"
       className={cn(
+        border.radius,
         color.foreground,
         text.headline,
         'flex flex-col items-center justify-between',
