@@ -15,10 +15,15 @@ type TextInputReact = {
   inputMode?: InputHTMLAttributes<HTMLInputElement>['inputMode'];
   onBlur?: () => void;
   onChange: (s: string) => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   placeholder: string;
   setValue?: (s: string) => void;
   value: string;
   inputValidator?: (s: string) => boolean;
+  /** autocomplete attribute handles browser autocomplete, defaults to 'off' */
+  autoComplete?: string;
+  /** data-1p-ignore attribute handles password manager autocomplete, defaults to true */
+  'data-1p-ignore'?: boolean;
 };
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
@@ -30,11 +35,14 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
       disabled = false,
       onBlur,
       onChange,
+      onFocus,
       placeholder,
       setValue,
       inputMode,
       value,
       inputValidator = () => true,
+      autoComplete = 'off',
+      'data-1p-ignore': data1pIgnore = true,
     },
     ref,
   ) => {
@@ -70,7 +78,10 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
         value={value}
         onBlur={onBlur}
         onChange={handleChange}
+        onFocus={onFocus}
         disabled={disabled}
+        autoComplete={autoComplete}
+        data-1p-ignore={data1pIgnore}
       />
     );
   },

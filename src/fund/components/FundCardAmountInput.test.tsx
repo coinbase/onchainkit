@@ -125,7 +125,7 @@ describe('FundCardAmountInput', () => {
       );
     });
 
-    const container = screen.getByTestId('ockFundCardAmountInputContainer');
+    const container = screen.getByTestId('ockAmountInputContainer');
     expect(container).toHaveClass('custom-class');
   });
 
@@ -248,7 +248,7 @@ describe('FundCardAmountInput', () => {
       callback([
         {
           contentRect: { width: 300 },
-          target: screen.getByTestId('ockFundCardAmountInputContainer'),
+          target: screen.getByTestId('ockAmountInputContainer'),
         },
       ]);
       return {
@@ -265,7 +265,7 @@ describe('FundCardAmountInput', () => {
     );
 
     const input = screen.getByTestId('ockTextInput_Input');
-    const container = screen.getByTestId('ockFundCardAmountInputContainer');
+    const container = screen.getByTestId('ockAmountInputContainer');
 
     // Mock getBoundingClientRect for container and currency label
     Object.defineProperty(container, 'getBoundingClientRect', {

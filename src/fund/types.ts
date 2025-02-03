@@ -104,6 +104,11 @@ type GetOnrampBuyUrlOptionalProps = {
    * on the domain allowlist in Coinbase Developer Platform (https://portal.cdp.coinbase.com/products/onramp).
    */
   redirectUrl?: string;
+
+  /**
+   * The name of the component that is calling the Onramp buy URL. This will be used for analytics.
+   */
+  originComponentName?: string;
 };
 
 /**
@@ -206,7 +211,11 @@ export type EventMetadata =
   | RequestOpenUrlEvent;
 
 export type OnrampError = {
-  errorType: 'internal_error' | 'handled_error' | 'network_error';
+  errorType:
+    | 'internal_error'
+    | 'handled_error'
+    | 'network_error'
+    | 'unknown_error';
   code?: string;
   debugMessage?: string;
 };

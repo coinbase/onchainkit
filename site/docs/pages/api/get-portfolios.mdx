@@ -1,0 +1,53 @@
+# `getPortfolios`
+
+The `getPortfolios` function returns an object containing an array of
+portfolios for the provided addresses. Each portfolio is an object with the address
+of the wallet, the fiat value of the portfolio, and an array of tokens held by the
+provided address.
+
+:::info
+Before using this endpoint, make sure to obtain a [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key)
+from Coinbase Developer Platform.
+:::
+
+## Usage
+
+:::code-group
+
+```tsx twoslash [code]
+import { setOnchainKitConfig } from '@coinbase/onchainkit';
+import { getPortfolios } from '@coinbase/onchainkit/api';
+
+const response = await getPortfolios({
+  addresses: ['0x...'],
+});
+```
+
+```json [return value]
+  "portfolios": [
+    {
+      "address": "0x...",
+      "portfolioBalanceInUsd": 100,
+      "tokenBalances": [{
+        "address": "0x...",
+        "chainId": 1,
+        "decimals": 18,
+        "image": "https://example.com/image.png",
+        "name": "Token Name",
+        "symbol": "TKN",
+        "cryptoBalance": 10,
+        "fiatBalance": 100
+      }]
+    }
+  ]
+```
+
+:::
+
+## Returns
+
+[`Promise<GetPortfoliosResponse>`](/api/types#getportfoliosresponse)
+
+## Parameters
+
+[`GetPortfoliosParams`](/api/types#getportfoliosparams)
