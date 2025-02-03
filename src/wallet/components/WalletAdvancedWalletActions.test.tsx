@@ -161,10 +161,10 @@ describe('WalletAdvancedWalletActions', () => {
   it('applies custom classNames when provided', () => {
     const customClassNames = {
       container: 'custom-container',
-      iconOne: 'custom-icon-one',
-      iconTwo: 'custom-icon-two',
-      iconThree: 'custom-icon-three',
-      iconFour: 'custom-icon-four',
+      baseScanIcon: 'custom-icon-one',
+      qrIcon: 'custom-icon-two',
+      disconnectIcon: 'custom-icon-three',
+      refreshIcon: 'custom-icon-four',
     };
 
     mockUseWalletContext.mockReturnValue({
