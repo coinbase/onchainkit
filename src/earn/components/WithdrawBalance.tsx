@@ -1,8 +1,8 @@
-import { getRoundedAmount } from '@/internal/utils/getRoundedAmount';
 import { useCallback, useMemo } from 'react';
 import type { WithdrawBalanceReact } from '../types';
 import { EarnBalance } from './EarnBalance';
 import { useEarnContext } from './EarnProvider';
+import { getRoundedAmount } from '@/earn/utils/getRoundedAmount';
 
 export function WithdrawBalance({ className }: WithdrawBalanceReact) {
   const { depositedAmount, setWithdrawAmount } = useEarnContext();
