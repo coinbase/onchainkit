@@ -104,6 +104,11 @@ type GetOnrampBuyUrlOptionalProps = {
    * on the domain allowlist in Coinbase Developer Platform (https://portal.cdp.coinbase.com/products/onramp).
    */
   redirectUrl?: string;
+
+  /**
+   * The name of the component that is calling the Onramp buy URL. This will be used for analytics.
+   */
+  originComponentName?: string;
 };
 
 /**
