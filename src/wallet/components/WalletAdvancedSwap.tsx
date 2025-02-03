@@ -75,20 +75,20 @@ export function WalletAdvancedSwap({
         experimental={experimental}
         headerLeftContent={backButton}
       >
-        <SwapSettings className={cn('w-auto', classNames?.settings)}>
+        <SwapSettings className={cn('w-auto', classNames?.settings?.container)}>
           <SwapSettingsSlippageTitle
-            className={classNames?.settingsSlippageTitle}
+            className={classNames?.settings?.slippageTitle}
           >
             Max. slippage
           </SwapSettingsSlippageTitle>
           <SwapSettingsSlippageDescription
-            className={classNames?.settingsSlippageDescription}
+            className={classNames?.settings?.slippageDescription}
           >
             Your swap will revert if the prices change by more than the selected
             percentage.
           </SwapSettingsSlippageDescription>
           <SwapSettingsSlippageInput
-            className={classNames?.settingsSlippageInput}
+            className={classNames?.settings?.slippageInput}
           />
         </SwapSettings>
         <SwapAmountInput

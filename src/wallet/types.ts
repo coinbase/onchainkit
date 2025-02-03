@@ -243,28 +243,30 @@ export type WalletAdvancedQrReceiveProps = {
 
 export type WalletAdvancedSwapProps = {
   classNames?: {
+    /** Optional className override for the swap container */
     container?: string;
-    settings?: string;
-    settingsSlippageTitle?: string;
-    settingsSlippageDescription?: string;
-    settingsSlippageInput?: string;
+    /** Optional className override for the swap settings component */
+    settings?: {
+      /** Optional className override for the swap settings container */
+      container?: string;
+      /** Optional className override for the swap settings title */
+      slippageTitle?: string;
+      /** Optional className override for the swap settings description */
+      slippageDescription?: string;
+      /** Optional className override for the swap settings input */
+      slippageInput?: string;
+    };
+    /** Optional className override for the swap to amount input */
     toAmountInput?: string;
+    /** Optional className override for the swap from amount input */
     fromAmountInput?: string;
+    /** Optional className override for the swap toggle button */
     toggleButton?: string;
+    /** Optional className override for the swap button */
     swapButton?: string;
+    /** Optional className override for the swap message */
     message?: string;
+    /** Optional className override for the swap toast */
     toast?: string;
   };
-} & Pick<
-  SwapDefaultReact,
-  | 'config'
-  | 'disabled'
-  | 'experimental'
-  | 'from'
-  | 'isSponsored'
-  | 'onError'
-  | 'onStatus'
-  | 'onSuccess'
-  | 'title'
-  | 'to'
->;
+} & Omit<SwapDefaultReact, 'children' | 'className' | 'headerLeftContent'>;
