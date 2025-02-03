@@ -25,3 +25,6 @@ export type {
   UseTokenDetailsParams,
   UseMintDetailsParams,
 } from './types';
+
+// Providers
+export { useNFTContext } from './components/NFTProvider';
