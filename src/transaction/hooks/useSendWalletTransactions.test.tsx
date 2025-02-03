@@ -9,6 +9,12 @@ import { useSendWalletTransactions } from './useSendWalletTransactions';
 vi.mock('../utils/sendBatchedTransactions');
 vi.mock('../utils/sendSingleTransactions');
 
+// Mock wagmi provider
+vi.mock('wagmi', () => ({
+  useConfig: vi.fn(),
+  useProviderDependencies: vi.fn(),
+}));
+
 describe('useSendWalletTransactions', () => {
   beforeEach(() => {
     vi.clearAllMocks();
