@@ -4,6 +4,7 @@ import { Capabilities } from '../../core/constants';
 import type { Call, UseSendWalletTransactionsParams } from '../types';
 import { sendBatchedTransactions } from '../utils/sendBatchedTransactions';
 import { sendSingleTransactions } from '../utils/sendSingleTransactions';
+import { useConfig } from 'wagmi';
 
 /**
  * Sends transactions to the wallet using the appropriate hook based on Transaction props and wallet capabilities
@@ -14,6 +15,7 @@ export const useSendWalletTransactions = ({
   sendCallsAsync,
   walletCapabilities,
 }: UseSendWalletTransactionsParams) => {
+  const config = useConfig();
   return useCallback(
     async (
       transactions?:
@@ -39,11 +41,12 @@ export const useSendWalletTransactions = ({
       } else {
         // Non-batched transactions
         await sendSingleTransactions({
+          config,
           sendCallAsync,
           transactions: resolvedTransactions,
         });
       }
     },
-    [sendCallsAsync, sendCallAsync, capabilities, walletCapabilities],
+    [sendCallsAsync, sendCallAsync, capabilities, walletCapabilities, config],
   );
 };
