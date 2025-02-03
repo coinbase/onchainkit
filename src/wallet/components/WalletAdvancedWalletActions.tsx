@@ -8,9 +8,18 @@ import { refreshSvg } from '@/internal/svg/refreshSvg';
 import { cn } from '@/styles/theme';
 import { useCallback } from 'react';
 import { useDisconnect } from 'wagmi';
-import type { WalletAdvancedWalletActionsProps } from '../types';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
+
+type WalletAdvancedWalletActionsProps = {
+  classNames?: {
+    container?: string;
+    iconOne?: string;
+    iconTwo?: string;
+    iconThree?: string;
+    iconFour?: string;
+  };
+};
 
 export function WalletAdvancedWalletActions({
   classNames,

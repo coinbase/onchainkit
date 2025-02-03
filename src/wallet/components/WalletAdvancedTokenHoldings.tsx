@@ -1,12 +1,29 @@
 'use client';
 
 import { cn, color, text } from '@/styles/theme';
-import { TokenImage } from '@/token';
-import type {
-  WalletAdvancedTokenDetailsProps,
-  WalletAdvancedTokenHoldingsProps,
-} from '../types';
+import { type Token, TokenImage } from '@/token';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
+
+type WalletAdvancedTokenDetailsProps = {
+  token: Token;
+  tokenImageSize?: number;
+  balance: number;
+  valueInFiat: number;
+  classNames?: {
+    container?: string;
+    tokenImage?: string;
+    tokenName?: string;
+    tokenBalance?: string;
+    fiatValue?: string;
+  };
+};
+
+type WalletAdvancedTokenHoldingsProps = {
+  classNames?: {
+    container?: string;
+    tokenDetails?: WalletAdvancedTokenDetailsProps['classNames'];
+  };
+};
 
 export function WalletAdvancedTokenHoldings({
   classNames,
@@ -83,7 +100,10 @@ function TokenDetails({
     >
       <div
         data-testid="ockWalletAdvanced_TokenDetails_TokenImage"
-        className={cn('flex flex-row items-center gap-2', classNames?.tokenImage)}
+        className={cn(
+          'flex flex-row items-center gap-2',
+          classNames?.tokenImage,
+        )}
       >
         <TokenImage token={token} size={tokenImageSize} />
         <div className="flex flex-col">

@@ -4,9 +4,17 @@ import { Avatar, Badge, Name } from '@/identity';
 import { Spinner } from '@/internal/components/Spinner';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
-import type { WalletAdvancedAddressDetailsProps } from '../types';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
+
+type WalletAdvancedAddressDetailsProps = {
+  classNames?: {
+    container?: string;
+    avatar?: string;
+    nameButton?: string;
+    fiatBalance?: string;
+  };
+};
 
 export function WalletAdvancedAddressDetails({
   classNames,

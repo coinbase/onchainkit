@@ -6,12 +6,28 @@ import { toggleSvg } from '@/internal/svg/toggleSvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
-import type {
-  WalletAdvancedTransactionActionProps,
-  WalletAdvancedTransactionActionsProps,
-} from '../types';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
+
+type WalletAdvancedTransactionActionProps = {
+  icon: React.ReactNode;
+  label: string;
+  action: () => void;
+  classNames?: {
+    container?: string;
+    icon?: string;
+    label?: string;
+  };
+};
+
+type WalletAdvancedTransactionActionsProps = {
+  classNames?: {
+    container?: string;
+    leftAction?: WalletAdvancedTransactionActionProps['classNames'];
+    middleAction?: WalletAdvancedTransactionActionProps['classNames'];
+    rightAction?: WalletAdvancedTransactionActionProps['classNames'];
+  };
+};
 
 export function WalletAdvancedTransactionActions({
   classNames,

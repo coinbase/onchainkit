@@ -244,7 +244,6 @@ export type WalletAdvancedQrReceiveProps = {
 export type WalletAdvancedSwapProps = {
   classNames?: {
     container?: string;
-    swapContainer?: string;
     settings?: string;
     settingsSlippageTitle?: string;
     settingsSlippageDescription?: string;
@@ -269,63 +268,3 @@ export type WalletAdvancedSwapProps = {
   | 'title'
   | 'to'
 >;
-
-export type WalletAdvancedTokenHoldingsProps = {
-  classNames?: {
-    container?: string;
-    tokenDetails?: WalletAdvancedTokenDetailsProps['classNames'];
-  };
-};
-
-export type WalletAdvancedTokenDetailsProps = {
-  token: Token;
-  tokenImageSize?: number;
-  balance: number;
-  valueInFiat: number;
-  classNames?: {
-    container?: string;
-    tokenImage?: string;
-    tokenName?: string;
-    tokenBalance?: string;
-    fiatValue?: string;
-  };
-};
-
-export type WalletAdvancedTransactionActionsProps = {
-  classNames?: {
-    container?: string;
-    leftAction?: WalletAdvancedTransactionActionProps['classNames'];
-    middleAction?: WalletAdvancedTransactionActionProps['classNames'];
-    rightAction?: WalletAdvancedTransactionActionProps['classNames'];
-  };
-};
-
-export type WalletAdvancedTransactionActionProps = {
-  icon: React.ReactNode;
-  label: string;
-  action: () => void;
-  classNames?: {
-    container?: string;
-    icon?: string;
-    label?: string;
-  };
-};
-
-export type WalletAdvancedWalletActionsProps = {
-  classNames?: {
-    container?: string;
-    iconOne?: string;
-    iconTwo?: string;
-    iconThree?: string;
-    iconFour?: string;
-  };
-};
-
-export type WalletAdvancedAddressDetailsProps = {
-  classNames?: {
-    container?: string;
-    avatar?: string;
-    nameButton?: string;
-    fiatBalance?: string;
-  };
-};
