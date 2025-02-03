@@ -108,7 +108,7 @@ export function AmountInput({
                 '[&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none',
                 '[&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
                 textClassName,
-          )}
+              )}
               value={value}
               onChange={handleAmountChange}
               inputValidator={isValidAmount}
@@ -118,10 +118,10 @@ export function AmountInput({
             />
             <div className="ml-1">
               <CurrencyLabel
-          ref={labelRef}
-          label={currencyOrAsset}
-          className={textClassName}
-        />
+                ref={labelRef}
+                label={currencyOrAsset}
+                className={textClassName}
+              />
             </div>
           </div>
         </div>
