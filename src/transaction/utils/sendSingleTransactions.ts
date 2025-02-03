@@ -23,11 +23,8 @@ export const sendSingleTransactions = async ({
   });
 
   for (const call of calls) {
-    console.log('call:', call);
     const txHash = await sendCallAsync(call);
-    console.log('txHash:', txHash);
     if (txHash) {
-      console.log('txHash:', txHash);
       await waitForTransactionReceipt(config, {
         hash: txHash,
         confirmations: 1,
