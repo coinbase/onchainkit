@@ -21,7 +21,6 @@ export const sendSingleTransactions = async ({
     }
     return transaction;
   });
-  console.log('YO!');
 
   for (const call of calls) {
     console.log('call:', call);
