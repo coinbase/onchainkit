@@ -14,10 +14,10 @@ import { useWalletContext } from './WalletProvider';
 type WalletAdvancedWalletActionsProps = {
   classNames?: {
     container?: string;
-    iconOne?: string;
-    iconTwo?: string;
-    iconThree?: string;
-    iconFour?: string;
+    baseScanIcon?: string;
+    qrIcon?: string;
+    disconnectIcon?: string;
+    refreshIcon?: string;
   };
 };
 
@@ -64,7 +64,7 @@ export function WalletAdvancedWalletActions({
         >
           <div
             data-testid="ockWalletAdvanced_TransactionsButton"
-            className={cn('h-7 w-7 scale-110 p-2', classNames?.iconOne)}
+            className={cn('h-7 w-7 scale-110 p-2', classNames?.baseScanIcon)}
           >
             {baseScanSvg}
           </div>
@@ -72,7 +72,7 @@ export function WalletAdvancedWalletActions({
         <PressableIcon ariaLabel="Show QR code" onClick={handleQr}>
           <div
             data-testid="ockWalletAdvanced_QrButton"
-            className={cn('h-7 w-7 scale-110', classNames?.iconTwo)}
+            className={cn('h-7 w-7 scale-110', classNames?.qrIcon)}
           >
             {qrIconSvg}
           </div>
@@ -82,7 +82,7 @@ export function WalletAdvancedWalletActions({
         <PressableIcon ariaLabel="Disconnect wallet" onClick={handleDisconnect}>
           <div
             data-testid="ockWalletAdvanced_DisconnectButton"
-            className={cn('h-7 w-7 scale-110 p-2', classNames?.iconThree)}
+            className={cn('h-7 w-7 scale-110 p-2', classNames?.disconnectIcon)}
           >
             {disconnectSvg}
           </div>
@@ -93,7 +93,7 @@ export function WalletAdvancedWalletActions({
         >
           <div
             data-testid="ockWalletAdvanced_RefreshButton"
-            className={cn('h-7 w-7 scale-110 p-2', classNames?.iconFour)}
+            className={cn('h-7 w-7 scale-110 p-2', classNames?.refreshIcon)}
           >
             {refreshSvg}
           </div>
