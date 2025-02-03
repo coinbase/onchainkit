@@ -12,6 +12,8 @@ vi.mock('wagmi', async (importOriginal) => {
   return {
     ...(await importOriginal<typeof import('wagmi')>()),
     useAccount: vi.fn(),
+    useReadContract: vi.fn(),
+    useConfig: vi.fn(),
   };
 });
 
@@ -32,6 +34,7 @@ describe('EarnProvider', () => {
 
   it('provides vault address through context', () => {
     const { result } = renderHook(() => useEarnContext(), { wrapper });
+    console.log('result:', result);
 
     expect(result.current.vaultAddress).toBe('0x123');
   });

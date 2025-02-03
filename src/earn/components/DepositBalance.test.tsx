@@ -26,7 +26,7 @@ describe('DepositBalance', () => {
 
     render(<DepositBalance className="test-class" />);
 
-    expect(screen.getByText('1000 USDC')).toBeInTheDocument();
+    expect(screen.getByText('1,000 USDC')).toBeInTheDocument();
     expect(screen.getByText('Available to deposit')).toBeInTheDocument();
   });
 
