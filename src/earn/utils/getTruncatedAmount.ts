@@ -16,13 +16,20 @@ export function getTruncatedAmount(balance: string, decimalPlaces: number) {
   const hasDecimals = num % 1 !== 0;
   const decimals = balance.split('.')[1]?.length || 0;
 
+  // We have to do this because floating point precision is bad;
+  // We should use roundingMode: 'trunc' once we switch build tools and can target es2023
+  const truncated =
+    decimals > decimalPlaces
+      ? Math.trunc(num * 10 ** decimalPlaces) / 10 ** decimalPlaces
+      : num;
+
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'decimal',
-    // @ts-expect-error - browsers support this, unfortunately we can't update our target to es2023 because packemon doesn't support it
-    roundingMode: 'trunc',
     minimumFractionDigits: 0,
     maximumFractionDigits: hasDecimals ? Math.min(decimalPlaces, decimals) : 0,
+    // TODO: implement this once we switch build tools and can target es2023
+    // roundingMode: 'trunc',
   });
 
-  return formatter.format(num);
+  return formatter.format(truncated);
 }
