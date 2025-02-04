@@ -410,4 +410,31 @@ describe('WalletAdvancedContent', () => {
 
     expect(screen.getByTestId('ockBottomSheet')).toBeDefined();
   });
+
+  it('applies custom classNames to BottomSheet when breakpoint is sm', () => {
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
+      breakpoint: 'sm',
+    });
+
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
+      showQr: true,
+      showSwap: false,
+    });
+
+    const customClassNames = {
+      container: 'custom-container',
+    };
+
+    render(
+      <WalletAdvancedContent classNames={customClassNames}>
+        <div>Content</div>
+      </WalletAdvancedContent>,
+    );
+
+    expect(screen.getByTestId('ockBottomSheet')).toHaveClass(
+      'custom-container',
+    );
+  });
 });
