@@ -10,7 +10,7 @@ export type DepositToMorphoArgs = {
   /** The amount of tokens to deposit */
   amount: bigint;
   /** The address which can withdraw the deposited tokens */
-  receiverAddress?: Address;
+  receiverAddress: Address;
 };
 
 export function buildDepositToMorphoTx({
@@ -19,11 +19,6 @@ export function buildDepositToMorphoTx({
   amount,
   receiverAddress,
 }: DepositToMorphoArgs): Call[] {
-  // Wallet is disconnected
-  if (!receiverAddress) {
-    return [];
-  }
-
   // User needs to approve the token they're depositing
   const approveTxData = encodeFunctionData({
     abi: erc20Abi,

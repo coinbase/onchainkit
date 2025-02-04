@@ -17,9 +17,8 @@ function EarnWithdrawDefaultContent() {
 }
 
 export function EarnWithdraw({
-  children: propsChildren,
+  children = <EarnWithdrawDefaultContent />,
   className,
 }: EarnWithdrawReact) {
-  const children = propsChildren ?? <EarnWithdrawDefaultContent />;
   return <EarnCard className={className}>{children}</EarnCard>;
 }
