@@ -88,10 +88,6 @@ export function useMorphoVault({
   const formattedBalance =
     balance && tokenDecimals ? formatUnits(balance, tokenDecimals) : undefined;
 
-  console.log('///////////////////////////////////');
-  console.log(data);
-  console.log('///////////////////////////////////');
-
   return {
     status,
     asset: data?.[0].result,

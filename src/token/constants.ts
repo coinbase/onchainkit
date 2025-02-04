@@ -41,6 +41,14 @@ export const daiToken: Token = {
   chainId: base.id,
 };
 
-const baseTokens = [ethToken, usdcToken, degenToken, daiToken];
+const wethToken: Token = {
+  name: 'WETH',
+  address: '0x4200000000000000000000000000000000000006',
+  symbol: 'WETH',
+  decimals: 18,
+  image: ethToken.image,
+  chainId: base.id,
+};
+const baseTokens = [ethToken, wethToken, usdcToken, degenToken, daiToken];
 
 export { baseTokens };

@@ -8,6 +8,7 @@ import { text } from '@/styles/theme';
 import { cn } from '@/styles/theme';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { getTokenFromAddress } from '@/earn/utils/getTokenFromAddress';
+import { formatPercent } from '@/internal/utils/formatPercent';
 
 function ApyTag({ apy }: { apy: number | undefined }) {
   return apy ? (
@@ -19,7 +20,7 @@ function ApyTag({ apy }: { apy: number | undefined }) {
         'flex items-center justify-center rounded-full p-1 px-3',
       )}
     >
-      {`APY ${getTruncatedAmount(apy.toString(), 3)}%`}
+      {`APY ${formatPercent(Number(getTruncatedAmount(apy.toString(), 3)))}`}
     </div>
   ) : (
     <Skeleton className="!rounded-full h-7 min-w-28" />
@@ -29,6 +30,7 @@ function ApyTag({ apy }: { apy: number | undefined }) {
 export function DepositDetails({ className }: DepositDetailsReact) {
   const { apy, assetAddress } = useEarnContext();
   console.log('assetAddress:', assetAddress);
+  console.log('apy:', apy);
 
   const token = assetAddress ? getTokenFromAddress(assetAddress) : undefined;
 
