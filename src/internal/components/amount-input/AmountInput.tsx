@@ -1,7 +1,7 @@
+import { useInputResize } from '@/internal/hooks/useInputResize';
 import { cn, text } from '@/styles/theme';
 import { useCallback, useEffect, useRef } from 'react';
 import { useAmountInput } from '../../hooks/useAmountInput';
-import { useInputResize } from '../../hooks/useInputResize';
 import { isValidAmount } from '../../utils/isValidAmount';
 import { TextInput } from '../TextInput';
 import { CurrencyLabel } from './CurrencyLabel';
@@ -30,18 +30,20 @@ export function AmountInput({
   exchangeRate,
 }: AmountInputProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const hiddenSpanRef = useRef<HTMLSpanElement>(null);
-  const currencySpanRef = useRef<HTMLSpanElement>(null);
+  const measureRef = useRef<HTMLSpanElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
 
   const currencyOrAsset = selectedInputType === 'fiat' ? currency : asset;
   const value = selectedInputType === 'fiat' ? fiatAmount : cryptoAmount;
 
-  const updateInputWidth = useInputResize(
+  const updateScale = useInputResize(
     containerRef,
+    wrapperRef,
     inputRef,
-    hiddenSpanRef,
-    currencySpanRef,
+    measureRef,
+    labelRef,
   );
 
   const { handleChange } = useAmountInput({
@@ -64,8 +66,8 @@ export function AmountInput({
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: When value changes, we want to update the input width
   useEffect(() => {
-    updateInputWidth();
-  }, [value, updateInputWidth]);
+    updateScale();
+  }, [value, updateScale]);
 
   const selectedInputTypeRef = useRef(selectedInputType);
 
@@ -90,27 +92,32 @@ export function AmountInput({
     <div
       ref={containerRef}
       data-testid="ockAmountInputContainer"
-      className={cn('flex cursor-text pt-6 pb-4', className)}
+      className={cn('relative h-24 cursor-text', className)}
     >
-      <div className="flex h-14">
-        <TextInput
-          className={cn(
-            text.body,
-            'border-none bg-transparent',
-            'text-6xl leading-none outline-none',
-            '[appearance:textfield]',
-            '[&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none',
-            '[&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
-          )}
-          value={value}
-          onChange={handleAmountChange}
-          inputValidator={isValidAmount}
-          ref={inputRef}
-          inputMode="decimal"
-          placeholder="0"
-        />
-
-        <CurrencyLabel ref={currencySpanRef} label={currencyOrAsset} />
+      <div className="absolute inset-x-0 top-6 bottom-4">
+        <div className="relative flex h-14">
+          <div ref={wrapperRef} className="flex flex-shrink-0 items-center">
+            <TextInput
+              className={cn(
+                text.body,
+                'border-none bg-transparent',
+                'text-6xl leading-none outline-none',
+                '[appearance:textfield]',
+                '[&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none',
+                '[&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
+              )}
+              value={value}
+              onChange={handleAmountChange}
+              inputValidator={isValidAmount}
+              ref={inputRef}
+              inputMode="decimal"
+              placeholder="0"
+            />
+            <div className="ml-1">
+              <CurrencyLabel ref={labelRef} label={currencyOrAsset} />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Hidden span for measuring text width
@@ -121,13 +128,13 @@ export function AmountInput({
       */}
       <span
         data-testid="ockHiddenSpan"
-        ref={hiddenSpanRef}
+        ref={measureRef}
         className={cn(
           text.body,
           'border-none bg-transparent',
           'text-6xl leading-none outline-none',
           'pointer-events-none absolute whitespace-nowrap opacity-0',
-          'left-[-9999px]', // Hide the span from the DOM
+          'left-[-99999px]', // Hide the span from the DOM
         )}
       >
         {value ? `${value}.` : '0.'}

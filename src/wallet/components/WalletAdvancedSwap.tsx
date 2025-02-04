@@ -2,7 +2,7 @@
 
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
-import { cn } from '@/styles/theme';
+import { border, cn } from '@/styles/theme';
 import { Swap } from '@/swap/components/Swap';
 import { SwapAmountInput } from '@/swap/components/SwapAmountInput';
 import { SwapButton } from '@/swap/components/SwapButton';
@@ -13,13 +13,13 @@ import { SwapSettingsSlippageInput } from '@/swap/components/SwapSettingsSlippag
 import { SwapSettingsSlippageTitle } from '@/swap/components/SwapSettingsSlippageTitle';
 import { SwapToast } from '@/swap/components/SwapToast';
 import { SwapToggleButton } from '@/swap/components/SwapToggleButton';
-import type { SwapDefaultReact } from '@/swap/types';
 import { useCallback } from 'react';
+import type { WalletAdvancedSwapProps } from '../types';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 
 export function WalletAdvancedSwap({
   config,
-  className,
+  classNames,
   disabled,
   experimental,
   from,
@@ -29,7 +29,7 @@ export function WalletAdvancedSwap({
   onSuccess,
   title,
   to,
-}: SwapDefaultReact) {
+}: WalletAdvancedSwapProps) {
   const { setShowSwap, isSwapClosing, setIsSwapClosing } =
     useWalletAdvancedContext();
 
@@ -53,17 +53,19 @@ export function WalletAdvancedSwap({
   return (
     <div
       className={cn(
-        'h-full w-full',
+        'h-full',
+        border.radius,
         isSwapClosing
           ? 'fade-out slide-out-to-right-5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-right-5 linear animate-in duration-150',
         'relative',
+        classNames?.container,
       )}
       onAnimationEnd={handleAnimationEnd}
       data-testid="ockWalletAdvancedSwap"
     >
       <Swap
-        className={className}
+        className={cn('w-full px-4 pt-3 pb-4', classNames?.container)}
         onStatus={onStatus}
         onSuccess={onSuccess}
         onError={onError}
@@ -73,20 +75,38 @@ export function WalletAdvancedSwap({
         experimental={experimental}
         headerLeftContent={backButton}
       >
-        <SwapSettings className="w-auto">
-          <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
-          <SwapSettingsSlippageDescription>
+        <SwapSettings className={cn('w-auto', classNames?.settings?.container)}>
+          <SwapSettingsSlippageTitle
+            className={classNames?.settings?.slippageTitle}
+          >
+            Max. slippage
+          </SwapSettingsSlippageTitle>
+          <SwapSettingsSlippageDescription
+            className={classNames?.settings?.slippageDescription}
+          >
             Your swap will revert if the prices change by more than the selected
             percentage.
           </SwapSettingsSlippageDescription>
-          <SwapSettingsSlippageInput />
+          <SwapSettingsSlippageInput
+            className={classNames?.settings?.slippageInput}
+          />
         </SwapSettings>
-        <SwapAmountInput label="Sell" swappableTokens={from} type="from" />
-        <SwapToggleButton />
-        <SwapAmountInput label="Buy" swappableTokens={to} type="to" />
-        <SwapButton disabled={disabled} />
-        <SwapMessage />
-        <SwapToast />
+        <SwapAmountInput
+          label="Sell"
+          swappableTokens={from}
+          type="from"
+          className={classNames?.fromAmountInput}
+        />
+        <SwapToggleButton className={classNames?.toggleButton} />
+        <SwapAmountInput
+          label="Buy"
+          swappableTokens={to}
+          type="to"
+          className={classNames?.toAmountInput}
+        />
+        <SwapButton disabled={disabled} className={classNames?.swapButton} />
+        <SwapMessage className={classNames?.message} />
+        <SwapToast className={classNames?.toast} />
       </Swap>
     </div>
   );

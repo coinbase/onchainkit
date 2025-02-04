@@ -281,6 +281,15 @@ export const sidebar = [
           },
         ],
       },
+      {
+        text: 'Wallet',
+        items: [
+          {
+            text: 'getPortfolios',
+            link: '/api/get-portfolios',
+          },
+        ],
+      },
     ],
   },
   {

@@ -241,55 +241,6 @@ describe('FundCardAmountInput', () => {
     });
   });
 
-  it('updates width based on currency label', async () => {
-    const mockResizeObserver = vi.fn();
-    global.ResizeObserver = vi.fn().mockImplementation((callback) => {
-      // Call the callback to simulate resize
-      callback([
-        {
-          contentRect: { width: 300 },
-          target: screen.getByTestId('ockAmountInputContainer'),
-        },
-      ]);
-      return {
-        observe: mockResizeObserver,
-        unobserve: vi.fn(),
-        disconnect: vi.fn(),
-      };
-    });
-
-    render(
-      <FundCardProvider asset="ETH" country="US">
-        <FundCardAmountInput />
-      </FundCardProvider>,
-    );
-
-    const input = screen.getByTestId('ockTextInput_Input');
-    const container = screen.getByTestId('ockAmountInputContainer');
-
-    // Mock getBoundingClientRect for container and currency label
-    Object.defineProperty(container, 'getBoundingClientRect', {
-      value: () => ({ width: 300 }),
-      configurable: true,
-    });
-
-    const currencyLabel = screen.getByTestId('ockCurrencySpan');
-    Object.defineProperty(currencyLabel, 'getBoundingClientRect', {
-      value: () => ({ width: 20 }),
-      configurable: true,
-    });
-
-    // Trigger width update
-    act(() => {
-      fireEvent.change(input, { target: { value: '10' } });
-      window.dispatchEvent(new Event('resize'));
-    });
-
-    await waitFor(() => {
-      expect(input.style.maxWidth).toBe('280px'); // 300 - 20
-    });
-  });
-
   it('sets empty string for crypto when calculated value is zero', async () => {
     // Mock fetch to return an exchange rate that will make calculatedCryptoValue === '0'
     global.fetch = vi.fn(() =>

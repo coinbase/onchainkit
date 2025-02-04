@@ -129,4 +129,54 @@ describe('WalletAdvancedTokenHoldings', () => {
 
     expect(screen.getByText('Spaced Token')).toBeInTheDocument();
   });
+
+  it('applies custom classNames when provided', () => {
+    const tokens = [
+      {
+        address: '0x123',
+        chainId: 1,
+        symbol: 'TEST',
+        decimals: 18,
+        image: 'test.png',
+        name: 'Test Token',
+        cryptoBalance: '1000000000000000000',
+        fiatBalance: '100',
+      },
+    ];
+
+    const customClassNames = {
+      container: 'custom-container',
+      tokenDetails: {
+        container: 'custom-token-details-container',
+        tokenImage: 'custom-token-img',
+        tokenName: 'custom-token-name',
+        tokenBalance: 'custom-token-balance',
+        fiatValue: 'custom-fiat-value',
+      },
+    };
+
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
+      tokenBalances: tokens,
+    });
+
+    render(<WalletAdvancedTokenHoldings classNames={customClassNames} />);
+
+    const container = screen.getByTestId('ockWalletAdvanced_TokenHoldings');
+    expect(container).toHaveClass('custom-container');
+
+    const tokenImageContainer = screen.getByTestId(
+      'ockWalletAdvanced_TokenDetails_TokenImage',
+    );
+    expect(tokenImageContainer).toHaveClass('custom-token-img');
+
+    const tokenName = screen.getByText('Test Token');
+    expect(tokenName).toHaveClass('custom-token-name');
+
+    const tokenBalance = screen.getByText('1.00 TEST');
+    expect(tokenBalance).toHaveClass('custom-token-balance');
+
+    const fiatValue = screen.getByText('$100.00');
+    expect(fiatValue).toHaveClass('custom-fiat-value');
+  });
 });

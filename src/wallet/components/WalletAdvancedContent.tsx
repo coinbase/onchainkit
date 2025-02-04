@@ -9,6 +9,7 @@ import { useWalletContext } from './WalletProvider';
 export function WalletAdvancedContent({
   children,
   swappableTokens,
+  classNames,
 }: WalletAdvancedReact) {
   const {
     isSubComponentClosing,
@@ -28,6 +29,7 @@ export function WalletAdvancedContent({
         'my-1.5 h-auto w-88',
         'flex items-center justify-center',
         animations.container,
+        classNames?.container,
       )}
       onAnimationEnd={() => {
         if (isSubComponentClosing) {
@@ -43,7 +45,7 @@ export function WalletAdvancedContent({
           showQr ? '' : 'hidden',
         )}
       >
-        <WalletAdvancedQrReceive />
+        <WalletAdvancedQrReceive classNames={classNames?.qr} />
       </div>
       <div
         className={cn(
@@ -69,7 +71,7 @@ export function WalletAdvancedContent({
               name: token.name,
             })) ?? []
           }
-          className="w-full px-4 pt-3 pb-4"
+          classNames={classNames?.swap}
         />
       </div>
       <div

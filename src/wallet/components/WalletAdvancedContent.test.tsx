@@ -1,6 +1,9 @@
-import type { SwapDefaultReact } from '@/swap/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type {
+  WalletAdvancedQrReceiveProps,
+  WalletAdvancedSwapProps,
+} from '../types';
 import { WalletAdvancedContent } from './WalletAdvancedContent';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
@@ -17,16 +20,22 @@ vi.mock('./WalletAdvancedProvider', () => ({
 }));
 
 vi.mock('./WalletAdvancedQrReceive', () => ({
-  WalletAdvancedQrReceive: () => (
-    <div data-testid="ockWalletAdvancedQrReceive">WalletAdvancedQrReceive</div>
+  WalletAdvancedQrReceive: ({ classNames }: WalletAdvancedQrReceiveProps) => (
+    <div
+      data-testid="ockWalletAdvancedQrReceive"
+      className={classNames?.container}
+    >
+      WalletAdvancedQrReceive
+    </div>
   ),
 }));
 
 vi.mock('./WalletAdvancedSwap', () => ({
-  WalletAdvancedSwap: ({ from, to }: SwapDefaultReact) => (
+  WalletAdvancedSwap: ({ from, to, classNames }: WalletAdvancedSwapProps) => (
     <div
       data-testid="ockWalletAdvancedSwap"
       data-props={JSON.stringify({ from, to })}
+      className={classNames?.container}
     >
       WalletAdvancedSwap
     </div>
@@ -313,5 +322,47 @@ describe('WalletAdvancedContent', () => {
         name: token.name,
       })),
     );
+  });
+
+  it('applies custom classNames to components', () => {
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentClosing: false,
+      showSubComponentAbove: false,
+    });
+
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
+      showQr: true,
+      showSwap: true,
+    });
+
+    const customClassNames = {
+      container: 'custom-container',
+      qr: {
+        container: 'custom-qr-container',
+      },
+      swap: {
+        container: 'custom-swap-container',
+      },
+    };
+
+    render(
+      <WalletAdvancedContent classNames={customClassNames}>
+        <div>Content</div>
+      </WalletAdvancedContent>,
+    );
+
+    expect(screen.getByTestId('ockWalletAdvancedContent')).toHaveClass(
+      'custom-container',
+    );
+
+    // Verify both rendered state and passed props
+    const qrComponent = screen.getByTestId('ockWalletAdvancedQrReceive');
+    expect(qrComponent).toHaveClass('custom-qr-container');
+    expect(qrComponent).toHaveProperty('className', 'custom-qr-container');
+
+    const swapComponent = screen.getByTestId('ockWalletAdvancedSwap');
+    expect(swapComponent).toHaveClass('custom-swap-container');
+    expect(swapComponent).toHaveProperty('className', 'custom-swap-container');
   });
 });

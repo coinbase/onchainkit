@@ -157,4 +157,53 @@ describe('WalletAdvancedWalletActions', () => {
 
     windowOpenSpy.mockRestore();
   });
+
+  it('applies custom classNames when provided', () => {
+    const customClassNames = {
+      container: 'custom-container',
+      baseScanIcon: 'custom-icon-one',
+      qrIcon: 'custom-icon-two',
+      disconnectIcon: 'custom-icon-three',
+      refreshIcon: 'custom-icon-four',
+    };
+
+    mockUseWalletContext.mockReturnValue({
+      address: '0x123',
+      handleClose: vi.fn(),
+    });
+
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
+      setShowQr: vi.fn(),
+      refetchPortfolioData: vi.fn(),
+    });
+
+    (useDisconnect as Mock).mockReturnValue({
+      disconnect: vi.fn(),
+      connectors: [],
+    });
+
+    render(<WalletAdvancedWalletActions classNames={customClassNames} />);
+
+    // Check container
+    const container = screen.getByTestId('ockWalletAdvanced_WalletActions');
+    expect(container.className).toContain('custom-container');
+
+    // Check individual icons
+    const transactionsButton = screen.getByTestId(
+      'ockWalletAdvanced_TransactionsButton',
+    );
+    expect(transactionsButton.className).toContain('custom-icon-one');
+
+    const qrButton = screen.getByTestId('ockWalletAdvanced_QrButton');
+    expect(qrButton.className).toContain('custom-icon-two');
+
+    const disconnectButton = screen.getByTestId(
+      'ockWalletAdvanced_DisconnectButton',
+    );
+    expect(disconnectButton.className).toContain('custom-icon-three');
+
+    const refreshButton = screen.getByTestId('ockWalletAdvanced_RefreshButton');
+    expect(refreshButton.className).toContain('custom-icon-four');
+  });
 });
