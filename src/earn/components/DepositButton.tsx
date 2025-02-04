@@ -11,11 +11,7 @@ export function DepositButton({ className }: DepositButtonReact) {
   }
 
   return (
-    <Transaction
-      className={className}
-      calls={depositCalls}
-      onError={(e) => console.log(e)}
-    >
+    <Transaction className={className} calls={depositCalls}>
       <TransactionButton text="Deposit" />
     </Transaction>
   );

@@ -4,7 +4,6 @@ import { getShareableUrl } from '@/lib/url-params';
 import { cn } from '@/lib/utils';
 import { OnchainKitComponent } from '@/types/onchainkit';
 import { useContext, useEffect, useState } from 'react';
-import { Earn } from '../onchainkit/esm/earn';
 import DemoOptions from './DemoOptions';
 import BuyDemo from './demo/Buy';
 import CheckoutDemo from './demo/Checkout';
@@ -156,7 +155,6 @@ export default function Demo() {
           )}
         >
           {ActiveComponent && <ActiveComponent />}
-          <Earn vaultAddress="0xc1256Ae5FF1cf2719D4937adb3bbCCab2E00A2Ca" />
         </div>
       </div>
     </>
