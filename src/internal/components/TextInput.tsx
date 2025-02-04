@@ -20,10 +20,6 @@ type TextInputReact = {
   setValue?: (s: string) => void;
   value: string;
   inputValidator?: (s: string) => boolean;
-  /** autocomplete attribute handles browser autocomplete, defaults to 'off' */
-  autoComplete?: string;
-  /** data-1p-ignore attribute handles password manager autocomplete, defaults to true */
-  'data-1p-ignore'?: boolean;
 };
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
@@ -41,8 +37,6 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
       inputMode,
       value,
       inputValidator = () => true,
-      autoComplete = 'off',
-      'data-1p-ignore': data1pIgnore = true,
     },
     ref,
   ) => {
@@ -80,8 +74,8 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
         onChange={handleChange}
         onFocus={onFocus}
         disabled={disabled}
-        autoComplete={autoComplete}
-        data-1p-ignore={data1pIgnore}
+        autoComplete="off" // autocomplete attribute handles browser autocomplete
+        data-1p-ignore={true} // data-1p-ignore attribute handles password manager autocomplete
       />
     );
   },
