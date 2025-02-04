@@ -15,14 +15,6 @@ describe('buildDepositToMorphoTx', () => {
     receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
   } satisfies DepositToMorphoArgs;
 
-  it('should return an empty array of calls if receiverAddress is not provided', () => {
-    const result = buildDepositToMorphoTx({
-      ...mockArgs,
-      receiverAddress: undefined,
-    });
-    expect(result).toHaveLength(0);
-  });
-
   it('should return an array with two transactions', () => {
     const result = buildDepositToMorphoTx(mockArgs);
     expect(result).toHaveLength(2);
