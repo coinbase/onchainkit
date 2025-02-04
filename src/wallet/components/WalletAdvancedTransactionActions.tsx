@@ -9,13 +9,29 @@ import { useCallback } from 'react';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
-type TransactionActionProps = {
+type WalletAdvancedTransactionActionProps = {
   icon: React.ReactNode;
   label: string;
   action: () => void;
+  classNames?: {
+    container?: string;
+    icon?: string;
+    label?: string;
+  };
 };
 
-export function WalletAdvancedTransactionActions() {
+type WalletAdvancedTransactionActionsProps = {
+  classNames?: {
+    container?: string;
+    leftAction?: WalletAdvancedTransactionActionProps['classNames'];
+    middleAction?: WalletAdvancedTransactionActionProps['classNames'];
+    rightAction?: WalletAdvancedTransactionActionProps['classNames'];
+  };
+};
+
+export function WalletAdvancedTransactionActions({
+  classNames,
+}: WalletAdvancedTransactionActionsProps) {
   const { address, chain } = useWalletContext();
   const { projectId } = useOnchainKit();
   const { isFetchingPortfolioData, setShowSwap, animations } =
@@ -66,25 +82,30 @@ export function WalletAdvancedTransactionActions() {
 
   return (
     <div
+      data-testid="ockWalletAdvanced_TransactionActions"
       className={cn(
         'my-3 flex w-full flex-row justify-center gap-2',
         animations.content,
+        classNames?.container,
       )}
     >
       <WalletAdvancedTransactionAction
         icon={addSvgForeground}
         label="Buy"
         action={handleBuy}
+        classNames={classNames?.leftAction}
       />
       <WalletAdvancedTransactionAction
         icon={arrowUpRightSvg}
         label="Send"
         action={handleSend}
+        classNames={classNames?.middleAction}
       />
       <WalletAdvancedTransactionAction
         icon={toggleSvg}
         label="Swap"
         action={handleSwap}
+        classNames={classNames?.rightAction}
       />
     </div>
   );
@@ -94,7 +115,8 @@ function WalletAdvancedTransactionAction({
   icon,
   label,
   action,
-}: TransactionActionProps) {
+  classNames,
+}: WalletAdvancedTransactionActionProps) {
   return (
     <button
       type="button"
@@ -103,11 +125,17 @@ function WalletAdvancedTransactionAction({
         'h-16 w-28',
         border.radius,
         pressable.alternate,
+        classNames?.container,
       )}
       onClick={action}
       aria-label={label}
     >
-      <span className="flex h-4 w-4 flex-col items-center justify-center">
+      <span
+        className={cn(
+          'flex h-4 w-4 flex-col items-center justify-center',
+          classNames?.icon,
+        )}
+      >
         {icon}
       </span>
       <span
@@ -115,6 +143,7 @@ function WalletAdvancedTransactionAction({
           text.label2,
           color.foreground,
           'flex flex-col justify-center',
+          classNames?.label,
         )}
       >
         {label}

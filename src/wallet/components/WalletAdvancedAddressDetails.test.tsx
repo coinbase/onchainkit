@@ -202,4 +202,39 @@ describe('WalletAdvancedAddressDetails', () => {
       screen.getByTestId('ockWalletAdvanced_AddressBalance'),
     ).toHaveTextContent('$1,234.57');
   });
+
+  it('applies custom classNames to components', () => {
+    mockUseWalletContext.mockReturnValue({
+      isClosing: false,
+      address: '0x1234567890',
+      chain: { id: 8453 },
+    });
+
+    mockUseWalletAdvancedContext.mockReturnValue({
+      portfolioFiatValue: 1000,
+      animations: {
+        content: '',
+      },
+    });
+
+    const customClassNames = {
+      container: 'custom-container',
+      avatar: 'custom-avatar',
+      nameButton: 'custom-name',
+      fiatBalance: 'custom-balance',
+    };
+
+    render(<WalletAdvancedAddressDetails classNames={customClassNames} />);
+
+    expect(screen.getByTestId('ockWalletAdvanced_AddressDetails')).toHaveClass(
+      'custom-container',
+    );
+    expect(screen.getByTestId('ockAvatar_ImageContainer')).toHaveClass(
+      'custom-avatar',
+    );
+    expect(screen.getByTestId('ockIdentity_Text')).toHaveClass('custom-name');
+    expect(screen.getByTestId('ockWalletAdvanced_AddressBalance')).toHaveClass(
+      'custom-balance',
+    );
+  });
 });

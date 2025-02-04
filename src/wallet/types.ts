@@ -1,5 +1,6 @@
 import type { Portfolio, PortfolioTokenWithFiatValue } from '@/api/types';
 import type { SwapError } from '@/swap';
+import type { SwapDefaultReact } from '@/swap/types';
 import type { Token } from '@/token';
 import type { QueryObserverResult } from '@tanstack/react-query';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
@@ -202,6 +203,11 @@ export type WalletDropdownLinkReact = {
 export type WalletAdvancedReact = {
   children: React.ReactNode;
   swappableTokens?: Token[];
+  classNames?: {
+    container?: string;
+    qr?: WalletAdvancedQrReceiveProps['classNames'];
+    swap?: WalletAdvancedSwapProps['classNames'];
+  };
 };
 
 /**
@@ -226,3 +232,41 @@ export type WalletAdvancedContextType = {
     content: string;
   };
 };
+
+export type WalletAdvancedQrReceiveProps = {
+  classNames?: {
+    container?: string;
+    header?: string;
+    copyButton?: string;
+  };
+};
+
+export type WalletAdvancedSwapProps = {
+  classNames?: {
+    /** Optional className override for the swap container */
+    container?: string;
+    /** Optional className override for the swap settings component */
+    settings?: {
+      /** Optional className override for the swap settings container */
+      container?: string;
+      /** Optional className override for the swap settings title */
+      slippageTitle?: string;
+      /** Optional className override for the swap settings description */
+      slippageDescription?: string;
+      /** Optional className override for the swap settings input */
+      slippageInput?: string;
+    };
+    /** Optional className override for the swap to amount input */
+    toAmountInput?: string;
+    /** Optional className override for the swap from amount input */
+    fromAmountInput?: string;
+    /** Optional className override for the swap toggle button */
+    toggleButton?: string;
+    /** Optional className override for the swap button */
+    swapButton?: string;
+    /** Optional className override for the swap message */
+    message?: string;
+    /** Optional className override for the swap toast */
+    toast?: string;
+  };
+} & Omit<SwapDefaultReact, 'children' | 'className' | 'headerLeftContent'>;

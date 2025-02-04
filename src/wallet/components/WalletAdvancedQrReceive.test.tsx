@@ -326,4 +326,33 @@ describe('WalletAdvancedQrReceive', () => {
 
     expect(mockClipboard.writeText).toHaveBeenCalledWith('');
   });
+
+  it('applies custom classNames to components', () => {
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentClosing: false,
+      address: '0x1234567890',
+    });
+
+    const customClassNames = {
+      container: 'custom-container',
+      header: 'custom-header',
+      copyButton: 'custom-copy-button',
+    };
+
+    render(<WalletAdvancedQrReceive classNames={customClassNames} />);
+
+    expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toHaveClass(
+      'custom-container',
+    );
+    expect(
+      screen
+        .getByTestId('ockWalletAdvancedQrReceive')
+        .querySelector('[class*="custom-header"]'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', {
+        name: 'Copy your address by clicking the button',
+      }),
+    ).toHaveClass('custom-copy-button');
+  });
 });

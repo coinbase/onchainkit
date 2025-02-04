@@ -36,29 +36,29 @@ vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
 
-vi.mock(import('../../swap'), async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    SwapAmountInput: () => <div data-testid="mock-SwapAmountInput" />,
-    SwapButton: () => <div data-testid="mock-SwapButton" />,
-    SwapMessage: () => <div data-testid="mock-SwapMessage" />,
-    SwapSettings: ({ children }: { children: React.ReactNode }) => (
-      <div data-testid="mock-SwapSettings">{children}</div>
-    ),
-    SwapSettingsSlippageDescription: () => (
-      <div data-testid="mock-SwapSettingsSlippageDescription" />
-    ),
-    SwapSettingsSlippageInput: () => (
-      <div data-testid="mock-SwapSettingsSlippageInput" />
-    ),
-    SwapSettingsSlippageTitle: () => (
-      <div data-testid="mock-SwapSettingsSlippageTitle" />
-    ),
-    SwapToast: () => <div data-testid="mock-SwapToast" />,
-    SwapToggleButton: () => <div data-testid="mock-SwapToggleButton" />,
-  };
-});
+vi.mock('@/swap/components/SwapAmountInput', () => ({
+  SwapAmountInput: ({ className }: { className?: string }) => (
+    <div data-testid="mock-SwapAmountInput" className={className} />
+  ),
+}));
+
+vi.mock('@/swap/components/SwapButton', () => ({
+  SwapButton: ({ className }: { className?: string }) => (
+    <div data-testid="mock-SwapButton" className={className} />
+  ),
+}));
+
+vi.mock('@/swap/components/SwapToggleButton', () => ({
+  SwapToggleButton: ({ className }: { className?: string }) => (
+    <div data-testid="mock-SwapToggleButton" className={className} />
+  ),
+}));
+
+vi.mock('@/swap/components/SwapMessage', () => ({
+  SwapMessage: ({ className }: { className?: string }) => (
+    <div data-testid="mock-SwapMessage" className={className} />
+  ),
+}));
 
 vi.mock('../../swap/components/SwapProvider', () => ({
   useSwapContext: vi.fn(),
@@ -249,5 +249,60 @@ describe('WalletAdvancedSwap', () => {
 
     expect(mockSetShowSwap).toHaveBeenCalledWith(false);
     expect(mockSetIsSwapClosing).toHaveBeenCalledWith(false);
+  });
+
+  it('should apply custom classNames to all elements', () => {
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
+      showSwap: true,
+    });
+
+    const customClassNames = {
+      container: 'custom-container',
+      swapContainer: 'custom-swap',
+      settings: {
+        container: 'custom-settings',
+        slippageTitle: 'custom-slippage-title',
+        slippageDescription: 'custom-slippage-desc',
+        slippageInput: 'custom-slippage-input',
+      },
+      fromAmountInput: 'custom-from-input',
+      toggleButton: 'custom-toggle',
+      toAmountInput: 'custom-to-input',
+      swapButton: 'custom-swap-button',
+      message: 'custom-message',
+      toast: 'custom-toast',
+    };
+
+    render(
+      <WalletAdvancedSwap
+        config={{ maxSlippage: 1 }}
+        from={[tokens[0]] as Token[]}
+        to={[tokens[1]] as Token[]}
+        onError={vi.fn()}
+        onStatus={vi.fn()}
+        onSuccess={vi.fn()}
+        classNames={customClassNames}
+      />,
+    );
+
+    const container = screen.getByTestId('ockWalletAdvancedSwap');
+    expect(container).toHaveClass('custom-container');
+
+    expect(screen.getAllByTestId('mock-SwapAmountInput')[0]).toHaveClass(
+      'custom-from-input',
+    );
+    expect(screen.getAllByTestId('mock-SwapAmountInput')[1]).toHaveClass(
+      'custom-to-input',
+    );
+    expect(screen.getByTestId('mock-SwapToggleButton')).toHaveClass(
+      'custom-toggle',
+    );
+    expect(screen.getByTestId('mock-SwapButton')).toHaveClass(
+      'custom-swap-button',
+    );
+    expect(screen.getByTestId('mock-SwapMessage')).toHaveClass(
+      'custom-message',
+    );
   });
 });
