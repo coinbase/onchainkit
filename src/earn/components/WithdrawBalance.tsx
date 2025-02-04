@@ -1,4 +1,4 @@
-import { getRoundedAmount } from '@/earn/utils/getTruncatedAmount';
+import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
 import { useCallback, useMemo } from 'react';
 import type { WithdrawBalanceReact } from '../types';
 import { EarnBalance } from './EarnBalance';
@@ -17,7 +17,7 @@ export function WithdrawBalance({ className }: WithdrawBalanceReact) {
     if (!depositedAmount) {
       return '0';
     }
-    return getRoundedAmount(depositedAmount.toString(), 4);
+    return getTruncatedAmount(depositedAmount.toString(), 4);
   }, [depositedAmount]);
 
   return (

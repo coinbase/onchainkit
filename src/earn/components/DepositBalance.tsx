@@ -1,4 +1,4 @@
-import { getRoundedAmount } from '@/earn/utils/getTruncatedAmount';
+import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
 import { useCallback, useMemo } from 'react';
 import type { DepositBalanceReact } from '../types';
 import { EarnBalance } from './EarnBalance';
@@ -17,7 +17,7 @@ export function DepositBalance({ className }: DepositBalanceReact) {
     if (!convertedBalance) {
       return '0';
     }
-    return getRoundedAmount(convertedBalance.toString(), 6);
+    return getTruncatedAmount(convertedBalance.toString(), 6);
   }, [convertedBalance]);
 
   return (
