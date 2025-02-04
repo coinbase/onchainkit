@@ -7,7 +7,7 @@ export function DepositButton({ className }: DepositButtonReact) {
   const { address, depositCalls } = useEarnContext();
 
   if (!address) {
-    return <ConnectWallet text="Deposit" className="w-full" />;
+    return <ConnectWallet className="w-full" />;
   }
 
   return (
