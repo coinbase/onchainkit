@@ -1,6 +1,6 @@
 'use client';
 
-import { zIndex } from '@/styles/constants';
+// import { zIndex } from '@/styles/constants';
 import { cn } from '@/styles/theme';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getBoundedPosition } from './getBoundedPosition';
@@ -114,7 +114,6 @@ export function Draggable({
       className={cn(
         'fixed touch-none select-none',
         'cursor-grab active:cursor-grabbing',
-        zIndex.modal,
       )}
       style={{
         left: `${position.x}px`,
