@@ -1,5 +1,4 @@
 /**
-
  * Internal
  * This function should be used in place of our existing `getRoundedAmount`
  * It's built on Intl.NumberFormat which is more reliable than our existing method
@@ -17,17 +16,12 @@ export function getTruncatedAmount(balance: string, decimalPlaces: number) {
   const hasDecimals = num % 1 !== 0;
   const decimals = balance.split('.')[1]?.length || 0;
 
-  // Truncate if we have more decimals than requested
-  const truncated =
-    decimals > decimalPlaces
-      ? Math.trunc(num * 10 ** decimalPlaces) / 10 ** decimalPlaces
-      : num;
-
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'decimal',
+    roundingMode: 'trunc',
     minimumFractionDigits: 0,
     maximumFractionDigits: hasDecimals ? Math.min(decimalPlaces, decimals) : 0,
   });
 
-  return formatter.format(truncated);
+  return formatter.format(num);
 }

@@ -33,5 +33,6 @@ describe('getTruncatedAmount', () => {
 
   it('does not round up and show a higher value than the original', () => {
     expect(getTruncatedAmount('123.456789', 2)).toBe('123.45');
+    expect(getTruncatedAmount('1234567.899', 2)).toBe('1,234,567.89');
   });
 });
