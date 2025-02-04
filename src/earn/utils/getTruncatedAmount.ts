@@ -18,6 +18,7 @@ export function getTruncatedAmount(balance: string, decimalPlaces: number) {
 
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'decimal',
+    // @ts-expect-error - browsers support this, unfortunately we can't update our target to es2023 because packemon doesn't support it
     roundingMode: 'trunc',
     minimumFractionDigits: 0,
     maximumFractionDigits: hasDecimals ? Math.min(decimalPlaces, decimals) : 0,

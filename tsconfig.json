@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
-    "target": "es2023",
+    "target": "es2020",
     "module": "es2020",
-    "lib": ["es2023", "dom"],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "strict": true,
