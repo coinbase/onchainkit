@@ -12,6 +12,7 @@ import { useWalletContext } from './WalletProvider';
 export function WalletAdvancedContent({
   children,
   swappableTokens,
+  classNames,
 }: WalletAdvancedReact) {
   const {
     isSubComponentOpen,
@@ -40,7 +41,7 @@ export function WalletAdvancedContent({
     if (showQr) {
       return (
         <ContentWrapper>
-          <WalletAdvancedQrReceive />
+          <WalletAdvancedQrReceive classNames={classNames?.qr} />
         </ContentWrapper>
       );
     }
@@ -67,14 +68,14 @@ export function WalletAdvancedContent({
                 name: token.name,
               })) ?? []
             }
-            className="w-full px-4 pt-3 pb-4"
+            classNames={classNames?.swap}
           />
         </ContentWrapper>
       );
     }
 
     return <ContentWrapper className="px-4 py-3">{children}</ContentWrapper>;
-  }, [showQr, showSwap, swappableTokens, tokenBalances, children]);
+  }, [showQr, showSwap, swappableTokens, tokenBalances, children, classNames]);
 
   if (breakpoint === 'sm') {
     return (
@@ -97,9 +98,11 @@ export function WalletAdvancedContent({
         background.default,
         border.radius,
         border.lineDefault,
-        'my-1.5 h-auto w-88',
+        zIndex.dropdown,
+        'my-1.5 h-auto w-full',
         'flex items-center justify-center',
         animations.container,
+        classNames?.container,
       )}
       onAnimationEnd={handleAnimationEnd}
     >
@@ -118,9 +121,8 @@ function ContentWrapper({
   return (
     <div
       className={cn(
-        zIndex.dropdown,
-        'flex flex-col items-center justify-center',
-        'h-120 w-full',
+        'flex flex-col items-center justify-between',
+        'h-120 w-88',
         className,
       )}
     >

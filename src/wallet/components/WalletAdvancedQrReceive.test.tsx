@@ -77,6 +77,23 @@ describe('WalletAdvancedQrReceive', () => {
     mockClipboard.writeText.mockReset();
   });
 
+  it('should render correctly based on isClosing state', () => {
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentClosing: true,
+    });
+
+    const { rerender } = render(<WalletAdvancedQrReceive />);
+    expect(screen.queryByTestId('ockWalletAdvancedQrReceive')).toBeNull();
+
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentClosing: false,
+    });
+    rerender(<WalletAdvancedQrReceive />);
+    expect(
+      screen.getByTestId('ockWalletAdvancedQrReceive'),
+    ).toBeInTheDocument();
+  });
+
   it('should render correctly based on isQrClosing state', () => {
     mockUseWalletAdvancedContext.mockReturnValue({
       isQrClosing: false,
@@ -308,5 +325,34 @@ describe('WalletAdvancedQrReceive', () => {
     fireEvent.click(copyIcon);
 
     expect(mockClipboard.writeText).toHaveBeenCalledWith('');
+  });
+
+  it('applies custom classNames to components', () => {
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentClosing: false,
+      address: '0x1234567890',
+    });
+
+    const customClassNames = {
+      container: 'custom-container',
+      header: 'custom-header',
+      copyButton: 'custom-copy-button',
+    };
+
+    render(<WalletAdvancedQrReceive classNames={customClassNames} />);
+
+    expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toHaveClass(
+      'custom-container',
+    );
+    expect(
+      screen
+        .getByTestId('ockWalletAdvancedQrReceive')
+        .querySelector('[class*="custom-header"]'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', {
+        name: 'Copy your address by clicking the button',
+      }),
+    ).toHaveClass('custom-copy-button');
   });
 });
