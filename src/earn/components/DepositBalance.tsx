@@ -1,4 +1,4 @@
-import { getRoundedAmount } from '@/earn/utils/getRoundedAmount';
+import { getRoundedAmount } from '@/earn/utils/getTruncatedAmount';
 import { useCallback, useMemo } from 'react';
 import type { DepositBalanceReact } from '../types';
 import { EarnBalance } from './EarnBalance';

@@ -8,21 +8,26 @@
  * @param fractionDigits - The number of fraction digits to round to
  * @returns The rounded balance
  */
-export function getRoundedAmount(balance: string, fractionDigits: number) {
+export function getTruncatedAmount(balance: string, decimalPlaces: number) {
   if (balance === '0') {
     return balance;
   }
 
   const num = Number(balance);
   const hasDecimals = num % 1 !== 0;
+  const decimals = balance.split('.')[1]?.length || 0;
+
+  // Truncate if we have more decimals than requested
+  const truncated =
+    decimals > decimalPlaces
+      ? Math.trunc(num * 10 ** decimalPlaces) / 10 ** decimalPlaces
+      : num;
 
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'decimal',
     minimumFractionDigits: 0,
-    maximumFractionDigits: hasDecimals
-      ? Math.min(fractionDigits, balance.split('.')[1]?.length)
-      : 0,
+    maximumFractionDigits: hasDecimals ? Math.min(decimalPlaces, decimals) : 0,
   });
 
-  return formatter.format(num);
+  return formatter.format(truncated);
 }
