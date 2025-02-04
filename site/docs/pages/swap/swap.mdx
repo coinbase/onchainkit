@@ -191,6 +191,15 @@ export default function SwapComponents() {
 The swap will execute and work out of the box when you implement the component in your own app.
 :::
 
+### Supported Swap Routers
+
+The `Swap` component supports two swap routers:
+
+- [Uniswap V3](https://app.uniswap.org/) (default)
+- [0x Aggregator](https://0x.org/)
+
+To use the 0x Aggregator, set the `experimental.useAggregator` prop to `true`.
+
 ### Sponsor gas with Paymaster
 
 To sponsor swap transactions for your users, toggle the Paymaster using the `isSponsored` prop.
