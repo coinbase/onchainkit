@@ -172,4 +172,63 @@ describe('WalletAdvancedTransactionActons', () => {
     );
     expect(placeholder).toHaveClass('my-3 h-16 w-80');
   });
+
+  it('applies custom classNames when provided', () => {
+    const customClassNames = {
+      container: 'custom-container',
+      leftAction: {
+        container: 'custom-left-button',
+        icon: 'custom-left-icon',
+        label: 'custom-left-label',
+      },
+      middleAction: {
+        container: 'custom-middle-button',
+        icon: 'custom-middle-icon',
+        label: 'custom-middle-label',
+      },
+      rightAction: {
+        container: 'custom-right-button',
+        icon: 'custom-right-icon',
+        label: 'custom-right-label',
+      },
+    };
+
+    render(<WalletAdvancedTransactionActions classNames={customClassNames} />);
+
+    // Check main container
+    const container = screen.getByTestId(
+      'ockWalletAdvanced_TransactionActions',
+    );
+    expect(container.className).toContain('custom-container');
+
+    // Check Buy button (left action)
+    const buyButton = screen.getByRole('button', { name: 'Buy' });
+    expect(buyButton.className).toContain('custom-left-button');
+    expect(buyButton.querySelector('span:first-child')?.className).toContain(
+      'custom-left-icon',
+    );
+    expect(buyButton.querySelector('span:last-child')?.className).toContain(
+      'custom-left-label',
+    );
+
+    // Check Send button (middle action)
+    const sendButton = screen.getByRole('button', { name: 'Send' });
+    expect(sendButton.className).toContain('custom-middle-button');
+    expect(sendButton.querySelector('span:first-child')?.className).toContain(
+      'custom-middle-icon',
+    );
+    expect(sendButton.querySelector('span:last-child')?.className).toContain(
+      'custom-middle-label',
+    );
+
+    // Check Swap button (right action)
+    const swapButton = screen.getByRole('button', { name: 'Swap' });
+    expect(swapButton.className).toContain('custom-right-button');
+    expect(swapButton.querySelector('span:first-child')?.className).toContain(
+      'custom-right-icon',
+    );
+    expect(swapButton.querySelector('span:last-child')?.className).toContain(
+      'custom-right-label',
+    );
+  });
 });
