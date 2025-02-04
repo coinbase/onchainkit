@@ -1,3 +1,4 @@
+import type { EarnContextType } from '@/earn/types';
 import { usdcToken } from '@/token/constants';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
@@ -5,15 +6,7 @@ import { type Mock, describe, expect, it, vi } from 'vitest';
 import { DepositDetails } from './DepositDetails';
 import { useEarnContext } from './EarnProvider';
 
-vi.mock('./EarnProvider', () => ({
-  useEarnContext: vi.fn(),
-}));
-
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
-const baseContext = {
+const baseContext: EarnContextType = {
   convertedBalance: '1000',
   setDepositAmount: vi.fn(),
   vaultAddress: '0x123' as Address,
@@ -24,6 +17,13 @@ const baseContext = {
   depositCalls: [],
   withdrawCalls: [],
 };
+vi.mock('./EarnProvider', () => ({
+  useEarnContext: vi.fn(),
+}));
+
+vi.mock('@/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(),
+}));
 
 describe('DepositDetails Component', () => {
   it('renders EarnDetails with default APY tag when APY is provided', () => {

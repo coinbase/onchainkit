@@ -20,7 +20,7 @@ export function getRoundedAmount(balance: string, fractionDigits: number) {
     style: 'decimal',
     minimumFractionDigits: 0,
     maximumFractionDigits: hasDecimals
-      ? Math.min(fractionDigits, balance.split('.')[1]?.length || 0)
+      ? Math.min(fractionDigits, balance.split('.')[1]?.length)
       : 0,
   });
 

@@ -14,6 +14,14 @@ describe('buildWithdrawFromMorphoTx', () => {
     receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
   };
 
+  it('should return an empty array of calls if receiverAddress is not provided', async () => {
+    const result = buildWithdrawFromMorphoTx({
+      ...mockArgs,
+      receiverAddress: undefined,
+    });
+    expect(result).toHaveLength(0);
+  });
+
   it('should return an array with one transaction', async () => {
     const result = await buildWithdrawFromMorphoTx(mockArgs);
     expect(result).toHaveLength(1);

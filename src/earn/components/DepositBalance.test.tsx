@@ -4,10 +4,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { DepositBalance } from './DepositBalance';
 import { useEarnContext } from './EarnProvider';
 
-vi.mock('./EarnProvider', () => ({
-  useEarnContext: vi.fn(),
-}));
-
 const baseContext = {
   convertedBalance: '1000',
   setDepositAmount: vi.fn(),
@@ -19,6 +15,10 @@ const baseContext = {
   depositCalls: [],
   withdrawCalls: [],
 };
+
+vi.mock('./EarnProvider', () => ({
+  useEarnContext: vi.fn(),
+}));
 
 describe('DepositBalance', () => {
   it('renders the converted balance and subtitle correctly', () => {

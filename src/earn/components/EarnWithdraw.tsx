@@ -5,13 +5,6 @@ import { WithdrawBalance } from './WithdrawBalance';
 import { WithdrawButton } from './WithdrawButton';
 import { WithdrawDetails } from './WithdrawDetails';
 
-export function EarnWithdraw({
-  children = <EarnWithdrawDefaultContent />,
-  className,
-}: EarnWithdrawReact) {
-  return <EarnCard className={className}>{children}</EarnCard>;
-}
-
 function EarnWithdrawDefaultContent() {
   return (
     <>
@@ -21,4 +14,12 @@ function EarnWithdrawDefaultContent() {
       <WithdrawButton />
     </>
   );
+}
+
+export function EarnWithdraw({
+  children: propsChildren,
+  className,
+}: EarnWithdrawReact) {
+  const children = propsChildren ?? <EarnWithdrawDefaultContent />;
+  return <EarnCard className={className}>{children}</EarnCard>;
 }

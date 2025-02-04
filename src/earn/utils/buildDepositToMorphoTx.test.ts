@@ -1,6 +1,6 @@
 import { MORPHO_VAULT_ABI } from '@/earn/abis/morpho';
 import { USDC_ADDRESS, USDC_DECIMALS } from '@/earn/constants';
-import { encodeFunctionData, parseUnits } from 'viem';
+import { type Address, encodeFunctionData, parseUnits } from 'viem';
 import { describe, expect, it } from 'vitest';
 import {
   type DepositToMorphoArgs,
@@ -12,8 +12,16 @@ describe('buildDepositToMorphoTx', () => {
     vaultAddress: '0xd63070114470f685b75B74D60EEc7c1113d33a3D',
     tokenAddress: USDC_ADDRESS,
     amount: parseUnits('1000', USDC_DECIMALS),
-    receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
+    receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1' as Address,
   };
+
+  it('should return an empty array of calls if receiverAddress is not provided', async () => {
+    const result = buildDepositToMorphoTx({
+      ...mockArgs,
+      receiverAddress: undefined,
+    });
+    expect(result).toHaveLength(0);
+  });
 
   it('should return an array with two transactions', async () => {
     const result = buildDepositToMorphoTx(mockArgs);
