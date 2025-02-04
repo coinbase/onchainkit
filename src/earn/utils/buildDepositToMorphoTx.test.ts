@@ -1,6 +1,6 @@
 import { MORPHO_VAULT_ABI } from '@/earn/abis/morpho';
 import { USDC_ADDRESS, USDC_DECIMALS } from '@/earn/constants';
-import { type Address, encodeFunctionData, parseUnits } from 'viem';
+import { encodeFunctionData, parseUnits } from 'viem';
 import { describe, expect, it } from 'vitest';
 import {
   type DepositToMorphoArgs,
@@ -8,14 +8,14 @@ import {
 } from './buildDepositToMorphoTx';
 
 describe('buildDepositToMorphoTx', () => {
-  const mockArgs: DepositToMorphoArgs = {
+  const mockArgs = {
     vaultAddress: '0xd63070114470f685b75B74D60EEc7c1113d33a3D',
     tokenAddress: USDC_ADDRESS,
     amount: parseUnits('1000', USDC_DECIMALS),
-    receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1' as Address,
-  };
+    receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
+  } satisfies DepositToMorphoArgs;
 
-  it('should return an empty array of calls if receiverAddress is not provided', async () => {
+  it('should return an empty array of calls if receiverAddress is not provided', () => {
     const result = buildDepositToMorphoTx({
       ...mockArgs,
       receiverAddress: undefined,
@@ -23,12 +23,12 @@ describe('buildDepositToMorphoTx', () => {
     expect(result).toHaveLength(0);
   });
 
-  it('should return an array with two transactions', async () => {
+  it('should return an array with two transactions', () => {
     const result = buildDepositToMorphoTx(mockArgs);
     expect(result).toHaveLength(2);
   });
 
-  it('should build correct approve transaction', async () => {
+  it('should build correct approve transaction', () => {
     const result = buildDepositToMorphoTx(mockArgs);
     const expectedAmount = mockArgs.amount;
 
@@ -55,7 +55,7 @@ describe('buildDepositToMorphoTx', () => {
     });
   });
 
-  it('should build correct deposit transaction', async () => {
+  it('should build correct deposit transaction', () => {
     const result = buildDepositToMorphoTx(mockArgs);
     const expectedAmount = mockArgs.amount;
 
@@ -71,7 +71,7 @@ describe('buildDepositToMorphoTx', () => {
     });
   });
 
-  it('should handle zero amount', async () => {
+  it('should handle zero amount', () => {
     const result = buildDepositToMorphoTx({
       ...mockArgs,
       amount: 0n,
@@ -82,7 +82,7 @@ describe('buildDepositToMorphoTx', () => {
     expect(result[1].to).toBe(mockArgs.vaultAddress);
   });
 
-  it('should handle decimal amounts', async () => {
+  it('should handle decimal amounts', () => {
     const result = buildDepositToMorphoTx({
       ...mockArgs,
       amount: parseUnits('100.5', USDC_DECIMALS),
