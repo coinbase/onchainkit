@@ -32,7 +32,8 @@ export function useBuildMorphoWithdrawTx({
     balance === undefined ||
     !assetDecimals ||
     !vaultDecimals ||
-    amountIsGreaterThanBalance
+    amountIsGreaterThanBalance ||
+    !receiverAddress
   ) {
     return {
       calls: [],

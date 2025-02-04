@@ -25,7 +25,7 @@ export function useBuildMorphoDepositTx({
     address: receiverAddress,
   });
 
-  if (!asset || !assetDecimals) {
+  if (!asset || !assetDecimals || !receiverAddress) {
     return {
       calls: [],
     };

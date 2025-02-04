@@ -8,7 +8,7 @@ export type WithdrawFromMorphoArgs = {
   /** The amount of tokens to withdraw */
   amount: bigint;
   /** The address to which the withdrawn funds will be sent */
-  receiverAddress?: Address;
+  receiverAddress: Address;
 };
 
 export function buildWithdrawFromMorphoTx({
@@ -16,11 +16,6 @@ export function buildWithdrawFromMorphoTx({
   amount,
   receiverAddress,
 }: WithdrawFromMorphoArgs): Call[] {
-  // Wallet is disconnected
-  if (!receiverAddress) {
-    return [];
-  }
-
   const withdrawTxData = encodeFunctionData({
     abi: MORPHO_VAULT_ABI,
     functionName: 'withdraw',
