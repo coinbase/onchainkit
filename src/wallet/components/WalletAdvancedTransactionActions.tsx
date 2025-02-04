@@ -84,7 +84,7 @@ export function WalletAdvancedTransactionActions({
     <div
       data-testid="ockWalletAdvanced_TransactionActions"
       className={cn(
-        'my-3 flex w-full flex-row justify-center gap-2',
+        'my-3 flex w-full flex-row justify-between gap-2',
         animations.content,
         classNames?.container,
       )}
@@ -122,7 +122,7 @@ function WalletAdvancedTransactionAction({
       type="button"
       className={cn(
         'flex flex-col items-center justify-center gap-2 pt-2.5 pb-2',
-        'h-16 w-28',
+        'h-16 flex-1',
         border.radius,
         pressable.alternate,
         classNames?.container,

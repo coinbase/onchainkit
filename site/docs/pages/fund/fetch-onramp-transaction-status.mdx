@@ -1,0 +1,58 @@
+# `fetchOnrampTransactionStatus`
+
+The `fetchOnrampTransactionStatus` utility retrieves the status of onramp transactions for a specific user. This is useful for tracking the progress of crypto purchases and displaying transaction history.
+
+## Usage
+
+:::code-group
+
+```tsx twoslash [code]
+import { fetchOnrampTransactionStatus } from '@coinbase/onchainkit/fund';
+
+const transactions = await fetchOnrampTransactionStatus({
+  partnerUserId: 'user123',
+  nextPageKey: '',
+  pageSize: '10',
+});
+```
+
+```json [return value]
+{
+  transactions: [
+    {
+      id: "tx123",
+      status: "ONRAMP_TRANSACTION_STATUS_SUCCESS",
+      purchaseAmount: { value: "0.1", currency: "ETH" },
+      paymentAmount: { value: "200.00", currency: "USD" },
+      network: "ethereum",
+      createdAt: "2024-01-01T12:00:00Z"
+    }
+  ],
+  nextPageKey: "next_page_token",
+  totalCount: "1"
+}
+```
+
+:::
+
+## Parameters
+
+```typescript
+{
+  /**
+   * A unique identifier that will be associated with any transactions created
+   * by the user during their Onramp session. You can use this with the
+   * Transaction Status API to check the status of the user's transaction.
+   * See https://docs.cdp.coinbase.com/onramp/docs/api-reporting#buy-transaction-status
+   */
+  partnerUserId: string; // Your unique identifier for the user
+  nextPageKey: string;   // Token for pagination
+  pageSize: string;      // Number of transactions per page
+}
+```
+
+## Returns
+
+`Promise<OnrampTransactionStatusResponseData>` - Returns a promise that resolves to the transaction status data.
+
+See [`OnrampTransactionStatusResponseData`](/fund/types#onramptransactionstatusresponsedata) for full response type details.

@@ -3,7 +3,6 @@ import {
   IdentityProvider,
   useIdentityContext,
 } from '@/identity/components/IdentityProvider';
-import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import {
   fireEvent,
   render,
@@ -23,10 +22,6 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
-vi.mock('@/internal/hooks/useBreakpoints', () => ({
-  useBreakpoints: vi.fn(),
-}));
-
 vi.mock('@/identity/components/Identity', () => ({
   Identity: vi.fn(({ address, children }) => (
     <IdentityProvider address={address}>{children}</IdentityProvider>
@@ -34,7 +29,6 @@ vi.mock('@/identity/components/Identity', () => ({
 }));
 
 const useWalletContextMock = useWalletContext as Mock;
-const useBreakpointsMock = useBreakpoints as Mock;
 
 describe('WalletDropdown', () => {
   beforeEach(() => {
@@ -51,8 +45,10 @@ describe('WalletDropdown', () => {
   });
 
   it('does not render anything if breakpoint is not defined', () => {
-    useWalletContextMock.mockReturnValue({ address: '0x123' });
-    useBreakpointsMock.mockReturnValue(null);
+    useWalletContextMock.mockReturnValue({
+      address: '0x123',
+      breakpoint: null,
+    });
 
     render(<WalletDropdown>Content</WalletDropdown>);
 
@@ -60,8 +56,10 @@ describe('WalletDropdown', () => {
   });
 
   it('renders WalletBottomSheet when breakpoint is "sm"', () => {
-    useWalletContextMock.mockReturnValue({ address: '0x123' });
-    useBreakpointsMock.mockReturnValue('sm');
+    useWalletContextMock.mockReturnValue({
+      address: '0x123',
+      breakpoint: 'sm',
+    });
 
     render(<WalletDropdown className="bottom-sheet">Content</WalletDropdown>);
 
@@ -72,8 +70,10 @@ describe('WalletDropdown', () => {
   });
 
   it('renders WalletDropdown when breakpoint is not "sm"', () => {
-    useWalletContextMock.mockReturnValue({ address: '0x123' });
-    useBreakpointsMock.mockReturnValue('md');
+    useWalletContextMock.mockReturnValue({
+      address: '0x123',
+      breakpoint: 'md',
+    });
 
     render(<WalletDropdown className="dropdown">Content</WalletDropdown>);
 
@@ -85,7 +85,11 @@ describe('WalletDropdown', () => {
 
   it('injects address prop to Identity component', async () => {
     const address = '0x123';
-    useWalletContextMock.mockReturnValue({ address, isSubComponentOpen: true });
+    useWalletContextMock.mockReturnValue({
+      address,
+      isSubComponentOpen: true,
+      breakpoint: 'md',
+    });
 
     const { result } = renderHook(() => useIdentityContext(), {
       wrapper: ({ children }) => (
@@ -105,6 +109,7 @@ describe('WalletDropdown', () => {
       address: '0x123',
       isSubComponentOpen: true,
       isSubComponentClosing: false,
+      breakpoint: 'md',
     });
     const { rerender } = render(<WalletDropdown>Content</WalletDropdown>);
     const dropdown = screen.getByTestId('ockWalletDropdown');
@@ -116,6 +121,7 @@ describe('WalletDropdown', () => {
       address: '0x123',
       isSubComponentOpen: true,
       isSubComponentClosing: true,
+      breakpoint: 'md',
     });
     rerender(<WalletDropdown>Content</WalletDropdown>);
     expect(dropdown).toHaveClass(
@@ -133,6 +139,7 @@ describe('WalletDropdown', () => {
       isSubComponentClosing: false,
       setIsSubComponentOpen: mockSetIsSubComponentOpen,
       setIsSubComponentClosing: mockSetIsSubComponentClosing,
+      breakpoint: 'md',
     });
 
     const { rerender } = render(
@@ -150,6 +157,7 @@ describe('WalletDropdown', () => {
       isSubComponentClosing: true,
       setIsSubComponentOpen: mockSetIsSubComponentOpen,
       setIsSubComponentClosing: mockSetIsSubComponentClosing,
+      breakpoint: 'md',
     });
 
     rerender(
