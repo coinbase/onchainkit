@@ -1,4 +1,5 @@
 import { BottomSheet } from '@/internal/components/BottomSheet';
+import { zIndex } from '@/styles/constants';
 import { background, border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
@@ -117,6 +118,7 @@ function ContentWrapper({
   return (
     <div
       className={cn(
+        zIndex.dropdown,
         'flex flex-col items-center justify-center',
         'h-120 w-full',
         className,

@@ -6,6 +6,7 @@ import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
+import { zIndex } from '@/styles/constants';
 
 export function WalletAdvancedAddressDetails() {
   const { address, chain } = useWalletContext();
@@ -65,7 +66,8 @@ export function WalletAdvancedAddressDetails() {
             color.foreground,
             border.default,
             border.radius,
-            'absolute top-full right-0 z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
+            zIndex.tooltip,
+            'absolute top-full right-0 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
           )}
           aria-live="polite"
           data-testid="ockWalletAdvanced_NameTooltip"
