@@ -3,7 +3,7 @@ import { MORPHO_TOKEN_BASE_ADDRESS } from '@/earn/constants';
 import calculateMorphoRewards from '@/earn/utils/calculateMorphoRewards';
 import { fetchMorphoApy } from '@/earn/utils/fetchMorphoApy';
 import { useQuery } from '@tanstack/react-query';
-import { type Address, erc20Abi, formatUnits } from 'viem';
+import { type Address, erc20Abi, formatUnits, isAddress } from 'viem';
 import { useReadContract, useReadContracts } from 'wagmi';
 
 type UseMorphoVaultParams = {
@@ -49,8 +49,6 @@ export function useMorphoVault({
         abi: MORPHO_VAULT_ABI,
         address: vaultAddress,
         functionName: 'balanceOf',
-        // Safe to coerce to Address because useQuery's enabled
-        // flag will prevent the query from running if address is undefined
         args: [address as Address],
       },
       {
@@ -60,7 +58,7 @@ export function useMorphoVault({
       },
     ],
     query: {
-      enabled: !!address,
+      enabled: !!address && isAddress(address),
     },
   });
 

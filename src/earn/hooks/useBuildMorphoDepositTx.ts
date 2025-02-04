@@ -26,7 +26,6 @@ export function useBuildMorphoDepositTx({
   });
 
   if (!asset || !assetDecimals) {
-    console.log('no asset or assetDecimals');
     return {
       calls: [],
     };
