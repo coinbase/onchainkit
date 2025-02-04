@@ -1,7 +1,8 @@
 'use client';
 
-import { Avatar, Badge, Name } from '@/identity';
+import { Avatar, Name } from '@/identity';
 import { Spinner } from '@/internal/components/Spinner';
+import { zIndex } from '@/styles/constants';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
@@ -19,13 +20,13 @@ type WalletAdvancedAddressDetailsProps = {
 export function WalletAdvancedAddressDetails({
   classNames,
 }: WalletAdvancedAddressDetailsProps) {
-  const { address, chain, isSubComponentClosing } = useWalletContext();
+  const { address, chain } = useWalletContext();
   const { animations } = useWalletAdvancedContext();
   const [copyText, setCopyText] = useState('Copy');
 
   const handleCopyAddress = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(address ?? '');
+      await navigator.clipboard.writeText(String(address));
       setCopyText('Copied');
       setTimeout(() => setCopyText('Copy'), 2000);
     } catch (err) {
@@ -35,7 +36,7 @@ export function WalletAdvancedAddressDetails({
     }
   }, [address]);
 
-  if (isSubComponentClosing || !chain) {
+  if (!address || !chain) {
     return <div className="mt-1 h-28 w-10" />; // Prevent layout shift
   }
 
@@ -54,9 +55,7 @@ export function WalletAdvancedAddressDetails({
         address={address}
         chain={chain}
         className={cn('pointer-events-none h-10 w-10', classNames?.avatar)}
-      >
-        <Badge />
-      </Avatar>
+      />
       <div className="group relative mt-2 text-base">
         <button
           type="button"
@@ -81,7 +80,8 @@ export function WalletAdvancedAddressDetails({
             color.foreground,
             border.default,
             border.radius,
-            'absolute top-full right-0 z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
+            zIndex.tooltip,
+            'absolute top-full right-0 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
           )}
           aria-live="polite"
           data-testid="ockWalletAdvanced_NameTooltip"

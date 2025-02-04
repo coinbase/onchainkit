@@ -53,6 +53,7 @@ function WalletContent({
     connectRef,
     showSubComponentAbove,
     alignSubComponentRight,
+    breakpoint,
   } = useWalletContext();
   const walletContainerRef = useRef<HTMLDivElement>(null);
 
@@ -73,6 +74,11 @@ function WalletContent({
     );
   }
 
+  // dragging should be disabled when the connect wallet modal is open
+  // or when the subcomponent is open on mobile (because then we use bottom sheet)
+  const disableDraggable =
+    isConnectModalOpen || (breakpoint === 'sm' && isSubComponentOpen);
+
   if (draggable) {
     return (
       <div
@@ -81,7 +87,7 @@ function WalletContent({
       >
         <Draggable
           startingPosition={draggableStartingPosition}
-          disabled={isConnectModalOpen}
+          disabled={disableDraggable}
         >
           <WalletSubComponent
             connect={connect}

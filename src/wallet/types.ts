@@ -87,6 +87,8 @@ export type WalletContextType = {
   address?: Address | null;
   /** Optional chain for domain resolution */
   chain?: Chain;
+  /** The breakpoint of the current device */
+  breakpoint: string | undefined;
   /** Whether the connect modal is open */
   isConnectModalOpen: boolean;
   setIsConnectModalOpen: Dispatch<SetStateAction<boolean>>;

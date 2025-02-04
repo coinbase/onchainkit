@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom';
+import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import { act, render, renderHook } from '@testing-library/react';
 import { useEffect } from 'react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type Config, WagmiProvider } from 'wagmi';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
@@ -12,9 +13,15 @@ vi.mock('wagmi', () => ({
   ),
 }));
 
+vi.mock('@/internal/hooks/useBreakpoints', () => ({
+  useBreakpoints: vi.fn(),
+}));
+
 describe('useWalletContext', () => {
+  const mockUseBreakpoints = useBreakpoints as Mock;
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseBreakpoints.mockReturnValue('md');
   });
 
   it('should return default context', () => {
