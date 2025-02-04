@@ -3,7 +3,7 @@ import { MORPHO_TOKEN_BASE_ADDRESS } from '@/earn/constants';
 import calculateMorphoRewards from '@/earn/utils/calculateMorphoRewards';
 import { fetchMorphoApy } from '@/earn/utils/fetchMorphoApy';
 import { useQuery } from '@tanstack/react-query';
-import { type Address, erc20Abi, formatUnits, isAddress } from 'viem';
+import { type Address, erc20Abi, formatUnits } from 'viem';
 import { useReadContract, useReadContracts } from 'wagmi';
 
 type UseMorphoVaultParams = {
@@ -58,7 +58,7 @@ export function useMorphoVault({
       },
     ],
     query: {
-      enabled: !!address && isAddress(address),
+      enabled: !!address,
     },
   });
 

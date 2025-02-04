@@ -13,7 +13,7 @@ export function DepositBalance({ className }: DepositBalanceReact) {
     }
   }, [convertedBalance, setDepositAmount]);
 
-  const roundedBalance = useMemo(() => {
+  const truncatedBalance = useMemo(() => {
     if (!convertedBalance) {
       return '0';
     }
@@ -23,7 +23,7 @@ export function DepositBalance({ className }: DepositBalanceReact) {
   return (
     <EarnBalance
       className={className}
-      title={`${roundedBalance} USDC`}
+      title={`${truncatedBalance} USDC`}
       subtitle="Available to deposit"
       onActionPress={handleMaxPress}
       showAction={!!convertedBalance}
