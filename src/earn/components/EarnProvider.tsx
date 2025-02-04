@@ -24,10 +24,11 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
 
   const { convertedBalance } = useGetTokenBalance(address, usdcToken);
 
-  const { balance, totalApy } = useMorphoVault({
+  const { asset, balance, totalApy } = useMorphoVault({
     vaultAddress,
     address,
   });
+  console.log('asset:', asset);
 
   const { calls: withdrawCalls } = useBuildMorphoWithdrawTx({
     vaultAddress,
@@ -41,10 +42,11 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     receiverAddress: address,
   });
 
-  const value = useValue({
+  const value = useValue<EarnContextType>({
     address,
     convertedBalance,
     vaultAddress,
+    assetAddress: asset,
     depositAmount,
     setDepositAmount,
     withdrawAmount,

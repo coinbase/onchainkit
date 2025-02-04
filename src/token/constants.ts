@@ -41,6 +41,6 @@ export const daiToken: Token = {
   chainId: base.id,
 };
 
-const tokens = [ethToken, usdcToken, degenToken, daiToken];
+const baseTokens = [ethToken, usdcToken, degenToken, daiToken];
 
-export { tokens };
+export { baseTokens };

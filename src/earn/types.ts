@@ -26,6 +26,8 @@ export type EarnContextType = {
   withdrawAmount: string;
   withdrawCalls: Call[];
   depositCalls: Call[];
+  /** The address of the asset that is being deposited or withdrawn */
+  assetAddress?: Address | undefined;
 };
 
 export type EarnAmountInputReact = {

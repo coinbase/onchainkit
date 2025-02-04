@@ -75,7 +75,6 @@ export function useMorphoVault({
     queryKey: ['morpho-apy', vaultAddress],
     queryFn: () => fetchMorphoApy(vaultAddress),
   });
-  console.log('vaultData:', vaultData);
 
   const morphoApr = vaultData?.state
     ? calculateMorphoRewards(vaultData?.state)
@@ -85,6 +84,10 @@ export function useMorphoVault({
     data?.[2].result && data?.[3].result
       ? formatUnits(data?.[2].result, data?.[3].result)
       : undefined;
+
+  console.log('///////////////////////////////////');
+  console.log(data);
+  console.log('///////////////////////////////////');
 
   return {
     status,

@@ -1,11 +1,8 @@
 import { border, cn } from '@/styles/theme';
 import { TokenChip } from '@/token';
 import type { EarnDetailsReact } from '../types';
-
+import { Skeleton } from '@/internal/components/Skeleton';
 export function EarnDetails({ className, token, tag }: EarnDetailsReact) {
-  if (!token) {
-    return null;
-  }
   return (
     <div
       data-testid="ockEarnDetails"
@@ -15,11 +12,15 @@ export function EarnDetails({ className, token, tag }: EarnDetailsReact) {
         className,
       )}
     >
-      <TokenChip
-        className={'!bg-transparent'}
-        token={token}
-        isPressable={false}
-      />
+      {token ? (
+        <TokenChip
+          className={'!bg-transparent'}
+          token={token}
+          isPressable={false}
+        />
+      ) : (
+        <Skeleton className="!rounded-full h-8 w-28" />
+      )}
       {tag}
     </div>
   );

@@ -1,5 +1,4 @@
 import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
-import { usdcToken } from '@/token/constants';
 import type { DepositDetailsReact } from '../types';
 import { EarnDetails } from './EarnDetails';
 import { useEarnContext } from './EarnProvider';
@@ -8,6 +7,7 @@ import { color } from '@/styles/theme';
 import { text } from '@/styles/theme';
 import { cn } from '@/styles/theme';
 import { Skeleton } from '@/internal/components/Skeleton';
+import { getTokenFromAddress } from '@/earn/utils/getTokenFromAddress';
 
 function ApyTag({ apy }: { apy: number | undefined }) {
   return apy ? (
@@ -27,13 +27,16 @@ function ApyTag({ apy }: { apy: number | undefined }) {
 }
 
 export function DepositDetails({ className }: DepositDetailsReact) {
-  const { apy } = useEarnContext();
+  const { apy, assetAddress } = useEarnContext();
+  console.log('assetAddress:', assetAddress);
+
+  const token = assetAddress ? getTokenFromAddress(assetAddress) : undefined;
 
   // TODO: update token when we have logic to fetch vault info
   return (
     <EarnDetails
       className={className}
-      token={usdcToken}
+      token={token}
       tag={<ApyTag apy={apy} />}
       tagVariant="default"
     />
