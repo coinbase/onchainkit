@@ -1,6 +1,7 @@
 import { DismissableLayer } from '@/internal/components/primitives/DismissableLayer';
 import { FocusTrap } from '@/internal/components/primitives/FocusTrap';
 import { useTheme } from '@/internal/hooks/useTheme';
+import { zIndex } from '@/styles/constants';
 import { background, cn } from '@/styles/theme';
 import { createPortal } from 'react-dom';
 
@@ -47,6 +48,7 @@ export function BottomSheet({
           className={cn(
             componentTheme,
             background.default,
+            zIndex.modal,
             'fixed right-0 bottom-0 left-0',
             'transform rounded-t-3xl p-2 transition-transform',
             'fade-in slide-in-from-bottom-1/2 animate-in',
