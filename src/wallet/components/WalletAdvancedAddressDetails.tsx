@@ -2,11 +2,11 @@
 
 import { Avatar, Name } from '@/identity';
 import { Spinner } from '@/internal/components/Spinner';
+import { zIndex } from '@/styles/constants';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
-import { zIndex } from '@/styles/constants';
 
 export function WalletAdvancedAddressDetails() {
   const { address, chain } = useWalletContext();

@@ -1,7 +1,7 @@
 'use client';
 
 import { copyToClipboard } from '@/internal/utils/copyToClipboard';
-import { useCallback, type ReactNode } from 'react';
+import { type ReactNode, useCallback } from 'react';
 
 type CopyButtonProps = {
   label: string | ReactNode;
@@ -24,7 +24,7 @@ export function CopyButton({
     () => copyToClipboard({ copyValue, onSuccess, onError }),
     [copyValue, onSuccess, onError],
   );
-  
+
   return (
     <button
       type="button"

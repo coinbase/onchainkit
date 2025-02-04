@@ -1,12 +1,12 @@
 'use client';
 
 import { Identity } from '@/identity/components/Identity';
+import { zIndex } from '@/styles/constants';
 import { cn, color, pressable } from '@/styles/theme';
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import type { WalletDropdownReact } from '../types';
 import { WalletBottomSheet } from './WalletBottomSheet';
 import { useWalletContext } from './WalletProvider';
-import { zIndex } from '@/styles/constants';
 
 export function WalletDropdown({ children, className }: WalletDropdownReact) {
   const {
