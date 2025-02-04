@@ -24,12 +24,7 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
 
   const { convertedBalance } = useGetTokenBalance(address, usdcToken);
 
-  // TODO: implement
-  const {
-    asset: _asset,
-    balance,
-    totalApy,
-  } = useMorphoVault({
+  const { balance, totalApy } = useMorphoVault({
     vaultAddress,
     address,
   });
