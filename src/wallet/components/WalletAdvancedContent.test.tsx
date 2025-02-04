@@ -350,7 +350,7 @@ describe('WalletAdvancedContent', () => {
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       showQr: true,
-      showSwap: true,
+      showSwap: false,
     });
 
     const customClassNames = {
@@ -363,7 +363,7 @@ describe('WalletAdvancedContent', () => {
       },
     };
 
-    render(
+    const { rerender } = render(
       <WalletAdvancedContent classNames={customClassNames}>
         <div>Content</div>
       </WalletAdvancedContent>,
@@ -377,6 +377,18 @@ describe('WalletAdvancedContent', () => {
     const qrComponent = screen.getByTestId('ockWalletAdvancedQrReceive');
     expect(qrComponent).toHaveClass('custom-qr-container');
     expect(qrComponent).toHaveProperty('className', 'custom-qr-container');
+
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
+      showQr: false,
+      showSwap: true,
+    });
+
+    rerender(
+      <WalletAdvancedContent classNames={customClassNames}>
+        <div>Content</div>
+      </WalletAdvancedContent>,
+    );
 
     const swapComponent = screen.getByTestId('ockWalletAdvancedSwap');
     expect(swapComponent).toHaveClass('custom-swap-container');
