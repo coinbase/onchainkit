@@ -40,3 +40,7 @@ export const daiToken: Token = {
     'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/92/13/9213e31b84c98a693f4c624580fdbe6e4c1cb550efbba15aa9ea68fd25ffb90c-ZTE1NmNjMGUtZGVkYi00ZDliLWI2N2QtNTY2ZWRjMmYwZmMw',
   chainId: base.id,
 };
+
+const tokens = [ethToken, usdcToken, degenToken, daiToken];
+
+export { tokens };

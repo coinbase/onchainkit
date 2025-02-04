@@ -1,6 +1,7 @@
 import { background, border, cn, color, text } from '@/styles/theme';
 import { TokenChip } from '@/token';
 import type { EarnDetailsReact } from '../types';
+import { Skeleton } from '@/internal/components/Skeleton';
 
 export function EarnDetails({
   className,
@@ -25,7 +26,7 @@ export function EarnDetails({
         token={token}
         isPressable={false}
       />
-      {tag && (
+      {tag ? (
         <div
           className={cn(
             text.label1,
@@ -36,6 +37,8 @@ export function EarnDetails({
         >
           {tag}
         </div>
+      ) : (
+        <Skeleton className="!rounded-full h-7 min-w-28" />
       )}
     </div>
   );

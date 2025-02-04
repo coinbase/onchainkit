@@ -116,12 +116,6 @@
       "import": "./esm/index.js",
       "default": "./esm/index.js"
     },
-    "./earn": {
-      "types": "./esm/earn/index.d.ts",
-      "module": "./esm/earn/index.js",
-      "import": "./esm/earn/index.js",
-      "default": "./esm/earn/index.js"
-    },
     "./api": {
       "types": "./esm/api/index.d.ts",
       "module": "./esm/api/index.js",

@@ -12,7 +12,7 @@ export function DepositDetails({ className }: DepositDetailsReact) {
     if (apy) {
       return `APY ${getRoundedAmount(apy.toString(), 3)}%`;
     }
-    return '';
+    return null;
   }, [apy]);
 
   // TODO: update token when we have logic to fetch vault info

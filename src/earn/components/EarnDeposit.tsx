@@ -17,8 +17,9 @@ function EarnDepositDefaultContent() {
 }
 
 export function EarnDeposit({
-  children = <EarnDepositDefaultContent />,
+  children: propsChildren,
   className,
 }: EarnDepositReact) {
+  const children = propsChildren ?? <EarnDepositDefaultContent />;
   return <EarnCard className={className}>{children}</EarnCard>;
 }

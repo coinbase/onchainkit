@@ -18,6 +18,7 @@ export function getRoundedAmount(balance: string, fractionDigits: number) {
 
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'decimal',
+    roundingMode: 'trunc',
     minimumFractionDigits: 0,
     maximumFractionDigits: hasDecimals
       ? Math.min(fractionDigits, balance.split('.')[1]?.length)

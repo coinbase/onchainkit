@@ -77,7 +77,7 @@ export type EarnWithdrawReact = {
 export type EarnDetailsReact = {
   className?: string;
   token?: Token;
-  tag?: string;
+  tag?: React.ReactNode;
   tagVariant?: 'default' | 'primary';
 };
 

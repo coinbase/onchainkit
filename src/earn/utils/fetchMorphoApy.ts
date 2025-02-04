@@ -97,5 +97,7 @@ export async function fetchMorphoApy(vaultAddress: string) {
     }),
   });
   const { data } = (await response.json()) as MorphoVaultApiResponse;
+  console.log('data:', data);
+
   return data.vaultByAddress;
 }
