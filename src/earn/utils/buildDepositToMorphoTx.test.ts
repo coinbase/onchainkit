@@ -3,7 +3,7 @@ import { USDC_ADDRESS, USDC_DECIMALS } from '@/earn/constants';
 import { encodeFunctionData, parseUnits } from 'viem';
 import { describe, expect, it } from 'vitest';
 import {
-  type DepositToMorphoArgs,
+  type DepositToMorphoParams,
   buildDepositToMorphoTx,
 } from './buildDepositToMorphoTx';
 
@@ -13,7 +13,7 @@ describe('buildDepositToMorphoTx', () => {
     tokenAddress: USDC_ADDRESS,
     amount: parseUnits('1000', USDC_DECIMALS),
     receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
-  } satisfies DepositToMorphoArgs;
+  } satisfies DepositToMorphoParams;
 
   it('should return an array with two transactions', () => {
     const result = buildDepositToMorphoTx(mockArgs);
