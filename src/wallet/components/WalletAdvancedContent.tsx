@@ -83,6 +83,7 @@ export function WalletAdvancedContent({
         isOpen={isSubComponentOpen}
         triggerRef={connectRef}
         onClose={handleBottomSheetClose}
+        className={classNames?.container}
       >
         <div className="flex h-full w-full flex-col items-center justify-center">
           {content}
