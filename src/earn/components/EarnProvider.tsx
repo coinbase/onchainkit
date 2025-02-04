@@ -12,7 +12,9 @@ const EarnContext = createContext<EarnContextType | undefined>(undefined);
 
 export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
   if (!vaultAddress) {
-    throw new Error('vaultAddress is required');
+    throw new Error(
+      'vaultAddress is required. For a list of vaults, see: https://app.morpho.org/base/earn',
+    );
   }
 
   const { address } = useAccount();
