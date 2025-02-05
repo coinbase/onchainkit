@@ -55,7 +55,6 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     convertedBalance,
     vaultAddress,
     vaultToken,
-    assetAddress: asset,
     depositAmount,
     setDepositAmount,
     withdrawAmount,

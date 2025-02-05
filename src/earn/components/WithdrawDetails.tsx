@@ -13,7 +13,6 @@ export function WithdrawDetails({ className }: WithdrawDetailsReact) {
     return '';
   }, [interest]);
 
-  // TODO: update token when we have logic to fetch vault info
   return (
     <EarnDetails
       className={className}

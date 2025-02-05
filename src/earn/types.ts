@@ -17,20 +17,24 @@ export type EarnProviderReact = {
 export type EarnContextType = {
   // TODO: rename to recipientAddress for clarity
   address?: Address;
-  apy?: number;
+  /** Balance of the asset in the vault, converted to the asset's decimals */
   convertedBalance?: string;
   vaultAddress: Address;
+  /** The token that is being deposited or withdrawn */
   vaultToken: Token | undefined;
-  depositAmount: string;
+  /** Total APY of the vault, including rewards */
+  apy?: number;
+  /** The amount that has been deposited by the connected user in the vault */
   depositedAmount?: string;
   interest?: string;
+  /** Amount that the user has typed into the deposit amount input */
+  depositAmount: string;
   setDepositAmount: (amount: string) => void;
-  setWithdrawAmount: (amount: string) => void;
-  withdrawAmount: string;
-  withdrawCalls: Call[];
   depositCalls: Call[];
-  /** The address of the asset that is being deposited or withdrawn */
-  assetAddress?: Address | undefined;
+  /** Amount that the user has typed into the withdraw amount input */
+  withdrawAmount: string;
+  setWithdrawAmount: (amount: string) => void;
+  withdrawCalls: Call[];
 };
 
 export type EarnAmountInputReact = {
