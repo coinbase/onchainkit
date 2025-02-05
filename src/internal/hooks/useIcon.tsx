@@ -8,7 +8,7 @@ import { fundWalletSvg } from '../svg/fundWallet';
 import { swapSettingsSvg } from '../svg/swapSettings';
 import { toggleSvg } from '../svg/toggleSvg';
 import { walletSvg } from '../svg/walletSvg';
-
+import { tokensSvg } from '../svg/tokensSvg';
 export const useIcon = ({ icon }: { icon?: React.ReactNode }) => {
   return useMemo(() => {
     if (icon === undefined) {
@@ -33,6 +33,8 @@ export const useIcon = ({ icon }: { icon?: React.ReactNode }) => {
         return appleSvg;
       case 'creditCard':
         return creditCardSvg;
+      case 'tokens':
+        return tokensSvg;
     }
     if (isValidElement(icon)) {
       return icon;

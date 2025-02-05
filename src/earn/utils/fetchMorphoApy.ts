@@ -14,6 +14,7 @@ const QUERY = `query($address: String!) {
           id
           address
           decimals
+          symbol
         }
         chain {
           id
@@ -56,6 +57,7 @@ export type MorphoVaultApiResponse = {
         id: string;
         address: Address;
         decimals: number;
+        symbol: string;
       };
       chain: {
         id: number;

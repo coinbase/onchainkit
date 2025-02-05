@@ -6,7 +6,7 @@ import { useBuildMorphoDepositTx } from '../hooks/useBuildMorphoDepositTx';
 import { useBuildMorphoWithdrawTx } from '../hooks/useBuildMorphoWithdrawTx';
 import { useMorphoVault } from '../hooks/useMorphoVault';
 import type { EarnContextType, EarnProviderReact } from '../types';
-import { getTokenFromAddress } from '@/earn/utils/getTokenFromAddress';
+import { getToken } from '@/earn/utils/getTokenFromAddress';
 
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 
@@ -22,11 +22,19 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
   const [depositAmount, setDepositAmount] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('');
 
-  const { asset, balance, totalApy } = useMorphoVault({
-    vaultAddress,
-    address,
-  });
-  const vaultToken = asset ? getTokenFromAddress(asset) : undefined;
+  const { asset, assetDecimals, assetSymbol, balance, totalApy } =
+    useMorphoVault({
+      vaultAddress,
+      address,
+    });
+  const vaultToken = asset
+    ? getToken({
+        address: asset,
+        symbol: assetSymbol,
+        name: assetSymbol,
+        decimals: assetDecimals,
+      })
+    : undefined;
 
   const { convertedBalance } = useGetTokenBalance(address, vaultToken);
 

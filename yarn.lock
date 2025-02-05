@@ -2080,7 +2080,7 @@ __metadata:
     tailwindcss-animate: "npm:^1.0.7"
     tscpaths: "npm:^0.0.9"
     tsup: "npm:^8.3.5"
-    typescript: "npm:~5.3.3"
+    typescript: "npm:^5.7.3"
     viem: "npm:^2.21.33"
     vite: "npm:^5.3.3"
     vitest: "npm:^3.0.5"
@@ -4529,24 +4529,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-arm64@npm:1.10.14":
-  version: 1.10.14
-  resolution: "@swc/core-darwin-arm64@npm:1.10.14"
-  conditions: os=darwin & cpu=arm64
-  languageName: node
-  linkType: hard
-
 "@swc/core-darwin-arm64@npm:1.10.7":
   version: 1.10.7
   resolution: "@swc/core-darwin-arm64@npm:1.10.7"
   conditions: os=darwin & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@swc/core-darwin-x64@npm:1.10.14":
-  version: 1.10.14
-  resolution: "@swc/core-darwin-x64@npm:1.10.14"
-  conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
@@ -4557,24 +4543,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm-gnueabihf@npm:1.10.14":
-  version: 1.10.14
-  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.10.14"
-  conditions: os=linux & cpu=arm
-  languageName: node
-  linkType: hard
-
 "@swc/core-linux-arm-gnueabihf@npm:1.10.7":
   version: 1.10.7
   resolution: "@swc/core-linux-arm-gnueabihf@npm:1.10.7"
   conditions: os=linux & cpu=arm
-  languageName: node
-  linkType: hard
-
-"@swc/core-linux-arm64-gnu@npm:1.10.14":
-  version: 1.10.14
-  resolution: "@swc/core-linux-arm64-gnu@npm:1.10.14"
-  conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
@@ -4585,24 +4557,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-musl@npm:1.10.14":
-  version: 1.10.14
-  resolution: "@swc/core-linux-arm64-musl@npm:1.10.14"
-  conditions: os=linux & cpu=arm64 & libc=musl
-  languageName: node
-  linkType: hard
-
 "@swc/core-linux-arm64-musl@npm:1.10.7":
   version: 1.10.7
   resolution: "@swc/core-linux-arm64-musl@npm:1.10.7"
   conditions: os=linux & cpu=arm64 & libc=musl
-  languageName: node
-  linkType: hard
-
-"@swc/core-linux-x64-gnu@npm:1.10.14":
-  version: 1.10.14
-  resolution: "@swc/core-linux-x64-gnu@npm:1.10.14"
-  conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
@@ -4613,24 +4571,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-musl@npm:1.10.14":
-  version: 1.10.14
-  resolution: "@swc/core-linux-x64-musl@npm:1.10.14"
-  conditions: os=linux & cpu=x64 & libc=musl
-  languageName: node
-  linkType: hard
-
 "@swc/core-linux-x64-musl@npm:1.10.7":
   version: 1.10.7
   resolution: "@swc/core-linux-x64-musl@npm:1.10.7"
   conditions: os=linux & cpu=x64 & libc=musl
-  languageName: node
-  linkType: hard
-
-"@swc/core-win32-arm64-msvc@npm:1.10.14":
-  version: 1.10.14
-  resolution: "@swc/core-win32-arm64-msvc@npm:1.10.14"
-  conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
@@ -4641,24 +4585,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-win32-ia32-msvc@npm:1.10.14":
-  version: 1.10.14
-  resolution: "@swc/core-win32-ia32-msvc@npm:1.10.14"
-  conditions: os=win32 & cpu=ia32
-  languageName: node
-  linkType: hard
-
 "@swc/core-win32-ia32-msvc@npm:1.10.7":
   version: 1.10.7
   resolution: "@swc/core-win32-ia32-msvc@npm:1.10.7"
   conditions: os=win32 & cpu=ia32
-  languageName: node
-  linkType: hard
-
-"@swc/core-win32-x64-msvc@npm:1.10.14":
-  version: 1.10.14
-  resolution: "@swc/core-win32-x64-msvc@npm:1.10.14"
-  conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
@@ -4669,53 +4599,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core@npm:^1.4.0":
-  version: 1.10.14
-  resolution: "@swc/core@npm:1.10.14"
-  dependencies:
-    "@swc/core-darwin-arm64": "npm:1.10.14"
-    "@swc/core-darwin-x64": "npm:1.10.14"
-    "@swc/core-linux-arm-gnueabihf": "npm:1.10.14"
-    "@swc/core-linux-arm64-gnu": "npm:1.10.14"
-    "@swc/core-linux-arm64-musl": "npm:1.10.14"
-    "@swc/core-linux-x64-gnu": "npm:1.10.14"
-    "@swc/core-linux-x64-musl": "npm:1.10.14"
-    "@swc/core-win32-arm64-msvc": "npm:1.10.14"
-    "@swc/core-win32-ia32-msvc": "npm:1.10.14"
-    "@swc/core-win32-x64-msvc": "npm:1.10.14"
-    "@swc/counter": "npm:^0.1.3"
-    "@swc/types": "npm:^0.1.17"
-  peerDependencies:
-    "@swc/helpers": "*"
-  dependenciesMeta:
-    "@swc/core-darwin-arm64":
-      optional: true
-    "@swc/core-darwin-x64":
-      optional: true
-    "@swc/core-linux-arm-gnueabihf":
-      optional: true
-    "@swc/core-linux-arm64-gnu":
-      optional: true
-    "@swc/core-linux-arm64-musl":
-      optional: true
-    "@swc/core-linux-x64-gnu":
-      optional: true
-    "@swc/core-linux-x64-musl":
-      optional: true
-    "@swc/core-win32-arm64-msvc":
-      optional: true
-    "@swc/core-win32-ia32-msvc":
-      optional: true
-    "@swc/core-win32-x64-msvc":
-      optional: true
-  peerDependenciesMeta:
-    "@swc/helpers":
-      optional: true
-  checksum: d467f094b6cc632332309be3809847c365ebe48639091c4008353cd70a6a2310aa7cc6635913a41b3a76c2a5e86329bb7f3c1e6ab916221abbd8c6087bf4d2ad
-  languageName: node
-  linkType: hard
-
-"@swc/core@npm:^1.5.22":
+"@swc/core@npm:^1.4.0, @swc/core@npm:^1.5.22":
   version: 1.10.7
   resolution: "@swc/core@npm:1.10.7"
   dependencies:
@@ -13153,11 +13037,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"rollup@npm:^4.9.6":
-=======
 "rollup@npm:^4.23.0, rollup@npm:^4.9.6":
->>>>>>> main
   version: 4.34.2
   resolution: "rollup@npm:4.34.2"
   dependencies:
@@ -14546,23 +14426,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:~5.3.3":
-  version: 5.3.3
-  resolution: "typescript@npm:5.3.3"
+"typescript@npm:^5.7.3":
+  version: 5.7.3
+  resolution: "typescript@npm:5.7.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: e33cef99d82573624fc0f854a2980322714986bc35b9cb4d1ce736ed182aeab78e2cb32b385efa493b2a976ef52c53e20d6c6918312353a91850e2b76f1ea44f
+  checksum: b7580d716cf1824736cc6e628ab4cd8b51877408ba2be0869d2866da35ef8366dd6ae9eb9d0851470a39be17cbd61df1126f9e211d8799d764ea7431d5435afa
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A~5.3.3#optional!builtin<compat/typescript>":
-  version: 5.3.3
-  resolution: "typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"
+"typescript@patch:typescript@npm%3A^5.7.3#optional!builtin<compat/typescript>":
+  version: 5.7.3
+  resolution: "typescript@patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>::version=5.7.3&hash=e012d7"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 1d0a5f4ce496c42caa9a30e659c467c5686eae15d54b027ee7866744952547f1be1262f2d40de911618c242b510029d51d43ff605dba8fb740ec85ca2d3f9500
+  checksum: 3b56d6afa03d9f6172d0b9cdb10e6b1efc9abc1608efd7a3d2f38773d5d8cfb9bbc68dfb72f0a7de5e8db04fc847f4e4baeddcd5ad9c9feda072234f0d788896
   languageName: node
   linkType: hard
 

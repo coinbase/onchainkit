@@ -1,5 +1,4 @@
 import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
-import { useMemo } from 'react';
 import type { DepositDetailsReact } from '../types';
 import { EarnDetails } from './EarnDetails';
 import { useEarnContext } from './EarnProvider';
@@ -8,7 +7,6 @@ import { color } from '@/styles/theme';
 import { text } from '@/styles/theme';
 import { cn } from '@/styles/theme';
 import { Skeleton } from '@/internal/components/Skeleton';
-import { getTokenFromAddress } from '@/earn/utils/getTokenFromAddress';
 import { formatPercent } from '@/internal/utils/formatPercent';
 
 function ApyTag({ apy }: { apy: number | undefined }) {
@@ -29,15 +27,12 @@ function ApyTag({ apy }: { apy: number | undefined }) {
 }
 
 export function DepositDetails({ className }: DepositDetailsReact) {
-  const { apy, assetAddress } = useEarnContext();
-  console.log('assetAddress:', assetAddress);
-  const token = assetAddress ? getTokenFromAddress(assetAddress) : undefined;
-  console.log('token:', token);
+  const { apy, vaultToken } = useEarnContext();
 
   return (
     <EarnDetails
       className={className}
-      token={token}
+      token={vaultToken}
       tag={<ApyTag apy={apy} />}
       tagVariant="default"
     />
