@@ -23,7 +23,11 @@ export function Transaction({
 
   // prevents SSR hydration issue
   if (!isMounted) {
-    return null;
+    return (
+      <div
+        className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}
+      />
+    );
   }
 
   // If chainId is not provided,
