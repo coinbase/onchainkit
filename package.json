@@ -140,12 +140,6 @@
       "import": "./esm/core/index.js",
       "default": "./esm/core/index.js"
     },
-    "./earn": {
-      "types": "./esm/earn/index.d.ts",
-      "module": "./esm/earn/index.js",
-      "import": "./esm/earn/index.js",
-      "default": "./esm/earn/index.js"
-    },
     "./fund": {
       "types": "./esm/fund/index.d.ts",
       "module": "./esm/fund/index.js",
