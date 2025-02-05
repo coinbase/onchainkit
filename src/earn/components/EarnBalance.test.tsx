@@ -1,15 +1,15 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
-import { EarnBalance } from './EarnBalance';
 import { EarnProvider, useEarnContext } from '@/earn/components/EarnProvider';
-import { createConfig, mock, http, useAccount, WagmiProvider } from 'wagmi';
-import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
-import { useConfig } from 'wagmi';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { baseSepolia } from 'viem/chains';
 import type { EarnContextType } from '@/earn/types';
-import type { Address } from 'viem';
 import { usdcToken } from '@/token/constants';
+import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { fireEvent, render, screen } from '@testing-library/react';
+import type { Address } from 'viem';
+import { baseSepolia } from 'viem/chains';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { http, WagmiProvider, createConfig, mock, useAccount } from 'wagmi';
+import { useConfig } from 'wagmi';
+import { EarnBalance } from './EarnBalance';
 
 const baseContext: EarnContextType & { address: Address } = {
   convertedBalance: '1000',

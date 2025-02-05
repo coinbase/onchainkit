@@ -1,11 +1,11 @@
 import type { EarnContextType } from '@/earn/types';
+import { usdcToken } from '@/token/constants';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useEarnContext } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
-import { usdcToken } from '@/token/constants';
 
 const baseContext: EarnContextType & { address: Address } = {
   convertedBalance: '1000',

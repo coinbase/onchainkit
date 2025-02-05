@@ -1,6 +1,6 @@
+import { useEarnContext } from '@/earn/components/EarnProvider';
 import { background, border, cn, color, text } from '@/styles/theme';
 import type { EarnBalanceReact } from '../types';
-import { useEarnContext } from '@/earn/components/EarnProvider';
 
 export function EarnBalance({
   className,

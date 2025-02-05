@@ -1,9 +1,9 @@
 import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
+import { Skeleton } from '@/internal/components/Skeleton';
 import { useCallback, useMemo } from 'react';
 import type { WithdrawBalanceReact } from '../types';
 import { EarnBalance } from './EarnBalance';
 import { useEarnContext } from './EarnProvider';
-import { Skeleton } from '@/internal/components/Skeleton';
 
 export function WithdrawBalance({ className }: WithdrawBalanceReact) {
   const { depositedAmount, setWithdrawAmount, vaultToken } = useEarnContext();

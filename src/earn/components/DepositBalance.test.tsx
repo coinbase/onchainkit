@@ -1,9 +1,9 @@
+import { usdcToken } from '@/token/constants';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
 import { describe, expect, it, vi } from 'vitest';
 import { DepositBalance } from './DepositBalance';
 import { useEarnContext } from './EarnProvider';
-import { usdcToken } from '@/token/constants';
 
 const baseContext = {
   convertedBalance: '1000',

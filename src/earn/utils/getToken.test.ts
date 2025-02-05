@@ -1,7 +1,7 @@
-import { describe, expect, it } from 'vitest';
-import { getToken } from './getToken';
 import { baseTokens } from '@/token/constants';
 import { base } from 'viem/chains';
+import { describe, expect, it } from 'vitest';
+import { getToken } from './getToken';
 
 describe('getToken', () => {
   it('returns matching token when address exists', () => {

@@ -1,13 +1,13 @@
 import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
-import type { DepositDetailsReact } from '../types';
-import { EarnDetails } from './EarnDetails';
-import { useEarnContext } from './EarnProvider';
+import { Skeleton } from '@/internal/components/Skeleton';
+import { formatPercent } from '@/internal/utils/formatPercent';
 import { background } from '@/styles/theme';
 import { color } from '@/styles/theme';
 import { text } from '@/styles/theme';
 import { cn } from '@/styles/theme';
-import { Skeleton } from '@/internal/components/Skeleton';
-import { formatPercent } from '@/internal/utils/formatPercent';
+import type { DepositDetailsReact } from '../types';
+import { EarnDetails } from './EarnDetails';
+import { useEarnContext } from './EarnProvider';
 
 function ApyTag({ apy }: { apy: number | undefined }) {
   return apy ? (

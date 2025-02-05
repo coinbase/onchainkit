@@ -1,3 +1,4 @@
+import { getToken } from '@/earn/utils/getToken';
 import { useValue } from '@/internal/hooks/useValue';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import { createContext, useContext, useState } from 'react';
@@ -6,7 +7,6 @@ import { useBuildMorphoDepositTx } from '../hooks/useBuildMorphoDepositTx';
 import { useBuildMorphoWithdrawTx } from '../hooks/useBuildMorphoWithdrawTx';
 import { useMorphoVault } from '../hooks/useMorphoVault';
 import type { EarnContextType, EarnProviderReact } from '../types';
-import { getToken } from '@/earn/utils/getToken';
 
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 

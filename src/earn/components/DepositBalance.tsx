@@ -1,10 +1,10 @@
 import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
+import { Skeleton } from '@/internal/components/Skeleton';
+import { cn } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import type { DepositBalanceReact } from '../types';
 import { EarnBalance } from './EarnBalance';
 import { useEarnContext } from './EarnProvider';
-import { Skeleton } from '@/internal/components/Skeleton';
-import { cn } from '@/styles/theme';
 
 export function DepositBalance({ className }: DepositBalanceReact) {
   const { convertedBalance, setDepositAmount, vaultToken } = useEarnContext();
