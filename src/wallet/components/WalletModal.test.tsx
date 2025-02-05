@@ -31,7 +31,7 @@ vi.mock('wagmi/connectors', () => ({
   }),
 }));
 
-vi.mock('../../internal/components/primitives/Dialog', () => ({
+vi.mock('../../internal/components/Dialog', () => ({
   Dialog: vi.fn(
     ({
       children,
