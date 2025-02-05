@@ -1,5 +1,6 @@
 import { background, border, cn, color, text } from '@/styles/theme';
 import type { EarnBalanceReact } from '../types';
+import { useEarnContext } from '@/earn/components/EarnProvider';
 
 export function EarnBalance({
   className,
@@ -8,6 +9,7 @@ export function EarnBalance({
   subtitle,
   showAction = false,
 }: EarnBalanceReact) {
+  const { convertedBalance } = useEarnContext();
   return (
     <div
       className={cn(
@@ -22,7 +24,7 @@ export function EarnBalance({
         <div className={text.headline}>{title}</div>
         <div className={cn(text.label2, color.foregroundMuted)}>{subtitle}</div>
       </div>
-      {showAction && (
+      {showAction && convertedBalance && Number(convertedBalance) > 0 && (
         <button
           onClick={onActionPress}
           className={cn(text.label2, color.primary)}

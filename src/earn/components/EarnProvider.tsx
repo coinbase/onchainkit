@@ -1,5 +1,4 @@
 import { useValue } from '@/internal/hooks/useValue';
-import { usdcToken } from '@/token/constants';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import { createContext, useContext, useState } from 'react';
 import { useAccount } from 'wagmi';
@@ -7,6 +6,7 @@ import { useBuildMorphoDepositTx } from '../hooks/useBuildMorphoDepositTx';
 import { useBuildMorphoWithdrawTx } from '../hooks/useBuildMorphoWithdrawTx';
 import { useMorphoVault } from '../hooks/useMorphoVault';
 import type { EarnContextType, EarnProviderReact } from '../types';
+import { getTokenFromAddress } from '@/earn/utils/getTokenFromAddress';
 
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 
@@ -22,13 +22,13 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
   const [depositAmount, setDepositAmount] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('');
 
-  const { convertedBalance } = useGetTokenBalance(address, usdcToken);
-
   const { asset, balance, totalApy } = useMorphoVault({
     vaultAddress,
     address,
   });
-  console.log('asset:', asset);
+  const vaultToken = asset ? getTokenFromAddress(asset) : undefined;
+
+  const { convertedBalance } = useGetTokenBalance(address, vaultToken);
 
   const { calls: withdrawCalls } = useBuildMorphoWithdrawTx({
     vaultAddress,
@@ -46,6 +46,7 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     address,
     convertedBalance,
     vaultAddress,
+    vaultToken,
     assetAddress: asset,
     depositAmount,
     setDepositAmount,

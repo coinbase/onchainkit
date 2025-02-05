@@ -1,11 +1,10 @@
-import { usdcToken } from '@/token/constants';
 import { useMemo } from 'react';
 import type { WithdrawDetailsReact } from '../types';
 import { EarnDetails } from './EarnDetails';
 import { useEarnContext } from './EarnProvider';
 
 export function WithdrawDetails({ className }: WithdrawDetailsReact) {
-  const { interest } = useEarnContext();
+  const { interest, vaultToken } = useEarnContext();
 
   const tag = useMemo(() => {
     if (interest) {
@@ -18,7 +17,7 @@ export function WithdrawDetails({ className }: WithdrawDetailsReact) {
   return (
     <EarnDetails
       className={className}
-      token={usdcToken}
+      token={vaultToken}
       tag={tag}
       tagVariant="primary"
     />

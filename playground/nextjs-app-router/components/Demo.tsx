@@ -155,7 +155,7 @@ export default function Demo() {
               : 'justify-center',
           )}
         >
-          {ActiveComponent && <ActiveComponent />}
+          {/* {ActiveComponent && <ActiveComponent />} */}
           {/* wETH vault */}
           <Earn vaultAddress="0xa0E430870c4604CcfC7B38Ca7845B1FF653D0ff1" />
           {/* USDC vault */}

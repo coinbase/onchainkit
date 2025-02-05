@@ -1,5 +1,6 @@
 import type { Token } from '@/token';
 import type { Call } from '@/transaction/types';
+import type React from 'react';
 import type { Address } from 'viem';
 
 export type EarnReact = {
@@ -14,10 +15,12 @@ export type EarnProviderReact = {
 };
 
 export type EarnContextType = {
+  // TODO: rename to recipientAddress for clarity
   address?: Address;
   apy?: number;
   convertedBalance?: string;
   vaultAddress: Address;
+  vaultToken: Token | undefined;
   depositAmount: string;
   depositedAmount?: string;
   interest?: string;
@@ -48,7 +51,7 @@ export type DepositAmountInputReact = {
 export type EarnBalanceReact = {
   className?: string;
   onActionPress: () => void;
-  title: string;
+  title: React.ReactNode;
   subtitle: string;
   showAction?: boolean;
 };
