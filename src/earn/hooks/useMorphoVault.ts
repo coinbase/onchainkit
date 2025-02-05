@@ -14,6 +14,7 @@ type UseMorphoVaultParams = {
 export type UseMorphoVaultReturnType = {
   status: 'pending' | 'success' | 'error';
   asset: Address | undefined;
+  assetSymbol: string | undefined;
   assetDecimals: number | undefined;
   vaultDecimals: number | undefined;
   name: string | undefined;
@@ -91,6 +92,7 @@ export function useMorphoVault({
   return {
     status,
     asset: data?.[0].result,
+    assetSymbol: vaultData?.symbol,
     assetDecimals: tokenDecimals,
     vaultDecimals: data?.[2].result,
     name: data?.[1].result,

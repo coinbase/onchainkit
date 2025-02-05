@@ -1,4 +1,5 @@
 import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
+import { useMemo } from 'react';
 import type { DepositDetailsReact } from '../types';
 import { EarnDetails } from './EarnDetails';
 import { useEarnContext } from './EarnProvider';
