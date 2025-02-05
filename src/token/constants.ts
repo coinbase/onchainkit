@@ -49,6 +49,12 @@ const wethToken: Token = {
   image: ethToken.image,
   chainId: base.id,
 };
-const baseTokens = [ethToken, wethToken, usdcToken, degenToken, daiToken];
+const baseTokens = [
+  ethToken,
+  wethToken,
+  usdcToken,
+  degenToken,
+  daiToken,
+] as const;
 
 export { baseTokens };
