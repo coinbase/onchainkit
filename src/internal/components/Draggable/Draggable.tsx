@@ -1,9 +1,10 @@
 'use client';
 
-import { zIndex } from '@/styles/constants';
+// import { zIndex } from '@/styles/constants';
 import { cn } from '@/styles/theme';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getBoundedPosition } from './getBoundedPosition';
+import { useRespositionOnWindowResize } from './useRepositionOnResize';
 
 type DraggableProps = {
   children: React.ReactNode;
@@ -104,6 +105,8 @@ export function Draggable({
     dragStartPosition,
   ]);
 
+  useRespositionOnWindowResize(draggableRef, position, setPosition);
+
   return (
     <div
       ref={draggableRef}
@@ -111,7 +114,6 @@ export function Draggable({
       className={cn(
         'fixed touch-none select-none',
         'cursor-grab active:cursor-grabbing',
-        zIndex.modal,
       )}
       style={{
         left: `${position.x}px`,

@@ -216,10 +216,6 @@ export const sidebar = [
             link: '/wallet/wallet',
           },
           {
-            text: 'WalletIsland',
-            link: '/wallet/wallet-island',
-          },
-          {
             text: 'WalletDropdownBasename',
             link: '/wallet/wallet-dropdown-basename',
           },
@@ -234,6 +230,14 @@ export const sidebar = [
           {
             text: 'WalletDropdownLink',
             link: '/wallet/wallet-dropdown-link',
+          },
+          {
+            text: 'WalletIsland',
+            link: '/wallet/wallet-island',
+          },
+          {
+            text: 'WalletModal',
+            link: '/wallet/wallet-modal',
           },
         ],
       },
@@ -328,6 +332,22 @@ export const sidebar = [
           {
             text: 'getOnrampBuyUrl',
             link: '/fund/get-onramp-buy-url',
+          },
+          {
+            text: 'fetchOnrampConfig',
+            link: '/fund/fetch-onramp-config',
+          },
+          {
+            text: 'fetchOnrampOptions',
+            link: '/fund/fetch-onramp-options',
+          },
+          {
+            text: 'fetchOnrampTransactionStatus',
+            link: '/fund/fetch-onramp-transaction-status',
+          },
+          {
+            text: 'setupOnrampEventListeners',
+            link: '/fund/setup-onramp-event-listeners',
           },
         ],
       },

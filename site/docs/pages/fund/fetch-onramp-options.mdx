@@ -1,0 +1,70 @@
+# `fetchOnrampOptions`
+
+The `fetchOnrampOptions` utility retrieves supported fiat currencies and available crypto assets for a specific country. This information is essential for determining which assets can be purchased in the user's jurisdiction.
+
+## Usage
+
+:::code-group
+
+```tsx twoslash [code]
+import { fetchOnrampOptions } from '@coinbase/onchainkit/fund';
+
+const options = await fetchOnrampOptions({
+  country: 'US',
+  subdivision: 'CA', // Required for US residents
+});
+```
+
+```json [return value]
+{
+  fiatCurrencies: [
+    {
+      id: "USD",
+      name: "US Dollar",
+      symbol: "$"
+    }
+  ],
+  assets: [
+    {
+      id: "ETH",
+      name: "Ethereum",
+      networks: [
+        {
+          id: "ethereum",
+          name: "Ethereum",
+          config: {
+            chainId: "0x1"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+:::
+
+## Parameters
+
+```typescript
+{
+  /**
+   * ISO 3166-1 two-digit country code string representing
+   * the purchasing user’s country of residence, e.g., US.
+   */
+  country: string;
+  /**
+   * ISO 3166-2 two-digit country subdivision code representing
+   * the purchasing user’s subdivision of residence within their country,
+   * e.g. NY. Required if the country=“US” because certain states (e.g., NY)
+   * have state specific asset restrictions.
+   */
+  subdivision?: string;
+}
+```
+
+## Returns
+
+`Promise<OnrampOptionsResponseData>` - Returns a promise that resolves to the available options for the specified location.
+
+See [`OnrampOptionsResponseData`](/fund/types#onrampoptionsresponsedata) for full response type details.

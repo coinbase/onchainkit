@@ -201,3 +201,138 @@ type GetOnrampBuyUrlOptionalProps = {
   redirectUrl?: string;
 };
 ```
+
+## `OnrampConfigResponseData`
+
+```ts
+type OnrampConfigResponseData = {
+  countries: OnrampConfigCountry[];
+};
+
+type OnrampConfigCountry = {
+  id: string;
+  /**
+   * ISO 3166-2 two-digit country subdivision code representing
+   * the purchasing user’s subdivision of residence within their country,
+   * e.g. NY. Required if the country=“US” because certain states (e.g., NY)
+   * have state specific asset restrictions.
+   */
+  subdivisions: string[];
+  paymentMethods: OnrampPaymentMethod[];
+};
+
+type OnrampPaymentMethod = {
+  id: string;
+};
+```
+
+## `OnrampOptionsResponseData`
+
+```ts
+type OnrampOptionsResponseData = {
+  /**
+   * List of supported fiat currencies that can be exchanged for crypto on Onramp in the given location.
+   * Each currency contains a list of available payment methods, with min and max transaction limits for that currency.
+   */
+  paymentCurrencies: OnrampPaymentCurrency[];
+  /**
+   * List of available crypto assets that can be bought on Onramp in the given location.
+   */
+  purchaseCurrencies: OnrampPurchaseCurrency[];
+};
+
+type OnrampPurchaseCurrency = {
+  id: string;
+  name: string;
+  symbol: string;
+  iconUrl: string;
+  networks: OnrampNetwork[];
+};
+
+type OnrampPaymentCurrency = {
+  id: string;
+  limits: OnrampPaymentMethodLimit[];
+};
+
+type OnrampNetwork = {
+  name: string;
+  displayName: string;
+  chainId: string;
+  contractAddress: string;
+};
+
+type OnrampPaymentMethodLimit = {
+  id: string;
+  min: number;
+  max: number;
+};
+```
+
+## `OnrampTransactionStatusResponseData`
+
+```ts
+type OnrampTransactionStatusResponseData = {
+  /** List of `OnrampTransactions` in reverse chronological order. */
+  transactions: OnrampTransaction[];
+  /** A reference to the next page of transactions. */
+  nextPageKey: string;
+  /** The total number of transactions made by the user. */
+  totalCount: string;
+};
+
+type OnrampTransaction = {
+  status: OnrampTransactionStatusName;
+  purchaseCurrency: string;
+  purchaseNetwork: string;
+  purchaseAmount: OnrampAmount;
+  paymentTotal: OnrampAmount;
+  paymentSubtotal: OnrampAmount;
+  coinbaseFee: OnrampAmount;
+  networkFee: OnrampAmount;
+  exchangeRate: OnrampAmount;
+  txHash: string;
+  createdAt: string;
+  country: string;
+  userId: string;
+  paymentMethod: string;
+  transactionId: string;
+};
+
+```
+
+## `SuccessEventData`
+
+```ts
+type SuccessEventData = {
+  assetImageUrl: string;
+  assetName: string;
+  assetSymbol: string;
+  chainId: string;
+};
+```
+
+## `OnrampError`
+
+```ts
+type OnrampError = {
+  errorType:
+    | 'internal_error'
+    | 'handled_error'
+    | 'network_error'
+    | 'unknown_error';
+  code?: string;
+  debugMessage?: string;
+};
+```
+
+## `EventMetadata`
+
+```ts
+type EventMetadata =
+  | OpenEvent
+  | TransitionViewEvent
+  | PublicErrorEvent
+  | ExitEvent
+  | SuccessEvent
+  | RequestOpenUrlEvent;
+```

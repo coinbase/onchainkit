@@ -1,0 +1,128 @@
+---
+title: Wallet Modal · OnchainKit
+description: The Wallet Modal provides users with multiple wallet connection options in a polished interface.
+---
+
+import { 
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import AppWithWalletModal from '../../components/AppWithWalletModal';
+
+# Wallet Modal
+
+<img 
+  alt="Wallet Modal"
+  src="https://onchainkit.xyz/assets/wallet-modal.png"
+  height="364"
+  width="364"
+  className="mx-auto"
+/>
+
+`WalletModal` offers users multiple wallet connection options. The modal automatically appears when users click the `ConnectWallet` component and provides three distinct connection paths:
+
+1. Quickly create a new smart wallet for new users
+2. Coinbase Wallet connection (supporting both smart wallets and EOA)
+3. MetaMask and Phantom connection
+
+## Walkthrough
+
+::::steps
+
+### Configure the `OnchainKitProvider` with modal settings:
+
+```tsx [providers.tsx]
+<OnchainKitProvider
+  apiKey={process.env.ONCHAINKIT_API_KEY}
+  chain={base}
+  config={{
+    appearance: {
+      name: 'Your App Name',        // Displayed in modal header
+      logo: 'https://your-logo.com',// Displayed in modal header
+      mode: 'auto',                 // 'light' | 'dark' | 'auto'
+      theme: 'default',             // 'default' or custom theme
+    },
+    wallet: { // [!code focus]
+      display: 'modal', // [!code focus]
+      termsUrl: 'https://...', // [!code focus] 
+      privacyUrl: 'https://...', // [!code focus]
+    },
+  }}
+>
+  {children}
+</OnchainKitProvider>
+```
+
+### Use the `ConnectWallet` component in your UI:
+
+```tsx [App.tsx]
+<Wallet>
+  <ConnectWallet>
+    <Avatar className="h-6 w-6" />
+    <Name />
+  </ConnectWallet>
+  <WalletDropdown>
+    <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+      <Avatar />
+      <Name />
+      <Address />
+      <EthBalance />
+    </Identity>
+    <WalletDropdownDisconnect />
+  </WalletDropdown>
+</Wallet>
+```
+
+<AppWithWalletModal>
+  <div className="my-10 flex justify-center">
+    <Wallet>
+      <ConnectWallet>
+        <Avatar className="h-6 w-6" />
+        <Name />
+      </ConnectWallet>
+      <WalletDropdown>
+        <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+          <Avatar />
+          <Name />
+          <Address className={color.foregroundMuted} />
+          <EthBalance />
+        </Identity>
+        <WalletDropdownDisconnect />
+      </WalletDropdown>
+    </Wallet>
+  </div>
+</AppWithWalletModal>
+
+::::
+
+## Components
+
+The Wallet Modal components are designed to work together hierarchically:
+
+- `<OnchainKitProvider />` - Configures the modal settings and appearance
+- `<ConnectWallet />` - Triggers the modal to open when clicked
+- `<WalletModal />` - The modal interface itself, containing:
+  - Smart wallet creation flow
+  - Coinbase Wallet connection
+  - MetaMask connection
+  - Phantom connection
+  - Terms and privacy policy links
+
+The modal automatically handles:
+- Wallet connection states
+- Error handling
+- Mobile/desktop responsive behavior
+- Theme customization
+- Terms/privacy policy display
+
+::::
