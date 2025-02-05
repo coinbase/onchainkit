@@ -14,7 +14,7 @@ export function EarnDetails({ className, token, tag }: EarnDetailsReact) {
     >
       {token ? (
         <TokenChip
-          className={'!bg-transparent'}
+          className="!bg-transparent"
           token={token}
           isPressable={false}
         />

@@ -4,6 +4,7 @@ import type { DepositBalanceReact } from '../types';
 import { EarnBalance } from './EarnBalance';
 import { useEarnContext } from './EarnProvider';
 import { Skeleton } from '@/internal/components/Skeleton';
+import { cn } from '@/styles/theme';
 
 export function DepositBalance({ className }: DepositBalanceReact) {
   const { convertedBalance, setDepositAmount, vaultToken } = useEarnContext();
@@ -23,7 +24,11 @@ export function DepositBalance({ className }: DepositBalanceReact) {
 
   const title = useMemo(() => {
     if (!vaultToken) {
-      return <Skeleton className="h-6 w-24" />;
+      return (
+        <Skeleton
+          className={cn('!bg-[var(--ock-bg-alternate-active)] h-6 w-24')}
+        />
+      );
     }
     return `${truncatedBalance} ${vaultToken?.symbol}`;
   }, [truncatedBalance, vaultToken]);

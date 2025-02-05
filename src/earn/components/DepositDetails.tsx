@@ -30,11 +30,9 @@ function ApyTag({ apy }: { apy: number | undefined }) {
 export function DepositDetails({ className }: DepositDetailsReact) {
   const { apy, assetAddress } = useEarnContext();
   console.log('assetAddress:', assetAddress);
-  console.log('apy:', apy);
-
   const token = assetAddress ? getTokenFromAddress(assetAddress) : undefined;
+  console.log('token:', token);
 
-  // TODO: update token when we have logic to fetch vault info
   return (
     <EarnDetails
       className={className}

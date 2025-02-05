@@ -158,8 +158,8 @@ export default function Demo() {
           {/* {ActiveComponent && <ActiveComponent />} */}
           {/* wETH vault */}
           <Earn vaultAddress="0xa0E430870c4604CcfC7B38Ca7845B1FF653D0ff1" />
-          {/* USDC vault */}
-          <Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" />
+          {/* cbBTC vault */}
+          <Earn vaultAddress="0x1c155be6bC51F2c37d472d4C2Eba7a637806e122" />
         </div>
       </div>
     </>
