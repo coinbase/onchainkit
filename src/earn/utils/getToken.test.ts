@@ -28,4 +28,10 @@ describe('getToken', () => {
       chainId: base.id,
     });
   });
+
+  it('returns undefined when address is not provided', () => {
+    // @ts-expect-error - address is not provided
+    const result = getToken({ address: undefined });
+    expect(result).toBeUndefined();
+  });
 });

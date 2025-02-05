@@ -24,6 +24,19 @@ vi.mock('./EarnProvider', () => ({
 }));
 
 describe('WithdrawBalance', () => {
+  it('renders a Skeleton when vaultToken is undefined', () => {
+    const mockContext = {
+      ...baseContext,
+      vaultToken: undefined,
+    };
+
+    vi.mocked(useEarnContext).mockReturnValue(mockContext);
+
+    render(<WithdrawBalance />);
+
+    expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
+  });
+
   it('renders the converted balance and subtitle correctly', () => {
     vi.mocked(useEarnContext).mockReturnValue(baseContext);
 
