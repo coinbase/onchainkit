@@ -14,11 +14,12 @@ export type EarnProviderReact = {
 };
 
 export type EarnContextType = {
-  apy?: string;
+  address?: Address;
+  apy?: number;
   convertedBalance?: string;
   vaultAddress: Address;
   depositAmount: string;
-  depositedAmount: string;
+  depositedAmount?: string;
   interest?: string;
   setDepositAmount: (amount: string) => void;
   setWithdrawAmount: (amount: string) => void;

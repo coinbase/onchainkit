@@ -5,27 +5,6 @@ import { EarnDeposit } from './EarnDeposit';
 import { EarnProvider } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
 
-export function Earn({
-  children = <EarnDefaultContent />,
-  className,
-  vaultAddress,
-}: EarnReact) {
-  return (
-    <EarnProvider vaultAddress={vaultAddress}>
-      <div
-        className={cn(
-          'flex w-[375px] flex-col overflow-hidden',
-          border.radius,
-          border.lineDefault,
-          className,
-        )}
-      >
-        {children}
-      </div>
-    </EarnProvider>
-  );
-}
-
 function EarnDefaultContent() {
   return (
     <Tabs defaultValue="deposit">
@@ -52,5 +31,26 @@ function EarnDefaultContent() {
         <EarnWithdraw />
       </TabContent>
     </Tabs>
+  );
+}
+
+export function Earn({
+  children = <EarnDefaultContent />,
+  className,
+  vaultAddress,
+}: EarnReact) {
+  return (
+    <EarnProvider vaultAddress={vaultAddress}>
+      <div
+        className={cn(
+          'flex w-[375px] flex-col overflow-hidden',
+          border.radius,
+          border.lineDefault,
+          className,
+        )}
+      >
+        {children}
+      </div>
+    </EarnProvider>
   );
 }

@@ -1,14 +1,11 @@
+import type { EarnContextType } from '@/earn/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
 import { describe, expect, it, vi } from 'vitest';
 import { useEarnContext } from './EarnProvider';
 import { WithdrawBalance } from './WithdrawBalance';
 
-vi.mock('./EarnProvider', () => ({
-  useEarnContext: vi.fn(),
-}));
-
-const baseContext = {
+const baseContext: EarnContextType = {
   convertedBalance: '0',
   setDepositAmount: vi.fn(),
   vaultAddress: '0x123' as Address,
@@ -20,13 +17,17 @@ const baseContext = {
   withdrawCalls: [],
 };
 
+vi.mock('./EarnProvider', () => ({
+  useEarnContext: vi.fn(),
+}));
+
 describe('WithdrawBalance', () => {
   it('renders the converted balance and subtitle correctly', () => {
     vi.mocked(useEarnContext).mockReturnValue(baseContext);
 
     render(<WithdrawBalance className="test-class" />);
 
-    expect(screen.getByText('1000 USDC')).toBeInTheDocument();
+    expect(screen.getByText('1,000 USDC')).toBeInTheDocument();
     expect(screen.getByText('Available to withdraw')).toBeInTheDocument();
   });
 

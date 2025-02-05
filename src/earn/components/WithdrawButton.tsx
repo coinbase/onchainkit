@@ -1,9 +1,14 @@
 import { Transaction, TransactionButton } from '@/transaction';
+import { ConnectWallet } from '@/wallet';
 import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
 
 export function WithdrawButton({ className }: WithdrawButtonReact) {
-  const { withdrawCalls } = useEarnContext();
+  const { address, withdrawCalls } = useEarnContext();
+
+  if (!address) {
+    return <ConnectWallet className="w-full" />;
+  }
 
   return (
     <Transaction className={className} calls={withdrawCalls}>

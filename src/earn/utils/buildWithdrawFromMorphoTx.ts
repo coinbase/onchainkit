@@ -2,7 +2,7 @@ import { MORPHO_VAULT_ABI } from '@/earn/abis/morpho';
 import type { Call } from '@/transaction/types';
 import { type Address, encodeFunctionData } from 'viem';
 
-export type WithdrawFromMorphoArgs = {
+export type WithdrawFromMorphoParams = {
   /** The address of the Morpho vault */
   vaultAddress: Address;
   /** The amount of tokens to withdraw */
@@ -15,7 +15,7 @@ export function buildWithdrawFromMorphoTx({
   vaultAddress,
   amount,
   receiverAddress,
-}: WithdrawFromMorphoArgs): Call[] {
+}: WithdrawFromMorphoParams): Call[] {
   const withdrawTxData = encodeFunctionData({
     abi: MORPHO_VAULT_ABI,
     functionName: 'withdraw',
