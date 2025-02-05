@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useRef, useState } from 'react';
-import { DropdownMenu } from '../../internal/components/primitives/DropdownMenu';
+import { DropdownMenu } from '../../internal/components/DropdownMenu';
 import { background, border, cn, color } from '../../styles/theme';
 import type { TokenSelectDropdownReact } from '../types';
 import { TokenRow } from './TokenRow';

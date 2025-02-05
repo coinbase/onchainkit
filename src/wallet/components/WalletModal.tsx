@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog } from '@/internal/components/primitives/Dialog';
+import { Dialog } from '@/internal/components/Dialog';
 import { CloseSvg } from '@/internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '@/internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '@/internal/svg/defaultAvatarSVG';

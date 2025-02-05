@@ -1,5 +1,5 @@
-import { DismissableLayer } from '@/internal/components/primitives/DismissableLayer';
-import { FocusTrap } from '@/internal/components/primitives/FocusTrap';
+import { DismissableLayer } from '@/internal/components/DismissableLayer';
+import { FocusTrap } from '@/internal/components/FocusTrap';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { zIndex } from '@/styles/constants';
 import { background, cn } from '@/styles/theme';
