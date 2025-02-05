@@ -3,6 +3,7 @@ import type { Address } from 'viem';
 import { describe, expect, it, vi } from 'vitest';
 import { DepositBalance } from './DepositBalance';
 import { useEarnContext } from './EarnProvider';
+import { usdcToken } from '@/token/constants';
 
 const baseContext = {
   convertedBalance: '1000',
@@ -14,6 +15,7 @@ const baseContext = {
   setWithdrawAmount: vi.fn(),
   depositCalls: [],
   withdrawCalls: [],
+  vaultToken: usdcToken,
 };
 
 vi.mock('./EarnProvider', () => ({

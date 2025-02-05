@@ -5,6 +5,7 @@ import type { Address } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useEarnContext } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
+import { usdcToken } from '@/token/constants';
 
 const baseContext: EarnContextType & { address: Address } = {
   convertedBalance: '1000',
@@ -18,6 +19,7 @@ const baseContext: EarnContextType & { address: Address } = {
   depositCalls: [],
   withdrawCalls: [],
   address: '0x123' as Address,
+  vaultToken: usdcToken,
 };
 
 vi.mock('wagmi', async (importOriginal) => {

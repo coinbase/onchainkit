@@ -16,6 +16,7 @@ const baseContext: EarnContextType = {
   setWithdrawAmount: vi.fn(),
   depositCalls: [],
   withdrawCalls: [],
+  vaultToken: usdcToken,
 };
 
 vi.mock('./EarnProvider', () => ({

@@ -13,12 +13,5 @@ export function WithdrawDetails({ className }: WithdrawDetailsReact) {
     return '';
   }, [interest]);
 
-  return (
-    <EarnDetails
-      className={className}
-      token={vaultToken}
-      tag={tag}
-      tagVariant="primary"
-    />
-  );
+  return <EarnDetails className={className} token={vaultToken} tag={tag} />;
 }

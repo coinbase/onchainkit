@@ -68,15 +68,6 @@ export function useMorphoVault({
     },
   });
 
-  const { data: tokenDecimals } = useReadContract({
-    abi: erc20Abi,
-    address: data?.[0].result,
-    functionName: 'decimals',
-    query: {
-      enabled: !!data?.[0].result,
-    },
-  });
-
   const { data: vaultData } = useQuery({
     queryKey: ['morpho-apy', vaultAddress],
     queryFn: () => fetchMorphoApy(vaultAddress),
@@ -87,13 +78,15 @@ export function useMorphoVault({
     : 0;
 
   const formattedBalance =
-    balance && tokenDecimals ? formatUnits(balance, tokenDecimals) : undefined;
+    balance && vaultData?.asset?.decimals
+      ? formatUnits(balance, vaultData?.asset.decimals)
+      : undefined;
 
   return {
     status,
     asset: data?.[0].result,
     assetSymbol: vaultData?.symbol,
-    assetDecimals: tokenDecimals,
+    assetDecimals: vaultData?.asset?.decimals,
     vaultDecimals: data?.[2].result,
     name: data?.[1].result,
     balance: formattedBalance,

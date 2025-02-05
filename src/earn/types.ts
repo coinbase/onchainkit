@@ -87,7 +87,6 @@ export type EarnDetailsReact = {
   className?: string;
   token?: Token;
   tag?: React.ReactNode;
-  tagVariant?: 'default' | 'primary';
 };
 
 export type DepositDetailsReact = {

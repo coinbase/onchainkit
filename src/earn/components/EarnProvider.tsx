@@ -6,7 +6,7 @@ import { useBuildMorphoDepositTx } from '../hooks/useBuildMorphoDepositTx';
 import { useBuildMorphoWithdrawTx } from '../hooks/useBuildMorphoWithdrawTx';
 import { useMorphoVault } from '../hooks/useMorphoVault';
 import type { EarnContextType, EarnProviderReact } from '../types';
-import { getToken } from '@/earn/utils/getTokenFromAddress';
+import { getToken } from '@/earn/utils/getToken';
 
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 

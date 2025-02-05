@@ -34,7 +34,6 @@ export function DepositDetails({ className }: DepositDetailsReact) {
       className={className}
       token={vaultToken}
       tag={<ApyTag apy={apy} />}
-      tagVariant="default"
     />
   );
 }
