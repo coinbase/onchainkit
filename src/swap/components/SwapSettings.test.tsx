@@ -41,13 +41,13 @@ vi.mock('@/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 
-vi.mock('../../internal/components/primitives/FocusTrap', () => ({
+vi.mock('../../internal/components/FocusTrap', () => ({
   FocusTrap: vi.fn(({ children }) => (
     <div data-testid="mock-focus-trap">{children}</div>
   )),
 }));
 
-vi.mock('../../internal/components/primitives/DismissableLayer', () => ({
+vi.mock('../../internal/components/DismissableLayer', () => ({
   DismissableLayer: vi.fn(({ children, onDismiss }) => (
     <div
       data-testid="mock-dismissable-layer"
@@ -65,7 +65,7 @@ vi.mock('../../internal/components/primitives/DismissableLayer', () => ({
   )),
 }));
 
-vi.mock('../../internal/components/primitives/Popover', () => ({
+vi.mock('../../internal/components/Popover', () => ({
   Popover: vi.fn(({ children, isOpen, onClose }) =>
     isOpen ? (
       <div
