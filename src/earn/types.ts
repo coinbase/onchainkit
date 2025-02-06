@@ -1,3 +1,4 @@
+import type { LifecycleStatusUpdate } from '@/internal/types';
 import type { Token } from '@/token';
 import type { Call } from '@/transaction/types';
 import type { LifecycleStatus as TransactionLifecycleStatus } from '@/transaction/types';
@@ -37,7 +38,9 @@ export type EarnContextType = {
   setWithdrawAmount: (amount: string) => void;
   withdrawCalls: Call[];
   lifecycleStatus: LifecycleStatus;
-  updateLifecycleStatus: (status: LifecycleStatus) => void;
+  updateLifecycleStatus: (
+    status: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void;
 };
 
 export type EarnAmountInputReact = {
