@@ -1,8 +1,12 @@
-import { Transaction, TransactionButton } from '@/transaction';
+import {
+  type LifecycleStatus,
+  Transaction,
+  TransactionButton,
+} from '@/transaction';
 import { ConnectWallet } from '@/wallet';
-import { useCallback } from 'react';
-import type { LifecycleStatus, WithdrawButtonReact } from '../types';
+import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
+import { useCallback } from 'react';
 
 export function WithdrawButton({ className }: WithdrawButtonReact) {
   const { address, withdrawCalls, updateLifecycleStatus } = useEarnContext();
@@ -13,7 +17,10 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
-      updateLifecycleStatus(status);
+      // Don't emit duplicate statuses
+      if (status.statusName !== 'init') {
+        updateLifecycleStatus(status);
+      }
     },
     [updateLifecycleStatus],
   );

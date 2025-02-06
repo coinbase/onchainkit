@@ -2,6 +2,7 @@ import { Skeleton } from '@/internal/components/Skeleton';
 import { border, cn } from '@/styles/theme';
 import { TokenChip } from '@/token';
 import type { EarnDetailsReact } from '../types';
+
 export function EarnDetails({ className, token, tag }: EarnDetailsReact) {
   return (
     <div

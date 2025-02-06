@@ -17,7 +17,10 @@ export function DepositButton({ className }: DepositButtonReact) {
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
-      updateLifecycleStatus(status);
+      // Don't emit duplicate statuses
+      if (status.statusName !== 'init') {
+        updateLifecycleStatus(status);
+      }
     },
     [updateLifecycleStatus],
   );
