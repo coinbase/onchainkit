@@ -53,7 +53,7 @@ export type LifecycleStatusUpdate<T extends AbstractLifecycleStatus> =
   }
     ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
         ? { statusData: D }
-        : D extends null // Add this check for null statusData
+        : D extends null
           ? { statusData?: null }
           : AllKeysInShared<D> extends true
             ? {
