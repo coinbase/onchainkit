@@ -2,6 +2,7 @@ import type { Token } from '@/token';
 import type { Call } from '@/transaction/types';
 import type React from 'react';
 import type { Address } from 'viem';
+import type { LifecycleStatus as TransactionLifecycleStatus } from '@/transaction/types';
 
 export type EarnReact = {
   children?: React.ReactNode;
@@ -123,4 +124,5 @@ export type LifecycleStatus =
         amount: string;
         token: Token;
       };
-    };
+    }
+  | TransactionLifecycleStatus;
