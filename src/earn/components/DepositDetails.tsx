@@ -2,7 +2,7 @@ import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { formatPercent } from '@/internal/utils/formatPercent';
 import { background } from '@/styles/theme';
-import { color, text, cn } from '@/styles/theme';
+import { cn, color, text } from '@/styles/theme';
 import type { DepositDetailsReact } from '../types';
 import { EarnDetails } from './EarnDetails';
 import { useEarnContext } from './EarnProvider';
