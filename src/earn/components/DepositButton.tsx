@@ -7,6 +7,14 @@ import { ConnectWallet } from '@/wallet';
 import type { DepositButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
 import { useCallback } from 'react';
+
+const lifecycleStatusesToPropagate = [
+  'transactionPending',
+  'transactionLegacyExecuted',
+  'success',
+  'error',
+];
+
 export function DepositButton({ className }: DepositButtonReact) {
   const { address, depositCalls, updateLifecycleStatus } = useEarnContext();
 
@@ -16,7 +24,9 @@ export function DepositButton({ className }: DepositButtonReact) {
 
   const handleStatus = useCallback(
     (status: LifecycleStatus) => {
-      updateLifecycleStatus(status);
+      if (lifecycleStatusesToPropagate.includes(status.statusName)) {
+        updateLifecycleStatus(status);
+      }
     },
     [updateLifecycleStatus],
   );
