@@ -55,6 +55,7 @@ curl -X POST https://api.developer.coinbase.com/rpc/analytics \
 By default, telemetry is opt‑out starting with version 0.37.0. If you'd like to disable telemetry, simply set the `analytics` flag to `false` in your OnchainKit configuration:
 
 ```tsx twoslash
+// @noErrors:  2304
 export function Providers(props: { children: ReactNode }) {
   return (
     <OnchainKitProvider
