@@ -35,6 +35,8 @@ export type EarnContextType = {
   withdrawAmount: string;
   setWithdrawAmount: (amount: string) => void;
   withdrawCalls: Call[];
+  lifecycleStatus: LifecycleStatus;
+  updateLifecycleStatus: (status: LifecycleStatus) => void;
 };
 
 export type EarnAmountInputReact = {
@@ -104,3 +106,21 @@ export type DepositButtonReact = {
 export type WithdrawButtonReact = {
   className?: string;
 };
+
+/**
+ * List of earn lifecycle statuses.
+ *
+ * Note: exported as public Type
+ */
+export type LifecycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'amountChange';
+      statusData: {
+        amount: string;
+        token: Token;
+      };
+    };
