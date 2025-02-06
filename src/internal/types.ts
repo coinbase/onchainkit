@@ -53,17 +53,19 @@ export type LifecycleStatusUpdate<T extends AbstractLifecycleStatus> =
   }
     ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
         ? { statusData: D }
-        : AllKeysInShared<D> extends true // is statusData is LifecycleStatusDataShared, make optional
-          ? {
-              statusData?: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            } // make all keys in LifecycleStatusDataShared optional
-          : {
-              statusData: PartialKeys<
-                D,
-                keyof D & keyof LifecycleStatusDataShared
-              >;
-            })
+        : D extends null // Add this check for null statusData
+          ? { statusData?: null }
+          : AllKeysInShared<D> extends true
+            ? {
+                statusData?: PartialKeys<
+                  D,
+                  keyof D & keyof LifecycleStatusDataShared
+                >;
+              }
+            : {
+                statusData: PartialKeys<
+                  D,
+                  keyof D & keyof LifecycleStatusDataShared
+                >;
+              })
     : never;

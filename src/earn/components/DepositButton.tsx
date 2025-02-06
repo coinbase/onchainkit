@@ -4,9 +4,9 @@ import {
   TransactionButton,
 } from '@/transaction';
 import { ConnectWallet } from '@/wallet';
+import { useCallback } from 'react';
 import type { DepositButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
-import { useCallback } from 'react';
 
 export function DepositButton({ className }: DepositButtonReact) {
   const { address, depositCalls, updateLifecycleStatus } = useEarnContext();
