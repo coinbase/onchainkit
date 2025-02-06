@@ -1,11 +1,13 @@
+import { useMorphoVault } from '@/earn/hooks/useMorphoVault';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { renderHook } from '@testing-library/react';
+import { render, renderHook } from '@testing-library/react';
 import { baseSepolia } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig, mock, useAccount } from 'wagmi';
 import { EarnProvider, useEarnContext } from './EarnProvider';
 
+const DUMMY_ADDRESS = '0x9E95f497a7663B70404496dB6481c890C4825fe1' as const;
 const queryClient = new QueryClient();
 
 const mockConfig = createConfig({
@@ -23,7 +25,7 @@ const mockConfig = createConfig({
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <WagmiProvider config={mockConfig}>
     <QueryClientProvider client={queryClient}>
-      <EarnProvider vaultAddress="0x123">{children}</EarnProvider>
+      <EarnProvider vaultAddress={DUMMY_ADDRESS}>{children}</EarnProvider>
     </QueryClientProvider>
   </WagmiProvider>
 );
@@ -40,10 +42,14 @@ vi.mock('wagmi', async (importOriginal) => {
   };
 });
 
+vi.mock('@/earn/hooks/useMorphoVault', () => ({
+  useMorphoVault: vi.fn(),
+}));
+
 describe('EarnProvider', () => {
   beforeEach(() => {
     (useAccount as Mock).mockReturnValue({
-      address: '0x123',
+      address: DUMMY_ADDRESS,
     });
     (useGetTokenBalance as Mock).mockReturnValue({
       convertedBalance: '0.0',
@@ -63,14 +69,46 @@ describe('EarnProvider', () => {
   });
 
   it('provides vault address through context', () => {
+    (useMorphoVault as Mock).mockReturnValue({
+      asset: DUMMY_ADDRESS,
+      assetDecimals: 18,
+      assetSymbol: 'TEST',
+      balance: '100',
+      totalApy: '0.05',
+    });
     const { result } = renderHook(() => useEarnContext(), { wrapper });
 
-    expect(result.current.vaultAddress).toBe('0x123');
+    expect(result.current.vaultAddress).toBe(DUMMY_ADDRESS);
   });
 
   it('throws error when useEarnContext is used outside of provider', () => {
     expect(() => renderHook(() => useEarnContext())).toThrow(
       'useEarnContext must be used within an EarnProvider',
     );
+  });
+
+  it('handles case when asset exists', () => {
+    (useMorphoVault as Mock).mockReturnValue({
+      asset: DUMMY_ADDRESS,
+      assetDecimals: 18,
+      assetSymbol: 'TEST',
+      balance: '100',
+      totalApy: '0.05',
+    });
+
+    render(
+      <EarnProvider vaultAddress={DUMMY_ADDRESS}>
+        <div>Child</div>
+      </EarnProvider>,
+    );
+  });
+
+  it('returns undefined vaultToken when asset is undefined', () => {
+    (useMorphoVault as Mock).mockReturnValue({
+      vaultToken: undefined,
+    });
+    const { result } = renderHook(() => useEarnContext(), { wrapper });
+
+    expect(result.current.vaultToken).toBeUndefined();
   });
 });

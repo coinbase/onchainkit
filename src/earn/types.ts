@@ -1,5 +1,6 @@
 import type { Token } from '@/token';
 import type { Call } from '@/transaction/types';
+import type React from 'react';
 import type { Address } from 'viem';
 
 export type EarnReact = {
@@ -14,18 +15,26 @@ export type EarnProviderReact = {
 };
 
 export type EarnContextType = {
+  // TODO: rename to recipientAddress for clarity
   address?: Address;
-  apy?: number;
+  /** Balance of the asset in the vault, converted to the asset's decimals */
   convertedBalance?: string;
   vaultAddress: Address;
-  depositAmount: string;
+  /** The token that is being deposited or withdrawn */
+  vaultToken: Token | undefined;
+  /** Total APY of the vault, including rewards */
+  apy?: number;
+  /** The amount that has been deposited by the connected user in the vault */
   depositedAmount?: string;
   interest?: string;
+  /** Amount that the user has typed into the deposit amount input */
+  depositAmount: string;
   setDepositAmount: (amount: string) => void;
-  setWithdrawAmount: (amount: string) => void;
-  withdrawAmount: string;
-  withdrawCalls: Call[];
   depositCalls: Call[];
+  /** Amount that the user has typed into the withdraw amount input */
+  withdrawAmount: string;
+  setWithdrawAmount: (amount: string) => void;
+  withdrawCalls: Call[];
 };
 
 export type EarnAmountInputReact = {
@@ -46,7 +55,7 @@ export type DepositAmountInputReact = {
 export type EarnBalanceReact = {
   className?: string;
   onActionPress: () => void;
-  title: string;
+  title: React.ReactNode;
   subtitle: string;
   showAction?: boolean;
 };
@@ -77,8 +86,7 @@ export type EarnWithdrawReact = {
 export type EarnDetailsReact = {
   className?: string;
   token?: Token;
-  tag?: string;
-  tagVariant?: 'default' | 'primary';
+  tag?: React.ReactNode;
 };
 
 export type DepositDetailsReact = {

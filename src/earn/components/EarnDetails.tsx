@@ -1,16 +1,9 @@
-import { background, border, cn, color, text } from '@/styles/theme';
+import { Skeleton } from '@/internal/components/Skeleton';
+import { border, cn } from '@/styles/theme';
 import { TokenChip } from '@/token';
 import type { EarnDetailsReact } from '../types';
 
-export function EarnDetails({
-  className,
-  token,
-  tag,
-  tagVariant = 'default',
-}: EarnDetailsReact) {
-  if (!token) {
-    return null;
-  }
+export function EarnDetails({ className, token, tag }: EarnDetailsReact) {
   return (
     <div
       data-testid="ockEarnDetails"
@@ -20,23 +13,16 @@ export function EarnDetails({
         className,
       )}
     >
-      <TokenChip
-        className={'!bg-transparent'}
-        token={token}
-        isPressable={false}
-      />
-      {tag && (
-        <div
-          className={cn(
-            text.label1,
-            tagVariant === 'default' ? color.foregroundMuted : color.primary,
-            tagVariant === 'default' ? background.alternate : background.washed,
-            'flex items-center justify-center rounded-full p-1 px-3',
-          )}
-        >
-          {tag}
-        </div>
+      {token ? (
+        <TokenChip
+          className="!bg-transparent"
+          token={token}
+          isPressable={false}
+        />
+      ) : (
+        <Skeleton className="!rounded-full h-8 w-28" />
       )}
+      {tag}
     </div>
   );
 }

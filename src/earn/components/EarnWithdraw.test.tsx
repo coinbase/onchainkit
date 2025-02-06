@@ -1,4 +1,5 @@
 import type { EarnContextType } from '@/earn/types';
+import { usdcToken } from '@/token/constants';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
@@ -18,6 +19,7 @@ const baseContext: EarnContextType & { address: Address } = {
   depositCalls: [],
   withdrawCalls: [],
   address: '0x123' as Address,
+  vaultToken: usdcToken,
 };
 
 vi.mock('wagmi', async (importOriginal) => {

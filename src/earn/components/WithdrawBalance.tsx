@@ -1,11 +1,12 @@
 import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
+import { Skeleton } from '@/internal/components/Skeleton';
 import { useCallback, useMemo } from 'react';
 import type { WithdrawBalanceReact } from '../types';
 import { EarnBalance } from './EarnBalance';
 import { useEarnContext } from './EarnProvider';
 
 export function WithdrawBalance({ className }: WithdrawBalanceReact) {
-  const { depositedAmount, setWithdrawAmount } = useEarnContext();
+  const { depositedAmount, setWithdrawAmount, vaultToken } = useEarnContext();
 
   const handleMaxPress = useCallback(() => {
     if (depositedAmount) {
@@ -20,10 +21,17 @@ export function WithdrawBalance({ className }: WithdrawBalanceReact) {
     return getTruncatedAmount(depositedAmount.toString(), 4);
   }, [depositedAmount]);
 
+  const title = useMemo(() => {
+    if (!vaultToken) {
+      return <Skeleton className="h-6 w-24" />;
+    }
+    return `${balance} ${vaultToken?.symbol}`;
+  }, [balance, vaultToken]);
+
   return (
     <EarnBalance
       className={className}
-      title={`${balance} USDC`}
+      title={title}
       subtitle="Available to withdraw"
       onActionPress={handleMaxPress}
       showAction={!!depositedAmount}

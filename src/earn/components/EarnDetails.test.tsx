@@ -8,9 +8,9 @@ vi.mock('@/internal/hooks/useTheme', () => ({
 }));
 
 describe('EarnDetails Component', () => {
-  it('renders nothing when token is not provided', () => {
-    const { container } = render(<EarnDetails />);
-    expect(container.firstChild).toBeNull();
+  it('renders skeleton when token is not provided', () => {
+    render(<EarnDetails />);
+    expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
   });
 
   it('renders TokenChip with the correct props', () => {
@@ -20,22 +20,6 @@ describe('EarnDetails Component', () => {
     expect(tokenChip).toBeInTheDocument();
     expect(tokenChip).toHaveTextContent('USDC');
     expect(tokenChip).toHaveClass('!bg-transparent');
-  });
-
-  it('renders tag with default styles when tagVariant is "default"', () => {
-    const mockTag = 'Default Tag';
-    render(
-      <EarnDetails token={usdcToken} tag={mockTag} tagVariant="default" />,
-    );
-
-    const tagElement = screen.getByText(mockTag);
-    expect(tagElement).toBeInTheDocument();
-    expect(tagElement).toHaveClass('flex');
-    expect(tagElement).toHaveClass('items-center');
-    expect(tagElement).toHaveClass('justify-center');
-    expect(tagElement).toHaveClass('rounded-full');
-    expect(tagElement).toHaveClass('p-1');
-    expect(tagElement).toHaveClass('px-3');
   });
 
   it('applies custom className to the container', () => {

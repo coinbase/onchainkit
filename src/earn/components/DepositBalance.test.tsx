@@ -1,3 +1,4 @@
+import { usdcToken } from '@/token/constants';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
 import { describe, expect, it, vi } from 'vitest';
@@ -14,6 +15,7 @@ const baseContext = {
   setWithdrawAmount: vi.fn(),
   depositCalls: [],
   withdrawCalls: [],
+  vaultToken: usdcToken,
 };
 
 vi.mock('./EarnProvider', () => ({

@@ -1,11 +1,11 @@
 import type { EarnContextType } from '@/earn/types';
+import { usdcToken } from '@/token/constants';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { EarnDeposit } from './EarnDeposit';
 import { useEarnContext } from './EarnProvider';
-
 // Address required to avoid connect wallet prompt
 const baseContext: EarnContextType & { address: Address } = {
   convertedBalance: '1000',
@@ -20,6 +20,7 @@ const baseContext: EarnContextType & { address: Address } = {
   depositCalls: [],
   withdrawCalls: [],
   address: '0x123' as Address,
+  vaultToken: usdcToken,
 };
 
 vi.mock('wagmi', async (importOriginal) => {

@@ -1,4 +1,5 @@
 import type { EarnContextType } from '@/earn/types';
+import { usdcToken } from '@/token/constants';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
 import { describe, expect, it, vi } from 'vitest';
@@ -6,7 +7,7 @@ import { useEarnContext } from './EarnProvider';
 import { WithdrawBalance } from './WithdrawBalance';
 
 const baseContext: EarnContextType = {
-  convertedBalance: '0',
+  convertedBalance: '1000',
   setDepositAmount: vi.fn(),
   vaultAddress: '0x123' as Address,
   depositAmount: '0',
@@ -15,6 +16,7 @@ const baseContext: EarnContextType = {
   setWithdrawAmount: vi.fn(),
   depositCalls: [],
   withdrawCalls: [],
+  vaultToken: usdcToken,
 };
 
 vi.mock('./EarnProvider', () => ({
@@ -22,10 +24,23 @@ vi.mock('./EarnProvider', () => ({
 }));
 
 describe('WithdrawBalance', () => {
+  it('renders a Skeleton when vaultToken is undefined', () => {
+    const mockContext = {
+      ...baseContext,
+      vaultToken: undefined,
+    };
+
+    vi.mocked(useEarnContext).mockReturnValue(mockContext);
+
+    render(<WithdrawBalance />);
+
+    expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
+  });
+
   it('renders the converted balance and subtitle correctly', () => {
     vi.mocked(useEarnContext).mockReturnValue(baseContext);
 
-    render(<WithdrawBalance className="test-class" />);
+    render(<WithdrawBalance />);
 
     expect(screen.getByText('1,000 USDC')).toBeInTheDocument();
     expect(screen.getByText('Available to withdraw')).toBeInTheDocument();
@@ -41,7 +56,7 @@ describe('WithdrawBalance', () => {
 
     vi.mocked(useEarnContext).mockReturnValue(mockContext);
 
-    render(<WithdrawBalance className="test-class" />);
+    render(<WithdrawBalance />);
 
     const actionButton = screen.getByText('Use max');
     fireEvent.click(actionButton);
