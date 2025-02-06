@@ -38,14 +38,14 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
       vaultAddress,
       address,
     });
-  const vaultToken = asset
-    ? getToken({
-        address: asset,
-        symbol: assetSymbol,
-        name: assetSymbol,
-        decimals: assetDecimals,
-      })
-    : undefined;
+  const vaultToken =
+    asset &&
+    getToken({
+      address: asset,
+      symbol: assetSymbol,
+      name: assetSymbol,
+      decimals: assetDecimals,
+    });
 
   const { convertedBalance } = useGetTokenBalance(address, vaultToken);
 
