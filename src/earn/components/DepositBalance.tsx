@@ -23,7 +23,7 @@ export function DepositBalance({ className }: DepositBalanceReact) {
   }, [convertedBalance]);
 
   const title = useMemo(() => {
-    if (!vaultToken || !balance) {
+    if (!vaultToken) {
       return (
         <Skeleton
           className={cn('!bg-[var(--ock-bg-alternate-active)] h-6 w-24')}
