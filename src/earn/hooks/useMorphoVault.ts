@@ -56,6 +56,9 @@ export function useMorphoVault({
       enabled: !!vaultAddress,
     },
   });
+  const asset = data?.[0].result;
+  const name = data?.[1].result;
+  const vaultDecimals = data?.[2].result;
 
   // Fetching separately because user may not be connected
   const { data: balance } = useReadContract({
@@ -78,17 +81,15 @@ export function useMorphoVault({
     : 0;
 
   const formattedBalance =
-    balance && vaultData?.asset?.decimals
-      ? formatUnits(balance, vaultData?.asset.decimals)
-      : undefined;
+    balance && vaultDecimals ? formatUnits(balance, vaultDecimals) : undefined;
 
   return {
     status,
-    asset: data?.[0].result,
+    asset,
     assetSymbol: vaultData?.symbol,
     assetDecimals: vaultData?.asset?.decimals,
-    vaultDecimals: data?.[2].result,
-    name: data?.[1].result,
+    vaultDecimals,
+    name,
     balance: formattedBalance,
     totalApy: vaultData?.state?.netApy,
     nativeApy: vaultData?.state?.netApyWithoutRewards,
