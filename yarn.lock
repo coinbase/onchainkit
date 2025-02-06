@@ -2045,6 +2045,7 @@ __metadata:
     "@biomejs/biome": "npm:1.8.3"
     "@changesets/cli": "npm:^2.27.10"
     "@chromatic-com/storybook": "npm:^1.7.0"
+    "@farcaster/frame-sdk": "npm:^0.0.26"
     "@storybook/addon-a11y": "npm:^8.2.9"
     "@storybook/addon-essentials": "npm:^8.2.9"
     "@storybook/addon-interactions": "npm:^8.2.9"
@@ -2534,6 +2535,28 @@ __metadata:
     ethereum-cryptography: "npm:^2.0.0"
     micro-ftch: "npm:^0.3.1"
   checksum: 4e6e0449236f66b53782bab3b387108f0ddc050835bfe1381c67a7c038fea27cb85ab38851d98b700957022f0acb6e455ca0c634249cfcce1a116bad76500160
+  languageName: node
+  linkType: hard
+
+"@farcaster/frame-core@npm:0.0.24":
+  version: 0.0.24
+  resolution: "@farcaster/frame-core@npm:0.0.24"
+  dependencies:
+    ox: "npm:^0.4.4"
+    zod: "npm:^3.24.1"
+  checksum: 1a022245aac885df84ff8496f69fd11fd83c18bb6c5eedecfb38dfbd97402dac131321e950ca3cf76654d36fcb834ef095e7e2d1df881d13bcb037677110e52d
+  languageName: node
+  linkType: hard
+
+"@farcaster/frame-sdk@npm:^0.0.26":
+  version: 0.0.26
+  resolution: "@farcaster/frame-sdk@npm:0.0.26"
+  dependencies:
+    "@farcaster/frame-core": "npm:0.0.24"
+    comlink: "npm:^4.4.2"
+    eventemitter3: "npm:^5.0.1"
+    ox: "npm:^0.4.4"
+  checksum: aadaba6bfb58c14836f7bda696bef485a81d565bbc5445f153a9ec2a4e2dddb09249d4d04651bd84dbf4bcf75e3f25de6a6be48f58c2e2c7b622770a34b4d6ed
   languageName: node
   linkType: hard
 
@@ -6865,6 +6888,13 @@ __metadata:
   dependencies:
     delayed-stream: "npm:~1.0.0"
   checksum: 0dbb829577e1b1e839fa82b40c07ffaf7de8a09b935cadd355a73652ae70a88b4320db322f6634a4ad93424292fa80973ac6480986247f1734a1137debf271d5
+  languageName: node
+  linkType: hard
+
+"comlink@npm:^4.4.2":
+  version: 4.4.2
+  resolution: "comlink@npm:4.4.2"
+  checksum: 38aa1f455cf08e94aaa8fc494fd203cc0ef02ece6c21404b7931ce17567e8a72deacddab98aa5650cfd78332ff24c34610586f6fb27fd19dc77e753ed1980deb
   languageName: node
   linkType: hard
 
@@ -11717,6 +11747,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ox@npm:^0.4.4":
+  version: 0.4.4
+  resolution: "ox@npm:0.4.4"
+  dependencies:
+    "@adraffy/ens-normalize": "npm:^1.10.1"
+    "@noble/curves": "npm:^1.6.0"
+    "@noble/hashes": "npm:^1.5.0"
+    "@scure/bip32": "npm:^1.5.0"
+    "@scure/bip39": "npm:^1.4.0"
+    abitype: "npm:^1.0.6"
+    eventemitter3: "npm:5.0.1"
+  peerDependencies:
+    typescript: ">=5.4.0"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: ce1539ec41c97f6d8386ea8f0cdd85d4af025d3b7a6762607aa1a6545f550ca637abba8c9be4b26f6bf2136f16ccd579454e6976ee06ddde7225ac8fcfd4254d
+  languageName: node
+  linkType: hard
+
 "p-defer@npm:^1.0.0":
   version: 1.0.0
   resolution: "p-defer@npm:1.0.0"
@@ -15611,6 +15661,13 @@ __metadata:
   dependencies:
     "@types/yoga-layout": "npm:1.9.2"
   checksum: e83b6b7078faf4d0472461b53e92bf9cae655de3d896aee5f79b5ba5a960e507bbf8e671b261db13137bf18711686969f19fd1d9c4669beb1d70754b83c5879d
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.24.1":
+  version: 3.24.1
+  resolution: "zod@npm:3.24.1"
+  checksum: 0223d21dbaa15d8928fe0da3b54696391d8e3e1e2d0283a1a070b5980a1dbba945ce631c2d1eccc088fdbad0f2dfa40155590bf83732d3ac4fcca2cc9237591b
   languageName: node
   linkType: hard
 
