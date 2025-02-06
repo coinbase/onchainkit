@@ -23,6 +23,7 @@ import WalletDemo from './demo/Wallet';
 import WalletAdvancedDefaultDemo from './demo/WalletAdvancedDefault';
 import WalletDefaultDemo from './demo/WalletDefault';
 import WalletIslandDemo from './demo/WalletIsland';
+import { EarnDemo } from '@/components/demo/Earn';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.FundButton]: FundButtonDemo,
@@ -43,6 +44,7 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.NFTMintCardDefault]: NFTMintCardDefaultDemo,
   [OnchainKitComponent.NFTCardDefault]: NFTCardDefaultDemo,
   [OnchainKitComponent.IdentityCard]: IdentityCardDemo,
+  [OnchainKitComponent.Earn]: EarnDemo,
 };
 
 export default function Demo() {

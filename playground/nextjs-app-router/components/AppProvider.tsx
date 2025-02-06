@@ -38,6 +38,8 @@ type State = {
   setNFTToken: (nftToken: string) => void;
   setIsSponsored: (isSponsored: boolean) => void;
   isSponsored?: boolean;
+  earnVaultAddress?: string;
+  setEarnVaultAddress: (earnVaultAddress: string) => void;
 };
 
 export const defaultState: State = {
@@ -49,6 +51,7 @@ export const defaultState: State = {
   setComponentMode: () => {},
   setNFTToken: () => {},
   setIsSponsored: () => {},
+  setEarnVaultAddress: () => {},
 };
 
 export const AppContext = createContext(defaultState);
@@ -116,6 +119,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     parser: (v) => v === 'true',
   });
 
+  const [earnVaultAddress, setEarnVaultAddress] = useStateWithStorage<string>({
+    key: 'earnVaultAddress',
+    defaultValue: '0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A',
+  });
+
   // Load initial values from localStorage
   useEffect(() => {
     const storedPaymasters = localStorage.getItem('paymasters');
@@ -159,6 +167,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setNFTToken,
         setIsSponsored,
         isSponsored,
+        earnVaultAddress,
+        setEarnVaultAddress,
       }}
     >
       <OnchainKitProvider

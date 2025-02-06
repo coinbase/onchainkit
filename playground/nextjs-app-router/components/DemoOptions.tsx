@@ -10,6 +10,7 @@ import { NFTOptions } from './form/nft-options';
 import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
 import { WalletType } from './form/wallet-type';
+import { EarnOptions } from '@/components/form/earn-options';
 
 const COMMON_OPTIONS = [
   ActiveComponent,
@@ -21,6 +22,7 @@ const COMMON_OPTIONS = [
 const COMPONENT_CONFIG: Partial<
   Record<OnchainKitComponent, (() => React.JSX.Element)[]>
 > = {
+  [OnchainKitComponent.Earn]: [Chain, EarnOptions],
   [OnchainKitComponent.Buy]: [Chain, PaymasterUrl, IsSponsored, SwapConfig],
   [OnchainKitComponent.Checkout]: [
     Chain,
