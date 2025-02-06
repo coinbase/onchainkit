@@ -27,6 +27,7 @@ describe('useBuildMorphoDepositTx', () => {
     vi.mocked(useMorphoVault).mockReturnValue({
       status: 'pending',
       asset: undefined,
+      assetSymbol: undefined,
       balance: undefined,
       assetDecimals: undefined,
       vaultDecimals: undefined,
@@ -48,6 +49,7 @@ describe('useBuildMorphoDepositTx', () => {
     vi.mocked(useMorphoVault).mockReturnValue({
       status: 'success',
       asset: mockAsset,
+      assetSymbol: 'USDC',
       balance: '1000',
       assetDecimals: mockDecimals,
       vaultDecimals: mockDecimals,
