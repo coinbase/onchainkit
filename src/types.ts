@@ -9,6 +9,7 @@ import type { AppConfig } from './core/types';
  */
 export type OnchainKitProviderReact = {
   address?: Address;
+  analytics?: boolean;
   apiKey?: string;
   chain: Chain;
   children: ReactNode;

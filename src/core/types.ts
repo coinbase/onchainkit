@@ -5,6 +5,8 @@ import type { Address, Chain } from 'viem';
  * Note: exported as public Type
  */
 export type AppConfig = {
+  /** Enable/disable telemetry. Set to false to disable telemetry. Defaults to true (enabled) */
+  analytics?: boolean;
   /** Optional analytics URL for analytics data, defaults to Coinbase */
   analyticsUrl?: string | null;
   appearance?: {
