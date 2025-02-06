@@ -17,6 +17,8 @@ const baseContext: EarnContextType = {
   depositCalls: [],
   withdrawCalls: [],
   vaultToken: usdcToken,
+  lifecycleStatus: { statusName: 'init', statusData: null },
+  updateLifecycleStatus: vi.fn(),
 };
 
 vi.mock('./EarnProvider', () => ({
