@@ -55,6 +55,7 @@ export function Tooltip({
   const triggerRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout>();
+  const isCreatingGraceArea = useRef(false);
 
   const calculatePosition = useCallback(() => {
     if (!triggerRef.current || !tooltipRef.current) return;
@@ -114,22 +115,26 @@ export function Tooltip({
 
   const handleCreateGraceArea = useCallback(
     (event: PointerEvent, hoverTarget: HTMLElement) => {
+      isCreatingGraceArea.current = true;
+      setIsVisible(true);
+
       const currentTarget = event.currentTarget as HTMLElement;
       const exitPoint = { x: event.clientX, y: event.clientY };
       const rect = currentTarget.getBoundingClientRect();
       const exitSide = getExitSide(exitPoint, rect);
 
-      const paddedPoints = getPaddedPoints(exitPoint, exitSide, 15); // Increased padding
+      const paddedPoints = getPaddedPoints(exitPoint, exitSide, 15);
       const targetPoints = getPointsFromRect(
         hoverTarget.getBoundingClientRect(),
       );
       const hullPoints = getHull([...paddedPoints, ...targetPoints]);
 
       setPointerGraceArea(hullPoints);
-
-      // Create SVG path for visualization
       const path = `M ${hullPoints.map((p) => `${p.x},${p.y}`).join(' L ')} Z`;
       setGraceAreaPath(path);
+
+      // Reset flag after grace area is created
+      isCreatingGraceArea.current = false;
     },
     [],
   );
@@ -176,8 +181,11 @@ export function Tooltip({
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    setIsVisible(false);
-  }, []);
+    // Only hide if there's no grace area AND we're not in the process of creating one
+    if (!pointerGraceArea && !isCreatingGraceArea.current) {
+      setIsVisible(false);
+    }
+  }, [pointerGraceArea]);
 
   // Recalculate position on scroll/resize
   useEffect(() => {
@@ -229,8 +237,7 @@ export function Tooltip({
         onPointerLeave={(e) => {
           if (tooltipRef.current) {
             handleCreateGraceArea(e, tooltipRef.current);
-            // Keep tooltip visible while in grace area
-            setIsVisible(true);
+            // Don't hide yet - let the pointermove listener handle it
             return;
           }
           hideTooltip();
@@ -258,8 +265,6 @@ export function Tooltip({
             onPointerLeave={(e) => {
               if (triggerRef.current) {
                 handleCreateGraceArea(e, triggerRef.current);
-                // Keep tooltip visible while in grace area
-                setIsVisible(true);
                 return;
               }
               hideTooltip();
