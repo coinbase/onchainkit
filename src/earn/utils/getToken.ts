@@ -3,27 +3,6 @@ import { baseTokens } from '@/token/constants';
 import type { Address } from 'viem';
 import { base } from 'viem/chains';
 
-function constructFallbackToken({
-  symbol,
-  name,
-  decimals,
-  address,
-}: {
-  symbol: string;
-  name: string;
-  decimals: number;
-  address: Address;
-}): Token {
-  return {
-    address,
-    name,
-    symbol,
-    decimals,
-    image: null,
-    chainId: base.id,
-  };
-}
-
 export function getToken({
   address,
   symbol,
@@ -37,7 +16,14 @@ export function getToken({
     return token;
   }
   if (symbol && name && decimals) {
-    return constructFallbackToken({ symbol, name, decimals, address });
+    return {
+      address,
+      name,
+      symbol,
+      decimals,
+      image: null,
+      chainId: base.id,
+    };
   }
 
   return undefined;
