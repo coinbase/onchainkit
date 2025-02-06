@@ -15,7 +15,7 @@ export function DepositBalance({ className }: DepositBalanceReact) {
     }
   }, [convertedBalance, setDepositAmount]);
 
-  const truncatedBalance = useMemo(() => {
+  const balance = useMemo(() => {
     if (!convertedBalance) {
       return '0';
     }
@@ -23,15 +23,15 @@ export function DepositBalance({ className }: DepositBalanceReact) {
   }, [convertedBalance]);
 
   const title = useMemo(() => {
-    if (!vaultToken) {
+    if (!vaultToken || !balance) {
       return (
         <Skeleton
           className={cn('!bg-[var(--ock-bg-alternate-active)] h-6 w-24')}
         />
       );
     }
-    return `${truncatedBalance} ${vaultToken?.symbol}`;
-  }, [truncatedBalance, vaultToken]);
+    return `${balance} ${vaultToken?.symbol}`;
+  }, [balance, vaultToken]);
 
   return (
     <EarnBalance

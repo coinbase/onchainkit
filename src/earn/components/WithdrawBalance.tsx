@@ -22,7 +22,7 @@ export function WithdrawBalance({ className }: WithdrawBalanceReact) {
   }, [depositedAmount]);
 
   const title = useMemo(() => {
-    if (!vaultToken) {
+    if (!vaultToken || !balance) {
       return <Skeleton className="h-6 w-24" />;
     }
     return `${balance} ${vaultToken?.symbol}`;
