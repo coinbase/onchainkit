@@ -4,9 +4,9 @@ import {
   TransactionButton,
 } from '@/transaction';
 import { ConnectWallet } from '@/wallet';
+import { useCallback } from 'react';
 import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
-import { useCallback } from 'react';
 
 export function WithdrawButton({ className }: WithdrawButtonReact) {
   const { address, withdrawCalls, updateLifecycleStatus } = useEarnContext();
