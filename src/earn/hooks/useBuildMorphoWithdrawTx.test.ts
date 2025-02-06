@@ -27,6 +27,7 @@ describe('useBuildMorphoWithdrawTx', () => {
     vi.mocked(useMorphoVault).mockReturnValue({
       status: 'pending',
       asset: undefined,
+      assetSymbol: undefined,
       balance: undefined,
       assetDecimals: undefined,
       vaultDecimals: undefined,
@@ -45,6 +46,7 @@ describe('useBuildMorphoWithdrawTx', () => {
     vi.mocked(useMorphoVault).mockReturnValue({
       status: 'success',
       asset: DUMMY_ADDRESS,
+      assetSymbol: 'USDC',
       balance: '50',
       assetDecimals: 18,
       vaultDecimals: 18,
@@ -63,6 +65,7 @@ describe('useBuildMorphoWithdrawTx', () => {
     vi.mocked(useMorphoVault).mockReturnValue({
       status: 'success',
       asset: DUMMY_ADDRESS,
+      assetSymbol: 'USDC',
       balance: '1000',
       assetDecimals: 18,
       vaultDecimals: 18,

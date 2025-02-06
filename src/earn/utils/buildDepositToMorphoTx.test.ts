@@ -1,6 +1,6 @@
 import { MORPHO_VAULT_ABI } from '@/earn/abis/morpho';
-import { USDC_ADDRESS, USDC_DECIMALS } from '@/earn/constants';
-import { encodeFunctionData, parseUnits } from 'viem';
+import { usdcToken } from '@/token/constants';
+import { type Address, encodeFunctionData, parseUnits } from 'viem';
 import { describe, expect, it } from 'vitest';
 import {
   type DepositToMorphoParams,
@@ -10,8 +10,8 @@ import {
 describe('buildDepositToMorphoTx', () => {
   const mockArgs = {
     vaultAddress: '0xd63070114470f685b75B74D60EEc7c1113d33a3D',
-    tokenAddress: USDC_ADDRESS,
-    amount: parseUnits('1000', USDC_DECIMALS),
+    tokenAddress: usdcToken.address as Address,
+    amount: parseUnits('1000', usdcToken.decimals),
     receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
   } satisfies DepositToMorphoParams;
 
@@ -77,10 +77,10 @@ describe('buildDepositToMorphoTx', () => {
   it('should handle decimal amounts', () => {
     const result = buildDepositToMorphoTx({
       ...mockArgs,
-      amount: parseUnits('100.5', USDC_DECIMALS),
+      amount: parseUnits('100.5', usdcToken.decimals),
     });
 
-    const expectedAmount = parseUnits('100.5', USDC_DECIMALS);
+    const expectedAmount = parseUnits('100.5', usdcToken.decimals);
     expect(result).toHaveLength(2);
     expect(
       encodeFunctionData({
