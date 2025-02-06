@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 773ccbf: - **feat**: Export NFT context. By @alessey #1917
+  - **feat**: Export NFT context. By @alessey #1917
   - **feat**: WalletAdvanced mobile design. by @brendan-defi #1827
   - **fix**: Await sequential transaction calls. by @dschlabach #1918
   - **feat**: Add exchange rate refresh with throttling for FundCard. By @rustam-cb #1900
