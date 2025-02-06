@@ -62,7 +62,6 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
   });
 
   // Lifecycle statuses
-  // Lifecycle statuses
   const handleDepositAmount = useCallback(
     async (amount: string) => {
       updateLifecycleStatus({
