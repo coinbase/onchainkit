@@ -2,9 +2,9 @@ import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
 import { border, cn, color, text } from '@/styles/theme';
 import { TokenImage } from '@/token';
+import { useMemo } from 'react';
 import { formatUnits } from 'viem';
 import type { TokenBalanceProps } from '../types';
-import { useMemo } from 'react';
 
 export function TokenBalance({
   token,
