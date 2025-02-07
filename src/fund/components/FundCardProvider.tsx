@@ -6,6 +6,8 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { FundEvent } from '../../core/analytics/types';
 import { useValue } from '../../internal/hooks/useValue';
 import { useEmitLifecycleStatus } from '../hooks/useEmitLifecycleStatus';
 import { useOnrampExchangeRate } from '../hooks/useOnrampExchangeRate';
@@ -103,6 +105,56 @@ export function FundCardProvider({
     onError,
   });
 
+  const { sendAnalytics } = useAnalytics();
+
+  const handleAnalyticsAmountChanged = useCallback(
+    (amount: number, previousAmount: number, currency: string) => {
+      console.log('Fund Amount Changed:', { amount, previousAmount, currency });
+      sendAnalytics(FundEvent.FundAmountChanged, {
+        amount,
+        previousAmount,
+        currency,
+      });
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsOptionSelected = useCallback(
+    (option: string) => {
+      console.log('Fund Option Selected:', { option });
+      sendAnalytics(FundEvent.FundOptionSelected, {
+        option,
+      });
+    },
+    [sendAnalytics],
+  );
+
+  const handleSetFundAmountFiat = useCallback(
+    (amount: string) => {
+      const newAmount = Number.parseFloat(amount);
+      const previousAmount = Number.parseFloat(fundAmountFiat);
+
+      if (
+        !isNaN(newAmount) &&
+        !isNaN(previousAmount) &&
+        newAmount !== previousAmount
+      ) {
+        handleAnalyticsAmountChanged(newAmount, previousAmount, currency);
+      }
+
+      setFundAmountFiat(amount);
+    },
+    [currency, fundAmountFiat, handleAnalyticsAmountChanged],
+  );
+
+  const handleSetSelectedPaymentMethod = useCallback(
+    (paymentMethod: PaymentMethod) => {
+      handleAnalyticsOptionSelected(paymentMethod.id);
+      setSelectedPaymentMethod(paymentMethod);
+    },
+    [handleAnalyticsOptionSelected],
+  );
+
   const handleFetchExchangeRate = useCallback(async () => {
     setExchangeRateLoading(true);
     await fetchExchangeRate();
@@ -128,9 +180,9 @@ export function FundCardProvider({
     asset,
     currency,
     selectedPaymentMethod,
-    setSelectedPaymentMethod,
+    setSelectedPaymentMethod: handleSetSelectedPaymentMethod,
     fundAmountFiat,
-    setFundAmountFiat,
+    setFundAmountFiat: handleSetFundAmountFiat,
     fundAmountCrypto,
     setFundAmountCrypto,
     selectedInputType,

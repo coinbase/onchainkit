@@ -16,6 +16,8 @@ import { useWaitForTransactionReceipt } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { CheckoutEvent } from '../../core/analytics/types';
 import { useValue } from '../../internal/hooks/useValue';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useOnchainKit } from '../../useOnchainKit';
@@ -68,6 +70,7 @@ export function CheckoutProvider({
   const [transactionId, setTransactionId] = useState('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const isSmartWallet = useIsWalletACoinbaseSmartWallet();
+  const { sendAnalytics } = useAnalytics();
 
   // Refs
   const fetchedDataUseEffect = useRef<boolean>(false);
@@ -202,9 +205,47 @@ export function CheckoutProvider({
     }
   }, [address, fetchData, lifecycleStatus]);
 
+  const handleAnalyticsInitiated = useCallback(
+    (amount: number) => {
+      sendAnalytics(CheckoutEvent.CheckoutInitiated, {
+        amount,
+        productId: productId || '',
+        chargeHandlerId: chargeHandler ? 'custom' : '',
+      });
+    },
+    [sendAnalytics, productId, chargeHandler],
+  );
+
+  const handleAnalyticsSuccess = useCallback(
+    (address: string, amount: number, transactionHash?: string) => {
+      sendAnalytics(CheckoutEvent.CheckoutSuccess, {
+        address,
+        amount,
+        productId: productId || '',
+        chargeHandlerId: chargeHandler ? 'custom' : '',
+        isSponsored: !!isSponsored,
+        transactionHash,
+      });
+    },
+    [sendAnalytics, productId, chargeHandler, isSponsored],
+  );
+
+  const handleAnalyticsFailure = useCallback(
+    (error: string, metadata?: Record<string, unknown>) => {
+      sendAnalytics(CheckoutEvent.CheckoutFailure, {
+        error,
+        metadata,
+      });
+    },
+    [sendAnalytics],
+  );
+
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component to deprecate funding flow
   const handleSubmit = useCallback(async () => {
     try {
+      // Track initiation when user clicks checkout button
+      handleAnalyticsInitiated(Number(priceInUSDCRef.current || 0));
+
       // Open Coinbase Commerce receipt
       if (lifecycleStatus.statusName === CHECKOUT_LIFECYCLESTATUS.SUCCESS) {
         window.open(
@@ -306,7 +347,22 @@ export function CheckoutProvider({
             }
           : undefined,
       });
+
+      // On success
+      if (receipt?.status === 'success') {
+        handleAnalyticsSuccess(
+          connectedAddress,
+          Number(priceInUSDCRef.current),
+          receipt.transactionHash,
+        );
+      }
     } catch (error) {
+      // Track failure
+      handleAnalyticsFailure(
+        error instanceof Error ? error.message : 'Unknown error',
+        { error: JSON.stringify(error) },
+      );
+
       const isUserRejectedError =
         (error as Error).message?.includes('User denied connection request') ||
         isUserRejectedRequestError(error);
@@ -347,6 +403,9 @@ export function CheckoutProvider({
     switchChainAsync,
     updateLifecycleStatus,
     writeContractsAsync,
+    handleAnalyticsInitiated,
+    handleAnalyticsSuccess,
+    handleAnalyticsFailure,
   ]);
 
   const value = useValue({

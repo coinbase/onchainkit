@@ -12,6 +12,9 @@ import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { BuyEvent } from '../../core/analytics/types';
+import type { BuyOption } from '../../core/analytics/types';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
@@ -108,6 +111,9 @@ export function BuyProvider({
   // used to detect when the popup is closed in order to stop loading state
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
 
+  // Analytics
+  const { sendAnalytics } = useAnalytics();
+
   // Component lifecycle emitters
   useEffect(() => {
     // Error
@@ -194,6 +200,54 @@ export function BuyProvider({
     updateLifecycleStatus,
   ]);
 
+  // Analytics handlers
+  const handleAnalyticsInitiated = useCallback(
+    (amount: number, tokenSymbol: string) => {
+      console.log('🔍 Buy Initiated:', { amount, token: tokenSymbol });
+      sendAnalytics(BuyEvent.BuyInitiated, {
+        amount,
+        token: tokenSymbol,
+      });
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsOptionSelected = useCallback(
+    (option: BuyOption) => {
+      console.log('🔍 Buy Option Selected:', { option });
+      sendAnalytics(BuyEvent.BuyOptionSelected, {
+        option,
+      });
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsSuccess = useCallback(
+    (params: {
+      address: string;
+      amount: number;
+      from: string;
+      paymaster: boolean;
+      to: string;
+      transactionHash: string;
+    }) => {
+      console.log('🔍 Buy Success:', params);
+      sendAnalytics(BuyEvent.BuySuccess, params);
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsFailure = useCallback(
+    (error: string, metadata: Record<string, any>) => {
+      console.log('🔍 Buy Failure:', { error, metadata });
+      sendAnalytics(BuyEvent.BuyFailure, {
+        error,
+        metadata,
+      });
+    },
+    [sendAnalytics],
+  );
+
   const handleAmountChange = useCallback(
     async (
       amount: string,
@@ -250,6 +304,9 @@ export function BuyProvider({
       });
 
       try {
+        // Track buy initiated event using new handler
+        handleAnalyticsInitiated(Number(amount), to?.token?.symbol || '');
+
         const maxSlippage = lifecycleStatus.statusData.maxSlippage;
 
         const {
@@ -317,6 +374,11 @@ export function BuyProvider({
           },
         });
       } catch (err) {
+        // Track buy failure using new handler
+        handleAnalyticsFailure(
+          err instanceof Error ? err.message : String(err),
+          { amount },
+        );
         updateLifecycleStatus({
           statusName: 'error',
           statusData: {
@@ -340,6 +402,8 @@ export function BuyProvider({
       useAggregator,
       updateLifecycleStatus,
       lifecycleStatus.statusData.maxSlippage,
+      handleAnalyticsInitiated,
+      handleAnalyticsFailure,
     ],
   );
 
@@ -349,6 +413,9 @@ export function BuyProvider({
       if (!address || !from.token || !to.token || !from.amount) {
         return;
       }
+
+      // Track buy option selected using new handler
+      handleAnalyticsOptionSelected(from.token.symbol as BuyOption);
 
       try {
         const maxSlippage = lifecycleStatus.statusData.maxSlippage;
@@ -387,7 +454,27 @@ export function BuyProvider({
           useAggregator,
           walletCapabilities,
         });
+
+        // Track buy success using new handler
+        if (lifecycleStatus.statusName === 'success') {
+          handleAnalyticsSuccess({
+            address: address || '',
+            amount: Number(from.amount),
+            from: from.token.address,
+            paymaster: !!paymaster,
+            to: toToken.address,
+            transactionHash: transactionHash || '',
+          });
+        }
       } catch (err) {
+        // Track buy failure using new handler
+        handleAnalyticsFailure(
+          err instanceof Error ? err.message : String(err),
+          {
+            token: from.token.symbol,
+            amount: from.amount,
+          },
+        );
         const errorMessage = isUserRejectedRequestError(err)
           ? 'Request denied.'
           : GENERIC_ERROR_MESSAGE;
@@ -415,6 +502,10 @@ export function BuyProvider({
       updateLifecycleStatus,
       useAggregator,
       walletCapabilities,
+      transactionHash,
+      handleAnalyticsOptionSelected,
+      handleAnalyticsSuccess,
+      handleAnalyticsFailure,
     ],
   );
 

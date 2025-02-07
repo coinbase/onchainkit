@@ -1,3 +1,5 @@
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { SwapEvent } from '@/core/analytics/types';
 import { RequestContext } from '@/core/network/constants';
 import {
   createContext,
@@ -64,6 +66,7 @@ export function SwapProvider({
   const { useAggregator } = experimental;
   // Core Hooks
   const accountConfig = useConfig();
+  const { sendAnalytics } = useAnalytics();
 
   const walletCapabilities = useCapabilitiesSafe({
     chainId: base.id,
@@ -300,13 +303,77 @@ export function SwapProvider({
     [from, to, lifecycleStatus, updateLifecycleStatus, useAggregator],
   );
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
+  const handleAnalyticsInitiated = useCallback(
+    (fromToken: Token, toToken: Token, amount: number) => {
+      sendAnalytics(SwapEvent.SwapInitiated, {
+        from: fromToken.symbol,
+        to: toToken.symbol,
+        amount,
+      });
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsSuccess = useCallback(
+    (data: {
+      address: string;
+      amount: number;
+      from: string;
+      to: string;
+      transactionHash: string;
+      paymaster: boolean;
+    }) => {
+      sendAnalytics(SwapEvent.SwapSuccess, data);
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsError = useCallback(
+    (error: Error, metadata?: Record<string, unknown>) => {
+      sendAnalytics(SwapEvent.SwapFailure, {
+        error: error.message,
+        metadata,
+      });
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsSlippageChange = useCallback(
+    (slippage: number, previousSlippage: number) => {
+      sendAnalytics(SwapEvent.SlippageChanged, {
+        slippage,
+        previousSlippage,
+      });
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsTokenSelected = useCallback(
+    (token: string) => {
+      sendAnalytics(SwapEvent.TokenSelected, {
+        token,
+      });
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsTokenDropdownSelected = useCallback(
+    (position: 'from' | 'to') => {
+      sendAnalytics(SwapEvent.TokenDropdownSelected, {
+        position,
+      });
+    },
+    [sendAnalytics],
+  );
+
   const handleSubmit = useCallback(async () => {
     if (!address || !from.token || !to.token || !from.amount) {
       return;
     }
 
     try {
+      handleAnalyticsInitiated(from.token, to.token, Number(from.amount));
+
       const maxSlippage = lifecycleStatus.statusData.maxSlippage;
       const response = await buildSwapTransaction(
         {
@@ -343,6 +410,15 @@ export function SwapProvider({
         useAggregator,
         walletCapabilities,
       });
+
+      handleAnalyticsSuccess({
+        address: address,
+        amount: Number(from.amount),
+        from: from.token.symbol,
+        to: to.token.symbol,
+        transactionHash,
+        paymaster: Boolean(isSponsored),
+      });
     } catch (err) {
       const errorMessage = isUserRejectedRequestError(err)
         ? 'Request denied.'
@@ -355,6 +431,9 @@ export function SwapProvider({
           message: errorMessage,
         },
       });
+      handleAnalyticsError(
+        err instanceof Error ? err : new Error(errorMessage),
+      );
     }
   }, [
     accountConfig,
@@ -372,6 +451,9 @@ export function SwapProvider({
     updateLifecycleStatus,
     useAggregator,
     walletCapabilities,
+    handleAnalyticsInitiated,
+    handleAnalyticsSuccess,
+    handleAnalyticsError,
   ]);
 
   const value = useValue({
@@ -388,6 +470,9 @@ export function SwapProvider({
     setIsToastVisible,
     setTransactionHash,
     transactionHash,
+    onSlippageChange: handleAnalyticsSlippageChange,
+    onTokenSelect: handleAnalyticsTokenSelected,
+    onTokenDropdownSelect: handleAnalyticsTokenDropdownSelected,
   });
 
   return <SwapContext.Provider value={value}>{children}</SwapContext.Provider>;
