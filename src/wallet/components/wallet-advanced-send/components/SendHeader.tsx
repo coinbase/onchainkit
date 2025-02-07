@@ -8,7 +8,17 @@ import { useCallback } from 'react';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useSendContext } from './SendProvider';
 
-export function SendHeader({ label = 'Send' }: { label?: string }) {
+type SendHeaderProps = {
+  label?: string;
+  classNames?: {
+    container?: string;
+    label?: string;
+    close?: string;
+    back?: string;
+  };
+};
+
+export function SendHeader({ label = 'Send', classNames }: SendHeaderProps) {
   const { setShowSend } = useWalletAdvancedContext();
 
   const {
@@ -36,17 +46,32 @@ export function SendHeader({ label = 'Send' }: { label?: string }) {
   }, [setShowSend]);
 
   return (
-    <div className="mb-4 grid grid-cols-3 items-center">
+    <div
+      className={cn(
+        'mb-4 grid grid-cols-3 items-center',
+        classNames?.container,
+      )}
+    >
       <div className="justify-self-start">
         {selectedRecipientAddress.value && (
-          <PressableIcon onClick={handleBack} className="h-7 w-7 scale-110 p-2">
+          <PressableIcon
+            onClick={handleBack}
+            className={cn('h-7 w-7 scale-110 p-2', classNames?.back)}
+          >
             {backArrowSvg}
           </PressableIcon>
         )}
       </div>
-      <div className={cn(text.headline, 'justify-self-center')}>{label}</div>
+      <div
+        className={cn(text.headline, 'justify-self-center', classNames?.label)}
+      >
+        {label}
+      </div>
       <div className="justify-self-end">
-        <PressableIcon onClick={handleClose} className="h-7 w-7 scale-110 p-2">
+        <PressableIcon
+          onClick={handleClose}
+          className={cn('h-7 w-7 scale-110 p-2', classNames?.close)}
+        >
           <CloseSvg />
         </PressableIcon>
       </div>
