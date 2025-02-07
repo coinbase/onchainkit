@@ -1,5 +1,5 @@
 import { Skeleton } from '@/internal/components/Skeleton';
-import { border, cn } from '@/styles/theme';
+import { border, cn, color } from '@/styles/theme';
 import { TokenChip } from '@/token';
 import type { EarnDetailsReact } from '../types';
 
@@ -15,7 +15,7 @@ export function EarnDetails({ className, token, tag }: EarnDetailsReact) {
     >
       {token ? (
         <TokenChip
-          className="!bg-transparent"
+          className={cn(color.foreground, '!bg-transparent')}
           token={token}
           isPressable={false}
         />
