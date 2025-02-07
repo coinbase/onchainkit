@@ -53,10 +53,14 @@ vi.mock('@/transaction', async (importOriginal) => {
     ),
     Transaction: ({
       onStatus,
+      onSuccess,
       children,
       capabilities,
     }: {
       onStatus: (status: { statusName: string }) => void;
+      onSuccess: (response: {
+        transactionReceipts: Array<{ status: string }>;
+      }) => void;
       children: React.ReactNode;
       capabilities: { paymasterService: { url: string } };
     }) => (
@@ -81,7 +85,10 @@ vi.mock('@/transaction', async (importOriginal) => {
           <button
             type="button"
             data-testid="transaction-button"
-            onClick={() => onStatus({ statusName: 'success' })}
+            onClick={() => {
+              onStatus({ statusName: 'success' });
+              onSuccess({ transactionReceipts: [{ status: 'success' }] });
+            }}
           >
             Success
           </button>
@@ -183,5 +190,18 @@ describe('WithdrawButton Component', () => {
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
     });
+  });
+
+  it('clears the withdraw amount after a successful transaction', async () => {
+    const mockSetWithdrawAmount = vi.fn();
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      setWithdrawAmount: mockSetWithdrawAmount,
+    });
+
+    render(<WithdrawButton />);
+
+    screen.getByText('Success').click();
+    expect(mockSetWithdrawAmount).toHaveBeenCalledWith('');
   });
 });

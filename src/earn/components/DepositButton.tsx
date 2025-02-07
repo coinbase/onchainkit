@@ -3,6 +3,7 @@ import {
   type LifecycleStatus,
   Transaction,
   TransactionButton,
+  type TransactionResponse,
 } from '@/transaction';
 import { ConnectWallet } from '@/wallet';
 import { useCallback } from 'react';
@@ -13,6 +14,7 @@ export function DepositButton({ className }: DepositButtonReact) {
   const {
     recipientAddress: address,
     depositCalls,
+    setDepositAmount,
     updateLifecycleStatus,
   } = useEarnContext();
 
@@ -42,11 +44,24 @@ export function DepositButton({ className }: DepositButtonReact) {
     [updateLifecycleStatus],
   );
 
+  const handleOnSuccess = useCallback(
+    (res: TransactionResponse) => {
+      if (
+        res.transactionReceipts[0] &&
+        res.transactionReceipts[0].status === 'success'
+      ) {
+        setDepositAmount('');
+      }
+    },
+    [setDepositAmount],
+  );
+
   return (
     <Transaction
       className={className}
       calls={depositCalls}
       onStatus={handleOnStatus}
+      onSuccess={handleOnSuccess}
     >
       <TransactionButton text="Deposit" />
     </Transaction>

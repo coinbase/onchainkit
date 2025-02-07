@@ -9,6 +9,7 @@ import { useAccount } from 'wagmi';
 import { useConnect } from 'wagmi';
 import { DepositButton } from './DepositButton';
 import { useEarnContext } from './EarnProvider';
+import { act } from 'react';
 
 // Address required to avoid connect wallet prompt
 const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
@@ -55,10 +56,14 @@ vi.mock('@/transaction', async (importOriginal) => {
     ),
     Transaction: ({
       onStatus,
+      onSuccess,
       children,
       capabilities,
     }: {
       onStatus: (status: { statusName: string }) => void;
+      onSuccess: (response: {
+        transactionReceipts: Array<{ status: string }>;
+      }) => void;
       children: React.ReactNode;
       capabilities: { paymasterService: { url: string } };
     }) => (
@@ -83,7 +88,10 @@ vi.mock('@/transaction', async (importOriginal) => {
           <button
             type="button"
             data-testid="transaction-button"
-            onClick={() => onStatus({ statusName: 'success' })}
+            onClick={() => {
+              onStatus({ statusName: 'success' });
+              onSuccess({ transactionReceipts: [{ status: 'success' }] });
+            }}
           >
             Success
           </button>
@@ -185,5 +193,20 @@ describe('DepositButton Component', () => {
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
     });
+  });
+
+  it('clears the deposit amount after a successful transaction', async () => {
+    const mockSetDepositAmount = vi.fn();
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      setDepositAmount: mockSetDepositAmount,
+    });
+
+    render(<DepositButton />);
+
+    await act(async () => {
+      screen.getByText('Success').click();
+    });
+    expect(mockSetDepositAmount).toHaveBeenCalledWith('');
   });
 });

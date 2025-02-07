@@ -43,7 +43,6 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     [updateLifecycleStatus],
   );
 
-  // Clear input value after successful transaction
   const handleOnSuccess = useCallback(
     (res: TransactionResponse) => {
       if (
