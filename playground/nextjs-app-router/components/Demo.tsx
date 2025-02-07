@@ -3,7 +3,6 @@ import { AppContext } from '@/components/AppProvider';
 import { getShareableUrl } from '@/lib/url-params';
 import { cn } from '@/lib/utils';
 import { OnchainKitComponent } from '@/types/onchainkit';
-import { Earn } from '@coinbase/onchainkit/earn';
 import { useContext, useEffect, useState } from 'react';
 import DemoOptions from './DemoOptions';
 import BuyDemo from './demo/Buy';
@@ -155,8 +154,7 @@ export default function Demo() {
               : 'justify-center',
           )}
         >
-          {/* {ActiveComponent && <ActiveComponent />} */}
-          <Earn vaultAddress="0xc1256Ae5FF1cf2719D4937adb3bbCCab2E00A2Ca" />
+          {ActiveComponent && <ActiveComponent />}
         </div>
       </div>
     </>
