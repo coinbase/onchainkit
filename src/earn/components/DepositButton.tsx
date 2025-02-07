@@ -1,4 +1,4 @@
-import { cn, color } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
   Transaction,
@@ -62,24 +62,16 @@ export function DepositButton({ className }: DepositButtonReact) {
   }
 
   return (
-    <div className="-mt-4 flex flex-col gap-1">
-      {depositAmountError ? (
-        <p className={cn(color.error, 'text-xs')}>{depositAmountError}</p>
-      ) : (
-        <div className="h-4" /> // Empty div to keep the layout consistent
-      )}
-
-      <Transaction
-        className={className}
-        calls={depositCalls}
-        onStatus={handleOnStatus}
-        onSuccess={handleOnSuccess}
-      >
-        <TransactionButton
-          text="Deposit"
-          disabled={!!depositAmountError || !depositAmount}
-        />
-      </Transaction>
-    </div>
+    <Transaction
+      className={className}
+      calls={depositCalls}
+      onStatus={handleOnStatus}
+      onSuccess={handleOnSuccess}
+    >
+      <TransactionButton
+        text={depositAmountError ?? 'Deposit'}
+        disabled={!!depositAmountError || !depositAmount}
+      />
+    </Transaction>
   );
 }

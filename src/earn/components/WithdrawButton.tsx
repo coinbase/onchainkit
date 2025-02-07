@@ -75,7 +75,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
         onSuccess={handleOnSuccess}
       >
         <TransactionButton
-          text="Withdraw"
+          text={withdrawAmountError ?? 'Withdraw'}
           disabled={!!withdrawAmountError || !withdrawAmount}
         />
       </Transaction>

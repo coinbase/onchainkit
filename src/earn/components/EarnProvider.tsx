@@ -113,10 +113,10 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
       return null;
     }
     if (Number(depositAmount) === 0) {
-      return 'Deposit amount must be greater than 0';
+      return 'Must be greater than 0';
     }
     if (Number(depositAmount) > Number(underlyingBalance)) {
-      return 'Deposit amount is greater than available balance';
+      return 'Amount exceeds the balance';
     }
     return null;
   }, [depositAmount, underlyingBalance]);
@@ -126,10 +126,10 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
       return null;
     }
     if (Number(withdrawAmount) === 0) {
-      return 'Withdraw amount must be greater than 0';
+      return 'Must be greater than 0';
     }
     if (Number(withdrawAmount) > Number(receiptBalance)) {
-      return 'Withdraw amount is greater than the receipt balance';
+      return 'Amount exceeds the balance';
     }
     return null;
   }, [withdrawAmount, receiptBalance]);

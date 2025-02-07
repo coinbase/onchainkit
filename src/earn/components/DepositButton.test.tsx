@@ -31,6 +31,8 @@ const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
   updateLifecycleStatus: vi.fn(),
   refetchUnderlyingBalance: vi.fn(),
   refetchReceiptBalance: vi.fn(),
+  depositAmountError: null,
+  withdrawAmountError: null,
 };
 
 vi.mock('./EarnProvider', () => ({
@@ -210,5 +212,18 @@ describe('DepositButton Component', () => {
       screen.getByText('Success').click();
     });
     expect(mockSetDepositAmount).toHaveBeenCalledWith('');
+  });
+
+  it('disables the button and shows an error message when there is an error', () => {
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      depositAmountError: 'Error',
+    });
+
+    render(<DepositButton />);
+
+    const transactionButton = screen.getByTestId('transactionButton');
+    expect(transactionButton).toBeDisabled();
+    expect(transactionButton).toHaveTextContent('Error');
   });
 });
