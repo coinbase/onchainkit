@@ -1,11 +1,14 @@
 import { useCallback, useMemo, useState } from 'react';
-import type { RecipientAddress } from '../types';
+import { useWalletContext } from '../../WalletProvider';
+import type {
+  RecipientAddress,
+  SendAddressInputProps,
+  SendAddressSelectorProps,
+} from '../types';
 import { resolveAddressInput } from '../utils/resolveAddressInput';
 import { SendAddressInput } from './SendAddressInput';
 import { SendAddressSelector } from './SendAddressSelector';
-import { useSendContext } from '@/wallet/components/wallet-advanced-send/components/SendProvider';
-import { useWalletContext } from '@/wallet/components/WalletProvider';
-import type { SendAddressInputProps, SendAddressSelectorProps } from '../types';
+import { useSendContext } from './SendProvider';
 
 type SendAddressSelectionProps = {
   classNames?: {

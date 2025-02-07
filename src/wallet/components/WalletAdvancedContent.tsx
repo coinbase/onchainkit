@@ -6,9 +6,9 @@ import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
 import type { WalletAdvancedReact } from '../types';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
-import { Send } from './wallet-advanced-send/components/Send';
 import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
+import { Send } from './wallet-advanced-send/components/Send';
 
 export function WalletAdvancedContent({
   children,

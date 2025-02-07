@@ -3,9 +3,9 @@
 import { TextInput } from '@/internal/components/TextInput';
 import { background, border, cn, color } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
+import type { SendAddressInputProps } from '../types';
 import { resolveAddressInput } from '../utils/resolveAddressInput';
 import { validateAddressInput } from '../utils/validateAddressInput';
-import type { SendAddressInputProps } from '../types';
 
 export function SendAddressInput({
   selectedRecipientAddress,
