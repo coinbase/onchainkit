@@ -1,4 +1,5 @@
 import type { EarnContextType } from '@/earn/types';
+import type { MakeRequired } from '@/internal/types';
 import { usdcToken } from '@/token/constants';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
@@ -6,7 +7,6 @@ import type { Address } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useEarnContext } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
-import type { MakeRequired } from '@/internal/types';
 
 // Address required to avoid connect wallet prompt
 const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {

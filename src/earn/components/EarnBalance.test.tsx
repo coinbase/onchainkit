@@ -1,5 +1,6 @@
 import { EarnProvider, useEarnContext } from '@/earn/components/EarnProvider';
 import type { EarnContextType } from '@/earn/types';
+import type { MakeRequired } from '@/internal/types';
 import { usdcToken } from '@/token/constants';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -10,7 +11,6 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig, mock, useAccount } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { EarnBalance } from './EarnBalance';
-import type { MakeRequired } from '@/internal/types';
 
 const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
   recipientAddress: '0x123' as Address,

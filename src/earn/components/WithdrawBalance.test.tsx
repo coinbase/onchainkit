@@ -11,9 +11,9 @@ import {
   it,
   vi,
 } from 'vitest';
+import { useAccount } from 'wagmi';
 import { useEarnContext } from './EarnProvider';
 import { WithdrawBalance } from './WithdrawBalance';
-import { useAccount } from 'wagmi';
 
 const baseContext: EarnContextType = {
   underlyingBalance: '1000',
@@ -63,6 +63,18 @@ describe('WithdrawBalance', () => {
     render(<WithdrawBalance />);
 
     expect(screen.getByText('Wallet not connected')).toBeInTheDocument();
+  });
+
+  it('renders a skeleton for the amount and shows the token symbol when the balance is pending', () => {
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      receiptBalanceStatus: 'pending',
+    });
+
+    render(<WithdrawBalance />);
+
+    expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
+    expect(screen.getByText(usdcToken.symbol)).toBeInTheDocument();
   });
 
   it('renders a Skeleton when vaultToken is undefined', () => {

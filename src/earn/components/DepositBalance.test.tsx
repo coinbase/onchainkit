@@ -1,3 +1,4 @@
+import type { EarnContextType } from '@/earn/types';
 import { usdcToken } from '@/token/constants';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
@@ -10,10 +11,9 @@ import {
   it,
   vi,
 } from 'vitest';
+import { useAccount } from 'wagmi';
 import { DepositBalance } from './DepositBalance';
 import { useEarnContext } from './EarnProvider';
-import type { EarnContextType } from '@/earn/types';
-import { useAccount } from 'wagmi';
 
 const baseContext: EarnContextType = {
   underlyingBalance: '1000',
@@ -62,6 +62,38 @@ describe('DepositBalance', () => {
 
     expect(screen.getByText('1,000 USDC')).toBeInTheDocument();
     expect(screen.getByText('Available to deposit')).toBeInTheDocument();
+  });
+
+  it("renders 'Wallet not connected' when the user is not connected", () => {
+    vi.mocked(useAccount as Mock).mockReturnValue({
+      address: undefined,
+    });
+
+    render(<DepositBalance />);
+
+    expect(screen.getByText('Wallet not connected')).toBeInTheDocument();
+  });
+
+  it('renders a skeleton for the amount and shows the token symbol when the balance is pending', () => {
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      underlyingBalanceStatus: 'pending',
+    });
+
+    render(<DepositBalance />);
+
+    expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
+    expect(screen.getByText(usdcToken.symbol)).toBeInTheDocument();
+  });
+
+  it("renders 'Connect wallet to deposit' when the user is not connected", () => {
+    vi.mocked(useAccount as Mock).mockReturnValue({
+      address: undefined,
+    });
+
+    render(<DepositBalance />);
+
+    expect(screen.getByText('Connect wallet to deposit')).toBeInTheDocument();
   });
 
   it('calls setDepositAmount with underlyingBalance when the action button is clicked', () => {

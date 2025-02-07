@@ -2,10 +2,10 @@ import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { cn } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
+import { useAccount } from 'wagmi';
 import type { DepositBalanceReact } from '../types';
 import { EarnBalance } from './EarnBalance';
 import { useEarnContext } from './EarnProvider';
-import { useAccount } from 'wagmi';
 
 export function DepositBalance({ className }: DepositBalanceReact) {
   const { address } = useAccount();

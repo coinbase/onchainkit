@@ -3,6 +3,7 @@ import { AppContext } from '@/components/AppProvider';
 import { getShareableUrl } from '@/lib/url-params';
 import { cn } from '@/lib/utils';
 import { OnchainKitComponent } from '@/types/onchainkit';
+import { Earn } from '@coinbase/onchainkit/earn';
 import { useContext, useEffect, useState } from 'react';
 import DemoOptions from './DemoOptions';
 import BuyDemo from './demo/Buy';
@@ -23,7 +24,6 @@ import WalletDemo from './demo/Wallet';
 import WalletAdvancedDefaultDemo from './demo/WalletAdvancedDefault';
 import WalletDefaultDemo from './demo/WalletDefault';
 import WalletIslandDemo from './demo/WalletIsland';
-import { Earn } from '@coinbase/onchainkit/earn';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.FundButton]: FundButtonDemo,
