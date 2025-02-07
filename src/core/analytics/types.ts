@@ -245,7 +245,6 @@ export type CheckoutEventData = {
   [CheckoutEvent.CheckoutInitiated]: CommonAnalyticsData & {
     amount: number;
     productId: string;
-    chargeHandlerId: string;
   };
 };
 
