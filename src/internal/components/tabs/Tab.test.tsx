@@ -63,4 +63,16 @@ describe('Tab', () => {
     expect(tab1).toHaveAttribute('aria-label', 'Tab 1 Label');
     expect(tab1).toHaveAttribute('role', 'tab');
   });
+
+  it('runs the onClick callback when the tab is clicked', () => {
+    const onClick = vi.fn();
+    render(
+      <Tab value="tab1" onClick={onClick}>
+        Tab 1
+      </Tab>,
+    );
+
+    const tab1 = screen.getByText('Tab 1');
+    fireEvent.click(tab1);
+  });
 });

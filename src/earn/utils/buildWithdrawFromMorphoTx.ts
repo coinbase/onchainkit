@@ -1,6 +1,6 @@
 import { MORPHO_VAULT_ABI } from '@/earn/abis/morpho';
 import type { Call } from '@/transaction/types';
-import { type Address, encodeFunctionData, decodeFunctionData } from 'viem';
+import { type Address, encodeFunctionData } from 'viem';
 
 export type WithdrawFromMorphoParams = {
   /** The address of the Morpho vault */
@@ -22,13 +22,6 @@ export function buildWithdrawFromMorphoTx({
     functionName: 'redeem', // redeem is the number of *shares*, withdraw is the number of *assets*
     args: [amount, receiverAddress, receiverAddress],
   });
-
-  // decode for testing
-  const decoded = decodeFunctionData({
-    abi: MORPHO_VAULT_ABI,
-    data: withdrawTxData,
-  });
-  console.log('decoded:', decoded);
 
   return [
     {
