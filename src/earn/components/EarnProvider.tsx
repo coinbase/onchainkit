@@ -2,13 +2,7 @@ import { getToken } from '@/earn/utils/getToken';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useValue } from '@/internal/hooks/useValue';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { useBuildMorphoDepositTx } from '../hooks/useBuildMorphoDepositTx';
 import { useBuildMorphoWithdrawTx } from '../hooks/useBuildMorphoWithdrawTx';
@@ -18,7 +12,6 @@ import type {
   EarnProviderReact,
   LifecycleStatus,
 } from '../types';
-import { formatUnits } from 'viem';
 
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 
