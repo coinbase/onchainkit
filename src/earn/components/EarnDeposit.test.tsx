@@ -6,9 +6,10 @@ import type { Address } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { EarnDeposit } from './EarnDeposit';
 import { useEarnContext } from './EarnProvider';
+import type { MakeRequired } from '@/internal/types';
 
 // Address required to avoid connect wallet prompt
-const baseContext: EarnContextType & { recipientAddress: Address } = {
+const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
   recipientAddress: '0x123' as Address,
   underlyingBalance: '1000',
   underlyingBalanceStatus: 'success',

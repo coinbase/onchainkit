@@ -21,10 +21,15 @@ export function DepositButton({ className }: DepositButtonReact) {
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
-      // Don't emit duplicate statuses
       if (status.statusName === 'transactionPending') {
         updateLifecycleStatus({ statusName: 'transactionPending' });
-      } else if (status.statusName !== 'idle') {
+      }
+
+      if (
+        status.statusName === 'transactionLegacyExecuted' ||
+        status.statusName === 'success' ||
+        status.statusName === 'error'
+      ) {
         updateLifecycleStatus(status);
       }
     },

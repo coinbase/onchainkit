@@ -132,4 +132,13 @@ export type LifecycleStatus =
         token: Token;
       };
     }
-  | TransactionLifecycleStatus;
+  | Extract<
+      TransactionLifecycleStatus,
+      {
+        statusName:
+          | 'transactionPending'
+          | 'transactionLegacyExecuted'
+          | 'success'
+          | 'error';
+      }
+    >;

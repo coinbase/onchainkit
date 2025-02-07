@@ -10,19 +10,22 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig, mock, useAccount } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { EarnBalance } from './EarnBalance';
+import type { MakeRequired } from '@/internal/types';
 
-const baseContext: EarnContextType & { address: Address } = {
-  convertedBalance: '1000',
+const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
+  recipientAddress: '0x123' as Address,
+  underlyingBalance: '1000',
+  underlyingBalanceStatus: 'success',
   setDepositAmount: vi.fn(),
   vaultAddress: '0x123' as Address,
   depositAmount: '0',
-  depositedAmount: '0',
+  receiptBalance: '0',
+  receiptBalanceStatus: 'success',
   withdrawAmount: '0',
   setWithdrawAmount: vi.fn(),
-  interest: '1.2k',
+  interestEarned: '1.2k',
   depositCalls: [],
   withdrawCalls: [],
-  address: '0x123' as Address,
   vaultToken: usdcToken,
   lifecycleStatus: { statusName: 'init', statusData: null },
   updateLifecycleStatus: vi.fn(),
