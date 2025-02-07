@@ -27,6 +27,8 @@ const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
   vaultToken: usdcToken,
   lifecycleStatus: { statusName: 'init', statusData: null },
   updateLifecycleStatus: vi.fn(),
+  refetchUnderlyingBalance: vi.fn(),
+  refetchReceiptBalance: vi.fn(),
 };
 
 vi.mock('wagmi', async (importOriginal) => {
