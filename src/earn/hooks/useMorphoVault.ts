@@ -4,6 +4,7 @@ import calculateMorphoRewards from '@/earn/utils/calculateMorphoRewards';
 import { fetchMorphoApy } from '@/earn/utils/fetchMorphoApy';
 import { useQuery } from '@tanstack/react-query';
 import { type Address, formatUnits } from 'viem';
+import { base } from 'viem/chains';
 import { useReadContract, useReadContracts } from 'wagmi';
 
 type UseMorphoVaultParams = {
@@ -41,16 +42,19 @@ export function useMorphoVault({
         abi: MORPHO_VAULT_ABI,
         address: vaultAddress,
         functionName: 'asset',
+        chainId: base.id, // Only Base is supported
       },
       {
         abi: MORPHO_VAULT_ABI,
         address: vaultAddress,
         functionName: 'name',
+        chainId: base.id, // Only Base is supported
       },
       {
         abi: MORPHO_VAULT_ABI,
         address: vaultAddress,
         functionName: 'decimals',
+        chainId: base.id, // Only Base is supported
       },
     ],
     query: {
@@ -67,6 +71,7 @@ export function useMorphoVault({
     address: vaultAddress,
     functionName: 'balanceOf',
     args: [address as Address],
+    chainId: base.id, // Only Base is supported
     query: {
       enabled: !!vaultAddress && !!address,
     },

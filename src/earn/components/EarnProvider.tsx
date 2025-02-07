@@ -1,7 +1,6 @@
 import { getToken } from '@/earn/utils/getToken';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useValue } from '@/internal/hooks/useValue';
-import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import { createContext, useCallback, useContext, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { useBuildMorphoDepositTx } from '../hooks/useBuildMorphoDepositTx';
@@ -12,6 +11,7 @@ import type {
   EarnProviderReact,
   LifecycleStatus,
 } from '../types';
+import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 
@@ -37,9 +37,9 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     asset,
     assetDecimals,
     assetSymbol,
-    balance,
+    balance: receiptBalance,
+    balanceStatus: receiptBalanceStatus,
     totalApy,
-    balanceStatus,
   } = useMorphoVault({
     vaultAddress,
     address,
@@ -54,7 +54,10 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
       })
     : undefined;
 
-  const { convertedBalance } = useGetTokenBalance(address, vaultToken);
+  const {
+    convertedBalance: underlyingBalance,
+    status: underlyingBalanceStatus,
+  } = useGetTokenBalance(address, vaultToken);
 
   const { calls: withdrawCalls } = useBuildMorphoWithdrawTx({
     vaultAddress,
@@ -94,19 +97,20 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
   );
 
   const value = useValue<EarnContextType>({
-    address,
-    convertedBalance,
+    recipientAddress: address,
     vaultAddress,
     vaultToken,
+    receiptBalance,
+    receiptBalanceStatus,
     depositAmount,
     setDepositAmount: handleDepositAmount,
     withdrawAmount,
     setWithdrawAmount: handleWithdrawAmount,
-    depositedAmount: balance,
-    balanceStatus,
+    underlyingBalance,
+    underlyingBalanceStatus,
     apy: totalApy,
     // TODO: update when we have logic to fetch interest
-    interest: '',
+    interestEarned: '',
     withdrawCalls,
     depositCalls,
     lifecycleStatus,

@@ -7,27 +7,34 @@ import { useEarnContext } from './EarnProvider';
 import { useAccount } from 'wagmi';
 
 export function WithdrawBalance({ className }: WithdrawBalanceReact) {
-  const { depositedAmount, setWithdrawAmount, vaultToken, balanceStatus } =
-    useEarnContext();
+  const {
+    receiptBalance,
+    receiptBalanceStatus: status,
+    setWithdrawAmount,
+    vaultToken,
+  } = useEarnContext();
   const { address } = useAccount();
   const handleMaxPress = useCallback(() => {
-    if (depositedAmount) {
-      setWithdrawAmount(depositedAmount);
+    if (receiptBalance) {
+      setWithdrawAmount(receiptBalance);
     }
-  }, [depositedAmount, setWithdrawAmount]);
+  }, [receiptBalance, setWithdrawAmount]);
 
   const balance = useMemo(() => {
-    if (!depositedAmount) {
+    if (!receiptBalance) {
       return '0';
     }
-    return getTruncatedAmount(depositedAmount.toString(), 4);
-  }, [depositedAmount]);
+    return getTruncatedAmount(receiptBalance.toString(), 4);
+  }, [receiptBalance]);
 
   const title = useMemo(() => {
+    if (!address) {
+      return 'Wallet not connected';
+    }
     if (!vaultToken) {
       return <Skeleton className="h-6 w-24" />;
     }
-    if (address && balanceStatus === 'pending') {
+    if (status === 'pending') {
       return (
         <div className="flex gap-1">
           <Skeleton className="!bg-[var(--ock-bg-alternate-active)] h-6 w-12" />
@@ -35,15 +42,8 @@ export function WithdrawBalance({ className }: WithdrawBalanceReact) {
         </div>
       );
     }
-    if (!address) {
-      return 'Wallet not connected';
-    }
-    return (
-      <>
-        {balance} {vaultToken?.symbol}
-      </>
-    );
-  }, [balance, vaultToken, address, balanceStatus]);
+    return `${balance} ${vaultToken?.symbol}`;
+  }, [balance, vaultToken, address, status]);
 
   const subtitle = useMemo(() => {
     if (!address) {
@@ -58,7 +58,7 @@ export function WithdrawBalance({ className }: WithdrawBalanceReact) {
       title={title}
       subtitle={subtitle}
       onActionPress={handleMaxPress}
-      showAction={!!depositedAmount}
+      showAction={!!receiptBalance}
     />
   );
 }

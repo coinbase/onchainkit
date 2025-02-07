@@ -9,22 +9,31 @@ import { useAccount } from 'wagmi';
 
 export function DepositBalance({ className }: DepositBalanceReact) {
   const { address } = useAccount();
-  const { convertedBalance, setDepositAmount, vaultToken } = useEarnContext();
+  const {
+    setDepositAmount,
+    vaultToken,
+    underlyingBalance,
+    underlyingBalanceStatus: status,
+  } = useEarnContext();
 
   const handleMaxPress = useCallback(() => {
-    if (convertedBalance) {
-      setDepositAmount(convertedBalance);
+    if (underlyingBalance) {
+      setDepositAmount(underlyingBalance);
     }
-  }, [convertedBalance, setDepositAmount]);
+  }, [underlyingBalance, setDepositAmount]);
 
   const balance = useMemo(() => {
-    if (!convertedBalance) {
+    if (!underlyingBalance) {
       return '0';
     }
-    return getTruncatedAmount(convertedBalance.toString(), 6);
-  }, [convertedBalance]);
+    return getTruncatedAmount(underlyingBalance.toString(), 6);
+  }, [underlyingBalance]);
 
   const title = useMemo(() => {
+    if (!address) {
+      return 'Wallet not connected';
+    }
+    // Fetching vault token, but user is connected
     if (!vaultToken) {
       return (
         <Skeleton
@@ -32,11 +41,16 @@ export function DepositBalance({ className }: DepositBalanceReact) {
         />
       );
     }
-    if (!address) {
-      return 'Wallet not connected';
+    if (status === 'pending') {
+      return (
+        <div className="flex gap-1">
+          <Skeleton className="!bg-[var(--ock-bg-alternate-active)] h-6 w-12" />
+          <span>{vaultToken?.symbol}</span>
+        </div>
+      );
     }
     return `${balance} ${vaultToken?.symbol}`;
-  }, [balance, vaultToken, address]);
+  }, [balance, vaultToken, address, status]);
 
   const subtitle = useMemo(() => {
     if (!address) {
@@ -51,7 +65,7 @@ export function DepositBalance({ className }: DepositBalanceReact) {
       title={title}
       subtitle={subtitle}
       onActionPress={handleMaxPress}
-      showAction={!!convertedBalance}
+      showAction={!!underlyingBalance}
     />
   );
 }
