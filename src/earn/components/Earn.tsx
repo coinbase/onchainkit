@@ -3,8 +3,8 @@ import { border, cn } from '@/styles/theme';
 import type { EarnReact } from '../types';
 import { EarnDeposit } from './EarnDeposit';
 import { EarnProvider } from './EarnProvider';
-import { EarnWithdraw } from './EarnWithdraw';
 import { useEarnContext } from './EarnProvider';
+import { EarnWithdraw } from './EarnWithdraw';
 function EarnDefaultContent() {
   const { refetchUnderlyingBalance, refetchReceiptBalance } = useEarnContext();
   return (

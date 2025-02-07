@@ -3,13 +3,13 @@ import type { MakeRequired } from '@/internal/types';
 import { usdcToken } from '@/token/constants';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
+import { act } from 'react';
 import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useConnect } from 'wagmi';
 import { DepositButton } from './DepositButton';
 import { useEarnContext } from './EarnProvider';
-import { act } from 'react';
 
 // Address required to avoid connect wallet prompt
 const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
