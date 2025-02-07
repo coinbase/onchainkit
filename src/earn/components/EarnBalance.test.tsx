@@ -24,6 +24,8 @@ const baseContext: EarnContextType & { address: Address } = {
   withdrawCalls: [],
   address: '0x123' as Address,
   vaultToken: usdcToken,
+  lifecycleStatus: { statusName: 'init', statusData: null },
+  updateLifecycleStatus: vi.fn(),
 };
 
 const queryClient = new QueryClient();

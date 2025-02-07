@@ -1,5 +1,7 @@
+import type { LifecycleStatusUpdate } from '@/internal/types';
 import type { Token } from '@/token';
 import type { Call } from '@/transaction/types';
+import type { LifecycleStatus as TransactionLifecycleStatus } from '@/transaction/types';
 import type React from 'react';
 import type { Address } from 'viem';
 
@@ -35,6 +37,10 @@ export type EarnContextType = {
   withdrawAmount: string;
   setWithdrawAmount: (amount: string) => void;
   withdrawCalls: Call[];
+  lifecycleStatus: LifecycleStatus;
+  updateLifecycleStatus: (
+    status: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void;
 };
 
 export type EarnAmountInputReact = {
@@ -104,3 +110,31 @@ export type DepositButtonReact = {
 export type WithdrawButtonReact = {
   className?: string;
 };
+
+/**
+ * List of earn lifecycle statuses.
+ *
+ * Note: exported as public Type
+ */
+export type LifecycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'amountChange';
+      statusData: {
+        amount: string;
+        token: Token;
+      };
+    }
+  | Extract<
+      TransactionLifecycleStatus,
+      {
+        statusName:
+          | 'transactionPending'
+          | 'transactionLegacyExecuted'
+          | 'success'
+          | 'error';
+      }
+    >;

@@ -1,12 +1,17 @@
 import { getToken } from '@/earn/utils/getToken';
+import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useValue } from '@/internal/hooks/useValue';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { useBuildMorphoDepositTx } from '../hooks/useBuildMorphoDepositTx';
 import { useBuildMorphoWithdrawTx } from '../hooks/useBuildMorphoWithdrawTx';
 import { useMorphoVault } from '../hooks/useMorphoVault';
-import type { EarnContextType, EarnProviderReact } from '../types';
+import type {
+  EarnContextType,
+  EarnProviderReact,
+  LifecycleStatus,
+} from '../types';
 
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 
@@ -17,10 +22,16 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     );
   }
 
+  const [lifecycleStatus, updateLifecycleStatus] =
+    useLifecycleStatus<LifecycleStatus>({
+      statusName: 'init',
+      statusData: null,
+    });
+
   const { address } = useAccount();
 
-  const [depositAmount, setDepositAmount] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('');
+  const [depositAmount, setDepositAmount] = useState('');
 
   const { asset, assetDecimals, assetSymbol, balance, totalApy } =
     useMorphoVault({
@@ -50,21 +61,48 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     receiverAddress: address,
   });
 
+  // Lifecycle statuses
+  const handleDepositAmount = useCallback(
+    async (amount: string) => {
+      updateLifecycleStatus({
+        statusName: 'amountChange',
+        statusData: { amount: amount, token: vaultToken },
+      });
+
+      setDepositAmount(amount);
+    },
+    [updateLifecycleStatus, vaultToken],
+  );
+
+  const handleWithdrawAmount = useCallback(
+    async (amount: string) => {
+      updateLifecycleStatus({
+        statusName: 'amountChange',
+        statusData: { amount: amount, token: vaultToken },
+      });
+
+      setWithdrawAmount(amount);
+    },
+    [updateLifecycleStatus, vaultToken],
+  );
+
   const value = useValue<EarnContextType>({
     address,
     convertedBalance,
     vaultAddress,
     vaultToken,
     depositAmount,
-    setDepositAmount,
+    setDepositAmount: handleDepositAmount,
     withdrawAmount,
-    setWithdrawAmount,
+    setWithdrawAmount: handleWithdrawAmount,
     depositedAmount: balance,
     apy: totalApy,
     // TODO: update when we have logic to fetch interest
     interest: '',
     withdrawCalls,
     depositCalls,
+    lifecycleStatus,
+    updateLifecycleStatus,
   });
 
   return <EarnContext.Provider value={value}>{children}</EarnContext.Provider>;

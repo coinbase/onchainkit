@@ -21,6 +21,8 @@ const baseContext: EarnContextType & { address: Address } = {
   withdrawCalls: [],
   address: '0x123' as Address,
   vaultToken: usdcToken,
+  lifecycleStatus: { statusName: 'init', statusData: null },
+  updateLifecycleStatus: vi.fn(),
 };
 
 vi.mock('./EarnProvider', () => ({
@@ -151,5 +153,32 @@ describe('WithdrawButton Component', () => {
     const { container } = render(<WithdrawButton />);
 
     expect(container).toHaveTextContent('Withdraw');
+  });
+
+  it('surfaces Transaction lifecycle statuses', () => {
+    const mockUpdateLifecycleStatus = vi.fn();
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      depositCalls: [{ to: '0x123', data: '0x456' }],
+      updateLifecycleStatus: mockUpdateLifecycleStatus,
+    });
+
+    render(<WithdrawButton />);
+
+    // Simulate different transaction states using the mock buttons
+    screen.getByText('TransactionPending').click();
+    expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
+      statusName: 'transactionPending',
+    });
+
+    screen.getByText('Success').click();
+    expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
+      statusName: 'success',
+    });
+
+    screen.getByText('Error').click();
+    expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+    });
   });
 });
