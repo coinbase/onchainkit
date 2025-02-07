@@ -102,8 +102,8 @@ export type OnchainKitConfig = {
   schemaId: EASSchemaUid | null;
   /** ProjectId from Coinbase Developer Platform, only required for Coinbase Onramp support */
   projectId: string | null;
-  /** InteractionId, used for analytics */
-  interactionId: string | null;
+  /** SessionId, used for analytics */
+  sessionId: string | null;
 };
 
 export type SetOnchainKitConfig = Partial<OnchainKitConfig>;

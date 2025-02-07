@@ -4,6 +4,8 @@ import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { WalletEvent } from '../../core/analytics/types';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
 import { findComponent } from '../../internal/utils/findComponent';
@@ -40,6 +42,7 @@ export function ConnectWallet({
   } = useWalletContext();
   const { address: accountAddress, status } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
+  const { sendAnalytics } = useAnalytics();
 
   // State
   const [hasClickedConnect, setHasClickedConnect] = useState(false);
@@ -88,6 +91,49 @@ export function ConnectWallet({
     setHasClickedConnect(true);
   }, [setIsConnectModalOpen]);
 
+  const handleAnalyticsConnect = useCallback(
+    (walletProvider: string) => {
+      sendAnalytics(WalletEvent.ConnectInitiated, {
+        component: 'ConnectWallet',
+        walletProvider,
+      });
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsInitiate = useCallback(
+    (connectorName: string) => {
+      sendAnalytics(WalletEvent.ConnectInitiated, {
+        component: 'ConnectWallet',
+        walletProvider: connectorName,
+      });
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsSuccess = useCallback(
+    (connectorName: string, walletAddress?: string) => {
+      sendAnalytics(WalletEvent.ConnectSuccess, {
+        address: walletAddress ?? '',
+        component: 'ConnectWallet',
+        walletProvider: connectorName,
+      });
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsError = useCallback(
+    (connectorName: string, errorMessage: string) => {
+      sendAnalytics(WalletEvent.ConnectError, {
+        error: errorMessage,
+        metadata: {
+          connector: connectorName,
+        },
+      });
+    },
+    [sendAnalytics],
+  );
+
   // Effects
   useEffect(() => {
     if (hasClickedConnect && status === 'connected' && onConnect) {
@@ -95,6 +141,12 @@ export function ConnectWallet({
       setHasClickedConnect(false);
     }
   }, [status, hasClickedConnect, onConnect]);
+
+  useEffect(() => {
+    if (status === 'connected' && accountAddress && connector) {
+      handleAnalyticsSuccess(connector.name, accountAddress);
+    }
+  }, [status, accountAddress, connector, handleAnalyticsSuccess]);
 
   if (status === 'disconnected') {
     if (config?.wallet?.display === 'modal') {
@@ -106,6 +158,7 @@ export function ConnectWallet({
             onClick={() => {
               handleOpenConnectModal();
               setHasClickedConnect(true);
+              handleAnalyticsConnect('modal');
             }}
             text={text}
           />
@@ -119,11 +172,17 @@ export function ConnectWallet({
           className={className}
           connectWalletText={connectWalletText}
           onClick={() => {
+            handleAnalyticsInitiate(connector.name);
+
             connect(
               { connector },
               {
                 onSuccess: () => {
                   onConnect?.();
+                  handleAnalyticsSuccess(connector.name);
+                },
+                onError: (error) => {
+                  handleAnalyticsError(connector.name, error.message);
                 },
               },
             );
