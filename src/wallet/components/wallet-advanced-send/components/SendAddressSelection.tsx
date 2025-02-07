@@ -1,28 +1,34 @@
 import { useCallback, useMemo, useState } from 'react';
-import type { Chain } from 'viem';
 import type { RecipientAddress } from '../types';
 import { resolveAddressInput } from '../utils/resolveAddressInput';
 import { SendAddressInput } from './SendAddressInput';
 import { SendAddressSelector } from './SendAddressSelector';
+import { useSendContext } from '@/wallet/components/wallet-advanced-send/components/SendProvider';
+import { useWalletContext } from '@/wallet/components/WalletProvider';
+import type { SendAddressInputProps, SendAddressSelectorProps } from '../types';
 
 type SendAddressSelectionProps = {
-  selectedRecipientAddress: RecipientAddress;
-  senderChain: Chain | null | undefined;
-  handleAddressSelection: (selection: RecipientAddress) => void;
-  handleRecipientInputChange: () => void;
+  classNames?: {
+    input?: SendAddressInputProps['classNames'];
+    selector?: SendAddressSelectorProps['classNames'];
+  };
 };
 
 export function SendAddressSelection({
-  selectedRecipientAddress,
-  senderChain,
-  handleAddressSelection,
-  handleRecipientInputChange,
+  classNames,
 }: SendAddressSelectionProps) {
   const [recipientInput, setRecipientInput] = useState<string>('');
   const [validatedInput, setValidatedInput] = useState<RecipientAddress>({
     display: '',
     value: null,
   });
+
+  const { chain: senderChain } = useWalletContext();
+  const {
+    selectedRecipientAddress,
+    handleAddressSelection,
+    handleRecipientInputChange,
+  } = useSendContext();
 
   const handleClick = useCallback(async () => {
     const resolvedSelection = await resolveAddressInput(
@@ -41,9 +47,16 @@ export function SendAddressSelection({
         address={validatedInput.value}
         senderChain={senderChain}
         handleClick={handleClick}
+        classNames={classNames?.selector}
       />
     );
-  }, [selectedRecipientAddress, validatedInput, senderChain, handleClick]);
+  }, [
+    selectedRecipientAddress,
+    validatedInput,
+    senderChain,
+    handleClick,
+    classNames?.selector,
+  ]);
 
   return (
     <div>
@@ -53,6 +66,7 @@ export function SendAddressSelection({
         setRecipientInput={setRecipientInput}
         setValidatedInput={setValidatedInput}
         handleRecipientInputChange={handleRecipientInputChange}
+        classNames={classNames?.input}
       />
       {addressSelector}
     </div>

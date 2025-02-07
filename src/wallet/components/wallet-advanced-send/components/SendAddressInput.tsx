@@ -2,24 +2,10 @@
 
 import { TextInput } from '@/internal/components/TextInput';
 import { background, border, cn, color } from '@/styles/theme';
-import {
-  type Dispatch,
-  type SetStateAction,
-  useCallback,
-  useMemo,
-} from 'react';
-import type { RecipientAddress } from '../types';
+import { useCallback, useMemo } from 'react';
 import { resolveAddressInput } from '../utils/resolveAddressInput';
 import { validateAddressInput } from '../utils/validateAddressInput';
-
-type AddressInputProps = {
-  selectedRecipientAddress: RecipientAddress;
-  recipientInput: string;
-  setRecipientInput: Dispatch<SetStateAction<string>>;
-  setValidatedInput: Dispatch<SetStateAction<RecipientAddress>>;
-  handleRecipientInputChange: () => void;
-  className?: string;
-};
+import type { SendAddressInputProps } from '../types';
 
 export function SendAddressInput({
   selectedRecipientAddress,
@@ -27,8 +13,8 @@ export function SendAddressInput({
   setRecipientInput,
   setValidatedInput,
   handleRecipientInputChange,
-  className,
-}: AddressInputProps) {
+  classNames,
+}: SendAddressInputProps) {
   const displayValue = useMemo(() => {
     if (selectedRecipientAddress?.display) {
       return selectedRecipientAddress.display;
@@ -61,10 +47,10 @@ export function SendAddressInput({
         'w-full',
         'flex items-center gap-2',
         'px-4 py-3',
-        className,
+        classNames?.container,
       )}
     >
-      <span className={cn(color.foreground)}>To</span>
+      <span className={cn(color.foreground, classNames?.label)}>To</span>
       <TextInput
         inputMode="text"
         placeholder="Basename, ENS, or Address"
@@ -74,7 +60,11 @@ export function SendAddressInput({
         onChange={handleSetValue}
         onFocus={handleFocus}
         aria-label="Input Receiver Address"
-        className={cn(background.default, 'w-full outline-none')}
+        className={cn(
+          background.default,
+          'w-full outline-none',
+          classNames?.input,
+        )}
       />
     </div>
   );

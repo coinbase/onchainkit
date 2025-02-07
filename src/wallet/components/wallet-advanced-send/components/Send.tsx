@@ -1,7 +1,6 @@
 import { useTheme } from '@/internal/hooks/useTheme';
 import { background, border, cn, color } from '@/styles/theme';
 import type { ReactNode } from 'react';
-import { useWalletContext } from '../../WalletProvider';
 import { SendAddressSelection } from './SendAddressSelection';
 import { SendAmountInput } from './SendAmountInput';
 import { SendButton } from './SendButton';
@@ -43,7 +42,6 @@ export function Send({
 }
 
 function SendDefaultChildren() {
-  const { chain: senderChain } = useWalletContext();
   const context = useSendContext();
 
   const walletHasEth = context.isInitialized && context.ethBalance > 0.000001;
@@ -58,18 +56,13 @@ function SendDefaultChildren() {
       {walletHasEth ? (
         <div className="flex h-full flex-col justify-between gap-4">
           <div>
-            <SendAddressSelection
-              selectedRecipientAddress={context.selectedRecipientAddress}
-              senderChain={senderChain}
-              handleAddressSelection={context.handleAddressSelection}
-              handleRecipientInputChange={context.handleRecipientInputChange}
-            />
+            <SendAddressSelection />
             {context.selectedRecipientAddress.value &&
               !context.selectedToken && <SendTokenSelector />}
           </div>
           {context.selectedRecipientAddress.value && context.selectedToken && (
             <>
-              <SendAmountInput className="p-0" />
+              <SendAmountInput />
               <SendTokenSelector />
               <SendButton />
             </>

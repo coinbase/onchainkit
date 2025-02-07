@@ -1,5 +1,5 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import type { Address, TransactionReceipt } from 'viem';
+import type { Address, Chain, TransactionReceipt } from 'viem';
 import type { APIError, PortfolioTokenWithFiatValue } from '../../../api/types';
 import type { LifecycleStatusUpdate } from '../../../internal/types';
 import type { Call } from '../../../transaction/types';
@@ -122,3 +122,27 @@ export type SendLifecycleStatus =
       statusData: APIError;
     };
 
+export type SendAddressInputProps = {
+  selectedRecipientAddress: RecipientAddress;
+  recipientInput: string;
+  setRecipientInput: Dispatch<SetStateAction<string>>;
+  setValidatedInput: Dispatch<SetStateAction<RecipientAddress>>;
+  handleRecipientInputChange: () => void;
+  classNames?: {
+    container?: string;
+    label?: string;
+    input?: string;
+  };
+};
+
+export type SendAddressSelectorProps = {
+  address: Address | null;
+  senderChain: Chain | null | undefined;
+  handleClick: () => Promise<void>;
+  classNames?: {
+    container?: string;
+    avatar?: string;
+    name?: string;
+    address?: string;
+  };
+};
