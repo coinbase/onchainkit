@@ -1,5 +1,6 @@
 'use client';
 
+import { Skeleton } from '@/internal/components/Skeleton';
 import { addSvgForeground } from '@/internal/svg/addForegroundSvg';
 import { arrowUpRightSvg } from '@/internal/svg/arrowUpRightSvg';
 import { toggleSvg } from '@/internal/svg/toggleSvg';
@@ -72,12 +73,7 @@ export function WalletAdvancedTransactionActions({
   }, [setActiveFeature]);
 
   if (isFetchingPortfolioData) {
-    return (
-      <div
-        data-testid="ockWalletAdvanced_LoadingPlaceholder"
-        className="my-3 h-16 w-80"
-      />
-    ); // Prevent layout shift
+    return <Skeleton className="my-3 h-16 w-80" />;
   }
 
   return (
