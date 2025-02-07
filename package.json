@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.36.9",
+  "version": "0.36.10",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -110,12 +110,6 @@
     "./styles.css": "./src/styles.css",
     "./tailwind.css": "./src/tailwind.css",
     "./theme": "./esm/styles/theme.js",
-    "./earn": {
-      "types": "./esm/earn/index.d.ts",
-      "module": "./esm/earn/index.js",
-      "import": "./esm/earn/index.js",
-      "default": "./esm/earn/index.js"
-    },
     ".": {
       "types": "./esm/index.d.ts",
       "module": "./esm/index.js",
