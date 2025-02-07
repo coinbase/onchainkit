@@ -17,8 +17,15 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
-      // Don't emit duplicate statuses
-      if (status.statusName !== 'init') {
+      if (status.statusName === 'transactionPending') {
+        updateLifecycleStatus({ statusName: 'transactionPending' });
+      }
+
+      if (
+        status.statusName === 'transactionLegacyExecuted' ||
+        status.statusName === 'success' ||
+        status.statusName === 'error'
+      ) {
         updateLifecycleStatus(status);
       }
     },
