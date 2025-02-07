@@ -2,7 +2,13 @@ import { getToken } from '@/earn/utils/getToken';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useValue } from '@/internal/hooks/useValue';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
-import { createContext, useCallback, useContext, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 import { useAccount } from 'wagmi';
 import { useBuildMorphoDepositTx } from '../hooks/useBuildMorphoDepositTx';
 import { useBuildMorphoWithdrawTx } from '../hooks/useBuildMorphoWithdrawTx';
@@ -101,6 +107,33 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     [updateLifecycleStatus, vaultToken],
   );
 
+  // Validating input amounts
+  const depositAmountError = useMemo(() => {
+    if (!depositAmount) {
+      return null;
+    }
+    if (Number(depositAmount) === 0) {
+      return 'Deposit amount must be greater than 0';
+    }
+    if (Number(depositAmount) > Number(underlyingBalance)) {
+      return 'Deposit amount is greater than available balance';
+    }
+    return null;
+  }, [depositAmount, underlyingBalance]);
+
+  const withdrawAmountError = useMemo(() => {
+    if (!withdrawAmount) {
+      return null;
+    }
+    if (Number(withdrawAmount) === 0) {
+      return 'Withdraw amount must be greater than 0';
+    }
+    if (Number(withdrawAmount) > Number(receiptBalance)) {
+      return 'Withdraw amount is greater than the receipt balance';
+    }
+    return null;
+  }, [withdrawAmount, receiptBalance]);
+
   const value = useValue<EarnContextType>({
     recipientAddress: address,
     vaultAddress,
@@ -110,8 +143,10 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     refetchReceiptBalance,
     depositAmount,
     setDepositAmount: handleDepositAmount,
+    depositAmountError,
     withdrawAmount,
     setWithdrawAmount: handleWithdrawAmount,
+    withdrawAmountError,
     underlyingBalance,
     underlyingBalanceStatus,
     refetchUnderlyingBalance,

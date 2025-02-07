@@ -1,4 +1,4 @@
-import { cn } from '@/styles/theme';
+import { cn, color } from '@/styles/theme';
 import {
   type LifecycleStatus,
   Transaction,
@@ -14,10 +14,13 @@ export function DepositButton({ className }: DepositButtonReact) {
   const {
     recipientAddress: address,
     depositCalls,
+    depositAmount,
     setDepositAmount,
+    depositAmountError,
     updateLifecycleStatus,
     refetchUnderlyingBalance,
   } = useEarnContext();
+  console.log('depositAmount:', depositAmount);
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
@@ -59,13 +62,24 @@ export function DepositButton({ className }: DepositButtonReact) {
   }
 
   return (
-    <Transaction
-      className={className}
-      calls={depositCalls}
-      onStatus={handleOnStatus}
-      onSuccess={handleOnSuccess}
-    >
-      <TransactionButton text="Deposit" />
-    </Transaction>
+    <div className="-mt-4 flex flex-col gap-1">
+      {depositAmountError ? (
+        <p className={cn(color.error, 'text-xs')}>{depositAmountError}</p>
+      ) : (
+        <div className="h-4" /> // Empty div to keep the layout consistent
+      )}
+
+      <Transaction
+        className={className}
+        calls={depositCalls}
+        onStatus={handleOnStatus}
+        onSuccess={handleOnSuccess}
+      >
+        <TransactionButton
+          text="Deposit"
+          disabled={!!depositAmountError || !depositAmount}
+        />
+      </Transaction>
+    </div>
   );
 }
