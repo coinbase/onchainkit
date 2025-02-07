@@ -16,16 +16,8 @@ export function DepositButton({ className }: DepositButtonReact) {
     depositCalls,
     setDepositAmount,
     updateLifecycleStatus,
+    refetchUnderlyingBalance,
   } = useEarnContext();
-
-  if (!address) {
-    return (
-      <ConnectWallet
-        className={cn('w-full', className)}
-        text="Connect to deposit"
-      />
-    );
-  }
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
@@ -51,10 +43,20 @@ export function DepositButton({ className }: DepositButtonReact) {
         res.transactionReceipts[0].status === 'success'
       ) {
         setDepositAmount('');
+        refetchUnderlyingBalance();
       }
     },
-    [setDepositAmount],
+    [setDepositAmount, refetchUnderlyingBalance],
   );
+
+  if (!address) {
+    return (
+      <ConnectWallet
+        className={cn('w-full', className)}
+        text="Connect to deposit"
+      />
+    );
+  }
 
   return (
     <Transaction

@@ -4,13 +4,18 @@ import type { EarnReact } from '../types';
 import { EarnDeposit } from './EarnDeposit';
 import { EarnProvider } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
-
+import { useEarnContext } from './EarnProvider';
 function EarnDefaultContent() {
+  const { refetchUnderlyingBalance, refetchReceiptBalance } = useEarnContext();
   return (
     <Tabs defaultValue="deposit">
       <TabsList>
-        <Tab value="deposit">Deposit</Tab>
-        <Tab value="withdraw">Withdraw</Tab>
+        <Tab value="deposit" onClick={refetchUnderlyingBalance}>
+          Deposit
+        </Tab>
+        <Tab value="withdraw" onClick={refetchReceiptBalance}>
+          Withdraw
+        </Tab>
       </TabsList>
       <TabContent
         value="deposit"

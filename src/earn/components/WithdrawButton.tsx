@@ -15,16 +15,8 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     withdrawCalls,
     setWithdrawAmount,
     updateLifecycleStatus,
+    refetchReceiptBalance,
   } = useEarnContext();
-
-  if (!address) {
-    return (
-      <ConnectWallet
-        className={cn('w-full', className)}
-        text="Connect to withdraw"
-      />
-    );
-  }
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
@@ -45,15 +37,26 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
 
   const handleOnSuccess = useCallback(
     (res: TransactionResponse) => {
+      console.log('res:', res);
       if (
         res.transactionReceipts[0] &&
         res.transactionReceipts[0].status === 'success'
       ) {
         setWithdrawAmount('');
+        refetchReceiptBalance();
       }
     },
-    [setWithdrawAmount],
+    [setWithdrawAmount, refetchReceiptBalance],
   );
+
+  if (!address) {
+    return (
+      <ConnectWallet
+        className={cn('w-full', className)}
+        text="Connect to withdraw"
+      />
+    );
+  }
 
   return (
     <Transaction

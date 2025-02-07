@@ -22,6 +22,7 @@ export type EarnContextType = {
   underlyingBalance?: string;
   /** Status of the underlying balance */
   underlyingBalanceStatus: 'pending' | 'success' | 'error';
+  refetchUnderlyingBalance: () => void;
   vaultAddress: Address;
   /** The token that is being deposited or withdrawn */
   vaultToken: Token | undefined;
@@ -31,6 +32,7 @@ export type EarnContextType = {
   receiptBalance?: string;
   /** Whether the receipt balance is being fetched */
   receiptBalanceStatus: 'pending' | 'success' | 'error';
+  refetchReceiptBalance: () => void;
   /** Interest earned by the user in the vault */
   interestEarned?: string;
   /** Amount that the user has typed into the deposit amount input */

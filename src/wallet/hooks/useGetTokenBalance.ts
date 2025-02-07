@@ -42,6 +42,7 @@ export function useGetTokenBalance(
         error,
         roundedBalance: '',
         response: tokenBalanceResponse,
+        refetch: tokenBalanceResponse.refetch,
       };
     }
     const convertedBalance = formatUnits(
@@ -54,6 +55,7 @@ export function useGetTokenBalance(
       error,
       response: tokenBalanceResponse,
       roundedBalance: getRoundedAmount(convertedBalance, 8),
+      refetch: tokenBalanceResponse.refetch,
     };
   }, [token, tokenBalanceResponse]);
 }
