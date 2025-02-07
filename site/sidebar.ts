@@ -5,6 +5,7 @@ export const sidebar = [
     text: 'Introduction',
     items: [
       { text: 'Getting Started', link: '/getting-started' },
+      { text: 'Telemetry', link: '/guides/telemetry' },
       { text: 'Troubleshooting', link: '/guides/troubleshooting' },
     ],
   },
