@@ -19,7 +19,7 @@ type SendHeaderProps = {
 };
 
 export function SendHeader({ label = 'Send', classNames }: SendHeaderProps) {
-  const { setShowSend } = useWalletAdvancedContext();
+  const { setActiveFeature } = useWalletAdvancedContext();
 
   const {
     selectedRecipientAddress,
@@ -42,8 +42,8 @@ export function SendHeader({ label = 'Send', classNames }: SendHeaderProps) {
   ]);
 
   const handleClose = useCallback(() => {
-    setShowSend(false);
-  }, [setShowSend]);
+    setActiveFeature(null);
+  }, [setActiveFeature]);
 
   return (
     <div

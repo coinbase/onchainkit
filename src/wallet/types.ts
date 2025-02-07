@@ -212,22 +212,16 @@ export type WalletAdvancedReact = {
   };
 };
 
+export type WalletAdvancedFeature = 'qr' | 'swap' | 'send';
+
 /**
  * Note: exported as public Type
  */
 export type WalletAdvancedContextType = {
-  showSwap: boolean;
-  setShowSwap: Dispatch<SetStateAction<boolean>>;
-  isSwapClosing: boolean;
-  setIsSwapClosing: Dispatch<SetStateAction<boolean>>;
-  showQr: boolean;
-  setShowQr: Dispatch<SetStateAction<boolean>>;
-  isQrClosing: boolean;
-  setIsQrClosing: Dispatch<SetStateAction<boolean>>;
-  showSend: boolean;
-  setShowSend: Dispatch<SetStateAction<boolean>>;
-  isSendClosing: boolean;
-  setIsSendClosing: Dispatch<SetStateAction<boolean>>;
+  activeFeature: WalletAdvancedFeature | null;
+  setActiveFeature: Dispatch<SetStateAction<WalletAdvancedFeature | null>>;
+  isActiveFeatureClosing: boolean;
+  setIsActiveFeatureClosing: Dispatch<SetStateAction<boolean>>;
   tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
   portfolioFiatValue: number | undefined;
   isFetchingPortfolioData: boolean;

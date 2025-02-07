@@ -34,7 +34,7 @@ export function WalletAdvancedTransactionActions({
 }: WalletAdvancedTransactionActionsProps) {
   const { address, chain } = useWalletContext();
   const { projectId } = useOnchainKit();
-  const { isFetchingPortfolioData, setShowSwap, setShowSend, animations } =
+  const { isFetchingPortfolioData, setActiveFeature, animations } =
     useWalletAdvancedContext();
 
   const handleBuy = useCallback(() => {
@@ -64,12 +64,12 @@ export function WalletAdvancedTransactionActions({
   }, [address, chain?.name, projectId]);
 
   const handleSend = useCallback(() => {
-    setShowSend(true);
-  }, [setShowSend]);
+    setActiveFeature('send');
+  }, [setActiveFeature]);
 
   const handleSwap = useCallback(() => {
-    setShowSwap(true);
-  }, [setShowSwap]);
+    setActiveFeature('swap');
+  }, [setActiveFeature]);
 
   if (isFetchingPortfolioData) {
     return (

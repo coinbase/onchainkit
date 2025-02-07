@@ -25,7 +25,7 @@ export function WalletAdvancedWalletActions({
   classNames,
 }: WalletAdvancedWalletActionsProps) {
   const { address, handleClose } = useWalletContext();
-  const { setShowQr, refetchPortfolioData, animations } =
+  const { setActiveFeature, refetchPortfolioData, animations } =
     useWalletAdvancedContext();
   const { disconnect, connectors } = useDisconnect();
 
@@ -41,8 +41,8 @@ export function WalletAdvancedWalletActions({
   }, [disconnect, connectors, handleClose]);
 
   const handleQr = useCallback(() => {
-    setShowQr(true);
-  }, [setShowQr]);
+    setActiveFeature('qr');
+  }, [setActiveFeature]);
 
   const handleRefreshPortfolioData = useCallback(async () => {
     await refetchPortfolioData();
