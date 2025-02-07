@@ -1,6 +1,8 @@
+import { Skeleton } from '@/internal/components/Skeleton';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { background, border, cn, color } from '@/styles/theme';
 import type { ReactNode } from 'react';
+import { ETH_REQUIRED_FOR_SEND } from '../constants';
 import { SendAddressSelection } from './SendAddressSelection';
 import { SendAmountInput } from './SendAmountInput';
 import { SendButton } from './SendButton';
@@ -42,13 +44,14 @@ export function Send({
 }
 
 function SendDefaultChildren() {
-  const context = useSendContext();
+  const { ethBalance, isInitialized, selectedRecipientAddress, selectedToken } =
+    useSendContext();
 
-  const walletHasEth = context.isInitialized && context.ethBalance > 0.000001;
+  const walletHasEth = ethBalance > ETH_REQUIRED_FOR_SEND;
 
-  console.log({
-    context,
-  });
+  if (!isInitialized) {
+    return <Skeleton className="h-full w-full" />;
+  }
 
   return (
     <>
@@ -57,10 +60,11 @@ function SendDefaultChildren() {
         <div className="flex h-full flex-col justify-between gap-4">
           <div>
             <SendAddressSelection />
-            {context.selectedRecipientAddress.value &&
-              !context.selectedToken && <SendTokenSelector />}
+            {selectedRecipientAddress.value && !selectedToken && (
+              <SendTokenSelector />
+            )}
           </div>
-          {context.selectedRecipientAddress.value && context.selectedToken && (
+          {selectedRecipientAddress.value && selectedToken && (
             <>
               <SendAmountInput />
               <SendTokenSelector />

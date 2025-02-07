@@ -203,7 +203,7 @@ export function SendProvider({ children }: SendProviderReact) {
         statusName: 'error',
         statusData: {
           error: 'Error building send transaction',
-          code: 'SmSeBc01', // Send module SendButton component 01 error
+          code: 'SeMSeBC01', // Send module SendButton component 01 error
           message: error,
         },
       });
