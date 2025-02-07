@@ -37,6 +37,6 @@ describe('EarnCard Component', () => {
     expect(cardElement).toHaveClass('flex');
     expect(cardElement).toHaveClass('flex-col');
     expect(cardElement).toHaveClass('p-4');
-    expect(cardElement).toHaveClass('gap-4');
+    expect(cardElement).toHaveClass('gap-8');
   });
 });

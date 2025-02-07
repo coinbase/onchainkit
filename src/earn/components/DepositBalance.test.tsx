@@ -1,16 +1,28 @@
 import { usdcToken } from '@/token/constants';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
-import { describe, expect, it, vi } from 'vitest';
+import {
+  type Mock,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import { DepositBalance } from './DepositBalance';
 import { useEarnContext } from './EarnProvider';
+import type { EarnContextType } from '@/earn/types';
+import { useAccount } from 'wagmi';
 
-const baseContext = {
-  convertedBalance: '1000',
+const baseContext: EarnContextType = {
+  underlyingBalance: '1000',
+  underlyingBalanceStatus: 'success',
   setDepositAmount: vi.fn(),
   vaultAddress: '0x123' as Address,
   depositAmount: '0',
-  depositedAmount: '0',
+  receiptBalance: '0',
+  receiptBalanceStatus: 'success',
   withdrawAmount: '0',
   setWithdrawAmount: vi.fn(),
   depositCalls: [],
@@ -24,7 +36,25 @@ vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),
 }));
 
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn().mockReturnValue({
+    address: '0x123' as Address,
+  }),
+}));
+
 describe('DepositBalance', () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+    vi.mocked(useEarnContext).mockReturnValue(baseContext);
+    vi.mocked(useAccount as Mock).mockReturnValue({
+      address: '0x123' as Address,
+    });
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('renders the converted balance and subtitle correctly', () => {
     vi.mocked(useEarnContext).mockReturnValue(baseContext);
 
@@ -34,11 +64,11 @@ describe('DepositBalance', () => {
     expect(screen.getByText('Available to deposit')).toBeInTheDocument();
   });
 
-  it('calls setDepositAmount with convertedBalance when the action button is clicked', () => {
+  it('calls setDepositAmount with underlyingBalance when the action button is clicked', () => {
     const mockSetDepositAmount = vi.fn();
-    const mockContext = {
+    const mockContext: EarnContextType = {
       ...baseContext,
-      convertedBalance: '1000',
+      underlyingBalance: '1000',
       setDepositAmount: mockSetDepositAmount,
     };
 
@@ -52,10 +82,10 @@ describe('DepositBalance', () => {
     expect(mockSetDepositAmount).toHaveBeenCalledWith('1000');
   });
 
-  it('does not render the action button when convertedBalance is null', () => {
-    const mockContext = {
+  it('does not render the action button when underlyingBalance is blank', () => {
+    const mockContext: EarnContextType = {
       ...baseContext,
-      convertedBalance: '',
+      underlyingBalance: '',
       setDepositAmount: vi.fn(),
     };
 

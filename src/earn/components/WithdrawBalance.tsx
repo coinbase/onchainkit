@@ -58,7 +58,7 @@ export function WithdrawBalance({ className }: WithdrawBalanceReact) {
       title={title}
       subtitle={subtitle}
       onActionPress={handleMaxPress}
-      showAction={!!receiptBalance}
+      showAction={balance !== '0'}
     />
   );
 }

@@ -247,12 +247,7 @@ describe('useMorphoVault', () => {
 
   it('handles undefined Morpho API result', () => {
     vi.mocked(useReadContracts).mockReturnValue({
-      data: [
-        { result: undefined },
-        { result: 'Morpho Vault' },
-        { result: 1000000000000000000n },
-        { result: 18 },
-      ],
+      data: [{ result: undefined }, { result: 'Morpho Vault' }, { result: 18 }],
       status: 'success',
     } as UseReadContractsReturnType<unknown[], boolean, unknown>);
 

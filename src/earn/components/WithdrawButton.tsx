@@ -9,7 +9,11 @@ import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
 
 export function WithdrawButton({ className }: WithdrawButtonReact) {
-  const { address, withdrawCalls, updateLifecycleStatus } = useEarnContext();
+  const {
+    recipientAddress: address,
+    withdrawCalls,
+    updateLifecycleStatus,
+  } = useEarnContext();
 
   if (!address) {
     return <ConnectWallet className="w-full" text="Connect to withdraw" />;
