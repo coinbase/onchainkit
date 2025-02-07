@@ -1,3 +1,4 @@
+import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
   Transaction,
@@ -16,7 +17,12 @@ export function DepositButton({ className }: DepositButtonReact) {
   } = useEarnContext();
 
   if (!address) {
-    return <ConnectWallet className="w-full" text="Connect to deposit" />;
+    return (
+      <ConnectWallet
+        className={cn('w-full', className)}
+        text="Connect to deposit"
+      />
+    );
   }
 
   const handleOnStatus = useCallback(
