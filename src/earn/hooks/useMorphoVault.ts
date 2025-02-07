@@ -13,6 +13,7 @@ type UseMorphoVaultParams = {
 
 export type UseMorphoVaultReturnType = {
   status: 'pending' | 'success' | 'error';
+  balanceStatus: 'pending' | 'success' | 'error';
   asset: Address | undefined;
   assetSymbol: string | undefined;
   assetDecimals: number | undefined;
@@ -61,7 +62,7 @@ export function useMorphoVault({
   const vaultDecimals = data?.[2].result;
 
   // Fetching separately because user may not be connected
-  const { data: balance } = useReadContract({
+  const { data: balance, status: balanceStatus } = useReadContract({
     abi: MORPHO_VAULT_ABI,
     address: vaultAddress,
     functionName: 'balanceOf',
@@ -85,6 +86,7 @@ export function useMorphoVault({
 
   return {
     status,
+    balanceStatus,
     asset,
     assetSymbol: vaultData?.symbol,
     assetDecimals: vaultData?.asset?.decimals,

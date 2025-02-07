@@ -12,7 +12,7 @@ export function DepositButton({ className }: DepositButtonReact) {
   const { address, depositCalls, updateLifecycleStatus } = useEarnContext();
 
   if (!address) {
-    return <ConnectWallet className="w-full" />;
+    return <ConnectWallet className="w-full" text="Connect to deposit" />;
   }
 
   const handleOnStatus = useCallback(

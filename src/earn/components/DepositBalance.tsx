@@ -5,8 +5,10 @@ import { useCallback, useMemo } from 'react';
 import type { DepositBalanceReact } from '../types';
 import { EarnBalance } from './EarnBalance';
 import { useEarnContext } from './EarnProvider';
+import { useAccount } from 'wagmi';
 
 export function DepositBalance({ className }: DepositBalanceReact) {
+  const { address } = useAccount();
   const { convertedBalance, setDepositAmount, vaultToken } = useEarnContext();
 
   const handleMaxPress = useCallback(() => {
@@ -30,14 +32,24 @@ export function DepositBalance({ className }: DepositBalanceReact) {
         />
       );
     }
+    if (!address) {
+      return 'Wallet not connected';
+    }
     return `${balance} ${vaultToken?.symbol}`;
-  }, [balance, vaultToken]);
+  }, [balance, vaultToken, address]);
+
+  const subtitle = useMemo(() => {
+    if (!address) {
+      return 'Connect wallet to deposit';
+    }
+    return 'Available to deposit';
+  }, [address]);
 
   return (
     <EarnBalance
       className={className}
       title={title}
-      subtitle="Available to deposit"
+      subtitle={subtitle}
       onActionPress={handleMaxPress}
       showAction={!!convertedBalance}
     />

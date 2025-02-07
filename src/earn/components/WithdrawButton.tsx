@@ -12,7 +12,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
   const { address, withdrawCalls, updateLifecycleStatus } = useEarnContext();
 
   if (!address) {
-    return <ConnectWallet className="w-full" />;
+    return <ConnectWallet className="w-full" text="Connect to withdraw" />;
   }
 
   const handleOnStatus = useCallback(

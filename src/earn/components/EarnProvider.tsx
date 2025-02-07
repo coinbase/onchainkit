@@ -33,11 +33,17 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [depositAmount, setDepositAmount] = useState('');
 
-  const { asset, assetDecimals, assetSymbol, balance, totalApy } =
-    useMorphoVault({
-      vaultAddress,
-      address,
-    });
+  const {
+    asset,
+    assetDecimals,
+    assetSymbol,
+    balance,
+    totalApy,
+    balanceStatus,
+  } = useMorphoVault({
+    vaultAddress,
+    address,
+  });
 
   const vaultToken = asset
     ? getToken({
@@ -97,6 +103,7 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     withdrawAmount,
     setWithdrawAmount: handleWithdrawAmount,
     depositedAmount: balance,
+    balanceStatus,
     apy: totalApy,
     // TODO: update when we have logic to fetch interest
     interest: '',

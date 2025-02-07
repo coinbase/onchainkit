@@ -28,6 +28,8 @@ export type EarnContextType = {
   apy?: number;
   /** The amount that has been deposited by the connected user in the vault */
   depositedAmount?: string;
+  /** Whether the deposited amount (balance) is being fetched */
+  balanceStatus: 'pending' | 'success' | 'error';
   interest?: string;
   /** Amount that the user has typed into the deposit amount input */
   depositAmount: string;
