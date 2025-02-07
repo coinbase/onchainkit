@@ -20,7 +20,6 @@ export function DepositButton({ className }: DepositButtonReact) {
     updateLifecycleStatus,
     refetchUnderlyingBalance,
   } = useEarnContext();
-  console.log('depositAmount:', depositAmount);
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
