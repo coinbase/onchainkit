@@ -98,31 +98,36 @@ export function AmountInput({
       data-testid="ockAmountInputContainer"
       className={cn('relative h-24 cursor-text', className)}
     >
-      <div className="flex h-14">
-        <TextInput
-          ref={inputRef}
-          value={value}
-          onChange={handleAmountChange}
-          inputValidator={isValidAmount}
-          delayMs={delayMs}
-          placeholder="0"
-          inputMode="decimal"
-          className={cn(
-            text.body,
-            'border-none bg-transparent',
-            'text-6xl leading-none outline-none',
-            '[appearance:textfield]',
-            '[&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none',
-            '[&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
-            textClassName,
-          )}
-        />
-
-        <CurrencyLabel
-          ref={labelRef}
-          label={currencyOrAsset}
-          className={textClassName}
-        />
+      <div className="absolute inset-x-0 top-6 bottom-4">
+        <div className="relative flex h-14">
+          <div ref={wrapperRef} className="flex flex-shrink-0 items-center">
+            <TextInput
+              className={cn(
+                text.body,
+                'border-none bg-transparent',
+                'text-6xl leading-none outline-none',
+                '[appearance:textfield]',
+                '[&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none',
+                '[&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
+                textClassName,
+              )}
+              value={value}
+              onChange={handleAmountChange}
+              delayMs={delayMs}
+              inputValidator={isValidAmount}
+              ref={inputRef}
+              inputMode="decimal"
+              placeholder="0"
+            />
+            <div className="ml-1">
+              <CurrencyLabel
+                ref={labelRef}
+                label={currencyOrAsset}
+                className={textClassName}
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Hidden span for measuring text width
