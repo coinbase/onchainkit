@@ -7,18 +7,20 @@ import { DepositDetails } from './DepositDetails';
 import { useEarnContext } from './EarnProvider';
 
 const baseContext: EarnContextType = {
-  convertedBalance: '1000',
+  underlyingBalance: '1000',
+  underlyingBalanceStatus: 'success',
   setDepositAmount: vi.fn(),
   vaultAddress: '0x123' as Address,
   depositAmount: '0',
-  depositedAmount: '0',
-  withdrawAmount: '0',
+  receiptBalance: '0',
+  receiptBalanceStatus: 'success',
   setWithdrawAmount: vi.fn(),
   depositCalls: [],
   withdrawCalls: [],
   vaultToken: usdcToken,
   lifecycleStatus: { statusName: 'init', statusData: null },
   updateLifecycleStatus: vi.fn(),
+  withdrawAmount: '0',
 };
 vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),

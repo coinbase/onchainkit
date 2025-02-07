@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import {
   type UseBuildMorphoWithdrawTxParams,
   useBuildMorphoWithdrawTx,
@@ -24,7 +24,7 @@ describe('useBuildMorphoWithdrawTx', () => {
   };
 
   it('returns empty calls when vault data is not available', () => {
-    vi.mocked(useMorphoVault).mockReturnValue({
+    vi.mocked(useMorphoVault as Mock).mockReturnValue({
       status: 'pending',
       asset: undefined,
       assetSymbol: undefined,
@@ -43,7 +43,7 @@ describe('useBuildMorphoWithdrawTx', () => {
   });
 
   it('returns empty calls when amount is greater than balance', () => {
-    vi.mocked(useMorphoVault).mockReturnValue({
+    vi.mocked(useMorphoVault as Mock).mockReturnValue({
       status: 'success',
       asset: DUMMY_ADDRESS,
       assetSymbol: 'USDC',
@@ -62,8 +62,9 @@ describe('useBuildMorphoWithdrawTx', () => {
   });
 
   it('builds withdraw transaction when vault data is available and amount is valid', () => {
-    vi.mocked(useMorphoVault).mockReturnValue({
+    vi.mocked(useMorphoVault as Mock).mockReturnValue({
       status: 'success',
+      balanceStatus: 'success',
       asset: DUMMY_ADDRESS,
       assetSymbol: 'USDC',
       balance: '1000',

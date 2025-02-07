@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import {
   type UseBuildMorphoDepositTxParams,
   useBuildMorphoDepositTx,
@@ -24,7 +24,7 @@ describe('useBuildMorphoDepositTx', () => {
   };
 
   it('returns empty calls when vault data is not available', () => {
-    vi.mocked(useMorphoVault).mockReturnValue({
+    vi.mocked(useMorphoVault as Mock).mockReturnValue({
       status: 'pending',
       asset: undefined,
       assetSymbol: undefined,
@@ -46,7 +46,7 @@ describe('useBuildMorphoDepositTx', () => {
     const mockAsset = DUMMY_ADDRESS;
     const mockDecimals = 18;
 
-    vi.mocked(useMorphoVault).mockReturnValue({
+    vi.mocked(useMorphoVault as Mock).mockReturnValue({
       status: 'success',
       asset: mockAsset,
       assetSymbol: 'USDC',
@@ -57,6 +57,7 @@ describe('useBuildMorphoDepositTx', () => {
       totalApy: 10,
       nativeApy: 10,
       rewards: [],
+      balanceStatus: 'success',
     });
 
     const { result } = renderHook(() => useBuildMorphoDepositTx(mockParams));
