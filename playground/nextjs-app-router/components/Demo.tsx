@@ -23,6 +23,7 @@ import WalletDemo from './demo/Wallet';
 import WalletAdvancedDefaultDemo from './demo/WalletAdvancedDefault';
 import WalletDefaultDemo from './demo/WalletDefault';
 import WalletIslandDemo from './demo/WalletIsland';
+import { Earn } from '@coinbase/onchainkit/earn';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.FundButton]: FundButtonDemo,
@@ -154,7 +155,8 @@ export default function Demo() {
               : 'justify-center',
           )}
         >
-          {ActiveComponent && <ActiveComponent />}
+          {/* {ActiveComponent && <ActiveComponent />} */}
+          <Earn vaultAddress="0xc1256Ae5FF1cf2719D4937adb3bbCCab2E00A2Ca" />
         </div>
       </div>
     </>
