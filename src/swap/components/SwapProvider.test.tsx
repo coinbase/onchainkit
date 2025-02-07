@@ -10,13 +10,22 @@ import {
 } from '@testing-library/react';
 import React, { act, useCallback, useEffect } from 'react';
 import type { TransactionReceipt } from 'viem';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  type Mock,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import {
   http,
   WagmiProvider,
   createConfig,
   useAccount,
   useChainId,
+  useSendTransaction,
   useSwitchChain,
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
@@ -25,6 +34,8 @@ import { mock } from 'wagmi/connectors';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { SwapEvent } from '../../core/analytics/types';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import type { LifecycleStatus, SwapError } from '../types';
@@ -57,6 +68,9 @@ vi.mock('wagmi', async (importOriginal) => {
     useAccount: vi.fn(),
     useChainId: vi.fn(),
     useSwitchChain: vi.fn(),
+    useSendTransaction: vi.fn(() => ({
+      sendTransactionAsync: vi.fn(),
+    })),
   };
 });
 
@@ -79,6 +93,12 @@ vi.mock('wagmi/experimental', () => ({
 
 vi.mock('../path/to/maxSlippageModule', () => ({
   getMaxSlippage: vi.fn().mockReturnValue(10),
+}));
+
+vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: vi.fn(() => ({
+    sendAnalytics: vi.fn(),
+  })),
 }));
 
 const queryClient = new QueryClient();
@@ -841,5 +861,138 @@ describe('SwapProvider', () => {
     if (result.current.statusName === 'init') {
       expect(result.current.statusData.maxSlippage).toBe(3);
     }
+  });
+
+  it('should handle errors in handleSubmit', async () => {
+    const mockError = new Error('Test error');
+    vi.mocked(buildSwapTransaction).mockRejectedValueOnce(mockError);
+    renderWithProviders({ Component: TestSwapComponent });
+    fireEvent.click(screen.getByText('Swap'));
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('context-value-lifecycleStatus-statusName')
+          .textContent,
+      ).toBe('error');
+      expect(
+        screen.getByTestId('context-value-lifecycleStatus-statusData-code')
+          .textContent,
+      ).toBe('TmSPc02');
+    });
+  });
+
+  it('should set transactionHash on success', async () => {
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+
+    await act(async () => {
+      result.current.updateLifecycleStatus({
+        statusName: 'success',
+        statusData: {
+          transactionReceipt: { transactionHash: '0x123' },
+        },
+      } as unknown as LifecycleStatus);
+    });
+
+    expect(result.current.transactionHash).toBe('0x123');
+  });
+});
+
+describe('SwapProvider Analytics', () => {
+  let sendAnalytics: Mock;
+
+  beforeEach(() => {
+    sendAnalytics = vi.fn();
+    (useAnalytics as Mock).mockImplementation(() => ({
+      sendAnalytics,
+    }));
+
+    (useAccount as Mock).mockReturnValue({
+      address: '0x123',
+      chainId: 1,
+      isConnected: true,
+    });
+
+    (useSwitchChain as Mock).mockReturnValue({
+      switchChainAsync: vi.fn().mockResolvedValue({}),
+    });
+
+    (useSendTransaction as Mock).mockReturnValue({
+      sendTransactionAsync: vi.fn().mockResolvedValue({}),
+    });
+
+    (useSendCalls as Mock).mockReturnValue({
+      sendCallsAsync: vi.fn().mockResolvedValue({}),
+    });
+  });
+
+  it('should track swap success', async () => {
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+
+    // Set up initial context values
+    act(() => {
+      result.current.from.setToken?.(ETH_TOKEN);
+      result.current.to.setToken?.(DEGEN_TOKEN);
+      result.current.from.setAmount?.('100');
+    });
+
+    await act(async () => {
+      result.current.updateLifecycleStatus({
+        statusName: 'success',
+        statusData: {
+          transactionReceipt: { transactionHash: '0x123' },
+        },
+      } as unknown as LifecycleStatus);
+    });
+
+    expect(sendAnalytics).toHaveBeenCalledWith(
+      SwapEvent.SwapSuccess,
+      expect.objectContaining({
+        transactionHash: '0x123',
+        paymaster: false,
+        amount: 100,
+        from: 'ETH',
+        to: 'DEGEN',
+      }),
+    );
+  });
+
+  it('should track swap failure', async () => {
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    await act(async () => {
+      result.current.updateLifecycleStatus({
+        statusName: 'error',
+        statusData: {
+          error: 'Test error',
+        },
+      } as unknown as LifecycleStatus);
+    });
+
+    expect(sendAnalytics).toHaveBeenCalledWith(SwapEvent.SwapFailure, {
+      error: 'Test error',
+      metadata: expect.any(Object),
+    });
+  });
+
+  it('should track swap initiation', async () => {
+    vi.mocked(getSwapQuote).mockResolvedValueOnce({
+      amountReference: 'from',
+      from: ETH_TOKEN,
+      to: DEGEN_TOKEN,
+      fromAmount: '10',
+      fromAmountUSD: '10',
+      hasHighPriceImpact: false,
+      priceImpact: '0.01',
+      slippage: '0.005',
+      toAmount: '10',
+      toAmountUSD: '10',
+    });
+
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+    await act(async () => {
+      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
+    });
+
+    expect(sendAnalytics).toHaveBeenCalledWith(SwapEvent.SwapInitiated, {
+      amount: 10,
+    });
   });
 });

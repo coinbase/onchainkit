@@ -41,7 +41,6 @@ export enum SwapEvent {
   SwapSuccess = 'swapSuccess',
   SwapInitiated = 'swapInitiated',
   SwapFailure = 'swapFailure',
-  TokenDropdownSelected = 'tokenDropdownSelected',
 }
 
 /**
@@ -194,13 +193,8 @@ export type SwapEventData = {
     error: string;
     metadata?: Record<string, unknown>;
   };
-  [SwapEvent.TokenDropdownSelected]: CommonAnalyticsData & {
-    position: 'from' | 'to';
-  };
   [SwapEvent.SwapInitiated]: CommonAnalyticsData & {
     amount: number;
-    from: string;
-    to: string;
   };
 };
 
@@ -388,7 +382,6 @@ export type AnalyticsEventData = {
   [SwapEvent.TokenSelected]: SwapEventData[SwapEvent.TokenSelected];
   [SwapEvent.SwapSuccess]: SwapEventData[SwapEvent.SwapSuccess];
   [SwapEvent.SwapFailure]: SwapEventData[SwapEvent.SwapFailure];
-  [SwapEvent.TokenDropdownSelected]: SwapEventData[SwapEvent.TokenDropdownSelected];
   [SwapEvent.SwapInitiated]: SwapEventData[SwapEvent.SwapInitiated];
 
   // Buy events

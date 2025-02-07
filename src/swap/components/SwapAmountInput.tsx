@@ -1,5 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo } from 'react';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { SwapEvent } from '../../core/analytics/types';
 import { TextInput } from '../../internal/components/TextInput';
 import { useValue } from '../../internal/hooks/useValue';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
@@ -27,6 +29,7 @@ export function SwapAmountInput({
   swappableTokens,
 }: SwapAmountInputReact) {
   const { address, to, from, handleAmountChange } = useSwapContext();
+  const { sendAnalytics } = useAnalytics();
 
   const source = useValue(type === 'from' ? from : to);
   const destination = useValue(type === 'from' ? to : from);
@@ -51,12 +54,28 @@ export function SwapAmountInput({
     [handleAmountChange, type],
   );
 
+  const handleAnalyticsTokenSelected = useCallback(
+    (token: Token) => {
+      sendAnalytics(SwapEvent.TokenSelected, {
+        token: token.symbol,
+      });
+    },
+    [sendAnalytics],
+  );
+
   const handleSetToken = useCallback(
     (token: Token) => {
       source.setToken?.(token);
       handleAmountChange(type, source.amount, token);
+      handleAnalyticsTokenSelected(token);
     },
-    [source.amount, source.setToken, handleAmountChange, type],
+    [
+      source.amount,
+      source.setToken,
+      handleAmountChange,
+      type,
+      handleAnalyticsTokenSelected,
+    ],
   );
 
   // We are mocking the token selectors so I'm not able

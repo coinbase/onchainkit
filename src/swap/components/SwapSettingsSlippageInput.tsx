@@ -1,4 +1,6 @@
 'use client';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { SwapEvent } from '@/core/analytics/types';
 import { useCallback, useState } from 'react';
 import {
   background,
@@ -19,6 +21,7 @@ const SLIPPAGE_SETTINGS = {
 export function SwapSettingsSlippageInput({
   className,
 }: SwapSettingsSlippageInputReact) {
+  const { sendAnalytics } = useAnalytics();
   const {
     config: { maxSlippage: defaultMaxSlippage },
     updateLifecycleStatus,
@@ -33,9 +36,22 @@ export function SwapSettingsSlippageInput({
       : SLIPPAGE_SETTINGS.CUSTOM,
   );
 
+  const handleAnalyticsSlippageChange = useCallback(
+    (previousSlippage: number, newSlippage: number) => {
+      sendAnalytics(SwapEvent.SlippageChanged, {
+        previousSlippage,
+        slippage: newSlippage,
+      });
+    },
+    [sendAnalytics],
+  );
+
   const updateSlippage = useCallback(
     (newSlippage: number) => {
-      if (newSlippage !== lifecycleStatus.statusData.maxSlippage) {
+      const currentSlippage = lifecycleStatus.statusData.maxSlippage;
+      if (newSlippage !== currentSlippage) {
+        handleAnalyticsSlippageChange(currentSlippage, newSlippage);
+
         updateLifecycleStatus({
           statusName: 'slippageChange',
           statusData: {
@@ -44,7 +60,11 @@ export function SwapSettingsSlippageInput({
         });
       }
     },
-    [lifecycleStatus.statusData.maxSlippage, updateLifecycleStatus],
+    [
+      lifecycleStatus.statusData.maxSlippage,
+      updateLifecycleStatus,
+      handleAnalyticsSlippageChange,
+    ],
   );
 
   // Handles user input for custom slippage.
@@ -55,7 +75,6 @@ export function SwapSettingsSlippageInput({
       const parsedSlippage = Number.parseFloat(newSlippage);
       const isValidNumber = !Number.isNaN(parsedSlippage);
 
-      // Update slippage to parsed value if valid, otherwise set to 0
       updateSlippage(isValidNumber ? parsedSlippage : 0);
     },
     [updateSlippage],

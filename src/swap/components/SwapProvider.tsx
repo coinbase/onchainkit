@@ -12,6 +12,8 @@ import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { SwapEvent } from '../../core/analytics/types';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useLifecycleStatus } from '../../internal/hooks/useLifecycleStatus';
 import { useValue } from '../../internal/hooks/useValue';
@@ -93,11 +95,17 @@ export function SwapProvider({
     updateLifecycleStatus,
   });
 
+  const { sendAnalytics } = useAnalytics();
+
   // Component lifecycle emitters
   useEffect(() => {
     // Error
     if (lifecycleStatus.statusName === 'error') {
       onError?.(lifecycleStatus.statusData);
+      sendAnalytics(SwapEvent.SwapFailure, {
+        error: lifecycleStatus.statusData.error,
+        metadata: lifecycleStatus.statusData,
+      });
     }
     // Success
     if (lifecycleStatus.statusName === 'success') {
@@ -107,6 +115,14 @@ export function SwapProvider({
       );
       setHasHandledSuccess(true);
       setIsToastVisible(true);
+      sendAnalytics(SwapEvent.SwapSuccess, {
+        paymaster: !!paymaster,
+        transactionHash:
+          lifecycleStatus.statusData.transactionReceipt?.transactionHash,
+        amount: Number(from.amount),
+        from: from.token?.symbol || '',
+        to: to.token?.symbol || '',
+      });
     }
     // Emit Status
     onStatus?.(lifecycleStatus);
@@ -117,6 +133,11 @@ export function SwapProvider({
     lifecycleStatus,
     lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
+    sendAnalytics,
+    paymaster,
+    from.amount,
+    from.token?.symbol,
+    to.token?.symbol,
   ]);
 
   useEffect(() => {
@@ -283,6 +304,9 @@ export function SwapProvider({
             isMissingRequiredField: !formattedAmount,
           },
         });
+        sendAnalytics(SwapEvent.SwapInitiated, {
+          amount: Number(amount),
+        });
       } catch (err) {
         updateLifecycleStatus({
           statusName: 'error',
@@ -297,7 +321,14 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [from, to, lifecycleStatus, updateLifecycleStatus, useAggregator],
+    [
+      from,
+      to,
+      lifecycleStatus,
+      updateLifecycleStatus,
+      useAggregator,
+      sendAnalytics,
+    ],
   );
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
