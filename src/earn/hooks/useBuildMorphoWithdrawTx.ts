@@ -6,7 +6,7 @@ import { type Address, parseUnits } from 'viem';
 export type UseBuildMorphoWithdrawTxParams = {
   vaultAddress: Address;
   receiverAddress?: Address;
-  amount: number;
+  amount: string;
 };
 
 /**
@@ -20,17 +20,16 @@ export function useBuildMorphoWithdrawTx({
 }: UseBuildMorphoWithdrawTxParams): {
   calls: Call[];
 } {
-  const { asset, balance, assetDecimals, vaultDecimals } = useMorphoVault({
+  const { asset, balance, vaultDecimals } = useMorphoVault({
     vaultAddress,
     address: receiverAddress,
   });
 
-  const amountIsGreaterThanBalance = amount > Number(balance);
+  const amountIsGreaterThanBalance = Number(amount) > Number(balance);
 
   if (
     !asset ||
     balance === undefined ||
-    !assetDecimals ||
     !vaultDecimals ||
     amountIsGreaterThanBalance ||
     !receiverAddress
@@ -40,7 +39,7 @@ export function useBuildMorphoWithdrawTx({
     };
   }
 
-  const parsedAmount = parseUnits(amount.toString(), assetDecimals);
+  const parsedAmount = parseUnits(amount, vaultDecimals);
 
   const calls = buildWithdrawFromMorphoTx({
     receiverAddress,
