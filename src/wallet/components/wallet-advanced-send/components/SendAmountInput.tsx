@@ -1,22 +1,28 @@
 'use client';
 
 import { AmountInput } from '@/internal/components/amount-input/AmountInput';
-import type { SendAmountInputProps } from '../types';
 import { SendAmountInputTypeSwitch } from './SendAmountInputTypeSwitch';
+import { useSendContext } from './SendProvider';
+
+type SendAmountInputProps = {
+  className?: string;
+  textClassName?: string;
+};
 
 export function SendAmountInput({
-  selectedToken,
-  cryptoAmount,
-  handleCryptoAmountChange,
-  fiatAmount,
-  handleFiatAmountChange,
-  selectedInputType,
-  setSelectedInputType,
-  exchangeRate,
-  exchangeRateLoading,
   className,
   textClassName,
 }: SendAmountInputProps) {
+  const {
+    selectedToken,
+    cryptoAmount,
+    handleCryptoAmountChange,
+    fiatAmount,
+    handleFiatAmountChange,
+    selectedInputType,
+    exchangeRate,
+  } = useSendContext();
+
   return (
     <div className="flex h-full w-full flex-col justify-center">
       <AmountInput
@@ -32,15 +38,7 @@ export function SendAmountInput({
         textClassName={textClassName}
       />
 
-      <SendAmountInputTypeSwitch
-        selectedToken={selectedToken ?? null}
-        fiatAmount={fiatAmount ?? ''}
-        cryptoAmount={cryptoAmount ?? ''}
-        selectedInputType={selectedInputType}
-        setSelectedInputType={setSelectedInputType}
-        exchangeRate={exchangeRate}
-        exchangeRateLoading={exchangeRateLoading}
-      />
+      <SendAmountInputTypeSwitch />
     </div>
   );
 }

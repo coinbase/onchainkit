@@ -6,7 +6,7 @@ import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
 import type { WalletAdvancedReact } from '../types';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
-import { Send } from './WalletAdvancedSend/components/Send';
+import { Send } from './wallet-advanced-send/components/Send';
 import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
 
@@ -84,7 +84,15 @@ export function WalletAdvancedContent({
     }
 
     return <ContentWrapper className="px-4 py-3">{children}</ContentWrapper>;
-  }, [showQr, showSwap, showSend, swappableTokens, tokenBalances, children, classNames]);
+  }, [
+    showQr,
+    showSwap,
+    showSend,
+    swappableTokens,
+    tokenBalances,
+    children,
+    classNames,
+  ]);
 
   if (breakpoint === 'sm') {
     return (

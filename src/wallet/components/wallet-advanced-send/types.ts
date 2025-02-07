@@ -21,7 +21,7 @@ export type SendContextType = {
 
   // Sender Context
   /** The balance of the sender's ETH wallet */
-  ethBalance: number | undefined;
+  ethBalance: number;
 
   // Recipient Address Context
   /** The selected recipient address */
@@ -122,47 +122,3 @@ export type SendLifecycleStatus =
       statusData: APIError;
     };
 
-export type SendAmountInputProps = {
-  className?: string;
-  textClassName?: string;
-} & Pick<
-  SendContextType,
-  | 'selectedToken'
-  | 'cryptoAmount'
-  | 'handleCryptoAmountChange'
-  | 'fiatAmount'
-  | 'handleFiatAmountChange'
-  | 'selectedInputType'
-  | 'setSelectedInputType'
-  | 'exchangeRate'
-  | 'exchangeRateLoading'
->;
-
-export type SendFundingWalletProps = {
-  onError?: () => void;
-  onStatus?: () => void;
-  onSuccess?: () => void;
-  classNames?: {
-    container?: string;
-    subtitle?: string;
-    fundCard?: string;
-  };
-};
-
-export type SendTokenSelectorProps = {
-  classNames?: {
-    container?: string;
-    tokenName?: string;
-    tokenValue?: string;
-    fiatValue?: string;
-    action?: string;
-  };
-} & Pick<
-  SendContextType,
-  | 'selectedToken'
-  | 'handleTokenSelection'
-  | 'handleResetTokenSelection'
-  | 'setSelectedInputType'
-  | 'handleCryptoAmountChange'
-  | 'handleFiatAmountChange'
->;

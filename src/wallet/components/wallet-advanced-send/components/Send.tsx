@@ -1,10 +1,7 @@
 import { useTheme } from '@/internal/hooks/useTheme';
 import { background, border, cn, color } from '@/styles/theme';
 import type { ReactNode } from 'react';
-import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
-import { getDefaultSendButtonLabel } from '../utils/getDefaultSendButtonLabel';
-import { validateAmountInput } from '../utils/validateAmountInput';
 import { SendAddressSelection } from './SendAddressSelection';
 import { SendAmountInput } from './SendAmountInput';
 import { SendButton } from './SendButton';
@@ -47,20 +44,9 @@ export function Send({
 
 function SendDefaultChildren() {
   const { chain: senderChain } = useWalletContext();
-  const { tokenBalances } = useWalletAdvancedContext();
   const context = useSendContext();
 
   const walletHasEth = context.isInitialized && context.ethBalance > 0.000001;
-
-  const disableSendButton = !validateAmountInput({
-    cryptoAmount: context.cryptoAmount ?? '',
-    selectedToken: context.selectedToken ?? undefined,
-  });
-
-  const buttonLabel = getDefaultSendButtonLabel(
-    context.cryptoAmount,
-    context.selectedToken,
-  );
 
   console.log({
     context,
@@ -79,39 +65,13 @@ function SendDefaultChildren() {
               handleRecipientInputChange={context.handleRecipientInputChange}
             />
             {context.selectedRecipientAddress.value &&
-              !context.selectedToken && (
-                <SendTokenSelector
-                  tokenBalances={tokenBalances}
-                  selectedToken={context.selectedToken}
-                  handleTokenSelection={context.handleTokenSelection}
-                  handleResetTokenSelection={context.handleResetTokenSelection}
-                  setSelectedInputType={context.setSelectedInputType}
-                  handleCryptoAmountChange={context.handleCryptoAmountChange}
-                  handleFiatAmountChange={context.handleFiatAmountChange}
-                />
-              )}
+              !context.selectedToken && <SendTokenSelector />}
           </div>
           {context.selectedRecipientAddress.value && context.selectedToken && (
             <>
-              <SendAmountInput className="p-0" textClassName="text-4xl" />
-              <SendTokenSelector
-                tokenBalances={tokenBalances}
-                selectedToken={context.selectedToken}
-                handleTokenSelection={context.handleTokenSelection}
-                handleResetTokenSelection={context.handleResetTokenSelection}
-                setSelectedInputType={context.setSelectedInputType}
-                handleCryptoAmountChange={context.handleCryptoAmountChange}
-                handleFiatAmountChange={context.handleFiatAmountChange}
-              />
-              <SendButton
-                cryptoAmount={context.cryptoAmount}
-                selectedToken={context.selectedToken}
-                senderChain={senderChain}
-                callData={context.callData}
-                onStatus={context.updateLifecycleStatus}
-                disabled={disableSendButton}
-                label={buttonLabel}
-              />
+              <SendAmountInput className="p-0" />
+              <SendTokenSelector />
+              <SendButton />
             </>
           )}
         </div>

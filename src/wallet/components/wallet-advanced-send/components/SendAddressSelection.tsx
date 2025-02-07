@@ -1,9 +1,9 @@
-import { SendAddressInput } from '@/wallet/components/WalletAdvancedSend/components/SendAddressInput';
-import { SendAddressSelector } from '@/wallet/components/WalletAdvancedSend/components/SendAddressSelector';
-import type { RecipientAddress } from '@/wallet/components/WalletAdvancedSend/types';
-import { resolveAddressInput } from '@/wallet/components/WalletAdvancedSend/utils/resolveAddressInput';
 import { useCallback, useMemo, useState } from 'react';
 import type { Chain } from 'viem';
+import type { RecipientAddress } from '../types';
+import { resolveAddressInput } from '../utils/resolveAddressInput';
+import { SendAddressInput } from './SendAddressInput';
+import { SendAddressSelector } from './SendAddressSelector';
 
 type SendAddressSelectionProps = {
   selectedRecipientAddress: RecipientAddress;

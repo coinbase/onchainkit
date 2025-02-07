@@ -1,6 +1,5 @@
 'use client';
 
-import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import type { LifecycleStatusUpdate } from '@/internal/types';
 import { Transaction } from '@/transaction/components/Transaction';
 import { TransactionButton } from '@/transaction/components/TransactionButton';
@@ -9,7 +8,6 @@ import { TransactionStatus } from '@/transaction/components/TransactionStatus';
 import { TransactionStatusAction } from '@/transaction/components/TransactionStatusAction';
 import { TransactionStatusLabel } from '@/transaction/components/TransactionStatusLabel';
 import type {
-  Call,
   LifecycleStatus,
   TransactionButtonReact,
 } from '@/transaction/types';
@@ -19,15 +17,13 @@ import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
 import type { SendLifecycleStatus } from '../types';
 import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
+import { useSendContext } from './SendProvider';
+import type { PortfolioTokenWithFiatValue } from '@/api/types';
+import { parseUnits } from 'viem';
 
 type SendButtonProps = {
   label?: string;
-  senderChain?: Chain | null;
-  cryptoAmount: string | null;
-  selectedToken: PortfolioTokenWithFiatValue | null;
   isSponsored?: boolean;
-  callData: Call | null;
-  onStatus?: (status: LifecycleStatusUpdate<SendLifecycleStatus>) => void;
   className?: string;
 } & Pick<
   TransactionButtonReact,
@@ -35,17 +31,28 @@ type SendButtonProps = {
 >;
 
 export function SendButton({
-  label = 'Continue',
-  senderChain,
-  disabled,
+  label,
   isSponsored = false,
-  callData,
-  onStatus,
+  className,
+  disabled,
   pendingOverride,
   successOverride,
   errorOverride,
-  className,
 }: SendButtonProps) {
+  const { chain: senderChain } = useWalletContext();
+  const { callData, cryptoAmount, selectedToken, updateLifecycleStatus } =
+    useSendContext();
+
+  const disableSendButton =
+    disabled ??
+    !validateAmountInput({
+      cryptoAmount: cryptoAmount ?? '',
+      selectedToken: selectedToken ?? undefined,
+    });
+
+  const buttonLabel =
+    label ?? getDefaultSendButtonLabel(cryptoAmount, selectedToken);
+
   const handleStatus = useCallback(
     (status: LifecycleStatus) => {
       const validStatuses = [
@@ -59,10 +66,12 @@ export function SendButton({
           status.statusName as (typeof validStatuses)[number],
         )
       ) {
-        onStatus?.(status as LifecycleStatusUpdate<SendLifecycleStatus>);
+        updateLifecycleStatus(
+          status as LifecycleStatusUpdate<SendLifecycleStatus>,
+        );
       }
     },
-    [onStatus],
+    [updateLifecycleStatus],
   );
 
   return (
@@ -73,12 +82,12 @@ export function SendButton({
       onStatus={handleStatus}
     >
       <SendTransactionButton
-        label={label}
+        label={buttonLabel}
         senderChain={senderChain}
         pendingOverride={pendingOverride}
         errorOverride={errorOverride}
         successOverride={successOverride}
-        disabled={disabled}
+        disabled={disableSendButton}
         className={className}
       />
       <TransactionStatus>
@@ -133,5 +142,45 @@ function SendTransactionButton({
       errorOverride={errorOverride}
       disabled={disabled}
     />
+  );
+}
+
+function getDefaultSendButtonLabel(
+  cryptoAmount: string | null,
+  selectedToken: PortfolioTokenWithFiatValue | null,
+) {
+  if (!cryptoAmount) {
+    return 'Input amount';
+  }
+
+  if (!selectedToken) {
+    return 'Select token';
+  }
+
+  if (
+    parseUnits(cryptoAmount, selectedToken.decimals) >
+    selectedToken.cryptoBalance
+  ) {
+    return 'Insufficient balance';
+  }
+
+  return 'Continue';
+}
+
+function validateAmountInput({
+  cryptoAmount,
+  selectedToken,
+}: {
+  cryptoAmount?: string;
+  selectedToken?: PortfolioTokenWithFiatValue;
+}) {
+  if (!cryptoAmount || !selectedToken) {
+    return false;
+  }
+
+  const parsedCryptoAmount = parseUnits(cryptoAmount, selectedToken.decimals);
+
+  return (
+    parsedCryptoAmount > 0n && parsedCryptoAmount <= selectedToken.cryptoBalance
   );
 }
