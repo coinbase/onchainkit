@@ -1,3 +1,5 @@
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { BuyEvent } from '@/core/analytics/types';
 import { openPopup } from '@/internal/utils/openPopup';
 import { degenToken, ethToken, usdcToken } from '@/token/constants';
 import { useOnchainKit } from '@/useOnchainKit';
@@ -34,6 +36,10 @@ vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
+vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: vi.fn(),
+}));
+
 const mockStartPopupMonitor = vi.fn();
 
 const mockContextValue = {
@@ -60,6 +66,9 @@ describe('BuyDropdown', () => {
     });
     (useOnchainKit as Mock).mockReturnValue({
       projectId: 'mock-project-id',
+    });
+    (useAnalytics as Mock).mockReturnValue({
+      sendAnalytics: vi.fn(),
     });
   });
 
@@ -125,5 +134,25 @@ describe('BuyDropdown', () => {
       fireEvent.keyDown(document, { key: 'Escape' });
     });
     expect(setIsDropdownOpen).toHaveBeenCalledWith(false);
+  });
+
+  it('sends analytics when a payment method is selected', () => {
+    const mockSendAnalytics = vi.fn();
+    (useAnalytics as Mock).mockReturnValue({
+      sendAnalytics: mockSendAnalytics,
+    });
+    (openPopup as Mock).mockReturnValue('popup');
+
+    render(<BuyDropdown />);
+
+    const onrampButton = screen.getByTestId('ock-coinbasePayOnrampItem');
+
+    act(() => {
+      fireEvent.click(onrampButton);
+    });
+
+    expect(mockSendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyOptionSelected, {
+      option: 'CRYPTO_ACCOUNT',
+    });
   });
 });
