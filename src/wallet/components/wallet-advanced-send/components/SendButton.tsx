@@ -40,18 +40,23 @@ export function SendButton({
   errorOverride,
 }: SendButtonProps) {
   const { chain: senderChain } = useWalletContext();
-  const { callData, cryptoAmount, selectedToken, updateLifecycleStatus } =
-    useSendContext();
+  const {
+    callData,
+    cryptoAmount: inputAmount,
+    selectedToken,
+    updateLifecycleStatus,
+  } = useSendContext();
 
   const disableSendButton =
     disabled ??
     !validateAmountInput({
-      cryptoAmount: cryptoAmount ?? '',
+      inputAmount: inputAmount ?? '',
+      balance: BigInt(selectedToken?.cryptoBalance ?? 0),
       selectedToken: selectedToken ?? undefined,
     });
 
   const buttonLabel =
-    label ?? getDefaultSendButtonLabel(cryptoAmount, selectedToken);
+    label ?? getDefaultSendButtonLabel(inputAmount, selectedToken);
 
   const handleStatus = useCallback(
     (status: LifecycleStatus) => {
@@ -168,19 +173,20 @@ function getDefaultSendButtonLabel(
 }
 
 function validateAmountInput({
-  cryptoAmount,
+  inputAmount,
+  balance,
   selectedToken,
 }: {
-  cryptoAmount?: string;
+  inputAmount?: string;
+  balance?: bigint;
   selectedToken?: PortfolioTokenWithFiatValue;
 }) {
-  if (!cryptoAmount || !selectedToken) {
+  if (!inputAmount || !selectedToken || !balance) {
     return false;
   }
 
-  const parsedCryptoAmount = parseUnits(cryptoAmount, selectedToken.decimals);
+  const parsedCryptoAmount = parseUnits(inputAmount, selectedToken.decimals);
+  console.log({ inputAmount, balance, parsedCryptoAmount });
 
-  return (
-    parsedCryptoAmount > 0n && parsedCryptoAmount <= selectedToken.cryptoBalance
-  );
+  return parsedCryptoAmount > 0n && parsedCryptoAmount <= balance;
 }
