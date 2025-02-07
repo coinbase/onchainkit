@@ -3,6 +3,7 @@ import {
   type LifecycleStatus,
   Transaction,
   TransactionButton,
+  type TransactionResponse,
 } from '@/transaction';
 import { ConnectWallet } from '@/wallet';
 import { useCallback } from 'react';
@@ -12,6 +13,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
   const {
     recipientAddress: address,
     withdrawCalls,
+    setWithdrawAmount,
     updateLifecycleStatus,
   } = useEarnContext();
 
@@ -41,11 +43,25 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     [updateLifecycleStatus],
   );
 
+  // Clear input value after successful transaction
+  const handleOnSuccess = useCallback(
+    (res: TransactionResponse) => {
+      if (
+        res.transactionReceipts[0] &&
+        res.transactionReceipts[0].status === 'success'
+      ) {
+        setWithdrawAmount('');
+      }
+    },
+    [setWithdrawAmount],
+  );
+
   return (
     <Transaction
       className={className}
       calls={withdrawCalls}
       onStatus={handleOnStatus}
+      onSuccess={handleOnSuccess}
     >
       <TransactionButton text="Withdraw" />
     </Transaction>
