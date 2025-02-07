@@ -2,7 +2,7 @@ import { MORPHO_VAULT_ABI } from '@/earn/abis/morpho';
 import type { Call } from '@/transaction/types';
 import { type Address, encodeFunctionData, erc20Abi } from 'viem';
 
-export type DepositToMorphoArgs = {
+export type DepositToMorphoParams = {
   /** The address of the Morpho vault */
   vaultAddress: Address;
   /** The address of the token to deposit */
@@ -18,7 +18,7 @@ export function buildDepositToMorphoTx({
   tokenAddress,
   amount,
   receiverAddress,
-}: DepositToMorphoArgs): Call[] {
+}: DepositToMorphoParams): Call[] {
   // User needs to approve the token they're depositing
   const approveTxData = encodeFunctionData({
     abi: erc20Abi,

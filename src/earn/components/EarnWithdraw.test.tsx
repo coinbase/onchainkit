@@ -1,3 +1,5 @@
+import type { EarnContextType } from '@/earn/types';
+import { usdcToken } from '@/token/constants';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
@@ -5,15 +7,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useEarnContext } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
-vi.mock('./EarnProvider', () => ({
-  useEarnContext: vi.fn(),
-}));
-
-const baseContext = {
+const baseContext: EarnContextType & { address: Address } = {
   convertedBalance: '1000',
   setDepositAmount: vi.fn(),
   vaultAddress: '0x123' as Address,
@@ -24,7 +18,28 @@ const baseContext = {
   interest: '1.2k',
   depositCalls: [],
   withdrawCalls: [],
+  address: '0x123' as Address,
+  vaultToken: usdcToken,
 };
+
+vi.mock('wagmi', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('wagmi')>();
+  return {
+    ...actual,
+    WagmiProvider: vi.fn(),
+    createConfig: vi.fn(),
+    useAccount: () => ({ address: '0x123', status: 'connected' }),
+    useConnect: vi.fn(),
+  };
+});
+
+vi.mock('@/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(),
+}));
+
+vi.mock('./EarnProvider', () => ({
+  useEarnContext: vi.fn(),
+}));
 
 vi.mock('@/transaction', () => ({
   Transaction: ({

@@ -1,5 +1,8 @@
 'use client';
 
+import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
+import { useValue } from '@/internal/hooks/useValue';
+import { useOnchainKit } from '@/useOnchainKit';
 import {
   createContext,
   useCallback,
@@ -10,8 +13,6 @@ import {
 } from 'react';
 import type { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
-import { useValue } from '../../internal/hooks/useValue';
-import { useOnchainKit } from '../../useOnchainKit';
 import type { WalletContextType } from '../types';
 import { calculateSubComponentPosition } from '../utils/getWalletSubComponentPosition';
 
@@ -30,8 +31,9 @@ export function WalletProvider({ children }: WalletProviderReact) {
   const [isSubComponentClosing, setIsSubComponentClosing] = useState(false);
   const [showSubComponentAbove, setShowSubComponentAbove] = useState(false);
   const [alignSubComponentRight, setAlignSubComponentRight] = useState(false);
-  const { address } = useAccount();
   const connectRef = useRef<HTMLDivElement>(null);
+  const { address } = useAccount();
+  const breakpoint = useBreakpoints();
 
   const handleClose = useCallback(() => {
     if (!isSubComponentOpen) {
@@ -49,9 +51,10 @@ export function WalletProvider({ children }: WalletProviderReact) {
     }
   }, [isSubComponentOpen]);
 
-  const value = useValue({
+  const value = useValue<WalletContextType>({
     address,
     chain,
+    breakpoint,
     isConnectModalOpen,
     setIsConnectModalOpen,
     isSubComponentOpen,

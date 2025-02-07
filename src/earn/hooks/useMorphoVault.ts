@@ -3,17 +3,18 @@ import { MORPHO_TOKEN_BASE_ADDRESS } from '@/earn/constants';
 import calculateMorphoRewards from '@/earn/utils/calculateMorphoRewards';
 import { fetchMorphoApy } from '@/earn/utils/fetchMorphoApy';
 import { useQuery } from '@tanstack/react-query';
-import { type Address, erc20Abi, formatUnits } from 'viem';
+import { type Address, formatUnits } from 'viem';
 import { useReadContract, useReadContracts } from 'wagmi';
 
 type UseMorphoVaultParams = {
   vaultAddress: Address;
-  address: Address;
+  address?: Address;
 };
 
 export type UseMorphoVaultReturnType = {
   status: 'pending' | 'success' | 'error';
   asset: Address | undefined;
+  assetSymbol: string | undefined;
   assetDecimals: number | undefined;
   vaultDecimals: number | undefined;
   name: string | undefined;
@@ -48,23 +49,22 @@ export function useMorphoVault({
       {
         abi: MORPHO_VAULT_ABI,
         address: vaultAddress,
-        functionName: 'balanceOf',
-        args: [address],
-      },
-      {
-        abi: MORPHO_VAULT_ABI,
-        address: vaultAddress,
         functionName: 'decimals',
       },
     ],
+    query: {
+      enabled: !!vaultAddress,
+    },
   });
 
-  const { data: tokenDecimals } = useReadContract({
-    abi: erc20Abi,
-    address: data?.[0].result,
-    functionName: 'decimals',
+  // Fetching separately because user may not be connected
+  const { data: balance } = useReadContract({
+    abi: MORPHO_VAULT_ABI,
+    address: vaultAddress,
+    functionName: 'balanceOf',
+    args: [address as Address],
     query: {
-      enabled: !!data?.[0].result,
+      enabled: !!vaultAddress && !!address,
     },
   });
 
@@ -78,15 +78,16 @@ export function useMorphoVault({
     : 0;
 
   const formattedBalance =
-    data?.[2].result && data?.[3].result
-      ? formatUnits(data?.[2].result, data?.[3].result)
+    balance && vaultData?.asset?.decimals
+      ? formatUnits(balance, vaultData?.asset.decimals)
       : undefined;
 
   return {
     status,
     asset: data?.[0].result,
-    assetDecimals: tokenDecimals,
-    vaultDecimals: data?.[3].result,
+    assetSymbol: vaultData?.symbol,
+    assetDecimals: vaultData?.asset?.decimals,
+    vaultDecimals: data?.[2].result,
     name: data?.[1].result,
     balance: formattedBalance,
     totalApy: vaultData?.state?.netApy,

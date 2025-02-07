@@ -5,7 +5,7 @@ import { type Address, parseUnits } from 'viem';
 
 export type UseBuildMorphoDepositTxParams = {
   vaultAddress: Address;
-  receiverAddress: Address;
+  receiverAddress?: Address;
   amount: number;
 };
 
@@ -20,12 +20,12 @@ export function useBuildMorphoDepositTx({
 }: UseBuildMorphoDepositTxParams): {
   calls: Call[];
 } {
-  const { asset, balance, assetDecimals } = useMorphoVault({
+  const { asset, assetDecimals } = useMorphoVault({
     vaultAddress,
     address: receiverAddress,
   });
 
-  if (!asset || balance === undefined || !assetDecimals) {
+  if (!asset || !assetDecimals || !receiverAddress) {
     return {
       calls: [],
     };

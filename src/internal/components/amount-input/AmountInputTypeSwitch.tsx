@@ -13,6 +13,7 @@ type AmountInputTypeSwitchPropsReact = {
   cryptoAmount: string;
   exchangeRate: number;
   exchangeRateLoading: boolean;
+  loadingDisplay?: React.ReactNode;
   currency: string;
   className?: string;
 };
@@ -26,6 +27,7 @@ export function AmountInputTypeSwitch({
   exchangeRate,
   exchangeRateLoading,
   currency,
+  loadingDisplay = <Skeleton className="h-[1.625rem]" />,
   className,
 }: AmountInputTypeSwitchPropsReact) {
   const iconSvg = useIcon({ icon: 'toggle' });
@@ -56,7 +58,7 @@ export function AmountInputTypeSwitch({
   }, [cryptoAmount, fiatAmount, selectedInputType, formatCrypto, currency]);
 
   if (exchangeRateLoading || !exchangeRate) {
-    return <Skeleton className="h-[1.625rem]" />;
+    return loadingDisplay;
   }
 
   return (

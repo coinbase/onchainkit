@@ -1,5 +1,6 @@
 import { getSwapQuote } from '@/api/getSwapQuote';
 import type { GetSwapQuoteParams, GetSwapQuoteResponse } from '@/api/types';
+import { RequestContext } from '@/core/network/constants';
 import { formatTokenAmount } from '@/internal/utils/formatTokenAmount';
 import type { SwapError, SwapUnit } from '../../swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
@@ -37,15 +38,18 @@ export async function getBuyQuote({
   if (to?.symbol !== from?.symbol) {
     // switching to and from here
     // instead of getting a quote for how much of X do we need to sell to get the input token amount
-    // we can get a quote for how much of X we will receive if we sell the input token amount
-    response = await getSwapQuote({
-      amount,
-      amountReference: 'from',
-      from: to,
-      maxSlippage,
-      to: from,
-      useAggregator,
-    });
+    // we can get a quote for how much of X we will recieve if we sell the input token amount
+    response = await getSwapQuote(
+      {
+        amount,
+        amountReference: 'from',
+        from: to,
+        maxSlippage,
+        to: from,
+        useAggregator,
+      },
+      RequestContext.Buy,
+    );
   }
 
   let formattedFromAmount = '';

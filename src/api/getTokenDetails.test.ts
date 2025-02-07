@@ -1,3 +1,4 @@
+import { RequestContext } from '@/core/network/constants';
 import { CDP_GET_TOKEN_DETAILS } from '@/core/network/definitions/nft';
 import { sendRequest } from '@/core/network/request';
 import { type Mock, describe, expect, it, vi } from 'vitest';
@@ -39,9 +40,11 @@ describe('getTokenDetails', () => {
     const result = await getTokenDetails(params);
 
     expect(result).toEqual(mockResponse.result);
-    expect(mockSendRequest).toHaveBeenCalledWith(CDP_GET_TOKEN_DETAILS, [
-      params,
-    ]);
+    expect(mockSendRequest).toHaveBeenCalledWith(
+      CDP_GET_TOKEN_DETAILS,
+      [params],
+      RequestContext.API,
+    );
   });
 
   it('should return error details when request fails with an error', async () => {
@@ -61,9 +64,11 @@ describe('getTokenDetails', () => {
       error: 'Error fetching token details',
       message: 'Not Found',
     });
-    expect(mockSendRequest).toHaveBeenCalledWith(CDP_GET_TOKEN_DETAILS, [
-      params,
-    ]);
+    expect(mockSendRequest).toHaveBeenCalledWith(
+      CDP_GET_TOKEN_DETAILS,
+      [params],
+      RequestContext.API,
+    );
   });
 
   it('should return uncaught error details when an exception is thrown', async () => {
@@ -76,8 +81,10 @@ describe('getTokenDetails', () => {
       error: 'Something went wrong',
       message: 'Error fetching token details',
     });
-    expect(mockSendRequest).toHaveBeenCalledWith(CDP_GET_TOKEN_DETAILS, [
-      params,
-    ]);
+    expect(mockSendRequest).toHaveBeenCalledWith(
+      CDP_GET_TOKEN_DETAILS,
+      [params],
+      RequestContext.API,
+    );
   });
 });

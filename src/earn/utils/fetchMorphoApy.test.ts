@@ -16,6 +16,7 @@ const mockVaultResponse: MorphoVaultApiResponse = {
         id: 'usdc-1',
         address: '0xabcdef0123456789abcdef0123456789abcdef01',
         decimals: 6,
+        symbol: 'USDC',
       },
       chain: {
         id: 8453,

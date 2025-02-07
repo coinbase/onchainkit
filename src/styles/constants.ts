@@ -1,8 +1,8 @@
 export const zIndex = {
-  base: 0,
-  navigation: 1,
-  dropdown: 10,
-  tooltip: 20,
-  modal: 40,
-  notification: 50,
-};
+  base: 'z-0',
+  navigation: 'z-1',
+  dropdown: 'z-10',
+  tooltip: 'z-20',
+  modal: 'z-40',
+  notification: 'z-50',
+} as const;

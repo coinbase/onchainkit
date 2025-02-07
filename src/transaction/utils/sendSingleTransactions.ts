@@ -1,8 +1,10 @@
 import { encodeFunctionData } from 'viem';
-import type { Call, SendSingleTransactionParams } from '../types';
+import { waitForTransactionReceipt } from 'wagmi/actions';
+import type { SendSingleTransactionParams } from '../types';
 import { isContract } from './isContract';
 
 export const sendSingleTransactions = async ({
+  config,
   sendCallAsync,
   transactions,
 }: SendSingleTransactionParams) => {
@@ -21,6 +23,12 @@ export const sendSingleTransactions = async ({
   });
 
   for (const call of calls) {
-    await sendCallAsync(call as Call);
+    const txHash = await sendCallAsync(call);
+    if (txHash) {
+      await waitForTransactionReceipt(config, {
+        hash: txHash,
+        confirmations: 1,
+      });
+    }
   }
 };

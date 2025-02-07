@@ -1,8 +1,34 @@
+import { useMorphoVault } from '@/earn/hooks/useMorphoVault';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
-import { renderHook } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render, renderHook } from '@testing-library/react';
+import { baseSepolia } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useAccount } from 'wagmi';
+import { http, WagmiProvider, createConfig, mock, useAccount } from 'wagmi';
 import { EarnProvider, useEarnContext } from './EarnProvider';
+
+const DUMMY_ADDRESS = '0x9E95f497a7663B70404496dB6481c890C4825fe1' as const;
+const queryClient = new QueryClient();
+
+const mockConfig = createConfig({
+  chains: [baseSepolia],
+  connectors: [
+    mock({
+      accounts: ['0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'],
+    }),
+  ],
+  transports: {
+    [baseSepolia.id]: http(),
+  },
+});
+
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+  <WagmiProvider config={mockConfig}>
+    <QueryClientProvider client={queryClient}>
+      <EarnProvider vaultAddress={DUMMY_ADDRESS}>{children}</EarnProvider>
+    </QueryClientProvider>
+  </WagmiProvider>
+);
 
 vi.mock('@/wallet/hooks/useGetTokenBalance', () => ({
   useGetTokenBalance: vi.fn(),
@@ -12,13 +38,18 @@ vi.mock('wagmi', async (importOriginal) => {
   return {
     ...(await importOriginal<typeof import('wagmi')>()),
     useAccount: vi.fn(),
+    useConfig: vi.fn(),
   };
 });
+
+vi.mock('@/earn/hooks/useMorphoVault', () => ({
+  useMorphoVault: vi.fn(),
+}));
 
 describe('EarnProvider', () => {
   beforeEach(() => {
     (useAccount as Mock).mockReturnValue({
-      address: '0x123',
+      address: DUMMY_ADDRESS,
     });
     (useGetTokenBalance as Mock).mockReturnValue({
       convertedBalance: '0.0',
@@ -26,19 +57,58 @@ describe('EarnProvider', () => {
     });
   });
 
-  const wrapper = ({ children }: { children: React.ReactNode }) => (
-    <EarnProvider vaultAddress="0x123">{children}</EarnProvider>
-  );
+  it('throws an error when vaultAddress is not provided', () => {
+    expect(() =>
+      renderHook(() => useEarnContext(), {
+        wrapper: ({ children }) => (
+          // @ts-expect-error - vaultAddress is not provided
+          <EarnProvider vaultAddress={undefined}>{children}</EarnProvider>
+        ),
+      }),
+    ).toThrow('vaultAddress is required');
+  });
 
   it('provides vault address through context', () => {
+    (useMorphoVault as Mock).mockReturnValue({
+      asset: DUMMY_ADDRESS,
+      assetDecimals: 18,
+      assetSymbol: 'TEST',
+      balance: '100',
+      totalApy: '0.05',
+    });
     const { result } = renderHook(() => useEarnContext(), { wrapper });
 
-    expect(result.current.vaultAddress).toBe('0x123');
+    expect(result.current.vaultAddress).toBe(DUMMY_ADDRESS);
   });
 
   it('throws error when useEarnContext is used outside of provider', () => {
     expect(() => renderHook(() => useEarnContext())).toThrow(
       'useEarnContext must be used within an EarnProvider',
     );
+  });
+
+  it('handles case when asset exists', () => {
+    (useMorphoVault as Mock).mockReturnValue({
+      asset: DUMMY_ADDRESS,
+      assetDecimals: 18,
+      assetSymbol: 'TEST',
+      balance: '100',
+      totalApy: '0.05',
+    });
+
+    render(
+      <EarnProvider vaultAddress={DUMMY_ADDRESS}>
+        <div>Child</div>
+      </EarnProvider>,
+    );
+  });
+
+  it('returns undefined vaultToken when asset is undefined', () => {
+    (useMorphoVault as Mock).mockReturnValue({
+      vaultToken: undefined,
+    });
+    const { result } = renderHook(() => useEarnContext(), { wrapper });
+
+    expect(result.current.vaultToken).toBeUndefined();
   });
 });

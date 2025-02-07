@@ -42,7 +42,7 @@ describe('useGetFundingUrl', () => {
       'https://keys.coinbase.com/fund',
     );
 
-    const { result } = renderHook(() => useGetFundingUrl());
+    const { result } = renderHook(() => useGetFundingUrl({}));
 
     expect(result.current).toBe('https://keys.coinbase.com/fund');
   });
@@ -59,7 +59,7 @@ describe('useGetFundingUrl', () => {
     (useIsWalletACoinbaseSmartWallet as Mock).mockReturnValue(false);
     (getOnrampBuyUrl as Mock).mockReturnValue('https://pay.coinbase.com/buy');
 
-    const { result } = renderHook(() => useGetFundingUrl());
+    const { result } = renderHook(() => useGetFundingUrl({}));
 
     expect(result.current).toBe('https://pay.coinbase.com/buy');
 
@@ -83,7 +83,7 @@ describe('useGetFundingUrl', () => {
     (useIsWalletACoinbaseSmartWallet as Mock).mockReturnValue(false);
     (getOnrampBuyUrl as Mock).mockReturnValue('https://pay.coinbase.com/buy');
 
-    const { result } = renderHook(() => useGetFundingUrl());
+    const { result } = renderHook(() => useGetFundingUrl({}));
 
     expect(result.current).toBe('https://pay.coinbase.com/buy');
 
@@ -106,7 +106,7 @@ describe('useGetFundingUrl', () => {
     });
     (useIsWalletACoinbaseSmartWallet as Mock).mockReturnValue(false);
 
-    const { result } = renderHook(() => useGetFundingUrl());
+    const { result } = renderHook(() => useGetFundingUrl({}));
 
     expect(result.current).toBeUndefined();
   });
@@ -122,7 +122,7 @@ describe('useGetFundingUrl', () => {
     });
     (useIsWalletACoinbaseSmartWallet as Mock).mockReturnValue(false);
 
-    const { result } = renderHook(() => useGetFundingUrl());
+    const { result } = renderHook(() => useGetFundingUrl({}));
 
     expect(result.current).toBeUndefined();
   });

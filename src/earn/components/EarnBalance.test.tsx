@@ -1,8 +1,83 @@
+import { EarnProvider, useEarnContext } from '@/earn/components/EarnProvider';
+import type { EarnContextType } from '@/earn/types';
+import { usdcToken } from '@/token/constants';
+import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import type { Address } from 'viem';
+import { baseSepolia } from 'viem/chains';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { http, WagmiProvider, createConfig, mock, useAccount } from 'wagmi';
+import { useConfig } from 'wagmi';
 import { EarnBalance } from './EarnBalance';
 
+const baseContext: EarnContextType & { address: Address } = {
+  convertedBalance: '1000',
+  setDepositAmount: vi.fn(),
+  vaultAddress: '0x123' as Address,
+  depositAmount: '0',
+  depositedAmount: '0',
+  withdrawAmount: '0',
+  setWithdrawAmount: vi.fn(),
+  interest: '1.2k',
+  depositCalls: [],
+  withdrawCalls: [],
+  address: '0x123' as Address,
+  vaultToken: usdcToken,
+};
+
+const queryClient = new QueryClient();
+
+const mockConfig = createConfig({
+  chains: [baseSepolia],
+  connectors: [
+    mock({
+      accounts: ['0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'],
+    }),
+  ],
+  transports: {
+    [baseSepolia.id]: http(),
+  },
+});
+
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+  <WagmiProvider config={mockConfig}>
+    <QueryClientProvider client={queryClient}>
+      <EarnProvider vaultAddress="0x123">{children}</EarnProvider>
+    </QueryClientProvider>
+  </WagmiProvider>
+);
+
+vi.mock('wagmi', async (importOriginal) => {
+  return {
+    ...(await importOriginal<typeof import('wagmi')>()),
+    useAccount: vi.fn(),
+    useConfig: vi.fn(),
+    useCapabilities: vi.fn(),
+  };
+});
+
+vi.mock('@/wallet/hooks/useGetTokenBalance', () => ({
+  useGetTokenBalance: vi.fn(),
+}));
+
+vi.mock('./EarnProvider', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('./EarnProvider')>()),
+  useEarnContext: vi.fn(),
+}));
+
 describe('EarnBalance', () => {
+  beforeEach(() => {
+    vi.mocked(useEarnContext).mockReturnValue(baseContext);
+    (useAccount as Mock).mockReturnValue({
+      address: '0x123',
+    });
+    (useGetTokenBalance as Mock).mockReturnValue({
+      convertedBalance: '0.0',
+      error: null,
+    });
+    (useConfig as Mock).mockReturnValue({});
+  });
   it('renders the title and subtitle correctly', () => {
     render(
       <EarnBalance
@@ -11,6 +86,7 @@ describe('EarnBalance', () => {
         showAction={false}
         onActionPress={() => {}}
       />,
+      { wrapper },
     );
 
     expect(screen.getByText('Test Title')).toBeInTheDocument();
@@ -25,6 +101,7 @@ describe('EarnBalance', () => {
         showAction={true}
         onActionPress={() => {}}
       />,
+      { wrapper },
     );
 
     expect(screen.getByText('Use max')).toBeInTheDocument();
@@ -38,6 +115,7 @@ describe('EarnBalance', () => {
         showAction={false}
         onActionPress={() => {}}
       />,
+      { wrapper },
     );
 
     expect(screen.queryByText('Use max')).not.toBeInTheDocument();
@@ -53,6 +131,7 @@ describe('EarnBalance', () => {
         showAction={true}
         onActionPress={mockOnActionPress}
       />,
+      { wrapper },
     );
 
     const actionButton = screen.getByText('Use max');
@@ -72,6 +151,7 @@ describe('EarnBalance', () => {
         showAction={false}
         onActionPress={() => {}}
       />,
+      { wrapper },
     );
 
     const container = screen.getByTestId('ockEarnBalance');

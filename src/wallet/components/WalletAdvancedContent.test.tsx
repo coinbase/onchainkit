@@ -1,6 +1,9 @@
-import type { SwapDefaultReact } from '@/swap/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type {
+  WalletAdvancedQrReceiveProps,
+  WalletAdvancedSwapProps,
+} from '../types';
 import { WalletAdvancedContent } from './WalletAdvancedContent';
 import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
@@ -17,16 +20,22 @@ vi.mock('./WalletAdvancedProvider', () => ({
 }));
 
 vi.mock('./WalletAdvancedQrReceive', () => ({
-  WalletAdvancedQrReceive: () => (
-    <div data-testid="ockWalletAdvancedQrReceive">WalletAdvancedQrReceive</div>
+  WalletAdvancedQrReceive: ({ classNames }: WalletAdvancedQrReceiveProps) => (
+    <div
+      data-testid="ockWalletAdvancedQrReceive"
+      className={classNames?.container}
+    >
+      WalletAdvancedQrReceive
+    </div>
   ),
 }));
 
 vi.mock('./WalletAdvancedSwap', () => ({
-  WalletAdvancedSwap: ({ from, to }: SwapDefaultReact) => (
+  WalletAdvancedSwap: ({ from, to, classNames }: WalletAdvancedSwapProps) => (
     <div
       data-testid="ockWalletAdvancedSwap"
       data-props={JSON.stringify({ from, to })}
+      className={classNames?.container}
     >
       WalletAdvancedSwap
     </div>
@@ -92,11 +101,11 @@ describe('WalletAdvancedContent', () => {
       'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
     );
     expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedSwap'),
+    ).not.toBeInTheDocument();
   });
 
   it('renders WalletAdvancedContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is true', () => {
@@ -126,11 +135,11 @@ describe('WalletAdvancedContent', () => {
       'fade-in slide-in-from-bottom-1.5 animate-in duration-300 ease-out',
     );
     expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedSwap'),
+    ).not.toBeInTheDocument();
   });
 
   it('closes WalletAdvancedContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is false', () => {
@@ -159,11 +168,11 @@ describe('WalletAdvancedContent', () => {
       'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out',
     );
     expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedSwap'),
+    ).not.toBeInTheDocument();
   });
 
   it('closes WalletAdvancedContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is true', () => {
@@ -192,11 +201,30 @@ describe('WalletAdvancedContent', () => {
       'fade-out slide-out-to-bottom-1.5 animate-out fill-mode-forwards ease-in-out',
     );
     expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedSwap'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('closes WalletAdvancedContent when mobile tray is closed', () => {
+    const setIsSubComponentOpen = vi.fn();
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
+      setIsSubComponentOpen,
+      breakpoint: 'sm',
+    });
+
+    render(
+      <WalletAdvancedContent>
+        <div>WalletAdvancedContent</div>
+      </WalletAdvancedContent>,
+    );
+
+    fireEvent.pointerDown(document.body);
+
+    expect(setIsSubComponentOpen).toHaveBeenCalledWith(false);
   });
 
   it('handles animation end when closing', () => {
@@ -236,11 +264,11 @@ describe('WalletAdvancedContent', () => {
 
     expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toBeDefined();
     expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
-    ).not.toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedSwap'),
+    ).not.toBeInTheDocument();
   });
 
   it('renders WalletAdvancedSwap when showSwap is true', () => {
@@ -256,12 +284,10 @@ describe('WalletAdvancedContent', () => {
     );
 
     expect(screen.getByTestId('ockWalletAdvancedSwap')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletAdvancedSwap')).toBeInTheDocument();
     expect(
-      screen.queryByTestId('ockWalletAdvancedSwap')?.parentElement,
-    ).not.toHaveClass('hidden');
-    expect(
-      screen.queryByTestId('ockWalletAdvancedQrReceive')?.parentElement,
-    ).toHaveClass('hidden');
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
   });
 
   it('correctly maps token balances to the swap component', () => {
@@ -312,6 +338,103 @@ describe('WalletAdvancedContent', () => {
         image: token.image,
         name: token.name,
       })),
+    );
+  });
+
+  it('applies custom classNames to components', () => {
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentClosing: false,
+      showSubComponentAbove: false,
+    });
+
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
+      showQr: true,
+      showSwap: false,
+    });
+
+    const customClassNames = {
+      container: 'custom-container',
+      qr: {
+        container: 'custom-qr-container',
+      },
+      swap: {
+        container: 'custom-swap-container',
+      },
+    };
+
+    const { rerender } = render(
+      <WalletAdvancedContent classNames={customClassNames}>
+        <div>Content</div>
+      </WalletAdvancedContent>,
+    );
+
+    expect(screen.getByTestId('ockWalletAdvancedContent')).toHaveClass(
+      'custom-container',
+    );
+
+    // Verify both rendered state and passed props
+    const qrComponent = screen.getByTestId('ockWalletAdvancedQrReceive');
+    expect(qrComponent).toHaveClass('custom-qr-container');
+    expect(qrComponent).toHaveProperty('className', 'custom-qr-container');
+
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
+      showQr: false,
+      showSwap: true,
+    });
+
+    rerender(
+      <WalletAdvancedContent classNames={customClassNames}>
+        <div>Content</div>
+      </WalletAdvancedContent>,
+    );
+
+    const swapComponent = screen.getByTestId('ockWalletAdvancedSwap');
+    expect(swapComponent).toHaveClass('custom-swap-container');
+    expect(swapComponent).toHaveProperty('className', 'custom-swap-container');
+  });
+
+  it('renders BottomSheet when breakpoint is sm', () => {
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
+      isSubComponentClosing: false,
+      breakpoint: 'sm',
+    });
+
+    render(
+      <WalletAdvancedContent>
+        <div>WalletAdvancedContent</div>
+      </WalletAdvancedContent>,
+    );
+
+    expect(screen.getByTestId('ockBottomSheet')).toBeDefined();
+  });
+
+  it('applies custom classNames to BottomSheet when breakpoint is sm', () => {
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
+      breakpoint: 'sm',
+    });
+
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
+      showQr: true,
+      showSwap: false,
+    });
+
+    const customClassNames = {
+      container: 'custom-container',
+    };
+
+    render(
+      <WalletAdvancedContent classNames={customClassNames}>
+        <div>Content</div>
+      </WalletAdvancedContent>,
+    );
+
+    expect(screen.getByTestId('ockBottomSheet')).toHaveClass(
+      'custom-container',
     );
   });
 });

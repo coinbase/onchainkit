@@ -1,4 +1,5 @@
 import { useTheme } from '@/internal/hooks/useTheme';
+import { zIndex } from '@/styles/constants';
 import { cn } from '@/styles/theme';
 import type React from 'react';
 import { useRef } from 'react';
@@ -43,7 +44,8 @@ export function Dialog({
     <div
       className={cn(
         componentTheme,
-        'fixed inset-0 z-50 flex items-center justify-center',
+        zIndex.modal,
+        'fixed inset-0 flex items-center justify-center',
         'bg-black/50 transition-opacity duration-200',
         'fade-in animate-in duration-200',
       )}

@@ -1,3 +1,4 @@
+import { RequestContext } from '@/core/network/constants';
 import { CDP_GET_SWAP_TRADE } from '@/core/network/definitions/swap';
 import { sendRequest } from '@/core/network/request';
 import { SwapMessage } from '@/swap/constants';
@@ -115,9 +116,11 @@ describe('buildSwapTransaction', () => {
     expect(quote.fee).toEqual(expectedResponse.fee);
     expect(quote.warning).toEqual(expectedResponse.warning);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
-      mockApiParams,
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_GET_SWAP_TRADE,
+      [mockApiParams],
+      RequestContext.API,
+    );
   });
 
   it('should return a swap with useAggregator=false', async () => {
@@ -197,9 +200,11 @@ describe('buildSwapTransaction', () => {
     expect(quote.fee).toEqual(expectedResponse.fee);
     expect(quote.warning).toEqual(expectedResponse.warning);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
-      mockApiParams,
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_GET_SWAP_TRADE,
+      [mockApiParams],
+      RequestContext.API,
+    );
   });
 
   it('should return an error for an unsupported amount reference', async () => {
@@ -301,12 +306,16 @@ describe('buildSwapTransaction', () => {
     expect(quote.fee).toEqual(expectedResponse.fee);
     expect(quote.warning).toEqual(expectedResponse.warning);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
-      {
-        slippagePercentage: '30',
-        ...mockApiParams,
-      },
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_GET_SWAP_TRADE,
+      [
+        {
+          slippagePercentage: '30',
+          ...mockApiParams,
+        },
+      ],
+      RequestContext.API,
+    );
   });
 
   it('should return an error if sendRequest fails', async () => {
@@ -330,9 +339,11 @@ describe('buildSwapTransaction', () => {
       message: '',
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
-      mockApiParams,
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_GET_SWAP_TRADE,
+      [mockApiParams],
+      RequestContext.API,
+    );
   });
 
   it('should return an error object from buildSwapTransaction', async () => {
@@ -361,9 +372,11 @@ describe('buildSwapTransaction', () => {
       message: '',
     });
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
-      mockApiParams,
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_GET_SWAP_TRADE,
+      [mockApiParams],
+      RequestContext.API,
+    );
   });
 
   it('should return an error object from buildSwapTransaction for invalid `amount` input', async () => {
@@ -396,10 +409,14 @@ describe('buildSwapTransaction', () => {
     };
     await buildSwapTransaction(mockParams);
     expect(sendRequest).toHaveBeenCalledTimes(1);
-    expect(sendRequest).toHaveBeenCalledWith(CDP_GET_SWAP_TRADE, [
-      expect.objectContaining({
-        slippagePercentage: '30',
-      }),
-    ]);
+    expect(sendRequest).toHaveBeenCalledWith(
+      CDP_GET_SWAP_TRADE,
+      [
+        expect.objectContaining({
+          slippagePercentage: '30',
+        }),
+      ],
+      RequestContext.API,
+    );
   });
 });

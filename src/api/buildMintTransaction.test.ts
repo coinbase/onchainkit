@@ -1,3 +1,4 @@
+import { RequestContext } from '@/core/network/constants';
 import { CDP_MINT_TOKEN } from '@/core/network/definitions/nft';
 import { sendRequest } from '@/core/network/request';
 import { type Mock, describe, expect, it, vi } from 'vitest';
@@ -35,7 +36,11 @@ describe('buildMintTransaction', () => {
     const result = await buildMintTransaction(params);
 
     expect(result).toEqual(mockResponse.result);
-    expect(mockSendRequest).toHaveBeenCalledWith(CDP_MINT_TOKEN, [params]);
+    expect(mockSendRequest).toHaveBeenCalledWith(
+      CDP_MINT_TOKEN,
+      [params],
+      RequestContext.API,
+    );
   });
 
   it('should return error details when request fails with an error', async () => {
@@ -55,7 +60,11 @@ describe('buildMintTransaction', () => {
       error: 'Error building mint transaction',
       message: 'Not Found',
     });
-    expect(mockSendRequest).toHaveBeenCalledWith(CDP_MINT_TOKEN, [params]);
+    expect(mockSendRequest).toHaveBeenCalledWith(
+      CDP_MINT_TOKEN,
+      [params],
+      RequestContext.API,
+    );
   });
 
   it('should return uncaught error details when an exception is thrown', async () => {
@@ -68,6 +77,10 @@ describe('buildMintTransaction', () => {
       error: 'Something went wrong',
       message: 'Error building mint transaction',
     });
-    expect(mockSendRequest).toHaveBeenCalledWith(CDP_MINT_TOKEN, [params]);
+    expect(mockSendRequest).toHaveBeenCalledWith(
+      CDP_MINT_TOKEN,
+      [params],
+      RequestContext.API,
+    );
   });
 });

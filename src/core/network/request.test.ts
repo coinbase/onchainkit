@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { version } from '../../version';
 import { setOnchainKitConfig } from '../OnchainKitConfig';
+import { RequestContext } from './constants';
 import { buildRequestBody, sendRequest } from './request';
 
 describe('request', () => {
@@ -49,6 +50,78 @@ describe('request', () => {
         headers: {
           'Content-Type': 'application/json',
           'OnchainKit-Version': version,
+        },
+      });
+      expect(response).toEqual(mockResponse);
+    });
+
+    it('should set the Onchainkit-Context if one is set', async () => {
+      const mockResponse = {
+        jsonrpc: '2.0',
+        result: 'exampleResult',
+        id: 1,
+      };
+      const mockFetch = vi.fn().mockResolvedValue({
+        json: vi.fn().mockResolvedValue(mockResponse),
+      });
+      global.fetch = mockFetch;
+
+      const requestBody = {
+        id: 1,
+        jsonrpc: '2.0',
+        method: 'exampleMethod',
+        params: ['param1', 'param2'],
+      };
+
+      const response = await sendRequest(
+        'exampleMethod',
+        ['param1', 'param2'],
+        RequestContext.API,
+      );
+
+      expect(mockFetch).toHaveBeenCalledWith(expect.any(String), {
+        method: 'POST',
+        body: JSON.stringify(requestBody),
+        headers: {
+          'Content-Type': 'application/json',
+          'OnchainKit-Version': version,
+          'OnchainKit-Context': 'api',
+        },
+      });
+      expect(response).toEqual(mockResponse);
+    });
+
+    it('should default to api if an invalid context is set', async () => {
+      const mockResponse = {
+        jsonrpc: '2.0',
+        result: 'exampleResult',
+        id: 1,
+      };
+      const mockFetch = vi.fn().mockResolvedValue({
+        json: vi.fn().mockResolvedValue(mockResponse),
+      });
+      global.fetch = mockFetch;
+
+      const requestBody = {
+        id: 1,
+        jsonrpc: '2.0',
+        method: 'exampleMethod',
+        params: ['param1', 'param2'],
+      };
+
+      const response = await sendRequest(
+        'exampleMethod',
+        ['param1', 'param2'],
+        'fake' as RequestContext,
+      );
+
+      expect(mockFetch).toHaveBeenCalledWith(expect.any(String), {
+        method: 'POST',
+        body: JSON.stringify(requestBody),
+        headers: {
+          'Content-Type': 'application/json',
+          'OnchainKit-Version': version,
+          'OnchainKit-Context': 'api',
         },
       });
       expect(response).toEqual(mockResponse);

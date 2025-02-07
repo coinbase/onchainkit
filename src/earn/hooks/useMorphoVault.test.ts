@@ -82,16 +82,22 @@ describe('useMorphoVault', () => {
       data: [
         { result: DUMMY_ADDRESS }, // asset
         { result: 'Morpho Vault' }, // name
-        { result: 1000000000000000000n }, // balanceOf
         { result: 18 }, // decimals
       ],
       status: 'success',
     } as UseReadContractsReturnType<unknown[], boolean, unknown>); // for brevity
+
     vi.mocked(useReadContract).mockReturnValue({
-      data: 18,
+      data: 1000000000000000000n, // 1e18
     } as UseReadContractReturnType<unknown[], string, unknown[], unknown>); // for brevity
 
     (fetchMorphoApy as Mock).mockResolvedValue({
+      asset: {
+        decimals: 18,
+        symbol: 'DUMMY',
+        address: DUMMY_ADDRESS,
+      },
+      symbol: 'DUMMY',
       state: {
         netApy: 0.05,
         netApyWithoutRewards: 0.03,
@@ -115,6 +121,7 @@ describe('useMorphoVault', () => {
       expect(result.current).toEqual({
         status: 'success',
         asset: DUMMY_ADDRESS,
+        assetSymbol: 'DUMMY',
         assetDecimals: 18,
         vaultDecimals: 18,
         name: 'Morpho Vault',
@@ -163,14 +170,36 @@ describe('useMorphoVault', () => {
       data: [
         { result: DUMMY_ADDRESS },
         { result: 'Morpho Vault' },
-        { result: 1000000000000000000n },
         { result: 18 },
       ],
       status: 'success',
     } as UseReadContractsReturnType<unknown[], boolean, unknown>);
+
     vi.mocked(useReadContract).mockReturnValue({
-      data: 18,
+      data: 1000000000000000000n,
     } as UseReadContractReturnType<unknown[], string, unknown[], unknown>);
+
+    (fetchMorphoApy as Mock).mockResolvedValue({
+      asset: {
+        decimals: 18,
+        symbol: 'DUMMY',
+        address: DUMMY_ADDRESS,
+      },
+      symbol: 'DUMMY',
+      state: {
+        netApy: 0.05,
+        netApyWithoutRewards: 0.03,
+        rewards: [
+          {
+            asset: {
+              address: '0x1234',
+              name: 'RewardToken',
+            },
+            supplyApr: 0.02,
+          },
+        ],
+      },
+    });
 
     const { result } = renderHook(() => useMorphoVault(mockParams), {
       wrapper: getNewReactQueryTestProvider(),
@@ -180,6 +209,7 @@ describe('useMorphoVault', () => {
       expect(result.current).toEqual({
         status: 'success',
         asset: DUMMY_ADDRESS,
+        assetSymbol: 'DUMMY',
         assetDecimals: 18,
         vaultDecimals: 18,
         name: 'Morpho Vault',

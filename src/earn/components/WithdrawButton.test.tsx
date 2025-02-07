@@ -1,21 +1,15 @@
+import type { EarnContextType } from '@/earn/types';
+import { usdcToken } from '@/token/constants';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
-import { describe, expect, it, vi } from 'vitest';
+import { type Mock, describe, expect, it, vi } from 'vitest';
+import { useAccount, useConnect } from 'wagmi';
 import { useEarnContext } from './EarnProvider';
 import { WithdrawButton } from './WithdrawButton';
 
-vi.mock('./EarnProvider', () => ({
-  useEarnContext: vi.fn(),
-}));
-
-vi.mock('wagmi', () => ({
-  useAccount: vi.fn(),
-  useConfig: vi.fn(),
-  useCapabilities: vi.fn(),
-}));
-
-const baseContext = {
+// Address required to avoid connect wallet prompt
+const baseContext: EarnContextType & { address: Address } = {
   convertedBalance: '1000',
   setDepositAmount: vi.fn(),
   vaultAddress: '0x123' as Address,
@@ -25,7 +19,20 @@ const baseContext = {
   setWithdrawAmount: vi.fn(),
   depositCalls: [],
   withdrawCalls: [],
+  address: '0x123' as Address,
+  vaultToken: usdcToken,
 };
+
+vi.mock('./EarnProvider', () => ({
+  useEarnContext: vi.fn(),
+}));
+
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useConnect: vi.fn(),
+  useConfig: vi.fn(),
+  useCapabilities: vi.fn(),
+}));
 
 vi.mock('@/transaction', async (importOriginal) => {
   return {
@@ -97,6 +104,31 @@ vi.mock('@/internal/hooks/useTheme', () => ({
 }));
 
 describe('WithdrawButton Component', () => {
+  it('renders ConnectWallet if no account is connected', () => {
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      address: undefined,
+    });
+
+    vi.mocked(useAccount as Mock).mockReturnValue({
+      address: '',
+      status: 'disconnected',
+    });
+
+    vi.mocked(useConnect as Mock).mockReturnValue({
+      connectors: [{ id: 'mockConnector' }],
+      connect: vi.fn(),
+      status: 'idle',
+    });
+
+    render(<WithdrawButton />);
+
+    const connectWalletButton = screen.getByTestId(
+      'ockConnectWallet_Container',
+    );
+    expect(connectWalletButton).toBeInTheDocument();
+  });
+
   it('renders Transaction with depositCalls from EarnProvider', () => {
     const mockDepositCalls = [{ to: '0x123', data: '0x456' }] as Call[];
     vi.mocked(useEarnContext).mockReturnValue({

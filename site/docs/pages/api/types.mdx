@@ -95,7 +95,7 @@ type GetTokensResponse = Token[] | APIError;
 
 ## `GetTokenDetailsParams`
 
-```ts 
+```ts
 type GetTokenDetailsParams = {
   contractAddress: Address;
   tokenId?: string;
@@ -140,4 +140,20 @@ type BuildMintTransactionParams = {
 
 ```ts
 type BuildMintTransactionResponse = MintTransaction | APIError;
+```
+
+## `GetPortfoliosParams`
+
+```ts
+type GetPortfoliosParams = {
+  addresses: Address[] | null | undefined;
+};
+```
+
+## `GetPortfoliosResponse`
+
+```ts
+type GetPortfoliosResponse = {
+  portfolios: Portfolio[];
+};
 ```

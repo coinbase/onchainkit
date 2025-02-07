@@ -131,6 +131,7 @@ export type SendBatchedTransactionsParams = {
 };
 
 export type SendSingleTransactionParams = {
+  config: Config;
   sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
   transactions: (Call | ContractFunctionParameters)[];
 };

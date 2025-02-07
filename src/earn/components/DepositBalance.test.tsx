@@ -1,12 +1,9 @@
+import { usdcToken } from '@/token/constants';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
 import { describe, expect, it, vi } from 'vitest';
 import { DepositBalance } from './DepositBalance';
 import { useEarnContext } from './EarnProvider';
-
-vi.mock('./EarnProvider', () => ({
-  useEarnContext: vi.fn(),
-}));
 
 const baseContext = {
   convertedBalance: '1000',
@@ -18,7 +15,12 @@ const baseContext = {
   setWithdrawAmount: vi.fn(),
   depositCalls: [],
   withdrawCalls: [],
+  vaultToken: usdcToken,
 };
+
+vi.mock('./EarnProvider', () => ({
+  useEarnContext: vi.fn(),
+}));
 
 describe('DepositBalance', () => {
   it('renders the converted balance and subtitle correctly', () => {
@@ -26,7 +28,7 @@ describe('DepositBalance', () => {
 
     render(<DepositBalance className="test-class" />);
 
-    expect(screen.getByText('1000 USDC')).toBeInTheDocument();
+    expect(screen.getByText('1,000 USDC')).toBeInTheDocument();
     expect(screen.getByText('Available to deposit')).toBeInTheDocument();
   });
 

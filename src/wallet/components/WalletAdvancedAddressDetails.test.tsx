@@ -62,15 +62,20 @@ describe('WalletAdvancedAddressDetails', () => {
     });
   });
 
-  it('renders null when isClosing is true', () => {
-    mockUseWalletContext.mockReturnValue({ isClosing: true });
+  it('renders null when address or chain is null', () => {
+    mockUseWalletContext.mockReturnValue({ address: null, chain: 8453 });
+    const { rerender } = render(<WalletAdvancedAddressDetails />);
+    expect(screen.queryByTestId('address-details')).toBeNull();
 
-    render(<WalletAdvancedAddressDetails />);
-
+    mockUseWalletContext.mockReturnValue({
+      address: '0x1234567890',
+      chain: null,
+    });
+    rerender(<WalletAdvancedAddressDetails />);
     expect(screen.queryByTestId('address-details')).toBeNull();
   });
 
-  it('renders Avatar, Badge, Name, and AddressBalance when isClosing is false', () => {
+  it('renders Avatar, Name, and AddressBalance when isClosing is false', () => {
     mockUseWalletContext.mockReturnValue({
       isClosing: false,
       address: '0x1234567890',
@@ -91,7 +96,6 @@ describe('WalletAdvancedAddressDetails', () => {
     render(<WalletAdvancedAddressDetails />);
 
     expect(screen.getByTestId('ockAvatar_ImageContainer')).toBeDefined();
-    expect(screen.getByTestId('ockAvatar_BadgeContainer')).toBeDefined();
     expect(screen.getByTestId('ockIdentity_Text')).toBeDefined();
     expect(
       screen.getByTestId('ockWalletAdvanced_AddressBalance'),
@@ -146,22 +150,6 @@ describe('WalletAdvancedAddressDetails', () => {
     });
   });
 
-  it('copies empty string when address is null', () => {
-    mockUseWalletContext.mockReturnValue({
-      isClosing: false,
-      address: null,
-      chain: { id: 8453 },
-    });
-
-    render(<WalletAdvancedAddressDetails />);
-
-    const nameButton = screen.getByTestId('ockWalletAdvanced_NameButton');
-
-    fireEvent.click(nameButton);
-
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('');
-  });
-
   it('should show spinner when fetching portfolio data', () => {
     mockUseWalletAdvancedContext.mockReturnValue({
       isFetchingPortfolioData: true,
@@ -201,5 +189,40 @@ describe('WalletAdvancedAddressDetails', () => {
     expect(
       screen.getByTestId('ockWalletAdvanced_AddressBalance'),
     ).toHaveTextContent('$1,234.57');
+  });
+
+  it('applies custom classNames to components', () => {
+    mockUseWalletContext.mockReturnValue({
+      isClosing: false,
+      address: '0x1234567890',
+      chain: { id: 8453 },
+    });
+
+    mockUseWalletAdvancedContext.mockReturnValue({
+      portfolioFiatValue: 1000,
+      animations: {
+        content: '',
+      },
+    });
+
+    const customClassNames = {
+      container: 'custom-container',
+      avatar: 'custom-avatar',
+      nameButton: 'custom-name',
+      fiatBalance: 'custom-balance',
+    };
+
+    render(<WalletAdvancedAddressDetails classNames={customClassNames} />);
+
+    expect(screen.getByTestId('ockWalletAdvanced_AddressDetails')).toHaveClass(
+      'custom-container',
+    );
+    expect(screen.getByTestId('ockAvatar_ImageContainer')).toHaveClass(
+      'custom-avatar',
+    );
+    expect(screen.getByTestId('ockIdentity_Text')).toHaveClass('custom-name');
+    expect(screen.getByTestId('ockWalletAdvanced_AddressBalance')).toHaveClass(
+      'custom-balance',
+    );
   });
 });

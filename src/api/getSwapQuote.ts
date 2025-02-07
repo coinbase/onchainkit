@@ -1,3 +1,4 @@
+import { RequestContext } from '@/core/network/constants';
 import { SwapMessage } from '@/swap/constants';
 import { UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE } from '@/swap/constants';
 import { CDP_GET_SWAP_QUOTE } from '../core/network/definitions/swap';
@@ -16,6 +17,7 @@ import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
  */
 export async function getSwapQuote(
   params: GetSwapQuoteParams,
+  _context: RequestContext = RequestContext.API,
 ): Promise<GetSwapQuoteResponse> {
   // Default parameters
   const defaultParams = {
@@ -62,6 +64,7 @@ export async function getSwapQuote(
     const res = await sendRequest<SwapAPIParams, SwapQuote>(
       CDP_GET_SWAP_QUOTE,
       [apiParams],
+      _context,
     );
     if (res.error) {
       return {

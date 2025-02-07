@@ -5,7 +5,7 @@ import { type Address, parseUnits } from 'viem';
 
 export type UseBuildMorphoWithdrawTxParams = {
   vaultAddress: Address;
-  receiverAddress: Address;
+  receiverAddress?: Address;
   amount: number;
 };
 
@@ -32,7 +32,8 @@ export function useBuildMorphoWithdrawTx({
     balance === undefined ||
     !assetDecimals ||
     !vaultDecimals ||
-    amountIsGreaterThanBalance
+    amountIsGreaterThanBalance ||
+    !receiverAddress
   ) {
     return {
       calls: [],

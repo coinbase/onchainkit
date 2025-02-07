@@ -1,3 +1,5 @@
+import { BottomSheet } from '@/internal/components/BottomSheet';
+import { zIndex } from '@/styles/constants';
 import { background, border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
@@ -11,15 +13,23 @@ import { useWalletContext } from './WalletProvider';
 export function WalletAdvancedContent({
   children,
   swappableTokens,
+  classNames,
 }: WalletAdvancedReact) {
   const {
+    isSubComponentOpen,
     setIsSubComponentOpen,
     isSubComponentClosing,
     setIsSubComponentClosing,
+    connectRef,
+    breakpoint,
   } = useWalletContext();
 
   const { showQr, showSwap, showSend, tokenBalances, animations } =
     useWalletAdvancedContext();
+
+  const handleBottomSheetClose = useCallback(() => {
+    setIsSubComponentOpen(false);
+  }, [setIsSubComponentOpen]);
 
   const handleAnimationEnd = useCallback(() => {
     if (isSubComponentClosing) {
@@ -40,7 +50,7 @@ export function WalletAdvancedContent({
     if (showQr) {
       return (
         <ContentWrapper>
-          <WalletAdvancedQrReceive />
+          <WalletAdvancedQrReceive classNames={classNames?.qr} />
         </ContentWrapper>
       );
     }
@@ -67,14 +77,29 @@ export function WalletAdvancedContent({
                 name: token.name,
               })) ?? []
             }
-            className="w-full px-4 pt-3 pb-4"
+            classNames={classNames?.swap}
           />
         </ContentWrapper>
       );
     }
 
     return <ContentWrapper className="px-4 py-3">{children}</ContentWrapper>;
-  }, [showQr, showSwap, showSend, swappableTokens, tokenBalances, children]);
+  }, [showQr, showSwap, showSend, swappableTokens, tokenBalances, children, classNames]);
+
+  if (breakpoint === 'sm') {
+    return (
+      <BottomSheet
+        isOpen={isSubComponentOpen}
+        triggerRef={connectRef}
+        onClose={handleBottomSheetClose}
+        className={classNames?.container}
+      >
+        <div className="flex h-full w-full flex-col items-center justify-center">
+          {content}
+        </div>
+      </BottomSheet>
+    );
+  }
 
   return (
     <div
@@ -83,9 +108,11 @@ export function WalletAdvancedContent({
         background.default,
         border.radius,
         border.lineDefault,
-        'my-1.5 h-auto w-88',
+        zIndex.dropdown,
+        'my-1.5 h-auto w-full',
         'flex items-center justify-center',
         animations.container,
+        classNames?.container,
       )}
       onAnimationEnd={handleAnimationEnd}
     >
@@ -105,7 +132,7 @@ function ContentWrapper({
     <div
       className={cn(
         'flex flex-col items-center justify-between',
-        'h-120 w-full',
+        'h-120 w-88',
         className,
       )}
     >
