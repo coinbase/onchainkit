@@ -1,4 +1,5 @@
 import { ANALYTICS_API_URL, JSON_HEADERS } from '@/core/network/constants';
+import { useOnchainKit } from '@/useOnchainKit';
 
 interface AnalyticsParams {
   analyticsUrl?: string;
@@ -17,6 +18,13 @@ export const sendAnalytics = async ({
   event,
   interactionId,
 }: AnalyticsParams) => {
+  const { config } = useOnchainKit();
+  // If analytics is set to false in OnchainKitProvider config,
+  // all telemetry collection is disabled and no data will be sent
+  if (config?.analytics === false) {
+    return;
+  }
+
   try {
     await fetch(analyticsUrl, {
       method: 'POST',
