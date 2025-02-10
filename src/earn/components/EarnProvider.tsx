@@ -47,6 +47,9 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     balanceStatus: receiptBalanceStatus,
     refetchBalance: refetchReceiptBalance,
     totalApy,
+    nativeApy,
+    vaultFee,
+    rewards,
   } = useMorphoVault({
     vaultAddress,
     address,
@@ -148,6 +151,9 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     underlyingBalanceStatus,
     refetchUnderlyingBalance,
     apy: totalApy,
+    nativeApy,
+    vaultFee,
+    rewards,
     // TODO: update when we have logic to fetch interest
     interestEarned: '',
     withdrawCalls,

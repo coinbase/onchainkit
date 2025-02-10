@@ -62,16 +62,20 @@ describe('useMorphoVault', () => {
       status: 'pending',
       asset: undefined,
       assetDecimals: undefined,
+      assetSymbol: undefined,
       vaultDecimals: undefined,
       name: undefined,
       balance: undefined,
+      balanceStatus: undefined,
       totalApy: undefined,
       nativeApy: undefined,
+      vaultFee: undefined,
+      refetchBalance: undefined,
       rewards: [
         {
           apy: 0,
           asset: MORPHO_TOKEN_BASE_ADDRESS,
-          assetName: 'Morpho',
+          assetName: 'MORPHO',
         },
       ],
     });
@@ -132,7 +136,7 @@ describe('useMorphoVault', () => {
           {
             apy: 0,
             asset: MORPHO_TOKEN_BASE_ADDRESS,
-            assetName: 'Morpho',
+            assetName: 'MORPHO',
           },
           {
             apy: 0.02,
@@ -219,7 +223,7 @@ describe('useMorphoVault', () => {
         rewards: [
           {
             asset: MORPHO_TOKEN_BASE_ADDRESS,
-            assetName: 'Morpho',
+            assetName: 'MORPHO',
             apy: 0,
           },
           {
@@ -258,7 +262,7 @@ describe('useMorphoVault', () => {
     expect(result.current.rewards).toEqual([
       {
         asset: MORPHO_TOKEN_BASE_ADDRESS,
-        assetName: 'Morpho',
+        assetName: 'MORPHO',
         apy: 0,
       },
     ]);
