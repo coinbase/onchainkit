@@ -109,7 +109,7 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     if (!depositAmount) {
       return null;
     }
-    if (Number(depositAmount) === 0) {
+    if (Number(depositAmount) <= 0) {
       return 'Must be greater than 0';
     }
     if (Number(depositAmount) > Number(underlyingBalance)) {
