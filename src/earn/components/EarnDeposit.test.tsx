@@ -29,6 +29,8 @@ const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
   updateLifecycleStatus: vi.fn(),
   refetchUnderlyingBalance: vi.fn(),
   refetchReceiptBalance: vi.fn(),
+  depositAmountError: null,
+  withdrawAmountError: null,
 };
 
 vi.mock('wagmi', async (importOriginal) => {

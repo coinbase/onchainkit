@@ -38,10 +38,12 @@ export type EarnContextType = {
   /** Amount that the user has typed into the deposit amount input */
   depositAmount: string;
   setDepositAmount: (amount: string) => void;
+  depositAmountError: string | null;
   depositCalls: Call[];
   /** Amount that the user has typed into the withdraw amount input */
   withdrawAmount: string;
   setWithdrawAmount: (amount: string) => void;
+  withdrawAmountError: string | null;
   withdrawCalls: Call[];
   lifecycleStatus: LifecycleStatus;
   updateLifecycleStatus: (

@@ -23,6 +23,8 @@ const baseContext: EarnContextType = {
   withdrawAmount: '0',
   refetchUnderlyingBalance: vi.fn(),
   refetchReceiptBalance: vi.fn(),
+  depositAmountError: null,
+  withdrawAmountError: null,
 };
 vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),

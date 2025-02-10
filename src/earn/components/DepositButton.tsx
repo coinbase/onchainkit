@@ -14,7 +14,9 @@ export function DepositButton({ className }: DepositButtonReact) {
   const {
     recipientAddress: address,
     depositCalls,
+    depositAmount,
     setDepositAmount,
+    depositAmountError,
     updateLifecycleStatus,
     refetchUnderlyingBalance,
   } = useEarnContext();
@@ -65,7 +67,10 @@ export function DepositButton({ className }: DepositButtonReact) {
       onStatus={handleOnStatus}
       onSuccess={handleOnSuccess}
     >
-      <TransactionButton text="Deposit" />
+      <TransactionButton
+        text={depositAmountError ?? 'Deposit'}
+        disabled={!!depositAmountError || !depositAmount}
+      />
     </Transaction>
   );
 }
