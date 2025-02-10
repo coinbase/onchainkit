@@ -32,7 +32,7 @@ export const useAnalytics = () => {
         sessionId: sessionId ?? 'undefined',
         timestamp: Date.now(),
         eventType: event,
-        data: data as Record<string, unknown>,
+        data,
       },
     };
   };
