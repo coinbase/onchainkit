@@ -110,7 +110,7 @@ export function useMorphoVault({
     rewards: [
       {
         asset: MORPHO_TOKEN_BASE_ADDRESS,
-        assetName: 'Morpho',
+        assetName: 'MORPHO',
         apy: morphoApr,
       },
       ...(vaultData?.state?.rewards.map((reward) => ({

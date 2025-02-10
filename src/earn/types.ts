@@ -1,3 +1,4 @@
+import type { UseMorphoVaultReturnType } from '@/earn/hooks/useMorphoVault';
 import type { LifecycleStatusUpdate } from '@/internal/types';
 import type { Token } from '@/token';
 import type { Call } from '@/transaction/types';
@@ -27,7 +28,10 @@ export type EarnContextType = {
   /** The token that is being deposited or withdrawn */
   vaultToken: Token | undefined;
   /** Total APY of the vault, including rewards */
-  apy?: number;
+  apy: number | undefined;
+  nativeApy: UseMorphoVaultReturnType['nativeApy'];
+  /** Rewards earned by the user in the vault */
+  rewards: UseMorphoVaultReturnType['rewards'];
   /** The amount that has been deposited in the vault by the connected user */
   receiptBalance?: string;
   /** Whether the receipt balance is being fetched */

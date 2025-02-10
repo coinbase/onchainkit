@@ -1,8 +1,7 @@
 import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { formatPercent } from '@/internal/utils/formatPercent';
-import { background } from '@/styles/theme';
-import { cn, color, text } from '@/styles/theme';
+import { cn, color, text, background, border } from '@/styles/theme';
 import type { DepositDetailsReact } from '../types';
 import { EarnDetails } from './EarnDetails';
 import { useEarnContext } from './EarnProvider';
@@ -11,19 +10,42 @@ import { useRef, useState } from 'react';
 import { infoSvg } from '@/internal/svg/infoSvg';
 
 function YieldInfo() {
+  const { rewards, nativeApy, vaultToken } = useEarnContext();
   return (
-    <div>
-      <div>Yield Info</div>
+    <div
+      className={cn(
+        color.foregroundMuted,
+        border.defaultActive,
+        'fade-in flex min-w-52 animate-in flex-col gap-2 rounded-lg border p-3 text-sm duration-200',
+      )}
+    >
+      {nativeApy ? (
+        <div className="flex items-center justify-between gap-1">
+          <div>{vaultToken?.symbol}</div>
+          <div className="font-semibold">{formatPercent(nativeApy)}</div>
+        </div>
+      ) : null}
+
+      {rewards?.map((reward) => (
+        <div
+          key={reward.asset}
+          className="flex items-center justify-between gap-1"
+        >
+          <div>{reward.assetName}</div>
+          <div className="font-semibold">{formatPercent(reward.apy)}</div>
+        </div>
+      ))}
     </div>
   );
 }
 
 function ApyTag({ apy }: { apy: number | undefined }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const triggerRef = useRef<HTMLButtonElement>(null);
-
+  const anchorRef = useRef<HTMLDivElement>(null);
   return apy ? (
     <div
+      ref={anchorRef}
       className={cn(
         text.label1,
         color.foregroundMuted,
@@ -50,7 +72,8 @@ function ApyTag({ apy }: { apy: number | undefined }) {
         position="bottom"
         align="end"
         trigger={triggerRef}
-        anchor={triggerRef.current}
+        anchor={anchorRef.current}
+        offset={4}
       >
         <YieldInfo />
       </Popover>
