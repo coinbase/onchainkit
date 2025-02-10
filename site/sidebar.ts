@@ -339,6 +339,10 @@ export const sidebar = [
             link: '/fund/fetch-onramp-config',
           },
           {
+            text: 'fetchOnrampQuote',
+            link: '/fund/fetch-onramp-quote',
+          },
+          {
             text: 'fetchOnrampOptions',
             link: '/fund/fetch-onramp-options',
           },
