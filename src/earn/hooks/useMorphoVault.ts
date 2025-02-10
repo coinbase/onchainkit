@@ -26,6 +26,8 @@ export type UseMorphoVaultReturnType = {
   totalApy: number | undefined;
   nativeApy: number | undefined;
   vaultFee: number | undefined;
+  deposits: string | undefined;
+  liquidity: string | undefined;
   rewards:
     | {
         asset: Address;
@@ -96,6 +98,16 @@ export function useMorphoVault({
   const formattedBalance =
     balance && vaultDecimals ? formatUnits(balance, vaultDecimals) : undefined;
 
+  const formattedDeposits =
+    vaultData?.state.totalAssets && vaultDecimals
+      ? formatUnits(BigInt(vaultData?.state.totalAssets), vaultDecimals)
+      : undefined;
+
+  const formattedLiquidity =
+    vaultData?.liquidity.underlying && vaultDecimals
+      ? formatUnits(BigInt(vaultData?.liquidity.underlying), vaultDecimals)
+      : undefined;
+
   return {
     status,
     balanceStatus,
@@ -109,6 +121,8 @@ export function useMorphoVault({
     totalApy: vaultData?.state?.netApy,
     nativeApy: vaultData?.state?.netApyWithoutRewards,
     vaultFee: vaultData?.state?.fee,
+    deposits: formattedDeposits,
+    liquidity: formattedLiquidity,
     rewards: [
       {
         asset: MORPHO_TOKEN_BASE_ADDRESS,

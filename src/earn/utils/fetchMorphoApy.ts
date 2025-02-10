@@ -20,6 +20,9 @@ const QUERY = `query($address: String!) {
           id
           network
         }
+        liquidity {
+          underlying
+        }
         state {
           id
           apy
@@ -38,8 +41,8 @@ const QUERY = `query($address: String!) {
               name
               decimals
             }
-          }
         }
+      }
     }
   }`;
 
@@ -83,6 +86,9 @@ export type MorphoVaultApiResponse = {
           };
         }>;
       };
+      liquidity: {
+        underlying: string;
+      };
     };
   };
 };
@@ -100,5 +106,6 @@ export async function fetchMorphoApy(vaultAddress: string) {
   });
   const { data } = (await response.json()) as MorphoVaultApiResponse;
 
+  console.log('data:', data.vaultByAddress);
   return data.vaultByAddress;
 }

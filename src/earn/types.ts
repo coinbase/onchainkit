@@ -27,6 +27,11 @@ export type EarnContextType = {
   vaultAddress: Address;
   /** The token that is being deposited or withdrawn */
   vaultToken: Token | undefined;
+  vaultName: string | undefined;
+  /** Total deposits in the vault */
+  deposits: string | undefined;
+  /** Total liquidity (available to borrow) in the vault */
+  liquidity: string | undefined;
   /** Total APY of the vault, including rewards */
   apy: number | undefined;
   nativeApy: UseMorphoVaultReturnType['nativeApy'];
@@ -104,8 +109,7 @@ export type EarnWithdrawReact = {
 
 export type EarnDetailsReact = {
   className?: string;
-  token?: Token;
-  tag?: React.ReactNode;
+  children: React.ReactNode;
 };
 
 export type DepositDetailsReact = {
