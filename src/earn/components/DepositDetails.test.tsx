@@ -93,6 +93,8 @@ describe('DepositDetails Component', () => {
     });
 
     render(<DepositDetails />);
+    const trigger = screen.getByTestId('ock-apyInfoButton');
+    fireEvent.click(trigger);
     expect(screen.queryByTestId('ock-earnNativeApy')).not.toBeInTheDocument();
   });
 
@@ -137,6 +139,13 @@ describe('DepositDetails Component', () => {
       ...baseContext,
       vaultFee: 0,
     });
+
+    render(<DepositDetails />);
+    const trigger = screen.getByTestId('ock-apyInfoButton');
+    fireEvent.click(trigger);
+    expect(
+      screen.queryByTestId('ock-earnPerformanceFee'),
+    ).not.toBeInTheDocument();
   });
 
   // Popover tests
