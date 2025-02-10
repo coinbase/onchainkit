@@ -193,13 +193,7 @@
       "module": "./esm/wallet/index.js",
       "import": "./esm/wallet/index.js",
       "default": "./esm/wallet/index.js"
-    },
-    "./earn": {
-      "types": "./esm/earn/index.d.ts",
-      "module": "./esm/earn/index.js",
-      "import": "./esm/earn/index.js",
-      "default": "./esm/earn/index.js"
     }
-  },
+},
   "packageManager": "yarn@4.0.2"
 }
