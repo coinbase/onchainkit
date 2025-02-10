@@ -80,6 +80,9 @@ describe('DepositDetails Component', () => {
     });
 
     render(<DepositDetails />);
+
+    const trigger = screen.getByTestId('ock-apyInfoButton');
+    fireEvent.click(trigger);
     expect(screen.getByTestId('ock-earnNativeApy')).toBeInTheDocument();
   });
 
@@ -100,6 +103,8 @@ describe('DepositDetails Component', () => {
     });
 
     render(<DepositDetails />);
+    const trigger = screen.getByTestId('ock-apyInfoButton');
+    fireEvent.click(trigger);
     expect(screen.getByTestId('ock-earnRewards')).toBeInTheDocument();
   });
 
@@ -120,6 +125,10 @@ describe('DepositDetails Component', () => {
     });
 
     render(<DepositDetails />);
+    const trigger = screen.getByTestId('ock-apyInfoButton');
+
+    fireEvent.click(trigger);
+
     expect(screen.getByTestId('ock-earnPerformanceFee')).toBeInTheDocument();
   });
 
@@ -141,27 +150,35 @@ describe('DepositDetails Component', () => {
 
     const infoButton = screen.getByTestId('ock-apyInfoButton');
 
-    // Initial state - popover should be open (isOpen defaults to true)
-    expect(screen.getByTestId('ock-earnNativeApy')).toBeInTheDocument();
-
-    // Click to close
-    fireEvent.click(infoButton);
+    // Initial state - popover should be open (isOpen defaults to false)
     expect(screen.queryByTestId('ock-earnNativeApy')).not.toBeInTheDocument();
 
     // Click to open
     fireEvent.click(infoButton);
     expect(screen.getByTestId('ock-earnNativeApy')).toBeInTheDocument();
+
+    // Click to close
+    fireEvent.click(infoButton);
+    expect(screen.queryByTestId('ock-earnNativeApy')).not.toBeInTheDocument();
   });
 
   it('closes popover when onClose is triggered', () => {
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
       apy: 0.05,
+      nativeApy: 0.05,
     });
 
     render(<DepositDetails />);
 
-    // Initial state - popover should be open
+    const trigger = screen.getByTestId('ock-apyInfoButton');
+
+    // Initial state - popover should not be open
+    expect(trigger).toBeInTheDocument();
+    expect(screen.queryByTestId('ock-earnNativeApy')).not.toBeInTheDocument();
+
+    // Click to open
+    fireEvent.click(trigger);
     expect(screen.getByTestId('ock-earnNativeApy')).toBeInTheDocument();
 
     // Trigger onClose
