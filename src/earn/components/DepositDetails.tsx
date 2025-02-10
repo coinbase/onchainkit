@@ -10,12 +10,13 @@ import { useRef, useState } from 'react';
 import { infoSvg } from '@/internal/svg/infoSvg';
 
 function YieldInfo() {
-  const { rewards, nativeApy, vaultToken } = useEarnContext();
+  const { rewards, nativeApy, vaultToken, vaultFee } = useEarnContext();
   return (
     <div
       className={cn(
         color.foregroundMuted,
         border.defaultActive,
+        background.default,
         'fade-in flex min-w-52 animate-in flex-col gap-2 rounded-lg border p-3 text-sm duration-200',
       )}
     >
@@ -35,6 +36,17 @@ function YieldInfo() {
           <div className="font-semibold">{formatPercent(reward.apy)}</div>
         </div>
       ))}
+      {vaultFee && nativeApy ? (
+        <div className="flex items-center justify-between gap-1">
+          <div>
+            Perf. Fee{' '}
+            <span className="text-xs">({formatPercent(vaultFee, 0)})</span>
+          </div>
+          <div className="font-semibold">
+            -{formatPercent(vaultFee * nativeApy)}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -53,7 +65,7 @@ function ApyTag({ apy }: { apy: number | undefined }) {
         'flex items-center justify-center gap-1 rounded-full p-1 px-3',
       )}
     >
-      {`APY ${formatPercent(Number(getTruncatedAmount(apy.toString(), 3)))}`}
+      {`APY ${formatPercent(Number(getTruncatedAmount(apy.toString(), 4)))}`}
       <button
         ref={triggerRef}
         type="button"

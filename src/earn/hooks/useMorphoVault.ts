@@ -25,6 +25,7 @@ export type UseMorphoVaultReturnType = {
   balance: string | undefined;
   totalApy: number | undefined;
   nativeApy: number | undefined;
+  vaultFee: number | undefined;
   rewards:
     | {
         asset: Address;
@@ -87,6 +88,7 @@ export function useMorphoVault({
     queryKey: ['morpho-apy', vaultAddress],
     queryFn: () => fetchMorphoApy(vaultAddress),
   });
+  console.log(vaultData?.state);
 
   const morphoApr = vaultData?.state
     ? calculateMorphoRewards(vaultData?.state)
@@ -107,6 +109,7 @@ export function useMorphoVault({
     balance: formattedBalance,
     totalApy: vaultData?.state?.netApy,
     nativeApy: vaultData?.state?.netApyWithoutRewards,
+    vaultFee: vaultData?.state?.fee,
     rewards: [
       {
         asset: MORPHO_TOKEN_BASE_ADDRESS,

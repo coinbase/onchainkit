@@ -30,6 +30,7 @@ export type EarnContextType = {
   /** Total APY of the vault, including rewards */
   apy: number | undefined;
   nativeApy: UseMorphoVaultReturnType['nativeApy'];
+  vaultFee: UseMorphoVaultReturnType['vaultFee'];
   /** Rewards earned by the user in the vault */
   rewards: UseMorphoVaultReturnType['rewards'];
   /** The amount that has been deposited in the vault by the connected user */
