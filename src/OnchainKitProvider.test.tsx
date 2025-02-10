@@ -199,7 +199,7 @@ describe('OnchainKitProvider', () => {
           rpcUrl: null,
           schemaId,
           projectId: null,
-          interactionId: expect.any(String),
+          sessionId: expect.any(String),
         }),
       );
     });

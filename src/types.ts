@@ -14,7 +14,7 @@ export type OnchainKitProviderReact = {
   chain: Chain;
   children: ReactNode;
   config?: AppConfig;
-  interactionId?: string;
+  sessionId?: string;
   projectId?: string;
   rpcUrl?: string;
   schemaId?: EASSchemaUid;
