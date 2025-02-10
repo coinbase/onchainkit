@@ -28,9 +28,15 @@ export const getName = async ({
 
   const client = getChainPublicClient(chain);
 
-  if (chainIsBase) {
-    const addressReverseNode = convertReverseNodeToBytes(address, base.id);
+  // First try ENS resolution as it's faster
+  const ensName = await client.getEnsName({
+    address,
+  });
+
+  // Only check for basename if we're on Base and no ENS name was found
+  if (!ensName && chainIsBase) {
     try {
+      const addressReverseNode = convertReverseNodeToBytes(address, base.id);
       const basename = await client.readContract({
         abi: L2ResolverAbi,
         address: RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id],
@@ -44,11 +50,6 @@ export const getName = async ({
       // This is a best effort attempt, so we don't need to do anything here.
     }
   }
-
-  // ENS username
-  const ensName = await client.getEnsName({
-    address,
-  });
 
   return ensName ?? null;
 };
