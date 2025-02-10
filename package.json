@@ -194,6 +194,6 @@
       "import": "./esm/wallet/index.js",
       "default": "./esm/wallet/index.js"
     }
-},
+  },
   "packageManager": "yarn@4.0.2"
 }
