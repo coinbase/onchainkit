@@ -60,7 +60,7 @@ function YieldInfo() {
 }
 
 function ApyTag({ apy }: { apy: number | undefined }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const anchorRef = useRef<HTMLDivElement>(null);
   return apy ? (
