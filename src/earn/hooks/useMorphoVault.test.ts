@@ -118,7 +118,7 @@ describe('useMorphoVault', () => {
     });
 
     await vi.waitFor(() => {
-      expect(result.current).toEqual({
+      expect(result.current).toMatchObject({
         status: 'success',
         asset: DUMMY_ADDRESS,
         assetSymbol: 'DUMMY',
@@ -206,7 +206,7 @@ describe('useMorphoVault', () => {
     });
 
     await vi.waitFor(() => {
-      expect(result.current).toEqual({
+      expect(result.current).toMatchObject({
         status: 'success',
         asset: DUMMY_ADDRESS,
         assetSymbol: 'DUMMY',

@@ -20,7 +20,7 @@ describe('useBuildMorphoDepositTx', () => {
   const mockParams: UseBuildMorphoDepositTxParams = {
     vaultAddress: DUMMY_ADDRESS,
     receiverAddress: DUMMY_ADDRESS,
-    amount: 100,
+    amount: '100',
   };
 
   it('returns empty calls when vault data is not available', () => {

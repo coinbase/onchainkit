@@ -3,6 +3,7 @@ import type { MakeRequired } from '@/internal/types';
 import { usdcToken } from '@/token/constants';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
+import { act } from 'react';
 import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
@@ -28,6 +29,8 @@ const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
   vaultToken: usdcToken,
   lifecycleStatus: { statusName: 'init', statusData: null },
   updateLifecycleStatus: vi.fn(),
+  refetchUnderlyingBalance: vi.fn(),
+  refetchReceiptBalance: vi.fn(),
 };
 
 vi.mock('./EarnProvider', () => ({
@@ -55,10 +58,14 @@ vi.mock('@/transaction', async (importOriginal) => {
     ),
     Transaction: ({
       onStatus,
+      onSuccess,
       children,
       capabilities,
     }: {
       onStatus: (status: { statusName: string }) => void;
+      onSuccess: (response: {
+        transactionReceipts: Array<{ status: string }>;
+      }) => void;
       children: React.ReactNode;
       capabilities: { paymasterService: { url: string } };
     }) => (
@@ -83,7 +90,10 @@ vi.mock('@/transaction', async (importOriginal) => {
           <button
             type="button"
             data-testid="transaction-button"
-            onClick={() => onStatus({ statusName: 'success' })}
+            onClick={() => {
+              onStatus({ statusName: 'success' });
+              onSuccess({ transactionReceipts: [{ status: 'success' }] });
+            }}
           >
             Success
           </button>
@@ -185,5 +195,20 @@ describe('DepositButton Component', () => {
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
     });
+  });
+
+  it('clears the deposit amount after a successful transaction', async () => {
+    const mockSetDepositAmount = vi.fn();
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      setDepositAmount: mockSetDepositAmount,
+    });
+
+    render(<DepositButton />);
+
+    await act(async () => {
+      screen.getByText('Success').click();
+    });
+    expect(mockSetDepositAmount).toHaveBeenCalledWith('');
   });
 });

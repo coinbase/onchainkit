@@ -14,6 +14,7 @@ export function WithdrawBalance({ className }: WithdrawBalanceReact) {
     vaultToken,
   } = useEarnContext();
   const { address } = useAccount();
+
   const handleMaxPress = useCallback(() => {
     if (receiptBalance) {
       setWithdrawAmount(receiptBalance);

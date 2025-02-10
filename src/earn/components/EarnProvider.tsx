@@ -39,6 +39,7 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     assetSymbol,
     balance: receiptBalance,
     balanceStatus: receiptBalanceStatus,
+    refetchBalance: refetchReceiptBalance,
     totalApy,
   } = useMorphoVault({
     vaultAddress,
@@ -57,17 +58,18 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
   const {
     convertedBalance: underlyingBalance,
     status: underlyingBalanceStatus,
+    refetch: refetchUnderlyingBalance,
   } = useGetTokenBalance(address, vaultToken);
 
   const { calls: withdrawCalls } = useBuildMorphoWithdrawTx({
     vaultAddress,
-    amount: Number(withdrawAmount),
+    amount: withdrawAmount,
     receiverAddress: address,
   });
 
   const { calls: depositCalls } = useBuildMorphoDepositTx({
     vaultAddress,
-    amount: Number(depositAmount),
+    amount: depositAmount,
     receiverAddress: address,
   });
 
@@ -102,12 +104,14 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     vaultToken,
     receiptBalance,
     receiptBalanceStatus,
+    refetchReceiptBalance,
     depositAmount,
     setDepositAmount: handleDepositAmount,
     withdrawAmount,
     setWithdrawAmount: handleWithdrawAmount,
     underlyingBalance,
     underlyingBalanceStatus,
+    refetchUnderlyingBalance,
     apy: totalApy,
     // TODO: update when we have logic to fetch interest
     interestEarned: '',

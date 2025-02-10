@@ -6,7 +6,7 @@ import { type Address, parseUnits } from 'viem';
 export type UseBuildMorphoDepositTxParams = {
   vaultAddress: Address;
   receiverAddress?: Address;
-  amount: number;
+  amount: string;
 };
 
 /**
@@ -31,7 +31,7 @@ export function useBuildMorphoDepositTx({
     };
   }
 
-  const parsedAmount = parseUnits(amount.toString(), assetDecimals);
+  const parsedAmount = parseUnits(amount, assetDecimals);
 
   const calls = buildDepositToMorphoTx({
     receiverAddress,
