@@ -150,7 +150,6 @@ export type WalletEventData = {
   };
   [WalletEvent.ConnectSuccess]: CommonAnalyticsData & {
     address: string;
-    component: string;
     walletProvider: string;
   };
   [WalletEvent.Disconnect]: CommonAnalyticsData & {

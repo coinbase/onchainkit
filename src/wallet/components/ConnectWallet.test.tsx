@@ -146,7 +146,10 @@ describe('ConnectWallet', () => {
 
     expect(mockSendAnalytics).toHaveBeenCalledWith(
       WalletEvent.ConnectInitiated,
-      { connector: 'TestConnector' },
+      {
+        component: 'ConnectWallet',
+        walletProvider: 'TestConnector',
+      },
     );
 
     expect(connectMock).toHaveBeenCalledWith(
@@ -159,14 +162,18 @@ describe('ConnectWallet', () => {
 
     connectMock.mock.calls[0][1].onSuccess();
     expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.ConnectSuccess, {
-      connector: 'TestConnector',
+      address: '',
+      walletProvider: 'TestConnector',
     });
 
     const error = new Error('Test error');
     connectMock.mock.calls[0][1].onError(error);
     expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.ConnectError, {
-      connector: 'TestConnector',
       error: 'Test error',
+      metadata: {
+        connector: 'TestConnector',
+        component: 'ConnectWallet',
+      },
     });
   });
 
@@ -592,14 +599,23 @@ describe('ConnectWallet', () => {
         config: { wallet: { display: 'modal' } },
       });
 
+      vi.mocked(useConnect).mockReturnValue({
+        connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
+        connect: vi.fn(),
+        status: 'idle',
+      });
+
       render(<ConnectWallet text="Connect Wallet" />);
 
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
 
       expect(mockSendAnalytics).toHaveBeenCalledWith(
-        WalletEvent.ConnectClicked,
-        { connectType: 'modal' },
+        WalletEvent.ConnectInitiated,
+        {
+          component: 'ConnectWallet',
+          walletProvider: 'TestConnector',
+        },
       );
     });
 
@@ -618,7 +634,10 @@ describe('ConnectWallet', () => {
 
       expect(mockSendAnalytics).toHaveBeenCalledWith(
         WalletEvent.ConnectInitiated,
-        { connector: 'TestConnector' },
+        {
+          component: 'ConnectWallet',
+          walletProvider: 'TestConnector',
+        },
       );
     });
 
@@ -635,12 +654,14 @@ describe('ConnectWallet', () => {
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
 
-      // Simulate successful connection
       connectMock.mock.calls[0][1].onSuccess();
 
       expect(mockSendAnalytics).toHaveBeenCalledWith(
         WalletEvent.ConnectSuccess,
-        { connector: 'TestConnector' },
+        {
+          address: '',
+          walletProvider: 'TestConnector',
+        },
       );
     });
 
@@ -657,12 +678,14 @@ describe('ConnectWallet', () => {
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
 
-      // Simulate connection error
       connectMock.mock.calls[0][1].onError(new Error('Test error'));
 
       expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.ConnectError, {
-        connector: 'TestConnector',
         error: 'Test error',
+        metadata: {
+          connector: 'TestConnector',
+          component: 'ConnectWallet',
+        },
       });
     });
 
@@ -684,8 +707,8 @@ describe('ConnectWallet', () => {
       expect(mockSendAnalytics).toHaveBeenCalledWith(
         WalletEvent.ConnectSuccess,
         {
-          connector: 'TestConnector',
           address: '0x123',
+          walletProvider: 'TestConnector',
         },
       );
     });

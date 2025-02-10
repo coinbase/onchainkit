@@ -91,20 +91,10 @@ export function ConnectWallet({
     setHasClickedConnect(true);
   }, [setIsConnectModalOpen]);
 
-  const handleAnalyticsConnect = useCallback(
-    (walletProvider: string) => {
+  const handleAnalyticsInitiated = useCallback(
+    (connectorName: string, component: string) => {
       sendAnalytics(WalletEvent.ConnectInitiated, {
-        component: 'ConnectWallet',
-        walletProvider,
-      });
-    },
-    [sendAnalytics],
-  );
-
-  const handleAnalyticsInitiate = useCallback(
-    (connectorName: string) => {
-      sendAnalytics(WalletEvent.ConnectInitiated, {
-        component: 'ConnectWallet',
+        component,
         walletProvider: connectorName,
       });
     },
@@ -112,10 +102,9 @@ export function ConnectWallet({
   );
 
   const handleAnalyticsSuccess = useCallback(
-    (connectorName: string, walletAddress?: string) => {
+    (connectorName: string, walletAddress: string | undefined) => {
       sendAnalytics(WalletEvent.ConnectSuccess, {
         address: walletAddress ?? '',
-        component: 'ConnectWallet',
         walletProvider: connectorName,
       });
     },
@@ -123,11 +112,12 @@ export function ConnectWallet({
   );
 
   const handleAnalyticsError = useCallback(
-    (connectorName: string, errorMessage: string) => {
+    (connectorName: string, errorMessage: string, component: string) => {
       sendAnalytics(WalletEvent.ConnectError, {
         error: errorMessage,
         metadata: {
           connector: connectorName,
+          component,
         },
       });
     },
@@ -158,7 +148,7 @@ export function ConnectWallet({
             onClick={() => {
               handleOpenConnectModal();
               setHasClickedConnect(true);
-              handleAnalyticsConnect('modal');
+              handleAnalyticsInitiated(connector.name, 'ConnectWallet');
             }}
             text={text}
           />
@@ -172,17 +162,21 @@ export function ConnectWallet({
           className={className}
           connectWalletText={connectWalletText}
           onClick={() => {
-            handleAnalyticsInitiate(connector.name);
+            handleAnalyticsInitiated(connector.name, 'ConnectWallet');
 
             connect(
               { connector },
               {
                 onSuccess: () => {
                   onConnect?.();
-                  handleAnalyticsSuccess(connector.name);
+                  handleAnalyticsSuccess(connector.name, accountAddress);
                 },
                 onError: (error) => {
-                  handleAnalyticsError(connector.name, error.message);
+                  handleAnalyticsError(
+                    connector.name,
+                    error.message,
+                    'ConnectWallet',
+                  );
                 },
               },
             );
