@@ -18,6 +18,15 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     refetchReceiptBalance,
   } = useEarnContext();
 
+  if (!address) {
+    return (
+      <ConnectWallet
+        className={cn('w-full', className)}
+        text="Connect to withdraw"
+      />
+    );
+  }
+
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
       if (status.statusName === 'transactionPending') {

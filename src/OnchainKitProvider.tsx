@@ -23,6 +23,7 @@ export const OnchainKitContext =
  */
 export function OnchainKitProvider({
   address,
+  analytics,
   apiKey,
   chain,
   children,
@@ -49,6 +50,7 @@ export function OnchainKitProvider({
       apiKey: apiKey ?? null,
       chain: chain,
       config: {
+        analytics: analytics ?? true,
         analyticsUrl: config?.analyticsUrl ?? null,
         appearance: {
           name: config?.appearance?.name ?? 'Dapp',
@@ -72,6 +74,7 @@ export function OnchainKitProvider({
     return onchainKitConfig;
   }, [
     address,
+    analytics,
     apiKey,
     chain,
     config,

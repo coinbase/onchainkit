@@ -96,7 +96,6 @@ export function useMorphoVault({
 
   const formattedBalance =
     balance && vaultDecimals ? formatUnits(balance, vaultDecimals) : undefined;
-  console.log('formattedBalance:', formattedBalance);
 
   return {
     status,

@@ -19,6 +19,15 @@ export function DepositButton({ className }: DepositButtonReact) {
     refetchUnderlyingBalance,
   } = useEarnContext();
 
+  if (!address) {
+    return (
+      <ConnectWallet
+        className={cn('w-full', className)}
+        text="Connect to deposit"
+      />
+    );
+  }
+
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
       if (status.statusName === 'transactionPending') {
