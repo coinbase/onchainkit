@@ -21,7 +21,10 @@ function YieldInfo() {
       )}
     >
       {nativeApy ? (
-        <div className="flex items-center justify-between gap-1">
+        <div
+          className="flex items-center justify-between gap-1"
+          data-testid="ock-nativeApy"
+        >
           <div>{vaultToken?.symbol}</div>
           <div className="font-semibold">{formatPercent(nativeApy)}</div>
         </div>
@@ -31,13 +34,18 @@ function YieldInfo() {
         <div
           key={reward.asset}
           className="flex items-center justify-between gap-1"
+          data-testid="ock-rewards"
         >
           <div>{reward.assetName}</div>
           <div className="font-semibold">{formatPercent(reward.apy)}</div>
         </div>
       ))}
+
       {vaultFee && nativeApy ? (
-        <div className="flex items-center justify-between gap-1">
+        <div
+          className="flex items-center justify-between gap-1"
+          data-testid="ock-performanceFee"
+        >
           <div>
             Perf. Fee{' '}
             <span className="text-xs">({formatPercent(vaultFee, 0)})</span>
@@ -69,6 +77,7 @@ function ApyTag({ apy }: { apy: number | undefined }) {
       <button
         ref={triggerRef}
         type="button"
+        data-testid="ock-apyInfoButton"
         className={cn(
           'size-3 [&_path]:fill-[var(--ock-icon-color-foreground-muted)] [&_path]:transition-colors [&_path]:ease-in-out hover:[&_path]:fill-[var(--ock-icon-color-foreground)]',
           isOpen && '[&_path]:fill-[var(--ock-icon-color-foreground)]',
