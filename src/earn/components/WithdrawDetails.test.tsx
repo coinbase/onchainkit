@@ -7,11 +7,13 @@ import { useEarnContext } from './EarnProvider';
 import { WithdrawDetails } from './WithdrawDetails';
 
 const baseContext: EarnContextType = {
-  convertedBalance: '1000',
+  underlyingBalance: '1000',
+  underlyingBalanceStatus: 'success',
   setDepositAmount: vi.fn(),
   vaultAddress: '0x123' as Address,
   depositAmount: '0',
-  depositedAmount: '0',
+  receiptBalance: '0',
+  receiptBalanceStatus: 'success',
   withdrawAmount: '0',
   setWithdrawAmount: vi.fn(),
   depositCalls: [],
@@ -34,7 +36,7 @@ describe('WithdrawDetails Component', () => {
     const mockInterest = '1.2k';
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
-      interest: mockInterest,
+      interestEarned: mockInterest,
     });
 
     const { container } = render(<WithdrawDetails />);

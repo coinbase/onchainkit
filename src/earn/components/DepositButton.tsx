@@ -1,3 +1,4 @@
+import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
   Transaction,
@@ -9,10 +10,19 @@ import type { DepositButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
 
 export function DepositButton({ className }: DepositButtonReact) {
-  const { address, depositCalls, updateLifecycleStatus } = useEarnContext();
+  const {
+    recipientAddress: address,
+    depositCalls,
+    updateLifecycleStatus,
+  } = useEarnContext();
 
   if (!address) {
-    return <ConnectWallet className="w-full" />;
+    return (
+      <ConnectWallet
+        className={cn('w-full', className)}
+        text="Connect to deposit"
+      />
+    );
   }
 
   const handleOnStatus = useCallback(

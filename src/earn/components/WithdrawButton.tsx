@@ -1,3 +1,4 @@
+import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
   Transaction,
@@ -7,12 +8,20 @@ import { ConnectWallet } from '@/wallet';
 import { useCallback } from 'react';
 import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
-
 export function WithdrawButton({ className }: WithdrawButtonReact) {
-  const { address, withdrawCalls, updateLifecycleStatus } = useEarnContext();
+  const {
+    recipientAddress: address,
+    withdrawCalls,
+    updateLifecycleStatus,
+  } = useEarnContext();
 
   if (!address) {
-    return <ConnectWallet className="w-full" />;
+    return (
+      <ConnectWallet
+        className={cn('w-full', className)}
+        text="Connect to withdraw"
+      />
+    );
   }
 
   const handleOnStatus = useCallback(

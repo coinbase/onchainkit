@@ -2,16 +2,27 @@ import type { EarnContextType } from '@/earn/types';
 import { usdcToken } from '@/token/constants';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
-import { describe, expect, it, vi } from 'vitest';
+import {
+  type Mock,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
+import { useAccount } from 'wagmi';
 import { useEarnContext } from './EarnProvider';
 import { WithdrawBalance } from './WithdrawBalance';
 
 const baseContext: EarnContextType = {
-  convertedBalance: '1000',
+  underlyingBalance: '1000',
+  underlyingBalanceStatus: 'success',
   setDepositAmount: vi.fn(),
   vaultAddress: '0x123' as Address,
   depositAmount: '0',
-  depositedAmount: '1000',
+  receiptBalance: '1000',
+  receiptBalanceStatus: 'success',
   withdrawAmount: '0',
   setWithdrawAmount: vi.fn(),
   depositCalls: [],
@@ -25,9 +36,49 @@ vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),
 }));
 
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn().mockReturnValue({
+    address: '0x123' as Address,
+  }),
+}));
+
 describe('WithdrawBalance', () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+    vi.mocked(useEarnContext).mockReturnValue(baseContext);
+    vi.mocked(useAccount as Mock).mockReturnValue({
+      address: '0x123' as Address,
+    });
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("renders 'Wallet not connected' when the user is not connected", () => {
+    vi.mocked(useAccount as Mock).mockReturnValue({
+      address: undefined,
+    });
+
+    render(<WithdrawBalance />);
+
+    expect(screen.getByText('Wallet not connected')).toBeInTheDocument();
+  });
+
+  it('renders a skeleton for the amount and shows the token symbol when the balance is pending', () => {
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      receiptBalanceStatus: 'pending',
+    });
+
+    render(<WithdrawBalance />);
+
+    expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
+    expect(screen.getByText(usdcToken.symbol)).toBeInTheDocument();
+  });
+
   it('renders a Skeleton when vaultToken is undefined', () => {
-    const mockContext = {
+    const mockContext: EarnContextType = {
       ...baseContext,
       vaultToken: undefined,
     };
@@ -39,7 +90,7 @@ describe('WithdrawBalance', () => {
     expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
   });
 
-  it('renders the converted balance and subtitle correctly', () => {
+  it('renders the receipt token balance and subtitle correctly', () => {
     vi.mocked(useEarnContext).mockReturnValue(baseContext);
 
     render(<WithdrawBalance />);
@@ -48,11 +99,11 @@ describe('WithdrawBalance', () => {
     expect(screen.getByText('Available to withdraw')).toBeInTheDocument();
   });
 
-  it('calls setWithdrawAmount with convertedBalance when the action button is clicked', () => {
+  it('calls setWithdrawAmount with receiptBalance when the action button is clicked', () => {
     const mocksetWithdrawAmount = vi.fn();
-    const mockContext = {
+    const mockContext: EarnContextType = {
       ...baseContext,
-      depositedAmount: '1000',
+      receiptBalance: '1000',
       setWithdrawAmount: mocksetWithdrawAmount,
     };
 
@@ -66,10 +117,10 @@ describe('WithdrawBalance', () => {
     expect(mocksetWithdrawAmount).toHaveBeenCalledWith('1000');
   });
 
-  it('does not render the action button when convertedBalance is null', () => {
-    const mockContext = {
+  it('does not render the action button when receiptBalance is blank', () => {
+    const mockContext: EarnContextType = {
       ...baseContext,
-      depositedAmount: '',
+      receiptBalance: '',
       setWithdrawAmount: vi.fn(),
     };
 

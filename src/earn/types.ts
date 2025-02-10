@@ -17,18 +17,22 @@ export type EarnProviderReact = {
 };
 
 export type EarnContextType = {
-  // TODO: rename to recipientAddress for clarity
-  address?: Address;
+  recipientAddress?: Address;
   /** Balance of the asset in the vault, converted to the asset's decimals */
-  convertedBalance?: string;
+  underlyingBalance?: string;
+  /** Status of the underlying balance */
+  underlyingBalanceStatus: 'pending' | 'success' | 'error';
   vaultAddress: Address;
   /** The token that is being deposited or withdrawn */
   vaultToken: Token | undefined;
   /** Total APY of the vault, including rewards */
   apy?: number;
-  /** The amount that has been deposited by the connected user in the vault */
-  depositedAmount?: string;
-  interest?: string;
+  /** The amount that has been deposited in the vault by the connected user */
+  receiptBalance?: string;
+  /** Whether the receipt balance is being fetched */
+  receiptBalanceStatus: 'pending' | 'success' | 'error';
+  /** Interest earned by the user in the vault */
+  interestEarned?: string;
   /** Amount that the user has typed into the deposit amount input */
   depositAmount: string;
   setDepositAmount: (amount: string) => void;

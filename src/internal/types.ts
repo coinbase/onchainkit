@@ -67,3 +67,12 @@ export type LifecycleStatusUpdate<T extends AbstractLifecycleStatus> =
               >;
             })
     : never;
+
+/**
+ * Takes a type T and a key K, and makes K required in T
+ * e.g. type T = { a?: string, b?: number }
+ *      type K = 'a'
+ *      type R = MakeRequired<T, K> // { a: string, b?: number }
+ */
+export type MakeRequired<T, K extends keyof T> = Omit<T, K> &
+  Required<Pick<T, K>>;

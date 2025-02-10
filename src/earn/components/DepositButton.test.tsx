@@ -1,4 +1,5 @@
 import type { EarnContextType } from '@/earn/types';
+import type { MakeRequired } from '@/internal/types';
 import { usdcToken } from '@/token/constants';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
@@ -10,17 +11,20 @@ import { DepositButton } from './DepositButton';
 import { useEarnContext } from './EarnProvider';
 
 // Address required to avoid connect wallet prompt
-const baseContext: EarnContextType & { address: Address } = {
-  convertedBalance: '1000',
+const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
+  recipientAddress: '0x123' as Address,
+  underlyingBalance: '1000',
+  underlyingBalanceStatus: 'success',
   setDepositAmount: vi.fn(),
   vaultAddress: '0x123' as Address,
   depositAmount: '0',
-  depositedAmount: '0',
+  receiptBalance: '0',
+  receiptBalanceStatus: 'success',
+  interestEarned: '0',
   withdrawAmount: '0',
   setWithdrawAmount: vi.fn(),
   depositCalls: [],
   withdrawCalls: [],
-  address: '0x123' as Address,
   vaultToken: usdcToken,
   lifecycleStatus: { statusName: 'init', statusData: null },
   updateLifecycleStatus: vi.fn(),
@@ -110,7 +114,7 @@ describe('DepositButton Component', () => {
   it('renders ConnectWallet if no account is connected', () => {
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
-      address: undefined,
+      recipientAddress: undefined,
     });
 
     vi.mocked(useAccount as Mock).mockReturnValue({

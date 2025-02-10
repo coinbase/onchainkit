@@ -22,6 +22,7 @@ export function useGetTokenBalance(
       enabled: !!token?.address && !!address,
     },
   });
+
   return useMemo(() => {
     let error: SwapError | undefined;
     if (tokenBalanceResponse?.error) {
@@ -37,6 +38,7 @@ export function useGetTokenBalance(
     ) {
       return {
         convertedBalance: '',
+        status: tokenBalanceResponse.status,
         error,
         roundedBalance: '',
         response: tokenBalanceResponse,
@@ -48,6 +50,7 @@ export function useGetTokenBalance(
     );
     return {
       convertedBalance,
+      status: tokenBalanceResponse.status,
       error,
       response: tokenBalanceResponse,
       roundedBalance: getRoundedAmount(convertedBalance, 8),

@@ -4,6 +4,7 @@ import calculateMorphoRewards from '@/earn/utils/calculateMorphoRewards';
 import { fetchMorphoApy } from '@/earn/utils/fetchMorphoApy';
 import { useQuery } from '@tanstack/react-query';
 import { type Address, formatUnits } from 'viem';
+import { base } from 'viem/chains';
 import { useReadContract, useReadContracts } from 'wagmi';
 
 type UseMorphoVaultParams = {
@@ -13,6 +14,7 @@ type UseMorphoVaultParams = {
 
 export type UseMorphoVaultReturnType = {
   status: 'pending' | 'success' | 'error';
+  balanceStatus: 'pending' | 'success' | 'error';
   asset: Address | undefined;
   assetSymbol: string | undefined;
   assetDecimals: number | undefined;
@@ -40,29 +42,36 @@ export function useMorphoVault({
         abi: MORPHO_VAULT_ABI,
         address: vaultAddress,
         functionName: 'asset',
+        chainId: base.id, // Only Base is supported
       },
       {
         abi: MORPHO_VAULT_ABI,
         address: vaultAddress,
         functionName: 'name',
+        chainId: base.id, // Only Base is supported
       },
       {
         abi: MORPHO_VAULT_ABI,
         address: vaultAddress,
         functionName: 'decimals',
+        chainId: base.id, // Only Base is supported
       },
     ],
     query: {
       enabled: !!vaultAddress,
     },
   });
+  const asset = data?.[0].result;
+  const name = data?.[1].result;
+  const vaultDecimals = data?.[2].result;
 
   // Fetching separately because user may not be connected
-  const { data: balance } = useReadContract({
+  const { data: balance, status: balanceStatus } = useReadContract({
     abi: MORPHO_VAULT_ABI,
     address: vaultAddress,
     functionName: 'balanceOf',
     args: [address as Address],
+    chainId: base.id, // Only Base is supported
     query: {
       enabled: !!vaultAddress && !!address,
     },
@@ -78,17 +87,16 @@ export function useMorphoVault({
     : 0;
 
   const formattedBalance =
-    balance && vaultData?.asset?.decimals
-      ? formatUnits(balance, vaultData?.asset.decimals)
-      : undefined;
+    balance && vaultDecimals ? formatUnits(balance, vaultDecimals) : undefined;
 
   return {
     status,
-    asset: data?.[0].result,
+    balanceStatus,
+    asset,
     assetSymbol: vaultData?.symbol,
     assetDecimals: vaultData?.asset?.decimals,
-    vaultDecimals: data?.[2].result,
-    name: data?.[1].result,
+    vaultDecimals,
+    name,
     balance: formattedBalance,
     totalApy: vaultData?.state?.netApy,
     nativeApy: vaultData?.state?.netApyWithoutRewards,

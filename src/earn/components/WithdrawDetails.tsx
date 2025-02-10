@@ -4,14 +4,14 @@ import { EarnDetails } from './EarnDetails';
 import { useEarnContext } from './EarnProvider';
 
 export function WithdrawDetails({ className }: WithdrawDetailsReact) {
-  const { interest, vaultToken } = useEarnContext();
+  const { interestEarned, vaultToken } = useEarnContext();
 
   const tag = useMemo(() => {
-    if (interest) {
-      return `${interest} interest earned`;
+    if (interestEarned) {
+      return `${interestEarned} interest earned`;
     }
     return '';
-  }, [interest]);
+  }, [interestEarned]);
 
   return <EarnDetails className={className} token={vaultToken} tag={tag} />;
 }

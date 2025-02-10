@@ -27,8 +27,8 @@ export function Tab({
     <button
       className={cn(
         text.label1,
-        isSelected ? color.primary : color.foreground,
-        isSelected ? background.washed : background.default,
+        isSelected ? color.inverse : color.foreground,
+        isSelected ? background.primary : background.default,
         'w-1/2 text-center',
         'cursor-pointer px-3 py-4',
         className,

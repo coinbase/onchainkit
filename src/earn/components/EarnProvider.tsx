@@ -33,11 +33,18 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [depositAmount, setDepositAmount] = useState('');
 
-  const { asset, assetDecimals, assetSymbol, balance, totalApy } =
-    useMorphoVault({
-      vaultAddress,
-      address,
-    });
+  const {
+    asset,
+    assetDecimals,
+    assetSymbol,
+    balance: receiptBalance,
+    balanceStatus: receiptBalanceStatus,
+    totalApy,
+  } = useMorphoVault({
+    vaultAddress,
+    address,
+  });
+
   const vaultToken = asset
     ? getToken({
         address: asset,
@@ -47,7 +54,10 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
       })
     : undefined;
 
-  const { convertedBalance } = useGetTokenBalance(address, vaultToken);
+  const {
+    convertedBalance: underlyingBalance,
+    status: underlyingBalanceStatus,
+  } = useGetTokenBalance(address, vaultToken);
 
   const { calls: withdrawCalls } = useBuildMorphoWithdrawTx({
     vaultAddress,
@@ -87,18 +97,20 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
   );
 
   const value = useValue<EarnContextType>({
-    address,
-    convertedBalance,
+    recipientAddress: address,
     vaultAddress,
     vaultToken,
+    receiptBalance,
+    receiptBalanceStatus,
     depositAmount,
     setDepositAmount: handleDepositAmount,
     withdrawAmount,
     setWithdrawAmount: handleWithdrawAmount,
-    depositedAmount: balance,
+    underlyingBalance,
+    underlyingBalanceStatus,
     apy: totalApy,
     // TODO: update when we have logic to fetch interest
-    interest: '',
+    interestEarned: '',
     withdrawCalls,
     depositCalls,
     lifecycleStatus,
