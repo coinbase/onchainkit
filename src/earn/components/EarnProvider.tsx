@@ -67,9 +67,6 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     refetch: refetchUnderlyingBalance,
   } = useGetTokenBalance(address, vaultToken);
 
-  console.log('withdrawAmount:', withdrawAmount);
-  console.log('Number(withdrawAmount):', Number(withdrawAmount));
-
   const { calls: withdrawCalls } = useBuildMorphoWithdrawTx({
     vaultAddress,
     amount: withdrawAmount,

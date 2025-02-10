@@ -1,6 +1,17 @@
+import type { OnchainKitContextType } from '@/core/types';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { MockInstance } from 'vitest';
+import { baseSepolia } from 'wagmi/chains';
 import { ANALYTICS_API_URL, JSON_HEADERS } from './constants';
 import { sendAnalytics } from './sendAnalytics';
+
+vi.mock('@/useOnchainKit', () => ({
+  useOnchainKit: vi.fn(() => ({
+    config: { analytics: true },
+  })),
+}));
+
+import { useOnchainKit } from '@/useOnchainKit';
 
 describe('sendAnalytics', () => {
   const mockFetch = vi.fn();
@@ -9,6 +20,34 @@ describe('sendAnalytics', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     global.fetch = mockFetch;
+
+    (
+      useOnchainKit as unknown as MockInstance<() => OnchainKitContextType>
+    ).mockImplementation(() => ({
+      address: null,
+      apiKey: null,
+      chain: baseSepolia,
+      rpcUrl: null,
+      schemaId: null,
+      projectId: null,
+      interactionId: null,
+      config: {
+        analytics: true,
+        analyticsUrl: null,
+        appearance: {
+          name: null,
+          logo: null,
+          mode: null,
+          theme: null,
+        },
+        paymaster: null,
+        wallet: {
+          display: null,
+          termsUrl: null,
+          privacyUrl: null,
+        },
+      },
+    }));
   });
 
   it('should send analytics data with correct parameters', async () => {
@@ -133,5 +172,47 @@ describe('sendAnalytics', () => {
       ANALYTICS_API_URL,
       expect.any(Object),
     );
+  });
+
+  it('should not send analytics when config.analytics is false', async () => {
+    (
+      useOnchainKit as unknown as MockInstance<() => OnchainKitContextType>
+    ).mockImplementation(() => ({
+      address: null,
+      apiKey: null,
+      chain: baseSepolia,
+      rpcUrl: null,
+      schemaId: null,
+      projectId: null,
+      interactionId: null,
+      config: {
+        analytics: false,
+        analyticsUrl: null,
+        appearance: {
+          name: null,
+          logo: null,
+          mode: null,
+          theme: null,
+        },
+        paymaster: null,
+        wallet: {
+          display: null,
+          termsUrl: null,
+          privacyUrl: null,
+        },
+      },
+    }));
+
+    const params = {
+      appName: 'TestApp',
+      apiKey: 'test-api-key',
+      data: { foo: 'bar' },
+      event: 'test-event',
+      interactionId: 'test-interaction-id',
+    };
+
+    await sendAnalytics(params);
+
+    expect(mockFetch).not.toHaveBeenCalled();
   });
 });

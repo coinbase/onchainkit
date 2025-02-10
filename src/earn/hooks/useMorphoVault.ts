@@ -23,8 +23,6 @@ export type UseMorphoVaultReturnType = {
   name: string | undefined;
   /** Balance adjusted for decimals */
   balance: string | undefined;
-  /** Raw balance, without decimals */
-  rawBalance: string | undefined;
   totalApy: number | undefined;
   nativeApy: number | undefined;
   rewards:
@@ -96,12 +94,10 @@ export function useMorphoVault({
 
   const formattedBalance =
     balance && vaultDecimals ? formatUnits(balance, vaultDecimals) : undefined;
-  console.log('formattedBalance:', formattedBalance);
 
   return {
     status,
     balanceStatus,
-    rawBalance: balance !== undefined ? String(balance) : undefined,
     refetchBalance: refetch,
     asset,
     assetSymbol: vaultData?.symbol,
