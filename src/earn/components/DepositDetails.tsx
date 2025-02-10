@@ -23,7 +23,7 @@ function YieldInfo() {
       {nativeApy ? (
         <div
           className="flex items-center justify-between gap-1"
-          data-testid="ock-nativeApy"
+          data-testid="ock-earnNativeApy"
         >
           <div>{vaultToken?.symbol}</div>
           <div className="font-semibold">{formatPercent(nativeApy)}</div>
@@ -34,7 +34,7 @@ function YieldInfo() {
         <div
           key={reward.asset}
           className="flex items-center justify-between gap-1"
-          data-testid="ock-rewards"
+          data-testid="ock-earnRewards"
         >
           <div>{reward.assetName}</div>
           <div className="font-semibold">{formatPercent(reward.apy)}</div>
@@ -44,7 +44,7 @@ function YieldInfo() {
       {vaultFee && nativeApy ? (
         <div
           className="flex items-center justify-between gap-1"
-          data-testid="ock-performanceFee"
+          data-testid="ock-earnPerformanceFee"
         >
           <div>
             Perf. Fee{' '}

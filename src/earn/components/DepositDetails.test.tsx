@@ -80,7 +80,7 @@ describe('DepositDetails Component', () => {
     });
 
     render(<DepositDetails />);
-    expect(screen.getByTestId('ock-nativeApy')).toBeInTheDocument();
+    expect(screen.getByTestId('ock-earnNativeApy')).toBeInTheDocument();
   });
 
   it('does not render native APY when value is undefined', () => {
@@ -90,7 +90,7 @@ describe('DepositDetails Component', () => {
     });
 
     render(<DepositDetails />);
-    expect(screen.queryByTestId('ock-nativeApy')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ock-earnNativeApy')).not.toBeInTheDocument();
   });
 
   it('renders rewards when value is provided', () => {
@@ -100,7 +100,7 @@ describe('DepositDetails Component', () => {
     });
 
     render(<DepositDetails />);
-    expect(screen.getByTestId('ock-rewards')).toBeInTheDocument();
+    expect(screen.getByTestId('ock-earnRewards')).toBeInTheDocument();
   });
 
   it('does not render rewards when value is undefined', () => {
@@ -110,7 +110,7 @@ describe('DepositDetails Component', () => {
     });
 
     render(<DepositDetails />);
-    expect(screen.queryByTestId('ock-rewards')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ock-earnRewards')).not.toBeInTheDocument();
   });
 
   it('renders performance fee when value is provided', () => {
@@ -120,7 +120,7 @@ describe('DepositDetails Component', () => {
     });
 
     render(<DepositDetails />);
-    expect(screen.getByTestId('ock-performanceFee')).toBeInTheDocument();
+    expect(screen.getByTestId('ock-earnPerformanceFee')).toBeInTheDocument();
   });
 
   it('does not render performance fee when value is falsey', () => {
@@ -142,15 +142,15 @@ describe('DepositDetails Component', () => {
     const infoButton = screen.getByTestId('ock-apyInfoButton');
 
     // Initial state - popover should be open (isOpen defaults to true)
-    expect(screen.getByTestId('ock-nativeApy')).toBeInTheDocument();
+    expect(screen.getByTestId('ock-earnNativeApy')).toBeInTheDocument();
 
     // Click to close
     fireEvent.click(infoButton);
-    expect(screen.queryByTestId('ock-nativeApy')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ock-earnNativeApy')).not.toBeInTheDocument();
 
     // Click to open
     fireEvent.click(infoButton);
-    expect(screen.getByTestId('ock-nativeApy')).toBeInTheDocument();
+    expect(screen.getByTestId('ock-earnNativeApy')).toBeInTheDocument();
   });
 
   it('closes popover when onClose is triggered', () => {
@@ -162,12 +162,12 @@ describe('DepositDetails Component', () => {
     render(<DepositDetails />);
 
     // Initial state - popover should be open
-    expect(screen.getByTestId('ock-nativeApy')).toBeInTheDocument();
+    expect(screen.getByTestId('ock-earnNativeApy')).toBeInTheDocument();
 
     // Trigger onClose
     const popover = screen.getByRole('dialog');
     fireEvent.keyDown(popover, { key: 'Escape' });
 
-    expect(screen.queryByTestId('ock-nativeApy')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ock-earnNativeApy')).not.toBeInTheDocument();
   });
 });
