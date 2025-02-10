@@ -55,7 +55,9 @@ export function SendAddressInput({
         inputMode="text"
         placeholder="Basename, ENS, or Address"
         value={displayValue}
-        inputValidator={() => !!validateAddressInput(recipientInput)}
+        inputValidator={(recipientInput) =>
+          !!validateAddressInput(recipientInput)
+        }
         setValue={setRecipientInput}
         onChange={handleSetValue}
         onFocus={handleFocus}

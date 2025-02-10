@@ -29,7 +29,7 @@ export function SendAmountInput({
         fiatAmount={fiatAmount ?? ''}
         cryptoAmount={cryptoAmount ?? ''}
         asset={selectedToken?.symbol ?? ''}
-        currency={'USD'}
+        currency="USD"
         selectedInputType={selectedInputType}
         setFiatAmount={handleFiatAmountChange}
         setCryptoAmount={handleCryptoAmountChange}
