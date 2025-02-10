@@ -1,13 +1,13 @@
 import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
+import { Popover } from '@/internal/components/Popover';
 import { Skeleton } from '@/internal/components/Skeleton';
+import { infoSvg } from '@/internal/svg/infoSvg';
 import { formatPercent } from '@/internal/utils/formatPercent';
-import { cn, color, text, background, border } from '@/styles/theme';
+import { background, border, cn, color, text } from '@/styles/theme';
+import { useRef, useState } from 'react';
 import type { DepositDetailsReact } from '../types';
 import { EarnDetails } from './EarnDetails';
 import { useEarnContext } from './EarnProvider';
-import { Popover } from '@/internal/components/Popover';
-import { useRef, useState } from 'react';
-import { infoSvg } from '@/internal/svg/infoSvg';
 
 function YieldInfo() {
   const { rewards, nativeApy, vaultToken, vaultFee } = useEarnContext();
