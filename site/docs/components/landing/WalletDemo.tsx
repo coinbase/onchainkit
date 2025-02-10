@@ -14,6 +14,7 @@ import {
   WalletDropdownLink,
 } from '@coinbase/onchainkit/wallet';
 import AppDemo from '../AppDemo.tsx';
+import { useMemo } from 'react';
 
 export const walletDemoCode = `
   import {
@@ -39,30 +40,30 @@ export const walletDemoCode = `
   `;
 
 function WalletDemo() {
-  return (
-    <AppDemo>
-      <Wallet>
-        <ConnectWallet>
-          <Avatar className="h-6 w-6" />
-          <Name />
-        </ConnectWallet>
-        <WalletDropdown>
-          <Identity className="px-4 pt-3 pb-2">
-            <Avatar />
-            <Name>
-              <Badge className="badge" />
-            </Name>
-            <Address />
-            <EthBalance />
-          </Identity>
-          <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
-            Wallet
-          </WalletDropdownLink>
-          <WalletDropdownBasename />
-        </WalletDropdown>
-      </Wallet>
-    </AppDemo>
-  );
+  const WalletContent = useMemo(() => (
+    <Wallet>
+      <ConnectWallet>
+        <Avatar className="h-6 w-6" />
+        <Name />
+      </ConnectWallet>
+      <WalletDropdown>
+        <Identity className="px-4 pt-3 pb-2">
+          <Avatar />
+          <Name>
+            <Badge className="badge" />
+          </Name>
+          <Address />
+          <EthBalance />
+        </Identity>
+        <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
+          Wallet
+        </WalletDropdownLink>
+        <WalletDropdownBasename />
+      </WalletDropdown>
+    </Wallet>
+  ), []);
+
+  return <AppDemo>{WalletContent}</AppDemo>;
 }
 
 export default WalletDemo;
