@@ -37,7 +37,6 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
 
   const handleOnSuccess = useCallback(
     (res: TransactionResponse) => {
-      console.log('res:', res);
       if (
         res.transactionReceipts[0] &&
         res.transactionReceipts[0].status === 'success'
