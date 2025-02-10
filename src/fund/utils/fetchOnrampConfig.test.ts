@@ -5,15 +5,13 @@ import { fetchOnrampConfig } from './fetchOnrampConfig';
 
 const mockApiKey = 'test-api-key';
 const mockResponseData = {
-  data: {
-    countries: [
-      {
-        id: 'US',
-        subdivisions: ['CA', 'NY'],
-        payment_methods: ['credit_card', 'bank_transfer'],
-      },
-    ],
-  },
+  countries: [
+    {
+      id: 'US',
+      subdivisions: ['CA', 'NY'],
+      payment_methods: ['credit_card', 'bank_transfer'],
+    },
+  ],
 };
 
 global.fetch = vi.fn(() =>
