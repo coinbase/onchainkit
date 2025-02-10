@@ -33,6 +33,10 @@ const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
   refetchReceiptBalance: vi.fn(),
   depositAmountError: null,
   withdrawAmountError: null,
+  apy: 0,
+  nativeApy: 0,
+  vaultFee: 0,
+  rewards: [],
 };
 
 vi.mock('./EarnProvider', () => ({

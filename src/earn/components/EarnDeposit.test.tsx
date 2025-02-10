@@ -31,6 +31,9 @@ const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
   refetchReceiptBalance: vi.fn(),
   depositAmountError: null,
   withdrawAmountError: null,
+  nativeApy: 5,
+  vaultFee: 0,
+  rewards: [],
 };
 
 vi.mock('wagmi', async (importOriginal) => {
