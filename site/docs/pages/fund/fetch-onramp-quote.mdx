@@ -1,0 +1,103 @@
+# `fetchOnrampQuote`
+
+The `fetchOnrampQuote` utility provides a quote based on the asset the user would like to purchase, plus the network, fiat payment, payment currency, payment method, and country. This is useful for getting pricing information and fees before initiating a transaction.
+
+## Usage
+
+:::code-group
+
+```tsx twoslash [code]
+import { fetchOnrampQuote } from '@coinbase/onchainkit/fund';
+
+const quote = await fetchOnrampQuote({
+  purchaseCurrency: 'ETH',
+  purchaseNetwork: 'ethereum',
+  paymentCurrency: 'USD',
+  paymentMethod: 'CARD',
+  paymentAmount: '100.00',
+  country: 'US',
+  subdivision: 'CA', // Required for US residents
+});
+```
+
+```json [return value]
+{
+  "paymentTotal": {
+    "value": "105.00",
+    "currency": "USD"
+  },
+  "paymentSubtotal": {
+    "value": "100.00",
+    "currency": "USD"
+  },
+  "purchaseAmount": {
+    "value": "0.05",
+    "currency": "ETH"
+  },
+  "coinbaseFee": {
+    "value": "3.00",
+    "currency": "USD"
+  },
+  "networkFee": {
+    "value": "2.00",
+    "currency": "USD"
+  },
+  "quoteId": "quote_123"
+}
+```
+
+:::
+
+## Parameters
+
+```typescript
+{
+  /**
+   * ID of the crypto asset the user wants to purchase.
+   * Retrieved from the options API.
+   */
+  purchaseCurrency: string;
+
+  /**
+   * Name of the network that the purchase currency should be purchased on.
+   * Retrieved from the options API. If omitted, the default network for
+   * the crypto currency is used.
+   */
+  purchaseNetwork?: string;
+
+  /**
+   * Fiat currency of the payment amount, e.g., USD.
+   */
+  paymentCurrency: string;
+
+  /**
+   * ID of payment method used to complete the purchase.
+   * Retrieved from the options API.
+   */
+  paymentMethod: string;
+
+  /**
+   * Fiat amount the user wants to spend to purchase the crypto currency,
+   * inclusive of fees with two decimals of precision, e.g., "100.00".
+   */
+  paymentAmount: string;
+
+  /**
+   * ISO 3166-1 two-digit country code string representing the purchasing
+   * user's country of residence, e.g., US.
+   */
+  country: string;
+
+  /**
+   * ISO 3166-2 two-digit country subdivision code. Required if country="US"
+   * because certain states (e.g., NY) have state specific asset restrictions.
+   */
+  subdivision?: string;
+}
+```
+
+## Returns
+
+`Promise<OnrampQuoteResponseData>` - Returns a promise that resolves to the quote data containing payment amounts, fees, and quote ID.
+
+See [`OnrampQuoteResponseData`](/fund/types#onrampquoteresponsedata) for full response type details.
