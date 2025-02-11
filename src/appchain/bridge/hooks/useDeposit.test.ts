@@ -1,13 +1,9 @@
-import { QueryClient } from '@tanstack/react-query';
+import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { renderHook, waitFor } from '@testing-library/react';
 import { type Chain, parseEther, parseUnits } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConfig, useSwitchChain, useWriteContract } from 'wagmi';
-import { http, createConfig } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { base } from 'wagmi/chains';
-import { mock } from 'wagmi/connectors';
-import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { useDeposit } from './useDeposit';
 
 // Mock all wagmi hooks
@@ -30,28 +26,8 @@ vi.mock('wagmi/actions', () => ({
 const mockWriteContractAsync = vi.fn();
 const mockSwitchChainAsync = vi.fn();
 
-const queryClient = new QueryClient();
-
-const config = createConfig({
-  chains: [base],
-  connectors: [
-    mock({
-      accounts: [
-        '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
-        '0x70997970c51812dc3a010c7d01b50e0d17dc79c8',
-        '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
-      ],
-    }),
-  ],
-  transports: {
-    [base.id]: http(),
-  },
-});
-
-// Remove JSX wrapper and use the test provider helper
 const wrapper = getNewReactQueryTestProvider();
 
-// Add this mock config after the wrapper definition
 const mockAppchainConfig = {
   chainId: 1,
   contracts: {

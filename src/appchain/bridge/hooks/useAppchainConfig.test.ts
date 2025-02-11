@@ -1,7 +1,7 @@
+import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useReadContract } from 'wagmi';
-import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { APPCHAIN_DEPLOY_CONTRACT_ADDRESS } from '../constants';
 import { useChainConfig } from './useAppchainConfig';
 
