@@ -38,6 +38,9 @@ const baseContext: EarnContextType = {
   nativeApy: 0,
   vaultFee: 0,
   rewards: [],
+  vaultName: 'Test Vault',
+  deposits: '1000',
+  liquidity: '1000',
 };
 
 vi.mock('./EarnProvider', () => ({
