@@ -11,7 +11,7 @@ describe('buildWithdrawFromMorphoTx', () => {
   const mockArgs = {
     vaultAddress: '0xd63070114470f685b75B74D60EEc7c1113d33a3D',
     amount: parseUnits('1000', usdcToken.decimals),
-    receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
+    recipientAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
   } satisfies WithdrawFromMorphoParams;
 
   it('should return an array with one transaction', () => {
@@ -28,8 +28,8 @@ describe('buildWithdrawFromMorphoTx', () => {
       functionName: 'withdraw',
       args: [
         expectedAmount,
-        mockArgs.receiverAddress,
-        mockArgs.receiverAddress,
+        mockArgs.recipientAddress,
+        mockArgs.recipientAddress,
       ],
     });
 
@@ -53,8 +53,8 @@ describe('buildWithdrawFromMorphoTx', () => {
         functionName: 'withdraw',
         args: [
           expectedAmount,
-          mockArgs.receiverAddress,
-          mockArgs.receiverAddress,
+          mockArgs.recipientAddress,
+          mockArgs.recipientAddress,
         ],
       }),
     ).toBe(result[0].data);
@@ -74,8 +74,8 @@ describe('buildWithdrawFromMorphoTx', () => {
         functionName: 'withdraw',
         args: [
           expectedAmount,
-          mockArgs.receiverAddress,
-          mockArgs.receiverAddress,
+          mockArgs.recipientAddress,
+          mockArgs.recipientAddress,
         ],
       }),
     ).toBe(result[0].data);

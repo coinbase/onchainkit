@@ -10,14 +10,14 @@ export type DepositToMorphoParams = {
   /** The amount of tokens to deposit */
   amount: bigint;
   /** The address which can withdraw the deposited tokens */
-  receiverAddress: Address;
+  recipientAddress: Address;
 };
 
 export function buildDepositToMorphoTx({
   vaultAddress,
   tokenAddress,
   amount,
-  receiverAddress,
+  recipientAddress,
 }: DepositToMorphoParams): Call[] {
   // User needs to approve the token they're depositing
   const approveTxData = encodeFunctionData({
@@ -30,7 +30,7 @@ export function buildDepositToMorphoTx({
   const depositTxData = encodeFunctionData({
     abi: MORPHO_VAULT_ABI,
     functionName: 'deposit',
-    args: [amount, receiverAddress],
+    args: [amount, recipientAddress],
   });
 
   return [

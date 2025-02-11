@@ -10,8 +10,8 @@ import {
   useState,
 } from 'react';
 import { useAccount } from 'wagmi';
-import { useBuildMorphoDepositTx } from '../hooks/useBuildMorphoDepositTx';
-import { useBuildMorphoWithdrawTx } from '../hooks/useBuildMorphoWithdrawTx';
+import { useBuildDepositToMorphoTx } from '../hooks/useBuildDepositToMorphoTx';
+import { useBuildWithdrawFromMorphoTx } from '../hooks/useBuildWithdrawFromMorphoTx';
 import { useMorphoVault } from '../hooks/useMorphoVault';
 import type {
   EarnContextType,
@@ -71,16 +71,16 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     refetch: refetchWalletBalance,
   } = useGetTokenBalance(address, vaultToken);
 
-  const { calls: depositCalls } = useBuildMorphoDepositTx({
+  const { calls: depositCalls } = useBuildDepositToMorphoTx({
     vaultAddress,
     amount: depositAmount,
-    receiverAddress: address,
+    recipientAddress: address,
   });
 
-  const { calls: withdrawCalls } = useBuildMorphoWithdrawTx({
+  const { calls: withdrawCalls } = useBuildWithdrawFromMorphoTx({
     vaultAddress,
     amount: withdrawAmount,
-    receiverAddress: address,
+    recipientAddress: address,
     tokenDecimals: vaultToken?.decimals ?? 0,
   });
 
