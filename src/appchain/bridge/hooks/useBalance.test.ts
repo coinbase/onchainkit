@@ -1,9 +1,9 @@
 import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { renderHook, waitFor } from '@testing-library/react';
+import { getBalance } from '@wagmi/core';
 import type { Address } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useConfig } from 'wagmi';
-import { getBalance } from '@wagmi/core';
 import { readContract } from 'wagmi/actions';
 import { useBalance } from './useBalance';
 
