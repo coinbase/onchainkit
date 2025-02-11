@@ -1,17 +1,32 @@
 # Changelog
 
+## 0.36.11
+
+### Patch Changes
+
+- **docs**: Add Telemetry guide. By @cpcramer #1935
+- **feat**: Added Telemetry foundation for `Buy`, `Checkout`, `Fund`, `Mint`, `Swap`, `Transaction`, and `Wallet`. By @cpcramer #1942
+- **feat**: Add analytics parameter. When set to false, all telemetry collection will be disabled and no data will be sent. @cpcramer #1934
+- **feat**: Release `Earn` component. By @dschlabach #1955
+- **chore**: Bump wagmi dependencies. By @dschlabach #1949
+- **fix**: Fix slow wallet resolution. By @dschlabach #1947
+- **docs**: Update onramp documentation. By @rustam-cb #1945 #1939
+- **fix**: Fix onramp util `fetchOnrampQuote`. By @rustam-cb #1940
+
+Note: OnchainKit is not collecting any telemetry as of `v0.36.11`. This will be enabled in a future release.
+
 ## 0.36.10
 
 ### Patch Changes
 
-  - **feat**: Export NFT context. By @alessey #1917
-  - **feat**: WalletAdvanced mobile design. by @brendan-defi #1827
-  - **fix**: Await sequential transaction calls. by @dschlabach #1918
-  - **feat**: Add exchange rate refresh with throttling for FundCard. By @rustam-cb #1900
-  - **feat**: Dynamic text size in AmountInput component. by @rustam-cb #1909
-  - **feat**: Add style overrides to WalletAdvanced. by @brendan-defi #1912
-  - **feat**: Add DropdownMenu UI Primitive. By @cpcramer #1901
-  - **feat**: Implemented `DropdownMenu` primitive into `TokenSelectDropdown`. By @cpcramer #1903
+- **feat**: Export NFT context. By @alessey #1917
+- **feat**: WalletAdvanced mobile design. by @brendan-defi #1827
+- **fix**: Await sequential transaction calls. by @dschlabach #1918
+- **feat**: Add exchange rate refresh with throttling for FundCard. By @rustam-cb #1900
+- **feat**: Dynamic text size in AmountInput component. by @rustam-cb #1909
+- **feat**: Add style overrides to WalletAdvanced. by @brendan-defi #1912
+- **feat**: Add DropdownMenu UI Primitive. By @cpcramer #1901
+- **feat**: Implemented `DropdownMenu` primitive into `TokenSelectDropdown`. By @cpcramer #1903
 
 ## 0.36.9
 
