@@ -1,5 +1,5 @@
 import { toReadableAmount } from '@/swap/utils/toReadableAmount';
-import type { Token } from '@/token';
+import type { Token } from '@/token/types';
 import { getBalance } from '@wagmi/core';
 import { useEffect, useState } from 'react';
 import type { Address } from 'viem';
