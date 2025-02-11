@@ -128,16 +128,6 @@ export function useMorphoVault({
         )
       : undefined;
 
-  const formattedDeposits =
-    vaultData?.state.totalAssets && vaultDecimals
-      ? formatUnits(BigInt(vaultData?.state.totalAssets), vaultDecimals)
-      : undefined;
-
-  const formattedLiquidity =
-    vaultData?.liquidity.underlying && vaultDecimals
-      ? formatUnits(BigInt(vaultData?.liquidity.underlying), vaultDecimals)
-      : undefined;
-
   return {
     status,
     /** Balance is the amount of the underlying asset that the user has in the vault */

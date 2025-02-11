@@ -10,7 +10,6 @@ import {
   useState,
 } from 'react';
 import { useAccount } from 'wagmi';
-import { useBuildDepositToMorphoTx } from '../hooks/useBuildDepositToMorphoTx';
 import { useBuildWithdrawFromMorphoTx } from '../hooks/useBuildWithdrawFromMorphoTx';
 import { useMorphoVault } from '../hooks/useMorphoVault';
 import type {
@@ -18,6 +17,7 @@ import type {
   EarnProviderReact,
   LifecycleStatus,
 } from '../types';
+import { useBuildDepositToMorphoTx } from '@/earn/hooks/useBuildDepositToMorphoTx';
 
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 
