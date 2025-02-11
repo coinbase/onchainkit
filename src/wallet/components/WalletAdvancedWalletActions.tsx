@@ -1,7 +1,5 @@
 'use client';
 
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { WalletEvent, WalletOption } from '@/core/analytics/types';
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { baseScanSvg } from '@/internal/svg/baseScanSvg';
 import { disconnectSvg } from '@/internal/svg/disconnectSvg';
@@ -30,51 +28,25 @@ export function WalletAdvancedWalletActions({
   const { setShowQr, refetchPortfolioData, animations } =
     useWalletAdvancedContext();
   const { disconnect, connectors } = useDisconnect();
-  const { sendAnalytics } = useAnalytics();
-
-  const handleAnalyticsOptionSelected = useCallback(
-    (option: WalletOption) => {
-      sendAnalytics(WalletEvent.OptionSelected, {
-        option,
-      });
-    },
-    [sendAnalytics],
-  );
-
-  const handleAnalyticsDisconnect = useCallback(
-    (walletProvider: string) => {
-      sendAnalytics(WalletEvent.Disconnect, {
-        component: 'WalletAdvanced',
-        walletProvider,
-      });
-    },
-    [sendAnalytics],
-  );
 
   const handleTransactions = useCallback(() => {
-    handleAnalyticsOptionSelected(WalletOption.Explorer);
     window.open(`https://basescan.org/address/${address}`, '_blank');
-  }, [address, handleAnalyticsOptionSelected]);
+  }, [address]);
 
   const handleDisconnect = useCallback(() => {
-    const walletProvider = connectors[0]?.name || 'unknown';
-    handleAnalyticsDisconnect(walletProvider);
-
     handleClose();
     for (const connector of connectors) {
       disconnect({ connector });
     }
-  }, [disconnect, connectors, handleClose, handleAnalyticsDisconnect]);
+  }, [disconnect, connectors, handleClose]);
 
   const handleQr = useCallback(() => {
-    handleAnalyticsOptionSelected(WalletOption.QR);
     setShowQr(true);
-  }, [setShowQr, handleAnalyticsOptionSelected]);
+  }, [setShowQr]);
 
   const handleRefreshPortfolioData = useCallback(async () => {
-    handleAnalyticsOptionSelected(WalletOption.Refresh);
     await refetchPortfolioData();
-  }, [refetchPortfolioData, handleAnalyticsOptionSelected]);
+  }, [refetchPortfolioData]);
 
   return (
     <div

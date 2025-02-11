@@ -29,13 +29,7 @@ vi.mock('@/fund/hooks/useFundCardFundingUrl', () => ({
   useFundCardFundingUrl: vi.fn(),
 }));
 
-vi.mock('@/core/hooks/useOnchainKit', () => ({
-  useOnchainKit: vi.fn(() => ({
-    apiKey: 'mock-api-key',
-    sessionId: 'mock-session-id',
-    config: {},
-  })),
-}));
+vi.mock('@/useOnchainKit');
 
 vi.mock('@/fund/utils/setupOnrampEventListeners', () => ({
   setupOnrampEventListeners: vi.fn(),
