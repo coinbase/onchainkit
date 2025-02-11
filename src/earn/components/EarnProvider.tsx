@@ -81,7 +81,7 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     vaultAddress,
     amount: withdrawAmount,
     recipientAddress: address,
-    tokenDecimals: vaultToken?.decimals ?? 0,
+    tokenDecimals: vaultToken?.decimals,
   });
 
   // Lifecycle statuses

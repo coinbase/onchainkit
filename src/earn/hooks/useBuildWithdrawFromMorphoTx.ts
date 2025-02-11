@@ -7,7 +7,7 @@ export type UseBuildWithdrawFromMorphoTxParams = {
   vaultAddress: Address;
   recipientAddress?: Address;
   amount: string;
-  tokenDecimals: number;
+  tokenDecimals: number | undefined;
 };
 
 /**
@@ -34,7 +34,8 @@ export function useBuildWithdrawFromMorphoTx({
     balance === undefined ||
     !vaultDecimals ||
     !recipientAddress ||
-    amountIsGreaterThanBalance
+    amountIsGreaterThanBalance ||
+    tokenDecimals === undefined
   ) {
     return {
       calls: [],

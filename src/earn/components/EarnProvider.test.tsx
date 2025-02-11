@@ -125,7 +125,7 @@ describe('EarnProvider', () => {
     const { result } = renderHook(() => useEarnContext(), { wrapper });
 
     await act(async () => {
-      await result.current.setDepositAmount('100');
+      result.current.setDepositAmount('100');
     });
 
     expect(result.current.depositAmount).toBe('100');
@@ -150,7 +150,7 @@ describe('EarnProvider', () => {
     const { result } = renderHook(() => useEarnContext(), { wrapper });
 
     await act(async () => {
-      await result.current.setWithdrawAmount('50');
+      result.current.setWithdrawAmount('50');
     });
 
     expect(result.current.withdrawAmount).toBe('50');
@@ -214,5 +214,31 @@ describe('EarnProvider', () => {
     expect(result.current.withdrawAmountError).toBe(
       'Amount exceeds the balance',
     );
+  });
+
+  it('passes token decimals to withdrawCalls when vaultToken exists', () => {
+    (useMorphoVault as Mock).mockReturnValue({
+      asset: {
+        address: DUMMY_ADDRESS,
+        decimals: 18,
+        symbol: 'TEST',
+      },
+      balance: '100',
+      totalApy: '0.05',
+    });
+
+    const { result } = renderHook(() => useEarnContext(), { wrapper });
+    expect(result.current.vaultToken?.decimals).toBe(18);
+  });
+
+  it('handles undefined token decimals in withdrawCalls when vaultToken is undefined', () => {
+    (useMorphoVault as Mock).mockReturnValue({
+      asset: undefined,
+      balance: '100',
+      totalApy: '0.05',
+    });
+
+    const { result } = renderHook(() => useEarnContext(), { wrapper });
+    expect(result.current.vaultToken).toBeUndefined();
   });
 });
