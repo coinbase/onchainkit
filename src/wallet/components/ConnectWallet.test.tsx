@@ -543,4 +543,125 @@ describe('ConnectWallet', () => {
       expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('analytics', () => {
+    it('should send analytics when connect button is clicked in modal mode', () => {
+      vi.mocked(useOnchainKit).mockReturnValue({
+        config: { wallet: { display: 'modal' } },
+      });
+
+      vi.mocked(useConnect).mockReturnValue({
+        connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
+        connect: vi.fn(),
+        status: 'idle',
+      });
+
+      render(<ConnectWallet text="Connect Wallet" />);
+
+      const button = screen.getByTestId('ockConnectButton');
+      fireEvent.click(button);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        WalletEvent.ConnectInitiated,
+        {
+          component: 'ConnectWallet',
+          walletProvider: 'TestConnector',
+        },
+      );
+    });
+
+    it('should send analytics when direct connect is initiated', () => {
+      const connectMock = vi.fn();
+      vi.mocked(useConnect).mockReturnValue({
+        connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
+        connect: connectMock,
+        status: 'idle',
+      });
+
+      render(<ConnectWallet text="Connect Wallet" />);
+
+      const button = screen.getByTestId('ockConnectButton');
+      fireEvent.click(button);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        WalletEvent.ConnectInitiated,
+        {
+          component: 'ConnectWallet',
+          walletProvider: 'TestConnector',
+        },
+      );
+    });
+
+    it('should send analytics on successful connection', () => {
+      const connectMock = vi.fn();
+      vi.mocked(useConnect).mockReturnValue({
+        connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
+        connect: connectMock,
+        status: 'idle',
+      });
+
+      render(<ConnectWallet text="Connect Wallet" />);
+
+      const button = screen.getByTestId('ockConnectButton');
+      fireEvent.click(button);
+
+      connectMock.mock.calls[0][1].onSuccess();
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        WalletEvent.ConnectSuccess,
+        {
+          address: '',
+          walletProvider: 'TestConnector',
+        },
+      );
+    });
+
+    it('should send analytics on connection error', () => {
+      const connectMock = vi.fn();
+      vi.mocked(useConnect).mockReturnValue({
+        connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
+        connect: connectMock,
+        status: 'idle',
+      });
+
+      render(<ConnectWallet text="Connect Wallet" />);
+
+      const button = screen.getByTestId('ockConnectButton');
+      fireEvent.click(button);
+
+      connectMock.mock.calls[0][1].onError(new Error('Test error'));
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.ConnectError, {
+        error: 'Test error',
+        metadata: {
+          connector: 'TestConnector',
+          component: 'ConnectWallet',
+        },
+      });
+    });
+
+    it('should send analytics when account is connected with address', () => {
+      const mockUseAccount = vi.mocked(useAccount);
+      vi.mocked(useConnect).mockReturnValue({
+        connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
+        connect: vi.fn(),
+        status: 'idle',
+      });
+
+      mockUseAccount.mockReturnValue({
+        address: '0x123',
+        status: 'connected',
+      });
+
+      render(<ConnectWallet text="Connect Wallet" />);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        WalletEvent.ConnectSuccess,
+        {
+          address: '0x123',
+          walletProvider: 'TestConnector',
+        },
+      );
+    });
+  });
 });
