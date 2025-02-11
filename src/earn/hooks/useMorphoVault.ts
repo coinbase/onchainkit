@@ -78,7 +78,7 @@ export function useMorphoVault({
   } = useReadContract({
     abi: MORPHO_VAULT_ABI,
     address: vaultAddress,
-    functionName: 'balanceOf',
+    functionName: 'maxWithdraw',
     args: [address as Address],
     chainId: base.id, // Only Base is supported
     query: {
@@ -96,20 +96,31 @@ export function useMorphoVault({
     : 0;
 
   const formattedBalance =
-    balance && vaultDecimals ? formatUnits(balance, vaultDecimals) : undefined;
+    balance && vaultData?.asset.decimals
+      ? formatUnits(balance, vaultData?.asset.decimals)
+      : undefined;
+  console.log('formattedBalance:', formattedBalance);
 
   const formattedDeposits =
-    vaultData?.state.totalAssets && vaultDecimals
-      ? formatUnits(BigInt(vaultData?.state.totalAssets), vaultDecimals)
+    vaultData?.state.totalAssets && vaultData.asset.decimals
+      ? formatUnits(
+          BigInt(vaultData?.state.totalAssets),
+          vaultData.asset.decimals,
+        )
       : undefined;
 
   const formattedLiquidity =
-    vaultData?.liquidity.underlying && vaultDecimals
-      ? formatUnits(BigInt(vaultData?.liquidity.underlying), vaultDecimals)
+    vaultData?.liquidity.underlying && vaultData.asset.decimals
+      ? formatUnits(
+          BigInt(vaultData?.liquidity.underlying),
+          vaultData.asset.decimals,
+        )
       : undefined;
 
   return {
     status,
+    /** Balance is the amount of the underlying asset that the user has in the vault */
+    balance: formattedBalance,
     balanceStatus,
     refetchBalance: refetch,
     asset,
@@ -117,7 +128,6 @@ export function useMorphoVault({
     assetDecimals: vaultData?.asset?.decimals,
     vaultDecimals,
     name,
-    balance: formattedBalance,
     totalApy: vaultData?.state?.netApy,
     nativeApy: vaultData?.state?.netApyWithoutRewards,
     vaultFee: vaultData?.state?.fee,

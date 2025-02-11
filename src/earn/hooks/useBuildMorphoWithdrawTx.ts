@@ -7,6 +7,7 @@ export type UseBuildMorphoWithdrawTxParams = {
   vaultAddress: Address;
   receiverAddress?: Address;
   amount: string;
+  tokenDecimals: number;
 };
 
 /**
@@ -17,6 +18,7 @@ export function useBuildMorphoWithdrawTx({
   vaultAddress,
   amount,
   receiverAddress,
+  tokenDecimals,
 }: UseBuildMorphoWithdrawTxParams): {
   calls: Call[];
 } {
@@ -31,15 +33,15 @@ export function useBuildMorphoWithdrawTx({
     !asset ||
     balance === undefined ||
     !vaultDecimals ||
-    amountIsGreaterThanBalance ||
-    !receiverAddress
+    !receiverAddress ||
+    amountIsGreaterThanBalance
   ) {
     return {
       calls: [],
     };
   }
 
-  const parsedAmount = parseUnits(amount, vaultDecimals);
+  const parsedAmount = parseUnits(amount, tokenDecimals);
 
   const calls = buildWithdrawFromMorphoTx({
     receiverAddress,

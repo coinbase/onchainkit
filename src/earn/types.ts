@@ -19,13 +19,13 @@ export type EarnProviderReact = {
 
 export type EarnContextType = {
   recipientAddress?: Address;
-  /** Balance of the asset in the vault, converted to the asset's decimals */
+  /** Balance of the underlying asset in the user's wallet, converted to the asset's decimals */
   underlyingBalance?: string;
-  /** Status of the underlying balance */
+  /** Status of the underlying balance fetch */
   underlyingBalanceStatus: 'pending' | 'success' | 'error';
   refetchUnderlyingBalance: () => void;
   vaultAddress: Address;
-  /** The token that is being deposited or withdrawn */
+  /** The token that is being deposited or withdrawn (the underlying asset of the vault) */
   vaultToken: Token | undefined;
   vaultName: string | undefined;
   /** Total deposits in the vault */

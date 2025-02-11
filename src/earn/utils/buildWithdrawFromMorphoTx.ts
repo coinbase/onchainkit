@@ -18,7 +18,7 @@ export function buildWithdrawFromMorphoTx({
 }: WithdrawFromMorphoParams): Call[] {
   const withdrawTxData = encodeFunctionData({
     abi: MORPHO_VAULT_ABI,
-    functionName: 'redeem', // redeem is the number of *shares*, withdraw is the number of *assets*
+    functionName: 'withdraw', // redeem is the number of *shares*, withdraw is the number of *assets*
     args: [amount, receiverAddress, receiverAddress],
   });
 

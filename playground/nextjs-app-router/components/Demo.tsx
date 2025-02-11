@@ -23,6 +23,7 @@ import WalletDemo from './demo/Wallet';
 import WalletAdvancedDefaultDemo from './demo/WalletAdvancedDefault';
 import WalletDefaultDemo from './demo/WalletDefault';
 import WalletIslandDemo from './demo/WalletIsland';
+import { Earn } from '../onchainkit/esm/earn';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.FundButton]: FundButtonDemo,
@@ -155,6 +156,7 @@ export default function Demo() {
           )}
         >
           {ActiveComponent && <ActiveComponent />}
+          <Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" />
         </div>
       </div>
     </>

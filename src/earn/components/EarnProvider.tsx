@@ -73,16 +73,17 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     refetch: refetchUnderlyingBalance,
   } = useGetTokenBalance(address, vaultToken);
 
-  const { calls: withdrawCalls } = useBuildMorphoWithdrawTx({
-    vaultAddress,
-    amount: withdrawAmount,
-    receiverAddress: address,
-  });
-
   const { calls: depositCalls } = useBuildMorphoDepositTx({
     vaultAddress,
     amount: depositAmount,
     receiverAddress: address,
+  });
+
+  const { calls: withdrawCalls } = useBuildMorphoWithdrawTx({
+    vaultAddress,
+    amount: withdrawAmount,
+    receiverAddress: address,
+    tokenDecimals: vaultToken?.decimals ?? 0,
   });
 
   // Lifecycle statuses
@@ -144,6 +145,7 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     vaultName: name,
     deposits,
     liquidity,
+    // TODO: this should be the DEPOSITED UNDERLYING ASSET BALANCE
     receiptBalance,
     receiptBalanceStatus,
     refetchReceiptBalance,
