@@ -1,9 +1,9 @@
 import { VaultDetails } from '@/earn/components/VaultDetails';
 import { YieldDetails } from '@/earn/components/YieldDetails';
 import { border, cn } from '@/styles/theme';
-import type { DepositDetailsReact } from '../types';
+import type { EarnDetailsReact } from '../types';
 
-export function EarnDetails({ className }: DepositDetailsReact) {
+export function EarnDetails({ className }: EarnDetailsReact) {
   return (
     <div
       data-testid="ockEarnDetails"

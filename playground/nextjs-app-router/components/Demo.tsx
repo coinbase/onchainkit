@@ -1,5 +1,6 @@
 'use client';
 import { AppContext } from '@/components/AppProvider';
+import { EarnDemo } from '@/components/demo/Earn';
 import { getShareableUrl } from '@/lib/url-params';
 import { cn } from '@/lib/utils';
 import { OnchainKitComponent } from '@/types/onchainkit';
@@ -43,6 +44,7 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.NFTMintCardDefault]: NFTMintCardDefaultDemo,
   [OnchainKitComponent.NFTCardDefault]: NFTCardDefaultDemo,
   [OnchainKitComponent.IdentityCard]: IdentityCardDemo,
+  [OnchainKitComponent.Earn]: EarnDemo,
 };
 
 export default function Demo() {

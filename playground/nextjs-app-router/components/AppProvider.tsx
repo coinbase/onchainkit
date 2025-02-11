@@ -13,6 +13,7 @@ import {
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import type React from 'react';
 import { createContext, useEffect, useState } from 'react';
+import type { Address } from 'viem';
 import { base } from 'wagmi/chains';
 
 type State = {
@@ -38,6 +39,8 @@ type State = {
   setNFTToken: (nftToken: string) => void;
   setIsSponsored: (isSponsored: boolean) => void;
   isSponsored?: boolean;
+  vaultAddress?: Address;
+  setVaultAddress: (vaultAddress: Address) => void;
 };
 
 export const defaultState: State = {
@@ -49,6 +52,7 @@ export const defaultState: State = {
   setComponentMode: () => {},
   setNFTToken: () => {},
   setIsSponsored: () => {},
+  setVaultAddress: () => {},
 };
 
 export const AppContext = createContext(defaultState);
@@ -116,6 +120,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     parser: (v) => v === 'true',
   });
 
+  const [vaultAddress, setVaultAddress] = useStateWithStorage<Address>({
+    key: 'vaultAddress',
+    defaultValue: '0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A',
+  });
+
   // Load initial values from localStorage
   useEffect(() => {
     const storedPaymasters = localStorage.getItem('paymasters');
@@ -159,6 +168,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setNFTToken,
         setIsSponsored,
         isSponsored,
+        vaultAddress,
+        setVaultAddress,
       }}
     >
       <OnchainKitProvider
