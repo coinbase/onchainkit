@@ -28,7 +28,12 @@ export function useChainConfig(params: ChainConfigParams) {
   });
 
   return {
-    config: error ? undefined : { chainId: params.appchainChainId, contracts: data } as AppchainConfig,
+    config: error
+      ? undefined
+      : ({
+          chainId: params.appchainChainId,
+          contracts: data,
+        } as AppchainConfig),
     isLoading,
     isError,
     error,
