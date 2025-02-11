@@ -19,7 +19,7 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
 }
 
 export function VaultDetails() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const anchorRef = useRef<HTMLDivElement>(null);
   const { vaultToken, vaultName, deposits, liquidity, vaultAddress } =
@@ -38,13 +38,14 @@ export function VaultDetails() {
         background.alternate,
         'flex items-center justify-center gap-2 rounded-full p-1 px-3',
       )}
+      data-testid="ock-vaultDetails"
     >
       <TokenImage token={vaultToken} size={16} />
       <span className="max-w-24 truncate">{vaultName}</span>
       <button
         ref={triggerRef}
         type="button"
-        data-testid="ock-apyInfoButton"
+        data-testid="ock-vaultDetailsButton"
         className={cn(
           'size-3 [&_path]:fill-[var(--ock-icon-color-foreground-muted)] [&_path]:transition-colors [&_path]:ease-in-out [&_path]:hover:fill-[var(--ock-icon-color-foreground)]',
           isOpen && '[&_path]:fill-[var(--ock-icon-color-foreground)]',
@@ -105,6 +106,7 @@ export function VaultDetails() {
               color.primary,
               'flex max-w-fit items-center gap-1 hover:opacity-80',
             )}
+            data-testid="ock-vaultDetailsBaseScanLink"
           >
             <div>View on BaseScan</div>
             <div className="h-3 w-3">{etherscanSvg}</div>

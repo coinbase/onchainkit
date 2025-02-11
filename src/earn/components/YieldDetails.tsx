@@ -77,6 +77,7 @@ export function YieldDetails() {
         background.alternate,
         'flex items-center justify-center gap-1 rounded-full p-1 px-3',
       )}
+      data-testid="ock-yieldDetails"
     >
       {`APY ${formatPercent(Number(getTruncatedAmount(apy.toString(), 4)))}`}
       <button
