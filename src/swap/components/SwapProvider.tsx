@@ -96,6 +96,20 @@ export function SwapProvider({
     updateLifecycleStatus,
   });
 
+  const handleAnalyticsSuccess = useCallback(
+    (data: {
+      address: string;
+      amount: number;
+      from: string;
+      to: string;
+      transactionHash: string;
+      paymaster: boolean;
+    }) => {
+      sendAnalytics(SwapEvent.SwapSuccess, data);
+    },
+    [sendAnalytics],
+  );
+
   // Component lifecycle emitters
   useEffect(() => {
     // Error
@@ -108,6 +122,17 @@ export function SwapProvider({
       setTransactionHash(
         lifecycleStatus.statusData?.transactionReceipt.transactionHash,
       );
+
+      handleAnalyticsSuccess({
+        address: address ?? '',
+        amount: Number(from.amount),
+        from: from.token?.symbol ?? '',
+        to: to.token?.symbol ?? '',
+        transactionHash:
+          lifecycleStatus.statusData.transactionReceipt.transactionHash,
+        paymaster: Boolean(isSponsored),
+      });
+
       setHasHandledSuccess(true);
       setIsToastVisible(true);
     }
@@ -118,8 +143,14 @@ export function SwapProvider({
     onStatus,
     onSuccess,
     lifecycleStatus,
-    lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
-    lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
+    address,
+    from.amount,
+    from.token?.symbol,
+    to.token?.symbol,
+    isSponsored,
+    handleAnalyticsSuccess,
+    lifecycleStatus.statusData,
+    lifecycleStatus.statusName,
   ]);
 
   useEffect(() => {
@@ -314,20 +345,6 @@ export function SwapProvider({
     [sendAnalytics],
   );
 
-  const handleAnalyticsSuccess = useCallback(
-    (data: {
-      address: string;
-      amount: number;
-      from: string;
-      to: string;
-      transactionHash: string;
-      paymaster: boolean;
-    }) => {
-      sendAnalytics(SwapEvent.SwapSuccess, data);
-    },
-    [sendAnalytics],
-  );
-
   const handleAnalyticsError = useCallback(
     (error: Error, metadata?: Record<string, unknown>) => {
       sendAnalytics(SwapEvent.SwapFailure, {
@@ -357,15 +374,7 @@ export function SwapProvider({
     [sendAnalytics],
   );
 
-  const handleAnalyticsTokenDropdownSelected = useCallback(
-    (position: 'from' | 'to') => {
-      sendAnalytics(SwapEvent.TokenDropdownSelected, {
-        position,
-      });
-    },
-    [sendAnalytics],
-  );
-
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
   const handleSubmit = useCallback(async () => {
     if (!address || !from.token || !to.token || !from.amount) {
       return;
@@ -386,6 +395,7 @@ export function SwapProvider({
         },
         RequestContext.Swap,
       );
+
       if (isSwapError(response)) {
         updateLifecycleStatus({
           statusName: 'error',
@@ -395,8 +405,10 @@ export function SwapProvider({
             message: response.message,
           },
         });
+        handleAnalyticsError(new Error(response.error));
         return;
       }
+
       await processSwapTransaction({
         chainId,
         config: accountConfig,
@@ -409,15 +421,6 @@ export function SwapProvider({
         updateLifecycleStatus,
         useAggregator,
         walletCapabilities,
-      });
-
-      handleAnalyticsSuccess({
-        address: address,
-        amount: Number(from.amount),
-        from: from.token.symbol,
-        to: to.token.symbol,
-        transactionHash,
-        paymaster: Boolean(isSponsored),
       });
     } catch (err) {
       const errorMessage = isUserRejectedRequestError(err)
@@ -452,7 +455,6 @@ export function SwapProvider({
     useAggregator,
     walletCapabilities,
     handleAnalyticsInitiated,
-    handleAnalyticsSuccess,
     handleAnalyticsError,
   ]);
 
@@ -472,7 +474,6 @@ export function SwapProvider({
     transactionHash,
     onSlippageChange: handleAnalyticsSlippageChange,
     onTokenSelect: handleAnalyticsTokenSelected,
-    onTokenDropdownSelect: handleAnalyticsTokenDropdownSelected,
   });
 
   return <SwapContext.Provider value={value}>{children}</SwapContext.Provider>;

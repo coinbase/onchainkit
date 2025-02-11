@@ -41,7 +41,6 @@ export enum SwapEvent {
   SwapSuccess = 'swapSuccess',
   SwapInitiated = 'swapInitiated',
   SwapFailure = 'swapFailure',
-  TokenDropdownSelected = 'tokenDropdownSelected',
 }
 
 /**

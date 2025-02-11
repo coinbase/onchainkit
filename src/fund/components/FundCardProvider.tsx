@@ -109,7 +109,6 @@ export function FundCardProvider({
 
   const handleAnalyticsAmountChanged = useCallback(
     (amount: number, previousAmount: number, currency: string) => {
-      console.log('Fund Amount Changed:', { amount, previousAmount, currency });
       sendAnalytics(FundEvent.FundAmountChanged, {
         amount,
         previousAmount,
@@ -121,7 +120,6 @@ export function FundCardProvider({
 
   const handleAnalyticsOptionSelected = useCallback(
     (option: string) => {
-      console.log('Fund Option Selected:', { option });
       sendAnalytics(FundEvent.FundOptionSelected, {
         option,
       });
@@ -132,13 +130,9 @@ export function FundCardProvider({
   const handleSetFundAmountFiat = useCallback(
     (amount: string) => {
       const newAmount = Number.parseFloat(amount);
-      const previousAmount = Number.parseFloat(fundAmountFiat);
+      const previousAmount = Number.parseFloat(fundAmountFiat) || 0;
 
-      if (
-        !isNaN(newAmount) &&
-        !isNaN(previousAmount) &&
-        newAmount !== previousAmount
-      ) {
+      if (!Number.isNaN(newAmount) && newAmount !== previousAmount) {
         handleAnalyticsAmountChanged(newAmount, previousAmount, currency);
       }
 

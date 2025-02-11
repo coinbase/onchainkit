@@ -59,9 +59,6 @@ export function SwapAmountInput({
       sendAnalytics(SwapEvent.TokenSelected, {
         token: token.symbol,
       });
-      console.log('Analytics - Token Selected:', {
-        token: token.symbol,
-      });
     },
     [sendAnalytics],
   );

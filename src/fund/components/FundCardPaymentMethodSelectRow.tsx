@@ -29,10 +29,6 @@ export const FundCardPaymentMethodSelectRow = memo(
         return;
       }
 
-      // Track payment method selection
-      console.log('Fund Option Selected Analytics:', {
-        option: paymentMethod.id,
-      });
       sendAnalytics(FundEvent.FundOptionSelected, {
         option: paymentMethod.id,
       });

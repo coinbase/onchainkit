@@ -37,32 +37,20 @@ export function SwapSettingsSlippageInput({
   );
 
   const handleAnalyticsSlippageChange = useCallback(
-    (
-      previousSlippage: number,
-      newSlippage: number,
-      source: 'auto' | 'custom',
-    ) => {
+    (previousSlippage: number, newSlippage: number) => {
       sendAnalytics(SwapEvent.SlippageChanged, {
         previousSlippage,
         slippage: newSlippage,
       });
-
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('Swap Analytics - Slippage Changed:', {
-          previousSlippage,
-          newSlippage,
-          source,
-        });
-      }
     },
     [sendAnalytics],
   );
 
   const updateSlippage = useCallback(
-    (newSlippage: number, source: 'auto' | 'custom') => {
+    (newSlippage: number) => {
       const currentSlippage = lifecycleStatus.statusData.maxSlippage;
       if (newSlippage !== currentSlippage) {
-        handleAnalyticsSlippageChange(currentSlippage, newSlippage, source);
+        handleAnalyticsSlippageChange(currentSlippage, newSlippage);
 
         updateLifecycleStatus({
           statusName: 'slippageChange',

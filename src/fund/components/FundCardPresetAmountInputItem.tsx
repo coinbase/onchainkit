@@ -32,10 +32,14 @@ export function FundCardPresetAmountInputItem({
     (event: React.KeyboardEvent) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
+        sendAnalytics(FundEvent.FundAmountChanged, {
+          amount: Number(presetAmountInput),
+          currency,
+        });
         onClick(presetAmountInput);
       }
     },
-    [presetAmountInput, onClick],
+    [presetAmountInput, currency, onClick, sendAnalytics],
   );
 
   if (!presetAmountInput) {

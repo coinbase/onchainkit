@@ -53,11 +53,6 @@ export const FundCardAmountInput = ({
       setFundAmountFiat(amount);
       throttledFetchExchangeRate();
 
-      console.log('Fund Amount Changed Analytics:', {
-        amount: Number(amount),
-        currency,
-        previousAmount: Number(fundAmountFiat),
-      });
       sendAnalytics(FundEvent.FundAmountChanged, {
         amount: Number(amount),
         currency,

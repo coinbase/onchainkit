@@ -174,7 +174,6 @@ export function TransactionProvider({
           })) || [],
       };
 
-    console.log('Analytics - Transaction Initiated:', transactionData);
     sendAnalytics(TransactionEvent.TransactionInitiated, transactionData);
   }, [account.address, sendAnalytics, transactions]);
 
@@ -193,7 +192,6 @@ export function TransactionProvider({
           transactionHash,
         };
 
-      console.log('Analytics - Transaction Success:', transactionData);
       sendAnalytics(TransactionEvent.TransactionSuccess, transactionData);
     },
     [account.address, isSponsored, paymaster, sendAnalytics, transactions],
@@ -215,7 +213,6 @@ export function TransactionProvider({
           },
         };
 
-      console.log('Analytics - Transaction Failure:', transactionData);
       sendAnalytics(TransactionEvent.TransactionFailure, transactionData);
     },
     [errorCode, sendAnalytics, transactions],

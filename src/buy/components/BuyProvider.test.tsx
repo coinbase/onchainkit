@@ -31,6 +31,8 @@ import { mock } from 'wagmi/connectors';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import type { GetSwapQuoteResponse } from '../../api/types';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { BuyEvent } from '../../core/analytics/types';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import type { LifecycleStatus, SwapError, SwapUnit } from '../../swap/types';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
@@ -108,6 +110,12 @@ vi.mock('../path/to/maxSlippageModule', () => ({
   getMaxSlippage: vi.fn().mockReturnValue(10),
 }));
 
+vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: vi.fn(() => ({
+    sendAnalytics: vi.fn(),
+  })),
+}));
+
 const queryClient = new QueryClient();
 
 const mockFromDai: SwapUnit = {
@@ -153,6 +161,23 @@ const mockFromEth: SwapUnit = {
   setLoading: vi.fn(),
   error: undefined,
 } as unknown as SwapUnit;
+
+const mockTransactionReceipt = {
+  blockHash: '0xblock',
+  blockNumber: 1n,
+  contractAddress: '0xcontract',
+  cumulativeGasUsed: 1n,
+  effectiveGasPrice: 1n,
+  from: '0xfrom',
+  gasUsed: 1n,
+  logs: [],
+  logsBloom: '0xbloom',
+  status: 'success',
+  to: '0xto',
+  transactionHash: '0x123',
+  transactionIndex: 1,
+  type: 'eip1559',
+} as TransactionReceipt;
 
 const accountConfig = createConfig({
   chains: [base],
@@ -343,13 +368,13 @@ describe('useBuyContext', () => {
       useBuyContext();
       return null;
     };
-    // Suppress console.error for this test to avoid noisy output
+
     const originalError = console.error;
     console.error = vi.fn();
     expect(() => {
       render(<TestComponent />);
     }).toThrow('useBuyContext must be used within a Buy component');
-    // Restore console.error
+
     console.error = originalError;
   });
 
@@ -395,6 +420,9 @@ describe('BuyProvider', () => {
       fromETH: mockFromEth,
       fromUSDC: mockFromUsdc,
     });
+    (useAnalytics as Mock).mockImplementation(() => ({
+      sendAnalytics: vi.fn(),
+    }));
   });
 
   it('should call validateQuote with responses', async () => {
@@ -449,7 +477,7 @@ describe('BuyProvider', () => {
     });
 
     const { result } = renderHook(() => useBuyContext(), { wrapper });
-    // console.log('result', result);
+
     await act(async () => {
       result.current.handleAmountChange('10');
     });
@@ -477,7 +505,7 @@ describe('BuyProvider', () => {
     });
 
     const { result } = renderHook(() => useBuyContext(), { wrapper });
-    // console.log('result', result);
+
     await act(async () => {
       result.current.handleAmountChange('10');
     });
@@ -631,15 +659,39 @@ describe('BuyProvider', () => {
     expect(onStatusMock).toHaveBeenCalled();
   });
 
-  it('should emit onSuccess when setLifecycleStatus is called with success', async () => {
-    const onSuccessMock = vi.fn();
-    renderWithProviders({
-      Component: TestSwapComponent,
-      onSuccess: onSuccessMock,
+  it('should track BuySuccess event on successful swap', async () => {
+    const mockSendAnalytics = vi.fn();
+    (useAnalytics as Mock).mockReturnValue({
+      sendAnalytics: mockSendAnalytics,
     });
-    const button = screen.getByText('setLifecycleStatus.success');
-    fireEvent.click(button);
-    expect(onSuccessMock).toHaveBeenCalled();
+
+    const { result } = renderHook(() => useBuyContext(), { wrapper });
+
+    await act(async () => {
+      result.current.updateLifecycleStatus({
+        statusName: 'transactionApproved',
+        statusData: {
+          transactionHash: '0x123',
+          transactionType: 'ERC20',
+        },
+      });
+
+      result.current.updateLifecycleStatus({
+        statusName: 'success',
+        statusData: {
+          transactionReceipt: mockTransactionReceipt,
+        },
+      } as unknown as LifecycleStatus);
+    });
+
+    expect(mockSendAnalytics).toHaveBeenCalledWith(BuyEvent.BuySuccess, {
+      address: '0x123',
+      amount: 0,
+      from: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
+      paymaster: false,
+      to: '0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed',
+      transactionHash: '0x123',
+    });
   });
 
   it('should reset status to init when setLifecycleStatus is called with success', async () => {
@@ -677,13 +729,13 @@ describe('BuyProvider', () => {
   it('should pass the correct slippage to getBuyQuote', async () => {
     const TestComponent = () => {
       const { handleAmountChange } = useBuyContext();
-      // biome-ignore lint: hello
+
       React.useEffect(() => {
         const initializeSwap = () => {
           handleAmountChange('5');
         };
         initializeSwap();
-      }, []);
+      }, [handleAmountChange]);
       return null;
     };
     await act(async () => {
@@ -722,13 +774,13 @@ describe('BuyProvider', () => {
   it('should handle undefined in input', async () => {
     const TestComponent = () => {
       const { handleAmountChange } = useBuyContext();
-      // biome-ignore lint: hello
+
       React.useEffect(() => {
         const initializeSwap = () => {
           handleAmountChange('100');
         };
         initializeSwap();
-      }, []);
+      }, [handleAmountChange]);
       return null;
     };
     await act(async () => {
@@ -920,5 +972,92 @@ describe('BuyProvider', () => {
     if (result.current.statusName === 'init') {
       expect(result.current.statusData.maxSlippage).toBe(3);
     }
+  });
+
+  describe('analytics', () => {
+    let mockSendAnalytics: Mock;
+
+    beforeEach(() => {
+      mockSendAnalytics = vi.fn();
+      (useAnalytics as Mock).mockReturnValue({
+        sendAnalytics: mockSendAnalytics,
+      });
+
+      (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
+        address: '0x123',
+      });
+      (useChainId as ReturnType<typeof vi.fn>).mockReturnValue(8453);
+      (useBuyTokens as Mock).mockReturnValue({
+        from: mockFromDai,
+        to: mockToDegen,
+        fromETH: { ...mockFromEth, amount: '50' },
+        fromUSDC: mockFromUsdc,
+      });
+    });
+
+    it('should track BuyInitiated event when getting quote', async () => {
+      const { result } = renderHook(() => useBuyContext(), { wrapper });
+
+      await act(async () => {
+        result.current.handleAmountChange('10');
+      });
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyInitiated, {
+        amount: 10,
+        token: degenToken.symbol,
+      });
+    });
+
+    it('should track BuyOptionSelected event when submitting swap', async () => {
+      renderWithProviders({ Component: TestSwapComponent });
+
+      await act(async () => {
+        fireEvent.click(screen.getByText('Swap'));
+      });
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        BuyEvent.BuyOptionSelected,
+        {
+          option: ethToken.symbol,
+        },
+      );
+    });
+
+    it('should track BuyFailure event when swap fails', async () => {
+      const mockError = new Error('Test error');
+      vi.mocked(buildSwapTransaction).mockRejectedValueOnce(mockError);
+
+      renderWithProviders({ Component: TestSwapComponent });
+
+      await act(async () => {
+        fireEvent.click(screen.getByText('Swap'));
+      });
+
+      await waitFor(() => {
+        expect(mockSendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyFailure, {
+          error: mockError.message,
+          metadata: {
+            token: ethToken.symbol,
+            amount: '50',
+          },
+        });
+      });
+    });
+
+    it('should track BuyFailure event when quote fails', async () => {
+      const mockError = new Error('Quote error');
+      vi.mocked(getBuyQuote).mockRejectedValueOnce(mockError);
+
+      const { result } = renderHook(() => useBuyContext(), { wrapper });
+
+      await act(async () => {
+        result.current.handleAmountChange('10');
+      });
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyFailure, {
+        error: mockError.message,
+        metadata: { amount: '10' },
+      });
+    });
   });
 });

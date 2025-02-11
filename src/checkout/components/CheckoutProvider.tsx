@@ -243,7 +243,6 @@ export function CheckoutProvider({
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component to deprecate funding flow
   const handleSubmit = useCallback(async () => {
     try {
-      // Track initiation when user clicks checkout button
       handleAnalyticsInitiated(Number(priceInUSDCRef.current || 0));
 
       // Open Coinbase Commerce receipt
@@ -348,7 +347,6 @@ export function CheckoutProvider({
           : undefined,
       });
 
-      // On success
       if (receipt?.status === 'success') {
         handleAnalyticsSuccess(
           connectedAddress,
@@ -357,7 +355,6 @@ export function CheckoutProvider({
         );
       }
     } catch (error) {
-      // Track failure
       handleAnalyticsFailure(
         error instanceof Error ? error.message : 'Unknown error',
         { error: JSON.stringify(error) },
@@ -406,6 +403,7 @@ export function CheckoutProvider({
     handleAnalyticsInitiated,
     handleAnalyticsSuccess,
     handleAnalyticsFailure,
+    receipt,
   ]);
 
   const value = useValue({

@@ -114,7 +114,49 @@ export function BuyProvider({
   // Analytics
   const { sendAnalytics } = useAnalytics();
 
-  // Component lifecycle emitters
+  const handleAnalyticsInitiated = useCallback(
+    (amount: number, tokenSymbol: string) => {
+      sendAnalytics(BuyEvent.BuyInitiated, {
+        amount,
+        token: tokenSymbol,
+      });
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsOptionSelected = useCallback(
+    (option: BuyOption) => {
+      sendAnalytics(BuyEvent.BuyOptionSelected, {
+        option,
+      });
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsSuccess = useCallback(
+    (params: {
+      address: string;
+      amount: number;
+      from: string;
+      paymaster: boolean;
+      to: string;
+      transactionHash: string;
+    }) => {
+      sendAnalytics(BuyEvent.BuySuccess, params);
+    },
+    [sendAnalytics],
+  );
+
+  const handleAnalyticsFailure = useCallback(
+    (error: string, metadata: Record<string, unknown>) => {
+      sendAnalytics(BuyEvent.BuyFailure, {
+        error,
+        metadata,
+      });
+    },
+    [sendAnalytics],
+  );
+
   useEffect(() => {
     // Error
     if (lifecycleStatus.statusName === 'error') {
@@ -127,6 +169,16 @@ export function BuyProvider({
         lifecycleStatus.statusData.transactionReceipt?.transactionHash,
       );
       setHasHandledSuccess(true);
+
+      handleAnalyticsSuccess({
+        address: address || '',
+        amount: Number(from?.amount || 0),
+        from: from?.token?.address || '',
+        paymaster: !!paymaster,
+        to: to?.token?.address || '',
+        transactionHash:
+          lifecycleStatus.statusData.transactionReceipt?.transactionHash || '',
+      });
     }
     // Emit Status
     onStatus?.(lifecycleStatus);
@@ -135,8 +187,13 @@ export function BuyProvider({
     onStatus,
     onSuccess,
     lifecycleStatus,
-    lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
-    lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
+    lifecycleStatus.statusData,
+    lifecycleStatus.statusName,
+    from,
+    to,
+    address,
+    paymaster,
+    handleAnalyticsSuccess,
   ]);
 
   useEffect(() => {
@@ -200,54 +257,6 @@ export function BuyProvider({
     updateLifecycleStatus,
   ]);
 
-  // Analytics handlers
-  const handleAnalyticsInitiated = useCallback(
-    (amount: number, tokenSymbol: string) => {
-      console.log('🔍 Buy Initiated:', { amount, token: tokenSymbol });
-      sendAnalytics(BuyEvent.BuyInitiated, {
-        amount,
-        token: tokenSymbol,
-      });
-    },
-    [sendAnalytics],
-  );
-
-  const handleAnalyticsOptionSelected = useCallback(
-    (option: BuyOption) => {
-      console.log('🔍 Buy Option Selected:', { option });
-      sendAnalytics(BuyEvent.BuyOptionSelected, {
-        option,
-      });
-    },
-    [sendAnalytics],
-  );
-
-  const handleAnalyticsSuccess = useCallback(
-    (params: {
-      address: string;
-      amount: number;
-      from: string;
-      paymaster: boolean;
-      to: string;
-      transactionHash: string;
-    }) => {
-      console.log('🔍 Buy Success:', params);
-      sendAnalytics(BuyEvent.BuySuccess, params);
-    },
-    [sendAnalytics],
-  );
-
-  const handleAnalyticsFailure = useCallback(
-    (error: string, metadata: Record<string, any>) => {
-      console.log('🔍 Buy Failure:', { error, metadata });
-      sendAnalytics(BuyEvent.BuyFailure, {
-        error,
-        metadata,
-      });
-    },
-    [sendAnalytics],
-  );
-
   const handleAmountChange = useCallback(
     async (
       amount: string,
@@ -304,7 +313,6 @@ export function BuyProvider({
       });
 
       try {
-        // Track buy initiated event using new handler
         handleAnalyticsInitiated(Number(amount), to?.token?.symbol || '');
 
         const maxSlippage = lifecycleStatus.statusData.maxSlippage;
@@ -374,7 +382,6 @@ export function BuyProvider({
           },
         });
       } catch (err) {
-        // Track buy failure using new handler
         handleAnalyticsFailure(
           err instanceof Error ? err.message : String(err),
           { amount },
@@ -414,7 +421,6 @@ export function BuyProvider({
         return;
       }
 
-      // Track buy option selected using new handler
       handleAnalyticsOptionSelected(from.token.symbol as BuyOption);
 
       try {
@@ -454,20 +460,7 @@ export function BuyProvider({
           useAggregator,
           walletCapabilities,
         });
-
-        // Track buy success using new handler
-        if (lifecycleStatus.statusName === 'success') {
-          handleAnalyticsSuccess({
-            address: address || '',
-            amount: Number(from.amount),
-            from: from.token.address,
-            paymaster: !!paymaster,
-            to: toToken.address,
-            transactionHash: transactionHash || '',
-          });
-        }
       } catch (err) {
-        // Track buy failure using new handler
         handleAnalyticsFailure(
           err instanceof Error ? err.message : String(err),
           {
@@ -502,9 +495,7 @@ export function BuyProvider({
       updateLifecycleStatus,
       useAggregator,
       walletCapabilities,
-      transactionHash,
       handleAnalyticsOptionSelected,
-      handleAnalyticsSuccess,
       handleAnalyticsFailure,
     ],
   );

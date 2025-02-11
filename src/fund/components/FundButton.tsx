@@ -53,7 +53,6 @@ export function FundButton({
   const { sendAnalytics } = useAnalytics();
 
   const handleAnalyticsInitiated = useCallback(() => {
-    console.log('Fund Initiated:', { fiatCurrency });
     sendAnalytics(FundEvent.FundInitiated, {
       currency: fiatCurrency,
     });
@@ -61,7 +60,6 @@ export function FundButton({
 
   const handleAnalyticsFailure = useCallback(
     (error: string) => {
-      console.log('Fund Failed:', { error, fiatCurrency });
       sendAnalytics(FundEvent.FundFailure, {
         error,
         metadata: { currency: fiatCurrency },

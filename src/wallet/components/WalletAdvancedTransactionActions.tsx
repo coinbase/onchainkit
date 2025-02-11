@@ -42,7 +42,6 @@ export function WalletAdvancedTransactionActions({
 
   const handleAnalyticsOptionSelected = useCallback(
     (option: WalletOption) => {
-      console.log('🔍 Analytics - Transaction Option Selected:', { option });
       sendAnalytics(WalletEvent.OptionSelected, {
         option,
       });
@@ -51,11 +50,11 @@ export function WalletAdvancedTransactionActions({
   );
 
   const handleBuy = useCallback(() => {
+    handleAnalyticsOptionSelected(WalletOption.Buy);
+
     if (!projectId || !address || !chain?.name) {
       return;
     }
-
-    handleAnalyticsOptionSelected(WalletOption.Buy);
 
     const url = new URL('https://pay.coinbase.com/buy/select-asset');
     const params = new URLSearchParams({

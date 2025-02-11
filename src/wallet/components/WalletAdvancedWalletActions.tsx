@@ -34,7 +34,6 @@ export function WalletAdvancedWalletActions({
 
   const handleAnalyticsOptionSelected = useCallback(
     (option: WalletOption) => {
-      console.log('🔍 Analytics - Option Selected:', { option });
       sendAnalytics(WalletEvent.OptionSelected, {
         option,
       });
@@ -44,10 +43,6 @@ export function WalletAdvancedWalletActions({
 
   const handleAnalyticsDisconnect = useCallback(
     (walletProvider: string) => {
-      console.log('🔍 Analytics - Disconnect:', {
-        walletProvider,
-        component: 'WalletAdvanced',
-      });
       sendAnalytics(WalletEvent.Disconnect, {
         component: 'WalletAdvanced',
         walletProvider,

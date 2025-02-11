@@ -69,11 +69,6 @@ export function NFTMintButton({
 
   const handleAnalyticsInitiated = useCallback(
     (contractAddress: string, tokenId: string, quantity: number) => {
-      console.log('Mint Initiated Analytics:', {
-        contractAddress,
-        tokenId,
-        quantity,
-      });
       sendAnalytics(MintEvent.MintInitiated, {
         contractAddress,
         tokenId,
@@ -91,13 +86,6 @@ export function NFTMintButton({
       quantity: number,
       isSponsored: boolean,
     ) => {
-      console.log('Mint Success Analytics:', {
-        contractAddress,
-        tokenId,
-        address,
-        amountMinted: quantity,
-        isSponsored,
-      });
       sendAnalytics(MintEvent.MintSuccess, {
         contractAddress,
         tokenId,
@@ -111,10 +99,6 @@ export function NFTMintButton({
 
   const handleAnalyticsError = useCallback(
     (error: string, metadata?: Record<string, unknown>) => {
-      console.log('Mint Error Analytics:', {
-        error,
-        metadata,
-      });
       sendAnalytics(MintEvent.MintFailure, {
         error,
         metadata,
@@ -125,10 +109,6 @@ export function NFTMintButton({
 
   const handleAnalyticsQuantityChanged = useCallback(
     (newQuantity: number, previousQuantity: number) => {
-      console.log('Mint Quantity Changed Analytics:', {
-        quantity: newQuantity,
-        previousQuantity,
-      });
       sendAnalytics(MintEvent.MintQuantityChanged, {
         quantity: newQuantity,
         previousQuantity,
@@ -186,6 +166,7 @@ export function NFTMintButton({
   }, [fetchTransactions]);
 
   const handleOnStatus = useCallback(
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
     (transactionStatus: TransactionLifecycleStatus) => {
       if (transactionStatus.statusName === 'transactionPending') {
         updateLifecycleStatus({ statusName: 'transactionPending' });

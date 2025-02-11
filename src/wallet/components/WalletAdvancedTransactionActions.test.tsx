@@ -1,3 +1,5 @@
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { WalletEvent, WalletOption } from '@/core/analytics/types';
 import { useOnchainKit } from '@/useOnchainKit';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -20,6 +22,12 @@ vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
 }));
 
+vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: vi.fn(() => ({
+    sendAnalytics: vi.fn(),
+  })),
+}));
+
 describe('WalletAdvancedTransactionActons', () => {
   const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
@@ -40,6 +48,8 @@ describe('WalletAdvancedTransactionActons', () => {
   const mockAddress = '0x123';
   const mockChain = { name: 'Base' };
 
+  const mockSendAnalytics = vi.fn();
+
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(window, 'open').mockImplementation(() => null);
@@ -53,6 +63,10 @@ describe('WalletAdvancedTransactionActons', () => {
     mockUseWalletContext.mockReturnValue({
       address: mockAddress,
       chain: mockChain,
+    });
+
+    (useAnalytics as ReturnType<typeof vi.fn>).mockReturnValue({
+      sendAnalytics: mockSendAnalytics,
     });
   });
 
@@ -100,7 +114,6 @@ describe('WalletAdvancedTransactionActons', () => {
   });
 
   it('opens the buy page when the buy button is clicked and projectId, address or chain.name are not defined', () => {
-    // projectId is not defined
     mockUseOnchainKit.mockReturnValue({
       projectId: null,
     });
@@ -109,7 +122,6 @@ describe('WalletAdvancedTransactionActons', () => {
     fireEvent.click(buyButton);
     expect(window.open).not.toHaveBeenCalled();
 
-    // address is not defined
     mockUseOnchainKit.mockReturnValue({
       projectId: mockProjectId,
     });
@@ -121,7 +133,6 @@ describe('WalletAdvancedTransactionActons', () => {
     fireEvent.click(buyButton);
     expect(window.open).not.toHaveBeenCalled();
 
-    // chain.name is not defined
     mockUseWalletContext.mockReturnValue({
       address: mockAddress,
       chain: null,
@@ -195,13 +206,11 @@ describe('WalletAdvancedTransactionActons', () => {
 
     render(<WalletAdvancedTransactionActions classNames={customClassNames} />);
 
-    // Check main container
     const container = screen.getByTestId(
       'ockWalletAdvanced_TransactionActions',
     );
     expect(container.className).toContain('custom-container');
 
-    // Check Buy button (left action)
     const buyButton = screen.getByRole('button', { name: 'Buy' });
     expect(buyButton.className).toContain('custom-left-button');
     expect(buyButton.querySelector('span:first-child')?.className).toContain(
@@ -211,7 +220,6 @@ describe('WalletAdvancedTransactionActons', () => {
       'custom-left-label',
     );
 
-    // Check Send button (middle action)
     const sendButton = screen.getByRole('button', { name: 'Send' });
     expect(sendButton.className).toContain('custom-middle-button');
     expect(sendButton.querySelector('span:first-child')?.className).toContain(
@@ -221,7 +229,6 @@ describe('WalletAdvancedTransactionActons', () => {
       'custom-middle-label',
     );
 
-    // Check Swap button (right action)
     const swapButton = screen.getByRole('button', { name: 'Swap' });
     expect(swapButton.className).toContain('custom-right-button');
     expect(swapButton.querySelector('span:first-child')?.className).toContain(
@@ -230,5 +237,124 @@ describe('WalletAdvancedTransactionActons', () => {
     expect(swapButton.querySelector('span:last-child')?.className).toContain(
       'custom-right-label',
     );
+  });
+
+  describe('analytics', () => {
+    it('sends analytics when buy button is clicked', () => {
+      render(<WalletAdvancedTransactionActions />);
+
+      const buyButton = screen.getByRole('button', { name: 'Buy' });
+      fireEvent.click(buyButton);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        WalletEvent.OptionSelected,
+        {
+          option: WalletOption.Buy,
+        },
+      );
+    });
+
+    it('sends analytics when send button is clicked', () => {
+      render(<WalletAdvancedTransactionActions />);
+
+      const sendButton = screen.getByRole('button', { name: 'Send' });
+      fireEvent.click(sendButton);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        WalletEvent.OptionSelected,
+        {
+          option: WalletOption.Send,
+        },
+      );
+    });
+
+    it('sends analytics when swap button is clicked', () => {
+      render(<WalletAdvancedTransactionActions />);
+
+      const swapButton = screen.getByRole('button', { name: 'Swap' });
+      fireEvent.click(swapButton);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        WalletEvent.OptionSelected,
+        {
+          option: WalletOption.Swap,
+        },
+      );
+    });
+
+    it('sends analytics for buy action only when required parameters are present', () => {
+      mockUseOnchainKit.mockReturnValue({
+        projectId: null,
+      });
+
+      const { rerender } = render(<WalletAdvancedTransactionActions />);
+      const buyButton = screen.getByRole('button', { name: 'Buy' });
+
+      fireEvent.click(buyButton);
+      expect(mockSendAnalytics).toHaveBeenCalledTimes(1);
+      expect(window.open).not.toHaveBeenCalled();
+
+      mockUseOnchainKit.mockReturnValue({
+        projectId: mockProjectId,
+      });
+      mockUseWalletContext.mockReturnValue({
+        address: mockAddress,
+        chain: mockChain,
+      });
+
+      rerender(<WalletAdvancedTransactionActions />);
+      fireEvent.click(buyButton);
+
+      expect(mockSendAnalytics).toHaveBeenCalledTimes(2);
+      expect(window.open).toHaveBeenCalled();
+    });
+
+    it('does not send duplicate analytics events on multiple clicks', () => {
+      render(<WalletAdvancedTransactionActions />);
+
+      const buyButton = screen.getByRole('button', { name: 'Buy' });
+      fireEvent.click(buyButton);
+      fireEvent.click(buyButton);
+
+      const sendButton = screen.getByRole('button', { name: 'Send' });
+      fireEvent.click(sendButton);
+      fireEvent.click(sendButton);
+
+      const swapButton = screen.getByRole('button', { name: 'Swap' });
+      fireEvent.click(swapButton);
+      fireEvent.click(swapButton);
+
+      expect(mockSendAnalytics).toHaveBeenCalledTimes(6);
+      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+        1,
+        WalletEvent.OptionSelected,
+        { option: WalletOption.Buy },
+      );
+      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+        2,
+        WalletEvent.OptionSelected,
+        { option: WalletOption.Buy },
+      );
+      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+        3,
+        WalletEvent.OptionSelected,
+        { option: WalletOption.Send },
+      );
+      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+        4,
+        WalletEvent.OptionSelected,
+        { option: WalletOption.Send },
+      );
+      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+        5,
+        WalletEvent.OptionSelected,
+        { option: WalletOption.Swap },
+      );
+      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+        6,
+        WalletEvent.OptionSelected,
+        { option: WalletOption.Swap },
+      );
+    });
   });
 });
