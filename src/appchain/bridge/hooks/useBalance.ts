@@ -47,7 +47,7 @@ export const useBalance = ({ address, token, chainId }: UseBalanceProps) => {
       setBalance(_balance);
     };
 
-    void fetchBalance();
+    fetchBalance();
   }, [address, token, chainId, wagmiConfig]);
 
   return balance;
