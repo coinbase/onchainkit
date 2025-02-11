@@ -8,25 +8,25 @@ import { useEarnContext } from './EarnProvider';
 
 export function WithdrawBalance({ className }: WithdrawBalanceReact) {
   const {
-    receiptBalance,
-    receiptBalanceStatus: status,
+    depositedBalance,
+    depositedBalanceStatus: status,
     setWithdrawAmount,
     vaultToken,
   } = useEarnContext();
   const { address } = useAccount();
 
   const handleMaxPress = useCallback(() => {
-    if (receiptBalance) {
-      setWithdrawAmount(receiptBalance);
+    if (depositedBalance) {
+      setWithdrawAmount(depositedBalance);
     }
-  }, [receiptBalance, setWithdrawAmount]);
+  }, [depositedBalance, setWithdrawAmount]);
 
   const balance = useMemo(() => {
-    if (!receiptBalance) {
+    if (!depositedBalance) {
       return '0';
     }
-    return getTruncatedAmount(receiptBalance.toString(), 4);
-  }, [receiptBalance]);
+    return getTruncatedAmount(depositedBalance.toString(), 4);
+  }, [depositedBalance]);
 
   const title = useMemo(() => {
     if (!address) {

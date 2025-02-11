@@ -5,15 +5,16 @@ import { EarnDeposit } from './EarnDeposit';
 import { EarnProvider } from './EarnProvider';
 import { useEarnContext } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
+
 function EarnDefaultContent() {
-  const { refetchUnderlyingBalance, refetchReceiptBalance } = useEarnContext();
+  const { refetchWalletBalance, refetchDepositedBalance } = useEarnContext();
   return (
     <Tabs defaultValue="deposit">
       <TabsList>
-        <Tab value="deposit" onClick={refetchUnderlyingBalance}>
+        <Tab value="deposit" onClick={refetchWalletBalance}>
           Deposit
         </Tab>
-        <Tab value="withdraw" onClick={refetchReceiptBalance}>
+        <Tab value="withdraw" onClick={refetchDepositedBalance}>
           Withdraw
         </Tab>
       </TabsList>

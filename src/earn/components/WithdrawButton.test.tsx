@@ -1,6 +1,6 @@
+import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
 import type { EarnContextType } from '@/earn/types';
 import type { MakeRequired } from '@/internal/types';
-import { usdcToken } from '@/token/constants';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
@@ -11,32 +11,8 @@ import { WithdrawButton } from './WithdrawButton';
 
 // Address required to avoid connect wallet prompt
 const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
+  ...MOCK_EARN_CONTEXT,
   recipientAddress: '0x123' as Address,
-  underlyingBalance: '1000',
-  underlyingBalanceStatus: 'success',
-  setDepositAmount: vi.fn(),
-  vaultAddress: '0x123' as Address,
-  depositAmount: '0',
-  receiptBalance: '0',
-  receiptBalanceStatus: 'success',
-  withdrawAmount: '0',
-  setWithdrawAmount: vi.fn(),
-  depositCalls: [],
-  withdrawCalls: [],
-  vaultToken: usdcToken,
-  lifecycleStatus: { statusName: 'init', statusData: null },
-  updateLifecycleStatus: vi.fn(),
-  refetchUnderlyingBalance: vi.fn(),
-  refetchReceiptBalance: vi.fn(),
-  withdrawAmountError: null,
-  depositAmountError: null,
-  apy: 0,
-  nativeApy: 0,
-  vaultFee: 0,
-  rewards: [],
-  vaultName: 'Test Vault',
-  deposits: '1000',
-  liquidity: '1000',
 };
 
 vi.mock('./EarnProvider', () => ({

@@ -12,22 +12,22 @@ export function DepositBalance({ className }: DepositBalanceReact) {
   const {
     setDepositAmount,
     vaultToken,
-    underlyingBalance,
-    underlyingBalanceStatus: status,
+    walletBalance,
+    walletBalanceStatus: status,
   } = useEarnContext();
 
   const handleMaxPress = useCallback(() => {
-    if (underlyingBalance) {
-      setDepositAmount(underlyingBalance);
+    if (walletBalance) {
+      setDepositAmount(walletBalance);
     }
-  }, [underlyingBalance, setDepositAmount]);
+  }, [walletBalance, setDepositAmount]);
 
   const balance = useMemo(() => {
-    if (!underlyingBalance) {
+    if (!walletBalance) {
       return '0';
     }
-    return getTruncatedAmount(underlyingBalance.toString(), 6);
-  }, [underlyingBalance]);
+    return getTruncatedAmount(walletBalance.toString(), 6);
+  }, [walletBalance]);
 
   const title = useMemo(() => {
     if (!address) {
@@ -65,7 +65,7 @@ export function DepositBalance({ className }: DepositBalanceReact) {
       title={title}
       subtitle={subtitle}
       onActionPress={handleMaxPress}
-      showAction={!!underlyingBalance}
+      showAction={!!walletBalance}
     />
   );
 }

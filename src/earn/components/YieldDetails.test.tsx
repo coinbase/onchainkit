@@ -1,38 +1,8 @@
-import type { EarnContextType } from '@/earn/types';
-import { usdcToken } from '@/token/constants';
+import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
 import { fireEvent, render, screen } from '@testing-library/react';
-import type { Address } from 'viem';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useEarnContext } from './EarnProvider';
 import { YieldDetails } from './YieldDetails';
-
-const baseContext: EarnContextType = {
-  underlyingBalance: '1000',
-  underlyingBalanceStatus: 'success',
-  setDepositAmount: vi.fn(),
-  vaultAddress: '0x123' as Address,
-  depositAmount: '0',
-  receiptBalance: '0',
-  receiptBalanceStatus: 'success',
-  setWithdrawAmount: vi.fn(),
-  depositCalls: [],
-  withdrawCalls: [],
-  vaultToken: usdcToken,
-  lifecycleStatus: { statusName: 'init', statusData: null },
-  updateLifecycleStatus: vi.fn(),
-  withdrawAmount: '0',
-  refetchUnderlyingBalance: vi.fn(),
-  refetchReceiptBalance: vi.fn(),
-  depositAmountError: null,
-  withdrawAmountError: null,
-  apy: 0.05,
-  nativeApy: 0.05,
-  vaultFee: 0.01,
-  rewards: [{ asset: '0x456', assetName: 'REWARD', apy: 0.02 }],
-  vaultName: 'Vault Name',
-  deposits: '1000',
-  liquidity: '1000',
-};
 
 vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),
@@ -46,16 +16,28 @@ describe('YieldDetails', () => {
   const mockUseEarnContext = useEarnContext as Mock;
 
   beforeEach(() => {
-    mockUseEarnContext.mockReturnValue(baseContext);
+    mockUseEarnContext.mockReturnValue({
+      ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+      nativeApy: '0.05',
+    });
   });
 
   it('shows loading skeleton when apy is not available', () => {
-    mockUseEarnContext.mockReturnValue({ ...baseContext, apy: undefined });
+    mockUseEarnContext.mockReturnValue({
+      ...MOCK_EARN_CONTEXT,
+      apy: undefined,
+    });
     render(<YieldDetails />);
     expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
   });
 
   it('displays APY with correct formatting', () => {
+    mockUseEarnContext.mockReturnValue({
+      ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+    });
+
     render(<YieldDetails />);
     expect(screen.getByTestId('ock-yieldDetails')).toHaveTextContent(
       'APY 5.00%',
@@ -75,16 +57,30 @@ describe('YieldDetails', () => {
   });
 
   it('displays rewards in popover', () => {
+    mockUseEarnContext.mockReturnValue({
+      ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+      nativeApy: '0.05',
+      rewards: [
+        {
+          asset: '0x1',
+          assetName: 'Reward 1',
+          apy: '0.05',
+        },
+      ],
+    });
     render(<YieldDetails />);
     fireEvent.click(screen.getByTestId('ock-apyInfoButton'));
     expect(screen.getByTestId('ock-earnRewards')).toHaveTextContent(
-      'REWARD2.00%',
+      'Reward 15.00%',
     );
   });
 
   it('handles empty rewards array', () => {
     mockUseEarnContext.mockReturnValue({
-      ...baseContext,
+      ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+      nativeApy: '0.05',
       rewards: [],
     });
     render(<YieldDetails />);
@@ -94,7 +90,9 @@ describe('YieldDetails', () => {
 
   it('handles null rewards', () => {
     mockUseEarnContext.mockReturnValue({
-      ...baseContext,
+      ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+      nativeApy: '0.05',
       rewards: null,
     });
     render(<YieldDetails />);
@@ -103,6 +101,12 @@ describe('YieldDetails', () => {
   });
 
   it('displays performance fee in popover', () => {
+    mockUseEarnContext.mockReturnValue({
+      ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+      nativeApy: '0.05',
+      vaultFee: '0.01',
+    });
     render(<YieldDetails />);
     fireEvent.click(screen.getByTestId('ock-apyInfoButton'));
     expect(screen.getByTestId('ock-earnPerformanceFee')).toHaveTextContent(
@@ -129,7 +133,8 @@ describe('YieldDetails', () => {
 
   it('handles missing native APY gracefully', () => {
     mockUseEarnContext.mockReturnValue({
-      ...baseContext,
+      ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
       nativeApy: undefined,
     });
     render(<YieldDetails />);
@@ -140,7 +145,9 @@ describe('YieldDetails', () => {
 
   it('handles cases where vault fees are falsey', () => {
     mockUseEarnContext.mockReturnValue({
-      ...baseContext,
+      ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+      nativeApy: '0.05',
       vaultFee: undefined,
     });
     render(<YieldDetails />);

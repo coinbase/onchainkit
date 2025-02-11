@@ -60,11 +60,13 @@ describe('useMorphoVault', () => {
 
     expect(result.current).toEqual({
       status: 'pending',
-      asset: undefined,
-      assetDecimals: undefined,
-      assetSymbol: undefined,
+      asset: {
+        address: undefined,
+        symbol: undefined,
+        decimals: undefined,
+      },
       vaultDecimals: undefined,
-      name: undefined,
+      vaultName: undefined,
       balance: undefined,
       balanceStatus: undefined,
       totalApy: undefined,
@@ -129,11 +131,13 @@ describe('useMorphoVault', () => {
     await vi.waitFor(() => {
       expect(result.current).toMatchObject({
         status: 'success',
-        asset: DUMMY_ADDRESS,
-        assetSymbol: 'DUMMY',
-        assetDecimals: 18,
+        asset: {
+          address: DUMMY_ADDRESS,
+          symbol: 'DUMMY',
+          decimals: 18,
+        },
         vaultDecimals: 18,
-        name: 'Morpho Vault',
+        vaultName: 'Morpho Vault',
         balance: '1',
         totalApy: 0.05,
         nativeApy: 0.03,
@@ -196,11 +200,12 @@ describe('useMorphoVault', () => {
       },
       symbol: 'DUMMY',
       liquidity: {
-        underlying: '100000',
+        underlying: '100000000000000000000000',
       },
       state: {
         netApy: 0.05,
         netApyWithoutRewards: 0.03,
+        totalAssets: '100000000000000000000000',
         rewards: [
           {
             asset: {
@@ -220,14 +225,21 @@ describe('useMorphoVault', () => {
     await vi.waitFor(() => {
       expect(result.current).toMatchObject({
         status: 'success',
-        asset: DUMMY_ADDRESS,
-        assetSymbol: 'DUMMY',
-        assetDecimals: 18,
+        asset: {
+          address: DUMMY_ADDRESS,
+          symbol: 'DUMMY',
+          decimals: 18,
+        },
         vaultDecimals: 18,
-        name: 'Morpho Vault',
+        vaultName: 'Morpho Vault',
         balance: '1',
+        balanceStatus: undefined,
+        refetchBalance: undefined,
+        liquidity: '100000',
+        deposits: '100000',
         totalApy: 0.05,
         nativeApy: 0.03,
+        vaultFee: undefined,
         rewards: [
           {
             asset: MORPHO_TOKEN_BASE_ADDRESS,
@@ -296,6 +308,11 @@ describe('useMorphoVault', () => {
         netApy: 0.05,
         netApyWithoutRewards: 0.03,
         rewards: [],
+      },
+      asset: {
+        decimals: 18,
+        symbol: 'DUMMY',
+        address: DUMMY_ADDRESS,
       },
       liquidity: {
         underlying: '100000',

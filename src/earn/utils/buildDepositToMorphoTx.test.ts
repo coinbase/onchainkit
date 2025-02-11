@@ -12,7 +12,7 @@ describe('buildDepositToMorphoTx', () => {
     vaultAddress: '0xd63070114470f685b75B74D60EEc7c1113d33a3D',
     tokenAddress: usdcToken.address as Address,
     amount: parseUnits('1000', usdcToken.decimals),
-    receiverAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
+    recipientAddress: '0x9E95f497a7663B70404496dB6481c890C4825fe1',
   } satisfies DepositToMorphoParams;
 
   it('should return an array with two transactions', () => {
@@ -54,7 +54,7 @@ describe('buildDepositToMorphoTx', () => {
     const expectedDepositData = encodeFunctionData({
       abi: MORPHO_VAULT_ABI,
       functionName: 'deposit',
-      args: [expectedAmount, mockArgs.receiverAddress],
+      args: [expectedAmount, mockArgs.recipientAddress],
     });
 
     expect(result[1]).toEqual({
@@ -86,7 +86,7 @@ describe('buildDepositToMorphoTx', () => {
       encodeFunctionData({
         abi: MORPHO_VAULT_ABI,
         functionName: 'deposit',
-        args: [expectedAmount, mockArgs.receiverAddress],
+        args: [expectedAmount, mockArgs.recipientAddress],
       }),
     ).toBe(result[1].data);
   });

@@ -19,13 +19,13 @@ export type EarnProviderReact = {
 
 export type EarnContextType = {
   recipientAddress?: Address;
-  /** Balance of the asset in the vault, converted to the asset's decimals */
-  underlyingBalance?: string;
-  /** Status of the underlying balance */
-  underlyingBalanceStatus: 'pending' | 'success' | 'error';
-  refetchUnderlyingBalance: () => void;
+  /** Balance of the underlying asset in the user's wallet, converted to the asset's decimals */
+  walletBalance?: string;
+  /** Status of the wallet balance fetch */
+  walletBalanceStatus: 'pending' | 'success' | 'error';
+  refetchWalletBalance: () => void;
   vaultAddress: Address;
-  /** The token that is being deposited or withdrawn */
+  /** The token that is being deposited or withdrawn (the underlying asset of the vault) */
   vaultToken: Token | undefined;
   vaultName: string | undefined;
   /** Total deposits in the vault */
@@ -38,11 +38,11 @@ export type EarnContextType = {
   vaultFee: UseMorphoVaultReturnType['vaultFee'];
   /** Rewards earned by the user in the vault */
   rewards: UseMorphoVaultReturnType['rewards'];
-  /** The amount that has been deposited in the vault by the connected user */
-  receiptBalance?: string;
-  /** Whether the receipt balance is being fetched */
-  receiptBalanceStatus: 'pending' | 'success' | 'error';
-  refetchReceiptBalance: () => void;
+  /** The amount of underlying asset that has been deposited in the vault by the connected user */
+  depositedBalance?: string;
+  /** Whether the deposited balance is being fetched */
+  depositedBalanceStatus: 'pending' | 'success' | 'error';
+  refetchDepositedBalance: () => void;
   /** Interest earned by the user in the vault */
   interestEarned?: string;
   /** Amount that the user has typed into the deposit amount input */

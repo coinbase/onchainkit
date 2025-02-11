@@ -1,38 +1,9 @@
-import type { EarnContextType } from '@/earn/types';
-import { usdcToken } from '@/token/constants';
+import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { useEarnContext } from './EarnProvider';
 import { VaultDetails } from './VaultDetails';
-
-const baseContext: EarnContextType = {
-  vaultToken: usdcToken,
-  vaultName: 'Test Vault',
-  deposits: '10000', // 1 TOKEN in wei
-  liquidity: '2000', // 2 TOKEN in wei
-  vaultAddress: '0x1234567890123456789012345678901234567890',
-  underlyingBalance: '1000000000000000000', // 1 TOKEN in wei
-  underlyingBalanceStatus: 'success',
-  refetchUnderlyingBalance: vi.fn(),
-  apy: 0.05,
-  nativeApy: 0.05,
-  vaultFee: 0.01,
-  rewards: [],
-  receiptBalance: '0',
-  receiptBalanceStatus: 'success',
-  setDepositAmount: vi.fn(),
-  depositAmount: '0',
-  withdrawAmount: '0',
-  setWithdrawAmount: vi.fn(),
-  depositCalls: [],
-  withdrawCalls: [],
-  lifecycleStatus: { statusName: 'init', statusData: null },
-  updateLifecycleStatus: vi.fn(),
-  depositAmountError: null,
-  withdrawAmountError: null,
-  refetchReceiptBalance: vi.fn(),
-};
 
 // Mock the context hook
 vi.mock('./EarnProvider', () => ({
@@ -46,12 +17,12 @@ vi.mock('@/internal/hooks/useTheme', () => ({
 describe('VaultDetails', () => {
   beforeEach(() => {
     // Reset mock before each test
-    vi.mocked(useEarnContext).mockReturnValue(baseContext);
+    vi.mocked(useEarnContext).mockReturnValue(MOCK_EARN_CONTEXT);
   });
 
   it('renders skeleton when vault data is not available', () => {
     vi.mocked(useEarnContext).mockReturnValue({
-      ...baseContext,
+      ...MOCK_EARN_CONTEXT,
       // @ts-expect-error - This is a test
       vaultToken: null,
       // @ts-expect-error - This is a test
@@ -84,6 +55,11 @@ describe('VaultDetails', () => {
   });
 
   it('displays correct token information in popover', () => {
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...MOCK_EARN_CONTEXT,
+      deposits: '10000',
+      liquidity: '2000',
+    });
     render(<VaultDetails />);
 
     fireEvent.click(screen.getByTestId('ock-vaultDetailsButton'));
@@ -101,7 +77,7 @@ describe('VaultDetails', () => {
     const baseScanLink = screen.getByTestId('ock-vaultDetailsBaseScanLink');
     expect(baseScanLink).toHaveAttribute(
       'href',
-      'https://basescan.org/address/0x1234567890123456789012345678901234567890',
+      'https://basescan.org/address/0x123',
     );
     expect(baseScanLink).toHaveAttribute('target', '_blank');
     expect(baseScanLink).toHaveAttribute('rel', 'noopener noreferrer');
@@ -109,7 +85,7 @@ describe('VaultDetails', () => {
 
   it('handles missing optional data gracefully', () => {
     vi.mocked(useEarnContext).mockReturnValue({
-      ...baseContext,
+      ...MOCK_EARN_CONTEXT,
       // @ts-expect-error - This is a test
       deposits: null,
       // @ts-expect-error - This is a test

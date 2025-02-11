@@ -3,9 +3,9 @@ import { buildDepositToMorphoTx } from '@/earn/utils/buildDepositToMorphoTx';
 import type { Call } from '@/transaction/types';
 import { type Address, parseUnits } from 'viem';
 
-export type UseBuildMorphoDepositTxParams = {
+export type UseBuildDepositToMorphoTxParams = {
   vaultAddress: Address;
-  receiverAddress?: Address;
+  recipientAddress?: Address;
   amount: string;
 };
 
@@ -13,30 +13,30 @@ export type UseBuildMorphoDepositTxParams = {
  * Generates Call[] for a Morpho deposit transaction
  * to be used with <Transaction />
  */
-export function useBuildMorphoDepositTx({
+export function useBuildDepositToMorphoTx({
   vaultAddress,
-  receiverAddress,
+  recipientAddress,
   amount,
-}: UseBuildMorphoDepositTxParams): {
+}: UseBuildDepositToMorphoTxParams): {
   calls: Call[];
 } {
-  const { asset, assetDecimals } = useMorphoVault({
+  const { asset } = useMorphoVault({
     vaultAddress,
-    address: receiverAddress,
+    recipientAddress,
   });
 
-  if (!asset || !assetDecimals || !receiverAddress) {
+  if (!asset || !asset.decimals || !recipientAddress) {
     return {
       calls: [],
     };
   }
 
-  const parsedAmount = parseUnits(amount, assetDecimals);
+  const parsedAmount = parseUnits(amount, asset.decimals);
 
   const calls = buildDepositToMorphoTx({
-    receiverAddress,
+    recipientAddress,
     vaultAddress,
-    tokenAddress: asset,
+    tokenAddress: asset.address,
     amount: parsedAmount,
   });
 

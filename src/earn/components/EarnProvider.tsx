@@ -1,3 +1,4 @@
+import { useBuildDepositToMorphoTx } from '@/earn/hooks/useBuildDepositToMorphoTx';
 import { getToken } from '@/earn/utils/getToken';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useValue } from '@/internal/hooks/useValue';
@@ -10,8 +11,7 @@ import {
   useState,
 } from 'react';
 import { useAccount } from 'wagmi';
-import { useBuildMorphoDepositTx } from '../hooks/useBuildMorphoDepositTx';
-import { useBuildMorphoWithdrawTx } from '../hooks/useBuildMorphoWithdrawTx';
+import { useBuildWithdrawFromMorphoTx } from '../hooks/useBuildWithdrawFromMorphoTx';
 import { useMorphoVault } from '../hooks/useMorphoVault';
 import type {
   EarnContextType,
@@ -41,48 +41,47 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
 
   const {
     asset,
-    assetDecimals,
-    assetSymbol,
-    balance: receiptBalance,
-    balanceStatus: receiptBalanceStatus,
-    refetchBalance: refetchReceiptBalance,
+    balance: depositedBalance,
+    balanceStatus: depositedBalanceStatus,
+    refetchBalance: refetchDepositedBalance,
     totalApy,
     nativeApy,
     vaultFee,
-    name,
+    vaultName,
     deposits,
     liquidity,
     rewards,
   } = useMorphoVault({
     vaultAddress,
-    address,
+    recipientAddress: address,
   });
 
   const vaultToken = asset
     ? getToken({
-        address: asset,
-        symbol: assetSymbol,
-        name: assetSymbol,
-        decimals: assetDecimals,
+        address: asset.address,
+        symbol: asset.symbol,
+        name: asset.symbol,
+        decimals: asset.decimals,
       })
     : undefined;
 
   const {
-    convertedBalance: underlyingBalance,
-    status: underlyingBalanceStatus,
-    refetch: refetchUnderlyingBalance,
+    convertedBalance: walletBalance,
+    status: walletBalanceStatus,
+    refetch: refetchWalletBalance,
   } = useGetTokenBalance(address, vaultToken);
 
-  const { calls: withdrawCalls } = useBuildMorphoWithdrawTx({
-    vaultAddress,
-    amount: withdrawAmount,
-    receiverAddress: address,
-  });
-
-  const { calls: depositCalls } = useBuildMorphoDepositTx({
+  const { calls: depositCalls } = useBuildDepositToMorphoTx({
     vaultAddress,
     amount: depositAmount,
-    receiverAddress: address,
+    recipientAddress: address,
+  });
+
+  const { calls: withdrawCalls } = useBuildWithdrawFromMorphoTx({
+    vaultAddress,
+    amount: withdrawAmount,
+    recipientAddress: address,
+    tokenDecimals: vaultToken?.decimals,
   });
 
   // Lifecycle statuses
@@ -118,11 +117,11 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     if (Number(depositAmount) <= 0) {
       return 'Must be greater than 0';
     }
-    if (Number(depositAmount) > Number(underlyingBalance)) {
+    if (Number(depositAmount) > Number(walletBalance)) {
       return 'Amount exceeds the balance';
     }
     return null;
-  }, [depositAmount, underlyingBalance]);
+  }, [depositAmount, walletBalance]);
 
   const withdrawAmountError = useMemo(() => {
     if (!withdrawAmount) {
@@ -131,31 +130,31 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     if (Number(withdrawAmount) === 0) {
       return 'Must be greater than 0';
     }
-    if (Number(withdrawAmount) > Number(receiptBalance)) {
+    if (Number(withdrawAmount) > Number(depositedBalance)) {
       return 'Amount exceeds the balance';
     }
     return null;
-  }, [withdrawAmount, receiptBalance]);
+  }, [withdrawAmount, depositedBalance]);
 
   const value = useValue<EarnContextType>({
     recipientAddress: address,
     vaultAddress,
     vaultToken,
-    vaultName: name,
+    vaultName,
     deposits,
     liquidity,
-    receiptBalance,
-    receiptBalanceStatus,
-    refetchReceiptBalance,
+    depositedBalance,
+    depositedBalanceStatus,
+    refetchDepositedBalance,
     depositAmount,
     setDepositAmount: handleDepositAmount,
     depositAmountError,
     withdrawAmount,
     setWithdrawAmount: handleWithdrawAmount,
     withdrawAmountError,
-    underlyingBalance,
-    underlyingBalanceStatus,
-    refetchUnderlyingBalance,
+    walletBalance,
+    walletBalanceStatus,
+    refetchWalletBalance,
     apy: totalApy,
     nativeApy,
     vaultFee,

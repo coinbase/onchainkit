@@ -1,4 +1,4 @@
-import { cn, color } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
   Transaction,
@@ -16,7 +16,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     withdrawAmount,
     setWithdrawAmount,
     updateLifecycleStatus,
-    refetchReceiptBalance,
+    refetchDepositedBalance,
     withdrawAmountError,
   } = useEarnContext();
 
@@ -44,10 +44,10 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
         res.transactionReceipts[0].status === 'success'
       ) {
         setWithdrawAmount('');
-        refetchReceiptBalance();
+        refetchDepositedBalance();
       }
     },
-    [setWithdrawAmount, refetchReceiptBalance],
+    [setWithdrawAmount, refetchDepositedBalance],
   );
 
   if (!address) {
@@ -60,24 +60,16 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
   }
 
   return (
-    <div className="-mt-4 flex flex-col gap-1">
-      {withdrawAmountError ? (
-        <p className={cn(color.error, 'text-xs')}>{withdrawAmountError}</p>
-      ) : (
-        <div className="h-4" /> // Empty div to keep the layout consistent
-      )}
-
-      <Transaction
-        className={className}
-        calls={withdrawCalls}
-        onStatus={handleOnStatus}
-        onSuccess={handleOnSuccess}
-      >
-        <TransactionButton
-          text={withdrawAmountError ?? 'Withdraw'}
-          disabled={!!withdrawAmountError || !withdrawAmount}
-        />
-      </Transaction>
-    </div>
+    <Transaction
+      className={className}
+      calls={withdrawCalls}
+      onStatus={handleOnStatus}
+      onSuccess={handleOnSuccess}
+    >
+      <TransactionButton
+        text={withdrawAmountError ?? 'Withdraw'}
+        disabled={!!withdrawAmountError || !withdrawAmount}
+      />
+    </Transaction>
   );
 }
