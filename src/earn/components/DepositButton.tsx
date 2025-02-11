@@ -18,7 +18,7 @@ export function DepositButton({ className }: DepositButtonReact) {
     setDepositAmount,
     depositAmountError,
     updateLifecycleStatus,
-    refetchUnderlyingBalance,
+    refetchWalletBalance,
   } = useEarnContext();
 
   const handleOnStatus = useCallback(
@@ -45,10 +45,10 @@ export function DepositButton({ className }: DepositButtonReact) {
         res.transactionReceipts[0].status === 'success'
       ) {
         setDepositAmount('');
-        refetchUnderlyingBalance();
+        refetchWalletBalance();
       }
     },
-    [setDepositAmount, refetchUnderlyingBalance],
+    [setDepositAmount, refetchWalletBalance],
   );
 
   if (!address) {

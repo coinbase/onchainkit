@@ -16,7 +16,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     withdrawAmount,
     setWithdrawAmount,
     updateLifecycleStatus,
-    refetchReceiptBalance,
+    refetchDepositedBalance,
     withdrawAmountError,
   } = useEarnContext();
 
@@ -44,10 +44,10 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
         res.transactionReceipts[0].status === 'success'
       ) {
         setWithdrawAmount('');
-        refetchReceiptBalance();
+        refetchDepositedBalance();
       }
     },
-    [setWithdrawAmount, refetchReceiptBalance],
+    [setWithdrawAmount, refetchDepositedBalance],
   );
 
   if (!address) {
