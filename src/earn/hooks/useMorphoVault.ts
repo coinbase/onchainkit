@@ -47,6 +47,7 @@ export type UseMorphoVaultReturnType = {
   liquidity: string | undefined;
 };
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity:
 export function useMorphoVault({
   vaultAddress,
   recipientAddress,
@@ -125,6 +126,16 @@ export function useMorphoVault({
           BigInt(vaultData?.liquidity.underlying),
           vaultData.asset.decimals,
         )
+      : undefined;
+
+  const formattedDeposits =
+    vaultData?.state.totalAssets && vaultDecimals
+      ? formatUnits(BigInt(vaultData?.state.totalAssets), vaultDecimals)
+      : undefined;
+
+  const formattedLiquidity =
+    vaultData?.liquidity.underlying && vaultDecimals
+      ? formatUnits(BigInt(vaultData?.liquidity.underlying), vaultDecimals)
       : undefined;
 
   return {
