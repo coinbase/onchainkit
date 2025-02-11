@@ -1,10 +1,7 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useReadContract } from 'wagmi';
-import { http, WagmiProvider, createConfig } from 'wagmi';
-import { base } from 'wagmi/chains';
-import { mock } from 'wagmi/connectors';
+import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { APPCHAIN_DEPLOY_CONTRACT_ADDRESS } from '../constants';
 import { useChainConfig } from './useAppchainConfig';
 
@@ -16,25 +13,7 @@ vi.mock('wagmi', async (importOriginal) => {
   };
 });
 
-const queryClient = new QueryClient();
-
-const config = createConfig({
-  chains: [base],
-  connectors: [
-    mock({
-      accounts: ['0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'],
-    }),
-  ],
-  transports: {
-    [base.id]: http(),
-  },
-});
-
-const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <WagmiProvider config={config}>
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  </WagmiProvider>
-);
+const wrapper = getNewReactQueryTestProvider();
 
 const mockContractData = {
   l2OutputOracle: '0xOutputOracle',
