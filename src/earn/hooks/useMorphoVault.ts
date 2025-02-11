@@ -9,25 +9,27 @@ import { useReadContract, useReadContracts } from 'wagmi';
 
 type UseMorphoVaultParams = {
   vaultAddress: Address;
-  address?: Address;
+  recipientAddress?: Address;
 };
 
 export type UseMorphoVaultReturnType = {
+  vaultName: string | undefined;
   status: 'pending' | 'success' | 'error';
+  /** Underlying asset of the vault */
+  asset: {
+    address: Address;
+    symbol: string | undefined;
+    decimals: number | undefined;
+  };
+  /** User's deposits in the vault, adjusted for decimals */
+  balance: string | undefined;
   balanceStatus: 'pending' | 'success' | 'error';
   refetchBalance: () => void;
-  asset: Address | undefined;
-  assetSymbol: string | undefined;
-  assetDecimals: number | undefined;
-  vaultDecimals: number | undefined;
-  name: string | undefined;
-  /** Balance adjusted for decimals */
-  balance: string | undefined;
+  /** Total net APY of the vault after all rewards and fees */
   totalApy: number | undefined;
+  /** Native rewards of the vault (e.g. USDC if the asset is USDC) */
   nativeApy: number | undefined;
-  vaultFee: number | undefined;
-  deposits: string | undefined;
-  liquidity: string | undefined;
+  /** Additional rewards (e.g. MORPHO) */
   rewards:
     | {
         asset: Address;
@@ -35,11 +37,19 @@ export type UseMorphoVaultReturnType = {
         apy: number;
       }[]
     | undefined;
+  /** Vault fee, in percent (e.g. 0.03 for 3%) */
+  vaultFee: number | undefined;
+  /** Number of decimals of the vault's share tokens (not underlying asset) */
+  vaultDecimals: number | undefined;
+  /** Total deposits in the vault */
+  deposits: string | undefined;
+  /** Total liquidity available to borrow in the vault */
+  liquidity: string | undefined;
 };
 
 export function useMorphoVault({
   vaultAddress,
-  address,
+  recipientAddress,
 }: UseMorphoVaultParams): UseMorphoVaultReturnType {
   const { data, status } = useReadContracts({
     contracts: [
@@ -66,8 +76,9 @@ export function useMorphoVault({
       enabled: !!vaultAddress,
     },
   });
-  const asset = data?.[0].result;
-  const name = data?.[1].result;
+
+  const assetAddress = data?.[0].result;
+  const vaultName = data?.[1].result;
   const vaultDecimals = data?.[2].result;
 
   // Fetching separately because user may not be connected
@@ -79,10 +90,10 @@ export function useMorphoVault({
     abi: MORPHO_VAULT_ABI,
     address: vaultAddress,
     functionName: 'maxWithdraw',
-    args: [address as Address],
+    args: [recipientAddress as Address],
     chainId: base.id, // Only Base is supported
     query: {
-      enabled: !!vaultAddress && !!address,
+      enabled: !!vaultAddress && !!recipientAddress,
     },
   });
 
@@ -99,7 +110,6 @@ export function useMorphoVault({
     balance && vaultData?.asset.decimals
       ? formatUnits(balance, vaultData?.asset.decimals)
       : undefined;
-  console.log('formattedBalance:', formattedBalance);
 
   const formattedDeposits =
     vaultData?.state.totalAssets && vaultData.asset.decimals
@@ -123,11 +133,13 @@ export function useMorphoVault({
     balance: formattedBalance,
     balanceStatus,
     refetchBalance: refetch,
-    asset,
-    assetSymbol: vaultData?.symbol,
-    assetDecimals: vaultData?.asset?.decimals,
+    asset: {
+      address: assetAddress as Address,
+      symbol: vaultData?.symbol,
+      decimals: vaultData?.asset.decimals,
+    },
+    vaultName,
     vaultDecimals,
-    name,
     totalApy: vaultData?.state?.netApy,
     nativeApy: vaultData?.state?.netApyWithoutRewards,
     vaultFee: vaultData?.state?.fee,

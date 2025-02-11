@@ -25,7 +25,7 @@ describe('buildWithdrawFromMorphoTx', () => {
 
     const expectedWithdrawData = encodeFunctionData({
       abi: MORPHO_VAULT_ABI,
-      functionName: 'redeem',
+      functionName: 'withdraw',
       args: [
         expectedAmount,
         mockArgs.receiverAddress,
@@ -50,7 +50,7 @@ describe('buildWithdrawFromMorphoTx', () => {
     expect(
       encodeFunctionData({
         abi: MORPHO_VAULT_ABI,
-        functionName: 'redeem',
+        functionName: 'withdraw',
         args: [
           expectedAmount,
           mockArgs.receiverAddress,
@@ -71,7 +71,7 @@ describe('buildWithdrawFromMorphoTx', () => {
     expect(
       encodeFunctionData({
         abi: MORPHO_VAULT_ABI,
-        functionName: 'redeem',
+        functionName: 'withdraw',
         args: [
           expectedAmount,
           mockArgs.receiverAddress,

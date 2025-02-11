@@ -1,3 +1,4 @@
+import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
 import type { EarnContextType } from '@/earn/types';
 import { usdcToken } from '@/token/constants';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -15,34 +16,6 @@ import { useAccount } from 'wagmi';
 import { useEarnContext } from './EarnProvider';
 import { WithdrawBalance } from './WithdrawBalance';
 
-const baseContext: EarnContextType = {
-  underlyingBalance: '1000',
-  underlyingBalanceStatus: 'success',
-  setDepositAmount: vi.fn(),
-  vaultAddress: '0x123' as Address,
-  depositAmount: '0',
-  receiptBalance: '1000',
-  receiptBalanceStatus: 'success',
-  withdrawAmount: '0',
-  setWithdrawAmount: vi.fn(),
-  depositCalls: [],
-  withdrawCalls: [],
-  vaultToken: usdcToken,
-  lifecycleStatus: { statusName: 'init', statusData: null },
-  updateLifecycleStatus: vi.fn(),
-  refetchUnderlyingBalance: vi.fn(),
-  refetchReceiptBalance: vi.fn(),
-  depositAmountError: null,
-  withdrawAmountError: null,
-  apy: 0,
-  nativeApy: 0,
-  vaultFee: 0,
-  rewards: [],
-  vaultName: 'Test Vault',
-  deposits: '1000',
-  liquidity: '1000',
-};
-
 vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),
 }));
@@ -56,7 +29,7 @@ vi.mock('wagmi', () => ({
 describe('WithdrawBalance', () => {
   beforeEach(() => {
     vi.resetAllMocks();
-    vi.mocked(useEarnContext).mockReturnValue(baseContext);
+    vi.mocked(useEarnContext).mockReturnValue(MOCK_EARN_CONTEXT);
     vi.mocked(useAccount as Mock).mockReturnValue({
       address: '0x123' as Address,
     });
@@ -78,8 +51,8 @@ describe('WithdrawBalance', () => {
 
   it('renders a skeleton for the amount and shows the token symbol when the balance is pending', () => {
     vi.mocked(useEarnContext).mockReturnValue({
-      ...baseContext,
-      receiptBalanceStatus: 'pending',
+      ...MOCK_EARN_CONTEXT,
+      depositedBalanceStatus: 'pending',
     });
 
     render(<WithdrawBalance />);
@@ -90,7 +63,7 @@ describe('WithdrawBalance', () => {
 
   it('renders a Skeleton when vaultToken is undefined', () => {
     const mockContext: EarnContextType = {
-      ...baseContext,
+      ...MOCK_EARN_CONTEXT,
       vaultToken: undefined,
     };
 
@@ -102,7 +75,7 @@ describe('WithdrawBalance', () => {
   });
 
   it('renders the receipt token balance and subtitle correctly', () => {
-    vi.mocked(useEarnContext).mockReturnValue(baseContext);
+    vi.mocked(useEarnContext).mockReturnValue(MOCK_EARN_CONTEXT);
 
     render(<WithdrawBalance />);
 
@@ -113,8 +86,8 @@ describe('WithdrawBalance', () => {
   it('calls setWithdrawAmount with receiptBalance when the action button is clicked', () => {
     const mocksetWithdrawAmount = vi.fn();
     const mockContext: EarnContextType = {
-      ...baseContext,
-      receiptBalance: '1000',
+      ...MOCK_EARN_CONTEXT,
+      depositedBalance: '1000',
       setWithdrawAmount: mocksetWithdrawAmount,
     };
 
@@ -130,8 +103,8 @@ describe('WithdrawBalance', () => {
 
   it('does not render the action button when receiptBalance is blank', () => {
     const mockContext: EarnContextType = {
-      ...baseContext,
-      receiptBalance: '',
+      ...MOCK_EARN_CONTEXT,
+      depositedBalance: '',
       setWithdrawAmount: vi.fn(),
     };
 
@@ -143,9 +116,9 @@ describe('WithdrawBalance', () => {
   });
 
   it('applies custom className', () => {
-    const mockContext = {
-      ...baseContext,
-      depositedAmount: '1000',
+    const mockContext: EarnContextType = {
+      ...MOCK_EARN_CONTEXT,
+      depositedBalance: '1000',
       setWithdrawAmount: vi.fn(),
     };
 
