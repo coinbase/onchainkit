@@ -3,7 +3,7 @@ import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useReadContract } from 'wagmi';
 import { APPCHAIN_DEPLOY_CONTRACT_ADDRESS } from '../constants';
-import { useChainConfig } from './useAppchainConfigs';
+import { useChainConfig } from './useAppchainConfig';
 
 vi.mock('wagmi', async (importOriginal) => {
   const actual = await importOriginal<typeof import('wagmi')>();
