@@ -47,7 +47,6 @@ export type UseMorphoVaultReturnType = {
   liquidity: string | undefined;
 };
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity:
 export function useMorphoVault({
   vaultAddress,
   recipientAddress,

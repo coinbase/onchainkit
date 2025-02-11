@@ -1,3 +1,4 @@
+import { useBuildDepositToMorphoTx } from '@/earn/hooks/useBuildDepositToMorphoTx';
 import { getToken } from '@/earn/utils/getToken';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useValue } from '@/internal/hooks/useValue';
@@ -17,7 +18,6 @@ import type {
   EarnProviderReact,
   LifecycleStatus,
 } from '../types';
-import { useBuildDepositToMorphoTx } from '@/earn/hooks/useBuildDepositToMorphoTx';
 
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 
