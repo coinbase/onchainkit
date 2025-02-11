@@ -75,7 +75,7 @@ export function SwapSettingsSlippageInput({
       const parsedSlippage = Number.parseFloat(newSlippage);
       const isValidNumber = !Number.isNaN(parsedSlippage);
 
-      updateSlippage(isValidNumber ? parsedSlippage : 0, 'custom');
+      updateSlippage(isValidNumber ? parsedSlippage : 0);
     },
     [updateSlippage],
   );
@@ -86,7 +86,7 @@ export function SwapSettingsSlippageInput({
     (setting: string) => {
       setSlippageSetting(setting);
       if (setting === SLIPPAGE_SETTINGS.AUTO) {
-        updateSlippage(defaultMaxSlippage, 'auto');
+        updateSlippage(defaultMaxSlippage);
       }
     },
     [defaultMaxSlippage, updateSlippage],
