@@ -1,12 +1,13 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { type Chain, parseEther, parseUnits } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConfig, useSwitchChain, useWriteContract } from 'wagmi';
-import { http, WagmiProvider, createConfig } from 'wagmi';
+import { http, createConfig } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
+import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { useDeposit } from './useDeposit';
 
 // Mock all wagmi hooks
@@ -47,11 +48,8 @@ const config = createConfig({
   },
 });
 
-const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <WagmiProvider config={config}>
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  </WagmiProvider>
-);
+// Remove JSX wrapper and use the test provider helper
+const wrapper = getNewReactQueryTestProvider();
 
 // Add this mock config after the wrapper definition
 const mockAppchainConfig = {
