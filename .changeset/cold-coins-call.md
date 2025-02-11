@@ -11,3 +11,4 @@
 - **docs**: Update onramp documentation. By @rustam-cb #1945 #1939
 - **fix**: Fix onramp util `fetchOnrampQuote`. By @rustam-cb #1940
 
+Note: OnchainKit is not collecting any telemetry as of `v0.36.11`. This will be enabled in a future release.
