@@ -22,7 +22,7 @@ export async function useExchangeRate({
     return;
   }
 
-  if (token.address === usdcToken.address) {
+  if (token.address.toLowerCase() === usdcToken.address.toLowerCase()) {
     setExchangeRate(1);
     return;
   }
