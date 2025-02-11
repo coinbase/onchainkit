@@ -6,17 +6,26 @@ import type { LifecycleStatus as TransactionLifecycleStatus } from '@/transactio
 import type React from 'react';
 import type { Address } from 'viem';
 
+/**
+ * Note: exported as public Type
+ */
 export type EarnReact = {
   children?: React.ReactNode;
   className?: string;
   vaultAddress: Address;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type EarnProviderReact = {
   children: React.ReactNode;
   vaultAddress: Address;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type EarnContextType = {
   recipientAddress?: Address;
   /** Balance of the underlying asset in the user's wallet, converted to the asset's decimals */
@@ -61,6 +70,9 @@ export type EarnContextType = {
   ) => void;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type EarnAmountInputReact = {
   className?: string;
   onChange: (value: string) => void;
@@ -69,13 +81,23 @@ export type EarnAmountInputReact = {
   'aria-label'?: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type WithdrawAmountInputReact = {
   className?: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type DepositAmountInputReact = {
   className?: string;
 };
+
+/**
+ * Note: exported as public Type
+ */
 export type EarnBalanceReact = {
   className?: string;
   onActionPress: () => void;
@@ -84,10 +106,16 @@ export type EarnBalanceReact = {
   showAction?: boolean;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type DepositBalanceReact = {
   className?: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type WithdrawBalanceReact = {
   className?: string;
 };
@@ -97,33 +125,39 @@ export type EarnCardReact = {
   className?: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type EarnDepositReact = {
   children?: React.ReactNode;
   className?: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type EarnWithdrawReact = {
   children?: React.ReactNode;
   className?: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type EarnDetailsReact = {
   className?: string;
-  children: React.ReactNode;
 };
 
-export type DepositDetailsReact = {
-  className?: string;
-};
-
-export type WithdrawDetailsReact = {
-  className?: string;
-};
-
+/**
+ * Note: exported as public Type
+ */
 export type DepositButtonReact = {
   className?: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type WithdrawButtonReact = {
   className?: string;
 };
