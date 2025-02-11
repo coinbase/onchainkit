@@ -1,7 +1,7 @@
 'use client';
 
 import { border, cn, color, pressable, text } from '@/styles/theme';
-import { TokenBalance } from '@/token';
+import { TokenBalance } from '@/token/components/TokenBalance';
 import { formatUnits } from 'viem';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import type { SendTokenSelectorProps } from '../types';
