@@ -7,6 +7,12 @@ import { ERC20ABI, StandardBridgeABI } from '../abi';
 import type { AppchainConfig } from '../types';
 import type { BridgeParams } from '../types';
 
+interface DepositParams {
+  config: AppchainConfig;
+  from: Chain;
+  bridgeParams: BridgeParams;
+}
+
 export function useDeposit() {
   const { writeContractAsync, data } = useWriteContract();
   const { switchChainAsync } = useSwitchChain();
@@ -16,15 +22,7 @@ export function useDeposit() {
     'pending' | 'success' | 'error' | 'idle'
   >('idle');
 
-  const deposit = async ({
-    config,
-    from,
-    bridgeParams,
-  }: {
-    config: AppchainConfig;
-    from: Chain;
-    bridgeParams: BridgeParams;
-  }) => {
+  const deposit = async ({ config, from, bridgeParams }: DepositParams) => {
     if (!bridgeParams.recipient) {
       throw new Error('Recipient is required');
     }
