@@ -1,13 +1,13 @@
+import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
+import { Popover } from '@/internal/components/Popover';
+import { Skeleton } from '@/internal/components/Skeleton';
+import { etherscanSvg } from '@/internal/svg/etherscanSvg';
+import { infoSvg } from '@/internal/svg/infoSvg';
+import { background, border, cn, color, text } from '@/styles/theme';
+import { TokenImage } from '@/token';
 import { useRef } from 'react';
 import { useState } from 'react';
 import { useEarnContext } from './EarnProvider';
-import { background, border, cn, color, text } from '@/styles/theme';
-import { infoSvg } from '@/internal/svg/infoSvg';
-import { Popover } from '@/internal/components/Popover';
-import { TokenImage } from '@/token';
-import { Skeleton } from '@/internal/components/Skeleton';
-import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
-import { etherscanSvg } from '@/internal/svg/etherscanSvg';
 
 function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (

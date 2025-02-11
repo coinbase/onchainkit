@@ -1,10 +1,10 @@
+import { EarnDetails } from '@/earn/components/EarnDetails';
 import type { EarnContextType } from '@/earn/types';
 import { usdcToken } from '@/token/constants';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
-import { type Mock, describe, expect, it, vi, beforeEach } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useEarnContext } from './EarnProvider';
-import { EarnDetails } from '@/earn/components/EarnDetails';
 
 const baseContext: EarnContextType = {
   underlyingBalance: '1000',

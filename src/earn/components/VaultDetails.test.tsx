@@ -1,10 +1,10 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { VaultDetails } from './VaultDetails';
-import { useEarnContext } from './EarnProvider';
-import { vi } from 'vitest';
-import { describe, it, expect, beforeEach } from 'vitest';
 import type { EarnContextType } from '@/earn/types';
 import { usdcToken } from '@/token/constants';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { useEarnContext } from './EarnProvider';
+import { VaultDetails } from './VaultDetails';
 
 const baseContext: EarnContextType = {
   vaultToken: usdcToken,
