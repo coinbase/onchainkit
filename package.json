@@ -122,6 +122,12 @@
       "import": "./esm/api/index.js",
       "default": "./esm/api/index.js"
     },
+    "./appchain": {
+      "types": "./esm/appchain/index.d.ts",
+      "module": "./esm/appchain/index.js",
+      "import": "./esm/appchain/index.js",
+      "default": "./esm/appchain/index.js"
+    },
     "./buy": {
       "types": "./esm/buy/index.d.ts",
       "module": "./esm/buy/index.js",

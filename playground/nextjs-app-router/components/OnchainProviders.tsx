@@ -3,16 +3,51 @@ import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
+import { defineChain } from 'viem';
 import { http, createConfig } from 'wagmi';
 import { WagmiProvider } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 
+export const B3_CHAIN = defineChain({
+  id: 4087967037,
+  name: 'B3 Chain',
+  nativeCurrency: {
+    name: 'Ether',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://b3-sepolia-rpc.l3.base.org'],
+    },
+  },
+
+  contracts: {
+    disputeGameFactory: {
+      [84532]: {
+        address: '0x0000000000000000000000000000000000000001',
+      },
+    },
+    portal: {
+      [84532]: {
+        address: '0x48C6Ccb3cB5747FBEa7589556cF74772be12c5f1',
+      },
+    },
+    l2OutputOracle: {
+      [84532]: {
+        address: '0xA6D24ac223F6d5Ce3784eC0a43F3f66B39618182',
+      },
+    },
+  },
+} as const);
+
 export const config = createConfig({
-  chains: [base, baseSepolia],
+  chains: [base, baseSepolia, B3_CHAIN],
   transports: {
     [base.id]: http(),
     [baseSepolia.id]: http(),
+    [B3_CHAIN.id]: http(),
   },
   ssr: true,
   connectors: [

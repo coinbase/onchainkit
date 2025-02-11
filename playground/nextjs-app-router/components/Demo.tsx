@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { OnchainKitComponent } from '@/types/onchainkit';
 import { useContext, useEffect, useState } from 'react';
 import DemoOptions from './DemoOptions';
+import AppchainBridgeDemo from './demo/AppchainBridge';
 import BuyDemo from './demo/Buy';
 import CheckoutDemo from './demo/Checkout';
 import FundButtonDemo from './demo/FundButton';
@@ -25,6 +26,7 @@ import WalletDefaultDemo from './demo/WalletDefault';
 import WalletIslandDemo from './demo/WalletIsland';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
+  [OnchainKitComponent.AppchainBridge]: AppchainBridgeDemo,
   [OnchainKitComponent.FundButton]: FundButtonDemo,
   [OnchainKitComponent.FundCard]: FundCardDemo,
   [OnchainKitComponent.Buy]: BuyDemo,
