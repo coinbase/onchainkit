@@ -5,7 +5,7 @@ import type { Address } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useConfig } from 'wagmi';
 import { readContract } from 'wagmi/actions';
-import { useBalance } from './useBalance';
+import { useBalance } from './useBalances';
 
 vi.mock('@wagmi/core', () => ({
   getBalance: vi.fn(),

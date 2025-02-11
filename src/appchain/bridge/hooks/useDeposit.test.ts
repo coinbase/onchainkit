@@ -4,7 +4,7 @@ import { type Chain, parseEther, parseUnits } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConfig, useSwitchChain, useWriteContract } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { useDeposit } from './useDeposit';
+import { useDeposit } from './useDeposits';
 
 // Mock all wagmi hooks
 vi.mock('wagmi', async (importOriginal) => {
