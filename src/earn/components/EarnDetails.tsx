@@ -1,9 +1,9 @@
-import { Skeleton } from '@/internal/components/Skeleton';
-import { border, cn, color } from '@/styles/theme';
-import { TokenChip } from '@/token';
-import type { EarnDetailsReact } from '../types';
+import { VaultDetails } from '@/earn/components/VaultDetails';
+import { YieldDetails } from '@/earn/components/YieldDetails';
+import { border, cn } from '@/styles/theme';
+import type { DepositDetailsReact } from '../types';
 
-export function EarnDetails({ className, token, tag }: EarnDetailsReact) {
+export function EarnDetails({ className }: DepositDetailsReact) {
   return (
     <div
       data-testid="ockEarnDetails"
@@ -13,16 +13,8 @@ export function EarnDetails({ className, token, tag }: EarnDetailsReact) {
         className,
       )}
     >
-      {token ? (
-        <TokenChip
-          className={cn(color.foreground, '!bg-transparent')}
-          token={token}
-          isPressable={false}
-        />
-      ) : (
-        <Skeleton className="!rounded-full h-8 w-28" />
-      )}
-      {tag}
+      <VaultDetails />
+      <YieldDetails />
     </div>
   );
 }

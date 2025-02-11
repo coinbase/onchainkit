@@ -22,6 +22,9 @@ const mockVaultResponse: MorphoVaultApiResponse = {
         id: 8453,
         network: 'base',
       },
+      liquidity: {
+        underlying: '1000',
+      },
       state: {
         id: 'state-1',
         apy: 0.05,

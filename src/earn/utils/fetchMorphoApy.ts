@@ -20,6 +20,9 @@ const QUERY = `query($address: String!) {
           id
           network
         }
+        liquidity {
+          underlying
+        }
         state {
           id
           apy
@@ -38,8 +41,8 @@ const QUERY = `query($address: String!) {
               name
               decimals
             }
-          }
         }
+      }
     }
   }`;
 
@@ -82,6 +85,9 @@ export type MorphoVaultApiResponse = {
             decimals: number;
           };
         }>;
+      };
+      liquidity: {
+        underlying: string;
       };
     };
   };

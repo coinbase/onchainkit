@@ -71,6 +71,8 @@ describe('useMorphoVault', () => {
       nativeApy: undefined,
       vaultFee: undefined,
       refetchBalance: undefined,
+      liquidity: undefined,
+      deposits: undefined,
       rewards: [
         {
           apy: 0,
@@ -102,6 +104,9 @@ describe('useMorphoVault', () => {
         address: DUMMY_ADDRESS,
       },
       symbol: 'DUMMY',
+      liquidity: {
+        underlying: '100000',
+      },
       state: {
         netApy: 0.05,
         netApyWithoutRewards: 0.03,
@@ -190,6 +195,9 @@ describe('useMorphoVault', () => {
         address: DUMMY_ADDRESS,
       },
       symbol: 'DUMMY',
+      liquidity: {
+        underlying: '100000',
+      },
       state: {
         netApy: 0.05,
         netApyWithoutRewards: 0.03,
@@ -266,5 +274,68 @@ describe('useMorphoVault', () => {
         apy: 0,
       },
     ]);
+  });
+
+  it('correctly formats deposits when data is available', async () => {
+    vi.mocked(useReadContracts).mockReturnValue({
+      data: [
+        { result: DUMMY_ADDRESS },
+        { result: 'Morpho Vault' },
+        { result: 18 }, // decimals
+      ],
+      status: 'success',
+    } as UseReadContractsReturnType<unknown[], boolean, unknown>);
+
+    vi.mocked(useReadContract).mockReturnValue({
+      data: 1000000000000000000n,
+    } as UseReadContractReturnType<unknown[], string, unknown[], unknown>);
+
+    (fetchMorphoApy as Mock).mockResolvedValue({
+      state: {
+        totalAssets: '2000000000000000000', // 2 tokens
+        netApy: 0.05,
+        netApyWithoutRewards: 0.03,
+        rewards: [],
+      },
+      liquidity: {
+        underlying: '100000',
+      },
+    });
+
+    const { result } = renderHook(() => useMorphoVault(mockParams), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
+
+    await vi.waitFor(() => {
+      expect(result.current.deposits).toBe('2');
+    });
+  });
+
+  it('returns undefined deposits when data is missing', async () => {
+    vi.mocked(useReadContracts).mockReturnValue({
+      data: [
+        { result: DUMMY_ADDRESS },
+        { result: 'Morpho Vault' },
+        { result: 18 },
+      ],
+      status: 'success',
+    } as UseReadContractsReturnType<unknown[], boolean, unknown>);
+
+    (fetchMorphoApy as Mock).mockResolvedValue({
+      state: {
+        totalAssets: undefined,
+        netApy: 0.05,
+        netApyWithoutRewards: 0.03,
+        rewards: [],
+      },
+    });
+
+    const { result } = renderHook(() => useMorphoVault(mockParams), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
+
+    await vi.waitFor(() => {
+      expect(result.current.deposits).toBeUndefined();
+    });
   });
 });
