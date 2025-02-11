@@ -6,8 +6,6 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
-import { FundEvent } from '../../core/analytics/types';
 import { useValue } from '../../internal/hooks/useValue';
 import { useEmitLifecycleStatus } from '../hooks/useEmitLifecycleStatus';
 import { useOnrampExchangeRate } from '../hooks/useOnrampExchangeRate';
@@ -105,50 +103,6 @@ export function FundCardProvider({
     onError,
   });
 
-  const { sendAnalytics } = useAnalytics();
-
-  const handleAnalyticsAmountChanged = useCallback(
-    (amount: number, previousAmount: number, currency: string) => {
-      sendAnalytics(FundEvent.FundAmountChanged, {
-        amount,
-        previousAmount,
-        currency,
-      });
-    },
-    [sendAnalytics],
-  );
-
-  const handleAnalyticsOptionSelected = useCallback(
-    (option: string) => {
-      sendAnalytics(FundEvent.FundOptionSelected, {
-        option,
-      });
-    },
-    [sendAnalytics],
-  );
-
-  const handleSetFundAmountFiat = useCallback(
-    (amount: string) => {
-      const newAmount = Number.parseFloat(amount);
-      const previousAmount = Number.parseFloat(fundAmountFiat) || 0;
-
-      if (!Number.isNaN(newAmount) && newAmount !== previousAmount) {
-        handleAnalyticsAmountChanged(newAmount, previousAmount, currency);
-      }
-
-      setFundAmountFiat(amount);
-    },
-    [currency, fundAmountFiat, handleAnalyticsAmountChanged],
-  );
-
-  const handleSetSelectedPaymentMethod = useCallback(
-    (paymentMethod: PaymentMethod) => {
-      handleAnalyticsOptionSelected(paymentMethod.id);
-      setSelectedPaymentMethod(paymentMethod);
-    },
-    [handleAnalyticsOptionSelected],
-  );
-
   const handleFetchExchangeRate = useCallback(async () => {
     setExchangeRateLoading(true);
     await fetchExchangeRate();
@@ -174,9 +128,9 @@ export function FundCardProvider({
     asset,
     currency,
     selectedPaymentMethod,
-    setSelectedPaymentMethod: handleSetSelectedPaymentMethod,
+    setSelectedPaymentMethod,
     fundAmountFiat,
-    setFundAmountFiat: handleSetFundAmountFiat,
+    setFundAmountFiat,
     fundAmountCrypto,
     setFundAmountCrypto,
     selectedInputType,

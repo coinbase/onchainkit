@@ -1,6 +1,4 @@
 import { memo, useCallback } from 'react';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
-import { FundEvent } from '../../core/analytics/types';
 import {
   background,
   border,
@@ -22,19 +20,10 @@ export const FundCardPaymentMethodSelectRow = memo(
     disabledReason,
     testId,
   }: FundCardPaymentMethodSelectRowPropsReact) => {
-    const { sendAnalytics } = useAnalytics();
-
-    const handleOnClick = useCallback(() => {
-      if (disabled) {
-        return;
-      }
-
-      sendAnalytics(FundEvent.FundOptionSelected, {
-        option: paymentMethod.id,
-      });
-
-      onClick?.(paymentMethod);
-    }, [disabled, onClick, paymentMethod, sendAnalytics]);
+    const handleOnClick = useCallback(
+      () => !disabled && onClick?.(paymentMethod),
+      [disabled, onClick, paymentMethod],
+    );
 
     return (
       <button
