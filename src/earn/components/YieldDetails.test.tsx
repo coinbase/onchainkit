@@ -16,7 +16,11 @@ describe('YieldDetails', () => {
   const mockUseEarnContext = useEarnContext as Mock;
 
   beforeEach(() => {
-    mockUseEarnContext.mockReturnValue(MOCK_EARN_CONTEXT);
+    mockUseEarnContext.mockReturnValue({
+      ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+      nativeApy: '0.05',
+    });
   });
 
   it('shows loading skeleton when apy is not available', () => {
@@ -29,6 +33,11 @@ describe('YieldDetails', () => {
   });
 
   it('displays APY with correct formatting', () => {
+    mockUseEarnContext.mockReturnValue({
+      ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+    });
+
     render(<YieldDetails />);
     expect(screen.getByTestId('ock-yieldDetails')).toHaveTextContent(
       'APY 5.00%',
@@ -48,16 +57,30 @@ describe('YieldDetails', () => {
   });
 
   it('displays rewards in popover', () => {
+    mockUseEarnContext.mockReturnValue({
+      ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+      nativeApy: '0.05',
+      rewards: [
+        {
+          asset: '0x1',
+          assetName: 'Reward 1',
+          apy: '0.05',
+        },
+      ],
+    });
     render(<YieldDetails />);
     fireEvent.click(screen.getByTestId('ock-apyInfoButton'));
     expect(screen.getByTestId('ock-earnRewards')).toHaveTextContent(
-      'REWARD2.00%',
+      'Reward 15.00%',
     );
   });
 
   it('handles empty rewards array', () => {
     mockUseEarnContext.mockReturnValue({
       ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+      nativeApy: '0.05',
       rewards: [],
     });
     render(<YieldDetails />);
@@ -68,6 +91,8 @@ describe('YieldDetails', () => {
   it('handles null rewards', () => {
     mockUseEarnContext.mockReturnValue({
       ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+      nativeApy: '0.05',
       rewards: null,
     });
     render(<YieldDetails />);
@@ -76,6 +101,12 @@ describe('YieldDetails', () => {
   });
 
   it('displays performance fee in popover', () => {
+    mockUseEarnContext.mockReturnValue({
+      ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+      nativeApy: '0.05',
+      vaultFee: '0.01',
+    });
     render(<YieldDetails />);
     fireEvent.click(screen.getByTestId('ock-apyInfoButton'));
     expect(screen.getByTestId('ock-earnPerformanceFee')).toHaveTextContent(
@@ -103,6 +134,7 @@ describe('YieldDetails', () => {
   it('handles missing native APY gracefully', () => {
     mockUseEarnContext.mockReturnValue({
       ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
       nativeApy: undefined,
     });
     render(<YieldDetails />);
@@ -114,6 +146,8 @@ describe('YieldDetails', () => {
   it('handles cases where vault fees are falsey', () => {
     mockUseEarnContext.mockReturnValue({
       ...MOCK_EARN_CONTEXT,
+      apy: '0.05',
+      nativeApy: '0.05',
       vaultFee: undefined,
     });
     render(<YieldDetails />);
