@@ -119,4 +119,31 @@ describe('FundCardPaymentMethodSelectRow', () => {
     expect(mockSendAnalytics).not.toHaveBeenCalled();
     expect(onClick).not.toHaveBeenCalled();
   });
+
+  it('executes onClick when not disabled', () => {
+    const onClick = vi.fn();
+    const mockSendAnalytics = vi.fn();
+    (useAnalytics as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+      sendAnalytics: mockSendAnalytics,
+    });
+
+    render(
+      <FundCardPaymentMethodSelectRow
+        paymentMethod={mockPaymentMethod}
+        onClick={onClick}
+        disabled={false}
+        testId="ockFundCardPaymentMethodSelectRow"
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId('ockFundCardPaymentMethodSelectRow'));
+
+    expect(mockSendAnalytics).toHaveBeenCalledWith(
+      FundEvent.FundOptionSelected,
+      {
+        option: mockPaymentMethod.id,
+      },
+    );
+    expect(onClick).toHaveBeenCalledWith(mockPaymentMethod);
+  });
 });

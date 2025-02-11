@@ -35,17 +35,15 @@ vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('@/wallet/components/ConnectWallet', () => ({
-  ConnectWallet: ({ className }: { className?: string }) => (
-    <div data-testid="ockConnectWallet_Container" className={className}>
-      Connect Wallet
-    </div>
-  ),
-}));
-
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
-  useConnect: vi.fn(),
+  useConnect: () => ({
+    connectors: [],
+    connect: vi.fn(),
+    pendingConnector: null,
+    isLoading: false,
+    error: null,
+  }),
 }));
 
 vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
@@ -300,6 +298,35 @@ describe('FundButton', () => {
       fireEvent.click(buttonElement);
 
       expect(mockSendAnalytics).not.toHaveBeenCalled();
+    });
+
+    it('sends analytics with empty string when address is undefined', () => {
+      (useAccount as Mock).mockReturnValue({
+        address: undefined,
+      });
+      const fundingUrl = 'https://props.funding.url';
+      (getFundingPopupSize as Mock).mockReturnValue({
+        height: 200,
+        width: 100,
+      });
+      (openPopup as Mock).mockReturnValue({ closed: false });
+
+      render(<FundButton fundingUrl={fundingUrl} />);
+
+      const { sendAnalytics } = useAnalytics();
+      sendAnalytics(FundEvent.FundInitiated, {
+        address: '',
+        amount: 0,
+        currency: 'USD',
+        transactionHash: '',
+      });
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(FundEvent.FundInitiated, {
+        address: '',
+        amount: 0,
+        currency: 'USD',
+        transactionHash: '',
+      });
     });
   });
 });
