@@ -38,8 +38,7 @@ export function useDeposit() {
 
     setStatus('pending');
 
-    // Native ETH deposit flow
-
+    // Native ETH
     if (bridgeParams.token.address === '') {
       const txHash = await writeContractAsync({
         abi: StandardBridgeABI,
@@ -56,6 +55,7 @@ export function useDeposit() {
         chainId: from.id,
       });
     } else {
+      // ERC20
       if (!bridgeParams.token.remoteToken) {
         throw new Error('Remote token address is required for ERC-20 tokens');
       }
