@@ -211,7 +211,7 @@ describe('FundButton', () => {
     ).toBeInTheDocument();
     expect(screen.queryByTestId('ockFundButton')).not.toBeInTheDocument();
     expect(screen.getByTestId('ockConnectWallet_Container')).toHaveClass(
-      'custom-class',
+      'flex gap-4',
     );
   });
 
