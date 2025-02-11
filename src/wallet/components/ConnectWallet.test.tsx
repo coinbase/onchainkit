@@ -3,6 +3,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { WalletEvent } from '../../core/analytics/types';
 import { useOnchainKit } from '../../useOnchainKit';
 import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';
@@ -43,7 +45,13 @@ vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
+vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: vi.fn(),
+}));
+
 describe('ConnectWallet', () => {
+  const mockSendAnalytics = vi.fn();
+
   beforeEach(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -75,6 +83,9 @@ describe('ConnectWallet', () => {
     });
     vi.mocked(useOnchainKit).mockReturnValue({
       config: { wallet: { display: undefined } },
+    });
+    vi.mocked(useAnalytics).mockReturnValue({
+      sendAnalytics: mockSendAnalytics,
     });
   });
 
@@ -116,22 +127,54 @@ describe('ConnectWallet', () => {
 
   it('should call connect function when connect button is clicked', () => {
     const connectMock = vi.fn();
+    const mockSendAnalytics = vi.fn();
+
     vi.mocked(useConnect).mockReturnValue({
-      connectors: [{ id: 'mockConnector' }],
+      connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
       connect: connectMock,
       status: 'idle',
     });
+
+    vi.mocked(useAnalytics).mockReturnValue({
+      sendAnalytics: mockSendAnalytics,
+    });
+
     render(<ConnectWallet text="Connect Wallet" />);
+
     const button = screen.getByTestId('ockConnectButton');
     fireEvent.click(button);
-    expect(connectMock).toHaveBeenCalledWith(
+
+    expect(mockSendAnalytics).toHaveBeenCalledWith(
+      WalletEvent.ConnectInitiated,
       {
-        connector: { id: 'mockConnector' },
-      },
-      {
-        onSuccess: expect.any(Function),
+        component: 'ConnectWallet',
+        walletProvider: 'TestConnector',
       },
     );
+
+    expect(connectMock).toHaveBeenCalledWith(
+      { connector: { name: 'TestConnector', id: 'mockConnector' } },
+      {
+        onSuccess: expect.any(Function),
+        onError: expect.any(Function),
+      },
+    );
+
+    connectMock.mock.calls[0][1].onSuccess();
+    expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.ConnectSuccess, {
+      address: '',
+      walletProvider: 'TestConnector',
+    });
+
+    const error = new Error('Test error');
+    connectMock.mock.calls[0][1].onError(error);
+    expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.ConnectError, {
+      error: 'Test error',
+      metadata: {
+        connector: 'TestConnector',
+        component: 'ConnectWallet',
+      },
+    });
   });
 
   it('should toggle wallet modal on button click when connected', () => {
@@ -301,7 +344,10 @@ describe('ConnectWallet', () => {
 
       expect(connectMock).toHaveBeenCalledWith(
         { connector: { id: 'mockConnector' } },
-        { onSuccess: expect.any(Function) },
+        {
+          onSuccess: expect.any(Function),
+          onError: expect.any(Function),
+        },
       );
     });
   });
@@ -345,7 +391,10 @@ describe('ConnectWallet', () => {
 
       expect(connectMock).toHaveBeenCalledWith(
         { connector: { id: 'mockConnector' } },
-        { onSuccess: expect.any(Function) },
+        {
+          onSuccess: expect.any(Function),
+          onError: expect.any(Function),
+        },
       );
 
       connectMock.mock.calls[0][1].onSuccess();
