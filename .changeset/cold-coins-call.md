@@ -9,5 +9,5 @@
 - **chore**: Bump wagmi dependencies. By @dschlabach #1949
 - **fix**: Fix slow wallet resolution. By @dschlabach #1947
 - **docs**: Update onramp documentation. By @rustam-cb #1945 #1939
-- **fix**: Fix onramp uitl `fetchOnrampQuote`. By @rustam-cb #1940
+- **fix**: Fix onramp util `fetchOnrampQuote`. By @rustam-cb #1940
 
