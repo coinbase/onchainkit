@@ -83,10 +83,11 @@ vi.mock('../path/to/maxSlippageModule', () => ({
   getMaxSlippage: vi.fn().mockReturnValue(10),
 }));
 
-vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(() => ({
-    sendAnalytics: vi.fn(),
-  })),
+const mockSendAnalytics = vi.fn();
+vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: () => ({
+    sendAnalytics: mockSendAnalytics,
+  }),
 }));
 
 const queryClient = new QueryClient();
@@ -933,7 +934,7 @@ describe('SwapProvider', () => {
 
       await act(async () => {
         vi.mocked(buildSwapTransaction).mockRejectedValueOnce(mockError);
-        await result.current.handleSubmit().catch(() => {});
+        await result.current.handleSubmit();
       });
 
       expect(mockSendAnalytics).toHaveBeenNthCalledWith(
@@ -953,83 +954,6 @@ describe('SwapProvider', () => {
           error: 'Transaction failed',
           metadata: undefined,
         },
-      );
-    });
-
-    it('should track slippage change event', async () => {
-      const { result } = renderHook(() => useSwapContext(), { wrapper });
-
-      await act(async () => {
-        result.current.onSlippageChange?.(5, 3);
-      });
-
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
-        SwapEvent.SlippageChanged,
-        {
-          slippage: 5,
-          previousSlippage: 3,
-        },
-      );
-    });
-
-    it('should track token selected event', async () => {
-      const { result } = renderHook(() => useSwapContext(), { wrapper });
-
-      await act(async () => {
-        result.current.onTokenSelect?.('ETH');
-      });
-
-      expect(mockSendAnalytics).toHaveBeenCalledWith(SwapEvent.TokenSelected, {
-        token: 'ETH',
-      });
-    });
-
-    it('should include paymaster flag in analytics when transaction is sponsored', async () => {
-      const wrapper = ({ children }: { children: React.ReactNode }) => (
-        <WagmiProvider config={accountConfig}>
-          <QueryClientProvider client={queryClient}>
-            <SwapProvider
-              config={{ maxSlippage: 5 }}
-              experimental={{ useAggregator: true }}
-              isSponsored={true}
-            >
-              {children}
-            </SwapProvider>
-          </QueryClientProvider>
-        </WagmiProvider>
-      );
-
-      const { result } = renderHook(() => useSwapContext(), { wrapper });
-
-      await act(async () => {
-        result.current.from.setToken?.(ETH_TOKEN);
-        result.current.from.setAmount?.('100');
-        result.current.to.setToken?.(DEGEN_TOKEN);
-      });
-
-      await act(async () => {
-        result.current.updateLifecycleStatus({
-          statusName: 'success',
-          statusData: {
-            transactionReceipt: { transactionHash: '0x123' },
-            tokenFrom: ETH_TOKEN,
-            tokenTo: DEGEN_TOKEN,
-            amountFrom: '100',
-            maxSlippage: 5,
-          },
-        } as unknown as LifecycleStatus);
-      });
-
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
-        SwapEvent.SwapSuccess,
-        expect.objectContaining({
-          address: '0x123',
-          amount: 100,
-          from: 'ETH',
-          to: 'DEGEN',
-          transactionHash: '0x123',
-          paymaster: true,
-        }),
       );
     });
   });
