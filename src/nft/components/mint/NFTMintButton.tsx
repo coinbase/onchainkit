@@ -1,5 +1,3 @@
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { MintEvent } from '@/core/analytics/types';
 import { Spinner } from '@/internal/components/Spinner';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
@@ -50,7 +48,6 @@ export function NFTMintButton({
   const { updateLifecycleStatus } = useNFTLifecycleContext();
   const [callData, setCallData] = useState<Call[]>([]);
   const [mintError, setMintError] = useState<string | null>(null);
-  const { sendAnalytics } = useAnalytics();
 
   const handleTransactionError = useCallback(
     (error: string) => {
@@ -67,66 +64,12 @@ export function NFTMintButton({
     [updateLifecycleStatus],
   );
 
-  const handleAnalyticsInitiated = useCallback(
-    (contractAddress: string, tokenId: string, quantity: number) => {
-      sendAnalytics(MintEvent.MintInitiated, {
-        contractAddress,
-        tokenId,
-        quantity,
-      });
-    },
-    [sendAnalytics],
-  );
-
-  const handleAnalyticsSuccess = useCallback(
-    (
-      contractAddress: string,
-      tokenId: string,
-      address: string | undefined,
-      quantity: number,
-      isSponsored: boolean,
-    ) => {
-      sendAnalytics(MintEvent.MintSuccess, {
-        contractAddress,
-        tokenId,
-        address: address ?? '',
-        amountMinted: quantity,
-        isSponsored,
-      });
-    },
-    [sendAnalytics],
-  );
-
-  const handleAnalyticsError = useCallback(
-    (error: string, metadata?: Record<string, unknown>) => {
-      sendAnalytics(MintEvent.MintFailure, {
-        error,
-        metadata,
-      });
-    },
-    [sendAnalytics],
-  );
-
-  const handleAnalyticsQuantityChanged = useCallback(
-    (newQuantity: number, previousQuantity: number) => {
-      sendAnalytics(MintEvent.MintQuantityChanged, {
-        quantity: newQuantity,
-        previousQuantity,
-      });
-    },
-    [sendAnalytics],
-  );
-
   const fetchTransactions = useCallback(async () => {
+    // don't fetch transactions until data is available
     if (name && address && buildMintTransaction && isEligibleToMint) {
       try {
         setCallData([]);
         setMintError(null);
-        handleAnalyticsInitiated(
-          contractAddress ?? '',
-          tokenId ?? '',
-          quantity,
-        );
         const mintTransaction = await buildMintTransaction({
           takerAddress: address,
           contractAddress,
@@ -136,13 +79,7 @@ export function NFTMintButton({
         });
         setCallData(mintTransaction);
       } catch (error) {
-        const errorMessage = error as string;
-        handleAnalyticsError(errorMessage, {
-          contractAddress,
-          tokenId,
-          quantity,
-        });
-        handleTransactionError(errorMessage);
+        handleTransactionError(error as string);
       }
     } else {
       setCallData([]);
@@ -152,8 +89,6 @@ export function NFTMintButton({
     buildMintTransaction,
     contractAddress,
     handleTransactionError,
-    handleAnalyticsInitiated,
-    handleAnalyticsError,
     isEligibleToMint,
     name,
     network,
@@ -162,11 +97,12 @@ export function NFTMintButton({
   ]);
 
   useEffect(() => {
+    // need to fetch calls on quantity change instead of onClick to avoid smart wallet
+    // popups getting blocked by safari
     fetchTransactions();
   }, [fetchTransactions]);
 
   const handleOnStatus = useCallback(
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
     (transactionStatus: TransactionLifecycleStatus) => {
       if (transactionStatus.statusName === 'transactionPending') {
         updateLifecycleStatus({ statusName: 'transactionPending' });
@@ -174,51 +110,14 @@ export function NFTMintButton({
 
       if (
         transactionStatus.statusName === 'transactionLegacyExecuted' ||
-        transactionStatus.statusName === 'success'
+        transactionStatus.statusName === 'success' ||
+        transactionStatus.statusName === 'error'
       ) {
-        handleAnalyticsSuccess(
-          contractAddress ?? '',
-          tokenId ?? '',
-          address ?? '',
-          quantity,
-          isSponsored ?? false,
-        );
-        updateLifecycleStatus(transactionStatus);
-      }
-
-      if (transactionStatus.statusName === 'error') {
-        handleAnalyticsError(
-          transactionStatus.statusData?.message ?? 'Unknown error',
-          {
-            contractAddress,
-            tokenId,
-            quantity,
-          },
-        );
         updateLifecycleStatus(transactionStatus);
       }
     },
-    [
-      updateLifecycleStatus,
-      handleAnalyticsSuccess,
-      handleAnalyticsError,
-      contractAddress,
-      tokenId,
-      address,
-      quantity,
-      isSponsored,
-    ],
+    [updateLifecycleStatus],
   );
-
-  useEffect(() => {
-    const storedQuantity = Number(
-      localStorage.getItem('lastMintQuantity') ?? '0',
-    );
-    if (storedQuantity !== quantity) {
-      handleAnalyticsQuantityChanged(quantity, storedQuantity);
-      localStorage.setItem('lastMintQuantity', quantity.toString());
-    }
-  }, [quantity, handleAnalyticsQuantityChanged]);
 
   const transactionButtonLabel = useMemo(() => {
     if (isEligibleToMint === false || mintError) {

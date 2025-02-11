@@ -1,6 +1,4 @@
 import type { GetSwapQuoteResponse } from '@/api';
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { SwapEvent } from '@/core/analytics/types';
 import { RequestContext } from '@/core/network/constants';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
@@ -81,13 +79,6 @@ vi.mock('wagmi/experimental', () => ({
 
 vi.mock('../path/to/maxSlippageModule', () => ({
   getMaxSlippage: vi.fn().mockReturnValue(10),
-}));
-
-const mockSendAnalytics = vi.fn();
-vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: () => ({
-    sendAnalytics: mockSendAnalytics,
-  }),
 }));
 
 const queryClient = new QueryClient();
@@ -583,12 +574,13 @@ describe('SwapProvider', () => {
   it('should pass the correct slippage to getSwapQuote', async () => {
     const TestComponent = () => {
       const { handleAmountChange } = useSwapContext();
+      // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
           handleAmountChange('from', '100', ETH_TOKEN, DEGEN_TOKEN);
         };
         initializeSwap();
-      }, [handleAmountChange]);
+      }, []);
       return null;
     };
     await act(async () => {
@@ -610,12 +602,13 @@ describe('SwapProvider', () => {
   it('should pass the correct amountReference to getSwapQuote', async () => {
     const TestComponent = () => {
       const { handleAmountChange } = useSwapContext();
+      // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
           handleAmountChange('to', '100', ETH_TOKEN, DEGEN_TOKEN);
         };
         initializeSwap();
-      }, [handleAmountChange]);
+      }, []);
       return null;
     };
     await act(async () => {
@@ -637,12 +630,13 @@ describe('SwapProvider', () => {
   it('should handle undefined in input', async () => {
     const TestComponent = () => {
       const { handleAmountChange } = useSwapContext();
+      // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
           handleAmountChange('from', '100', undefined, undefined);
         };
         initializeSwap();
-      }, [handleAmountChange]);
+      }, []);
       return null;
     };
     await act(async () => {
@@ -847,114 +841,5 @@ describe('SwapProvider', () => {
     if (result.current.statusName === 'init') {
       expect(result.current.statusData.maxSlippage).toBe(3);
     }
-  });
-
-  describe('Analytics', () => {
-    const mockSendAnalytics = vi.fn();
-
-    beforeEach(() => {
-      vi.clearAllMocks();
-      (useAnalytics as ReturnType<typeof vi.fn>).mockReturnValue({
-        sendAnalytics: mockSendAnalytics,
-      });
-      (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
-        address: '0x123',
-      });
-      (useChainId as ReturnType<typeof vi.fn>).mockReturnValue(8453);
-      (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
-        status: 'idle',
-        sendCallsAsync: vi.fn(),
-      });
-      (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
-        switchChainAsync: mockSwitchChain,
-      });
-    });
-
-    it('should track swap initiated event when handleSubmit is called', async () => {
-      const { result } = renderHook(() => useSwapContext(), { wrapper });
-
-      await act(async () => {
-        result.current.from.setToken?.(ETH_TOKEN);
-        result.current.from.setAmount?.('100');
-        result.current.to.setToken?.(DEGEN_TOKEN);
-      });
-
-      await act(async () => {
-        await result.current.handleSubmit();
-      });
-
-      expect(mockSendAnalytics).toHaveBeenCalledWith(SwapEvent.SwapInitiated, {
-        from: 'ETH',
-        to: 'DEGEN',
-        amount: 100,
-      });
-    });
-
-    it('should track swap success event when transaction succeeds', async () => {
-      const { result } = renderHook(() => useSwapContext(), { wrapper });
-
-      await act(async () => {
-        result.current.from.setToken?.(ETH_TOKEN);
-        result.current.from.setAmount?.('100');
-        result.current.to.setToken?.(DEGEN_TOKEN);
-      });
-
-      await act(async () => {
-        result.current.updateLifecycleStatus({
-          statusName: 'success',
-          statusData: {
-            transactionReceipt: { transactionHash: '0x123' },
-            tokenFrom: ETH_TOKEN,
-            tokenTo: DEGEN_TOKEN,
-            amountFrom: '100',
-            maxSlippage: 5,
-          },
-        } as unknown as LifecycleStatus);
-      });
-
-      expect(mockSendAnalytics).toHaveBeenCalledWith(SwapEvent.SwapSuccess, {
-        address: '0x123',
-        amount: 100,
-        from: 'ETH',
-        to: 'DEGEN',
-        transactionHash: '0x123',
-        paymaster: false,
-      });
-    });
-
-    it('should track swap failure event when transaction fails', async () => {
-      const { result } = renderHook(() => useSwapContext(), { wrapper });
-      const mockError = new Error('Transaction failed');
-
-      await act(async () => {
-        result.current.from.setToken?.(ETH_TOKEN);
-        result.current.from.setAmount?.('100');
-        result.current.to.setToken?.(DEGEN_TOKEN);
-      });
-
-      await act(async () => {
-        vi.mocked(buildSwapTransaction).mockRejectedValueOnce(mockError);
-        await result.current.handleSubmit();
-      });
-
-      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
-        1,
-        SwapEvent.SwapInitiated,
-        {
-          amount: 100,
-          from: 'ETH',
-          to: 'DEGEN',
-        },
-      );
-
-      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
-        2,
-        SwapEvent.SwapFailure,
-        {
-          error: 'Transaction failed',
-          metadata: undefined,
-        },
-      );
-    });
   });
 });

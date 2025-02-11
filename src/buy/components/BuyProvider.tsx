@@ -12,9 +12,6 @@ import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
-import { BuyEvent } from '../../core/analytics/types';
-import type { BuyOption } from '../../core/analytics/types';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
@@ -111,52 +108,7 @@ export function BuyProvider({
   // used to detect when the popup is closed in order to stop loading state
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
 
-  // Analytics
-  const { sendAnalytics } = useAnalytics();
-
-  const handleAnalyticsInitiated = useCallback(
-    (amount: number, tokenSymbol: string) => {
-      sendAnalytics(BuyEvent.BuyInitiated, {
-        amount,
-        token: tokenSymbol,
-      });
-    },
-    [sendAnalytics],
-  );
-
-  const handleAnalyticsOptionSelected = useCallback(
-    (option: BuyOption) => {
-      sendAnalytics(BuyEvent.BuyOptionSelected, {
-        option,
-      });
-    },
-    [sendAnalytics],
-  );
-
-  const handleAnalyticsSuccess = useCallback(
-    (params: {
-      address: string;
-      amount: number;
-      from: string;
-      paymaster: boolean;
-      to: string;
-      transactionHash: string;
-    }) => {
-      sendAnalytics(BuyEvent.BuySuccess, params);
-    },
-    [sendAnalytics],
-  );
-
-  const handleAnalyticsFailure = useCallback(
-    (error: string, metadata: Record<string, unknown>) => {
-      sendAnalytics(BuyEvent.BuyFailure, {
-        error,
-        metadata,
-      });
-    },
-    [sendAnalytics],
-  );
-
+  // Component lifecycle emitters
   useEffect(() => {
     // Error
     if (lifecycleStatus.statusName === 'error') {
@@ -169,16 +121,6 @@ export function BuyProvider({
         lifecycleStatus.statusData.transactionReceipt?.transactionHash,
       );
       setHasHandledSuccess(true);
-
-      handleAnalyticsSuccess({
-        address: address || '',
-        amount: Number(from?.amount || 0),
-        from: from?.token?.address || '',
-        paymaster: !!paymaster,
-        to: to?.token?.address || '',
-        transactionHash:
-          lifecycleStatus.statusData.transactionReceipt?.transactionHash || '',
-      });
     }
     // Emit Status
     onStatus?.(lifecycleStatus);
@@ -187,13 +129,8 @@ export function BuyProvider({
     onStatus,
     onSuccess,
     lifecycleStatus,
-    lifecycleStatus.statusData,
-    lifecycleStatus.statusName,
-    from,
-    to,
-    address,
-    paymaster,
-    handleAnalyticsSuccess,
+    lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
+    lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
   ]);
 
   useEffect(() => {
@@ -313,8 +250,6 @@ export function BuyProvider({
       });
 
       try {
-        handleAnalyticsInitiated(Number(amount), to?.token?.symbol || '');
-
         const maxSlippage = lifecycleStatus.statusData.maxSlippage;
 
         const {
@@ -382,10 +317,6 @@ export function BuyProvider({
           },
         });
       } catch (err) {
-        handleAnalyticsFailure(
-          err instanceof Error ? err.message : String(err),
-          { amount },
-        );
         updateLifecycleStatus({
           statusName: 'error',
           statusData: {
@@ -409,8 +340,6 @@ export function BuyProvider({
       useAggregator,
       updateLifecycleStatus,
       lifecycleStatus.statusData.maxSlippage,
-      handleAnalyticsInitiated,
-      handleAnalyticsFailure,
     ],
   );
 
@@ -420,8 +349,6 @@ export function BuyProvider({
       if (!address || !from.token || !to.token || !from.amount) {
         return;
       }
-
-      handleAnalyticsOptionSelected(from.token.symbol as BuyOption);
 
       try {
         const maxSlippage = lifecycleStatus.statusData.maxSlippage;
@@ -461,13 +388,6 @@ export function BuyProvider({
           walletCapabilities,
         });
       } catch (err) {
-        handleAnalyticsFailure(
-          err instanceof Error ? err.message : String(err),
-          {
-            token: from.token.symbol,
-            amount: from.amount,
-          },
-        );
         const errorMessage = isUserRejectedRequestError(err)
           ? 'Request denied.'
           : GENERIC_ERROR_MESSAGE;
@@ -495,8 +415,6 @@ export function BuyProvider({
       updateLifecycleStatus,
       useAggregator,
       walletCapabilities,
-      handleAnalyticsOptionSelected,
-      handleAnalyticsFailure,
     ],
   );
 

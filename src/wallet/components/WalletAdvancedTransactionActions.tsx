@@ -1,7 +1,5 @@
 'use client';
 
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { WalletEvent, WalletOption } from '@/core/analytics/types';
 import { addSvgForeground } from '@/internal/svg/addForegroundSvg';
 import { arrowUpRightSvg } from '@/internal/svg/arrowUpRightSvg';
 import { toggleSvg } from '@/internal/svg/toggleSvg';
@@ -38,20 +36,8 @@ export function WalletAdvancedTransactionActions({
   const { projectId } = useOnchainKit();
   const { isFetchingPortfolioData, setShowSwap, animations } =
     useWalletAdvancedContext();
-  const { sendAnalytics } = useAnalytics();
-
-  const handleAnalyticsOptionSelected = useCallback(
-    (option: WalletOption) => {
-      sendAnalytics(WalletEvent.OptionSelected, {
-        option,
-      });
-    },
-    [sendAnalytics],
-  );
 
   const handleBuy = useCallback(() => {
-    handleAnalyticsOptionSelected(WalletOption.Buy);
-
     if (!projectId || !address || !chain?.name) {
       return;
     }
@@ -75,17 +61,15 @@ export function WalletAdvancedTransactionActions({
       'popup',
       'width=400,height=600,scrollbars=yes',
     );
-  }, [address, chain?.name, projectId, handleAnalyticsOptionSelected]);
+  }, [address, chain?.name, projectId]);
 
   const handleSend = useCallback(() => {
-    handleAnalyticsOptionSelected(WalletOption.Send);
     window.open('https://wallet.coinbase.com', '_blank');
-  }, [handleAnalyticsOptionSelected]);
+  }, []);
 
   const handleSwap = useCallback(() => {
-    handleAnalyticsOptionSelected(WalletOption.Swap);
     setShowSwap(true);
-  }, [setShowSwap, handleAnalyticsOptionSelected]);
+  }, [setShowSwap]);
 
   if (isFetchingPortfolioData) {
     return (
