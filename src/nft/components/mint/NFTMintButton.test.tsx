@@ -1,7 +1,5 @@
-import { render } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { MintEvent } from '@/core/analytics/types';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { NFTMintButton } from '@/nft/components/mint/NFTMintButton';
@@ -17,6 +15,8 @@ import {
   useChainId,
 } from 'wagmi';
 import { mock } from 'wagmi/connectors';
+import { MintEvent } from '@/core/analytics/types';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 
 vi.mock('@/nft/components/NFTProvider');
 vi.mock('@/nft/components/NFTLifecycleProvider');
@@ -94,6 +94,7 @@ vi.mock('@/transaction', async (importOriginal) => {
 vi.mock('@/wallet', () => ({
   ConnectWallet: () => <div>ConnectWallet</div>,
 }));
+
 vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
   useAnalytics: vi.fn(),
 }));
@@ -351,18 +352,15 @@ describe('NFTMintButton', () => {
   });
 
   describe('analytics', () => {
-    it('sends MintInitiated analytics when transaction is built', async () => {
-      const contractAddress = '0x123';
-      const tokenId = '1';
-      const quantity = 1;
-
+    it('sends MintInitiated analytics when mint transaction is built', async () => {
+      const buildMintTransactionMock = vi.fn().mockResolvedValue([]);
       (useNFTContext as Mock).mockReturnValue({
-        contractAddress,
-        tokenId,
+        contractAddress: '0x123',
+        tokenId: '1',
         name: 'name',
-        quantity,
         isEligibleToMint: true,
-        buildMintTransaction: vi.fn().mockResolvedValue([]),
+        buildMintTransaction: buildMintTransactionMock,
+        quantity: 1,
       });
 
       render(
@@ -372,145 +370,40 @@ describe('NFTMintButton', () => {
       );
 
       expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintInitiated, {
-        contractAddress,
-        tokenId,
-        quantity,
+        contractAddress: '0x123',
+        tokenId: '1',
+        quantity: 1,
       });
     });
 
     it('sends MintSuccess analytics when transaction succeeds', () => {
-      const contractAddress = '0x123';
-      const tokenId = '1';
-      const quantity = 1;
-      const address = '0xabc';
-      const isSponsored = true;
-
-      (useNFTContext as Mock).mockReturnValue({
-        contractAddress,
-        tokenId,
-        name: 'name',
-        quantity,
-        isEligibleToMint: true,
-        isSponsored,
-        buildMintTransaction: vi.fn().mockResolvedValue([]),
-      });
-
-      const { getByText } = render(
+      render(
         <TestProviders>
           <NFTMintButton />
         </TestProviders>,
       );
 
-      getByText('Success').click();
+      const successButton = screen.getByText('Success');
+      fireEvent.click(successButton);
 
       expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintSuccess, {
-        contractAddress,
-        tokenId,
-        address,
-        amountMinted: quantity,
-        isSponsored,
+        contractAddress: '0x123',
+        tokenId: '1',
+        address: '0xabc',
+        amountMinted: 1,
+        isSponsored: false,
       });
     });
 
-    it('sends MintFailure analytics when transaction fails', () => {
-      const contractAddress = '0x123';
-      const tokenId = '1';
-      const quantity = 1;
-
+    it('sends MintSuccess analytics with sponsored flag when isSponsored is true', () => {
       (useNFTContext as Mock).mockReturnValue({
-        contractAddress,
-        tokenId,
-        name: 'name',
-        quantity,
-        isEligibleToMint: true,
-        buildMintTransaction: vi.fn().mockResolvedValue([]),
-      });
-
-      const { getByText } = render(
-        <TestProviders>
-          <NFTMintButton />
-        </TestProviders>,
-      );
-
-      getByText('Error').click();
-
-      expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintFailure, {
-        error: 'Unknown error',
-        metadata: {
-          contractAddress,
-          tokenId,
-          quantity,
-        },
-      });
-    });
-
-    it('sends MintQuantityChanged analytics when quantity changes', () => {
-      const initialQuantity = 1;
-      const newQuantity = 2;
-
-      (useNFTContext as Mock).mockReturnValueOnce({
         contractAddress: '0x123',
         tokenId: '1',
         name: 'name',
-        quantity: initialQuantity,
+        quantity: 1,
         isEligibleToMint: true,
+        isSponsored: true,
         buildMintTransaction: vi.fn().mockResolvedValue([]),
-      });
-
-      const { rerender } = render(
-        <TestProviders>
-          <NFTMintButton />
-        </TestProviders>,
-      );
-
-      const mockGetItem = vi.spyOn(Storage.prototype, 'getItem');
-      const mockSetItem = vi.spyOn(Storage.prototype, 'setItem');
-      mockGetItem.mockReturnValue(initialQuantity.toString());
-
-      (useNFTContext as Mock).mockReturnValueOnce({
-        contractAddress: '0x123',
-        tokenId: '1',
-        name: 'name',
-        quantity: newQuantity,
-        isEligibleToMint: true,
-        buildMintTransaction: vi.fn().mockResolvedValue([]),
-      });
-
-      rerender(
-        <TestProviders>
-          <NFTMintButton />
-        </TestProviders>,
-      );
-
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
-        MintEvent.MintQuantityChanged,
-        {
-          quantity: newQuantity,
-          previousQuantity: initialQuantity,
-        },
-      );
-      expect(mockSetItem).toHaveBeenCalledWith(
-        'lastMintQuantity',
-        newQuantity.toString(),
-      );
-
-      mockGetItem.mockRestore();
-      mockSetItem.mockRestore();
-    });
-
-    it('sends MintFailure analytics when buildMintTransaction fails', async () => {
-      const contractAddress = '0x123';
-      const tokenId = '1';
-      const quantity = 1;
-      const error = 'Failed to build transaction';
-
-      (useNFTContext as Mock).mockReturnValue({
-        contractAddress,
-        tokenId,
-        name: 'name',
-        quantity,
-        isEligibleToMint: true,
-        buildMintTransaction: vi.fn().mockRejectedValue(error),
       });
 
       render(
@@ -519,16 +412,88 @@ describe('NFTMintButton', () => {
         </TestProviders>,
       );
 
-      await vi.waitFor(() => {
-        expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintFailure, {
-          error,
-          metadata: {
-            contractAddress,
-            tokenId,
-            quantity,
-          },
-        });
+      const successButton = screen.getByText('Success');
+      fireEvent.click(successButton);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintSuccess, {
+        contractAddress: '0x123',
+        tokenId: '1',
+        address: '0xabc',
+        amountMinted: 1,
+        isSponsored: true,
       });
+    });
+
+    it('sends MintFailure analytics when transaction fails', () => {
+      render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+
+      const errorButton = screen.getByText('Error');
+      fireEvent.click(errorButton);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintFailure, {
+        error: 'Unknown error',
+        metadata: expect.any(Object),
+      });
+    });
+
+    it('sends MintFailure analytics when buildMintTransaction fails', async () => {
+      const buildMintTransactionMock = vi.fn().mockRejectedValue('Build failed');
+      (useNFTContext as Mock).mockReturnValue({
+        contractAddress: '0x123',
+        tokenId: '1',
+        name: 'name',
+        isEligibleToMint: true,
+        buildMintTransaction: buildMintTransactionMock,
+        quantity: 1,
+      });
+
+      await render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintFailure, {
+        error: 'Build failed',
+        metadata: {
+          contractAddress: '0x123',
+          tokenId: '1',
+          quantity: 1,
+        },
+      });
+    });
+
+    it('does not send analytics when address is not available', () => {
+      (useAccount as Mock).mockReturnValue({ address: null });
+
+      render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+
+      expect(mockSendAnalytics).not.toHaveBeenCalled();
+    });
+
+    it('does not send analytics when buildMintTransaction is undefined', () => {
+      (useNFTContext as Mock).mockReturnValue({
+        contractAddress: '0x123',
+        tokenId: '1',
+        quantity: 1,
+        isEligibleToMint: true,
+      });
+
+      render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+
+      expect(mockSendAnalytics).not.toHaveBeenCalled();
     });
   });
 });

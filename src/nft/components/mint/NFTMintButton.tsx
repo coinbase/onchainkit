@@ -107,16 +107,6 @@ export function NFTMintButton({
     [sendAnalytics],
   );
 
-  const handleAnalyticsQuantityChanged = useCallback(
-    (newQuantity: number, previousQuantity: number) => {
-      sendAnalytics(MintEvent.MintQuantityChanged, {
-        quantity: newQuantity,
-        previousQuantity,
-      });
-    },
-    [sendAnalytics],
-  );
-
   const fetchTransactions = useCallback(async () => {
     if (name && address && buildMintTransaction && isEligibleToMint) {
       try {
@@ -162,6 +152,8 @@ export function NFTMintButton({
   ]);
 
   useEffect(() => {
+    // need to fetch calls on quantity change instead of onClick to avoid smart wallet
+    // popups getting blocked by safari
     fetchTransactions();
   }, [fetchTransactions]);
 
@@ -174,15 +166,18 @@ export function NFTMintButton({
 
       if (
         transactionStatus.statusName === 'transactionLegacyExecuted' ||
-        transactionStatus.statusName === 'success'
+        transactionStatus.statusName === 'success' ||
+        transactionStatus.statusName === 'error'
       ) {
-        handleAnalyticsSuccess(
-          contractAddress ?? '',
-          tokenId ?? '',
-          address ?? '',
-          quantity,
-          isSponsored ?? false,
-        );
+        if (transactionStatus.statusName === 'success') {
+          handleAnalyticsSuccess(
+            contractAddress ?? '',
+            tokenId ?? '',
+            address ?? '',
+            quantity,
+            isSponsored ?? false,
+          );
+        }
         updateLifecycleStatus(transactionStatus);
       }
 
@@ -209,16 +204,6 @@ export function NFTMintButton({
       isSponsored,
     ],
   );
-
-  useEffect(() => {
-    const storedQuantity = Number(
-      localStorage.getItem('lastMintQuantity') ?? '0',
-    );
-    if (storedQuantity !== quantity) {
-      handleAnalyticsQuantityChanged(quantity, storedQuantity);
-      localStorage.setItem('lastMintQuantity', quantity.toString());
-    }
-  }, [quantity, handleAnalyticsQuantityChanged]);
 
   const transactionButtonLabel = useMemo(() => {
     if (isEligibleToMint === false || mintError) {

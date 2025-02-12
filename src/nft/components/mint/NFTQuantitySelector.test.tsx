@@ -12,6 +12,8 @@ import {
   vi,
 } from 'vitest';
 import { NFTQuantitySelector } from './NFTQuantitySelector';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { MintEvent } from '@/core/analytics/types';
 
 vi.mock('@/nft/components/NFTProvider');
 
@@ -34,14 +36,23 @@ vi.mock('@/internal/components/QuantitySelector', () => ({
   ),
 }));
 
+vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: vi.fn(),
+}));
+
 describe('NFTQuantitySelector', () => {
   const setQuantityMock = vi.fn();
   const useNFTContextMock = useNFTContext as Mock;
+  let mockSendAnalytics: Mock;
 
   beforeEach(() => {
     useNFTContextMock.mockReturnValue({
       maxMintsPerWallet: 5,
       setQuantity: setQuantityMock,
+    });
+    mockSendAnalytics = vi.fn();
+    (useAnalytics as Mock).mockReturnValue({
+      sendAnalytics: mockSendAnalytics,
     });
   });
 
@@ -89,5 +100,42 @@ describe('NFTQuantitySelector', () => {
     const { getByRole } = render(<NFTQuantitySelector />);
     const input = getByRole('textbox') as HTMLInputElement;
     expect(input).not.toHaveAttribute('data-maxquantity');
+  });
+
+  describe('analytics', () => {
+    it('sends MintQuantityChanged analytics when quantity changes', () => {
+      const { getByRole } = render(<NFTQuantitySelector />);
+      const input = getByRole('textbox') as HTMLInputElement;
+      
+      act(() => {
+        input.focus();
+        fireEvent.change(input, { target: { value: '3' } });
+        input.blur();
+      });
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintQuantityChanged, {
+        quantity: 3,
+        previousQuantity: 1,
+      });
+    });
+
+    it('does not send analytics for invalid input', () => {
+      const { getByRole } = render(<NFTQuantitySelector />);
+      const input = getByRole('textbox') as HTMLInputElement;
+      
+      act(() => {
+        input.focus();
+        fireEvent.change(input, { target: { value: 'abc' } });
+        input.blur();
+      });
+
+      expect(mockSendAnalytics).not.toHaveBeenCalled();
+    });
+
+    it('does not send analytics when maxMintsPerWallet is 1', () => {
+      useNFTContextMock.mockReturnValueOnce({ maxMintsPerWallet: 1 });
+      render(<NFTQuantitySelector />);
+      expect(mockSendAnalytics).not.toHaveBeenCalled();
+    });
   });
 });
