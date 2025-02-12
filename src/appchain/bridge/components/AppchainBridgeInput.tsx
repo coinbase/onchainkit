@@ -79,6 +79,7 @@ export function AppchainBridgeInput({
             onClick={() => {
               setIsAddressModalOpen(true);
             }}
+            title={bridgeParams.recipient}
           >
             <Address
               address={
