@@ -92,8 +92,6 @@ const TestComponent = () => {
     });
   };
 
-  console.log('context.lifecycleStatus', context.lifecycleStatus.statusName);
-
   return (
     <div data-testid="test-component">
       <span data-testid="transactions">
