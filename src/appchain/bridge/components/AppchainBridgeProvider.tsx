@@ -70,7 +70,7 @@ export const AppchainBridgeProvider = ({
     );
   }
   if (!config) {
-    return <></>;
+    return null;
   }
 
   // Wagmi hooks
