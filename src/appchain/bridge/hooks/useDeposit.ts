@@ -3,7 +3,7 @@ import { parseEther, parseUnits } from 'viem';
 import type { Chain } from 'viem';
 import { useAccount, useConfig, useSwitchChain, useWriteContract } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { ERC20ABI, StandardBridgeABI } from '../abi';
+import { ERC20ABI, OptimismPortalABI, StandardBridgeABI } from '../abi';
 import { EXTRA_DATA, MIN_GAS_LIMIT } from '../constants';
 import type { AppchainConfig } from '../types';
 import type { BridgeParams } from '../types';
@@ -67,11 +67,16 @@ export function useDeposit() {
           bridgeParams.amount,
           bridgeParams.token.decimals,
         );
+
+        const bridgeAddress = bridgeParams.token.isCustomGasToken
+          ? config.contracts.optimismPortal
+          : config.contracts.l1StandardBridge;
+
         // Approve the L1StandardBridge to spend tokens
         const approveTx = await writeContractAsync({
           abi: ERC20ABI,
           functionName: 'approve',
-          args: [config.contracts.l1StandardBridge, formattedAmount],
+          args: [bridgeAddress, formattedAmount],
           address: bridgeParams.token.address,
         });
         await waitForTransactionReceipt(wagmiConfig, {
@@ -80,23 +85,41 @@ export function useDeposit() {
           chainId: from.id,
         });
 
+        let bridgeTxHash;
+
         // Bridge the tokens
-        const bridgeTx = await writeContractAsync({
-          abi: StandardBridgeABI,
-          functionName: 'bridgeERC20To',
-          args: [
-            bridgeParams.token.address,
-            bridgeParams.token.remoteToken, // TODO: manually calculate the salted address
-            bridgeParams.recipient,
-            formattedAmount,
-            MIN_GAS_LIMIT,
-            EXTRA_DATA,
-          ],
-          address: config.contracts.l1StandardBridge,
-        });
+        if (bridgeParams.token.isCustomGasToken) {
+          bridgeTxHash = await writeContractAsync({
+            abi: OptimismPortalABI,
+            functionName: 'depositERC20Transaction',
+            args: [
+              bridgeParams.recipient,
+              formattedAmount,
+              formattedAmount,
+              BigInt(MIN_GAS_LIMIT),
+              false,
+              EXTRA_DATA,
+            ],
+            address: config.contracts.optimismPortal,
+          });
+        } else {
+          bridgeTxHash = await writeContractAsync({
+            abi: StandardBridgeABI,
+            functionName: 'bridgeERC20To',
+            args: [
+              bridgeParams.token.address,
+              bridgeParams.token.remoteToken, // TODO: manually calculate the salted address
+              bridgeParams.recipient,
+              formattedAmount,
+              MIN_GAS_LIMIT,
+              EXTRA_DATA,
+            ],
+            address: config.contracts.l1StandardBridge,
+          });
+        }
 
         await waitForTransactionReceipt(wagmiConfig, {
-          hash: bridgeTx,
+          hash: bridgeTxHash,
           confirmations: 1,
           chainId: from.id,
         });

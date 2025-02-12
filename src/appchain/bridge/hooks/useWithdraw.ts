@@ -17,6 +17,7 @@ import {
 } from 'wagmi/actions';
 import {
   L2OutputOracleABI,
+  L2_TO_L1_MESSAGE_PASSER_ABI,
   OptimismPortalABI,
   StandardBridgeABI,
 } from '../abi';
@@ -83,8 +84,17 @@ export const useWithdraw = ({
 
       let transactionHash: Hex = '0x';
 
-      // Native ETH
-      if (bridgeParams.token.address === '') {
+      if (bridgeParams.token.isCustomGasToken) {
+        transactionHash = await writeContractAsync({
+          abi: L2_TO_L1_MESSAGE_PASSER_ABI,
+          functionName: 'initiateWithdrawal',
+          args: [bridgeParams.recipient, BigInt(MIN_GAS_LIMIT), EXTRA_DATA],
+          address: APPCHAIN_L2_TO_L1_MESSAGE_PASSER_ADDRESS,
+          chainId: config.chainId,
+          value: parseEther(bridgeParams.amount),
+        });
+      } else if (bridgeParams.token.address === '') {
+        // Native ETH
         transactionHash = await writeContractAsync({
           abi: StandardBridgeABI,
           functionName: 'bridgeETHTo',
