@@ -133,7 +133,20 @@ export const AppchainBridgeProvider = ({
         : bridgeParams.token.remoteToken;
 
     let _balance: string;
-    if (tokenAddress) {
+
+    if (
+      !tokenAddress ||
+      (direction === 'withdraw' && bridgeParams.token.isCustomGasToken)
+    ) {
+      const ethBalance = await getBalance(wagmiConfig, {
+        address,
+        chainId: from.id,
+      });
+      _balance = toReadableAmount(
+        ethBalance.value.toString(),
+        ethBalance.decimals,
+      );
+    } else {
       const erc20Balance = await readContract(wagmiConfig, {
         abi: erc20Abi,
         functionName: 'balanceOf',
@@ -145,16 +158,9 @@ export const AppchainBridgeProvider = ({
         erc20Balance.toString(),
         bridgeParams.token.decimals,
       );
-    } else {
-      const ethBalance = await getBalance(wagmiConfig, {
-        address,
-        chainId: from.id,
-      });
-      _balance = toReadableAmount(
-        ethBalance.value.toString(),
-        ethBalance.decimals,
-      );
     }
+
+    console.log('balance', _balance);
 
     setBalance(_balance);
   }, [address, direction, bridgeParams.token, from.id, wagmiConfig]);
