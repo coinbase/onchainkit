@@ -37,8 +37,7 @@ export function useDepositButton({
 
   const isDisabled =
     isConnected &&
-    (depositStatus === 'depositPending' ||
-      withdrawStatus === 'withdrawPending' ||
+    (isPending ||
       bridgeParams.amount === '' ||
       Number(bridgeParams.amount) === 0);
 

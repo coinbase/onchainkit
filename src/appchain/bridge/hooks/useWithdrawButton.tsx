@@ -1,4 +1,5 @@
 import { Spinner } from '@/internal/components/Spinner';
+import { useMemo } from 'react';
 import type { ReactNode } from 'react';
 
 interface UseWithdrawButtonProps {
@@ -25,11 +26,11 @@ export function useWithdrawButton({
     withdrawStatus === 'claimReady' ||
     isPending ||
     withdrawStatus === 'claimRejected';
-  const label = shouldShowClaim
-    ? 'Claim is ready'
-    : isSuccess
-      ? 'Transaction complete'
-      : 'Confirming transaction';
+  const label = useMemo(() => {
+    if (shouldShowClaim) return 'Claim is ready';
+    if (isSuccess) return 'Transaction complete';
+    return 'Confirming transaction';
+  }, [shouldShowClaim, isSuccess, isPending]);
 
   return {
     isPending,
