@@ -27,10 +27,14 @@ export function useWithdrawButton({
     isPending ||
     withdrawStatus === 'claimRejected';
   const label = useMemo(() => {
-    if (shouldShowClaim) return 'Claim is ready';
-    if (isSuccess) return 'Transaction complete';
+    if (shouldShowClaim) {
+      return 'Claim is ready';
+    }
+    if (isSuccess) {
+      return 'Transaction complete';
+    }
     return 'Confirming transaction';
-  }, [shouldShowClaim, isSuccess, isPending]);
+  }, [shouldShowClaim, isSuccess]);
 
   return {
     isPending,
