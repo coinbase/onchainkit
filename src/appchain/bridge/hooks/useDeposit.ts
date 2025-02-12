@@ -100,7 +100,7 @@ export function useDeposit() {
               false,
               EXTRA_DATA,
             ],
-            address: config.contracts.optimismPortal,
+            address: bridgeAddress,
           });
         } else {
           bridgeTxHash = await writeContractAsync({
@@ -114,7 +114,7 @@ export function useDeposit() {
               MIN_GAS_LIMIT,
               EXTRA_DATA,
             ],
-            address: config.contracts.l1StandardBridge,
+            address: bridgeAddress,
           });
         }
 
