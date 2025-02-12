@@ -35,7 +35,7 @@ const AppchainBridgeDefaultContent = ({
   if (isAddressModalOpen) {
     return (
       <div
-        className="relative flex min-h-[240px]"
+        className="relative flex min-h-60"
         data-testid="ockAppchainBridge_Address"
       >
         <div className="w-full">
