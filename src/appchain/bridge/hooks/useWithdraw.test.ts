@@ -8,6 +8,7 @@ import { useAccount, useConfig, useSwitchChain, useWriteContract } from 'wagmi';
 import { readContract, waitForTransactionReceipt } from 'wagmi/actions';
 import {
   APPCHAIN_BRIDGE_ADDRESS,
+  APPCHAIN_L2_TO_L1_MESSAGE_PASSER_ADDRESS,
   EXTRA_DATA,
   MIN_GAS_LIMIT,
 } from '../constants';
@@ -334,6 +335,48 @@ describe('useWithdraw', () => {
     await result.current.waitForWithdrawal();
     await waitFor(() => {
       expect(result.current.withdrawStatus).toBe('idle');
+    });
+  });
+
+  it('should handle custom ERC20 gas token withdrawal', async () => {
+    const customGasTokenBridgeParams = {
+      ...mockBridgeParams,
+      token: {
+        ...mockBridgeParams.token,
+        isCustomGasToken: true,
+      },
+    } as BridgeParams;
+
+    const { result } = renderHook(
+      () =>
+        useWithdraw({
+          config: mockAppchainConfig,
+          chain: mockChain,
+          bridgeParams: customGasTokenBridgeParams,
+        }),
+      { wrapper },
+    );
+
+    await result.current.withdraw();
+    await waitFor(() => {
+      expect(mockWriteContractAsync).toHaveBeenCalledWith({
+        abi: expect.arrayContaining([
+          expect.objectContaining({
+            name: 'initiateWithdrawal',
+            type: 'function',
+          }),
+        ]),
+        functionName: 'initiateWithdrawal',
+        args: [
+          customGasTokenBridgeParams.recipient,
+          BigInt(MIN_GAS_LIMIT),
+          EXTRA_DATA,
+        ],
+        address: APPCHAIN_L2_TO_L1_MESSAGE_PASSER_ADDRESS,
+        value: parseEther(customGasTokenBridgeParams.amount),
+        chainId: mockAppchainConfig.chainId,
+      });
+      expect(result.current.withdrawStatus).toBe('withdrawSuccess');
     });
   });
 });
