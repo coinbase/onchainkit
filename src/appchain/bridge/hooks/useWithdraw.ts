@@ -84,6 +84,7 @@ export const useWithdraw = ({
 
       let transactionHash: Hex = '0x';
 
+      // Custom gas token
       if (bridgeParams.token.isCustomGasToken) {
         transactionHash = await writeContractAsync({
           abi: L2_TO_L1_MESSAGE_PASSER_ABI,

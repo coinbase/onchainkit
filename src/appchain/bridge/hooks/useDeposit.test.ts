@@ -250,4 +250,40 @@ describe('useDeposit', () => {
       expect(result.current.depositStatus).toBe('error');
     });
   });
+
+  it('should handle custom gas token deposits correctly', async () => {
+    const { result } = renderHook(() => useDeposit(), { wrapper });
+    await result.current.deposit({
+      config: mockAppchainConfig,
+      from: mockChain,
+      bridgeParams: {
+        ...mockBridgeParams,
+        token: { ...mockBridgeParams.token, isCustomGasToken: true },
+      },
+    });
+
+    expect(mockWriteContractAsync).toHaveBeenCalledWith({
+      abi: expect.any(Array),
+      functionName: 'approve',
+      args: [
+        mockAppchainConfig.contracts.optimismPortal,
+        parseUnits(mockBridgeParams.amount, mockBridgeParams.token.decimals),
+      ],
+      address: mockBridgeParams.token.address,
+    });
+
+    expect(mockWriteContractAsync).toHaveBeenCalledWith({
+      abi: expect.any(Array),
+      functionName: 'depositERC20Transaction',
+      args: [
+        mockBridgeParams.recipient,
+        parseUnits(mockBridgeParams.amount, mockBridgeParams.token.decimals),
+        parseUnits(mockBridgeParams.amount, mockBridgeParams.token.decimals),
+        BigInt(100000),
+        false,
+        '0x',
+      ],
+      address: mockAppchainConfig.contracts.optimismPortal,
+    });
+  });
 });
