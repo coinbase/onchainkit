@@ -1,0 +1,135 @@
+---
+title: <Earn /> · OnchainKit
+description: Earn interest on your crypto with OnchainKit
+---
+
+import { EarnMain, EarnDeposit, RearrangedEarnDeposit, PredefinedInputDeposit } from '../../components/EarnComponents';
+
+# `<Earn />`
+
+The `Earn` component provides a simple interface for earning interest on your crypto via Morpho vaults on Base.
+
+## Prerequisites
+
+Before using the `Earn` component, ensure you've completed the [Getting Started](/getting-started) steps.
+
+### Starting a new project
+
+If you're starting a new project, we recommend using `create onchain` to scaffold your project. 
+
+```bash
+npm create onchain@latest
+```
+
+### Adding to an existing project
+
+If you're adding `Earn` to an existing project, simply install OnchainKit.
+
+:::code-group
+
+```bash [npm]
+npm install @coinbase/onchainkit
+```
+
+```bash [yarn]
+yarn add @coinbase/onchainkit
+```
+
+```bash [pnpm]
+pnpm add @coinbase/onchainkit
+```
+
+```bash [bun]
+bun add @coinbase/onchainkit
+```
+
+:::
+
+Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](/getting-started#add-providers).
+
+## Quickstart
+
+To use `Earn`, you'll need to provide a `vaultAddress` prop. A vault address can be obtained from Morpho's [Vaults page](https://app.morpho.org/base/earn).
+
+```tsx twoslash
+// @noErrors: 2307
+import { Earn } from '@coinbase/onchainkit/earn'; // [!code focus]
+
+<Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" /> // [!code focus]
+```
+
+<EarnMain />
+
+## Customization
+
+### Custom components and layouts
+
+`Earn` accepts a `children` prop that can be used to render `Earn` subcomponents or custom components. 
+
+For instance, you can render the `EarnDeposit` component by itself within the `Earn` component, along with any other custom components you'd like to render.
+
+```tsx twoslash
+// @noErrors: 2307
+import { Earn, EarnDeposit } from '@coinbase/onchainkit/earn';
+
+<Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A">
+  <div>Custom header</div>
+  <EarnDeposit />
+  <div>Custom footer</div>
+</Earn>
+```
+
+<EarnDeposit />
+
+For more granular control, you can also render lower level subcomponents within `EarnDeposit` and `EarnWithdraw`. These subcomponents accept `className` props to customize their styles.
+
+```tsx twoslash
+// @noErrors: 2307
+import { Earn, EarnDeposit, EarnDetails, DepositBalance, DepositAmountInput, DepositButton } from '@coinbase/onchainkit/earn';
+
+<Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A">
+  <EarnDeposit>
+    <EarnDetails />
+    <DepositBalance />
+    <DepositAmountInput className="border-2 border-green-400" />
+    <DepositButton />
+  </EarnDeposit>
+</Earn>
+```
+
+<RearrangedEarnDeposit />
+
+### Customizing styles
+
+The `Earn` component is best styled via a [OnchainKit theme](/guides/themes#custom-theme). You can also override individual component styles using `className`.
+
+Below, we implement a custom input which resembles predefined amounts rather than a free-form input.
+
+
+
+## Advanced Usage
+If you'd like to implement your own custom components, you can use `useEarnContext` within an `Earn` component to access context and build your own components.
+
+You can find the full interface for `EarnContextType` on the [Types page](/earn/types#earncontexttype).
+
+<PredefinedInputDeposit />
+
+
+
+## Props
+
+- [`LifecycleStatus`](/earn/types#lifecyclestatus)
+- [`EarnReact`](/earn/types#earnreact)
+- [`EarnProviderReact`](/earn/types#earnproviderreact)
+- [`EarnContextType`](/earn/types#earncontexttype)
+- [`EarnAmountInputReact`](/earn/types#earnamountinputreact)
+- [`DepositAmountInputReact`](/earn/types#depositamountinputreact)
+- [`WithdrawAmountInputReact`](/earn/types#withdrawamountinputreact)
+- [`EarnBalanceReact`](/earn/types#earnbalancereact)
+- [`DepositBalanceReact`](/earn/types#depositbalancereact)
+- [`WithdrawBalanceReact`](/earn/types#withdrawbalancereact)
+- [`EarnDepositReact`](/earn/types#earndepositreact)
+- [`EarnWithdrawReact`](/earn/types#earnwithdrawreact)
+- [`EarnDetailsReact`](/earn/types#earndetailsreact)
+- [`DepositButtonReact`](/earn/types#depositbuttonreact)
+- [`WithdrawButtonReact`](/earn/types#withdrawbuttonreact)

@@ -117,6 +117,15 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Earn',
+        items: [
+          {
+            text: 'Earn',
+            link: '/earn/earn',
+          },
+        ],
+      },
+      {
         text: 'Identity',
         items: [
           {
@@ -430,6 +439,10 @@ export const sidebar = [
         link: '/config/types',
       },
       {
+        text: 'Earn',
+        link: '/earn/types',
+      },
+      {
         text: 'Fund',
         link: '/fund/types',
       },
@@ -459,4 +472,4 @@ export const sidebar = [
       },
     ],
   },
-] as const satisfies Sidebar;
+] satisfies Sidebar;
