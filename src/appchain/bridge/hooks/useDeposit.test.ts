@@ -278,7 +278,7 @@ describe('useDeposit', () => {
       args: [
         mockBridgeParams.recipient,
         parseUnits(mockBridgeParams.amount, mockBridgeParams.token.decimals),
-        parseUnits(mockBridgeParams.amount, mockBridgeParams.token.decimals),
+        BigInt(0),
         BigInt(100000),
         false,
         '0x',
