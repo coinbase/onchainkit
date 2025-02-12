@@ -28,7 +28,7 @@ describe('useDepositButton', () => {
   it('should show spinner when deposit is pending', () => {
     const { result } = renderHook(() =>
       useDepositButton({
-        depositStatus: 'pending',
+        depositStatus: 'depositPending',
         withdrawStatus: 'idle',
         bridgeParams: { amount: '1', amountUSD: '1', token: mockToken },
       }),
@@ -52,7 +52,7 @@ describe('useDepositButton', () => {
   it('should show "View in Explorer" when deposit is successful', () => {
     const { result } = renderHook(() =>
       useDepositButton({
-        depositStatus: 'success',
+        depositStatus: 'depositSuccess',
         withdrawStatus: 'idle',
         bridgeParams: { amount: '1', amountUSD: '1', token: mockToken },
       }),
@@ -111,7 +111,7 @@ describe('useDepositButton', () => {
   it('should be disabled during pending operations', () => {
     const { result } = renderHook(() =>
       useDepositButton({
-        depositStatus: 'pending',
+        depositStatus: 'depositPending',
         withdrawStatus: 'idle',
         bridgeParams: { amount: '1', amountUSD: '1', token: mockToken },
       }),
@@ -122,7 +122,7 @@ describe('useDepositButton', () => {
   it('should track rejection status correctly', () => {
     const { result } = renderHook(() =>
       useDepositButton({
-        depositStatus: 'rejected',
+        depositStatus: 'depositRejected',
         withdrawStatus: 'idle',
         bridgeParams: { amount: '1', amountUSD: '1', token: mockToken },
       }),

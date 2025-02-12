@@ -20,7 +20,7 @@ export function useDeposit() {
   const { chainId } = useAccount();
   const wagmiConfig = useConfig();
   const [status, setStatus] = useState<
-    'pending' | 'success' | 'error' | 'idle' | 'rejected'
+    'depositPending' | 'depositSuccess' | 'error' | 'idle' | 'depositRejected'
   >('idle');
 
   const resetDepositStatus = useCallback(() => {
@@ -40,7 +40,7 @@ export function useDeposit() {
     const minGasLimit = 100000;
     const extraData = '0x';
 
-    setStatus('pending');
+    setStatus('depositPending');
 
     try {
       // Native ETH
@@ -104,11 +104,11 @@ export function useDeposit() {
         });
       }
 
-      setStatus('success');
+      setStatus('depositSuccess');
     } catch (error) {
       if (isUserRejectedRequestError(error)) {
         console.error('User rejected request');
-        setStatus('rejected');
+        setStatus('depositRejected');
       } else {
         setStatus('error');
       }

@@ -1,6 +1,8 @@
 import { Spinner } from '@/internal/components/Spinner';
+import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import type { BridgeParams } from '../types';
+
 interface UseDepositButtonProps {
   depositStatus: string;
   withdrawStatus: string;
@@ -15,9 +17,10 @@ export function useDepositButton({
   const { isConnected } = useAccount();
 
   const isPending =
-    depositStatus === 'pending' || withdrawStatus === 'withdrawPending';
+    depositStatus === 'depositPending' || withdrawStatus === 'withdrawPending';
   const isRejected =
-    depositStatus === 'rejected' || withdrawStatus === 'withdrawRejected';
+    depositStatus === 'depositRejected' ||
+    withdrawStatus === 'withdrawRejected';
 
   const buttonContent = isPending ? (
     <Spinner />
@@ -31,7 +34,7 @@ export function useDepositButton({
 
   const isDisabled =
     isConnected &&
-    (depositStatus === 'pending' ||
+    (depositStatus === 'depositPending' ||
       withdrawStatus === 'withdrawPending' ||
       bridgeParams.amount === '' ||
       Number(bridgeParams.amount) === 0);

@@ -163,7 +163,7 @@ describe('useDeposit', () => {
       },
     });
     await waitFor(() => {
-      expect(result.current.depositStatus).toBe('success');
+      expect(result.current.depositStatus).toBe('depositSuccess');
     });
   });
 
@@ -228,7 +228,7 @@ describe('useDeposit', () => {
     });
 
     await waitFor(() => {
-      expect(result.current.depositStatus).toBe('rejected');
+      expect(result.current.depositStatus).toBe('depositRejected');
     });
   });
 
