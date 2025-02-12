@@ -4,6 +4,7 @@ import type { Chain } from 'viem';
 import { useAccount, useConfig, useSwitchChain, useWriteContract } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { ERC20ABI, StandardBridgeABI } from '../abi';
+import { EXTRA_DATA, MIN_GAS_LIMIT } from '../constants';
 import type { AppchainConfig } from '../types';
 import type { BridgeParams } from '../types';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
@@ -37,9 +38,6 @@ export function useDeposit() {
       await switchChainAsync({ chainId: from.id });
     }
 
-    const minGasLimit = 100000;
-    const extraData = '0x';
-
     setStatus('depositPending');
 
     try {
@@ -48,7 +46,7 @@ export function useDeposit() {
         const txHash = await writeContractAsync({
           abi: StandardBridgeABI,
           functionName: 'bridgeETHTo',
-          args: [bridgeParams.recipient, minGasLimit, extraData],
+          args: [bridgeParams.recipient, MIN_GAS_LIMIT, EXTRA_DATA],
           address: config.contracts.l1StandardBridge,
           value: parseEther(bridgeParams.amount),
           chainId: from.id,
@@ -91,8 +89,8 @@ export function useDeposit() {
             bridgeParams.token.remoteToken, // TODO: manually calculate the salted address
             bridgeParams.recipient,
             formattedAmount,
-            minGasLimit,
-            extraData,
+            MIN_GAS_LIMIT,
+            EXTRA_DATA,
           ],
           address: config.contracts.l1StandardBridge,
         });
