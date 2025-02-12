@@ -1,5 +1,7 @@
-import { render, fireEvent, act } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { MintEvent } from '@/core/analytics/types';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { NFTMintButton } from '@/nft/components/mint/NFTMintButton';
@@ -15,8 +17,6 @@ import {
   useChainId,
 } from 'wagmi';
 import { mock } from 'wagmi/connectors';
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { MintEvent } from '@/core/analytics/types';
 
 vi.mock('@/nft/components/NFTProvider');
 vi.mock('@/nft/components/NFTLifecycleProvider');
