@@ -1,7 +1,7 @@
 import { Spinner } from '@/internal/components/Spinner';
 import { SuccessSvg } from '@/internal/svg/fullWidthSuccessSvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useWithdrawButton } from '../hooks/useWithdrawButton';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
@@ -43,49 +43,58 @@ export const AppchainBridgeWithdraw = () => {
     </div>
   );
 
-  const LoadingContent = () => (
-    <div className="flex flex-col items-center gap-16 h-full justify-center">
-      <Spinner className="w-24 h-24 !border-t-[var(--ock-bg-primary)]" />
-      <span className="text-base font-medium text-center px-4">
-        Waiting for claim to be ready...
-        <br />
-        Please do not close this window.
-      </span>
-    </div>
+  const LoadingContent = useMemo(
+    () => () => (
+      <div className="flex flex-col items-center gap-16 h-full justify-center">
+        <Spinner className="w-24 h-24 !border-t-[var(--ock-bg-primary)]" />
+        <span className="text-base font-medium text-center px-4">
+          Waiting for claim to be ready...
+          <br />
+          Please do not close this window.
+        </span>
+      </div>
+    ),
+    [],
   );
 
-  const SuccessContent = () => (
-    <div className="flex flex-col items-center gap-16">
-      <SuccessIcon />
-      <button
-        onClick={() => setIsWithdrawModalOpen(false)}
-        className={buttonStyles}
-        type="button"
-      >
-        <div
-          className={cn(text.headline, color.inverse, 'flex justify-center')}
+  const SuccessContent = useMemo(
+    () => () => (
+      <div className="flex flex-col items-center gap-16">
+        <SuccessIcon />
+        <button
+          onClick={() => setIsWithdrawModalOpen(false)}
+          className={buttonStyles}
+          type="button"
         >
-          Back to Bridge
-        </div>
-      </button>
-    </div>
+          <div
+            className={cn(text.headline, color.inverse, 'flex justify-center')}
+          >
+            Back to Bridge
+          </div>
+        </button>
+      </div>
+    ),
+    [buttonStyles, setIsWithdrawModalOpen],
   );
 
-  const ClaimContent = () => (
-    <div className="flex flex-col items-center gap-16">
-      <SuccessIcon />
-      <button
-        onClick={proveAndFinalizeWithdrawal}
-        className={cn(buttonStyles, buttonDisabled && pressable.disabled)}
-        type="button"
-      >
-        <div
-          className={cn(text.headline, color.inverse, 'flex justify-center')}
+  const ClaimContent = useMemo(
+    () => () => (
+      <div className="flex flex-col items-center gap-16">
+        <SuccessIcon />
+        <button
+          onClick={proveAndFinalizeWithdrawal}
+          className={cn(buttonStyles, buttonDisabled && pressable.disabled)}
+          type="button"
         >
-          {buttonContent}
-        </div>
-      </button>
-    </div>
+          <div
+            className={cn(text.headline, color.inverse, 'flex justify-center')}
+          >
+            {buttonContent}
+          </div>
+        </button>
+      </div>
+    ),
+    [buttonStyles, buttonDisabled, buttonContent, proveAndFinalizeWithdrawal],
   );
 
   const renderContent = () => {
