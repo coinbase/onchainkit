@@ -1,4 +1,6 @@
 import '@testing-library/jest-dom';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { MintEvent } from '@/core/analytics/types';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { fireEvent, render } from '@testing-library/react';
 import { act } from 'react';
@@ -12,8 +14,6 @@ import {
   vi,
 } from 'vitest';
 import { NFTQuantitySelector } from './NFTQuantitySelector';
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { MintEvent } from '@/core/analytics/types';
 
 vi.mock('@/nft/components/NFTProvider');
 
@@ -106,23 +106,26 @@ describe('NFTQuantitySelector', () => {
     it('sends MintQuantityChanged analytics when quantity changes', () => {
       const { getByRole } = render(<NFTQuantitySelector />);
       const input = getByRole('textbox') as HTMLInputElement;
-      
+
       act(() => {
         input.focus();
         fireEvent.change(input, { target: { value: '3' } });
         input.blur();
       });
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintQuantityChanged, {
-        quantity: 3,
-        previousQuantity: 1,
-      });
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        MintEvent.MintQuantityChanged,
+        {
+          quantity: 3,
+          previousQuantity: 1,
+        },
+      );
     });
 
     it('does not send analytics for invalid input', () => {
       const { getByRole } = render(<NFTQuantitySelector />);
       const input = getByRole('textbox') as HTMLInputElement;
-      
+
       act(() => {
         input.focus();
         fireEvent.change(input, { target: { value: 'abc' } });

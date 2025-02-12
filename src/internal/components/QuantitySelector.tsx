@@ -1,8 +1,8 @@
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { MintEvent } from '@/core/analytics/types';
 import { useCallback, useState } from 'react';
 import { TextInput } from '../../internal/components/TextInput';
 import { background, border, cn, color, pressable } from '../../styles/theme';
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { MintEvent } from '@/core/analytics/types';
 
 export const DELAY_MS = 200;
 

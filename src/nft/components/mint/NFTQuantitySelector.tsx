@@ -1,7 +1,7 @@
-import { QuantitySelector } from '@/internal/components/QuantitySelector';
-import { useNFTContext } from '@/nft/components/NFTProvider';
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { MintEvent } from '@/core/analytics/types';
+import { QuantitySelector } from '@/internal/components/QuantitySelector';
+import { useNFTContext } from '@/nft/components/NFTProvider';
 import { cn } from '@/styles/theme';
 
 type NFTQuantitySelectorReact = {
@@ -18,7 +18,7 @@ export function NFTQuantitySelector({ className }: NFTQuantitySelectorReact) {
   }
 
   const handleQuantityChange = (value: string) => {
-    const newQuantity = parseInt(value, 10);
+    const newQuantity = Number.parseInt(value, 10);
     if (!isNaN(newQuantity)) {
       sendAnalytics(MintEvent.MintQuantityChanged, {
         quantity: newQuantity,

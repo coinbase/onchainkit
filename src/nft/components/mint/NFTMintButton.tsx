@@ -67,44 +67,38 @@ export function NFTMintButton({
     [updateLifecycleStatus],
   );
 
-  const handleAnalyticsInitiated = useCallback(
-    (contractAddress: string, tokenId: string, quantity: number) => {
-      sendAnalytics(MintEvent.MintInitiated, {
-        contractAddress,
-        tokenId,
+  const sendMintAnalytics = useCallback(
+    (type: MintEvent, error?: string, metadata?: Record<string, unknown>) => {
+      const baseData = {
+        contractAddress: contractAddress ?? '',
+        tokenId: tokenId ?? '',
         quantity,
-      });
-    },
-    [sendAnalytics],
-  );
+      };
 
-  const handleAnalyticsSuccess = useCallback(
-    (
-      contractAddress: string,
-      tokenId: string,
-      address: string | undefined,
-      quantity: number,
-      isSponsored: boolean,
-    ) => {
-      sendAnalytics(MintEvent.MintSuccess, {
-        contractAddress,
-        tokenId,
-        address: address ?? '',
-        amountMinted: quantity,
-        isSponsored,
-      });
+      switch (type) {
+        case MintEvent.MintInitiated:
+          sendAnalytics(type, baseData);
+          break;
+        case MintEvent.MintSuccess:
+          sendAnalytics(type, {
+            ...baseData,
+            address: address ?? '',
+            amountMinted: quantity,
+            isSponsored: isSponsored ?? false,
+          });
+          break;
+        case MintEvent.MintFailure:
+          sendAnalytics(type, {
+            error: error ?? 'Unknown error',
+            metadata: {
+              ...baseData,
+              ...metadata,
+            },
+          });
+          break;
+      }
     },
-    [sendAnalytics],
-  );
-
-  const handleAnalyticsError = useCallback(
-    (error: string, metadata?: Record<string, unknown>) => {
-      sendAnalytics(MintEvent.MintFailure, {
-        error,
-        metadata,
-      });
-    },
-    [sendAnalytics],
+    [sendAnalytics, contractAddress, tokenId, quantity, address, isSponsored],
   );
 
   const fetchTransactions = useCallback(async () => {
@@ -112,11 +106,7 @@ export function NFTMintButton({
       try {
         setCallData([]);
         setMintError(null);
-        handleAnalyticsInitiated(
-          contractAddress ?? '',
-          tokenId ?? '',
-          quantity,
-        );
+        sendMintAnalytics(MintEvent.MintInitiated);
         const mintTransaction = await buildMintTransaction({
           takerAddress: address,
           contractAddress,
@@ -127,11 +117,7 @@ export function NFTMintButton({
         setCallData(mintTransaction);
       } catch (error) {
         const errorMessage = error as string;
-        handleAnalyticsError(errorMessage, {
-          contractAddress,
-          tokenId,
-          quantity,
-        });
+        sendMintAnalytics(MintEvent.MintFailure, errorMessage);
         handleTransactionError(errorMessage);
       }
     } else {
@@ -142,13 +128,12 @@ export function NFTMintButton({
     buildMintTransaction,
     contractAddress,
     handleTransactionError,
-    handleAnalyticsInitiated,
-    handleAnalyticsError,
     isEligibleToMint,
     name,
     network,
     quantity,
     tokenId,
+    sendMintAnalytics,
   ]);
 
   useEffect(() => {
@@ -158,7 +143,6 @@ export function NFTMintButton({
   }, [fetchTransactions]);
 
   const handleOnStatus = useCallback(
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
     (transactionStatus: TransactionLifecycleStatus) => {
       if (transactionStatus.statusName === 'transactionPending') {
         updateLifecycleStatus({ statusName: 'transactionPending' });
@@ -170,39 +154,20 @@ export function NFTMintButton({
         transactionStatus.statusName === 'error'
       ) {
         if (transactionStatus.statusName === 'success') {
-          handleAnalyticsSuccess(
-            contractAddress ?? '',
-            tokenId ?? '',
-            address ?? '',
-            quantity,
-            isSponsored ?? false,
-          );
+          sendMintAnalytics(MintEvent.MintSuccess);
         }
         updateLifecycleStatus(transactionStatus);
       }
 
       if (transactionStatus.statusName === 'error') {
-        handleAnalyticsError(
+        sendMintAnalytics(
+          MintEvent.MintFailure,
           transactionStatus.statusData?.message ?? 'Unknown error',
-          {
-            contractAddress,
-            tokenId,
-            quantity,
-          },
         );
         updateLifecycleStatus(transactionStatus);
       }
     },
-    [
-      updateLifecycleStatus,
-      handleAnalyticsSuccess,
-      handleAnalyticsError,
-      contractAddress,
-      tokenId,
-      address,
-      quantity,
-      isSponsored,
-    ],
+    [updateLifecycleStatus, sendMintAnalytics],
   );
 
   const transactionButtonLabel = useMemo(() => {
