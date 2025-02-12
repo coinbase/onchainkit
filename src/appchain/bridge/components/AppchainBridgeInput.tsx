@@ -36,15 +36,20 @@ export function AppchainBridgeInput({
     return balance && Number(balance) < Number(bridgeParams.amount);
   }, [balance, bridgeParams.amount]);
 
-  const label = insufficientBalance ? (
-    'Insufficient funds'
-  ) : isPriceLoading ? (
-    <div className="h-4 w-16 animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
-  ) : bridgeParams.amountUSD === 'NaN' ? (
-    ''
-  ) : (
-    `~$${bridgeParams.amountUSD}`
-  );
+  const label = useMemo(() => {
+    if (insufficientBalance) {
+      return 'Insufficient funds';
+    }
+    if (isPriceLoading) {
+      return (
+        <div className="h-4 w-16 animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
+      );
+    }
+    if (bridgeParams.amountUSD === 'NaN') {
+      return '';
+    }
+    return `~$${bridgeParams.amountUSD}`;
+  }, [insufficientBalance, isPriceLoading, bridgeParams.amountUSD]);
 
   return (
     <div
