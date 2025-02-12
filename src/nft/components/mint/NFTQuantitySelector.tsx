@@ -19,7 +19,7 @@ export function NFTQuantitySelector({ className }: NFTQuantitySelectorReact) {
 
   const handleQuantityChange = (newValue: string) => {
     const newQuantity = Number.parseInt(newValue, 10);
-    if (!isNaN(newQuantity)) {
+    if (!Number.isNaN(newQuantity)) {
       sendAnalytics(MintEvent.MintQuantityChanged, {
         quantity: newQuantity,
       });
