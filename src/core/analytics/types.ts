@@ -251,7 +251,6 @@ export type MintEventData = {
   };
   [MintEvent.MintQuantityChanged]: CommonAnalyticsData & {
     quantity: number;
-    previousQuantity: number;
   };
   [MintEvent.MintSuccess]: CommonAnalyticsData & {
     address: string;

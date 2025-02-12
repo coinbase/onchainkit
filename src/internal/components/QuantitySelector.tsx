@@ -1,5 +1,3 @@
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { MintEvent } from '@/core/analytics/types';
 import { useCallback, useState } from 'react';
 import { TextInput } from '../../internal/components/TextInput';
 import { background, border, cn, color, pressable } from '../../styles/theme';
@@ -24,7 +22,6 @@ export function QuantitySelector({
   placeholder,
 }: QuantitySelectorReact) {
   const [value, setValue] = useState(`${minQuantity}`);
-  const { sendAnalytics } = useAnalytics();
 
   // allow entering '' to enable backspace + new value, fix empty string on blur
   const isValidQuantity = useCallback(
@@ -60,16 +57,10 @@ export function QuantitySelector({
       if (v === '') {
         return;
       }
-      const nextValue = Number.parseInt(v, 10);
-      if (!isNaN(nextValue)) {
-        sendAnalytics(MintEvent.MintQuantityChanged, {
-          quantity: nextValue,
-          previousQuantity: Number.parseInt(value, 10),
-        });
-      }
+
       onChange(v);
     },
-    [onChange, value, sendAnalytics],
+    [onChange],
   );
 
   const handleBlur = useCallback(() => {
