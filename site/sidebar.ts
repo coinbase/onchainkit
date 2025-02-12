@@ -334,6 +334,18 @@ export const sidebar = [
             text: 'buildWithdrawFromMorphoTx',
             link: '/api/build-withdraw-from-morpho-tx',
           },
+          {
+            text: 'useBuildDepositToMorphoTx',
+            link: '/hooks/use-build-deposit-to-morpho-tx',
+          },
+          {
+            text: 'useBuildWithdrawFromMorphoTx',
+            link: '/hooks/use-build-withdraw-from-morpho-tx',
+          },
+          {
+            text: 'useEarnContext',
+            link: '/hooks/use-earn-context',
+          },
         ],
       },
       {

@@ -203,9 +203,13 @@ export type WithdrawButtonReact = {
 
 ```ts
 export type DepositToMorphoParams = {
+  /** The address of the Morpho vault */
   vaultAddress: Address;
+  /** The address of the token to deposit */
   tokenAddress: Address;
+  /** The amount of tokens to deposit */
   amount: bigint;
+  /** The address which can withdraw the deposited tokens */
   recipientAddress: Address;
 };
 ```
@@ -214,9 +218,32 @@ export type DepositToMorphoParams = {
 
 ```ts
 export type WithdrawFromMorphoParams = {
+  /** The address of the Morpho vault */
   vaultAddress: Address;
-  tokenAddress: Address;
+  /** The amount of tokens to withdraw */
   amount: bigint;
+  /** The address to which the withdrawn funds will be sent */
   recipientAddress: Address;
+};
+```
+
+## `UseBuildDepositToMorphoTxParams`
+
+```ts
+export type UseBuildDepositToMorphoTxParams = {
+  vaultAddress: Address;
+  recipientAddress?: Address;
+  amount: string;
+};
+```
+
+## `UseBuildWithdrawFromMorphoTxParams`
+
+```ts
+export type UseBuildWithdrawFromMorphoTxParams = {
+  vaultAddress: Address;
+  recipientAddress?: Address;
+  amount: string;
+  tokenDecimals: number | undefined;
 };
 ```

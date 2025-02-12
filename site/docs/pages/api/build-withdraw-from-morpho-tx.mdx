@@ -9,7 +9,6 @@ import { buildWithdrawFromMorphoTx } from '@coinbase/onchainkit/earn';
 
 const calls = await buildWithdrawFromMorphoTx({
   vaultAddress: '0x...', // Morpho vault address on Base
-  tokenAddress: '0x...', // Address of the token to withdraw
   amount: 1000000000000000000n, // Amount of tokens to withdraw
   recipientAddress: '0x...', // Address of the recipient
 });
