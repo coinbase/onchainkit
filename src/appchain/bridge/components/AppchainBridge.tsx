@@ -1,7 +1,7 @@
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '@/styles/theme';
-import type { AppchainBridgeReact, BridgeableToken } from '../types';
+import type { AppchainBridgeReact } from '../types';
 import { AppchainBridgeAddressInput } from './AppchainBridgeAddressInput';
 import { AppchainBridgeInput } from './AppchainBridgeInput';
 import { AppchainBridgeNetwork } from './AppchainBridgeNetwork';
@@ -13,10 +13,8 @@ import { AppchainNetworkToggleButton } from './AppchainNetworkToggleButton';
 
 const AppchainBridgeDefaultContent = ({
   title,
-  bridgeableTokens,
 }: {
   title: string;
-  bridgeableTokens?: BridgeableToken[];
 }) => {
   const { isAddressModalOpen, isWithdrawModalOpen } =
     useAppchainBridgeContext();
@@ -79,12 +77,7 @@ export function AppchainBridge({
   appchain,
   title = 'Bridge',
   bridgeableTokens,
-  children = (
-    <AppchainBridgeDefaultContent
-      title={title}
-      bridgeableTokens={bridgeableTokens}
-    />
-  ),
+  children = <AppchainBridgeDefaultContent title={title} />,
   className,
 }: AppchainBridgeReact) {
   const isMounted = useIsMounted();
