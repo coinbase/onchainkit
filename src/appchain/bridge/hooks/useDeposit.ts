@@ -68,6 +68,7 @@ export function useDeposit() {
           bridgeParams.token.decimals,
         );
 
+        // Bridge address is OptimismPortal for depositing custom gas tokens
         const bridgeAddress = bridgeParams.token.isCustomGasToken
           ? config.contracts.optimismPortal
           : config.contracts.l1StandardBridge;
