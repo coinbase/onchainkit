@@ -1,6 +1,7 @@
 import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
 import type { EarnContextType } from '@/earn/types';
 import type { MakeRequired } from '@/internal/types';
+import { usdcToken } from '@/token/constants';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
@@ -129,10 +130,10 @@ describe('WithdrawButton Component', () => {
   });
 
   it('renders Transaction with depositCalls from EarnProvider', () => {
-    const mockDepositCalls = [{ to: '0x123', data: '0x456' }] as Call[];
+    const mockWithdrawCalls = [{ to: '0x123', data: '0x456' }] as Call[];
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
-      depositCalls: mockDepositCalls,
+      withdrawCalls: mockWithdrawCalls,
     });
 
     render(<WithdrawButton />);
@@ -144,7 +145,8 @@ describe('WithdrawButton Component', () => {
   it('renders TransactionButton with the correct text', () => {
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
-      depositCalls: [],
+      withdrawAmount: '',
+      withdrawCalls: [],
     });
 
     const { container } = render(<WithdrawButton />);
@@ -156,7 +158,7 @@ describe('WithdrawButton Component', () => {
     const mockUpdateLifecycleStatus = vi.fn();
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
-      depositCalls: [{ to: '0x123', data: '0x456' }],
+      withdrawCalls: [{ to: '0x123', data: '0x456' }],
       updateLifecycleStatus: mockUpdateLifecycleStatus,
     });
 
@@ -203,5 +205,27 @@ describe('WithdrawButton Component', () => {
     const transactionButton = screen.getByTestId('transactionButton');
     expect(transactionButton).toBeDisabled();
     expect(transactionButton).toHaveTextContent('Error');
+  });
+
+  it('shows the withdrawn amount after a successful transaction', async () => {
+    const mockSetWithdrawAmount = vi.fn();
+    const mockRefetchDepositedBalance = vi.fn();
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      vaultToken: usdcToken,
+      withdrawAmount: '123',
+      setWithdrawAmount: mockSetWithdrawAmount,
+      refetchDepositedBalance: mockRefetchDepositedBalance,
+      withdrawCalls: [{ to: '0x123', data: '0x456' }],
+    });
+
+    render(<WithdrawButton />);
+
+    screen.getByText('Success').click();
+    expect(mockSetWithdrawAmount).toHaveBeenCalledWith('');
+
+    expect(screen.getByTestId('transactionButton')).toHaveTextContent(
+      'Withdrew 123 USDC',
+    );
   });
 });

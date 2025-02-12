@@ -60,6 +60,7 @@ describe('useMorphoVault', () => {
 
     expect(result.current).toEqual({
       status: 'pending',
+      error: null,
       asset: {
         address: undefined,
         symbol: undefined,

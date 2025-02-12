@@ -1,3 +1,4 @@
+import { useTemporaryValue } from '@/internal/hooks/useTemporaryValue';
 import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
@@ -6,13 +7,14 @@ import {
   type TransactionResponse,
 } from '@/transaction';
 import { ConnectWallet } from '@/wallet';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { DepositButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
 
 export function DepositButton({ className }: DepositButtonReact) {
   const {
     recipientAddress: address,
+    vaultToken,
     depositCalls,
     depositAmount,
     setDepositAmount,
@@ -20,6 +22,11 @@ export function DepositButton({ className }: DepositButtonReact) {
     updateLifecycleStatus,
     refetchWalletBalance,
   } = useEarnContext();
+
+  const [depositedAmount, setDepositedAmount] = useTemporaryValue(
+    depositAmount,
+    10_000,
+  );
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
@@ -44,12 +51,26 @@ export function DepositButton({ className }: DepositButtonReact) {
         res.transactionReceipts[0] &&
         res.transactionReceipts[0].status === 'success'
       ) {
+        // Don't overwrite to '' when the second txn comes in
+        if (depositAmount) {
+          setDepositedAmount(depositAmount);
+        }
         setDepositAmount('');
         refetchWalletBalance();
       }
     },
-    [setDepositAmount, refetchWalletBalance],
+    [depositAmount, setDepositAmount, refetchWalletBalance, setDepositedAmount],
   );
+
+  const buttonText = useMemo(() => {
+    if (depositAmountError) {
+      return depositAmountError;
+    }
+    if (depositedAmount && vaultToken?.symbol) {
+      return `Deposited ${depositedAmount} ${vaultToken.symbol}`;
+    }
+    return 'Deposit';
+  }, [depositAmountError, depositedAmount, vaultToken?.symbol]);
 
   if (!address) {
     return (
@@ -68,7 +89,8 @@ export function DepositButton({ className }: DepositButtonReact) {
       onSuccess={handleOnSuccess}
     >
       <TransactionButton
-        text={depositAmountError ?? 'Deposit'}
+        text={buttonText}
+        successOverride={{ text: buttonText }}
         disabled={!!depositAmountError || !depositAmount}
       />
     </Transaction>

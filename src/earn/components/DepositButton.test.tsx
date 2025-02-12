@@ -1,6 +1,7 @@
 import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
 import type { EarnContextType } from '@/earn/types';
 import type { MakeRequired } from '@/internal/types';
+import { usdcToken } from '@/token/constants';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import { act } from 'react';
@@ -207,5 +208,27 @@ describe('DepositButton Component', () => {
     const transactionButton = screen.getByTestId('transactionButton');
     expect(transactionButton).toBeDisabled();
     expect(transactionButton).toHaveTextContent('Error');
+  });
+
+  it('shows the deposited amount after a successful transaction', async () => {
+    const mockSetDepositAmount = vi.fn();
+    const mockRefetchWalletBalance = vi.fn();
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      vaultToken: usdcToken,
+      depositAmount: '123',
+      setDepositAmount: mockSetDepositAmount,
+      refetchWalletBalance: mockRefetchWalletBalance,
+      depositCalls: [{ to: '0x123', data: '0x456' }],
+    });
+
+    render(<DepositButton />);
+
+    screen.getByText('Success').click();
+    expect(mockSetDepositAmount).toHaveBeenCalledWith('');
+
+    expect(screen.getByTestId('transactionButton')).toHaveTextContent(
+      'Deposited 123 USDC',
+    );
   });
 });

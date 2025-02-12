@@ -1,3 +1,4 @@
+import { useTemporaryValue } from '@/internal/hooks/useTemporaryValue';
 import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
@@ -6,9 +7,10 @@ import {
   type TransactionResponse,
 } from '@/transaction';
 import { ConnectWallet } from '@/wallet';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
+
 export function WithdrawButton({ className }: WithdrawButtonReact) {
   const {
     recipientAddress: address,
@@ -18,7 +20,13 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     updateLifecycleStatus,
     refetchDepositedBalance,
     withdrawAmountError,
+    vaultToken,
   } = useEarnContext();
+
+  const [withdrawnAmount, setWithdrawnAmount] = useTemporaryValue(
+    withdrawAmount,
+    10_000,
+  );
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
@@ -43,12 +51,30 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
         res.transactionReceipts[0] &&
         res.transactionReceipts[0].status === 'success'
       ) {
+        if (withdrawAmount) {
+          setWithdrawnAmount(withdrawAmount);
+        }
         setWithdrawAmount('');
         refetchDepositedBalance();
       }
     },
-    [setWithdrawAmount, refetchDepositedBalance],
+    [
+      setWithdrawAmount,
+      refetchDepositedBalance,
+      withdrawAmount,
+      setWithdrawnAmount,
+    ],
   );
+
+  const buttonText = useMemo(() => {
+    if (withdrawAmountError) {
+      return withdrawAmountError;
+    }
+    if (withdrawnAmount && vaultToken?.symbol) {
+      return `Withdrew ${withdrawnAmount} ${vaultToken.symbol}`;
+    }
+    return 'Withdraw';
+  }, [withdrawAmountError, withdrawnAmount, vaultToken?.symbol]);
 
   if (!address) {
     return (
@@ -67,7 +93,8 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
       onSuccess={handleOnSuccess}
     >
       <TransactionButton
-        text={withdrawAmountError ?? 'Withdraw'}
+        text={buttonText}
+        successOverride={{ text: buttonText }}
         disabled={!!withdrawAmountError || !withdrawAmount}
       />
     </Transaction>
