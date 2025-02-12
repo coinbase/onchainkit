@@ -22,7 +22,7 @@ const AppchainBridgeDefaultContent = ({
   if (isWithdrawModalOpen) {
     return (
       <div
-        className="relative flex min-h-[240px]"
+        className="relative flex min-h-60"
         data-testid="ockAppchainBridge_Withdraw"
       >
         <div className="w-full">
