@@ -55,6 +55,7 @@ export type AppchainBridgeContextType = {
   proveAndFinalizeWithdrawal: () => Promise<void>;
   setIsAddressModalOpen: (open: boolean) => void;
   setIsWithdrawModalOpen: (open: boolean) => void;
+  resetDepositStatus: () => void;
 };
 
 /**

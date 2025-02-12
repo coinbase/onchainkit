@@ -7,6 +7,7 @@ import {
 } from '@/token/constants';
 import type { Address, Hex } from 'viem';
 import { base, baseSepolia } from 'viem/chains';
+import type { BridgeableToken } from './types';
 
 export const APPCHAIN_BRIDGE_ADDRESS =
   '0x4200000000000000000000000000000000000010';
@@ -27,6 +28,13 @@ export const USDC_BY_CHAIN: Record<number, Token> = {
   [base.id]: usdcToken,
   [baseSepolia.id]: usdcSepoliaToken,
 };
+
+export const DEFAULT_BRIDGEABLE_TOKENS = [
+  {
+    ...ETH_BY_CHAIN[8453],
+    remoteToken: ETH_BY_CHAIN[8453].address,
+  } as BridgeableToken,
+];
 
 export const MIN_GAS_LIMIT = 100000;
 export const EXTRA_DATA = '0x';
