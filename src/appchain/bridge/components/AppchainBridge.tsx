@@ -47,7 +47,7 @@ const AppchainBridgeDefaultContent = ({
 
   return (
     <div
-      className="relative flex min-h-[240px]"
+      className="relative flex min-h-60"
       data-testid="ockAppchainBridge_DefaultContent"
     >
       <div className="w-full">
