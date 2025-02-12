@@ -101,7 +101,11 @@ export function TransactionProvider({
 
   // useSendCalls or useSendCall
   // Used for contract calls with raw calldata.
-  const { status: statusSendCalls, sendCallsAsync } = useSendCalls({
+  const {
+    status: statusSendCalls,
+    sendCallsAsync,
+    reset: resetSendCalls,
+  } = useSendCalls({
     setLifecycleStatus,
     setTransactionId,
   });
@@ -110,6 +114,7 @@ export function TransactionProvider({
     status: statusSendCall,
     sendCallAsync,
     data: singleTransactionHash,
+    reset: resetSendCall,
   } = useSendCall({
     setLifecycleStatus,
     transactionHashList,
@@ -174,23 +179,6 @@ export function TransactionProvider({
       onSuccess?.({
         transactionReceipts: lifecycleStatus.statusData.transactionReceipts,
       });
-
-      // Reset the component after a successful transaction
-      if (resetAfter) {
-        setTimeout(() => {
-          // Reset all internal state
-          setErrorMessage('');
-          setErrorCode('');
-          setIsToastVisible(false);
-          setTransactionId('');
-          setTransactionHashList([]);
-          setTransactionCount(undefined);
-          setLifecycleStatus({
-            statusName: 'reset',
-            statusData: null,
-          });
-        }, resetAfter);
-      }
     }
     // Emit Status
     onStatus?.(lifecycleStatus);
@@ -201,7 +189,6 @@ export function TransactionProvider({
     lifecycleStatus,
     lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
-    resetAfter,
   ]);
 
   // Set transaction pending status when writeContracts or writeContract is pending
@@ -225,7 +212,26 @@ export function TransactionProvider({
         transactionReceipts: [receipt],
       },
     });
-  }, [receipt]);
+    if (resetAfter) {
+      // Reset all internal state
+      const timeoutId = setTimeout(() => {
+        setErrorMessage('');
+        setErrorCode('');
+        setIsToastVisible(false);
+        setTransactionId('');
+        setTransactionHashList([]);
+        setTransactionCount(undefined);
+        resetSendCalls();
+        resetSendCall();
+        setLifecycleStatus({
+          statusName: 'reset',
+          statusData: null,
+        });
+      }, resetAfter);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [receipt, resetAfter, resetSendCalls, resetSendCall]);
 
   // When all transactions are successful, get the receipts
   useEffect(() => {
