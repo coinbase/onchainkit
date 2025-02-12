@@ -35,7 +35,7 @@ export type AppchainBridgeContextType = {
   from: ChainWithIcon;
   to: ChainWithIcon;
   bridgeParams: BridgeParams;
-
+  bridgeableTokens: BridgeableToken[];
   // UI State
   isPriceLoading: boolean;
   isAddressModalOpen: boolean;

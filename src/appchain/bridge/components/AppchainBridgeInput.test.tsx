@@ -55,6 +55,7 @@ const mockBridgeContext = {
   isPriceLoading: false,
   handleAmountChange: vi.fn(),
   setIsAddressModalOpen: vi.fn(),
+  bridgeableTokens: [mockToken],
 };
 
 vi.mock('wagmi', async (importOriginal) => {
@@ -165,8 +166,12 @@ describe('AppchainBridgeInput', () => {
       ...mockToken,
       symbol: 'CUSTOM',
     };
+    (useAppchainBridgeContext as Mock).mockReturnValue({
+      ...mockBridgeContext,
+      bridgeableTokens: [customToken],
+    });
 
-    render(<AppchainBridgeInput bridgeableTokens={[customToken]} />, {
+    render(<AppchainBridgeInput />, {
       wrapper,
     });
     expect(screen.getByText('CUSTOM')).toBeInTheDocument();
@@ -260,11 +265,9 @@ describe('AppchainBridgeInput', () => {
         ...mockBridgeContext.bridgeParams,
         amount: '1.0',
       },
+      bridgeableTokens: [mockToken, customToken],
     });
-    render(
-      <AppchainBridgeInput bridgeableTokens={[mockToken, customToken]} />,
-      { wrapper },
-    );
+    render(<AppchainBridgeInput />, { wrapper });
 
     await waitFor(async () => {
       // Open token dropdown

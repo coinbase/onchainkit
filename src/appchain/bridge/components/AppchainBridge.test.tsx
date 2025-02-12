@@ -4,7 +4,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 import { act } from 'react';
 import { parseEther } from 'viem';
-import { type Chain, baseSepolia } from 'viem/chains';
+import { type Chain, base, baseSepolia } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   http,
@@ -15,9 +15,11 @@ import {
   useConfig,
 } from 'wagmi';
 import { getBalance, readContract } from 'wagmi/actions';
-import type { Appchain } from '../types';
+import { ETH_BY_CHAIN } from '../constants';
+import type { Appchain, BridgeableToken } from '../types';
 import { AppchainBridge } from './AppchainBridge';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
+
 const queryClient = new QueryClient();
 
 const mockConfig = createConfig({
@@ -53,6 +55,17 @@ const mockAppchain = {
     },
   },
 } as Appchain;
+
+const mockToken = {
+  name: 'ETH',
+  address: '',
+  symbol: 'ETH',
+  decimals: 18,
+  image:
+    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+  chainId: base.id,
+  remoteToken: ETH_BY_CHAIN[base.id].address,
+} as BridgeableToken;
 
 const mockBridgeParams = {
   token: {
@@ -122,6 +135,7 @@ describe('AppchainBridge Component', () => {
       from: mockChain,
       to: mockAppchain,
       bridgeParams: mockBridgeParams,
+      bridgeableTokens: [mockToken],
     });
   });
 

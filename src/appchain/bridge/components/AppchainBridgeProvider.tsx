@@ -267,6 +267,7 @@ export const AppchainBridgeProvider = ({
     config,
     from,
     to,
+    bridgeableTokens,
     bridgeParams,
     isPriceLoading,
 

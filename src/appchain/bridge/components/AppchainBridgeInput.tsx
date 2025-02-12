@@ -6,24 +6,21 @@ import { TextInput } from '../../../internal/components/TextInput';
 import { isValidAmount } from '../../../internal/utils/isValidAmount';
 import { background, border, cn, color, text } from '../../../styles/theme';
 import { TokenSelectDropdown } from '../../../token';
-import { DEFAULT_BRIDGEABLE_TOKENS } from '../constants';
-import type { BridgeableToken } from '../types';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
 interface AppchainBridgeInputProps {
   className?: string;
   delayMs?: number;
-  bridgeableTokens?: BridgeableToken[];
 }
 
 export function AppchainBridgeInput({
   className,
   delayMs = 50,
-  bridgeableTokens = DEFAULT_BRIDGEABLE_TOKENS,
 }: AppchainBridgeInputProps) {
   const {
     balance,
     bridgeParams,
+    bridgeableTokens,
     to,
     isPriceLoading,
     handleAmountChange,
