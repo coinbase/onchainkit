@@ -11,7 +11,7 @@ function EarnWithdrawDefaultContent() {
       <EarnDetails />
       <WithdrawAmountInput />
       <WithdrawBalance />
-      <WithdrawButton className="h-12" />
+      <WithdrawButton className="-mt-4 h-12" />
     </>
   );
 }

@@ -7,7 +7,7 @@ import {
   type TransactionResponse,
 } from '@/transaction';
 import { ConnectWallet } from '@/wallet';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import type { DepositButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
 
@@ -23,10 +23,7 @@ export function DepositButton({ className }: DepositButtonReact) {
     refetchWalletBalance,
   } = useEarnContext();
 
-  const [depositedAmount, setDepositedAmount] = useTemporaryValue(
-    depositAmount,
-    10_000,
-  );
+  const [depositedAmount, setDepositedAmount] = useTemporaryValue('', 3_000);
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
@@ -72,6 +69,17 @@ export function DepositButton({ className }: DepositButtonReact) {
     return 'Deposit';
   }, [depositAmountError, depositedAmount, vaultToken?.symbol]);
 
+  // Can't reset TransactionButton after success state
+  // Instead, we use a key to reset the component
+  const prevDepositedAmountRef = useRef(depositedAmount);
+
+  const resetKey = useMemo(() => {
+    const shouldReset =
+      prevDepositedAmountRef.current && depositedAmount === '';
+    prevDepositedAmountRef.current = depositedAmount;
+    return shouldReset ? Math.random() : undefined;
+  }, [depositedAmount]);
+
   if (!address) {
     return (
       <ConnectWallet
@@ -83,6 +91,7 @@ export function DepositButton({ className }: DepositButtonReact) {
 
   return (
     <Transaction
+      key={resetKey}
       className={className}
       calls={depositCalls}
       onStatus={handleOnStatus}
@@ -91,7 +100,7 @@ export function DepositButton({ className }: DepositButtonReact) {
       <TransactionButton
         text={buttonText}
         successOverride={{ text: buttonText }}
-        disabled={!!depositAmountError || !depositAmount}
+        disabled={!!depositAmountError || (!depositAmount && !depositedAmount)}
       />
     </Transaction>
   );

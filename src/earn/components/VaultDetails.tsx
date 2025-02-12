@@ -72,7 +72,7 @@ export function VaultDetails() {
             color.foreground,
             border.defaultActive,
             background.default,
-            'flex min-w-40 flex-col gap-3 rounded-lg border p-2 text-sm',
+            'flex min-w-40 flex-col gap-3 rounded-lg border p-3 text-sm',
             'fade-in animate-in duration-200',
           )}
         >
