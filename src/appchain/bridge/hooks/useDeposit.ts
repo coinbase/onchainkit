@@ -27,6 +27,7 @@ export function useDeposit() {
     setStatus('idle');
   }, []);
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
   const deposit = async ({ config, from, bridgeParams }: DepositParams) => {
     if (!bridgeParams.recipient) {
       throw new Error('Recipient is required');

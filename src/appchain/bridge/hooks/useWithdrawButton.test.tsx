@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useWithdrawButton } from './useWithdrawButton';
 
@@ -13,9 +13,9 @@ describe('useWithdrawButton', () => {
   };
 
   it('should return initial state when status is idle', () => {
-    vi.mocked(useAccount).mockReturnValue({
+    (useAccount as Mock).mockReturnValue({
       isConnected: true,
-    } as any);
+    });
 
     const { result } = renderHook(() => useWithdrawButton(mockProps));
 
@@ -30,9 +30,9 @@ describe('useWithdrawButton', () => {
   });
 
   it('should show pending state when status is claimPending', () => {
-    vi.mocked(useAccount).mockReturnValue({
+    (useAccount as Mock).mockReturnValue({
       isConnected: true,
-    } as any);
+    });
 
     const { result } = renderHook(() =>
       useWithdrawButton({ withdrawStatus: 'claimPending' }),
@@ -49,9 +49,9 @@ describe('useWithdrawButton', () => {
   });
 
   it('should show success state when status is claimSuccess', () => {
-    vi.mocked(useAccount).mockReturnValue({
+    (useAccount as Mock).mockReturnValue({
       isConnected: true,
-    } as any);
+    });
 
     const { result } = renderHook(() =>
       useWithdrawButton({ withdrawStatus: 'claimSuccess' }),
@@ -68,9 +68,9 @@ describe('useWithdrawButton', () => {
   });
 
   it('should show claim ready state when status is claimReady', () => {
-    vi.mocked(useAccount).mockReturnValue({
+    (useAccount as Mock).mockReturnValue({
       isConnected: true,
-    } as any);
+    });
 
     const { result } = renderHook(() =>
       useWithdrawButton({ withdrawStatus: 'claimReady' }),
@@ -87,9 +87,9 @@ describe('useWithdrawButton', () => {
   });
 
   it('should show claim rejected state when status is claimRejected', () => {
-    vi.mocked(useAccount).mockReturnValue({
+    (useAccount as Mock).mockReturnValue({
       isConnected: true,
-    } as any);
+    });
 
     const { result } = renderHook(() =>
       useWithdrawButton({ withdrawStatus: 'claimRejected' }),
@@ -106,12 +106,12 @@ describe('useWithdrawButton', () => {
   });
 
   it('should handle unknown status gracefully', () => {
-    vi.mocked(useAccount).mockReturnValue({
+    (useAccount as Mock).mockReturnValue({
       isConnected: true,
-    } as any);
+    });
 
     const { result } = renderHook(() =>
-      useWithdrawButton({ withdrawStatus: 'unknown' as any }),
+      useWithdrawButton({ withdrawStatus: 'unknown' }),
     );
 
     expect(result.current).toEqual({
