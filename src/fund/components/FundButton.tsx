@@ -56,7 +56,7 @@ export function FundButton({
     sendAnalytics(FundEvent.FundInitiated, {
       currency: fiatCurrency,
       amount: 0,
-      address: address ?? '',
+      address,
       transactionHash: '',
     });
   }, [sendAnalytics, fiatCurrency, address]);

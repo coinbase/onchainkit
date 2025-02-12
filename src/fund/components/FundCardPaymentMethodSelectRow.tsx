@@ -25,15 +25,12 @@ export const FundCardPaymentMethodSelectRow = memo(
     const { sendAnalytics } = useAnalytics();
 
     const handleOnClick = useCallback(() => {
-      if (disabled) {
-        return;
+      if (!disabled) {
+        onClick?.(paymentMethod);
+        sendAnalytics(FundEvent.FundOptionSelected, {
+          option: paymentMethod.id,
+        });
       }
-
-      sendAnalytics(FundEvent.FundOptionSelected, {
-        option: paymentMethod.id,
-      });
-
-      onClick?.(paymentMethod);
     }, [disabled, onClick, paymentMethod, sendAnalytics]);
 
     return (
