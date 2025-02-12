@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { parseEther, parseUnits } from 'viem';
-import type { Chain } from 'viem';
+import type { Chain, Hex } from 'viem';
 import { useAccount, useConfig, useSwitchChain, useWriteContract } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { ERC20ABI, OptimismPortalABI, StandardBridgeABI } from '../abi';
@@ -86,7 +86,7 @@ export function useDeposit() {
           chainId: from.id,
         });
 
-        let bridgeTxHash;
+        let bridgeTxHash: Hex;
 
         // Bridge the tokens
         if (bridgeParams.token.isCustomGasToken) {
