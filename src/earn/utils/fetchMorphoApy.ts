@@ -91,6 +91,10 @@ export type MorphoVaultApiResponse = {
       };
     };
   };
+  errors: Array<{
+    message: string;
+    status: string;
+  }> | null;
 };
 
 export async function fetchMorphoApy(vaultAddress: string) {
@@ -104,7 +108,13 @@ export async function fetchMorphoApy(vaultAddress: string) {
       variables: { address: vaultAddress },
     }),
   });
-  const { data } = (await response.json()) as MorphoVaultApiResponse;
+  const { data, errors } = (await response.json()) as MorphoVaultApiResponse;
+
+  if (errors?.some((err) => err.status === 'BAD_USER_INPUT')) {
+    throw new Error(
+      'Vault not found. Ensure the address is a valid Morpho vault on Base.',
+    );
+  }
 
   return data.vaultByAddress;
 }

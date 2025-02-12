@@ -41,7 +41,9 @@ export function VaultDetails() {
       data-testid="ock-vaultDetails"
     >
       <TokenImage token={vaultToken} size={16} />
-      <span className="max-w-24 truncate">{vaultName}</span>
+      <span className="max-w-24 truncate" title={vaultName}>
+        {vaultName}
+      </span>
       <button
         ref={triggerRef}
         type="button"

@@ -4,6 +4,7 @@ import type { Address } from 'viem';
 import { vi } from 'vitest';
 
 export const MOCK_EARN_CONTEXT: EarnContextType = {
+  error: null,
   walletBalance: '1000',
   walletBalanceStatus: 'success',
   refetchWalletBalance: vi.fn(),

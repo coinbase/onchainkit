@@ -51,6 +51,7 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     deposits,
     liquidity,
     rewards,
+    error,
   } = useMorphoVault({
     vaultAddress,
     recipientAddress: address,
@@ -137,6 +138,7 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
   }, [withdrawAmount, depositedBalance]);
 
   const value = useValue<EarnContextType>({
+    error,
     recipientAddress: address,
     vaultAddress,
     vaultToken,

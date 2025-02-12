@@ -19,6 +19,18 @@ describe('EarnDetails Component', () => {
     mockUseEarnContext.mockReturnValue(MOCK_EARN_CONTEXT);
   });
 
+  it('renders error message when error is present', () => {
+    mockUseEarnContext.mockReturnValue({
+      ...MOCK_EARN_CONTEXT,
+      error: new Error('Test error'),
+    });
+
+    render(<EarnDetails />);
+
+    const errorMessage = screen.getByText('Error fetching vault details');
+    expect(errorMessage).toBeInTheDocument();
+  });
+
   it('applies custom className when provided', () => {
     const customClass = 'custom-class';
     render(<EarnDetails className={customClass} />);
