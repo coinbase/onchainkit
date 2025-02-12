@@ -22,15 +22,18 @@ export function useDepositButton({
     depositStatus === 'depositRejected' ||
     withdrawStatus === 'withdrawRejected';
 
-  const buttonContent = isPending ? (
-    <Spinner />
-  ) : depositStatus === 'success' ? (
-    'View in Explorer'
-  ) : isConnected ? (
-    'Confirm'
-  ) : (
-    'Connect Wallet'
-  );
+  const buttonContent = useMemo(() => {
+    if (isPending) {
+      return <Spinner />;
+    }
+    if (depositStatus === 'depositSuccess') {
+      return 'View in Explorer';
+    }
+    if (isConnected) {
+      return 'Confirm';
+    }
+    return 'Connect Wallet';
+  }, [isPending, depositStatus, isConnected]);
 
   const isDisabled =
     isConnected &&
