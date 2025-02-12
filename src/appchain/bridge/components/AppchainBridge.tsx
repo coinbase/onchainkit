@@ -65,7 +65,7 @@ const AppchainBridgeDefaultContent = ({
               <AppchainNetworkToggleButton />
               <AppchainBridgeNetwork type="to" label="To" />
             </div>
-            <AppchainBridgeInput bridgeableTokens={bridgeableTokens} />
+            <AppchainBridgeInput />
             <AppchainBridgeTransactionButton />
           </div>
         </div>
