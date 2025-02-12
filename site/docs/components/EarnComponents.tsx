@@ -1,13 +1,13 @@
-import App from './App.tsx';
 import {
-  Earn,
   DepositAmountInput,
-  EarnDeposit as EarnDepositComponent,
   DepositBalance,
   DepositButton,
+  Earn,
+  EarnDeposit as EarnDepositComponent,
   EarnDetails,
   useEarnContext,
 } from '@coinbase/onchainkit/earn';
+import App from './App.tsx';
 
 const VAULT_ADDRESS = '0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A';
 
