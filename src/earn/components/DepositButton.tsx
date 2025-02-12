@@ -23,10 +23,7 @@ export function DepositButton({ className }: DepositButtonReact) {
     refetchWalletBalance,
   } = useEarnContext();
 
-  const [depositedAmount, setDepositedAmount] = useTemporaryValue(
-    depositAmount,
-    10_000,
-  );
+  const [depositedAmount, setDepositedAmount] = useTemporaryValue('', 3_000);
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
@@ -87,11 +84,12 @@ export function DepositButton({ className }: DepositButtonReact) {
       calls={depositCalls}
       onStatus={handleOnStatus}
       onSuccess={handleOnSuccess}
+      resetAfter={3_000}
     >
       <TransactionButton
         text={buttonText}
         successOverride={{ text: buttonText }}
-        disabled={!!depositAmountError || !depositAmount}
+        disabled={!!depositAmountError || (!depositAmount && !depositedAmount)}
       />
     </Transaction>
   );

@@ -23,10 +23,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     vaultToken,
   } = useEarnContext();
 
-  const [withdrawnAmount, setWithdrawnAmount] = useTemporaryValue(
-    withdrawAmount,
-    10_000,
-  );
+  const [withdrawnAmount, setWithdrawnAmount] = useTemporaryValue('', 3_000);
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
@@ -91,6 +88,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
       calls={withdrawCalls}
       onStatus={handleOnStatus}
       onSuccess={handleOnSuccess}
+      resetAfter={3_000}
     >
       <TransactionButton
         text={buttonText}

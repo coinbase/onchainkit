@@ -17,6 +17,7 @@ export function useSendCall({
     status,
     sendTransactionAsync: sendCallAsync,
     data,
+    reset,
   } = useSendCallWagmi({
     mutation: {
       onError: (e) => {
@@ -42,5 +43,5 @@ export function useSendCall({
       },
     },
   });
-  return { status, sendCallAsync, data };
+  return { status, sendCallAsync, data, reset };
 }

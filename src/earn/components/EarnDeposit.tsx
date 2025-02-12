@@ -11,7 +11,7 @@ function EarnDepositDefaultContent() {
       <EarnDetails />
       <DepositAmountInput />
       <DepositBalance />
-      <DepositButton className="h-12" />
+      <DepositButton className="-mt-4 h-12" />
     </>
   );
 }
