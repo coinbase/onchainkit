@@ -67,46 +67,16 @@ export function NFTMintButton({
     [updateLifecycleStatus],
   );
 
-  const sendMintAnalytics = useCallback(
-    (type: MintEvent, error?: string, metadata?: Record<string, unknown>) => {
-      const baseData = {
-        contractAddress: contractAddress ?? '',
-        tokenId: tokenId ?? '',
-        quantity,
-      };
-
-      switch (type) {
-        case MintEvent.MintInitiated:
-          sendAnalytics(type, baseData);
-          break;
-        case MintEvent.MintSuccess:
-          sendAnalytics(type, {
-            ...baseData,
-            address: address ?? '',
-            amountMinted: quantity,
-            isSponsored: isSponsored ?? false,
-          });
-          break;
-        case MintEvent.MintFailure:
-          sendAnalytics(type, {
-            error: error ?? 'Unknown error',
-            metadata: {
-              ...baseData,
-              ...metadata,
-            },
-          });
-          break;
-      }
-    },
-    [sendAnalytics, contractAddress, tokenId, quantity, address, isSponsored],
-  );
-
   const fetchTransactions = useCallback(async () => {
     if (name && address && buildMintTransaction && isEligibleToMint) {
       try {
         setCallData([]);
         setMintError(null);
-        sendMintAnalytics(MintEvent.MintInitiated);
+        sendAnalytics(MintEvent.MintInitiated, {
+          contractAddress,
+          quantity,
+          tokenId,
+        });
         const mintTransaction = await buildMintTransaction({
           takerAddress: address,
           contractAddress,
@@ -116,9 +86,7 @@ export function NFTMintButton({
         });
         setCallData(mintTransaction);
       } catch (error) {
-        const errorMessage = error as string;
-        sendMintAnalytics(MintEvent.MintFailure, errorMessage);
-        handleTransactionError(errorMessage);
+        handleTransactionError(error as string);
       }
     } else {
       setCallData([]);
@@ -132,8 +100,8 @@ export function NFTMintButton({
     name,
     network,
     quantity,
+    sendAnalytics,
     tokenId,
-    sendMintAnalytics,
   ]);
 
   useEffect(() => {
@@ -154,20 +122,34 @@ export function NFTMintButton({
         transactionStatus.statusName === 'error'
       ) {
         if (transactionStatus.statusName === 'success') {
-          sendMintAnalytics(MintEvent.MintSuccess);
+          sendAnalytics(MintEvent.MintSuccess, {
+            address,
+            amountMinted: quantity,
+            contractAddress: contractAddress,
+            isSponsored,
+            tokenId,
+          });
         }
         updateLifecycleStatus(transactionStatus);
       }
 
       if (transactionStatus.statusName === 'error') {
-        sendMintAnalytics(
-          MintEvent.MintFailure,
-          transactionStatus.statusData?.message ?? 'Unknown error',
-        );
+        sendAnalytics(MintEvent.MintFailure, {
+          error: 'Error building mint transaction',
+          metadata: transactionStatus.statusData,
+        });
         updateLifecycleStatus(transactionStatus);
       }
     },
-    [updateLifecycleStatus, sendMintAnalytics],
+    [
+      updateLifecycleStatus,
+      sendAnalytics,
+      address,
+      quantity,
+      contractAddress,
+      isSponsored,
+      tokenId,
+    ],
   );
 
   const transactionButtonLabel = useMemo(() => {

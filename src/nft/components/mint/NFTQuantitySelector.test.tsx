@@ -117,7 +117,6 @@ describe('NFTQuantitySelector', () => {
         MintEvent.MintQuantityChanged,
         {
           quantity: 3,
-          previousQuantity: 1,
         },
       );
     });

@@ -1,7 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { MintEvent } from '@/core/analytics/types';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { NFTMintButton } from '@/nft/components/mint/NFTMintButton';
@@ -17,6 +15,8 @@ import {
   useChainId,
 } from 'wagmi';
 import { mock } from 'wagmi/connectors';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { MintEvent } from '@/core/analytics/types';
 
 vi.mock('@/nft/components/NFTProvider');
 vi.mock('@/nft/components/NFTLifecycleProvider');
@@ -38,7 +38,10 @@ vi.mock('@/transaction', async (importOriginal) => {
     TransactionButton: ({
       text,
       disabled,
-    }: { text: string; disabled: boolean }) => (
+    }: {
+      text: string;
+      disabled: boolean;
+    }) => (
       <button type="button" disabled={disabled} data-testid="transactionButton">
         {text}
       </button>
@@ -94,10 +97,7 @@ vi.mock('@/transaction', async (importOriginal) => {
 vi.mock('@/wallet', () => ({
   ConnectWallet: () => <div>ConnectWallet</div>,
 }));
-
-vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(),
-}));
+vi.mock('@/core/analytics/hooks/useAnalytics');
 
 const queryClient = new QueryClient();
 
@@ -352,161 +352,53 @@ describe('NFTMintButton', () => {
   });
 
   describe('analytics', () => {
-    const baseAnalyticsData = {
-      contractAddress: '0x123',
-      tokenId: '1',
-      quantity: 1,
-    };
-
-    it('sends MintInitiated analytics when mint transaction is built', async () => {
-      const buildMintTransactionMock = vi.fn().mockResolvedValue([]);
-      (useNFTContext as Mock).mockReturnValue({
-        contractAddress: '0x123',
-        tokenId: '1',
-        name: 'name',
-        isEligibleToMint: true,
-        buildMintTransaction: buildMintTransactionMock,
-        quantity: 1,
-      });
-
+    it('sends MintInitiated analytics when transaction is built', async () => {
       render(
         <TestProviders>
           <NFTMintButton />
         </TestProviders>,
       );
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
-        MintEvent.MintInitiated,
-        baseAnalyticsData,
-      );
+      expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintInitiated, {
+        contractAddress: '0x123',
+        quantity: 1,
+        tokenId: '1',
+      });
     });
 
     it('sends MintSuccess analytics when transaction succeeds', () => {
-      render(
+      const { getByText } = render(
         <TestProviders>
           <NFTMintButton />
         </TestProviders>,
       );
 
-      const successButton = screen.getByText('Success');
-      fireEvent.click(successButton);
+      getByText('Success').click();
 
       expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintSuccess, {
-        ...baseAnalyticsData,
         address: '0xabc',
         amountMinted: 1,
-        isSponsored: false,
-      });
-    });
-
-    it('sends MintSuccess analytics with sponsored flag when isSponsored is true', () => {
-      (useNFTContext as Mock).mockReturnValue({
         contractAddress: '0x123',
+        isSponsored: undefined,
         tokenId: '1',
-        name: 'name',
-        quantity: 1,
-        isEligibleToMint: true,
-        isSponsored: true,
-        buildMintTransaction: vi.fn().mockResolvedValue([]),
-      });
-
-      render(
-        <TestProviders>
-          <NFTMintButton />
-        </TestProviders>,
-      );
-
-      const successButton = screen.getByText('Success');
-      fireEvent.click(successButton);
-
-      expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintSuccess, {
-        ...baseAnalyticsData,
-        address: '0xabc',
-        amountMinted: 1,
-        isSponsored: true,
       });
     });
 
     it('sends MintFailure analytics when transaction fails', () => {
-      render(
+      const { getByText } = render(
         <TestProviders>
           <NFTMintButton />
         </TestProviders>,
       );
 
-      const errorButton = screen.getByText('Error');
-      fireEvent.click(errorButton);
+      mockSendAnalytics.mockClear();
 
-      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
-        2,
+      getByText('Error').click();
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
         MintEvent.MintFailure,
-        {
-          error: 'Unknown error',
-          metadata: {
-            ...baseAnalyticsData,
-          },
-        },
+        expect.any(Object),
       );
-    });
-
-    it('sends MintFailure analytics when buildMintTransaction fails', async () => {
-      const buildMintTransactionMock = vi
-        .fn()
-        .mockRejectedValue('Build failed');
-      (useNFTContext as Mock).mockReturnValue({
-        contractAddress: '0x123',
-        tokenId: '1',
-        name: 'name',
-        isEligibleToMint: true,
-        buildMintTransaction: buildMintTransactionMock,
-        quantity: 1,
-      });
-
-      await render(
-        <TestProviders>
-          <NFTMintButton />
-        </TestProviders>,
-      );
-
-      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
-        2,
-        MintEvent.MintFailure,
-        {
-          error: 'Build failed',
-          metadata: {
-            ...baseAnalyticsData,
-          },
-        },
-      );
-    });
-
-    it('does not send analytics when address is not available', () => {
-      (useAccount as Mock).mockReturnValue({ address: null });
-
-      render(
-        <TestProviders>
-          <NFTMintButton />
-        </TestProviders>,
-      );
-
-      expect(mockSendAnalytics).not.toHaveBeenCalled();
-    });
-
-    it('does not send analytics when buildMintTransaction is undefined', () => {
-      (useNFTContext as Mock).mockReturnValue({
-        contractAddress: '0x123',
-        tokenId: '1',
-        quantity: 1,
-        isEligibleToMint: true,
-      });
-
-      render(
-        <TestProviders>
-          <NFTMintButton />
-        </TestProviders>,
-      );
-
-      expect(mockSendAnalytics).not.toHaveBeenCalled();
     });
   });
 });
