@@ -44,3 +44,7 @@ export type {
 } from './types';
 export type { DepositToMorphoParams } from './utils/buildDepositToMorphoTx';
 export type { WithdrawFromMorphoParams } from './utils/buildWithdrawFromMorphoTx';
+export type {
+  UseMorphoVaultParams,
+  UseMorphoVaultReturnType,
+} from './hooks/useMorphoVault';

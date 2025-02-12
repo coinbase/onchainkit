@@ -7,7 +7,7 @@ import { type Address, formatUnits } from 'viem';
 import { base } from 'viem/chains';
 import { useReadContract, useReadContracts } from 'wagmi';
 
-type UseMorphoVaultParams = {
+export type UseMorphoVaultParams = {
   vaultAddress: Address;
   recipientAddress?: Address;
 };
