@@ -198,3 +198,25 @@ export type WithdrawButtonReact = {
   className?: string;
 };
 ```
+
+## `DepositToMorphoParams`
+
+```ts
+export type DepositToMorphoParams = {
+  vaultAddress: Address;
+  tokenAddress: Address;
+  amount: bigint;
+  recipientAddress: Address;
+};
+```
+
+## `WithdrawFromMorphoParams`
+
+```ts
+export type WithdrawFromMorphoParams = {
+  vaultAddress: Address;
+  tokenAddress: Address;
+  amount: bigint;
+  recipientAddress: Address;
+};
+```

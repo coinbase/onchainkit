@@ -66,7 +66,7 @@ function CustomDepositInterface() {
               key={amount}
               type="button"
               onClick={() => setDepositAmount(amount)}
-              className={`rounded-md px-4 py-2 ${selected ? 'bg-gray-900 text-white' : 'bg-gray-200'}`}
+              className={`rounded-md px-4 py-2 ${selected ? 'bg-[var(--ock-bg-primary)] text-[var(--ock-text-inverse)]' : 'bg-[var(--ock-bg-secondary)] text-[var(--ock-text-primary)]'}`}
             >
               {amount}
             </button>

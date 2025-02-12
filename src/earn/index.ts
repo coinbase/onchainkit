@@ -42,3 +42,5 @@ export type {
   WithdrawButtonReact,
   LifecycleStatus,
 } from './types';
+export type { DepositToMorphoParams } from './utils/buildDepositToMorphoTx';
+export type { WithdrawFromMorphoParams } from './utils/buildWithdrawFromMorphoTx';

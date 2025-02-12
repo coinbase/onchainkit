@@ -324,15 +324,15 @@ export const sidebar = [
         ],
       },
       {
-        text: 'Mint',
+        text: 'Earn',
         items: [
           {
-            text: 'useTokenDetails',
-            link: '/hooks/use-token-details',
+            text: 'buildDepositToMorphoTx',
+            link: '/api/build-deposit-to-morpho-tx',
           },
           {
-            text: 'useMintDetails',
-            link: '/hooks/use-mint-details',
+            text: 'buildWithdrawFromMorphoTx',
+            link: '/api/build-withdraw-from-morpho-tx',
           },
         ],
       },
@@ -395,6 +395,19 @@ export const sidebar = [
           {
             text: 'useName',
             link: '/identity/use-name',
+          },
+        ],
+      },
+      {
+        text: 'Mint',
+        items: [
+          {
+            text: 'useTokenDetails',
+            link: '/hooks/use-token-details',
+          },
+          {
+            text: 'useMintDetails',
+            link: '/hooks/use-mint-details',
           },
         ],
       },
