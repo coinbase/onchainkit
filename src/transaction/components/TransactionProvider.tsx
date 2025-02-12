@@ -55,6 +55,7 @@ export function TransactionProvider({
   onError,
   onStatus,
   onSuccess,
+  resetAfter,
 }: TransactionProviderReact) {
   // Core Hooks
   const account = useAccount();
@@ -173,6 +174,23 @@ export function TransactionProvider({
       onSuccess?.({
         transactionReceipts: lifecycleStatus.statusData.transactionReceipts,
       });
+
+      // Reset the component after a successful transaction
+      if (resetAfter) {
+        setTimeout(() => {
+          // Reset all internal state
+          setErrorMessage('');
+          setErrorCode('');
+          setIsToastVisible(false);
+          setTransactionId('');
+          setTransactionHashList([]);
+          setTransactionCount(undefined);
+          setLifecycleStatus({
+            statusName: 'reset',
+            statusData: null,
+          });
+        }, resetAfter);
+      }
     }
     // Emit Status
     onStatus?.(lifecycleStatus);
@@ -183,6 +201,7 @@ export function TransactionProvider({
     lifecycleStatus,
     lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
+    resetAfter,
   ]);
 
   // Set transaction pending status when writeContracts or writeContract is pending

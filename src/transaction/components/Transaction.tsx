@@ -16,6 +16,7 @@ export function Transaction({
   onError,
   onStatus,
   onSuccess,
+  resetAfter,
 }: TransactionReact) {
   const isMounted = useIsMounted();
   const componentTheme = useTheme();
@@ -44,6 +45,7 @@ export function Transaction({
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}
+      resetAfter={resetAfter}
     >
       <div
         className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}

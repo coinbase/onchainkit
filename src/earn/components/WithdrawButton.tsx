@@ -7,7 +7,7 @@ import {
   type TransactionResponse,
 } from '@/transaction';
 import { ConnectWallet } from '@/wallet';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
 
@@ -73,17 +73,6 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     return 'Withdraw';
   }, [withdrawAmountError, withdrawnAmount, vaultToken?.symbol]);
 
-  // Can't reset TransactionButton after success state
-  // Instead, we use a key to reset the component
-  const prevWithdrawnAmountRef = useRef(withdrawnAmount);
-
-  const resetKey = useMemo(() => {
-    const shouldReset =
-      prevWithdrawnAmountRef.current && withdrawnAmount === '';
-    prevWithdrawnAmountRef.current = withdrawnAmount;
-    return shouldReset ? Math.random() : undefined;
-  }, [withdrawnAmount]);
-
   if (!address) {
     return (
       <ConnectWallet
@@ -95,11 +84,11 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
 
   return (
     <Transaction
-      key={resetKey}
       className={className}
       calls={withdrawCalls}
       onStatus={handleOnStatus}
       onSuccess={handleOnSuccess}
+      resetAfter={3_000}
     >
       <TransactionButton
         text={buttonText}

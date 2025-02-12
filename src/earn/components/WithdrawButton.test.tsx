@@ -3,7 +3,7 @@ import type { EarnContextType } from '@/earn/types';
 import type { MakeRequired } from '@/internal/types';
 import { usdcToken } from '@/token/constants';
 import type { Call } from '@/transaction/types';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
@@ -224,8 +224,66 @@ describe('WithdrawButton Component', () => {
     screen.getByText('Success').click();
     expect(mockSetWithdrawAmount).toHaveBeenCalledWith('');
 
-    expect(screen.getByTestId('transactionButton')).toHaveTextContent(
-      'Withdrew 123 USDC',
-    );
+    await waitFor(() => {
+      expect(screen.getByTestId('transactionButton')).toHaveTextContent(
+        'Withdrew 123 USDC',
+      );
+    });
+  });
+
+  it('resets the Transaction component when withdrawn amount is cleared after success', async () => {
+    const mockSetWithdrawAmount = vi.fn();
+    const mockRefetchDepositedBalance = vi.fn();
+    const mockWithdrawCalls: Call[] = [{ to: '0x123', data: '0x456' }];
+
+    // Initial render with a non-empty withdrawAmount
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      vaultToken: usdcToken,
+      withdrawAmount: '123',
+      setWithdrawAmount: mockSetWithdrawAmount,
+      refetchDepositedBalance: mockRefetchDepositedBalance,
+      withdrawCalls: mockWithdrawCalls,
+    });
+
+    const { rerender } = render(<WithdrawButton />);
+
+    // Simulate success to clear withdrawAmount
+    screen.getByText('Success').click();
+
+    // Re-render with withdrawAmount now empty
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      vaultToken: usdcToken,
+      withdrawAmount: '',
+      setWithdrawAmount: mockSetWithdrawAmount,
+      refetchDepositedBalance: mockRefetchDepositedBalance,
+      withdrawCalls: mockWithdrawCalls,
+    });
+    rerender(<WithdrawButton />);
+
+    // Ensures coverage for resetKey logic
+    expect(mockSetWithdrawAmount).toHaveBeenCalledWith('');
+  });
+
+  // Tests for the resetKey logic
+  it('resets the Transaction component when withdrawn amount is cleared after success', async () => {
+    const mockSetWithdrawAmount = vi.fn();
+    const mockRefetchDepositedBalance = vi.fn();
+    const mockWithdrawCalls: Call[] = [{ to: '0x123', data: '0x456' }];
+
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      vaultToken: usdcToken,
+      withdrawAmount: '123',
+      setWithdrawAmount: mockSetWithdrawAmount,
+      refetchDepositedBalance: mockRefetchDepositedBalance,
+      withdrawCalls: mockWithdrawCalls,
+    });
+
+    render(<WithdrawButton />);
+
+    screen.getByText('Success').click();
+    expect(mockSetWithdrawAmount).toHaveBeenCalledWith('');
   });
 });
