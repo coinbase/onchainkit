@@ -1,7 +1,6 @@
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '@/styles/theme';
-import { DEFAULT_BRIDGEABLE_TOKENS } from '../constants';
 import type { AppchainBridgeReact, BridgeableToken } from '../types';
 import { AppchainBridgeAddressInput } from './AppchainBridgeAddressInput';
 import { AppchainBridgeInput } from './AppchainBridgeInput';
@@ -99,7 +98,7 @@ export function AppchainBridge({
     <AppchainBridgeProvider
       chain={chain}
       appchain={appchain}
-      bridgeableTokens={bridgeableTokens || DEFAULT_BRIDGEABLE_TOKENS}
+      bridgeableTokens={bridgeableTokens}
     >
       <div
         className={cn(

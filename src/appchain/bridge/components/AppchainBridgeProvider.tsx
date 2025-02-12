@@ -15,14 +15,14 @@ import { type Address, type Chain, erc20Abi } from 'viem';
 import { base } from 'viem/chains';
 import { useAccount, useConfig } from 'wagmi';
 import { getBalance, readContract } from 'wagmi/actions';
+import { DEFAULT_BRIDGEABLE_TOKENS } from '../constants';
 import { useChainConfig } from '../hooks/useAppchainConfig';
 import { useDeposit } from '../hooks/useDeposit';
 import { useWithdraw } from '../hooks/useWithdraw';
-import type { Appchain, ChainWithIcon } from '../types';
+import type { Appchain, BridgeableToken, ChainWithIcon } from '../types';
 import type { BridgeParams } from '../types';
 import type { AppchainBridgeContextType } from '../types';
 import { defaultPriceFetcher } from '../utils/defaultPriceFetcher';
-
 const AppchainBridgeContext = createContext<
   AppchainBridgeContextType | undefined
 >(undefined);
@@ -31,7 +31,7 @@ interface AppchainBridgeProviderProps {
   children: ReactNode;
   chain: Chain;
   appchain: Appchain;
-  bridgeableTokens: Token[];
+  bridgeableTokens?: BridgeableToken[];
   handleFetchPrice?: (amount: string, token: Token) => Promise<string>;
 }
 
@@ -39,7 +39,7 @@ export const AppchainBridgeProvider = ({
   children,
   chain,
   appchain,
-  bridgeableTokens,
+  bridgeableTokens = DEFAULT_BRIDGEABLE_TOKENS,
   handleFetchPrice = defaultPriceFetcher,
 }: AppchainBridgeProviderProps) => {
   // Source network
