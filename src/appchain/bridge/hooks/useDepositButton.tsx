@@ -1,19 +1,13 @@
 import { Spinner } from '@/internal/components/Spinner';
 import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
-import type { BridgeParams } from '../types';
-
-interface UseDepositButtonProps {
-  depositStatus: string;
-  withdrawStatus: string;
-  bridgeParams: BridgeParams;
-}
+import type { UseDepositButtonParams } from '../types';
 
 export function useDepositButton({
   depositStatus,
   withdrawStatus,
   bridgeParams,
-}: UseDepositButtonProps) {
+}: UseDepositButtonParams) {
   const { isConnected } = useAccount();
 
   const isPending =
