@@ -122,11 +122,11 @@
       "import": "./esm/api/index.js",
       "default": "./esm/api/index.js"
     },
-    "./appchain": {
-      "types": "./esm/appchain/index.d.ts",
-      "module": "./esm/appchain/index.js",
-      "import": "./esm/appchain/index.js",
-      "default": "./esm/appchain/index.js"
+    "./appchain/bridge": {
+      "types": "./esm/appchain/bridge/index.d.ts",
+      "module": "./esm/appchain/bridge/index.js",
+      "import": "./esm/appchain/bridge/index.js",
+      "default": "./esm/appchain/bridge/index.js"
     },
     "./buy": {
       "types": "./esm/buy/index.d.ts",
