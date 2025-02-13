@@ -20,7 +20,7 @@ export function AppchainNetworkToggleButton({
         'flex h-14 w-14 items-center justify-center',
         'rounded-lg border-4 border-solid',
         'rotate-90',
-        'absolute left-1/2 -translate-x-1/2 z-10',
+        '-translate-x-1/2 absolute left-1/2 z-10',
         className,
       )}
       data-testid="AppchainNetworkToggleButton"

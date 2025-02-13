@@ -50,7 +50,7 @@ export const AppchainBridgeNetwork = ({
               'justify-end': type === 'to',
             })}
           >
-            <div className="w-4 h-4 flex items-center justify-center">
+            <div className="flex h-4 w-4 items-center justify-center">
               {displayIcon}
             </div>
             <span className={cn(text.headline)}>{displayNetwork}</span>

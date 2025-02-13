@@ -37,7 +37,7 @@ export const AppchainBridgeWithdraw = () => {
 
   const SuccessIcon = () => (
     <div className="flex justify-center">
-      <div className="w-20 h-20">
+      <div className="h-20 w-20">
         <SuccessSvg fill="var(--ock-bg-primary)" />
       </div>
     </div>
@@ -45,9 +45,9 @@ export const AppchainBridgeWithdraw = () => {
 
   const LoadingContent = useMemo(
     () => () => (
-      <div className="flex flex-col items-center gap-16 h-full justify-center">
-        <Spinner className="w-24 h-24 !border-t-[var(--ock-bg-primary)]" />
-        <span className="text-base font-medium text-center px-4">
+      <div className="flex h-full flex-col items-center justify-center gap-16">
+        <Spinner className="!border-t-[var(--ock-bg-primary)] h-24 w-24" />
+        <span className="px-4 text-center font-medium text-base">
           Waiting for claim to be ready...
           <br />
           Please do not close this window.
@@ -105,15 +105,15 @@ export const AppchainBridgeWithdraw = () => {
   };
 
   return (
-    <div className="flex flex-col w-full h-full justify-between">
+    <div className="flex h-full w-full flex-col justify-between">
       <div>
         <div className="flex items-center">
-          <h2 className="text-lg ock-text-foreground font-medium text-center flex-1">
+          <h2 className="ock-text-foreground flex-1 text-center font-medium text-lg">
             {label}
           </h2>
         </div>
       </div>
-      <div className="px-4 pb-4 mt-16">
+      <div className="mt-16 px-4 pb-4">
         {renderContent()}
         {withdrawStatus === 'claimRejected' && (
           <div className={cn(text.label2, color.error, 'mt-2')}>
