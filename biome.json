@@ -68,9 +68,7 @@
       "site/env.d.ts",
       "site/tailwind.config.js",
       "site/vocs.config.tsx",
-      "src/internal/hooks/useDebounce.ts",
-      "src/appchain/bridge/components/AppchainBridgeInput.tsx",
-      "src/appchain/bridge/components/AppchainBridge.tsx"
+      "src/internal/hooks/useDebounce.ts"
     ]
   },
   "json": {
