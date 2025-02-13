@@ -50,6 +50,14 @@ export const ANALYTICS_EVENTS = {
   WALLET_CONNECT_SUCCESS: 'walletConnectSuccess',
   WALLET_DISCONNECT: 'walletDisconnect',
   WALLET_OPTION_SELECTED: 'walletOptionSelected',
+
+  // Earn events
+  EARN_DEPOSIT_INITIATED: 'earnDepositInitiated',
+  EARN_DEPOSIT_SUCCESS: 'earnDepositSuccess',
+  EARN_DEPOSIT_FAILURE: 'earnDepositFailure',
+  EARN_WITHDRAW_INITIATED: 'earnWithdrawInitiated',
+  EARN_WITHDRAW_SUCCESS: 'earnWithdrawSuccess',
+  EARN_WITHDRAW_FAILURE: 'earnWithdrawFailure',
 } as const;
 
 /**
@@ -63,6 +71,7 @@ export const COMPONENT_NAMES = {
   SWAP: 'swap',
   TRANSACTION: 'transaction',
   WALLET: 'wallet',
+  EARN: 'earn',
 } as const;
 
 /**

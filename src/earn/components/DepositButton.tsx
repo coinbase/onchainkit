@@ -1,3 +1,4 @@
+import { useDepositAnalytics } from '@/earn/hooks/useDepositAnalytics';
 import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
@@ -21,11 +22,13 @@ export function DepositButton({ className }: DepositButtonReact) {
     updateLifecycleStatus,
     refetchWalletBalance,
   } = useEarnContext();
-
   const [depositedAmount, setDepositedAmount] = useState('');
+  const { setTransactionState } = useDepositAnalytics(depositedAmount);
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
+      setTransactionState(status.statusName);
+
       if (status.statusName === 'transactionPending') {
         updateLifecycleStatus({ statusName: 'transactionPending' });
       }
@@ -38,7 +41,7 @@ export function DepositButton({ className }: DepositButtonReact) {
         updateLifecycleStatus(status);
       }
     },
-    [updateLifecycleStatus],
+    [updateLifecycleStatus, setTransactionState],
   );
 
   const handleOnSuccess = useCallback(
