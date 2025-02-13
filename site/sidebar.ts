@@ -104,6 +104,15 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Earn',
+        items: [
+          {
+            text: 'Earn',
+            link: '/earn/earn',
+          },
+        ],
+      },
+      {
         text: 'Fund',
         items: [
           {
@@ -113,15 +122,6 @@ export const sidebar = [
           {
             text: 'FundCard',
             link: '/fund/fund-card',
-          },
-        ],
-      },
-      {
-        text: 'Earn',
-        items: [
-          {
-            text: 'Earn',
-            link: '/earn/earn',
           },
         ],
       },
