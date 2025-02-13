@@ -1,7 +1,6 @@
 import { type Hex, fromRlp, toRlp } from 'viem';
 
 /* v8 ignore start */
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
 export function maybeAddProofNode(key: string, proof: readonly Hex[]) {
   const lastProofRlp = proof[proof.length - 1];
   const lastProof = fromRlp(lastProofRlp);
