@@ -1,4 +1,3 @@
-import { useTemporaryValue } from '@/internal/hooks/useTemporaryValue';
 import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
@@ -7,7 +6,7 @@ import {
   type TransactionResponse,
 } from '@/transaction';
 import { ConnectWallet } from '@/wallet';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useState } from 'react';
 import type { DepositButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
 
@@ -23,7 +22,7 @@ export function DepositButton({ className }: DepositButtonReact) {
     refetchWalletBalance,
   } = useEarnContext();
 
-  const [depositedAmount, setDepositedAmount] = useTemporaryValue('', 3_000);
+  const [depositedAmount, setDepositedAmount] = useState('');
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
@@ -56,18 +55,8 @@ export function DepositButton({ className }: DepositButtonReact) {
         refetchWalletBalance();
       }
     },
-    [depositAmount, setDepositAmount, refetchWalletBalance, setDepositedAmount],
+    [depositAmount, setDepositAmount, refetchWalletBalance],
   );
-
-  const buttonText = useMemo(() => {
-    if (depositAmountError) {
-      return depositAmountError;
-    }
-    if (depositedAmount && vaultToken?.symbol) {
-      return `Deposited ${depositedAmount} ${vaultToken.symbol}`;
-    }
-    return 'Deposit';
-  }, [depositAmountError, depositedAmount, vaultToken?.symbol]);
 
   if (!address) {
     return (
@@ -87,9 +76,11 @@ export function DepositButton({ className }: DepositButtonReact) {
       resetAfter={3_000}
     >
       <TransactionButton
-        text={buttonText}
-        successOverride={{ text: buttonText }}
-        disabled={!!depositAmountError || (!depositAmount && !depositedAmount)}
+        text={depositAmountError ?? 'Deposit'}
+        successOverride={{
+          text: `Deposited ${depositedAmount} ${vaultToken?.symbol}`,
+        }}
+        disabled={!!depositAmountError || !depositAmount}
       />
     </Transaction>
   );

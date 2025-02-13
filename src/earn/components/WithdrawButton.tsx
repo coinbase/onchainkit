@@ -1,4 +1,3 @@
-import { useTemporaryValue } from '@/internal/hooks/useTemporaryValue';
 import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
@@ -7,7 +6,7 @@ import {
   type TransactionResponse,
 } from '@/transaction';
 import { ConnectWallet } from '@/wallet';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useState } from 'react';
 import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
 
@@ -23,7 +22,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     vaultToken,
   } = useEarnContext();
 
-  const [withdrawnAmount, setWithdrawnAmount] = useTemporaryValue('', 3_000);
+  const [withdrawnAmount, setWithdrawnAmount] = useState('');
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
@@ -55,23 +54,8 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
         refetchDepositedBalance();
       }
     },
-    [
-      setWithdrawAmount,
-      refetchDepositedBalance,
-      withdrawAmount,
-      setWithdrawnAmount,
-    ],
+    [setWithdrawAmount, refetchDepositedBalance, withdrawAmount],
   );
-
-  const buttonText = useMemo(() => {
-    if (withdrawAmountError) {
-      return withdrawAmountError;
-    }
-    if (withdrawnAmount && vaultToken?.symbol) {
-      return `Withdrew ${withdrawnAmount} ${vaultToken.symbol}`;
-    }
-    return 'Withdraw';
-  }, [withdrawAmountError, withdrawnAmount, vaultToken?.symbol]);
 
   if (!address) {
     return (
@@ -91,8 +75,10 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
       resetAfter={3_000}
     >
       <TransactionButton
-        text={buttonText}
-        successOverride={{ text: buttonText }}
+        text={withdrawAmountError ?? 'Withdraw'}
+        successOverride={{
+          text: `Withdrew ${withdrawnAmount} ${vaultToken?.symbol}`,
+        }}
         disabled={!!withdrawAmountError || !withdrawAmount}
       />
     </Transaction>
