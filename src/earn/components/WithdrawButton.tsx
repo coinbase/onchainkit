@@ -9,6 +9,7 @@ import { ConnectWallet } from '@/wallet';
 import { useCallback, useState } from 'react';
 import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
+import { useWithdrawAnalytics } from '@/earn/hooks/useWithdrawAnalytics';
 
 export function WithdrawButton({ className }: WithdrawButtonReact) {
   const {
@@ -21,11 +22,13 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     withdrawAmountError,
     vaultToken,
   } = useEarnContext();
+  const { setTransactionState } = useWithdrawAnalytics();
 
   const [withdrawnAmount, setWithdrawnAmount] = useState('');
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
+      setTransactionState(status.statusName);
       if (status.statusName === 'transactionPending') {
         updateLifecycleStatus({ statusName: 'transactionPending' });
       }
@@ -38,7 +41,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
         updateLifecycleStatus(status);
       }
     },
-    [updateLifecycleStatus],
+    [updateLifecycleStatus, setTransactionState],
   );
 
   const handleOnSuccess = useCallback(

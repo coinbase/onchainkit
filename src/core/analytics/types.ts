@@ -106,6 +106,18 @@ export enum FundEvent {
 }
 
 /**
+ * Earn component events
+ */
+export enum EarnEvent {
+  EarnDepositInitiated = 'earnDepositInitiated',
+  EarnDepositSuccess = 'earnDepositSuccess',
+  EarnDepositFailure = 'earnDepositFailure',
+  EarnWithdrawInitiated = 'earnWithdrawInitiated',
+  EarnWithdrawSuccess = 'earnWithdrawSuccess',
+  EarnWithdrawFailure = 'earnWithdrawFailure',
+}
+
+/**
  * Generic error events across components
  * Used for error tracking and monitoring
  */
@@ -125,6 +137,7 @@ export type AnalyticsEvent =
   | MintEvent
   | TransactionEvent
   | FundEvent
+  | EarnEvent
   | ErrorEvent;
 
 /**
@@ -320,6 +333,50 @@ export type FundEventData = {
   };
 };
 
+/**
+ * Earn component events data
+ */
+export type EarnEventData = {
+  [EarnEvent.EarnDepositInitiated]: CommonAnalyticsData & {
+    amount: number;
+    address: string;
+    tokenAddress: string;
+    vaultAddress: string;
+  };
+  [EarnEvent.EarnDepositSuccess]: CommonAnalyticsData & {
+    amount: number;
+    address: string;
+    tokenAddress: string;
+    vaultAddress: string;
+  };
+  [EarnEvent.EarnDepositFailure]: CommonAnalyticsData & {
+    error?: string;
+    amount: number;
+    address: string;
+    tokenAddress: string;
+    vaultAddress: string;
+  };
+  [EarnEvent.EarnWithdrawInitiated]: CommonAnalyticsData & {
+    amount: number;
+    address: string;
+    tokenAddress: string;
+    vaultAddress: string;
+  };
+  [EarnEvent.EarnWithdrawSuccess]: CommonAnalyticsData & {
+    amount: number;
+    address: string;
+    tokenAddress: string;
+    vaultAddress: string;
+  };
+  [EarnEvent.EarnWithdrawFailure]: CommonAnalyticsData & {
+    error?: string;
+    amount: number;
+    address: string;
+    tokenAddress: string;
+    vaultAddress: string;
+  };
+};
+
 // Update main AnalyticsEventData type to include all component events
 export type AnalyticsEventData = {
   // Wallet events
@@ -367,6 +424,14 @@ export type AnalyticsEventData = {
   [FundEvent.FundInitiated]: FundEventData[FundEvent.FundInitiated];
   [FundEvent.FundOptionSelected]: FundEventData[FundEvent.FundOptionSelected];
   [FundEvent.FundSuccess]: FundEventData[FundEvent.FundSuccess];
+
+  // Earn events
+  [EarnEvent.EarnDepositInitiated]: EarnEventData[EarnEvent.EarnDepositInitiated];
+  [EarnEvent.EarnDepositSuccess]: EarnEventData[EarnEvent.EarnDepositSuccess];
+  [EarnEvent.EarnDepositFailure]: EarnEventData[EarnEvent.EarnDepositFailure];
+  [EarnEvent.EarnWithdrawInitiated]: EarnEventData[EarnEvent.EarnWithdrawInitiated];
+  [EarnEvent.EarnWithdrawSuccess]: EarnEventData[EarnEvent.EarnWithdrawSuccess];
+  [EarnEvent.EarnWithdrawFailure]: EarnEventData[EarnEvent.EarnWithdrawFailure];
 
   // Error events
   [ErrorEvent.ComponentError]: CommonAnalyticsData & {
