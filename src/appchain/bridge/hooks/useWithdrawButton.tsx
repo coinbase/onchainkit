@@ -1,23 +1,8 @@
 import { Spinner } from '@/internal/components/Spinner';
 import { useMemo } from 'react';
-import type { ReactNode } from 'react';
+import type { UseWithdrawButtonParams } from '../types';
 
-interface UseWithdrawButtonProps {
-  withdrawStatus: string;
-}
-
-interface UseWithdrawButtonReturn {
-  isPending: boolean;
-  isSuccess: boolean;
-  buttonDisabled: boolean;
-  buttonContent: ReactNode;
-  shouldShowClaim: boolean;
-  label: string;
-}
-
-export function useWithdrawButton({
-  withdrawStatus,
-}: UseWithdrawButtonProps): UseWithdrawButtonReturn {
+export function useWithdrawButton({ withdrawStatus }: UseWithdrawButtonParams) {
   const isPending = withdrawStatus === 'claimPending';
   const isSuccess = withdrawStatus === 'claimSuccess';
   const buttonDisabled = isPending;

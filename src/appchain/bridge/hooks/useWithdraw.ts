@@ -1,12 +1,5 @@
 import { useCallback, useState } from 'react';
-import {
-  type Chain,
-  type Hex,
-  erc20Abi,
-  keccak256,
-  parseEther,
-  parseUnits,
-} from 'viem';
+import { type Hex, erc20Abi, keccak256, parseEther, parseUnits } from 'viem';
 import { getWithdrawalHashStorageSlot, getWithdrawals } from 'viem/op-stack';
 import { useAccount, useConfig, useSwitchChain, useWriteContract } from 'wagmi';
 import {
@@ -28,17 +21,10 @@ import {
   MIN_GAS_LIMIT,
   OUTPUT_ROOT_PROOF_VERSION,
 } from '../constants';
-import type { AppchainConfig } from '../types';
-import type { BridgeParams } from '../types';
+import type { UseWithdrawParams } from '../types';
 import { getOutput } from '../utils/getOutput';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 import { maybeAddProofNode } from '../utils/maybeAddProofNode';
-
-interface UseWithdrawParams {
-  config: AppchainConfig;
-  chain: Chain;
-  bridgeParams: BridgeParams;
-}
 
 export const useWithdraw = ({
   config,

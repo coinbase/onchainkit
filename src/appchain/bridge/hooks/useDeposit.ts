@@ -1,19 +1,12 @@
 import { useCallback, useState } from 'react';
 import { parseEther, parseUnits } from 'viem';
-import type { Chain, Hex } from 'viem';
+import type { Hex } from 'viem';
 import { useAccount, useConfig, useSwitchChain, useWriteContract } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { ERC20ABI, OptimismPortalABI, StandardBridgeABI } from '../abi';
 import { EXTRA_DATA, MIN_GAS_LIMIT } from '../constants';
-import type { AppchainConfig } from '../types';
-import type { BridgeParams } from '../types';
+import type { UseDepositParams } from '../types';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
-
-interface DepositParams {
-  config: AppchainConfig;
-  from: Chain;
-  bridgeParams: BridgeParams;
-}
 
 export function useDeposit() {
   const { writeContractAsync, data } = useWriteContract();
@@ -29,7 +22,7 @@ export function useDeposit() {
   }, []);
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
-  const deposit = async ({ config, from, bridgeParams }: DepositParams) => {
+  const deposit = async ({ config, from, bridgeParams }: UseDepositParams) => {
     if (!bridgeParams.recipient) {
       throw new Error('Recipient is required');
     }

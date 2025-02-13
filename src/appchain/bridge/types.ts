@@ -29,6 +29,9 @@ export type AppchainBridgeReact = {
   bridgeableTokens?: BridgeableToken[];
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type AppchainBridgeContextType = {
   // Configuration
   config: AppchainConfig;
@@ -92,6 +95,9 @@ export type AppchainConfig = {
   };
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type BridgeParams = {
   amount: string;
   amountUSD: string;
@@ -99,7 +105,44 @@ export type BridgeParams = {
   recipient?: Address;
 };
 
-export type FinalizeWithdrawalParams = {
+/**
+ * Note: exported as public Type
+ */
+export type ChainConfigParams = {
   config: AppchainConfig;
   chain: Chain;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseDepositParams = {
+  config: AppchainConfig;
+  from: Chain;
+  bridgeParams: BridgeParams;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseWithdrawParams = {
+  config: AppchainConfig;
+  chain: Chain;
+  bridgeParams: BridgeParams;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseDepositButtonParams = {
+  depositStatus: string;
+  withdrawStatus: string;
+  bridgeParams: BridgeParams;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseWithdrawButtonParams = {
+  withdrawStatus: string;
 };
