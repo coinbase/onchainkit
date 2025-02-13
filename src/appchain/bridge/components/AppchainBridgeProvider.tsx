@@ -23,6 +23,7 @@ import type { Appchain, BridgeableToken, ChainWithIcon } from '../types';
 import type { BridgeParams } from '../types';
 import type { AppchainBridgeContextType } from '../types';
 import { defaultPriceFetcher } from '../utils/defaultPriceFetcher';
+
 const AppchainBridgeContext = createContext<
   AppchainBridgeContextType | undefined
 >(undefined);
@@ -133,7 +134,21 @@ export const AppchainBridgeProvider = ({
         : bridgeParams.token.remoteToken;
 
     let _balance: string;
-    if (tokenAddress) {
+
+    if (
+      !tokenAddress ||
+      /* v8 ignore next 1 */
+      (direction === 'withdraw' && bridgeParams.token.isCustomGasToken)
+    ) {
+      const ethBalance = await getBalance(wagmiConfig, {
+        address,
+        chainId: from.id,
+      });
+      _balance = toReadableAmount(
+        ethBalance.value.toString(),
+        ethBalance.decimals,
+      );
+    } else {
       const erc20Balance = await readContract(wagmiConfig, {
         abi: erc20Abi,
         functionName: 'balanceOf',
@@ -144,15 +159,6 @@ export const AppchainBridgeProvider = ({
       _balance = toReadableAmount(
         erc20Balance.toString(),
         bridgeParams.token.decimals,
-      );
-    } else {
-      const ethBalance = await getBalance(wagmiConfig, {
-        address,
-        chainId: from.id,
-      });
-      _balance = toReadableAmount(
-        ethBalance.value.toString(),
-        ethBalance.decimals,
       );
     }
 

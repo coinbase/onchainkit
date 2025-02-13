@@ -380,6 +380,37 @@ describe('AppchainBridgeProvider', () => {
     });
   });
 
+  it('should fetch native gas token balance correctly for withdrawals', async () => {
+    // Mock an ERC-20 token that's a custom gas token
+    const mockERC20Token = {
+      ...mockToken,
+      address: '0xTokenAddress',
+      decimals: 6,
+      isCustomGasToken: true,
+    } as BridgeableToken;
+
+    (getBalance as Mock).mockResolvedValue({
+      value: 1000000000000n,
+      decimals: 18,
+    });
+
+    const result = await renderBridgeProvider({
+      bridgeableTokens: [mockERC20Token],
+    });
+
+    // Wait for the balance to be fetched
+    await waitFor(async () => {
+      result.current.handleToggle();
+    });
+
+    expect(getBalance).toHaveBeenCalledWith(expect.anything(), {
+      address: '0x123',
+      chainId: mockChain.id,
+    });
+    expect(result.current.direction).toBe('withdraw');
+    expect(result.current.bridgeParams.token).toBe(mockERC20Token);
+  });
+
   it('should call withdraw function when handleWithdraw is called', async () => {
     const mockWithdraw = vi.fn();
     (useWithdraw as Mock).mockReturnValue({
