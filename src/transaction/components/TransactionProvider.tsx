@@ -223,10 +223,6 @@ export function TransactionProvider({
         setTransactionCount(undefined);
         resetSendCalls();
         resetSendCall();
-        setLifecycleStatus({
-          statusName: 'reset',
-          statusData: null,
-        });
       }, resetAfter);
 
       return () => clearTimeout(timeoutId);
