@@ -84,7 +84,7 @@ export function AppchainBridgeInput({
                 '0x0000000000000000000000000000000000000000'
               }
               hasCopyAddressOnClick={false}
-              className={cn(text.label2, `!text-[var(--ock-text-foreground)]`)}
+              className={cn(text.label2, '!text-[var(--ock-text-foreground)]')}
             />
           </button>{' '}
           on <span className="inline-flex h-4 w-4 items-center">{to.icon}</span>
