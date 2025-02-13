@@ -116,5 +116,11 @@ export async function fetchMorphoApy(vaultAddress: string) {
     );
   }
 
+  if (errors && errors?.length > 0) {
+    throw new Error(
+      'Error fetching Morpho vault data. Please try again later.',
+    );
+  }
+
   return data.vaultByAddress;
 }

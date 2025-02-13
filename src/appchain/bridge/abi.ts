@@ -1117,3 +1117,29 @@ export const OptimismPortalABI = [
     inputs: [],
   },
 ] as const;
+
+export const L2_TO_L1_MESSAGE_PASSER_ABI = [
+  {
+    type: 'function',
+    name: 'initiateWithdrawal',
+    inputs: [
+      {
+        name: '_target',
+        type: 'address',
+        internalType: 'address',
+      },
+      {
+        name: '_gasLimit',
+        type: 'uint256',
+        internalType: 'uint256',
+      },
+      {
+        name: '_data',
+        type: 'bytes',
+        internalType: 'bytes',
+      },
+    ],
+    outputs: [],
+    stateMutability: 'payable',
+  },
+] as const;

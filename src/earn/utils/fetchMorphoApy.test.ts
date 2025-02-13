@@ -107,4 +107,21 @@ describe('fetchMorphoApy', () => {
       'Vault not found. Ensure the address is a valid Morpho vault on Base.',
     );
   });
+
+  it('handles generic errors', async () => {
+    (global.fetch as Mock).mockResolvedValueOnce({
+      json: () =>
+        Promise.resolve({
+          errors: [
+            { message: 'Generic Error', status: 'INTERNAL_SERVER_ERROR' },
+          ],
+        }),
+    });
+
+    expect(
+      fetchMorphoApy('0x1234567890123456789012345678901234567890'),
+    ).rejects.toThrow(
+      'Error fetching Morpho vault data. Please try again later.',
+    );
+  });
 });
