@@ -45,7 +45,7 @@
         "useArrayLiterals": "error"
       },
       "nursery": {
-        "useSortedClasses": "off"
+        "useSortedClasses": "error"
       },
       "style": {
         "noImplicitBoolean": "error",
@@ -68,7 +68,8 @@
       "site/env.d.ts",
       "site/tailwind.config.js",
       "site/vocs.config.tsx",
-      "src/internal/hooks/useDebounce.ts"
+      "src/internal/hooks/useDebounce.ts",
+      "src/appchain/bridge/complexity/AppchainBridgeInput.tsx"
     ]
   },
   "json": {
