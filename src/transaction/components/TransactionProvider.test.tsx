@@ -140,10 +140,12 @@ describe('TransactionProvider', () => {
     (useSendCall as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
       sendCallAsync: vi.fn(),
+      reset: vi.fn(),
     });
     (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
       sendCallsAsync: vi.fn(),
+      reset: vi.fn(),
     });
     (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
       receipt: undefined,
@@ -586,6 +588,70 @@ describe('TransactionProvider', () => {
         capabilities: mockCapabilities,
       }),
     );
+  });
+
+  it('should reset state after specified resetAfter time', async () => {
+    vi.useFakeTimers();
+    const resetAfter = 1000;
+    // Mock receipt to trigger reset logic
+    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: { status: 'success' },
+    });
+    (useSendCall as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: '0xhash12345678',
+      reset: vi.fn(),
+    });
+
+    render(
+      <TransactionProvider chainId={base.id} calls={[]} resetAfter={resetAfter}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    // Trigger a transaction to get into success state
+    fireEvent.click(screen.getByText('Submit'));
+
+    // Verify initial success state
+    expect(
+      screen.getByTestId('context-value-lifecycleStatus-statusName')
+        .textContent,
+    ).toBe('success');
+
+    // Fast forward past resetAfter time
+    vi.advanceTimersByTime(resetAfter + 100);
+
+    // Verify reset was called
+    expect(useSendCall().reset).toHaveBeenCalled();
+
+    vi.useRealTimers();
+    vi.clearAllTimers();
+  });
+
+  it('should cleanup resetAfter timeout on unmount', async () => {
+    vi.useFakeTimers();
+    const resetAfter = 1000;
+
+    // Mock receipt to trigger reset logic
+    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: { status: 'success' },
+    });
+
+    const { unmount } = render(
+      <TransactionProvider chainId={base.id} calls={[]} resetAfter={resetAfter}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    // Trigger a transaction
+    fireEvent.click(screen.getByText('Submit'));
+
+    // Unmount before timer completes
+    unmount();
+
+    // Advance timers - this shouldn't cause any errors
+    vi.advanceTimersByTime(resetAfter + 100);
+
+    vi.useRealTimers();
   });
 });
 

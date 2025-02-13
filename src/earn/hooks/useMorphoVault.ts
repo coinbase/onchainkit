@@ -15,6 +15,8 @@ type UseMorphoVaultParams = {
 export type UseMorphoVaultReturnType = {
   vaultName: string | undefined;
   status: 'pending' | 'success' | 'error';
+  /** Warns users if vault address is invalid */
+  error: Error | null;
   /** Underlying asset of the vault */
   asset: {
     address: Address;
@@ -97,7 +99,7 @@ export function useMorphoVault({
     },
   });
 
-  const { data: vaultData } = useQuery({
+  const { data: vaultData, error } = useQuery({
     queryKey: ['morpho-apy', vaultAddress],
     queryFn: () => fetchMorphoApy(vaultAddress),
   });
@@ -129,6 +131,7 @@ export function useMorphoVault({
 
   return {
     status,
+    error,
     /** Balance is the amount of the underlying asset that the user has in the vault */
     balance: formattedBalance,
     balanceStatus,

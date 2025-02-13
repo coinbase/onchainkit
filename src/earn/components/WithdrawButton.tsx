@@ -6,9 +6,10 @@ import {
   type TransactionResponse,
 } from '@/transaction';
 import { ConnectWallet } from '@/wallet';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
+
 export function WithdrawButton({ className }: WithdrawButtonReact) {
   const {
     recipientAddress: address,
@@ -18,7 +19,10 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     updateLifecycleStatus,
     refetchDepositedBalance,
     withdrawAmountError,
+    vaultToken,
   } = useEarnContext();
+
+  const [withdrawnAmount, setWithdrawnAmount] = useState('');
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
@@ -43,11 +47,14 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
         res.transactionReceipts[0] &&
         res.transactionReceipts[0].status === 'success'
       ) {
+        if (withdrawAmount) {
+          setWithdrawnAmount(withdrawAmount);
+        }
         setWithdrawAmount('');
         refetchDepositedBalance();
       }
     },
-    [setWithdrawAmount, refetchDepositedBalance],
+    [setWithdrawAmount, refetchDepositedBalance, withdrawAmount],
   );
 
   if (!address) {
@@ -65,9 +72,13 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
       calls={withdrawCalls}
       onStatus={handleOnStatus}
       onSuccess={handleOnSuccess}
+      resetAfter={3_000}
     >
       <TransactionButton
         text={withdrawAmountError ?? 'Withdraw'}
+        successOverride={{
+          text: `Withdrew ${withdrawnAmount} ${vaultToken?.symbol}`,
+        }}
         disabled={!!withdrawAmountError || !withdrawAmount}
       />
     </Transaction>

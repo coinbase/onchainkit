@@ -27,6 +27,8 @@ export type EarnProviderReact = {
  * Note: exported as public Type
  */
 export type EarnContextType = {
+  /** Warns users if vault address is invalid */
+  error: Error | null;
   recipientAddress?: Address;
   /** Balance of the underlying asset in the user's wallet, converted to the asset's decimals */
   walletBalance?: string;

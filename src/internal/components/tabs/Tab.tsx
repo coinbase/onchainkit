@@ -29,11 +29,11 @@ export function Tab({
   return (
     <button
       className={cn(
-        text.label1,
+        text.headline,
         isSelected ? color.inverse : color.foreground,
         isSelected ? background.primary : background.default,
         'w-1/2 text-center',
-        'cursor-pointer px-3 py-4',
+        'cursor-pointer px-3 py-2',
         className,
       )}
       onClick={handleClick}

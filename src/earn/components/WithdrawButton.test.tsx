@@ -79,6 +79,7 @@ vi.mock('@/transaction', async (importOriginal) => {
           >
             Success
           </button>
+
           <button
             type="button"
             data-testid="transaction-button"
@@ -129,10 +130,10 @@ describe('WithdrawButton Component', () => {
   });
 
   it('renders Transaction with depositCalls from EarnProvider', () => {
-    const mockDepositCalls = [{ to: '0x123', data: '0x456' }] as Call[];
+    const mockWithdrawCalls = [{ to: '0x123', data: '0x456' }] as Call[];
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
-      depositCalls: mockDepositCalls,
+      withdrawCalls: mockWithdrawCalls,
     });
 
     render(<WithdrawButton />);
@@ -144,7 +145,8 @@ describe('WithdrawButton Component', () => {
   it('renders TransactionButton with the correct text', () => {
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
-      depositCalls: [],
+      withdrawAmount: '',
+      withdrawCalls: [],
     });
 
     const { container } = render(<WithdrawButton />);
@@ -156,7 +158,7 @@ describe('WithdrawButton Component', () => {
     const mockUpdateLifecycleStatus = vi.fn();
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
-      depositCalls: [{ to: '0x123', data: '0x456' }],
+      withdrawCalls: [{ to: '0x123', data: '0x456' }],
       updateLifecycleStatus: mockUpdateLifecycleStatus,
     });
 

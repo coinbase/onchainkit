@@ -41,7 +41,9 @@ export function VaultDetails() {
       data-testid="ock-vaultDetails"
     >
       <TokenImage token={vaultToken} size={16} />
-      <span className="max-w-24 truncate">{vaultName}</span>
+      <span className="max-w-24 truncate" title={vaultName}>
+        {vaultName}
+      </span>
       <button
         ref={triggerRef}
         type="button"
@@ -70,7 +72,7 @@ export function VaultDetails() {
             color.foreground,
             border.defaultActive,
             background.default,
-            'flex min-w-40 flex-col gap-3 rounded-lg border p-2 text-sm',
+            'flex min-w-40 flex-col gap-3 rounded-lg border p-3 text-sm',
             'fade-in animate-in duration-200',
           )}
         >

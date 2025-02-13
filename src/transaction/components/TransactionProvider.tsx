@@ -55,6 +55,7 @@ export function TransactionProvider({
   onError,
   onStatus,
   onSuccess,
+  resetAfter,
 }: TransactionProviderReact) {
   // Core Hooks
   const account = useAccount();
@@ -100,7 +101,11 @@ export function TransactionProvider({
 
   // useSendCalls or useSendCall
   // Used for contract calls with raw calldata.
-  const { status: statusSendCalls, sendCallsAsync } = useSendCalls({
+  const {
+    status: statusSendCalls,
+    sendCallsAsync,
+    reset: resetSendCalls,
+  } = useSendCalls({
     setLifecycleStatus,
     setTransactionId,
   });
@@ -109,6 +114,7 @@ export function TransactionProvider({
     status: statusSendCall,
     sendCallAsync,
     data: singleTransactionHash,
+    reset: resetSendCall,
   } = useSendCall({
     setLifecycleStatus,
     transactionHashList,
@@ -206,7 +212,22 @@ export function TransactionProvider({
         transactionReceipts: [receipt],
       },
     });
-  }, [receipt]);
+    if (resetAfter) {
+      // Reset all internal state
+      const timeoutId = setTimeout(() => {
+        setErrorMessage('');
+        setErrorCode('');
+        setIsToastVisible(false);
+        setTransactionId('');
+        setTransactionHashList([]);
+        setTransactionCount(undefined);
+        resetSendCalls();
+        resetSendCall();
+      }, resetAfter);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [receipt, resetAfter, resetSendCalls, resetSendCall]);
 
   // When all transactions are successful, get the receipts
   useEffect(() => {

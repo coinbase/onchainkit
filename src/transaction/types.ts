@@ -173,6 +173,8 @@ export type TransactionProviderReact = {
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   /** An optional callback function that exposes the transaction receipts */
   onSuccess?: (response: TransactionResponse) => void;
+  /** An optional time (in ms) after which to reset the component */
+  resetAfter?: number;
 };
 
 /**
@@ -203,6 +205,8 @@ export type TransactionReact = {
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   /** An optional callback function that exposes the transaction receipts */
   onSuccess?: (response: TransactionResponse) => void;
+  /** An optional time (in ms) after which to reset the component */
+  resetAfter?: number;
 };
 
 /**
