@@ -15,7 +15,7 @@ export type Appchain = {
  * Note: exported as public Type
  */
 export type AppchainBridgeReact = {
-  /** The source chain to bridge from. This should beBase or Base Sepolia. */
+  /** The source chain to bridge from. This should be Base or Base Sepolia. */
   chain: Chain;
   /** The appchain to bridge to. */
   appchain: Appchain;
@@ -35,7 +35,7 @@ export type AppchainBridgeContextType = {
   from: ChainWithIcon;
   to: ChainWithIcon;
   bridgeParams: BridgeParams;
-
+  bridgeableTokens: BridgeableToken[];
   // UI State
   isPriceLoading: boolean;
   isAddressModalOpen: boolean;
@@ -55,6 +55,7 @@ export type AppchainBridgeContextType = {
   proveAndFinalizeWithdrawal: () => Promise<void>;
   setIsAddressModalOpen: (open: boolean) => void;
   setIsWithdrawModalOpen: (open: boolean) => void;
+  resetDepositStatus: () => void;
 };
 
 /**
@@ -63,6 +64,8 @@ export type AppchainBridgeContextType = {
 export type BridgeableToken = Token & {
   /** The address of the remote token on the appchain. */
   remoteToken?: Address;
+  /** Optional boolean to indicate if the chain uses a custom gas token */
+  isCustomGasToken?: boolean;
 };
 
 /**
