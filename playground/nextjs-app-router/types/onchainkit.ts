@@ -1,4 +1,5 @@
 export enum OnchainKitComponent {
+  AppchainBridge = 'appchain-bridge',
   FundButton = 'fund-button',
   FundCard = 'fund-card',
   Buy = 'buy',

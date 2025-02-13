@@ -45,7 +45,7 @@
         "useArrayLiterals": "error"
       },
       "nursery": {
-        "useSortedClasses": "error"
+        "useSortedClasses": "off"
       },
       "style": {
         "noImplicitBoolean": "error",
