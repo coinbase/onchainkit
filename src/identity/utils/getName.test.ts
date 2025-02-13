@@ -124,5 +124,7 @@ describe('getName', () => {
     const name = await getName({ address: walletAddress, chain: base });
     expect(name).toBe(expectedEnsName);
     expect(getChainPublicClient).toHaveBeenCalledWith(base);
+    // Ensure it falls back to mainnet
+    expect(getChainPublicClient).toHaveBeenLastCalledWith(mainnet);
   });
 });
