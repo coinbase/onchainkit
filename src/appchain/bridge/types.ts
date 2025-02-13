@@ -35,7 +35,7 @@ export type AppchainBridgeContextType = {
   from: ChainWithIcon;
   to: ChainWithIcon;
   bridgeParams: BridgeParams;
-
+  bridgeableTokens: BridgeableToken[];
   // UI State
   isPriceLoading: boolean;
   isAddressModalOpen: boolean;
@@ -55,6 +55,7 @@ export type AppchainBridgeContextType = {
   proveAndFinalizeWithdrawal: () => Promise<void>;
   setIsAddressModalOpen: (open: boolean) => void;
   setIsWithdrawModalOpen: (open: boolean) => void;
+  resetDepositStatus: () => void;
 };
 
 /**
