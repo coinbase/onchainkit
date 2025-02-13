@@ -87,7 +87,7 @@ export function AppchainBridgeInput({
               className="!text-white"
             />
           </button>{' '}
-          on <span className="inline-flex items-center w-4 h-4">{to.icon}</span>
+          on <span className="inline-flex h-4 w-4 items-center">{to.icon}</span>
         </span>
       </div>
       <div className="flex w-full items-center justify-between">

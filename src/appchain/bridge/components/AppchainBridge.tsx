@@ -58,7 +58,7 @@ const AppchainBridgeDefaultContent = ({
         </div>
         <div className="relative flex">
           <div className="flex flex-col gap-2">
-            <div className="flex items-center rounded-lg gap-2">
+            <div className="flex items-center gap-2 rounded-lg">
               <AppchainBridgeNetwork type="from" label="From" />
               <AppchainNetworkToggleButton />
               <AppchainBridgeNetwork type="to" label="To" />
@@ -99,7 +99,7 @@ export function AppchainBridge({
           background.default,
           border.radius,
           color.foreground,
-          'flex w-[500px] flex-col px-6 pt-6 pb-4 border ock-border-line-default',
+          'ock-border-line-default flex w-[500px] flex-col border px-6 pt-6 pb-4',
           className,
         )}
         data-testid="ockAppchainBridge_Container"

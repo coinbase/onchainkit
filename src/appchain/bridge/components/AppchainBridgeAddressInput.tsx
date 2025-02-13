@@ -28,10 +28,10 @@ export const AppchainBridgeAddressInput = () => {
   );
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex w-full flex-col">
       <div className="flex items-center">
         {backButton}
-        <h2 className="text-lg ock-text-foreground font-medium text-center flex-1 mr-10">
+        <h2 className="ock-text-foreground mr-10 flex-1 text-center font-medium text-lg">
           Send to
         </h2>
       </div>
@@ -39,7 +39,7 @@ export const AppchainBridgeAddressInput = () => {
         <div className="relative flex items-center">
           <span className="absolute left-4 text-ock-line-default">To</span>
           <TextInput
-            className="w-full pl-12 p-3 ock-bg-default rounded-lg ock-text-foreground placeholder-ock-default border ock-border-line-default focus:outline-none focus:border-blue-500"
+            className="ock-bg-default ock-text-foreground ock-border-line-default w-full rounded-lg border p-3 pl-12 placeholder-ock-default focus:border-blue-500 focus:outline-none"
             placeholder=""
             onChange={(value) => {
               const addr = value as Address;
@@ -56,19 +56,19 @@ export const AppchainBridgeAddressInput = () => {
         )}
         {address && isValidAddress && (
           <button
-            className="mt-4 flex w-full gap-2 p-4 rounded-lg hover:ock-bg-muted transition-colors"
+            className="hover:ock-bg-muted mt-4 flex w-full gap-2 rounded-lg p-4 transition-colors"
             onClick={() => {
               handleAddressSelect(address as Address);
               setIsAddressModalOpen(false);
             }}
             type="button"
           >
-            <Avatar address={address} className="bg-white rounded-full" />
-            <span className="text-ock-text-muted flex flex-col gap-1 items-start">
+            <Avatar address={address} className="rounded-full bg-white" />
+            <span className="flex flex-col items-start gap-1 text-ock-text-muted">
               <OCKAddress
                 address={address}
                 hasCopyAddressOnClick={false}
-                className="font-bold !text-white"
+                className="!text-white font-bold"
               />
               <OCKAddress
                 address={address}
