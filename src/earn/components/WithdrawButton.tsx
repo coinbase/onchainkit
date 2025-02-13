@@ -1,3 +1,4 @@
+import { useWithdrawAnalytics } from '@/earn/hooks/useWithdrawAnalytics';
 import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
@@ -9,7 +10,6 @@ import { ConnectWallet } from '@/wallet';
 import { useCallback, useState } from 'react';
 import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
-import { useWithdrawAnalytics } from '@/earn/hooks/useWithdrawAnalytics';
 
 export function WithdrawButton({ className }: WithdrawButtonReact) {
   const {

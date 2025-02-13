@@ -1,3 +1,4 @@
+import { useDepositAnalytics } from '@/earn/hooks/useDepositAnalytics';
 import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
@@ -9,7 +10,6 @@ import { ConnectWallet } from '@/wallet';
 import { useCallback, useState } from 'react';
 import type { DepositButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
-import { useDepositAnalytics } from '@/earn/hooks/useDepositAnalytics';
 
 export function DepositButton({ className }: DepositButtonReact) {
   const {

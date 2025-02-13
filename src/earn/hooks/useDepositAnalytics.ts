@@ -2,7 +2,7 @@ import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { EarnEvent } from '@/core/analytics/types';
 import { useEarnContext } from '@/earn/components/EarnProvider';
 import type { LifecycleStatus } from '@/transaction/types';
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 export const useDepositAnalytics = (depositedAmount: string) => {
   const [transactionState, setTransactionState] = useState<
@@ -18,7 +18,6 @@ export const useDepositAnalytics = (depositedAmount: string) => {
   const analyticsData = useMemo(
     () => ({
       amount: Number(depositAmount) || Number(depositedAmount), // fall back to depositedAmount to avoid sending 0
-      currency: vaultToken?.symbol,
       address: recipientAddress ?? '',
       tokenAddress: vaultToken?.address ?? '',
       vaultAddress,
@@ -26,7 +25,6 @@ export const useDepositAnalytics = (depositedAmount: string) => {
     [
       depositedAmount,
       depositAmount,
-      vaultToken?.symbol,
       recipientAddress,
       vaultToken?.address,
       vaultAddress,

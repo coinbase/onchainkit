@@ -2,7 +2,7 @@ import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { EarnEvent } from '@/core/analytics/types';
 import { useEarnContext } from '@/earn/components/EarnProvider';
 import type { LifecycleStatus } from '@/transaction/types';
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 export const useWithdrawAnalytics = (withdrawnAmount: string) => {
   const [transactionState, setTransactionState] = useState<
@@ -18,7 +18,6 @@ export const useWithdrawAnalytics = (withdrawnAmount: string) => {
   const analyticsData = useMemo(
     () => ({
       amount: Number(withdrawAmount) || Number(withdrawnAmount), // fall back to withdrawnAmount to avoid sending 0
-      currency: vaultToken?.symbol,
       address: recipientAddress ?? '',
       tokenAddress: vaultToken?.address ?? '',
       vaultAddress,
@@ -26,7 +25,6 @@ export const useWithdrawAnalytics = (withdrawnAmount: string) => {
     [
       withdrawAmount,
       withdrawnAmount,
-      vaultToken?.symbol,
       recipientAddress,
       vaultToken?.address,
       vaultAddress,
