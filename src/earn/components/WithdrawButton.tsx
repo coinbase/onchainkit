@@ -22,9 +22,8 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     withdrawAmountError,
     vaultToken,
   } = useEarnContext();
-  const { setTransactionState } = useWithdrawAnalytics();
-
   const [withdrawnAmount, setWithdrawnAmount] = useState('');
+  const { setTransactionState } = useWithdrawAnalytics(withdrawnAmount);
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {

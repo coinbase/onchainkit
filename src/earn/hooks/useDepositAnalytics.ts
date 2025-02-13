@@ -12,11 +12,12 @@ export const useDepositAnalytics = (depositedAmount: string) => {
   const successSent = useRef(false);
   const errorSent = useRef(false);
   const { sendAnalytics } = useAnalytics();
-  const { vaultAddress, vaultToken, recipientAddress } = useEarnContext();
+  const { vaultAddress, vaultToken, recipientAddress, depositAmount } =
+    useEarnContext();
 
   const analyticsData = useMemo(
     () => ({
-      amount: Number(depositedAmount),
+      amount: Number(depositAmount) || Number(depositedAmount), // fall back to depositedAmount to avoid sending 0
       currency: vaultToken?.symbol,
       address: recipientAddress ?? '',
       tokenAddress: vaultToken?.address ?? '',
@@ -24,6 +25,7 @@ export const useDepositAnalytics = (depositedAmount: string) => {
     }),
     [
       depositedAmount,
+      depositAmount,
       vaultToken?.symbol,
       recipientAddress,
       vaultToken?.address,

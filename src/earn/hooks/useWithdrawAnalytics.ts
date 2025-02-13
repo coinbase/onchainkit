@@ -4,7 +4,7 @@ import { useEarnContext } from '@/earn/components/EarnProvider';
 import type { LifecycleStatus } from '@/transaction/types';
 import { useEffect, useMemo, useState, useRef } from 'react';
 
-export const useWithdrawAnalytics = () => {
+export const useWithdrawAnalytics = (withdrawnAmount: string) => {
   const [transactionState, setTransactionState] = useState<
     LifecycleStatus['statusName'] | null
   >(null);
@@ -12,12 +12,12 @@ export const useWithdrawAnalytics = () => {
   const errorSent = useRef(false);
   const { sendAnalytics } = useAnalytics();
 
-  const { vaultAddress, vaultToken, withdrawAmount, recipientAddress } =
+  const { vaultAddress, vaultToken, recipientAddress, withdrawAmount } =
     useEarnContext();
 
   const analyticsData = useMemo(
     () => ({
-      amount: Number(withdrawAmount),
+      amount: Number(withdrawAmount) || Number(withdrawnAmount), // fall back to withdrawnAmount to avoid sending 0
       currency: vaultToken?.symbol,
       address: recipientAddress ?? '',
       tokenAddress: vaultToken?.address ?? '',
@@ -25,6 +25,7 @@ export const useWithdrawAnalytics = () => {
     }),
     [
       withdrawAmount,
+      withdrawnAmount,
       vaultToken?.symbol,
       recipientAddress,
       vaultToken?.address,
