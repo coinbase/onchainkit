@@ -8,8 +8,9 @@ export const useDepositAnalytics = (depositedAmount: string) => {
   const [transactionState, setTransactionState] = useState<
     LifecycleStatus['statusName'] | null
   >(null);
-  // Undesirable, but required because Transaction emits multiple success events
+  // Undesirable, but required because Transaction emits multiple success and error events
   const successSent = useRef(false);
+  const errorSent = useRef(false);
   const { sendAnalytics } = useAnalytics();
   const { vaultAddress, vaultToken, recipientAddress } = useEarnContext();
 
@@ -41,8 +42,8 @@ export const useDepositAnalytics = (depositedAmount: string) => {
       sendAnalytics(EarnEvent.EarnDepositSuccess, analyticsData);
     }
 
-    if (transactionState === 'error') {
-      successSent.current = false;
+    if (transactionState === 'error' && !errorSent.current) {
+      errorSent.current = true;
       sendAnalytics(EarnEvent.EarnDepositFailure, analyticsData);
     }
   }, [transactionState, analyticsData, sendAnalytics]);

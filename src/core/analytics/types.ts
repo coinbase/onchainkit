@@ -350,7 +350,6 @@ export type EarnEventData = {
     vaultAddress: string;
   };
   [EarnEvent.EarnDepositFailure]: CommonAnalyticsData & {
-    error?: string;
     amount: number;
     address: string;
     tokenAddress: string;
@@ -369,7 +368,6 @@ export type EarnEventData = {
     vaultAddress: string;
   };
   [EarnEvent.EarnWithdrawFailure]: CommonAnalyticsData & {
-    error?: string;
     amount: number;
     address: string;
     tokenAddress: string;
