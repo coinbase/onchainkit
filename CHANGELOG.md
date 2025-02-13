@@ -4,16 +4,15 @@
 
 ### Minor Changes
 
-- dd3d019: Minor release
+- **feat** Add telemetry to help us better understand library usage and improve the developer experience. @cpcramer
 
 ### Patch Changes
 
-- 08e073c: **feat** Add Appchain Bridge UI. by @0xAlec #1976
-  **fix** Add various improvements to the Earn component. by @dschlabach #1973
-  **docs** Add documentation for the Earn component. by @dschlabach #1974
-  **feat** Add telemetry to help us better understand library usage and improve the developer experience. @cpcramer
-  **chore** Update earnings token. By @alessey #1985
-  **fix** Remove circular dependency. By @dschlabach #1970
+- **feat** Add Appchain Bridge UI. by @0xAlec #1976
+- **fix** Add various improvements to the Earn component. by @dschlabach #1973
+- **docs** Add documentation for the Earn component. by @dschlabach #1974
+- **chore** Update earnings token. By @alessey #1985
+- **fix** Remove circular dependency. By @dschlabach #1970
 
   ## Telemetry
 
