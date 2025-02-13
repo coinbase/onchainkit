@@ -56,6 +56,10 @@ export type LifecycleStatus =
       statusData: {
         transactionReceipts: TransactionReceipt[];
       };
+    }
+  | {
+      statusName: 'reset';
+      statusData: null;
     };
 
 export type IsSpinnerDisplayedProps = {
