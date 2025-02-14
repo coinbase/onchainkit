@@ -5,6 +5,7 @@ import { EarnDeposit } from './EarnDeposit';
 import { EarnProvider } from './EarnProvider';
 import { useEarnContext } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
+import { useTheme } from '@/internal/hooks/useTheme';
 
 function EarnDefaultContent() {
   const { refetchWalletBalance, refetchDepositedBalance } = useEarnContext();
@@ -45,10 +46,12 @@ export function Earn({
   className,
   vaultAddress,
 }: EarnReact) {
+  const componentTheme = useTheme();
   return (
     <EarnProvider vaultAddress={vaultAddress}>
       <div
         className={cn(
+          componentTheme,
           'flex w-[375px] flex-col overflow-hidden',
           border.radius,
           border.lineDefault,
