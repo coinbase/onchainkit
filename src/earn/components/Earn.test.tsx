@@ -15,6 +15,10 @@ import {
 } from 'wagmi';
 import { Earn } from './Earn';
 
+vi.mock('@/internal/hooks/useTheme', () => ({
+  useTheme: () => 'mocked-theme-class',
+}));
+
 const queryClient = new QueryClient();
 
 const mockConfig = createConfig({
