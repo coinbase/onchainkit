@@ -383,6 +383,7 @@ export function CheckoutProvider({
     writeContractsAsync,
     handleAnalytics,
     receipt,
+    productId,
   ]);
 
   const value = useValue({
