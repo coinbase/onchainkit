@@ -26,7 +26,7 @@ export const getName = async ({
     );
   }
 
-  let client = getChainPublicClient(chain);
+  const client = getChainPublicClient(chain);
 
   if (chainIsBase) {
     const addressReverseNode = convertReverseNodeToBytes(address, base.id);
@@ -45,11 +45,12 @@ export const getName = async ({
     }
   }
 
-  // Default to mainnet
-  client = getChainPublicClient(mainnet);
+  // Default fallback to mainnet
+  // ENS resolution is not well-supported on Base, so want to ensure that we fall back to mainnet
+  const fallbackClient = getChainPublicClient(mainnet);
 
   // ENS username
-  const ensName = await client.getEnsName({
+  const ensName = await fallbackClient.getEnsName({
     address,
   });
 
