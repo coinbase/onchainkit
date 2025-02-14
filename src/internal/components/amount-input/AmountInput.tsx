@@ -129,7 +129,7 @@ export function AmountInput({
 
       {/* Hidden span for measuring text width
           Without this span the input field would not adjust its width based on the text width and would look like this:
-          [0.12--------Empty Space-------][ETH] - As you can see the currency symbol is far away from the inputed value
+          [0.12--------Empty Space-------][ETH] - As you can see the currency symbol is far away from the inputted value
 
           With this span we can measure the width of the text in the input field and set the width of the input field to match the text width
           [0.12][ETH] - Now the currency symbol is displayed next to the input field
