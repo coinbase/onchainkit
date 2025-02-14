@@ -13,11 +13,6 @@ import {
   optimizedCopy,
 } from './utils.js';
 
-const sourceDir = path.resolve(
-  fileURLToPath(import.meta.url), 
-  '../../../templates/next'
-);
-
 const renameFiles: Record<string, string | undefined> = {
   _gitignore: '.gitignore',
   '_env.local': '.env.local',
@@ -46,23 +41,103 @@ async function copyDir(src: string, dest: string) {
   }
 }
 
-async function init() {
-  console.log(
-    `${pc.greenBright(`
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //                                                                                                                              //
-    //         ::::::::  ::::    :::  ::::::::  :::    :::     :::     ::::::::::: ::::    ::: :::    ::: ::::::::::: :::::::::::   //
-    //       :+:    :+: :+:+:   :+: :+:    :+: :+:    :+:   :+: :+:       :+:     :+:+:   :+: :+:   :+:      :+:         :+:        //
-    //      +:+    +:+ :+:+:+  +:+ +:+        +:+    +:+  +:+   +:+      +:+     :+:+:+  +:+ +:+  +:+       +:+         +:+         //
-    //     +#+    +:+ +#+ +:+ +#+ +#+        +#++:++#++ +#++:++#++:     +#+     +#+ +:+ +#+ +#++:++        +#+         +#+          //
-    //    +#+    +#+ +#+  +#+#+# +#+        +#+    +#+ +#+     +#+     +#+     +#+  +#+#+# +#+  +#+       +#+         +#+           //
-    //   #+#    #+# #+#   #+#+# #+#    #+# #+#    #+# #+#     #+#     #+#     #+#   #+#+# #+#   #+#      #+#         #+#            //
-    //   ########  ###    ####  ########  ###    ### ###     ### ########### ###    #### ###    ### ###########     ###             //
-    //                                                                                                                              //
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////`)}\n\n`
-  );
+type CreateTemplateParams = {
+  root: string;
+  projectName: string;
+  packageName: string;
+  clientKey: string;
+  smartWallet: boolean;
+}
 
-  const defaultProjectName = 'my-onchainkit-app';
+async function createMiniKitTemplate({root, projectName, packageName, clientKey, smartWallet}: CreateTemplateParams) {
+  const sourceDir = path.resolve(
+    fileURLToPath(import.meta.url), 
+    '../../../templates/minikit'
+  );
+  
+  await copyDir(sourceDir, root);
+  const pkgPath = path.join(root, 'package.json');
+  const pkg = JSON.parse(await fs.promises.readFile(pkgPath, 'utf-8'));
+  pkg.name = packageName || toValidPackageName(projectName);
+  await fs.promises.writeFile(pkgPath, JSON.stringify(pkg, null, 2));
+
+  // Create .env file
+  const envPath = path.join(root, '.env');
+  await fs.promises.writeFile(
+    envPath,
+    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}
+NEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${
+  smartWallet ? 'smartWalletOnly' : 'all'
+}
+NEXT_PUBLIC_VERSION=next
+NEXT_PUBLIC_REDIS_URL=
+NEXT_PUBLIC_REDIS_TOKEN=`
+  );
+}
+
+async function createOnchainKitTemplate({root, projectName, packageName, clientKey, smartWallet}: CreateTemplateParams) {
+  const sourceDir = path.resolve(
+    fileURLToPath(import.meta.url), 
+    '../../../templates/next'
+  );
+  console.log('fileURLToPath(import.meta.url)', fileURLToPath(import.meta.url));
+  console.log('sourceDir',sourceDir);
+  
+  await copyDir(sourceDir, root);
+  const pkgPath = path.join(root, 'package.json');
+  const pkg = JSON.parse(await fs.promises.readFile(pkgPath, 'utf-8'));
+  pkg.name = packageName || toValidPackageName(projectName);
+  await fs.promises.writeFile(pkgPath, JSON.stringify(pkg, null, 2));
+
+  // Create .env file
+  const envPath = path.join(root, '.env');
+  await fs.promises.writeFile(
+    envPath,
+    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${
+      smartWallet ? 'smartWalletOnly' : 'all'
+    }`
+  );
+  return;
+}
+
+async function init() {
+  const isMinikit = process.argv.includes('--mini');
+
+  if (isMinikit) {
+    console.log(
+      `${pc.greenBright(`
+      /////////////////////////////////////////////////////////////////////////////////////////////////
+      //                                                                                             //
+      //         :::   :::   ::::::::::: ::::    ::: ::::::::::: :::    ::: ::::::::::: :::::::::::  //
+      //        :+:+: :+:+:      :+:     :+:+:   :+:     :+:     :+:   :+:      :+:         :+:      //
+      //       +:+ +:+:+ +:+    +:+     :+:+:+  +:+     +:+     +:+  +:+       +:+         +:+       //
+      //      +#+  +:+  +#+    +#+     +#+ +:+ +#+     +#+     +#++:++        +#+         +#+        //
+      //     +#+       +#+    +#+     +#+  +#+#+#     +#+     +#+  +#+       +#+         +#+         //
+      //    #+#       #+#    #+#     #+#   #+#+#     #+#     #+#   #+#      #+#         #+#          //
+      //   ###       ###  ########  ###    ####   ########  ###    ###   ########      ###           //
+      //                                                                                             //
+      //                                                                     Powered by OnchainKit   //
+      /////////////////////////////////////////////////////////////////////////////////////////////////`)}\n\n`
+    );
+  } else {
+    console.log(
+      `${pc.greenBright(`
+      //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //                                                                                                                              //
+      //         ::::::::  ::::    :::  ::::::::  :::    :::     :::     ::::::::::: ::::    ::: :::    ::: ::::::::::: :::::::::::   //
+      //       :+:    :+: :+:+:   :+: :+:    :+: :+:    :+:   :+: :+:       :+:     :+:+:   :+: :+:   :+:      :+:         :+:        //
+      //      +:+    +:+ :+:+:+  +:+ +:+        +:+    +:+  +:+   +:+      +:+     :+:+:+  +:+ +:+  +:+       +:+         +:+         //
+      //     +#+    +:+ +#+ +:+ +#+ +#+        +#++:++#++ +#++:++#++:     +#+     +#+ +:+ +#+ +#++:++        +#+         +#+          //
+      //    +#+    +#+ +#+  +#+#+# +#+        +#+    +#+ +#+     +#+     +#+     +#+  +#+#+# +#+  +#+       +#+         +#+           //
+      //   #+#    #+# #+#   #+#+# #+#    #+# #+#    #+# #+#     #+#     #+#     #+#   #+#+# #+#   #+#      #+#         #+#            //
+      //   ########  ###    ####  ########  ###    ### ###     ### ########### ###    #### ###    ### ###########     ###             //
+      //                                                                                                                              //
+      //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////`)}\n\n`
+    );
+  }
+
+  const defaultProjectName = isMinikit ? 'my-minikit-app' : 'my-onchainkit-app';
 
   let result: prompts.Answers<
     'projectName' | 'packageName' | 'clientKey' | 'smartWallet'
@@ -117,7 +192,7 @@ async function init() {
           initial: true,
           active: 'yes',
           inactive: 'no',
-        },
+        }
       ],
       {
         onCancel: () => {
@@ -136,28 +211,25 @@ async function init() {
 
   const spinner = ora(`Creating ${projectName}...`).start();
 
-  await copyDir(sourceDir, root);
-
-  const pkgPath = path.join(root, 'package.json');
-  const pkg = JSON.parse(await fs.promises.readFile(pkgPath, 'utf-8'));
-  pkg.name = packageName || toValidPackageName(projectName);
-  await fs.promises.writeFile(pkgPath, JSON.stringify(pkg, null, 2));
-
-  // Create .env file
-  const envPath = path.join(root, '.env');
-  await fs.promises.writeFile(
-    envPath,
-    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${
-      smartWallet ? 'smartWalletOnly' : 'all'
-    }`
-  );
+  if (isMinikit) {
+    await createMiniKitTemplate({root, projectName, packageName, clientKey, smartWallet});
+  } else {
+    await createOnchainKitTemplate({root, projectName, packageName, clientKey, smartWallet});
+  }
 
   spinner.succeed();
-  console.log(`\n${pc.magenta(`Created new OnchainKit project in ${root}`)}`);
+  if (isMinikit) {
+    console.log(`\n${pc.magenta(`Created new MiniKit project in ${root}`)}`);
+  } else {
+    console.log(`\n${pc.magenta(`Created new OnchainKit project in ${root}`)}`);
+  }
 
   console.log(`\nIntegrations:`);
   if (smartWallet) {
     console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Smart Wallet`)}`);
+  }
+  if (isMinikit) {
+    console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`MiniKit`)}`);
   }
   console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Base`)}`);
   if (clientKey) {
@@ -179,6 +251,9 @@ async function init() {
   console.log(`${pc.cyan('- Next.js')}`);
   console.log(`${pc.cyan('- Tailwind CSS')}`);
   console.log(`${pc.cyan('- ESLint')}`);
+  if (isMinikit) {
+    console.log(`${pc.cyan('- Upstash Redis')}`);
+  }
 
   console.log(
     `\nTo get started with ${pc.green(
@@ -189,6 +264,11 @@ async function init() {
     console.log(` - cd ${path.relative(process.cwd(), root)}`);
   }
   console.log(' - npm install');
+  if (isMinikit) {
+    console.log('\n To generate the farcaster account association, run the following command:');
+    console.log(' - npm run generate-account-association\n');
+    console.log('\n\n Minikit has been set up with @upstash/redis to send notifications, this requires a REDIS_URL and REDIS_TOKEN in the .env file\n');
+  }
   console.log(' - npm run dev');
 }
 
