@@ -38,7 +38,7 @@ export async function getBuyQuote({
   if (to?.symbol !== from?.symbol) {
     // switching to and from here
     // instead of getting a quote for how much of X do we need to sell to get the input token amount
-    // we can get a quote for how much of X we will recieve if we sell the input token amount
+    // we can get a quote for how much of X we will receive if we sell the input token amount
     response = await getSwapQuote(
       {
         amount,
