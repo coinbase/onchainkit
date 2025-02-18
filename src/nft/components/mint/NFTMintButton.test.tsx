@@ -1,5 +1,7 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { MintEvent } from '@/core/analytics/types';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { NFTMintButton } from '@/nft/components/mint/NFTMintButton';
@@ -15,7 +17,6 @@ import {
   useChainId,
 } from 'wagmi';
 import { mock } from 'wagmi/connectors';
-
 vi.mock('@/nft/components/NFTProvider');
 vi.mock('@/nft/components/NFTLifecycleProvider');
 vi.mock('@/useOnchainKit');
@@ -36,7 +37,10 @@ vi.mock('@/transaction', async (importOriginal) => {
     TransactionButton: ({
       text,
       disabled,
-    }: { text: string; disabled: boolean }) => (
+    }: {
+      text: string;
+      disabled: boolean;
+    }) => (
       <button type="button" disabled={disabled} data-testid="transactionButton">
         {text}
       </button>
@@ -92,6 +96,7 @@ vi.mock('@/transaction', async (importOriginal) => {
 vi.mock('@/wallet', () => ({
   ConnectWallet: () => <div>ConnectWallet</div>,
 }));
+vi.mock('@/core/analytics/hooks/useAnalytics');
 
 const queryClient = new QueryClient();
 
@@ -106,7 +111,6 @@ const accountConfig = createConfig({
     [base.id]: http(),
   },
 });
-
 const TestProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <WagmiProvider config={accountConfig}>
@@ -117,6 +121,8 @@ const TestProviders = ({ children }: { children: React.ReactNode }) => {
 
 describe('NFTMintButton', () => {
   let mockUpdateLifecycleStatus: Mock;
+  let mockSendAnalytics: Mock;
+
   beforeEach(() => {
     (useNFTContext as Mock).mockReturnValue({
       contractAddress: '0x123',
@@ -137,6 +143,10 @@ describe('NFTMintButton', () => {
     (useOnchainKit as Mock).mockReturnValue({
       config: undefined,
     });
+    mockSendAnalytics = vi.fn();
+    (useAnalytics as Mock).mockReturnValue({
+      sendAnalytics: mockSendAnalytics,
+    });
   });
 
   it('should render the mint button with default label', async () => {
@@ -145,10 +155,8 @@ describe('NFTMintButton', () => {
         <NFTMintButton />
       </TestProviders>,
     );
-
     expect(await findByText('Mint')).toBeInTheDocument();
   });
-
   it('should render the mint button with custom label', async () => {
     const { findByText } = render(
       <TestProviders>
@@ -157,63 +165,50 @@ describe('NFTMintButton', () => {
     );
     expect(await findByText('Custom Mint')).toBeInTheDocument();
   });
-
   it('should call updateLifecycleStatus with transactionPending status when transactionStatus is transactionPending', () => {
     const { getByText } = render(
       <TestProviders>
         <NFTMintButton />
       </TestProviders>,
     );
-
     getByText('TransactionPending').click();
-
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionPending',
     });
   });
-
   it('should call updateLifecycleStatus with transaction status when transactionStatus is transactionLegacyExecuted', () => {
     const { getByText } = render(
       <TestProviders>
         <NFTMintButton />
       </TestProviders>,
     );
-
     getByText('TransactionLegacyExecuted').click();
-
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionLegacyExecuted',
     });
   });
-
   it('should call updateLifecycleStatus with transaction status when transactionStatus is success', () => {
     const { getByText } = render(
       <TestProviders>
         <NFTMintButton />
       </TestProviders>,
     );
-
     getByText('Success').click();
-
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'success',
     });
   });
-
   it('should call updateLifecycleStatus with transaction status when transactionStatus is error', () => {
     const { getByText } = render(
       <TestProviders>
         <NFTMintButton />
       </TestProviders>,
     );
-
     getByText('Error').click();
-
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
     });
   });
-
   it('should render ConnectWallet when address is not available', () => {
     (useAccount as Mock).mockReturnValue({ address: null });
     const { getByText } = render(
@@ -223,7 +218,6 @@ describe('NFTMintButton', () => {
     );
     expect(getByText('ConnectWallet')).toBeInTheDocument();
   });
-
   it('should not render when buildMintTransaction is undefined', () => {
     (useNFTContext as Mock).mockReturnValue({
       contractAddress: '0x123',
@@ -238,7 +232,6 @@ describe('NFTMintButton', () => {
     );
     expect(container.firstChild).toBeNull();
   });
-
   it('should disable button if disabled props is true', async () => {
     const { findByText } = render(
       <TestProviders>
@@ -247,7 +240,6 @@ describe('NFTMintButton', () => {
     );
     expect(await findByText('Mint')).toBeDisabled();
   });
-
   it('should show minting not available when isEligibleToMint is false', () => {
     (useNFTContext as Mock).mockReturnValue({
       contractAddress: '0x123',
@@ -265,7 +257,6 @@ describe('NFTMintButton', () => {
     );
     expect(getByText('Minting not available')).toBeInTheDocument();
   });
-
   it('calls buildMintTransaction when quantity changes', async () => {
     const buildMintTransactionMock = vi.fn().mockResolvedValue([]);
     (useNFTContext as Mock).mockReturnValueOnce({
@@ -276,7 +267,6 @@ describe('NFTMintButton', () => {
       buildMintTransaction: buildMintTransactionMock,
       quantity: 1,
     });
-
     const { rerender } = render(
       <TestProviders>
         <NFTMintButton />
@@ -290,7 +280,6 @@ describe('NFTMintButton', () => {
         quantity: 1,
       }),
     );
-
     (useNFTContext as Mock).mockReturnValueOnce({
       contractAddress: '0x123',
       tokenId: '1',
@@ -299,13 +288,11 @@ describe('NFTMintButton', () => {
       buildMintTransaction: buildMintTransactionMock,
       quantity: 2,
     });
-
     rerender(
       <TestProviders>
         <NFTMintButton />
       </TestProviders>,
     );
-
     expect(buildMintTransactionMock).toHaveBeenCalledWith(
       expect.objectContaining({
         contractAddress: '0x123',
@@ -315,7 +302,6 @@ describe('NFTMintButton', () => {
       }),
     );
   });
-
   it('calls updateLifecycleStatus on buildMintTransaction error', async () => {
     const buildMintTransactionMock = vi.fn().mockRejectedValue('error');
     (useNFTContext as Mock).mockReturnValueOnce({
@@ -326,16 +312,48 @@ describe('NFTMintButton', () => {
       buildMintTransaction: buildMintTransactionMock,
       quantity: 1,
     });
-
     await render(
       <TestProviders>
         <NFTMintButton />
       </TestProviders>,
     );
-
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: expect.objectContaining({ message: 'error' }),
+    });
+  });
+
+  describe('analytics', () => {
+    it('sends MintInitiated analytics when transaction is built', async () => {
+      render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintInitiated, {
+        contractAddress: '0x123',
+        quantity: 1,
+        tokenId: '1',
+      });
+    });
+
+    it('sends MintSuccess analytics when transaction succeeds', () => {
+      const { getByText } = render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+
+      getByText('Success').click();
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintSuccess, {
+        address: '0xabc',
+        amountMinted: 1,
+        contractAddress: '0x123',
+        isSponsored: undefined,
+        tokenId: '1',
+      });
     });
   });
 });

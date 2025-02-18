@@ -1,13 +1,45 @@
 import '@testing-library/jest-dom';
 import type { NFTError } from '@/api/types';
+import { MintEvent } from '@/core/analytics/types';
 import { fireEvent, render } from '@testing-library/react';
 import type { TransactionReceipt } from 'viem';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { type LifecycleStatus, LifecycleType, MediaType } from '../types';
 import {
   NFTLifecycleProvider,
   useNFTLifecycleContext,
 } from './NFTLifecycleProvider';
+
+const mockSendAnalytics = vi.fn();
+
+// Mock useAnalytics hook
+vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: () => ({
+    sendAnalytics: mockSendAnalytics,
+  }),
+}));
+
+const mockTransactionReceipt: TransactionReceipt = {
+  blockHash: '0xblockhash',
+  blockNumber: 1n,
+  contractAddress: null,
+  cumulativeGasUsed: 21000n,
+  effectiveGasPrice: 1000000000n,
+  from: '0xabc',
+  gasUsed: 21000n,
+  logs: [],
+  logsBloom: '0x',
+  status: 'success',
+  to: '0x123',
+  transactionHash: '0xhash',
+  transactionIndex: 0,
+  type: 'legacy',
+} as const;
+
+const mockTransactionReceiptWithoutTo: TransactionReceipt = {
+  ...mockTransactionReceipt,
+  to: null,
+} as const;
 
 const TestComponent = () => {
   const context = useNFTLifecycleContext();
@@ -16,9 +48,9 @@ const TestComponent = () => {
     context.updateLifecycleStatus({
       statusName: 'error',
       statusData: {
-        code: 'code',
-        error: 'error_long_messages',
-        message: '',
+        code: 'error_code',
+        error: 'error_message',
+        message: 'detailed_error_message',
       },
     });
   };
@@ -26,7 +58,7 @@ const TestComponent = () => {
     context.updateLifecycleStatus({
       statusName: 'success',
       statusData: {
-        transactionReceipts: ['0x123'] as unknown as TransactionReceipt[],
+        transactionReceipts: [mockTransactionReceipt],
       },
     });
   };
@@ -42,6 +74,14 @@ const TestComponent = () => {
       statusData: {
         mediaType: MediaType.Image,
         mediaUrl: 'https://example.com/image.png',
+      },
+    });
+  };
+  const handleStatusSuccessWithTransactionNoTo = async () => {
+    context.updateLifecycleStatus({
+      statusName: 'success',
+      statusData: {
+        transactionReceipts: [mockTransactionReceiptWithoutTo],
       },
     });
   };
@@ -66,6 +106,9 @@ const TestComponent = () => {
       </button>
       <button type="button" onClick={handleStatusMediaLoading}>
         setLifecycleStatus.mediaLoading
+      </button>
+      <button type="button" onClick={handleStatusSuccessWithTransactionNoTo}>
+        setLifecycleStatus.successWithTransactionNoTo
       </button>
     </div>
   );
@@ -95,6 +138,10 @@ const renderWithProviders = ({
 };
 
 describe('NFTLifecycleProvider', () => {
+  beforeEach(() => {
+    mockSendAnalytics.mockClear();
+  });
+
   it('should throw an error if useNFTLifecycleContext is used outside of NFTLifecycleProvider', () => {
     const TestComponent = () => {
       useNFTLifecycleContext();
@@ -120,7 +167,7 @@ describe('NFTLifecycleProvider', () => {
     });
     const button = getByText('setLifecycleStatus.successWithTransaction');
     fireEvent.click(button);
-    expect(onSuccessMock).toHaveBeenCalledWith('0x123');
+    expect(onSuccessMock).toHaveBeenCalledWith(mockTransactionReceipt);
   });
 
   it('should call onSuccess callback on status success without transaction', async () => {
@@ -154,5 +201,47 @@ describe('NFTLifecycleProvider', () => {
     const button = getByText('setLifecycleStatus.mediaLoading');
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalled();
+  });
+
+  describe('Analytics', () => {
+    it('should update lifecycle status correctly', () => {
+      const { getByText, getByTestId } = renderWithProviders({
+        Component: TestComponent,
+      });
+
+      fireEvent.click(getByText('setLifecycleStatus.successWithTransaction'));
+
+      expect(
+        getByTestId('context-value-lifecycleStatus-statusName').textContent,
+      ).toBe('success');
+    });
+
+    it('should send MintFailure analytics when error occurs', async () => {
+      const { getByText } = renderWithProviders({
+        Component: TestComponent,
+      });
+
+      fireEvent.click(getByText('setLifecycleStatus.error'));
+
+      await vi.waitFor(() => {
+        expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintFailure, {
+          error: 'error_message',
+          metadata: {
+            code: 'error_code',
+            message: 'detailed_error_message',
+          },
+        });
+      });
+    });
+
+    it('should not send analytics for non-mint/error status changes', () => {
+      const { getByText } = renderWithProviders({
+        Component: TestComponent,
+      });
+
+      getByText('setLifecycleStatus.mediaLoading').click();
+
+      expect(mockSendAnalytics).not.toHaveBeenCalled();
+    });
   });
 });
