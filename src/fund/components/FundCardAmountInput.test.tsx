@@ -77,37 +77,48 @@ describe('FundCardAmountInput', () => {
   });
 
   it('handles fiat input change', async () => {
-    renderWithProvider({ inputType: 'fiat' });
-
-    const input = screen.getByTestId('ockTextInput_Input');
-    await act(async () => {
-      fireEvent.change(input, { target: { value: '10' } });
+    act(() => {
+      renderWithProvider({ inputType: 'fiat' });
     });
 
-    expect(screen.getByTestId('test-value-fiat').textContent).toBe('10');
-    expect(screen.getByTestId('test-value-crypto').textContent).toBe('');
+    await waitFor(() => {
+      const input = screen.getByTestId('ockTextInput_Input');
+
+      fireEvent.change(input, { target: { value: '10' } });
+      const valueFiat = screen.getByTestId('test-value-fiat');
+      const valueCrypto = screen.getByTestId('test-value-crypto');
+      expect(valueFiat.textContent).toBe('10');
+      expect(valueCrypto.textContent).toBe('');
+    });
   });
 
   it('handles crypto input change', async () => {
-    renderWithProvider({ inputType: 'crypto' });
-
-    const input = screen.getByTestId('ockTextInput_Input');
-    await act(async () => {
-      fireEvent.change(input, { target: { value: '1' } });
+    act(() => {
+      renderWithProvider({ inputType: 'crypto' });
     });
+    await waitFor(() => {
+      const input = screen.getByTestId('ockTextInput_Input');
 
-    expect(screen.getByTestId('test-value-crypto').textContent).toBe('1');
+      fireEvent.change(input, { target: { value: '1' } });
+
+      const valueCrypto = screen.getByTestId('test-value-crypto');
+      expect(valueCrypto.textContent).toBe('1');
+    });
   });
 
   it('does not allow non-numeric input', async () => {
-    renderWithProvider();
-
-    const input = screen.getByTestId('ockTextInput_Input');
-    await act(async () => {
-      fireEvent.change(input, { target: { value: 'ABC' } });
+    act(() => {
+      renderWithProvider();
     });
 
-    expect(screen.getByTestId('test-value-fiat').textContent).toBe('');
+    await waitFor(() => {
+      const input = screen.getByTestId('ockTextInput_Input');
+
+      fireEvent.change(input, { target: { value: 'ABC' } });
+
+      const valueFiat = screen.getByTestId('test-value-fiat');
+      expect(valueFiat.textContent).toBe('');
+    });
   });
 
   it('applies custom className', () => {
@@ -124,27 +135,31 @@ describe('FundCardAmountInput', () => {
   });
 
   it('handles truncation of crypto decimals', async () => {
-    renderWithProvider({ inputType: 'crypto' });
-
-    const input = screen.getByTestId('ockTextInput_Input');
-    await act(async () => {
-      fireEvent.change(input, { target: { value: '0.123456789' } });
+    act(() => {
+      renderWithProvider({ inputType: 'crypto' });
     });
 
-    expect(screen.getByTestId('test-value-crypto').textContent).toBe(
-      '0.12345678',
-    );
+    await waitFor(() => {
+      const input = screen.getByTestId('ockTextInput_Input');
+
+      fireEvent.change(input, { target: { value: '0.123456789' } });
+
+      const valueCrypto = screen.getByTestId('test-value-crypto');
+      expect(valueCrypto.textContent).toBe('0.12345678');
+    });
   });
 
   it('handles truncation of fiat decimals', async () => {
-    renderWithProvider({ inputType: 'fiat' });
-
-    const input = screen.getByTestId('ockTextInput_Input');
-    await act(async () => {
-      fireEvent.change(input, { target: { value: '1000.123456789' } });
+    act(() => {
+      renderWithProvider({ inputType: 'fiat' });
     });
 
-    expect(screen.getByTestId('test-value-fiat').textContent).toBe('1000.12');
+    await waitFor(() => {
+      const input = screen.getByTestId('ockTextInput_Input');
+      fireEvent.change(input, { target: { value: '1000.123456789' } });
+      const valueFiat = screen.getByTestId('test-value-fiat');
+      expect(valueFiat.textContent).toBe('1000.12');
+    });
   });
 
   it('handles zero and empty values in crypto mode', async () => {
@@ -177,30 +192,30 @@ describe('FundCardAmountInput', () => {
   });
 
   it('handles zero and empty values in fiat mode', async () => {
-    render(
-      <FundCardProvider asset="ETH" country="US">
-        <FundCardAmountInput />
-        <TestComponent />
-      </FundCardProvider>,
-    );
+    act(() => {
+      render(
+        <FundCardProvider asset="ETH" country="US">
+          <FundCardAmountInput />
+          <TestComponent />
+        </FundCardProvider>,
+      );
+    });
 
     const input = screen.getByTestId('ockTextInput_Input');
 
-    await act(async () => {
-      fireEvent.change(input, { target: { value: '0' } });
-    });
+    fireEvent.change(input, { target: { value: '0' } });
 
     await waitFor(() => {
       expect(screen.getByTestId('loading-state').textContent).toBe(
         'not-loading',
       );
+
+      const valueFiat = screen.getByTestId('test-value-fiat');
+      const valueCrypto = screen.getByTestId('test-value-crypto');
+
+      expect(valueCrypto.textContent).toBe('');
+      expect(valueFiat.textContent).toBe('0');
     });
-
-    const valueFiat = screen.getByTestId('test-value-fiat');
-    const valueCrypto = screen.getByTestId('test-value-crypto');
-
-    expect(valueCrypto.textContent).toBe('');
-    expect(valueFiat.textContent).toBe('0');
   });
 
   it('handles non zero values in fiat mode', async () => {
@@ -318,7 +333,6 @@ describe('FundCardAmountInput', () => {
         amount: 100,
         currency: 'USD',
       });
-
       fireEvent.change(input, { target: { value: '0' } });
       expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
         amount: 0,
@@ -326,7 +340,6 @@ describe('FundCardAmountInput', () => {
       });
     });
   });
-
   it('sends analytics event with correct currency', async () => {
     const mockSendAnalytics = vi.fn();
     vi.mocked(useAnalytics).mockImplementation(() => ({
