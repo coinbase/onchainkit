@@ -15,6 +15,7 @@ import NftMintCardDemo, { nftMintCardDemoCode } from './NftMintCardDemo.tsx';
 import SwapDemo, { swapDemoCode } from './SwapDemo.tsx';
 import TransactionDemo, { transactionDemoCode } from './TransactionDemo.tsx';
 import WalletDemo, { walletDemoCode } from './WalletDemo.tsx';
+import EarnDemo, { earnDemoCode } from './EarnDemo.tsx';
 
 type Component = {
   name: string;
@@ -73,6 +74,12 @@ const components: Component[] = [
     code: identityCardDemoCode,
     description:
       'Display the Basename, avatar, address, and social media links associated with a wallet.',
+  },
+  {
+    name: 'Earn',
+    component: EarnDemo,
+    code: earnDemoCode,
+    description: 'Earn interest on your crypto holdings.',
   },
 ];
 
