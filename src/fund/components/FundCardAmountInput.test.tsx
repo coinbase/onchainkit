@@ -288,16 +288,18 @@ describe('FundCardAmountInput', () => {
       sendAnalytics: mockSendAnalytics,
     }));
 
-    renderWithProvider({ inputType: 'fiat' });
-
-    const input = screen.getByTestId('ockTextInput_Input');
-    await act(async () => {
-      fireEvent.change(input, { target: { value: '100' } });
+    act(() => {
+      renderWithProvider({ inputType: 'fiat' });
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
-      amount: 100,
-      currency: 'USD',
+    await waitFor(() => {
+      const input = screen.getByTestId('ockTextInput_Input');
+      fireEvent.change(input, { target: { value: '100' } });
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
+        amount: 100,
+        currency: 'USD',
+      });
     });
   });
 
@@ -307,14 +309,16 @@ describe('FundCardAmountInput', () => {
       sendAnalytics: mockSendAnalytics,
     }));
 
-    renderWithProvider({ inputType: 'fiat' });
-
-    const input = screen.getByTestId('ockTextInput_Input');
-    await act(async () => {
-      fireEvent.change(input, { target: { value: 'abc' } });
+    act(() => {
+      renderWithProvider({ inputType: 'fiat' });
     });
 
-    expect(mockSendAnalytics).not.toHaveBeenCalled();
+    await waitFor(() => {
+      const input = screen.getByTestId('ockTextInput_Input');
+      fireEvent.change(input, { target: { value: 'abc' } });
+
+      expect(mockSendAnalytics).not.toHaveBeenCalled();
+    });
   });
 
   it('sends analytics event when amount changes to zero', async () => {
@@ -323,42 +327,49 @@ describe('FundCardAmountInput', () => {
       sendAnalytics: mockSendAnalytics,
     }));
 
-    renderWithProvider({ inputType: 'fiat' });
+    act(() => {
+      renderWithProvider({ inputType: 'fiat' });
+    });
 
-    const input = screen.getByTestId('ockTextInput_Input');
+    await waitFor(() => {
+      const input = screen.getByTestId('ockTextInput_Input');
 
-    await act(async () => {
       fireEvent.change(input, { target: { value: '100' } });
       expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
         amount: 100,
         currency: 'USD',
       });
+
       fireEvent.change(input, { target: { value: '0' } });
       expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
         amount: 0,
         currency: 'USD',
+        previousAmount: 100,
       });
     });
   });
+
   it('sends analytics event with correct currency', async () => {
     const mockSendAnalytics = vi.fn();
     vi.mocked(useAnalytics).mockImplementation(() => ({
       sendAnalytics: mockSendAnalytics,
     }));
 
-    renderWithProvider({
-      inputType: 'fiat',
-      currency: 'EUR',
+    act(() => {
+      renderWithProvider({
+        inputType: 'fiat',
+        currency: 'EUR',
+      });
     });
 
-    const input = screen.getByTestId('ockTextInput_Input');
-    await act(async () => {
+    await waitFor(() => {
+      const input = screen.getByTestId('ockTextInput_Input');
       fireEvent.change(input, { target: { value: '50' } });
-    });
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
-      amount: 50,
-      currency: 'EUR',
+      expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
+        amount: 50,
+        currency: 'EUR',
+      });
     });
   });
 });
