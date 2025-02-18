@@ -44,9 +44,10 @@ export function Earn({
   children = <EarnDefaultContent />,
   className,
   vaultAddress,
+  isSponsored,
 }: EarnReact) {
   return (
-    <EarnProvider vaultAddress={vaultAddress}>
+    <EarnProvider vaultAddress={vaultAddress} isSponsored={isSponsored}>
       <div
         className={cn(
           'flex w-[375px] flex-col overflow-hidden',

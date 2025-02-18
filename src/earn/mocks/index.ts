@@ -30,4 +30,5 @@ export const MOCK_EARN_CONTEXT: EarnContextType = {
   withdrawCalls: [],
   lifecycleStatus: { statusName: 'init', statusData: null } as const,
   updateLifecycleStatus: vi.fn(),
+  isSponsored: false,
 };
