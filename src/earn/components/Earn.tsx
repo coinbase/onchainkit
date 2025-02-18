@@ -1,11 +1,11 @@
 import { Tab, TabContent, Tabs, TabsList } from '@/internal';
+import { useTheme } from '@/internal/hooks/useTheme';
 import { border, cn } from '@/styles/theme';
 import type { EarnReact } from '../types';
 import { EarnDeposit } from './EarnDeposit';
 import { EarnProvider } from './EarnProvider';
 import { useEarnContext } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
-import { useTheme } from '@/internal/hooks/useTheme';
 
 function EarnDefaultContent() {
   const { refetchWalletBalance, refetchDepositedBalance } = useEarnContext();
