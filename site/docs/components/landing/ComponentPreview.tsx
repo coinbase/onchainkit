@@ -9,13 +9,13 @@ import { getHighlightedCode } from './getHighlightedCode.tsx';
 // Demo components and code snippets
 import BuyDemo, { buyDemoCode } from './BuyDemo.tsx';
 import CheckoutDemo, { checkoutDemoCode } from './CheckoutDemo.tsx';
+import EarnDemo, { earnDemoCode } from './EarnDemo.tsx';
 import FundDemo, { fundDemoCode } from './FundDemo.tsx';
 import IdentityCardDemo, { identityCardDemoCode } from './IdentityCardDemo.tsx';
 import NftMintCardDemo, { nftMintCardDemoCode } from './NftMintCardDemo.tsx';
 import SwapDemo, { swapDemoCode } from './SwapDemo.tsx';
 import TransactionDemo, { transactionDemoCode } from './TransactionDemo.tsx';
 import WalletDemo, { walletDemoCode } from './WalletDemo.tsx';
-import EarnDemo, { earnDemoCode } from './EarnDemo.tsx';
 
 type Component = {
   name: string;
