@@ -100,8 +100,7 @@ Execute one or multiple transactions using the Transaction component. You can pa
 // @noErrors: 2307 - cannot find module './contracts' or its corresponding type declarations
 import { useCallback } from 'react';
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
-import {
-  // [!code focus]
+import { // [!code focus]
   Transaction, // [!code focus]
   TransactionButton,
   TransactionSponsor,
@@ -129,10 +128,8 @@ export default function TransactionComponents() {
     <Transaction // [!code focus]
       chainId={BASE_SEPOLIA_CHAIN_ID} // [!code focus]
       calls={calls} // [!code focus]
-      onStatus={handleOnStatus}
-    >
-      {' '}
-      // [!code focus]
+      onStatus={handleOnStatus} // [!code focus]
+    > 
       <TransactionButton />
       <TransactionSponsor />
       <TransactionStatus>
