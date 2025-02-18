@@ -56,16 +56,9 @@ export const FundCardAmountInput = ({
       sendAnalytics(FundEvent.FundAmountChanged, {
         amount: Number(amount),
         currency,
-        previousAmount: Number(fundAmountFiat),
       });
     },
-    [
-      currency,
-      fundAmountFiat,
-      sendAnalytics,
-      setFundAmountFiat,
-      throttledFetchExchangeRate,
-    ],
+    [currency, sendAnalytics, setFundAmountFiat, throttledFetchExchangeRate],
   );
 
   return (

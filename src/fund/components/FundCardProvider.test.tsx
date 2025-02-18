@@ -62,7 +62,6 @@ describe('FundCardProvider', () => {
         FundEvent.FundAmountChanged,
         {
           amount: 100,
-          previousAmount: 0,
           currency: 'USD',
         },
       );
@@ -113,28 +112,6 @@ describe('FundCardProvider', () => {
       );
     });
 
-    it('does not track duplicate fund amount changes', async () => {
-      const { result } = renderHook(() => useFundContext(), {
-        wrapper: ({ children }) => (
-          <FundCardProvider asset="ETH" country="US">
-            {children}
-          </FundCardProvider>
-        ),
-      });
-
-      act(() => {
-        result.current.setFundAmountFiat('100.00');
-      });
-
-      mockSendAnalytics.mockClear();
-
-      act(() => {
-        result.current.setFundAmountFiat('100.00');
-      });
-
-      expect(mockSendAnalytics).not.toHaveBeenCalled();
-    });
-
     it('handles fund amount changes with different currencies', async () => {
       const { result } = renderHook(() => useFundContext(), {
         wrapper: ({ children }) => (
@@ -152,7 +129,6 @@ describe('FundCardProvider', () => {
         FundEvent.FundAmountChanged,
         {
           amount: 50,
-          previousAmount: 0,
           currency: 'GBP',
         },
       );

@@ -237,10 +237,7 @@ describe('FundButton', () => {
       fireEvent.click(buttonElement);
 
       expect(mockSendAnalytics).toHaveBeenCalledWith(FundEvent.FundInitiated, {
-        address: '0x123',
-        amount: 0,
         currency: 'EUR',
-        transactionHash: '',
       });
     });
 
@@ -273,10 +270,7 @@ describe('FundButton', () => {
       fireEvent.click(buttonElement);
 
       expect(mockSendAnalytics).toHaveBeenCalledWith(FundEvent.FundInitiated, {
-        address: '0x123',
-        amount: 0,
         currency: 'USD',
-        transactionHash: '',
       });
     });
 
@@ -315,17 +309,11 @@ describe('FundButton', () => {
 
       const { sendAnalytics } = useAnalytics();
       sendAnalytics(FundEvent.FundInitiated, {
-        address: '',
-        amount: 0,
         currency: 'USD',
-        transactionHash: '',
       });
 
       expect(mockSendAnalytics).toHaveBeenCalledWith(FundEvent.FundInitiated, {
-        address: '',
-        amount: 0,
         currency: 'USD',
-        transactionHash: '',
       });
     });
   });

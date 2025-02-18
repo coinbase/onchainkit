@@ -299,7 +299,6 @@ describe('FundCardAmountInput', () => {
       expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
         amount: 100,
         currency: 'USD',
-        previousAmount: 0,
       });
     });
   });
@@ -339,7 +338,6 @@ describe('FundCardAmountInput', () => {
       expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
         amount: 100,
         currency: 'USD',
-        previousAmount: 0,
       });
 
       fireEvent.change(input, { target: { value: '0' } });
@@ -371,7 +369,6 @@ describe('FundCardAmountInput', () => {
       expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
         amount: 50,
         currency: 'EUR',
-        previousAmount: 0,
       });
     });
   });
