@@ -24,6 +24,7 @@ import TransactionWrapper from '../../components/TransactionWrapper';
 export const BASE_SEPOLIA_CHAIN_ID = 84532;
 export const PAYMASTER_AND_BUNDLER_ENDPOINT = import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT;
 
+
 # `<Transaction />`
 
 The `<Transaction />` components provide a high-level wrap around the entire transaction flow. 
@@ -51,15 +52,10 @@ const calls = [...];
 <App>
   <TransactionWrapper>
     {({ address, contracts, onStatus }) => {
-      const capabilities = {
-        paymasterService: {
-          url: PAYMASTER_AND_BUNDLER_ENDPOINT,
-        },
-      }
       if (address) {
         return (
           <TransactionDefault
-            capabilities={capabilities}
+            isSponsored={true}
             chainId={BASE_SEPOLIA_CHAIN_ID}
             calls={contracts}
             onStatus={onStatus} 
@@ -303,7 +299,7 @@ type LifecycleStatus =
 
 ### Sponsor with Paymaster capabilities
 
-To sponsor your transactions with Paymaster capabilities, provide the `paymasterService` object.
+To sponsor your transactions with Paymaster capabilities, configure your [`OnchainKitProvider`](/config/onchainkit-provider) with the appropriate `config.paymaster` URL, then pass `isSponsored={true}` to the `Transaction` component.
 
 Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/bundler-and-paymaster).
 
@@ -316,17 +312,24 @@ Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform](h
 />
 
 ```tsx twoslash
+// @noErrors:  2304 17008 1005
+<OnchainKitProvider
+  config={{ // [!code focus]
+    paymaster: process.env.PAYMASTER_AND_BUNDLER_ENDPOINT, // [!code focus] 
+  }} // [!code focus]
+>
+```
+
+Next, pass `isSponsored={true}` to the `Transaction` component.
+
+```tsx twoslash
 // @noErrors: 2580 2304 2322 - Cannot find name 'process', Cannot find name 'contracts'
 import { Transaction, TransactionButton, TransactionSponsor } from "@coinbase/onchainkit/transaction"
 // ---cut-before---
 // omitted for brevity
 <Transaction
-  capabilities={{ // [!code focus]
-    paymasterService: { // [!code focus]
-      url: process.env.PAYMASTER_AND_BUNDLER_ENDPOINT, // [!code focus]
-    }, // [!code focus]
-  }} // [!code focus]
   contracts={contracts}
+  isSponsored={true} // [!code focus]
   >
   <TransactionButton />
   <TransactionSponsor />
