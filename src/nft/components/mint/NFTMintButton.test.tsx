@@ -337,5 +337,23 @@ describe('NFTMintButton', () => {
         tokenId: '1',
       });
     });
+
+    it('sends MintSuccess analytics when transaction succeeds', () => {
+      const { getByText } = render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+
+      getByText('Success').click();
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintSuccess, {
+        address: '0xabc',
+        amountMinted: 1,
+        contractAddress: '0x123',
+        isSponsored: undefined,
+        tokenId: '1',
+      });
+    });
   });
 });

@@ -56,17 +56,7 @@ export function NFTLifecycleProvider({
     }
     // Success
     if (lifecycleStatus.statusName === 'success') {
-      const receipt = lifecycleStatus.statusData?.transactionReceipts?.[0];
-      onSuccess?.(receipt);
-      if (receipt) {
-        sendAnalytics(MintEvent.MintSuccess, {
-          address: receipt.from,
-          amountMinted: 1, // Default to 1 if not specified
-          contractAddress: receipt.to ?? undefined,
-          isSponsored: false, // Default to false if not specified
-          tokenId: undefined, // Optional field
-        });
-      }
+      onSuccess?.(lifecycleStatus.statusData?.transactionReceipts?.[0]);
     }
     // Emit Status
     onStatus?.(lifecycleStatus);

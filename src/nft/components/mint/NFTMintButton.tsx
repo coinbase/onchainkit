@@ -122,10 +122,28 @@ export function NFTMintButton({
         transactionStatus.statusName === 'success' ||
         transactionStatus.statusName === 'error'
       ) {
+        if (transactionStatus.statusName === 'success') {
+          sendAnalytics(MintEvent.MintSuccess, {
+            address,
+            amountMinted: quantity,
+            contractAddress: contractAddress,
+            isSponsored,
+            tokenId,
+          });
+        }
+
         updateLifecycleStatus(transactionStatus);
       }
     },
-    [updateLifecycleStatus],
+    [
+      updateLifecycleStatus,
+      sendAnalytics,
+      address,
+      quantity,
+      contractAddress,
+      isSponsored,
+      tokenId,
+    ],
   );
 
   const transactionButtonLabel = useMemo(() => {

@@ -204,30 +204,6 @@ describe('NFTLifecycleProvider', () => {
   });
 
   describe('Analytics', () => {
-    it('should send MintSuccess analytics when transaction succeeds', async () => {
-      const onSuccessMock = vi.fn();
-      const { getByText } = renderWithProviders({
-        Component: TestComponent,
-        onSuccess: onSuccessMock,
-      });
-
-      console.log('Before click');
-
-      fireEvent.click(getByText('setLifecycleStatus.successWithTransaction'));
-
-      await vi.waitFor(() => {
-        expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintSuccess, {
-          address: mockTransactionReceipt.from,
-          amountMinted: 1,
-          contractAddress: mockTransactionReceipt.to,
-          isSponsored: false,
-          tokenId: undefined,
-        });
-      });
-
-      expect(onSuccessMock).toHaveBeenCalledWith(mockTransactionReceipt);
-    });
-
     it('should update lifecycle status correctly', () => {
       const { getByText, getByTestId } = renderWithProviders({
         Component: TestComponent,
@@ -238,19 +214,6 @@ describe('NFTLifecycleProvider', () => {
       expect(
         getByTestId('context-value-lifecycleStatus-statusName').textContent,
       ).toBe('success');
-    });
-
-    it('should not send MintSuccess analytics when transaction succeeds without receipt', () => {
-      const { getByText } = renderWithProviders({
-        Component: TestComponent,
-      });
-
-      getByText('setLifecycleStatus.successWithoutTransaction').click();
-
-      expect(mockSendAnalytics).not.toHaveBeenCalledWith(
-        MintEvent.MintSuccess,
-        expect.any(Object),
-      );
     });
 
     it('should send MintFailure analytics when error occurs', async () => {
@@ -279,32 +242,6 @@ describe('NFTLifecycleProvider', () => {
       getByText('setLifecycleStatus.mediaLoading').click();
 
       expect(mockSendAnalytics).not.toHaveBeenCalled();
-    });
-
-    it('should handle undefined contractAddress in MintSuccess analytics', async () => {
-      const onSuccessMock = vi.fn();
-      const { getByText } = renderWithProviders({
-        Component: TestComponent,
-        onSuccess: onSuccessMock,
-      });
-
-      fireEvent.click(
-        getByText('setLifecycleStatus.successWithTransactionNoTo'),
-      );
-
-      await vi.waitFor(() => {
-        expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintSuccess, {
-          address: mockTransactionReceiptWithoutTo.from,
-          amountMinted: 1,
-          contractAddress: undefined,
-          isSponsored: false,
-          tokenId: undefined,
-        });
-      });
-
-      expect(onSuccessMock).toHaveBeenCalledWith(
-        mockTransactionReceiptWithoutTo,
-      );
     });
   });
 });
