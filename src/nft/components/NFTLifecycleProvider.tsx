@@ -6,6 +6,9 @@ import type {
   NFTLifecycleContextType,
   NFTLifecycleProviderReact,
 } from '../types';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { MintEvent } from '@/core/analytics/types';
+import type { NFTError } from '@/api/types';
 
 const emptyContext = {} as NFTLifecycleContextType;
 
@@ -35,15 +38,35 @@ export function NFTLifecycleProvider({
       statusData: null,
     }); // Component lifecycle
 
+  const { sendAnalytics } = useAnalytics();
+
   // Component lifecycle emitters
   useEffect(() => {
     // Error
     if (lifecycleStatus.statusName === 'error') {
-      onError?.(lifecycleStatus.statusData);
+      const error = lifecycleStatus.statusData as NFTError;
+      onError?.(error);
+      sendAnalytics(MintEvent.MintFailure, {
+        error: error.error,
+        metadata: {
+          code: error.code,
+          message: error.message,
+        },
+      });
     }
     // Success
     if (lifecycleStatus.statusName === 'success') {
-      onSuccess?.(lifecycleStatus.statusData?.transactionReceipts?.[0]);
+      const receipt = lifecycleStatus.statusData?.transactionReceipts?.[0];
+      onSuccess?.(receipt);
+      if (receipt) {
+        sendAnalytics(MintEvent.MintSuccess, {
+          address: receipt.from,
+          amountMinted: 1, // Default to 1 if not specified
+          contractAddress: receipt.to ?? undefined,
+          isSponsored: false, // Default to false if not specified
+          tokenId: undefined, // Optional field
+        });
+      }
     }
     // Emit Status
     onStatus?.(lifecycleStatus);
@@ -51,9 +74,10 @@ export function NFTLifecycleProvider({
     onError,
     onStatus,
     onSuccess,
+    sendAnalytics,
     lifecycleStatus,
-    lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
-    lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
+    lifecycleStatus.statusData,
+    lifecycleStatus.statusName,
   ]);
 
   const value = useValue({
