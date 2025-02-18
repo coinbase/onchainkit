@@ -1,17 +1,23 @@
 import '@testing-library/jest-dom';
 import type { NFTError } from '@/api/types';
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { MintEvent } from '@/core/analytics/types';
 import { fireEvent, render } from '@testing-library/react';
 import type { TransactionReceipt } from 'viem';
-import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { type LifecycleStatus, LifecycleType, MediaType } from '../types';
 import {
   NFTLifecycleProvider,
   useNFTLifecycleContext,
 } from './NFTLifecycleProvider';
 
-vi.mock('@/core/analytics/hooks/useAnalytics');
+const mockSendAnalytics = vi.fn();
+
+// Mock useAnalytics hook
+vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: () => ({
+    sendAnalytics: mockSendAnalytics,
+  }),
+}));
 
 const mockTransactionReceipt: TransactionReceipt = {
   blockHash: '0xblockhash',
@@ -28,6 +34,11 @@ const mockTransactionReceipt: TransactionReceipt = {
   transactionHash: '0xhash',
   transactionIndex: 0,
   type: 'legacy',
+} as const;
+
+const mockTransactionReceiptWithoutTo: TransactionReceipt = {
+  ...mockTransactionReceipt,
+  to: null,
 } as const;
 
 const TestComponent = () => {
@@ -66,6 +77,14 @@ const TestComponent = () => {
       },
     });
   };
+  const handleStatusSuccessWithTransactionNoTo = async () => {
+    context.updateLifecycleStatus({
+      statusName: 'success',
+      statusData: {
+        transactionReceipts: [mockTransactionReceiptWithoutTo],
+      },
+    });
+  };
   return (
     <div data-testid="test-component">
       <span data-testid="context-value-lifecycleStatus-statusName">
@@ -87,6 +106,9 @@ const TestComponent = () => {
       </button>
       <button type="button" onClick={handleStatusMediaLoading}>
         setLifecycleStatus.mediaLoading
+      </button>
+      <button type="button" onClick={handleStatusSuccessWithTransactionNoTo}>
+        setLifecycleStatus.successWithTransactionNoTo
       </button>
     </div>
   );
@@ -116,13 +138,8 @@ const renderWithProviders = ({
 };
 
 describe('NFTLifecycleProvider', () => {
-  let mockSendAnalytics: ReturnType<typeof vi.fn>;
-
   beforeEach(() => {
-    mockSendAnalytics = vi.fn();
-    (useAnalytics as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
-    });
+    mockSendAnalytics.mockClear();
   });
 
   it('should throw an error if useNFTLifecycleContext is used outside of NFTLifecycleProvider', () => {
@@ -187,20 +204,40 @@ describe('NFTLifecycleProvider', () => {
   });
 
   describe('Analytics', () => {
-    it('should send MintSuccess analytics when transaction succeeds', () => {
+    it('should send MintSuccess analytics when transaction succeeds', async () => {
+      const onSuccessMock = vi.fn();
       const { getByText } = renderWithProviders({
+        Component: TestComponent,
+        onSuccess: onSuccessMock,
+      });
+
+      console.log('Before click');
+
+      fireEvent.click(getByText('setLifecycleStatus.successWithTransaction'));
+
+      await vi.waitFor(() => {
+        expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintSuccess, {
+          address: mockTransactionReceipt.from,
+          amountMinted: 1,
+          contractAddress: mockTransactionReceipt.to,
+          isSponsored: false,
+          tokenId: undefined,
+        });
+      });
+
+      expect(onSuccessMock).toHaveBeenCalledWith(mockTransactionReceipt);
+    });
+
+    it('should update lifecycle status correctly', () => {
+      const { getByText, getByTestId } = renderWithProviders({
         Component: TestComponent,
       });
 
-      getByText('setLifecycleStatus.successWithTransaction').click();
+      fireEvent.click(getByText('setLifecycleStatus.successWithTransaction'));
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintSuccess, {
-        address: mockTransactionReceipt.from,
-        amountMinted: 1,
-        contractAddress: mockTransactionReceipt.to,
-        isSponsored: false,
-        tokenId: undefined,
-      });
+      expect(
+        getByTestId('context-value-lifecycleStatus-statusName').textContent,
+      ).toBe('success');
     });
 
     it('should not send MintSuccess analytics when transaction succeeds without receipt', () => {
@@ -216,19 +253,21 @@ describe('NFTLifecycleProvider', () => {
       );
     });
 
-    it('should send MintFailure analytics when error occurs', () => {
+    it('should send MintFailure analytics when error occurs', async () => {
       const { getByText } = renderWithProviders({
         Component: TestComponent,
       });
 
-      getByText('setLifecycleStatus.error').click();
+      fireEvent.click(getByText('setLifecycleStatus.error'));
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintFailure, {
-        error: 'error_message',
-        metadata: {
-          code: 'error_code',
-          message: 'detailed_error_message',
-        },
+      await vi.waitFor(() => {
+        expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintFailure, {
+          error: 'error_message',
+          metadata: {
+            code: 'error_code',
+            message: 'detailed_error_message',
+          },
+        });
       });
     });
 
@@ -240,6 +279,32 @@ describe('NFTLifecycleProvider', () => {
       getByText('setLifecycleStatus.mediaLoading').click();
 
       expect(mockSendAnalytics).not.toHaveBeenCalled();
+    });
+
+    it('should handle undefined contractAddress in MintSuccess analytics', async () => {
+      const onSuccessMock = vi.fn();
+      const { getByText } = renderWithProviders({
+        Component: TestComponent,
+        onSuccess: onSuccessMock,
+      });
+
+      fireEvent.click(
+        getByText('setLifecycleStatus.successWithTransactionNoTo'),
+      );
+
+      await vi.waitFor(() => {
+        expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintSuccess, {
+          address: mockTransactionReceiptWithoutTo.from,
+          amountMinted: 1,
+          contractAddress: undefined,
+          isSponsored: false,
+          tokenId: undefined,
+        });
+      });
+
+      expect(onSuccessMock).toHaveBeenCalledWith(
+        mockTransactionReceiptWithoutTo,
+      );
     });
   });
 });

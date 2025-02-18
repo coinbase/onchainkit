@@ -1,3 +1,5 @@
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { MintEvent } from '@/core/analytics/types';
 import { Spinner } from '@/internal/components/Spinner';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
@@ -48,6 +50,7 @@ export function NFTMintButton({
   const { updateLifecycleStatus } = useNFTLifecycleContext();
   const [callData, setCallData] = useState<Call[]>([]);
   const [mintError, setMintError] = useState<string | null>(null);
+  const { sendAnalytics } = useAnalytics();
 
   const handleTransactionError = useCallback(
     (error: string) => {
@@ -70,6 +73,11 @@ export function NFTMintButton({
       try {
         setCallData([]);
         setMintError(null);
+        sendAnalytics(MintEvent.MintInitiated, {
+          contractAddress,
+          quantity,
+          tokenId,
+        });
         const mintTransaction = await buildMintTransaction({
           takerAddress: address,
           contractAddress,
@@ -93,6 +101,7 @@ export function NFTMintButton({
     name,
     network,
     quantity,
+    sendAnalytics,
     tokenId,
   ]);
 
