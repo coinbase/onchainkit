@@ -55,9 +55,6 @@ export function FundButton({
   const handleAnalyticsInitiated = useCallback(() => {
     sendAnalytics(FundEvent.FundInitiated, {
       currency: fiatCurrency,
-      amount: 0,
-      address,
-      transactionHash: '',
     });
   }, [sendAnalytics, fiatCurrency, address]);
 

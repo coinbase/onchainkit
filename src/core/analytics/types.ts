@@ -310,14 +310,12 @@ export type FundEventData = {
   [FundEvent.FundAmountChanged]: CommonAnalyticsData & {
     amount: number;
     currency: string;
-    previousAmount: number;
   };
   [FundEvent.FundFailure]: CommonAnalyticsData & {
     error: string;
     metadata?: Record<string, unknown>;
   };
   [FundEvent.FundInitiated]: CommonAnalyticsData & {
-    amount: number;
     currency: string;
   };
   [FundEvent.FundOptionSelected]: CommonAnalyticsData & {
