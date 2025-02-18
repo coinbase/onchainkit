@@ -49,6 +49,11 @@ export type IsBaseOptions = {
 };
 
 /**
+ * @deprecated Use IsBaseOptions instead
+ */
+export type isBaseOptions = IsBaseOptions;
+
+/**
  * Note: exported as public Type
  */
 export type IsEthereumOptions = {
@@ -57,6 +62,11 @@ export type IsEthereumOptions = {
   /** If the chainId check is only allowed on mainnet */
   isMainnetOnly?: boolean;
 };
+
+/**
+ * @deprecated Use IsEthereumOptions instead
+ */
+export type isEthereumOptions = IsEthereumOptions;
 
 export type Mode = 'auto' | 'light' | 'dark';
 
