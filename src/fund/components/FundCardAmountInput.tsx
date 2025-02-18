@@ -56,7 +56,6 @@ export const FundCardAmountInput = ({
       sendAnalytics(FundEvent.FundAmountChanged, {
         amount: Number(amount),
         currency,
-        previousAmount: Number(fundAmountFiat),
       });
     },
     [
