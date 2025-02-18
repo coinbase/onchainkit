@@ -58,13 +58,7 @@ export const FundCardAmountInput = ({
         currency,
       });
     },
-    [
-      currency,
-      fundAmountFiat,
-      sendAnalytics,
-      setFundAmountFiat,
-      throttledFetchExchangeRate,
-    ],
+    [currency, sendAnalytics, setFundAmountFiat, throttledFetchExchangeRate],
   );
 
   return (
