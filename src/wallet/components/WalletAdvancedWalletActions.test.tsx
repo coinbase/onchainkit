@@ -1,3 +1,5 @@
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { WalletEvent, WalletOption } from '@/core/analytics/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useDisconnect } from 'wagmi';
@@ -27,11 +29,18 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
+vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: vi.fn(() => ({
+    sendAnalytics: vi.fn(),
+  })),
+}));
+
 describe('WalletAdvancedWalletActions', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
   const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
+  const mockSendAnalytics = vi.fn();
 
   const defaultMockUseWalletAdvancedContext = {
     animations: {
@@ -44,6 +53,10 @@ describe('WalletAdvancedWalletActions', () => {
     mockUseWalletAdvancedContext.mockReturnValue(
       defaultMockUseWalletAdvancedContext,
     );
+
+    (useAnalytics as Mock).mockReturnValue({
+      sendAnalytics: mockSendAnalytics,
+    });
   });
 
   it('renders the WalletAdvancedWalletActions component', () => {
@@ -205,5 +218,128 @@ describe('WalletAdvancedWalletActions', () => {
 
     const refreshButton = screen.getByTestId('ockWalletAdvanced_RefreshButton');
     expect(refreshButton.className).toContain('custom-icon-four');
+  });
+
+  describe('analytics', () => {
+    it('sends analytics when transactions button is clicked', () => {
+      const address = '0x123';
+      mockUseWalletContext.mockReturnValue({
+        address,
+        handleClose: vi.fn(),
+      });
+
+      const windowOpenSpy = vi
+        .spyOn(window, 'open')
+        .mockImplementation(() => null);
+
+      render(<WalletAdvancedWalletActions />);
+
+      const transactionsButton = screen.getByTestId(
+        'ockWalletAdvanced_TransactionsButton',
+      );
+      fireEvent.click(transactionsButton);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        WalletEvent.OptionSelected,
+        {
+          option: WalletOption.Explorer,
+        },
+      );
+
+      windowOpenSpy.mockRestore();
+    });
+
+    it('sends analytics when QR button is clicked', () => {
+      const setShowQrMock = vi.fn();
+      mockUseWalletAdvancedContext.mockReturnValue({
+        ...defaultMockUseWalletAdvancedContext,
+        setShowQr: setShowQrMock,
+      });
+
+      render(<WalletAdvancedWalletActions />);
+
+      const qrButton = screen.getByTestId('ockWalletAdvanced_QrButton');
+      fireEvent.click(qrButton);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        WalletEvent.OptionSelected,
+        {
+          option: WalletOption.QR,
+        },
+      );
+    });
+
+    it('sends analytics when refresh button is clicked', () => {
+      const refetchPortfolioDataMock = vi.fn();
+      mockUseWalletAdvancedContext.mockReturnValue({
+        ...defaultMockUseWalletAdvancedContext,
+        refetchPortfolioData: refetchPortfolioDataMock,
+      });
+
+      render(<WalletAdvancedWalletActions />);
+
+      const refreshButton = screen.getByTestId(
+        'ockWalletAdvanced_RefreshButton',
+      );
+      fireEvent.click(refreshButton);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        WalletEvent.OptionSelected,
+        {
+          option: WalletOption.Refresh,
+        },
+      );
+    });
+
+    it('sends analytics when disconnect button is clicked', () => {
+      const handleCloseMock = vi.fn();
+      const mockWalletProvider = 'TestWallet';
+
+      mockUseWalletContext.mockReturnValue({
+        handleClose: handleCloseMock,
+      });
+
+      (useDisconnect as Mock).mockReturnValue({
+        disconnect: vi.fn(),
+        connectors: [{ name: mockWalletProvider }],
+      });
+
+      render(<WalletAdvancedWalletActions />);
+
+      const disconnectButton = screen.getByTestId(
+        'ockWalletAdvanced_DisconnectButton',
+      );
+      fireEvent.click(disconnectButton);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.Disconnect, {
+        component: 'WalletAdvanced',
+        walletProvider: mockWalletProvider,
+      });
+    });
+
+    it('sends analytics with unknown wallet provider when disconnecting without connector name', () => {
+      const handleCloseMock = vi.fn();
+
+      mockUseWalletContext.mockReturnValue({
+        handleClose: handleCloseMock,
+      });
+
+      (useDisconnect as Mock).mockReturnValue({
+        disconnect: vi.fn(),
+        connectors: [{ name: undefined }],
+      });
+
+      render(<WalletAdvancedWalletActions />);
+
+      const disconnectButton = screen.getByTestId(
+        'ockWalletAdvanced_DisconnectButton',
+      );
+      fireEvent.click(disconnectButton);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.Disconnect, {
+        component: 'WalletAdvanced',
+        walletProvider: 'unknown',
+      });
+    });
   });
 });

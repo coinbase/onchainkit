@@ -15,6 +15,8 @@ import { useAccount, useConnect, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useWriteContracts } from 'wagmi/experimental';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { CheckoutEvent } from '../../core/analytics/types';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import { CheckoutProvider, useCheckoutContext } from './CheckoutProvider';
@@ -45,6 +47,12 @@ vi.mock('@/useOnchainKit', () => ({
 
 vi.mock('@/internal/utils/openPopup', () => ({
   openPopup: vi.fn(),
+}));
+
+vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: vi.fn(() => ({
+    sendAnalytics: vi.fn(),
+  })),
 }));
 
 const windowOpenMock = vi.fn();
@@ -535,6 +543,148 @@ describe('CheckoutProvider', () => {
           url: 'http://example.com',
         },
       },
+    });
+  });
+
+  describe('analytics', () => {
+    let sendAnalytics: Mock;
+
+    beforeEach(() => {
+      sendAnalytics = vi.fn();
+      (useAnalytics as Mock).mockImplementation(() => ({
+        sendAnalytics,
+      }));
+      (useCommerceContracts as Mock).mockReturnValue(() =>
+        Promise.resolve({
+          insufficientBalance: false,
+          contracts: [{}],
+          priceInUSDC: '10.00',
+        }),
+      );
+    });
+
+    it('should track checkout initiated', async () => {
+      render(
+        <CheckoutProvider productId="test-product">
+          <TestComponent />
+        </CheckoutProvider>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByTestId('lifecycle-status').textContent).toBe(
+          'ready',
+        );
+      });
+
+      fireEvent.click(screen.getByText('Submit'));
+
+      await waitFor(() => {
+        expect(sendAnalytics).toHaveBeenCalledWith(
+          CheckoutEvent.CheckoutInitiated,
+          {
+            amount: 10,
+            productId: 'test-product',
+          },
+        );
+      });
+    });
+
+    it('should track checkout success', async () => {
+      const mockReceipt = {
+        status: 'success',
+        transactionHash: '0x123',
+      };
+
+      (useWaitForTransactionReceipt as Mock).mockReturnValue({
+        data: mockReceipt,
+      });
+
+      (useCallsStatus as Mock).mockReturnValue({
+        data: { receipts: [{ transactionHash: '0x123' }] },
+      });
+
+      render(
+        <CheckoutProvider productId="test-product" isSponsored={true}>
+          <TestComponent />
+        </CheckoutProvider>,
+      );
+
+      fireEvent.click(screen.getByText('Submit'));
+
+      await waitFor(() => {
+        expect(sendAnalytics).toHaveBeenCalledWith(
+          CheckoutEvent.CheckoutSuccess,
+          {
+            address: '0x123',
+            amount: 10,
+            productId: 'test-product',
+            chargeHandlerId: '',
+            isSponsored: true,
+            transactionHash: '0x123',
+          },
+        );
+      });
+    });
+
+    it('should track checkout failure', async () => {
+      const error = new Error('Test error');
+      (useWriteContracts as Mock).mockImplementation(() => ({
+        status: 'error',
+        writeContractsAsync: vi.fn().mockRejectedValue(error),
+      }));
+
+      render(
+        <CheckoutProvider productId="test-product">
+          <TestComponent />
+        </CheckoutProvider>,
+      );
+
+      fireEvent.click(screen.getByText('Submit'));
+
+      await waitFor(() => {
+        expect(sendAnalytics).toHaveBeenCalledWith(
+          CheckoutEvent.CheckoutFailure,
+          {
+            error: 'Test error',
+            metadata: { error: JSON.stringify(error) },
+          },
+        );
+      });
+    });
+
+    it('should track checkout failure with unknown error', async () => {
+      (useWriteContracts as Mock).mockImplementation(() => ({
+        status: 'error',
+        writeContractsAsync: vi.fn().mockRejectedValue('string error'),
+      }));
+
+      render(
+        <CheckoutProvider productId="test-product">
+          <TestComponent />
+        </CheckoutProvider>,
+      );
+
+      fireEvent.click(screen.getByText('Submit'));
+
+      await waitFor(() => {
+        expect(sendAnalytics).toHaveBeenCalledTimes(2);
+        expect(sendAnalytics).toHaveBeenNthCalledWith(
+          1,
+          CheckoutEvent.CheckoutInitiated,
+          {
+            amount: 0,
+            productId: 'test-product',
+          },
+        );
+        expect(sendAnalytics).toHaveBeenNthCalledWith(
+          2,
+          CheckoutEvent.CheckoutFailure,
+          {
+            error: 'Checkout failed',
+            metadata: { error: JSON.stringify('string error') },
+          },
+        );
+      });
     });
   });
 });
