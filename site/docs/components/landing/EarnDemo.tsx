@@ -1,4 +1,11 @@
-import { Earn } from '@coinbase/onchainkit/earn';
+import {
+  DepositBalance,
+  DepositButton,
+  Earn,
+  EarnDeposit,
+  DepositAmountInput,
+  EarnDetails,
+} from '@coinbase/onchainkit/earn';
 import App from '../App.tsx';
 
 export const earnDemoCode = `
@@ -17,7 +24,14 @@ export const earnDemoCode = `
 function EarnDemo() {
   return (
     <App>
-      <Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" />
+      <Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A">
+        <EarnDeposit>
+          <EarnDetails />
+          <DepositAmountInput />
+          <DepositBalance />
+          <DepositButton disabled={true} />
+        </EarnDeposit>
+      </Earn>
     </App>
   );
 }
