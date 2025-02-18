@@ -108,10 +108,9 @@ export function FundCardProvider({
   const { sendAnalytics } = useAnalytics();
 
   const handleAnalyticsAmountChanged = useCallback(
-    (amount: number, previousAmount: number, currency: string) => {
+    (amount: number, currency: string) => {
       sendAnalytics(FundEvent.FundAmountChanged, {
         amount,
-        previousAmount,
         currency,
       });
     },
@@ -130,15 +129,14 @@ export function FundCardProvider({
   const handleSetFundAmountFiat = useCallback(
     (amount: string) => {
       const newAmount = Number.parseFloat(amount);
-      const previousAmount = Number.parseFloat(fundAmountFiat) || 0;
 
-      if (!Number.isNaN(newAmount) && newAmount !== previousAmount) {
-        handleAnalyticsAmountChanged(newAmount, previousAmount, currency);
+      if (!Number.isNaN(newAmount)) {
+        handleAnalyticsAmountChanged(newAmount, currency);
       }
 
       setFundAmountFiat(amount);
     },
-    [currency, fundAmountFiat, handleAnalyticsAmountChanged],
+    [currency, handleAnalyticsAmountChanged],
   );
 
   const handleSetSelectedPaymentMethod = useCallback(
