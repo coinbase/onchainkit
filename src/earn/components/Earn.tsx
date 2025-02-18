@@ -1,4 +1,5 @@
 import { Tab, TabContent, Tabs, TabsList } from '@/internal';
+import { useTheme } from '@/internal/hooks/useTheme';
 import { border, cn } from '@/styles/theme';
 import type { EarnReact } from '../types';
 import { EarnDeposit } from './EarnDeposit';
@@ -46,10 +47,12 @@ export function Earn({
   vaultAddress,
   isSponsored,
 }: EarnReact) {
+  const componentTheme = useTheme();
   return (
     <EarnProvider vaultAddress={vaultAddress} isSponsored={isSponsored}>
       <div
         className={cn(
+          componentTheme,
           'flex w-[375px] flex-col overflow-hidden',
           border.radius,
           border.lineDefault,
