@@ -21,6 +21,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     refetchDepositedBalance,
     withdrawAmountError,
     vaultToken,
+    isSponsored,
   } = useEarnContext();
   const [withdrawnAmount, setWithdrawnAmount] = useState('');
   const { setTransactionState } = useWithdrawAnalytics(withdrawnAmount);
@@ -74,6 +75,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
       calls={withdrawCalls}
       onStatus={handleOnStatus}
       onSuccess={handleOnSuccess}
+      isSponsored={isSponsored}
       resetAfter={3_000}
     >
       <TransactionButton
