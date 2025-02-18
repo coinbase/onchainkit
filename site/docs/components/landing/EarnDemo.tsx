@@ -1,9 +1,9 @@
 import {
+  DepositAmountInput,
   DepositBalance,
   DepositButton,
   Earn,
   EarnDeposit,
-  DepositAmountInput,
   EarnDetails,
 } from '@coinbase/onchainkit/earn';
 import App from '../App.tsx';
