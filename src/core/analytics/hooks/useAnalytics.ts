@@ -18,9 +18,9 @@ export const useAnalytics = () => {
     setAppName(document.title);
   }, []);
 
-  const prepareAnalyticsPayload = (
-    event: AnalyticsEvent,
-    data: AnalyticsEventData[AnalyticsEvent],
+  const prepareAnalyticsPayload = <T extends AnalyticsEvent>(
+    event: T,
+    data: AnalyticsEventData[T],
   ) => {
     return {
       url: config?.analyticsUrl ?? ANALYTICS_API_URL,
@@ -38,9 +38,9 @@ export const useAnalytics = () => {
   };
 
   return {
-    sendAnalytics: (
-      event: AnalyticsEvent,
-      data: AnalyticsEventData[AnalyticsEvent],
+    sendAnalytics: <T extends AnalyticsEvent>(
+      event: T,
+      data: AnalyticsEventData[T],
     ) => {
       // Don't send analytics if disabled
       if (!config?.analytics) {

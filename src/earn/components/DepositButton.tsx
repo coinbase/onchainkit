@@ -21,6 +21,7 @@ export function DepositButton({ className }: DepositButtonReact) {
     depositAmountError,
     updateLifecycleStatus,
     refetchWalletBalance,
+    isSponsored,
   } = useEarnContext();
   const [depositedAmount, setDepositedAmount] = useState('');
   const { setTransactionState } = useDepositAnalytics(depositedAmount);
@@ -76,6 +77,7 @@ export function DepositButton({ className }: DepositButtonReact) {
       calls={depositCalls}
       onStatus={handleOnStatus}
       onSuccess={handleOnSuccess}
+      isSponsored={isSponsored}
       resetAfter={3_000}
     >
       <TransactionButton
