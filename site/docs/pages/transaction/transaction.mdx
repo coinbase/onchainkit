@@ -22,7 +22,7 @@ import App from '../../components/App';
 import TransactionWrapper from '../../components/TransactionWrapper';
 
 export const BASE_SEPOLIA_CHAIN_ID = 84532;
-export const PAYMASTER_AND_BUNDLER_ENDPOINT = import.meta.env
+export const PAYMASTER_ENDPOINT = import.meta.env
   .VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT;
 
 
@@ -190,15 +190,10 @@ export const calls = [
 <App>
   <TransactionWrapper>
     {({ address, contracts, onStatus }) => {
-      const capabilities = {
-        paymasterService: {
-          url: PAYMASTER_AND_BUNDLER_ENDPOINT,
-        },
-      };
       if (address) {
         return (
           <Transaction
-            capabilities={capabilities}
+            isSponsored={true}
             chainId={BASE_SEPOLIA_CHAIN_ID}
             contracts={contracts}
             onStatus={onStatus}
@@ -331,7 +326,7 @@ Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform](h
 // @noErrors:  2304 17008 1005
 <OnchainKitProvider
   config={{ // [!code focus]
-    paymaster: process.env.PAYMASTER_AND_BUNDLER_ENDPOINT, // [!code focus] 
+    paymaster: process.env.PAYMASTER_ENDPOINT, // [!code focus] 
   }} // [!code focus]
 >
 ```
