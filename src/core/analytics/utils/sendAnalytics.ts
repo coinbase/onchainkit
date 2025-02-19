@@ -9,6 +9,7 @@ export type AnalyticsRequestParams = {
     timestamp: number;
     eventType: string;
     data: Record<string, unknown>;
+    origin: string;
   };
 };
 

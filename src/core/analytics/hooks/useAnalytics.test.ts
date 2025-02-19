@@ -18,9 +18,18 @@ describe('useAnalytics', () => {
   const mockApiKey = 'test-api-key';
   const mockSessionId = 'test-session-id';
   const mockAnalyticsUrl = 'https://custom-analytics.example.com';
+  const mockOrigin = 'https://example.com';
 
   beforeEach(() => {
     vi.clearAllMocks();
+
+    Object.defineProperty(window, 'location', {
+      configurable: true,
+      value: {
+        ...window.location,
+        origin: mockOrigin,
+      },
+    });
 
     (useOnchainKit as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
       apiKey: mockApiKey,
@@ -69,6 +78,7 @@ describe('useAnalytics', () => {
         timestamp: expect.any(Number),
         eventType: event,
         data,
+        origin: mockOrigin,
       },
     });
   });
