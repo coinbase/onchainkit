@@ -1,6 +1,8 @@
 import { openPopup } from '@/internal/utils/openPopup';
 import { pressable } from '@/styles/theme';
 import '@testing-library/jest-dom';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { FundEvent } from '@/core/analytics/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import {
   type Mock,
@@ -33,17 +35,19 @@ vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock('@/wallet/components/ConnectWallet', () => ({
-  ConnectWallet: ({ className }: { className?: string }) => (
-    <div data-testid="ockConnectWallet_Container" className={className}>
-      Connect Wallet
-    </div>
-  ),
-}));
-
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
-  useConnect: vi.fn(),
+  useConnect: () => ({
+    connectors: [],
+    connect: vi.fn(),
+    pendingConnector: null,
+    isLoading: false,
+    error: null,
+  }),
+}));
+
+vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: vi.fn(),
 }));
 
 global.fetch = vi.fn(() =>
@@ -53,9 +57,14 @@ global.fetch = vi.fn(() =>
 ) as Mock;
 
 describe('FundButton', () => {
+  const mockSendAnalytics = vi.fn();
+
   beforeEach(() => {
     (useAccount as Mock).mockReturnValue({
       address: '0x123',
+    });
+    (useAnalytics as Mock).mockReturnValue({
+      sendAnalytics: mockSendAnalytics,
     });
   });
 
@@ -202,7 +211,7 @@ describe('FundButton', () => {
     ).toBeInTheDocument();
     expect(screen.queryByTestId('ockFundButton')).not.toBeInTheDocument();
     expect(screen.getByTestId('ockConnectWallet_Container')).toHaveClass(
-      'custom-class',
+      'flex gap-4',
     );
   });
 
@@ -213,5 +222,99 @@ describe('FundButton', () => {
     expect(
       screen.queryByTestId('ockConnectWallet_Container'),
     ).not.toBeInTheDocument();
+  });
+
+  describe('analytics', () => {
+    it('sends FundInitiated analytics when fund button is clicked', () => {
+      const fundingUrl = 'https://props.funding.url';
+      const { height, width } = { height: 200, width: 100 };
+      (getFundingPopupSize as Mock).mockReturnValue({ height, width });
+      (openPopup as Mock).mockReturnValue({ closed: false });
+
+      render(<FundButton fundingUrl={fundingUrl} fiatCurrency="EUR" />);
+
+      const buttonElement = screen.getByRole('button');
+      fireEvent.click(buttonElement);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(FundEvent.FundInitiated, {
+        currency: 'EUR',
+      });
+    });
+
+    it('sends FundFailure analytics when popup fails to open', () => {
+      const fundingUrl = 'https://props.funding.url';
+      const { height, width } = { height: 200, width: 100 };
+      (getFundingPopupSize as Mock).mockReturnValue({ height, width });
+      (openPopup as Mock).mockReturnValue(null);
+
+      render(<FundButton fundingUrl={fundingUrl} fiatCurrency="USD" />);
+
+      const buttonElement = screen.getByRole('button');
+      fireEvent.click(buttonElement);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(FundEvent.FundFailure, {
+        error: 'Failed to open funding popup',
+        metadata: { currency: 'USD' },
+      });
+    });
+
+    it('uses USD as default fiatCurrency for analytics', () => {
+      const fundingUrl = 'https://props.funding.url';
+      const { height, width } = { height: 200, width: 100 };
+      (getFundingPopupSize as Mock).mockReturnValue({ height, width });
+      (openPopup as Mock).mockReturnValue({ closed: false });
+
+      render(<FundButton fundingUrl={fundingUrl} />);
+
+      const buttonElement = screen.getByRole('button');
+      fireEvent.click(buttonElement);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(FundEvent.FundInitiated, {
+        currency: 'USD',
+      });
+    });
+
+    it('does not send analytics when button is disabled', () => {
+      render(<FundButton disabled={true} />);
+
+      const buttonElement = screen.getByRole('button');
+      fireEvent.click(buttonElement);
+
+      expect(mockSendAnalytics).not.toHaveBeenCalled();
+    });
+
+    it('does not send analytics when no funding URL is available', () => {
+      (useGetFundingUrl as Mock).mockReturnValue(undefined);
+
+      render(<FundButton />);
+
+      const buttonElement = screen.getByRole('button');
+      fireEvent.click(buttonElement);
+
+      expect(mockSendAnalytics).not.toHaveBeenCalled();
+    });
+
+    it('sends analytics with empty string when address is undefined', () => {
+      (useAccount as Mock).mockReturnValue({
+        address: undefined,
+      });
+      const fundingUrl = 'https://props.funding.url';
+      (getFundingPopupSize as Mock).mockReturnValue({
+        height: 200,
+        width: 100,
+      });
+      (openPopup as Mock).mockReturnValue({ closed: false });
+
+      render(<FundButton fundingUrl={fundingUrl} />);
+
+      const { sendAnalytics } = useAnalytics();
+      sendAnalytics(FundEvent.FundInitiated, {
+        currency: 'USD',
+      });
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(FundEvent.FundInitiated, {
+        currency: 'USD',
+      });
+    });
   });
 });

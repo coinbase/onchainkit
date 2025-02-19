@@ -36,10 +36,12 @@ vi.mock('../hooks/useFundCardFundingUrl', () => ({
   useFundCardFundingUrl: vi.fn(),
 }));
 
-vi.mock('@/useOnchainKit');
-
-vi.mock('../utils/setupOnrampEventListeners', () => ({
-  setupOnrampEventListeners: vi.fn(),
+vi.mock('@/core/hooks/useOnchainKit', () => ({
+  useOnchainKit: () => ({
+    apiKey: 'mock-api-key',
+    sessionId: 'mock-session-id',
+    config: {},
+  }),
 }));
 
 vi.mock('@/internal/utils/openPopup', () => ({
@@ -124,7 +126,7 @@ const renderComponent = (presetAmountInputs?: PresetAmountInputs) =>
 
 describe('FundCard', () => {
   beforeEach(() => {
-    vi.resetAllMocks();
+    vi.clearAllMocks();
     setOnchainKitConfig({ apiKey: 'mock-api-key' });
     mockUpdateInputWidth.mockClear();
     (getFundingPopupSize as Mock).mockImplementation(() => ({

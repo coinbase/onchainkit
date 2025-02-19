@@ -9,6 +9,8 @@ import { ErrorSvg } from '@/internal/svg/errorSvg';
 import { openPopup } from '@/internal/utils/openPopup';
 import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { FundEvent } from '../../core/analytics/types';
 import { Spinner } from '../../internal/components/Spinner';
 import { AddSvg } from '../../internal/svg/addSvg';
 import { SuccessSvg } from '../../internal/svg/successSvg';
@@ -48,12 +50,30 @@ export function FundButton({
   const shouldShowConnectWallet = !address;
 
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
+  const { sendAnalytics } = useAnalytics();
+
+  const handleAnalyticsInitiated = useCallback(() => {
+    sendAnalytics(FundEvent.FundInitiated, {
+      currency: fiatCurrency,
+    });
+  }, [sendAnalytics, fiatCurrency]);
+
+  const handleAnalyticsFailure = useCallback(
+    (error: string) => {
+      sendAnalytics(FundEvent.FundFailure, {
+        error,
+        metadata: { currency: fiatCurrency },
+      });
+    },
+    [sendAnalytics, fiatCurrency],
+  );
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
 
       if (fundingUrlToRender) {
+        handleAnalyticsInitiated();
         onClick?.();
         const { height, width } = getFundingPopupSize(
           popupSize,
@@ -68,10 +88,20 @@ export function FundButton({
 
         if (popupWindow) {
           startPopupMonitor(popupWindow);
+        } else {
+          handleAnalyticsFailure('Failed to open funding popup');
         }
       }
     },
-    [fundingUrlToRender, popupSize, target, onClick, startPopupMonitor],
+    [
+      fundingUrlToRender,
+      popupSize,
+      target,
+      onClick,
+      startPopupMonitor,
+      handleAnalyticsInitiated,
+      handleAnalyticsFailure,
+    ],
   );
 
   const buttonColorClass = useMemo(() => {

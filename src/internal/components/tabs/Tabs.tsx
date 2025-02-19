@@ -1,4 +1,3 @@
-import { useTheme } from '@/internal/hooks/useTheme';
 import { useValue } from '@/internal/hooks/useValue';
 import { cn } from '@/styles/theme';
 import { createContext, useContext, useState } from 'react';
@@ -37,13 +36,9 @@ type TabsReact = {
 };
 
 export function Tabs({ children, defaultValue, className }: TabsReact) {
-  const componentTheme = useTheme();
   return (
     <TabsProvider defaultValue={defaultValue}>
-      <div
-        data-testid="ockTabs"
-        className={cn(componentTheme, 'flex flex-col', className)}
-      >
+      <div data-testid="ockTabs" className={cn('flex flex-col', className)}>
         {children}
       </div>
     </TabsProvider>

@@ -21,7 +21,11 @@ import type {
 
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 
-export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
+export function EarnProvider({
+  vaultAddress,
+  children,
+  isSponsored,
+}: EarnProviderReact) {
   if (!vaultAddress) {
     throw new Error(
       'vaultAddress is required. For a list of vaults, see: https://app.morpho.org/base/earn',
@@ -167,6 +171,7 @@ export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
     depositCalls,
     lifecycleStatus,
     updateLifecycleStatus,
+    isSponsored,
   });
 
   return <EarnContext.Provider value={value}>{children}</EarnContext.Provider>;

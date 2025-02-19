@@ -13,6 +13,7 @@ export type EarnReact = {
   children?: React.ReactNode;
   className?: string;
   vaultAddress: Address;
+  isSponsored?: boolean;
 };
 
 /**
@@ -21,6 +22,7 @@ export type EarnReact = {
 export type EarnProviderReact = {
   children: React.ReactNode;
   vaultAddress: Address;
+  isSponsored?: boolean;
 };
 
 /**
@@ -70,6 +72,7 @@ export type EarnContextType = {
   updateLifecycleStatus: (
     status: LifecycleStatusUpdate<LifecycleStatus>,
   ) => void;
+  isSponsored?: boolean;
 };
 
 /**
