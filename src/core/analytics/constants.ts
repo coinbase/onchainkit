@@ -1,4 +1,5 @@
-export const ANALYTICS_API_URL = 'https://api.developer.coinbase.com/analytics';
+// export const ANALYTICS_API_URL = 'https://api.developer.coinbase.com/analytics';
+export const ANALYTICS_API_URL = 'https://cloud-api-dev.cbhq.net/analytics';
 
 /**
  * Analytics event names
