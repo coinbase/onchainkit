@@ -23,7 +23,6 @@ describe('useAnalytics', () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    delete (window as any).location;
     Object.defineProperty(window, 'location', {
       configurable: true,
       value: {
