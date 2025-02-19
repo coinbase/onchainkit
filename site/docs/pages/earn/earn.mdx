@@ -171,6 +171,36 @@ function CustomDepositButtons() {
 Taking advantage of the data and methods provided by `useEarnContext`, developers can implement fully custom deposit and withdraw interfaces, modifying everything from UI elements to input behavior.
 
 
+## Examples
+
+### Sponsoring transactions
+
+To sponsor transactions, you can use the `isSponsored` prop.
+
+```tsx twoslash
+// @noErrors: 2304
+<Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" isSponsored />
+```
+
+Ensure that your `OnchainKitProvider` has a `paymaster` configured: 
+
+```tsx twoslash
+// @noErrors:  2304 17008 1005
+<OnchainKitProvider
+  config={{ // [!code focus]
+    paymaster: process.env.PAYMASTER_ENDPOINT, // [!code focus] 
+  }} // [!code focus]
+>
+```
+
+:::tip
+If you have a contract allowlist set on Coinbase Developer Platform, you'll need to ensure that the following contract functions are allowed:
+
+- `deposit` on the Morpho vault
+- `redeem` on the Morpho vault
+- `approve` on the token being deposited
+:::
+
 ## Components
 
 The `Earn` component includes the following subcomponents:
