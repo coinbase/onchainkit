@@ -924,6 +924,52 @@ describe('SwapProvider Analytics', () => {
     });
   });
 
+  it('should track swap initiation', async () => {
+    vi.mocked(buildSwapTransaction).mockResolvedValueOnce({
+      transaction: {
+        to: '0x123',
+        data: '0x456',
+        value: BigInt(0),
+        chainId: 8453,
+        gas: BigInt(21000),
+      },
+      fee: {
+        amount: '1000000000000000',
+        baseAsset: ETH_TOKEN,
+        percentage: '0.1',
+      },
+      quote: {
+        amountReference: 'from',
+        fromAmount: '10',
+        toAmount: '100',
+        fromAmountUSD: '10',
+        toAmountUSD: '100',
+        from: ETH_TOKEN,
+        to: DEGEN_TOKEN,
+        priceImpact: '0.01',
+        slippage: '0.005',
+        hasHighPriceImpact: false,
+      },
+    });
+
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+
+    // Set up initial context values
+    act(() => {
+      result.current.from.setToken?.(ETH_TOKEN);
+      result.current.to.setToken?.(DEGEN_TOKEN);
+      result.current.from.setAmount?.('10');
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(sendAnalytics).toHaveBeenCalledWith(SwapEvent.SwapInitiated, {
+      amount: 10,
+    });
+  });
+
   it('should track swap success with undefined address', async () => {
     // Mock useAccount to return undefined address
     (useAccount as Mock).mockReturnValue({
@@ -1009,30 +1055,6 @@ describe('SwapProvider Analytics', () => {
     expect(sendAnalytics).toHaveBeenCalledWith(SwapEvent.SwapFailure, {
       error: 'Test error',
       metadata: expect.any(Object),
-    });
-  });
-
-  it('should track swap initiation', async () => {
-    vi.mocked(getSwapQuote).mockResolvedValueOnce({
-      amountReference: 'from',
-      from: ETH_TOKEN,
-      to: DEGEN_TOKEN,
-      fromAmount: '10',
-      fromAmountUSD: '10',
-      hasHighPriceImpact: false,
-      priceImpact: '0.01',
-      slippage: '0.005',
-      toAmount: '10',
-      toAmountUSD: '10',
-    });
-
-    const { result } = renderHook(() => useSwapContext(), { wrapper });
-    await act(async () => {
-      result.current.handleAmountChange('from', '10', ETH_TOKEN, DEGEN_TOKEN);
-    });
-
-    expect(sendAnalytics).toHaveBeenCalledWith(SwapEvent.SwapInitiated, {
-      amount: 10,
     });
   });
 });

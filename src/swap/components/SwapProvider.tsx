@@ -306,9 +306,6 @@ export function SwapProvider({
             isMissingRequiredField: !formattedAmount,
           },
         });
-        sendAnalytics(SwapEvent.SwapInitiated, {
-          amount: Number(amount),
-        });
       } catch (err) {
         updateLifecycleStatus({
           statusName: 'error',
@@ -323,14 +320,7 @@ export function SwapProvider({
         destination.setLoading(false);
       }
     },
-    [
-      from,
-      to,
-      lifecycleStatus,
-      updateLifecycleStatus,
-      useAggregator,
-      sendAnalytics,
-    ],
+    [from, to, lifecycleStatus, updateLifecycleStatus, useAggregator],
   );
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
@@ -340,6 +330,10 @@ export function SwapProvider({
     }
 
     try {
+      sendAnalytics(SwapEvent.SwapInitiated, {
+        amount: Number(from.amount),
+      });
+
       const maxSlippage = lifecycleStatus.statusData.maxSlippage;
       const response = await buildSwapTransaction(
         {
@@ -405,6 +399,7 @@ export function SwapProvider({
     updateLifecycleStatus,
     useAggregator,
     walletCapabilities,
+    sendAnalytics,
   ]);
 
   const value = useValue({
