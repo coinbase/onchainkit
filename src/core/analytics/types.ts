@@ -279,27 +279,15 @@ export type MintEventData = {
 export type TransactionEventData = {
   [TransactionEvent.TransactionFailure]: CommonAnalyticsData & {
     error: string;
-    contracts: Array<{
-      contractAddress: string;
-      function: string;
-    }>;
     metadata?: Record<string, unknown>;
   };
   [TransactionEvent.TransactionInitiated]: CommonAnalyticsData & {
-    address: string;
-    contracts: Array<{
-      contractAddress: string;
-      function: string;
-    }>;
+    address?: string;
   };
   [TransactionEvent.TransactionSuccess]: CommonAnalyticsData & {
-    paymaster: boolean;
-    address: string;
-    contracts: Array<{
-      contractAddress: string;
-      function: string;
-    }>;
-    transactionHash: string;
+    paymaster?: boolean;
+    address?: string;
+    transactionHash?: string;
   };
 };
 

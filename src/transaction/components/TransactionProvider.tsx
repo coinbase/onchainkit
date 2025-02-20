@@ -14,6 +14,11 @@ import {
   useWaitForTransactionReceipt,
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import {
+  TransactionEvent,
+  type TransactionEventData,
+} from '../../core/analytics/types';
 import { Capabilities } from '../../core/constants';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
@@ -161,6 +166,46 @@ export function TransactionProvider({
     hash: singleTransactionHash || batchedTransactionHash,
   });
 
+  const { sendAnalytics } = useAnalytics();
+
+  const handleAnalyticsInitiated = useCallback(() => {
+    const transactionData: TransactionEventData[TransactionEvent.TransactionInitiated] =
+      {
+        address: account.address,
+      };
+
+    sendAnalytics(TransactionEvent.TransactionInitiated, transactionData);
+  }, [account.address, sendAnalytics]);
+
+  const handleAnalyticsSuccess = useCallback(
+    (transactionHash: string) => {
+      const transactionData: TransactionEventData[TransactionEvent.TransactionSuccess] =
+        {
+          paymaster: Boolean(isSponsored && paymaster),
+          address: account.address,
+          transactionHash,
+        };
+
+      sendAnalytics(TransactionEvent.TransactionSuccess, transactionData);
+    },
+    [account.address, isSponsored, paymaster, sendAnalytics],
+  );
+
+  const handleAnalyticsError = useCallback(
+    (error: Error) => {
+      const transactionData: TransactionEventData[TransactionEvent.TransactionFailure] =
+        {
+          error: error.message,
+          metadata: {
+            code: errorCode,
+          },
+        };
+
+      sendAnalytics(TransactionEvent.TransactionFailure, transactionData);
+    },
+    [errorCode, sendAnalytics],
+  );
+
   // Component lifecycle emitters
   useEffect(() => {
     setErrorMessage('');
@@ -284,12 +329,14 @@ export function TransactionProvider({
       statusData: null,
     });
     try {
+      handleAnalyticsInitiated();
       const resolvedTransactions = await (typeof transactions === 'function'
         ? transactions()
         : Promise.resolve(transactions));
       setTransactionCount(resolvedTransactions?.length);
       return resolvedTransactions;
     } catch (err) {
+      handleAnalyticsError(err as Error);
       setLifecycleStatus({
         statusName: 'error',
         statusData: {
@@ -300,7 +347,7 @@ export function TransactionProvider({
       });
       return undefined;
     }
-  }, [transactions]);
+  }, [transactions, handleAnalyticsInitiated, handleAnalyticsError]);
 
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
@@ -343,6 +390,19 @@ export function TransactionProvider({
     transactionHash: singleTransactionHash || batchedTransactionHash,
     transactionCount,
   });
+
+  useEffect(() => {
+    if (!receipt) {
+      return;
+    }
+
+    if (receipt.status === 'success') {
+      handleAnalyticsSuccess(receipt.transactionHash);
+    } else {
+      handleAnalyticsError(new Error('Transaction failed'));
+    }
+  }, [receipt, handleAnalyticsSuccess, handleAnalyticsError]);
+
   return (
     <TransactionContext.Provider value={value}>
       {children}
