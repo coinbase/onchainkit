@@ -75,7 +75,7 @@ export function SwapSettingsSlippageInput({
       const parsedSlippage = Number.parseFloat(newSlippage);
       const isValidNumber = !Number.isNaN(parsedSlippage);
 
-      // Update slippage to parsed value if valid, otherwise set to 0	
+      // Update slippage to parsed value if valid, otherwise set to 0
       updateSlippage(isValidNumber ? parsedSlippage : 0);
     },
     [updateSlippage],
