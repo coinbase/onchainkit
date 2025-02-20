@@ -168,42 +168,11 @@ export function TransactionProvider({
 
   const { sendAnalytics } = useAnalytics();
 
-  const handleAnalyticsInitiated = useCallback(() => {
-    const transactionData: TransactionEventData[TransactionEvent.TransactionInitiated] =
-      {
-        address: account.address,
-      };
-
-    sendAnalytics(TransactionEvent.TransactionInitiated, transactionData);
-  }, [account.address, sendAnalytics]);
-
-  const handleAnalyticsSuccess = useCallback(
-    (transactionHash: string) => {
-      const transactionData: TransactionEventData[TransactionEvent.TransactionSuccess] =
-        {
-          paymaster: Boolean(isSponsored && paymaster),
-          address: account.address,
-          transactionHash,
-        };
-
-      sendAnalytics(TransactionEvent.TransactionSuccess, transactionData);
+  const handleAnalytics = useCallback(
+    (event: TransactionEvent, data: TransactionEventData[TransactionEvent]) => {
+      sendAnalytics(event, data);
     },
-    [account.address, isSponsored, paymaster, sendAnalytics],
-  );
-
-  const handleAnalyticsError = useCallback(
-    (error: Error) => {
-      const transactionData: TransactionEventData[TransactionEvent.TransactionFailure] =
-        {
-          error: error.message,
-          metadata: {
-            code: errorCode,
-          },
-        };
-
-      sendAnalytics(TransactionEvent.TransactionFailure, transactionData);
-    },
-    [errorCode, sendAnalytics],
+    [sendAnalytics],
   );
 
   // Component lifecycle emitters
@@ -329,14 +298,21 @@ export function TransactionProvider({
       statusData: null,
     });
     try {
-      handleAnalyticsInitiated();
+      handleAnalytics(TransactionEvent.TransactionInitiated, {
+        address: account.address,
+      });
       const resolvedTransactions = await (typeof transactions === 'function'
         ? transactions()
         : Promise.resolve(transactions));
       setTransactionCount(resolvedTransactions?.length);
       return resolvedTransactions;
     } catch (err) {
-      handleAnalyticsError(err as Error);
+      handleAnalytics(TransactionEvent.TransactionFailure, {
+        error: (err as Error).message,
+        metadata: {
+          code: errorCode,
+        },
+      });
       setLifecycleStatus({
         statusName: 'error',
         statusData: {
@@ -347,7 +323,7 @@ export function TransactionProvider({
       });
       return undefined;
     }
-  }, [transactions, handleAnalyticsInitiated, handleAnalyticsError]);
+  }, [transactions, handleAnalytics, account.address, errorCode]);
 
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
@@ -397,11 +373,27 @@ export function TransactionProvider({
     }
 
     if (receipt.status === 'success') {
-      handleAnalyticsSuccess(receipt.transactionHash);
+      handleAnalytics(TransactionEvent.TransactionSuccess, {
+        paymaster: Boolean(isSponsored && paymaster),
+        address: account.address,
+        transactionHash: receipt.transactionHash,
+      });
     } else {
-      handleAnalyticsError(new Error('Transaction failed'));
+      handleAnalytics(TransactionEvent.TransactionFailure, {
+        error: 'Transaction failed',
+        metadata: {
+          code: errorCode,
+        },
+      });
     }
-  }, [receipt, handleAnalyticsSuccess, handleAnalyticsError]);
+  }, [
+    receipt,
+    handleAnalytics,
+    isSponsored,
+    paymaster,
+    account.address,
+    errorCode,
+  ]);
 
   return (
     <TransactionContext.Provider value={value}>

@@ -144,7 +144,10 @@ vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
 describe('TransactionProvider', () => {
   beforeEach(() => {
     vi.resetAllMocks();
-    (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({ chainId: 1 });
+    (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
+      address: '0xUserAddress',
+      chainId: 1,
+    });
     (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
       switchChainAsync: vi.fn(),
     });
@@ -163,13 +166,191 @@ describe('TransactionProvider', () => {
       reset: vi.fn(),
     });
     (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
-      receipt: undefined,
+      data: undefined,
     });
     (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({});
     (useOnchainKit as Mock).mockReturnValue({
       config: { paymaster: null },
     });
     mockSendAnalytics = vi.fn();
+  });
+
+  describe('analytics', () => {
+    it('tracks transaction initiation', async () => {
+      const mockTransactions = [
+        {
+          to: '0x1234567890123456789012345678901234567890' as `0x${string}`,
+          data: '0x' as `0x${string}`,
+          functionName: 'test',
+        },
+      ];
+
+      render(
+        <TransactionProvider chainId={base.id} calls={mockTransactions}>
+          <TestComponent />
+        </TransactionProvider>,
+      );
+
+      const button = screen.getByText('Submit');
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(mockSendAnalytics).toHaveBeenCalledWith(
+          TransactionEvent.TransactionInitiated,
+          {
+            address: '0xUserAddress',
+          },
+        );
+      });
+    });
+
+    it('tracks transaction success', async () => {
+      (
+        useWaitForTransactionReceipt as ReturnType<typeof vi.fn>
+      ).mockReturnValue({
+        data: {
+          status: 'success',
+          transactionHash: '0xSuccessHash',
+        },
+      });
+
+      (useOnchainKit as Mock).mockReturnValue({
+        config: { paymaster: 'http://example.com' },
+      });
+
+      render(
+        <TransactionProvider chainId={base.id} calls={[]} isSponsored={true}>
+          <TestComponent />
+        </TransactionProvider>,
+      );
+
+      const button = screen.getByText('Submit');
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(mockSendAnalytics).toHaveBeenCalledWith(
+          TransactionEvent.TransactionSuccess,
+          {
+            paymaster: true,
+            address: '0xUserAddress',
+            transactionHash: '0xSuccessHash',
+          },
+        );
+      });
+    });
+
+    it('tracks transaction failure', async () => {
+      (
+        useWaitForTransactionReceipt as ReturnType<typeof vi.fn>
+      ).mockReturnValue({
+        data: {
+          status: 'reverted',
+          transactionHash: '0xFailHash',
+        },
+      });
+
+      render(
+        <TransactionProvider chainId={base.id} calls={[]}>
+          <TestComponent />
+        </TransactionProvider>,
+      );
+
+      const button = screen.getByText('setLifecycleStatus.error');
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(mockSendAnalytics).toHaveBeenCalledWith(
+          TransactionEvent.TransactionFailure,
+          {
+            error: 'Transaction failed',
+            metadata: {
+              code: '',
+            },
+          },
+        );
+      });
+    });
+
+    it('does not track analytics for user rejected transactions', async () => {
+      const sendWalletTransactionsMock = vi.fn().mockRejectedValue({
+        cause: { name: 'UserRejectedRequestError' },
+      });
+      (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+        sendWalletTransactionsMock,
+      );
+
+      render(
+        <TransactionProvider chainId={base.id} calls={[]}>
+          <TestComponent />
+        </TransactionProvider>,
+      );
+
+      const button = screen.getByText('Submit');
+      fireEvent.click(button);
+
+      await waitFor(() => {
+        expect(mockSendAnalytics).toHaveBeenCalledTimes(1);
+        expect(mockSendAnalytics).not.toHaveBeenCalledWith(
+          TransactionEvent.TransactionFailure,
+          expect.any(Object),
+        );
+      });
+    });
+  });
+
+  it('should reset state after specified resetAfter time', async () => {
+    vi.useFakeTimers();
+    const resetAfter = 1000;
+    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: { status: 'success' },
+    });
+    (useSendCall as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: '0xhash12345678',
+      reset: vi.fn(),
+    });
+
+    render(
+      <TransactionProvider chainId={base.id} calls={[]} resetAfter={resetAfter}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    fireEvent.click(screen.getByText('Submit'));
+
+    expect(
+      screen.getByTestId('context-value-lifecycleStatus-statusName')
+        .textContent,
+    ).toBe('success');
+
+    vi.advanceTimersByTime(resetAfter + 100);
+
+    expect(useSendCall().reset).toHaveBeenCalled();
+
+    vi.useRealTimers();
+    vi.clearAllTimers();
+  });
+
+  it('should cleanup resetAfter timeout on unmount', async () => {
+    vi.useFakeTimers();
+    const resetAfter = 1000;
+
+    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: { status: 'success' },
+    });
+
+    const { unmount } = render(
+      <TransactionProvider chainId={base.id} calls={[]} resetAfter={resetAfter}>
+        <TestComponent />
+      </TransactionProvider>,
+    );
+
+    fireEvent.click(screen.getByText('Submit'));
+
+    unmount();
+
+    vi.advanceTimersByTime(resetAfter + 100);
+
+    vi.useRealTimers();
   });
 
   it('should emit onError when setLifecycleStatus is called with error', async () => {
@@ -670,201 +851,20 @@ describe('TransactionProvider', () => {
       }),
     );
   });
-
-  describe('analytics', () => {
-    it('tracks transaction initiation', async () => {
-      const mockTransactions = [
-        {
-          to: '0x1234567890123456789012345678901234567890' as `0x${string}`,
-          data: '0x' as `0x${string}`,
-          functionName: 'test',
-        },
-      ];
-
-      (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
-        address: '0xUserAddress',
-        chainId: 1,
-      });
-
-      render(
-        <TransactionProvider chainId={base.id} calls={mockTransactions}>
-          <TestComponent />
-        </TransactionProvider>,
-      );
-
-      const button = screen.getByText('Submit');
-      fireEvent.click(button);
-
-      await waitFor(() => {
-        expect(mockSendAnalytics).toHaveBeenCalledWith(
-          TransactionEvent.TransactionInitiated,
-          {
-            address: '0xUserAddress',
-          },
-        );
-      });
-    });
-
-    it('tracks transaction success', async () => {
-      (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
-        address: '0xUserAddress',
-        chainId: 1,
-      });
-
-      (
-        useWaitForTransactionReceipt as ReturnType<typeof vi.fn>
-      ).mockReturnValue({
-        data: {
-          status: 'success',
-          transactionHash: '0xSuccessHash',
-        },
-      });
-
-      (useOnchainKit as Mock).mockReturnValue({
-        config: { paymaster: 'http://example.com' },
-      });
-
-      render(
-        <TransactionProvider chainId={base.id} calls={[]} isSponsored={true}>
-          <TestComponent />
-        </TransactionProvider>,
-      );
-
-      const button = screen.getByText('Submit');
-      fireEvent.click(button);
-
-      await waitFor(() => {
-        expect(mockSendAnalytics).toHaveBeenCalledWith(
-          TransactionEvent.TransactionSuccess,
-          {
-            paymaster: true,
-            address: '0xUserAddress',
-            transactionHash: '0xSuccessHash',
-          },
-        );
-      });
-    });
-
-    it('tracks transaction failure', async () => {
-      (
-        useWaitForTransactionReceipt as ReturnType<typeof vi.fn>
-      ).mockReturnValue({
-        data: {
-          status: 'reverted',
-          transactionHash: '0xFailHash',
-        },
-      });
-
-      render(
-        <TransactionProvider chainId={base.id} calls={[]}>
-          <TestComponent />
-        </TransactionProvider>,
-      );
-
-      const button = screen.getByText('setLifecycleStatus.error');
-      fireEvent.click(button);
-
-      await waitFor(() => {
-        expect(mockSendAnalytics).toHaveBeenCalledWith(
-          TransactionEvent.TransactionFailure,
-          {
-            error: 'Transaction failed',
-            metadata: {
-              code: '',
-            },
-          },
-        );
-      });
-    
-  it('should reset state after specified resetAfter time', async () => {
-    vi.useFakeTimers();
-    const resetAfter = 1000;
-    // Mock receipt to trigger reset logic
-    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
-      data: { status: 'success' },
-    });
-    (useSendCall as ReturnType<typeof vi.fn>).mockReturnValue({
-      data: '0xhash12345678',
-      reset: vi.fn(),
-    });
-
-    render(
-      <TransactionProvider chainId={base.id} calls={[]} resetAfter={resetAfter}>
-        <TestComponent />
-      </TransactionProvider>,
-    );
-
-    // Trigger a transaction to get into success state
-    fireEvent.click(screen.getByText('Submit'));
-
-    // Verify initial success state
-    expect(
-      screen.getByTestId('context-value-lifecycleStatus-statusName')
-        .textContent,
-    ).toBe('success');
-
-    // Fast forward past resetAfter time
-    vi.advanceTimersByTime(resetAfter + 100);
-
-    // Verify reset was called
-    expect(useSendCall().reset).toHaveBeenCalled();
-
-    vi.useRealTimers();
-    vi.clearAllTimers();
-  });
-
-  it('should cleanup resetAfter timeout on unmount', async () => {
-    vi.useFakeTimers();
-    const resetAfter = 1000;
-
-    // Mock receipt to trigger reset logic
-    (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
-      data: { status: 'success' },
-    });
-
-    const { unmount } = render(
-      <TransactionProvider chainId={base.id} calls={[]} resetAfter={resetAfter}>
-        <TestComponent />
-      </TransactionProvider>,
-    );
-
-    // Trigger a transaction
-    fireEvent.click(screen.getByText('Submit'));
-
-    // Unmount before timer completes
-    unmount();
-
-    // Advance timers - this shouldn't cause any errors
-    vi.advanceTimersByTime(resetAfter + 100);
-
-    vi.useRealTimers();
-  });
 });
 
-    it('does not track analytics for user rejected transactions', async () => {
-      const sendWalletTransactionsMock = vi.fn().mockRejectedValue({
-        cause: { name: 'UserRejectedRequestError' },
-      });
-      (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
-        sendWalletTransactionsMock,
-      );
-
-      render(
-        <TransactionProvider chainId={base.id} calls={[]}>
-          <TestComponent />
-        </TransactionProvider>,
-      );
-
-      const button = screen.getByText('Submit');
-      fireEvent.click(button);
-
-      await waitFor(() => {
-        expect(mockSendAnalytics).toHaveBeenCalledTimes(1);
-        expect(mockSendAnalytics).not.toHaveBeenCalledWith(
-          TransactionEvent.TransactionFailure,
-          expect.any(Object),
-        );
-      });
-    });
+describe('useTransactionContext', () => {
+  it('should throw an error when used outside of TransactionProvider', () => {
+    const TestComponent = () => {
+      useTransactionContext();
+      return null;
+    };
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {}); // Suppress error logging
+    expect(() => render(<TestComponent />)).toThrow(
+      'useTransactionContext must be used within a Transaction component',
+    );
+    consoleError.mockRestore();
   });
 });
