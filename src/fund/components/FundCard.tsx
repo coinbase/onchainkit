@@ -18,6 +18,8 @@ export function FundCard({
   country = 'US',
   subdivision,
   currency = 'USD',
+  walletAddress,
+  walletNetwork,
   presetAmountInputs,
   children = <DefaultFundCardContent />,
   className,
@@ -35,6 +37,8 @@ export function FundCard({
       country={country}
       subdivision={subdivision}
       currency={currency}
+      walletAddress={walletAddress}
+      walletNetwork={walletNetwork}
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}

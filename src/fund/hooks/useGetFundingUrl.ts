@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import { useAccount } from 'wagmi';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { getCoinbaseSmartWalletFundUrl } from '../utils/getCoinbaseSmartWalletFundUrl';
 import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
+import { useWalletAddress } from './useWalletAddress';
 
 /**
  * Gets the correct funding URL based on the connected wallet. If a Coinbase Smart Wallet is connected it will send the
@@ -13,17 +13,22 @@ import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
 export function useGetFundingUrl({
   fiatCurrency,
   originComponentName,
+  walletAddress,
+  walletNetwork,
 }: {
   fiatCurrency?: string;
   originComponentName?: string;
+  walletAddress?: string;
+  walletNetwork?: string;
 }): string | undefined {
-  const { projectId, chain: defaultChain } = useOnchainKit();
-  const { address, chain: accountChain } = useAccount();
+  const { projectId } = useOnchainKit();
+
   const isCoinbaseSmartWallet = useIsWalletACoinbaseSmartWallet();
 
-  // If the connected wallet's active chain is not included in the Wagmi config, accountChain will be undefined. If this
-  // is the case, fall back to the default chain specified in the OnchainKit config.
-  const chain = accountChain || defaultChain;
+  const { address, network } = useWalletAddress({
+    walletAddress,
+    walletNetwork,
+  });
 
   return useMemo(() => {
     if (isCoinbaseSmartWallet) {
@@ -36,7 +41,7 @@ export function useGetFundingUrl({
 
     return getOnrampBuyUrl({
       projectId,
-      addresses: { [address]: [chain.name.toLowerCase()] },
+      addresses: { [address]: [network] },
       fiatCurrency,
       originComponentName,
     });
@@ -44,7 +49,7 @@ export function useGetFundingUrl({
     isCoinbaseSmartWallet,
     projectId,
     address,
-    chain,
+    network,
     fiatCurrency,
     originComponentName,
   ]);

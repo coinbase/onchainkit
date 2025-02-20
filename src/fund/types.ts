@@ -125,6 +125,8 @@ export type FundButtonReact = {
   hideIcon?: boolean; // An optional prop to hide the icon in the button component
   fundingUrl?: string; // An optional prop to provide a custom funding URL
   openIn?: 'popup' | 'tab'; // Whether to open the funding flow in a tab or a popup window
+  walletAddress?: string; // The wallet address to be used for the funding flow (If provided, the funds will be sent to the wallet address instead of the connected wallet)
+  walletNetwork?: string; // The network to be used for the funding flow (If provided, the funds will be sent to the network instead of the connected wallet)
   /**
    * Note: popupSize will be ignored when using a Coinbase Onramp URL (i.e. https://pay.coinbase.com/*) as it requires
    * a fixed popup size.
@@ -337,6 +339,8 @@ export type FundCardPropsReact = {
   subdivision?: string;
   currency?: string;
   className?: string;
+  walletAddress?: string;
+  walletNetwork?: string;
   presetAmountInputs?: PresetAmountInputs;
 } & LifecycleEvents;
 
@@ -363,6 +367,8 @@ export type FundCardPaymentMethodSelectRowPropsReact = {
 
 export type FundCardProviderReact = {
   children: ReactNode;
+  walletAddress?: string;
+  walletNetwork?: string;
   asset: string;
   /**
    * Three letter currency code. Defaults to USD.

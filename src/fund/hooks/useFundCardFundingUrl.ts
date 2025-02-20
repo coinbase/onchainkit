@@ -1,12 +1,11 @@
 import { useOnchainKit } from '@/useOnchainKit';
 import { useMemo } from 'react';
-import { useAccount } from 'wagmi';
 import { useFundContext } from '../components/FundCardProvider';
 import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
+import { useWalletAddress } from './useWalletAddress';
 
 export const useFundCardFundingUrl = () => {
-  const { projectId, chain: defaultChain } = useOnchainKit();
-  const { address, chain: accountChain } = useAccount();
+  const { projectId } = useOnchainKit();
   const {
     selectedPaymentMethod,
     selectedInputType,
@@ -14,9 +13,14 @@ export const useFundCardFundingUrl = () => {
     fundAmountCrypto,
     asset,
     currency,
+    walletAddress,
+    walletNetwork,
   } = useFundContext();
 
-  const chain = accountChain || defaultChain;
+  const { address, network } = useWalletAddress({
+    walletAddress,
+    walletNetwork,
+  });
 
   return useMemo(() => {
     if (projectId === null || address === undefined) {
@@ -34,7 +38,7 @@ export const useFundCardFundingUrl = () => {
       presetCryptoAmount:
         selectedInputType === 'crypto' ? Number(fundAmount) : undefined,
       defaultPaymentMethod: selectedPaymentMethod?.id,
-      addresses: { [address]: [chain.name.toLowerCase()] },
+      addresses: { [address]: [network] },
       fiatCurrency: currency,
       originComponentName: 'FundCard',
     });
@@ -46,7 +50,7 @@ export const useFundCardFundingUrl = () => {
     selectedInputType,
     projectId,
     address,
-    chain,
     currency,
+    network,
   ]);
 };

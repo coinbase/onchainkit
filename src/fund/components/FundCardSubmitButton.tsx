@@ -12,6 +12,8 @@ export function FundCardSubmitButton() {
     buttonText,
     currency,
     updateLifecycleStatus,
+    walletAddress,
+    walletNetwork,
   } = useFundContext();
 
   const fundingUrl = useFundCardFundingUrl();
@@ -37,6 +39,8 @@ export function FundCardSubmitButton() {
     <FundButton
       disabled={isButtonDisabled}
       hideIcon={submitButtonState === 'default'}
+      walletAddress={walletAddress}
+      walletNetwork={walletNetwork}
       text={buttonText}
       className="w-full"
       fundingUrl={fundingUrl}
