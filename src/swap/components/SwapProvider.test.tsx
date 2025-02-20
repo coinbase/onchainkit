@@ -924,6 +924,45 @@ describe('SwapProvider Analytics', () => {
     });
   });
 
+  it('should track swap success with undefined address', async () => {
+    // Mock useAccount to return undefined address
+    (useAccount as Mock).mockReturnValue({
+      address: undefined,
+      chainId: 1,
+      isConnected: true,
+    });
+
+    const { result } = renderHook(() => useSwapContext(), { wrapper });
+
+    // Set up initial context values
+    act(() => {
+      result.current.from.setToken?.(ETH_TOKEN);
+      result.current.to.setToken?.(DEGEN_TOKEN);
+      result.current.from.setAmount?.('100');
+    });
+
+    await act(async () => {
+      result.current.updateLifecycleStatus({
+        statusName: 'success',
+        statusData: {
+          transactionReceipt: { transactionHash: '0x123' },
+        },
+      } as unknown as LifecycleStatus);
+    });
+
+    expect(sendAnalytics).toHaveBeenCalledWith(
+      SwapEvent.SwapSuccess,
+      expect.objectContaining({
+        transactionHash: '0x123',
+        paymaster: false,
+        amount: 100,
+        from: 'ETH',
+        to: 'DEGEN',
+        address: '',
+      }),
+    );
+  });
+
   it('should track swap success', async () => {
     const { result } = renderHook(() => useSwapContext(), { wrapper });
 
