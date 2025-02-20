@@ -296,11 +296,6 @@
       "permanent": true
     },
     {
-      "source": "/playground/mint",
-      "destination": "https://docs.base.org/builderkits/onchainkit/playground/mint",
-      "permanent": true
-    },
-    {
       "source": "/swap/swap-settings",
       "destination": "https://docs.base.org/builderkits/onchainkit/swap/swap-settings",
       "permanent": true
