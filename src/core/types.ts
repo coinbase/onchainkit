@@ -5,6 +5,8 @@ import type { Address, Chain } from 'viem';
  * Note: exported as public Type
  */
 export type AppConfig = {
+  /** Enable/disable telemetry. Set to false to disable telemetry. Defaults to true (enabled) */
+  analytics?: boolean;
   /** Optional analytics URL for analytics data, defaults to Coinbase */
   analyticsUrl?: string | null;
   appearance?: {
@@ -41,7 +43,7 @@ export type CreateWagmiConfigParams = {
 /**
  * Note: exported as public Type
  */
-export type isBaseOptions = {
+export type IsBaseOptions = {
   /** Chain ID for the network */
   chainId: number;
   /** If the chainId check is only allowed on mainnet */
@@ -51,7 +53,7 @@ export type isBaseOptions = {
 /**
  * Note: exported as public Type
  */
-export type isEthereumOptions = {
+export type IsEthereumOptions = {
   /** Chain ID for the network */
   chainId: number;
   /** If the chainId check is only allowed on mainnet */
@@ -100,8 +102,8 @@ export type OnchainKitConfig = {
   schemaId: EASSchemaUid | null;
   /** ProjectId from Coinbase Developer Platform, only required for Coinbase Onramp support */
   projectId: string | null;
-  /** InteractionId, used for analytics */
-  interactionId: string | null;
+  /** SessionId, used for analytics */
+  sessionId: string | null;
 };
 
 export type SetOnchainKitConfig = Partial<OnchainKitConfig>;
