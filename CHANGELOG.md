@@ -91,7 +91,7 @@ Note: OnchainKit is not collecting any telemetry as of `v0.36.11`. This will be 
 - **fix**: Made improvements to FundCard component. By @rustam-cb #1806 #1818 #1839
 - **fix**: Made improvements to WalletIsland component. By @brendan-cb #1842
 - **fix**: Made internal typesafety and efficiency improvements. By @dschlabach #1855 #1843
-- **fix**: Fixed typos in documentation and commments. By @youyyytrok @vipocenka #1840 #1841
+- **fix**: Fixed typos in documentation and comments. By @youyyytrok @vipocenka #1840 #1841
 
 ## 0.36.7
 
@@ -552,7 +552,7 @@ export type LifeCycleStatus =
 ### Patch Changes
 
 - **feat**: moved `onSuccess` and `onError` for Swap component at top level. By @zizzamia #1123 886d974
-- **patch**: removed unneccessary address prop from `Transaction` component and fix issue where Sponsor component isn't visible. By @abcrane123 #1114
+- **patch**: removed unnecessary address prop from `Transaction` component and fix issue where Sponsor component isn't visible. By @abcrane123 #1114
 - **chore**: updated disconnect SVG image. By @cpcramer #1103
 - **fix**: improved issue with Swap where it wasn't fetching quote for amount without a leading 0. By @abcrane123 #1128
 
@@ -634,7 +634,7 @@ export type LifeCycleStatus =
 
 ### Patch Changes
 
-- **feat**: added `Permit2` approval process for UniversalRouter in the `Swap` experiece. By @0xAlec #980 16c004b
+- **feat**: added `Permit2` approval process for UniversalRouter in the `Swap` experience. By @0xAlec #980 16c004b
 
 ## 0.28.0
 
@@ -773,7 +773,7 @@ Learn more about this component type at https://onchainkit.xyz/transactiontypes#
 
 ### Patch Changes
 
-- **fix**: copy popover style within the `IdenityLayout`. By @zizzamia #870 3128263
+- **fix**: copy popover style within the `IdentityLayout`. By @zizzamia #870 3128263
 - **feat**: added toast animation for `TransactionToast` component. By @abcrane123 #865
 
 ## 0.26.0
@@ -924,7 +924,7 @@ Breaking Changes
 
 ### Patch Changes
 
-- **fix**: revert peer dependancy PRs. f4fcd2a
+- **fix**: revert peer dependency PRs. f4fcd2a
 
 ## 0.22.3
 
@@ -1204,7 +1204,7 @@ Features
 ### Patch Changes
 
 - **feat**: converted `Badge` to css. By @zizzamia #476 9b03393
-- **feat**: converted `TokenRow` to css, add modifier state and add additinal display controls. By @kyhyco #473
+- **feat**: converted `TokenRow` to css, add modifier state and add additional display controls. By @kyhyco #473
 
 ## 0.19.1
 
