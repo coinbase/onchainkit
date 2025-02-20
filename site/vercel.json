@@ -41,11 +41,6 @@
       "permanent": true
     },
     {
-      "source": "/playground",
-      "destination": "https://docs.base.org/builderkits/onchainkit/playground",
-      "permanent": true
-    },
-    {
       "source": "/earn/types",
       "destination": "https://docs.base.org/builderkits/onchainkit/earn/types",
       "permanent": true
