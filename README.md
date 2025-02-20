@@ -49,6 +49,10 @@
 
 <br />
 
+## 🚀 Quickstart
+
+Run `npm create onchain` to boostrap an example onchain app with all the batteries included. 
+
 ## ✨ Documentation
 
 For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
