@@ -119,6 +119,7 @@ export function SwapProvider({
         paymaster: !!paymaster,
         transactionHash:
           lifecycleStatus.statusData.transactionReceipt?.transactionHash,
+        address: address || '',
         amount: Number(from.amount),
         from: from.token?.symbol || '',
         to: to.token?.symbol || '',
@@ -138,6 +139,7 @@ export function SwapProvider({
     from.amount,
     from.token?.symbol,
     to.token?.symbol,
+    address,
   ]);
 
   useEffect(() => {

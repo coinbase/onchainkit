@@ -951,6 +951,7 @@ describe('SwapProvider Analytics', () => {
         amount: 100,
         from: 'ETH',
         to: 'DEGEN',
+        address: '0x123',
       }),
     );
   });
