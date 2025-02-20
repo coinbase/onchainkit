@@ -376,6 +376,16 @@
       "permanent": true
     }
   ],
+  "rewrites": [
+    {
+      "source": "/playground",
+      "destination": "https://onchainkit-bsvq.vercel.app/"
+    },
+    {
+      "source": "/playground/:match*",
+      "destination": "https://onchainkit-bsvq.vercel.app/:match*"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
