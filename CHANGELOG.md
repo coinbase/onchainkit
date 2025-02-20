@@ -4,8 +4,8 @@
 
 ### Patch Changes
 
-- 87bd787: - **fix**: Improve chain support for non Base transactions. By @dschlabach #2016
-  - **docs**: Documentation updates and improvements. By @dschlabach @maximevtush @kilavvy
+- **fix**: Improve chain support for non Base transactions. By @dschlabach #2016
+- **docs**: Documentation updates and improvements. By @dschlabach @maximevtush @kilavvy
 
 ## 0.37.1
 
