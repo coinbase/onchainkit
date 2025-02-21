@@ -327,12 +327,12 @@
     },
     {
       "source": "/coverage",
-      "destination": "https://docs.base.org/builderkits/onchainkit",
+      "destination": "https://docs.base.org/builderkits/onchainkit/getting-started",
       "permanent": true
     },
     {
       "source": "/xmtp/introduction",
-      "destination": "https://docs.base.org/builderkits/onchainkit",
+      "destination": "https://docs.base.org/builderkits/onchainkit/getting-started",
       "permanent": true
     },
     {
@@ -342,12 +342,12 @@
     },
     {
       "source": "/frame/:match*",
-      "destination": "https://docs.base.org/builderkits/onchainkit",
+      "destination": "https://docs.base.org/builderkits/onchainkit/getting-started",
       "permanent": true
     },
     {
       "source": "/farcaster/:match*",
-      "destination": "https://docs.base.org/builderkits/onchainkit",
+      "destination": "https://docs.base.org/builderkits/onchainkit/getting-started",
       "permanent": true
     }
   ],
