@@ -17,7 +17,10 @@ export const useMintAnalytics = () => {
   const { contractAddress, tokenId, quantity, isSponsored } = useNFTContext();
 
   const analyticsData = useMemo(() => {
-    if (!tokenId || !address) return null;
+    if (!tokenId || !address) {
+      return null;
+    }
+
     return {
       address,
       contractAddress,
