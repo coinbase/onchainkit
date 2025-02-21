@@ -2037,6 +2037,8 @@ __metadata:
     "@biomejs/biome": "npm:1.8.3"
     "@changesets/cli": "npm:^2.27.10"
     "@chromatic-com/storybook": "npm:^1.7.0"
+    "@farcaster/frame-sdk": "npm:^0.0.28"
+    "@farcaster/frame-wagmi-connector": "npm:^0.0.16"
     "@storybook/addon-a11y": "npm:^8.2.9"
     "@storybook/addon-essentials": "npm:^8.2.9"
     "@storybook/addon-interactions": "npm:^8.2.9"
@@ -2526,6 +2528,39 @@ __metadata:
     ethereum-cryptography: "npm:^2.0.0"
     micro-ftch: "npm:^0.3.1"
   checksum: 4e6e0449236f66b53782bab3b387108f0ddc050835bfe1381c67a7c038fea27cb85ab38851d98b700957022f0acb6e455ca0c634249cfcce1a116bad76500160
+  languageName: node
+  linkType: hard
+
+"@farcaster/frame-core@npm:0.0.26":
+  version: 0.0.26
+  resolution: "@farcaster/frame-core@npm:0.0.26"
+  dependencies:
+    ox: "npm:^0.4.4"
+    zod: "npm:^3.24.1"
+  checksum: 4be35197af05ef13dbda9a836e2e64e00c1a99fea03dc72a6926a29831ac2c5f33c52b631672506e36a9b371a5d16027b28cd90d237f061c7fd979fc9f1147f0
+  languageName: node
+  linkType: hard
+
+"@farcaster/frame-sdk@npm:^0.0.28":
+  version: 0.0.28
+  resolution: "@farcaster/frame-sdk@npm:0.0.28"
+  dependencies:
+    "@farcaster/frame-core": "npm:0.0.26"
+    comlink: "npm:^4.4.2"
+    eventemitter3: "npm:^5.0.1"
+    ox: "npm:^0.4.4"
+  checksum: 541c0fce0b4195dc340a2c1d82ae4a9a371f700d37876e5e9d82dcf20d254ec011d20d4cd6cb335cd73128371d7f179bb267a1b809bace0684447a8279a8bea6
+  languageName: node
+  linkType: hard
+
+"@farcaster/frame-wagmi-connector@npm:^0.0.16":
+  version: 0.0.16
+  resolution: "@farcaster/frame-wagmi-connector@npm:0.0.16"
+  peerDependencies:
+    "@farcaster/frame-sdk": ^0.0.28
+    "@wagmi/core": ^2.14.1
+    viem: ^2.21.55
+  checksum: 830fd2125821dcb97ad821b9bd0a85eacd1cd0f964d18fbbe453f8454fd22a85ab60cfd03eb6f442e6b77bcd3c0c0c063d5429596034c6911bca99cec64e75d6
   languageName: node
   linkType: hard
 
@@ -6676,6 +6711,13 @@ __metadata:
   dependencies:
     delayed-stream: "npm:~1.0.0"
   checksum: 0dbb829577e1b1e839fa82b40c07ffaf7de8a09b935cadd355a73652ae70a88b4320db322f6634a4ad93424292fa80973ac6480986247f1734a1137debf271d5
+  languageName: node
+  linkType: hard
+
+"comlink@npm:^4.4.2":
+  version: 4.4.2
+  resolution: "comlink@npm:4.4.2"
+  checksum: 38aa1f455cf08e94aaa8fc494fd203cc0ef02ece6c21404b7931ce17567e8a72deacddab98aa5650cfd78332ff24c34610586f6fb27fd19dc77e753ed1980deb
   languageName: node
   linkType: hard
 
@@ -11499,6 +11541,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ox@npm:^0.4.4":
+  version: 0.4.4
+  resolution: "ox@npm:0.4.4"
+  dependencies:
+    "@adraffy/ens-normalize": "npm:^1.10.1"
+    "@noble/curves": "npm:^1.6.0"
+    "@noble/hashes": "npm:^1.5.0"
+    "@scure/bip32": "npm:^1.5.0"
+    "@scure/bip39": "npm:^1.4.0"
+    abitype: "npm:^1.0.6"
+    eventemitter3: "npm:5.0.1"
+  peerDependencies:
+    typescript: ">=5.4.0"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: ce1539ec41c97f6d8386ea8f0cdd85d4af025d3b7a6762607aa1a6545f550ca637abba8c9be4b26f6bf2136f16ccd579454e6976ee06ddde7225ac8fcfd4254d
+  languageName: node
+  linkType: hard
+
 "p-defer@npm:^1.0.0":
   version: 1.0.0
   resolution: "p-defer@npm:1.0.0"
@@ -15267,6 +15329,13 @@ __metadata:
   dependencies:
     "@types/yoga-layout": "npm:1.9.2"
   checksum: e83b6b7078faf4d0472461b53e92bf9cae655de3d896aee5f79b5ba5a960e507bbf8e671b261db13137bf18711686969f19fd1d9c4669beb1d70754b83c5879d
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.24.1":
+  version: 3.24.1
+  resolution: "zod@npm:3.24.1"
+  checksum: 0223d21dbaa15d8928fe0da3b54696391d8e3e1e2d0283a1a070b5980a1dbba945ce631c2d1eccc088fdbad0f2dfa40155590bf83732d3ac4fcca2cc9237591b
   languageName: node
   linkType: hard
 
