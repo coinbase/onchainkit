@@ -14,7 +14,6 @@ import {
 } from 'vitest';
 import { NFTQuantitySelector } from './NFTQuantitySelector';
 
-
 vi.mock('@/nft/components/NFTProvider');
 vi.mock('@/nft/hooks/useMintAnalytics');
 vi.mock('@/internal/components/QuantitySelector', () => ({
@@ -55,12 +54,10 @@ describe('NFTQuantitySelector', () => {
     vi.clearAllMocks();
   });
 
-
   it('should render', () => {
     const { getByRole } = render(<NFTQuantitySelector />);
     expect(getByRole('textbox')).toBeInTheDocument();
   });
-
 
   it('should not render when maxMintsPerWallet is 1', () => {
     useNFTContextMock.mockReturnValueOnce({ maxMintsPerWallet: 1 });

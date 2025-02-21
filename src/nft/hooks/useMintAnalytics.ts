@@ -3,6 +3,7 @@ import { MintEvent } from '@/core/analytics/types';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import type { LifecycleStatus } from '@/transaction/types';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useAccount } from 'wagmi';
 
 export const useMintAnalytics = () => {
   const [transactionState, setTransactionState] = useState<
@@ -11,20 +12,26 @@ export const useMintAnalytics = () => {
   const successSent = useRef(false);
   const errorSent = useRef(false);
   const { sendAnalytics } = useAnalytics();
+  const { address } = useAccount();
 
   const { contractAddress, tokenId, quantity, isSponsored } = useNFTContext();
 
-  const analyticsData = useMemo(
-    () => ({
+  const analyticsData = useMemo(() => {
+    if (!tokenId || !address) return null;
+    return {
+      address,
       contractAddress,
       tokenId,
       quantity,
-      isSponsored,
-    }),
-    [contractAddress, tokenId, quantity, isSponsored],
-  );
+      isSponsored: isSponsored ?? false,
+    };
+  }, [address, contractAddress, tokenId, quantity, isSponsored]);
 
   useEffect(() => {
+    if (!analyticsData) {
+      return;
+    }
+
     if (transactionState === 'buildingTransaction') {
       successSent.current = false;
       errorSent.current = false;

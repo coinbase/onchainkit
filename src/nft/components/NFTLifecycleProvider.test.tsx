@@ -3,7 +3,6 @@ import type { NFTError } from '@/api/types';
 import { fireEvent, render } from '@testing-library/react';
 import type { TransactionReceipt } from 'viem';
 import { describe, expect, it, vi } from 'vitest';
-import { describe, expect, it, vi } from 'vitest';
 import { type LifecycleStatus, LifecycleType, MediaType } from '../types';
 import {
   NFTLifecycleProvider,
