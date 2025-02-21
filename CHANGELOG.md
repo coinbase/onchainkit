@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 90de941: -**fix**: Revert Mint changes that were causing an infinite loop in `NFTMintButton`. By @cpcramer #2031
+-**fix**: Revert Mint changes that were causing an infinite loop in `NFTMintButton`. By @cpcramer #2031
 
 ## 0.37.2
 
