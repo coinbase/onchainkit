@@ -1,6 +1,7 @@
 import { Spinner } from '@/internal/components/Spinner';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
+import { useMintAnalytics } from '@/nft/hooks/useMintAnalytics';
 import { cn, color, text } from '@/styles/theme';
 import {
   Transaction,
@@ -48,6 +49,7 @@ export function NFTMintButton({
   const { updateLifecycleStatus } = useNFTLifecycleContext();
   const [callData, setCallData] = useState<Call[]>([]);
   const [mintError, setMintError] = useState<string | null>(null);
+  const { setTransactionState } = useMintAnalytics();
 
   const handleTransactionError = useCallback(
     (error: string) => {
@@ -70,6 +72,7 @@ export function NFTMintButton({
       try {
         setCallData([]);
         setMintError(null);
+        setTransactionState('buildingTransaction');
         const mintTransaction = await buildMintTransaction({
           takerAddress: address,
           contractAddress,
@@ -93,6 +96,7 @@ export function NFTMintButton({
     name,
     network,
     quantity,
+    setTransactionState,
     tokenId,
   ]);
 
@@ -104,6 +108,8 @@ export function NFTMintButton({
 
   const handleOnStatus = useCallback(
     (transactionStatus: TransactionLifecycleStatus) => {
+      setTransactionState(transactionStatus.statusName);
+
       if (transactionStatus.statusName === 'transactionPending') {
         updateLifecycleStatus({ statusName: 'transactionPending' });
       }
@@ -116,7 +122,7 @@ export function NFTMintButton({
         updateLifecycleStatus(transactionStatus);
       }
     },
-    [updateLifecycleStatus],
+    [updateLifecycleStatus, setTransactionState],
   );
 
   const transactionButtonLabel = useMemo(() => {
