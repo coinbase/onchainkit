@@ -111,53 +111,18 @@
       "permanent": true
     },
     {
-      "source": "/frame/framegear",
-      "destination": "https://docs.base.org/builderkits/onchainkit/frame/framegear",
-      "permanent": true
-    },
-    {
-      "source": "/frame/frame-metadata",
-      "destination": "https://docs.base.org/builderkits/onchainkit/frame/frame-metadata",
-      "permanent": true
-    },
-    {
-      "source": "/frame/get-frame-message",
-      "destination": "https://docs.base.org/builderkits/onchainkit/frame/get-frame-message",
-      "permanent": true
-    },
-    {
-      "source": "/frame/get-frame-metadata",
-      "destination": "https://docs.base.org/builderkits/onchainkit/frame/get-frame-metadata",
-      "permanent": true
-    },
-    {
-      "source": "/frame/get-frame-html-response",
-      "destination": "https://docs.base.org/builderkits/onchainkit/frame/get-frame-html-response",
-      "permanent": true
-    },
-    {
-      "source": "/farcaster/get-farcaster-user-address",
-      "destination": "https://docs.base.org/builderkits/onchainkit/farcaster/get-farcaster-user-address",
-      "permanent": true
-    },
-    {
       "source": "/pay/pay",
-      "destination": "https://docs.base.org/builderkits/onchainkit/pay/pay",
+      "destination": "https://docs.base.org/builderkits/onchainkit/checkout/checkout",
       "permanent": true
     },
     {
       "source": "/swap/build-swap-transaction",
-      "destination": "https://docs.base.org/builderkits/onchainkit/swap/build-swap-transaction",
-      "permanent": true
-    },
-    {
-      "source": "/farcaster/introduction",
-      "destination": "https://docs.base.org/builderkits/onchainkit/farcaster/introduction",
+      "destination": "https://docs.base.org/builderkits/onchainkit/api/build-swap-transaction",
       "permanent": true
     },
     {
       "source": "/token/get-tokens",
-      "destination": "https://docs.base.org/builderkits/onchainkit/token/get-tokens",
+      "destination": "https://docs.base.org/builderkits/onchainkit/api/get-tokens",
       "permanent": true
     },
     {
@@ -362,17 +327,27 @@
     },
     {
       "source": "/coverage",
-      "destination": "https://docs.base.org/builderkits/onchainkit/coverage",
+      "destination": "https://docs.base.org/builderkits/onchainkit/getting-started",
       "permanent": true
     },
     {
       "source": "/xmtp/introduction",
-      "destination": "https://docs.base.org/builderkits/onchainkit/xmtp/introduction",
+      "destination": "https://docs.base.org/builderkits/onchainkit/getting-started",
       "permanent": true
     },
     {
       "source": "/wallet/wallet-dropdown-base-name",
-      "destination": "https://docs.base.org/builderkits/onchainkit/wallet/wallet-dropdown-base-name",
+      "destination": "https://docs.base.org/builderkits/onchainkit/wallet/wallet-dropdown-basename",
+      "permanent": true
+    },
+    {
+      "source": "/frame/:match*",
+      "destination": "https://docs.base.org/builderkits/onchainkit/getting-started",
+      "permanent": true
+    },
+    {
+      "source": "/farcaster/:match*",
+      "destination": "https://docs.base.org/builderkits/onchainkit/getting-started",
       "permanent": true
     }
   ],
