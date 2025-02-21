@@ -14,6 +14,11 @@ import {
   useWaitForTransactionReceipt,
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import {
+  TransactionEvent,
+  type TransactionEventData,
+} from '../../core/analytics/types';
 import { Capabilities } from '../../core/constants';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
@@ -161,6 +166,15 @@ export function TransactionProvider({
     hash: singleTransactionHash || batchedTransactionHash,
   });
 
+  const { sendAnalytics } = useAnalytics();
+
+  const handleAnalytics = useCallback(
+    (event: TransactionEvent, data: TransactionEventData[TransactionEvent]) => {
+      sendAnalytics(event, data);
+    },
+    [sendAnalytics],
+  );
+
   // Component lifecycle emitters
   useEffect(() => {
     setErrorMessage('');
@@ -284,12 +298,21 @@ export function TransactionProvider({
       statusData: null,
     });
     try {
+      handleAnalytics(TransactionEvent.TransactionInitiated, {
+        address: account.address,
+      });
       const resolvedTransactions = await (typeof transactions === 'function'
         ? transactions()
         : Promise.resolve(transactions));
       setTransactionCount(resolvedTransactions?.length);
       return resolvedTransactions;
     } catch (err) {
+      handleAnalytics(TransactionEvent.TransactionFailure, {
+        error: (err as Error).message,
+        metadata: {
+          code: errorCode,
+        },
+      });
       setLifecycleStatus({
         statusName: 'error',
         statusData: {
@@ -300,7 +323,7 @@ export function TransactionProvider({
       });
       return undefined;
     }
-  }, [transactions]);
+  }, [transactions, handleAnalytics, account.address, errorCode]);
 
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
@@ -343,6 +366,35 @@ export function TransactionProvider({
     transactionHash: singleTransactionHash || batchedTransactionHash,
     transactionCount,
   });
+
+  useEffect(() => {
+    if (!receipt) {
+      return;
+    }
+
+    if (receipt.status === 'success') {
+      handleAnalytics(TransactionEvent.TransactionSuccess, {
+        paymaster: Boolean(isSponsored && paymaster),
+        address: account.address,
+        transactionHash: receipt.transactionHash,
+      });
+    } else {
+      handleAnalytics(TransactionEvent.TransactionFailure, {
+        error: 'Transaction failed',
+        metadata: {
+          code: errorCode,
+        },
+      });
+    }
+  }, [
+    receipt,
+    handleAnalytics,
+    isSponsored,
+    paymaster,
+    account.address,
+    errorCode,
+  ]);
+
   return (
     <TransactionContext.Provider value={value}>
       {children}
