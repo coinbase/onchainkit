@@ -257,19 +257,20 @@ export type MintEventData = {
     metadata?: Record<string, unknown>;
   };
   [MintEvent.MintInitiated]: CommonAnalyticsData & {
-    contractAddress?: string;
-    quantity?: number;
-    tokenId?: string;
+    contractAddress: string;
+    quantity: number;
+    tokenId: string;
   };
   [MintEvent.MintQuantityChanged]: CommonAnalyticsData & {
-    quantity?: number;
+    quantity: number;
+    previousQuantity: number;
   };
   [MintEvent.MintSuccess]: CommonAnalyticsData & {
-    address?: string;
-    amountMinted?: number;
-    contractAddress?: string;
-    isSponsored?: boolean;
-    tokenId?: string;
+    address: string;
+    amountMinted: number;
+    contractAddress: string;
+    isSponsored: boolean;
+    tokenId: string;
   };
 };
 
