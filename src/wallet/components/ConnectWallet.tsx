@@ -1,8 +1,14 @@
 'use client';
 
-import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
-import { useEffect, useState } from 'react';
+import {
+  Children,
+  isValidElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { WalletEvent } from '../../core/analytics/types';
@@ -41,6 +47,7 @@ export function ConnectWallet({
     handleClose,
   } = useWalletContext();
   const { address: accountAddress, status } = useAccount();
+
   const { connectors, connect, status: connectStatus } = useConnect();
   const { sendAnalytics } = useAnalytics();
 
