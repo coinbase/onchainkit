@@ -7,6 +7,7 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createContext, useMemo } from 'react';
 import { WagmiProvider } from 'wagmi';
+import OnchainKitProviderBoundary from './OnchainKitProviderBoundary';
 import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from './core/constants';
 import { createWagmiConfig } from './core/createWagmiConfig';
 import type { OnchainKitContextType } from './core/types';
@@ -118,7 +119,7 @@ export function OnchainKitProvider({
       <WagmiProvider config={defaultConfig}>
         <QueryClientProvider client={defaultQueryClient}>
           <OnchainKitContext.Provider value={value}>
-            {children}
+            <OnchainKitProviderBoundary>{children}</OnchainKitProviderBoundary>
           </OnchainKitContext.Provider>
         </QueryClientProvider>
       </WagmiProvider>
@@ -127,7 +128,7 @@ export function OnchainKitProvider({
 
   return (
     <OnchainKitContext.Provider value={value}>
-      {children}
+      <OnchainKitProviderBoundary>{children}</OnchainKitProviderBoundary>
     </OnchainKitContext.Provider>
   );
 }
