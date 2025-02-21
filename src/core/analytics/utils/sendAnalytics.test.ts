@@ -63,6 +63,7 @@ describe('sendAnalytics', () => {
         timestamp: Date.now(),
         eventType: 'test-event',
         data: { foo: 'bar' },
+        origin: 'test-origin',
       },
     };
 
@@ -92,6 +93,7 @@ describe('sendAnalytics', () => {
         timestamp: Date.now(),
         eventType: 'test-event',
         data: { foo: 'bar' },
+        origin: 'test-origin',
       },
     };
 
@@ -119,6 +121,7 @@ describe('sendAnalytics', () => {
         timestamp: Date.now(),
         eventType: 'test-event',
         data: { foo: 'bar' },
+        origin: 'test-origin',
       },
     };
 
@@ -147,6 +150,7 @@ describe('sendAnalytics', () => {
         timestamp: Date.now(),
         eventType: 'test-event',
         data: { foo: 'bar' },
+        origin: 'test-origin',
       },
     };
 
@@ -168,6 +172,7 @@ describe('sendAnalytics', () => {
         timestamp: Date.now(),
         eventType: 'test-event',
         data: { foo: 'bar' },
+        origin: 'test-origin',
       },
     };
 
@@ -190,6 +195,7 @@ describe('sendAnalytics', () => {
         timestamp: Date.now(),
         eventType: 'test-event',
         data: { foo: 'bar' },
+        origin: 'test-origin',
       },
     };
 
@@ -200,6 +206,32 @@ describe('sendAnalytics', () => {
     expect(mockFetch).toHaveBeenCalledWith(
       ANALYTICS_API_URL,
       expect.any(Object),
+    );
+  });
+
+  it('should include origin in analytics data', async () => {
+    const request: AnalyticsRequestParams = {
+      url: ANALYTICS_API_URL,
+      headers: {},
+      body: {
+        apiKey: 'test-api-key',
+        sessionId: 'test-session-id',
+        timestamp: Date.now(),
+        eventType: 'test-event',
+        data: { foo: 'bar' },
+        origin: 'custom-origin',
+      },
+    };
+
+    mockFetch.mockResolvedValueOnce({});
+
+    await sendAnalytics(request);
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        body: expect.stringContaining('"origin":"custom-origin"'),
+      }),
     );
   });
 });

@@ -13,9 +13,11 @@ import { useEffect, useState } from 'react';
 export const useAnalytics = () => {
   const { apiKey, sessionId, config } = useOnchainKit();
   const [appName, setAppName] = useState('');
+  const [origin, setOrigin] = useState('');
 
   useEffect(() => {
     setAppName(document.title);
+    setOrigin(window.location.origin);
   }, []);
 
   const prepareAnalyticsPayload = <T extends AnalyticsEvent>(
@@ -33,6 +35,7 @@ export const useAnalytics = () => {
         timestamp: Date.now(),
         eventType: event,
         data,
+        origin,
       },
     };
   };
