@@ -1,4 +1,3 @@
-import type { NFTError } from '@/api/types';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useValue } from '@/internal/hooks/useValue';
 import { createContext, useContext, useEffect } from 'react';
@@ -40,8 +39,7 @@ export function NFTLifecycleProvider({
   useEffect(() => {
     // Error
     if (lifecycleStatus.statusName === 'error') {
-      const error = lifecycleStatus.statusData as NFTError;
-      onError?.(error);
+      onError?.(lifecycleStatus.statusData);
     }
     // Success
     if (lifecycleStatus.statusName === 'success') {

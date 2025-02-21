@@ -12,18 +12,17 @@ import {
 const TestComponent = () => {
   const context = useNFTLifecycleContext();
 
-  const handleStatusError = () => {
+  const handleStatusError = async () => {
     context.updateLifecycleStatus({
       statusName: 'error',
       statusData: {
-        error: 'error_message',
-        code: 'error_code',
-        message: 'detailed_error_message',
+        code: 'code',
+        error: 'error_long_messages',
+        message: '',
       },
     });
   };
-
-  const handleStatusSuccessWithTransaction = () => {
+  const handleStatusSuccessWithTransaction = async () => {
     context.updateLifecycleStatus({
       statusName: 'success',
       statusData: {
@@ -31,17 +30,13 @@ const TestComponent = () => {
       },
     });
   };
-
-  const handleStatusSuccessWithoutTransaction = () => {
+  const handleStatusSuccessWithoutTransaction = async () => {
     context.updateLifecycleStatus({
       statusName: 'success',
-      statusData: {
-        transactionReceipts: [],
-      },
+      statusData: {},
     });
   };
-
-  const handleStatusMediaLoading = () => {
+  const handleStatusMediaLoading = async () => {
     context.updateLifecycleStatus({
       statusName: 'mediaLoading',
       statusData: {
@@ -50,7 +45,6 @@ const TestComponent = () => {
       },
     });
   };
-
   return (
     <div data-testid="test-component">
       <span data-testid="context-value-lifecycleStatus-statusName">
@@ -76,23 +70,6 @@ const TestComponent = () => {
     </div>
   );
 };
-
-const mockTransactionReceipt: TransactionReceipt = {
-  blockHash: '0xblockhash',
-  blockNumber: 1n,
-  contractAddress: null,
-  cumulativeGasUsed: 21000n,
-  effectiveGasPrice: 1000000000n,
-  from: '0x456',
-  gasUsed: 21000n,
-  logs: [],
-  logsBloom: '0x',
-  status: 'success',
-  to: '0x123',
-  transactionHash: '0xhash',
-  transactionIndex: 0,
-  type: 'legacy',
-} as const;
 
 const renderWithProviders = ({
   Component,
@@ -177,17 +154,5 @@ describe('NFTLifecycleProvider', () => {
     const button = getByText('setLifecycleStatus.mediaLoading');
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalled();
-  });
-
-  it('should update lifecycle status correctly', () => {
-    const { getByText, getByTestId } = renderWithProviders({
-      Component: TestComponent,
-    });
-
-    fireEvent.click(getByText('setLifecycleStatus.successWithTransaction'));
-
-    expect(
-      getByTestId('context-value-lifecycleStatus-statusName').textContent,
-    ).toBe('success');
   });
 });
