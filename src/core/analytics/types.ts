@@ -210,19 +210,19 @@ export type BuyEventData = {
     metadata?: Record<string, unknown>;
   };
   [BuyEvent.BuyInitiated]: CommonAnalyticsData & {
-    amount: number;
-    token: string;
+    amount?: number;
+    token?: string;
   };
   [BuyEvent.BuyOptionSelected]: CommonAnalyticsData & {
-    option: BuyOption;
+    option?: BuyOption;
   };
   [BuyEvent.BuySuccess]: CommonAnalyticsData & {
-    address: string;
-    amount: number;
-    from: string;
-    paymaster: boolean;
-    to: string;
-    transactionHash: string;
+    address?: string;
+    amount?: number;
+    from?: string;
+    paymaster?: boolean;
+    to?: string;
+    transactionHash?: string;
   };
 };
 

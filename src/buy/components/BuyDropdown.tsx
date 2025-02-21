@@ -1,3 +1,5 @@
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { BuyEvent, type BuyOption } from '@/core/analytics/types';
 import { openPopup } from '@/internal/utils/openPopup';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -17,10 +19,15 @@ export function BuyDropdown() {
   const { to, fromETH, fromUSDC, from, startPopupMonitor, setIsDropdownOpen } =
     useBuyContext();
   const { address } = useAccount();
+  const { sendAnalytics } = useAnalytics();
 
   const handleOnrampClick = useCallback(
     (paymentMethodId: string) => {
       return () => {
+        sendAnalytics(BuyEvent.BuyOptionSelected, {
+          option: paymentMethodId as BuyOption,
+        });
+
         const assetSymbol = to?.token?.symbol;
         let fundAmount = to?.amount;
         // funding url requires a leading zero if the amount is less than 1
@@ -43,7 +50,7 @@ export function BuyDropdown() {
         }
       };
     },
-    [address, to, projectId, startPopupMonitor],
+    [address, to, projectId, startPopupMonitor, sendAnalytics],
   );
 
   const formattedAmountUSD = useMemo(() => {
