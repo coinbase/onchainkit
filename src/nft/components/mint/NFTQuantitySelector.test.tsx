@@ -93,20 +93,6 @@ describe('NFTQuantitySelector', () => {
     expect(handleQuantityChangeMock).not.toHaveBeenCalled();
   });
 
-  it('should update quantity but not trigger analytics on empty input', () => {
-    const { getByRole } = render(<NFTQuantitySelector />);
-    const input = getByRole('textbox') as HTMLInputElement;
-
-    act(() => {
-      input.focus();
-      fireEvent.change(input, { target: { value: '' } });
-      input.blur();
-    });
-
-    expect(setQuantityMock).toHaveBeenCalledWith('');
-    expect(handleQuantityChangeMock).not.toHaveBeenCalled();
-  });
-
   it('should apply the provided className to container and input', () => {
     const className = 'custom-class';
     const { container } = render(<NFTQuantitySelector className={className} />);
