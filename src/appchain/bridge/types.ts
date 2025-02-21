@@ -27,7 +27,7 @@ export type AppchainBridgeReact = {
   title?: string;
   /** Optional array of bridgeable tokens. */
   bridgeableTokens?: BridgeableToken[];
-
+  /** Optional function to implement fetching the price of the token. */
   handleFetchPrice?: (amount: string, token: Token) => Promise<string>;
 };
 
