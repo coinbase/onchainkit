@@ -16,13 +16,12 @@ export function NFTQuantitySelector({ className }: NFTQuantitySelectorReact) {
     return null;
   }
 
-  const handleQuantityUpdate = (newValue: string) => {
-    const newQuantity = Number.parseInt(newValue, 10);
-
-    if (!Number.isNaN(newQuantity)) {
-      handleQuantityChange(newQuantity);
+  const handleQuantityUpdate = (value: string) => {
+    setQuantity(value);
+    const quantity = Number.parseInt(value, 10);
+    if (!Number.isNaN(quantity)) {
+      handleQuantityChange(quantity);
     }
-    setQuantity(newValue);
   };
 
   return (

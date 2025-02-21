@@ -54,7 +54,7 @@ describe('NFTQuantitySelector', () => {
     vi.clearAllMocks();
   });
 
-  it('should render', () => {
+  it('should render quantity selector', () => {
     const { getByRole } = render(<NFTQuantitySelector />);
     expect(getByRole('textbox')).toBeInTheDocument();
   });
@@ -65,7 +65,7 @@ describe('NFTQuantitySelector', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('should call setQuantity and handleQuantityChange on valid input', () => {
+  it('should update quantity and trigger analytics on valid numeric input', () => {
     const { getByRole } = render(<NFTQuantitySelector />);
     const input = getByRole('textbox') as HTMLInputElement;
 
@@ -79,7 +79,7 @@ describe('NFTQuantitySelector', () => {
     expect(handleQuantityChangeMock).toHaveBeenCalledWith(3);
   });
 
-  it('should not call handleQuantityChange on invalid input', () => {
+  it('should update quantity but not trigger analytics on invalid input', () => {
     const { getByRole } = render(<NFTQuantitySelector />);
     const input = getByRole('textbox') as HTMLInputElement;
 
@@ -93,20 +93,34 @@ describe('NFTQuantitySelector', () => {
     expect(handleQuantityChangeMock).not.toHaveBeenCalled();
   });
 
-  it('should apply the provided className', () => {
+  it('should update quantity but not trigger analytics on empty input', () => {
+    const { getByRole } = render(<NFTQuantitySelector />);
+    const input = getByRole('textbox') as HTMLInputElement;
+
+    act(() => {
+      input.focus();
+      fireEvent.change(input, { target: { value: '' } });
+      input.blur();
+    });
+
+    expect(setQuantityMock).toHaveBeenCalledWith('');
+    expect(handleQuantityChangeMock).not.toHaveBeenCalled();
+  });
+
+  it('should apply the provided className to container and input', () => {
     const className = 'custom-class';
     const { container } = render(<NFTQuantitySelector className={className} />);
     expect(container.firstChild).toHaveClass('custom-class');
   });
 
-  it('should set minQuantity to 1 and maxQuantity to maxMintsPerWallet', () => {
+  it('should set correct min and max quantity constraints', () => {
     const { getByRole } = render(<NFTQuantitySelector />);
     const input = getByRole('textbox') as HTMLInputElement;
     expect(input).toHaveAttribute('data-minquantity', '1');
     expect(input).toHaveAttribute('data-maxquantity', '5');
   });
 
-  it('should set maxQuantity to undefined when maxMintsPerWallet is undefined', () => {
+  it('should not set maxQuantity when maxMintsPerWallet is undefined', () => {
     useNFTContextMock.mockReturnValueOnce({ maxMintsPerWallet: undefined });
     const { getByRole } = render(<NFTQuantitySelector />);
     const input = getByRole('textbox') as HTMLInputElement;
