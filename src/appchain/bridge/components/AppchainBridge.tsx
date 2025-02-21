@@ -79,6 +79,7 @@ export function AppchainBridge({
   bridgeableTokens,
   children = <AppchainBridgeDefaultContent title={title} />,
   className,
+  handleFetchPrice,
 }: AppchainBridgeReact) {
   const isMounted = useIsMounted();
   const componentTheme = useTheme();
@@ -92,6 +93,7 @@ export function AppchainBridge({
       chain={chain}
       appchain={appchain}
       bridgeableTokens={bridgeableTokens}
+      handleFetchPrice={handleFetchPrice}
     >
       <div
         className={cn(

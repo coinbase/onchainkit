@@ -1,6 +1,6 @@
 import type { Token } from '@/token';
+import type { ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
-
 /**
  * Note: exported as public Type
  */
@@ -27,6 +27,19 @@ export type AppchainBridgeReact = {
   title?: string;
   /** Optional array of bridgeable tokens. */
   bridgeableTokens?: BridgeableToken[];
+  /** Optional function to implement fetching the price of the token. */
+  handleFetchPrice?: (amount: string, token: Token) => Promise<string>;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type AppchainBridgeProviderReact = {
+  children: ReactNode;
+  chain: Chain;
+  appchain: Appchain;
+  bridgeableTokens?: BridgeableToken[];
+  handleFetchPrice?: (amount: string, token: Token) => Promise<string>;
 };
 
 /**
