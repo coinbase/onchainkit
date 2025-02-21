@@ -341,12 +341,12 @@
       "permanent": true
     },
     {
-      "source": "/frame/*",
+      "source": "/frame/:match*",
       "destination": "https://docs.base.org/builderkits/onchainkit",
       "permanent": true
     },
     {
-      "source": "/farcaster/*",
+      "source": "/farcaster/:match*",
       "destination": "https://docs.base.org/builderkits/onchainkit",
       "permanent": true
     }
