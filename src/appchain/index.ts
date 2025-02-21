@@ -30,6 +30,7 @@ export type {
   UseWithdrawButtonParams,
   Appchain,
   AppchainBridgeReact,
+  AppchainBridgeProviderReact,
   AppchainConfig,
   BridgeableToken,
 } from './bridge/types';

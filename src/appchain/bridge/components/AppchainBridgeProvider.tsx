@@ -4,14 +4,13 @@ import { coinbaseLogoSvg } from '@/internal/svg/coinbaseLogoSvg';
 import { toReadableAmount } from '@/swap/utils/toReadableAmount';
 import type { Token } from '@/token';
 import {
-  type ReactNode,
   createContext,
   useCallback,
   useContext,
   useEffect,
   useState,
 } from 'react';
-import { type Address, type Chain, erc20Abi } from 'viem';
+import { type Address, erc20Abi } from 'viem';
 import { base } from 'viem/chains';
 import { useAccount, useConfig } from 'wagmi';
 import { getBalance, readContract } from 'wagmi/actions';
@@ -19,22 +18,15 @@ import { DEFAULT_BRIDGEABLE_TOKENS } from '../constants';
 import { useChainConfig } from '../hooks/useAppchainConfig';
 import { useDeposit } from '../hooks/useDeposit';
 import { useWithdraw } from '../hooks/useWithdraw';
-import type { Appchain, BridgeableToken, ChainWithIcon } from '../types';
+import type { ChainWithIcon } from '../types';
 import type { BridgeParams } from '../types';
 import type { AppchainBridgeContextType } from '../types';
+import type { AppchainBridgeProviderReact } from '../types';
 import { defaultPriceFetcher } from '../utils/defaultPriceFetcher';
 
 const AppchainBridgeContext = createContext<
   AppchainBridgeContextType | undefined
 >(undefined);
-
-interface AppchainBridgeProviderProps {
-  children: ReactNode;
-  chain: Chain;
-  appchain: Appchain;
-  bridgeableTokens?: BridgeableToken[];
-  handleFetchPrice?: (amount: string, token: Token) => Promise<string>;
-}
 
 export const AppchainBridgeProvider = ({
   children,
@@ -42,7 +34,7 @@ export const AppchainBridgeProvider = ({
   appchain,
   bridgeableTokens = DEFAULT_BRIDGEABLE_TOKENS,
   handleFetchPrice = defaultPriceFetcher,
-}: AppchainBridgeProviderProps) => {
+}: AppchainBridgeProviderReact) => {
   // Source network
   const [from, setFrom] = useState<ChainWithIcon>({
     ...chain,
