@@ -4,6 +4,7 @@ import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
 
 const mockSetLifecycleStatus = vi.fn();
+const mockSendAnalytics = vi.fn();
 let mockLifecycleStatus = {
   statusName: 'init',
   statusData: {
@@ -24,9 +25,16 @@ vi.mock('../styles/theme', () => ({
   cn: (...args: string[]) => args.join(' '),
 }));
 
+vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: () => ({
+    sendAnalytics: mockSendAnalytics,
+  }),
+}));
+
 describe('SwapSettingsSlippageInput', () => {
   beforeEach(() => {
     mockSetLifecycleStatus.mockClear();
+    mockSendAnalytics.mockClear();
     mockLifecycleStatus = {
       statusName: 'init',
       statusData: {
@@ -229,5 +237,87 @@ describe('SwapSettingsSlippageInput', () => {
     expect(screen.getByRole('textbox')).toHaveValue(
       FALLBACK_DEFAULT_MAX_SLIPPAGE.toString(),
     );
+  });
+
+  describe('analytics', () => {
+    it('sends analytics when slippage changes in Custom mode', () => {
+      render(<SwapSettingsSlippageInput />);
+      fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
+      fireEvent.change(screen.getByRole('textbox'), {
+        target: { value: '2.5' },
+      });
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith('swapSlippageChanged', {
+        previousSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
+        slippage: 2.5,
+      });
+    });
+
+    it('sends analytics when switching from Custom to Auto mode with different values', () => {
+      mockLifecycleStatus = {
+        statusName: 'updated',
+        statusData: {
+          isMissingRequiredField: false,
+          maxSlippage: 2.5,
+        },
+      };
+
+      render(<SwapSettingsSlippageInput />);
+      mockSendAnalytics.mockClear();
+
+      fireEvent.click(screen.getByRole('button', { name: 'Auto' }));
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith('swapSlippageChanged', {
+        previousSlippage: 2.5,
+        slippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
+      });
+    });
+
+    it('sends analytics when handling invalid input', () => {
+      render(<SwapSettingsSlippageInput />);
+      fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
+      fireEvent.change(screen.getByRole('textbox'), {
+        target: { value: 'abc' },
+      });
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith('swapSlippageChanged', {
+        previousSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
+        slippage: 0,
+      });
+    });
+
+    it('sends analytics when handling empty input', () => {
+      render(<SwapSettingsSlippageInput />);
+      fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: '' } });
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith('swapSlippageChanged', {
+        previousSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
+        slippage: 0,
+      });
+    });
+
+    it('sends analytics when handling decimal input', () => {
+      render(<SwapSettingsSlippageInput />);
+      fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
+      fireEvent.change(screen.getByRole('textbox'), {
+        target: { value: '2.75' },
+      });
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith('swapSlippageChanged', {
+        previousSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
+        slippage: 2.75,
+      });
+    });
+
+    it('does not send analytics when slippage value does not change', () => {
+      render(<SwapSettingsSlippageInput />);
+      fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
+      fireEvent.change(screen.getByRole('textbox'), {
+        target: { value: FALLBACK_DEFAULT_MAX_SLIPPAGE.toString() },
+      });
+
+      expect(mockSendAnalytics).not.toHaveBeenCalled();
+    });
   });
 });
