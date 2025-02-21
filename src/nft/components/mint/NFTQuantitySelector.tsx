@@ -1,5 +1,6 @@
 import { QuantitySelector } from '@/internal/components/QuantitySelector';
 import { useNFTContext } from '@/nft/components/NFTProvider';
+import { useMintAnalytics } from '@/nft/hooks/useMintAnalytics';
 import { cn } from '@/styles/theme';
 
 type NFTQuantitySelectorReact = {
@@ -8,17 +9,27 @@ type NFTQuantitySelectorReact = {
 
 export function NFTQuantitySelector({ className }: NFTQuantitySelectorReact) {
   const { maxMintsPerWallet, setQuantity } = useNFTContext();
+  const { handleQuantityChange } = useMintAnalytics();
 
   // if max is 1, no need to show quantity selector
   if (maxMintsPerWallet === 1) {
     return null;
   }
 
+  const handleQuantityUpdate = (newValue: string) => {
+    const newQuantity = Number.parseInt(newValue, 10);
+
+    if (!Number.isNaN(newQuantity)) {
+      handleQuantityChange(newQuantity);
+    }
+    setQuantity(newValue);
+  };
+
   return (
     <div className={cn('py-1', className)}>
       <QuantitySelector
         className={className}
-        onChange={setQuantity}
+        onChange={handleQuantityUpdate}
         minQuantity={1}
         maxQuantity={maxMintsPerWallet}
         placeholder=""

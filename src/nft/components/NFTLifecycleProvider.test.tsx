@@ -3,6 +3,7 @@ import type { NFTError } from '@/api/types';
 import { fireEvent, render } from '@testing-library/react';
 import type { TransactionReceipt } from 'viem';
 import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { type LifecycleStatus, LifecycleType, MediaType } from '../types';
 import {
   NFTLifecycleProvider,
@@ -12,17 +13,18 @@ import {
 const TestComponent = () => {
   const context = useNFTLifecycleContext();
 
-  const handleStatusError = async () => {
+  const handleStatusError = () => {
     context.updateLifecycleStatus({
       statusName: 'error',
       statusData: {
-        code: 'code',
-        error: 'error_long_messages',
-        message: '',
+        error: 'error_message',
+        code: 'error_code',
+        message: 'detailed_error_message',
       },
     });
   };
-  const handleStatusSuccessWithTransaction = async () => {
+
+  const handleStatusSuccessWithTransaction = () => {
     context.updateLifecycleStatus({
       statusName: 'success',
       statusData: {
@@ -30,13 +32,17 @@ const TestComponent = () => {
       },
     });
   };
-  const handleStatusSuccessWithoutTransaction = async () => {
+
+  const handleStatusSuccessWithoutTransaction = () => {
     context.updateLifecycleStatus({
       statusName: 'success',
-      statusData: {},
+      statusData: {
+        transactionReceipts: [],
+      },
     });
   };
-  const handleStatusMediaLoading = async () => {
+
+  const handleStatusMediaLoading = () => {
     context.updateLifecycleStatus({
       statusName: 'mediaLoading',
       statusData: {
@@ -45,6 +51,7 @@ const TestComponent = () => {
       },
     });
   };
+
   return (
     <div data-testid="test-component">
       <span data-testid="context-value-lifecycleStatus-statusName">
@@ -70,6 +77,23 @@ const TestComponent = () => {
     </div>
   );
 };
+
+const mockTransactionReceipt: TransactionReceipt = {
+  blockHash: '0xblockhash',
+  blockNumber: 1n,
+  contractAddress: null,
+  cumulativeGasUsed: 21000n,
+  effectiveGasPrice: 1000000000n,
+  from: '0x456',
+  gasUsed: 21000n,
+  logs: [],
+  logsBloom: '0x',
+  status: 'success',
+  to: '0x123',
+  transactionHash: '0xhash',
+  transactionIndex: 0,
+  type: 'legacy',
+} as const;
 
 const renderWithProviders = ({
   Component,
@@ -154,5 +178,17 @@ describe('NFTLifecycleProvider', () => {
     const button = getByText('setLifecycleStatus.mediaLoading');
     fireEvent.click(button);
     expect(onStatusMock).toHaveBeenCalled();
+  });
+
+  it('should update lifecycle status correctly', () => {
+    const { getByText, getByTestId } = renderWithProviders({
+      Component: TestComponent,
+    });
+
+    fireEvent.click(getByText('setLifecycleStatus.successWithTransaction'));
+
+    expect(
+      getByTestId('context-value-lifecycleStatus-statusName').textContent,
+    ).toBe('success');
   });
 });

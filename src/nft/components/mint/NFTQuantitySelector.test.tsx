@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { useNFTContext } from '@/nft/components/NFTProvider';
+import { useMintAnalytics } from '@/nft/hooks/useMintAnalytics';
 import { fireEvent, render } from '@testing-library/react';
 import { act } from 'react';
 import {
@@ -13,8 +14,9 @@ import {
 } from 'vitest';
 import { NFTQuantitySelector } from './NFTQuantitySelector';
 
-vi.mock('@/nft/components/NFTProvider');
 
+vi.mock('@/nft/components/NFTProvider');
+vi.mock('@/nft/hooks/useMintAnalytics');
 vi.mock('@/internal/components/QuantitySelector', () => ({
   QuantitySelector: ({
     onChange,
@@ -36,6 +38,7 @@ vi.mock('@/internal/components/QuantitySelector', () => ({
 
 describe('NFTQuantitySelector', () => {
   const setQuantityMock = vi.fn();
+  const handleQuantityChangeMock = vi.fn();
   const useNFTContextMock = useNFTContext as Mock;
 
   beforeEach(() => {
@@ -43,16 +46,21 @@ describe('NFTQuantitySelector', () => {
       maxMintsPerWallet: 5,
       setQuantity: setQuantityMock,
     });
+    (useMintAnalytics as Mock).mockReturnValue({
+      handleQuantityChange: handleQuantityChangeMock,
+    });
   });
 
   afterEach(() => {
     vi.clearAllMocks();
   });
 
+
   it('should render', () => {
     const { getByRole } = render(<NFTQuantitySelector />);
     expect(getByRole('textbox')).toBeInTheDocument();
   });
+
 
   it('should not render when maxMintsPerWallet is 1', () => {
     useNFTContextMock.mockReturnValueOnce({ maxMintsPerWallet: 1 });
@@ -60,15 +68,32 @@ describe('NFTQuantitySelector', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('should call setQuantity on change', () => {
+  it('should call setQuantity and handleQuantityChange on valid input', () => {
     const { getByRole } = render(<NFTQuantitySelector />);
     const input = getByRole('textbox') as HTMLInputElement;
+
     act(() => {
       input.focus();
       fireEvent.change(input, { target: { value: '3' } });
       input.blur();
     });
+
     expect(setQuantityMock).toHaveBeenCalledWith('3');
+    expect(handleQuantityChangeMock).toHaveBeenCalledWith(3);
+  });
+
+  it('should not call handleQuantityChange on invalid input', () => {
+    const { getByRole } = render(<NFTQuantitySelector />);
+    const input = getByRole('textbox') as HTMLInputElement;
+
+    act(() => {
+      input.focus();
+      fireEvent.change(input, { target: { value: 'abc' } });
+      input.blur();
+    });
+
+    expect(setQuantityMock).toHaveBeenCalledWith('abc');
+    expect(handleQuantityChangeMock).not.toHaveBeenCalled();
   });
 
   it('should apply the provided className', () => {

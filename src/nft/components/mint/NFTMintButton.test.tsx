@@ -3,6 +3,7 @@ import '@testing-library/jest-dom';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { NFTMintButton } from '@/nft/components/mint/NFTMintButton';
+import { useMintAnalytics } from '@/nft/hooks/useMintAnalytics';
 import { useOnchainKit } from '@/useOnchainKit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { base } from 'viem/chains';
@@ -16,86 +17,27 @@ import {
 } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 
+
 vi.mock('@/nft/components/NFTProvider');
 vi.mock('@/nft/components/NFTLifecycleProvider');
+vi.mock('@/nft/hooks/useMintAnalytics');
 vi.mock('@/useOnchainKit');
-vi.mock('wagmi', async (importOriginal) => {
-  return {
-    ...(await importOriginal<typeof import('wagmi')>()),
-    useAccount: vi.fn(),
-    useChainId: vi.fn(),
-  };
-});
-vi.mock('@/internal/components/Spinner', () => ({
-  Spinner: () => <div>Spinner</div>,
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useChainId: vi.fn(),
+  http: vi.fn(),
+  WagmiProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
+  createConfig: vi.fn(),
 }));
-vi.mock('@/transaction', async (importOriginal) => {
-  return {
-    ...(await importOriginal<typeof import('@/transaction')>()),
-    TransactionLifecycleStatus: vi.fn(),
-    TransactionButton: ({
-      text,
-      disabled,
-    }: { text: string; disabled: boolean }) => (
-      <button type="button" disabled={disabled} data-testid="transactionButton">
-        {text}
-      </button>
-    ),
-    Transaction: ({
-      onStatus,
-      children,
-      capabilities,
-    }: {
-      onStatus: (status: { statusName: string }) => void;
-      children: React.ReactNode;
-      capabilities: { paymasterService: { url: string } };
-    }) => (
-      <>
-        <div>
-          <button
-            type="button"
-            onClick={() => onStatus({ statusName: 'transactionPending' })}
-          >
-            TransactionPending
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              onStatus({ statusName: 'transactionLegacyExecuted' })
-            }
-          >
-            TransactionLegacyExecuted
-          </button>
-          <button
-            type="button"
-            onClick={() => onStatus({ statusName: 'success' })}
-          >
-            Success
-          </button>
-          <button
-            type="button"
-            onClick={() => onStatus({ statusName: 'error' })}
-          >
-            Error
-          </button>
-          <div>{capabilities?.paymasterService?.url}</div>
-        </div>
-        {children}
-      </>
-    ),
-    TransactionSponsor: vi.fn(),
-    TransactionStatus: vi.fn(),
-    TransactionStatusAction: vi.fn(),
-    TransactionStatusLabel: vi.fn(),
-  };
-});
 vi.mock('@/wallet', () => ({
   ConnectWallet: () => <div>ConnectWallet</div>,
 }));
 
 const queryClient = new QueryClient();
 
-const accountConfig = createConfig({
+const mockConfig = createConfig({
   chains: [base],
   connectors: [
     mock({
@@ -107,17 +49,32 @@ const accountConfig = createConfig({
   },
 });
 
-const TestProviders = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <WagmiProvider config={accountConfig}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </WagmiProvider>
-  );
-};
+const TestProviders = ({ children }: { children: React.ReactNode }) => (
+  <WagmiProvider config={mockConfig}>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  </WagmiProvider>
+);
 
 describe('NFTMintButton', () => {
   let mockUpdateLifecycleStatus: Mock;
+  let mockSetTransactionState: Mock;
+
   beforeEach(() => {
+    // Mock window.matchMedia
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: vi.fn().mockImplementation(query => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: vi.fn(), // Deprecated
+        removeListener: vi.fn(), // Deprecated
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      })),
+    });
+
     (useNFTContext as Mock).mockReturnValue({
       contractAddress: '0x123',
       name: 'name',
@@ -129,8 +86,12 @@ describe('NFTMintButton', () => {
         .mockResolvedValue({ to: '0x123', data: '0x123', value: BigInt(2) }),
     });
     mockUpdateLifecycleStatus = vi.fn();
+    mockSetTransactionState = vi.fn();
     (useNFTLifecycleContext as Mock).mockReturnValue({
       updateLifecycleStatus: mockUpdateLifecycleStatus,
+    });
+    (useMintAnalytics as Mock).mockReturnValue({
+      setTransactionState: mockSetTransactionState,
     });
     (useAccount as Mock).mockReturnValue({ address: '0xabc' });
     (useChainId as Mock).mockReturnValue(1);
@@ -170,6 +131,7 @@ describe('NFTMintButton', () => {
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionPending',
     });
+    expect(mockSetTransactionState).toHaveBeenCalledWith('transactionPending');
   });
 
   it('should call updateLifecycleStatus with transaction status when transactionStatus is transactionLegacyExecuted', () => {
@@ -184,6 +146,9 @@ describe('NFTMintButton', () => {
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionLegacyExecuted',
     });
+    expect(mockSetTransactionState).toHaveBeenCalledWith(
+      'transactionLegacyExecuted',
+    );
   });
 
   it('should call updateLifecycleStatus with transaction status when transactionStatus is success', () => {
@@ -198,6 +163,7 @@ describe('NFTMintButton', () => {
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'success',
     });
+    expect(mockSetTransactionState).toHaveBeenCalledWith('success');
   });
 
   it('should call updateLifecycleStatus with transaction status when transactionStatus is error', () => {
@@ -212,6 +178,7 @@ describe('NFTMintButton', () => {
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
     });
+    expect(mockSetTransactionState).toHaveBeenCalledWith('error');
   });
 
   it('should render ConnectWallet when address is not available', () => {
