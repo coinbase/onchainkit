@@ -66,7 +66,13 @@ export function SwapAmountInput({
       handleAmountChange(type, source.amount, token);
       handleAnalyticsTokenSelected(token);
     },
-    [source.amount, source.setToken, handleAmountChange, type],
+    [
+      source.amount,
+      source.setToken,
+      handleAmountChange,
+      handleAnalyticsTokenSelected,
+      type,
+    ],
   );
 
   // We are mocking the token selectors so I'm not able
