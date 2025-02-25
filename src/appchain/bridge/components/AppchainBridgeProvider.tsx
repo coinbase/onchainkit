@@ -10,7 +10,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { type Address, erc20Abi } from 'viem';
+import { type Address, type Hex, erc20Abi } from 'viem';
 import { base } from 'viem/chains';
 import { useAccount, useConfig } from 'wagmi';
 import { getBalance, readContract } from 'wagmi/actions';
@@ -83,8 +83,11 @@ export const AppchainBridgeProvider = ({
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isResumeTransactionModalOpen, setIsResumeTransactionModalOpen] =
+    useState(false);
   const direction = from.id === chain.id ? 'deposit' : 'withdraw';
   const [balance, setBalance] = useState<string>('');
+  const [resumeWithdrawalTxHash, setResumeWithdrawalTxHash] = useState<Hex>();
 
   // Deposit
   const {
@@ -243,12 +246,21 @@ export const AppchainBridgeProvider = ({
     await withdraw();
   }, [withdraw]);
 
-  // Open withdraw modal when withdraw is successful
+  const handleResetState = useCallback(() => {
+    setIsSuccessModalOpen(false);
+    setIsWithdrawModalOpen(false);
+    setIsResumeTransactionModalOpen(false);
+
+    setResumeWithdrawalTxHash(undefined);
+    // Maybe we want to reset the params here too?
+  }, []);
+
+  // Open withdraw modal when withdraw is successful, or when transaction is resumed
   useEffect(() => {
-    if (withdrawStatus === 'withdrawSuccess') {
+    if (withdrawStatus === 'withdrawSuccess' || resumeWithdrawalTxHash) {
       setIsWithdrawModalOpen(true);
     }
-  }, [withdrawStatus]);
+  }, [withdrawStatus, resumeWithdrawalTxHash]);
 
   // Reset withdraw status when withdraw modal is closed
   useEffect(() => {
@@ -268,7 +280,6 @@ export const AppchainBridgeProvider = ({
   useEffect(() => {
     if (withdrawStatus === 'claimSuccess') {
       setIsSuccessModalOpen(true);
-      setIsWithdrawModalOpen(false);
     }
   }, [withdrawStatus]);
 
@@ -295,6 +306,12 @@ export const AppchainBridgeProvider = ({
     isSuccessModalOpen,
     setIsSuccessModalOpen,
     handleOpenExplorer,
+    handleResetState,
+
+    // Resume transaction modal
+    isResumeTransactionModalOpen,
+    setIsResumeTransactionModalOpen,
+    resumeWithdrawalTxHash,
 
     // Deposits and Withdrawals
     handleDeposit,
@@ -310,6 +327,7 @@ export const AppchainBridgeProvider = ({
     setIsWithdrawModalOpen,
     resetDepositStatus,
     resetWithdrawStatus,
+    setResumeWithdrawalTxHash,
   });
 
   return (

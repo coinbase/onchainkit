@@ -6,8 +6,12 @@ import { useWithdrawButton } from '../hooks/useWithdrawButton';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
 export const AppchainBridgeWithdraw = () => {
-  const { withdrawStatus, waitForWithdrawal, proveAndFinalizeWithdrawal } =
-    useAppchainBridgeContext();
+  const {
+    withdrawStatus,
+    waitForWithdrawal,
+    proveAndFinalizeWithdrawal,
+    resumeWithdrawalTxHash,
+  } = useAppchainBridgeContext();
 
   const { buttonDisabled, buttonContent, shouldShowClaim, label } =
     useWithdrawButton({
@@ -20,8 +24,12 @@ export const AppchainBridgeWithdraw = () => {
         // If appchain withdrawal is successful, wait for claim to be ready
         waitForWithdrawal();
       }
+      if (resumeWithdrawalTxHash) {
+        // If the user has resumed a withdrawal transaction, wait for claim to be ready
+        waitForWithdrawal(resumeWithdrawalTxHash);
+      }
     })();
-  }, [withdrawStatus, waitForWithdrawal]);
+  }, [withdrawStatus, waitForWithdrawal, resumeWithdrawalTxHash]);
 
   const buttonStyles = cn(
     pressable.primary,

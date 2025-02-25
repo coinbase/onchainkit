@@ -9,14 +9,14 @@ vi.mock('./AppchainBridgeProvider', () => ({
 
 describe('AppchainBridgeSuccess', () => {
   const mockHandleOpenExplorer = vi.fn();
-  const mockSetIsSuccessModalOpen = vi.fn();
+  const mockHandleResetState = vi.fn();
 
   beforeEach(() => {
     vi.resetAllMocks();
 
     (useAppchainBridgeContext as Mock).mockReturnValue({
       handleOpenExplorer: mockHandleOpenExplorer,
-      setIsSuccessModalOpen: mockSetIsSuccessModalOpen,
+      handleResetState: mockHandleResetState,
     });
   });
 
@@ -51,13 +51,13 @@ describe('AppchainBridgeSuccess', () => {
     expect(mockHandleOpenExplorer).toHaveBeenCalledTimes(1);
   });
 
-  it('calls setIsSuccessModalOpen when secondary button is clicked', () => {
+  it('calls handleResetState when secondary button is clicked', () => {
     render(<AppchainBridgeSuccess />);
 
     const secondaryButton = screen.getByText('Back to bridge');
     fireEvent.click(secondaryButton);
 
-    expect(mockSetIsSuccessModalOpen).toHaveBeenCalledWith(false);
+    expect(mockHandleResetState).toHaveBeenCalledTimes(1);
   });
 
   it('applies correct button styles', () => {

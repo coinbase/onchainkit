@@ -145,13 +145,16 @@ export const useWithdraw = ({
     }
   };
 
-  const waitForWithdrawal = async () => {
-    if (!data) {
+  const waitForWithdrawal = async (txHash?: Hex) => {
+    const hash = txHash || data;
+    if (!hash) {
       return;
     }
 
     const withdrawalReceipt = await waitForTransactionReceipt(wagmiConfig, {
-      hash: data,
+      // By default, use the withdrawal hash from Wagmi hook
+      // If the user has resumed a withdrawal transaction, use the txHash provided
+      hash,
       confirmations: 1,
       chainId: config.chainId,
     });

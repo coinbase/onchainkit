@@ -58,12 +58,14 @@ export type AppchainBridgeContextType = {
   isAddressModalOpen: boolean;
   isWithdrawModalOpen: boolean;
   isSuccessModalOpen: boolean;
+  isResumeTransactionModalOpen: boolean;
   balance: string;
   depositStatus: string;
   withdrawStatus: string;
   direction: string;
   depositTransactionHash?: Hex;
   finalizedWithdrawalTxHash?: Hex;
+  resumeWithdrawalTxHash?: Hex;
 
   // Handler Functions
   handleToggle: () => void;
@@ -72,12 +74,15 @@ export type AppchainBridgeContextType = {
   handleDeposit: () => void;
   handleWithdraw: () => void;
   handleOpenExplorer: () => void;
-  waitForWithdrawal: () => Promise<void>;
+  handleResetState: () => void;
+  waitForWithdrawal: (txHash?: Hex) => Promise<void>;
   proveAndFinalizeWithdrawal: () => Promise<void>;
   setIsAddressModalOpen: (open: boolean) => void;
   setIsWithdrawModalOpen: (open: boolean) => void;
   setIsSuccessModalOpen: (open: boolean) => void;
   resetDepositStatus: () => void;
+  setResumeWithdrawalTxHash: (txHash: Hex) => void;
+  setIsResumeTransactionModalOpen: (open: boolean) => void;
 };
 
 /**
