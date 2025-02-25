@@ -1,3 +1,4 @@
+import { getChainExplorer } from '@/core/network/getChainExplorer';
 import { useValue } from '@/internal/hooks/useValue';
 import { baseSvg } from '@/internal/svg/baseSvg';
 import { coinbaseLogoSvg } from '@/internal/svg/coinbaseLogoSvg';
@@ -11,7 +12,6 @@ import {
   useState,
 } from 'react';
 import { type Address, erc20Abi } from 'viem';
-import { base } from 'viem/chains';
 import { useAccount, useConfig } from 'wagmi';
 import { getBalance, readContract } from 'wagmi/actions';
 import { DEFAULT_BRIDGEABLE_TOKENS } from '../constants';
@@ -220,10 +220,7 @@ export const AppchainBridgeProvider = ({
   }, []);
 
   const handleOpenExplorer = useCallback(() => {
-    const blockExplorerUrl =
-      from.id === base.id
-        ? 'https://basescan.org/tx/'
-        : 'https://sepolia.basescan.org/tx/';
+    const blockExplorerUrl = getChainExplorer(from.id);
     const txHash =
       depositStatus === 'depositSuccess'
         ? depositTransactionHash
