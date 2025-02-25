@@ -282,12 +282,12 @@ export type TransactionEventData = {
     metadata?: Record<string, unknown>;
   };
   [TransactionEvent.TransactionInitiated]: CommonAnalyticsData & {
-    address?: string;
+    address: string | undefined;
   };
   [TransactionEvent.TransactionSuccess]: CommonAnalyticsData & {
-    paymaster?: boolean;
-    address?: string;
-    transactionHash?: string;
+    paymaster: boolean | undefined;
+    address: string | undefined;
+    transactionHash: string | undefined;
   };
 };
 
