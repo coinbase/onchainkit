@@ -54,11 +54,14 @@ export function SwapAmountInput({
     [handleAmountChange, type],
   );
 
-  const handleAnalyticsTokenSelected = (token: Token) => {
-    sendAnalytics(SwapEvent.TokenSelected, {
-      token: token.symbol,
-    });
-  };
+  const handleAnalyticsTokenSelected = useCallback(
+    (token: Token) => {
+      sendAnalytics(SwapEvent.TokenSelected, {
+        token: token.symbol,
+      });
+    },
+    [sendAnalytics],
+  );
 
   const handleSetToken = useCallback(
     (token: Token) => {
