@@ -159,7 +159,7 @@ export type WalletEventData = {
   };
   [WalletEvent.ConnectError]: CommonAnalyticsData & {
     error: string;
-    metadata?: Record<string, unknown>;
+    metadata: Record<string, unknown> | undefined;
   };
   [WalletEvent.ConnectSuccess]: CommonAnalyticsData & {
     address: string;
@@ -192,7 +192,7 @@ export type SwapEventData = {
   };
   [SwapEvent.SwapFailure]: CommonAnalyticsData & {
     error: string;
-    metadata?: Record<string, unknown>;
+    metadata: Record<string, unknown> | undefined;
   };
   [SwapEvent.TokenDropdownSelected]: CommonAnalyticsData & {
     position: 'from' | 'to';
@@ -207,7 +207,7 @@ export type SwapEventData = {
 export type BuyEventData = {
   [BuyEvent.BuyFailure]: CommonAnalyticsData & {
     error: string;
-    metadata?: Record<string, unknown>;
+    metadata: Record<string, unknown> | undefined;
   };
   [BuyEvent.BuyInitiated]: CommonAnalyticsData & {
     amount: number;
@@ -236,11 +236,11 @@ export type CheckoutEventData = {
     productId: string;
     chargeHandlerId: string;
     isSponsored: boolean;
-    transactionHash?: string;
+    transactionHash: string | undefined;
   };
   [CheckoutEvent.CheckoutFailure]: CommonAnalyticsData & {
     error: string;
-    metadata?: Record<string, unknown>;
+    metadata: Record<string, unknown> | undefined;
   };
   [CheckoutEvent.CheckoutInitiated]: CommonAnalyticsData & {
     amount: number;
@@ -254,7 +254,7 @@ export type CheckoutEventData = {
 export type MintEventData = {
   [MintEvent.MintFailure]: CommonAnalyticsData & {
     error: string;
-    metadata?: Record<string, unknown>;
+    metadata: Record<string, unknown> | undefined;
   };
   [MintEvent.MintInitiated]: CommonAnalyticsData & {
     contractAddress: string;
@@ -279,7 +279,11 @@ export type MintEventData = {
 export type TransactionEventData = {
   [TransactionEvent.TransactionFailure]: CommonAnalyticsData & {
     error: string;
-    metadata?: Record<string, unknown>;
+    contracts: Array<{
+      contractAddress: string;
+      function: string;
+    }>;
+    metadata: Record<string, unknown> | undefined;
   };
   [TransactionEvent.TransactionInitiated]: CommonAnalyticsData & {
     address: string | undefined;
@@ -301,7 +305,7 @@ export type FundEventData = {
   };
   [FundEvent.FundFailure]: CommonAnalyticsData & {
     error: string;
-    metadata?: Record<string, unknown>;
+    metadata: Record<string, unknown> | undefined;
   };
   [FundEvent.FundInitiated]: CommonAnalyticsData & {
     currency: string;
@@ -419,6 +423,6 @@ export type AnalyticsEventData = {
   [ErrorEvent.ComponentError]: CommonAnalyticsData & {
     component: string;
     error: string;
-    metadata?: Record<string, unknown>;
+    metadata: Record<string, unknown> | undefined;
   };
 };
