@@ -7,12 +7,16 @@ import { http, createConfig } from 'wagmi';
 import { WagmiProvider } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
+import { B3_CHAIN } from './custom-chains/B3';
+import { LRDS_CHAIN } from './custom-chains/LRDS';
 
 export const config = createConfig({
-  chains: [base, baseSepolia],
+  chains: [base, baseSepolia, LRDS_CHAIN, B3_CHAIN],
   transports: {
     [base.id]: http(),
     [baseSepolia.id]: http(),
+    [LRDS_CHAIN.id]: http(),
+    [B3_CHAIN.id]: http(),
   },
   ssr: true,
   connectors: [
