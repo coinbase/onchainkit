@@ -54,14 +54,11 @@ export function SwapAmountInput({
     [handleAmountChange, type],
   );
 
-  const handleAnalyticsTokenSelected = useCallback(
-    (token: Token) => {
-      sendAnalytics(SwapEvent.TokenSelected, {
-        token: token.symbol,
-      });
-    },
-    [sendAnalytics],
-  );
+  const handleAnalyticsTokenSelected = (token: Token) => {
+    sendAnalytics(SwapEvent.TokenSelected, {
+      token: token.symbol,
+    });
+  };
 
   const handleSetToken = useCallback(
     (token: Token) => {
@@ -69,13 +66,7 @@ export function SwapAmountInput({
       handleAmountChange(type, source.amount, token);
       handleAnalyticsTokenSelected(token);
     },
-    [
-      source.amount,
-      source.setToken,
-      handleAmountChange,
-      type,
-      handleAnalyticsTokenSelected,
-    ],
+    [source.amount, source.setToken, handleAmountChange, type],
   );
 
   // We are mocking the token selectors so I'm not able
