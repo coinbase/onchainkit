@@ -7,12 +7,10 @@ import type { Hex } from 'viem';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
 export const AppchainBridgeResumeTransaction = () => {
-  const {
-    setIsResumeTransactionModalOpen,
-    handleResumeTransaction,
-    isValidResumeTxHash,
-  } = useAppchainBridgeContext();
+  const { setIsResumeTransactionModalOpen, handleResumeTransaction } =
+    useAppchainBridgeContext();
   const [withdrawalTxHash, setWithdrawalTxHash] = useState<string | null>(null);
+  const [invalidInput, setInvalidInput] = useState<boolean>(false);
 
   const backButton = (
     <PressableIcon
@@ -66,7 +64,7 @@ export const AppchainBridgeResumeTransaction = () => {
             value={withdrawalTxHash || ''}
           />
         </div>
-        {withdrawalTxHash && !isValidResumeTxHash && (
+        {withdrawalTxHash && invalidInput && (
           <div className="mt-2 flex">
             <p className="text-foregroundMuted text-red-500 text-sm">
               Please enter a valid transaction hash
@@ -83,6 +81,13 @@ export const AppchainBridgeResumeTransaction = () => {
             'text-center',
           )}
           onClick={() => {
+            if (
+              !withdrawalTxHash?.startsWith('0x') ||
+              withdrawalTxHash.length !== 66
+            ) {
+              setInvalidInput(true);
+              return;
+            }
             handleResumeTransaction(withdrawalTxHash as Hex);
           }}
         >

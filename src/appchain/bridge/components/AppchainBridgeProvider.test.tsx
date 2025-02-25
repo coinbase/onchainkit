@@ -249,15 +249,6 @@ describe('AppchainBridgeProvider', () => {
       '0x1234567890123456789012345678901234567890123456789012345678901234',
     );
     expect(result.current.isResumeTransactionModalOpen).toBe(false);
-    expect(result.current.isValidResumeTxHash).toBe(true);
-  });
-
-  it('should validate input when handleResumeTransaction is called', async () => {
-    const result = await renderBridgeProvider();
-    await waitFor(async () => {
-      result.current.handleResumeTransaction('0x123');
-    });
-    expect(result.current.isValidResumeTxHash).toBe(false);
   });
 
   it('should validate required props', () => {

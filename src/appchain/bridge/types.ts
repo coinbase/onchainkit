@@ -66,7 +66,6 @@ export type AppchainBridgeContextType = {
   depositTransactionHash?: Hex;
   finalizedWithdrawalTxHash?: Hex;
   resumeWithdrawalTxHash?: Hex;
-  isValidResumeTxHash: boolean;
 
   // Handler Functions
   handleToggle: () => void;
