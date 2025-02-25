@@ -41,8 +41,8 @@ vi.mock('../utils/getETHPrice', () => ({
 }));
 
 const mockChain = {
-  id: 1,
-  name: 'Ethereum',
+  id: 84532,
+  name: 'Base Sepolia',
   nativeCurrency: {
     name: 'Ethereum',
     symbol: 'ETH',

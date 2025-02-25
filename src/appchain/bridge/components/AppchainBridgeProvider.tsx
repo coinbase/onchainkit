@@ -225,7 +225,7 @@ export const AppchainBridgeProvider = ({
       depositStatus === 'depositSuccess'
         ? depositTransactionHash
         : finalizedWithdrawalTxHash;
-    window.open(`${blockExplorerUrl}${txHash}`, '_blank');
+    window.open(`${blockExplorerUrl}/tx/${txHash}`, '_blank');
   }, [from, depositStatus, depositTransactionHash, finalizedWithdrawalTxHash]);
 
   const handleDeposit = useCallback(async () => {
