@@ -28,7 +28,6 @@ export const AppchainBridgeWithdraw = () => {
       }
       if (resumeWithdrawalTxHash) {
         // If the user has resumed a withdrawal transaction, wait for claim to be ready
-        console.log('calling waitForWithdrawal');
         waitForWithdrawal(resumeWithdrawalTxHash);
       }
     })();
