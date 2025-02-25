@@ -7,18 +7,36 @@ import { AppchainBridgeInput } from './AppchainBridgeInput';
 import { AppchainBridgeNetwork } from './AppchainBridgeNetwork';
 import { AppchainBridgeProvider } from './AppchainBridgeProvider';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
+import { AppchainBridgeResumeTransaction } from './AppchainBridgeResumeTransaction';
 import { AppchainBridgeSuccess } from './AppchainBridgeSuccess';
 import { AppchainBridgeTransactionButton } from './AppchainBridgeTransactionButton';
 import { AppchainBridgeWithdraw } from './AppchainBridgeWithdraw';
 import { AppchainNetworkToggleButton } from './AppchainNetworkToggleButton';
-
 const AppchainBridgeDefaultContent = ({
   title,
 }: {
   title: string;
 }) => {
-  const { isAddressModalOpen, isWithdrawModalOpen, isSuccessModalOpen } =
-    useAppchainBridgeContext();
+  const {
+    isAddressModalOpen,
+    isWithdrawModalOpen,
+    isSuccessModalOpen,
+    isResumeTransactionModalOpen,
+    setIsResumeTransactionModalOpen,
+  } = useAppchainBridgeContext();
+
+  if (isResumeTransactionModalOpen) {
+    return (
+      <div
+        className="relative flex min-h-60"
+        data-testid="ockAppchainBridge_ResumeTransaction"
+      >
+        <div className="w-full">
+          <AppchainBridgeResumeTransaction />
+        </div>
+      </div>
+    );
+  }
 
   if (isSuccessModalOpen) {
     return (
@@ -65,10 +83,27 @@ const AppchainBridgeDefaultContent = ({
       data-testid="ockAppchainBridge_DefaultContent"
     >
       <div className="w-full">
-        <div className="mb-4 flex items-center justify-between">
+        <div className="relative mb-4 flex items-center justify-between">
           <h3 className={cn(text.title3)} data-testid="ockSwap_Title">
             {title}
           </h3>
+          <span
+            className={cn(
+              text.label2,
+              color.foregroundMuted,
+              'absolute right-0',
+            )}
+          >
+            <button
+              type="button"
+              /* v8 ignore next 3 */
+              onClick={() => {
+                setIsResumeTransactionModalOpen(true);
+              }}
+            >
+              Resume
+            </button>
+          </span>
         </div>
         <div className="relative flex">
           <div className="flex flex-col gap-2">

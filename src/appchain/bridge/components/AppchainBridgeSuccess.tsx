@@ -8,8 +8,7 @@ export const AppchainBridgeSuccess = ({
   primaryButtonLabel = 'View Transaction',
   secondaryButtonLabel = 'Back to bridge',
 }: AppchainBridgeSuccessReact) => {
-  const { handleOpenExplorer, setIsSuccessModalOpen } =
-    useAppchainBridgeContext();
+  const { handleOpenExplorer, handleResetState } = useAppchainBridgeContext();
 
   return (
     <div className="flex h-full w-full flex-col justify-between">
@@ -38,7 +37,7 @@ export const AppchainBridgeSuccess = ({
               },
               {
                 label: secondaryButtonLabel,
-                action: () => setIsSuccessModalOpen(false),
+                action: handleResetState,
                 variant: 'secondary',
                 textColor: color.foreground,
               },
