@@ -279,10 +279,6 @@ export type MintEventData = {
 export type TransactionEventData = {
   [TransactionEvent.TransactionFailure]: CommonAnalyticsData & {
     error: string;
-    contracts: Array<{
-      contractAddress: string;
-      function: string;
-    }>;
     metadata: Record<string, unknown> | undefined;
   };
   [TransactionEvent.TransactionInitiated]: CommonAnalyticsData & {
