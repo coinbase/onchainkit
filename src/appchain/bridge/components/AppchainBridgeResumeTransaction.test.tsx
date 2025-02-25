@@ -42,9 +42,16 @@ describe('AppchainBridgeResumeTransaction', () => {
     render(<AppchainBridgeResumeTransaction />);
 
     const input = screen.getByPlaceholderText('0x...');
-    fireEvent.change(input, { target: { value: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef' } });
+    fireEvent.change(input, {
+      target: {
+        value:
+          '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+      },
+    });
 
-    expect(input).toHaveValue('0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef');
+    expect(input).toHaveValue(
+      '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+    );
   });
 
   it('shows validation message when transaction hash is invalid', async () => {
@@ -61,7 +68,7 @@ describe('AppchainBridgeResumeTransaction', () => {
       selector: 'div',
     });
     fireEvent.click(resumeButton);
-    
+
     await waitFor(() => {
       expect(
         screen.getByText('Please enter a valid transaction hash'),
@@ -73,14 +80,21 @@ describe('AppchainBridgeResumeTransaction', () => {
     render(<AppchainBridgeResumeTransaction />);
 
     const input = screen.getByPlaceholderText('0x...');
-    fireEvent.change(input, { target: { value: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef' } });
+    fireEvent.change(input, {
+      target: {
+        value:
+          '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+      },
+    });
 
     const resumeButton = screen.getByText('Resume Transaction', {
       selector: 'div',
     });
     fireEvent.click(resumeButton);
 
-    expect(mockHandleResumeTransaction).toHaveBeenCalledWith('0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef');
+    expect(mockHandleResumeTransaction).toHaveBeenCalledWith(
+      '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+    );
   });
 
   it('applies correct styles to input field', () => {
