@@ -224,6 +224,18 @@ describe('AppchainBridge Component', () => {
     expect(screen.getByTestId('ockAppchainBridge_Address')).toBeInTheDocument();
   });
 
+  it('renders success modal when isSuccessModalOpen is true', async () => {
+    (useAppchainBridgeContext as Mock).mockReturnValue({
+      isSuccessModalOpen: true,
+    });
+    await act(async () => {
+      render(<AppchainBridge chain={mockChain} appchain={mockAppchain} />, {
+        wrapper,
+      });
+    });
+    expect(screen.getByTestId('ockAppchainBridge_Success')).toBeInTheDocument();
+  });
+
   it('should not render when not mounted', () => {
     (useIsMounted as Mock).mockReturnValueOnce(false);
     const { container } = render(

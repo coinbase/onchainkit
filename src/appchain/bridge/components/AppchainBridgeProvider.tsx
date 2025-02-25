@@ -82,6 +82,7 @@ export const AppchainBridgeProvider = ({
   const [isPriceLoading, setIsPriceLoading] = useState(false);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const direction = from.id === chain.id ? 'deposit' : 'withdraw';
   const [balance, setBalance] = useState<string>('');
 
@@ -97,6 +98,7 @@ export const AppchainBridgeProvider = ({
     withdrawStatus,
     waitForWithdrawal,
     proveAndFinalizeWithdrawal,
+    finalizedWithdrawalTxHash,
     resetWithdrawStatus,
   } = useWithdraw({
     config,
@@ -217,30 +219,25 @@ export const AppchainBridgeProvider = ({
     }));
   }, []);
 
-  const handleDeposit = useCallback(async () => {
+  const handleOpenExplorer = useCallback(() => {
     const blockExplorerUrl =
       from.id === base.id
         ? 'https://basescan.org/tx/'
         : 'https://sepolia.basescan.org/tx/';
+    const txHash =
+      depositStatus === 'depositSuccess'
+        ? depositTransactionHash
+        : finalizedWithdrawalTxHash;
+    window.open(`${blockExplorerUrl}${txHash}`, '_blank');
+  }, [from, depositStatus, depositTransactionHash, finalizedWithdrawalTxHash]);
 
-    if (depositStatus === 'depositSuccess') {
-      window.open(`${blockExplorerUrl}${depositTransactionHash}`, '_blank');
-      return;
-    }
-
+  const handleDeposit = useCallback(async () => {
     await deposit({
       config,
       from,
       bridgeParams,
     });
-  }, [
-    deposit,
-    depositStatus,
-    config,
-    from,
-    bridgeParams,
-    depositTransactionHash,
-  ]);
+  }, [deposit, config, from, bridgeParams]);
 
   const handleWithdraw = useCallback(async () => {
     await withdraw();
@@ -259,6 +256,21 @@ export const AppchainBridgeProvider = ({
       resetWithdrawStatus();
     }
   }, [isWithdrawModalOpen, resetWithdrawStatus]);
+
+  // Open success modal when deposit is successful
+  useEffect(() => {
+    if (depositStatus === 'depositSuccess') {
+      setIsSuccessModalOpen(true);
+    }
+  }, [depositStatus]);
+
+  // Open success modal when withdraw is successful
+  useEffect(() => {
+    if (withdrawStatus === 'claimSuccess') {
+      setIsSuccessModalOpen(true);
+      setIsWithdrawModalOpen(false);
+    }
+  }, [withdrawStatus]);
 
   const value = useValue({
     // Internal
@@ -279,14 +291,21 @@ export const AppchainBridgeProvider = ({
     setIsAddressModalOpen,
     handleAddressSelect,
 
+    // Success modal
+    isSuccessModalOpen,
+    setIsSuccessModalOpen,
+    handleOpenExplorer,
+
     // Deposits and Withdrawals
     handleDeposit,
     depositStatus,
+    depositTransactionHash,
     direction,
     handleWithdraw,
     withdrawStatus,
     waitForWithdrawal,
     proveAndFinalizeWithdrawal,
+    finalizedWithdrawalTxHash,
     isWithdrawModalOpen,
     setIsWithdrawModalOpen,
     resetDepositStatus,

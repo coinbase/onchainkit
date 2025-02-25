@@ -238,50 +238,6 @@ describe('AppchainBridgeProvider', () => {
     expect(mockDeposit).toHaveBeenCalled();
   });
 
-  it('should open correct block explorer based on chain ID when deposit is successful', async () => {
-    const mockDeposit = vi.fn();
-    (useDeposit as Mock).mockReturnValue({
-      deposit: mockDeposit,
-      depositStatus: 'depositSuccess',
-      transactionHash: '0xtx',
-      resetDepositStatus: vi.fn(),
-    });
-    // Test with Base mainnet
-    const baseChain = {
-      ...mockChain,
-      id: 8453, // Base mainnet chain ID
-    };
-    const baseResult = await renderBridgeProvider({
-      chain: baseChain,
-      appchain: mockAppchain,
-    });
-    await waitFor(async () => {
-      baseResult.current.handleDeposit();
-    });
-    expect(window.open).toHaveBeenCalledWith(
-      'https://basescan.org/tx/0xtx',
-      '_blank',
-    );
-    // Reset mocks
-    vi.clearAllMocks();
-    // Test with Base Sepolia
-    const sepoliaChain = {
-      ...mockChain,
-      id: 84532, // Base Sepolia chain ID
-    };
-    const sepoliaResult = await renderBridgeProvider({
-      chain: sepoliaChain,
-      appchain: mockAppchain,
-    });
-    await waitFor(async () => {
-      sepoliaResult.current.handleDeposit();
-    });
-    expect(window.open).toHaveBeenCalledWith(
-      'https://sepolia.basescan.org/tx/0xtx',
-      '_blank',
-    );
-  });
-
   it('should validate required props', () => {
     const consoleErrorSpy = vi
       .spyOn(console, 'error')
@@ -434,5 +390,88 @@ describe('AppchainBridgeProvider', () => {
     await waitFor(async () => {
       expect(result.current.isWithdrawModalOpen).toBe(true);
     });
+  });
+
+  it('should open success modal when withdraw is successful', async () => {
+    (useWithdraw as Mock).mockReturnValue({
+      withdrawStatus: 'claimSuccess',
+      resetWithdrawStatus: vi.fn(),
+    });
+    const result = await renderBridgeProvider();
+    await waitFor(async () => {
+      expect(result.current.isSuccessModalOpen).toBe(true);
+    });
+  });
+
+  it('should open the correct explorer', async () => {
+    const baseChain = {
+      ...mockChain,
+      id: 8453, // Base mainnet chain ID
+    };
+    const baseResult = await renderBridgeProvider({
+      chain: baseChain,
+      appchain: mockAppchain,
+    });
+    await waitFor(async () => {
+      baseResult.current.handleOpenExplorer();
+    });
+    expect(window.open).toHaveBeenCalledWith(
+      'https://basescan.org/tx/undefined',
+      '_blank',
+    );
+    // Reset mocks
+    vi.clearAllMocks();
+    const sepoliaChain = {
+      ...mockChain,
+      id: 84532, // Base Sepolia chain ID
+    };
+    const sepoliaResult = await renderBridgeProvider({
+      chain: sepoliaChain,
+      appchain: mockAppchain,
+    });
+    await waitFor(async () => {
+      sepoliaResult.current.handleOpenExplorer();
+    });
+    expect(window.open).toHaveBeenCalledWith(
+      'https://sepolia.basescan.org/tx/undefined',
+      '_blank',
+    );
+  });
+
+  it('should open the correct explorer when deposit is successful', async () => {
+    const mockDeposit = vi.fn();
+    (useDeposit as Mock).mockReturnValue({
+      deposit: mockDeposit,
+      depositStatus: 'depositSuccess',
+      transactionHash: '0x123',
+      resetDepositStatus: vi.fn(),
+    });
+
+    const result = await renderBridgeProvider();
+    await waitFor(async () => {
+      result.current.handleOpenExplorer();
+    });
+    expect(window.open).toHaveBeenCalledWith(
+      'https://sepolia.basescan.org/tx/0x123',
+      '_blank',
+    );
+  });
+
+  it('should open the correct explorer when withdrawal is successful', async () => {
+    const mockWithdraw = vi.fn();
+    (useWithdraw as Mock).mockReturnValue({
+      withdraw: mockWithdraw,
+      withdrawStatus: 'withdrawSuccess',
+      finalizedWithdrawalTxHash: '0x123',
+      resetWithdrawStatus: vi.fn(),
+    });
+    const result = await renderBridgeProvider();
+    await waitFor(async () => {
+      result.current.handleOpenExplorer();
+    });
+    expect(window.open).toHaveBeenCalledWith(
+      'https://sepolia.basescan.org/tx/0x123',
+      '_blank',
+    );
   });
 });

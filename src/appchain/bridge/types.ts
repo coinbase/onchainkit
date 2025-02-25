@@ -1,6 +1,6 @@
 import type { Token } from '@/token';
 import type { ReactNode } from 'react';
-import type { Address, Chain } from 'viem';
+import type { Address, Chain, Hex } from 'viem';
 /**
  * Note: exported as public Type
  */
@@ -52,14 +52,18 @@ export type AppchainBridgeContextType = {
   to: ChainWithIcon;
   bridgeParams: BridgeParams;
   bridgeableTokens: BridgeableToken[];
+
   // UI State
   isPriceLoading: boolean;
   isAddressModalOpen: boolean;
   isWithdrawModalOpen: boolean;
+  isSuccessModalOpen: boolean;
   balance: string;
   depositStatus: string;
   withdrawStatus: string;
   direction: string;
+  depositTransactionHash?: Hex;
+  finalizedWithdrawalTxHash?: Hex;
 
   // Handler Functions
   handleToggle: () => void;
@@ -67,10 +71,12 @@ export type AppchainBridgeContextType = {
   handleAddressSelect: (address: Address) => void;
   handleDeposit: () => void;
   handleWithdraw: () => void;
+  handleOpenExplorer: () => void;
   waitForWithdrawal: () => Promise<void>;
   proveAndFinalizeWithdrawal: () => Promise<void>;
   setIsAddressModalOpen: (open: boolean) => void;
   setIsWithdrawModalOpen: (open: boolean) => void;
+  setIsSuccessModalOpen: (open: boolean) => void;
   resetDepositStatus: () => void;
 };
 
@@ -106,6 +112,15 @@ export type AppchainConfig = {
     l1ERC721Bridge: Address;
     optimismMintableERC20Factory: Address;
   };
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type AppchainBridgeSuccessReact = {
+  title?: string;
+  primaryButtonLabel?: string;
+  secondaryButtonLabel?: string;
 };
 
 /**

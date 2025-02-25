@@ -16,6 +16,7 @@ vi.mock('../hooks/useWithdrawButton', () => ({
 
 describe('AppchainBridgeWithdraw', () => {
   const mockSetIsWithdrawModalOpen = vi.fn();
+  const mockSetIsSuccessModalOpen = vi.fn();
   const mockWaitForWithdrawal = vi.fn();
   const mockProveAndFinalizeWithdrawal = vi.fn();
 
@@ -27,6 +28,7 @@ describe('AppchainBridgeWithdraw', () => {
       waitForWithdrawal: mockWaitForWithdrawal,
       proveAndFinalizeWithdrawal: mockProveAndFinalizeWithdrawal,
       setIsWithdrawModalOpen: mockSetIsWithdrawModalOpen,
+      setIsSuccessModalOpen: mockSetIsSuccessModalOpen,
     });
 
     (useWithdrawButton as Mock).mockReturnValue({
@@ -78,24 +80,6 @@ describe('AppchainBridgeWithdraw', () => {
 
     fireEvent.click(claimButton);
     expect(mockProveAndFinalizeWithdrawal).toHaveBeenCalledTimes(1);
-  });
-
-  it('renders the success state correctly', () => {
-    (useWithdrawButton as Mock).mockReturnValue({
-      isSuccess: true,
-      buttonDisabled: false,
-      buttonContent: '',
-      shouldShowClaim: false,
-      label: 'Success',
-    });
-
-    render(<AppchainBridgeWithdraw />);
-
-    const backButton = screen.getByText('Back to Bridge');
-    expect(backButton).toBeInTheDocument();
-
-    fireEvent.click(backButton);
-    expect(mockSetIsWithdrawModalOpen).toHaveBeenCalledWith(false);
   });
 
   it('shows error message when claim is rejected', () => {

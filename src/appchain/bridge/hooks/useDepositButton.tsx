@@ -20,14 +20,11 @@ export function useDepositButton({
     if (isPending) {
       return <Spinner />;
     }
-    if (depositStatus === 'depositSuccess') {
-      return 'View in Explorer';
-    }
     if (isConnected) {
       return 'Confirm';
     }
     return 'Connect Wallet';
-  }, [isPending, depositStatus, isConnected]);
+  }, [isPending, isConnected]);
 
   const isDisabled =
     isConnected &&
