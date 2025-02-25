@@ -313,6 +313,7 @@ export const AppchainBridgeProvider = ({
     isResumeTransactionModalOpen,
     setIsResumeTransactionModalOpen,
     resumeWithdrawalTxHash,
+    setResumeWithdrawalTxHash,
     handleResumeTransaction,
 
     // Deposits and Withdrawals
@@ -329,7 +330,6 @@ export const AppchainBridgeProvider = ({
     setIsWithdrawModalOpen,
     resetDepositStatus,
     resetWithdrawStatus,
-    setResumeWithdrawalTxHash,
   });
 
   return (
