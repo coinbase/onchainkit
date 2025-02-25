@@ -6,14 +6,10 @@ import { useWithdrawButton } from '../hooks/useWithdrawButton';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
 export const AppchainBridgeWithdraw = () => {
-  const {
-    withdrawStatus,
-    waitForWithdrawal,
-    proveAndFinalizeWithdrawal,
-    setIsWithdrawModalOpen,
-  } = useAppchainBridgeContext();
+  const { withdrawStatus, waitForWithdrawal, proveAndFinalizeWithdrawal } =
+    useAppchainBridgeContext();
 
-  const { isSuccess, buttonDisabled, buttonContent, shouldShowClaim, label } =
+  const { buttonDisabled, buttonContent, shouldShowClaim, label } =
     useWithdrawButton({
       withdrawStatus,
     });
@@ -57,26 +53,6 @@ export const AppchainBridgeWithdraw = () => {
     [],
   );
 
-  const SuccessContent = useMemo(
-    () => () => (
-      <div className="flex flex-col items-center gap-16">
-        <SuccessIcon />
-        <button
-          onClick={() => setIsWithdrawModalOpen(false)}
-          className={buttonStyles}
-          type="button"
-        >
-          <div
-            className={cn(text.headline, color.inverse, 'flex justify-center')}
-          >
-            Back to Bridge
-          </div>
-        </button>
-      </div>
-    ),
-    [buttonStyles, setIsWithdrawModalOpen],
-  );
-
   const ClaimContent = useMemo(
     () => () => (
       <div className="flex flex-col items-center gap-16">
@@ -98,9 +74,6 @@ export const AppchainBridgeWithdraw = () => {
   );
 
   const renderContent = () => {
-    if (isSuccess) {
-      return <SuccessContent />;
-    }
     return shouldShowClaim ? <ClaimContent /> : <LoadingContent />;
   };
 

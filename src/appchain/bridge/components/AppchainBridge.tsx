@@ -7,6 +7,7 @@ import { AppchainBridgeInput } from './AppchainBridgeInput';
 import { AppchainBridgeNetwork } from './AppchainBridgeNetwork';
 import { AppchainBridgeProvider } from './AppchainBridgeProvider';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
+import { AppchainBridgeSuccess } from './AppchainBridgeSuccess';
 import { AppchainBridgeTransactionButton } from './AppchainBridgeTransactionButton';
 import { AppchainBridgeWithdraw } from './AppchainBridgeWithdraw';
 import { AppchainNetworkToggleButton } from './AppchainNetworkToggleButton';
@@ -16,8 +17,21 @@ const AppchainBridgeDefaultContent = ({
 }: {
   title: string;
 }) => {
-  const { isAddressModalOpen, isWithdrawModalOpen } =
+  const { isAddressModalOpen, isWithdrawModalOpen, isSuccessModalOpen } =
     useAppchainBridgeContext();
+
+  if (isSuccessModalOpen) {
+    return (
+      <div
+        className="relative flex min-h-60"
+        data-testid="ockAppchainBridge_Success"
+      >
+        <div className="w-full">
+          <AppchainBridgeSuccess />
+        </div>
+      </div>
+    );
+  }
 
   if (isWithdrawModalOpen) {
     return (

@@ -49,17 +49,6 @@ describe('useDepositButton', () => {
     expect(typeof result.current.buttonContent).toBe('object');
   });
 
-  it('should show "View in Explorer" when deposit is successful', () => {
-    const { result } = renderHook(() =>
-      useDepositButton({
-        depositStatus: 'depositSuccess',
-        withdrawStatus: 'idle',
-        bridgeParams: { amount: '1', amountUSD: '1', token: mockToken },
-      }),
-    );
-    expect(result.current.buttonContent).toBe('View in Explorer');
-  });
-
   it('should show "Connect Wallet" when wallet is not connected', () => {
     (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
       isConnected: false,
