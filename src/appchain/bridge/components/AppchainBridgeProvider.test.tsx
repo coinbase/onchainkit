@@ -474,4 +474,15 @@ describe('AppchainBridgeProvider', () => {
       '_blank',
     );
   });
+
+  it('should reset state when handleResetState is called', async () => {
+    const result = await renderBridgeProvider();
+    await waitFor(async () => {
+      result.current.handleResetState();
+    });
+    expect(result.current.resumeWithdrawalTxHash).toBeUndefined();
+    expect(result.current.isWithdrawModalOpen).toBe(false);
+    expect(result.current.isSuccessModalOpen).toBe(false);
+    expect(result.current.isResumeTransactionModalOpen).toBe(false);
+  });
 });

@@ -108,6 +108,17 @@ describe('AppchainBridgeWithdraw', () => {
     expect(mockWaitForWithdrawal).toHaveBeenCalled();
   });
 
+  it('calls waitForWithdrawal with resumeWithdrawalTxHash when resumeWithdrawalTxHash is set', () => {
+    (useAppchainBridgeContext as Mock).mockReturnValue({
+      resumeWithdrawalTxHash: '0x123',
+      waitForWithdrawal: mockWaitForWithdrawal,
+    });
+
+    render(<AppchainBridgeWithdraw />);
+
+    expect(mockWaitForWithdrawal).toHaveBeenCalledWith('0x123');
+  });
+
   it('disables claim button when buttonDisabled is true', () => {
     (useWithdrawButton as Mock).mockReturnValue({
       isSuccess: false,
