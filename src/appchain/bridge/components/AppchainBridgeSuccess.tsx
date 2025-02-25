@@ -29,50 +29,43 @@ export const AppchainBridgeSuccess = ({
             </div>
           </div>
           <div className="flex w-full flex-col items-center gap-2">
-            <button
-              className={cn(
-                pressable.primary,
-                border.radius,
-                'w-full rounded-xl',
-                'px-4 py-3 text-base text-white leading-6',
-                text.label1,
-              )}
-              type="button"
-              onClick={handleOpenExplorer}
-            >
-              <div
+            {[
+              {
+                label: primaryButtonLabel,
+                action: handleOpenExplorer,
+                variant: 'primary',
+                textColor: color.inverse,
+              },
+              {
+                label: secondaryButtonLabel,
+                action: () => setIsSuccessModalOpen(false),
+                variant: 'secondary',
+                textColor: color.foreground,
+              },
+            ].map(({ label, action, variant, textColor }) => (
+              <button
+                key={label}
                 className={cn(
-                  text.headline,
-                  color.inverse,
-                  'flex justify-center',
+                  pressable[variant as keyof typeof pressable],
+                  border.radius,
+                  'w-full rounded-xl',
+                  'px-4 py-3 text-base text-white leading-6',
+                  text.label1,
                 )}
+                type="button"
+                onClick={action}
               >
-                {primaryButtonLabel}
-              </div>
-            </button>
-            <button
-              className={cn(
-                pressable.secondary,
-                border.radius,
-                'w-full rounded-xl',
-                'px-4 py-3 text-base text-white leading-6',
-                text.label1,
-              )}
-              type="button"
-              onClick={() => {
-                setIsSuccessModalOpen(false);
-              }}
-            >
-              <div
-                className={cn(
-                  text.headline,
-                  color.foreground,
-                  'flex justify-center',
-                )}
-              >
-                {secondaryButtonLabel}
-              </div>
-            </button>
+                <div
+                  className={cn(
+                    text.headline,
+                    textColor,
+                    'flex justify-center',
+                  )}
+                >
+                  {label}
+                </div>
+              </button>
+            ))}
           </div>
         </div>
       </div>
