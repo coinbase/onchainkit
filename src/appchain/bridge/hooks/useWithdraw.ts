@@ -232,7 +232,7 @@ export const useWithdraw = ({
       }
 
       // Finalize the withdrawal
-      const finalizedWithdrawalTxHash = await writeContractAsync({
+      const _finalizedWithdrawalTxHash = await writeContractAsync({
         abi: OptimismPortalABI,
         address: config.contracts.optimismPortal,
         functionName: 'proveAndFinalizeWithdrawalTransaction',
@@ -245,12 +245,12 @@ export const useWithdraw = ({
         chainId: chain.id,
       });
       await waitForTransactionReceipt(wagmiConfig, {
-        hash: finalizedWithdrawalTxHash,
+        hash: _finalizedWithdrawalTxHash,
         confirmations: 1,
         chainId: chain.id,
       });
 
-      setFinalizedWithdrawalTxHash(finalizedWithdrawalTxHash);
+      setFinalizedWithdrawalTxHash(_finalizedWithdrawalTxHash);
       setWithdrawStatus('claimSuccess');
     } catch (error) {
       if (isUserRejectedRequestError(error)) {
