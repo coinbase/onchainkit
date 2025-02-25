@@ -176,6 +176,7 @@ export function Popover({
         zIndex.dropdown,
         'pointer-events-none fixed',
       )}
+      data-portal-origin="true"
     >
       <FocusTrap active={isOpen}>
         <DismissableLayer onDismiss={onClose} triggerRef={trigger}>
