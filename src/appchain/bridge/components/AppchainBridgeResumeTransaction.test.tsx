@@ -8,14 +8,15 @@ vi.mock('./AppchainBridgeProvider', () => ({
 }));
 
 describe('AppchainBridgeResumeTransaction', () => {
-  const mockSetResumeWithdrawalTxHash = vi.fn();
+  const mockHandleResumeTransaction = vi.fn();
   const mockSetIsResumeTransactionModalOpen = vi.fn();
 
   beforeEach(() => {
     vi.resetAllMocks();
     (useAppchainBridgeContext as Mock).mockReturnValue({
-      setResumeWithdrawalTxHash: mockSetResumeWithdrawalTxHash,
+      handleResumeTransaction: mockHandleResumeTransaction,
       setIsResumeTransactionModalOpen: mockSetIsResumeTransactionModalOpen,
+      isValidResumeTxHash: true,
     });
   });
 
@@ -47,6 +48,23 @@ describe('AppchainBridgeResumeTransaction', () => {
     expect(input).toHaveValue('0x123');
   });
 
+  it('shows validation message when transaction hash is invalid', () => {
+    (useAppchainBridgeContext as Mock).mockReturnValue({
+      handleResumeTransaction: mockHandleResumeTransaction,
+      setIsResumeTransactionModalOpen: mockSetIsResumeTransactionModalOpen,
+      isValidResumeTxHash: false,
+    });
+
+    render(<AppchainBridgeResumeTransaction />);
+
+    const input = screen.getByPlaceholderText('0x...');
+    fireEvent.change(input, { target: { value: '0x123' } });
+
+    expect(
+      screen.getByText('Please enter a valid transaction hash'),
+    ).toBeInTheDocument();
+  });
+
   it('handles resume transaction with valid hash', () => {
     render(<AppchainBridgeResumeTransaction />);
 
@@ -58,20 +76,7 @@ describe('AppchainBridgeResumeTransaction', () => {
     });
     fireEvent.click(resumeButton);
 
-    expect(mockSetResumeWithdrawalTxHash).toHaveBeenCalledWith('0x123');
-    expect(mockSetIsResumeTransactionModalOpen).toHaveBeenCalledWith(false);
-  });
-
-  it('does not call handlers when transaction hash is empty', () => {
-    render(<AppchainBridgeResumeTransaction />);
-
-    const resumeButton = screen.getByText('Resume Transaction', {
-      selector: 'div',
-    });
-    fireEvent.click(resumeButton);
-
-    expect(mockSetResumeWithdrawalTxHash).not.toHaveBeenCalled();
-    expect(mockSetIsResumeTransactionModalOpen).not.toHaveBeenCalled();
+    expect(mockHandleResumeTransaction).toHaveBeenCalledWith('0x123');
   });
 
   it('applies correct styles to input field', () => {

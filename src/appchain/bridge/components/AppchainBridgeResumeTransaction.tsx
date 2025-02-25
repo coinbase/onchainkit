@@ -5,9 +5,13 @@ import { background, border, cn, color, pressable, text } from '@/styles/theme';
 import { useState } from 'react';
 import type { Hex } from 'viem';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
+
 export const AppchainBridgeResumeTransaction = () => {
-  const { setResumeWithdrawalTxHash, setIsResumeTransactionModalOpen } =
-    useAppchainBridgeContext();
+  const {
+    setIsResumeTransactionModalOpen,
+    handleResumeTransaction,
+    isValidResumeTxHash,
+  } = useAppchainBridgeContext();
   const [withdrawalTxHash, setWithdrawalTxHash] = useState<string | null>(null);
 
   const backButton = (
@@ -62,6 +66,13 @@ export const AppchainBridgeResumeTransaction = () => {
             value={withdrawalTxHash || ''}
           />
         </div>
+        {withdrawalTxHash && !isValidResumeTxHash && (
+          <div className="mt-2 flex">
+            <p className="text-foregroundMuted text-red-500 text-sm">
+              Please enter a valid transaction hash
+            </p>
+          </div>
+        )}
       </div>
       <div className="flex w-full justify-between">
         <button
@@ -72,11 +83,7 @@ export const AppchainBridgeResumeTransaction = () => {
             'text-center',
           )}
           onClick={() => {
-            // TODO: Validate input
-            if (withdrawalTxHash) {
-              setResumeWithdrawalTxHash(withdrawalTxHash as Hex);
-              setIsResumeTransactionModalOpen(false);
-            }
+            handleResumeTransaction(withdrawalTxHash as Hex);
           }}
         >
           <div
