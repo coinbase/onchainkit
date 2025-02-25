@@ -254,7 +254,6 @@ export const AppchainBridgeProvider = ({
     setIsResumeTransactionModalOpen(false);
 
     setResumeWithdrawalTxHash(undefined);
-    // Maybe we want to reset the params here too?
   }, []);
 
   // Open withdraw modal when withdraw is successful, or when transaction is resumed
