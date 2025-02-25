@@ -82,6 +82,20 @@ describe('AppchainBridgeWithdraw', () => {
     expect(mockProveAndFinalizeWithdrawal).toHaveBeenCalledTimes(1);
   });
 
+  it('renders the error state correctly', () => {
+    (useWithdrawButton as Mock).mockReturnValue({
+      isError: true,
+    });
+
+    render(<AppchainBridgeWithdraw />);
+
+    expect(
+      screen.getByText((content) =>
+        content.includes('There was an error processing your withdrawal.'),
+      ),
+    ).toBeInTheDocument();
+  });
+
   it('shows error message when claim is rejected', () => {
     (useAppchainBridgeContext as Mock).mockReturnValue({
       withdrawStatus: 'claimRejected',

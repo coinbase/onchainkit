@@ -22,6 +22,7 @@ describe('useWithdrawButton', () => {
     expect(result.current).toEqual({
       isPending: false,
       isSuccess: false,
+      isError: false,
       buttonDisabled: false,
       buttonContent: 'Claim',
       shouldShowClaim: false,
@@ -41,6 +42,7 @@ describe('useWithdrawButton', () => {
     expect(result.current).toEqual({
       isPending: true,
       isSuccess: false,
+      isError: false,
       buttonDisabled: true,
       buttonContent: expect.any(Object),
       shouldShowClaim: true,
@@ -60,6 +62,7 @@ describe('useWithdrawButton', () => {
     expect(result.current).toEqual({
       isPending: false,
       isSuccess: true,
+      isError: false,
       buttonDisabled: false,
       buttonContent: 'Claim',
       shouldShowClaim: false,
@@ -79,6 +82,7 @@ describe('useWithdrawButton', () => {
     expect(result.current).toEqual({
       isPending: false,
       isSuccess: false,
+      isError: false,
       buttonDisabled: false,
       buttonContent: 'Claim',
       shouldShowClaim: true,
@@ -98,10 +102,31 @@ describe('useWithdrawButton', () => {
     expect(result.current).toEqual({
       isPending: false,
       isSuccess: false,
+      isError: false,
       buttonDisabled: false,
       buttonContent: 'Claim',
       shouldShowClaim: true,
       label: 'Claim is ready',
+    });
+  });
+
+  it('should show error state when status is error', () => {
+    (useAccount as Mock).mockReturnValue({
+      isConnected: true,
+    });
+
+    const { result } = renderHook(() =>
+      useWithdrawButton({ withdrawStatus: 'error' }),
+    );
+
+    expect(result.current).toEqual({
+      isPending: false,
+      isSuccess: false,
+      isError: true,
+      buttonDisabled: false,
+      buttonContent: 'Claim',
+      shouldShowClaim: false,
+      label: 'Error processing withdrawal',
     });
   });
 
@@ -117,6 +142,7 @@ describe('useWithdrawButton', () => {
     expect(result.current).toEqual({
       isPending: false,
       isSuccess: false,
+      isError: false,
       buttonDisabled: false,
       buttonContent: 'Claim',
       shouldShowClaim: false,

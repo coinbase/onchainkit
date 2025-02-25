@@ -66,11 +66,13 @@ export type AppchainBridgeContextType = {
   depositTransactionHash?: Hex;
   finalizedWithdrawalTxHash?: Hex;
   resumeWithdrawalTxHash?: Hex;
+  isValidResumeTxHash: boolean;
 
   // Handler Functions
   handleToggle: () => void;
   handleAmountChange: (params: { amount: string; token: Token }) => void;
   handleAddressSelect: (address: Address) => void;
+  handleResumeTransaction: (txHash: Hex) => void;
   handleDeposit: () => void;
   handleWithdraw: () => void;
   handleOpenExplorer: () => void;

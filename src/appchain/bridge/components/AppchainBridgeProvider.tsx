@@ -88,6 +88,7 @@ export const AppchainBridgeProvider = ({
   const direction = from.id === chain.id ? 'deposit' : 'withdraw';
   const [balance, setBalance] = useState<string>('');
   const [resumeWithdrawalTxHash, setResumeWithdrawalTxHash] = useState<Hex>();
+  const [isValidResumeTxHash, setIsValidResumeTxHash] = useState(true);
 
   // Deposit
   const {
@@ -222,6 +223,16 @@ export const AppchainBridgeProvider = ({
     }));
   }, []);
 
+  const handleResumeTransaction = useCallback((txHash: Hex) => {
+    if (!txHash?.startsWith('0x') || txHash.length !== 66) {
+      setIsValidResumeTxHash(false);
+      return;
+    }
+
+    setResumeWithdrawalTxHash(txHash);
+    setIsResumeTransactionModalOpen(false);
+  }, []);
+
   const handleOpenExplorer = useCallback(() => {
     const blockExplorerUrl = getChainExplorer(from.id);
     const txHash =
@@ -309,6 +320,8 @@ export const AppchainBridgeProvider = ({
     isResumeTransactionModalOpen,
     setIsResumeTransactionModalOpen,
     resumeWithdrawalTxHash,
+    isValidResumeTxHash,
+    handleResumeTransaction,
 
     // Deposits and Withdrawals
     handleDeposit,
