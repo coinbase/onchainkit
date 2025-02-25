@@ -178,7 +178,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         config={{
           appearance: {
             name: 'OnchainKit Playground',
-            logo: `https://pbs.twimg.com/media/GkXUnEnaoAIkKvG?format=jpg&name=medium`,
+            logo: 'https://pbs.twimg.com/media/GkXUnEnaoAIkKvG?format=jpg&name=medium',
             mode: componentMode,
             theme: componentTheme === 'none' ? undefined : componentTheme,
           },
