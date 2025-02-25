@@ -3,8 +3,7 @@ import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
-import { http, createConfig } from 'wagmi';
-import { WagmiProvider } from 'wagmi';
+import { createConfig, http, WagmiProvider } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 

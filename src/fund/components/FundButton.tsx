@@ -7,6 +7,7 @@ import { border, cn, color, pressable, text } from '../../styles/theme';
 import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
 import { ErrorSvg } from '@/internal/svg/errorSvg';
 import { openPopup } from '@/internal/utils/openPopup';
+import { ConnectWallet } from '@/wallet/components/ConnectWallet';
 import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
@@ -15,7 +16,6 @@ import { Spinner } from '../../internal/components/Spinner';
 import { AddSvg } from '../../internal/svg/addSvg';
 import { SuccessSvg } from '../../internal/svg/successSvg';
 import { background } from '../../styles/theme';
-import { ConnectWallet } from '../../wallet/components/ConnectWallet';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
@@ -24,6 +24,8 @@ export function FundButton({
   className,
   disabled = false,
   fundingUrl,
+  walletAddress,
+  walletNetwork,
   hideIcon = false,
   hideText = false,
   openIn = 'popup',
@@ -43,11 +45,13 @@ export function FundButton({
   const fallbackFundingUrl = useGetFundingUrl({
     fiatCurrency,
     originComponentName: 'FundButton',
+    walletAddress,
+    walletNetwork,
   });
   const { address } = useAccount();
   const fundingUrlToRender = fundingUrl ?? fallbackFundingUrl;
   const isDisabled = disabled || !fundingUrlToRender;
-  const shouldShowConnectWallet = !address;
+  const shouldShowConnectWallet = !walletAddress && !address;
 
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
   const { sendAnalytics } = useAnalytics();

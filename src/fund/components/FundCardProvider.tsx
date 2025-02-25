@@ -25,6 +25,8 @@ import type {
 type FundCardContextType = {
   asset: string;
   currency: string;
+  walletAddress?: string;
+  walletNetwork?: string;
   selectedPaymentMethod?: PaymentMethod;
   setSelectedPaymentMethod: (paymentMethod: PaymentMethod) => void;
   selectedInputType: AmountInputType;
@@ -62,6 +64,8 @@ const FundContext = createContext<FundCardContextType | undefined>(undefined);
 export function FundCardProvider({
   children,
   asset,
+  walletAddress,
+  walletNetwork,
   currency = 'USD',
   headerText = `Buy ${asset.toUpperCase()}`,
   buttonText,
@@ -197,6 +201,8 @@ export function FundCardProvider({
     updateLifecycleStatus,
     presetAmountInputs,
     onError,
+    walletAddress,
+    walletNetwork,
   });
   return <FundContext.Provider value={value}>{children}</FundContext.Provider>;
 }
