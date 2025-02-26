@@ -49,6 +49,7 @@ export function Dialog({
         'bg-black/50 transition-opacity duration-200',
         'fade-in animate-in duration-200',
       )}
+      data-portal-origin="true"
     >
       <FocusTrap active={isOpen}>
         <DismissableLayer onDismiss={onClose}>
