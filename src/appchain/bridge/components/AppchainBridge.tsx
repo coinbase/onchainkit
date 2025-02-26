@@ -12,6 +12,7 @@ import { AppchainBridgeSuccess } from './AppchainBridgeSuccess';
 import { AppchainBridgeTransactionButton } from './AppchainBridgeTransactionButton';
 import { AppchainBridgeWithdraw } from './AppchainBridgeWithdraw';
 import { AppchainNetworkToggleButton } from './AppchainNetworkToggleButton';
+
 const AppchainBridgeDefaultContent = ({
   title,
 }: {
@@ -105,16 +106,14 @@ const AppchainBridgeDefaultContent = ({
             </button>
           </span>
         </div>
-        <div className="relative flex">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 rounded-lg">
-              <AppchainBridgeNetwork type="from" label="From" />
-              <AppchainNetworkToggleButton />
-              <AppchainBridgeNetwork type="to" label="To" />
-            </div>
-            <AppchainBridgeInput />
-            <AppchainBridgeTransactionButton />
+        <div className="relative flex flex-col gap-2">
+          <div className="flex items-center gap-2 rounded-lg">
+            <AppchainBridgeNetwork type="from" label="From" />
+            <AppchainNetworkToggleButton />
+            <AppchainBridgeNetwork type="to" label="To" />
           </div>
+          <AppchainBridgeInput />
+          <AppchainBridgeTransactionButton />
         </div>
       </div>
     </div>
