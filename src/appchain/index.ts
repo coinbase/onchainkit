@@ -7,6 +7,8 @@ export { AppchainBridgeNetwork } from './bridge/components/AppchainBridgeNetwork
 export { AppchainBridgeTransactionButton } from './bridge/components/AppchainBridgeTransactionButton';
 export { AppchainBridgeWithdraw } from './bridge/components/AppchainBridgeWithdraw';
 export { AppchainNetworkToggleButton } from './bridge/components/AppchainNetworkToggleButton';
+export { AppchainBridgeSuccess } from './bridge/components/AppchainBridgeSuccess';
+export { AppchainBridgeResumeTransaction } from './bridge/components/AppchainBridgeResumeTransaction';
 
 // Hooks
 export { useChainConfig } from './bridge/hooks/useAppchainConfig';
@@ -30,7 +32,11 @@ export type {
   UseWithdrawButtonParams,
   Appchain,
   AppchainBridgeReact,
+  AppchainBridgeSuccessReact,
+  AppchainBridgeContextType,
   AppchainBridgeProviderReact,
   AppchainConfig,
   BridgeableToken,
+  BridgeParams,
+  ChainWithIcon,
 } from './bridge/types';
