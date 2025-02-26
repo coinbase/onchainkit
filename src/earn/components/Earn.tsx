@@ -47,12 +47,12 @@ export function Earn({
   vaultAddress,
   isSponsored,
 }: EarnReact) {
-  const componentTheme = useTheme();
+  const theme = useTheme();
   return (
     <EarnProvider vaultAddress={vaultAddress} isSponsored={isSponsored}>
       <div
         className={cn(
-          componentTheme,
+          theme,
           'flex w-[375px] flex-col overflow-hidden',
           border.radius,
           border.lineDefault,
