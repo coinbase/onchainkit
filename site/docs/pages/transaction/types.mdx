@@ -89,6 +89,8 @@ type TransactionError = {
 ```ts
 type TransactionReact = {
   calls?: Calls | Contracts | (Call | ContractFunctionParameters)[]; // An array of calls to be made in the transaction.
+  isSponsored?: boolean; // Whether or not the transaction is sponsored.
+  /** @deprecated Use `isSponsored` instead. */
   capabilities?: WalletCapabilities; // Capabilities that a wallet supports (e.g. paymasters, session keys, etc).
   chainId?: number; // The chainId for the transaction.
   children: ReactNode; // The child components to be rendered within the transaction component.

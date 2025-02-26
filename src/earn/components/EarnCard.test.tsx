@@ -24,19 +24,4 @@ describe('EarnCard Component', () => {
     const cardElement = screen.getByTestId('ockEarnCard');
     expect(cardElement).toHaveClass(customClass);
   });
-
-  it('has default styles applied', () => {
-    render(
-      <EarnCard>
-        <div>earn</div>
-      </EarnCard>,
-    );
-
-    const cardElement = screen.getByTestId('ockEarnCard');
-    expect(cardElement).toHaveClass('border-t');
-    expect(cardElement).toHaveClass('flex');
-    expect(cardElement).toHaveClass('flex-col');
-    expect(cardElement).toHaveClass('p-4');
-    expect(cardElement).toHaveClass('gap-4');
-  });
 });

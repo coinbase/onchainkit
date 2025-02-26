@@ -1,5 +1,7 @@
 'use client';
 
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { WalletEvent, WalletOption } from '@/core/analytics/types';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { addSvgForeground } from '@/internal/svg/addForegroundSvg';
 import { arrowUpRightSvg } from '@/internal/svg/arrowUpRightSvg';
@@ -37,8 +39,20 @@ export function WalletAdvancedTransactionActions({
   const { projectId } = useOnchainKit();
   const { isFetchingPortfolioData, setActiveFeature, animations } =
     useWalletAdvancedContext();
+  const { sendAnalytics } = useAnalytics();
+
+  const handleAnalyticsOptionSelected = useCallback(
+    (option: WalletOption) => {
+      sendAnalytics(WalletEvent.OptionSelected, {
+        option,
+      });
+    },
+    [sendAnalytics],
+  );
 
   const handleBuy = useCallback(() => {
+    handleAnalyticsOptionSelected(WalletOption.Buy);
+
     if (!projectId || !address || !chain?.name) {
       return;
     }
@@ -62,15 +76,17 @@ export function WalletAdvancedTransactionActions({
       'popup',
       'width=400,height=600,scrollbars=yes',
     );
-  }, [address, chain?.name, projectId]);
+  }, [address, chain?.name, projectId, handleAnalyticsOptionSelected]);
 
   const handleSend = useCallback(() => {
+    handleAnalyticsOptionSelected(WalletOption.Send);
     setActiveFeature('send');
-  }, [setActiveFeature]);
+  }, [handleAnalyticsOptionSelected, setActiveFeature]);
 
   const handleSwap = useCallback(() => {
+    handleAnalyticsOptionSelected(WalletOption.Swap);
     setActiveFeature('swap');
-  }, [setActiveFeature]);
+  }, [setActiveFeature, handleAnalyticsOptionSelected]);
 
   if (isFetchingPortfolioData) {
     return <Skeleton className="my-3 h-16 w-80" />;

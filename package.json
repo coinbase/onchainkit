@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.36.10",
+  "version": "0.37.4",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -42,8 +42,8 @@
     "qrcode": "^1.5.4",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "viem": "^2.21.33",
-    "wagmi": "^2.12.24"
+    "viem": "^2.23.0",
+    "wagmi": "^2.14.11"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
@@ -122,6 +122,12 @@
       "import": "./esm/api/index.js",
       "default": "./esm/api/index.js"
     },
+    "./appchain": {
+      "types": "./esm/appchain/index.d.ts",
+      "module": "./esm/appchain/index.js",
+      "import": "./esm/appchain/index.js",
+      "default": "./esm/appchain/index.js"
+    },
     "./buy": {
       "types": "./esm/buy/index.d.ts",
       "module": "./esm/buy/index.js",
@@ -139,6 +145,12 @@
       "module": "./esm/core/index.js",
       "import": "./esm/core/index.js",
       "default": "./esm/core/index.js"
+    },
+    "./earn": {
+      "types": "./esm/earn/index.d.ts",
+      "module": "./esm/earn/index.js",
+      "import": "./esm/earn/index.js",
+      "default": "./esm/earn/index.js"
     },
     "./fund": {
       "types": "./esm/fund/index.d.ts",

@@ -1,9 +1,21 @@
-import { Skeleton } from '@/internal/components/Skeleton';
-import { border, cn } from '@/styles/theme';
-import { TokenChip } from '@/token';
+import { useEarnContext } from '@/earn/components/EarnProvider';
+import { VaultDetails } from '@/earn/components/VaultDetails';
+import { YieldDetails } from '@/earn/components/YieldDetails';
+import { border, cn, color } from '@/styles/theme';
 import type { EarnDetailsReact } from '../types';
 
-export function EarnDetails({ className, token, tag }: EarnDetailsReact) {
+export function EarnDetails({ className }: EarnDetailsReact) {
+  const { error } = useEarnContext();
+
+  if (error) {
+    return (
+      <div className={cn('flex w-full flex-col gap-1 text-sm', color.error)}>
+        <div className="font-semibold">Error fetching vault details</div>
+        <div className="text-xs">{error.message}</div>
+      </div>
+    );
+  }
+
   return (
     <div
       data-testid="ockEarnDetails"
@@ -13,16 +25,8 @@ export function EarnDetails({ className, token, tag }: EarnDetailsReact) {
         className,
       )}
     >
-      {token ? (
-        <TokenChip
-          className="!bg-transparent"
-          token={token}
-          isPressable={false}
-        />
-      ) : (
-        <Skeleton className="!rounded-full h-8 w-28" />
-      )}
-      {tag}
+      <VaultDetails />
+      <YieldDetails />
     </div>
   );
 }

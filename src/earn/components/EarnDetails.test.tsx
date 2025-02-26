@@ -1,32 +1,41 @@
-import { usdcToken } from '@/token/constants';
+import { EarnDetails } from '@/earn/components/EarnDetails';
+import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
-import { EarnDetails } from './EarnDetails';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useEarnContext } from './EarnProvider';
+
+vi.mock('./EarnProvider', () => ({
+  useEarnContext: vi.fn(),
+}));
 
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
 describe('EarnDetails Component', () => {
-  it('renders skeleton when token is not provided', () => {
+  const mockUseEarnContext = useEarnContext as Mock;
+
+  beforeEach(() => {
+    mockUseEarnContext.mockReturnValue(MOCK_EARN_CONTEXT);
+  });
+
+  it('renders error message when error is present', () => {
+    mockUseEarnContext.mockReturnValue({
+      ...MOCK_EARN_CONTEXT,
+      error: new Error('Test error'),
+    });
+
     render(<EarnDetails />);
-    expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
+
+    const errorMessage = screen.getByText('Error fetching vault details');
+    expect(errorMessage).toBeInTheDocument();
   });
 
-  it('renders TokenChip with the correct props', () => {
-    render(<EarnDetails token={usdcToken} tag="test" />);
-
-    const tokenChip = screen.getByTestId('ockTokenChip_Button');
-    expect(tokenChip).toBeInTheDocument();
-    expect(tokenChip).toHaveTextContent('USDC');
-    expect(tokenChip).toHaveClass('!bg-transparent');
-  });
-
-  it('applies custom className to the container', () => {
+  it('applies custom className when provided', () => {
     const customClass = 'custom-class';
-    render(<EarnDetails token={usdcToken} className={customClass} />);
+    render(<EarnDetails className={customClass} />);
 
-    const container = screen.getByTestId('ockTokenChip_Button').parentElement;
+    const container = screen.getByTestId('ockEarnDetails');
     expect(container).toHaveClass(customClass);
   });
 });

@@ -9,6 +9,7 @@ import { getHighlightedCode } from './getHighlightedCode.tsx';
 // Demo components and code snippets
 import BuyDemo, { buyDemoCode } from './BuyDemo.tsx';
 import CheckoutDemo, { checkoutDemoCode } from './CheckoutDemo.tsx';
+import EarnDemo, { earnDemoCode } from './EarnDemo.tsx';
 import FundDemo, { fundDemoCode } from './FundDemo.tsx';
 import IdentityCardDemo, { identityCardDemoCode } from './IdentityCardDemo.tsx';
 import NftMintCardDemo, { nftMintCardDemoCode } from './NftMintCardDemo.tsx';
@@ -73,6 +74,12 @@ const components: Component[] = [
     code: identityCardDemoCode,
     description:
       'Display the Basename, avatar, address, and social media links associated with a wallet.',
+  },
+  {
+    name: 'Earn',
+    component: EarnDemo,
+    code: earnDemoCode,
+    description: 'Earn interest on your crypto holdings.',
   },
 ];
 

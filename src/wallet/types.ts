@@ -77,6 +77,8 @@ export type UseGetTokenBalanceResponse = {
   response?: UseReadContractReturnType;
   convertedBalance?: string;
   roundedBalance?: string;
+  status: UseReadContractReturnType['status'];
+  refetch: UseReadContractReturnType['refetch'];
 };
 
 /**

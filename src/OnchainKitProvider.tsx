@@ -7,6 +7,7 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createContext, useMemo } from 'react';
 import { WagmiProvider } from 'wagmi';
+import OnchainKitProviderBoundary from './OnchainKitProviderBoundary';
 import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from './core/constants';
 import { createWagmiConfig } from './core/createWagmiConfig';
 import type { OnchainKitContextType } from './core/types';
@@ -23,6 +24,7 @@ export const OnchainKitContext =
  */
 export function OnchainKitProvider({
   address,
+  analytics,
   apiKey,
   chain,
   children,
@@ -35,7 +37,7 @@ export function OnchainKitProvider({
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
 
-  const interactionId = useMemo(() => crypto.randomUUID(), []);
+  const sessionId = useMemo(() => crypto.randomUUID(), []);
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
   const value = useMemo(() => {
@@ -49,6 +51,7 @@ export function OnchainKitProvider({
       apiKey: apiKey ?? null,
       chain: chain,
       config: {
+        analytics: analytics ?? true,
         analyticsUrl: config?.analyticsUrl ?? null,
         appearance: {
           name: config?.appearance?.name ?? 'Dapp',
@@ -66,19 +69,20 @@ export function OnchainKitProvider({
       projectId: projectId ?? null,
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
-      interactionId,
+      sessionId,
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
   }, [
     address,
+    analytics,
     apiKey,
     chain,
     config,
     projectId,
     rpcUrl,
     schemaId,
-    interactionId,
+    sessionId,
   ]);
 
   // Check the React context for WagmiProvider and QueryClientProvider
@@ -115,7 +119,7 @@ export function OnchainKitProvider({
       <WagmiProvider config={defaultConfig}>
         <QueryClientProvider client={defaultQueryClient}>
           <OnchainKitContext.Provider value={value}>
-            {children}
+            <OnchainKitProviderBoundary>{children}</OnchainKitProviderBoundary>
           </OnchainKitContext.Provider>
         </QueryClientProvider>
       </WagmiProvider>
@@ -124,7 +128,7 @@ export function OnchainKitProvider({
 
   return (
     <OnchainKitContext.Provider value={value}>
-      {children}
+      <OnchainKitProviderBoundary>{children}</OnchainKitProviderBoundary>
     </OnchainKitContext.Provider>
   );
 }

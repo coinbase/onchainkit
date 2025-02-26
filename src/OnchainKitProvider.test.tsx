@@ -174,29 +174,34 @@ describe('OnchainKitProvider', () => {
       </WagmiProvider>,
     );
 
-    expect(setOnchainKitConfig).toHaveBeenCalledWith({
-      address: null,
-      apiKey,
-      config: {
-        analyticsUrl: null,
-        appearance: {
-          logo: appLogo,
-          name: appName,
-          mode: 'auto',
-          theme: 'default',
-        },
-        paymaster: paymasterUrl,
-        wallet: {
-          display: 'classic',
-          termsUrl: 'https://base.org/terms-of-service',
-          privacyUrl: 'https://base.org/privacy-policy',
-        },
-      },
-      chain: base,
-      rpcUrl: null,
-      schemaId,
-      projectId: null,
-      interactionId: expect.any(String),
+    await waitFor(() => {
+      expect(setOnchainKitConfig).toHaveBeenCalledWith(
+        expect.objectContaining({
+          address: null,
+          apiKey,
+          config: {
+            analytics: true,
+            analyticsUrl: null,
+            appearance: {
+              logo: appLogo,
+              name: appName,
+              mode: 'auto',
+              theme: 'default',
+            },
+            paymaster: paymasterUrl,
+            wallet: {
+              display: 'classic',
+              termsUrl: 'https://base.org/terms-of-service',
+              privacyUrl: 'https://base.org/privacy-policy',
+            },
+          },
+          chain: base,
+          rpcUrl: null,
+          schemaId,
+          projectId: null,
+          sessionId: expect.any(String),
+        }),
+      );
     });
   });
 
@@ -215,6 +220,7 @@ describe('OnchainKitProvider', () => {
       expect(setOnchainKitConfig).toHaveBeenCalledWith(
         expect.objectContaining({
           config: {
+            analytics: true,
             analyticsUrl: null,
             appearance: {
               logo: appLogo,
@@ -229,6 +235,32 @@ describe('OnchainKitProvider', () => {
               privacyUrl: 'https://base.org/privacy-policy',
             },
           },
+        }),
+      );
+    });
+  });
+
+  it('should respect analytics override when provided', async () => {
+    render(
+      <WagmiProvider config={mockConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider
+            chain={base}
+            schemaId={schemaId}
+            analytics={false}
+          >
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await waitFor(() => {
+      expect(setOnchainKitConfig).toHaveBeenCalledWith(
+        expect.objectContaining({
+          config: expect.objectContaining({
+            analytics: false,
+          }),
         }),
       );
     });
@@ -252,6 +284,7 @@ describe('OnchainKitProvider', () => {
             schemaId={schemaId}
             apiKey={apiKey}
             config={customConfig}
+            analytics={false}
           >
             <TestComponent />
           </OnchainKitProvider>
@@ -266,6 +299,7 @@ describe('OnchainKitProvider', () => {
           apiKey: apiKey,
           chain: base,
           config: {
+            analytics: false,
             analyticsUrl: 'https://example.com',
             appearance: {
               name: 'custom name',

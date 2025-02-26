@@ -4,8 +4,8 @@ description: The `<Transaction />` components provide a high-level wrap around t
 ---
 
 import { Avatar, Name } from '@coinbase/onchainkit/identity';
-import { 
-  Transaction, 
+import {
+  Transaction,
   TransactionButton,
   TransactionDefault,
   TransactionSponsor,
@@ -22,22 +22,22 @@ import App from '../../components/App';
 import TransactionWrapper from '../../components/TransactionWrapper';
 
 export const BASE_SEPOLIA_CHAIN_ID = 84532;
-export const PAYMASTER_AND_BUNDLER_ENDPOINT = import.meta.env.VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT;
+export const PAYMASTER_ENDPOINT = import.meta.env
+  .VITE_CDP_PAYMASTER_AND_BUNDLER_ENDPOINT;
+
 
 # `<Transaction />`
 
-The `<Transaction />` components provide a high-level wrap around the entire transaction flow. 
+The `<Transaction />` components provide a high-level wrap around the entire transaction flow.
 It handles the transaction lifecycle, including gas estimation, fee sponsorship, and status updates.
 
 Before using them, ensure you've completed all [Getting Started steps](/getting-started).
-
 
 ## Quick start
 
 The `TransactionDefault` component is a simplified version of the `Transaction` component, designed to streamline the integration process for developers. Instead of manually defining each subcomponent and prop, developers can use this shorthand version which renders our suggested implementation of the component and includes the `TransactionButton` and `TransactionToast` components.
 
 If you'd like more customization, follow the implementation guide for our `Swap` component below.
-
 
 ```tsx twoslash
 // @noErrors: 1109 - Cannot find name 'contracts'
@@ -51,20 +51,15 @@ const calls = [...];
 <App>
   <TransactionWrapper>
     {({ address, contracts, onStatus }) => {
-      const capabilities = {
-        paymasterService: {
-          url: PAYMASTER_AND_BUNDLER_ENDPOINT,
-        },
-      }
       if (address) {
         return (
           <TransactionDefault
-            capabilities={capabilities}
+            isSponsored={true}
             chainId={BASE_SEPOLIA_CHAIN_ID}
             calls={contracts}
             onStatus={onStatus} 
           />
-        )
+        );
       } else {
         return (
           <Wallet>
@@ -73,7 +68,7 @@ const calls = [...];
               <Name />
             </ConnectWallet>
           </Wallet>
-        )
+        );
       }
     }}
   </TransactionWrapper>
@@ -98,7 +93,6 @@ Execute one or multiple transactions using the Transaction component. You can pa
 - [`Call`](/transaction/types#call)
 
 <br/>
-
 
 :::code-group
 
@@ -125,7 +119,7 @@ const BASE_SEPOLIA_CHAIN_ID = 84532;
 
 export default function TransactionComponents() {
   const { address } = useAccount();
-  
+
   const handleOnStatus = useCallback((status: LifecycleStatus) => {
     console.log('LifecycleStatus', status);
   }, []);
@@ -134,24 +128,24 @@ export default function TransactionComponents() {
     <Transaction // [!code focus]
       chainId={BASE_SEPOLIA_CHAIN_ID} // [!code focus]
       calls={calls} // [!code focus]
-      onStatus={handleOnStatus}
-    > // [!code focus]
+      onStatus={handleOnStatus} // [!code focus]
+    > 
       <TransactionButton />
       <TransactionSponsor />
       <TransactionStatus>
         <TransactionStatusLabel />
         <TransactionStatusAction />
       </TransactionStatus>
-    </Transaction>  // [!code focus]
+    </Transaction> // [!code focus]
   ) : (
     <Wallet>
       <ConnectWallet>
-        <Avatar className='h-6 w-6' />
+        <Avatar className="h-6 w-6" />
         <Name />
       </ConnectWallet>
     </Wallet>
   );
-};
+}
 ```
 
 ```ts twoslash [calls.ts]
@@ -181,18 +175,13 @@ export const calls = [
 <App>
   <TransactionWrapper>
     {({ address, contracts, onStatus }) => {
-      const capabilities = {
-        paymasterService: {
-          url: PAYMASTER_AND_BUNDLER_ENDPOINT,
-        },
-      }
       if (address) {
         return (
           <Transaction
-            capabilities={capabilities}
+            isSponsored={true}
             chainId={BASE_SEPOLIA_CHAIN_ID}
             contracts={contracts}
-            onStatus={onStatus} 
+            onStatus={onStatus}
           >
             <TransactionButton />
             <TransactionSponsor />
@@ -201,7 +190,7 @@ export const calls = [
               <TransactionStatusAction />
             </TransactionStatus>
           </Transaction>
-        )
+        );
       } else {
         return (
           <Wallet>
@@ -210,7 +199,7 @@ export const calls = [
               <Name />
             </ConnectWallet>
           </Wallet>
-        )
+        );
       }
     }}
   </TransactionWrapper>
@@ -218,7 +207,7 @@ export const calls = [
 
 ### Listen to `LifecycleStatus`
 
-Take full control of your transactions data with the `LifecycleStatus` object via the `onStatus` prop. 
+Take full control of your transactions data with the `LifecycleStatus` object via the `onStatus` prop.
 This TypeScript object provides `statusName` and `statusData` to keep you informed.
 
 ```tsx twoslash
@@ -240,16 +229,19 @@ import type { LifecycleStatus } from '@coinbase/onchainkit/transaction'; // [!co
 
 // omitted for brevity
 
-const handleOnStatus = useCallback((status: LifecycleStatus) => { // [!code focus]
+const handleOnStatus = useCallback((status: LifecycleStatus) => {
+  // [!code focus]
   console.log('LifecycleStatus', status); // [!code focus]
 }, []); // [!code focus]
 
 // omitted for brevity
 
-<Transaction  // [!code focus]
+<Transaction // [!code focus]
   contracts={contracts}
   onStatus={handleOnStatus} // [!code focus]
->  // [!code focus]
+>
+  {' '}
+  // [!code focus]
   <TransactionButton />
   <TransactionSponsor />
   <TransactionToast>
@@ -257,14 +249,14 @@ const handleOnStatus = useCallback((status: LifecycleStatus) => { // [!code focu
     <TransactionToastLabel />
     <TransactionToastAction />
   </TransactionToast>
-</Transaction> // [!code focus]
+</Transaction>; // [!code focus]
 ```
 
 The Lifecycle Status features seven states for the transaction experience.
 
 ```ts twoslash
-import type { TransactionError } from "@coinbase/onchainkit/transaction";
-import type { Address, TransactionReceipt } from "viem";
+import type { TransactionError } from '@coinbase/onchainkit/transaction';
+import type { Address, TransactionReceipt } from 'viem';
 // ---cut-before---
 type LifecycleStatus =
   | {
@@ -303,7 +295,7 @@ type LifecycleStatus =
 
 ### Sponsor with Paymaster capabilities
 
-To sponsor your transactions with Paymaster capabilities, provide the `paymasterService` object.
+To sponsor your transactions with Paymaster capabilities, configure your [`OnchainKitProvider`](/config/onchainkit-provider) with the appropriate `config.paymaster` URL, then pass `isSponsored={true}` to the `Transaction` component.
 
 Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/bundler-and-paymaster).
 
@@ -316,21 +308,32 @@ Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform](h
 />
 
 ```tsx twoslash
+// @noErrors:  2304 17008 1005
+<OnchainKitProvider
+  config={{ // [!code focus]
+    paymaster: process.env.PAYMASTER_ENDPOINT, // [!code focus] 
+  }} // [!code focus]
+>
+```
+
+Next, pass `isSponsored={true}` to the `Transaction` component.
+
+```tsx twoslash
 // @noErrors: 2580 2304 2322 - Cannot find name 'process', Cannot find name 'contracts'
-import { Transaction, TransactionButton, TransactionSponsor } from "@coinbase/onchainkit/transaction"
+import {
+  Transaction,
+  TransactionButton,
+  TransactionSponsor,
+} from '@coinbase/onchainkit/transaction';
 // ---cut-before---
 // omitted for brevity
 <Transaction
-  capabilities={{ // [!code focus]
-    paymasterService: { // [!code focus]
-      url: process.env.PAYMASTER_AND_BUNDLER_ENDPOINT, // [!code focus]
-    }, // [!code focus]
-  }} // [!code focus]
   contracts={contracts}
+  isSponsored={true} // [!code focus]
   >
   <TransactionButton />
   <TransactionSponsor />
-</Transaction>
+</Transaction>;
 ```
 
 ::::
@@ -372,8 +375,8 @@ export default function TransactionWithCalls() {
 ## Components
 
 <div className="flex flex-col max-w-[648px] gap-6">
-  <img 
-    src="/assets/onchainkit-components-transaction-anatomy.png" 
+  <img
+    src="/assets/onchainkit-components-transaction-anatomy.png"
     alt="OnchainKit transaction anatomy component diagram"
     title="Visual breakdown of OnchainKit transaction components"
     width="648"
@@ -382,6 +385,7 @@ export default function TransactionWithCalls() {
 </div>
 
 The components are designed to work together hierarchically. For each component, ensure the following:
+
 - `<Transaction />` - Serves as the main container for all transaction-related components.
 - `<TransactionButton />` - Handles the transaction initiation process.
 - `<TransactionSponsor />` - Displays information about the sponsorship of transaction gas fees.

@@ -7,6 +7,7 @@ type TabReact = {
   children: React.ReactNode;
   className?: string;
   'aria-label'?: string;
+  onClick?: () => void;
 };
 
 export function Tab({
@@ -14,6 +15,7 @@ export function Tab({
   children,
   className,
   'aria-label': ariaLabel,
+  onClick,
 }: TabReact) {
   const { selectedTab, setSelectedTab } = useTabsContext();
 
@@ -21,16 +23,17 @@ export function Tab({
 
   const handleClick = useCallback(() => {
     setSelectedTab(value);
-  }, [value, setSelectedTab]);
+    onClick?.();
+  }, [value, setSelectedTab, onClick]);
 
   return (
     <button
       className={cn(
-        text.label1,
-        isSelected ? color.primary : color.foreground,
-        isSelected ? background.washed : background.default,
+        text.headline,
+        isSelected ? color.inverse : color.foreground,
+        isSelected ? background.primary : background.default,
         'w-1/2 text-center',
-        'cursor-pointer px-3 py-4',
+        'cursor-pointer px-3 py-2',
         className,
       )}
       onClick={handleClick}

@@ -9,11 +9,12 @@ import type { AppConfig } from './core/types';
  */
 export type OnchainKitProviderReact = {
   address?: Address;
+  analytics?: boolean;
   apiKey?: string;
   chain: Chain;
   children: ReactNode;
   config?: AppConfig;
-  interactionId?: string;
+  sessionId?: string;
   projectId?: string;
   rpcUrl?: string;
   schemaId?: EASSchemaUid;

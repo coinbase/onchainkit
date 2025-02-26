@@ -10,16 +10,6 @@ type GenericStatus<T> = {
   statusData: T;
 };
 
-export enum AnalyticsEvent {
-  WALLET_CONNECTED = 'walletConnected',
-}
-
-export type AnalyticsEventData = {
-  [AnalyticsEvent.WALLET_CONNECTED]: {
-    address: string;
-  };
-};
-
 // biome-ignore lint/suspicious/noExplicitAny: generic status can be any type
 export type AbstractLifecycleStatus = ErrorStatus | GenericStatus<any>;
 
@@ -53,13 +43,13 @@ export type LifecycleStatusUpdate<T extends AbstractLifecycleStatus> =
   }
     ? { statusName: N } & (N extends 'init' // statusData required in statusName "init"
         ? { statusData: D }
-        : AllKeysInShared<D> extends true // is statusData is LifecycleStatusDataShared, make optional
+        : AllKeysInShared<D> extends true
           ? {
               statusData?: PartialKeys<
                 D,
                 keyof D & keyof LifecycleStatusDataShared
               >;
-            } // make all keys in LifecycleStatusDataShared optional
+            }
           : {
               statusData: PartialKeys<
                 D,
@@ -67,3 +57,12 @@ export type LifecycleStatusUpdate<T extends AbstractLifecycleStatus> =
               >;
             })
     : never;
+
+/**
+ * Takes a type T and a key K, and makes K required in T
+ * e.g. type T = { a?: string, b?: number }
+ *      type K = 'a'
+ *      type R = MakeRequired<T, K> // { a: string, b?: number }
+ */
+export type MakeRequired<T, K extends keyof T> = Omit<T, K> &
+  Required<Pick<T, K>>;

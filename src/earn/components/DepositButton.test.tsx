@@ -1,7 +1,9 @@
+import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
 import type { EarnContextType } from '@/earn/types';
-import { usdcToken } from '@/token/constants';
+import type { MakeRequired } from '@/internal/types';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
+import { act } from 'react';
 import type { Address } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
@@ -10,18 +12,9 @@ import { DepositButton } from './DepositButton';
 import { useEarnContext } from './EarnProvider';
 
 // Address required to avoid connect wallet prompt
-const baseContext: EarnContextType & { address: Address } = {
-  convertedBalance: '1000',
-  setDepositAmount: vi.fn(),
-  vaultAddress: '0x123' as Address,
-  depositAmount: '0',
-  depositedAmount: '0',
-  withdrawAmount: '0',
-  setWithdrawAmount: vi.fn(),
-  depositCalls: [],
-  withdrawCalls: [],
-  address: '0x123' as Address,
-  vaultToken: usdcToken,
+const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
+  ...MOCK_EARN_CONTEXT,
+  recipientAddress: '0x123' as Address,
 };
 
 vi.mock('./EarnProvider', () => ({
@@ -49,10 +42,14 @@ vi.mock('@/transaction', async (importOriginal) => {
     ),
     Transaction: ({
       onStatus,
+      onSuccess,
       children,
       capabilities,
     }: {
       onStatus: (status: { statusName: string }) => void;
+      onSuccess: (response: {
+        transactionReceipts: Array<{ status: string }>;
+      }) => void;
       children: React.ReactNode;
       capabilities: { paymasterService: { url: string } };
     }) => (
@@ -77,7 +74,10 @@ vi.mock('@/transaction', async (importOriginal) => {
           <button
             type="button"
             data-testid="transaction-button"
-            onClick={() => onStatus({ statusName: 'success' })}
+            onClick={() => {
+              onStatus({ statusName: 'success' });
+              onSuccess({ transactionReceipts: [{ status: 'success' }] });
+            }}
           >
             Success
           </button>
@@ -108,7 +108,7 @@ describe('DepositButton Component', () => {
   it('renders ConnectWallet if no account is connected', () => {
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
-      address: undefined,
+      recipientAddress: undefined,
     });
 
     vi.mocked(useAccount as Mock).mockReturnValue({
@@ -152,5 +152,60 @@ describe('DepositButton Component', () => {
     const { container } = render(<DepositButton />);
 
     expect(container).toHaveTextContent('Deposit');
+  });
+
+  it('surfaces Transaction lifecycle statuses', () => {
+    const mockUpdateLifecycleStatus = vi.fn();
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      depositCalls: [{ to: '0x123', data: '0x456' }],
+      updateLifecycleStatus: mockUpdateLifecycleStatus,
+    });
+
+    render(<DepositButton />);
+
+    // Simulate different transaction states using the mock buttons
+    screen.getByText('TransactionPending').click();
+    expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
+      statusName: 'transactionPending',
+    });
+
+    screen.getByText('Success').click();
+    expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
+      statusName: 'success',
+    });
+
+    screen.getByText('Error').click();
+    expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
+      statusName: 'error',
+    });
+  });
+
+  it('clears the deposit amount after a successful transaction', async () => {
+    const mockSetDepositAmount = vi.fn();
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      setDepositAmount: mockSetDepositAmount,
+    });
+
+    render(<DepositButton />);
+
+    await act(async () => {
+      screen.getByText('Success').click();
+    });
+    expect(mockSetDepositAmount).toHaveBeenCalledWith('');
+  });
+
+  it('disables the button and shows an error message when there is an error', () => {
+    vi.mocked(useEarnContext).mockReturnValue({
+      ...baseContext,
+      depositAmountError: 'Error',
+    });
+
+    render(<DepositButton />);
+
+    const transactionButton = screen.getByTestId('transactionButton');
+    expect(transactionButton).toBeDisabled();
+    expect(transactionButton).toHaveTextContent('Error');
   });
 });

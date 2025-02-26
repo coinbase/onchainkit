@@ -7,7 +7,11 @@
  * @param fractionDigits - The number of fraction digits to round to
  * @returns The rounded balance
  */
-export function getTruncatedAmount(balance: string, decimalPlaces: number) {
+export function getTruncatedAmount(
+  balance: string,
+  decimalPlaces: number,
+  notation: 'standard' | 'compact' = 'standard',
+) {
   if (balance === '0') {
     return balance;
   }
@@ -27,6 +31,7 @@ export function getTruncatedAmount(balance: string, decimalPlaces: number) {
     style: 'decimal',
     minimumFractionDigits: 0,
     maximumFractionDigits: hasDecimals ? Math.min(decimalPlaces, decimals) : 0,
+    notation,
     // TODO: implement this once we switch build tools and can target es2023
     // roundingMode: 'trunc',
   });

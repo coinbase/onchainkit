@@ -1,17 +1,101 @@
 # Changelog
 
+## 0.37.4
+
+### Patch Changes
+
+- **feat**: Added Transaction Telemetry. By @cpcramer #1965
+- **chore**: Added origin to analytics. By @cpcramer #2015
+- **fix**: Added OnchainKit error boundary. By @alessey #2019
+- **feat**: Added NFTMintButton analytics. By @cpcramer #2027
+- **feat**: Exposed handleFetchPrice on top-level AppchainBridge component. By @0xAlec #2034
+- **feat**: Added success state to AppchainBridge. By @0xAlec #2035
+- **feat** added `AppchainBridgeResumeTransaction`. by @0xAlec #2038
+
+## 0.37.3
+
+### Patch Changes
+
+- **fix**: Revert Mint changes that were causing an infinite loop in `NFTMintButton`. By @cpcramer #2031
+
+## 0.37.2
+
+### Patch Changes
+
+- **fix**: Improve chain support for non Base transactions. By @dschlabach #2016
+- **docs**: Documentation updates and improvements. By @dschlabach @maximevtush @kilavvy
+
+## 0.37.1
+
+### Patch Changes
+
+- **feat**: Add `Checkout` component telemetry. By @cpcramer #1968
+- **feat**: Add `Fund` component telemetry. By @cpcramer #1967
+- **feat**: Add `Mint` component telemetry. By @cpcramer #1966
+- **feat**: Add `WalletAdvanced` component telemetry. By @cpcramer #1963
+- **feat**: Add `ConnectWallet` component telemetry. By @cpcramer #1957
+- **docs**: Documentation updates and improvements. By @dschlabach @dramarereg @tomasandroil @maximevtush
+- **chore**: `sendAnalytics` improvements. @By @dschlabach #1999
+- **feat**: Add `isSponsored` support for the `Earn` component. @dschlabach 1998
+
+## 0.37.0
+
+### Minor Changes
+
+- **feat** Add telemetry to help us better understand library usage and improve the developer experience. @cpcramer
+
+### Patch Changes
+
+- **feat** Add Appchain Bridge UI. by @0xAlec #1976
+- **fix** Add various improvements to the Earn component. by @dschlabach #1973
+- **docs** Add documentation for the Earn component. by @dschlabach #1974
+- **chore** Update earnings token. By @alessey #1985
+- **fix** Remove circular dependency. By @dschlabach #1970
+
+  ## Telemetry
+
+  Starting with version 0.37.0, OnchainKit introduces an anonymous telemetry system to help us better understand library usage and improve the developer experience. This system collects anonymous data about:
+
+  - Component usage and events
+  - Version and app information
+  - Usage metrics
+  - Error events
+
+  No sensitive data (environment variables, private keys, file paths) is ever collected.
+
+  ### How to Opt Out
+
+  To fully disable telemetry collection, set the `analytics` flag to `false` in your OnchainKit Provider:
+
+  Learn more at https://onchainkit.xyz/guides/telemetry
+
+## 0.36.11
+
+### Patch Changes
+
+- **docs**: Add Telemetry guide. By @cpcramer #1935
+- **feat**: Added Telemetry foundation for `Buy`, `Checkout`, `Fund`, `Mint`, `Swap`, `Transaction`, and `Wallet`. By @cpcramer #1942
+- **feat**: Add analytics parameter. When set to false, all telemetry collection will be disabled and no data will be sent. @cpcramer #1934
+- **feat**: Release `Earn` component. By @dschlabach #1955
+- **chore**: Bump wagmi dependencies. By @dschlabach #1949
+- **fix**: Fix slow wallet resolution. By @dschlabach #1947
+- **docs**: Update onramp documentation. By @rustam-cb #1945 #1939
+- **fix**: Fix onramp util `fetchOnrampQuote`. By @rustam-cb #1940
+
+Note: OnchainKit is not collecting any telemetry as of `v0.36.11`. This will be enabled in a future release.
+
 ## 0.36.10
 
 ### Patch Changes
 
-  - **feat**: Export NFT context. By @alessey #1917
-  - **feat**: WalletAdvanced mobile design. by @brendan-defi #1827
-  - **fix**: Await sequential transaction calls. by @dschlabach #1918
-  - **feat**: Add exchange rate refresh with throttling for FundCard. By @rustam-cb #1900
-  - **feat**: Dynamic text size in AmountInput component. by @rustam-cb #1909
-  - **feat**: Add style overrides to WalletAdvanced. by @brendan-defi #1912
-  - **feat**: Add DropdownMenu UI Primitive. By @cpcramer #1901
-  - **feat**: Implemented `DropdownMenu` primitive into `TokenSelectDropdown`. By @cpcramer #1903
+- **feat**: Export NFT context. By @alessey #1917
+- **feat**: WalletAdvanced mobile design. by @brendan-defi #1827
+- **fix**: Await sequential transaction calls. by @dschlabach #1918
+- **feat**: Add exchange rate refresh with throttling for FundCard. By @rustam-cb #1900
+- **feat**: Dynamic text size in AmountInput component. by @rustam-cb #1909
+- **feat**: Add style overrides to WalletAdvanced. by @brendan-defi #1912
+- **feat**: Add DropdownMenu UI Primitive. By @cpcramer #1901
+- **feat**: Implemented `DropdownMenu` primitive into `TokenSelectDropdown`. By @cpcramer #1903
 
 ## 0.36.9
 
@@ -32,7 +116,7 @@
 - **fix**: Made improvements to FundCard component. By @rustam-cb #1806 #1818 #1839
 - **fix**: Made improvements to WalletIsland component. By @brendan-cb #1842
 - **fix**: Made internal typesafety and efficiency improvements. By @dschlabach #1855 #1843
-- **fix**: Fixed typos in documentation and commments. By @youyyytrok @vipocenka #1840 #1841
+- **fix**: Fixed typos in documentation and comments. By @youyyytrok @vipocenka #1840 #1841
 
 ## 0.36.7
 
@@ -493,7 +577,7 @@ export type LifeCycleStatus =
 ### Patch Changes
 
 - **feat**: moved `onSuccess` and `onError` for Swap component at top level. By @zizzamia #1123 886d974
-- **patch**: removed unneccessary address prop from `Transaction` component and fix issue where Sponsor component isn't visible. By @abcrane123 #1114
+- **patch**: removed unnecessary address prop from `Transaction` component and fix issue where Sponsor component isn't visible. By @abcrane123 #1114
 - **chore**: updated disconnect SVG image. By @cpcramer #1103
 - **fix**: improved issue with Swap where it wasn't fetching quote for amount without a leading 0. By @abcrane123 #1128
 
@@ -575,7 +659,7 @@ export type LifeCycleStatus =
 
 ### Patch Changes
 
-- **feat**: added `Permit2` approval process for UniversalRouter in the `Swap` experiece. By @0xAlec #980 16c004b
+- **feat**: added `Permit2` approval process for UniversalRouter in the `Swap` experience. By @0xAlec #980 16c004b
 
 ## 0.28.0
 
@@ -714,7 +798,7 @@ Learn more about this component type at https://onchainkit.xyz/transactiontypes#
 
 ### Patch Changes
 
-- **fix**: copy popover style within the `IdenityLayout`. By @zizzamia #870 3128263
+- **fix**: copy popover style within the `IdentityLayout`. By @zizzamia #870 3128263
 - **feat**: added toast animation for `TransactionToast` component. By @abcrane123 #865
 
 ## 0.26.0
@@ -865,7 +949,7 @@ Breaking Changes
 
 ### Patch Changes
 
-- **fix**: revert peer dependancy PRs. f4fcd2a
+- **fix**: revert peer dependency PRs. f4fcd2a
 
 ## 0.22.3
 
@@ -1145,7 +1229,7 @@ Features
 ### Patch Changes
 
 - **feat**: converted `Badge` to css. By @zizzamia #476 9b03393
-- **feat**: converted `TokenRow` to css, add modifier state and add additinal display controls. By @kyhyco #473
+- **feat**: converted `TokenRow` to css, add modifier state and add additional display controls. By @kyhyco #473
 
 ## 0.19.1
 

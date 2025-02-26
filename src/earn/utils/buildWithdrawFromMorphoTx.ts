@@ -8,18 +8,18 @@ export type WithdrawFromMorphoParams = {
   /** The amount of tokens to withdraw */
   amount: bigint;
   /** The address to which the withdrawn funds will be sent */
-  receiverAddress: Address;
+  recipientAddress: Address;
 };
 
 export function buildWithdrawFromMorphoTx({
   vaultAddress,
   amount,
-  receiverAddress,
+  recipientAddress,
 }: WithdrawFromMorphoParams): Call[] {
   const withdrawTxData = encodeFunctionData({
     abi: MORPHO_VAULT_ABI,
     functionName: 'withdraw',
-    args: [amount, receiverAddress, receiverAddress],
+    args: [amount, recipientAddress, recipientAddress],
   });
 
   return [

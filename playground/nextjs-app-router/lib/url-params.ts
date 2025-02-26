@@ -29,6 +29,7 @@ const URL_PARAM_MAPPING: Partial<Record<OnchainKitComponent, string[]>> = {
   [OnchainKitComponent.NFTCardDefault]: ['chainId', 'nftToken'],
   [OnchainKitComponent.NFTMintCard]: ['chainId', 'nftToken'],
   [OnchainKitComponent.NFTMintCardDefault]: ['chainId', 'nftToken'],
+  [OnchainKitComponent.Earn]: ['vaultAddress'],
 };
 
 export function getShareableUrl(activeComponent?: OnchainKitComponent) {

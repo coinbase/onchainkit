@@ -22,6 +22,9 @@ const mockVaultResponse: MorphoVaultApiResponse = {
         id: 8453,
         network: 'base',
       },
+      liquidity: {
+        underlying: '1000',
+      },
       state: {
         id: 'state-1',
         apy: 0.05,
@@ -46,6 +49,7 @@ const mockVaultResponse: MorphoVaultApiResponse = {
       },
     },
   },
+  errors: null,
 };
 
 describe('fetchMorphoApy', () => {
@@ -74,7 +78,7 @@ describe('fetchMorphoApy', () => {
     expect(result).toEqual(mockVaultResponse.data.vaultByAddress);
   });
 
-  it('handles API errors', async () => {
+  it('handles fetch errors', async () => {
     (global.fetch as Mock).mockRejectedValueOnce(new Error('API Error'));
 
     const vaultAddress = '0x1234567890123456789012345678901234567890';
@@ -88,5 +92,36 @@ describe('fetchMorphoApy', () => {
 
     const vaultAddress = '0x1234567890123456789012345678901234567890';
     await expect(fetchMorphoApy(vaultAddress)).rejects.toThrow();
+  });
+
+  it('handles bad user input', async () => {
+    (global.fetch as Mock).mockResolvedValueOnce({
+      json: () =>
+        Promise.resolve({
+          errors: [{ message: 'Bad User Input', status: 'BAD_USER_INPUT' }],
+        }),
+    });
+
+    const vaultAddress = '0x1234567890123456789012345678901234567890';
+    await expect(fetchMorphoApy(vaultAddress)).rejects.toThrow(
+      'Vault not found. Ensure the address is a valid Morpho vault on Base.',
+    );
+  });
+
+  it('handles generic errors', async () => {
+    (global.fetch as Mock).mockResolvedValueOnce({
+      json: () =>
+        Promise.resolve({
+          errors: [
+            { message: 'Generic Error', status: 'INTERNAL_SERVER_ERROR' },
+          ],
+        }),
+    });
+
+    expect(
+      fetchMorphoApy('0x1234567890123456789012345678901234567890'),
+    ).rejects.toThrow(
+      'Error fetching Morpho vault data. Please try again later.',
+    );
   });
 });

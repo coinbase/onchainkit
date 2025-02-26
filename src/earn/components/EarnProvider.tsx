@@ -1,70 +1,177 @@
+import { useBuildDepositToMorphoTx } from '@/earn/hooks/useBuildDepositToMorphoTx';
 import { getToken } from '@/earn/utils/getToken';
+import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useValue } from '@/internal/hooks/useValue';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
-import { createContext, useContext, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 import { useAccount } from 'wagmi';
-import { useBuildMorphoDepositTx } from '../hooks/useBuildMorphoDepositTx';
-import { useBuildMorphoWithdrawTx } from '../hooks/useBuildMorphoWithdrawTx';
+import { useBuildWithdrawFromMorphoTx } from '../hooks/useBuildWithdrawFromMorphoTx';
 import { useMorphoVault } from '../hooks/useMorphoVault';
-import type { EarnContextType, EarnProviderReact } from '../types';
+import type {
+  EarnContextType,
+  EarnProviderReact,
+  LifecycleStatus,
+} from '../types';
 
 const EarnContext = createContext<EarnContextType | undefined>(undefined);
 
-export function EarnProvider({ vaultAddress, children }: EarnProviderReact) {
+export function EarnProvider({
+  vaultAddress,
+  children,
+  isSponsored,
+}: EarnProviderReact) {
   if (!vaultAddress) {
     throw new Error(
       'vaultAddress is required. For a list of vaults, see: https://app.morpho.org/base/earn',
     );
   }
 
+  const [lifecycleStatus, updateLifecycleStatus] =
+    useLifecycleStatus<LifecycleStatus>({
+      statusName: 'init',
+      statusData: null,
+    });
+
   const { address } = useAccount();
 
-  const [depositAmount, setDepositAmount] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('');
+  const [depositAmount, setDepositAmount] = useState('');
 
-  const { asset, assetDecimals, assetSymbol, balance, totalApy } =
-    useMorphoVault({
-      vaultAddress,
-      address,
-    });
+  const {
+    asset,
+    balance: depositedBalance,
+    balanceStatus: depositedBalanceStatus,
+    refetchBalance: refetchDepositedBalance,
+    totalApy,
+    nativeApy,
+    vaultFee,
+    vaultName,
+    deposits,
+    liquidity,
+    rewards,
+    error,
+  } = useMorphoVault({
+    vaultAddress,
+    recipientAddress: address,
+  });
+
   const vaultToken = asset
     ? getToken({
-        address: asset,
-        symbol: assetSymbol,
-        name: assetSymbol,
-        decimals: assetDecimals,
+        address: asset.address,
+        symbol: asset.symbol,
+        name: asset.symbol,
+        decimals: asset.decimals,
       })
     : undefined;
 
-  const { convertedBalance } = useGetTokenBalance(address, vaultToken);
+  const {
+    convertedBalance: walletBalance,
+    status: walletBalanceStatus,
+    refetch: refetchWalletBalance,
+  } = useGetTokenBalance(address, vaultToken);
 
-  const { calls: withdrawCalls } = useBuildMorphoWithdrawTx({
+  const { calls: depositCalls } = useBuildDepositToMorphoTx({
     vaultAddress,
-    amount: Number(withdrawAmount),
-    receiverAddress: address,
+    amount: depositAmount,
+    recipientAddress: address,
   });
 
-  const { calls: depositCalls } = useBuildMorphoDepositTx({
+  const { calls: withdrawCalls } = useBuildWithdrawFromMorphoTx({
     vaultAddress,
-    amount: Number(depositAmount),
-    receiverAddress: address,
+    amount: withdrawAmount,
+    recipientAddress: address,
+    tokenDecimals: vaultToken?.decimals,
   });
+
+  // Lifecycle statuses
+  const handleDepositAmount = useCallback(
+    async (amount: string) => {
+      updateLifecycleStatus({
+        statusName: 'amountChange',
+        statusData: { amount: amount, token: vaultToken },
+      });
+
+      setDepositAmount(amount);
+    },
+    [updateLifecycleStatus, vaultToken],
+  );
+
+  const handleWithdrawAmount = useCallback(
+    async (amount: string) => {
+      updateLifecycleStatus({
+        statusName: 'amountChange',
+        statusData: { amount: amount, token: vaultToken },
+      });
+
+      setWithdrawAmount(amount);
+    },
+    [updateLifecycleStatus, vaultToken],
+  );
+
+  // Validating input amounts
+  const depositAmountError = useMemo(() => {
+    if (!depositAmount) {
+      return null;
+    }
+    if (Number(depositAmount) <= 0) {
+      return 'Must be greater than 0';
+    }
+    if (Number(depositAmount) > Number(walletBalance)) {
+      return 'Amount exceeds the balance';
+    }
+    return null;
+  }, [depositAmount, walletBalance]);
+
+  const withdrawAmountError = useMemo(() => {
+    if (!withdrawAmount) {
+      return null;
+    }
+    if (Number(withdrawAmount) === 0) {
+      return 'Must be greater than 0';
+    }
+    if (Number(withdrawAmount) > Number(depositedBalance)) {
+      return 'Amount exceeds the balance';
+    }
+    return null;
+  }, [withdrawAmount, depositedBalance]);
 
   const value = useValue<EarnContextType>({
-    address,
-    convertedBalance,
+    error,
+    recipientAddress: address,
     vaultAddress,
     vaultToken,
+    vaultName,
+    deposits,
+    liquidity,
+    depositedBalance,
+    depositedBalanceStatus,
+    refetchDepositedBalance,
     depositAmount,
-    setDepositAmount,
+    setDepositAmount: handleDepositAmount,
+    depositAmountError,
     withdrawAmount,
-    setWithdrawAmount,
-    depositedAmount: balance,
+    setWithdrawAmount: handleWithdrawAmount,
+    withdrawAmountError,
+    walletBalance,
+    walletBalanceStatus,
+    refetchWalletBalance,
     apy: totalApy,
+    nativeApy,
+    vaultFee,
+    rewards,
     // TODO: update when we have logic to fetch interest
-    interest: '',
+    interestEarned: '',
     withdrawCalls,
     depositCalls,
+    lifecycleStatus,
+    updateLifecycleStatus,
+    isSponsored,
   });
 
   return <EarnContext.Provider value={value}>{children}</EarnContext.Provider>;

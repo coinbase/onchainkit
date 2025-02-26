@@ -60,18 +60,27 @@ describe('useMorphoVault', () => {
 
     expect(result.current).toEqual({
       status: 'pending',
-      asset: undefined,
-      assetDecimals: undefined,
+      error: null,
+      asset: {
+        address: undefined,
+        symbol: undefined,
+        decimals: undefined,
+      },
       vaultDecimals: undefined,
-      name: undefined,
+      vaultName: undefined,
       balance: undefined,
+      balanceStatus: undefined,
       totalApy: undefined,
       nativeApy: undefined,
+      vaultFee: undefined,
+      refetchBalance: undefined,
+      liquidity: undefined,
+      deposits: undefined,
       rewards: [
         {
           apy: 0,
           asset: MORPHO_TOKEN_BASE_ADDRESS,
-          assetName: 'Morpho',
+          assetName: 'MORPHO',
         },
       ],
     });
@@ -98,6 +107,9 @@ describe('useMorphoVault', () => {
         address: DUMMY_ADDRESS,
       },
       symbol: 'DUMMY',
+      liquidity: {
+        underlying: '100000',
+      },
       state: {
         netApy: 0.05,
         netApyWithoutRewards: 0.03,
@@ -118,13 +130,15 @@ describe('useMorphoVault', () => {
     });
 
     await vi.waitFor(() => {
-      expect(result.current).toEqual({
+      expect(result.current).toMatchObject({
         status: 'success',
-        asset: DUMMY_ADDRESS,
-        assetSymbol: 'DUMMY',
-        assetDecimals: 18,
+        asset: {
+          address: DUMMY_ADDRESS,
+          symbol: 'DUMMY',
+          decimals: 18,
+        },
         vaultDecimals: 18,
-        name: 'Morpho Vault',
+        vaultName: 'Morpho Vault',
         balance: '1',
         totalApy: 0.05,
         nativeApy: 0.03,
@@ -132,7 +146,7 @@ describe('useMorphoVault', () => {
           {
             apy: 0,
             asset: MORPHO_TOKEN_BASE_ADDRESS,
-            assetName: 'Morpho',
+            assetName: 'MORPHO',
           },
           {
             apy: 0.02,
@@ -186,9 +200,13 @@ describe('useMorphoVault', () => {
         address: DUMMY_ADDRESS,
       },
       symbol: 'DUMMY',
+      liquidity: {
+        underlying: '100000000000000000000000',
+      },
       state: {
         netApy: 0.05,
         netApyWithoutRewards: 0.03,
+        totalAssets: '100000000000000000000000',
         rewards: [
           {
             asset: {
@@ -206,20 +224,27 @@ describe('useMorphoVault', () => {
     });
 
     await vi.waitFor(() => {
-      expect(result.current).toEqual({
+      expect(result.current).toMatchObject({
         status: 'success',
-        asset: DUMMY_ADDRESS,
-        assetSymbol: 'DUMMY',
-        assetDecimals: 18,
+        asset: {
+          address: DUMMY_ADDRESS,
+          symbol: 'DUMMY',
+          decimals: 18,
+        },
         vaultDecimals: 18,
-        name: 'Morpho Vault',
+        vaultName: 'Morpho Vault',
         balance: '1',
+        balanceStatus: undefined,
+        refetchBalance: undefined,
+        liquidity: '100000',
+        deposits: '100000',
         totalApy: 0.05,
         nativeApy: 0.03,
+        vaultFee: undefined,
         rewards: [
           {
             asset: MORPHO_TOKEN_BASE_ADDRESS,
-            assetName: 'Morpho',
+            assetName: 'MORPHO',
             apy: 0,
           },
           {
@@ -247,12 +272,7 @@ describe('useMorphoVault', () => {
 
   it('handles undefined Morpho API result', () => {
     vi.mocked(useReadContracts).mockReturnValue({
-      data: [
-        { result: undefined },
-        { result: 'Morpho Vault' },
-        { result: 1000000000000000000n },
-        { result: 18 },
-      ],
+      data: [{ result: undefined }, { result: 'Morpho Vault' }, { result: 18 }],
       status: 'success',
     } as UseReadContractsReturnType<unknown[], boolean, unknown>);
 
@@ -263,9 +283,77 @@ describe('useMorphoVault', () => {
     expect(result.current.rewards).toEqual([
       {
         asset: MORPHO_TOKEN_BASE_ADDRESS,
-        assetName: 'Morpho',
+        assetName: 'MORPHO',
         apy: 0,
       },
     ]);
+  });
+
+  it('correctly formats deposits when data is available', async () => {
+    vi.mocked(useReadContracts).mockReturnValue({
+      data: [
+        { result: DUMMY_ADDRESS },
+        { result: 'Morpho Vault' },
+        { result: 18 }, // decimals
+      ],
+      status: 'success',
+    } as UseReadContractsReturnType<unknown[], boolean, unknown>);
+
+    vi.mocked(useReadContract).mockReturnValue({
+      data: 1000000000000000000n,
+    } as UseReadContractReturnType<unknown[], string, unknown[], unknown>);
+
+    (fetchMorphoApy as Mock).mockResolvedValue({
+      state: {
+        totalAssets: '2000000000000000000', // 2 tokens
+        netApy: 0.05,
+        netApyWithoutRewards: 0.03,
+        rewards: [],
+      },
+      asset: {
+        decimals: 18,
+        symbol: 'DUMMY',
+        address: DUMMY_ADDRESS,
+      },
+      liquidity: {
+        underlying: '100000',
+      },
+    });
+
+    const { result } = renderHook(() => useMorphoVault(mockParams), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
+
+    await vi.waitFor(() => {
+      expect(result.current.deposits).toBe('2');
+    });
+  });
+
+  it('returns undefined deposits when data is missing', async () => {
+    vi.mocked(useReadContracts).mockReturnValue({
+      data: [
+        { result: DUMMY_ADDRESS },
+        { result: 'Morpho Vault' },
+        { result: 18 },
+      ],
+      status: 'success',
+    } as UseReadContractsReturnType<unknown[], boolean, unknown>);
+
+    (fetchMorphoApy as Mock).mockResolvedValue({
+      state: {
+        totalAssets: undefined,
+        netApy: 0.05,
+        netApyWithoutRewards: 0.03,
+        rewards: [],
+      },
+    });
+
+    const { result } = renderHook(() => useMorphoVault(mockParams), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
+
+    await vi.waitFor(() => {
+      expect(result.current.deposits).toBeUndefined();
+    });
   });
 });

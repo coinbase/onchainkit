@@ -1,17 +1,17 @@
+import { EarnDetails } from '@/earn/components/EarnDetails';
 import type { EarnDepositReact } from '../types';
 import { DepositAmountInput } from './DepositAmountInput';
 import { DepositBalance } from './DepositBalance';
 import { DepositButton } from './DepositButton';
-import { DepositDetails } from './DepositDetails';
 import { EarnCard } from './EarnCard';
 
 function EarnDepositDefaultContent() {
   return (
     <>
-      <DepositDetails />
+      <EarnDetails />
       <DepositAmountInput />
       <DepositBalance />
-      <DepositButton />
+      <DepositButton className="-mt-4 h-12" />
     </>
   );
 }

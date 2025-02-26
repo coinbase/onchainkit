@@ -1,6 +1,7 @@
 import { EarnProvider, useEarnContext } from '@/earn/components/EarnProvider';
+import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
 import type { EarnContextType } from '@/earn/types';
-import { usdcToken } from '@/token/constants';
+import type { MakeRequired } from '@/internal/types';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -11,19 +12,9 @@ import { http, WagmiProvider, createConfig, mock, useAccount } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { EarnBalance } from './EarnBalance';
 
-const baseContext: EarnContextType & { address: Address } = {
-  convertedBalance: '1000',
-  setDepositAmount: vi.fn(),
-  vaultAddress: '0x123' as Address,
-  depositAmount: '0',
-  depositedAmount: '0',
-  withdrawAmount: '0',
-  setWithdrawAmount: vi.fn(),
-  interest: '1.2k',
-  depositCalls: [],
-  withdrawCalls: [],
-  address: '0x123' as Address,
-  vaultToken: usdcToken,
+const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
+  ...MOCK_EARN_CONTEXT,
+  recipientAddress: '0x123' as Address,
 };
 
 const queryClient = new QueryClient();

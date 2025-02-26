@@ -104,6 +104,15 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Earn',
+        items: [
+          {
+            text: 'Earn',
+            link: '/earn/earn',
+          },
+        ],
+      },
+      {
         text: 'Fund',
         items: [
           {
@@ -315,15 +324,27 @@ export const sidebar = [
         ],
       },
       {
-        text: 'Mint',
+        text: 'Earn',
         items: [
           {
-            text: 'useTokenDetails',
-            link: '/hooks/use-token-details',
+            text: 'buildDepositToMorphoTx',
+            link: '/api/build-deposit-to-morpho-tx',
           },
           {
-            text: 'useMintDetails',
-            link: '/hooks/use-mint-details',
+            text: 'buildWithdrawFromMorphoTx',
+            link: '/api/build-withdraw-from-morpho-tx',
+          },
+          {
+            text: 'useBuildDepositToMorphoTx',
+            link: '/hooks/use-build-deposit-to-morpho-tx',
+          },
+          {
+            text: 'useBuildWithdrawFromMorphoTx',
+            link: '/hooks/use-build-withdraw-from-morpho-tx',
+          },
+          {
+            text: 'useEarnContext',
+            link: '/hooks/use-earn-context',
           },
         ],
       },
@@ -337,6 +358,10 @@ export const sidebar = [
           {
             text: 'fetchOnrampConfig',
             link: '/fund/fetch-onramp-config',
+          },
+          {
+            text: 'fetchOnrampQuote',
+            link: '/fund/fetch-onramp-quote',
           },
           {
             text: 'fetchOnrampOptions',
@@ -386,6 +411,19 @@ export const sidebar = [
         ],
       },
       {
+        text: 'Mint',
+        items: [
+          {
+            text: 'useTokenDetails',
+            link: '/hooks/use-token-details',
+          },
+          {
+            text: 'useMintDetails',
+            link: '/hooks/use-mint-details',
+          },
+        ],
+      },
+      {
         text: 'Token',
         items: [
           {
@@ -426,6 +464,10 @@ export const sidebar = [
         link: '/config/types',
       },
       {
+        text: 'Earn',
+        link: '/earn/types',
+      },
+      {
         text: 'Fund',
         link: '/fund/types',
       },
@@ -455,4 +497,4 @@ export const sidebar = [
       },
     ],
   },
-] as const satisfies Sidebar;
+] satisfies Sidebar;

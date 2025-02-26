@@ -1,26 +1,17 @@
+import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
 import type { EarnContextType } from '@/earn/types';
-import { usdcToken } from '@/token/constants';
+import type { MakeRequired } from '@/internal/types';
 import type { Call } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { EarnDeposit } from './EarnDeposit';
 import { useEarnContext } from './EarnProvider';
+
 // Address required to avoid connect wallet prompt
-const baseContext: EarnContextType & { address: Address } = {
-  convertedBalance: '1000',
-  setDepositAmount: vi.fn(),
-  vaultAddress: '0x123' as Address,
-  depositAmount: '0',
-  depositedAmount: '0',
-  withdrawAmount: '0',
-  setWithdrawAmount: vi.fn(),
-  interest: '1.2k',
-  apy: 5,
-  depositCalls: [],
-  withdrawCalls: [],
-  address: '0x123' as Address,
-  vaultToken: usdcToken,
+const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
+  ...MOCK_EARN_CONTEXT,
+  recipientAddress: '0x123' as Address,
 };
 
 vi.mock('wagmi', async (importOriginal) => {

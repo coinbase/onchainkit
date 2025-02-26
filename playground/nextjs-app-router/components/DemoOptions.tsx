@@ -1,5 +1,6 @@
 import { ComponentMode } from '@/components/form/component-mode';
 import { ComponentTheme } from '@/components/form/component-theme';
+import { EarnOptions } from '@/components/form/earn-options';
 import { PaymasterUrl } from '@/components/form/paymaster';
 import { OnchainKitComponent } from '@/types/onchainkit';
 import { ActiveComponent } from './form/active-component';
@@ -61,6 +62,7 @@ const COMPONENT_CONFIG: Partial<
     IsSponsored,
     NFTOptions,
   ],
+  [OnchainKitComponent.Earn]: [EarnOptions],
 };
 
 export default function DemoOptions({
