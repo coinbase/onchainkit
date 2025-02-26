@@ -279,12 +279,7 @@ export type MintEventData = {
     isSponsored: boolean;
     tokenId: string;
   };
-  [MintEvent.MintCancelled]: CommonAnalyticsData & {
-    contractAddress: string | undefined;
-    quantity: number | undefined;
-    tokenId: string | undefined;
-    reason: string | undefined;
-  };
+  [MintEvent.MintCancelled]: CommonAnalyticsData;
 };
 
 /**
