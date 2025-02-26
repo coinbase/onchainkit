@@ -192,6 +192,26 @@ export default function StartBuilding() {
             NFTs in your app.
           </span>
         </li>
+        <li className="vocs_ListItem">
+          <span>
+            <a
+              className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
+              href="/earn/earn"
+            >
+              <strong className="vocs_Strong">
+                <code className="vocs_Code">Earn</code>
+              </strong>
+            </a>{' '}
+            - Enable users to{' '}
+            <a
+              className="vocs_Anchor vocs_Link vocs_Link_accent_underlined"
+              href="/earn/earn"
+            >
+              earn interest
+            </a>{' '}
+            on crypto via yield-bearing vaults.
+          </span>
+        </li>
       </ul>
     </>
   );
