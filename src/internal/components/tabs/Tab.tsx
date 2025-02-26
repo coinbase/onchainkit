@@ -34,6 +34,7 @@ export function Tab({
         isSelected ? background.primary : background.default,
         'w-1/2 text-center',
         'cursor-pointer px-3 py-2',
+        'focus:outline-none focus:ring-2 focus:ring-[var(--ock-color-foreground)] focus:ring-inset-4',
         className,
       )}
       onClick={handleClick}
