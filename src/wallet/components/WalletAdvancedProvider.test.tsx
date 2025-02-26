@@ -57,14 +57,10 @@ describe('useWalletAdvancedContext', () => {
     });
 
     expect(result.current).toEqual({
-      showSwap: false,
-      setShowSwap: expect.any(Function),
-      isSwapClosing: false,
-      setIsSwapClosing: expect.any(Function),
-      showQr: false,
-      setShowQr: expect.any(Function),
-      isQrClosing: false,
-      setIsQrClosing: expect.any(Function),
+      activeFeature: null,
+      setActiveFeature: expect.any(Function),
+      isActiveFeatureClosing: false,
+      setIsActiveFeatureClosing: expect.any(Function),
       tokenBalances: expect.any(Array),
       portfolioFiatValue: expect.any(Number),
       refetchPortfolioData: expect.any(Function),

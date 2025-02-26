@@ -39,15 +39,16 @@ describe('SendAmountInputTypeSwitch', () => {
   });
 
   it('passes an error state when exchange rate is invalid', () => {
+    const mockLoadingDisplay = <div>test-loading-display</div>;
     (useSendContext as Mock).mockReturnValue({
       ...defaultContext,
       exchangeRate: 0,
     });
 
-    render(<SendAmountInputTypeSwitch />);
+    render(<SendAmountInputTypeSwitch loadingDisplay={mockLoadingDisplay} />);
     expect(AmountInputTypeSwitch).toHaveBeenCalledWith(
       expect.objectContaining({
-        loadingDisplay: <div>test-loading-display</div>,
+        loadingDisplay: mockLoadingDisplay,
         exchangeRate: 0,
       }),
       {},
@@ -65,13 +66,15 @@ describe('SendAmountInputTypeSwitch', () => {
   });
 
   it('passes correct props to AmountInput', () => {
-    (useSendContext as Mock).mockReturnValue({
-      ...defaultContext,
-      className: 'test-class',
-      loadingDisplay: <div>test-loading-display</div>,
-    });
+    const mockLoadingDisplay = <div>test-loading-display</div>;
+    (useSendContext as Mock).mockReturnValue(defaultContext);
 
-    render(<SendAmountInputTypeSwitch />);
+    render(
+      <SendAmountInputTypeSwitch
+        className="test-class"
+        loadingDisplay={mockLoadingDisplay}
+      />,
+    );
     expect(AmountInputTypeSwitch).toHaveBeenCalledWith(
       {
         asset: defaultContext.selectedToken.symbol,
@@ -90,6 +93,9 @@ describe('SendAmountInputTypeSwitch', () => {
   });
 
   it('handles null/undefined values correctly', () => {
+    const mockSetSelectedInputType = vi.fn();
+    const mockLoadingDisplay = <div>test-loading-display</div>;
+
     (useSendContext as Mock).mockReturnValue({
       selectedToken: null,
       fiatAmount: null,
@@ -97,10 +103,10 @@ describe('SendAmountInputTypeSwitch', () => {
       exchangeRate: 3300,
       exchangeRateLoading: false,
       selectedInputType: 'fiat',
-      setSelectedInputType: vi.fn(),
+      setSelectedInputType: mockSetSelectedInputType,
     });
 
-    render(<SendAmountInputTypeSwitch />);
+    render(<SendAmountInputTypeSwitch loadingDisplay={mockLoadingDisplay} />);
 
     expect(AmountInputTypeSwitch).toHaveBeenCalledWith(
       {
@@ -111,8 +117,9 @@ describe('SendAmountInputTypeSwitch', () => {
         exchangeRateLoading: false,
         currency: 'USD',
         selectedInputType: 'fiat',
-        setSelectedInputType: vi.fn(),
-        className: '',
+        setSelectedInputType: mockSetSelectedInputType,
+        className: undefined,
+        loadingDisplay: mockLoadingDisplay,
       },
       {},
     );

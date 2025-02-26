@@ -38,7 +38,7 @@ describe('WalletAdvancedTransactionActons', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
 
   const defaultMockUseWalletAdvancedContext = {
-    setShowSwap: vi.fn(),
+    setActiveFeature: vi.fn(),
     animations: {
       content: '',
     },
@@ -142,36 +142,34 @@ describe('WalletAdvancedTransactionActons', () => {
     expect(window.open).not.toHaveBeenCalled();
   });
 
-  it('sets showSend to true when the send button is clicked', () => {
-    const setShowSendMock = vi.fn();
-
-    mockUseWalletAdvancedContext.mockReturnValue({
-      ...defaultMockUseWalletAdvancedContext,
-      setShowSend: setShowSendMock,
-    });
+  it('sets activeFeature to send when the send button is clicked', () => {
+    mockUseWalletAdvancedContext.mockReturnValue(
+      defaultMockUseWalletAdvancedContext,
+    );
 
     render(<WalletAdvancedTransactionActions />);
 
     const sendButton = screen.getByRole('button', { name: 'Send' });
     fireEvent.click(sendButton);
 
-    expect(setShowSendMock).toHaveBeenCalledWith(true);
+    expect(
+      defaultMockUseWalletAdvancedContext.setActiveFeature,
+    ).toHaveBeenCalledWith('send');
   });
 
-  it('sets showSwap to true when the swap button is clicked', () => {
-    const setShowSwapMock = vi.fn();
-
-    mockUseWalletAdvancedContext.mockReturnValue({
-      ...defaultMockUseWalletAdvancedContext,
-      setShowSwap: setShowSwapMock,
-    });
+  it('sets activeFeature to swap when the swap button is clicked', () => {
+    mockUseWalletAdvancedContext.mockReturnValue(
+      defaultMockUseWalletAdvancedContext,
+    );
 
     render(<WalletAdvancedTransactionActions />);
 
     const swapButton = screen.getByRole('button', { name: 'Swap' });
     fireEvent.click(swapButton);
 
-    expect(setShowSwapMock).toHaveBeenCalledWith(true);
+    expect(
+      defaultMockUseWalletAdvancedContext.setActiveFeature,
+    ).toHaveBeenCalledWith('swap');
   });
 
   it('renders a placeholder when fetcher is loading', () => {
@@ -182,9 +180,7 @@ describe('WalletAdvancedTransactionActons', () => {
 
     render(<WalletAdvancedTransactionActions />);
 
-    const placeholder = screen.getByTestId(
-      'ockWalletAdvanced_LoadingPlaceholder',
-    );
+    const placeholder = screen.getByTestId('ockSkeleton');
     expect(placeholder).toHaveClass('my-3 h-16 w-80');
   });
 

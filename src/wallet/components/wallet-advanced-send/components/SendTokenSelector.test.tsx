@@ -136,6 +136,11 @@ describe('SendTokenSelector', () => {
     expect(buttons[0]).toHaveClass(customClassNames.container);
     expect(buttons[1]).toHaveClass(customClassNames.container);
 
+    (useSendContext as Mock).mockReturnValue({
+      ...defaultContext,
+      selectedToken: mockTokenBalances[0],
+    });
+
     rerender(<SendTokenSelector classNames={customClassNames} />);
     const button = screen.getByTestId('ockTokenBalanceButton');
     expect(button).toHaveClass(customClassNames.container);
