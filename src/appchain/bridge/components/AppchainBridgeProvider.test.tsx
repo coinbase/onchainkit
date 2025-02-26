@@ -238,6 +238,19 @@ describe('AppchainBridgeProvider', () => {
     expect(mockDeposit).toHaveBeenCalled();
   });
 
+  it('should set resumeWithdrawalTxHash when handleResumeTransaction is called', async () => {
+    const result = await renderBridgeProvider();
+    await waitFor(async () => {
+      result.current.handleResumeTransaction(
+        '0x1234567890123456789012345678901234567890123456789012345678901234',
+      );
+    });
+    expect(result.current.resumeWithdrawalTxHash).toBe(
+      '0x1234567890123456789012345678901234567890123456789012345678901234',
+    );
+    expect(result.current.isResumeTransactionModalOpen).toBe(false);
+  });
+
   it('should validate required props', () => {
     const consoleErrorSpy = vi
       .spyOn(console, 'error')
@@ -473,5 +486,16 @@ describe('AppchainBridgeProvider', () => {
       'https://sepolia.basescan.org/tx/0x123',
       '_blank',
     );
+  });
+
+  it('should reset state when handleResetState is called', async () => {
+    const result = await renderBridgeProvider();
+    await waitFor(async () => {
+      result.current.handleResetState();
+    });
+    expect(result.current.resumeWithdrawalTxHash).toBeUndefined();
+    expect(result.current.isWithdrawModalOpen).toBe(false);
+    expect(result.current.isSuccessModalOpen).toBe(false);
+    expect(result.current.isResumeTransactionModalOpen).toBe(false);
   });
 });

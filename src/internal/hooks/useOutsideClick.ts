@@ -10,8 +10,17 @@ export function useOutsideClick(
         return;
       }
 
+      const isOutsideClick = !elRef.current.contains(e.target as Node);
+
+      const eventPath = e.composedPath?.();
+
+      const hasPortalOrigin = eventPath?.some(
+        (el) =>
+          el instanceof HTMLElement && el.hasAttribute('data-portal-origin'),
+      );
+
       // Check if the clicked target is outside of the referenced element
-      if (!elRef.current.contains(e.target as Node)) {
+      if (!hasPortalOrigin && isOutsideClick) {
         callback();
       }
     },

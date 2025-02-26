@@ -5,6 +5,7 @@ import type { UseWithdrawButtonParams } from '../types';
 export function useWithdrawButton({ withdrawStatus }: UseWithdrawButtonParams) {
   const isPending = withdrawStatus === 'claimPending';
   const isSuccess = withdrawStatus === 'claimSuccess';
+  const isError = withdrawStatus === 'error';
   const buttonDisabled = isPending;
   const buttonContent = isPending ? <Spinner /> : 'Claim';
   const shouldShowClaim =
@@ -18,12 +19,16 @@ export function useWithdrawButton({ withdrawStatus }: UseWithdrawButtonParams) {
     if (isSuccess) {
       return 'Transaction complete';
     }
+    if (isError) {
+      return 'Error processing withdrawal';
+    }
     return 'Confirming transaction';
-  }, [shouldShowClaim, isSuccess]);
+  }, [shouldShowClaim, isSuccess, isError]);
 
   return {
     isPending,
     isSuccess,
+    isError,
     buttonDisabled,
     buttonContent,
     shouldShowClaim,
