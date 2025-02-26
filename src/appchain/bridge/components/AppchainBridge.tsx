@@ -106,7 +106,7 @@ const AppchainBridgeDefaultContent = ({
             </button>
           </span>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="relative flex flex-col gap-2">
           <div className="flex items-center gap-2 rounded-lg">
             <AppchainBridgeNetwork type="from" label="From" />
             <AppchainNetworkToggleButton />
