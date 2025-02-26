@@ -36,7 +36,6 @@ export const ANALYTICS_EVENTS = {
   SWAP_INITIATED: 'swapInitiated',
   SWAP_SLIPPAGE_CHANGED: 'swapSlippageChanged',
   SWAP_SUCCESS: 'swapSuccess',
-  SWAP_TOKEN_DROPDOWN_SELECTED: 'swapTokenDropdownSelected',
   SWAP_TOKEN_SELECTED: 'swapTokenSelected',
 
   // Transaction events
