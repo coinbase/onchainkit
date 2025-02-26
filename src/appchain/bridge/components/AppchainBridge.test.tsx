@@ -236,6 +236,20 @@ describe('AppchainBridge Component', () => {
     expect(screen.getByTestId('ockAppchainBridge_Success')).toBeInTheDocument();
   });
 
+  it('renders resume transaction modal when isResumeTransactionModalOpen is true', async () => {
+    (useAppchainBridgeContext as Mock).mockReturnValue({
+      isResumeTransactionModalOpen: true,
+    });
+    await act(async () => {
+      render(<AppchainBridge chain={mockChain} appchain={mockAppchain} />, {
+        wrapper,
+      });
+    });
+    expect(
+      screen.getByTestId('ockAppchainBridge_ResumeTransaction'),
+    ).toBeInTheDocument();
+  });
+
   it('should not render when not mounted', () => {
     (useIsMounted as Mock).mockReturnValueOnce(false);
     const { container } = render(

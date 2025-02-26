@@ -3,23 +3,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { useOutsideClick } from './useOutsideClick';
 
 describe('useOutsideClick', () => {
-  it('should call callback when clicking outside element', () => {
-    const callback = vi.fn();
-    const elementRef = { current: document.createElement('div') };
-    document.body.appendChild(elementRef.current);
-
-    renderHook(() => useOutsideClick(elementRef, callback));
-
-    const outsideElement = document.createElement('div');
-    document.body.appendChild(outsideElement);
-    outsideElement.click();
-
-    expect(callback).toHaveBeenCalledTimes(1);
-
-    document.body.removeChild(elementRef.current);
-    document.body.removeChild(outsideElement);
-  });
-
   it('should not call callback when clicking inside element', () => {
     const callback = vi.fn();
     const elementRef = { current: document.createElement('div') };
@@ -43,6 +26,68 @@ describe('useOutsideClick', () => {
     document.body.click();
 
     expect(callback).not.toHaveBeenCalled();
+  });
+
+  it('should not call callback when clicking an element with data-portal-origin attribute', () => {
+    const callback = vi.fn();
+    const elementRef = { current: document.createElement('div') };
+    document.body.appendChild(elementRef.current);
+
+    renderHook(() => useOutsideClick(elementRef, callback));
+
+    const portalElement = document.createElement('div');
+    portalElement.setAttribute('data-portal-origin', 'true');
+    document.body.appendChild(portalElement);
+
+    portalElement.click();
+
+    expect(callback).not.toHaveBeenCalled();
+
+    document.body.removeChild(elementRef.current);
+    document.body.removeChild(portalElement);
+  });
+
+  it('should call callback when clicking outside element with no data-portal-origin attribute', () => {
+    const callback = vi.fn();
+    const elementRef = { current: document.createElement('div') };
+    document.body.appendChild(elementRef.current);
+
+    renderHook(() => useOutsideClick(elementRef, callback));
+
+    const outsideElement = document.createElement('div');
+    document.body.appendChild(outsideElement);
+    outsideElement.click();
+
+    expect(callback).toHaveBeenCalledTimes(1);
+
+    document.body.removeChild(elementRef.current);
+    document.body.removeChild(outsideElement);
+  });
+
+  it('should call callback when clicking an outside element if event.composedPath() is empty', () => {
+    const callback = vi.fn();
+    const elementRef = { current: document.createElement('div') };
+    document.body.appendChild(elementRef.current);
+
+    // Mock a MouseEvent without composedPath
+    const originalComposedPath = MouseEvent.prototype.composedPath;
+    // @ts-ignore - Intentionally removing for test
+    MouseEvent.prototype.composedPath = undefined;
+
+    renderHook(() => useOutsideClick(elementRef, callback));
+
+    const outsideElement = document.createElement('div');
+    outsideElement.setAttribute('data-portal-origin', 'true');
+    document.body.appendChild(outsideElement);
+
+    outsideElement.click();
+
+    expect(callback).toHaveBeenCalledTimes(1);
+
+    // Restore original
+    MouseEvent.prototype.composedPath = originalComposedPath;
+    document.body.removeChild(elementRef.current);
+    document.body.removeChild(outsideElement);
   });
 
   it('should remove event listener on unmount', () => {

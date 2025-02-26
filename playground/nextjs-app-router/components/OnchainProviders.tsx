@@ -39,7 +39,7 @@ function OnchainProviders({ children }: { children: ReactNode }) {
           config={{
             appearance: {
               name: 'OnchainKit Playground',
-              logo: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
+              logo: 'https://pbs.twimg.com/media/GkXUnEnaoAIkKvG?format=jpg&name=medium',
               mode: 'auto',
               theme: 'default',
             },
