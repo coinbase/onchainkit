@@ -186,6 +186,16 @@ export function CheckoutProvider({
     if (!receipt) {
       return;
     }
+
+    sendAnalytics(CheckoutEvent.CheckoutSuccess, {
+      address,
+      amount: Number(priceInUSDCRef.current),
+      productId: productId || '',
+      chargeHandlerId: chargeId,
+      isSponsored: !!isSponsored,
+      transactionHash: receipt.transactionHash,
+    });
+
     updateLifecycleStatus({
       statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
       statusData: {
@@ -194,7 +204,15 @@ export function CheckoutProvider({
         receiptUrl: `https://commerce.coinbase.com/pay/${chargeId}/receipt`,
       },
     });
-  }, [chargeId, receipt, updateLifecycleStatus]);
+  }, [
+    chargeId,
+    receipt,
+    updateLifecycleStatus,
+    address,
+    isSponsored,
+    productId,
+    sendAnalytics,
+  ]);
 
   // We need to pre-load transaction data in `useEffect` when the wallet is already connected due to a Smart Wallet popup blocking issue in Safari iOS
   useEffect(() => {
@@ -208,17 +226,10 @@ export function CheckoutProvider({
     }
   }, [address, fetchData, lifecycleStatus]);
 
-  const handleAnalytics = useCallback(
-    (event: CheckoutEvent, data: AnalyticsEventData[CheckoutEvent]) => {
-      sendAnalytics(event, data);
-    },
-    [sendAnalytics],
-  );
-
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component to deprecate funding flow
   const handleSubmit = useCallback(async () => {
     try {
-      handleAnalytics(CheckoutEvent.CheckoutInitiated, {
+      sendAnalytics(CheckoutEvent.CheckoutInitiated, {
         amount: Number(priceInUSDCRef.current || 0),
         productId: productId || '',
       });
@@ -324,19 +335,8 @@ export function CheckoutProvider({
             }
           : undefined,
       });
-
-      if (receipt?.status === 'success') {
-        handleAnalytics(CheckoutEvent.CheckoutSuccess, {
-          address: connectedAddress,
-          amount: Number(priceInUSDCRef.current),
-          productId: productId || '',
-          chargeHandlerId: chargeId,
-          isSponsored: !!isSponsored,
-          transactionHash: receipt.transactionHash,
-        });
-      }
     } catch (error) {
-      handleAnalytics(CheckoutEvent.CheckoutFailure, {
+      sendAnalytics(CheckoutEvent.CheckoutFailure, {
         error: error instanceof Error ? error.message : 'Checkout failed',
         metadata: { error: JSON.stringify(error) },
       });
@@ -381,8 +381,6 @@ export function CheckoutProvider({
     switchChainAsync,
     updateLifecycleStatus,
     writeContractsAsync,
-    handleAnalytics,
-    receipt,
     productId,
   ]);
 
