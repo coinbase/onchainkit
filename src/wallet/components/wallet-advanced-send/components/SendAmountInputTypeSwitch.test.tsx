@@ -1,11 +1,15 @@
 import { Skeleton } from '@/internal/components/Skeleton';
 import { AmountInputTypeSwitch } from '@/internal/components/amount-input/AmountInputTypeSwitch';
 import { render } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { SendAmountInputTypeSwitch } from './SendAmountInputTypeSwitch';
+import { useSendContext } from './SendProvider';
 
 vi.mock('@/internal/components/Skeleton');
 vi.mock('@/internal/components/amount-input/AmountInputTypeSwitch');
+vi.mock('./SendProvider', () => ({
+  useSendContext: vi.fn(),
+}));
 
 const mockToken = {
   symbol: 'ETH',
@@ -18,28 +22,29 @@ const mockToken = {
   fiatBalance: 3300,
 };
 
+const defaultContext = {
+  selectedToken: mockToken,
+  cryptoAmount: '1.0',
+  fiatAmount: '2000',
+  selectedInputType: 'crypto' as const,
+  setSelectedInputType: vi.fn(),
+  exchangeRate: 2000,
+  exchangeRateLoading: false,
+};
+
 describe('SendAmountInputTypeSwitch', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    (useSendContext as Mock).mockReturnValue(defaultContext);
   });
 
-  const defaultProps = {
-    selectedToken: mockToken,
-    cryptoAmount: '1.0',
-    handleCryptoAmountChange: vi.fn(),
-    fiatAmount: '2000',
-    handleFiatAmountChange: vi.fn(),
-    selectedInputType: 'crypto' as const,
-    setSelectedInputType: vi.fn(),
-    exchangeRate: 2000,
-    exchangeRateLoading: false,
-    className: 'test-class',
-    textClassName: 'test-text-class',
-    loadingDisplay: <div>test-loading-display</div>,
-  };
-
   it('passes an error state when exchange rate is invalid', () => {
-    render(<SendAmountInputTypeSwitch {...defaultProps} exchangeRate={0} />);
+    (useSendContext as Mock).mockReturnValue({
+      ...defaultContext,
+      exchangeRate: 0,
+    });
+
+    render(<SendAmountInputTypeSwitch />);
     expect(AmountInputTypeSwitch).toHaveBeenCalledWith(
       expect.objectContaining({
         loadingDisplay: <div>test-loading-display</div>,
@@ -50,56 +55,64 @@ describe('SendAmountInputTypeSwitch', () => {
   });
 
   it('shows skeleton when exchange rate is loading', () => {
-    render(
-      <SendAmountInputTypeSwitch
-        {...defaultProps}
-        exchangeRateLoading={true}
-      />,
-    );
+    (useSendContext as Mock).mockReturnValue({
+      ...defaultContext,
+      exchangeRateLoading: true,
+    });
+
+    render(<SendAmountInputTypeSwitch />);
     expect(Skeleton).toHaveBeenCalled();
   });
 
   it('passes correct props to AmountInput', () => {
-    render(<SendAmountInputTypeSwitch {...defaultProps} />);
+    (useSendContext as Mock).mockReturnValue({
+      ...defaultContext,
+      className: 'test-class',
+      loadingDisplay: <div>test-loading-display</div>,
+    });
+
+    render(<SendAmountInputTypeSwitch />);
     expect(AmountInputTypeSwitch).toHaveBeenCalledWith(
       {
-        asset: defaultProps.selectedToken.symbol,
-        fiatAmount: defaultProps.fiatAmount,
-        cryptoAmount: defaultProps.cryptoAmount,
-        exchangeRate: defaultProps.exchangeRate,
-        exchangeRateLoading: false,
+        asset: defaultContext.selectedToken.symbol,
+        fiatAmount: defaultContext.fiatAmount,
+        cryptoAmount: defaultContext.cryptoAmount,
+        exchangeRate: defaultContext.exchangeRate,
+        exchangeRateLoading: defaultContext.exchangeRateLoading,
         currency: 'USD',
-        selectedInputType: defaultProps.selectedInputType,
-        setSelectedInputType: defaultProps.setSelectedInputType,
-        className: defaultProps.className,
-        loadingDisplay: defaultProps.loadingDisplay,
+        selectedInputType: defaultContext.selectedInputType,
+        setSelectedInputType: defaultContext.setSelectedInputType,
+        className: 'test-class',
+        loadingDisplay: <div>test-loading-display</div>,
       },
       {},
     );
   });
 
   it('handles null/undefined values correctly', () => {
-    render(
-      <SendAmountInputTypeSwitch
-        {...defaultProps}
-        selectedToken={null}
-        fiatAmount={null}
-        cryptoAmount={null}
-      />,
-    );
+    (useSendContext as Mock).mockReturnValue({
+      selectedToken: null,
+      fiatAmount: null,
+      cryptoAmount: null,
+      exchangeRate: 3300,
+      exchangeRateLoading: false,
+      selectedInputType: 'fiat',
+      setSelectedInputType: vi.fn(),
+    });
+
+    render(<SendAmountInputTypeSwitch />);
 
     expect(AmountInputTypeSwitch).toHaveBeenCalledWith(
       {
         asset: '',
         fiatAmount: '',
         cryptoAmount: '',
-        exchangeRate: defaultProps.exchangeRate,
-        exchangeRateLoading: defaultProps.exchangeRateLoading,
+        exchangeRate: 3300,
+        exchangeRateLoading: false,
         currency: 'USD',
-        selectedInputType: defaultProps.selectedInputType,
-        setSelectedInputType: defaultProps.setSelectedInputType,
-        className: defaultProps.className,
-        loadingDisplay: defaultProps.loadingDisplay,
+        selectedInputType: 'fiat',
+        setSelectedInputType: vi.fn(),
+        className: '',
       },
       {},
     );
