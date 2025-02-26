@@ -1,9 +1,8 @@
 import { TextInput } from '@/internal/components/TextInput';
 import { isValidAmount } from '@/internal/utils/isValidAmount';
-import { cn, text } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import { formatAmount } from '@/swap/utils/formatAmount';
 import type { EarnAmountInputReact } from '../types';
-import { useTheme } from '@/internal/hooks/useTheme';
 
 export function EarnAmountInput({
   className,
@@ -12,7 +11,6 @@ export function EarnAmountInput({
   onChange,
   'aria-label': ariaLabel,
 }: EarnAmountInputReact) {
-  const theme = useTheme();
   return (
     <div
       data-testid="ockEarnAmountInput"
