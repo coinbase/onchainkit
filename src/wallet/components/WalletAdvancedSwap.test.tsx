@@ -220,7 +220,9 @@ describe('WalletAdvancedSwap', () => {
 
     const backButton = screen.getByRole('button', { name: /back button/i });
     fireEvent.click(backButton);
-    expect(defaultMockUseWalletAdvancedContext.setIsActiveFeatureClosing).toHaveBeenCalledWith(true);
+    expect(
+      defaultMockUseWalletAdvancedContext.setIsActiveFeatureClosing,
+    ).toHaveBeenCalledWith(true);
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
@@ -242,8 +244,12 @@ describe('WalletAdvancedSwap', () => {
     const swapContainer = screen.getByTestId('ockWalletAdvancedSwap');
     fireEvent.animationEnd(swapContainer);
 
-    expect(defaultMockUseWalletAdvancedContext.setActiveFeature).toHaveBeenCalledWith(null);
-    expect(defaultMockUseWalletAdvancedContext.setIsActiveFeatureClosing).toHaveBeenCalledWith(false);
+    expect(
+      defaultMockUseWalletAdvancedContext.setActiveFeature,
+    ).toHaveBeenCalledWith(null);
+    expect(
+      defaultMockUseWalletAdvancedContext.setIsActiveFeatureClosing,
+    ).toHaveBeenCalledWith(false);
   });
 
   it('should apply custom classNames to all elements', () => {

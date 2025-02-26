@@ -2,8 +2,8 @@ import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
-import { SendTokenSelector } from './SendTokenSelector';
 import { useSendContext } from './SendProvider';
+import { SendTokenSelector } from './SendTokenSelector';
 
 // Mock the context hook
 vi.mock('../../WalletAdvancedProvider', () => ({
