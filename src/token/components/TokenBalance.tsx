@@ -36,23 +36,11 @@ export function TokenBalance({
           />
         </button>
         {onActionPress && (
-          <button
-            type="button"
-            data-testid="ockTokenBalanceAction"
-            aria-label={actionText}
-            onClick={onActionPress}
-            className={cn(
-              text.label2,
-              color.primary,
-              border.radius,
-              'cursor-pointer p-0.5 font-bold',
-              'border border-transparent hover:border-[--ock-line-primary]',
-              '-translate-y-1/2 absolute top-1/2 right-2',
-              classNames?.action,
-            )}
-          >
-            {actionText}
-          </button>
+          <TokenBalanceActionButton
+            actionText={actionText}
+            onActionPress={onActionPress}
+            className={classNames?.action}
+          />
         )}
       </div>
     );
@@ -71,6 +59,13 @@ export function TokenBalance({
         {...contentProps}
         classNames={classNames}
       />
+      {onActionPress && (
+        <TokenBalanceActionButton
+          actionText={actionText}
+          onActionPress={onActionPress}
+          className={classNames?.action}
+        />
+      )}
     </div>
   );
 }
@@ -142,5 +137,38 @@ function TokenBalanceContent({
         )}
       </div>
     </div>
+  );
+}
+
+function TokenBalanceActionButton({
+  actionText,
+  onActionPress,
+  className,
+}: Pick<TokenBalanceProps, 'actionText' | 'onActionPress'> & {
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      data-testid="ockTokenBalanceAction"
+      aria-label={actionText}
+      onClick={onActionPress}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          onActionPress?.();
+        }
+      }}
+      className={cn(
+        text.label2,
+        color.primary,
+        border.radius,
+        'cursor-pointer p-0.5 font-bold',
+        'border border-transparent hover:border-[--ock-line-primary]',
+        '-translate-y-1/2 absolute top-1/2 right-2',
+        className,
+      )}
+    >
+      {actionText}
+    </button>
   );
 }
