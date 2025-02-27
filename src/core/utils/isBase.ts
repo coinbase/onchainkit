@@ -1,5 +1,5 @@
 import { base, baseSepolia } from 'viem/chains';
-import type { isBaseOptions } from '../types';
+import type { IsBaseOptions } from '../types';
 
 /**
  * isBase
@@ -9,7 +9,7 @@ import type { isBaseOptions } from '../types';
 export function isBase({
   chainId,
   isMainnetOnly = false,
-}: isBaseOptions): boolean {
+}: IsBaseOptions): boolean {
   // If only Base mainnet
   if (isMainnetOnly && chainId === base.id) {
     return true;
