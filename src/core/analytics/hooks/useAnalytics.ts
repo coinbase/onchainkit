@@ -5,7 +5,6 @@ import type {
   AnalyticsEventData,
 } from '@/core/analytics/types';
 import { sendAnalytics } from '@/core/analytics/utils/sendAnalytics';
-import { useMemo } from 'react';
 
 const prepareAnalyticsPayload = <T extends AnalyticsEvent>(
   event: T,
@@ -40,6 +39,8 @@ export function sendAnalyticsPayload<T extends AnalyticsEvent>(
     return;
   }
   const payload = prepareAnalyticsPayload(event, data);
+  console.log('payload:', payload);
+
   sendAnalytics(payload);
 }
 
@@ -47,10 +48,5 @@ export function sendAnalyticsPayload<T extends AnalyticsEvent>(
  * useAnalytics handles analytics events and data preparation
  */
 export const useAnalytics = () => {
-  return useMemo(
-    () => ({
-      sendAnalytics: sendAnalyticsPayload,
-    }),
-    [],
-  );
+  return { sendAnalytics: sendAnalyticsPayload };
 };

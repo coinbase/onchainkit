@@ -1,4 +1,3 @@
-import { useDepositAnalytics } from '@/earn/hooks/useDepositAnalytics';
 import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
@@ -7,13 +6,16 @@ import {
   type TransactionResponse,
 } from '@/transaction';
 import { ConnectWallet } from '@/wallet';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { DepositButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { EarnEvent } from '@/core/analytics/types';
 
 export function DepositButton({ className }: DepositButtonReact) {
   const {
     recipientAddress: address,
+    vaultAddress,
     vaultToken,
     depositCalls,
     depositAmount,
@@ -23,26 +25,49 @@ export function DepositButton({ className }: DepositButtonReact) {
     refetchWalletBalance,
     isSponsored,
   } = useEarnContext();
+  const { sendAnalytics } = useAnalytics();
   const [depositedAmount, setDepositedAmount] = useState('');
-  const { setTransactionState } = useDepositAnalytics(depositedAmount);
+
+  const analyticsData = useMemo(
+    () => ({
+      amount: Number(depositAmount) || Number(depositedAmount),
+      address,
+      tokenAddress: vaultToken?.address,
+      vaultAddress,
+    }),
+    [depositAmount, depositedAmount, address, vaultToken, vaultAddress],
+  );
 
   const handleOnStatus = useCallback(
     (status: LifecycleStatus) => {
-      setTransactionState(status.statusName);
+      console.log(`${status.statusName}:`, status.statusData);
+      switch (status.statusName) {
+        case 'buildingTransaction':
+          sendAnalytics(EarnEvent.EarnDepositInitiated, analyticsData);
+          break;
 
-      if (status.statusName === 'transactionPending') {
-        updateLifecycleStatus({ statusName: 'transactionPending' });
-      }
+        case 'transactionPending':
+          updateLifecycleStatus({ statusName: 'transactionPending' });
+          break;
 
-      if (
-        status.statusName === 'transactionLegacyExecuted' ||
-        status.statusName === 'success' ||
-        status.statusName === 'error'
-      ) {
-        updateLifecycleStatus(status);
+        case 'error': {
+          const type =
+            status.statusData.code === 'TmTPc03X'
+              ? EarnEvent.EarnDepositFailure
+              : EarnEvent.EarnDepositFailure;
+          sendAnalytics(type, analyticsData);
+          break;
+        }
+
+        case 'transactionLegacyExecuted':
+        case 'success': {
+          sendAnalytics(EarnEvent.EarnDepositSuccess, analyticsData);
+          updateLifecycleStatus(status);
+          break;
+        }
       }
     },
-    [updateLifecycleStatus, setTransactionState],
+    [updateLifecycleStatus, analyticsData, sendAnalytics],
   );
 
   const handleOnSuccess = useCallback(

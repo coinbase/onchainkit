@@ -316,40 +316,40 @@ export type FundEventData = {
  */
 export type EarnEventData = {
   [EarnEvent.EarnDepositInitiated]: CommonAnalyticsData & {
-    amount: number;
-    address: string;
-    tokenAddress: string;
-    vaultAddress: string;
+    amount: number | undefined;
+    address: string | undefined;
+    tokenAddress: string | undefined;
+    vaultAddress: string | undefined;
   };
   [EarnEvent.EarnDepositSuccess]: CommonAnalyticsData & {
-    amount: number;
-    address: string;
-    tokenAddress: string;
-    vaultAddress: string;
+    amount: number | undefined;
+    address: string | undefined;
+    tokenAddress: string | undefined;
+    vaultAddress: string | undefined;
   };
   [EarnEvent.EarnDepositFailure]: CommonAnalyticsData & {
-    amount: number;
-    address: string;
-    tokenAddress: string;
-    vaultAddress: string;
+    amount: number | undefined;
+    address: string | undefined;
+    tokenAddress: string | undefined;
+    vaultAddress: string | undefined;
   };
   [EarnEvent.EarnWithdrawInitiated]: CommonAnalyticsData & {
-    amount: number;
-    address: string;
-    tokenAddress: string;
-    vaultAddress: string;
+    amount: number | undefined;
+    address: string | undefined;
+    tokenAddress: string | undefined;
+    vaultAddress: string | undefined;
   };
   [EarnEvent.EarnWithdrawSuccess]: CommonAnalyticsData & {
-    amount: number;
-    address: string;
-    tokenAddress: string;
-    vaultAddress: string;
+    amount: number | undefined;
+    address: string | undefined;
+    tokenAddress: string | undefined;
+    vaultAddress: string | undefined;
   };
   [EarnEvent.EarnWithdrawFailure]: CommonAnalyticsData & {
-    amount: number;
+    amount: number | undefined;
     address: string;
-    tokenAddress: string;
-    vaultAddress: string;
+    tokenAddress: string | undefined;
+    vaultAddress: string | undefined;
   };
 };
 
