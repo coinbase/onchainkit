@@ -9,13 +9,13 @@ export const ANALYTICS_EVENTS = {
   BUY_INITIATED: 'buyInitiated',
   BUY_OPTION_SELECTED: 'buyOptionSelected',
   BUY_SUCCESS: 'buySuccess',
-  BUY_CANCELLED: 'buyCancelled',
+  BUY_CANCELED: 'buyCanceled',
 
   // Checkout events
   CHECKOUT_FAILURE: 'checkoutFailure',
   CHECKOUT_INITIATED: 'checkoutInitiated',
   CHECKOUT_SUCCESS: 'checkoutSuccess',
-  CHECKOUT_CANCELLED: 'checkoutCancelled',
+  CHECKOUT_CANCELED: 'checkoutCanceled',
 
   // Error events
   COMPONENT_ERROR: 'componentError',
@@ -26,14 +26,14 @@ export const ANALYTICS_EVENTS = {
   FUND_INITIATED: 'fundInitiated',
   FUND_OPTION_SELECTED: 'fundOptionSelected',
   FUND_SUCCESS: 'fundSuccess',
-  FUND_CANCELLED: 'fundCancelled',
+  FUND_CANCELED: 'fundCanceled',
 
   // Mint events
   MINT_FAILURE: 'mintFailure',
   MINT_INITIATED: 'mintInitiated',
   MINT_QUANTITY_CHANGED: 'mintQuantityChanged',
   MINT_SUCCESS: 'mintSuccess',
-  MINT_CANCELLED: 'mintCancelled',
+  MINT_CANCELED: 'mintCanceled',
 
   // Swap events
   SWAP_FAILURE: 'swapFailure',
@@ -41,13 +41,13 @@ export const ANALYTICS_EVENTS = {
   SWAP_SLIPPAGE_CHANGED: 'swapSlippageChanged',
   SWAP_SUCCESS: 'swapSuccess',
   SWAP_TOKEN_SELECTED: 'swapTokenSelected',
-  SWAP_CANCELLED: 'swapCancelled',
+  SWAP_CANCELED: 'swapCanceled',
 
   // Transaction events
   TRANSACTION_FAILURE: 'transactionFailure',
   TRANSACTION_INITIATED: 'transactionInitiated',
   TRANSACTION_SUCCESS: 'transactionSuccess',
-  TRANSACTION_CANCELLED: 'transactionCancelled',
+  TRANSACTION_CANCELED: 'transactionCanceled',
 
   // Wallet events
   WALLET_CONNECT_ERROR: 'walletConnectError',
@@ -55,17 +55,17 @@ export const ANALYTICS_EVENTS = {
   WALLET_CONNECT_SUCCESS: 'walletConnectSuccess',
   WALLET_DISCONNECT: 'walletDisconnect',
   WALLET_OPTION_SELECTED: 'walletOptionSelected',
-  WALLET_CONNECT_CANCELLED: 'walletConnectCancelled',
+  WALLET_CONNECT_CANCELED: 'walletConnectCanceled',
 
   // Earn events
   EARN_DEPOSIT_INITIATED: 'earnDepositInitiated',
   EARN_DEPOSIT_SUCCESS: 'earnDepositSuccess',
   EARN_DEPOSIT_FAILURE: 'earnDepositFailure',
-  EARN_DEPOSIT_CANCELLED: 'earnDepositCancelled',
+  EARN_DEPOSIT_CANCELED: 'earnDepositCanceled',
   EARN_WITHDRAW_INITIATED: 'earnWithdrawInitiated',
   EARN_WITHDRAW_SUCCESS: 'earnWithdrawSuccess',
   EARN_WITHDRAW_FAILURE: 'earnWithdrawFailure',
-  EARN_WITHDRAW_CANCELLED: 'earnWithdrawCancelled',
+  EARN_WITHDRAW_CANCELED: 'earnWithdrawCanceled',
 } as const;
 
 /**

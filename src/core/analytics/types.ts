@@ -18,7 +18,7 @@ export enum WalletEvent {
   /** User selects a wallet option */
   OptionSelected = 'walletOptionSelected',
   /** User cancels wallet connection */
-  ConnectCancelled = 'walletConnectCancelled',
+  ConnectCanceled = 'walletConnectCanceled',
 }
 
 /**
@@ -43,7 +43,7 @@ export enum SwapEvent {
   SwapSuccess = 'swapSuccess',
   SwapInitiated = 'swapInitiated',
   SwapFailure = 'swapFailure',
-  SwapCancelled = 'swapCancelled',
+  SwapCanceled = 'swapCanceled',
 }
 
 /**
@@ -66,7 +66,7 @@ export enum BuyEvent {
   BuyInitiated = 'buyInitiated',
   BuyOptionSelected = 'buyOptionSelected',
   BuySuccess = 'buySuccess',
-  BuyCancelled = 'buyCancelled',
+  BuyCanceled = 'buyCanceled',
 }
 
 /**
@@ -76,7 +76,7 @@ export enum CheckoutEvent {
   CheckoutFailure = 'checkoutFailure',
   CheckoutInitiated = 'checkoutInitiated',
   CheckoutSuccess = 'checkoutSuccess',
-  CheckoutCancelled = 'checkoutCancelled',
+  CheckoutCanceled = 'checkoutCanceled',
 }
 
 /**
@@ -87,7 +87,7 @@ export enum MintEvent {
   MintInitiated = 'mintInitiated',
   MintQuantityChanged = 'mintQuantityChanged',
   MintSuccess = 'mintSuccess',
-  MintCancelled = 'mintCancelled',
+  MintCanceled = 'mintCanceled',
 }
 
 /**
@@ -97,7 +97,7 @@ export enum TransactionEvent {
   TransactionFailure = 'transactionFailure',
   TransactionInitiated = 'transactionInitiated',
   TransactionSuccess = 'transactionSuccess',
-  TransactionCancelled = 'transactionCancelled',
+  TransactionCanceled = 'transactionCanceled',
 }
 
 /**
@@ -109,7 +109,7 @@ export enum FundEvent {
   FundInitiated = 'fundInitiated',
   FundOptionSelected = 'fundOptionSelected',
   FundSuccess = 'fundSuccess',
-  FundCancelled = 'fundCancelled',
+  FundCanceled = 'fundCanceled',
 }
 
 /**
@@ -119,11 +119,11 @@ export enum EarnEvent {
   EarnDepositInitiated = 'earnDepositInitiated',
   EarnDepositSuccess = 'earnDepositSuccess',
   EarnDepositFailure = 'earnDepositFailure',
-  EarnDepositCancelled = 'earnDepositCancelled',
+  EarnDepositCanceled = 'earnDepositCanceled',
   EarnWithdrawInitiated = 'earnWithdrawInitiated',
   EarnWithdrawSuccess = 'earnWithdrawSuccess',
   EarnWithdrawFailure = 'earnWithdrawFailure',
-  EarnWithdrawCancelled = 'earnWithdrawCancelled',
+  EarnWithdrawCanceled = 'earnWithdrawCanceled',
 }
 
 /**
@@ -181,7 +181,7 @@ export type WalletEventData = {
   [WalletEvent.OptionSelected]: CommonAnalyticsData & {
     option: WalletOption;
   };
-  [WalletEvent.ConnectCancelled]: CommonAnalyticsData;
+  [WalletEvent.ConnectCanceled]: CommonAnalyticsData;
 };
 
 export type SwapEventData = {
@@ -207,7 +207,7 @@ export type SwapEventData = {
   [SwapEvent.SwapInitiated]: CommonAnalyticsData & {
     amount: number;
   };
-  [SwapEvent.SwapCancelled]: CommonAnalyticsData;
+  [SwapEvent.SwapCanceled]: CommonAnalyticsData;
 };
 
 export type BuyEventData = {
@@ -230,7 +230,7 @@ export type BuyEventData = {
     to: string;
     transactionHash: string;
   };
-  [BuyEvent.BuyCancelled]: CommonAnalyticsData;
+  [BuyEvent.BuyCanceled]: CommonAnalyticsData;
 };
 
 /**
@@ -253,7 +253,7 @@ export type CheckoutEventData = {
     amount: number;
     productId: string;
   };
-  [CheckoutEvent.CheckoutCancelled]: CommonAnalyticsData;
+  [CheckoutEvent.CheckoutCanceled]: CommonAnalyticsData;
 };
 
 /**
@@ -279,7 +279,7 @@ export type MintEventData = {
     isSponsored: boolean;
     tokenId: string;
   };
-  [MintEvent.MintCancelled]: CommonAnalyticsData;
+  [MintEvent.MintCanceled]: CommonAnalyticsData;
 };
 
 /**
@@ -298,7 +298,7 @@ export type TransactionEventData = {
     address: string | undefined;
     transactionHash: string | undefined;
   };
-  [TransactionEvent.TransactionCancelled]: CommonAnalyticsData;
+  [TransactionEvent.TransactionCanceled]: CommonAnalyticsData;
 };
 
 /**
@@ -325,7 +325,7 @@ export type FundEventData = {
     currency: string;
     transactionHash: string;
   };
-  [FundEvent.FundCancelled]: CommonAnalyticsData;
+  [FundEvent.FundCanceled]: CommonAnalyticsData;
 };
 
 /**
@@ -350,7 +350,7 @@ export type EarnEventData = {
     tokenAddress: string;
     vaultAddress: string;
   };
-  [EarnEvent.EarnDepositCancelled]: CommonAnalyticsData;
+  [EarnEvent.EarnDepositCanceled]: CommonAnalyticsData;
   [EarnEvent.EarnWithdrawInitiated]: CommonAnalyticsData & {
     amount: number;
     address: string;
@@ -369,7 +369,7 @@ export type EarnEventData = {
     tokenAddress: string;
     vaultAddress: string;
   };
-  [EarnEvent.EarnWithdrawCancelled]: CommonAnalyticsData;
+  [EarnEvent.EarnWithdrawCanceled]: CommonAnalyticsData;
 };
 
 // Update main AnalyticsEventData type to include all component events
@@ -382,7 +382,7 @@ export type AnalyticsEventData = {
   [WalletEvent.OptionSelected]: CommonAnalyticsData & {
     option: WalletOption;
   };
-  [WalletEvent.ConnectCancelled]: WalletEventData[WalletEvent.ConnectCancelled];
+  [WalletEvent.ConnectCanceled]: WalletEventData[WalletEvent.ConnectCanceled];
 
   // Swap events
   [SwapEvent.SlippageChanged]: SwapEventData[SwapEvent.SlippageChanged];
@@ -390,33 +390,33 @@ export type AnalyticsEventData = {
   [SwapEvent.SwapSuccess]: SwapEventData[SwapEvent.SwapSuccess];
   [SwapEvent.SwapFailure]: SwapEventData[SwapEvent.SwapFailure];
   [SwapEvent.SwapInitiated]: SwapEventData[SwapEvent.SwapInitiated];
-  [SwapEvent.SwapCancelled]: SwapEventData[SwapEvent.SwapCancelled];
+  [SwapEvent.SwapCanceled]: SwapEventData[SwapEvent.SwapCanceled];
 
   // Buy events
   [BuyEvent.BuyFailure]: BuyEventData[BuyEvent.BuyFailure];
   [BuyEvent.BuyInitiated]: BuyEventData[BuyEvent.BuyInitiated];
   [BuyEvent.BuyOptionSelected]: BuyEventData[BuyEvent.BuyOptionSelected];
   [BuyEvent.BuySuccess]: BuyEventData[BuyEvent.BuySuccess];
-  [BuyEvent.BuyCancelled]: BuyEventData[BuyEvent.BuyCancelled];
+  [BuyEvent.BuyCanceled]: BuyEventData[BuyEvent.BuyCanceled];
 
   // Checkout events
   [CheckoutEvent.CheckoutFailure]: CheckoutEventData[CheckoutEvent.CheckoutFailure];
   [CheckoutEvent.CheckoutInitiated]: CheckoutEventData[CheckoutEvent.CheckoutInitiated];
   [CheckoutEvent.CheckoutSuccess]: CheckoutEventData[CheckoutEvent.CheckoutSuccess];
-  [CheckoutEvent.CheckoutCancelled]: CheckoutEventData[CheckoutEvent.CheckoutCancelled];
+  [CheckoutEvent.CheckoutCanceled]: CheckoutEventData[CheckoutEvent.CheckoutCanceled];
 
   // Mint events
   [MintEvent.MintFailure]: MintEventData[MintEvent.MintFailure];
   [MintEvent.MintInitiated]: MintEventData[MintEvent.MintInitiated];
   [MintEvent.MintQuantityChanged]: MintEventData[MintEvent.MintQuantityChanged];
   [MintEvent.MintSuccess]: MintEventData[MintEvent.MintSuccess];
-  [MintEvent.MintCancelled]: MintEventData[MintEvent.MintCancelled];
+  [MintEvent.MintCanceled]: MintEventData[MintEvent.MintCanceled];
 
   // Transaction events
   [TransactionEvent.TransactionFailure]: TransactionEventData[TransactionEvent.TransactionFailure];
   [TransactionEvent.TransactionInitiated]: TransactionEventData[TransactionEvent.TransactionInitiated];
   [TransactionEvent.TransactionSuccess]: TransactionEventData[TransactionEvent.TransactionSuccess];
-  [TransactionEvent.TransactionCancelled]: TransactionEventData[TransactionEvent.TransactionCancelled];
+  [TransactionEvent.TransactionCanceled]: TransactionEventData[TransactionEvent.TransactionCanceled];
 
   // Fund events
   [FundEvent.FundAmountChanged]: FundEventData[FundEvent.FundAmountChanged];
@@ -424,17 +424,17 @@ export type AnalyticsEventData = {
   [FundEvent.FundInitiated]: FundEventData[FundEvent.FundInitiated];
   [FundEvent.FundOptionSelected]: FundEventData[FundEvent.FundOptionSelected];
   [FundEvent.FundSuccess]: FundEventData[FundEvent.FundSuccess];
-  [FundEvent.FundCancelled]: FundEventData[FundEvent.FundCancelled];
+  [FundEvent.FundCanceled]: FundEventData[FundEvent.FundCanceled];
 
   // Earn events
   [EarnEvent.EarnDepositInitiated]: EarnEventData[EarnEvent.EarnDepositInitiated];
   [EarnEvent.EarnDepositSuccess]: EarnEventData[EarnEvent.EarnDepositSuccess];
   [EarnEvent.EarnDepositFailure]: EarnEventData[EarnEvent.EarnDepositFailure];
-  [EarnEvent.EarnDepositCancelled]: EarnEventData[EarnEvent.EarnDepositCancelled];
+  [EarnEvent.EarnDepositCanceled]: EarnEventData[EarnEvent.EarnDepositCanceled];
   [EarnEvent.EarnWithdrawInitiated]: EarnEventData[EarnEvent.EarnWithdrawInitiated];
   [EarnEvent.EarnWithdrawSuccess]: EarnEventData[EarnEvent.EarnWithdrawSuccess];
   [EarnEvent.EarnWithdrawFailure]: EarnEventData[EarnEvent.EarnWithdrawFailure];
-  [EarnEvent.EarnWithdrawCancelled]: EarnEventData[EarnEvent.EarnWithdrawCancelled];
+  [EarnEvent.EarnWithdrawCanceled]: EarnEventData[EarnEvent.EarnWithdrawCanceled];
 
   // Error events
   [ErrorEvent.ComponentError]: CommonAnalyticsData & {
