@@ -216,19 +216,19 @@ export type BuyEventData = {
     metadata: Record<string, unknown> | undefined;
   };
   [BuyEvent.BuyInitiated]: CommonAnalyticsData & {
-    amount: number;
-    token: string;
+    amount: number | undefined;
+    token: string | undefined;
   };
   [BuyEvent.BuyOptionSelected]: CommonAnalyticsData & {
-    option: BuyOption;
+    option: BuyOption | undefined;
   };
   [BuyEvent.BuySuccess]: CommonAnalyticsData & {
-    address: string;
-    amount: number;
-    from: string;
-    paymaster: boolean;
-    to: string;
-    transactionHash: string;
+    address: string | undefined;
+    amount: number | undefined;
+    from: string | undefined;
+    paymaster: boolean | undefined;
+    to: string | undefined;
+    transactionHash: string | undefined;
   };
   [BuyEvent.BuyCanceled]: CommonAnalyticsData;
 };

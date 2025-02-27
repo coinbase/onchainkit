@@ -12,6 +12,8 @@ import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { BuyEvent } from '../../core/analytics/types';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
@@ -108,6 +110,9 @@ export function BuyProvider({
   // used to detect when the popup is closed in order to stop loading state
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
 
+  // Analytics
+  const { sendAnalytics } = useAnalytics();
+
   // Component lifecycle emitters
   useEffect(() => {
     // Error
@@ -117,10 +122,19 @@ export function BuyProvider({
     // Success
     if (lifecycleStatus.statusName === 'success') {
       onSuccess?.(lifecycleStatus?.statusData.transactionReceipt);
-      setTransactionHash(
-        lifecycleStatus.statusData.transactionReceipt?.transactionHash,
-      );
+      const txHash =
+        lifecycleStatus.statusData.transactionReceipt?.transactionHash;
+      setTransactionHash(txHash);
       setHasHandledSuccess(true);
+
+      sendAnalytics(BuyEvent.BuySuccess, {
+        address,
+        amount: Number(from?.amount),
+        from: from?.token?.address,
+        paymaster: !!paymaster,
+        to: to?.token?.address,
+        transactionHash: txHash,
+      });
     }
     // Emit Status
     onStatus?.(lifecycleStatus);
@@ -131,6 +145,11 @@ export function BuyProvider({
     lifecycleStatus,
     lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
+    from,
+    to,
+    address,
+    paymaster,
+    sendAnalytics,
   ]);
 
   useEffect(() => {
@@ -317,6 +336,10 @@ export function BuyProvider({
           },
         });
       } catch (err) {
+        sendAnalytics(BuyEvent.BuyFailure, {
+          error: err instanceof Error ? err.message : String(err),
+          metadata: { amount },
+        });
         updateLifecycleStatus({
           statusName: 'error',
           statusData: {
@@ -340,6 +363,7 @@ export function BuyProvider({
       useAggregator,
       updateLifecycleStatus,
       lifecycleStatus.statusData.maxSlippage,
+      sendAnalytics,
     ],
   );
 
@@ -351,6 +375,11 @@ export function BuyProvider({
       }
 
       try {
+        sendAnalytics(BuyEvent.BuyInitiated, {
+          amount: Number(from.amount),
+          token: from.token.symbol,
+        });
+
         const maxSlippage = lifecycleStatus.statusData.maxSlippage;
         const response = await buildSwapTransaction(
           {
@@ -388,6 +417,13 @@ export function BuyProvider({
           walletCapabilities,
         });
       } catch (err) {
+        sendAnalytics(BuyEvent.BuyFailure, {
+          error: err instanceof Error ? err.message : String(err),
+          metadata: {
+            token: from.token.symbol,
+            amount: from.amount,
+          },
+        });
         const errorMessage = isUserRejectedRequestError(err)
           ? 'Request denied.'
           : GENERIC_ERROR_MESSAGE;
@@ -415,6 +451,7 @@ export function BuyProvider({
       updateLifecycleStatus,
       useAggregator,
       walletCapabilities,
+      sendAnalytics,
     ],
   );
 
