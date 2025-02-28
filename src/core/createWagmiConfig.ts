@@ -11,16 +11,17 @@ export const createWagmiConfig = ({
   apiKey,
   appName,
   appLogoUrl,
+  connectors = [
+    coinbaseWallet({
+      appName,
+      appLogoUrl,
+      preference: 'all',
+    }),
+  ],
 }: CreateWagmiConfigParams) => {
   return createConfig({
     chains: [base, baseSepolia],
-    connectors: [
-      coinbaseWallet({
-        appName,
-        appLogoUrl,
-        preference: 'all',
-      }),
-    ],
+    connectors,
     storage: createStorage({
       storage: cookieStorage,
     }),
