@@ -24,6 +24,7 @@ export default defineConfig({
         'playground/**',
         'site/**',
         'create-onchain/**',
+        'account-manifest/**',
         '**/**.test.tsx',
       ],
       reportOnFailure: true,
