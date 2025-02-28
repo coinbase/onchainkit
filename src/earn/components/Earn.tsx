@@ -12,10 +12,18 @@ function EarnDefaultContent() {
   return (
     <Tabs defaultValue="deposit">
       <TabsList>
-        <Tab value="deposit" onClick={refetchWalletBalance}>
+        <Tab
+          value="deposit"
+          onClick={refetchWalletBalance}
+          className="rounded-tl-[calc(var(--ock-border-radius)_-_1px)]"
+        >
           Deposit
         </Tab>
-        <Tab value="withdraw" onClick={refetchDepositedBalance}>
+        <Tab
+          value="withdraw"
+          onClick={refetchDepositedBalance}
+          className="rounded-tr-[calc(var(--ock-border-radius)_-_1px)]"
+        >
           Withdraw
         </Tab>
       </TabsList>

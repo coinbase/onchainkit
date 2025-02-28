@@ -35,7 +35,7 @@
   <a href="https://x.com/OnchainKit">
     <img src="https://img.shields.io/twitter/follow/OnchainKit.svg?style=social" alt="Follow @OnchainKit" />
   </a>
-  <a href="https://discord.gg/vbpeXpkPkw">
+  <a href="https://discord.gg/invite/cdp">
       <img src="https://img.shields.io/badge/Chat%20on-Discord-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Chat on Discord" />
   </a>
   <a href="https://github.com/coinbase/onchainkit/stargazers">
@@ -48,6 +48,10 @@
 </div>
 
 <br />
+
+## 🚀 Quickstart
+
+Run `npm create onchain` to boostrap an example onchain app with all the batteries included.
 
 ## ✨ Documentation
 
@@ -67,7 +71,7 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 - [Léo Galley](https://github.com/kirkas) ([X](https://x.com/artefact_lad))
 - [Adam Lessey](https://github.com/alessey) ([X](https://x.com/alessey))
 
-## 💫  Contributors
+## 💫 Contributors
 
 <a href="https://github.com/coinbase/onchainkit/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=coinbase/onchainkit" />

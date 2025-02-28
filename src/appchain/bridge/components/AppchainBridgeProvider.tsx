@@ -228,13 +228,18 @@ export const AppchainBridgeProvider = ({
   }, []);
 
   const handleOpenExplorer = useCallback(() => {
-    const blockExplorerUrl = getChainExplorer(from.id);
+    const blockExplorerUrl = getChainExplorer(chain.id);
     const txHash =
       depositStatus === 'depositSuccess'
         ? depositTransactionHash
         : finalizedWithdrawalTxHash;
     window.open(`${blockExplorerUrl}/tx/${txHash}`, '_blank');
-  }, [from, depositStatus, depositTransactionHash, finalizedWithdrawalTxHash]);
+  }, [
+    chain.id,
+    depositStatus,
+    depositTransactionHash,
+    finalizedWithdrawalTxHash,
+  ]);
 
   const handleDeposit = useCallback(async () => {
     await deposit({

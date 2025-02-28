@@ -6,6 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const text = {
+  base: 'ock-font-family',
   body: 'ock-font-family font-normal text-base',
   caption: 'ock-font-family font-semibold text-xs',
   headline: 'ock-font-family font-semibold',

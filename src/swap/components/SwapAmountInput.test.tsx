@@ -1,5 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { SwapEvent } from '../../core/analytics/types';
 import type { Token } from '../../token';
 import { DAI_TOKEN, ETH_TOKEN, USDC_TOKEN } from '../mocks';
 import type { SwapContextType } from '../types';
@@ -66,6 +68,12 @@ vi.mock('../../internal/utils/getRoundedAmount', () => ({
 }));
 
 const mockSwappableTokens: Token[] = [ETH_TOKEN, USDC_TOKEN, DAI_TOKEN];
+
+vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: vi.fn(() => ({
+    sendAnalytics: vi.fn(),
+  })),
+}));
 
 describe('SwapAmountInput', () => {
   beforeEach(() => {
@@ -308,5 +316,75 @@ describe('SwapAmountInput', () => {
     });
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
     expect(screen.queryByText(/\$/)).toBeNull();
+  });
+
+  describe('analytics', () => {
+    it('should send analytics when token is selected', () => {
+      const mockSendAnalytics = vi.fn();
+      (useAnalytics as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+        sendAnalytics: mockSendAnalytics,
+      });
+      useSwapContextMock.mockReturnValue(mockContextValue);
+
+      render(
+        <SwapAmountInput
+          label="From"
+          type="from"
+          swappableTokens={mockSwappableTokens}
+        />,
+      );
+
+      const tokenSelectDropdown = screen.getByTestId(
+        'mock-token-select-dropdown',
+      );
+      fireEvent.click(tokenSelectDropdown);
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(SwapEvent.TokenSelected, {
+        token: 'USDC',
+      });
+    });
+
+    it('should send analytics when token is selected via keyboard', () => {
+      const mockSendAnalytics = vi.fn();
+      (useAnalytics as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+        sendAnalytics: mockSendAnalytics,
+      });
+      useSwapContextMock.mockReturnValue(mockContextValue);
+
+      render(
+        <SwapAmountInput
+          label="From"
+          type="from"
+          swappableTokens={mockSwappableTokens}
+        />,
+      );
+
+      const tokenSelectDropdown = screen.getByTestId(
+        'mock-token-select-dropdown',
+      );
+      fireEvent.keyDown(tokenSelectDropdown, { key: 'Enter' });
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(SwapEvent.TokenSelected, {
+        token: 'USDC',
+      });
+    });
+
+    it('should not send analytics when token selection is not available', () => {
+      const mockSendAnalytics = vi.fn();
+      (useAnalytics as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+        sendAnalytics: mockSendAnalytics,
+      });
+      useSwapContextMock.mockReturnValue({
+        ...mockContextValue,
+        to: {
+          ...mockContextValue.to,
+          token: USDC_TOKEN,
+        },
+      });
+
+      render(<SwapAmountInput label="To" token={USDC_TOKEN} type="to" />);
+
+      expect(mockSendAnalytics).not.toHaveBeenCalled();
+    });
   });
 });
