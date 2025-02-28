@@ -4,11 +4,14 @@
   "version": "0.0.17",
   "license": "MIT",
   "scripts": {
-    "build": "pnpm run clean && pnpm run build:esm+types",
+    "build": "pnpm run clean && pnpm run build:esm+types && pnpm run build:manifest",
+    "build:manifest": "cd ../account-manifest && pnpm install && pnpm run build && cd ../create-onchain && cp -R ../account-manifest/dist/* ./src/manifest",
     "build:esm+types": "tsc --project tsconfig.build.json --outDir ./dist/esm --declaration --declarationMap --declarationDir ./dist/types",
     "check:types": "tsc --noEmit",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
-    "dev": "bun src/cli.ts"
+    "dev": "bun src/cli.ts",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "files": [
     "dist/**",
@@ -18,9 +21,7 @@
     "!src/**/*.test-d.ts",
     "templates/**"
   ],
-  "bin": {
-    "create-onchain": "./dist/esm/cli.js"
-  },
+  "bin": "./dist/esm/cli.js",
   "sideEffects": false,
   "type": "module",
   "exports": {
@@ -28,13 +29,15 @@
   },
   "dependencies": {
     "cac": "^6.7.14",
-    "cross-spawn": "^7.0.3",
+    "express": "^4.21.2",
+    "open": "^10.1.0",
     "ora": "^8.1.0",
     "picocolors": "^1.1.0",
-    "prompts": "^2.4.2"
+    "prompts": "^2.4.2",
+    "ws": "^8.18.1"
   },
   "devDependencies": {
-    "@types/cross-spawn": "^6.0.6",
+    "@types/express": "^5.0.0",
     "@types/node": "^20.12.10",
     "@types/prompts": "^2.4.9"
   },

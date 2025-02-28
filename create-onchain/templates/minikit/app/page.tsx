@@ -22,13 +22,13 @@ import { useEffect } from 'react';
 import Sammy from './components/Sammy';
 
 export default function App() {
-  const { ready, isReady, context } = useMiniKit();
+  const { setFrameReady, isFrameReady, context } = useMiniKit();
 
   useEffect(() => {
-    if (!isReady) {
-      ready();
+    if (!isFrameReady) {
+      setFrameReady();
     }
-  }, [ready, isReady]);
+  }, [setFrameReady, isFrameReady]);
 
   const addFrame = useAddFrame();
 
