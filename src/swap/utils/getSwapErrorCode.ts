@@ -6,6 +6,7 @@ import {
   TOO_MANY_REQUESTS_ERROR_CODE,
   UNCAUGHT_SWAP_ERROR_CODE,
   UNCAUGHT_SWAP_QUOTE_ERROR_CODE,
+  USER_REJECTED_ERROR_CODE,
 } from '../constants';
 
 export function getSwapErrorCode(
@@ -19,6 +20,10 @@ export function getSwapErrorCode(
 
   if (errorCode === -32602) {
     return LOW_LIQUIDITY_ERROR_CODE;
+  }
+
+  if (errorCode === 4001) {
+    return USER_REJECTED_ERROR_CODE;
   }
 
   if (context === 'uncaught-swap') {
