@@ -11,7 +11,10 @@ import {
   toValidPackageName,
   optimizedCopy,
 } from './utils.js';
-import { spawn } from 'child_process';
+import open from 'open';
+import express from 'express';
+import { createServer } from 'http';
+import { WebSocketServer, WebSocket } from 'ws';
 
 const renameFiles: Record<string, string | undefined> = {
   _gitignore: '.gitignore',
@@ -39,6 +42,98 @@ async function copyDir(src: string, dest: string) {
       }
     }
   }
+}
+
+type WebpageData = { header: string, payload: string, signature: string, domain: string };
+
+async function getWebpageData(browser: 'safari' | 'google chrome' | 'none'): Promise<WebpageData> {
+  const app = express();
+  const server = createServer(app);
+  const wss = new WebSocketServer({ server });
+
+  app.use(express.static(path.resolve(
+    fileURLToPath(import.meta.url),
+    '../../../src/manifest'
+  )));
+
+  return new Promise((resolve, reject) => {
+    wss.on('connection', (ws: WebSocket) => {
+      ws.on('message', (data: Buffer) => {
+        const parsedData = JSON.parse(data.toString());
+        server.close();
+        resolve(parsedData);
+      });
+      ws.on('close', () => {
+        server.close();
+        reject(new Error('WebSocket connection closed'));
+      });
+    });
+
+    server.listen(3333, () => {
+      open('http://localhost:3333', browser === 'none' ? undefined : {
+        app: {
+          name: browser
+        }
+      });
+    });
+  });
+}
+
+async function createMiniKitAccountAssociation(envPath?: string) {
+  if (!envPath) {
+    envPath = path.join(process.cwd(), '.env');
+  }
+
+  const existingEnv = await fs.promises.readFile(envPath, 'utf-8').catch(() => null);
+  if (!existingEnv) {
+    console.log(pc.red('\n* Failed to read .env file. Please ensure you are in your project directory.'));
+    return false;
+  }
+
+  let browserResult: prompts.Answers<'browser'>;
+  try {
+    browserResult = await prompts(
+      [
+        {
+          type: 'select',
+          name: 'browser',
+          message: pc.reset('If you want to sign your account manifest with your TBA account, please select the OS of your device:'),
+          choices: [
+            { title: 'iOS', value: 'safari' },
+            { title: 'Android', value: 'google chrome' },
+            { title: 'Not using a passkey account', value: 'none' },
+          ],
+        }
+      ],
+      {
+        onCancel: () => {
+          throw new Error('Browser selection cancelled.');
+        },
+      }
+    );
+  } catch (cancelled: any) {
+    console.log(pc.red(`\n${cancelled.message}`));
+    return false;
+  }
+
+  const { browser } = browserResult;
+  try {
+    const webpageData = await getWebpageData(browser);
+    const envContent = `FARCASTER_HEADER=${webpageData.header}\nFARCASTER_PAYLOAD=${webpageData.payload}\nFARCASTER_SIGNATURE=${webpageData.signature}\nNEXT_PUBLIC_URL=${webpageData.domain}`;
+    const updatedEnv = existingEnv
+      .split('\n')
+      .filter(line => !line.startsWith('FARCASTER_') && !line.startsWith('NEXT_PUBLIC_URL'))
+      .concat(envContent)
+      .join('\n');
+    await fs.promises.writeFile(envPath, updatedEnv);
+
+    console.log(pc.blue('\n* Account association generated successfully and added to your .env file!'));
+  } catch (error) {
+    console.log(pc.red('\n* Failed to generate account association. Please try again.'));
+    return false;
+  }
+
+  return true;
 }
 
 async function createMiniKitTemplate() {
@@ -153,10 +248,11 @@ REDIS_TOKEN=`
 
   spinner.succeed();
 
-  console.log(`\n${pc.magenta(`Created new MiniKit project in ${root}`)}`);
+  console.log(`\n\n${pc.magenta(`Created new MiniKit project in ${root}`)}\n`);
 
-  console.log('\nWould you like to set up your Frames Account Association now?');
-  console.log(pc.blue('* You can set this up later by running `npm run generate-account-association` or updating your `.env` file manually.\n'));
+  console.log(`\n${pc.reset('Do you want to set up your Frames Account Manifest now?')}`);
+  console.log(pc.blue('* You can set this up later by running `npm create-onchain --generate` in your project directory.'));
+  console.log(pc.blue('* Note: this process will open in a new browser window.'));
 
   let setUpFrameResult: prompts.Answers<'setUpFrame'>;
   try {
@@ -165,49 +261,30 @@ REDIS_TOKEN=`
         {
           type: 'toggle',
           name: 'setUpFrame',
-          message: pc.reset('Set up Frame integration now?'),
+          message: pc.reset('Set up now?'),
           initial: true,
           active: 'yes',
           inactive: 'no',
-        }
+        },
       ],
       {
         onCancel: () => {
           console.log('\nSetup frame cancelled.');
-          process.exit(1);
+          return false;
         },
       }
     );
   } catch (cancelled: any) {
     console.log(cancelled.message);
-    process.exit(1);
+    return false;
   }
 
   const { setUpFrame } = setUpFrameResult;
   if (setUpFrame) {
-    const scriptPath = path.resolve(
-      fileURLToPath(import.meta.url),
-      '../../../templates/minikit/scripts/generateAccountAssociation.mjs'
-    );
-
-    // spawn the generate-account-association command
-    const generateAccountAssociation = spawn('node', [scriptPath, root], {
-      stdio: 'inherit',
-      cwd: process.cwd(),
-      shell: true
-    });
-
-    generateAccountAssociation.on('close', (code: number) => {
-      if (code === 0) {
-        logMiniKitSetupSummary(projectName, root, clientKey);
-      } else {
-        console.error('Failed to generate account association');
-        logMiniKitSetupSummary(projectName, root, clientKey);
-      }
-    });
-  } else {
-    logMiniKitSetupSummary(projectName, root, clientKey);
+    await createMiniKitAccountAssociation(envPath);
   }
+
+  logMiniKitSetupSummary(projectName, root, clientKey);
 }
 
 function logMiniKitSetupSummary(projectName: string, root: string, clientKey: string) {
@@ -390,11 +467,37 @@ async function createOnchainKitTemplate() {
   console.log(' - npm run dev');
 }
 
-async function init() {
-  const isHelp = process.argv.some(arg => ['--help', '-h'].includes(arg));
-  const isVersion = process.argv.some(arg => ['--version', '-v'].includes(arg));
-  const isMinikit = process.argv.some(arg => ['--mini', '-m'].includes(arg));
+export function getArgs() {
+  const options = { isHelp: false, isVersion: false, isGenerate: false, isMiniKit: false };
 
+  // find any argument with -- or -
+  const arg = process.argv.find(arg => arg.startsWith('--') || arg.startsWith('-'));
+  switch(arg) {
+    case '-h':
+    case '--help':
+      options.isHelp = true;
+      break;
+    case '-v':
+    case '--version':
+      options.isVersion = true;
+      break;
+    case '-g':
+    case '--generate':
+      options.isGenerate = true;
+      break;
+    case '-m':
+    case '--mini':
+      options.isMiniKit = true;
+      break;
+    default:
+      break;
+  }
+
+  return options;
+}
+
+async function init() {
+  const { isHelp, isVersion, isGenerate, isMiniKit } = getArgs();
   if (isHelp) {
     console.log(
 `${pc.greenBright(`
@@ -406,6 +509,7 @@ Creates an OnchainKit project based on nextJs.
 Options:
 --version, -v: Show version
 --mini, -m: Create a MiniKit project
+--generate, -g: Generate your Frames account association
 --help, -h: Show help
 `)}`
     );
@@ -413,13 +517,22 @@ Options:
   }
 
   if (isVersion) {
-    const packageJsonContent = fs.readFileSync('./package.json', 'utf8');
+    const pkgPath = path.resolve(
+      fileURLToPath(import.meta.url),
+      '../../../package.json'
+    );
+    const packageJsonContent = fs.readFileSync(pkgPath, 'utf8');
     const packageJson = JSON.parse(packageJsonContent);
     console.log(`${pc.greenBright(`v${packageJson.version}`)}`);
     process.exit(0);
   }
+  
+  if (isGenerate) {
+    await createMiniKitAccountAssociation();
+    process.exit(0);
+  }
 
-  if (isMinikit) {
+  if (isMiniKit) {
     await createMiniKitTemplate();
   } else {
     await createOnchainKitTemplate();

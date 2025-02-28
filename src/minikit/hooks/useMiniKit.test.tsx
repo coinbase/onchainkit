@@ -43,7 +43,7 @@ describe('useMiniKit', () => {
         </MiniKitContext.Provider>
       ),
     });
-    expect(result.current.isReady).toBe(false);
+    expect(result.current.isFrameReady).toBe(false);
     expect(result.current.context).toEqual(mockContext.context);
     expect(result.current.notificationProxyUrl).toBe(
       mockContext.notificationProxyUrl,
@@ -60,9 +60,9 @@ describe('useMiniKit', () => {
     });
 
     await act(async () => {
-      result.current.ready();
+      result.current.setFrameReady();
     });
 
-    expect(result.current.isReady).toBe(true);
+    expect(result.current.isFrameReady).toBe(true);
   });
 });

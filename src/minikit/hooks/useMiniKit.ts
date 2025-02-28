@@ -3,21 +3,21 @@ import sdk from '@farcaster/frame-sdk';
 import { useContext, useState } from 'react';
 
 export const useMiniKit = () => {
-  const [isReady, setIsReady] = useState(false);
+  const [isFrameReady, setIsFrameReady] = useState(false);
   const context = useContext(MiniKitContext);
   if (context === emptyContext) {
     throw new Error('useMiniKit must be used within a MiniKitProvider');
   }
 
-  const ready = async () => {
+  const setFrameReady = async () => {
     sdk.actions.ready({});
-    setIsReady(true);
+    setIsFrameReady(true);
     return context;
   };
 
   return {
-    ready,
-    isReady,
+    setFrameReady,
+    isFrameReady,
     context: context.context,
     updateClientContext: context.updateClientContext,
     notificationProxyUrl: context.notificationProxyUrl,
