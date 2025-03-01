@@ -186,7 +186,6 @@ function validateAmountInput({
   }
 
   const parsedCryptoAmount = parseUnits(inputAmount, selectedToken.decimals);
-  console.log({ inputAmount, balance, parsedCryptoAmount });
 
   return parsedCryptoAmount > 0n && parsedCryptoAmount <= balance;
 }
