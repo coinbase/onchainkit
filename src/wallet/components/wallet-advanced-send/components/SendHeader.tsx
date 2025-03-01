@@ -47,12 +47,13 @@ export function SendHeader({ label = 'Send', classNames }: SendHeaderProps) {
 
   return (
     <div
+      data-testid="ockSendHeader"
       className={cn(
         'mb-4 grid grid-cols-3 items-center',
         classNames?.container,
       )}
     >
-      <div className="justify-self-start">
+      <div data-testid="ockSendHeader_back" className="justify-self-start">
         {selectedRecipientAddress.value && (
           <PressableIcon
             onClick={handleBack}
@@ -63,11 +64,12 @@ export function SendHeader({ label = 'Send', classNames }: SendHeaderProps) {
         )}
       </div>
       <div
+        data-testid="ockSendHeader_label"
         className={cn(text.headline, 'justify-self-center', classNames?.label)}
       >
         {label}
       </div>
-      <div className="justify-self-end">
+      <div data-testid="ockSendHeader_close" className="justify-self-end">
         <PressableIcon
           onClick={handleClose}
           className={cn('h-7 w-7 scale-110 p-2', classNames?.close)}

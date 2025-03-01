@@ -15,7 +15,12 @@ export function SendAddressSelector({
   }
 
   return (
-    <button type="button" onClick={handleClick} className="w-full text-left">
+    <button
+      data-testid="ockSendAddressSelector_button"
+      type="button"
+      onClick={handleClick}
+      className="w-full text-left"
+    >
       <div
         data-testid="ockSendAddressSelector_container"
         className={cn(

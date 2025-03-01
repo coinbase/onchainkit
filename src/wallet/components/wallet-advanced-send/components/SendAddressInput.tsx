@@ -41,6 +41,7 @@ export function SendAddressInput({
 
   return (
     <div
+      data-testid="ockSendAddressInput"
       className={cn(
         border.lineDefault,
         border.radius,
