@@ -4,6 +4,11 @@ import type { APIError, PortfolioTokenWithFiatValue } from '../../../api/types';
 import type { LifecycleStatusUpdate } from '../../../internal/types';
 import type { Call } from '../../../transaction/types';
 
+export type SendReact = {
+  children?: ReactNode;
+  className?: string;
+};
+
 export type SendProviderReact = {
   children: ReactNode;
 };
