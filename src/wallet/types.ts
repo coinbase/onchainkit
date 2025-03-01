@@ -195,8 +195,7 @@ export type WalletDropdownLinkReact = {
   /** Optional className override for the element */
   className?: string;
   href: string;
-  // TODO: fix this type - should be 'wallet' | ReactNode
-  icon?: 'wallet' & ReactNode;
+  icon?: 'wallet' | ReactNode;
   rel?: string;
   target?: string;
 };
