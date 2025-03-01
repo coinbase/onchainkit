@@ -1,8 +1,7 @@
 import { Skeleton } from '@/internal/components/Skeleton';
-import { useTheme } from '@/internal/hooks/useTheme';
 import { background, border, cn, color } from '@/styles/theme';
-import type { ReactNode } from 'react';
 import { ETH_REQUIRED_FOR_SEND } from '../constants';
+import type { SendReact } from '../types';
 import { SendAddressSelection } from './SendAddressSelection';
 import { SendAmountInput } from './SendAmountInput';
 import { SendButton } from './SendButton';
@@ -11,22 +10,15 @@ import { SendHeader } from './SendHeader';
 import { SendProvider, useSendContext } from './SendProvider';
 import { SendTokenSelector } from './SendTokenSelector';
 
-type SendReact = {
-  children?: ReactNode;
-  className?: string;
-};
-
 export function Send({
   children = <SendDefaultChildren />,
   className,
 }: SendReact) {
-  const componentTheme = useTheme();
-
   return (
     <SendProvider>
       <div
+        data-testid="ockSend"
         className={cn(
-          componentTheme,
           background.default,
           border.radius,
           border.lineDefault,
