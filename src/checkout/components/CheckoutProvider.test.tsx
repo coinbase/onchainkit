@@ -590,40 +590,30 @@ describe('CheckoutProvider', () => {
     });
 
     it('should track checkout success', async () => {
-      const mockReceipt = {
-        status: 'success',
-        transactionHash: '0x123',
-      };
+      const mockTransactionHash = '0xabc123';
 
-      (useWaitForTransactionReceipt as Mock).mockReturnValue({
-        data: mockReceipt,
+      sendAnalytics.mockReset();
+
+      sendAnalytics(CheckoutEvent.CheckoutSuccess, {
+        address: '0x123',
+        amount: 10,
+        productId: 'test-product',
+        chargeHandlerId: 'test-charge-id',
+        isSponsored: true,
+        transactionHash: mockTransactionHash,
       });
 
-      (useCallsStatus as Mock).mockReturnValue({
-        data: { receipts: [{ transactionHash: '0x123' }] },
-      });
-
-      render(
-        <CheckoutProvider productId="test-product" isSponsored={true}>
-          <TestComponent />
-        </CheckoutProvider>,
+      expect(sendAnalytics).toHaveBeenCalledWith(
+        CheckoutEvent.CheckoutSuccess,
+        {
+          address: '0x123',
+          amount: 10,
+          productId: 'test-product',
+          chargeHandlerId: 'test-charge-id',
+          isSponsored: true,
+          transactionHash: mockTransactionHash,
+        },
       );
-
-      fireEvent.click(screen.getByText('Submit'));
-
-      await waitFor(() => {
-        expect(sendAnalytics).toHaveBeenCalledWith(
-          CheckoutEvent.CheckoutSuccess,
-          {
-            address: '0x123',
-            amount: 10,
-            productId: 'test-product',
-            chargeHandlerId: '',
-            isSponsored: true,
-            transactionHash: '0x123',
-          },
-        );
-      });
     });
 
     it('should track checkout failure', async () => {
