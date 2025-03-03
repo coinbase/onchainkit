@@ -128,13 +128,18 @@ function SendTransactionButton({
   const { address } = useWalletContext();
   const { setActiveFeature } = useWalletAdvancedContext();
   const { transactionHash, transactionId } = useTransactionContext();
+
+  const completionHandler = useCallback(() => {
+    setActiveFeature(null);
+  }, [setActiveFeature]);
+
   const defaultSuccessOverride = {
     onClick: defaultSendTxSuccessHandler({
       transactionId,
       transactionHash,
       senderChain: senderChain ?? undefined,
       address: address ?? undefined,
-      onComplete: () => setActiveFeature(null),
+      onComplete: completionHandler,
     }),
   };
 

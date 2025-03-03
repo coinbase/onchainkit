@@ -98,6 +98,8 @@ describe('SendButton', () => {
   const mockUseTransactionContext = useTransactionContext as ReturnType<
     typeof vi.fn
   >;
+  const mockDefaultSendTxSuccessHandler =
+    defaultSendTxSuccessHandler as ReturnType<typeof vi.fn>;
 
   const mockWalletContext = {
     chain: mockChain,
@@ -334,18 +336,6 @@ describe('SendButton', () => {
     expect(mockSendContext.updateLifecycleStatus).not.toHaveBeenCalled();
   });
 
-  it('configures defaultSuccessOverride with correct parameters', () => {
-    render(<SendButton />);
-
-    expect(defaultSendTxSuccessHandler).toHaveBeenCalledWith({
-      transactionId: '123',
-      transactionHash: '0xabcdef',
-      senderChain: mockWalletContext.chain,
-      address: mockWalletContext.address,
-      onComplete: expect.any(Function),
-    });
-  });
-
   it('passes custom overrides to TransactionButton', () => {
     const pendingOverride = { text: 'Sending...' };
     const successOverride = { text: 'Sent!' };
@@ -382,5 +372,33 @@ describe('SendButton', () => {
         address: undefined,
       }),
     );
+  });
+
+  it('configures defaultSuccessOverride with correct parameters', () => {
+    render(<SendButton />);
+
+    expect(defaultSendTxSuccessHandler).toHaveBeenCalledWith({
+      transactionId: '123',
+      transactionHash: '0xabcdef',
+      senderChain: mockWalletContext.chain,
+      address: mockWalletContext.address,
+      onComplete: expect.any(Function),
+    });
+  });
+
+  it('calls setActiveFeature when completionHandler is triggered', () => {
+    const setActiveFeature = vi.fn();
+    mockUseWalletAdvancedContext.mockReturnValue({
+      setActiveFeature,
+    });
+
+    render(<SendButton label="Send" />);
+
+    const { onComplete } = mockDefaultSendTxSuccessHandler.mock.calls[0][0];
+
+    // Call the callback
+    onComplete();
+
+    expect(setActiveFeature).toHaveBeenCalledWith(null);
   });
 });
