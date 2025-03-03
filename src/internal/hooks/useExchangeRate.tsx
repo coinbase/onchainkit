@@ -1,7 +1,7 @@
 import { getPriceQuote } from '@/api';
+import type { PriceQuoteToken } from '@/api/types';
 import { RequestContext } from '@/core/network/constants';
 import { isApiError } from '@/internal/utils/isApiResponseError';
-import type { PriceQuoteToken } from '@/api/types';
 import type { Dispatch, SetStateAction } from 'react';
 
 type UseExchangeRateParams = {

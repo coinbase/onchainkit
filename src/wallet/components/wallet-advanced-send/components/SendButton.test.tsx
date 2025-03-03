@@ -1,17 +1,16 @@
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { type Address, type Chain, parseUnits } from 'viem';
-import { base } from 'viem/chains';
-import { SendButton } from './SendButton';
-import { useWalletContext } from '../../WalletProvider';
-import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
-import { useSendContext } from './SendProvider';
-import { useTransactionContext } from '@/transaction/components/TransactionProvider';
 import { Transaction } from '@/transaction/components/Transaction';
 import { TransactionButton } from '@/transaction/components/TransactionButton';
+import { useTransactionContext } from '@/transaction/components/TransactionProvider';
+import { render, screen } from '@testing-library/react';
+import { type Address, type Chain, parseUnits } from 'viem';
+import { base } from 'viem/chains';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
+import { useWalletContext } from '../../WalletProvider';
 import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
+import { SendButton } from './SendButton';
+import { useSendContext } from './SendProvider';
 
-// Mock dependencies
 vi.mock('viem', () => ({
   parseUnits: vi.fn(),
 }));
@@ -314,10 +313,8 @@ describe('SendButton', () => {
   it('calls updateLifecycleStatus when transaction status changes', () => {
     render(<SendButton />);
 
-    // Extract the onStatus handler from Transaction props
     const { onStatus } = vi.mocked(Transaction).mock.calls[0][0];
 
-    // Call with valid status
     onStatus?.({ statusName: 'transactionPending', statusData: null });
 
     expect(mockSendContext.updateLifecycleStatus).toHaveBeenCalledWith({

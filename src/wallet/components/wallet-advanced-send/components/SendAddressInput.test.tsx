@@ -1,12 +1,11 @@
 import { TextInput } from '@/internal/components/TextInput';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { SendAddressInput } from './SendAddressInput';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { resolveAddressInput } from '../utils/resolveAddressInput';
 import { validateAddressInput } from '../utils/validateAddressInput';
+import { SendAddressInput } from './SendAddressInput';
 
-// Mock dependencies
 vi.mock('@/internal/components/TextInput', () => ({
   TextInput: vi.fn(() => <input data-testid="mock-text-input" />),
 }));

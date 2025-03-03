@@ -1,6 +1,6 @@
 import { act, render, screen } from '@testing-library/react';
 import type { Chain } from 'viem';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWalletContext } from '../../WalletProvider';
 import { resolveAddressInput } from '../utils/resolveAddressInput';
 import { SendAddressInput } from './SendAddressInput';
@@ -8,7 +8,6 @@ import { SendAddressSelection } from './SendAddressSelection';
 import { SendAddressSelector } from './SendAddressSelector';
 import { useSendContext } from './SendProvider';
 
-// Mock dependencies
 vi.mock('../../WalletProvider', () => ({
   useWalletContext: vi.fn(),
 }));

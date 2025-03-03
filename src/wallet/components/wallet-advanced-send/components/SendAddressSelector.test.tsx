@@ -1,10 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import type { Address as AddressType, Chain } from 'viem';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { SendAddressSelector } from './SendAddressSelector';
 import { Address, Avatar, Name } from '@/identity';
+import { fireEvent, render, screen } from '@testing-library/react';
+import type { Address as AddressType, Chain } from 'viem';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { SendAddressSelector } from './SendAddressSelector';
 
-// Mock dependencies
 vi.mock('@/identity', () => ({
   Address: vi.fn(() => <div data-testid="mock-address">Address Component</div>),
   Avatar: vi.fn(() => <div data-testid="mock-avatar">Avatar Component</div>),
@@ -39,9 +38,7 @@ describe('SendAddressSelector', () => {
   });
 
   it('returns null when address is not provided', () => {
-    render(
-      <SendAddressSelector {...mockProps} address={null} />,
-    );
+    render(<SendAddressSelector {...mockProps} address={null} />);
 
     const container = screen.queryByTestId('ockSendAddressSelector_container');
 
@@ -49,9 +46,7 @@ describe('SendAddressSelector', () => {
   });
 
   it('returns null when senderChain is not provided', () => {
-    render(
-      <SendAddressSelector {...mockProps} senderChain={undefined} />,
-    );
+    render(<SendAddressSelector {...mockProps} senderChain={undefined} />);
 
     const container = screen.queryByTestId('ockSendAddressSelector_container');
 

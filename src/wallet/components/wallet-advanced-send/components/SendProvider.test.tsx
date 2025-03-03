@@ -1,13 +1,12 @@
 import type { APIError } from '@/api/types';
-import { render, renderHook, act } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { SendProvider, useSendContext } from './SendProvider';
-import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
-import { useSendTransaction } from '@/internal/hooks/useSendTransaction';
-import { formatUnits } from 'viem';
 import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
+import { useSendTransaction } from '@/internal/hooks/useSendTransaction';
+import { act, render, renderHook } from '@testing-library/react';
+import { formatUnits } from 'viem';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
+import { SendProvider, useSendContext } from './SendProvider';
 
-// Mock dependencies
 vi.mock('../../WalletAdvancedProvider', () => ({
   useWalletAdvancedContext: vi.fn(),
 }));
