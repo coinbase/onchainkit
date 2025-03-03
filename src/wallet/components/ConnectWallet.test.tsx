@@ -163,7 +163,6 @@ describe('ConnectWallet', () => {
     connectMock.mock.calls[0][1].onSuccess();
     expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.ConnectSuccess, {
       address: '',
-      walletProvider: 'TestConnector',
     });
 
     const error = new Error('Test error');
@@ -594,31 +593,6 @@ describe('ConnectWallet', () => {
   });
 
   describe('analytics', () => {
-    it('should send analytics when connect button is clicked in modal mode', () => {
-      vi.mocked(useOnchainKit).mockReturnValue({
-        config: { wallet: { display: 'modal' } },
-      });
-
-      vi.mocked(useConnect).mockReturnValue({
-        connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
-        connect: vi.fn(),
-        status: 'idle',
-      });
-
-      render(<ConnectWallet text="Connect Wallet" />);
-
-      const button = screen.getByTestId('ockConnectButton');
-      fireEvent.click(button);
-
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
-        WalletEvent.ConnectInitiated,
-        {
-          component: 'WalletModal',
-          walletProvider: 'TestConnector',
-        },
-      );
-    });
-
     it('should send analytics when direct connect is initiated', () => {
       const connectMock = vi.fn();
       vi.mocked(useConnect).mockReturnValue({
@@ -660,7 +634,6 @@ describe('ConnectWallet', () => {
         WalletEvent.ConnectSuccess,
         {
           address: '',
-          walletProvider: 'TestConnector',
         },
       );
     });
@@ -708,7 +681,6 @@ describe('ConnectWallet', () => {
         WalletEvent.ConnectSuccess,
         {
           address: '0x123',
-          walletProvider: 'TestConnector',
         },
       );
     });

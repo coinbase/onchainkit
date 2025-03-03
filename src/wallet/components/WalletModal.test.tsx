@@ -12,6 +12,8 @@ import {
 } from 'vitest';
 import { useConnect, useConnectors } from 'wagmi';
 import type { MetaMaskParameters } from 'wagmi/connectors';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { WalletEvent } from '../../core/analytics/types';
 import { WalletModal } from './WalletModal';
 
 vi.mock('wagmi', () => ({
@@ -21,6 +23,10 @@ vi.mock('wagmi', () => ({
 
 vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
+}));
+
+vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: vi.fn(),
 }));
 
 vi.mock('wagmi/connectors', () => ({
@@ -61,6 +67,7 @@ describe('WalletModal', () => {
     { type: 'coinbaseWallet', name: 'Coinbase Wallet' },
     { type: 'metaMask', name: 'MetaMask' },
   ];
+  const mockSendAnalytics = vi.fn();
 
   const originalWindowOpen = window.open;
 
@@ -79,6 +86,9 @@ describe('WalletModal', () => {
         appearance: {},
         wallet: {},
       },
+    });
+    (useAnalytics as Mock).mockReturnValue({
+      sendAnalytics: mockSendAnalytics,
     });
   });
 
@@ -453,5 +463,42 @@ describe('WalletModal', () => {
       'Phantom connection error:',
       'Some string error',
     );
+  });
+
+  describe('analytics', () => {
+    it('should send analytics when wallet connection is initiated', () => {
+      render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+      fireEvent.click(screen.getByText('Coinbase Wallet'));
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        WalletEvent.ConnectInitiated,
+        {
+          component: 'WalletModal',
+          walletProvider: 'Coinbase',
+        },
+      );
+
+      mockSendAnalytics.mockClear();
+
+      fireEvent.click(screen.getByText('MetaMask'));
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        WalletEvent.ConnectInitiated,
+        {
+          component: 'WalletModal',
+          walletProvider: 'Metamask',
+        },
+      );
+
+      mockSendAnalytics.mockClear();
+
+      fireEvent.click(screen.getByText('Phantom'));
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        WalletEvent.ConnectInitiated,
+        {
+          component: 'WalletModal',
+          walletProvider: 'Phantom',
+        },
+      );
+    });
   });
 });
