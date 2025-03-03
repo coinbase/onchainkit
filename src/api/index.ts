@@ -7,6 +7,7 @@ export { getSwapQuote } from './getSwapQuote';
 export { getTokenDetails } from './getTokenDetails';
 export { getTokens } from './getTokens';
 export { getPortfolios } from './getPortfolios';
+export { getPriceQuote } from './getPriceQuote';
 export type {
   APIError,
   BuildMintTransactionParams,
@@ -18,6 +19,8 @@ export type {
   BuildSwapTransactionResponse,
   GetMintDetailsParams,
   GetMintDetailsResponse,
+  GetPriceQuoteParams,
+  GetPriceQuoteResponse,
   GetSwapQuoteParams,
   GetSwapQuoteResponse,
   GetTokenDetailsParams,
