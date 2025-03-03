@@ -37,12 +37,15 @@ export function WalletModal({
   const privacyPolicyUrl = config?.wallet?.privacyUrl ?? undefined;
   const termsOfServiceUrl = config?.wallet?.termsUrl ?? undefined;
 
-  const handleAnalyticsInitiated = (connectorName: string) => {
-    sendAnalytics(WalletEvent.ConnectInitiated, {
-      component: 'WalletModal',
-      walletProvider: connectorName,
-    });
-  };
+  const handleAnalyticsInitiated = useCallback(
+    (connectorName: string) => {
+      sendAnalytics(WalletEvent.ConnectInitiated, {
+        component: 'WalletModal',
+        walletProvider: connectorName,
+      });
+    },
+    [sendAnalytics],
+  );
 
   const handleCoinbaseWalletConnection = useCallback(() => {
     try {
@@ -64,7 +67,7 @@ export function WalletModal({
         );
       }
     }
-  }, [appName, appLogo, connect, onClose, onError]);
+  }, [appName, appLogo, connect, onClose, onError, handleAnalyticsInitiated]);
 
   const handleMetaMaskConnection = useCallback(() => {
     try {
@@ -85,7 +88,7 @@ export function WalletModal({
         error instanceof Error ? error : new Error('Failed to connect wallet'),
       );
     }
-  }, [connect, onClose, onError, appName, appLogo]);
+  }, [connect, onClose, onError, appName, appLogo, handleAnalyticsInitiated]);
 
   const handlePhantomConnection = useCallback(() => {
     try {
@@ -102,7 +105,7 @@ export function WalletModal({
         error instanceof Error ? error : new Error('Failed to connect wallet'),
       );
     }
-  }, [connect, onClose, onError]);
+  }, [connect, onClose, onError, handleAnalyticsInitiated]);
 
   return (
     <Dialog isOpen={isOpen} onClose={onClose} aria-label="Connect Wallet">
