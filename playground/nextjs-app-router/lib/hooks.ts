@@ -18,10 +18,8 @@ export function useCapabilities() {
 
   return enabled
     ? {
-        ...(paymasterUrl && {
-          paymasterService: { url: paymasterUrl },
-        }),
-      }
+        ...(paymasterUrl ? { paymasterService: { url: paymasterUrl } } : {}),
+       }
     : undefined;
 }
 
