@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
 import { useIcon } from '../../internal/hooks/useIcon';
 import {
@@ -13,6 +13,8 @@ import {
 import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import type { CheckoutButtonReact } from '../types';
 import { useCheckoutContext } from './CheckoutProvider';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { CheckoutEvent } from '../../core/analytics/types';
 
 export function CheckoutButton({
   className,
@@ -27,6 +29,7 @@ export function CheckoutButton({
   }
   const { lifecycleStatus, onSubmit } = useCheckoutContext();
   const iconSvg = useIcon({ icon });
+  const { sendAnalytics } = useAnalytics();
 
   const isLoading =
     lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.PENDING;
@@ -40,6 +43,23 @@ export function CheckoutButton({
     return text;
   }, [lifecycleStatus?.statusName, text]);
   const shouldRenderIcon = buttonText === text && iconSvg;
+
+  useEffect(() => {
+    if (
+      lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.SUCCESS &&
+      lifecycleStatus.statusData
+    ) {
+      const { transactionReceipts, chargeId } = lifecycleStatus.statusData;
+      const transactionHash = transactionReceipts?.[0]?.transactionHash;
+
+      if (transactionHash && chargeId) {
+        sendAnalytics(CheckoutEvent.CheckoutSuccess, {
+          chargeHandlerId: chargeId,
+          transactionHash,
+        });
+      }
+    }
+  }, [lifecycleStatus, sendAnalytics]);
 
   return (
     <button

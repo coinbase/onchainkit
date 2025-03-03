@@ -187,15 +187,6 @@ export function CheckoutProvider({
       return;
     }
 
-    handleAnalytics(CheckoutEvent.CheckoutSuccess, {
-      address,
-      amount: Number(priceInUSDCRef.current),
-      productId: productId,
-      chargeHandlerId: chargeId,
-      isSponsored: !!isSponsored,
-      transactionHash: receipt.transactionHash,
-    });
-
     updateLifecycleStatus({
       statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
       statusData: {
@@ -229,6 +220,7 @@ export function CheckoutProvider({
   const handleSubmit = useCallback(async () => {
     try {
       handleAnalytics(CheckoutEvent.CheckoutInitiated, {
+        address,
         amount: Number(priceInUSDCRef.current || 0),
         productId: productId || '',
       });
