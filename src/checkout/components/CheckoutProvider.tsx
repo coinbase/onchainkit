@@ -190,7 +190,7 @@ export function CheckoutProvider({
     handleAnalytics(CheckoutEvent.CheckoutSuccess, {
       address,
       amount: Number(priceInUSDCRef.current),
-      productId: productId || '',
+      productId: productId,
       chargeHandlerId: chargeId,
       isSponsored: !!isSponsored,
       transactionHash: receipt.transactionHash,
