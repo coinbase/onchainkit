@@ -1,0 +1,2 @@
+src/manifest/*
+!src/manifest/.gitkeep
