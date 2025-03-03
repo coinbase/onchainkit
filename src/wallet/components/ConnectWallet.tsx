@@ -92,9 +92,9 @@ export function ConnectWallet({
   }, [setIsConnectModalOpen]);
 
   const handleAnalyticsInitiated = useCallback(
-    (connectorName: string, component = 'ConnectWallet') => {
+    (connectorName: string) => {
       sendAnalytics(WalletEvent.ConnectInitiated, {
-        component,
+        component: 'ConnectWallet',
         walletProvider: connectorName,
       });
     },
