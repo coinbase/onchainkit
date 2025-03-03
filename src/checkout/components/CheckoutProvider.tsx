@@ -187,7 +187,7 @@ export function CheckoutProvider({
       return;
     }
 
-    sendAnalytics(CheckoutEvent.CheckoutSuccess, {
+    handleAnalytics(CheckoutEvent.CheckoutSuccess, {
       address,
       amount: Number(priceInUSDCRef.current),
       productId: productId || '',
@@ -211,7 +211,6 @@ export function CheckoutProvider({
     address,
     isSponsored,
     productId,
-    sendAnalytics,
   ]);
 
   // We need to pre-load transaction data in `useEffect` when the wallet is already connected due to a Smart Wallet popup blocking issue in Safari iOS
@@ -229,7 +228,7 @@ export function CheckoutProvider({
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component to deprecate funding flow
   const handleSubmit = useCallback(async () => {
     try {
-      sendAnalytics(CheckoutEvent.CheckoutInitiated, {
+      handleAnalytics(CheckoutEvent.CheckoutInitiated, {
         amount: Number(priceInUSDCRef.current || 0),
         productId: productId || '',
       });
@@ -336,7 +335,7 @@ export function CheckoutProvider({
           : undefined,
       });
     } catch (error) {
-      sendAnalytics(CheckoutEvent.CheckoutFailure, {
+      handleAnalytics(CheckoutEvent.CheckoutFailure, {
         error: error instanceof Error ? error.message : 'Checkout failed',
         metadata: { error: JSON.stringify(error) },
       });
@@ -383,6 +382,13 @@ export function CheckoutProvider({
     writeContractsAsync,
     productId,
   ]);
+
+  const handleAnalytics = useCallback(
+    (event: CheckoutEvent, data: AnalyticsEventData[CheckoutEvent]) => {
+      sendAnalytics(event, data);
+    },
+    [sendAnalytics],
+  );
 
   const value = useValue({
     errorMessage,
