@@ -107,7 +107,6 @@ describe('SendAddressInput', () => {
 
     const { onFocus } = vi.mocked(TextInput).mock.calls[0][0];
 
-    // Call the onFocus handler
     onFocus?.({} as React.FocusEvent<HTMLInputElement>);
 
     expect(props.handleRecipientInputChange).toHaveBeenCalled();
@@ -116,10 +115,8 @@ describe('SendAddressInput', () => {
   it('does not call handleRecipientInputChange on focus when selectedRecipientAddress.value does not exist', () => {
     render(<SendAddressInput {...mockProps} />);
 
-    // Extract the onFocus handler
     const { onFocus } = vi.mocked(TextInput).mock.calls[0][0];
 
-    // Call the onFocus handler
     onFocus?.({} as React.FocusEvent<HTMLInputElement>);
 
     expect(mockProps.handleRecipientInputChange).not.toHaveBeenCalled();
@@ -128,10 +125,8 @@ describe('SendAddressInput', () => {
   it('calls setRecipientInput when TextInput setValue is called', () => {
     render(<SendAddressInput {...mockProps} />);
 
-    // Extract the setValue handler
     const { setValue } = vi.mocked(TextInput).mock.calls[0][0];
 
-    // Call the setValue handler
     setValue?.('new-input');
 
     expect(mockProps.setRecipientInput).toHaveBeenCalledWith('new-input');
@@ -145,11 +140,9 @@ describe('SendAddressInput', () => {
 
     render(<SendAddressInput {...mockProps} />);
 
-    // Extract the onChange handler
     const { onChange } = vi.mocked(TextInput).mock.calls[0][0];
 
-    // Call the onChange handler
-    onChange && (await onChange('new-input'));
+    await onChange?.('new-input');
 
     expect(resolveAddressInput).toHaveBeenCalledWith(null, 'new-input');
     expect(mockProps.setValidatedInput).toHaveBeenCalledWith({
@@ -165,10 +158,8 @@ describe('SendAddressInput', () => {
 
     render(<SendAddressInput {...mockProps} />);
 
-    // Extract the inputValidator
     const { inputValidator } = vi.mocked(TextInput).mock.calls[0][0];
 
-    // Call the validator
     inputValidator?.('test-input');
 
     expect(validateAddressInput).toHaveBeenCalledWith('test-input');

@@ -329,7 +329,6 @@ describe('SendButton', () => {
   it('does not call updateLifecycleStatus for non-tracked statuses', () => {
     render(<SendButton />);
 
-    // Extract the onStatus handler from Transaction props
     const { onStatus } = vi.mocked(Transaction).mock.calls[0][0];
 
     // @ts-expect-error - setting invalid status name for testing

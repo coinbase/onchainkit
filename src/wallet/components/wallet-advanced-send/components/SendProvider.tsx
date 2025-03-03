@@ -1,4 +1,8 @@
-import type { PortfolioTokenWithFiatValue } from '@/api/types';
+import type {
+  APIError,
+  PortfolioTokenWithFiatValue,
+  PriceQuoteToken,
+} from '@/api/types';
 import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useSendTransaction } from '@/internal/hooks/useSendTransaction';
@@ -26,7 +30,11 @@ const emptyContext = {} as SendContextType;
 const SendContext = createContext(emptyContext);
 
 export function useSendContext() {
-  return useContext(SendContext);
+  const sendContext = useContext(SendContext);
+  if (sendContext === emptyContext) {
+    throw new Error('useSendContext must be used within a SendProvider');
+  }
+  return sendContext;
 }
 
 export function SendProvider({ children }: SendProviderReact) {
@@ -98,8 +106,21 @@ export function SendProvider({ children }: SendProviderReact) {
     if (!selectedToken) {
       return;
     }
+
+    const tokenSymbol = selectedToken.symbol;
+    const tokenAddress = selectedToken.address;
+    let tokenParam: PriceQuoteToken;
+
+    if (tokenSymbol === 'ETH') {
+      tokenParam = 'ETH' as const;
+    } else if (tokenAddress !== '') {
+      tokenParam = tokenAddress;
+    } else {
+      return;
+    }
+
     useExchangeRate({
-      token: selectedToken,
+      token: tokenParam,
       selectedInputType,
       setExchangeRate,
       setExchangeRateLoading,
@@ -198,13 +219,13 @@ export function SendProvider({ children }: SendProviderReact) {
   );
 
   const handleTransactionError = useCallback(
-    (error: string) => {
+    (error: APIError) => {
       updateLifecycleStatus({
         statusName: 'error',
         statusData: {
-          error: 'Error building send transaction',
-          code: 'SeMSeBC01', // Send module SendButton component 01 error
-          message: error,
+          code: error.code,
+          error: `Error building send transaction: ${error.error}`,
+          message: error.message,
         },
       });
     },
@@ -224,12 +245,16 @@ export function SendProvider({ children }: SendProviderReact) {
         amount: cryptoAmount,
       });
       if ('error' in calls) {
-        handleTransactionError(calls.error);
+        handleTransactionError(calls);
       } else {
         setCallData(calls);
       }
     } catch (error) {
-      handleTransactionError(error as string);
+      handleTransactionError({
+        code: 'UNCAUGHT_SEND_TRANSACTION_ERROR',
+        error: 'Uncaught send transaction error',
+        message: String(error),
+      });
     }
   }, [
     selectedRecipientAddress,
