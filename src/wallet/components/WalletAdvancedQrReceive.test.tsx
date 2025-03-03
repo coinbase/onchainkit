@@ -56,8 +56,10 @@ describe('WalletAdvancedQrReceive', () => {
   >;
 
   const defaultMockUseWalletAdvancedContext = {
-    showQr: false,
-    setShowQr: vi.fn(),
+    activeFeature: null,
+    setActiveFeature: vi.fn(),
+    isActiveFeatureClosing: false,
+    setIsActiveFeatureClosing: vi.fn(),
     animationClasses: {
       qr: 'animate-slideInFromLeft',
     },
@@ -79,7 +81,7 @@ describe('WalletAdvancedQrReceive', () => {
 
   it('should render correctly based on isQrClosing state', () => {
     mockUseWalletAdvancedContext.mockReturnValue({
-      isQrClosing: false,
+      isActiveFeatureClosing: false,
     });
 
     const { rerender } = render(<WalletAdvancedQrReceive />);
@@ -91,7 +93,7 @@ describe('WalletAdvancedQrReceive', () => {
     );
 
     mockUseWalletAdvancedContext.mockReturnValue({
-      isQrClosing: true,
+      isActiveFeatureClosing: true,
     });
     rerender(<WalletAdvancedQrReceive />);
     expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toHaveClass(
@@ -100,27 +102,23 @@ describe('WalletAdvancedQrReceive', () => {
   });
 
   it('should close when back button is clicked', () => {
-    const mockSetShowQr = vi.fn();
-    const mockSetIsQrClosing = vi.fn();
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showQr: true,
-      setShowQr: mockSetShowQr,
-      setIsQrClosing: mockSetIsQrClosing,
+      activeFeature: 'qr',
     });
 
     const { rerender } = render(<WalletAdvancedQrReceive />);
 
     const backButton = screen.getByRole('button', { name: /back button/i });
     fireEvent.click(backButton);
-    expect(mockSetIsQrClosing).toHaveBeenCalledWith(true);
+    expect(
+      defaultMockUseWalletAdvancedContext.setIsActiveFeatureClosing,
+    ).toHaveBeenCalledWith(true);
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showQr: true,
-      setShowQr: mockSetShowQr,
-      setIsQrClosing: mockSetIsQrClosing,
-      isQrClosing: true,
+      activeFeature: 'qr',
+      isActiveFeatureClosing: true,
     });
 
     rerender(<WalletAdvancedQrReceive />);
@@ -128,8 +126,12 @@ describe('WalletAdvancedQrReceive', () => {
     const qrContainer = screen.getByTestId('ockWalletAdvancedQrReceive');
     fireEvent.animationEnd(qrContainer);
 
-    expect(mockSetShowQr).toHaveBeenCalledWith(false);
-    expect(mockSetIsQrClosing).toHaveBeenCalledWith(false);
+    expect(
+      defaultMockUseWalletAdvancedContext.setActiveFeature,
+    ).toHaveBeenCalledWith(null);
+    expect(
+      defaultMockUseWalletAdvancedContext.setIsActiveFeatureClosing,
+    ).toHaveBeenCalledWith(false);
   });
 
   it('should copy address when the copy icon is clicked', async () => {
@@ -143,7 +145,7 @@ describe('WalletAdvancedQrReceive', () => {
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showQr: true,
+      activeFeature: 'qr',
     });
 
     render(<WalletAdvancedQrReceive />);
@@ -185,7 +187,7 @@ describe('WalletAdvancedQrReceive', () => {
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showQr: true,
+      activeFeature: 'qr',
     });
 
     render(<WalletAdvancedQrReceive />);
@@ -227,7 +229,7 @@ describe('WalletAdvancedQrReceive', () => {
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showQr: true,
+      activeFeature: 'qr',
     });
 
     render(<WalletAdvancedQrReceive />);

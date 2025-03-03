@@ -27,7 +27,7 @@ export function WalletAdvancedWalletActions({
   classNames,
 }: WalletAdvancedWalletActionsProps) {
   const { address, handleClose } = useWalletContext();
-  const { setShowQr, refetchPortfolioData, animations } =
+  const { setActiveFeature, refetchPortfolioData, animations } =
     useWalletAdvancedContext();
   const { disconnect, connectors } = useDisconnect();
   const { sendAnalytics } = useAnalytics();
@@ -68,8 +68,8 @@ export function WalletAdvancedWalletActions({
 
   const handleQr = useCallback(() => {
     handleAnalyticsOptionSelected(WalletOption.QR);
-    setShowQr(true);
-  }, [setShowQr, handleAnalyticsOptionSelected]);
+    setActiveFeature('qr');
+  }, [setActiveFeature, handleAnalyticsOptionSelected]);
 
   const handleRefreshPortfolioData = useCallback(async () => {
     handleAnalyticsOptionSelected(WalletOption.Refresh);

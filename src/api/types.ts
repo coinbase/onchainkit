@@ -384,3 +384,36 @@ export type BuildSendTransactionParams = {
  * Note: exported as public Type
  */
 export type BuildSendTransactionResponse = Call | APIError;
+
+export type PriceQuoteToken = Address | 'ETH';
+
+/**
+ * Note: exported as public Type
+ */
+export type GetPriceQuoteParams = {
+  /** The token to get the price quote for */
+  tokens: PriceQuoteToken[];
+};
+
+type PriceQuote = {
+  /** The name of the token */
+  name: string | '';
+  /** The symbol of the token */
+  symbol: string | '';
+  /** The contract address of the token */
+  contractAddress: Address | '';
+  /** The price of the token */
+  price: string | '';
+  /** The timestamp of the price quote */
+  timestamp: number | 0;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type GetPriceQuoteResponse =
+  | {
+      /** The array of price quotes for the tokens */
+      priceQuote: PriceQuote[];
+    }
+  | APIError;

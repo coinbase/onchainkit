@@ -42,6 +42,14 @@ vi.mock('./WalletAdvancedSwap', () => ({
   ),
 }));
 
+vi.mock('./wallet-advanced-send/components/Send', () => ({
+  Send: ({ className }: { className?: string }) => (
+    <div data-testid="ockWalletAdvancedSend" className={className}>
+      WalletAdvancedSend
+    </div>
+  ),
+}));
+
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
   WalletProvider: ({ children }: { children: React.ReactNode }) => (
@@ -56,10 +64,8 @@ describe('WalletAdvancedContent', () => {
   >;
 
   const defaultMockUseWalletAdvancedContext = {
-    showSwap: false,
-    isSwapClosing: false,
-    showQr: false,
-    isQrClosing: false,
+    activeFeature: null,
+    isActiveFeatureClosing: false,
     tokenHoldings: [],
     animations: {
       container: '',
@@ -250,10 +256,10 @@ describe('WalletAdvancedContent', () => {
     expect(setIsSubComponentClosing).toHaveBeenCalledWith(false);
   });
 
-  it('renders WalletAdvancedQrReceive when showQr is true', () => {
+  it('renders WalletAdvancedQrReceive when activeFeature is qr', () => {
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showQr: true,
+      activeFeature: 'qr',
     });
 
     render(
@@ -269,12 +275,15 @@ describe('WalletAdvancedContent', () => {
     expect(
       screen.queryByTestId('ockWalletAdvancedSwap'),
     ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('ockWalletAdvancedSend'),
+    ).not.toBeInTheDocument();
   });
 
-  it('renders WalletAdvancedSwap when showSwap is true', () => {
+  it('renders WalletAdvancedSwap when activeFeature is swap', () => {
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showSwap: true,
+      activeFeature: 'swap',
     });
 
     render(
@@ -287,6 +296,31 @@ describe('WalletAdvancedContent', () => {
     expect(screen.queryByTestId('ockWalletAdvancedSwap')).toBeInTheDocument();
     expect(
       screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('ockWalletAdvancedSend'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('renders WalletAdvancedSend when activeFeature is send', () => {
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
+      activeFeature: 'send',
+    });
+
+    render(
+      <WalletAdvancedContent>
+        <div>WalletAdvancedContent</div>
+      </WalletAdvancedContent>,
+    );
+
+    expect(screen.getByTestId('ockWalletAdvancedSend')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletAdvancedSend')).toBeInTheDocument();
+    expect(
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('ockWalletAdvancedSwap'),
     ).not.toBeInTheDocument();
   });
 
@@ -312,7 +346,7 @@ describe('WalletAdvancedContent', () => {
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showSwap: true,
+      activeFeature: 'swap',
       tokenBalances: mockTokenBalances,
     });
 
@@ -349,8 +383,7 @@ describe('WalletAdvancedContent', () => {
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showQr: true,
-      showSwap: false,
+      activeFeature: 'qr',
     });
 
     const customClassNames = {
@@ -380,8 +413,7 @@ describe('WalletAdvancedContent', () => {
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showQr: false,
-      showSwap: true,
+      activeFeature: 'swap',
     });
 
     rerender(
@@ -419,8 +451,7 @@ describe('WalletAdvancedContent', () => {
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showQr: true,
-      showSwap: false,
+      activeFeature: 'qr',
     });
 
     const customClassNames = {

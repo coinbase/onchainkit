@@ -8,6 +8,7 @@ import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
 import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
+import { Send } from './wallet-advanced-send/components/Send';
 
 export function WalletAdvancedContent({
   children,
@@ -23,7 +24,7 @@ export function WalletAdvancedContent({
     breakpoint,
   } = useWalletContext();
 
-  const { showQr, showSwap, tokenBalances, animations } =
+  const { activeFeature, tokenBalances, animations } =
     useWalletAdvancedContext();
 
   const handleBottomSheetClose = useCallback(() => {
@@ -38,7 +39,15 @@ export function WalletAdvancedContent({
   }, [isSubComponentClosing, setIsSubComponentOpen, setIsSubComponentClosing]);
 
   const content = useMemo(() => {
-    if (showQr) {
+    if (activeFeature === 'send') {
+      return (
+        <ContentWrapper>
+          <Send className={cn('h-full w-full border-none')} />
+        </ContentWrapper>
+      );
+    }
+
+    if (activeFeature === 'qr') {
       return (
         <ContentWrapper>
           <WalletAdvancedQrReceive classNames={classNames?.qr} />
@@ -46,7 +55,7 @@ export function WalletAdvancedContent({
       );
     }
 
-    if (showSwap) {
+    if (activeFeature === 'swap') {
       return (
         <ContentWrapper>
           <WalletAdvancedSwap
@@ -75,7 +84,7 @@ export function WalletAdvancedContent({
     }
 
     return <ContentWrapper className="px-4 py-3">{children}</ContentWrapper>;
-  }, [showQr, showSwap, swappableTokens, tokenBalances, children, classNames]);
+  }, [activeFeature, swappableTokens, tokenBalances, children, classNames]);
 
   if (breakpoint === 'sm') {
     return (

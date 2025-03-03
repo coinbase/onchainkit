@@ -30,19 +30,22 @@ export function WalletAdvancedSwap({
   title,
   to,
 }: WalletAdvancedSwapProps) {
-  const { setShowSwap, isSwapClosing, setIsSwapClosing } =
-    useWalletAdvancedContext();
+  const {
+    setActiveFeature,
+    isActiveFeatureClosing,
+    setIsActiveFeatureClosing,
+  } = useWalletAdvancedContext();
 
   const handleCloseSwap = useCallback(() => {
-    setIsSwapClosing(true);
-  }, [setIsSwapClosing]);
+    setIsActiveFeatureClosing(true);
+  }, [setIsActiveFeatureClosing]);
 
   const handleAnimationEnd = useCallback(() => {
-    if (isSwapClosing) {
-      setShowSwap(false);
-      setIsSwapClosing(false);
+    if (isActiveFeatureClosing) {
+      setActiveFeature(null);
+      setIsActiveFeatureClosing(false);
     }
-  }, [isSwapClosing, setShowSwap, setIsSwapClosing]);
+  }, [isActiveFeatureClosing, setActiveFeature, setIsActiveFeatureClosing]);
 
   const backButton = (
     <PressableIcon ariaLabel="Back button" onClick={handleCloseSwap}>
@@ -55,7 +58,7 @@ export function WalletAdvancedSwap({
       className={cn(
         'h-full',
         border.radius,
-        isSwapClosing
+        isActiveFeatureClosing
           ? 'fade-out slide-out-to-right-5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-right-5 linear animate-in duration-150',
         'relative',
