@@ -334,6 +334,7 @@ describe('useSendContext', () => {
       result.current.handleFiatAmountChange('1000');
     });
 
+    // @ts-ignore - test is not type narrowing
     expect(result.current.lifecycleStatus.statusData?.sufficientBalance).toBe(
       false,
     );
