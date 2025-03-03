@@ -11,6 +11,8 @@ import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { WalletEvent } from '../../core/analytics/types';
 
 type WalletModalProps = {
   isOpen: boolean;
@@ -28,11 +30,19 @@ export function WalletModal({
 }: WalletModalProps) {
   const { connect } = useConnect();
   const { config } = useOnchainKit();
+  const { sendAnalytics } = useAnalytics();
 
   const appLogo = config?.appearance?.logo ?? undefined;
   const appName = config?.appearance?.name ?? undefined;
   const privacyPolicyUrl = config?.wallet?.privacyUrl ?? undefined;
   const termsOfServiceUrl = config?.wallet?.termsUrl ?? undefined;
+
+  const handleAnalyticsInitiated = (connectorName: string) => {
+    sendAnalytics(WalletEvent.ConnectInitiated, {
+      component: 'WalletModal',
+      walletProvider: connectorName,
+    });
+  };
 
   const handleCoinbaseWalletConnection = useCallback(() => {
     try {
@@ -41,6 +51,7 @@ export function WalletModal({
         appName,
         appLogoUrl: appLogo,
       });
+      handleAnalyticsInitiated('Coinbase');
       connect({ connector: cbConnector });
       onClose();
     } catch (error) {
@@ -53,7 +64,7 @@ export function WalletModal({
         );
       }
     }
-  }, [appName, appLogo, connect, onClose, onError]);
+  }, [appName, appLogo, connect, onClose, onError, handleAnalyticsInitiated]);
 
   const handleMetaMaskConnection = useCallback(() => {
     try {
@@ -65,6 +76,7 @@ export function WalletModal({
         },
       });
 
+      handleAnalyticsInitiated('Metamask');
       connect({ connector: metamaskConnector });
       onClose();
     } catch (error) {
@@ -73,7 +85,7 @@ export function WalletModal({
         error instanceof Error ? error : new Error('Failed to connect wallet'),
       );
     }
-  }, [connect, onClose, onError, appName, appLogo]);
+  }, [connect, onClose, onError, appName, appLogo, handleAnalyticsInitiated]);
 
   const handlePhantomConnection = useCallback(() => {
     try {
@@ -81,6 +93,7 @@ export function WalletModal({
         target: 'phantom',
       });
 
+      handleAnalyticsInitiated('Phantom');
       connect({ connector: phantomConnector });
       onClose();
     } catch (error) {
@@ -89,7 +102,7 @@ export function WalletModal({
         error instanceof Error ? error : new Error('Failed to connect wallet'),
       );
     }
-  }, [connect, onClose, onError]);
+  }, [connect, onClose, onError, handleAnalyticsInitiated]);
 
   return (
     <Dialog isOpen={isOpen} onClose={onClose} aria-label="Connect Wallet">

@@ -172,7 +172,6 @@ export type WalletEventData = {
   };
   [WalletEvent.ConnectSuccess]: CommonAnalyticsData & {
     address: string;
-    walletProvider: string;
   };
   [WalletEvent.Disconnect]: CommonAnalyticsData & {
     component: string;

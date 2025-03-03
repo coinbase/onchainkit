@@ -92,7 +92,7 @@ export function ConnectWallet({
   }, [setIsConnectModalOpen]);
 
   const handleAnalyticsInitiated = useCallback(
-    (connectorName: string, component: string) => {
+    (connectorName: string, component = 'ConnectWallet') => {
       sendAnalytics(WalletEvent.ConnectInitiated, {
         component,
         walletProvider: connectorName,
@@ -102,10 +102,9 @@ export function ConnectWallet({
   );
 
   const handleAnalyticsSuccess = useCallback(
-    (connectorName: string, walletAddress: string | undefined) => {
+    (walletAddress: string | undefined) => {
       sendAnalytics(WalletEvent.ConnectSuccess, {
         address: walletAddress ?? '',
-        walletProvider: connectorName,
       });
     },
     [sendAnalytics],
@@ -134,7 +133,7 @@ export function ConnectWallet({
 
   useEffect(() => {
     if (status === 'connected' && accountAddress && connector) {
-      handleAnalyticsSuccess(connector.name, accountAddress);
+      handleAnalyticsSuccess(accountAddress);
     }
   }, [status, accountAddress, connector, handleAnalyticsSuccess]);
 
@@ -148,7 +147,6 @@ export function ConnectWallet({
             onClick={() => {
               handleOpenConnectModal();
               setHasClickedConnect(true);
-              handleAnalyticsInitiated(connector.name, 'WalletModal');
             }}
             text={text}
           />
@@ -162,14 +160,14 @@ export function ConnectWallet({
           className={className}
           connectWalletText={connectWalletText}
           onClick={() => {
-            handleAnalyticsInitiated(connector.name, 'ConnectWallet');
+            handleAnalyticsInitiated(connector.name);
 
             connect(
               { connector },
               {
                 onSuccess: () => {
                   onConnect?.();
-                  handleAnalyticsSuccess(connector.name, accountAddress);
+                  handleAnalyticsSuccess(accountAddress);
                 },
                 onError: (error) => {
                   handleAnalyticsError(
