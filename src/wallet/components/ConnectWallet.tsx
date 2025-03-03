@@ -91,15 +91,12 @@ export function ConnectWallet({
     setHasClickedConnect(true);
   }, [setIsConnectModalOpen]);
 
-  const handleAnalyticsInitiated = useCallback(
-    (connectorName: string) => {
-      sendAnalytics(WalletEvent.ConnectInitiated, {
-        component: 'ConnectWallet',
-        walletProvider: connectorName,
-      });
-    },
-    [sendAnalytics],
-  );
+  const handleAnalyticsInitiated = useCallback(() => {
+    sendAnalytics(WalletEvent.ConnectInitiated, {
+      component: 'ConnectWallet',
+      walletProvider: 'Coinbase',
+    });
+  }, [sendAnalytics]);
 
   const handleAnalyticsSuccess = useCallback(
     (walletAddress: string | undefined) => {
@@ -160,7 +157,7 @@ export function ConnectWallet({
           className={className}
           connectWalletText={connectWalletText}
           onClick={() => {
-            handleAnalyticsInitiated(connector.name);
+            handleAnalyticsInitiated();
 
             connect(
               { connector },

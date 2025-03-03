@@ -148,7 +148,7 @@ describe('ConnectWallet', () => {
       WalletEvent.ConnectInitiated,
       {
         component: 'ConnectWallet',
-        walletProvider: 'TestConnector',
+        walletProvider: 'Coinbase',
       },
     );
 
@@ -610,7 +610,7 @@ describe('ConnectWallet', () => {
         WalletEvent.ConnectInitiated,
         {
           component: 'ConnectWallet',
-          walletProvider: 'TestConnector',
+          walletProvider: 'Coinbase',
         },
       );
     });
