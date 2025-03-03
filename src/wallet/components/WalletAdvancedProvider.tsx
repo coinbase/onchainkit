@@ -2,7 +2,10 @@ import { RequestContext } from '@/core/network/constants';
 import { useValue } from '@/internal/hooks/useValue';
 import { usePortfolio } from '@/wallet/hooks/usePortfolio';
 import { type ReactNode, createContext, useContext, useState } from 'react';
-import type { WalletAdvancedContextType } from '../types';
+import type {
+  WalletAdvancedContextType,
+  WalletAdvancedFeature,
+} from '../types';
 import { useWalletContext } from './WalletProvider';
 
 type WalletAdvancedProviderReact = {
@@ -29,10 +32,9 @@ export function WalletAdvancedProvider({
 }: WalletAdvancedProviderReact) {
   const { address, isSubComponentClosing, showSubComponentAbove } =
     useWalletContext();
-  const [showSwap, setShowSwap] = useState(false);
-  const [isSwapClosing, setIsSwapClosing] = useState(false);
-  const [showQr, setShowQr] = useState(false);
-  const [isQrClosing, setIsQrClosing] = useState(false);
+  const [activeFeature, setActiveFeature] =
+    useState<WalletAdvancedFeature | null>(null);
+  const [isActiveFeatureClosing, setIsActiveFeatureClosing] = useState(false);
   const {
     data: portfolioData,
     refetch: refetchPortfolioData,
@@ -49,14 +51,10 @@ export function WalletAdvancedProvider({
   );
 
   const value = useValue({
-    showSwap,
-    setShowSwap,
-    isSwapClosing,
-    setIsSwapClosing,
-    showQr,
-    setShowQr,
-    isQrClosing,
-    setIsQrClosing,
+    activeFeature,
+    setActiveFeature,
+    isActiveFeatureClosing,
+    setIsActiveFeatureClosing,
     tokenBalances,
     portfolioFiatValue,
     isFetchingPortfolioData,

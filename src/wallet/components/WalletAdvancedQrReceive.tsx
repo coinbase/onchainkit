@@ -16,20 +16,24 @@ export function WalletAdvancedQrReceive({
   classNames,
 }: WalletAdvancedQrReceiveProps) {
   const { address } = useWalletContext();
-  const { setShowQr, isQrClosing, setIsQrClosing } = useWalletAdvancedContext();
+  const {
+    setActiveFeature,
+    isActiveFeatureClosing,
+    setIsActiveFeatureClosing,
+  } = useWalletAdvancedContext();
   const [copyText, setCopyText] = useState('Copy');
   const [copyButtonText, setCopyButtonText] = useState('Copy address');
 
   const handleCloseQr = useCallback(() => {
-    setIsQrClosing(true);
-  }, [setIsQrClosing]);
+    setIsActiveFeatureClosing(true);
+  }, [setIsActiveFeatureClosing]);
 
   const handleAnimationEnd = useCallback(() => {
-    if (isQrClosing) {
-      setShowQr(false);
-      setIsQrClosing(false);
+    if (isActiveFeatureClosing) {
+      setActiveFeature(null);
+      setIsActiveFeatureClosing(false);
     }
-  }, [isQrClosing, setShowQr, setIsQrClosing]);
+  }, [isActiveFeatureClosing, setActiveFeature, setIsActiveFeatureClosing]);
 
   const resetAffordanceText = useCallback(() => {
     setTimeout(() => {
@@ -68,7 +72,7 @@ export function WalletAdvancedQrReceive({
         'flex flex-col items-center justify-between',
         'h-full w-full',
         'px-4 pt-3 pb-4',
-        isQrClosing
+        isActiveFeatureClosing
           ? 'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-left-5 linear animate-in duration-150',
         classNames?.container,
