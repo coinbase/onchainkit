@@ -64,7 +64,7 @@ export function WalletModal({
         );
       }
     }
-  }, [appName, appLogo, connect, onClose, onError, handleAnalyticsInitiated]);
+  }, [appName, appLogo, connect, onClose, onError]);
 
   const handleMetaMaskConnection = useCallback(() => {
     try {
@@ -85,7 +85,7 @@ export function WalletModal({
         error instanceof Error ? error : new Error('Failed to connect wallet'),
       );
     }
-  }, [connect, onClose, onError, appName, appLogo, handleAnalyticsInitiated]);
+  }, [connect, onClose, onError, appName, appLogo]);
 
   const handlePhantomConnection = useCallback(() => {
     try {
@@ -102,7 +102,7 @@ export function WalletModal({
         error instanceof Error ? error : new Error('Failed to connect wallet'),
       );
     }
-  }, [connect, onClose, onError, handleAnalyticsInitiated]);
+  }, [connect, onClose, onError]);
 
   return (
     <Dialog isOpen={isOpen} onClose={onClose} aria-label="Connect Wallet">
