@@ -153,7 +153,7 @@ export function ConnectWallet({
             onClick={() => {
               handleOpenConnectModal();
               setHasClickedConnect(true);
-              handleAnalyticsInitiated('modal');
+              handleAnalyticsInitiated('WalletModal');
             }}
             text={text}
           />
@@ -167,7 +167,7 @@ export function ConnectWallet({
           className={className}
           connectWalletText={connectWalletText}
           onClick={() => {
-            handleAnalyticsInitiated('direct');
+            handleAnalyticsInitiated('ConnectWallet');
 
             connect(
               { connector },
