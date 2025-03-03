@@ -57,7 +57,7 @@ const Tweets: React.FC = () => {
                 the Fit Club app! <br />
                 <br />
                 Thanks to{' '}
-                <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
+                <a href="https://x.com/OnchainKit?ref_src=twsrc%5Etfw">
                   @OnchainKit
                 </a>{' '}
                 for making it smooth and easy! 💜
@@ -67,26 +67,26 @@ const Tweets: React.FC = () => {
                 <a href="https://t.co/5BlIm5kSx3">pic.twitter.com/5BlIm5kSx3</a>
               </p>
               — Fit Club (@fitclubonbase){' '}
-              <a href="https://twitter.com/fitclubonbase/status/1826969613294334172?ref_src=twsrc%5Etfw">
+              <a href="https://x.com/fitclubonbase/status/1826969613294334172?ref_src=twsrc%5Etfw">
                 August 23, 2024
               </a>
             </TweetCard>
             <TweetCard className="tweet2 md:flex-shrink-0">
               <p lang="en" dir="ltr">
                 Rush absolutely recommends Base devs to try{' '}
-                <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
+                <a href="https://x.com/OnchainKit?ref_src=twsrc%5Etfw">
                   @OnchainKit
                 </a>
                 , which can make life much easier with their cool SwapWidget and
                 deep{' '}
-                <a href="https://twitter.com/CoinbaseWallet?ref_src=twsrc%5Etfw">
+                <a href="https://x.com/CoinbaseWallet?ref_src=twsrc%5Etfw">
                   @CoinbaseWallet
                 </a>{' '}
                 integration🥹{' '}
                 <a href="https://t.co/yJJFjTr4nN">https://t.co/yJJFjTr4nN</a>
               </p>
               &mdash; Rush (@rushtradingx){' '}
-              <a href="https://twitter.com/rushtradingx/status/1849197213702135863?ref_src=twsrc%5Etfw">
+              <a href="https://x.com/rushtradingx/status/1849197213702135863?ref_src=twsrc%5Etfw">
                 October 23, 2024
               </a>
             </TweetCard>
@@ -97,7 +97,7 @@ const Tweets: React.FC = () => {
                 <a href="https://t.co/vunDYrnT2j">pic.twitter.com/vunDYrnT2j</a>
               </p>
               &mdash; KEYCAT (@KeyboardCatBase){' '}
-              <a href="https://twitter.com/KeyboardCatBase/status/1838710257809252581?ref_src=twsrc%5Etfw">
+              <a href="https://x.com/KeyboardCatBase/status/1838710257809252581?ref_src=twsrc%5Etfw">
                 September 24, 2024
               </a>
             </TweetCard>
