@@ -142,19 +142,16 @@ describe('WalletAdvancedTransactionActons', () => {
     expect(window.open).not.toHaveBeenCalled();
   });
 
-  it('sets activeFeature to send when the send button is clicked', () => {
-    mockUseWalletAdvancedContext.mockReturnValue(
-      defaultMockUseWalletAdvancedContext,
-    );
-
+  it('opens the send page when the send button is clicked', () => {
     render(<WalletAdvancedTransactionActions />);
 
     const sendButton = screen.getByRole('button', { name: 'Send' });
     fireEvent.click(sendButton);
 
-    expect(
-      defaultMockUseWalletAdvancedContext.setActiveFeature,
-    ).toHaveBeenCalledWith('send');
+    expect(window.open).toHaveBeenCalledWith(
+      'https://wallet.coinbase.com',
+      '_blank',
+    );
   });
 
   it('sets activeFeature to swap when the swap button is clicked', () => {
