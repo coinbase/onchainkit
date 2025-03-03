@@ -1,12 +1,11 @@
-import { getSwapQuote } from '@/api';
+import { getPriceQuote } from '@/api';
 import { RequestContext } from '@/core/network/constants';
 import { isApiError } from '@/internal/utils/isApiResponseError';
-import type { Token } from '@/token';
-import { usdcToken } from '@/token/constants';
+import type { PriceQuoteToken } from '@/api/types';
 import type { Dispatch, SetStateAction } from 'react';
 
 type UseExchangeRateParams = {
-  token: Token;
+  token: PriceQuoteToken;
   selectedInputType: 'crypto' | 'fiat';
   setExchangeRate: Dispatch<SetStateAction<number>>;
   setExchangeRateLoading?: Dispatch<SetStateAction<boolean>>;
@@ -22,37 +21,27 @@ export async function useExchangeRate({
     return;
   }
 
-  if (token.address.toLowerCase() === usdcToken.address.toLowerCase()) {
-    setExchangeRate(1);
-    return;
-  }
-
   setExchangeRateLoading?.(true);
 
-  const fromToken = selectedInputType === 'crypto' ? token : usdcToken;
-  const toToken = selectedInputType === 'crypto' ? usdcToken : token;
-
   try {
-    const response = await getSwapQuote(
-      {
-        amount: '1', // hardcoded amount of 1 because we only need the exchange rate
-        from: fromToken,
-        to: toToken,
-        useAggregator: false,
-      },
+    const response = await getPriceQuote(
+      { tokens: [token] },
       RequestContext.Wallet,
     );
     if (isApiError(response)) {
-      console.error('Error fetching exchange rate:', response.error);
+      console.error('Error fetching price quote:', response.error);
       return;
     }
+    const priceQuote = response.priceQuote[0];
+
     const rate =
       selectedInputType === 'crypto'
-        ? 1 / Number(response.fromAmountUSD)
-        : Number(response.toAmount) / 10 ** response.to.decimals;
+        ? 1 / Number(priceQuote.price)
+        : Number(priceQuote.price);
+
     setExchangeRate(rate);
   } catch (error) {
-    console.error('Uncaught error fetching exchange rate:', error);
+    console.error('Uncaught error fetching price quote:', error);
   } finally {
     setExchangeRateLoading?.(false);
   }

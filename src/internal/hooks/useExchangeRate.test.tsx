@@ -1,12 +1,12 @@
-import { getSwapQuote } from '@/api';
-import type { Token } from '@/token';
-import { ethToken, usdcToken } from '@/token/constants';
+import { getPriceQuote } from '@/api';
+import type { PriceQuoteToken } from '@/api/types';
+import { ethToken } from '@/token/constants';
 import { renderHook, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useExchangeRate } from './useExchangeRate';
 
 vi.mock('@/api', () => ({
-  getSwapQuote: vi.fn(),
+  getPriceQuote: vi.fn(),
 }));
 
 describe('useExchangeRate', () => {
@@ -18,7 +18,7 @@ describe('useExchangeRate', () => {
     const mockSetExchangeRate = vi.fn();
     const { result } = renderHook(() =>
       useExchangeRate({
-        token: undefined as unknown as Token,
+        token: undefined as unknown as PriceQuoteToken,
         selectedInputType: 'crypto',
         setExchangeRate: mockSetExchangeRate,
         setExchangeRateLoading: vi.fn(),
@@ -30,35 +30,25 @@ describe('useExchangeRate', () => {
     expect(mockSetExchangeRate).not.toHaveBeenCalled();
   });
 
-  it('should return 1 if a token is usdc', async () => {
-    const mockSetExchangeRate = vi.fn();
-    renderHook(() =>
-      useExchangeRate({
-        token: usdcToken,
-        selectedInputType: 'crypto',
-        setExchangeRate: mockSetExchangeRate,
-        setExchangeRateLoading: vi.fn(),
-      }),
-    );
-
-    expect(mockSetExchangeRate).toHaveBeenCalledWith(1);
-  });
-
   it('should set the correct exchange rate when the selected input type is crypto', async () => {
     const mockSetExchangeRate = vi.fn();
     const mockSetExchangeRateLoading = vi.fn();
 
-    (getSwapQuote as Mock).mockResolvedValue({
-      fromAmountUSD: '200',
-      toAmount: '100000000',
-      to: {
-        decimals: 18,
-      },
+    (getPriceQuote as Mock).mockResolvedValue({
+      priceQuote: [
+        {
+          name: 'ETH',
+          symbol: 'ETH',
+          contractAddress: '',
+          price: '2400',
+          timestamp: 1714761600,
+        },
+      ],
     });
 
     renderHook(() =>
       useExchangeRate({
-        token: ethToken,
+        token: ethToken.symbol as PriceQuoteToken,
         selectedInputType: 'crypto',
         setExchangeRate: mockSetExchangeRate,
         setExchangeRateLoading: mockSetExchangeRateLoading,
@@ -66,7 +56,7 @@ describe('useExchangeRate', () => {
     );
 
     await waitFor(() => {
-      expect(mockSetExchangeRate).toHaveBeenCalledWith(1 / 200);
+      expect(mockSetExchangeRate).toHaveBeenCalledWith(1 / 2400);
     });
   });
 
@@ -74,17 +64,21 @@ describe('useExchangeRate', () => {
     const mockSetExchangeRate = vi.fn();
     const mockSetExchangeRateLoading = vi.fn();
 
-    (getSwapQuote as Mock).mockResolvedValue({
-      fromAmountUSD: '200',
-      toAmount: '100000000',
-      to: {
-        decimals: 18,
-      },
+    (getPriceQuote as Mock).mockResolvedValue({
+      priceQuote: [
+        {
+          name: 'ETH',
+          symbol: 'ETH',
+          contractAddress: '',
+          price: '2400',
+          timestamp: 1714761600,
+        },
+      ],
     });
 
     renderHook(() =>
       useExchangeRate({
-        token: ethToken,
+        token: ethToken.symbol as PriceQuoteToken,
         selectedInputType: 'fiat',
         setExchangeRate: mockSetExchangeRate,
         setExchangeRateLoading: mockSetExchangeRateLoading,
@@ -92,7 +86,7 @@ describe('useExchangeRate', () => {
     );
 
     await waitFor(() => {
-      expect(mockSetExchangeRate).toHaveBeenCalledWith(100000000 / 10 ** 18);
+      expect(mockSetExchangeRate).toHaveBeenCalledWith(2400);
     });
   });
 
@@ -101,13 +95,13 @@ describe('useExchangeRate', () => {
     const mockSetExchangeRateLoading = vi.fn();
     const consoleSpy = vi.spyOn(console, 'error');
 
-    (getSwapQuote as Mock).mockResolvedValue({
+    (getPriceQuote as Mock).mockResolvedValue({
       error: 'test error',
     });
 
     renderHook(() =>
       useExchangeRate({
-        token: ethToken,
+        token: ethToken.symbol as PriceQuoteToken,
         selectedInputType: 'fiat',
         setExchangeRate: mockSetExchangeRate,
         setExchangeRateLoading: mockSetExchangeRateLoading,
@@ -116,7 +110,7 @@ describe('useExchangeRate', () => {
 
     await waitFor(() => {
       expect(consoleSpy).toHaveBeenCalledWith(
-        'Error fetching exchange rate:',
+        'Error fetching price quote:',
         'test error',
       );
       expect(mockSetExchangeRate).not.toHaveBeenCalled();
@@ -128,11 +122,11 @@ describe('useExchangeRate', () => {
     const mockSetExchangeRateLoading = vi.fn();
     const consoleSpy = vi.spyOn(console, 'error');
 
-    (getSwapQuote as Mock).mockRejectedValue(new Error('test error'));
+    (getPriceQuote as Mock).mockRejectedValue(new Error('test error'));
 
     renderHook(() =>
       useExchangeRate({
-        token: ethToken,
+        token: ethToken.symbol as PriceQuoteToken,
         selectedInputType: 'fiat',
         setExchangeRate: mockSetExchangeRate,
         setExchangeRateLoading: mockSetExchangeRateLoading,
@@ -141,7 +135,7 @@ describe('useExchangeRate', () => {
 
     await waitFor(() => {
       expect(consoleSpy).toHaveBeenCalledWith(
-        'Uncaught error fetching exchange rate:',
+        'Uncaught error fetching price quote:',
         expect.any(Error),
       );
       expect(mockSetExchangeRate).not.toHaveBeenCalled();
@@ -152,17 +146,21 @@ describe('useExchangeRate', () => {
     const mockSetExchangeRate = vi.fn();
     const mockSetExchangeRateLoading = vi.fn();
 
-    (getSwapQuote as Mock).mockResolvedValue({
-      fromAmountUSD: '1',
-      toAmount: '1',
-      to: {
-        decimals: 18,
-      },
+    (getPriceQuote as Mock).mockResolvedValue({
+      priceQuote: [
+        {
+          name: 'ETH',
+          symbol: 'ETH',
+          contractAddress: '',
+          price: '2400',
+          timestamp: 1714761600,
+        },
+      ],
     });
 
     renderHook(() =>
       useExchangeRate({
-        token: ethToken,
+        token: ethToken.symbol as PriceQuoteToken,
         selectedInputType: 'crypto',
         setExchangeRate: mockSetExchangeRate,
         setExchangeRateLoading: mockSetExchangeRateLoading,
