@@ -52,7 +52,9 @@ function SendDefaultChildren() {
       <SendHeader />
       {walletHasEth ? (
         <div className="flex h-full flex-col justify-between gap-4">
-          <div>This wallet has ETH. Test by changing to a wallet with no ETH.</div>
+          <div>
+            This wallet has ETH. Test by changing to a wallet with no ETH.
+          </div>
           {/* <div>
             <SendAddressSelection />
             {selectedRecipientAddress.value && !selectedToken && (
