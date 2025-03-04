@@ -130,12 +130,10 @@ export type TokenBalanceProps = {
   token: PortfolioTokenWithFiatValue;
   /** Subtitle to display next to the token name (eg. "available") */
   subtitle?: string;
-  /** Show the token image (default: true) */
-  showImage?: boolean;
   /** Click handler for the whole component*/
   onClick?: (token: PortfolioTokenWithFiatValue) => void;
-  /** Size of the token image in px (default: 40) */
-  tokenSize?: number;
+  /** Optional aria label for the component */
+  'aria-label'?: string;
   /** Optional additional CSS classes to apply to the component */
   classNames?: {
     container?: string;
@@ -146,13 +144,29 @@ export type TokenBalanceProps = {
   };
 } & (
   | {
-      /** Hide the action button (default)*/
-      actionText?: never;
-      onActionPress?: never;
+      /** Show the token image (default: true) */
+      showImage?: true;
+      /** Size of the token image in px (default: 40) */
+      tokenSize?: number;
     }
   | {
-      /** Show an additional action button (eg. "Use max") */
-      actionText?: string;
-      onActionPress: () => void;
+      /** Hide the token image */
+      showImage: false;
+      /** Size of the token image in px (default: 40) */
+      tokenSize?: never;
     }
-);
+) &
+  (
+    | {
+        /** Hide the action button (default)*/
+        onActionPress?: never;
+        /** Optional action button text (default: "Use max") */
+        actionText?: never;
+      }
+    | {
+        /** Action handler for the action button */
+        onActionPress: () => void;
+        /** Optional action button text (default: "Use max") */
+        actionText?: string;
+      }
+  );

@@ -112,7 +112,13 @@ describe('TokenBalance', () => {
       render(<TokenBalance token={mockToken} onActionPress={onActionPress} />);
 
       const actionButton = screen.getByRole('button', { name: 'Use max' });
-      fireEvent.keyDown(actionButton);
+      fireEvent.keyDown(actionButton, { key: 'Escape' });
+      expect(onActionPress).not.toHaveBeenCalled();
+
+      fireEvent.keyDown(actionButton, { key: ' ' });
+      expect(onActionPress).toHaveBeenCalled();
+
+      fireEvent.keyDown(actionButton, { key: 'Enter' });
       expect(onActionPress).toHaveBeenCalled();
     });
 
