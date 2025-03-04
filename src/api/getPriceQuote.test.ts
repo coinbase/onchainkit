@@ -67,7 +67,7 @@ describe('getPriceQuote', () => {
     expect(result).toEqual({
       code: 'INVALID_INPUT',
       error: 'Invalid input: tokens must be an array of at least one token',
-      message: '',
+      message: 'Tokens must be an array of at least one token',
     });
   });
 
