@@ -36,10 +36,12 @@ export function Send({
 }
 
 function SendDefaultChildren() {
-  const { ethBalance, isInitialized, selectedRecipientAddress, selectedToken } =
-    useSendContext();
+  // const { ethBalance, isInitialized, selectedRecipientAddress, selectedToken } =
+  const { ethBalance, isInitialized } = useSendContext();
 
   const walletHasEth = ethBalance > ETH_REQUIRED_FOR_SEND;
+
+  console.log({ ethBalance, isInitialized, walletHasEth });
 
   if (!isInitialized) {
     return <Skeleton className="h-full w-full" />;
@@ -50,19 +52,20 @@ function SendDefaultChildren() {
       <SendHeader />
       {walletHasEth ? (
         <div className="flex h-full flex-col justify-between gap-4">
-          <div>
+          <div>This wallet has ETH. Test by changing to a wallet with no ETH.</div>
+          {/* <div>
             <SendAddressSelection />
             {selectedRecipientAddress.value && !selectedToken && (
               <SendTokenSelector />
             )}
-          </div>
-          {selectedRecipientAddress.value && selectedToken && (
+          </div> */}
+          {/* {selectedRecipientAddress.value && selectedToken && (
             <>
               <SendAmountInput />
               <SendTokenSelector />
               <SendButton />
             </>
-          )}
+          )} */}
         </div>
       ) : (
         <SendFundWallet />
