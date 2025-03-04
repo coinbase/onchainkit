@@ -1,1 +1,0 @@
-export const ETH_REQUIRED_FOR_SEND = 0.000001;
