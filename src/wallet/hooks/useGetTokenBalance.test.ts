@@ -29,7 +29,7 @@ describe('useGetTokenBalance', () => {
     vi.clearAllMocks();
   });
 
-  it('should return converted and rounded-sm balance without error', () => {
+  it('should return converted and rounded balance without error', () => {
     (useReadContract as Mock).mockReturnValue(mockTokenBalanceResponse);
     const { result } = renderHook(() =>
       useGetTokenBalance(mockAddress, USDC_TOKEN),

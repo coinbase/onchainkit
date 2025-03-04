@@ -24,7 +24,7 @@ export function BuyAmountInput() {
       <TextInput
         className={cn(
           'mr-2 w-full border-none font-display',
-          'leading-none outline-hidden disabled:cursor-not-allowed',
+          'leading-none outline-none disabled:cursor-not-allowed',
           background.default,
           color.foreground,
         )}

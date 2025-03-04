@@ -119,7 +119,7 @@ function TokenBalanceContent({
               color.primary,
               border.radius,
               'ml-auto cursor-pointer p-0.5 font-bold',
-              'border border-transparent hover:border-(--ock-line-primary)',
+              'border border-transparent hover:border-[--ock-line-primary]',
               classNames?.action,
             )}
           >

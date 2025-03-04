@@ -41,7 +41,7 @@ describe('useGetETHBalance', () => {
     vi.clearAllMocks();
   });
 
-  it('should return converted and rounded-sm balance without error', () => {
+  it('should return converted and rounded balance without error', () => {
     (useBalance as Mock).mockReturnValue(mockEthBalanceResponse);
     const { result } = renderHook(() => useGetETHBalance(mockAddress));
     expect(result.current.convertedBalance).toBe('0.0002851826238227');

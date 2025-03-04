@@ -21,7 +21,7 @@ export function EarnAmountInput({
           text.base,
           color.foreground,
           'w-full border-none bg-transparent text-5xl',
-          'leading-none outline-hidden',
+          'leading-none outline-none',
         )}
         placeholder="0.0"
         value={formatAmount(value)}

@@ -15,7 +15,7 @@ export const CurrencyLabel = forwardRef<HTMLSpanElement, CurrencyLabelProps>(
           text.body,
           color.disabled,
           'flex items-center justify-center bg-transparent',
-          'text-6xl leading-none outline-hidden',
+          'text-6xl leading-none outline-none',
           className,
         )}
         data-testid="ockCurrencySpan"

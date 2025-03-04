@@ -154,7 +154,7 @@ export function SwapSettingsSlippageInput({
           className={cn(
             color.foreground,
             text.label2,
-            'w-full grow bg-transparent pl-1 font-normal leading-6 focus:outline-hidden',
+            'w-full flex-grow bg-transparent pl-1 font-normal leading-6 focus:outline-none',
             slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'cursor-not-allowed',
           )}
         />
@@ -163,7 +163,7 @@ export function SwapSettingsSlippageInput({
             background.default,
             color.foreground,
             text.label2,
-            'ml-1 shrink-0 font-normal leading-6',
+            'ml-1 flex-shrink-0 font-normal leading-6',
           )}
         >
           %

@@ -35,7 +35,7 @@ export function SwapSettingsSlippageLayout({
       {title}
       {description}
       <div className="flex items-center justify-between gap-2">
-        {input && <div className="grow">{input}</div>}
+        {input && <div className="flex-grow">{input}</div>}
       </div>
     </div>
   );

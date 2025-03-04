@@ -105,7 +105,7 @@ describe('AppchainBridgeResumeTransaction', () => {
       'w-full',
       'border-none',
       'focus:border-none',
-      'focus:outline-hidden',
+      'focus:outline-none',
       'focus:ring-0',
     );
   });

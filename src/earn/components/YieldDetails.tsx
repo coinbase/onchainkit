@@ -65,7 +65,7 @@ export function YieldDetails() {
   const { apy } = useEarnContext();
 
   if (!apy) {
-    return <Skeleton className="rounded-full! h-7 min-w-28" />;
+    return <Skeleton className="!rounded-full h-7 min-w-28" />;
   }
 
   return (
@@ -85,7 +85,7 @@ export function YieldDetails() {
         type="button"
         data-testid="ock-apyInfoButton"
         className={cn(
-          'size-3 [&_path]:fill-[var(--ock-icon-color-foreground-muted)] [&_path]:transition-colors [&_path]:ease-in-out hover:[&_path]:fill-(--ock-icon-color-foreground)',
+          'size-3 [&_path]:fill-[var(--ock-icon-color-foreground-muted)] [&_path]:transition-colors [&_path]:ease-in-out [&_path]:hover:fill-[var(--ock-icon-color-foreground)]',
           isOpen && '[&_path]:fill-[var(--ock-icon-color-foreground)]',
         )}
         onClick={() => setIsOpen(!isOpen)}

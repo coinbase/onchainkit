@@ -45,7 +45,7 @@ export function SwapSettingsSlippageLayoutBottomSheet({
       <div className="flex flex-col">
         {title}
         <div className="pb-4">{description}</div>
-        {input && <div className="grow">{input}</div>}
+        {input && <div className="flex-grow">{input}</div>}
       </div>
       <div className="mt-4 flex justify-center">
         <div

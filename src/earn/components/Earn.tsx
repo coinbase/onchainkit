@@ -31,7 +31,7 @@ function EarnDefaultContent() {
         value="deposit"
         className={cn(
           border.lineDefault,
-          'border-l-0! border-b-0! border-r-0!',
+          '!border-l-0 !border-b-0 !border-r-0',
         )}
       >
         <EarnDeposit />
@@ -40,7 +40,7 @@ function EarnDefaultContent() {
         value="withdraw"
         className={cn(
           border.lineDefault,
-          'border-l-0! border-b-0! border-r-0!',
+          '!border-l-0 !border-b-0 !border-r-0',
         )}
       >
         <EarnWithdraw />

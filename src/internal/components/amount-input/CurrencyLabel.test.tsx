@@ -13,7 +13,7 @@ describe('CurrencyLabel', () => {
     render(<CurrencyLabel label="$" />);
     const spanElement = screen.getByText('$');
     expect(spanElement).toHaveClass(
-      'flex items-center justify-center bg-transparent text-6xl leading-none outline-hidden',
+      'flex items-center justify-center bg-transparent text-6xl leading-none outline-none',
     );
   });
 });

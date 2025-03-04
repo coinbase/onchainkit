@@ -33,7 +33,7 @@ export function TokenSearch({
           pressable.alternate,
           color.foreground,
           placeholder.default,
-          'w-full rounded-xl py-2 pr-5 pl-12 outline-hidden',
+          'w-full rounded-xl py-2 pr-5 pl-12 outline-none',
           className,
         )}
         placeholder="Search for a token"

@@ -249,7 +249,7 @@ describe('QuantitySelector component', () => {
     expect(mockOnChange).toHaveBeenCalledWith('2');
   });
 
-  it('should reset to minQuantity on blur-sm if no value', () => {
+  it('should reset to minQuantity on blur if no value', () => {
     const { getByTestId } = render(
       <QuantitySelector
         onChange={mockOnChange}

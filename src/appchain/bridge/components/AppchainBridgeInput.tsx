@@ -39,7 +39,7 @@ export function AppchainBridgeInput({
     }
     if (isPriceLoading) {
       return (
-        <div className="h-4 w-16 animate-pulse rounded-sm bg-gray-200 dark:bg-gray-700" />
+        <div className="h-4 w-16 animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
       );
     }
     if (bridgeParams.amountUSD === 'NaN') {
@@ -70,7 +70,7 @@ export function AppchainBridgeInput({
           <button
             type="button"
             className={cn(
-              'cursor-pointer hover:underline focus:outline-hidden',
+              'cursor-pointer hover:underline focus:outline-none',
               text.label2,
             )}
             onClick={() => {
@@ -84,7 +84,7 @@ export function AppchainBridgeInput({
                 '0x0000000000000000000000000000000000000000'
               }
               hasCopyAddressOnClick={false}
-              className={cn(text.label2, 'text-(--ock-text-foreground)!')}
+              className={cn(text.label2, '!text-[var(--ock-text-foreground)]')}
             />
           </button>{' '}
           on <span className="inline-flex h-4 w-4 items-center">{to.icon}</span>
@@ -94,7 +94,7 @@ export function AppchainBridgeInput({
         <TextInput
           className={cn(
             'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
-            'leading-none outline-hidden',
+            'leading-none outline-none',
             color.foreground,
             insufficientBalance && color.error,
           )}
