@@ -7,9 +7,6 @@ const App = () => {
       return (
             <OnchainKitProvider apiKey="07wA865qq-c_9hrX19v9ZWS8aKlTTPec" chain={base}>
                   <YourKit />
-                      </OnchainKitProvider>
+                </OnchainKitProvider>
       );
 };
-    
-      )
-}
