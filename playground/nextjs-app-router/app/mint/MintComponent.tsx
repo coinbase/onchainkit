@@ -28,7 +28,7 @@ export default function MintComponent() {
         <NFTCreator className="-mt-1 pt-0" />
         <NFTMedia />
         <NFTCollectionTitle />
-        <NFTMintButton className="[&_button]:bg-[#0052ff] hover:[&_button]:bg-[#014ceb] active:[&_button]:bg-[#0148dc] disabled:[&_button]:bg-[#80a8ff]" />
+        <NFTMintButton className="[&_button]:bg-[#0052ff] [&_button]:hover:bg-[#014ceb] [&_button]:active:bg-[#0148dc] [&_button]:disabled:bg-[#80a8ff]" />
       </NFTMintCard>
     </main>
   );

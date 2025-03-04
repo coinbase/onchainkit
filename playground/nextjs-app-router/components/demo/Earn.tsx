@@ -1,5 +1,5 @@
 import { AppContext } from '@/components/AppProvider';
-// import { Earn } from '@coinbase/onchainkit/earn';
+import { Earn } from '@coinbase/onchainkit/earn';
 import { useContext } from 'react';
 
 export function EarnDemo() {
@@ -9,5 +9,5 @@ export function EarnDemo() {
     return <div>Please set a vault address</div>;
   }
 
-  // return <Earn vaultAddress={vaultAddress} />;
+  return <Earn vaultAddress={vaultAddress} />;
 }
