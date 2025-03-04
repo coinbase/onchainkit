@@ -26,7 +26,7 @@ export type SendContextType = {
 
   // Sender Context
   /** The balance of the sender's ETH wallet */
-  ethBalance: number;
+  ethBalance: number | undefined;
 
   // Recipient Address Context
   /** The selected recipient address */

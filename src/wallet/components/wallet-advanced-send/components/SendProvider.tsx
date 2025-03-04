@@ -14,6 +14,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import { formatUnits } from 'viem';
@@ -38,10 +39,13 @@ export function useSendContext() {
 }
 
 export function SendProvider({ children }: SendProviderReact) {
-  const [isInitialized, setIsInitialized] = useState(false);
-
   // state for ETH balance
-  const [ethBalance, setEthBalance] = useState<number>(0);
+  const [ethBalance, setEthBalance] = useState<number | undefined>(undefined);
+
+  // derived initialized state
+  const isInitialized = useMemo(() => {
+    return ethBalance !== undefined;
+  }, [ethBalance]);
 
   // state for recipient address selection
   const [selectedRecipientAddress, setSelectedRecipientAddress] =
@@ -91,6 +95,7 @@ export function SendProvider({ children }: SendProviderReact) {
         },
       });
     } else {
+      setEthBalance(0)
       updateLifecycleStatus({
         statusName: 'fundingWallet',
         statusData: {
@@ -98,7 +103,7 @@ export function SendProvider({ children }: SendProviderReact) {
         },
       });
     }
-    setIsInitialized(true);
+    // setIsInitialized(true);
   }, [tokenBalances, updateLifecycleStatus]);
 
   // fetch & set exchange rate
