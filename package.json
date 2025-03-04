@@ -35,6 +35,7 @@
     "react-dom": "^18 || ^19"
   },
   "dependencies": {
+    "@coinbase/onchainkit": "^0.37.5",
     "@tanstack/react-query": "^5",
     "clsx": "^2.1.1",
     "graphql": "^14 || ^15 || ^16",
