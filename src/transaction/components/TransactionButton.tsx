@@ -144,9 +144,10 @@ export function TransactionButton({
         pressable.primary,
         border.radius,
         'w-full rounded-xl',
-        'px-4 py-3 font-medium text-base text-white leading-6',
+        'px-4 py-3 font-medium leading-6',
         isDisabled && pressable.disabled,
         text.headline,
+        color.inverse,
         className,
       )}
       onClick={handleSubmit}
@@ -154,9 +155,7 @@ export function TransactionButton({
       disabled={isDisabled}
       data-testid="ockTransactionButton_Button"
     >
-      <div className={cn(text.headline, color.inverse, 'flex justify-center')}>
-        {buttonContent}
-      </div>
+      {buttonContent}
     </button>
   );
 }
