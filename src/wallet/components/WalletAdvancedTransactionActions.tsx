@@ -2,6 +2,7 @@
 
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { WalletEvent, WalletOption } from '@/core/analytics/types';
+import { Skeleton } from '@/internal/components/Skeleton';
 import { addSvgForeground } from '@/internal/svg/addForegroundSvg';
 import { arrowUpRightSvg } from '@/internal/svg/arrowUpRightSvg';
 import { toggleSvg } from '@/internal/svg/toggleSvg';
@@ -36,7 +37,7 @@ export function WalletAdvancedTransactionActions({
 }: WalletAdvancedTransactionActionsProps) {
   const { address, chain } = useWalletContext();
   const { projectId } = useOnchainKit();
-  const { isFetchingPortfolioData, setShowSwap, animations } =
+  const { isFetchingPortfolioData, setActiveFeature, animations } =
     useWalletAdvancedContext();
   const { sendAnalytics } = useAnalytics();
 
@@ -84,16 +85,11 @@ export function WalletAdvancedTransactionActions({
 
   const handleSwap = useCallback(() => {
     handleAnalyticsOptionSelected(WalletOption.Swap);
-    setShowSwap(true);
-  }, [setShowSwap, handleAnalyticsOptionSelected]);
+    setActiveFeature('swap');
+  }, [setActiveFeature, handleAnalyticsOptionSelected]);
 
   if (isFetchingPortfolioData) {
-    return (
-      <div
-        data-testid="ockWalletAdvanced_LoadingPlaceholder"
-        className="my-3 h-16 w-80"
-      />
-    ); // Prevent layout shift
+    return <Skeleton className="my-3 h-16 w-80" />;
   }
 
   return (

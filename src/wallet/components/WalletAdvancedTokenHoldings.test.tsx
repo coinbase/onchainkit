@@ -65,8 +65,8 @@ describe('WalletAdvancedTokenHoldings', () => {
             'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
           chainId: 8453,
         },
-        balance: 0.42,
-        valueInFiat: 1386,
+        cryptoBalance: 420000000000000,
+        fiatBalance: 1386,
       },
       {
         token: {
@@ -78,8 +78,8 @@ describe('WalletAdvancedTokenHoldings', () => {
             'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
           chainId: 8453,
         },
-        balance: 69,
-        valueInFiat: 69,
+        cryptoBalance: 69000000,
+        fiatBalance: 69,
       },
       {
         token: {
@@ -91,8 +91,8 @@ describe('WalletAdvancedTokenHoldings', () => {
             'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
           chainId: 8453,
         },
-        balance: 0.42,
-        valueInFiat: 1386,
+        cryptoBalance: 420000000000000,
+        fiatBalance: 1386,
       },
     ];
 

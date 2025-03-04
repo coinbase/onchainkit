@@ -43,6 +43,8 @@ describe('WalletAdvancedWalletActions', () => {
   const mockSendAnalytics = vi.fn();
 
   const defaultMockUseWalletAdvancedContext = {
+    setActiveFeature: vi.fn(),
+    refetchPortfolioData: vi.fn(),
     animations: {
       content: '',
     },
@@ -62,12 +64,6 @@ describe('WalletAdvancedWalletActions', () => {
   it('renders the WalletAdvancedWalletActions component', () => {
     const handleCloseMock = vi.fn();
     mockUseWalletContext.mockReturnValue({ handleClose: handleCloseMock });
-
-    const setShowQrMock = vi.fn();
-    mockUseWalletAdvancedContext.mockReturnValue({
-      ...defaultMockUseWalletAdvancedContext,
-      setShowQr: setShowQrMock,
-    });
 
     (useDisconnect as Mock).mockReturnValue({
       disconnect: vi.fn(),
@@ -93,12 +89,6 @@ describe('WalletAdvancedWalletActions', () => {
       handleClose: handleCloseMock,
     });
 
-    const setShowQrMock = vi.fn();
-    mockUseWalletAdvancedContext.mockReturnValue({
-      ...defaultMockUseWalletAdvancedContext,
-      setShowQr: setShowQrMock,
-    });
-
     const disconnectMock = vi.fn();
     (useDisconnect as Mock).mockReturnValue({
       disconnect: disconnectMock,
@@ -117,10 +107,8 @@ describe('WalletAdvancedWalletActions', () => {
   });
 
   it('sets showQr to true when qr button is clicked', () => {
-    const setShowQrMock = vi.fn();
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      setShowQr: setShowQrMock,
     });
 
     render(<WalletAdvancedWalletActions />);
@@ -128,14 +116,14 @@ describe('WalletAdvancedWalletActions', () => {
     const qrButton = screen.getByTestId('ockWalletAdvanced_QrButton');
     fireEvent.click(qrButton);
 
-    expect(setShowQrMock).toHaveBeenCalled();
+    expect(
+      defaultMockUseWalletAdvancedContext.setActiveFeature,
+    ).toHaveBeenCalledWith('qr');
   });
 
   it('refreshes portfolio data when refresh button is clicked', () => {
-    const refetchPortfolioDataMock = vi.fn();
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      refetchPortfolioData: refetchPortfolioDataMock,
     });
 
     render(<WalletAdvancedWalletActions />);
@@ -143,7 +131,9 @@ describe('WalletAdvancedWalletActions', () => {
     const refreshButton = screen.getByTestId('ockWalletAdvanced_RefreshButton');
     fireEvent.click(refreshButton);
 
-    expect(refetchPortfolioDataMock).toHaveBeenCalled();
+    expect(
+      defaultMockUseWalletAdvancedContext.refetchPortfolioData,
+    ).toHaveBeenCalled();
   });
 
   it('opens transaction history when transactions button is clicked', () => {
@@ -250,10 +240,8 @@ describe('WalletAdvancedWalletActions', () => {
     });
 
     it('sends analytics when QR button is clicked', () => {
-      const setShowQrMock = vi.fn();
       mockUseWalletAdvancedContext.mockReturnValue({
         ...defaultMockUseWalletAdvancedContext,
-        setShowQr: setShowQrMock,
       });
 
       render(<WalletAdvancedWalletActions />);
@@ -270,10 +258,8 @@ describe('WalletAdvancedWalletActions', () => {
     });
 
     it('sends analytics when refresh button is clicked', () => {
-      const refetchPortfolioDataMock = vi.fn();
       mockUseWalletAdvancedContext.mockReturnValue({
         ...defaultMockUseWalletAdvancedContext,
-        refetchPortfolioData: refetchPortfolioDataMock,
       });
 
       render(<WalletAdvancedWalletActions />);
