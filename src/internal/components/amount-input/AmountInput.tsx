@@ -15,6 +15,7 @@ type AmountInputProps = {
   setFiatAmount: (value: string) => void;
   setCryptoAmount: (value: string) => void;
   exchangeRate: string;
+  delayMs?: number;
   className?: string;
   textClassName?: string;
 };
@@ -28,6 +29,7 @@ export function AmountInput({
   setFiatAmount,
   setCryptoAmount,
   exchangeRate,
+  delayMs,
   className,
   textClassName,
 }: AmountInputProps) {
@@ -111,6 +113,7 @@ export function AmountInput({
               )}
               value={value}
               onChange={handleAmountChange}
+              delayMs={delayMs}
               inputValidator={isValidAmount}
               ref={inputRef}
               inputMode="decimal"
