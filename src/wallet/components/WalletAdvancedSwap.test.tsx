@@ -84,9 +84,10 @@ describe('WalletAdvancedSwap', () => {
   const mockUseAccount = useAccount as ReturnType<typeof vi.fn>;
 
   const defaultMockUseWalletAdvancedContext = {
-    showSwap: false,
-    setShowSwap: vi.fn(),
-    setIsSwapClosing: vi.fn(),
+    activeFeature: null,
+    setActiveFeature: vi.fn(),
+    isActiveFeatureClosing: false,
+    setIsActiveFeatureClosing: vi.fn(),
     animationClasses: {
       swap: 'animate-slideInFromLeft',
     },
@@ -145,7 +146,7 @@ describe('WalletAdvancedSwap', () => {
   it('should render correctly', () => {
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showSwap: true,
+      activeFeature: 'swap',
     });
 
     render(
@@ -163,7 +164,7 @@ describe('WalletAdvancedSwap', () => {
 
   it('should render correctly based on isSwapClosing state', () => {
     mockUseWalletAdvancedContext.mockReturnValue({
-      isSwapClosing: false,
+      isActiveFeatureClosing: false,
     });
 
     const { rerender } = render(
@@ -182,7 +183,7 @@ describe('WalletAdvancedSwap', () => {
     );
 
     mockUseWalletAdvancedContext.mockReturnValue({
-      isSwapClosing: true,
+      isActiveFeatureClosing: true,
     });
     rerender(
       <WalletAdvancedSwap
@@ -200,14 +201,10 @@ describe('WalletAdvancedSwap', () => {
   });
 
   it('should close swap when back button is clicked', () => {
-    const mockSetShowSwap = vi.fn();
-    const mockSetIsSwapClosing = vi.fn();
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showSwap: true,
+      activeFeature: 'swap',
       tokenHoldings: [tokens],
-      setShowSwap: mockSetShowSwap,
-      setIsSwapClosing: mockSetIsSwapClosing,
     });
 
     const { rerender } = render(
@@ -223,14 +220,14 @@ describe('WalletAdvancedSwap', () => {
 
     const backButton = screen.getByRole('button', { name: /back button/i });
     fireEvent.click(backButton);
-    expect(mockSetIsSwapClosing).toHaveBeenCalledWith(true);
+    expect(
+      defaultMockUseWalletAdvancedContext.setIsActiveFeatureClosing,
+    ).toHaveBeenCalledWith(true);
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       tokenHoldings: [tokens],
-      setShowSwap: mockSetShowSwap,
-      setIsSwapClosing: mockSetIsSwapClosing,
-      isSwapClosing: true,
+      isActiveFeatureClosing: true,
     });
 
     rerender(
@@ -247,14 +244,18 @@ describe('WalletAdvancedSwap', () => {
     const swapContainer = screen.getByTestId('ockWalletAdvancedSwap');
     fireEvent.animationEnd(swapContainer);
 
-    expect(mockSetShowSwap).toHaveBeenCalledWith(false);
-    expect(mockSetIsSwapClosing).toHaveBeenCalledWith(false);
+    expect(
+      defaultMockUseWalletAdvancedContext.setActiveFeature,
+    ).toHaveBeenCalledWith(null);
+    expect(
+      defaultMockUseWalletAdvancedContext.setIsActiveFeatureClosing,
+    ).toHaveBeenCalledWith(false);
   });
 
   it('should apply custom classNames to all elements', () => {
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showSwap: true,
+      activeFeature: 'swap',
     });
 
     const customClassNames = {

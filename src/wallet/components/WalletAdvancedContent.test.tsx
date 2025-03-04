@@ -56,10 +56,8 @@ describe('WalletAdvancedContent', () => {
   >;
 
   const defaultMockUseWalletAdvancedContext = {
-    showSwap: false,
-    isSwapClosing: false,
-    showQr: false,
-    isQrClosing: false,
+    activeFeature: null,
+    isActiveFeatureClosing: false,
     tokenHoldings: [],
     animations: {
       container: '',
@@ -250,10 +248,10 @@ describe('WalletAdvancedContent', () => {
     expect(setIsSubComponentClosing).toHaveBeenCalledWith(false);
   });
 
-  it('renders WalletAdvancedQrReceive when showQr is true', () => {
+  it('renders WalletAdvancedQrReceive when activeFeature is qr', () => {
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showQr: true,
+      activeFeature: 'qr',
     });
 
     render(
@@ -271,10 +269,10 @@ describe('WalletAdvancedContent', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('renders WalletAdvancedSwap when showSwap is true', () => {
+  it('renders WalletAdvancedSwap when activeFeature is swap', () => {
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showSwap: true,
+      activeFeature: 'swap',
     });
 
     render(
@@ -312,7 +310,7 @@ describe('WalletAdvancedContent', () => {
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showSwap: true,
+      activeFeature: 'swap',
       tokenBalances: mockTokenBalances,
     });
 
@@ -349,8 +347,7 @@ describe('WalletAdvancedContent', () => {
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showQr: true,
-      showSwap: false,
+      activeFeature: 'qr',
     });
 
     const customClassNames = {
@@ -380,8 +377,7 @@ describe('WalletAdvancedContent', () => {
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showQr: false,
-      showSwap: true,
+      activeFeature: 'swap',
     });
 
     rerender(
@@ -419,8 +415,7 @@ describe('WalletAdvancedContent', () => {
 
     mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
-      showQr: true,
-      showSwap: false,
+      activeFeature: 'qr',
     });
 
     const customClassNames = {
