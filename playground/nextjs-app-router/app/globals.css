@@ -1,6 +1,80 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-*: initial;
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --radius-*: initial;
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+  --background-image-gradient-conic: conic-gradient(
+    from 180deg at 50% 50%,
+    var(--tw-gradient-stops)
+  );
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
 
 @layer base {
   :root {
@@ -59,9 +133,10 @@
   }
 }
 
-/* Customize existing Theme */
+@layer utilities {
+  /* Customize existing Theme */
 
-/* @layer base {
+  /* @layer base {
   :root,
   .default-light,
   .default-dark,
@@ -69,15 +144,14 @@
   .cyberpunk,
   .hacker {
     /* Override specific variables as needed */
-    /* --ock-font-family: 'your-custom-value';
+  /* --ock-font-family: 'your-custom-value';
     --ock-border-radius: 'your-custom-value';
     --ock-text-primary: 'your-custom-value'; */
   /* }
-}  */ 
+}  */
 
-
-/* Create your own custom Theme*/
-/* 
+  /* Create your own custom Theme*/
+  /* 
 Usage: 
   config={{
     appearance: {
@@ -93,57 +167,58 @@ Usage:
     },
   }}
 */
-.custom-light {
-  --ock-bg-primary: red;
-}
+  .custom-light {
+    --ock-bg-primary: red;
+  }
 
-.custom-dark {
-  --ock-font-family: 'DM Sans', sans-serif;
-  --ock-border-radius: 0.5rem;
-  --ock-border-radius-inner: 0.25rem;
-  --ock-text-inverse: #1f2937;
-  --ock-text-foreground: #f9fafb;
-  --ock-text-foreground-muted: #9ca3af;
-  --ock-text-error: #d1d5db;
-  --ock-text-primary: #f3f4f6;
-  --ock-text-success: #9ca3af;
-  --ock-text-warning: #d1d5db;
-  --ock-text-disabled: #4b5563;
+  .custom-dark {
+    --ock-font-family: 'DM Sans', sans-serif;
+    --ock-border-radius: 0.5rem;
+    --ock-border-radius-inner: 0.25rem;
+    --ock-text-inverse: #1f2937;
+    --ock-text-foreground: #f9fafb;
+    --ock-text-foreground-muted: #9ca3af;
+    --ock-text-error: #d1d5db;
+    --ock-text-primary: #f3f4f6;
+    --ock-text-success: #9ca3af;
+    --ock-text-warning: #d1d5db;
+    --ock-text-disabled: #4b5563;
 
-  --ock-bg-default: #111827;
-  --ock-bg-default-hover: #1f2937;
-  --ock-bg-default-active: #374151;
-  --ock-bg-alternate: #1f2937;
-  --ock-bg-alternate-hover: #374151;
-  --ock-bg-alternate-active: #4b5563;
-  --ock-bg-inverse: #0f172a;
-  --ock-bg-inverse-hover: #1e293b;
-  --ock-bg-inverse-active: #334155;
-  --ock-bg-primary: green;
-  --ock-bg-primary-hover: #6b7280;
-  --ock-bg-primary-active: #9ca3af;
-  --ock-bg-primary-washed: #1f2937;
-  --ock-bg-primary-disabled: #374151;
-  --ock-bg-secondary: #1f2937;
-  --ock-bg-secondary-hover: #374151;
-  --ock-bg-secondary-active: #4b5563;
-  --ock-bg-error: #991b1b;
-  --ock-bg-warning: #92400e;
-  --ock-bg-success: #065f46;
-  --ock-bg-default-reverse: #f9fafb;
+    --ock-bg-default: #111827;
+    --ock-bg-default-hover: #1f2937;
+    --ock-bg-default-active: #374151;
+    --ock-bg-alternate: #1f2937;
+    --ock-bg-alternate-hover: #374151;
+    --ock-bg-alternate-active: #4b5563;
+    --ock-bg-inverse: #0f172a;
+    --ock-bg-inverse-hover: #1e293b;
+    --ock-bg-inverse-active: #334155;
+    --ock-bg-primary: green;
+    --ock-bg-primary-hover: #6b7280;
+    --ock-bg-primary-active: #9ca3af;
+    --ock-bg-primary-washed: #1f2937;
+    --ock-bg-primary-disabled: #374151;
+    --ock-bg-secondary: #1f2937;
+    --ock-bg-secondary-hover: #374151;
+    --ock-bg-secondary-active: #4b5563;
+    --ock-bg-error: #991b1b;
+    --ock-bg-warning: #92400e;
+    --ock-bg-success: #065f46;
+    --ock-bg-default-reverse: #f9fafb;
 
-  --ock-icon-color-primary: #9ca3af;
-  --ock-icon-color-foreground: #f9fafb;
-  --ock-icon-color-foreground-muted: #9ca3af;
-  --ock-icon-color-inverse: #1f2937;
-  --ock-icon-color-error: #f87171;
-  --ock-icon-color-success: #34d399;
-  --ock-icon-color-warning: #fbbf24;
+    --ock-icon-color-primary: #9ca3af;
+    --ock-icon-color-foreground: #f9fafb;
+    --ock-icon-color-foreground-muted: #9ca3af;
+    --ock-icon-color-inverse: #1f2937;
+    --ock-icon-color-error: #f87171;
+    --ock-icon-color-success: #34d399;
+    --ock-icon-color-warning: #fbbf24;
 
-  --ock-line-primary: #6b7280;
-  --ock-line-default: #374151;
-  --ock-line-heavy: #4b5563;
-  --ock-line-inverse: #e5e7eb;
+    --ock-line-primary: #6b7280;
+    --ock-line-default: #374151;
+    --ock-line-heavy: #4b5563;
+    --ock-line-inverse: #e5e7eb;
+  }
 }
 
 @layer base {
