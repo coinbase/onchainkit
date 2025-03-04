@@ -372,7 +372,6 @@ export function CheckoutProvider({
     updateLifecycleStatus,
     writeContractsAsync,
     handleAnalytics,
-    receipt,
     productId,
   ]);
 
