@@ -118,6 +118,18 @@ describe('Send', () => {
       // expect(SendAddressSelection).not.toHaveBeenCalled();
     });
 
+    it('renders a placeholder when wallet has sufficient ETH', () => {
+      vi.mocked(useSendContext).mockReturnValue({
+        isInitialized: true,
+        ethBalance: 0,
+      } as SendContextType);
+
+      render(<Send />);
+
+      expect(SendHeader).toHaveBeenCalled();
+      expect(screen.getByText('This wallet has ETH.')).toBeInTheDocument();
+    });
+
     // it('renders SendAddressSelection when wallet has sufficient ETH', () => {
     //   vi.mocked(useSendContext).mockReturnValue({
     //     isInitialized: true,
