@@ -582,38 +582,12 @@ describe('CheckoutProvider', () => {
         expect(sendAnalytics).toHaveBeenCalledWith(
           CheckoutEvent.CheckoutInitiated,
           {
+            address: '0x123',
             amount: 10,
             productId: 'test-product',
           },
         );
       });
-    });
-
-    it('should track checkout success', async () => {
-      const mockTransactionHash = '0xabc123';
-
-      sendAnalytics.mockReset();
-
-      sendAnalytics(CheckoutEvent.CheckoutSuccess, {
-        address: '0x123',
-        amount: 10,
-        productId: 'test-product',
-        chargeHandlerId: 'test-charge-id',
-        isSponsored: true,
-        transactionHash: mockTransactionHash,
-      });
-
-      expect(sendAnalytics).toHaveBeenCalledWith(
-        CheckoutEvent.CheckoutSuccess,
-        {
-          address: '0x123',
-          amount: 10,
-          productId: 'test-product',
-          chargeHandlerId: 'test-charge-id',
-          isSponsored: true,
-          transactionHash: mockTransactionHash,
-        },
-      );
     });
 
     it('should track checkout failure', async () => {
@@ -662,6 +636,7 @@ describe('CheckoutProvider', () => {
           1,
           CheckoutEvent.CheckoutInitiated,
           {
+            address: '0x123',
             amount: 0,
             productId: 'test-product',
           },

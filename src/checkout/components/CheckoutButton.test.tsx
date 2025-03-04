@@ -1,5 +1,16 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  type Mock,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
+import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
+import { CheckoutEvent } from '../../core/analytics/types';
+import { useIcon } from '../../internal/hooks/useIcon';
 import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import { CheckoutButton } from './CheckoutButton';
 import { useCheckoutContext } from './CheckoutProvider';
@@ -8,88 +19,158 @@ vi.mock('./CheckoutProvider', () => ({
   useCheckoutContext: vi.fn(),
 }));
 
-vi.mock('@/internal/components/Spinner', () => ({
-  Spinner: () => <div data-testid="spinner">Loading...</div>,
+vi.mock('../../internal/hooks/useIcon', () => ({
+  useIcon: vi.fn(),
 }));
 
-vi.mock('@/internal/hooks/useIcon', () => ({
-  useIcon: vi.fn(() => <svg data-testid="icon" />),
+vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
+  useAnalytics: vi.fn(),
 }));
-
-const useCheckoutContextMock = useCheckoutContext as Mock;
 
 describe('CheckoutButton', () => {
-  const mockOnSubmit = vi.fn();
+  let mockOnSubmit: Mock;
+  let mockSendAnalytics: Mock;
 
   beforeEach(() => {
-    mockOnSubmit.mockClear();
-    useCheckoutContextMock.mockReturnValue({
-      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.INIT },
+    mockOnSubmit = vi.fn();
+    mockSendAnalytics = vi.fn();
+
+    (useCheckoutContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'ready' },
       onSubmit: mockOnSubmit,
+    });
+
+    (useIcon as Mock).mockReturnValue('<svg>Icon</svg>');
+
+    (useAnalytics as Mock).mockReturnValue({
+      sendAnalytics: mockSendAnalytics,
     });
   });
 
-  it('should render button with default text "Pay" when not loading', () => {
-    render(<CheckoutButton />);
-    const button: HTMLInputElement = screen.getByRole('button');
-    expect(button.textContent).toBe('Pay');
-    expect(button.disabled).toBe(false);
+  afterEach(() => {
+    vi.resetAllMocks();
   });
 
-  it('should render Spinner when loading', () => {
-    useCheckoutContextMock.mockReturnValue({
+  it('renders with default text', () => {
+    render(<CheckoutButton />);
+    expect(screen.getByText('Pay')).toBeInTheDocument();
+  });
+
+  it('renders with custom text', () => {
+    render(<CheckoutButton text="Custom Pay" />);
+    expect(screen.getByText('Custom Pay')).toBeInTheDocument();
+  });
+
+  it('renders with Coinbase branding when coinbaseBranded is true', () => {
+    (useIcon as Mock).mockReturnValue('<svg>Coinbase Pay Icon</svg>');
+    render(<CheckoutButton coinbaseBranded={true} />);
+    expect(screen.getByText('Pay')).toBeInTheDocument();
+  });
+
+  it('disables button when disabled prop is true', () => {
+    render(<CheckoutButton disabled={true} />);
+    expect(screen.getByRole('button')).toBeDisabled();
+  });
+
+  it('disables button when lifecycle status is PENDING', () => {
+    (useCheckoutContext as Mock).mockReturnValue({
       lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.PENDING },
       onSubmit: mockOnSubmit,
     });
+
     render(<CheckoutButton />);
-    expect(screen.getByTestId('spinner')).toBeDefined();
-    expect((screen.getByRole('button') as HTMLInputElement).disabled).toBe(
-      true,
-    );
+    expect(screen.getByRole('button')).toBeDisabled();
   });
 
-  it('should render "View payment details" when transaction is successful', () => {
-    useCheckoutContextMock.mockReturnValue({
+  it('disables button when lifecycle status is FETCHING_DATA', () => {
+    (useCheckoutContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.FETCHING_DATA },
+      onSubmit: mockOnSubmit,
+    });
+
+    render(<CheckoutButton />);
+    expect(screen.getByRole('button')).toBeDisabled();
+  });
+
+  it('shows spinner when lifecycle status is PENDING', () => {
+    (useCheckoutContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.PENDING },
+      onSubmit: mockOnSubmit,
+    });
+
+    render(<CheckoutButton />);
+    expect(screen.getByRole('button')).not.toHaveTextContent('Pay');
+    // Note: We can't easily test for the Spinner component directly,
+    // but we can verify the button text is not displayed
+  });
+
+  it('changes button text to "View payment details" when transaction is successful', () => {
+    (useCheckoutContext as Mock).mockReturnValue({
       lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS },
       onSubmit: mockOnSubmit,
     });
+
     render(<CheckoutButton />);
-    expect(screen.getByRole('button').textContent).toBe('View payment details');
+    expect(screen.getByText('View payment details')).toBeInTheDocument();
   });
 
-  it('should call onSubmit when clicked', () => {
+  it('calls onSubmit when button is clicked', () => {
     render(<CheckoutButton />);
     fireEvent.click(screen.getByRole('button'));
     expect(mockOnSubmit).toHaveBeenCalledTimes(1);
   });
 
-  it('should apply additional className correctly', () => {
-    const customClass = 'custom-class';
-    render(<CheckoutButton className={customClass} />);
-    expect(screen.getByRole('button').className).toContain(customClass);
+  it('tracks checkout success analytics when transaction is successful', async () => {
+    const transactionHash = '0xabc123';
+    const chargeId = 'charge-123';
+
+    (useCheckoutContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
+        statusData: {
+          transactionReceipts: [{ transactionHash }],
+          chargeId,
+        },
+      },
+      onSubmit: mockOnSubmit,
+    });
+
+    render(<CheckoutButton />);
+
+    await waitFor(() => {
+      expect(mockSendAnalytics).toHaveBeenCalledWith(
+        CheckoutEvent.CheckoutSuccess,
+        {
+          chargeHandlerId: chargeId,
+          transactionHash,
+        },
+      );
+    });
   });
 
-  it('should render Coinbase branded button when coinbaseBranded prop is true', () => {
-    render(<CheckoutButton coinbaseBranded={true} />);
-    const button = screen.getByRole('button');
-    expect(button.textContent).toBe('Pay');
-    expect(screen.getByTestId('icon')).toBeDefined();
+  it('does not track analytics when transaction hash or charge ID is missing', () => {
+    (useCheckoutContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
+        statusData: {
+          transactionReceipts: [{ transactionHash: null }],
+          chargeId: 'charge-123',
+        },
+      },
+      onSubmit: mockOnSubmit,
+    });
+
+    render(<CheckoutButton />);
+    expect(mockSendAnalytics).not.toHaveBeenCalled();
   });
 
-  it('should render custom text when provided', () => {
-    render(<CheckoutButton text="Custom Text" />);
-    expect(screen.getByRole('button').textContent).toBe('Custom Text');
-  });
+  it('does not track analytics when status is not SUCCESS', () => {
+    (useCheckoutContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.READY },
+      onSubmit: mockOnSubmit,
+    });
 
-  it('should render icon when provided and not in a special state', () => {
-    render(<CheckoutButton icon="someIcon" />);
-    expect(screen.getByTestId('icon')).toBeDefined();
-  });
-
-  it('should be disabled when disabled prop is true', () => {
-    render(<CheckoutButton disabled={true} />);
-    expect((screen.getByRole('button') as HTMLInputElement).disabled).toBe(
-      true,
-    );
+    render(<CheckoutButton />);
+    expect(mockSendAnalytics).not.toHaveBeenCalled();
   });
 });

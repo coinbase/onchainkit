@@ -186,7 +186,6 @@ export function CheckoutProvider({
     if (!receipt) {
       return;
     }
-
     updateLifecycleStatus({
       statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
       statusData: {
@@ -195,14 +194,7 @@ export function CheckoutProvider({
         receiptUrl: `https://commerce.coinbase.com/pay/${chargeId}/receipt`,
       },
     });
-  }, [
-    chargeId,
-    receipt,
-    updateLifecycleStatus,
-    address,
-    isSponsored,
-    productId,
-  ]);
+  }, [chargeId, receipt, updateLifecycleStatus]);
 
   // We need to pre-load transaction data in `useEffect` when the wallet is already connected due to a Smart Wallet popup blocking issue in Safari iOS
   useEffect(() => {
@@ -216,12 +208,19 @@ export function CheckoutProvider({
     }
   }, [address, fetchData, lifecycleStatus]);
 
+  const handleAnalytics = useCallback(
+    (event: CheckoutEvent, data: AnalyticsEventData[CheckoutEvent]) => {
+      sendAnalytics(event, data);
+    },
+    [sendAnalytics],
+  );
+
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component to deprecate funding flow
   const handleSubmit = useCallback(async () => {
     try {
       handleAnalytics(CheckoutEvent.CheckoutInitiated, {
         address,
-        amount: Number(priceInUSDCRef.current || 0),
+        amount: Number(priceInUSDCRef.current),
         productId: productId || '',
       });
 
@@ -372,15 +371,10 @@ export function CheckoutProvider({
     switchChainAsync,
     updateLifecycleStatus,
     writeContractsAsync,
+    handleAnalytics,
+    receipt,
     productId,
   ]);
-
-  const handleAnalytics = useCallback(
-    (event: CheckoutEvent, data: AnalyticsEventData[CheckoutEvent]) => {
-      sendAnalytics(event, data);
-    },
-    [sendAnalytics],
-  );
 
   const value = useValue({
     errorMessage,
