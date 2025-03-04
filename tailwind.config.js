@@ -3,9 +3,8 @@
 import tailwindcssAnimate from 'tailwindcss-animate';
 
 export default {
-  content: ['./src/**/*.{ts,tsx}'],
+  content: ['./src/**/*.{ts,tsx}'], // I think we can remove in v4
   darkMode: ['class'],
-  safelist: ['dark'],
   theme: {
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
