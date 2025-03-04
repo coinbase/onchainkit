@@ -29,7 +29,7 @@ export async function getPriceQuote(
     );
     if (res.error) {
       return {
-        code: `${res.error.code}`,
+        code: String(res.error.code),
         error: 'Error fetching price quote',
         message: res.error.message,
       };
@@ -51,7 +51,7 @@ function validateGetPriceQuoteParams(params: GetPriceQuoteParams) {
     return {
       code: 'INVALID_INPUT',
       error: 'Invalid input: tokens must be an array of at least one token',
-      message: '',
+      message: 'Tokens must be an array of at least one token',
     };
   }
 
