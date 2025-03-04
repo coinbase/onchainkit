@@ -2,47 +2,60 @@ import { getPriceQuote } from '@/api';
 import type { PriceQuoteToken } from '@/api/types';
 import { RequestContext } from '@/core/network/constants';
 import { isApiError } from '@/internal/utils/isApiResponseError';
-import type { Dispatch, SetStateAction } from 'react';
+import { useEffect, useState } from 'react';
 
 type UseExchangeRateParams = {
   token: PriceQuoteToken;
   selectedInputType: 'crypto' | 'fiat';
-  setExchangeRate: Dispatch<SetStateAction<number>>;
-  setExchangeRateLoading?: Dispatch<SetStateAction<boolean>>;
 };
 
-export async function useExchangeRate({
+type ExchangeRate = number | undefined;
+
+export function useExchangeRate({
   token,
   selectedInputType,
-  setExchangeRate,
-  setExchangeRateLoading,
 }: UseExchangeRateParams) {
-  if (!token) {
-    return;
-  }
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [exchangeRate, setExchangeRate] = useState<ExchangeRate>(undefined);
+  const [error, setError] = useState<string | null>(null);
 
-  setExchangeRateLoading?.(true);
-
-  try {
-    const response = await getPriceQuote(
-      { tokens: [token] },
-      RequestContext.Wallet,
-    );
-    if (isApiError(response)) {
-      console.error('Error fetching price quote:', response.error);
+  useEffect(() => {
+    if (!token) {
       return;
     }
-    const priceQuote = response.priceQuote[0];
 
-    const rate =
-      selectedInputType === 'crypto'
-        ? 1 / Number(priceQuote.price)
-        : Number(priceQuote.price);
+    setIsLoading(true);
+    setError(null);
 
-    setExchangeRate(rate);
-  } catch (error) {
-    console.error('Uncaught error fetching price quote:', error);
-  } finally {
-    setExchangeRateLoading?.(false);
-  }
+    getPriceQuote({ tokens: [token] }, RequestContext.Wallet)
+      .then((response) => {
+        if (isApiError(response)) {
+          setError(response.error);
+          setExchangeRate(undefined);
+          console.error('Error fetching price quote:', response.error);
+        } else {
+          const priceQuote = response.priceQuote[0];
+
+          const rate =
+            selectedInputType === 'crypto'
+              ? 1 / Number(priceQuote.price)
+              : Number(priceQuote.price);
+
+          setExchangeRate(rate);
+          setError(null);
+        }
+      })
+      .catch((error) => {
+        console.error('Uncaught error fetching price quote:', error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [token, selectedInputType]);
+
+  return {
+    isLoading,
+    exchangeRate,
+    error,
+  };
 }
