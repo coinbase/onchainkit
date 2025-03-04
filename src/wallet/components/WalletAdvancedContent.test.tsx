@@ -42,6 +42,14 @@ vi.mock('./WalletAdvancedSwap', () => ({
   ),
 }));
 
+vi.mock('./wallet-advanced-send/components/Send', () => ({
+  Send: ({ className }: { className?: string }) => (
+    <div data-testid="ockWalletAdvancedSend" className={className}>
+      WalletAdvancedSend
+    </div>
+  ),
+}));
+
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
   WalletProvider: ({ children }: { children: React.ReactNode }) => (
@@ -267,6 +275,9 @@ describe('WalletAdvancedContent', () => {
     expect(
       screen.queryByTestId('ockWalletAdvancedSwap'),
     ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('ockWalletAdvancedSend'),
+    ).not.toBeInTheDocument();
   });
 
   it('renders WalletAdvancedSwap when activeFeature is swap', () => {
@@ -285,6 +296,31 @@ describe('WalletAdvancedContent', () => {
     expect(screen.queryByTestId('ockWalletAdvancedSwap')).toBeInTheDocument();
     expect(
       screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('ockWalletAdvancedSend'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('renders WalletAdvancedSend when activeFeature is send', () => {
+    mockUseWalletAdvancedContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
+      activeFeature: 'send',
+    });
+
+    render(
+      <WalletAdvancedContent>
+        <div>WalletAdvancedContent</div>
+      </WalletAdvancedContent>,
+    );
+
+    expect(screen.getByTestId('ockWalletAdvancedSend')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletAdvancedSend')).toBeInTheDocument();
+    expect(
+      screen.queryByTestId('ockWalletAdvancedQrReceive'),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('ockWalletAdvancedSwap'),
     ).not.toBeInTheDocument();
   });
 

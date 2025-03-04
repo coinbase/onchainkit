@@ -214,7 +214,7 @@ export type WalletAdvancedReact = {
   };
 };
 
-export type WalletAdvancedFeature = 'qr' | 'swap';
+export type WalletAdvancedFeature = 'qr' | 'swap' | 'send';
 
 /**
  * Note: exported as public Type
