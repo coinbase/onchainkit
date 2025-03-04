@@ -613,7 +613,7 @@ describe('ConnectWallet', () => {
       expect(mockSendAnalytics).toHaveBeenCalledWith(
         WalletEvent.ConnectInitiated,
         {
-          component: 'ConnectWallet',
+          component: 'WalletModal',
           walletProvider: 'TestConnector',
         },
       );
