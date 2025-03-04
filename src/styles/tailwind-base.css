@@ -1,6 +1,67 @@
 @import 'tailwindcss';
 
+@config {
+  /* Font families */
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'DM Sans', sans-serif;
+
+  /* Spacing */
+  --spacing-88: 22rem;
+  --spacing-120: 30rem;
+
+  /* Animation plugin */
+  --plugins: tailwindcss-animate;
+
+  /* Content paths */
+  --content: './src/**/*.{ts,tsx}';
+
+  /* Dark mode configuration */
+  --dark-mode: class;
+  --safelist: dark;
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
 @layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer utilities {
+  .animate-enterRight {
+    @apply animate-in slide-in-from-right-8 fade-in duration-500;
+  }
+
+  .animate-enterUp {
+    @apply animate-in slide-in-from-bottom-8 fade-in duration-500;
+  }
+
+  .animate-enterDown {
+    @apply animate-in slide-in-from-top-8 fade-in duration-500;
+  }
+
+  .scrollbar-hidden {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+}
+
+/* Theme definitions */
+@layer theme {
   :root,
   .light,
   .default-light {
@@ -152,7 +213,7 @@
   }
 
   .cyberpunk {
-    --ock-font-family: 'DM Sans', sans-serif;
+    --ock-font-family: 'Oxanium', sans-serif;
     --ock-border-radius: 0.125rem;
     --ock-border-radius-inner: 0rem;
     --ock-text-inverse: var(--color-gray-950);
@@ -247,63 +308,5 @@
     --ock-line-default: var(--color-zinc-300);
     --ock-line-heavy: var(--color-zinc-500);
     --ock-line-inverse: var(--color-zinc-700);
-  }
-}
-
-@layer components {
-  .animate-enterRight {
-    animation: enterRight 500ms ease-out forwards;
-  }
-
-  .animate-enterUp {
-    animation: enterUp 500ms ease-out forwards;
-  }
-
-  .animate-enterDown {
-    animation: enterDown 500ms ease-out forwards;
-  }
-
-  @keyframes enterRight {
-    from {
-      opacity: 0;
-      transform: translateX(2rem);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes enterUp {
-    from {
-      opacity: 0;
-      transform: translateY(2rem);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes enterDown {
-    from {
-      opacity: 0;
-      transform: translateY(-2rem);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
-
-@layer utilities {
-  /* Chrome, Safari and Opera */
-  .scrollbar-hidden::-webkit-scrollbar {
-    display: none;
-  }
-
-  .scrollbar-hidden {
-    scrollbar-width: none; /* Firefox */
   }
 }

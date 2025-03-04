@@ -28,7 +28,7 @@ export function NFTOwner({ className, label = 'Owned by' }: NFTOwnerReact) {
     >
       <div className={cn(color.foregroundMuted)}>{label}</div>
       <Identity
-        className={cn('!bg-inherit space-x-1 px-0 [&>div]:space-x-2')}
+        className={cn('bg-inherit! space-x-1 px-0 [&>div]:space-x-2')}
         address={ownerAddress}
         schemaId={schemaId}
       >

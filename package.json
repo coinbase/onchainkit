@@ -5,14 +5,14 @@
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "scripts": {
-    "build": "packemon build --addEngines --addFiles --loadConfigs --declaration && tscpaths -p tsconfig.esm.json -s ./src -o ./esm && npx packemon validate --no-license --no-people --no-repo && npx @tailwindcss/cli -c ./tailwind.config.js -i ./src/styles/index.css -o ./src/tailwind.css --minify && npx @tailwindcss/cli -c ./tailwind.config.js -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
+    "build": "packemon build --addEngines --addFiles --loadConfigs --declaration && tscpaths -p tsconfig.esm.json -s ./src -o ./esm && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
     "check": "biome check --write .",
     "check:unsafe": "biome check . --fix --unsafe",
     "ci:check": "biome ci --formatter-enabled=false --linter-enabled=false",
     "ci:format": "biome ci --linter-enabled=false --organize-imports-enabled=false",
     "ci:lint": "biome ci --formatter-enabled=false --organize-imports-enabled=false",
     "cp": "cp -R src site/docs/pages",
-    "dev:watch": "concurrently \"npx @tailwindcss/cli -c ./tailwind.config.js -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch\" \"tsup\"",
+    "dev:watch": "concurrently \"tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch\" \"tsup\"",
     "format": "biome format --write .",
     "lint": "biome lint --write .",
     "lint:unsafe": "biome lint --write --unsafe .",
@@ -26,8 +26,8 @@
     "release:check": "changeset status --verbose --since=origin/main",
     "release:publish": "yarn install && yarn build && changeset publish",
     "release:version": "changeset version && yarn install --immutable",
-    "watch": "npx @tailwindcss/cli -c ./tailwind.config.js -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch",
-    "watch:tailwind": "npx @tailwindcss/cli -c ./tailwind.config.js -i ./src/styles/index.css -o ./src/tailwind.css --watch"
+    "watch": "tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch",
+    "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch"
   },
   "peerDependencies": {
     "@types/react": "^18 || ^19",
@@ -58,7 +58,6 @@
     "@storybook/react-vite": "^8.2.9",
     "@storybook/test": "^8.2.9",
     "@storybook/test-runner": "^0.19.1",
-    "@tailwindcss/cli": "^4.0.9",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^14.2.0",
     "@types/qrcode": "^1",
@@ -73,7 +72,6 @@
     "graphql-request": "^6.1.0",
     "jsdom": "^24.1.0",
     "packemon": "3.3.1",
-    "postcss": "^8.4.35",
     "react": "^18",
     "react-dom": "^18",
     "rimraf": "^5.0.5",
