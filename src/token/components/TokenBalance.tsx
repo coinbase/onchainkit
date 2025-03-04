@@ -36,7 +36,7 @@ export function TokenBalance({
           />
         </button>
         {onActionPress && (
-          <TokenBalanceActionButton
+          <ActionButton
             actionText={actionText}
             onActionPress={onActionPress}
             className={classNames?.action}
@@ -60,7 +60,7 @@ export function TokenBalance({
         classNames={classNames}
       />
       {onActionPress && (
-        <TokenBalanceActionButton
+        <ActionButton
           actionText={actionText}
           onActionPress={onActionPress}
           className={classNames?.action}
@@ -140,7 +140,7 @@ function TokenBalanceContent({
   );
 }
 
-function TokenBalanceActionButton({
+function ActionButton({
   actionText,
   onActionPress,
   className,
