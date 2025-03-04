@@ -1,13 +1,13 @@
-import { AppContext } from '@/components/AppProvider';
-import { Earn } from '@coinbase/onchainkit/earn';
-import { useContext } from 'react';
+// import { AppContext } from '@/components/AppProvider';
+// import { Earn } from '@coinbase/onchainkit/earn';
+// import { useContext } from 'react';
 
-export function EarnDemo() {
-  const { vaultAddress } = useContext(AppContext);
+// export function EarnDemo() {
+//   const { vaultAddress } = useContext(AppContext);
 
-  if (!vaultAddress) {
-    return <div>Please set a vault address</div>;
-  }
+//   if (!vaultAddress) {
+//     return <div>Please set a vault address</div>;
+//   }
 
-  return <Earn vaultAddress={vaultAddress} />;
-}
+//   return <Earn vaultAddress={vaultAddress} />;
+// }
