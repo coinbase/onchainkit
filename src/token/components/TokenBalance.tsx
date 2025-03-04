@@ -153,11 +153,6 @@ function TokenBalanceActionButton({
       data-testid="ockTokenBalanceAction"
       aria-label={actionText}
       onClick={onActionPress}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          onActionPress?.();
-        }
-      }}
       className={cn(
         text.label2,
         color.primary,
