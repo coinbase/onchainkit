@@ -38,6 +38,7 @@
     "@coinbase/onchainkit": "^0.37.5",
     "@tanstack/react-query": "^5",
     "@vercel/analytics": "^1.5.0",
+    "@vercel/blob": "^0.27.2",
     "clsx": "^2.1.1",
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
@@ -82,7 +83,7 @@
     "tscpaths": "^0.0.9",
     "tsup": "^8.3.5",
     "typescript": "~5.3.3",
-    "vite": "^5.3.3",
+    "vite": "^6.2.0",
     "vitest": "^3.0.5"
   },
   "resolutions": {
