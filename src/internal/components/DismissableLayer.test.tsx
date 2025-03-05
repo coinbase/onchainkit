@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DismissableLayer } from './DismissableLayer';
 
@@ -43,6 +43,55 @@ describe('DismissableLayer', () => {
     );
 
     fireEvent.keyDown(document, { key: 'Escape' });
+    expect(onDismiss).not.toHaveBeenCalled();
+  });
+
+  it('does not call onDismiss when keys other than Escape are pressed', () => {
+    render(
+      <DismissableLayer onDismiss={onDismiss}>
+        <div>Test Content</div>
+      </DismissableLayer>,
+    );
+
+    fireEvent.keyDown(document, { key: 'Enter' });
+    fireEvent.keyDown(document, { key: 'Tab' });
+    fireEvent.keyDown(document, { key: ' ' });
+    fireEvent.keyDown(document, { key: 'ArrowDown' });
+    
+    expect(onDismiss).not.toHaveBeenCalled();
+  });
+
+  it('calls onDismiss when Escape key is pressed with modifier keys', () => {
+    render(
+      <DismissableLayer onDismiss={onDismiss}>
+        <div>Test Content</div>
+      </DismissableLayer>,
+    );
+
+    fireEvent.keyDown(document, { key: 'Escape', shiftKey: true });
+    expect(onDismiss).toHaveBeenCalledTimes(1);
+    onDismiss.mockClear();
+
+    fireEvent.keyDown(document, { key: 'Escape', ctrlKey: true });
+    expect(onDismiss).toHaveBeenCalledTimes(1);
+    onDismiss.mockClear();
+
+    fireEvent.keyDown(document, { key: 'Escape', altKey: true });
+    expect(onDismiss).toHaveBeenCalledTimes(1);
+    onDismiss.mockClear();
+
+    fireEvent.keyDown(document, { key: 'Escape', metaKey: true });
+    expect(onDismiss).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not react to keyup events for Escape key', () => {
+    render(
+      <DismissableLayer onDismiss={onDismiss}>
+        <div>Test Content</div>
+      </DismissableLayer>,
+    );
+
+    fireEvent.keyUp(document, { key: 'Escape' });
     expect(onDismiss).not.toHaveBeenCalled();
   });
 
@@ -203,7 +252,6 @@ describe('DismissableLayer', () => {
     );
 
     const event = new Event('pointerdown', { bubbles: true });
-    // Create a non-Node object as target
     Object.defineProperty(event, 'target', { value: {} });
     document.dispatchEvent(event);
 
