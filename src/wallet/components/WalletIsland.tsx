@@ -22,7 +22,7 @@ export function WalletIsland({
 
   return (
     <Wallet draggable={true} draggableStartingPosition={startingPosition}>
-      <ConnectWallet className="!rounded-full m-0 flex h-14 w-14 min-w-14 flex-col items-center justify-center p-0">
+      <ConnectWallet className="rounded-full! m-0 flex h-14 w-14 min-w-14 flex-col items-center justify-center p-0">
         <ConnectWalletText>
           <div className="h-5 w-5">{portfolioSvg}</div>
         </ConnectWalletText>

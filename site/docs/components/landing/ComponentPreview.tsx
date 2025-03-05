@@ -162,7 +162,7 @@ function ComponentList({
   };
 
   return (
-    <div className="w-full md:w-[300px] lg:flex-shrink-0">
+    <div className="w-full md:w-[300px] lg:shrink-0">
       <h3 className="pb-4 font-medium text-3xl text-zinc-900 dark:text-zinc-100">
         Ready-to-use components
       </h3>
