@@ -1,4 +1,5 @@
 import { getAvatar } from '@/identity/utils/getAvatar';
+import { DEFAULT_QUERY_OPTIONS } from '@/internal/constants';
 import { useQuery } from '@tanstack/react-query';
 import { mainnet } from 'viem/chains';
 import type {
@@ -14,14 +15,30 @@ export const useAvatar = (
   { ensName, chain = mainnet }: UseAvatarOptions,
   queryOptions?: UseQueryOptions,
 ) => {
-  const { enabled = true, cacheTime } = queryOptions ?? {};
+  const { enabled, cacheTime, staleTime, refetchOnWindowFocus } = {
+    ...DEFAULT_QUERY_OPTIONS,
+    ...queryOptions,
+  };
+
+  const queryKey = ['useAvatar', ensName, chain.id];
+
   return useQuery<GetAvatarReturnType>({
-    queryKey: ['useAvatar', ensName, chain.id],
+    queryKey,
     queryFn: async () => {
-      return getAvatar({ ensName, chain });
+      console.log(
+        `[useAvatar] Cache MISS - Fetching avatar for ENS: ${ensName} on chain: ${chain.id}`,
+      );
+      const result = await getAvatar({ ensName, chain });
+      console.log(`[useAvatar] Fetch completed with result:`, result);
+      return result;
     },
     gcTime: cacheTime,
+    staleTime: staleTime,
     enabled,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus,
+    select: (data: GetAvatarReturnType) => {
+      console.log(`[useAvatar] Query SUCCESS - Data loaded`);
+      return data;
+    },
   });
 };

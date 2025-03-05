@@ -1,4 +1,5 @@
 import { getName } from '@/identity/utils/getName';
+import { DEFAULT_QUERY_OPTIONS } from '@/internal/constants';
 import { useQuery } from '@tanstack/react-query';
 import { mainnet } from 'viem/chains';
 import type {
@@ -17,14 +18,30 @@ export const useName = (
   { address, chain = mainnet }: UseNameOptions,
   queryOptions?: UseQueryOptions,
 ) => {
-  const { enabled = true, cacheTime } = queryOptions ?? {};
+  const { enabled, cacheTime, staleTime, refetchOnWindowFocus } = {
+    ...DEFAULT_QUERY_OPTIONS,
+    ...queryOptions,
+  };
+
+  const queryKey = ['useName', address, chain.id];
+
   return useQuery<GetNameReturnType>({
-    queryKey: ['useName', address, chain.id],
+    queryKey,
     queryFn: async () => {
-      return await getName({ address, chain });
+      console.log(
+        `[useName] Cache MISS - Fetching name for address: ${address} on chain: ${chain.id}`,
+      );
+      const result = await getName({ address, chain });
+      console.log(`[useName] Fetch completed with result:`, result);
+      return result;
     },
     gcTime: cacheTime,
+    staleTime: staleTime,
     enabled,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus,
+    select: (data: GetNameReturnType) => {
+      console.log(`[useName] Query SUCCESS - Data loaded`);
+      return data;
+    },
   });
 };
