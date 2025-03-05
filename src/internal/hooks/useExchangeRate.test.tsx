@@ -26,7 +26,7 @@ describe('useExchangeRate', () => {
     const resolvedValue = await result.current;
     expect(resolvedValue).toEqual({
       isLoading: false,
-      exchangeRate: undefined,
+      exchangeRate: 0,
       error: null,
     });
     expect(mockSetExchangeRate).not.toHaveBeenCalled();
