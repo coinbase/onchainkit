@@ -37,7 +37,7 @@ export function useSendContext() {
 export function SendProvider({ children }: SendProviderReact) {
   // state for ETH balance
   const [ethBalance, setEthBalance] = useState<number | undefined>(undefined);
-  const isInitialized = useMemo(() => ethBalance !== undefined, [ethBalance]);
+  const isInitialized = ethBalance !== undefined;
 
   // state for recipient address selection
   const [selectedRecipientAddress, setSelectedRecipientAddress] =

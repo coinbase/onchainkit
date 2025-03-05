@@ -5,7 +5,7 @@ import { isApiError } from '@/internal/utils/isApiResponseError';
 import { useEffect, useState } from 'react';
 
 type UseExchangeRateParams = {
-  token: PriceQuoteToken | undefined | '';
+  token: PriceQuoteToken | undefined;
   selectedInputType: 'crypto' | 'fiat';
 };
 

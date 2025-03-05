@@ -21,9 +21,6 @@ export function SendAmountInputTypeSwitch({
     selectedInputType,
     setSelectedInputType,
   } = useSendContext();
-
-  // AmountInputTypeSwitch uses a skeleton for both loading and error states
-  // SendAmountInputTypeSwitch uses skeleton for the loading display but a custom error display (see loadingDisplay default)
   if (exchangeRateLoading) {
     return <Skeleton className="h-[1.625rem]" />;
   }
