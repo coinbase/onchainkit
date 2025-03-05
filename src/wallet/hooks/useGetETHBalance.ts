@@ -21,23 +21,6 @@ export function useGetETHBalance(address?: Address): UseGetETHBalanceResponse {
     },
   });
 
-  // Log cache hits/misses
-  useMemo(() => {
-    if (ethBalanceResponse.isSuccess) {
-      console.log(`[useGetETHBalance] Query SUCCESS - Data loaded`);
-    }
-    if (ethBalanceResponse.isError) {
-      console.error(
-        `[useGetETHBalance] Query ERROR:`,
-        ethBalanceResponse.error,
-      );
-    }
-  }, [
-    ethBalanceResponse.isSuccess,
-    ethBalanceResponse.isError,
-    ethBalanceResponse.error,
-  ]);
-
   return useMemo(() => {
     let error: SwapError | undefined;
     if (ethBalanceResponse?.error) {
@@ -58,16 +41,17 @@ export function useGetETHBalance(address?: Address): UseGetETHBalanceResponse {
       };
     }
 
-    const formattedBalance = formatUnits(
-      ethBalanceResponse?.data?.value ?? 0n,
+    const convertedBalance = formatUnits(
+      ethBalanceResponse?.data?.value,
       ETH_DECIMALS,
     );
-    const convertedBalance = getRoundedAmount(formattedBalance, 8);
-
+    
+    const roundedBalance = getRoundedAmount(convertedBalance, 8);
     return {
       convertedBalance,
       error,
       response: ethBalanceResponse,
+      roundedBalance,
     };
   }, [ethBalanceResponse]);
 }
