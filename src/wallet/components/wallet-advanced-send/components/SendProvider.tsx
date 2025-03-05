@@ -1,8 +1,4 @@
-import type {
-  APIError,
-  PortfolioTokenWithFiatValue,
-  PriceQuoteToken,
-} from '@/api/types';
+import type { APIError, PortfolioTokenWithFiatValue } from '@/api/types';
 import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useSendTransaction } from '@/internal/hooks/useSendTransaction';
@@ -41,11 +37,7 @@ export function useSendContext() {
 export function SendProvider({ children }: SendProviderReact) {
   // state for ETH balance
   const [ethBalance, setEthBalance] = useState<number | undefined>(undefined);
-
-  // derived initialized state
-  const isInitialized = useMemo(() => {
-    return ethBalance !== undefined;
-  }, [ethBalance]);
+  const isInitialized = useMemo(() => ethBalance !== undefined, [ethBalance]);
 
   // state for recipient address selection
   const [selectedRecipientAddress, setSelectedRecipientAddress] =
@@ -62,9 +54,6 @@ export function SendProvider({ children }: SendProviderReact) {
   );
   const [fiatAmount, setFiatAmount] = useState<string | null>(null);
   const [cryptoAmount, setCryptoAmount] = useState<string | null>(null);
-  const [exchangeRate, setExchangeRate] = useState<number>(0);
-  const [exchangeRateLoading, setExchangeRateLoading] =
-    useState<boolean>(false);
 
   // state for transaction data
   const [callData, setCallData] = useState<Call | null>(null);
@@ -78,59 +67,59 @@ export function SendProvider({ children }: SendProviderReact) {
       },
     });
 
+  const hasSufficientBalance = useMemo(() => {
+    if (!selectedToken) {
+      return false;
+    }
+
+    if (selectedInputType === 'fiat') {
+      return Number(fiatAmount) <= selectedToken.fiatBalance;
+    }
+
+    return (
+      Number(cryptoAmount) <=
+      Number(
+        formatUnits(
+          BigInt(selectedToken.cryptoBalance),
+          selectedToken.decimals,
+        ),
+      )
+    );
+  }, [selectedInputType, selectedToken, cryptoAmount, fiatAmount]);
+
   // fetch & set ETH balance
   const { tokenBalances } = useWalletAdvancedContext();
   useEffect(() => {
     const ethBalance = tokenBalances?.find((token) => token.address === '');
-    if (ethBalance && ethBalance.cryptoBalance > 0) {
-      setEthBalance(
-        Number(
-          formatUnits(BigInt(ethBalance.cryptoBalance), ethBalance.decimals),
-        ),
-      );
-      updateLifecycleStatus({
-        statusName: 'selectingAddress',
-        statusData: {
-          isMissingRequiredField: true,
-        },
-      });
-    } else {
-      setEthBalance(0)
+    if (!ethBalance || ethBalance.cryptoBalance === 0) {
+      setEthBalance(0);
       updateLifecycleStatus({
         statusName: 'fundingWallet',
         statusData: {
           isMissingRequiredField: true,
         },
       });
+      return;
     }
-    // setIsInitialized(true);
+
+    setEthBalance(
+      Number(
+        formatUnits(BigInt(ethBalance.cryptoBalance), ethBalance.decimals),
+      ),
+    );
+    updateLifecycleStatus({
+      statusName: 'selectingAddress',
+      statusData: {
+        isMissingRequiredField: true,
+      },
+    });
   }, [tokenBalances, updateLifecycleStatus]);
 
   // fetch & set exchange rate
-  useEffect(() => {
-    if (!selectedToken) {
-      return;
-    }
-
-    const tokenSymbol = selectedToken.symbol;
-    const tokenAddress = selectedToken.address;
-    let tokenParam: PriceQuoteToken;
-
-    if (tokenSymbol === 'ETH') {
-      tokenParam = 'ETH' as const;
-    } else if (tokenAddress !== '') {
-      tokenParam = tokenAddress;
-    } else {
-      return;
-    }
-
-    useExchangeRate({
-      token: tokenParam,
-      selectedInputType,
-      setExchangeRate,
-      setExchangeRateLoading,
-    });
-  }, [selectedToken, selectedInputType]);
+  const { isLoading: exchangeRateLoading, exchangeRate } = useExchangeRate({
+    token: selectedToken?.symbol === 'ETH' ? 'ETH' : selectedToken?.address,
+    selectedInputType,
+  });
 
   // handlers
   const handleRecipientInputChange = useCallback(() => {
@@ -177,7 +166,6 @@ export function SendProvider({ children }: SendProviderReact) {
     setSelectedToken(null);
     setFiatAmount(null);
     setCryptoAmount(null);
-    setExchangeRate(0);
     updateLifecycleStatus({
       statusName: 'selectingToken',
       statusData: {
@@ -193,12 +181,11 @@ export function SendProvider({ children }: SendProviderReact) {
         statusName: 'amountChange',
         statusData: {
           isMissingRequiredField: true,
-          sufficientBalance:
-            Number(value) <= Number(selectedToken?.fiatBalance),
+          sufficientBalance: hasSufficientBalance,
         },
       });
     },
-    [updateLifecycleStatus, selectedToken],
+    [updateLifecycleStatus, hasSufficientBalance],
   );
 
   const handleCryptoAmountChange = useCallback(
@@ -209,18 +196,11 @@ export function SendProvider({ children }: SendProviderReact) {
         statusName: 'amountChange',
         statusData: {
           isMissingRequiredField: true,
-          sufficientBalance:
-            Number(value) <=
-            Number(
-              formatUnits(
-                BigInt(selectedToken?.cryptoBalance ?? 0),
-                selectedToken?.decimals ?? 0,
-              ),
-            ),
+          sufficientBalance: hasSufficientBalance,
         },
       });
     },
-    [updateLifecycleStatus, selectedToken],
+    [updateLifecycleStatus, hasSufficientBalance],
   );
 
   const handleTransactionError = useCallback(
@@ -251,9 +231,10 @@ export function SendProvider({ children }: SendProviderReact) {
       });
       if ('error' in calls) {
         handleTransactionError(calls);
-      } else {
-        setCallData(calls);
+        return;
       }
+
+      setCallData(calls);
     } catch (error) {
       handleTransactionError({
         code: 'UNCAUGHT_SEND_TRANSACTION_ERROR',
