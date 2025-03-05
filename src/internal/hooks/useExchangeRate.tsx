@@ -49,6 +49,7 @@ export function useExchangeRate({
         setError(null);
       })
       .catch((error) => {
+        setError(String(error));
         console.error('Uncaught error fetching price quote:', error);
       })
       .finally(() => {
