@@ -26,7 +26,7 @@ export const useAvatar = (
     queryKey,
     queryFn: () => getAvatar({ ensName, chain }),
     gcTime: cacheTime,
-    staleTime: staleTime,
+    staleTime,
     enabled,
     refetchOnWindowFocus,
   });

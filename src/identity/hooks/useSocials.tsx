@@ -25,7 +25,7 @@ export const useSocials = (
     queryKey,
     queryFn: () => getSocials({ ensName, chain }),
     gcTime: cacheTime,
-    staleTime: staleTime,
+    staleTime,
     enabled,
     refetchOnWindowFocus,
   });

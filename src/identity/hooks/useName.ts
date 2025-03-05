@@ -29,7 +29,7 @@ export const useName = (
     queryKey,
     queryFn: () => getName({ address, chain }),
     gcTime: cacheTime,
-    staleTime: staleTime,
+    staleTime,
     enabled,
     refetchOnWindowFocus,
   });
