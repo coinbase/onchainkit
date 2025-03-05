@@ -1,6 +1,6 @@
 import { Skeleton } from '@/internal/components/Skeleton';
 import { AmountInputTypeSwitch } from '@/internal/components/amount-input/AmountInputTypeSwitch';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { SendAmountInputTypeSwitch } from './SendAmountInputTypeSwitch';
 import { useSendContext } from './SendProvider';
@@ -38,21 +38,29 @@ describe('SendAmountInputTypeSwitch', () => {
     (useSendContext as Mock).mockReturnValue(defaultContext);
   });
 
-  it('passes an error state when exchange rate is invalid', () => {
-    const mockLoadingDisplay = <div>test-loading-display</div>;
+  it('renders a default error state when exchange rate is invalid', () => {
     (useSendContext as Mock).mockReturnValue({
       ...defaultContext,
       exchangeRate: 0,
     });
 
-    render(<SendAmountInputTypeSwitch loadingDisplay={mockLoadingDisplay} />);
-    expect(AmountInputTypeSwitch).toHaveBeenCalledWith(
-      expect.objectContaining({
-        loadingDisplay: mockLoadingDisplay,
-        exchangeRate: 0,
-      }),
-      {},
+    render(<SendAmountInputTypeSwitch />);
+    expect(
+      screen.queryByTestId('ockSendAmountInputTypeSwitch_ErrorDisplay'),
+    ).toBeInTheDocument();
+  });
+
+  it('renders a custom error state when exchange rate is invalid and errorDisplay is provided', () => {
+    const mockErrorDisplay = (
+      <div data-testid="error-display">test-error-display</div>
     );
+    (useSendContext as Mock).mockReturnValue({
+      ...defaultContext,
+      exchangeRate: 0,
+    });
+
+    render(<SendAmountInputTypeSwitch errorDisplay={mockErrorDisplay} />);
+    expect(screen.queryByTestId('error-display')).toBeInTheDocument();
   });
 
   it('shows skeleton when exchange rate is loading', () => {
@@ -66,15 +74,9 @@ describe('SendAmountInputTypeSwitch', () => {
   });
 
   it('passes correct props to AmountInput', () => {
-    const mockLoadingDisplay = <div>test-loading-display</div>;
     (useSendContext as Mock).mockReturnValue(defaultContext);
 
-    render(
-      <SendAmountInputTypeSwitch
-        className="test-class"
-        loadingDisplay={mockLoadingDisplay}
-      />,
-    );
+    render(<SendAmountInputTypeSwitch className="test-class" />);
     expect(AmountInputTypeSwitch).toHaveBeenCalledWith(
       {
         asset: defaultContext.selectedToken.symbol,
@@ -86,7 +88,6 @@ describe('SendAmountInputTypeSwitch', () => {
         selectedInputType: defaultContext.selectedInputType,
         setSelectedInputType: defaultContext.setSelectedInputType,
         className: 'test-class',
-        loadingDisplay: <div>test-loading-display</div>,
       },
       {},
     );
@@ -94,7 +95,6 @@ describe('SendAmountInputTypeSwitch', () => {
 
   it('handles null/undefined values correctly', () => {
     const mockSetSelectedInputType = vi.fn();
-    const mockLoadingDisplay = <div>test-loading-display</div>;
 
     (useSendContext as Mock).mockReturnValue({
       selectedToken: null,
@@ -106,7 +106,7 @@ describe('SendAmountInputTypeSwitch', () => {
       setSelectedInputType: mockSetSelectedInputType,
     });
 
-    render(<SendAmountInputTypeSwitch loadingDisplay={mockLoadingDisplay} />);
+    render(<SendAmountInputTypeSwitch />);
 
     expect(AmountInputTypeSwitch).toHaveBeenCalledWith(
       {
@@ -119,7 +119,6 @@ describe('SendAmountInputTypeSwitch', () => {
         selectedInputType: 'fiat',
         setSelectedInputType: mockSetSelectedInputType,
         className: undefined,
-        loadingDisplay: mockLoadingDisplay,
       },
       {},
     );

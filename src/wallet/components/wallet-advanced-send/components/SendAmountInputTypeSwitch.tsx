@@ -4,16 +4,12 @@ import { cn, color, text } from '@/styles/theme';
 import { useSendContext } from './SendProvider';
 
 type SendAmountInputTypeSwitchProps = {
+  errorDisplay?: React.ReactNode;
   className?: string;
-  loadingDisplay?: React.ReactNode;
 };
 
 export function SendAmountInputTypeSwitch({
-  loadingDisplay = (
-    <div className={cn(text.caption, color.foregroundMuted, 'h-[1.625rem]')}>
-      Exchange rate unavailable
-    </div>
-  ),
+  errorDisplay,
   className,
 }: SendAmountInputTypeSwitchProps) {
   const {
@@ -32,6 +28,21 @@ export function SendAmountInputTypeSwitch({
     return <Skeleton className="h-[1.625rem]" />;
   }
 
+  if (!exchangeRate) {
+    if (errorDisplay) {
+      return errorDisplay;
+    }
+
+    return (
+      <div
+        data-testid="ockSendAmountInputTypeSwitch_ErrorDisplay"
+        className={cn(text.caption, color.foregroundMuted, 'h-[1.625rem]')}
+      >
+        Exchange rate unavailable
+      </div>
+    );
+  }
+
   return (
     <AmountInputTypeSwitch
       asset={selectedToken?.symbol ?? ''}
@@ -39,7 +50,6 @@ export function SendAmountInputTypeSwitch({
       cryptoAmount={cryptoAmount ?? ''}
       exchangeRate={exchangeRate}
       exchangeRateLoading={false}
-      loadingDisplay={loadingDisplay}
       currency="USD"
       selectedInputType={selectedInputType}
       setSelectedInputType={setSelectedInputType}
