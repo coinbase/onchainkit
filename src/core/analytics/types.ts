@@ -163,8 +163,6 @@ export type WalletEventData = {
   [WalletEvent.ConnectInitiated]: CommonAnalyticsData & {
     /** Component used to connect wallet */
     component: string;
-    /** Coinbase, Metamask, Phantom, etc. */
-    walletProvider: string;
   };
   [WalletEvent.ConnectError]: CommonAnalyticsData & {
     error: string;
@@ -172,6 +170,7 @@ export type WalletEventData = {
   };
   [WalletEvent.ConnectSuccess]: CommonAnalyticsData & {
     address: string;
+    /** Coinbase, Metamask, Phantom, etc. */
     walletProvider: string;
   };
   [WalletEvent.Disconnect]: CommonAnalyticsData & {

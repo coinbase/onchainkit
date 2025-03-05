@@ -148,7 +148,6 @@ describe('ConnectWallet', () => {
       WalletEvent.ConnectInitiated,
       {
         component: 'ConnectWallet',
-        walletProvider: 'TestConnector',
       },
     );
 
@@ -614,7 +613,6 @@ describe('ConnectWallet', () => {
         WalletEvent.ConnectInitiated,
         {
           component: 'WalletModal',
-          walletProvider: 'TestConnector',
         },
       );
     });
@@ -636,7 +634,6 @@ describe('ConnectWallet', () => {
         WalletEvent.ConnectInitiated,
         {
           component: 'ConnectWallet',
-          walletProvider: 'TestConnector',
         },
       );
     });
