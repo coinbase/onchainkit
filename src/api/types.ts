@@ -397,15 +397,15 @@ export type GetPriceQuoteParams = {
 
 type PriceQuote = {
   /** The name of the token */
-  name: string | '';
+  name: string;
   /** The symbol of the token */
-  symbol: string | '';
+  symbol: string;
   /** The contract address of the token */
   contractAddress: Address | '';
   /** The price of the token */
-  price: string | '';
+  price: string;
   /** The timestamp of the price quote */
-  timestamp: number | 0;
+  timestamp: number;
 };
 
 /**
