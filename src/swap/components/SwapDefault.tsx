@@ -1,16 +1,10 @@
 'use client';
 import type { SwapDefaultReact } from '../types';
 import { Swap } from './Swap';
-import { SwapAmountInput } from './SwapAmountInput';
-import { SwapButton } from './SwapButton';
-import { SwapMessage } from './SwapMessage';
-import { SwapSettings } from './SwapSettings';
-import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
-import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
-import { SwapSettingsSlippageTitle } from './SwapSettingsSlippageTitle';
-import { SwapToast } from './SwapToast';
-import { SwapToggleButton } from './SwapToggleButton';
 
+/**
+ * @deprecated Use the `Swap` component instead with no 'children' props.
+ */
 export function SwapDefault({
   config,
   className,
@@ -34,31 +28,9 @@ export function SwapDefault({
       isSponsored={isSponsored}
       title={title}
       experimental={experimental}
-    >
-      <SwapSettings>
-        <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
-        <SwapSettingsSlippageDescription>
-          Your swap will revert if the prices change by more than the selected
-          percentage.
-        </SwapSettingsSlippageDescription>
-        <SwapSettingsSlippageInput />
-      </SwapSettings>
-      <SwapAmountInput
-        label="Sell"
-        swappableTokens={from}
-        token={from?.[0]}
-        type="from"
-      />
-      <SwapToggleButton />
-      <SwapAmountInput
-        label="Buy"
-        swappableTokens={to}
-        token={to?.[0]}
-        type="to"
-      />
-      <SwapButton disabled={disabled} />
-      <SwapMessage />
-      <SwapToast />
-    </Swap>
+      to={to}
+      from={from}
+      disabled={disabled}
+    />
   );
 }
