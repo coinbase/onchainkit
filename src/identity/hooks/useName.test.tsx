@@ -123,4 +123,66 @@ describe('useName', () => {
       );
     });
   });
+
+  it('respects the enabled option in queryOptions', async () => {
+    const testEnsName = 'test.ens';
+
+    // Mock the getEnsName method of the publicClient
+    mockGetEnsName.mockResolvedValue(testEnsName);
+
+    // Use the renderHook function to create a test harness for the useName hook with enabled: false
+    const { result } = renderHook(
+      () => useName({ address: testAddress }, { enabled: false }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    // The query should not be executed
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.isFetched).toBe(false);
+    expect(mockGetEnsName).not.toHaveBeenCalled();
+  });
+
+  it('uses the default query options when no queryOptions are provided', async () => {
+    const testEnsName = 'test.ens';
+
+    // Mock the getEnsName method of the publicClient
+    mockGetEnsName.mockResolvedValue(testEnsName);
+
+    // Use the renderHook function to create a test harness for the useName hook
+    renderHook(() => useName({ address: testAddress }), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
+
+    // Wait for the hook to finish fetching the ENS name
+    await waitFor(() => {
+      // Check that the default query options were used
+      expect(mockGetEnsName).toHaveBeenCalled();
+    });
+  });
+
+  it('merges custom queryOptions with default options', async () => {
+    const testEnsName = 'test.ens';
+    const customCacheTime = 120000; // 2 minutes
+
+    // Mock the getEnsName method of the publicClient
+    mockGetEnsName.mockResolvedValue(testEnsName);
+
+    // Use the renderHook function to create a test harness for the useName hook with custom cacheTime
+    const { result } = renderHook(
+      () => useName({ address: testAddress }, { cacheTime: customCacheTime }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    // Wait for the hook to finish fetching the ENS name
+    await waitFor(() => {
+      expect(result.current.data).toBe(testEnsName);
+    });
+
+    // The query should be executed with the custom cacheTime
+    expect(mockGetEnsName).toHaveBeenCalled();
+  });
 });

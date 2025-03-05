@@ -36,6 +36,7 @@ export function useGetETHBalance(address?: Address): UseGetETHBalanceResponse {
     ) {
       return {
         convertedBalance: '',
+        roundedBalance: '',
         error,
         response: ethBalanceResponse,
       };
