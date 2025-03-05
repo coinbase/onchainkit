@@ -23,16 +23,10 @@ export const useSocials = (
 
   return useQuery<GetSocialsReturnType>({
     queryKey,
-    queryFn: async () => {
-      const result = await getSocials({ ensName, chain });
-      return result;
-    },
+    queryFn: () => getSocials({ ensName, chain }),
     gcTime: cacheTime,
     staleTime: staleTime,
     enabled,
     refetchOnWindowFocus,
-    select: (data: GetSocialsReturnType) => {
-      return data;
-    },
   });
 };

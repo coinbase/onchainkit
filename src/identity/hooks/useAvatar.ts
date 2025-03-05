@@ -24,16 +24,10 @@ export const useAvatar = (
 
   return useQuery<GetAvatarReturnType>({
     queryKey,
-    queryFn: async () => {
-      const result = await getAvatar({ ensName, chain });
-      return result;
-    },
+    queryFn: () => getAvatar({ ensName, chain }),
     gcTime: cacheTime,
     staleTime: staleTime,
     enabled,
     refetchOnWindowFocus,
-    select: (data: GetAvatarReturnType) => {
-      return data;
-    },
   });
 };

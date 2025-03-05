@@ -27,16 +27,10 @@ export const useName = (
 
   return useQuery<GetNameReturnType>({
     queryKey,
-    queryFn: async () => {
-      const result = await getName({ address, chain });
-      return result;
-    },
+    queryFn: () => getName({ address, chain }),
     gcTime: cacheTime,
     staleTime: staleTime,
     enabled,
     refetchOnWindowFocus,
-    select: (data: GetNameReturnType) => {
-      return data;
-    },
   });
 };
