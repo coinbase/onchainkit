@@ -1,4 +1,6 @@
-@tailwind base;
+@import 'tailwindcss';
+
+@config "../../tailwind.config.js";
 
 @layer base {
   :root,
@@ -277,5 +279,3 @@
     -ms-overflow-style: none; /* IE and Edge */
   }
 }
-
-@tailwind components;
