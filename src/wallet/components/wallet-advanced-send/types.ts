@@ -50,7 +50,7 @@ export type SendContextType = {
   /** Handler for the selection of an input type */
   setSelectedInputType: Dispatch<SetStateAction<'fiat' | 'crypto'>>;
   /** The exchange rate for the selected token */
-  exchangeRate: number | undefined;
+  exchangeRate: number;
   /** Whether the exchange rate is loading */
   exchangeRateLoading: boolean | undefined;
   /** The fiat amount selected by the user for the send transaction */
