@@ -14,26 +14,25 @@ describe('useExchangeRate', () => {
     vi.resetAllMocks();
   });
 
-  it('should return undefined without calling setExchangeRate if a token is not provided', async () => {
+  it('should return empty values without calling setExchangeRate if a token is not provided', async () => {
     const mockSetExchangeRate = vi.fn();
     const { result } = renderHook(() =>
       useExchangeRate({
         token: undefined as unknown as PriceQuoteToken,
         selectedInputType: 'crypto',
-        setExchangeRate: mockSetExchangeRate,
-        setExchangeRateLoading: vi.fn(),
       }),
     );
 
     const resolvedValue = await result.current;
-    expect(resolvedValue).toBeUndefined();
+    expect(resolvedValue).toEqual({
+      isLoading: false,
+      exchangeRate: undefined,
+      error: null,
+    });
     expect(mockSetExchangeRate).not.toHaveBeenCalled();
   });
 
   it('should set the correct exchange rate when the selected input type is crypto', async () => {
-    const mockSetExchangeRate = vi.fn();
-    const mockSetExchangeRateLoading = vi.fn();
-
     (getPriceQuote as Mock).mockResolvedValue({
       priceQuote: [
         {
@@ -46,24 +45,19 @@ describe('useExchangeRate', () => {
       ],
     });
 
-    renderHook(() =>
+    const { result } = renderHook(() =>
       useExchangeRate({
         token: ethToken.symbol as PriceQuoteToken,
         selectedInputType: 'crypto',
-        setExchangeRate: mockSetExchangeRate,
-        setExchangeRateLoading: mockSetExchangeRateLoading,
       }),
     );
 
     await waitFor(() => {
-      expect(mockSetExchangeRate).toHaveBeenCalledWith(1 / 2400);
+      expect(result.current.exchangeRate).toEqual(1 / 2400);
     });
   });
 
   it('should set the correct the exchange rate when the selected input type is fiat', async () => {
-    const mockSetExchangeRate = vi.fn();
-    const mockSetExchangeRateLoading = vi.fn();
-
     (getPriceQuote as Mock).mockResolvedValue({
       priceQuote: [
         {
@@ -76,60 +70,44 @@ describe('useExchangeRate', () => {
       ],
     });
 
-    renderHook(() =>
+    const { result } = renderHook(() =>
       useExchangeRate({
         token: ethToken.symbol as PriceQuoteToken,
         selectedInputType: 'fiat',
-        setExchangeRate: mockSetExchangeRate,
-        setExchangeRateLoading: mockSetExchangeRateLoading,
       }),
     );
 
     await waitFor(() => {
-      expect(mockSetExchangeRate).toHaveBeenCalledWith(2400);
+      expect(result.current.exchangeRate).toEqual(2400);
     });
   });
 
   it('should log an error and not set the exchange rate when the api call returns an error', async () => {
-    const mockSetExchangeRate = vi.fn();
-    const mockSetExchangeRateLoading = vi.fn();
-    const consoleSpy = vi.spyOn(console, 'error');
-
     (getPriceQuote as Mock).mockResolvedValue({
       error: 'test error',
     });
 
-    renderHook(() =>
+    const { result } = renderHook(() =>
       useExchangeRate({
         token: ethToken.symbol as PriceQuoteToken,
         selectedInputType: 'fiat',
-        setExchangeRate: mockSetExchangeRate,
-        setExchangeRateLoading: mockSetExchangeRateLoading,
       }),
     );
 
     await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith(
-        'Error fetching price quote:',
-        'test error',
-      );
-      expect(mockSetExchangeRate).not.toHaveBeenCalled();
+      expect(result.current.error).toEqual('test error');
     });
   });
 
   it('should log an error and not set the exchange rate when the api fails', async () => {
-    const mockSetExchangeRate = vi.fn();
-    const mockSetExchangeRateLoading = vi.fn();
     const consoleSpy = vi.spyOn(console, 'error');
 
     (getPriceQuote as Mock).mockRejectedValue(new Error('test error'));
 
-    renderHook(() =>
+    const { result } = renderHook(() =>
       useExchangeRate({
         token: ethToken.symbol as PriceQuoteToken,
         selectedInputType: 'fiat',
-        setExchangeRate: mockSetExchangeRate,
-        setExchangeRateLoading: mockSetExchangeRateLoading,
       }),
     );
 
@@ -138,14 +116,11 @@ describe('useExchangeRate', () => {
         'Uncaught error fetching price quote:',
         expect.any(Error),
       );
-      expect(mockSetExchangeRate).not.toHaveBeenCalled();
+      expect(result.current.error).toEqual('Error: test error');
     });
   });
 
   it('should set and unset loading state', async () => {
-    const mockSetExchangeRate = vi.fn();
-    const mockSetExchangeRateLoading = vi.fn();
-
     (getPriceQuote as Mock).mockResolvedValue({
       priceQuote: [
         {
@@ -158,18 +133,19 @@ describe('useExchangeRate', () => {
       ],
     });
 
-    renderHook(() =>
+    const { result } = renderHook(() =>
       useExchangeRate({
         token: ethToken.symbol as PriceQuoteToken,
         selectedInputType: 'crypto',
-        setExchangeRate: mockSetExchangeRate,
-        setExchangeRateLoading: mockSetExchangeRateLoading,
       }),
     );
 
     await waitFor(() => {
-      expect(mockSetExchangeRateLoading).toHaveBeenCalledWith(true);
-      expect(mockSetExchangeRateLoading).toHaveBeenLastCalledWith(false);
+      expect(result.current.isLoading).toEqual(true);
+    });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toEqual(false);
     });
   });
 });
