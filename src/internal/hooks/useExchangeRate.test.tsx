@@ -14,7 +14,7 @@ describe('useExchangeRate', () => {
     vi.resetAllMocks();
   });
 
-  it('should return empty values without calling setExchangeRate if a token is not provided', async () => {
+  it('should return nullish values without calling setExchangeRate if a token is not provided', async () => {
     const mockSetExchangeRate = vi.fn();
     const { result } = renderHook(() =>
       useExchangeRate({
