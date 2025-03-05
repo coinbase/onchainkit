@@ -117,7 +117,7 @@ export function SendProvider({ children }: SendProviderReact) {
 
   // fetch & set exchange rate
   const { isLoading: exchangeRateLoading, exchangeRate } = useExchangeRate({
-    token: selectedToken?.symbol === 'ETH' ? 'ETH' : selectedToken?.address,
+    token: selectedToken?.address === '' ? 'ETH' : selectedToken?.address,
     selectedInputType,
   });
 
