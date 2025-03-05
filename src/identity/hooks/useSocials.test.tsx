@@ -48,7 +48,6 @@ describe('useSocials', () => {
   });
 
   it('respects the enabled option in queryOptions', async () => {
-    // Use the renderHook function to create a test harness for the useSocials hook with enabled: false
     const { result } = renderHook(
       () => useSocials({ ensName: testEnsName }, { enabled: false }),
       {
@@ -56,14 +55,12 @@ describe('useSocials', () => {
       },
     );
 
-    // The query should not be executed
     expect(result.current.isLoading).toBe(false);
     expect(result.current.isFetched).toBe(false);
     expect(mockGetSocials).not.toHaveBeenCalled();
   });
 
   it('uses the default query options when no queryOptions are provided', async () => {
-    // Mock the getSocials function to return some data
     mockGetSocials.mockResolvedValue({
       twitter: 'twitterHandle',
       github: 'githubUsername',
@@ -71,24 +68,20 @@ describe('useSocials', () => {
       website: 'https://example.com',
     });
 
-    // Use the renderHook function to create a test harness for the useSocials hook
     const { result } = renderHook(() => useSocials({ ensName: testEnsName }), {
       wrapper: getNewReactQueryTestProvider(),
     });
 
-    // Wait for the hook to finish fetching the socials
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    // The query should be executed with the default options
     expect(mockGetSocials).toHaveBeenCalled();
   });
 
   it('merges custom queryOptions with default options', async () => {
-    const customStaleTime = 60000; // 1 minute
+    const customStaleTime = 60000;
 
-    // Mock the getSocials function to return some data
     mockGetSocials.mockResolvedValue({
       twitter: 'twitterHandle',
       github: 'githubUsername',
@@ -96,7 +89,6 @@ describe('useSocials', () => {
       website: 'https://example.com',
     });
 
-    // Use the renderHook function to create a test harness for the useSocials hook with custom staleTime
     const { result } = renderHook(
       () =>
         useSocials({ ensName: testEnsName }, { staleTime: customStaleTime }),
@@ -105,12 +97,10 @@ describe('useSocials', () => {
       },
     );
 
-    // Wait for the hook to finish fetching the socials
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    // The query should be executed with the custom staleTime
     expect(mockGetSocials).toHaveBeenCalled();
   });
 });
