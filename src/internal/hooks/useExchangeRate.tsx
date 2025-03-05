@@ -5,7 +5,7 @@ import { isApiError } from '@/internal/utils/isApiResponseError';
 import { useEffect, useState } from 'react';
 
 type UseExchangeRateParams = {
-  token: PriceQuoteToken;
+  token: PriceQuoteToken | undefined | '';
   selectedInputType: 'crypto' | 'fiat';
 };
 
@@ -21,6 +21,9 @@ export function useExchangeRate({
 
   useEffect(() => {
     if (!token) {
+      setIsLoading(false);
+      setExchangeRate(undefined);
+      setError(null);
       return;
     }
 
@@ -33,17 +36,17 @@ export function useExchangeRate({
           setError(response.error);
           setExchangeRate(undefined);
           console.error('Error fetching price quote:', response.error);
-        } else {
-          const priceQuote = response.priceQuote[0];
-
-          const rate =
-            selectedInputType === 'crypto'
-              ? 1 / Number(priceQuote.price)
-              : Number(priceQuote.price);
-
-          setExchangeRate(rate);
-          setError(null);
+          return;
         }
+
+        const priceQuote = response.priceQuote[0];
+        const rate =
+          selectedInputType === 'crypto'
+            ? 1 / Number(priceQuote.price)
+            : Number(priceQuote.price);
+
+        setExchangeRate(rate);
+        setError(null);
       })
       .catch((error) => {
         console.error('Uncaught error fetching price quote:', error);
