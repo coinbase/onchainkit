@@ -9,20 +9,18 @@ type UseExchangeRateParams = {
   selectedInputType: 'crypto' | 'fiat';
 };
 
-type ExchangeRate = number | undefined;
-
 export function useExchangeRate({
   token,
   selectedInputType,
 }: UseExchangeRateParams) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [exchangeRate, setExchangeRate] = useState<ExchangeRate>(undefined);
+  const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!token) {
       setIsLoading(false);
-      setExchangeRate(undefined);
+      setExchangeRate(0);
       setError(null);
       return;
     }
@@ -34,7 +32,7 @@ export function useExchangeRate({
       .then((response) => {
         if (isApiError(response)) {
           setError(response.error);
-          setExchangeRate(undefined);
+          setExchangeRate(0);
           console.error('Error fetching price quote:', response.error);
           return;
         }
