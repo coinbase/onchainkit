@@ -219,7 +219,8 @@ export function CheckoutProvider({
   const handleSubmit = useCallback(async () => {
     try {
       handleAnalytics(CheckoutEvent.CheckoutInitiated, {
-        amount: Number(priceInUSDCRef.current || 0),
+        address,
+        amount: Number(priceInUSDCRef.current),
         productId: productId || '',
       });
 
@@ -324,17 +325,6 @@ export function CheckoutProvider({
             }
           : undefined,
       });
-
-      if (receipt?.status === 'success') {
-        handleAnalytics(CheckoutEvent.CheckoutSuccess, {
-          address: connectedAddress,
-          amount: Number(priceInUSDCRef.current),
-          productId: productId || '',
-          chargeHandlerId: chargeId,
-          isSponsored: !!isSponsored,
-          transactionHash: receipt.transactionHash,
-        });
-      }
     } catch (error) {
       handleAnalytics(CheckoutEvent.CheckoutFailure, {
         error: error instanceof Error ? error.message : 'Checkout failed',
@@ -382,7 +372,6 @@ export function CheckoutProvider({
     updateLifecycleStatus,
     writeContractsAsync,
     handleAnalytics,
-    receipt,
     productId,
   ]);
 
