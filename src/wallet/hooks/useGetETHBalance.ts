@@ -40,12 +40,10 @@ export function useGetETHBalance(address?: Address): UseGetETHBalanceResponse {
         response: ethBalanceResponse,
       };
     }
-
     const convertedBalance = formatUnits(
       ethBalanceResponse?.data?.value,
       ETH_DECIMALS,
     );
-    
     const roundedBalance = getRoundedAmount(convertedBalance, 8);
     return {
       convertedBalance,

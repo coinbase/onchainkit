@@ -24,11 +24,7 @@ export const useSocials = (
   return useQuery<GetSocialsReturnType>({
     queryKey,
     queryFn: async () => {
-      console.log(
-        `[useSocials] Cache MISS - Fetching socials for ENS: ${ensName} on chain: ${chain.id}`,
-      );
       const result = await getSocials({ ensName, chain });
-      console.log(`[useSocials] Fetch completed with result:`, result);
       return result;
     },
     gcTime: cacheTime,
@@ -36,7 +32,6 @@ export const useSocials = (
     enabled,
     refetchOnWindowFocus,
     select: (data: GetSocialsReturnType) => {
-      console.log(`[useSocials] Query SUCCESS - Data loaded`);
       return data;
     },
   });

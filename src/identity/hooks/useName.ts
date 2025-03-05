@@ -28,11 +28,7 @@ export const useName = (
   return useQuery<GetNameReturnType>({
     queryKey,
     queryFn: async () => {
-      console.log(
-        `[useName] Cache MISS - Fetching name for address: ${address} on chain: ${chain.id}`,
-      );
       const result = await getName({ address, chain });
-      console.log(`[useName] Fetch completed with result:`, result);
       return result;
     },
     gcTime: cacheTime,
@@ -40,7 +36,6 @@ export const useName = (
     enabled,
     refetchOnWindowFocus,
     select: (data: GetNameReturnType) => {
-      console.log(`[useName] Query SUCCESS - Data loaded`);
       return data;
     },
   });

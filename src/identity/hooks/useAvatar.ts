@@ -25,11 +25,7 @@ export const useAvatar = (
   return useQuery<GetAvatarReturnType>({
     queryKey,
     queryFn: async () => {
-      console.log(
-        `[useAvatar] Cache MISS - Fetching avatar for ENS: ${ensName} on chain: ${chain.id}`,
-      );
       const result = await getAvatar({ ensName, chain });
-      console.log(`[useAvatar] Fetch completed with result:`, result);
       return result;
     },
     gcTime: cacheTime,
@@ -37,7 +33,6 @@ export const useAvatar = (
     enabled,
     refetchOnWindowFocus,
     select: (data: GetAvatarReturnType) => {
-      console.log(`[useAvatar] Query SUCCESS - Data loaded`);
       return data;
     },
   });
