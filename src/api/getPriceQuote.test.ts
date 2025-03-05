@@ -23,7 +23,7 @@ const mockParams: GetPriceQuoteParams = {
 };
 
 const mockSuccessResponse: GetPriceQuoteResponse = {
-  priceQuote: [
+  priceQuotes: [
     {
       name: 'Ethereum',
       symbol: 'ETH',
