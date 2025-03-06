@@ -209,5 +209,60 @@
       "default": "./esm/wallet/index.js"
     }
   },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./esm/*"
+      ],
+      "api": [
+        "./esm/api/index.d.ts"
+      ],
+      "appchain": [
+        "./esm/appchain/index.d.ts"
+      ],
+      "buy": [
+        "./esm/buy/index.d.ts"
+      ],
+      "checkout": [
+        "./esm/checkout/index.d.ts"
+      ],
+      "core": [
+        "./esm/core/index.d.ts"
+      ],
+      "earn": [
+        "./esm/earn/index.d.ts"
+      ],
+      "fund": [
+        "./esm/fund/index.d.ts"
+      ],
+      "identity": [
+        "./esm/identity/index.d.ts"
+      ],
+      "nft": [
+        "./esm/nft/index.d.ts"
+      ],
+      "nft/view": [
+        "./esm/nft/components/view/index.d.ts"
+      ],
+      "nft/mint": [
+        "./esm/nft/components/mint/index.d.ts"
+      ],
+      "swap": [
+        "./esm/swap/index.d.ts"
+      ],
+      "token": [
+        "./esm/token/index.d.ts"
+      ],
+      "transaction": [
+        "./esm/transaction/index.d.ts"
+      ],
+      "wallet": [
+        "./esm/wallet/index.d.ts"
+      ],
+      "theme": [
+        "./esm/styles/theme.d.ts"
+      ]
+    }
+  },
   "packageManager": "yarn@4.0.2"
 }
