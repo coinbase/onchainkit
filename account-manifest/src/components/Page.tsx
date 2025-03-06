@@ -22,6 +22,8 @@ import { validateUrl } from '../utils';
 import { Step } from './Step';
 import { Success } from './Success';
 
+const MAX_RECONNECT_ATTEMPTS = 5;
+
 function Page() {
   const wsRef = useRef<WebSocket | null>(null);
   const [fid, setFid] = useState<number | null>(null);
@@ -43,7 +45,25 @@ function Page() {
   });
 
   useEffect(() => {
-    wsRef.current = new WebSocket('ws://localhost:3333');
+    let reconnectAttempts = 0;
+
+    function connect() {
+      wsRef.current = new WebSocket('ws://localhost:3333');
+      
+      wsRef.current.onclose = () => {
+        if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+          console.log('WebSocket closed, reconnecting...');
+          reconnectAttempts++;
+          setTimeout(connect, 1000);
+        }
+      };
+
+      wsRef.current.onerror = (err) => {
+        console.error('WebSocket error:', err);
+      };
+    }
+
+    connect();
 
     return () => {
       wsRef.current?.close();
@@ -103,6 +123,10 @@ function Page() {
     setDomain(e.target.value);
     setDomainError(null);
   };
+
+  const handleClose = useCallback(() => {
+    window.close();
+  }, []);
 
   return (
     <main className="flex min-h-screen w-[600px] flex-col gap-6 font-sans">
@@ -215,7 +239,7 @@ function Page() {
           )}
         </div>
       </Step>
-      <Success accountAssocation={accountAssocation} />
+      <Success accountAssocation={accountAssocation} handleClose={handleClose} />
     </main>
   );
 }

@@ -6,9 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "generate-account-association": "node scripts/generateAccountAssociation.mjs",
-    "validate-account-association": "node scripts/validateAccountAssociation.mjs"
+    "lint": "next lint"
   },
   "dependencies": {
     "@coinbase/onchainkit": "file:package.tgz",

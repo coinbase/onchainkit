@@ -1,14 +1,14 @@
 'use client';
 
-import { useCallback } from 'react';
 import type { AccountAssociation } from '../hooks/useSignManifest';
 import { Timer } from './Timer';
 
 type SuccessProps = {
   accountAssocation: AccountAssociation | null;
+  handleClose: () => void;
 };
 
-export function Success({ accountAssocation }: SuccessProps) {
+export function Success({ accountAssocation, handleClose }: SuccessProps) {
   if (!accountAssocation) {
     return null;
   }
@@ -18,10 +18,6 @@ export function Success({ accountAssocation }: SuccessProps) {
     payload: accountAssocation.payload,
     signature: accountAssocation.signature,
   };
-
-  const handleClose = useCallback(() => {
-    window.close();
-  }, []);
 
   return (
     <div className="flex flex-col gap-2 rounded p-4">
