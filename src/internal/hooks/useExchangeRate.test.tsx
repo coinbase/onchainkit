@@ -34,7 +34,7 @@ describe('useExchangeRate', () => {
 
   it('should set the correct exchange rate when the selected input type is crypto', async () => {
     (getPriceQuote as Mock).mockResolvedValue({
-      priceQuote: [
+      priceQuotes: [
         {
           name: 'ETH',
           symbol: 'ETH',
@@ -59,7 +59,7 @@ describe('useExchangeRate', () => {
 
   it('should set the correct the exchange rate when the selected input type is fiat', async () => {
     (getPriceQuote as Mock).mockResolvedValue({
-      priceQuote: [
+      priceQuotes: [
         {
           name: 'ETH',
           symbol: 'ETH',
@@ -122,7 +122,7 @@ describe('useExchangeRate', () => {
 
   it('should set and unset loading state', async () => {
     (getPriceQuote as Mock).mockResolvedValue({
-      priceQuote: [
+      priceQuotes: [
         {
           name: 'ETH',
           symbol: 'ETH',

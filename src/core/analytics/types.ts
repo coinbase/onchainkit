@@ -237,11 +237,7 @@ export type BuyEventData = {
  */
 export type CheckoutEventData = {
   [CheckoutEvent.CheckoutSuccess]: CommonAnalyticsData & {
-    address: string;
-    amount: number;
-    productId: string;
     chargeHandlerId: string;
-    isSponsored: boolean;
     transactionHash: string | undefined;
   };
   [CheckoutEvent.CheckoutFailure]: CommonAnalyticsData & {
@@ -249,6 +245,7 @@ export type CheckoutEventData = {
     metadata: Record<string, unknown> | undefined;
   };
   [CheckoutEvent.CheckoutInitiated]: CommonAnalyticsData & {
+    address: string | undefined;
     amount: number;
     productId: string;
   };

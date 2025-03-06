@@ -414,6 +414,6 @@ type PriceQuote = {
 export type GetPriceQuoteResponse =
   | {
       /** The array of price quotes for the tokens */
-      priceQuote: PriceQuote[];
+      priceQuotes: PriceQuote[];
     }
   | APIError;

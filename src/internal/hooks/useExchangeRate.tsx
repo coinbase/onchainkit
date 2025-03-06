@@ -37,7 +37,7 @@ export function useExchangeRate({
           return;
         }
 
-        const priceQuote = response.priceQuote[0];
+        const priceQuote = response.priceQuotes[0];
         const rate =
           selectedInputType === 'crypto'
             ? 1 / Number(priceQuote.price)

@@ -1,5 +1,5 @@
 import { getSocials } from '@/identity/utils/getSocials';
-import { renderHook } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
 import { base, mainnet } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
@@ -45,5 +45,62 @@ describe('useSocials', () => {
       ensName: testEnsName,
       chain: base,
     });
+  });
+
+  it('respects the enabled option in queryOptions', async () => {
+    const { result } = renderHook(
+      () => useSocials({ ensName: testEnsName }, { enabled: false }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.isFetched).toBe(false);
+    expect(mockGetSocials).not.toHaveBeenCalled();
+  });
+
+  it('uses the default query options when no queryOptions are provided', async () => {
+    mockGetSocials.mockResolvedValue({
+      twitter: 'twitterHandle',
+      github: 'githubUsername',
+      farcaster: 'farcasterUsername',
+      website: 'https://example.com',
+    });
+
+    const { result } = renderHook(() => useSocials({ ensName: testEnsName }), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(mockGetSocials).toHaveBeenCalled();
+  });
+
+  it('merges custom queryOptions with default options', async () => {
+    const customStaleTime = 60000;
+
+    mockGetSocials.mockResolvedValue({
+      twitter: 'twitterHandle',
+      github: 'githubUsername',
+      farcaster: 'farcasterUsername',
+      website: 'https://example.com',
+    });
+
+    const { result } = renderHook(
+      () =>
+        useSocials({ ensName: testEnsName }, { staleTime: customStaleTime }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(mockGetSocials).toHaveBeenCalled();
   });
 });
