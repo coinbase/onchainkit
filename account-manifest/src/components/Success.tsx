@@ -1,14 +1,14 @@
 'use client';
 
-import { useCallback } from 'react';
 import type { AccountAssociation } from '../hooks/useSignManifest';
 import { Timer } from './Timer';
 
 type SuccessProps = {
   accountAssocation: AccountAssociation | null;
+  handleClose: () => void;
 };
 
-export function Success({ accountAssocation }: SuccessProps) {
+export function Success({ accountAssocation, handleClose }: SuccessProps) {
   if (!accountAssocation) {
     return null;
   }
@@ -19,12 +19,8 @@ export function Success({ accountAssocation }: SuccessProps) {
     signature: accountAssocation.signature,
   };
 
-  const handleClose = useCallback(() => {
-    window.close();
-  }, []);
-
   return (
-    <div className="flex flex-col gap-2 rounded p-4">
+    <div className="flex flex-col gap-2 rounded p-4 text-black">
       <div className="flex items-center justify-between">
         <h3 className="font-bold text-xl">
           Account Association Generated Successfully!
@@ -36,12 +32,12 @@ export function Success({ accountAssocation }: SuccessProps) {
               JSON.stringify(displayAccountAssocation, null, 2),
             )
           }
-          className="rounded bg-blue-800! px-2 py-1 text-sm hover:bg-blue-600!"
+          className="rounded bg-blue-800! px-2 py-1 text-sm text-white hover:bg-blue-600!"
         >
           Copy
         </button>
       </div>
-      <pre className="overflow-auto rounded p-4">
+      <pre className="max-w-[600px] overflow-auto rounded p-4">
         {`{
   header: ${accountAssocation.header},
   payload: ${accountAssocation.payload},
@@ -55,11 +51,11 @@ export function Success({ accountAssocation }: SuccessProps) {
       </h3>
       <button
         type="button"
-        className="rounded bg-blue-800! px-2 py-2 hover:bg-blue-600!"
+        className="rounded bg-blue-800! px-2 py-2 text-white hover:bg-blue-600!"
         onClick={handleClose}
       >
-        This window will close in{' '}
-        <Timer startMs={5000} callback={handleClose} />
+        This window will close automatically in{' '}
+        <Timer startMs={3000} callback={handleClose} />
       </button>
     </div>
   );

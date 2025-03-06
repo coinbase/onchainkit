@@ -22,6 +22,8 @@ import { validateUrl } from '../utils';
 import { Step } from './Step';
 import { Success } from './Success';
 
+const MAX_RECONNECT_ATTEMPTS = 5;
+
 function Page() {
   const wsRef = useRef<WebSocket | null>(null);
   const [fid, setFid] = useState<number | null>(null);
@@ -43,7 +45,25 @@ function Page() {
   });
 
   useEffect(() => {
-    wsRef.current = new WebSocket('ws://localhost:3333');
+    let reconnectAttempts = 0;
+
+    function connect() {
+      wsRef.current = new WebSocket('ws://localhost:3333');
+
+      wsRef.current.onclose = () => {
+        if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+          console.log('WebSocket closed, reconnecting...');
+          reconnectAttempts++;
+          setTimeout(connect, 1000);
+        }
+      };
+
+      wsRef.current.onerror = (err) => {
+        console.error('WebSocket error:', err);
+      };
+    }
+
+    connect();
 
     return () => {
       wsRef.current?.close();
@@ -104,118 +124,99 @@ function Page() {
     setDomainError(null);
   };
 
+  const handleClose = useCallback(() => {
+    window.close();
+  }, []);
+
   return (
-    <main className="flex min-h-screen w-[600px] flex-col gap-6 font-sans">
-      <Step
-        label="1"
-        description={
-          <>
-            <p className="p-4">
-              Use coinbase smart wallet if you have a passkey farcaster account
-              through TBA
-            </p>
-            <p className="p-4">
-              Use MetaMask or Phantom to set up a wallet using your warpcast
-              recovery key
-            </p>
-          </>
-        }
-      >
-        <Wallet className="w-[206px]">
-          <ConnectWallet className="w-full">
-            <Avatar className="h-6 w-6" />
-            <Name />
-          </ConnectWallet>
-          <WalletDropdown>
-            <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick={true}>
-              <Avatar />
+    <main className="flex min-h-screen w-full max-w-[600px] flex-col items-center justify-center gap-6 font-sans">
+      <div className="border border-grey-500 p-4">
+        <Step
+          number={1}
+          label="Connect your wallet"
+          description="Set up a wallet using your warpcast recovery key.  This is available in warp cast under settings/account."
+        >
+          <Wallet>
+            <ConnectWallet className="w-full">
+              <Avatar className="h-6 w-6" />
               <Name />
-              <Address />
-              <EthBalance />
-            </Identity>
-            <WalletDropdownDisconnect />
-          </WalletDropdown>
-        </Wallet>
-      </Step>
+            </ConnectWallet>
+            <WalletDropdown>
+              <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick={true}>
+                <Avatar />
+                <Name />
+                <Address />
+                <EthBalance />
+              </Identity>
+              <WalletDropdownDisconnect />
+            </WalletDropdown>
+          </Wallet>
+        </Step>
 
-      <Step
-        label="2"
-        disabled={!address}
-        description={
-          <>
-            <p className="p-4">Enter the domain your app will be hosted on</p>
-            <p className="p-4">
-              This will be used to generate the account manifest and also added
-              to your .env file as the `NEXT_PUBLIC_URL` variable
-            </p>
-          </>
-        }
-      >
-        <div className="flex flex-col gap-2">
-          <input
-            type="text"
-            placeholder="Enter Domain"
-            className="rounded border border-gray-300 px-4 py-2"
-            value={domain}
-            onChange={handleDomainChange}
-            onBlur={handleValidateUrl}
-          />
-          {domainError && <p className="text-red-500">{domainError}</p>}
-        </div>
-      </Step>
+        <Step
+          number={2}
+          label="Enter the domain of your app"
+          disabled={!address}
+          description="This will be used to generate the account manifest and also added to your .env file as the `NEXT_PUBLIC_URL` variable"
+        >
+          <div className="flex flex-col gap-2">
+            <input
+              type="text"
+              placeholder="Enter the domain"
+              className="rounded border border-gray-300 px-4 py-2"
+              value={domain}
+              onChange={handleDomainChange}
+              onBlur={handleValidateUrl}
+            />
+            {domainError && <p className="text-red-500">{domainError}</p>}
+          </div>
+        </Step>
 
-      <Step
-        label="3"
-        disabled={!address || !domain || fid === 0}
-        description={
-          <>
-            <p className="p-4">
-              This will generate the account manifest and sign it with your
-              wallet
-            </p>
-            <p className="p-4">
-              The account manifest will be saved to your .env file as
-              `FARCASTER_HEADER`, `FARCASTER_PAYLOAD` and `FARCASTER_SIGNATURE`
-              variables
-            </p>
-          </>
-        }
-      >
-        <div className="flex flex-col gap-2">
-          {fid === 0 ? (
-            <p className="text-red-500">
-              There is no FID associated with this account, please connect with
-              your TBA passkey account.
-            </p>
-          ) : (
-            <p>Your FID is {fid}</p>
-          )}
+        <Step
+          number={3}
+          label="Sign to generate and save your account manifeset"
+          disabled={!address || !domain || fid === 0}
+          description="The account manifest will be saved to your .env file as `FARCASTER_HEADER`, `FARCASTER_PAYLOAD` and `FARCASTER_SIGNATURE` variables"
+        >
+          <div className="flex flex-col gap-2">
+            {fid === 0 ? (
+              <p className="text-red-500">
+                There is no FID associated with this account, please connect
+                with your TBA passkey account.
+              </p>
+            ) : (
+              <p>Your FID is {fid}</p>
+            )}
 
-          <button
-            type="button"
-            disabled={!address || !domain || fid === 0}
-            onClick={generateAccountAssociation}
-            className={`rounded px-4 py-2 text-white ${
-              !address || !domain || fid === 0
-                ? 'bg-blue-200!'
-                : 'bg-blue-800! hover:bg-blue-600!'
-            }`}
-          >
-            {isPending ? 'Signing...' : 'Sign Account Manifest'}
-          </button>
-          {error && (
-            <p className="text-red-500">
-              {error.message.split('\n').map((line) => (
-                <span key={line}>
-                  {line}
-                  <br />
-                </span>
-              ))}
-            </p>
-          )}
-        </div>
-      </Step>
-      <Success accountAssocation={accountAssocation} />
+            <button
+              type="button"
+              disabled={!address || !domain || fid === 0}
+              onClick={generateAccountAssociation}
+              className={`w-fit rounded px-6 py-2 text-white ${
+                !address || !domain || fid === 0
+                  ? 'bg-blue-200!'
+                  : 'bg-blue-800! hover:bg-blue-600!'
+              }`}
+            >
+              {isPending ? 'Signing...' : 'Sign'}
+            </button>
+            {error && (
+              <p className="text-red-500">
+                {error.message.split('\n').map((line) => (
+                  <span key={line}>
+                    {line}
+                    <br />
+                  </span>
+                ))}
+              </p>
+            )}
+          </div>
+        </Step>
+        <Success
+          accountAssocation={accountAssocation}
+          handleClose={handleClose}
+        />
+      </div>
     </main>
   );
 }
