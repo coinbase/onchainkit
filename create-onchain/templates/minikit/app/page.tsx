@@ -1,28 +1,26 @@
 'use client';
 
-import { 
-  useMiniKit, 
-  useAddFrame, 
+import {
+  useMiniKit,
+  useAddFrame,
+  useOpenUrl,
 } from '@coinbase/onchainkit/minikit';
 import {
-  ConnectWallet,
-  Wallet,
-  WalletDropdown,
-  WalletDropdownLink,
-  WalletDropdownDisconnect,
-} from '@coinbase/onchainkit/wallet';
-import {
-  Address,
-  Avatar,
   Name,
   Identity,
-  EthBalance,
 } from '@coinbase/onchainkit/identity';
-import { useEffect } from 'react';
-import Sammy from './components/Sammy';
+import { useEffect, useMemo, useState } from 'react';
+import Snake from './components/snake';
+import { useAccount } from 'wagmi';
+import Check from './svg/Check';
 
 export default function App() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
+  const [frameAdded, setFrameAdded] = useState(false);
+
+  const addFrame = useAddFrame();
+  const openUrl = useOpenUrl();
+  const { address } = useAccount();
 
   useEffect(() => {
     if (!isFrameReady) {
@@ -30,54 +28,65 @@ export default function App() {
     }
   }, [setFrameReady, isFrameReady]);
 
-  const addFrame = useAddFrame();
+
+  const handleAddFrame = async () => {
+    const frameAdded = await addFrame();
+    setFrameAdded(Boolean(frameAdded));
+  }
+
+  const saveFrameButton = useMemo(() => {
+    if (context && !context.client.added) {
+      return (
+        <button
+          type="button"
+          onClick={handleAddFrame}
+          className="cursor-pointer bg-transparent font-semibold text-sm">
+          + SAVE FRAME
+        </button>
+      )
+    }
+
+    if (frameAdded) {
+      return (
+        <div className="flex items-center space-x-1 text-sm font-semibold animate-fade-out">
+          <Check />
+          <span>SAVED</span>
+        </div>
+      )
+    }
+
+    return null;
+  }, [context, handleAddFrame]);
 
   return (
-    <div className="flex flex-col min-h-screen font-sans bg-white text-black items-center">
-      <div className="w-full max-w-[500px]">
-        <header className="flex justify-between items-center">
-          <div className="pt-4 pl-4 flex justify-start">
-            {context && !context.client.added && (
-              <button 
-                type="button" 
-                onClick={addFrame} 
-              className="cursor-pointer ock-bg-secondary active:bg-[var(--ock-bg-secondary-active)] hover:bg-[var(--ock-bg-secondary-hover)] ock-border-radius ock-text-foreground px-4 py-3">
-                <span className="ock-font-family font-semibold ock-text-foreground">
-                  Add Frame
-                </span>
-              </button>
-            )}
-          </div>
-          <div className="pt-4 pr-4 flex justify-end">
-            <Wallet>
-              <ConnectWallet>
-                <Avatar className="h-6 w-6" />
-                <Name />
-              </ConnectWallet>
-              <WalletDropdown>
-                <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
-                  <Avatar />
-                  <Name />
-                  <Address />
-                  <EthBalance />
+    <div className="flex flex-col min-h-screen sm:min-h-[820px] font-sans bg-[#E5E5E5] text-black items-center snake-dark relative">
+      <div className="w-screen max-w-[520px]">
+        <header className="mr-2 mt-1 flex justify-between">
+          <div className="justify-start pl-1">
+            {address ? (
+                <Identity address={address} className="!bg-inherit p-0 [&>div]:space-x-2">
+                  <Name className="text-inherit" />
                 </Identity>
-                <WalletDropdownLink
-                  icon="wallet"
-                  href="https://keys.coinbase.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Wallet
-                </WalletDropdownLink>
-                <WalletDropdownDisconnect />
-              </WalletDropdown>
-            </Wallet>
+              ) : <div className="pl-2 pt-1 text-gray-500 text-sm font-semibold">NOT CONNECTED</div>}
+          </div>
+          <div className="pr-1 justify-end">
+            {saveFrameButton}
           </div>
         </header>
 
-        <div className="mt-4 mx-[10px]">
-          <Sammy />
-        </div>
+        <main className="font-serif">
+          <Snake />
+        </main>
+
+        <footer className="absolute bottom-4 flex items-center w-screen max-w-[520px] justify-center">
+          <button
+            type="button"
+            className="mt-4 ml-4 px-2 py-1 flex justify-start rounded-2xl font-semibold opacity-40 border border-black text-xs"
+            onClick={() => openUrl('https://base.org/builders/minikit')}
+          >
+            BUILT ON BASE WITH MINIKIT
+          </button>
+        </footer>
       </div>
     </div>
   );
