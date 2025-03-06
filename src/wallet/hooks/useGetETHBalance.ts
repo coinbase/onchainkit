@@ -15,9 +15,7 @@ export function useGetETHBalance(address?: Address): UseGetETHBalanceResponse {
   const ethBalanceResponse: UseBalanceReturnType = useBalance({
     address,
     query: {
-      gcTime: DEFAULT_QUERY_OPTIONS.gcTime,
-      staleTime: DEFAULT_QUERY_OPTIONS.staleTime,
-      refetchOnWindowFocus: DEFAULT_QUERY_OPTIONS.refetchOnWindowFocus,
+      ...DEFAULT_QUERY_OPTIONS,
     },
   });
 
