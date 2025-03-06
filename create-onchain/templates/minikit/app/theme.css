@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
+:root {
+  --snake-background: #E5E5E5;
+}
+
+.snake-light,
+.snake-dark {
+  --ock-font-family: 'Pixelify Sans', sans-serif;
+  --ock-border-radius: 0.375rem;
+  --ock-border-radius-inner: 0.125rem;
+  --ock-text-inverse: theme(colors.zinc.50);
+  --ock-text-foreground: theme(colors.zinc.950);
+  --ock-text-foreground-muted: theme(colors.zinc.600);
+  --ock-text-error: theme(colors.rose.600);
+  --ock-text-primary: theme(colors.zinc.950);
+  --ock-text-success: theme(colors.lime.600);
+  --ock-text-warning: theme(colors.orange.600);
+  --ock-text-disabled: theme(colors.zinc.400);
+
+  --ock-bg-default: theme(colors.zinc.50);
+  --ock-bg-default-hover: theme(colors.zinc.200);
+  --ock-bg-default-active: theme(colors.zinc.300);
+  --ock-bg-alternate: theme(colors.zinc.200);
+  --ock-bg-alternate-hover: theme(colors.zinc.300);
+  --ock-bg-alternate-active: theme(colors.zinc.400);
+  --ock-bg-inverse: theme(colors.zinc.100);
+  --ock-bg-inverse-hover: theme(colors.zinc.200);
+  --ock-bg-inverse-active: theme(colors.zinc.300);
+  --ock-bg-primary: theme(colors.zinc.950);
+  --ock-bg-primary-hover: theme(colors.zinc.800);
+  --ock-bg-primary-active: theme(colors.zinc.700);
+  --ock-bg-primary-washed: theme(colors.zinc.100);
+  --ock-bg-primary-disabled: theme(colors.zinc.300);
+  --ock-bg-secondary: theme(colors.neutral.200);
+  --ock-bg-secondary-hover: theme(colors.neutral.300);
+  --ock-bg-secondary-active: theme(colors.neutral.400);
+  --ock-bg-error: theme(colors.rose.600);
+  --ock-bg-warning: theme(colors.orange.600);
+  --ock-bg-success: theme(colors.lime.600);
+  --ock-bg-default-reverse: theme(colors.neutral.50);
+
+  --ock-icon-color-primary: theme(colors.zinc.950);
+  --ock-icon-color-foreground: theme(colors.zinc.950);
+  --ock-icon-color-foreground-muted: theme(colors.zinc.600);
+  --ock-icon-color-inverse: theme(colors.zinc.50);
+  --ock-icon-color-error: theme(colors.rose.600);
+  --ock-icon-color-success: theme(colors.lime.600);
+  --ock-icon-color-warning: theme(colors.orange.600);
+
+  --ock-line-primary: theme(colors.zinc.950);
+  --ock-line-default: theme(colors.zinc.300);
+  --ock-line-heavy: theme(colors.zinc.500);
+  --ock-line-inverse: theme(colors.zinc.700);
+}

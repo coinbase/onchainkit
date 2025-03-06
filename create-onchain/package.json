@@ -4,8 +4,8 @@
   "version": "0.0.16",
   "license": "MIT",
   "scripts": {
-    "build": "bun run clean && bun run build:esm+types && bun run build:manifest",
-    "build:manifest": "cd ../account-manifest && bun install && bun run build && cd ../create-onchain && cp -R ../account-manifest/dist/* ./src/manifest",
+    "build": "bun run clean && bun run build:manifest && bun run build:esm+types",
+    "build:manifest": "cd ../account-manifest && bun install && bun run build && cd ../create-onchain && rm -rf ./src/manifest/* && cp -R ../account-manifest/dist/* ./src/manifest",
     "build:esm+types": "tsc --project tsconfig.build.json --outDir ./dist/esm --declaration --declarationMap --declarationDir ./dist/types",
     "check:types": "tsc --noEmit",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
@@ -19,7 +19,8 @@
     "src/**/*.ts",
     "!src/**/*.test.ts",
     "!src/**/*.test-d.ts",
-    "templates/**"
+    "templates/**",
+    "src/manifest/**"
   ],
   "bin": "./dist/esm/cli.js",
   "sideEffects": false,

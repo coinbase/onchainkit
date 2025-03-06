@@ -3,17 +3,18 @@
 import React, { useEffect, useRef, useMemo, useState, DependencyList, useCallback } from 'react';
 import { useOpenUrl, useNotification } from "@coinbase/onchainkit/minikit";
 import { Transaction, TransactionButton, TransactionResponse, TransactionToast, TransactionToastAction, TransactionToastIcon, TransactionToastLabel, TransactionError } from "@coinbase/onchainkit/transaction";
-import { ConnectWallet, ConnectWalletText } from "@coinbase/onchainkit/wallet";
-import { Name, Identity } from "@coinbase/onchainkit/identity";
+import { ConnectWallet, ConnectWalletText, Wallet, WalletDropdown, WalletDropdownDisconnect, WalletDropdownLink } from "@coinbase/onchainkit/wallet";
+import { Name, Identity, EthBalance, Address, Avatar } from "@coinbase/onchainkit/identity";
 import { getTopScores, addScore, MAX_SCORES } from "@/lib/scores-client";
 import { Score } from "@/lib/scores";
 import { useAccount } from "wagmi";
 import { encodeAbiParameters } from "viem";
 import ArrowSvg from "../svg/ArrowSvg";
-import MiniKitLogo from '../svg/MiniKitLogo';
+import SnakeLogo from '../svg/SnakeLogo';
 
 const FPS = 60;
 const MS_PER_FRAME = 1000 / FPS;
+
 const NUM_TARGETS_PER_LEVEL = 10;
 
 const GameState = {
@@ -76,39 +77,105 @@ const LevelMaps: { [key: number]: { x1: number, y1: number, width: number, heigh
 
 const NumberOfMaps = Object.keys(LevelMaps).length;
 
-type DPadProps = {
+
+type ControlButtonProps = {
+  className?: string;
+  children?: React.ReactNode;
+  onClick: () => void;
+}
+
+function ControlButton({ children, onClick, className }:ControlButtonProps) {
+  const [isPressed, setIsPressed] = useState(false);
+
+  return (
+    <button 
+      type="button" 
+      className={`w-16 h-16 bg-red-500 rounded-full cursor-pointer select-none
+        transition-all duration-150 border-[1px] border-red-300 ${className}
+        ${isPressed 
+          ? 'translate-y-1 [box-shadow:0_0px_0_0_#cc0000,0_0px_0_0_#ff000033] border-b-[0px]' 
+          : '[box-shadow:0_5px_0_0_#cc0000,0_8px_0_0_#ff000033]'
+        }`}
+      onPointerDown={() => setIsPressed(true)}
+      onPointerUp={() => setIsPressed(false)}
+      onPointerLeave={() => setIsPressed(false)}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  )
+}
+
+
+function WalletControl() {
+  return (
+    <Wallet className="[&>div:nth-child(2)]:!opacity-20">
+      <ConnectWallet text="" className="w-16 h-16 bg-red-500 rounded-full hover:bg-red-500 focus:bg-red-500 focus:border-red-500 cursor-pointer select-none transition-all duration-150 border-[1px] border-red-300 min-w-16 [box-shadow:0_5px_0_0_#cc0000,0_8px_0_0_#ff000033]"/>
+      <WalletDropdown>
+        <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+          <Avatar />
+          <Name />
+          <Address />
+          <EthBalance />
+        </Identity>
+        <WalletDropdownDisconnect />
+      </WalletDropdown>
+    </Wallet>
+  )
+}
+
+type ControlButtonsProps = {
   gameState: number;
-  onDirectionChange: (direction: number) => void;
   handleMobileGameState: () => void;
+}
+
+function ControlButtons({ gameState, handleMobileGameState }: ControlButtonsProps) {
+  const { address } = useAccount();
+
+  return (
+    <>
+      <div className="absolute left-4 top-16 w-24">
+        <ControlButton className="block" onClick={handleMobileGameState} />
+        <div className="ml-10 w-16 text-center -rotate-45 leading-[1.2]">
+          {gameState === GameState.RUNNING ? 'PAUSE' : 'PLAY'}
+        </div>
+      </div>
+      <div className="absolute right-4 top-4 w-24">
+        <WalletControl />
+        <div className="ml-10 w-20 text-center -rotate-45 leading-[1.2]">
+          {address ? 'LOGOUT' : 'LOGIN'}
+        </div>
+      </div>
+    </>
+  )
+}
+
+type DPadProps = {
+  onDirectionChange: (direction: number) => void;
 };
 
-const DPad = ({ gameState, onDirectionChange, handleMobileGameState }: DPadProps) => {
+function DPad({ onDirectionChange }: DPadProps) {
   return (
     <div className="flex">
-      <div className="grid grid-cols-3 gap-1">
+      <div className="grid grid-cols-3">
         <div className="h-12 w-12" />
         <button 
-          className="h-12 w-12 bg-black/20 rounded-t-lg hover:bg-black/30 active:bg-black/40"
+          className="h-12 w-12 bg-black rounded-t-lg hover:shadow-dpad-hover active:shadow-dpad-pressed active:translate-y-[1px] bg-dpad-gradient shadow-dpad"
           onClick={() => onDirectionChange(MoveState.UP)}
         />
         <div className="h-12 w-12" />
         <button 
-          className="h-12 w-12 bg-black/20 rounded-l-lg hover:bg-black/30 active:bg-black/40"
+          className="h-12 w-12 bg-black rounded-t-lg hover:shadow-dpad-hover active:shadow-dpad-pressed active:translate-x-[1px] bg-dpad-gradient -rotate-90"
           onClick={() => onDirectionChange(MoveState.LEFT)}
         />
+        <div className="h-12 w-12 bg-black" />
         <button 
-          className="h-12 w-12 bg-black/20 hover:bg-black/30 active:bg-black/40"
-          onClick={handleMobileGameState}
-        >
-          {gameState === GameState.RUNNING ? '⏸️' : '▶️'}
-        </button>
-        <button 
-          className="h-12 w-12 bg-black/20 rounded-r-lg hover:bg-black/30 active:bg-black/40"
+          className="h-12 w-12 bg-black rounded-t-lg hover:shadow-dpad-hover active:shadow-dpad-pressed active:translate-x-[-1px] bg-dpad-gradient shadow-dpad rotate-90"
           onClick={() => onDirectionChange(MoveState.RIGHT)}
         />
         <div className="h-12 w-12" />
         <button 
-          className="h-12 w-12 bg-black/20 rounded-b-lg hover:bg-black/30 active:bg-black/40"
+          className="h-12 w-12 bg-black rounded-t-lg hover:shadow-dpad-hover active:shadow-dpad-pressed active:translate-y-[-1px] bg-dpad-gradient shadow-dpad rotate-180"
           onClick={() => onDirectionChange(MoveState.DOWN)}
         />
         <div className="h-12 w-12" />
@@ -124,10 +191,11 @@ type AwaitingNextLevelProps = {
 
 function AwaitingNextLevel({score, level}: AwaitingNextLevelProps) {
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 z-20">
+    <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
       <h1 className="text-2xl mb-4">Level Complete!</h1>
       <p className="text-lg mb-4">Score: {score}</p>
       <p className="text-lg mb-4">Level: {level}</p>
+      <p className="text-lg mb-4">Press play or space to continue</p>
     </div>
   )
 }
@@ -216,7 +284,7 @@ export function Dead({score, level, onGoToIntro, isWin}: DeadProps) {
     if (!address) {
       return (
         <ConnectWallet>
-          <ConnectWalletText>Connect Wallet to save your high score</ConnectWalletText>
+          <ConnectWalletText>Login to save your high score</ConnectWalletText>
         </ConnectWallet>
       )
     }
@@ -263,7 +331,7 @@ export function Dead({score, level, onGoToIntro, isWin}: DeadProps) {
   }, [onGoToIntro, address, score]);
 
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 z-20">
+    <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
       {isWin ? (
         <h1 className="text-2xl mb-4">You Won!</h1>
       ) : (
@@ -299,7 +367,7 @@ function HighScores() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center absolute top-48 w-[80%]">
+    <div className="flex flex-col items-center justify-center absolute top-36 w-[80%]">
       <h1 className="text-2xl mb-4">High Scores</h1>
       {highScores.sort((a, b) => b.score - a.score).map((score, index) => (
         <button type="button" key={score.attestationUid} className="flex items-center w-full" onClick={() => handleHighScoreClick(score)}>
@@ -324,18 +392,14 @@ function HighScores() {
 
 function Intro() {
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 z-20 pb-6">
-      <MiniKitLogo width="100%" height="100%" />
+    <div className="absolute inset-0 flex flex-col items-center z-20 pb-6">
+      <div className="absolute top-14">
+        <SnakeLogo width={300} height={60} />
+      </div>
       <HighScores />
-    </div>
-  )
-}
-
-function Paused() {
-  return (
-    <div className="flex flex-col items-center justify-center bg-white/80 z-20">
-      <h1 className="text-2xl mb-4 pt-20">Paused</h1>
-      <HighScores />
+      <div className="absolute bottom-10">
+        Press play or space to start
+      </div>
     </div>
   )
 }
@@ -412,6 +476,8 @@ const Sammy = () => {
     const ctx = mapCanvasRef.current?.getContext('2d');
     if (ctx) {
       ctx.clearRect(0, 0, 500, 520);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, 500, 520);
       LevelMaps[level].forEach(wall => {
         ctx.fillStyle = '#000000';
         ctx.fillRect(wall.x1, wall.y1, wall.width, wall.height);
@@ -586,7 +652,7 @@ const Sammy = () => {
     const scoreCtx = scoreCanvasRef.current?.getContext('2d');
     if (scoreCtx) {
       scoreCtx.clearRect(0, 0, 500, 530);
-      scoreCtx.font = '20px Arial';
+      scoreCtx.font = '20px Pixelify Sans';
       scoreCtx.fillStyle = '#000000';
       scoreCtx.fillText(`Score: ${score.total}`, 10, 520);
       scoreCtx.fillText(`Points: ${score.points}`, 200, 520);
@@ -677,9 +743,8 @@ const Sammy = () => {
   const overlays = useMemo(() => {
     switch (gameState) {
       case GameState.INTRO:
-        return <Intro />
       case GameState.PAUSED:
-        return <Paused />
+        return <Intro />
       case GameState.WON:
       case GameState.DEAD:
         return <Dead 
@@ -696,7 +761,7 @@ const Sammy = () => {
       default:
         return null;
     }
-  }, [gameState, score.total, level, setGameState, Intro, Paused, Dead, AwaitingNextLevel]);
+  }, [gameState, score.total, level, setGameState, Intro, Dead, AwaitingNextLevel]);
 
   if (!scale) {
     return null;
@@ -743,18 +808,19 @@ const Sammy = () => {
         {overlays}
       </div>
 
-      <div className="flex justify-center mt-4">
-        <DPad 
-          gameState={gameState} 
-          onDirectionChange={(direction: number) => {
-            setSammy(prev => ({ ...prev, newDirection: direction }));
-          }} 
-          handleMobileGameState={updateGameState} 
-        />
-      </div>
-
-      <div className="justify-center mt-4 hidden md:block text-center">
-        <p className="text-sm">Control with the D-Pad or space and arrow keys</p>
+      <div className="flex mt-4">
+        <div className="flex flex-1 justify-center">
+          <DPad onDirectionChange={(direction: number) => {
+              setSammy(prev => ({ ...prev, newDirection: direction }));
+            }} 
+          />
+        </div>
+        <div className="flex flex-1 justify-center relative">
+          <ControlButtons 
+            gameState={gameState} 
+            handleMobileGameState={updateGameState} 
+          />
+        </div>
       </div>
     </div>
   );
