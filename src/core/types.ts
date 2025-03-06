@@ -1,5 +1,6 @@
 import type { EASSchemaUid } from '@/identity/types';
 import type { Address, Chain } from 'viem';
+import type { CreateConnectorFn } from 'wagmi';
 
 /**
  * Note: exported as public Type
@@ -38,6 +39,8 @@ export type CreateWagmiConfigParams = {
   appName?: string;
   /** Application logo URL */
   appLogoUrl?: string;
+  /** Connectors to use, defaults to coinbaseWallet */
+  connectors?: CreateConnectorFn[];
 };
 
 /**
