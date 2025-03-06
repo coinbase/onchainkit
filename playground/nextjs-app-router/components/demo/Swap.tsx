@@ -103,108 +103,45 @@ function SwapComponent() {
         </div>
       ) : null}
 
-      <div className="relative flex flex-col gap-6">
-        <h2>Swap Default</h2>
-        <Swap
-          className="w-full border sm:w-[500px]"
-          to={[...swappableTokens].reverse()}
-          from={swappableTokens}
-          onStatus={handleOnStatus}
-          onSuccess={handleOnSuccess}
-          onError={handleOnError}
-          config={{
-            maxSlippage: defaultMaxSlippage || FALLBACK_DEFAULT_MAX_SLIPPAGE,
-          }}
-          isSponsored={isSponsored}
-          headerLeftContent={<div>test</div>}
+      <Swap
+        className="w-full border sm:w-[500px]"
+        onStatus={handleOnStatus}
+        onSuccess={handleOnSuccess}
+        onError={handleOnError}
+        config={{
+          maxSlippage: defaultMaxSlippage || FALLBACK_DEFAULT_MAX_SLIPPAGE,
+        }}
+        isSponsored={isSponsored}
+      >
+        <SwapSettings>
+          <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
+          <SwapSettingsSlippageDescription>
+            Your swap will revert if the prices change by more than the selected
+            percentage.
+          </SwapSettingsSlippageDescription>
+          <SwapSettingsSlippageInput />
+        </SwapSettings>
+        <SwapAmountInput
+          label="Sell"
+          swappableTokens={swappableTokens}
+          token={ethToken}
+          type="from"
         />
-
-        <h2>Swap with Children</h2>
-        <Swap
-          className="w-full border sm:w-[500px]"
-          onStatus={handleOnStatus}
-          onSuccess={handleOnSuccess}
-          onError={handleOnError}
-          config={{
-            maxSlippage: defaultMaxSlippage || FALLBACK_DEFAULT_MAX_SLIPPAGE,
-          }}
-          isSponsored={isSponsored}
-          headerLeftContent={<div>test</div>}
-        >
-          <SwapSettings>
-            <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
-            <SwapSettingsSlippageDescription>
-              Your swap will revert if the prices change by more than the
-              selected percentage.
-            </SwapSettingsSlippageDescription>
-            <SwapSettingsSlippageInput />
-          </SwapSettings>
-          <SwapAmountInput
-            label="Sell"
-            swappableTokens={swappableTokens}
-            token={ethToken}
-            type="from"
-          />
-          <SwapToggleButton />
-          <SwapAmountInput
-            label="Buy"
-            swappableTokens={swappableTokens}
-            token={usdcToken}
-            type="to"
-          />
-          <SwapButton
-            disabled={
-              ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
-            }
-          />
-          <SwapMessage />
-          <SwapToast />
-        </Swap>
-
-        <h2>Swap with extra Children</h2>
-        <Swap
-          className="w-full border sm:w-[500px]"
-          onStatus={handleOnStatus}
-          onSuccess={handleOnSuccess}
-          onError={handleOnError}
-          config={{
-            maxSlippage: defaultMaxSlippage || FALLBACK_DEFAULT_MAX_SLIPPAGE,
-          }}
-          isSponsored={isSponsored}
-          headerLeftContent={<div>test</div>}
-        >
-          <SwapSettings>
-            <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
-            <SwapSettingsSlippageDescription>
-              Your swap will revert if the prices change by more than the
-              selected percentage.
-            </SwapSettingsSlippageDescription>
-            <SwapSettingsSlippageInput />
-          </SwapSettings>
-          <div className="pb-4">Buy my MemeCoin!!!</div>
-          <SwapAmountInput
-            label="Sell"
-            swappableTokens={swappableTokens}
-            token={ethToken}
-            type="from"
-          />
-          <SwapToggleButton />
-          <SwapAmountInput
-            label="Buy"
-            swappableTokens={swappableTokens}
-            token={usdcToken}
-            type="to"
-          />
-          <div className="pt-4">DO IT!!!</div>
-          <SwapButton
-            disabled={
-              ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
-            }
-          />
-          <SwapMessage />
-          <SwapToast />
-        </Swap>
-      </div>
+        <SwapToggleButton />
+        <SwapAmountInput
+          label="Buy"
+          swappableTokens={swappableTokens}
+          token={usdcToken}
+          type="to"
+        />
+        <SwapButton
+          disabled={
+            ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
+          }
+        />
+        <SwapMessage />
+        <SwapToast />
+      </Swap>
     </div>
   );
 }
