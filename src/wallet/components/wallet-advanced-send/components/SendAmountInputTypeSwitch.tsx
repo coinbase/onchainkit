@@ -8,6 +8,15 @@ type SendAmountInputTypeSwitchProps = {
   className?: string;
 };
 
+const defaultErrorDisplay = (
+  <div
+    data-testid="ockSendAmountInputTypeSwitch_ErrorDisplay"
+    className={cn(text.caption, color.foregroundMuted, 'h-[1.625rem]')}
+  >
+    Exchange rate unavailable
+  </div>
+);
+
 export function SendAmountInputTypeSwitch({
   errorDisplay,
   className,
@@ -21,6 +30,7 @@ export function SendAmountInputTypeSwitch({
     selectedInputType,
     setSelectedInputType,
   } = useSendContext();
+
   if (exchangeRateLoading) {
     return <Skeleton className="h-[1.625rem]" />;
   }
@@ -30,14 +40,7 @@ export function SendAmountInputTypeSwitch({
       return errorDisplay;
     }
 
-    return (
-      <div
-        data-testid="ockSendAmountInputTypeSwitch_ErrorDisplay"
-        className={cn(text.caption, color.foregroundMuted, 'h-[1.625rem]')}
-      >
-        Exchange rate unavailable
-      </div>
-    );
+    return defaultErrorDisplay;
   }
 
   return (
