@@ -134,4 +134,58 @@ describe('useAvatar', () => {
       );
     });
   });
+
+  it('respects the enabled option in queryOptions', async () => {
+    const testEnsName = 'test.ens';
+    const testEnsAvatar = 'avatarUrl';
+
+    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+
+    const { result } = renderHook(
+      () => useAvatar({ ensName: testEnsName }, { enabled: false }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.isFetched).toBe(false);
+    expect(mockGetEnsAvatar).not.toHaveBeenCalled();
+  });
+
+  it('uses the default query options when no queryOptions are provided', async () => {
+    const testEnsName = 'test.ens';
+    const testEnsAvatar = 'avatarUrl';
+
+    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+
+    renderHook(() => useAvatar({ ensName: testEnsName }), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
+
+    await waitFor(() => {
+      expect(mockGetEnsAvatar).toHaveBeenCalled();
+    });
+  });
+
+  it('merges custom queryOptions with default options', async () => {
+    const testEnsName = 'test.ens';
+    const testEnsAvatar = 'avatarUrl';
+    const customStaleTime = 60000;
+
+    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+
+    const { result } = renderHook(
+      () => useAvatar({ ensName: testEnsName }, { staleTime: customStaleTime }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    await waitFor(() => {
+      expect(result.current.data).toBe(testEnsAvatar);
+    });
+
+    expect(mockGetEnsAvatar).toHaveBeenCalled();
+  });
 });

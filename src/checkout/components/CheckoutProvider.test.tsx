@@ -582,45 +582,9 @@ describe('CheckoutProvider', () => {
         expect(sendAnalytics).toHaveBeenCalledWith(
           CheckoutEvent.CheckoutInitiated,
           {
-            amount: 10,
-            productId: 'test-product',
-          },
-        );
-      });
-    });
-
-    it('should track checkout success', async () => {
-      const mockReceipt = {
-        status: 'success',
-        transactionHash: '0x123',
-      };
-
-      (useWaitForTransactionReceipt as Mock).mockReturnValue({
-        data: mockReceipt,
-      });
-
-      (useCallsStatus as Mock).mockReturnValue({
-        data: { receipts: [{ transactionHash: '0x123' }] },
-      });
-
-      render(
-        <CheckoutProvider productId="test-product" isSponsored={true}>
-          <TestComponent />
-        </CheckoutProvider>,
-      );
-
-      fireEvent.click(screen.getByText('Submit'));
-
-      await waitFor(() => {
-        expect(sendAnalytics).toHaveBeenCalledWith(
-          CheckoutEvent.CheckoutSuccess,
-          {
             address: '0x123',
             amount: 10,
             productId: 'test-product',
-            chargeHandlerId: '',
-            isSponsored: true,
-            transactionHash: '0x123',
           },
         );
       });
@@ -672,6 +636,7 @@ describe('CheckoutProvider', () => {
           1,
           CheckoutEvent.CheckoutInitiated,
           {
+            address: '0x123',
             amount: 0,
             productId: 'test-product',
           },

@@ -35,7 +35,7 @@ describe('useExchangeRate', () => {
     const mockSetExchangeRateLoading = vi.fn();
 
     (getPriceQuote as Mock).mockResolvedValue({
-      priceQuote: [
+      priceQuotes: [
         {
           name: 'ETH',
           symbol: 'ETH',
@@ -65,7 +65,7 @@ describe('useExchangeRate', () => {
     const mockSetExchangeRateLoading = vi.fn();
 
     (getPriceQuote as Mock).mockResolvedValue({
-      priceQuote: [
+      priceQuotes: [
         {
           name: 'ETH',
           symbol: 'ETH',
@@ -147,7 +147,7 @@ describe('useExchangeRate', () => {
     const mockSetExchangeRateLoading = vi.fn();
 
     (getPriceQuote as Mock).mockResolvedValue({
-      priceQuote: [
+      priceQuotes: [
         {
           name: 'ETH',
           symbol: 'ETH',

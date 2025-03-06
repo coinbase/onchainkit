@@ -1,4 +1,5 @@
 import { getName } from '@/identity/utils/getName';
+import { DEFAULT_QUERY_OPTIONS } from '@/internal/constants';
 import { useQuery } from '@tanstack/react-query';
 import { mainnet } from 'viem/chains';
 import type {
@@ -17,14 +18,19 @@ export const useName = (
   { address, chain = mainnet }: UseNameOptions,
   queryOptions?: UseQueryOptions,
 ) => {
-  const { enabled = true, cacheTime } = queryOptions ?? {};
+  const { enabled, cacheTime, staleTime, refetchOnWindowFocus } = {
+    ...DEFAULT_QUERY_OPTIONS,
+    ...queryOptions,
+  };
+
+  const queryKey = ['useName', address, chain.id];
+
   return useQuery<GetNameReturnType>({
-    queryKey: ['useName', address, chain.id],
-    queryFn: async () => {
-      return await getName({ address, chain });
-    },
+    queryKey,
+    queryFn: () => getName({ address, chain }),
     gcTime: cacheTime,
+    staleTime,
     enabled,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus,
   });
 };
