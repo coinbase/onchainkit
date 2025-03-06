@@ -35,7 +35,7 @@ vi.mock('http', () => ({
   }
 }));
 vi.mock('open', () => ({ default: vi.fn() }));
-vi.mock('prompts', () => ({ 
+vi.mock('prompts', () => ({
   default: vi.fn()
 }));
 vi.mock('fs', async () => {
@@ -169,14 +169,14 @@ describe('CLI', () => {
     }).mockResolvedValueOnce({
       setUpFrame: false,
     });
-    
+
     process.argv = ['node', 'cli.js', '--mini'];
 
     await import('./cli.js');
 
     await new Promise(resolve => setTimeout(resolve));
 
-    expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.any(String), expect.stringContaining('NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key\nNEXT_PUBLIC_URL=\nNEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/minikit.png\nNEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=FFFFFF\nNEXT_PUBLIC_IMAGE_URL=$NEXT_PUBLIC_URL/minikit.png\nNEXT_PUBLIC_ICON_URL=https://onchainkit.xyz/favicon/48x48.png\nNEXT_PUBLIC_VERSION=next\nREDIS_URL=\nREDIS_TOKEN='));
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.any(String), expect.stringContaining('NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key\nNEXT_PUBLIC_URL=\nNEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/snake.png\nNEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=FFFFFF\nNEXT_PUBLIC_IMAGE_URL=$NEXT_PUBLIC_URL/snake.png\nNEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/snake.png\nNEXT_PUBLIC_VERSION=next\nREDIS_URL=\nREDIS_TOKEN='));
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Created new MiniKit project in'));
   });
 
@@ -191,16 +191,12 @@ describe('CLI', () => {
     });
 
     process.argv = ['node', 'cli.js', '--mini'];
-    
+
     await import('./cli.js');
 
     await new Promise(resolve => setTimeout(resolve));
 
-    expect(open).toHaveBeenCalledWith('http://localhost:3333', {
-      app: {
-        name: 'safari'
-      }
-    });
+    expect(open).toHaveBeenCalledWith('http://localhost:3333');
 
     wsMessageCallback(Buffer.from(JSON.stringify({
       header: 'test-header',
@@ -211,7 +207,6 @@ describe('CLI', () => {
 
     await new Promise(resolve => setTimeout(resolve));
 
-    expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.any(String), expect.stringContaining('NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key\nNEXT_PUBLIC_URL=\nNEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/minikit.png\nNEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=FFFFFF\nNEXT_PUBLIC_IMAGE_URL=$NEXT_PUBLIC_URL/minikit.png\nNEXT_PUBLIC_ICON_URL=https://onchainkit.xyz/favicon/48x48.png\nNEXT_PUBLIC_VERSION=next\nREDIS_URL=\nREDIS_TOKEN='));
     expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.any(String), expect.stringContaining('FARCASTER_HEADER=test-header\nFARCASTER_PAYLOAD=test-payload\nFARCASTER_SIGNATURE=test-signature\nNEXT_PUBLIC_URL=test-domain'));
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('* Account association generated successfully and added to your .env file!'));
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Created new MiniKit project in'));
@@ -220,7 +215,7 @@ describe('CLI', () => {
   it('shows help text with --help', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
     process.argv = ['node', 'cli.js', '--help'];
-    
+
     await import('./cli.js');
 
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Usage:'));
@@ -230,7 +225,7 @@ describe('CLI', () => {
   it('shows help text with -h', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
     process.argv = ['node', 'cli.js', '-h'];
-    
+
     await import('./cli.js');
 
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Usage:'));
@@ -242,7 +237,7 @@ describe('CLI', () => {
 
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     process.argv = ['node', 'cli.js', '--version'];
-    
+
     await import('./cli.js');
 
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('v0.0.1'));
@@ -254,10 +249,10 @@ describe('CLI', () => {
 
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     process.argv = ['node', 'cli.js', '-v'];
-    
+
     await import('./cli.js');
 
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('v0.0.1'));
     expect(errorSpy).toHaveBeenCalledWith(expect.any(Error));
-  });  
+  });
 });

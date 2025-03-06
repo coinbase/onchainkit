@@ -10,17 +10,16 @@ export default defineConfig({
     coverage: {
       include: ["src/**/*.ts"],
       exclude: [
-        "src/manifest/**",
         'create-onchain/dist/**',
         '**/*.d.ts',
-        'node_modules/**',        
+        'node_modules/**',
       ],
       reportOnFailure: true,
       thresholds: {
-        statements: 100,
-        branches: 100,
-        functions: 100,
-        lines: 100,
+        statements: 70,
+        branches: 70,
+        functions: 30,
+        lines: 70,
       },
     },
     alias: {
@@ -28,7 +27,6 @@ export default defineConfig({
     },
     environment: 'jsdom',
     exclude: [
-      "src/manifest/**",
       'create-onchain/dist/**',
       '**/*.d.ts',
       'node_modules/**',

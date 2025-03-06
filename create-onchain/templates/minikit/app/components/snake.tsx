@@ -3,17 +3,23 @@
 import React, { useEffect, useRef, useMemo, useState, DependencyList, useCallback } from 'react';
 import { useOpenUrl, useNotification } from "@coinbase/onchainkit/minikit";
 import { Transaction, TransactionButton, TransactionResponse, TransactionToast, TransactionToastAction, TransactionToastIcon, TransactionToastLabel, TransactionError } from "@coinbase/onchainkit/transaction";
-import { ConnectWallet, ConnectWalletText } from "@coinbase/onchainkit/wallet";
-import { Name, Identity } from "@coinbase/onchainkit/identity";
+import { ConnectWallet, ConnectWalletText, Wallet, WalletDropdown, WalletDropdownDisconnect, WalletDropdownLink } from "@coinbase/onchainkit/wallet";
+import { Name, Identity, EthBalance, Address, Avatar } from "@coinbase/onchainkit/identity";
 import { getTopScores, addScore, MAX_SCORES } from "@/lib/scores-client";
 import { Score } from "@/lib/scores";
 import { useAccount } from "wagmi";
 import { encodeAbiParameters } from "viem";
 import ArrowSvg from "../svg/ArrowSvg";
-import MiniKitLogo from '../svg/MiniKitLogo';
+import SnakeLogo from '../svg/SnakeLogo';
 
 const FPS = 60;
 const MS_PER_FRAME = 1000 / FPS;
+const COLORS = {
+  blue: '#0052FF',
+  white: '#FFFFFF',
+  black: '#000000',
+  random: () => `#${Math.floor(Math.random() * 12582912).toString(16).padStart(6, '0')}`
+};
 const NUM_TARGETS_PER_LEVEL = 10;
 
 const GameState = {
@@ -76,39 +82,144 @@ const LevelMaps: { [key: number]: { x1: number, y1: number, width: number, heigh
 
 const NumberOfMaps = Object.keys(LevelMaps).length;
 
-type DPadProps = {
-  gameState: number;
-  onDirectionChange: (direction: number) => void;
-  handleMobileGameState: () => void;
+const DIRECTION_MAP:Record<string, number> = {
+  'ArrowUp': MoveState.UP,
+  'ArrowRight': MoveState.RIGHT,
+  'ArrowDown': MoveState.DOWN,
+  'ArrowLeft': MoveState.LEFT,
 };
 
-const DPad = ({ gameState, onDirectionChange, handleMobileGameState }: DPadProps) => {
+function useKonami(gameState: number) {
+  const CODE = [
+    MoveState.UP,
+    MoveState.UP,
+    MoveState.DOWN,
+    MoveState.DOWN,
+    MoveState.LEFT,
+    MoveState.RIGHT,
+    MoveState.LEFT,
+    MoveState.RIGHT
+  ];
+  const [konami, setKonami] = useState(false);
+  const [sequence, setSequence] = useState<number[]>([]);
+
+  const updateSequence = (input: number) => {
+    if (!konami && gameState === GameState.INTRO) {
+      const newSequence = sequence.concat(input);
+      if (newSequence.length > CODE.length) {
+        newSequence.shift();
+      }
+      if (newSequence.join(',') === CODE.join(',')) {
+        setKonami(true);
+        console.log('Slow motion activated!');
+      } else {
+        setSequence(newSequence);
+      }
+    }
+  };
+
+  return { konami, updateSequence };
+}
+
+type ControlButtonProps = {
+  className?: string;
+  children?: React.ReactNode;
+  onClick: () => void;
+}
+
+function ControlButton({ children, onClick, className }:ControlButtonProps) {
+  const [isPressed, setIsPressed] = useState(false);
+
+  return (
+    <button
+      type="button"
+      className={`w-12 h-12 bg-[#0052FF] rounded-full cursor-pointer select-none
+        transition-all duration-150 border-[1px] border-[#0052FF] ${className}
+        ${isPressed
+          ? 'translate-y-1 [box-shadow:0_0px_0_0_#002299,0_0px_0_0_#0033cc33] border-b-[0px]'
+          : '[box-shadow:0_5px_0_0_#002299,0_8px_0_0_#0033cc33]'
+        }`}
+      onPointerDown={() => setIsPressed(true)}
+      onPointerUp={() => setIsPressed(false)}
+      onPointerLeave={() => setIsPressed(false)}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  )
+}
+
+function WalletControl() {
+  return (
+    <Wallet className="[&>div:nth-child(2)]:!opacity-20 md:[&>div:nth-child(2)]:!opacity-100">
+      <ConnectWallet className="w-12 h-12 bg-[#0052FF] rounded-full hover:bg-[#0052FF] focus:bg-[#0052FF] focus:bg-[#0052FF] cursor-pointer select-none transition-all duration-150 border-[1px] border-[#0052FF] min-w-12 [box-shadow:0_5px_0_0_#002299,0_8px_0_0_#0033cc33]">
+        <ConnectWalletText>{''}</ConnectWalletText>
+      </ConnectWallet>
+      <WalletDropdown>
+        <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+          <Avatar />
+          <Name />
+          <Address />
+          <EthBalance />
+        </Identity>
+        <WalletDropdownDisconnect />
+      </WalletDropdown>
+    </Wallet>
+  )
+}
+
+type ControlButtonsProps = {
+  gameState: number;
+  handleMobileGameState: () => void;
+}
+
+function ControlButtons({ gameState, handleMobileGameState }: ControlButtonsProps) {
+  const { address } = useAccount();
+
+  return (
+    <>
+      <div className="absolute left-8 top-16 w-24">
+        <ControlButton className="block" onClick={handleMobileGameState} />
+        <div className="ml-6 w-16 text-center -rotate-45 leading-[1.2]">
+          {gameState === GameState.RUNNING ? 'PAUSE' : 'PLAY'}
+        </div>
+      </div>
+      <div className="absolute right-0 top-4 w-24">
+        <WalletControl />
+        <div className="ml-4 w-20 text-center -rotate-45 leading-[1.2]">
+          {address ? 'LOGOUT' : 'LOGIN'}
+        </div>
+      </div>
+    </>
+  )
+}
+
+type DPadProps = {
+  onDirectionChange: (direction: number) => void;
+};
+
+function DPad({ onDirectionChange }: DPadProps) {
   return (
     <div className="flex">
-      <div className="grid grid-cols-3 gap-1">
+      <div className="grid grid-cols-3">
         <div className="h-12 w-12" />
-        <button 
-          className="h-12 w-12 bg-black/20 rounded-t-lg hover:bg-black/30 active:bg-black/40"
+        <button
+          className="h-12 w-12 bg-black rounded-t-lg hover:shadow-dpad-hover active:shadow-dpad-pressed active:translate-y-[1px] bg-dpad-gradient shadow-dpad"
           onClick={() => onDirectionChange(MoveState.UP)}
         />
         <div className="h-12 w-12" />
-        <button 
-          className="h-12 w-12 bg-black/20 rounded-l-lg hover:bg-black/30 active:bg-black/40"
+        <button
+          className="h-12 w-12 bg-black rounded-t-lg hover:shadow-dpad-hover active:shadow-dpad-pressed active:translate-x-[1px] bg-dpad-gradient -rotate-90"
           onClick={() => onDirectionChange(MoveState.LEFT)}
         />
-        <button 
-          className="h-12 w-12 bg-black/20 hover:bg-black/30 active:bg-black/40"
-          onClick={handleMobileGameState}
-        >
-          {gameState === GameState.RUNNING ? '⏸️' : '▶️'}
-        </button>
-        <button 
-          className="h-12 w-12 bg-black/20 rounded-r-lg hover:bg-black/30 active:bg-black/40"
+        <div className="h-12 w-12 bg-black" />
+        <button
+          className="h-12 w-12 bg-black rounded-t-lg hover:shadow-dpad-hover active:shadow-dpad-pressed active:translate-x-[-1px] bg-dpad-gradient shadow-dpad rotate-90"
           onClick={() => onDirectionChange(MoveState.RIGHT)}
         />
         <div className="h-12 w-12" />
-        <button 
-          className="h-12 w-12 bg-black/20 rounded-b-lg hover:bg-black/30 active:bg-black/40"
+        <button
+          className="h-12 w-12 bg-black rounded-t-lg hover:shadow-dpad-hover active:shadow-dpad-pressed active:translate-y-[-1px] bg-dpad-gradient shadow-dpad rotate-180"
           onClick={() => onDirectionChange(MoveState.DOWN)}
         />
         <div className="h-12 w-12" />
@@ -117,21 +228,46 @@ const DPad = ({ gameState, onDirectionChange, handleMobileGameState }: DPadProps
   );
 };
 
+type StatsProps = {
+  score: number;
+  level: number;
+  highScores: Score[];
+  width?: number;
+};
+
+function Stats({ score, level, highScores, width = 390 }: StatsProps) {
+  const record = highScores?.[0]?.score ?? 0;
+  return (
+    <div className="grid grid-cols-2" style={{width}}>
+      {record > 0 && (
+        <>
+          <div className="text-lg mb-4 w-[200px]">RECORD</div>
+          <div className="text-lg mb-4 text-right">{record}</div>
+        </>
+      )}
+      <div className="text-lg mb-4 w-[200px]">LEVEL</div>
+      <div className="text-lg mb-4 text-right">{level}</div>
+      <div className="text-lg mb-4 w-[200px]">SCORE</div>
+      <div className="text-lg mb-4 text-right">{score}</div>
+    </div>
+  );
+}
+
 type AwaitingNextLevelProps = {
   score: number;
   level: number;
+  highScores: Score[];
 };
 
-function AwaitingNextLevel({score, level}: AwaitingNextLevelProps) {
+function AwaitingNextLevel({score, level, highScores}: AwaitingNextLevelProps) {
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 z-20">
-      <h1 className="text-2xl mb-4">Level Complete!</h1>
-      <p className="text-lg mb-4">Score: {score}</p>
-      <p className="text-lg mb-4">Level: {level}</p>
+    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/70 z-20 m-[10px] mb-[30px]">
+      <h1 className="text-5xl mb-4">LEVEL COMPLETE!</h1>
+      <Stats score={score} level={level} highScores={highScores} />
+      <p className="absolute bottom-4 text-lg">Press play or space for the next level</p>
     </div>
   )
 }
-
 
 const SCHEMA_UID = "0xf58b8b212ef75ee8cd7e8d803c37c03e0519890502d5e99ee2412aae1456cafe";
 const EAS_CONTRACT = "0x4200000000000000000000000000000000000021";
@@ -146,7 +282,7 @@ const easABI = [
         type: "tuple",
         components: [
           { name: "schema", type: "bytes32" },
-          { name: "data", type: "tuple", 
+          { name: "data", type: "tuple",
             components: [
               { name: "recipient", type: "address" },
               { name: "expirationTime", type: "uint64" },
@@ -163,11 +299,13 @@ const easABI = [
   }
 ];
 
-const checkIsHighScore = async (currentScore: number) => {
-  const scores = await getTopScores();
+const checkIsHighScore = (currentScore: number, highScores: Score[]) => {
+  if (currentScore === 0) {
+    return false;
+  }
 
   // if less than MAX_SCORES scores or current score is higher than lowest score
-  if ((scores?.length ?? 0) < MAX_SCORES || currentScore > (scores?.[scores.length - 1]?.score ?? 0)) {
+  if ((highScores?.length ?? 0) < MAX_SCORES || currentScore > (highScores?.[highScores.length - 1]?.score ?? 0)) {
     return true;
   }
   return false;
@@ -178,21 +316,13 @@ type DeadProps = {
   level: number;
   onGoToIntro: () => void;
   isWin: boolean;
+  highScores: Score[];
 };
 
-export function Dead({score, level, onGoToIntro, isWin}: DeadProps) {
+export function Dead({score, level, onGoToIntro, isWin, highScores}: DeadProps) {
   const sendNotification = useNotification();
-
-  const [isHighScore, setIsHighScore] = useState(false);
   const { address } = useAccount();
-
-  useEffect(() => {
-    const checkHighScore = async () => {
-      const isHighScore = await checkIsHighScore(score);
-      setIsHighScore(isHighScore);
-    }
-    checkHighScore();
-  }, [score]);
+  const isHighScore = checkIsHighScore(score, highScores);
 
   const handleAttestationSuccess = async (response: TransactionResponse) => {
     if (!address) {
@@ -215,9 +345,11 @@ export function Dead({score, level, onGoToIntro, isWin}: DeadProps) {
   const transactionButton = useMemo(() => {
     if (!address) {
       return (
-        <ConnectWallet>
-          <ConnectWalletText>Connect Wallet to save your high score</ConnectWalletText>
-        </ConnectWallet>
+        <Wallet>
+          <ConnectWallet>
+            <ConnectWalletText>Login to save your high score</ConnectWalletText>
+          </ConnectWallet>
+        </Wallet>
       )
     }
 
@@ -231,76 +363,69 @@ export function Dead({score, level, onGoToIntro, isWin}: DeadProps) {
             schema: SCHEMA_UID,
             data: {
               recipient: '0x0000000000000000000000000000000000000000',
-              expirationTime: 0,
+              expirationTime: BigInt(0),
               revocable: false,
               refUID: '0x0000000000000000000000000000000000000000000000000000000000000000',
               data: encodeAbiParameters(
                 [{ type: 'string' }],
                 [`${address} scored ${score} on minikit`]
               ),
-              value: 0
+              value: BigInt(0)
             }
           }]
         }]}
         onSuccess={handleAttestationSuccess}
         onError={(error: TransactionError) => console.error("Attestation failed:", error)}
       >
-        <TransactionButton 
-          text="Sign Attestation to Save your High Score" 
+        <TransactionButton
+          text="Submit to save high score"
           className="mx-auto w-[60%]"
           successOverride={{
             text: "View High Scores",
             onClick: onGoToIntro
           }}
         />
-        <TransactionToast>
+        <TransactionToast className="mb-4">
           <TransactionToastIcon />
           <TransactionToastLabel />
           <TransactionToastAction />
         </TransactionToast>
-      </Transaction>      
+      </Transaction>
     )
   }, [onGoToIntro, address, score]);
 
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 z-20">
-      {isWin ? (
-        <h1 className="text-2xl mb-4">You Won!</h1>
-      ) : (
-        <h1 className="text-2xl mb-4">Game Over</h1>
+    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/70 z-20 m-[10px] mb-[30px]">
+      <h1 className="text-6xl mb-4">{isWin ? 'YOU WON!' : 'GAME OVER'}</h1>
+      {isHighScore && <p className="text-2xl mb-4">You got a high score!</p>}
+      <Stats score={score} level={level} highScores={highScores} width={250} />
+      {isHighScore && address && (
+        <fieldset className="border-2 border-gray-300 rounded-md mb-4">
+          <legend className="text-sm">Attestation</legend>
+          <div className="text-gray-800 px-2 py-1 italic"><Address className="text-inherit" address={address} /> scored {score} on minikit</div>
+        </fieldset>
       )}
-      <p className="text-lg mb-4">Level: {level}</p>
-      <p className="text-lg mb-4">Score: {score}</p>
-      <p className="text-lg mb-4">Play again?</p>
-      {isHighScore && (
-        <>
-          <p className="text-lg mb-4">High Score!</p>
-          {transactionButton}
-        </>
-      )}
+
+      {isHighScore && transactionButton}
+      <p className="text-lg mb-4 absolute bottom-0">Press play or space to play again</p>
     </div>
   )
 }
 
-function HighScores() {
-  const [highScores, setHighScores] = useState<Score[]>([]);
+type HighScoresProps = {
+  highScores: Score[];
+};
+
+function HighScores({ highScores }: HighScoresProps) {
   const openUrl = useOpenUrl();
 
-  useEffect(() => {
-    const fetchScores = async () => {
-      const scores = await getTopScores();
-      setHighScores(scores ?? []);
-    }
-    fetchScores();
-  }, []);
- 
   const handleHighScoreClick = (score: Score) => {
     openUrl(`https://basescan.org/tx/${score.transactionHash}`);
   }
 
   return (
-    <div className="flex flex-col items-center justify-center absolute top-48 w-[80%]">
-      <h1 className="text-2xl mb-4">High Scores</h1>
+    <div className="flex flex-col items-center justify-center absolute top-32 w-[80%]">
+      <h1 className="text-2xl mb-4">HIGH SCORES</h1>
       {highScores.sort((a, b) => b.score - a.score).map((score, index) => (
         <button type="button" key={score.attestationUid} className="flex items-center w-full" onClick={() => handleHighScoreClick(score)}>
           <span className="text-black w-8">{index + 1}.</span>
@@ -322,20 +447,26 @@ function HighScores() {
   )
 }
 
-function Intro() {
-  return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 z-20 pb-6">
-      <MiniKitLogo width="100%" height="100%" />
-      <HighScores />
-    </div>
-  )
-}
+type IntroProps = {
+  highScores: Score[];
+  konami: boolean;
+  fetchHighScores: () => Promise<void>;
+};
 
-function Paused() {
+function Intro({ highScores, konami, fetchHighScores }: IntroProps) {
+  useEffect(() => {
+    fetchHighScores();
+  }, [fetchHighScores]);
+
   return (
-    <div className="flex flex-col items-center justify-center bg-white/80 z-20">
-      <h1 className="text-2xl mb-4 pt-20">Paused</h1>
-      <HighScores />
+    <div className="absolute inset-0 flex flex-col items-center bg-white/70 z-20 m-[10px] mb-[30px] pb-6">
+      <div className="absolute top-12">
+        <SnakeLogo width={300} height={60} animate={konami}/>
+      </div>
+      <HighScores highScores={highScores} />
+      <div className="absolute bottom-4">
+        Press play or space to start
+      </div>
     </div>
   )
 }
@@ -391,9 +522,11 @@ const Sammy = () => {
     num: 0,
     x: 0,
     y: 0,
-    color: '#000000'
+    color: COLORS.black
   });
   const [scale, setScale] = useState<number | null>(null);
+  const [highScores, setHighScores] = useState<Score[]>([]);
+  const { konami, updateSequence } = useKonami(gameState);
 
   useEffect(() => {
     const handleResize = () => {
@@ -408,12 +541,33 @@ const Sammy = () => {
     levelRef.current = level;
   }, [level]);
 
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      e.preventDefault();
+      const newDirection = DIRECTION_MAP[e.code];
+      if (e.code === 'Space') {
+        updateGameState();
+      } else {
+        setSammy(prev => ({
+          ...prev,
+          newDirection: newDirection || prev.newDirection
+        }));
+        updateSequence(newDirection);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [konami, updateSequence]);
+
   const drawMap = useCallback(() => {
     const ctx = mapCanvasRef.current?.getContext('2d');
     if (ctx) {
       ctx.clearRect(0, 0, 500, 520);
+      ctx.fillStyle = COLORS.white;
+      ctx.fillRect(0, 0, 500, 520);
       LevelMaps[level].forEach(wall => {
-        ctx.fillStyle = '#000000';
+        ctx.fillStyle = COLORS.blue;
         ctx.fillRect(wall.x1, wall.y1, wall.width, wall.height);
       });
     }
@@ -425,6 +579,11 @@ const Sammy = () => {
     }
   }, [drawMap, level, scale])
 
+  const fetchScores = useCallback(async () => {
+    const scores = await getTopScores();
+    setHighScores(scores ?? []);
+  }, []);
+
   const createTarget = () => {
     if (!target.exists) {
       let isValidPosition = false;
@@ -433,13 +592,13 @@ const Sammy = () => {
         y: 0,
         exists: true,
         num: target.num + 1,
-        color: '#000000'
+        color: COLORS.black
       };
 
       while (!isValidPosition) {
         newTarget.x = Math.floor(Math.random() * 48) * 10 + 10;
         newTarget.y = Math.floor(Math.random() * 48) * 10 + 10;
-        newTarget.color = `#${Math.floor(Math.random() * 12582912).toString(16).padStart(6, '0')}`;
+        newTarget.color = COLORS.random()
 
         // check if target overlaps with any wall
         isValidPosition = !LevelMaps[level].some(wall => {
@@ -447,36 +606,36 @@ const Sammy = () => {
           const targetRight = newTarget.x + 10;
           const targetTop = newTarget.y;
           const targetBottom = newTarget.y + 10;
-          
+
           const wallLeft = wall.x1;
           const wallRight = wall.x1 + wall.width;
           const wallTop = wall.y1;
           const wallBottom = wall.y1 + wall.height;
 
-          return !(targetLeft > wallRight || 
-                  targetRight < wallLeft || 
-                  targetTop > wallBottom || 
+          return !(targetLeft > wallRight ||
+                  targetRight < wallLeft ||
+                  targetTop > wallBottom ||
                   targetBottom < wallTop);
         });
       }
-      
+
       const ctx = sammyCanvasRef.current?.getContext('2d');
       if (ctx) {
         ctx.fillStyle = newTarget.color;
         ctx.fillRect(newTarget.x, newTarget.y, 10, 10);
       }
-      
+
       setTarget(newTarget);
     }
   };
 
   const moveSammy = () => {
     const newSammy = { ...sammy };
-    
+
     if (newSammy.newDirection !== MoveState.NONE) {
       const isHorizontal = newSammy.newDirection === MoveState.LEFT || newSammy.newDirection === MoveState.RIGHT;
       const isVertical = newSammy.newDirection === MoveState.UP || newSammy.newDirection === MoveState.DOWN;
-      
+
       // only change direction on a grid
       if ((isHorizontal && newSammy.y % 10 === 0) || (isVertical && newSammy.x % 10 === 0)) {
         newSammy.direction = newSammy.newDirection;
@@ -516,21 +675,21 @@ const Sammy = () => {
       const sammyRight = sammy.x + 10;
       const sammyTop = sammy.y;
       const sammyBottom = sammy.y + 10;
-      
+
       // adjust padding to allow wall sliding
       const wallLeft = wall.x1 + 1;
       const wallRight = wall.x1 + wall.width - 2;
       const wallTop = wall.y1 + 1;
       const wallBottom = wall.y1 + wall.height - 2;
 
-      return !(sammyLeft > wallRight || 
-              sammyRight < wallLeft || 
-              sammyTop > wallBottom || 
+      return !(sammyLeft > wallRight ||
+              sammyRight < wallLeft ||
+              sammyTop > wallBottom ||
               sammyBottom < wallTop);
     });
 
     // self collision
-    const hitSelf = sammy.segments.slice(1).some(segment => 
+    const hitSelf = sammy.segments.slice(1).some(segment =>
       segment.x === sammy.x && segment.y === sammy.y
     );
 
@@ -546,7 +705,7 @@ const Sammy = () => {
           length: prev.length + 10 * target.num * target.num / 2
         }));
         setScore(prev => ({
-          points: 2000,
+          points: getStartingScore(levelRef.current),
           total: prev.total + prev.points
         }));
         setTarget(prev => ({ ...prev, exists: false }));
@@ -554,11 +713,27 @@ const Sammy = () => {
         if (level === NumberOfMaps) {
           setGameState(GameState.WON);
         } else {
+          setScore(prev => ({
+            points: getStartingScore(levelRef.current + 1, true),
+            total: prev.total + prev.points
+          }));
           setGameState(GameState.AWAITINGNEXTLEVEL);
         }
       }
     }
   };
+
+  const updateScore = () => {
+    const scoreCtx = scoreCanvasRef.current?.getContext('2d');
+    if (scoreCtx) {
+      scoreCtx.clearRect(0, 0, 500, 530);
+      scoreCtx.font = '20px Pixelify Sans';
+      scoreCtx.fillStyle = COLORS.black;
+      scoreCtx.fillText(`Score: ${score.total}`, 10, 520);
+      scoreCtx.fillText(`Points: ${score.points}`, 200, 520);
+      scoreCtx.fillText(`Level: ${level}`, 400, 520);
+    }
+  }
 
   const drawGame = () => {
     if (gameState !== GameState.RUNNING) {
@@ -568,9 +743,9 @@ const Sammy = () => {
     const ctx = sammyCanvasRef.current?.getContext('2d');
     if (ctx) {
       ctx.clearRect(0, 0, 500, 520);
-    
+
       // draw sammy
-      ctx.fillStyle = '#000000';
+      ctx.fillStyle = COLORS.blue;
       sammy.segments.forEach(segment => {
         ctx.fillRect(segment.x, segment.y, 10, 10);
       });
@@ -583,15 +758,7 @@ const Sammy = () => {
     }
 
     // update score
-    const scoreCtx = scoreCanvasRef.current?.getContext('2d');
-    if (scoreCtx) {
-      scoreCtx.clearRect(0, 0, 500, 530);
-      scoreCtx.font = '20px Arial';
-      scoreCtx.fillStyle = '#000000';
-      scoreCtx.fillText(`Score: ${score.total}`, 10, 520);
-      scoreCtx.fillText(`Points: ${score.points}`, 200, 520);
-      scoreCtx.fillText(`Level: ${level}`, 400, 520);
-    }
+    updateScore();
   };
 
   useGameLoop(() => {
@@ -602,10 +769,20 @@ const Sammy = () => {
       drawGame();
       setScore(prev => ({
         ...prev,
-        points: Math.max(0, prev.points - 2)
+        points: Math.max(0, prev.points - (konami ? 1 : 2))
       }));
+    } else if (gameState === GameState.AWAITINGNEXTLEVEL) {
+      updateScore();
     }
   }, [gameState, sammy, target, score]);
+
+  const getStartingScore = (level: number, adjust = false) => {
+    const startingScore = 2000 + ((level-1) * 500);
+    if (adjust) {
+      return konami ? startingScore + 1 : startingScore + 2;
+    }
+    return startingScore;
+  }
 
   const updateGameState = () => {
     setGameState(prev => {
@@ -625,7 +802,7 @@ const Sammy = () => {
             newDirection: MoveState.NONE,
             segments: []
           });
-          setScore({ points: 2000, total: 0 });
+          setScore({ points: getStartingScore(1), total: 0 });
           setTarget({ exists: false, num: 0, x: 0, y: 0, color: '' });
           setLevel(1);
           return GameState.RUNNING;
@@ -638,7 +815,7 @@ const Sammy = () => {
             newDirection: MoveState.NONE,
             segments: []
           });
-          setScore(prevScore => ({ ...prevScore, points: 2000 }));
+          setScore(prevScore => ({ ...prevScore, points: getStartingScore(levelRef.current + 1) }));
           setTarget({ exists: false, num: 0, x: 0, y: 0, color: '' });
           setLevel(levelRef.current + 1);
           return GameState.RUNNING;
@@ -648,63 +825,41 @@ const Sammy = () => {
     });
   };
 
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      e.preventDefault();
-      if (e.code === 'Space') {
-        updateGameState();
-      } else {
-        setSammy(prev => ({
-          ...prev,
-          newDirection: {
-            'ArrowUp': MoveState.UP,
-            'ArrowRight': MoveState.RIGHT,
-            'ArrowDown': MoveState.DOWN,
-            'ArrowLeft': MoveState.LEFT,
-            'KeyW': MoveState.UP,
-            'KeyD': MoveState.RIGHT,
-            'KeyS': MoveState.DOWN,
-            'KeyA': MoveState.LEFT
-          }[e.code] || prev.newDirection
-        }));
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, []);
-
   const overlays = useMemo(() => {
     switch (gameState) {
       case GameState.INTRO:
-        return <Intro />
       case GameState.PAUSED:
-        return <Paused />
+        return <Intro highScores={highScores} konami={konami} fetchHighScores={fetchScores} />
       case GameState.WON:
       case GameState.DEAD:
-        return <Dead 
-          score={score.total} 
-          level={level} 
-          onGoToIntro={() => setGameState(GameState.INTRO)} 
-          isWin={gameState === GameState.WON} 
+        return <Dead
+          score={score.total}
+          level={level}
+          onGoToIntro={() => {
+            updateGameState();
+            setGameState(GameState.PAUSED)
+          }}
+          isWin={gameState === GameState.WON}
+          highScores={highScores}
         />
       case GameState.AWAITINGNEXTLEVEL:
-        return <AwaitingNextLevel 
-          score={score.total} 
-          level={level} 
+        return <AwaitingNextLevel
+          score={score.total}
+          level={level}
+          highScores={highScores}
         />
       default:
         return null;
     }
-  }, [gameState, score.total, level, setGameState, Intro, Paused, Dead, AwaitingNextLevel]);
+  }, [gameState, score.total, level, setGameState, Intro, Dead, AwaitingNextLevel, highScores, konami]);
 
   if (!scale) {
-    return null;
+    return <div className="flex flex-col justify-center items-center h-screen">Loading...</div>;
   }
 
   return (
-    <div className="max-w-[500px]">
-      <div 
+    <div className="mt-1 mx-2">
+      <div
         ref={containerRef}
         className="relative origin-top-left w-[500px] h-[520px]"
         style={{
@@ -712,28 +867,28 @@ const Sammy = () => {
           marginBottom: `${-520 * (1 - scale)}px`
         }}
       >
-        <canvas 
+        <canvas
           ref={gameCanvasRef}
           id="gamestate"
           width={500}
           height={500}
           className="absolute top-0 left-0 z-4"
         />
-        <canvas 
+        <canvas
           ref={mapCanvasRef}
           id="map"
           width={500}
           height={500}
           className="absolute top-0 left-0 z-3"
         />
-        <canvas 
+        <canvas
           ref={sammyCanvasRef}
           id="sammy"
           width={500}
           height={500}
           className="absolute top-0 left-0 z-2"
-        />  
-        <canvas 
+        />
+        <canvas
           ref={scoreCanvasRef}
           id="score"
           width={500}
@@ -743,22 +898,24 @@ const Sammy = () => {
         {overlays}
       </div>
 
-      <div className="flex justify-center mt-4">
-        <DPad 
-          gameState={gameState} 
-          onDirectionChange={(direction: number) => {
-            setSammy(prev => ({ ...prev, newDirection: direction }));
-          }} 
-          handleMobileGameState={updateGameState} 
-        />
-      </div>
-
-      <div className="justify-center mt-4 hidden md:block text-center">
-        <p className="text-sm">Control with the D-Pad or space and arrow keys</p>
+      <div className="flex mt-6">
+        <div className="flex flex-1 justify-center">
+          <DPad onDirectionChange={(direction: number) => {
+              setSammy(prev => ({ ...prev, newDirection: direction }));
+              updateSequence(direction);
+            }}
+          />
+        </div>
+        <div className="flex flex-1 relative">
+          <ControlButtons
+            gameState={gameState}
+            handleMobileGameState={updateGameState}
+          />
+        </div>
       </div>
     </div>
   );
 };
 
 
-export default Sammy; 
+export default Sammy;
