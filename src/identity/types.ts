@@ -280,6 +280,8 @@ export type UseQueryOptions = {
   enabled?: boolean;
   /** Cache time in milliseconds */
   cacheTime?: number;
+  /** Stale time in milliseconds */
+  staleTime?: number;
 };
 
 /**
