@@ -1,17 +1,15 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { renderHook, waitFor } from '@testing-library/react';
-import { QueryClient } from '@tanstack/react-query';
-import { usePriceQuote } from './usePriceQuote';
 import { getPriceQuote } from '@/api';
 import { RequestContext } from '@/core/network/constants';
 import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
+import { QueryClient } from '@tanstack/react-query';
+import { renderHook, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { usePriceQuote } from './usePriceQuote';
 
-// Mock the API module
 vi.mock('@/api', () => ({
   getPriceQuote: vi.fn(),
 }));
 
-// Mock isApiError utility
 vi.mock('@/internal/utils/isApiResponseError', () => ({
   isApiError: vi.fn((response) => response.error !== undefined),
 }));
@@ -156,7 +154,6 @@ describe('usePriceQuote', () => {
       { wrapper: getNewReactQueryTestProvider() },
     );
 
-    // Query should be in idle state when disabled
     expect(getPriceQuote).not.toHaveBeenCalled();
   });
 });
