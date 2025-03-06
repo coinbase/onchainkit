@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-onchain`]().
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-onchain --mini`]().
 
 
 ## Getting Started
@@ -14,6 +14,8 @@ pnpm install
 # or
 bun install
 ```
+
+Update your .env file with your redis credentials
 
 Next, run the development server:
 

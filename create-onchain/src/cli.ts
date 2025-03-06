@@ -46,14 +46,14 @@ async function copyDir(src: string, dest: string) {
 
 type WebpageData = { header: string, payload: string, signature: string, domain: string };
 
-async function getWebpageData(browser: 'safari' | 'google chrome' | 'none'): Promise<WebpageData> {
+async function getWebpageData(): Promise<WebpageData> {
   const app = express();
   const server = createServer(app);
   const wss = new WebSocketServer({ server });
 
   app.use(express.static(path.resolve(
     fileURLToPath(import.meta.url),
-    '../../../src/manifest'
+    '../../manifest'
   )));
 
   return new Promise((resolve, reject) => {
@@ -63,18 +63,10 @@ async function getWebpageData(browser: 'safari' | 'google chrome' | 'none'): Pro
         server.close();
         resolve(parsedData);
       });
-      ws.on('close', () => {
-        server.close();
-        reject(new Error('WebSocket connection closed'));
-      });
     });
 
     server.listen(3333, () => {
-      open('http://localhost:3333', browser === 'none' ? undefined : {
-        app: {
-          name: browser
-        }
-      });
+      open('http://localhost:3333');
     });
   });
 }
@@ -90,35 +82,8 @@ async function createMiniKitAccountAssociation(envPath?: string) {
     return false;
   }
 
-  let browserResult: prompts.Answers<'browser'>;
   try {
-    browserResult = await prompts(
-      [
-        {
-          type: 'select',
-          name: 'browser',
-          message: pc.reset('If you want to sign your account manifest with your TBA account, please select the OS of your device:'),
-          choices: [
-            { title: 'iOS', value: 'safari' },
-            { title: 'Android', value: 'google chrome' },
-            { title: 'Not using a passkey account', value: 'none' },
-          ],
-        }
-      ],
-      {
-        onCancel: () => {
-          throw new Error('Browser selection cancelled.');
-        },
-      }
-    );
-  } catch (cancelled: any) {
-    console.log(pc.red(`\n${cancelled.message}`));
-    return false;
-  }
-
-  const { browser } = browserResult;
-  try {
-    const webpageData = await getWebpageData(browser);
+    const webpageData = await getWebpageData();
     const envContent = `FARCASTER_HEADER=${webpageData.header}\nFARCASTER_PAYLOAD=${webpageData.payload}\nFARCASTER_SIGNATURE=${webpageData.signature}\nNEXT_PUBLIC_URL=${webpageData.domain}`;
     const updatedEnv = existingEnv
       .split('\n')
@@ -237,10 +202,10 @@ async function createMiniKitTemplate() {
     `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}
 NEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}
 NEXT_PUBLIC_URL=
-NEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/minikit.png
+NEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/snake.png
 NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=FFFFFF
-NEXT_PUBLIC_IMAGE_URL=$NEXT_PUBLIC_URL/minikit.png
-NEXT_PUBLIC_ICON_URL=https://onchainkit.xyz/favicon/48x48.png
+NEXT_PUBLIC_IMAGE_URL=$NEXT_PUBLIC_URL/snake.png
+NEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/snake.png
 NEXT_PUBLIC_VERSION=next
 REDIS_URL=
 REDIS_TOKEN=`
