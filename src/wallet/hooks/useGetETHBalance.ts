@@ -3,6 +3,7 @@ import { formatUnits } from 'viem';
 import type { Address } from 'viem';
 import { useBalance } from 'wagmi';
 import type { UseBalanceReturnType } from 'wagmi';
+import { DEFAULT_QUERY_OPTIONS } from '../../internal/constants';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import type { SwapError } from '../../swap';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
@@ -11,7 +12,12 @@ import type { UseGetETHBalanceResponse } from '../types';
 const ETH_DECIMALS = 18;
 
 export function useGetETHBalance(address?: Address): UseGetETHBalanceResponse {
-  const ethBalanceResponse: UseBalanceReturnType = useBalance({ address });
+  const ethBalanceResponse: UseBalanceReturnType = useBalance({
+    address,
+    query: {
+      ...DEFAULT_QUERY_OPTIONS,
+    },
+  });
 
   return useMemo(() => {
     let error: SwapError | undefined;
@@ -28,9 +34,9 @@ export function useGetETHBalance(address?: Address): UseGetETHBalanceResponse {
     ) {
       return {
         convertedBalance: '',
+        roundedBalance: '',
         error,
         response: ethBalanceResponse,
-        roundedBalance: '',
       };
     }
     const convertedBalance = formatUnits(
