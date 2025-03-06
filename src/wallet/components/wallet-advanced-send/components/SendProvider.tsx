@@ -1,4 +1,5 @@
 import type { APIError, PortfolioTokenWithFiatValue } from '@/api/types';
+import { RequestContext } from '@/core/network/constants';
 import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useSendTransaction } from '@/internal/hooks/useSendTransaction';
@@ -116,10 +117,13 @@ export function SendProvider({ children }: SendProviderReact) {
   }, [tokenBalances, updateLifecycleStatus]);
 
   // fetch & set exchange rate
-  const { isLoading: exchangeRateLoading, exchangeRate } = useExchangeRate({
-    token: selectedToken?.address === '' ? 'ETH' : selectedToken?.address,
-    selectedInputType,
-  });
+  const { isLoading: exchangeRateLoading, exchangeRate } = useExchangeRate(
+    {
+      token: selectedToken?.address === '' ? 'ETH' : selectedToken?.address,
+      selectedInputType,
+    },
+    RequestContext.Wallet,
+  );
 
   // handlers
   const handleRecipientInputChange = useCallback(() => {

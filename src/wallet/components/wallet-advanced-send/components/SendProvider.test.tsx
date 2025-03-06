@@ -6,6 +6,7 @@ import { formatUnits } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { SendProvider, useSendContext } from './SendProvider';
+import { RequestContext } from '@/core/network/constants';
 
 vi.mock('../../WalletAdvancedProvider', () => ({
   useWalletAdvancedContext: vi.fn(),
@@ -306,10 +307,13 @@ describe('useSendContext', () => {
       result.current.handleTokenSelection(ethToken);
     });
 
-    expect(useExchangeRate).toHaveBeenCalledWith({
-      token: 'ETH',
-      selectedInputType: 'crypto',
-    });
+    expect(useExchangeRate).toHaveBeenCalledWith(
+      {
+        token: 'ETH',
+        selectedInputType: 'crypto',
+      },
+      RequestContext.Wallet,
+    );
   });
 
   it('should call useExchangeRate with token address for non-ETH tokens', () => {
@@ -332,10 +336,13 @@ describe('useSendContext', () => {
       result.current.handleTokenSelection(usdcToken);
     });
 
-    expect(useExchangeRate).toHaveBeenCalledWith({
-      token: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-      selectedInputType: 'crypto',
-    });
+    expect(useExchangeRate).toHaveBeenCalledWith(
+      {
+        token: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+        selectedInputType: 'crypto',
+      },
+      RequestContext.Wallet,
+    );
   });
 
   it('should call useExchangeRate when selectedInputType changes', () => {
@@ -364,10 +371,13 @@ describe('useSendContext', () => {
       result.current.setSelectedInputType('fiat');
     });
 
-    expect(useExchangeRate).toHaveBeenCalledWith({
-      token: 'ETH',
-      selectedInputType: 'fiat',
-    });
+    expect(useExchangeRate).toHaveBeenCalledWith(
+      {
+        token: 'ETH',
+        selectedInputType: 'fiat',
+      },
+      RequestContext.Wallet,
+    );
   });
 
   it('should fetch transaction data when all required fields are set', () => {
