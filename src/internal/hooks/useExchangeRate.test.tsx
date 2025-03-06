@@ -1,5 +1,6 @@
 import { getPriceQuote } from '@/api';
 import type { PriceQuoteToken } from '@/api/types';
+import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { ethToken } from '@/token/constants';
 import { renderHook, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -16,11 +17,13 @@ describe('useExchangeRate', () => {
 
   it('should return nullish values without calling setExchangeRate if a token is not provided', async () => {
     const mockSetExchangeRate = vi.fn();
-    const { result } = renderHook(() =>
-      useExchangeRate({
-        token: undefined as unknown as PriceQuoteToken,
-        selectedInputType: 'crypto',
-      }),
+    const { result } = renderHook(
+      () =>
+        useExchangeRate({
+          token: undefined as unknown as PriceQuoteToken,
+          selectedInputType: 'crypto',
+        }),
+      { wrapper: getNewReactQueryTestProvider() },
     );
 
     const resolvedValue = await result.current;
@@ -45,15 +48,17 @@ describe('useExchangeRate', () => {
       ],
     });
 
-    const { result } = renderHook(() =>
-      useExchangeRate({
-        token: ethToken.symbol as PriceQuoteToken,
-        selectedInputType: 'crypto',
-      }),
+    const { result } = renderHook(
+      () =>
+        useExchangeRate({
+          token: ethToken.symbol as PriceQuoteToken,
+          selectedInputType: 'crypto',
+        }),
+      { wrapper: getNewReactQueryTestProvider() },
     );
 
     await waitFor(() => {
-      expect(result.current.exchangeRate).toEqual(1 / 2400);
+      expect(result.current.exchangeRate).toEqual(2400);
     });
   });
 
@@ -70,15 +75,17 @@ describe('useExchangeRate', () => {
       ],
     });
 
-    const { result } = renderHook(() =>
-      useExchangeRate({
-        token: ethToken.symbol as PriceQuoteToken,
-        selectedInputType: 'fiat',
-      }),
+    const { result } = renderHook(
+      () =>
+        useExchangeRate({
+          token: ethToken.symbol as PriceQuoteToken,
+          selectedInputType: 'fiat',
+        }),
+      { wrapper: getNewReactQueryTestProvider() },
     );
 
     await waitFor(() => {
-      expect(result.current.exchangeRate).toEqual(2400);
+      expect(result.current.exchangeRate).toEqual(1 / 2400);
     });
   });
 
@@ -87,36 +94,35 @@ describe('useExchangeRate', () => {
       error: 'test error',
     });
 
-    const { result } = renderHook(() =>
-      useExchangeRate({
-        token: ethToken.symbol as PriceQuoteToken,
-        selectedInputType: 'fiat',
-      }),
+    const { result } = renderHook(
+      () =>
+        useExchangeRate({
+          token: ethToken.symbol as PriceQuoteToken,
+          selectedInputType: 'fiat',
+        }),
+      { wrapper: getNewReactQueryTestProvider() },
     );
 
     await waitFor(() => {
-      expect(result.current.error).toEqual('test error');
+      expect(result.current.error).toEqual({ error: 'test error' });
     });
   });
 
   it('should log an error and not set the exchange rate when the api fails', async () => {
-    const consoleSpy = vi.spyOn(console, 'error');
-
     (getPriceQuote as Mock).mockRejectedValue(new Error('test error'));
 
-    const { result } = renderHook(() =>
-      useExchangeRate({
-        token: ethToken.symbol as PriceQuoteToken,
-        selectedInputType: 'fiat',
-      }),
+    const { result } = renderHook(
+      () =>
+        useExchangeRate({
+          token: ethToken.symbol as PriceQuoteToken,
+          selectedInputType: 'fiat',
+        }),
+      { wrapper: getNewReactQueryTestProvider() },
     );
 
     await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith(
-        'Uncaught error fetching price quote:',
-        expect.any(Error),
-      );
-      expect(result.current.error).toEqual('Error: test error');
+      expect(result.current.error).toBeInstanceOf(Error);
+      expect((result.current.error as Error).message).toEqual('test error');
     });
   });
 
@@ -133,11 +139,13 @@ describe('useExchangeRate', () => {
       ],
     });
 
-    const { result } = renderHook(() =>
-      useExchangeRate({
-        token: ethToken.symbol as PriceQuoteToken,
-        selectedInputType: 'crypto',
-      }),
+    const { result } = renderHook(
+      () =>
+        useExchangeRate({
+          token: ethToken.symbol as PriceQuoteToken,
+          selectedInputType: 'crypto',
+        }),
+      { wrapper: getNewReactQueryTestProvider() },
     );
 
     await waitFor(() => {
