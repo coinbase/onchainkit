@@ -139,10 +139,8 @@ describe('useAvatar', () => {
     const testEnsName = 'test.ens';
     const testEnsAvatar = 'avatarUrl';
 
-    // Mock the getEnsAvatar method of the publicClient
     mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
 
-    // Use the renderHook function to create a test harness for the useAvatar hook with enabled: false
     const { result } = renderHook(
       () => useAvatar({ ensName: testEnsName }, { enabled: false }),
       {
@@ -150,7 +148,6 @@ describe('useAvatar', () => {
       },
     );
 
-    // The query should not be executed
     expect(result.current.isLoading).toBe(false);
     expect(result.current.isFetched).toBe(false);
     expect(mockGetEnsAvatar).not.toHaveBeenCalled();
@@ -160,17 +157,13 @@ describe('useAvatar', () => {
     const testEnsName = 'test.ens';
     const testEnsAvatar = 'avatarUrl';
 
-    // Mock the getEnsAvatar method of the publicClient
     mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
 
-    // Use the renderHook function to create a test harness for the useAvatar hook
     renderHook(() => useAvatar({ ensName: testEnsName }), {
       wrapper: getNewReactQueryTestProvider(),
     });
 
-    // Wait for the hook to finish fetching the ENS avatar
     await waitFor(() => {
-      // Check that the default query options were used
       expect(mockGetEnsAvatar).toHaveBeenCalled();
     });
   });
@@ -178,12 +171,10 @@ describe('useAvatar', () => {
   it('merges custom queryOptions with default options', async () => {
     const testEnsName = 'test.ens';
     const testEnsAvatar = 'avatarUrl';
-    const customStaleTime = 60000; // 1 minute
+    const customStaleTime = 60000;
 
-    // Mock the getEnsAvatar method of the publicClient
     mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
 
-    // Use the renderHook function to create a test harness for the useAvatar hook with custom staleTime
     const { result } = renderHook(
       () => useAvatar({ ensName: testEnsName }, { staleTime: customStaleTime }),
       {
@@ -191,12 +182,10 @@ describe('useAvatar', () => {
       },
     );
 
-    // Wait for the hook to finish fetching the ENS avatar
     await waitFor(() => {
       expect(result.current.data).toBe(testEnsAvatar);
     });
 
-    // The query should be executed with the custom staleTime
     expect(mockGetEnsAvatar).toHaveBeenCalled();
   });
 });
