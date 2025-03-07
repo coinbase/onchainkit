@@ -1,11 +1,11 @@
-// // import {
-// //   FundCard,
-// //   FundCardAmountInput,
-// //   FundCardAmountInputTypeSwitch,
-// //   FundCardPaymentMethodDropdown,
-// //   FundCardPresetAmountInputList,
-// //   FundCardSubmitButton,
-// } from '@/fund';
+import {
+  FundCard,
+  FundCardAmountInput,
+  FundCardAmountInputTypeSwitch,
+  FundCardPaymentMethodDropdown,
+  FundCardPresetAmountInputList,
+  FundCardSubmitButton,
+} from '@/fund';
 import { cn, color, text } from '@/styles/theme';
 import type { SendFundingWalletProps } from '../types';
 
@@ -15,7 +15,6 @@ export function SendFundWallet({
   onSuccess,
   classNames,
 }: SendFundingWalletProps) {
-  return null;
   return (
     <div
       className={cn(
@@ -30,7 +29,7 @@ export function SendFundWallet({
         Insufficient ETH balance to send transaction. Fund your wallet to
         continue.
       </div>
-      {/* <FundCard
+      <FundCard
         assetSymbol="ETH"
         country="US"
         currency="USD"
@@ -45,7 +44,7 @@ export function SendFundWallet({
         <FundCardPresetAmountInputList />
         <FundCardPaymentMethodDropdown />
         <FundCardSubmitButton />
-      </FundCard> */}
+      </FundCard>
     </div>
   );
 }
