@@ -1,3 +1,4 @@
+'use client';
 import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { useCallback, useMemo } from 'react';

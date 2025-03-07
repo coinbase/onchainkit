@@ -1,3 +1,4 @@
+'use client';
 import { background, border, cn, text } from '@/styles/theme';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 

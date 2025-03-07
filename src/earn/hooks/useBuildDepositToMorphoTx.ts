@@ -1,3 +1,4 @@
+'use client';
 import { useMorphoVault } from '@/earn/hooks/useMorphoVault';
 import { buildDepositToMorphoTx } from '@/earn/utils/buildDepositToMorphoTx';
 import type { Call } from '@/transaction/types';

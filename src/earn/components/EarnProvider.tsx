@@ -1,3 +1,4 @@
+'use client';
 import { useBuildDepositToMorphoTx } from '@/earn/hooks/useBuildDepositToMorphoTx';
 import { getToken } from '@/earn/utils/getToken';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';

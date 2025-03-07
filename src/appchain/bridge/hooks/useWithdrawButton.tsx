@@ -1,3 +1,4 @@
+'use client';
 import { Spinner } from '@/internal/components/Spinner';
 import { useMemo } from 'react';
 import type { UseWithdrawButtonParams } from '../types';

@@ -1,3 +1,4 @@
+'use client';
 import type { WithdrawAmountInputReact } from '../types';
 import { EarnAmountInput } from './EarnAmountInput';
 import { useEarnContext } from './EarnProvider';

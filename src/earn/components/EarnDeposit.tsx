@@ -1,3 +1,4 @@
+'use client';
 import { EarnDetails } from '@/earn/components/EarnDetails';
 import type { EarnDepositReact } from '../types';
 import { DepositAmountInput } from './DepositAmountInput';

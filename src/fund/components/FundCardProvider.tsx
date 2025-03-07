@@ -1,3 +1,4 @@
+'use client';
 import type { LifecycleStatusUpdate } from '@/internal/types';
 import {
   createContext,

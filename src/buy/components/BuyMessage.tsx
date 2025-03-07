@@ -1,3 +1,4 @@
+'use client';
 import { cn, color, text } from '../../styles/theme';
 import { isSwapError } from '../../swap/utils/isSwapError';
 import { useBuyContext } from './BuyProvider';

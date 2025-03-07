@@ -1,3 +1,4 @@
+'use client';
 import { cn } from '@/styles/theme';
 import { border, color, pressable, text } from '@/styles/theme';
 import { ConnectWallet } from '@/wallet';

@@ -1,3 +1,4 @@
+'use client';
 import { AmountInput } from '@/internal/components/amount-input/AmountInput';
 import { useThrottle } from '@/internal/hooks/useThrottle';
 import { useCallback } from 'react';

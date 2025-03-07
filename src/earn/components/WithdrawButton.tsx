@@ -1,3 +1,4 @@
+'use client';
 import { useWithdrawAnalytics } from '@/earn/hooks/useWithdrawAnalytics';
 import { cn } from '@/styles/theme';
 import {

@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useState } from 'react';
 import { type Hex, erc20Abi, keccak256, parseEther, parseUnits } from 'viem';
 import { getWithdrawalHashStorageSlot, getWithdrawals } from 'viem/op-stack';

@@ -1,3 +1,4 @@
+'use client';
 import { useEarnContext } from '@/earn/components/EarnProvider';
 import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
 import { Popover } from '@/internal/components/Popover';

@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useMemo } from 'react';
 import { applePaySvg } from '../../internal/svg/applePaySvg';
 import { cardSvg } from '../../internal/svg/cardSvg';

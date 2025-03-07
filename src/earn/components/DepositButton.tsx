@@ -1,3 +1,4 @@
+'use client';
 import { useDepositAnalytics } from '@/earn/hooks/useDepositAnalytics';
 import { cn } from '@/styles/theme';
 import {

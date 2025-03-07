@@ -1,3 +1,4 @@
+'use client';
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { BuyEvent, type BuyOption } from '@/core/analytics/types';
 import { openPopup } from '@/internal/utils/openPopup';

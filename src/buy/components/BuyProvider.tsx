@@ -1,3 +1,4 @@
+'use client';
 import { RequestContext } from '@/core/network/constants';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import {

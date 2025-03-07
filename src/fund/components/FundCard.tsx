@@ -1,3 +1,5 @@
+'use client';
+
 import type { ReactNode } from 'react';
 import { useTheme } from '../../internal/hooks/useTheme';
 import { background, border, cn, color, text } from '../../styles/theme';
