@@ -57,7 +57,7 @@ describe('DismissableLayer', () => {
     fireEvent.keyDown(document, { key: 'Tab' });
     fireEvent.keyDown(document, { key: ' ' });
     fireEvent.keyDown(document, { key: 'ArrowDown' });
-    
+
     expect(onDismiss).not.toHaveBeenCalled();
   });
 
@@ -257,4 +257,4 @@ describe('DismissableLayer', () => {
 
     expect(onDismiss).not.toHaveBeenCalled();
   });
-});
+}); 
