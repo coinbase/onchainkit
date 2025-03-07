@@ -1,3 +1,4 @@
+'use client';
 import { useAmountInput } from '@/internal/hooks/useAmountInput';
 import { FundCardPresetAmountInputItem } from './FundCardPresetAmountInputItem';
 import { useFundContext } from './FundCardProvider';

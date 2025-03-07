@@ -1,3 +1,4 @@
+'use client';
 import { Spinner } from '@/internal/components/Spinner';
 import { ErrorSvg } from '@/internal/svg/fullWidthErrorSvg';
 import { SuccessSvg } from '@/internal/svg/fullWidthSuccessSvg';
@@ -50,56 +51,28 @@ export const AppchainBridgeWithdraw = () => {
   );
 
   const LoadingContent = useMemo(
-    () => () => (
-      <div className="flex h-full flex-col items-center justify-center gap-16">
-        <Spinner className="!border-t-[var(--ock-bg-primary)] h-24 w-24" />
-        <span className="px-4 text-center font-medium text-base">
-          Waiting for claim to be ready...
-          <br />
-          Please do not close this window.
-        </span>
-      </div>
-    ),
+    () => () =>
+      (
+        <div className="flex h-full flex-col items-center justify-center gap-16">
+          <Spinner className="!border-t-[var(--ock-bg-primary)] h-24 w-24" />
+          <span className="px-4 text-center font-medium text-base">
+            Waiting for claim to be ready...
+            <br />
+            Please do not close this window.
+          </span>
+        </div>
+      ),
     [],
   );
 
   const ClaimContent = useMemo(
-    () => () => (
-      <div className="flex flex-col items-center gap-16">
-        <SuccessIcon />
-        <button
-          onClick={proveAndFinalizeWithdrawal}
-          className={cn(buttonStyles, buttonDisabled && pressable.disabled)}
-          type="button"
-        >
-          <div
-            className={cn(text.headline, color.inverse, 'flex justify-center')}
-          >
-            {buttonContent}
-          </div>
-        </button>
-      </div>
-    ),
-    [buttonStyles, buttonDisabled, buttonContent, proveAndFinalizeWithdrawal],
-  );
-
-  const ErrorContent = useMemo(
-    () => () => (
-      <div className="flex flex-col items-center gap-16">
-        <div className="flex justify-center">
-          <div className="h-20 w-20">
-            <ErrorSvg fill="var(--ock-bg-error)" />
-          </div>
-        </div>
-        <div className="flex flex-col items-center gap-4">
-          <span className="px-4 text-center font-medium text-base">
-            There was an error processing your withdrawal.
-            <br />
-            If the issue persists, please contact support.
-          </span>
+    () => () =>
+      (
+        <div className="flex flex-col items-center gap-16">
+          <SuccessIcon />
           <button
-            onClick={handleResetState}
-            className={buttonStyles}
+            onClick={proveAndFinalizeWithdrawal}
+            className={cn(buttonStyles, buttonDisabled && pressable.disabled)}
             type="button"
           >
             <div
@@ -109,12 +82,47 @@ export const AppchainBridgeWithdraw = () => {
                 'flex justify-center',
               )}
             >
-              Back to bridge
+              {buttonContent}
             </div>
           </button>
         </div>
-      </div>
-    ),
+      ),
+    [buttonStyles, buttonDisabled, buttonContent, proveAndFinalizeWithdrawal],
+  );
+
+  const ErrorContent = useMemo(
+    () => () =>
+      (
+        <div className="flex flex-col items-center gap-16">
+          <div className="flex justify-center">
+            <div className="h-20 w-20">
+              <ErrorSvg fill="var(--ock-bg-error)" />
+            </div>
+          </div>
+          <div className="flex flex-col items-center gap-4">
+            <span className="px-4 text-center font-medium text-base">
+              There was an error processing your withdrawal.
+              <br />
+              If the issue persists, please contact support.
+            </span>
+            <button
+              onClick={handleResetState}
+              className={buttonStyles}
+              type="button"
+            >
+              <div
+                className={cn(
+                  text.headline,
+                  color.inverse,
+                  'flex justify-center',
+                )}
+              >
+                Back to bridge
+              </div>
+            </button>
+          </div>
+        </div>
+      ),
     [handleResetState, buttonStyles],
   );
 
