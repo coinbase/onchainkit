@@ -1,8 +1,6 @@
 'use client';
-import { Children, useMemo } from 'react';
 import { useIsMounted } from '../../internal/hooks/useIsMounted';
 import { useTheme } from '../../internal/hooks/useTheme';
-import { findComponent } from '../../internal/utils/findComponent';
 import { background, border, cn, color, text } from '../../styles/theme';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import type { SwapReact } from '../types';
@@ -14,12 +12,43 @@ import { SwapSettings } from './SwapSettings';
 import { SwapToast } from './SwapToast';
 import { SwapToggleButton } from './SwapToggleButton';
 
+function SwapDefaultContent({
+  to,
+  from,
+  disabled,
+}: Pick<SwapReact, 'to' | 'from' | 'disabled'>) {
+  return (
+    <>
+      <SwapSettings />
+      <SwapAmountInput
+        label="Sell"
+        swappableTokens={from}
+        token={from?.[0]}
+        type="from"
+      />
+      <SwapToggleButton />
+      <SwapAmountInput
+        label="Buy"
+        swappableTokens={to}
+        token={to?.[0]}
+        type="to"
+      />
+      <SwapButton disabled={disabled} />
+      <SwapMessage />
+      <SwapToast />
+    </>
+  );
+}
+
 export function Swap({
   children,
   config = {
     maxSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
   },
   className,
+  disabled,
+  to,
+  from,
   experimental = { useAggregator: false },
   isSponsored = false,
   onError,
@@ -30,32 +59,13 @@ export function Swap({
 }: SwapReact) {
   const componentTheme = useTheme();
 
-  const {
-    inputs,
-    toggleButton,
-    swapButton,
-    swapMessage,
-    swapSettings,
-    swapToast,
-  } = useMemo(() => {
-    const childrenArray = Children.toArray(children);
-
-    return {
-      inputs: childrenArray.filter(findComponent(SwapAmountInput)),
-      toggleButton: childrenArray.find(findComponent(SwapToggleButton)),
-      swapButton: childrenArray.find(findComponent(SwapButton)),
-      swapMessage: childrenArray.find(findComponent(SwapMessage)),
-      swapSettings: childrenArray.find(findComponent(SwapSettings)),
-      swapToast: childrenArray.find(findComponent(SwapToast)),
-    };
-  }, [children]);
-
   const isMounted = useIsMounted();
 
   // prevents SSR hydration issue
   if (!isMounted) {
     return null;
   }
+
   return (
     <SwapProvider
       config={config}
@@ -71,24 +81,23 @@ export function Swap({
           background.default,
           border.radius,
           color.foreground,
-          'flex w-[500px] flex-col px-6 pt-6 pb-4',
+          'relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
           className,
         )}
         data-testid="ockSwap_Container"
       >
-        <div className="mb-4 flex items-center justify-between">
+        <div className="absolute flex w-1/2 items-center justify-between">
           {headerLeftContent}
-          <h3 className={cn(text.title3)} data-testid="ockSwap_Title">
+          <h3
+            className={cn(text.title3, 'text-center')}
+            data-testid="ockSwap_Title"
+          >
             {title}
           </h3>
-          {swapSettings}
         </div>
-        {inputs[0]}
-        <div className="relative h-1">{toggleButton}</div>
-        {inputs[1]}
-        {swapButton}
-        {swapToast}
-        <div className="flex">{swapMessage}</div>
+        {children ?? (
+          <SwapDefaultContent to={to} from={from} disabled={disabled} />
+        )}
       </div>
     </SwapProvider>
   );
