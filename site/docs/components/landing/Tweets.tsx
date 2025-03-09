@@ -51,7 +51,7 @@ const Tweets: React.FC = () => {
         </div>
         <div className="relative w-full">
           <div className="flex flex-col items-center gap-8 md:flex-row md:items-stretch md:justify-center md:gap-4 md:overflow-x-auto md:pb-4">
-            <TweetCard className="tweet1 md:flex-shrink-0">
+            <TweetCard className="tweet1 md:shrink-0">
               <p lang="en" dir="ltr">
                 🟣 Excited to announce that Basenames are now integrated into
                 the Fit Club app! <br />
@@ -71,7 +71,7 @@ const Tweets: React.FC = () => {
                 August 23, 2024
               </a>
             </TweetCard>
-            <TweetCard className="tweet2 md:flex-shrink-0">
+            <TweetCard className="tweet2 md:shrink-0">
               <p lang="en" dir="ltr">
                 Rush absolutely recommends Base devs to try{' '}
                 <a href="https://twitter.com/OnchainKit?ref_src=twsrc%5Etfw">
@@ -90,7 +90,7 @@ const Tweets: React.FC = () => {
                 October 23, 2024
               </a>
             </TweetCard>
-            <TweetCard className="tweet3 md:flex-shrink-0">
+            <TweetCard className="tweet3 md:shrink-0">
               <p lang="en" dir="ltr">
                 Swap is now live on our website! Feels good to be based, thanks
                 guys 💙{' '}

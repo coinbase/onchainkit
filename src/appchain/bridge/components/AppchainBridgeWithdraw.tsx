@@ -52,7 +52,7 @@ export const AppchainBridgeWithdraw = () => {
   const LoadingContent = useMemo(
     () => () => (
       <div className="flex h-full flex-col items-center justify-center gap-16">
-        <Spinner className="!border-t-[var(--ock-bg-primary)] h-24 w-24" />
+        <Spinner className="border-t-(--ock-bg-primary)! h-24 w-24" />
         <span className="px-4 text-center font-medium text-base">
           Waiting for claim to be ready...
           <br />

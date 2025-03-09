@@ -39,7 +39,7 @@ export const AppchainBridgeAddressInput = () => {
         <div className="relative flex items-center">
           <span className="absolute left-4 text-ock-line-default">To</span>
           <TextInput
-            className="ock-bg-default ock-text-foreground ock-border-line-default w-full rounded-lg border p-3 pl-12 placeholder-ock-default focus:border-blue-500 focus:outline-none"
+            className="ock-bg-default ock-text-foreground ock-border-line-default w-full rounded-lg border p-3 pl-12 placeholder-ock-default focus:border-blue-500 focus:outline-hidden"
             placeholder=""
             onChange={(value) => {
               const addr = value as Address;
@@ -68,7 +68,7 @@ export const AppchainBridgeAddressInput = () => {
               <OCKAddress
                 address={address}
                 hasCopyAddressOnClick={false}
-                className="!text-white font-bold"
+                className="text-white! font-bold"
               />
               <OCKAddress
                 address={address}

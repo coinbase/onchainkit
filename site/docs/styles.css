@@ -1,19 +1,37 @@
-@layer vocs_preflight {
-  @tailwind base;
+@config '../tailwind.config.js';
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
 }
-@tailwind components;
-@tailwind utilities;
+
+@layer vocs_preflight {
+  @import 'tailwindcss';
+}
 
 @layer base {
   :root {
-    --text-inverse: theme(colors.gray.50);
-    --text-foreground: theme(colors.gray.950);
-    --text-foreground-muted: theme(colors.gray.600);
-    --text-error: theme(colors.rose.600);
-    --text-primary: theme(colors.indigo.600);
-    --text-success: theme(colors.lime.600);
-    --text-warning: theme(colors.orange.600);
-    --text-disabled: theme(colors.gray.400);
+    --text-inverse: var(--color-gray-50);
+    --text-foreground: var(--color-gray-950);
+    --text-foreground-muted: var(--color-gray-600);
+    --text-error: var(--color-rose-600);
+    --text-primary: var(--color-indigo-600);
+    --text-success: var(--color-lime-600);
+    --text-warning: var(--color-orange-600);
+    --text-disabled: var(--color-gray-400);
   }
 }
 

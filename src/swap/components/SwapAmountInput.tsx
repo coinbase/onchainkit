@@ -122,7 +122,7 @@ export function SwapAmountInput({
         <TextInput
           className={cn(
             'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
-            'leading-none outline-none',
+            'leading-none outline-hidden',
             hasInsufficientBalance && address ? color.error : color.foreground,
           )}
           placeholder="0.0"

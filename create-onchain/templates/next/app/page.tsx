@@ -68,7 +68,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="flex-grow flex items-center justify-center">
+      <main className="grow flex items-center justify-center">
         <div className="max-w-4xl w-full p-4">
           <div className="w-1/3 mx-auto mb-6">
             <ImageSvg />
@@ -80,7 +80,7 @@ export default function App() {
           </div>
           <p className="text-center mb-6">
             Get started by editing
-            <code className="p-1 ml-1 rounded dark:bg-gray-800 bg-gray-200">app/page.tsx</code>.
+            <code className="p-1 ml-1 rounded-sm dark:bg-gray-800 bg-gray-200">app/page.tsx</code>.
           </p>
           <div className="flex flex-col items-center">
             <div className="max-w-2xl w-full">

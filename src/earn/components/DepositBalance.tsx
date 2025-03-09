@@ -37,14 +37,14 @@ export function DepositBalance({ className }: DepositBalanceReact) {
     if (!vaultToken) {
       return (
         <Skeleton
-          className={cn('!bg-[var(--ock-bg-alternate-active)] h-6 w-24')}
+          className={cn('bg-(--ock-bg-alternate-active)! h-6 w-24')}
         />
       );
     }
     if (status === 'pending') {
       return (
         <div className="flex gap-1">
-          <Skeleton className="!bg-[var(--ock-bg-alternate-active)] h-6 w-12" />
+          <Skeleton className="bg-(--ock-bg-alternate-active)! h-6 w-12" />
           <span>{vaultToken?.symbol}</span>
         </div>
       );

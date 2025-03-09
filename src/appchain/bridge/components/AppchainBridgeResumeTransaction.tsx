@@ -55,7 +55,7 @@ export const AppchainBridgeResumeTransaction = () => {
               color.foregroundMuted,
               background.secondary,
               'w-full border-none',
-              'focus:border-none focus:outline-none focus:ring-0',
+              'focus:border-none focus:outline-hidden focus:ring-0',
             )}
             placeholder="0x..."
             onChange={(value) => {

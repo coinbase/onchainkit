@@ -53,7 +53,7 @@ export function IdentityLayout({
       data-testid="ockIdentityLayout_container"
     >
       <div className="flex items-center space-x-3">
-        <div className="flex-shrink-0">{avatar}</div>
+        <div className="shrink-0">{avatar}</div>
         <div className="flex flex-col">
           {name}
           {addressComponent && !ethBalance && addressComponent}

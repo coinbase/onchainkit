@@ -100,12 +100,12 @@ export function AmountInput({
     >
       <div className="absolute inset-x-0 top-6 bottom-4">
         <div className="relative flex h-14">
-          <div ref={wrapperRef} className="flex flex-shrink-0 items-center">
+          <div ref={wrapperRef} className="flex shrink-0 items-center">
             <TextInput
               className={cn(
                 text.body,
                 'border-none bg-transparent',
-                'text-6xl leading-none outline-none',
+                'text-6xl leading-none outline-hidden',
                 '[appearance:textfield]',
                 '[&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none',
                 '[&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
@@ -143,7 +143,7 @@ export function AmountInput({
         className={cn(
           text.body,
           'border-none bg-transparent',
-          'text-6xl leading-none outline-none',
+          'text-6xl leading-none outline-hidden',
           'pointer-events-none absolute whitespace-nowrap opacity-0',
           'left-[-99999px]', // Hide the span from the DOM
         )}
