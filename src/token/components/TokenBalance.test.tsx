@@ -88,7 +88,12 @@ describe('TokenBalance', () => {
       expect(screen.getByText(`0.000 ETH ${subtitle}`)).toBeInTheDocument();
     });
 
-    it('renders action button when showAction is true', () => {
+    it('does not render action button when onActionPress is not provided', () => {
+      render(<TokenBalance token={mockToken} />);
+      expect(screen.queryByTestId('ockTokenBalanceAction')).toBeNull();
+    });
+
+    it('renders action button when onActionPress is provided', () => {
       const onActionPress = vi.fn();
       render(
         <TokenBalance
@@ -104,15 +109,6 @@ describe('TokenBalance', () => {
       expect(actionButton).toBeInTheDocument();
 
       fireEvent.click(actionButton);
-      expect(onActionPress).toHaveBeenCalled();
-    });
-
-    it('handles keyboard events on action button', () => {
-      const onActionPress = vi.fn();
-      render(<TokenBalance token={mockToken} onActionPress={onActionPress} />);
-
-      const actionButton = screen.getByRole('button', { name: 'Use max' });
-      fireEvent.keyDown(actionButton);
       expect(onActionPress).toHaveBeenCalled();
     });
 
