@@ -1,5 +1,6 @@
 import type { HTMLAttributes, ImgHTMLAttributes, ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
+import type { mainnet } from 'viem/_types/chains/definitions/mainnet';
 
 /**
  * Note: exported as public Type
@@ -172,6 +173,18 @@ export type GetAvatar = {
 export type GetAvatarReturnType = string | null;
 
 /**
+ * Interface for the getAvatars function parameters
+ *
+ * Note: exported as public Type
+ */
+export type GetAvatars = {
+  /** Array of ENS names to resolve avatars for */
+  ensNames: string[];
+  /** Optional chain for domain resolution */
+  chain?: typeof mainnet;
+};
+
+/**
  * Note: exported as public Type
  */
 export type GetName = {
@@ -185,6 +198,16 @@ export type GetName = {
  * Note: exported as public Type
  */
 export type GetNameReturnType = string | Basename | null;
+
+/**
+ * Note: exported as public Type
+ */
+export type GetNames = {
+  /** Array of Ethereum addresses to resolve names for */
+  addresses: Address[];
+  /** Optional chain for domain resolution */
+  chain?: typeof mainnet;
+};
 
 /**
  * Note: exported as public Type
@@ -275,13 +298,11 @@ export type UseAvatarOptions = {
 /**
  * Note: exported as public Type
  */
-export type UseQueryOptions = {
-  /** Whether the query should execute */
-  enabled?: boolean;
-  /** Cache time in milliseconds */
-  cacheTime?: number;
-  /** Stale time in milliseconds */
-  staleTime?: number;
+export type UseAvatarsOptions = {
+  /** Array of ENS names to resolve avatars for */
+  ensNames: string[];
+  /** Optional chain for domain resolution */
+  chain?: typeof mainnet;
 };
 
 /**
@@ -292,4 +313,26 @@ export type UseNameOptions = {
   address: Address;
   /** Optional chain for domain resolution */
   chain?: Chain;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseNamesOptions = {
+  /** Array of Ethereum addresses to resolve names for */
+  addresses: Address[];
+  /** Optional chain for domain resolution */
+  chain?: typeof mainnet;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseQueryOptions = {
+  /** Whether the query should execute */
+  enabled?: boolean;
+  /** Cache time in milliseconds */
+  cacheTime?: number;
+  /** Stale time in milliseconds */
+  staleTime?: number;
 };
