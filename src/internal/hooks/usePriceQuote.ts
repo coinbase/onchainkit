@@ -24,10 +24,8 @@ export function usePriceQuote(
     ...queryOptions,
   };
 
-  const queryKey = ['getPriceQuote', token];
-
   return useQuery({
-    queryKey,
+    queryKey: ['getPriceQuote', token],
     queryFn: async () => {
       if (!token) {
         return {
