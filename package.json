@@ -190,6 +190,12 @@
       "import": "./esm/nft/components/mint/index.js",
       "default": "./esm/nft/components/mint/index.js"
     },
+    "./signature": {
+      "types": "./esm/signature/index.d.ts",
+      "module": "./esm/signature/index.js",
+      "import": "./esm/signature/index.js",
+      "default": "./esm/signature/index.js"
+    },
     "./swap": {
       "types": "./esm/swap/index.d.ts",
       "module": "./esm/swap/index.js",
