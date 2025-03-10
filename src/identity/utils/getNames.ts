@@ -18,10 +18,10 @@ export type GetNames = {
  * names for a given array of Ethereum addresses in a single batch request.
  * It returns an array of ENS names in the same order as the input addresses.
  */
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
 export const getNames = async ({
   addresses,
   chain = mainnet,
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
 }: GetNames): Promise<GetNameReturnType[]> => {
   if (!addresses || addresses.length === 0) {
     return [];
