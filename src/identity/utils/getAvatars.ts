@@ -8,13 +8,10 @@ import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { getBaseDefaultProfilePicture } from './getBaseDefaultProfilePicture';
 import { isBasename } from './isBasename';
 
-/**
- * Interface for the getAvatars function parameters
- */
 export type GetAvatars = {
   ensNames: string[];
   chain?: typeof mainnet;
-}
+};
 
 /**
  * An asynchronous function to fetch multiple Basenames or Ethereum Name Service (ENS)

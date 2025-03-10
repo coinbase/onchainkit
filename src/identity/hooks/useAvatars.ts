@@ -4,13 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 import { mainnet } from 'viem/chains';
 import type { GetAvatarReturnType, UseQueryOptions } from '../types';
 
-/**
- * Interface for the useAvatars hook options
- */
 export type UseAvatarsOptions = {
   ensNames: string[];
   chain?: typeof mainnet;
-}
+};
 
 /**
  * A React hook that leverages the `@tanstack/react-query` for fetching and optionally caching
