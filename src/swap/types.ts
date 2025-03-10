@@ -185,6 +185,8 @@ export type SwapButtonReact = {
   className?: string;
   /** Disables swap button */
   disabled?: boolean;
+  /** Label for the swap button */
+  label?: ReactNode;
 };
 
 export type SwapConfig = {
@@ -291,8 +293,6 @@ export type SwapProviderReact = {
  * Note: exported as public Type
  */
 export type SwapReact = {
-  /** React children */
-  children: ReactNode;
   /** Optional className override for top div element */
   className?: string;
   /** Configuration options */
@@ -314,7 +314,31 @@ export type SwapReact = {
   title?: ReactNode;
   /** Header left content for the Swap component (eg. back button) */
   headerLeftContent?: ReactNode;
-};
+} & (
+  | {
+      /** When React children are provided
+       * swappableTokens, toToken, and fromToken should be passed to the SwapAmountInput component
+       * disabled should be passed to the SwapButton component
+       **/
+      children: ReactNode;
+      /** To token */
+      to?: never;
+      /** From token */
+      from?: never;
+      /** Disables swap button */
+      disabled?: never;
+    }
+  | {
+      /** When React Children are undefined, swappableTokens, toToken, and fromToken are required */
+      children?: never;
+      /** To token */
+      to: Token[];
+      /** From token */
+      from: Token[];
+      /** Disables swap button */
+      disabled?: boolean;
+    }
+);
 
 /**
  * Note: exported as public Type
@@ -332,7 +356,7 @@ export type SwapDefaultReact = {
  * Note: exported as public Type
  */
 export type SwapSettingsReact = {
-  children: ReactNode;
+  children?: ReactNode;
   /** Optional className override for top div element */
   className?: string;
   /** Optional icon override */
