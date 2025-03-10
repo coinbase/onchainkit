@@ -59,7 +59,7 @@ describe('buildSendTransaction', () => {
     });
 
     expect(result).toMatchObject({
-      code: 'AmBSeTa01',
+      code: 'AmBSeTx01',
       message: 'Could not build transfer transaction',
       error: 'Test error',
     });
@@ -76,7 +76,7 @@ describe('buildSendTransaction', () => {
     });
 
     expect(result).toMatchObject({
-      code: 'AmBSeTa01',
+      code: 'AmBSeTx01',
       message: 'Could not build transfer transaction',
       error: 'Some string error',
     });
