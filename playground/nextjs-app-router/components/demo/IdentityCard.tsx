@@ -3,31 +3,32 @@
 import { IdentityCard } from '@coinbase/onchainkit/identity';
 import { base, mainnet } from 'viem/chains';
 import { useAccount } from 'wagmi';
-import { useName, getName, useAvatar, getAvatar } from '@coinbase/onchainkit/identity';
+import { useNames, getNames, useAvatars, getAvatars } from '@coinbase/onchainkit/identity';
 import { useState, useEffect } from 'react';
 import { useOnchainKit, setOnchainKitConfig } from '@coinbase/onchainkit';
 
-// Component for useName resolution - only shows name/address text
-function NameItem({ address }: { address: `0x${string}` }) {
-  const { data: name, isLoading } = useName({ address });
+// Component for useNames resolution - only shows name/address text
+function NameItem({ address, nameIndex, names }: { address: `0x${string}`, nameIndex: number, names: (string | null)[] | undefined }) {
   return (
     <li className="text-sm truncate">
-      {isLoading ? 'Loading...' : name || `${address.substring(0, 6)}...${address.substring(38)}`}
+      {!names ? 'Loading...' : (names[nameIndex] || `${address.substring(0, 6)}...${address.substring(38)}`)}
     </li>
   );
 }
 
-// Component for useAvatar resolution - shows avatar image + address
-function AvatarItem({ address }: { address: `0x${string}` }) {
-  // Get name first, then use it for avatar if available
-  const { data: name } = useName({ address });
-  const { data: avatar, isLoading } = useAvatar({ 
-    ensName: name || undefined 
-  });
+// Component for useAvatars resolution - shows avatar image + address
+function AvatarItem({ address, nameIndex, names, avatars }: { 
+  address: `0x${string}`, 
+  nameIndex: number, 
+  names: (string | null)[] | undefined,
+  avatars: (string | null)[] | undefined
+}) {
+  const name = names ? names[nameIndex] : null;
+  const avatar = avatars && name ? avatars[nameIndex] : null;
   
   return (
     <li className="text-sm truncate flex items-center gap-2">
-      {isLoading ? (
+      {!names || !avatars ? (
         'Loading...'
       ) : (
         <>
@@ -39,108 +40,36 @@ function AvatarItem({ address }: { address: `0x${string}` }) {
   );
 }
 
-// Component for getName resolution - only shows name/address text
-function GetNameItem({ address }: { address: `0x${string}` }) {
-  const [name, setName] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const { apiKey, chain } = useOnchainKit();
-  
-  useEffect(() => {
-    const fetchName = async () => {
-      try {
-        console.log(`Fetching name for address: ${address}, with API key: ${apiKey ? 'Available' : 'Not available'}`);
-        
-        // Set the OnchainKit config before making the call
-        if (apiKey) {
-          setOnchainKitConfig({
-            apiKey,
-            chain,
-          });
-        }
-        
-        // Explicitly specify the chain parameter (mainnet by default)
-        const result = await getName({ address, chain: mainnet });
-        console.log(`Name result for ${address}: ${result}`);
-        setName(result);
-      } catch (error) {
-        console.error(`Error fetching name for ${address}:`, error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    if (apiKey) {
-      fetchName();
-    } else {
-      console.error('API key not available for getName');
-      setIsLoading(false);
-    }
-  }, [address, apiKey, chain]);
-  
+// Component for getNames resolution - only shows name/address text
+function GetNameItem({ address, nameIndex, names, isLoading }: { 
+  address: `0x${string}`, 
+  nameIndex: number, 
+  names: (string | null)[], 
+  isLoading: boolean 
+}) {
   return (
     <li className="text-sm truncate">
-      {isLoading ? 'Loading...' : name || `${address.substring(0, 6)}...${address.substring(38)}`}
+      {isLoading ? 'Loading...' : names[nameIndex] || `${address.substring(0, 6)}...${address.substring(38)}`}
     </li>
   );
 }
 
-// Component for getAvatar resolution - shows avatar image + address
-function GetAvatarItem({ address }: { address: `0x${string}` }) {
-  const [avatar, setAvatar] = useState<string | null>(null);
-  const [name, setName] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const { apiKey, chain } = useOnchainKit();
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log(`Fetching data for address: ${address}, with API key: ${apiKey ? 'Available' : 'Not available'}`);
-        
-        // Set the OnchainKit config before making the call
-        if (apiKey) {
-          setOnchainKitConfig({
-            apiKey,
-            chain,
-          });
-        }
-        
-        // First get the name with explicit chain parameter
-        const nameResult = await getName({ address, chain: mainnet });
-        console.log(`Name result for ${address}: ${nameResult}`);
-        setName(nameResult);
-        
-        // Then use the name to get the avatar if available, with explicit chain parameter
-        if (nameResult) {
-          console.log(`Fetching avatar for name: ${nameResult}`);
-          const avatarResult = await getAvatar({ ensName: nameResult, chain: mainnet });
-          console.log(`Avatar result for ${nameResult}: ${avatarResult ? 'Found' : 'Not found'}`);
-          setAvatar(avatarResult);
-        } else {
-          console.log(`No name found for ${address}, skipping avatar fetch`);
-        }
-      } catch (error) {
-        console.error(`Error fetching data for ${address}:`, error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    if (apiKey) {
-      fetchData();
-    } else {
-      console.error('API key not available for getAvatar');
-      setIsLoading(false);
-    }
-  }, [address, apiKey, chain]);
-  
+// Component for getAvatars resolution - shows avatar image + address
+function GetAvatarItem({ address, nameIndex, names, avatars, isLoading }: { 
+  address: `0x${string}`, 
+  nameIndex: number, 
+  names: (string | null)[], 
+  avatars: (string | null)[],
+  isLoading: boolean 
+}) {
   return (
     <li className="text-sm truncate flex items-center gap-2">
       {isLoading ? (
         'Loading...'
       ) : (
         <>
-          {avatar && <img src={avatar} alt="Avatar" className="w-5 h-5 rounded-full" />}
-          {name || `${address.substring(0, 6)}...${address.substring(38)}`}
+          {avatars[nameIndex] && <img src={avatars[nameIndex] || ''} alt="Avatar" className="w-5 h-5 rounded-full" />}
+          {names[nameIndex] || `${address.substring(0, 6)}...${address.substring(38)}`}
         </>
       )}
     </li>
@@ -150,6 +79,25 @@ function GetAvatarItem({ address }: { address: `0x${string}` }) {
 export function IdentityCardDemo() {
   const { address } = useAccount();
   const [addresses, setAddresses] = useState<string[]>([]);
+  
+  // For getNames and getAvatars
+  const [batchNames, setBatchNames] = useState<(string | null)[]>([]);
+  const [batchAvatars, setBatchAvatars] = useState<(string | null)[]>([]);
+  const [isLoadingNames, setIsLoadingNames] = useState(true);
+  const [isLoadingAvatars, setIsLoadingAvatars] = useState(true);
+  
+  const { apiKey, chain } = useOnchainKit();
+  
+  // For useNames and useAvatars
+  const { data: hookNames, isLoading: isLoadingHookNames } = useNames({ 
+    addresses: addresses as `0x${string}`[],
+    chain: mainnet
+  });
+  
+  const { data: hookAvatars, isLoading: isLoadingHookAvatars } = useAvatars({
+    ensNames: hookNames?.filter(Boolean) as string[] || [],
+    chain: mainnet
+  });
   
   // Generate addresses with the first one fixed and the rest random
   useEffect(() => {
@@ -171,6 +119,62 @@ export function IdentityCardDemo() {
     
     generateAddresses();
   }, []);
+  
+  // Fetch names and avatars using getNames and getAvatars
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!addresses.length || !apiKey) return;
+      
+      try {
+        setIsLoadingNames(true);
+        
+        // Set the OnchainKit config before making the call
+        setOnchainKitConfig({
+          apiKey,
+          chain,
+        });
+        
+        // Get names for all addresses in a batch
+        const nameResults = await getNames({ 
+          addresses: addresses as `0x${string}`[], 
+          chain: mainnet 
+        });
+        
+        setBatchNames(nameResults);
+        setIsLoadingNames(false);
+        
+        // Get avatars for all names in a batch
+        setIsLoadingAvatars(true);
+        const validNames = nameResults.filter(Boolean) as string[];
+        
+        if (validNames.length > 0) {
+          const avatarResults = await getAvatars({ 
+            ensNames: validNames, 
+            chain: mainnet 
+          });
+          
+          // Create a mapping of names to avatars
+          const avatarMap = new Map<string, string | null>();
+          validNames.forEach((name, idx) => {
+            avatarMap.set(name, avatarResults[idx]);
+          });
+          
+          // Map avatars back to the original address order
+          const mappedAvatars = nameResults.map(name => 
+            name ? avatarMap.get(name) || null : null
+          );
+          
+          setBatchAvatars(mappedAvatars);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoadingAvatars(false);
+      }
+    };
+    
+    fetchData();
+  }, [addresses, apiKey, chain]);
 
   if (!address) {
     return null;
@@ -180,49 +184,73 @@ export function IdentityCardDemo() {
     <div className="mx-auto max-w-full p-4">
       <div className="flex flex-col gap-6">
         <div className="grid grid-cols-4 gap-4">
-          {/* useName List */}
+          {/* useNames List */}
           <div className="space-y-2">
-            <h2 className="font-medium text-gray-500 text-sm">useName</h2>
+            <h2 className="font-medium text-gray-500 text-sm">useNames</h2>
             <div className="max-h-96 overflow-y-auto border rounded p-2">
               <ul className="list-disc pl-5 space-y-1">
                 {addresses.map((addr, index) => (
-                  <NameItem key={index} address={addr as `0x${string}`} />
+                  <NameItem 
+                    key={index} 
+                    address={addr as `0x${string}`} 
+                    nameIndex={index}
+                    names={hookNames}
+                  />
                 ))}
               </ul>
             </div>
           </div>
           
-          {/* getName List */}
+          {/* getNames List */}
           <div className="space-y-2">
-            <h2 className="font-medium text-gray-500 text-sm">getName</h2>
+            <h2 className="font-medium text-gray-500 text-sm">getNames</h2>
             <div className="max-h-96 overflow-y-auto border rounded p-2">
               <ul className="list-disc pl-5 space-y-1">
                 {addresses.map((addr, index) => (
-                  <GetNameItem key={index} address={addr as `0x${string}`} />
+                  <GetNameItem 
+                    key={index} 
+                    address={addr as `0x${string}`} 
+                    nameIndex={index}
+                    names={batchNames}
+                    isLoading={isLoadingNames}
+                  />
                 ))}
               </ul>
             </div>
           </div>
           
-          {/* useAvatar List */}
+          {/* useAvatars List */}
           <div className="space-y-2">
-            <h2 className="font-medium text-gray-500 text-sm">useAvatar</h2>
+            <h2 className="font-medium text-gray-500 text-sm">useAvatars</h2>
             <div className="max-h-96 overflow-y-auto border rounded p-2">
               <ul className="list-disc pl-5 space-y-1">
                 {addresses.map((addr, index) => (
-                  <AvatarItem key={index} address={addr as `0x${string}`} />
+                  <AvatarItem 
+                    key={index} 
+                    address={addr as `0x${string}`} 
+                    nameIndex={index}
+                    names={hookNames}
+                    avatars={hookAvatars}
+                  />
                 ))}
               </ul>
             </div>
           </div>
           
-          {/* getAvatar List */}
+          {/* getAvatars List */}
           <div className="space-y-2">
-            <h2 className="font-medium text-gray-500 text-sm">getAvatar</h2>
+            <h2 className="font-medium text-gray-500 text-sm">getAvatars</h2>
             <div className="max-h-96 overflow-y-auto border rounded p-2">
               <ul className="list-disc pl-5 space-y-1">
                 {addresses.map((addr, index) => (
-                  <GetAvatarItem key={index} address={addr as `0x${string}`} />
+                  <GetAvatarItem 
+                    key={index} 
+                    address={addr as `0x${string}`} 
+                    nameIndex={index}
+                    names={batchNames}
+                    avatars={batchAvatars}
+                    isLoading={isLoadingNames || isLoadingAvatars}
+                  />
                 ))}
               </ul>
             </div>
