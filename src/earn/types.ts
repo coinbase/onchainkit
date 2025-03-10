@@ -1,10 +1,11 @@
+import type { TransactionError } from '@/api/types';
 import type { UseMorphoVaultReturnType } from '@/earn/hooks/useMorphoVault';
 import type { LifecycleStatusUpdate } from '@/internal/types';
 import type { Token } from '@/token';
 import type { Call } from '@/transaction/types';
 import type { LifecycleStatus as TransactionLifecycleStatus } from '@/transaction/types';
 import type React from 'react';
-import type { Address } from 'viem';
+import type { Address, TransactionReceipt } from 'viem';
 
 /**
  * Note: exported as public Type
@@ -14,6 +15,9 @@ export type EarnReact = {
   className?: string;
   vaultAddress: Address;
   isSponsored?: boolean;
+  onError?: (error: TransactionError) => void; // An optional callback function that handles errors within the provider.
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
 };
 
 /**
@@ -23,6 +27,9 @@ export type EarnProviderReact = {
   children: React.ReactNode;
   vaultAddress: Address;
   isSponsored?: boolean;
+  onError?: (error: TransactionError) => void; // An optional callback function that handles errors within the provider.
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
 };
 
 /**
