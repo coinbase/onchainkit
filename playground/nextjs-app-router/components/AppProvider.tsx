@@ -173,7 +173,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <OnchainKitProvider
-        apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
+        apiKey={'eHzXmsArr0DXu2XWsVlpTB31EyI0r4zK'}
         chain={base}
         config={{
           appearance: {
