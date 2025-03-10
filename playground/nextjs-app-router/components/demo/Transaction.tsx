@@ -1,141 +1,55 @@
 import {
-  clickCalls,
-  clickContracts,
-  heterogeneousClickCalls,
-} from '@/lib/transactions';
-import type { Call } from '@/onchainkit/esm/transaction/types';
-import type { LifecycleStatus } from '@/onchainkit/src/transaction';
-import { TransactionTypes } from '@/types/onchainkit';
-import {
-  Transaction,
-  TransactionButton,
-  TransactionSponsor,
-  TransactionStatus,
-  TransactionStatusAction,
-  TransactionStatusLabel,
-  TransactionToast,
-  TransactionToastAction,
-  TransactionToastIcon,
-  TransactionToastLabel,
-} from '@coinbase/onchainkit/transaction';
-import { useCallback, useContext, useEffect, useMemo } from 'react';
-import type { ContractFunctionParameters } from 'viem';
-import { AppContext } from '../AppProvider';
+  Signature,
+  SignatureButton,
+} from '@coinbase/onchainkit/signature';
+import { encodeAbiParameters } from 'viem';
+import { base } from 'viem/chains';
 
-function TransactionDemo() {
-  const { chainId, transactionType, isSponsored } = useContext(AppContext);
-  const contracts = clickContracts as ContractFunctionParameters[];
-  const calls = clickCalls as Call[];
-  const promiseCalls = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(calls);
-    }, 4000);
-  }) as Promise<Call[]>;
-  const promiseContracts = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(contracts);
-    }, 4000);
-  }) as Promise<ContractFunctionParameters[]>;
-  const callsCallback = useCallback(
-    () =>
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(calls);
-        }, 4000);
-      }) as Promise<Call[]>,
-    [calls],
-  );
-  const contractsCallback = useCallback(
-    () =>
-      new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(contracts);
-        }, 4000);
-      }) as Promise<ContractFunctionParameters[]>,
-    [contracts],
-  );
-  useEffect(() => {
-    console.log('Playground.Transaction.chainId:', chainId);
-  }, [chainId]);
-  const handleOnStatus = useCallback((status: LifecycleStatus) => {
-    console.log('Playground.Transaction.onStatus:', status);
-  }, []);
+const SCHEMA_UID = "0xf58b8b212ef75ee8cd7e8d803c37c03e0519890502d5e99ee2412aae1456cafe";
+const EAS_CONTRACT = "0x4200000000000000000000000000000000000021";
 
-  useEffect(() => {
-    console.log('Playground.Transaction.transactionType:', transactionType);
-    switch (transactionType) {
-      case TransactionTypes.Calls:
-        console.log('Playground.Transaction.calls:', calls);
-        break;
-      case TransactionTypes.Contracts:
-        console.log('Playground.Transaction.contracts:', contracts);
-        break;
-      case TransactionTypes.ContractsAndCalls:
-        console.log(
-          'Playground.Transaction.contractsAndCalls:',
-          heterogeneousClickCalls,
-        );
-        break;
-      default:
-        console.log(`Playground.Transaction.${transactionType}`);
-        break;
-    }
-  }, [transactionType, calls, contracts]);
+export default function Transaction() {
 
-  const transactions = useMemo(() => {
-    switch (transactionType) {
-      case TransactionTypes.Calls:
-        return calls;
-      case TransactionTypes.Contracts:
-        return contracts;
-      case TransactionTypes.CallsPromise:
-        return promiseCalls;
-      case TransactionTypes.ContractsPromise:
-        return promiseContracts;
-      case TransactionTypes.CallsCallback:
-        return callsCallback;
-      case TransactionTypes.ContractsCallback:
-        return contractsCallback;
-      case TransactionTypes.ContractsAndCalls:
-        return heterogeneousClickCalls;
-      default:
-        return calls;
-    }
-  }, [
-    calls,
-    callsCallback,
-    promiseCalls,
-    contracts,
-    contractsCallback,
-    promiseContracts,
-    transactionType,
-  ]);
+  const domain = {
+    name: 'EAS Attestation',
+    version: '1.0.0',
+    chainId: base.id,
+    verifyingContract: EAS_CONTRACT
+  } as const;
+
+  const types = {
+    Attest: [
+      { name: 'schema', type: 'bytes32' },
+      { name: 'recipient', type: 'address' },
+      { name: 'time', type: 'uint64' },
+      { name: 'revocable', type: 'bool' },
+      { name: 'refUID', type: 'bytes32' },
+      { name: 'data', type: 'bytes' },
+      { name: 'value', type: 'uint256' }
+    ]
+  } as const;
+
+  const message = {
+    schema: SCHEMA_UID,
+    recipient: '0x0000000000000000000000000000000000000000',
+    time: BigInt(0),
+    revocable: false,
+    refUID: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    data: encodeAbiParameters([{ type: 'string' }], ['test attestation']),
+    value: BigInt(0)
+  } as const;
+
 
   return (
-    <div className="mx-auto grid w-1/2 gap-8">
-      <Transaction
-        chainId={chainId ?? 84532} // something breaks if we don't have default network?
-        isSponsored={isSponsored}
-        onStatus={handleOnStatus}
-        calls={transactions}
-      >
-        <TransactionButton
-          text="Click"
-          disabled={!chainId && !transactionType}
-        />
-        <TransactionSponsor />
-        <TransactionStatus>
-          <TransactionStatusLabel />
-          <TransactionStatusAction />
-        </TransactionStatus>
-        <TransactionToast>
-          <TransactionToastIcon />
-          <TransactionToastLabel />
-          <TransactionToastAction />
-        </TransactionToast>
-      </Transaction>
-    </div>
-  );
-}
+    <Signature 
+      domain={domain}
+      types={types}
+      message={message}
+      primaryType="Attest"
+    >
+      <SignatureButton text="Click" />
+    </Signature>
+  )
+  
 
-export default TransactionDemo;
+}
