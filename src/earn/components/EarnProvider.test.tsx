@@ -3,11 +3,11 @@ import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { fireEvent, render, renderHook, screen } from '@testing-library/react';
 import { act } from 'react';
+import type { TransactionReceipt } from 'viem';
 import { baseSepolia } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig, mock, useAccount } from 'wagmi';
 import { EarnProvider, useEarnContext } from './EarnProvider';
-import { TransactionReceipt } from 'viem';
 
 const DUMMY_ADDRESS = '0x9E95f497a7663B70404496dB6481c890C4825fe1' as const;
 const queryClient = new QueryClient();

@@ -1,8 +1,8 @@
 import { AppContext } from '@/components/AppProvider';
-import { Earn, LifecycleStatus } from '@coinbase/onchainkit/earn';
-import { TransactionError } from '@coinbase/onchainkit/transaction';
+import { Earn, type LifecycleStatus } from '@coinbase/onchainkit/earn';
+import type { TransactionError } from '@coinbase/onchainkit/transaction';
 import { useCallback, useContext } from 'react';
-import { TransactionReceipt } from 'viem';
+import type { TransactionReceipt } from 'viem';
 
 export function EarnDemo() {
   const { vaultAddress } = useContext(AppContext);

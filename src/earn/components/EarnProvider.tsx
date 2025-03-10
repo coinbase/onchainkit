@@ -55,7 +55,7 @@ export function EarnProvider({
       onSuccess?.(lifecycleStatus?.statusData?.transactionReceipts?.[0]);
     }
     onStatus?.(lifecycleStatus);
-  }, [lifecycleStatus]);
+  }, [lifecycleStatus, onStatus, onError, onSuccess]);
 
   const {
     asset,
