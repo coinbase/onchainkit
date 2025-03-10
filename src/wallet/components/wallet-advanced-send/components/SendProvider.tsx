@@ -2,10 +2,9 @@ import type { APIError, PortfolioTokenWithFiatValue } from '@/api/types';
 import { RequestContext } from '@/core/network/constants';
 import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
-import { useSendTransaction } from '@/internal/hooks/useSendTransaction';
 import { useValue } from '@/internal/hooks/useValue';
 import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
-import type { Call } from '@/transaction/types';
+import { useSendTransaction } from '@/wallet/components/wallet-advanced-send/hooks/useSendTransaction';
 import {
   createContext,
   useCallback,
@@ -36,10 +35,6 @@ export function useSendContext() {
 }
 
 export function SendProvider({ children }: SendProviderReact) {
-  // state for ETH balance
-  const [ethBalance, setEthBalance] = useState<number | undefined>(undefined);
-  const isInitialized = ethBalance !== undefined;
-
   // state for recipient address selection
   const [selectedRecipientAddress, setSelectedRecipientAddress] =
     useState<RecipientAddress>({
@@ -55,9 +50,6 @@ export function SendProvider({ children }: SendProviderReact) {
   );
   const [fiatAmount, setFiatAmount] = useState<string | null>(null);
   const [cryptoAmount, setCryptoAmount] = useState<string | null>(null);
-
-  // state for transaction data
-  const [callData, setCallData] = useState<Call | null>(null);
 
   // lifecycle status
   const [lifecycleStatus, updateLifecycleStatus] =
@@ -90,10 +82,14 @@ export function SendProvider({ children }: SendProviderReact) {
 
   // fetch & set ETH balance
   const { tokenBalances } = useWalletAdvancedContext();
+  const ethHolding = tokenBalances?.find((token) => token.address === '');
+  const ethBalance = ethHolding
+    ? Number(formatUnits(BigInt(ethHolding.cryptoBalance), ethHolding.decimals))
+    : 0;
+  const isInitialized = ethBalance !== undefined;
+
   useEffect(() => {
-    const ethBalance = tokenBalances?.find((token) => token.address === '');
-    if (!ethBalance || ethBalance.cryptoBalance === 0) {
-      setEthBalance(0);
+    if (!ethBalance || ethBalance === 0) {
       updateLifecycleStatus({
         statusName: 'fundingWallet',
         statusData: {
@@ -103,18 +99,13 @@ export function SendProvider({ children }: SendProviderReact) {
       return;
     }
 
-    setEthBalance(
-      Number(
-        formatUnits(BigInt(ethBalance.cryptoBalance), ethBalance.decimals),
-      ),
-    );
     updateLifecycleStatus({
       statusName: 'selectingAddress',
       statusData: {
         isMissingRequiredField: true,
       },
     });
-  }, [tokenBalances, updateLifecycleStatus]);
+  }, [ethBalance, updateLifecycleStatus]);
 
   // fetch & set exchange rate
   const { isLoading: exchangeRateLoading, exchangeRate } = useExchangeRate(
@@ -221,41 +212,17 @@ export function SendProvider({ children }: SendProviderReact) {
     [updateLifecycleStatus],
   );
 
-  const fetchTransactionData = useCallback(() => {
-    if (!selectedRecipientAddress.value || !selectedToken || !cryptoAmount) {
-      return;
-    }
-
-    try {
-      setCallData(null);
-      const calls = useSendTransaction({
-        recipientAddress: selectedRecipientAddress.value,
-        token: selectedToken,
-        amount: cryptoAmount,
-      });
-      if ('error' in calls) {
-        handleTransactionError(calls);
-        return;
-      }
-
-      setCallData(calls);
-    } catch (error) {
-      handleTransactionError({
-        code: 'UNCAUGHT_SEND_TRANSACTION_ERROR',
-        error: 'Uncaught send transaction error',
-        message: String(error),
-      });
-    }
-  }, [
-    selectedRecipientAddress,
-    selectedToken,
-    cryptoAmount,
-    handleTransactionError,
-  ]);
+  const { calldata, error: buildSendTransactionError } = useSendTransaction({
+    recipientAddress: selectedRecipientAddress.value,
+    token: selectedToken,
+    amount: cryptoAmount,
+  });
 
   useEffect(() => {
-    fetchTransactionData();
-  }, [fetchTransactionData]);
+    if (buildSendTransactionError) {
+      handleTransactionError(buildSendTransactionError);
+    }
+  }, [buildSendTransactionError, handleTransactionError]);
 
   const value = useValue<SendContextType>({
     isInitialized,
@@ -276,7 +243,7 @@ export function SendProvider({ children }: SendProviderReact) {
     exchangeRateLoading,
     selectedInputType,
     setSelectedInputType,
-    callData,
+    calldata,
   });
 
   return <SendContext.Provider value={value}>{children}</SendContext.Provider>;

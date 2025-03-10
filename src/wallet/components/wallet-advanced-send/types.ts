@@ -64,7 +64,7 @@ export type SendContextType = {
 
   // Transaction Context
   /** The call data for the send transaction */
-  callData: Call | null;
+  calldata: Call | null;
 };
 
 export type RecipientAddress = {
