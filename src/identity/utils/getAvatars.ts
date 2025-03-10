@@ -110,13 +110,13 @@ export const getAvatars = async ({
   }
 
   // Apply default Base profile pictures for basenames that don't have avatars
-  basenameIndices.forEach((index) => {
+  for (const index of basenameIndices) {
     if (results[index] === null) {
       results[index] = getBaseDefaultProfilePicture(
         ensNames[index] as Basename,
       );
     }
-  });
+  }
 
   return results;
 };
