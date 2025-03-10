@@ -21,7 +21,8 @@ export type GetAvatars = {
 export const getAvatars = async ({
   ensNames,
   chain = mainnet,
-}: GetAvatars): Promise<GetAvatarReturnType[]> => {
+}: // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
+GetAvatars): Promise<GetAvatarReturnType[]> => {
   if (!ensNames || ensNames.length === 0) {
     return [];
   }
@@ -36,7 +37,6 @@ export const getAvatars = async ({
     );
   }
 
-  // Initialize results array
   const results: GetAvatarReturnType[] = Array(ensNames.length).fill(null);
 
   // Categorize names by type for optimized processing
@@ -56,12 +56,20 @@ export const getAvatars = async ({
     const client = getChainPublicClient(chain);
 
     try {
-      // Create batch of calls for Base avatars
+      // Create batch of calls for Base avatars with individual error handling
       const baseAvatarPromises = basenameIndices.map((index) =>
-        client.getEnsAvatar({
-          name: normalize(ensNames[index]),
-          universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id],
-        }),
+        client
+          .getEnsAvatar({
+            name: normalize(ensNames[index]),
+            universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id],
+          })
+          .catch((error) => {
+            console.error(
+              `Error resolving Base avatar for ${ensNames[index]}:`,
+              error,
+            );
+            return null; // Return null for failed resolutions
+          }),
       );
 
       // Execute all Base avatar resolution calls
@@ -75,7 +83,6 @@ export const getAvatars = async ({
         }
       });
     } catch (error) {
-      // This is a best effort attempt, so we continue to fallback
       console.error('Error resolving Base avatars in batch:', error);
     }
   }
@@ -85,15 +92,20 @@ export const getAvatars = async ({
 
   // For all names, try mainnet resolution
   try {
-    // Create batch of ENS avatar resolution calls
+    // Create batch of ENS avatar resolution calls with individual error handling
     const ensAvatarPromises = ensNames.map((name, index) => {
       // Skip if we already have a result
       if (results[index] !== null) {
         return Promise.resolve(null);
       }
-      return fallbackClient.getEnsAvatar({
-        name: normalize(name),
-      });
+      return fallbackClient
+        .getEnsAvatar({
+          name: normalize(name),
+        })
+        .catch((error) => {
+          console.error(`Error resolving ENS avatar for ${name}:`, error);
+          return null; // Return null for failed resolutions
+        });
     });
 
     // Execute all ENS avatar resolution calls
@@ -110,13 +122,13 @@ export const getAvatars = async ({
   }
 
   // Apply default Base profile pictures for basenames that don't have avatars
-  basenameIndices.forEach((index) => {
+  for (const index of basenameIndices) {
     if (results[index] === null) {
       results[index] = getBaseDefaultProfilePicture(
         ensNames[index] as Basename,
       );
     }
-  });
+  }
 
   return results;
 };

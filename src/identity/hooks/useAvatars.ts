@@ -22,7 +22,6 @@ export const useAvatars = (
     ...queryOptions,
   };
 
-  // Create a stable query key that includes all ENS names
   const namesKey = ensNames.join(',');
   const queryKey = ['useAvatars', namesKey, chain.id];
 

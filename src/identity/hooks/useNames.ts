@@ -23,7 +23,6 @@ export const useNames = (
     ...queryOptions,
   };
 
-  // Create a stable query key that includes all addresses
   const addressesKey = addresses.join(',');
   const queryKey = ['useNames', addressesKey, chain.id];
 

@@ -21,7 +21,8 @@ export type GetNames = {
 export const getNames = async ({
   addresses,
   chain = mainnet,
-}: GetNames): Promise<GetNameReturnType[]> => {
+}: // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
+GetNames): Promise<GetNameReturnType[]> => {
   if (!addresses || addresses.length === 0) {
     return [];
   }
@@ -39,7 +40,6 @@ export const getNames = async ({
   const client = getChainPublicClient(chain);
   const results: GetNameReturnType[] = Array(addresses.length).fill(null);
 
-  // Handle Base chain resolution
   if (chainIsBase) {
     try {
       // Create batch of calls for the multicall contract
@@ -50,13 +50,11 @@ export const getNames = async ({
         args: [convertReverseNodeToBytes(address, chain.id)],
       }));
 
-      // Execute batch request
       const batchResults = await client.multicall({
         contracts: calls,
         allowFailure: true,
       });
 
-      // Process results
       batchResults.forEach((result, index) => {
         if (result.status === 'success' && result.result) {
           results[index] = result.result as Basename;
@@ -68,12 +66,11 @@ export const getNames = async ({
         return results;
       }
     } catch (error) {
-      // This is a best effort attempt, so we continue to fallback
       console.error('Error resolving Base names in batch:', error);
     }
   }
 
-  // Default fallback to mainnet for any unresolved names
+  // Default fallback to mainnet
   // ENS resolution is not well-supported on Base, so want to ensure that we fall back to mainnet
   const fallbackClient = getChainPublicClient(mainnet);
 
@@ -84,14 +81,20 @@ export const getNames = async ({
 
   if (unresolvedIndices.length > 0) {
     try {
-      // Create batch of ENS resolution calls
       const ensPromises = unresolvedIndices.map((index) =>
-        fallbackClient.getEnsName({
-          address: addresses[index],
-        }),
+        fallbackClient
+          .getEnsName({
+            address: addresses[index],
+          })
+          .catch((error) => {
+            console.error(
+              `Error resolving ENS name for ${addresses[index]}:`,
+              error,
+            );
+            return null; // Return null for failed resolutions
+          }),
       );
 
-      // Execute all ENS resolution calls
       const ensResults = await Promise.all(ensPromises);
 
       // Update results with ENS names
