@@ -34,7 +34,7 @@ function OnchainProviders({ children }: { children: ReactNode }) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
-          apiKey={'eHzXmsArr0DXu2XWsVlpTB31EyI0r4zK'}
+          apiKey={ENVIRONMENT_VARIABLES[ENVIRONMENT.API_KEY]}
           chain={base}
           config={{
             appearance: {
