@@ -15,9 +15,12 @@ export type EarnReact = {
   className?: string;
   vaultAddress: Address;
   isSponsored?: boolean;
-  onError?: (error: TransactionError) => void; // An optional callback function that handles errors within the provider.
-  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
-  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  /** An optional callback function that handles errors within the provider. */
+  onError?: (error: TransactionError) => void;
+  /** An optional callback function that exposes the component lifecycle state */
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  /** An optional callback function that exposes the transaction receipt */
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 };
 
 /**
@@ -27,9 +30,12 @@ export type EarnProviderReact = {
   children: React.ReactNode;
   vaultAddress: Address;
   isSponsored?: boolean;
-  onError?: (error: TransactionError) => void; // An optional callback function that handles errors within the provider.
-  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state
-  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt
+  /** An optional callback function that handles errors within the provider. */
+  onError?: (error: TransactionError) => void;
+  /** An optional callback function that exposes the component lifecycle state */
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  /** An optional callback function that exposes the transaction receipt */
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 };
 
 /**
