@@ -12,10 +12,12 @@ export { getAddress } from './utils/getAddress';
 export { getAttestations } from './utils/getAttestations';
 export { getAvatar } from './utils/getAvatar';
 export { getName } from './utils/getName';
+export { getNames } from './utils/getNames';
 export { useAddress } from './hooks/useAddress';
 export { useAttestations } from './hooks/useAttestations';
 export { useAvatar } from './hooks/useAvatar';
 export { useName } from './hooks/useName';
+export { useNames } from './hooks/useNames';
 export type {
   AddressReact,
   Attestation,
@@ -34,11 +36,13 @@ export type {
   GetAvatarReturnType,
   GetName,
   GetNameReturnType,
+  GetNames,
   IdentityContextType,
   IdentityReact,
   NameReact,
   UseAddressOptions,
   UseAvatarOptions,
+  UseNamesOptions,
   UseQueryOptions,
   UseNameOptions,
 } from './types';
