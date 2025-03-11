@@ -175,16 +175,6 @@ export type GetAvatarReturnType = string | null;
 /**
  * Note: exported as public Type
  */
-export type GetAvatars = {
-  /** Array of ENS or Basenames to resolve avatars for */
-  ensNames: string[];
-  /** Optional chain for domain resolution */
-  chain?: typeof mainnet;
-};
-
-/**
- * Note: exported as public Type
- */
 export type GetName = {
   /** Ethereum address to resolve */
   address: Address;
@@ -291,16 +281,6 @@ export type UseAvatarOptions = {
   ensName: string;
   /** Optional chain for domain resolution */
   chain?: Chain;
-};
-
-/**
- * Note: exported as public Type
- */
-export type UseAvatarsOptions = {
-  /** Array of ENS names to resolve avatars for */
-  ensNames: string[];
-  /** Optional chain for domain resolution */
-  chain?: typeof mainnet;
 };
 
 /**

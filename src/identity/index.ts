@@ -11,13 +11,11 @@ export { IdentityCard } from './components/IdentityCard';
 export { getAddress } from './utils/getAddress';
 export { getAttestations } from './utils/getAttestations';
 export { getAvatar } from './utils/getAvatar';
-export { getAvatars } from './utils/getAvatars';
 export { getName } from './utils/getName';
 export { getNames } from './utils/getNames';
 export { useAddress } from './hooks/useAddress';
 export { useAttestations } from './hooks/useAttestations';
 export { useAvatar } from './hooks/useAvatar';
-export { useAvatars } from './hooks/useAvatars';
 export { useName } from './hooks/useName';
 export { useNames } from './hooks/useNames';
 export type {
@@ -36,7 +34,6 @@ export type {
   GetAttestationsOptions,
   GetAvatar,
   GetAvatarReturnType,
-  GetAvatars,
   GetName,
   GetNameReturnType,
   GetNames,
@@ -46,7 +43,6 @@ export type {
   UseAddressOptions,
   UseAvatarOptions,
   UseNamesOptions,
-  UseAvatarsOptions,
   UseQueryOptions,
   UseNameOptions,
 } from './types';
