@@ -1,6 +1,5 @@
 import type { HTMLAttributes, ImgHTMLAttributes, ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
-import type { mainnet } from 'viem/_types/chains/definitions/mainnet';
 
 /**
  * Note: exported as public Type
@@ -194,7 +193,7 @@ export type GetNames = {
   /** Array of Ethereum addresses to resolve names for */
   addresses: Address[];
   /** Optional chain for domain resolution */
-  chain?: typeof mainnet;
+  chain?: Chain;
 };
 
 /**

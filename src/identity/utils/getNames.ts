@@ -1,7 +1,7 @@
 import type { Basename, GetNameReturnType } from '@/identity/types';
 import type { Address } from 'viem';
 import { mainnet } from 'viem/chains';
-import type { Chain } from 'wagmi/chains';
+import type { Chain } from 'viem/chains';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { isBase } from '../../core/utils/isBase';
 import { isEthereum } from '../../core/utils/isEthereum';
