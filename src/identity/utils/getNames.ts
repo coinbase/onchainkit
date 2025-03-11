@@ -1,18 +1,11 @@
-import type { Basename, GetNameReturnType } from '@/identity/types';
-import type { Address } from 'viem';
+import type { Basename, GetNameReturnType, GetNames } from '@/identity/types';
 import { mainnet } from 'viem/chains';
-import type { Chain } from 'viem/chains';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { isBase } from '../../core/utils/isBase';
 import { isEthereum } from '../../core/utils/isEthereum';
 import L2ResolverAbi from '../abis/L2ResolverAbi';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';
-
-export type GetNames = {
-  addresses: Address[];
-  chain?: Chain;
-};
 
 /**
  * An asynchronous function to fetch multiple Basenames or Ethereum Name Service (ENS)

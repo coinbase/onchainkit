@@ -1,15 +1,12 @@
 import { getNames } from '@/identity/utils/getNames';
 import { DEFAULT_QUERY_OPTIONS } from '@/internal/constants';
 import { useQuery } from '@tanstack/react-query';
-import type { Address } from 'viem';
 import { mainnet } from 'viem/chains';
-import type { Chain } from 'viem/chains';
-import type { GetNameReturnType, UseQueryOptions } from '../types';
-
-export type UseNamesOptions = {
-  addresses: Address[];
-  chain?: Chain;
-};
+import type {
+  GetNameReturnType,
+  UseNamesOptions,
+  UseQueryOptions,
+} from '../types';
 
 /**
  * A React hook that leverages the `@tanstack/react-query` for fetching and optionally caching
