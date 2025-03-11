@@ -1,3 +1,4 @@
+import { useOnchainKit } from '@/useOnchainKit';
 import { render, screen } from '@testing-library/react';
 import { base, baseSepolia } from 'viem/chains';
 import {
@@ -9,8 +10,7 @@ import {
   it,
   vi,
 } from 'vitest';
-import { Config, useAccount, UseAccountReturnType } from 'wagmi';
-import { useOnchainKit } from '@/useOnchainKit';
+import { type Config, useAccount, type UseAccountReturnType } from 'wagmi';
 import { Transaction } from './Transaction';
 import {
   TransactionProvider,
