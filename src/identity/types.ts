@@ -161,7 +161,6 @@ export type GetAttestationsOptions = {
  */
 export type GetAvatar = {
   /** The ENS or Basename to fetch the avatar for. */
-  /** The ENS or Basename to fetch the avatar for. */
   ensName: string;
   /** Optional chain for domain resolution */
   chain?: Chain;
