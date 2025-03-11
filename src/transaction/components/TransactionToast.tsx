@@ -2,9 +2,22 @@ import { useCallback } from 'react';
 import { Toast } from '../../internal/components/Toast';
 import type { TransactionToastReact } from '../types';
 import { useTransactionContext } from './TransactionProvider';
+import { TransactionToastAction } from './TransactionToastAction';
+import { TransactionToastIcon } from './TransactionToastIcon';
+import { TransactionToastLabel } from './TransactionToastLabel';
+
+function TransactionToastDefaultContent() {
+  return (
+    <>
+      <TransactionToastIcon />
+      <TransactionToastLabel />
+      <TransactionToastAction />
+    </>
+  );
+}
 
 export function TransactionToast({
-  children,
+  children = <TransactionToastDefaultContent />,
   className,
   durationMs = 5000,
   position = 'bottom-center',

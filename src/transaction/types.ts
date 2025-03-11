@@ -194,7 +194,7 @@ export type TransactionReact = {
   /** The chainId for the transaction */
   chainId?: number;
   /** The child components to be rendered within the transaction component */
-  children: ReactNode;
+  children?: ReactNode;
   /** An optional CSS class name for styling the component */
   className?: string;
   /**
@@ -259,7 +259,7 @@ export type TransactionStatusLabelReact = {
  */
 export type TransactionToastReact = {
   /** The child components to be rendered within the toast component */
-  children: ReactNode;
+  children?: ReactNode;
   /** An optional CSS class name for styling the toast component */
   className?: string;
   /** An optional value to customize time until toast disappears */

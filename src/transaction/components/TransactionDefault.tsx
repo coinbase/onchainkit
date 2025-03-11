@@ -6,6 +6,9 @@ import { TransactionToastAction } from './TransactionToastAction';
 import { TransactionToastIcon } from './TransactionToastIcon';
 import { TransactionToastLabel } from './TransactionToastLabel';
 
+/**
+ * @deprecated Use the `Transaction` component instead with no 'children' props.
+ */
 export function TransactionDefault({
   calls,
   capabilities,
