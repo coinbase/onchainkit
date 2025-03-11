@@ -13,7 +13,6 @@ vi.mock('@/core/network/getChainPublicClient', () => ({
   getChainPublicClient: vi.fn(() => publicClient),
 }));
 
-// Mock the getNames function
 vi.mock('../utils/getNames');
 
 describe('useNames', () => {
@@ -180,7 +179,6 @@ describe('useNames', () => {
   });
 
   it('handles partial failures in name resolution', async () => {
-    // Mock getNames to return a mix of successful and failed resolutions
     const partialResults = [null, null, null];
     vi.mocked(getNames).mockResolvedValue(partialResults);
 
@@ -194,7 +192,7 @@ describe('useNames', () => {
     await waitFor(() => {
       expect(result.current.data).toEqual(partialResults);
       expect(result.current.isPending).toBe(false);
-      expect(result.current.isError).toBe(false); // Should not be in error state
+      expect(result.current.isError).toBe(false);
     });
 
     expect(getNames).toHaveBeenCalledWith({

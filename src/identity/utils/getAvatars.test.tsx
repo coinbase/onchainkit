@@ -276,8 +276,6 @@ describe('getAvatars', () => {
 
     const avatarUrls = await getAvatars({ ensNames });
 
-    // With the improved implementation, successful resolutions should work
-    // even when some addresses fail
     expect(avatarUrls).toEqual(['avatar1-url', null, 'avatar2-url']);
     expect(mockGetEnsAvatar).toHaveBeenCalledTimes(3);
     expect(consoleSpy).toHaveBeenCalledWith(
@@ -318,15 +316,12 @@ describe('getAvatars', () => {
       chain: base as unknown as typeof mainnet,
     });
 
-    // With the improved implementation, successful Base resolutions should work
-    // even when some addresses fail
     expect(avatarUrls).toEqual([
       'base-avatar1-url',
       'default-base-avatar',
       'base-avatar2-url',
     ]);
 
-    // Check that Base resolution was attempted for all names
     expect(mockGetEnsAvatar).toHaveBeenCalledWith({
       name: 'success1.base.eth',
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
@@ -340,13 +335,11 @@ describe('getAvatars', () => {
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
     });
 
-    // Check that the error was logged
     expect(consoleSpy).toHaveBeenCalledWith(
       'Error resolving Base avatar for fail.base.eth:',
       expect.any(Error),
     );
 
-    // Check that default Base profile picture was used for the failed name
     expect(getBaseDefaultProfilePicture).toHaveBeenCalledWith('fail.base.eth');
 
     consoleSpy.mockRestore();

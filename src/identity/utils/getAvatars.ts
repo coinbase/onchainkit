@@ -51,7 +51,7 @@ GetAvatars): Promise<GetAvatarReturnType[]> => {
     }
   });
 
-  // Process Base chain avatars if applicable
+  // Process Base avatars
   if (chainIsBase && basenameIndices.length > 0) {
     const client = getChainPublicClient(chain);
 
@@ -72,10 +72,8 @@ GetAvatars): Promise<GetAvatarReturnType[]> => {
           }),
       );
 
-      // Execute all Base avatar resolution calls
       const baseAvatarResults = await Promise.all(baseAvatarPromises);
 
-      // Update results with Base avatars
       baseAvatarResults.forEach((avatar, i) => {
         const originalIndex = basenameIndices[i];
         if (avatar) {
@@ -87,10 +85,9 @@ GetAvatars): Promise<GetAvatarReturnType[]> => {
     }
   }
 
-  // Process mainnet avatars for all names
+  // Process mainnet avatars
   const fallbackClient = getChainPublicClient(mainnet);
 
-  // For all names, try mainnet resolution
   try {
     // Create batch of ENS avatar resolution calls with individual error handling
     const ensAvatarPromises = ensNames.map((name, index) => {
