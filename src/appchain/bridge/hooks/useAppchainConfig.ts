@@ -1,3 +1,4 @@
+'use client';
 import { useReadContract } from 'wagmi';
 import { DeployChainABI } from '../abi';
 import { APPCHAIN_DEPLOY_CONTRACT_ADDRESS } from '../constants';

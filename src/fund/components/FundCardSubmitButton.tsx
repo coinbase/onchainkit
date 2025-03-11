@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useMemo } from 'react';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import { FundButton } from './FundButton';
