@@ -1,6 +1,6 @@
 import { publicClient } from '@/core/network/client';
 import type { Address } from 'viem';
-import { base, type mainnet, optimism } from 'viem/chains';
+import { base, optimism } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
 import L2ResolverAbi from '../abis/L2ResolverAbi';
@@ -71,7 +71,7 @@ describe('getNames', () => {
 
     const names = await getNames({
       addresses: walletAddresses,
-      chain: base as unknown as typeof mainnet,
+      chain: base,
     });
 
     expect(names).toEqual(expectedBaseNames);
@@ -105,7 +105,7 @@ describe('getNames', () => {
 
     const names = await getNames({
       addresses: walletAddresses,
-      chain: base as unknown as typeof mainnet,
+      chain: base,
     });
 
     expect(names).toEqual(['user1.base', 'user2.base', 'user3.eth']);
@@ -129,7 +129,7 @@ describe('getNames', () => {
 
     const names = await getNames({
       addresses: walletAddresses,
-      chain: base as unknown as typeof mainnet,
+      chain: base,
     });
 
     expect(names).toEqual(expectedEnsNames);
@@ -141,7 +141,7 @@ describe('getNames', () => {
     await expect(
       getNames({
         addresses: walletAddresses,
-        chain: optimism as unknown as typeof mainnet,
+        chain: optimism,
       }),
     ).rejects.toBe(
       'ChainId not supported, name resolution is only supported on Ethereum and Base.',

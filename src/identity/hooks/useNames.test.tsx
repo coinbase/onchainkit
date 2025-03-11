@@ -62,7 +62,7 @@ describe('useNames', () => {
       () =>
         useNames({
           addresses: testAddresses,
-          chain: base as unknown as typeof mainnet,
+          chain: base,
         }),
       {
         wrapper: getNewReactQueryTestProvider(),
@@ -89,7 +89,7 @@ describe('useNames', () => {
       () =>
         useNames({
           addresses: testAddresses,
-          chain: optimism as unknown as typeof mainnet,
+          chain: optimism,
         }),
       {
         wrapper: getNewReactQueryTestProvider(),

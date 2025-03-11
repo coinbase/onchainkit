@@ -300,7 +300,7 @@ export type UseNamesOptions = {
   /** Array of addresses to resolve ENS or Basenames for */
   addresses: Address[];
   /** Optional chain for domain resolution */
-  chain?: typeof mainnet;
+  chain?: Chain;
 };
 
 /**

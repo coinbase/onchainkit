@@ -3,11 +3,12 @@ import { DEFAULT_QUERY_OPTIONS } from '@/internal/constants';
 import { useQuery } from '@tanstack/react-query';
 import type { Address } from 'viem';
 import { mainnet } from 'viem/chains';
+import type { Chain } from 'wagmi/chains';
 import type { GetNameReturnType, UseQueryOptions } from '../types';
 
 export type UseNamesOptions = {
   addresses: Address[];
-  chain?: typeof mainnet;
+  chain?: Chain;
 };
 
 /**
