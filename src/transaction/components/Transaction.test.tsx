@@ -10,7 +10,7 @@ import {
   it,
   vi,
 } from 'vitest';
-import { type Config, useAccount, type UseAccountReturnType } from 'wagmi';
+import { type Config, type UseAccountReturnType, useAccount } from 'wagmi';
 import { Transaction } from './Transaction';
 import {
   TransactionProvider,
@@ -169,7 +169,7 @@ describe('Transaction', () => {
       />,
     );
     expect(
-      screen.getByTestId(`ockTransactionButton_Button`),
+      screen.getByTestId('ockTransactionButton_Button'),
     ).toBeInTheDocument();
   });
 });
