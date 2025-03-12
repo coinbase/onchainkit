@@ -55,10 +55,19 @@ export function Earn({
   className,
   vaultAddress,
   isSponsored,
+  onError,
+  onStatus,
+  onSuccess,
 }: EarnReact) {
   const componentTheme = useTheme();
   return (
-    <EarnProvider vaultAddress={vaultAddress} isSponsored={isSponsored}>
+    <EarnProvider
+      vaultAddress={vaultAddress}
+      isSponsored={isSponsored}
+      onError={onError}
+      onStatus={onStatus}
+      onSuccess={onSuccess}
+    >
       <div
         className={cn(
           componentTheme,
