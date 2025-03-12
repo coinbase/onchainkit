@@ -4,18 +4,28 @@ import { border, cn, color, pressable, text } from '@/styles/theme';
 import { TokenBalance } from '@/token';
 import { formatUnits } from 'viem';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
-import type { SendTokenSelectorProps } from '../types';
+import { useSendContext } from './SendProvider';
 
-export function SendTokenSelector({
-  selectedToken,
-  handleTokenSelection,
-  handleResetTokenSelection,
-  setSelectedInputType,
-  handleCryptoAmountChange,
-  handleFiatAmountChange,
-  classNames,
-}: SendTokenSelectorProps) {
+type SendTokenSelectorProps = {
+  classNames?: {
+    container?: string;
+    tokenName?: string;
+    tokenValue?: string;
+    fiatValue?: string;
+    action?: string;
+  };
+};
+
+export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
   const { tokenBalances } = useWalletAdvancedContext();
+  const {
+    selectedToken,
+    handleTokenSelection,
+    handleResetTokenSelection,
+    setSelectedInputType,
+    handleCryptoAmountChange,
+    handleFiatAmountChange,
+  } = useSendContext();
 
   if (!selectedToken) {
     return (
