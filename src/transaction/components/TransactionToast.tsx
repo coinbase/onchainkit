@@ -6,18 +6,8 @@ import { TransactionToastAction } from './TransactionToastAction';
 import { TransactionToastIcon } from './TransactionToastIcon';
 import { TransactionToastLabel } from './TransactionToastLabel';
 
-function TransactionToastDefaultContent() {
-  return (
-    <>
-      <TransactionToastIcon />
-      <TransactionToastLabel />
-      <TransactionToastAction />
-    </>
-  );
-}
-
 export function TransactionToast({
-  children = <TransactionToastDefaultContent />,
+  children,
   className,
   durationMs = 5000,
   position = 'bottom-center',
@@ -56,7 +46,13 @@ export function TransactionToast({
       onClose={closeToast}
       startTimeout={!!receipt || !!errorMessage}
     >
-      {children}
+      {children ?? (
+        <>
+          <TransactionToastIcon />
+          <TransactionToastLabel />
+          <TransactionToastAction />
+        </>
+      )}
     </Toast>
   );
 }

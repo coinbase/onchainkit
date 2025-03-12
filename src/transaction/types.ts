@@ -95,6 +95,8 @@ export type TransactionContextType = {
   errorCode?: string;
   /** An error message string if the transaction encounters an issue */
   errorMessage?: string;
+  /** A optional prop to disable the submit button */
+  disabled?: boolean;
   /** A boolean indicating if the transaction is currently loading */
   isLoading: boolean;
   /** A boolean indicating if the transaction toast notification is visible */
@@ -169,6 +171,8 @@ export type TransactionProviderReact = {
    * @deprecated Use `calls` instead.
    */
   contracts?: Calls | Contracts | (Call | ContractFunctionParameters)[];
+  /** A optional prop to disable the submit button */
+  disabled?: boolean;
   /** Whether the transactions are sponsored (default: false) */
   isSponsored?: boolean;
   /** An optional callback function that handles errors within the provider */
@@ -201,6 +205,8 @@ export type TransactionReact = {
    * @deprecated Use `calls` instead.
    */
   contracts?: Calls | Contracts | (Call | ContractFunctionParameters)[];
+  /** A optional prop to disable the submit button */
+  disabled?: boolean;
   /** Whether the transactions are sponsored (default: false) */
   isSponsored?: boolean;
   /** An optional callback function that handles transaction errors */

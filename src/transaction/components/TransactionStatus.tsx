@@ -3,20 +3,18 @@ import type { TransactionStatusReact } from '../types';
 import { TransactionStatusAction } from './TransactionStatusAction';
 import { TransactionStatusLabel } from './TransactionStatusLabel';
 
-function TransactionStatusDefaultContent() {
-  return (
-    <>
-      <TransactionStatusLabel />
-      <TransactionStatusAction />
-    </>
-  );
-}
-
 export function TransactionStatus({
-  children = <TransactionStatusDefaultContent />,
+  children,
   className,
 }: TransactionStatusReact) {
   return (
-    <div className={cn('flex justify-between', className)}>{children}</div>
+    <div className={cn('flex justify-between', className)}>
+      {children ?? (
+        <>
+          <TransactionStatusLabel />
+          <TransactionStatusAction />
+        </>
+      )}
+    </div>
   );
 }

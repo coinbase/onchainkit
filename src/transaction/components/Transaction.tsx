@@ -7,22 +7,14 @@ import { TransactionButton } from './TransactionButton';
 import { TransactionProvider } from './TransactionProvider';
 import { TransactionToast } from './TransactionToast';
 
-function TransactionDefaultContent() {
-  return (
-    <>
-      <TransactionButton />
-      <TransactionToast />
-    </>
-  );
-}
-
 export function Transaction({
   calls,
   capabilities,
   chainId,
   className,
-  children = <TransactionDefaultContent />,
+  children,
   contracts,
+  disabled = false,
   isSponsored,
   onError,
   onStatus,
@@ -52,6 +44,7 @@ export function Transaction({
       capabilities={capabilities}
       chainId={accountChainId}
       contracts={contracts}
+      disabled={disabled}
       isSponsored={isSponsored}
       onError={onError}
       onStatus={onStatus}
@@ -61,7 +54,12 @@ export function Transaction({
       <div
         className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}
       >
-        {children}
+        {children ?? (
+          <>
+            <TransactionButton />
+            <TransactionToast />
+          </>
+        )}
       </div>
     </TransactionProvider>
   );
