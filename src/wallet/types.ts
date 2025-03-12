@@ -108,7 +108,7 @@ export type WalletContextType = {
  * Note: exported as public Type
  */
 export type WalletReact = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 } & (
   | { draggable?: true; draggableStartingPosition?: { x: number; y: number } }
