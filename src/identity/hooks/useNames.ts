@@ -22,11 +22,8 @@ export const useNames = (
   return useQuery<GetNameReturnType[]>({
     queryKey,
     queryFn: () => getNames({ addresses, chain }),
+    enabled: !!addresses.length,
     ...DEFAULT_QUERY_OPTIONS,
     ...queryOptions,
-    enabled:
-      queryOptions?.enabled !== undefined
-        ? queryOptions.enabled && addresses.length > 0
-        : DEFAULT_QUERY_OPTIONS.enabled && addresses.length > 0,
   });
 };

@@ -140,8 +140,7 @@ describe('useNames', () => {
     vi.mocked(getNames).mockResolvedValue(testEnsNames);
 
     const { result } = renderHook(
-      () =>
-        useNames({ addresses: testAddresses }, { cacheTime: customCacheTime }),
+      () => useNames({ addresses: testAddresses }, { gcTime: customCacheTime }),
       {
         wrapper: getNewReactQueryTestProvider(),
       },

@@ -20,11 +20,8 @@ export const useAvatar = (
   return useQuery<GetAvatarReturnType>({
     queryKey,
     queryFn: () => getAvatar({ ensName, chain }),
+    enabled: !!ensName,
     ...DEFAULT_QUERY_OPTIONS,
     ...queryOptions,
-    enabled:
-      queryOptions?.enabled !== undefined
-        ? queryOptions.enabled && !!ensName
-        : DEFAULT_QUERY_OPTIONS.enabled && !!ensName,
   });
 };

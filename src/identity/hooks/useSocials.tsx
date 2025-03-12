@@ -21,9 +21,5 @@ export const useSocials = (
     queryFn: () => getSocials({ ensName, chain }),
     ...DEFAULT_QUERY_OPTIONS,
     ...queryOptions,
-    enabled:
-      queryOptions?.enabled !== undefined
-        ? queryOptions.enabled && !!ensName
-        : DEFAULT_QUERY_OPTIONS.enabled && !!ensName,
   });
 };
