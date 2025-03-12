@@ -4,14 +4,13 @@ let pagesInSitemap = 0;
 
 const generator = SitemapGenerator('https://onchainkit.xyz', {
   changeFreq: 'daily',
-  ignore: (url) => {
-    // Ignore coverage pages
+  filter: (url) => {
     const hasCoverage = url.includes('coverage');
     if (!hasCoverage) {
       pagesInSitemap += 1;
       console.log('🌊', url);
     }
-    return hasCoverage;
+    return !hasCoverage;
   },
   filepath: './docs/public/sitemap.xml',
   lastMod: true,
