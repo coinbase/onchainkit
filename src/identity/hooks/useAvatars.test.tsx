@@ -261,7 +261,6 @@ describe('useAvatars', () => {
     expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
   });
 
-  // New tests for conditional enabled logic
   it('disables the query when ensNames array is empty', async () => {
     mockGetEnsAvatar.mockImplementation(() => {
       throw new Error('This should not be called');
