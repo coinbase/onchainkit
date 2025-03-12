@@ -9,28 +9,23 @@ import type {
 } from '../types';
 
 /**
- * It leverages the `@tanstack/react-query` hook for fetching and optionally caching the ENS name
- * @returns An object containing:
- *  - `ensName`: The fetched ENS name for the provided address, or null if not found or in case of an error.
- *  - `{UseQueryResult}`: The rest of useQuery return values. including isLoading, isError, error, isFetching, refetch, etc.
+ * A React hook that leverages the `@tanstack/react-query` for fetching and optionally caching
+ * a Basename or ENS name.
  */
 export const useName = (
   { address, chain = mainnet }: UseNameOptions,
-  queryOptions?: UseQueryOptions,
+  queryOptions?: UseQueryOptions<GetNameReturnType>,
 ) => {
-  const { enabled, cacheTime, staleTime, refetchOnWindowFocus } = {
-    ...DEFAULT_QUERY_OPTIONS,
-    ...queryOptions,
-  };
-
   const queryKey = ['useName', address, chain.id];
 
   return useQuery<GetNameReturnType>({
     queryKey,
     queryFn: () => getName({ address, chain }),
-    gcTime: cacheTime,
-    staleTime,
-    enabled,
-    refetchOnWindowFocus,
+    ...DEFAULT_QUERY_OPTIONS,
+    ...queryOptions,
+    enabled:
+      queryOptions?.enabled !== undefined
+        ? queryOptions.enabled && !!address
+        : DEFAULT_QUERY_OPTIONS.enabled && !!address,
   });
 };

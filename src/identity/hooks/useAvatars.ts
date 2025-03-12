@@ -14,22 +14,19 @@ import type {
  */
 export const useAvatars = (
   { ensNames, chain = mainnet }: UseAvatarsOptions,
-  queryOptions?: UseQueryOptions,
+  queryOptions?: UseQueryOptions<GetAvatarReturnType[]>,
 ) => {
-  const { enabled, cacheTime, staleTime, refetchOnWindowFocus } = {
-    ...DEFAULT_QUERY_OPTIONS,
-    ...queryOptions,
-  };
-
   const namesKey = ensNames.join(',');
   const queryKey = ['useAvatars', namesKey, chain.id];
 
   return useQuery<GetAvatarReturnType[]>({
     queryKey,
     queryFn: () => getAvatars({ ensNames, chain }),
-    gcTime: cacheTime,
-    staleTime,
-    enabled: enabled && ensNames.length > 0,
-    refetchOnWindowFocus,
+    ...DEFAULT_QUERY_OPTIONS,
+    ...queryOptions,
+    enabled:
+      queryOptions?.enabled !== undefined
+        ? queryOptions.enabled && ensNames.length > 0
+        : DEFAULT_QUERY_OPTIONS.enabled && ensNames.length > 0,
   });
 };

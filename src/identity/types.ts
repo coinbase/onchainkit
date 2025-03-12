@@ -1,3 +1,4 @@
+import type { UseQueryOptions as TanstackUseQueryOptions } from '@tanstack/react-query';
 import type { HTMLAttributes, ImgHTMLAttributes, ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
 
@@ -325,11 +326,7 @@ export type UseAvatarsOptions = {
 /**
  * Note: exported as public Type
  */
-export type UseQueryOptions = {
-  /** Whether the query should execute */
-  enabled?: boolean;
-  /** Cache time in milliseconds */
-  cacheTime?: number;
-  /** Stale time in milliseconds */
-  staleTime?: number;
-};
+export type UseQueryOptions<TData = unknown> = Omit<
+  TanstackUseQueryOptions<TData>,
+  'queryKey' | 'queryFn'
+>;

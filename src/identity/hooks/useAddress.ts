@@ -1,24 +1,28 @@
+import { getAddress } from '@/identity/utils/getAddress';
+import { DEFAULT_QUERY_OPTIONS } from '@/internal/constants';
+import { useQuery } from '@tanstack/react-query';
+import { mainnet } from 'viem/chains';
 import type {
   GetAddressReturnType,
   UseAddressOptions,
   UseQueryOptions,
-} from '@/identity/types';
-import { getAddress } from '@/identity/utils/getAddress';
-import { useQuery } from '@tanstack/react-query';
-import { mainnet } from 'viem/chains';
+} from '../types';
 
 export const useAddress = (
   { name, chain = mainnet }: UseAddressOptions,
-  queryOptions?: UseQueryOptions,
+  queryOptions?: UseQueryOptions<GetAddressReturnType>,
 ) => {
-  const { enabled = true, cacheTime } = queryOptions ?? {};
+  const { enabled, cacheTime, staleTime, refetchOnWindowFocus } = {
+    ...DEFAULT_QUERY_OPTIONS,
+    ...queryOptions,
+  };
+
   return useQuery<GetAddressReturnType>({
     queryKey: ['useAddress', name, chain.id],
-    queryFn: async () => {
-      return await getAddress({ name, chain });
-    },
+    queryFn: () => getAddress({ name, chain }),
     gcTime: cacheTime,
-    enabled,
-    refetchOnWindowFocus: false,
+    staleTime,
+    enabled: enabled && !!name,
+    refetchOnWindowFocus,
   });
 };

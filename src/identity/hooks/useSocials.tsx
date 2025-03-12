@@ -12,21 +12,18 @@ type UseSocialsOptions = {
 
 export const useSocials = (
   { ensName, chain = mainnet }: UseSocialsOptions,
-  queryOptions?: UseQueryOptions,
+  queryOptions?: UseQueryOptions<GetSocialsReturnType>,
 ) => {
-  const { enabled, cacheTime, staleTime, refetchOnWindowFocus } = {
-    ...DEFAULT_QUERY_OPTIONS,
-    ...queryOptions,
-  };
-
   const queryKey = ['useSocials', ensName, chain.id];
 
   return useQuery<GetSocialsReturnType>({
     queryKey,
     queryFn: () => getSocials({ ensName, chain }),
-    gcTime: cacheTime,
-    staleTime,
-    enabled,
-    refetchOnWindowFocus,
+    ...DEFAULT_QUERY_OPTIONS,
+    ...queryOptions,
+    enabled:
+      queryOptions?.enabled !== undefined
+        ? queryOptions.enabled && !!ensName
+        : DEFAULT_QUERY_OPTIONS.enabled && !!ensName,
   });
 };
