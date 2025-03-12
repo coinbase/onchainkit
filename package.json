@@ -166,6 +166,12 @@
       "import": "./esm/identity/index.js",
       "default": "./esm/identity/index.js"
     },
+    "./minikit": {
+      "types": "./esm/minikit/index.d.ts",
+      "module": "./esm/minikit/index.js",
+      "import": "./esm/minikit/index.js",
+      "default": "./esm/minikit/index.js"
+    },    
     "./nft": {
       "types": "./esm/nft/index.d.ts",
       "module": "./esm/nft/index.js",
