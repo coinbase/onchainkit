@@ -233,7 +233,7 @@ export type TransactionSponsorReact = {
  */
 export type TransactionStatusReact = {
   /** The child components to be rendered within the status component */
-  children: ReactNode;
+  children?: ReactNode;
   /** An optional CSS class name for styling the status component */
   className?: string;
 };
