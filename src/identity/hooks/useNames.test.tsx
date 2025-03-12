@@ -200,4 +200,41 @@ describe('useNames', () => {
       chain: mainnet,
     });
   });
+
+  it('respects enabled=false in queryOptions even with valid addresses', async () => {
+    vi.mocked(getNames).mockImplementation(() => {
+      throw new Error('This should not be called');
+    });
+
+    const { result } = renderHook(
+      () => useNames({ addresses: testAddresses }, { enabled: false }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    expect(getNames).not.toHaveBeenCalled();
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.fetchStatus).toBe('idle');
+  });
+
+  it('enables the query when enabled=true and addresses are valid', async () => {
+    const testEnsNames = ['user1.eth', 'user2.eth', 'user3.eth'];
+    vi.mocked(getNames).mockResolvedValue(testEnsNames);
+
+    const { result } = renderHook(
+      () => useNames({ addresses: testAddresses }, { enabled: true }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    await waitFor(() => {
+      expect(result.current.data).toEqual(testEnsNames);
+    });
+
+    expect(getNames).toHaveBeenCalled();
+  });
 });

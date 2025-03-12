@@ -260,4 +260,64 @@ describe('useAvatars', () => {
 
     expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
   });
+
+  // New tests for conditional enabled logic
+  it('disables the query when ensNames array is empty', async () => {
+    mockGetEnsAvatar.mockImplementation(() => {
+      throw new Error('This should not be called');
+    });
+
+    const { result } = renderHook(() => useAvatars({ ensNames: [] }), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    expect(mockGetEnsAvatar).not.toHaveBeenCalled();
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.fetchStatus).toBe('idle');
+  });
+
+  it('enables the query when enabled=true is explicitly set and ensNames is valid', async () => {
+    const testEnsNames = ['test1.ens', 'test2.ens'];
+    const testEnsAvatars = ['avatarUrl1', 'avatarUrl2'];
+
+    mockGetEnsAvatar
+      .mockResolvedValueOnce(testEnsAvatars[0])
+      .mockResolvedValueOnce(testEnsAvatars[1]);
+
+    const { result } = renderHook(
+      () => useAvatars({ ensNames: testEnsNames }, { enabled: true }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    await waitFor(() => {
+      expect(result.current.data).toEqual(testEnsAvatars);
+    });
+
+    expect(mockGetEnsAvatar).toHaveBeenCalled();
+  });
+
+  it('respects enabled=false even with valid ensNames', async () => {
+    const testEnsNames = ['test1.ens', 'test2.ens'];
+
+    mockGetEnsAvatar.mockImplementation(() => {
+      throw new Error('This should not be called');
+    });
+
+    const { result } = renderHook(
+      () => useAvatars({ ensNames: testEnsNames }, { enabled: false }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    expect(mockGetEnsAvatar).not.toHaveBeenCalled();
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.fetchStatus).toBe('idle');
+  });
 });

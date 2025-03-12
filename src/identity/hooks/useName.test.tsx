@@ -139,12 +139,12 @@ describe('useName', () => {
 
   it('merges custom queryOptions with default options', async () => {
     const testEnsName = 'test.ens';
-    const customCacheTime = 120000;
+    const customGcTime = 120000;
 
     mockGetEnsName.mockResolvedValue(testEnsName);
 
     const { result } = renderHook(
-      () => useName({ address: testAddress }, { cacheTime: customCacheTime }),
+      () => useName({ address: testAddress }, { gcTime: customGcTime }),
       {
         wrapper: getNewReactQueryTestProvider(),
       },
@@ -155,5 +155,61 @@ describe('useName', () => {
     });
 
     expect(mockGetEnsName).toHaveBeenCalled();
+  });
+
+  it('disables the query when address is empty', async () => {
+    mockGetEnsName.mockImplementation(() => {
+      throw new Error('This should not be called');
+    });
+
+    const { result } = renderHook(
+      () => useName({ address: '' as unknown as `0x${string}` }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    expect(mockGetEnsName).not.toHaveBeenCalled();
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.fetchStatus).toBe('idle');
+  });
+
+  it('enables the query when enabled=true is explicitly set and address is valid', async () => {
+    const testEnsName = 'test.ens';
+    mockGetEnsName.mockResolvedValue(testEnsName);
+
+    const { result } = renderHook(
+      () => useName({ address: testAddress }, { enabled: true }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    await waitFor(() => {
+      expect(result.current.data).toBe(testEnsName);
+    });
+
+    expect(mockGetEnsName).toHaveBeenCalled();
+  });
+
+  it('respects enabled=false even with valid address', async () => {
+    mockGetEnsName.mockImplementation(() => {
+      throw new Error('This should not be called');
+    });
+
+    const { result } = renderHook(
+      () => useName({ address: testAddress }, { enabled: false }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    expect(mockGetEnsName).not.toHaveBeenCalled();
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.fetchStatus).toBe('idle');
   });
 });

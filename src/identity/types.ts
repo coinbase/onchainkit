@@ -325,6 +325,12 @@ export type UseAvatarsOptions = {
 
 /**
  * Note: exported as public Type
+ *
+ * Extends Tanstack Query's UseQueryOptions type but omits 'queryKey' and 'queryFn'
+ * properties which are handled internally.
+ *
+ * This allows developers to pass any Tanstack Query option (like retry, refetchInterval,
+ * select, onSuccess, etc.) to OnchainKit hooks while ensuring type safety.
  */
 export type UseQueryOptions<TData = unknown> = Omit<
   TanstackUseQueryOptions<TData>,

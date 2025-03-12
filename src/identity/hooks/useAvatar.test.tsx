@@ -188,4 +188,40 @@ describe('useAvatar', () => {
 
     expect(mockGetEnsAvatar).toHaveBeenCalled();
   });
+
+  it('disables the query when ensName is empty', async () => {
+    mockGetEnsAvatar.mockImplementation(() => {
+      throw new Error('This should not be called');
+    });
+
+    const { result } = renderHook(() => useAvatar({ ensName: '' }), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    expect(mockGetEnsAvatar).not.toHaveBeenCalled();
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.fetchStatus).toBe('idle');
+  });
+
+  it('enables the query when enabled=true is explicitly set and ensName is valid', async () => {
+    const testEnsName = 'test.ens';
+    const testEnsAvatar = 'avatarUrl';
+
+    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+
+    const { result } = renderHook(
+      () => useAvatar({ ensName: testEnsName }, { enabled: true }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    await waitFor(() => {
+      expect(result.current.data).toBe(testEnsAvatar);
+    });
+
+    expect(mockGetEnsAvatar).toHaveBeenCalled();
+  });
 });
