@@ -1,15 +1,15 @@
 import { base, baseSepolia } from 'viem/chains';
-import type { isBaseOptions } from '../types';
+import type { IsBaseOptions } from '../types';
 
 /**
  * isBase
  *  - Checks if the paymaster operations chain id is valid
  *  - Only allows the Base and Base Sepolia chain ids
  */
-export function isBase({
+export const isBase = ({
   chainId,
   isMainnetOnly = false,
-}: isBaseOptions): boolean {
+}: IsBaseOptions): boolean => {
   // If only Base mainnet
   if (isMainnetOnly && chainId === base.id) {
     return true;
