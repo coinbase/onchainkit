@@ -150,7 +150,7 @@ export type TokenBalanceProps = {
       tokenSize?: number;
     }
   | {
-      /** Hide the token image */
+      /** Hide the token image (default: true) */
       showImage: false;
       /** Size of the token image in px (default: 40) */
       tokenSize?: never;
@@ -158,7 +158,7 @@ export type TokenBalanceProps = {
 ) &
   (
     | {
-        /** Hide the action button (default)*/
+        /** Action handler for the action button (if not provided, actionText must also be omitted) */
         onActionPress?: never;
         /** Optional action button text (default: "Use max") */
         actionText?: never;
