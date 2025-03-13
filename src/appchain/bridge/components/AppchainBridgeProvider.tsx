@@ -1,3 +1,4 @@
+'use client';
 import { getChainExplorer } from '@/core/network/getChainExplorer';
 import { useValue } from '@/internal/hooks/useValue';
 import { baseSvg } from '@/internal/svg/baseSvg';

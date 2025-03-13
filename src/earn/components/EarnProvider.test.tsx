@@ -1,8 +1,9 @@
 import { useMorphoVault } from '@/earn/hooks/useMorphoVault';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, renderHook } from '@testing-library/react';
+import { fireEvent, render, renderHook, screen } from '@testing-library/react';
 import { act } from 'react';
+import type { TransactionReceipt } from 'viem';
 import { baseSepolia } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig, mock, useAccount } from 'wagmi';
@@ -23,7 +24,49 @@ const mockConfig = createConfig({
   },
 });
 
-const wrapper = ({ children }: { children: React.ReactNode }) => (
+const TestComponent = () => {
+  const context = useEarnContext();
+  const handleStatusError = async () => {
+    context.updateLifecycleStatus({
+      statusName: 'error',
+      statusData: {
+        code: 'code',
+        error: 'error_long_messages',
+        message: 'error_long_messages',
+      },
+    });
+  };
+  const handleStatusSuccess = async () => {
+    context.updateLifecycleStatus({
+      statusName: 'success',
+      statusData: {
+        transactionReceipts: [
+          { hash: '0x1235' } as unknown as TransactionReceipt,
+        ],
+      },
+    });
+  };
+
+  return (
+    <div data-testid="test-component">
+      <span data-testid="context-value-lifecycleStatus-statusName">
+        {context.lifecycleStatus.statusName}
+      </span>
+      <button type="button" onClick={handleStatusError}>
+        setLifecycleStatus.error
+      </button>
+      <button type="button" onClick={handleStatusSuccess}>
+        setLifecycleStatus.success
+      </button>
+    </div>
+  );
+};
+
+const wrapper = ({
+  children,
+}: {
+  children?: React.ReactNode;
+}) => (
   <WagmiProvider config={mockConfig}>
     <QueryClientProvider client={queryClient}>
       <EarnProvider vaultAddress={DUMMY_ADDRESS}>{children}</EarnProvider>
@@ -56,6 +99,54 @@ describe('EarnProvider', () => {
       convertedBalance: '0.0',
       error: null,
     });
+  });
+
+  it('should emit onError when setLifecycleStatus is called with error', async () => {
+    const onErrorMock = vi.fn();
+    const onStatusMock = vi.fn();
+    (useMorphoVault as Mock).mockReturnValue({
+      asset: DUMMY_ADDRESS,
+      assetDecimals: 18,
+      assetSymbol: 'TEST',
+      balance: '100',
+      totalApy: '0.05',
+    });
+
+    render(
+      <EarnProvider
+        vaultAddress={DUMMY_ADDRESS}
+        onError={onErrorMock}
+        onStatus={onStatusMock}
+      >
+        <TestComponent />
+      </EarnProvider>,
+    );
+
+    const button = screen.getByText('setLifecycleStatus.error');
+    fireEvent.click(button);
+    expect(onErrorMock).toHaveBeenCalled();
+    expect(onStatusMock).toHaveBeenCalled();
+  });
+
+  it('should emit onSuccess when setLifecycleStatus is called with success', async () => {
+    const onSuccessMock = vi.fn();
+    (useMorphoVault as Mock).mockReturnValue({
+      asset: DUMMY_ADDRESS,
+      assetDecimals: 18,
+      assetSymbol: 'TEST',
+      balance: '100',
+      totalApy: '0.05',
+    });
+
+    render(
+      <EarnProvider vaultAddress={DUMMY_ADDRESS} onSuccess={onSuccessMock}>
+        <TestComponent />
+      </EarnProvider>,
+    );
+
+    const button = screen.getByText('setLifecycleStatus.success');
+    fireEvent.click(button);
+    expect(onSuccessMock).toHaveBeenCalledWith({ hash: '0x1235' });
   });
 
   it('throws an error when vaultAddress is not provided', () => {

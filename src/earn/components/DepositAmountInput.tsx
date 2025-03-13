@@ -1,3 +1,4 @@
+'use client';
 import type { DepositAmountInputReact } from '../types';
 import { EarnAmountInput } from './EarnAmountInput';
 import { useEarnContext } from './EarnProvider';

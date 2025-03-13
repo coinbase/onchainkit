@@ -15,8 +15,9 @@ export const APPCHAIN_BRIDGE_ADDRESS =
 export const APPCHAIN_L2_TO_L1_MESSAGE_PASSER_ADDRESS =
   '0x4200000000000000000000000000000000000016';
 
-export const APPCHAIN_DEPLOY_CONTRACT_ADDRESS = {
-  [baseSepolia.id]: '0x948DCF664178aFF14733C4Cc2dAbA44bCCaf8230' as Address,
+export const APPCHAIN_DEPLOY_CONTRACT_ADDRESS: Record<number, Address> = {
+  [base.id]: '0xe8c6D9460Ce61D260260d27f30bde8b8d1a8341e',
+  [baseSepolia.id]: '0x948DCF664178aFF14733C4Cc2dAbA44bCCaf8230',
 };
 
 export const ETH_BY_CHAIN: Record<number, Token> = {
