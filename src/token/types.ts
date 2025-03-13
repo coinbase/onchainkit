@@ -160,13 +160,13 @@ export type TokenBalanceProps = {
     | {
         /** Action handler for the action button (if not provided, actionText must also be omitted) */
         onActionPress?: never;
-        /** Optional action button text (default: "Use max") */
+        /** Optional action button text (default: "Max") */
         actionText?: never;
       }
     | {
         /** Action handler for the action button */
         onActionPress: () => void;
-        /** Optional action button text (default: "Use max") */
+        /** Optional action button text (default: "Max") */
         actionText?: string;
       }
   );

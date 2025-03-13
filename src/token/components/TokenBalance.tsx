@@ -10,7 +10,7 @@ export function TokenBalance({
   token,
   onClick,
   onActionPress,
-  actionText = 'Use max',
+  actionText = 'Max',
   classNames,
   'aria-label': ariaLabel,
   ...contentProps
