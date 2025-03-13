@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useMemo } from 'react';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { cn, color, pressable, text } from '../../styles/theme';
@@ -58,7 +59,9 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
             'text-xs',
             hasInsufficientBalance ? color.error : color.foregroundMuted,
           )}
-        >{`${hasInsufficientBalance ? 'Insufficient balance' : 'Balance'}: ${roundedBalance}`}</div>
+        >{`${
+          hasInsufficientBalance ? 'Insufficient balance' : 'Balance'
+        }: ${roundedBalance}`}</div>
       </div>
     </button>
   );

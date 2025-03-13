@@ -1,3 +1,4 @@
+'use client';
 import { TextInput } from '../../internal/components/TextInput';
 import { isValidAmount } from '../../internal/utils/isValidAmount';
 import { background, border, cn, color } from '../../styles/theme';

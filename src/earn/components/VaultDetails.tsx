@@ -1,3 +1,4 @@
+'use client';
 import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
 import { Popover } from '@/internal/components/Popover';
 import { Skeleton } from '@/internal/components/Skeleton';
@@ -90,13 +91,17 @@ export function VaultDetails() {
             {deposits ? (
               <Row
                 label="Total deposits"
-                value={`${getTruncatedAmount(deposits, 1, 'compact')} ${vaultToken.symbol}`}
+                value={`${getTruncatedAmount(deposits, 1, 'compact')} ${
+                  vaultToken.symbol
+                }`}
               />
             ) : null}
             {liquidity ? (
               <Row
                 label="Liquidity"
-                value={`${getTruncatedAmount(liquidity, 1, 'compact')} ${vaultToken.symbol}`}
+                value={`${getTruncatedAmount(liquidity, 1, 'compact')} ${
+                  vaultToken.symbol
+                }`}
               />
             ) : null}
           </div>
