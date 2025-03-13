@@ -15,6 +15,28 @@ vi.mock('@/core/network/getChainPublicClient', () => ({
 
 vi.mock('../utils/getNames');
 
+const mockUseQuery = vi.fn();
+vi.mock('@tanstack/react-query', async () => {
+  const actual = await vi.importActual('@tanstack/react-query');
+  type UseQueryType = <TData, _TError = Error>(options: {
+    queryKey: unknown[];
+    queryFn: () => Promise<TData>;
+    [key: string]: unknown;
+  }) => unknown;
+
+  return {
+    ...actual,
+    useQuery: <TData, TError = Error>(options: {
+      queryKey: unknown[];
+      queryFn: () => Promise<TData>;
+      [key: string]: unknown;
+    }) => {
+      mockUseQuery(options);
+      return (actual.useQuery as UseQueryType)<TData, TError>(options);
+    },
+  };
+});
+
 describe('useNames', () => {
   const testAddresses = [
     '0x1234567890123456789012345678901234567890',
@@ -25,6 +47,7 @@ describe('useNames', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.resetAllMocks();
+    mockUseQuery.mockClear();
   });
 
   it('returns the correct ENS names and loading state', async () => {
@@ -140,8 +163,7 @@ describe('useNames', () => {
     vi.mocked(getNames).mockResolvedValue(testEnsNames);
 
     const { result } = renderHook(
-      () =>
-        useNames({ addresses: testAddresses }, { cacheTime: customCacheTime }),
+      () => useNames({ addresses: testAddresses }, { gcTime: customCacheTime }),
       {
         wrapper: getNewReactQueryTestProvider(),
       },
@@ -199,5 +221,85 @@ describe('useNames', () => {
       addresses: testAddresses,
       chain: mainnet,
     });
+  });
+
+  it('respects enabled=false in queryOptions even with valid addresses', async () => {
+    vi.mocked(getNames).mockImplementation(() => {
+      throw new Error('This should not be called');
+    });
+
+    const { result } = renderHook(
+      () => useNames({ addresses: testAddresses }, { enabled: false }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    expect(getNames).not.toHaveBeenCalled();
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.fetchStatus).toBe('idle');
+  });
+
+  it('enables the query when enabled=true and addresses are valid', async () => {
+    const testEnsNames = ['user1.eth', 'user2.eth', 'user3.eth'];
+    vi.mocked(getNames).mockResolvedValue(testEnsNames);
+
+    const { result } = renderHook(
+      () => useNames({ addresses: testAddresses }, { enabled: true }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    await waitFor(() => {
+      expect(result.current.data).toEqual(testEnsNames);
+    });
+
+    expect(getNames).toHaveBeenCalled();
+  });
+
+  it('correctly maps cacheTime to gcTime for backwards compatibility', async () => {
+    const mockCacheTime = 60000;
+    const testEnsNames = ['user1.eth', 'user2.eth', 'user3.eth'];
+
+    vi.mocked(getNames).mockResolvedValue(testEnsNames);
+
+    renderHook(
+      () =>
+        useNames({ addresses: testAddresses }, { cacheTime: mockCacheTime }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    expect(mockUseQuery).toHaveBeenCalled();
+    const optionsWithCacheTime = mockUseQuery.mock.calls[0][0];
+    expect(optionsWithCacheTime).toHaveProperty('gcTime', mockCacheTime);
+
+    const mockGcTime = 120000;
+
+    mockUseQuery.mockClear();
+
+    renderHook(
+      () =>
+        useNames(
+          {
+            addresses: testAddresses,
+          },
+          {
+            cacheTime: mockCacheTime,
+            gcTime: mockGcTime,
+          },
+        ),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    expect(mockUseQuery).toHaveBeenCalled();
+    const optionsWithBoth = mockUseQuery.mock.calls[0][0];
+    expect(optionsWithBoth).toHaveProperty('gcTime', mockGcTime);
   });
 });

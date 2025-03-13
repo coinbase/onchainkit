@@ -13,21 +13,17 @@ import type {
  */
 export const useAvatar = (
   { ensName, chain = mainnet }: UseAvatarOptions,
-  queryOptions?: UseQueryOptions,
+  queryOptions?: UseQueryOptions<GetAvatarReturnType>,
 ) => {
-  const { enabled, cacheTime, staleTime, refetchOnWindowFocus } = {
-    ...DEFAULT_QUERY_OPTIONS,
-    ...queryOptions,
-  };
-
   const queryKey = ['useAvatar', ensName, chain.id];
 
   return useQuery<GetAvatarReturnType>({
     queryKey,
     queryFn: () => getAvatar({ ensName, chain }),
-    gcTime: cacheTime,
-    staleTime,
-    enabled,
-    refetchOnWindowFocus,
+    enabled: !!ensName,
+    ...DEFAULT_QUERY_OPTIONS,
+    // Use cacheTime as gcTime for backward compatibility
+    gcTime: queryOptions?.cacheTime,
+    ...queryOptions,
   });
 };
