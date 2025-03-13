@@ -1,3 +1,4 @@
+'use client';
 import { SuccessSvg } from '@/internal/svg/fullWidthSuccessSvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import type { AppchainBridgeSuccessReact } from '../types';

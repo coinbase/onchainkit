@@ -1,3 +1,4 @@
+'use client';
 import { useBuildDepositToMorphoTx } from '@/earn/hooks/useBuildDepositToMorphoTx';
 import { getToken } from '@/earn/utils/getToken';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
@@ -7,6 +8,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -25,6 +27,9 @@ export function EarnProvider({
   vaultAddress,
   children,
   isSponsored,
+  onError,
+  onStatus,
+  onSuccess,
 }: EarnProviderReact) {
   if (!vaultAddress) {
     throw new Error(
@@ -42,6 +47,16 @@ export function EarnProvider({
 
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [depositAmount, setDepositAmount] = useState('');
+
+  useEffect(() => {
+    if (lifecycleStatus.statusName === 'error') {
+      onError?.(lifecycleStatus.statusData);
+    }
+    if (lifecycleStatus?.statusName === 'success') {
+      onSuccess?.(lifecycleStatus?.statusData?.transactionReceipts?.[0]);
+    }
+    onStatus?.(lifecycleStatus);
+  }, [lifecycleStatus, onStatus, onError, onSuccess]);
 
   const {
     asset,
