@@ -1,3 +1,4 @@
+'use client';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { background, border, cn, color, text } from '@/styles/theme';
@@ -13,11 +14,7 @@ import { AppchainBridgeTransactionButton } from './AppchainBridgeTransactionButt
 import { AppchainBridgeWithdraw } from './AppchainBridgeWithdraw';
 import { AppchainNetworkToggleButton } from './AppchainNetworkToggleButton';
 
-const AppchainBridgeDefaultContent = ({
-  title,
-}: {
-  title: string;
-}) => {
+const AppchainBridgeDefaultContent = ({ title }: { title: string }) => {
   const {
     isAddressModalOpen,
     isWithdrawModalOpen,

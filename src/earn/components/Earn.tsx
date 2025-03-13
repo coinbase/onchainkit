@@ -1,3 +1,4 @@
+'use client';
 import { Tab, TabContent, Tabs, TabsList } from '@/internal';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { border, cn } from '@/styles/theme';
@@ -54,10 +55,19 @@ export function Earn({
   className,
   vaultAddress,
   isSponsored,
+  onError,
+  onStatus,
+  onSuccess,
 }: EarnReact) {
   const componentTheme = useTheme();
   return (
-    <EarnProvider vaultAddress={vaultAddress} isSponsored={isSponsored}>
+    <EarnProvider
+      vaultAddress={vaultAddress}
+      isSponsored={isSponsored}
+      onError={onError}
+      onStatus={onStatus}
+      onSuccess={onSuccess}
+    >
       <div
         className={cn(
           componentTheme,

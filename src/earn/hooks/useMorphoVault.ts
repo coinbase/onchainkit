@@ -1,3 +1,4 @@
+'use client';
 import { MORPHO_VAULT_ABI } from '@/earn/abis/morpho';
 import { MORPHO_TOKEN_BASE_ADDRESS } from '@/earn/constants';
 import calculateMorphoRewards from '@/earn/utils/calculateMorphoRewards';
