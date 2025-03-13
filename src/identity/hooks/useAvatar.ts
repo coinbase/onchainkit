@@ -22,6 +22,8 @@ export const useAvatar = (
     queryFn: () => getAvatar({ ensName, chain }),
     enabled: !!ensName,
     ...DEFAULT_QUERY_OPTIONS,
+    // Use cacheTime as gcTime for backward compatibility
+    gcTime: queryOptions?.cacheTime,
     ...queryOptions,
   });
 };

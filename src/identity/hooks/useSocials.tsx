@@ -20,6 +20,8 @@ export const useSocials = (
     queryKey,
     queryFn: () => getSocials({ ensName, chain }),
     ...DEFAULT_QUERY_OPTIONS,
+    // Use cacheTime as gcTime for backward compatibility
+    gcTime: queryOptions?.cacheTime,
     ...queryOptions,
   });
 };

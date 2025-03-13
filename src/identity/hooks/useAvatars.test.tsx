@@ -13,11 +13,35 @@ vi.mock('@/core/network/getChainPublicClient', () => ({
   getChainPublicClient: vi.fn(() => publicClient),
 }));
 
+// Mock for testing cacheTime to gcTime mapping
+const mockUseQuery = vi.fn();
+vi.mock('@tanstack/react-query', async () => {
+  const actual = await vi.importActual('@tanstack/react-query');
+  type UseQueryType = <TData, _TError = Error>(options: {
+    queryKey: unknown[];
+    queryFn: () => Promise<TData>;
+    [key: string]: unknown;
+  }) => any;
+
+  return {
+    ...actual,
+    useQuery: <TData, TError = Error>(options: {
+      queryKey: unknown[];
+      queryFn: () => Promise<TData>;
+      [key: string]: unknown;
+    }) => {
+      mockUseQuery(options);
+      return (actual.useQuery as UseQueryType)<TData, TError>(options);
+    },
+  };
+});
+
 describe('useAvatars', () => {
   const mockGetEnsAvatar = publicClient.getEnsAvatar as Mock;
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseQuery.mockClear();
   });
 
   it('returns the correct ENS avatars and loading state', async () => {
@@ -318,5 +342,49 @@ describe('useAvatars', () => {
     expect(mockGetEnsAvatar).not.toHaveBeenCalled();
     expect(result.current.isLoading).toBe(false);
     expect(result.current.fetchStatus).toBe('idle');
+  });
+
+  it('correctly maps cacheTime to gcTime for backwards compatibility', async () => {
+    const testEnsNames = ['test1.ens'];
+    const testEnsAvatar = 'avatarUrl1';
+    const mockCacheTime = 60000;
+
+    mockGetEnsAvatar.mockResolvedValueOnce(testEnsAvatar);
+
+    renderHook(
+      () =>
+        useAvatars({ ensNames: testEnsNames }, { cacheTime: mockCacheTime }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    expect(mockUseQuery).toHaveBeenCalled();
+    const optionsWithCacheTime = mockUseQuery.mock.calls[0][0];
+    expect(optionsWithCacheTime).toHaveProperty('gcTime', mockCacheTime);
+
+    const mockGcTime = 120000;
+
+    mockUseQuery.mockClear();
+
+    renderHook(
+      () =>
+        useAvatars(
+          {
+            ensNames: testEnsNames,
+          },
+          {
+            cacheTime: mockCacheTime,
+            gcTime: mockGcTime,
+          },
+        ),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    expect(mockUseQuery).toHaveBeenCalled();
+    const optionsWithBoth = mockUseQuery.mock.calls[0][0];
+    expect(optionsWithBoth).toHaveProperty('gcTime', mockGcTime);
   });
 });

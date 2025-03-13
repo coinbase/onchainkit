@@ -24,6 +24,8 @@ export const useNames = (
     queryFn: () => getNames({ addresses, chain }),
     enabled: !!addresses.length,
     ...DEFAULT_QUERY_OPTIONS,
+    // Use cacheTime as gcTime for backward compatibility
+    gcTime: queryOptions?.cacheTime,
     ...queryOptions,
   });
 };
