@@ -1,3 +1,4 @@
+'use client';
 import { useEarnContext } from '@/earn/components/EarnProvider';
 import { VaultDetails } from '@/earn/components/VaultDetails';
 import { YieldDetails } from '@/earn/components/YieldDetails';

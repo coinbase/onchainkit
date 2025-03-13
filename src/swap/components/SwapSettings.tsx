@@ -6,11 +6,25 @@ import { useIcon } from '@/internal/hooks/useIcon';
 import { background, border, cn, pressable, text } from '@/styles/theme';
 import { useCallback, useRef, useState } from 'react';
 import type { SwapSettingsReact } from '../types';
+import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
+import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
 import { SwapSettingsSlippageLayout } from './SwapSettingsSlippageLayout';
 import { SwapSettingsSlippageLayoutBottomSheet } from './SwapSettingsSlippageLayoutBottomSheet';
+import { SwapSettingsSlippageTitle } from './SwapSettingsSlippageTitle';
+
+const DEFAULT_CHILDREN = (
+  <>
+    <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
+    <SwapSettingsSlippageDescription>
+      Your swap will revert if the prices change by more than the selected
+      percentage.
+    </SwapSettingsSlippageDescription>
+    <SwapSettingsSlippageInput />,
+  </>
+);
 
 export function SwapSettings({
-  children,
+  children = DEFAULT_CHILDREN,
   className,
   icon = 'swapSettings',
   text: buttonText = '',
@@ -34,7 +48,7 @@ export function SwapSettings({
   return (
     <div
       className={cn(
-        'flex w-auto items-center justify-end space-x-1',
+        'flex w-auto items-center justify-end space-x-1 pb-4',
         className,
       )}
       data-testid="ockSwapSettings_Settings"

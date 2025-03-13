@@ -1,3 +1,4 @@
+'use client';
 import { isApplePaySupported } from '@/buy/utils/isApplePaySupported';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';

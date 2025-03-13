@@ -1,3 +1,4 @@
+'use client';
 import { Spinner } from '@/internal/components/Spinner';
 import { ErrorSvg } from '@/internal/svg/fullWidthErrorSvg';
 import { SuccessSvg } from '@/internal/svg/fullWidthSuccessSvg';
