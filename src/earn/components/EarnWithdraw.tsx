@@ -1,3 +1,4 @@
+'use client';
 import { EarnDetails } from '@/earn/components/EarnDetails';
 import type { EarnWithdrawReact } from '../types';
 import { EarnCard } from './EarnCard';

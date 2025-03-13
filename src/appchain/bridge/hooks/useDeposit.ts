@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useState } from 'react';
 import { parseEther, parseUnits } from 'viem';
 import type { Hex } from 'viem';
