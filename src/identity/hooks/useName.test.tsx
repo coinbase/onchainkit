@@ -22,7 +22,7 @@ vi.mock('@tanstack/react-query', async () => {
     queryKey: unknown[];
     queryFn: () => Promise<TData>;
     [key: string]: unknown;
-  }) => any;
+  }) => unknown;
 
   return {
     ...actual,
