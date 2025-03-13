@@ -81,3 +81,4 @@ For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 [![Version 🔖](https://github.com/nodoubtz/onchainkit/actions/workflows/release.yml/badge.svg)](https://github.com/nodoubtz/onchainkit/actions/workflows/release.yml)
+[![Version 🔖](https://github.com/nodoubtz/onchainkit/actions/workflows/release.yml/badge.svg)](https://github.com/nodoubtz/onchainkit/actions/workflows/release.yml)
