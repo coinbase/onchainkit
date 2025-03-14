@@ -1,5 +1,6 @@
 'use client';
 
+import { Avatar, Name } from '@/identity';
 import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
@@ -22,7 +23,6 @@ import { ConnectButton } from './ConnectButton';
 import { ConnectWalletText } from './ConnectWalletText';
 import { WalletModal } from './WalletModal';
 import { useWalletContext } from './WalletProvider';
-import { Avatar, Name } from '@/identity';
 
 const defaultConnectWalletChildren = [
   <Avatar className="h-6 w-6" key="avatar" />,

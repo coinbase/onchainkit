@@ -6,9 +6,9 @@ import { cn, color, pressable } from '@/styles/theme';
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import type { WalletDropdownReact } from '../types';
 import { WalletBottomSheet } from './WalletBottomSheet';
-import { useWalletContext } from './WalletProvider';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 import { WalletDropdownLink } from './WalletDropdownLink';
+import { useWalletContext } from './WalletProvider';
 
 const defaultWalletDropdownChildren = [
   <Identity className="px-4 pt-3 pb-2" key="wallet-dd-identity" />,
