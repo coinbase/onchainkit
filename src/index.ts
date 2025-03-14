@@ -10,8 +10,8 @@ export { useOnchainKit } from './useOnchainKit';
 export { version } from './version';
 export type {
   AppConfig,
-  isBaseOptions,
-  isEthereumOptions,
+  IsBaseOptions,
+  IsEthereumOptions,
   OnchainKitConfig,
   OnchainKitContextType,
 } from './core/types';

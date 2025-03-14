@@ -19,21 +19,25 @@ type AppConfig = {
 };
 ```
 
-## `isBaseOptions`
+## `IsBaseOptions`
 
 ```ts
-type isBaseOptions = {
+type IsBaseOptions = {
+  /** Chain ID for the network */
   chainId: number;
-  isMainnetOnly?: boolean; // If the chainId check is only allowed on mainnet
+  /** If the chainId check is only allowed on mainnet */
+  isMainnetOnly?: boolean;
 };
 ```
 
-## `isEthereumOptions`
+## `IsEthereumOptions`
 
 ```ts
-type isEthereumOptions = {
+type IsEthereumOptions = {
+  /** Chain ID for the network */
   chainId: number;
-  isMainnetOnly?: boolean; // If the chainId check is only allowed on mainnet
+  /** If the chainId check is only allowed on mainnet */
+  isMainnetOnly?: boolean;
 };
 ```
 
