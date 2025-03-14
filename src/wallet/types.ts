@@ -146,7 +146,7 @@ export type WalletDropdownBasenameReact = {
  * Note: exported as public Type
  */
 export type WalletDropdownReact = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   /** Optional className override for top div element */
   className?: string;
 };
