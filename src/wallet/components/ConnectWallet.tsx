@@ -26,6 +26,7 @@ import { useWalletContext } from './WalletProvider';
 export function ConnectWallet({
   children,
   className,
+  modalZIndex,
   // In a few version we will officially deprecate this prop,
   // but for now we will keep it for backward compatibility.
   text = 'Connect Wallet',
@@ -157,7 +158,11 @@ export function ConnectWallet({
             }}
             text={text}
           />
-          <WalletModal isOpen={isModalOpen} onClose={handleCloseConnectModal} />
+          <WalletModal
+            isOpen={isModalOpen}
+            onClose={handleCloseConnectModal}
+            className={modalZIndex}
+          />
         </div>
       );
     }
