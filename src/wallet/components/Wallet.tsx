@@ -1,53 +1,24 @@
 'use client';
 
-import { Avatar, Name, Identity, Address, EthBalance } from '@/identity';
 import { Draggable } from '@/internal/components/Draggable/Draggable';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { findComponent } from '@/internal/utils/findComponent';
-import { cn, color } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import { Children, useMemo, useRef } from 'react';
 import type { WalletReact, WalletSubComponentReact } from '../types';
 import { getWalletDraggableProps } from '../utils/getWalletDraggableProps';
 import { ConnectWallet } from './ConnectWallet';
-import { ConnectWalletText } from './ConnectWalletText';
 import { WalletAdvanced } from './WalletAdvanced';
 import { WalletDropdown } from './WalletDropdown';
-import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
-import { WalletDropdownLink } from './WalletDropdownLink';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
-function getDefaultWalletContent() {
-  return {
-    connect: (
-      <ConnectWallet>
-        <ConnectWalletText>Connect Wallet</ConnectWalletText>
-        <Avatar className="h-6 w-6" />
-        <Name />
-      </ConnectWallet>
-    ),
-    dropdown: (
-      <WalletDropdown>
-        <Identity className="px-4 pt-3 pb-2">
-          <Avatar />
-          <Name />
-          <Address className={color.foregroundMuted} />
-          <EthBalance />
-        </Identity>
-        <WalletDropdownLink
-          icon="wallet"
-          href="https://keys.coinbase.com"
-          target="_blank"
-        >
-          Wallet
-        </WalletDropdownLink>
-        <WalletDropdownDisconnect />
-      </WalletDropdown>
-    ),
-    advanced: null,
-  };
-}
+const defaultWalletChildren = {
+  connect: <ConnectWallet />,
+  dropdown: <WalletDropdown />,
+  advanced: null,
+};
 
 export const Wallet = ({
   children,
@@ -97,7 +68,7 @@ function WalletContent({
   const { connect, dropdown, advanced } = useMemo(() => {
     // default children implementation
     if (!children) {
-      return getDefaultWalletContent();
+      return defaultWalletChildren;
     }
     const childrenArray = Children.toArray(children);
     return {

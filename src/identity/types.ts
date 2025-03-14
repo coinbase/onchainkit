@@ -241,7 +241,7 @@ export type IdentityReact = {
   /** Optional chain for domain resolution */
   chain?: Chain;
   /** Child components */
-  children: ReactNode;
+  children?: ReactNode;
   /** Optional className override for top div element. */
   className?: string;
   /** The Ethereum address of the schema to use for EAS attestation. */
