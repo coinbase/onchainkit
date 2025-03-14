@@ -95,6 +95,8 @@ export type TransactionContextType = {
   errorCode?: string;
   /** An error message string if the transaction encounters an issue */
   errorMessage?: string;
+  /** A optional prop to disable the submit button */
+  disabled?: boolean;
   /** A boolean indicating if the transaction is currently loading */
   isLoading: boolean;
   /** A boolean indicating if the transaction toast notification is visible */
@@ -169,6 +171,8 @@ export type TransactionProviderReact = {
    * @deprecated Use `calls` instead.
    */
   contracts?: Calls | Contracts | (Call | ContractFunctionParameters)[];
+  /** A optional prop to disable the submit button */
+  disabled?: boolean;
   /** Whether the transactions are sponsored (default: false) */
   isSponsored?: boolean;
   /** An optional callback function that handles errors within the provider */
@@ -194,13 +198,15 @@ export type TransactionReact = {
   /** The chainId for the transaction */
   chainId?: number;
   /** The child components to be rendered within the transaction component */
-  children: ReactNode;
+  children?: ReactNode;
   /** An optional CSS class name for styling the component */
   className?: string;
   /**
    * @deprecated Use `calls` instead.
    */
   contracts?: Calls | Contracts | (Call | ContractFunctionParameters)[];
+  /** A optional prop to disable the submit button */
+  disabled?: boolean;
   /** Whether the transactions are sponsored (default: false) */
   isSponsored?: boolean;
   /** An optional callback function that handles transaction errors */
@@ -233,7 +239,7 @@ export type TransactionSponsorReact = {
  */
 export type TransactionStatusReact = {
   /** The child components to be rendered within the status component */
-  children: ReactNode;
+  children?: ReactNode;
   /** An optional CSS class name for styling the status component */
   className?: string;
 };
@@ -259,7 +265,7 @@ export type TransactionStatusLabelReact = {
  */
 export type TransactionToastReact = {
   /** The child components to be rendered within the toast component */
-  children: ReactNode;
+  children?: ReactNode;
   /** An optional CSS class name for styling the toast component */
   className?: string;
   /** An optional value to customize time until toast disappears */

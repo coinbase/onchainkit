@@ -80,6 +80,7 @@ describe('TransactionDefault Component', () => {
       onSubmit: vi.fn(),
       isLoading: false,
       transactions: ['transact'],
+      disabled: false,
     });
   });
 
@@ -92,6 +93,14 @@ describe('TransactionDefault Component', () => {
   });
 
   it('disables the TransactionButton when disabled prop is true', () => {
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      transactionId: undefined,
+      onSubmit: vi.fn(),
+      isLoading: false,
+      transactions: ['transact'],
+      disabled: true,
+    });
     render(<TransactionDefault {...defaultProps} disabled={true} />);
     const button = screen.getByTestId('ockTransactionButton_Button');
     expect(button).toBeDisabled();

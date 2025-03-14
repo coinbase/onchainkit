@@ -2,6 +2,9 @@ import { useCallback } from 'react';
 import { Toast } from '../../internal/components/Toast';
 import type { TransactionToastReact } from '../types';
 import { useTransactionContext } from './TransactionProvider';
+import { TransactionToastAction } from './TransactionToastAction';
+import { TransactionToastIcon } from './TransactionToastIcon';
+import { TransactionToastLabel } from './TransactionToastLabel';
 
 export function TransactionToast({
   children,
@@ -43,7 +46,13 @@ export function TransactionToast({
       onClose={closeToast}
       startTimeout={!!receipt || !!errorMessage}
     >
-      {children}
+      {children ?? (
+        <>
+          <TransactionToastIcon />
+          <TransactionToastLabel />
+          <TransactionToastAction />
+        </>
+      )}
     </Toast>
   );
 }
