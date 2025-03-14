@@ -157,6 +157,9 @@ export const useWithdraw = ({
       } else {
         console.error('Error', error);
         setWithdrawStatus('error');
+        sendAnalytics(AppchainEvent.AppchainBridgeWithdrawFailure, {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        });
       }
     }
   };

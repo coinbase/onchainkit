@@ -196,6 +196,14 @@ export type AppchainEventData = {
     tokenAddress: string;
     recipient: string;
   };
+  [AppchainEvent.AppchainBridgeWithdrawSuccess]: CommonAnalyticsData & {
+    amount: string;
+    tokenAddress: string;
+    recipient: string;
+  };
+  [AppchainEvent.AppchainBridgeWithdrawFailure]: CommonAnalyticsData & {
+    error: string;
+  };
   [AppchainEvent.AppchainBridgeWaitForClaimFailure]: CommonAnalyticsData & {
     transactionHash: Hex;
   };
@@ -424,6 +432,8 @@ export type AnalyticsEventData = {
   [AppchainEvent.AppchainBridgeDepositSuccess]: AppchainEventData[AppchainEvent.AppchainBridgeDepositSuccess];
   [AppchainEvent.AppchainBridgeDepositFailure]: AppchainEventData[AppchainEvent.AppchainBridgeDepositFailure];
   [AppchainEvent.AppchainBridgeWithdrawInitiated]: AppchainEventData[AppchainEvent.AppchainBridgeWithdrawInitiated];
+  [AppchainEvent.AppchainBridgeWithdrawSuccess]: AppchainEventData[AppchainEvent.AppchainBridgeWithdrawSuccess];
+  [AppchainEvent.AppchainBridgeWithdrawFailure]: AppchainEventData[AppchainEvent.AppchainBridgeWithdrawFailure];
   [AppchainEvent.AppchainBridgeWaitForClaimFailure]: AppchainEventData[AppchainEvent.AppchainBridgeWaitForClaimFailure];
   [AppchainEvent.AppchainBridgeClaimSuccess]: AppchainEventData[AppchainEvent.AppchainBridgeClaimSuccess];
   [AppchainEvent.AppchainBridgeClaimFailure]: AppchainEventData[AppchainEvent.AppchainBridgeClaimFailure];
