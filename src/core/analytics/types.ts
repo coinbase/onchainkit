@@ -2,6 +2,8 @@
  * Component-specific events
  */
 
+import type { Hex } from 'viem';
+
 /**
  * Wallet component events - Tracks all possible wallet interaction states
  * Used to monitor wallet connection flow and user interactions
@@ -127,6 +129,21 @@ export enum EarnEvent {
 }
 
 /**
+ * Appchain component events
+ */
+export enum AppchainEvent {
+  AppchainBridgeDepositInitiated = 'appchainBridgeDepositInitiated',
+  AppchainBridgeDepositSuccess = 'appchainBridgeDepositSuccess',
+  AppchainBridgeDepositFailure = 'appchainBridgeDepositFailure',
+  AppchainBridgeWithdrawInitiated = 'appchainBridgeWithdrawInitiated',
+  AppchainBridgeWithdrawSuccess = 'appchainBridgeWithdrawSuccess',
+  AppchainBridgeWithdrawFailure = 'appchainBridgeWithdrawFailure',
+  AppchainBridgeWaitForClaimFailure = 'appchainBridgeWaitForClaimFailure',
+  AppchainBridgeClaimSuccess = 'appchainBridgeClaimSuccess',
+  AppchainBridgeClaimFailure = 'appchainBridgeClaimFailure',
+}
+
+/**
  * Generic error events across components
  * Used for error tracking and monitoring
  */
@@ -139,6 +156,7 @@ export enum ErrorEvent {
  * Combines all possible event types
  */
 export type AnalyticsEvent =
+  | AppchainEvent
   | WalletEvent
   | SwapEvent
   | BuyEvent
@@ -157,6 +175,38 @@ export type CommonAnalyticsData = {
   /** Unique identifier for user session */
   sessionId?: string;
   timestamp?: number;
+};
+
+export type AppchainEventData = {
+  [AppchainEvent.AppchainBridgeDepositInitiated]: CommonAnalyticsData & {
+    amount: number;
+    tokenAddress: string;
+    recipient: string;
+  };
+  [AppchainEvent.AppchainBridgeDepositSuccess]: CommonAnalyticsData & {
+    amount: number;
+    tokenAddress: string;
+    recipient: string;
+  };
+  [AppchainEvent.AppchainBridgeDepositFailure]: CommonAnalyticsData & {
+    error: string;
+  };
+  [AppchainEvent.AppchainBridgeWithdrawInitiated]: CommonAnalyticsData & {
+    amount: number;
+    tokenAddress: string;
+    recipient: string;
+  };
+  [AppchainEvent.AppchainBridgeWaitForClaimFailure]: CommonAnalyticsData & {
+    transactionHash: Hex;
+  };
+  [AppchainEvent.AppchainBridgeClaimSuccess]: CommonAnalyticsData & {
+    amount: number;
+    tokenAddress: string;
+    recipient: string;
+  };
+  [AppchainEvent.AppchainBridgeClaimFailure]: CommonAnalyticsData & {
+    error: string;
+  };
 };
 
 export type WalletEventData = {

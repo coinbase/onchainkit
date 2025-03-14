@@ -1,4 +1,6 @@
 'use client';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { AppchainEvent } from '@/core/analytics/types';
 import { useCallback, useState } from 'react';
 import { type Hex, erc20Abi, keccak256, parseEther, parseUnits } from 'viem';
 import { getWithdrawalHashStorageSlot, getWithdrawals } from 'viem/op-stack';
@@ -53,6 +55,7 @@ export const useWithdraw = ({
   const [finalizedWithdrawalTxHash, setFinalizedWithdrawalTxHash] = useState<
     Hex | undefined
   >(undefined);
+  const { sendAnalytics } = useAnalytics();
 
   const resetWithdrawStatus = useCallback(() => {
     setWithdrawStatus('idle');
@@ -64,6 +67,12 @@ export const useWithdraw = ({
     if (!bridgeParams.recipient) {
       throw new Error('Recipient is required');
     }
+
+    sendAnalytics(AppchainEvent.AppchainBridgeWithdrawInitiated, {
+      amount: bridgeParams.amount,
+      tokenAddress: bridgeParams.token.address,
+      recipient: bridgeParams.recipient,
+    });
 
     setWithdrawStatus('withdrawPending');
     try {
@@ -133,6 +142,12 @@ export const useWithdraw = ({
         });
       }
 
+      sendAnalytics(AppchainEvent.AppchainBridgeWithdrawSuccess, {
+        amount: bridgeParams.amount,
+        tokenAddress: bridgeParams.token.address,
+        recipient: bridgeParams.recipient,
+      });
+
       setWithdrawStatus('withdrawSuccess');
       return transactionHash;
     } catch (error) {
@@ -181,6 +196,10 @@ export const useWithdraw = ({
       await new Promise((resolve) => setTimeout(resolve, pollInterval));
       attempts++;
     }
+
+    sendAnalytics(AppchainEvent.AppchainBridgeWaitForClaimFailure, {
+      transactionHash: txHash || data,
+    });
   };
 
   /* v8 ignore start */
@@ -256,12 +275,20 @@ export const useWithdraw = ({
 
       setFinalizedWithdrawalTxHash(_finalizedWithdrawalTxHash);
       setWithdrawStatus('claimSuccess');
+      sendAnalytics(AppchainEvent.AppchainBridgeClaimSuccess, {
+        amount: bridgeParams.amount,
+        tokenAddress: bridgeParams.token.address,
+        recipient: bridgeParams.recipient,
+      });
     } catch (error) {
       if (isUserRejectedRequestError(error)) {
         console.error('User rejected request');
         setWithdrawStatus('claimRejected');
       } else {
         setWithdrawStatus('error');
+        sendAnalytics(AppchainEvent.AppchainBridgeClaimFailure, {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        });
       }
     }
   };
