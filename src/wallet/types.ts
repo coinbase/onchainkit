@@ -27,6 +27,8 @@ export type ConnectWalletReact = {
   children?: React.ReactNode;
   /** Optional className override for button element */
   className?: string;
+  /** Optional z-index override for modal element */
+  modalZIndex?: `z-${string}`;
   /** @deprecated Prefer `ConnectWalletText component` */
   text?: string;
   /** Optional callback function to execute when the wallet is connected. */
