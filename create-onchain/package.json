@@ -1,7 +1,7 @@
 {
   "name": "create-onchain",
   "description": "Instantly create onchain applications with OnchainKit.",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "license": "MIT",
   "scripts": {
     "build": "bun run clean && bun run build:esm+types",
