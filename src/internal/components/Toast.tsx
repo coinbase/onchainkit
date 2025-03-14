@@ -3,7 +3,7 @@ import { background, cn } from '../../styles/theme';
 import { CloseSvg } from '../svg/closeSvg';
 import { getToastPosition } from '../utils/getToastPosition';
 
-type ToastProps = {
+export type ToastProps = {
   className?: string;
   durationMs?: number;
   startTimeout?: boolean;

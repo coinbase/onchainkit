@@ -69,6 +69,9 @@ export function ActiveComponent() {
             NFT Mint Card Default
           </SelectItem>
           <SelectItem value={OnchainKitComponent.Earn}>Earn</SelectItem>
+          <SelectItem value={OnchainKitComponent.Signature}>
+            Signature
+          </SelectItem>
         </SelectContent>
       </Select>
     </div>

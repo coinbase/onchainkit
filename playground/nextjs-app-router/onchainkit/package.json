@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.37.5",
+  "version": "0.37.7",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -35,6 +35,8 @@
     "react-dom": "^18 || ^19"
   },
   "dependencies": {
+    "@farcaster/frame-sdk": "^0.0.28",
+    "@farcaster/frame-wagmi-connector": "^0.0.16",
     "@tanstack/react-query": "^5",
     "clsx": "^2.1.1",
     "graphql": "^14 || ^15 || ^16",
@@ -164,6 +166,12 @@
       "import": "./esm/identity/index.js",
       "default": "./esm/identity/index.js"
     },
+    "./minikit": {
+      "types": "./esm/minikit/index.d.ts",
+      "module": "./esm/minikit/index.js",
+      "import": "./esm/minikit/index.js",
+      "default": "./esm/minikit/index.js"
+    },    
     "./nft": {
       "types": "./esm/nft/index.d.ts",
       "module": "./esm/nft/index.js",
@@ -181,6 +189,12 @@
       "module": "./esm/nft/components/mint/index.js",
       "import": "./esm/nft/components/mint/index.js",
       "default": "./esm/nft/components/mint/index.js"
+    },
+    "./signature": {
+      "types": "./esm/signature/index.d.ts",
+      "module": "./esm/signature/index.js",
+      "import": "./esm/signature/index.js",
+      "default": "./esm/signature/index.js"
     },
     "./swap": {
       "types": "./esm/swap/index.d.ts",
