@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.38.0
+
+### Minor Changes
+
+- 5a0e137: - **chore**: Update `IsBaseOptions` and `IsEthereumOptions` type naming convention to PascalCase. By @crStiv @cpcramer #1920
+
+  Breaking Changes:
+
+  - Types `IsBaseOptions` and `IsEthereumOptions` have been updated from camelCase to PascalCase.
+
+### Patch Changes
+
+- f3720ad: Refactored TokenBalance's ActionButton and improved TokenBalance types
+- 0d52282: **feat**: AppchainBridge deposit and withdrawal analytics by @0xAlec #2128
+
 ## 0.37.8
 
 ### Patch Changes
