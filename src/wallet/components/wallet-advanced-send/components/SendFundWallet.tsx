@@ -7,14 +7,24 @@ import {
   FundCardSubmitButton,
 } from '@/fund';
 import { cn, color, text } from '@/styles/theme';
-import type { SendFundingWalletProps } from '../types';
+
+type SendFundWalletProps = {
+  onError?: () => void;
+  onStatus?: () => void;
+  onSuccess?: () => void;
+  classNames?: {
+    container?: string;
+    subtitle?: string;
+    fundCard?: string;
+  };
+};
 
 export function SendFundWallet({
   onError,
   onStatus,
   onSuccess,
   classNames,
-}: SendFundingWalletProps) {
+}: SendFundWalletProps) {
   return (
     <div
       className={cn(
