@@ -198,7 +198,7 @@ export const useWithdraw = ({
     }
 
     sendAnalytics(AppchainEvent.AppchainBridgeWaitForClaimFailure, {
-      transactionHash: txHash || data,
+      transactionHash: txHash || data || '0x',
     });
   };
 
@@ -278,7 +278,6 @@ export const useWithdraw = ({
       sendAnalytics(AppchainEvent.AppchainBridgeClaimSuccess, {
         amount: bridgeParams.amount,
         tokenAddress: bridgeParams.token.address,
-        recipient: bridgeParams.recipient,
       });
     } catch (error) {
       if (isUserRejectedRequestError(error)) {

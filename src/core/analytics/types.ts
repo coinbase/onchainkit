@@ -179,12 +179,12 @@ export type CommonAnalyticsData = {
 
 export type AppchainEventData = {
   [AppchainEvent.AppchainBridgeDepositInitiated]: CommonAnalyticsData & {
-    amount: number;
+    amount: string;
     tokenAddress: string;
     recipient: string;
   };
   [AppchainEvent.AppchainBridgeDepositSuccess]: CommonAnalyticsData & {
-    amount: number;
+    amount: string;
     tokenAddress: string;
     recipient: string;
   };
@@ -192,7 +192,7 @@ export type AppchainEventData = {
     error: string;
   };
   [AppchainEvent.AppchainBridgeWithdrawInitiated]: CommonAnalyticsData & {
-    amount: number;
+    amount: string;
     tokenAddress: string;
     recipient: string;
   };
@@ -200,9 +200,8 @@ export type AppchainEventData = {
     transactionHash: Hex;
   };
   [AppchainEvent.AppchainBridgeClaimSuccess]: CommonAnalyticsData & {
-    amount: number;
+    amount: string;
     tokenAddress: string;
-    recipient: string;
   };
   [AppchainEvent.AppchainBridgeClaimFailure]: CommonAnalyticsData & {
     error: string;
@@ -420,6 +419,15 @@ export type EarnEventData = {
 
 // Update main AnalyticsEventData type to include all component events
 export type AnalyticsEventData = {
+  // Appchain events
+  [AppchainEvent.AppchainBridgeDepositInitiated]: AppchainEventData[AppchainEvent.AppchainBridgeDepositInitiated];
+  [AppchainEvent.AppchainBridgeDepositSuccess]: AppchainEventData[AppchainEvent.AppchainBridgeDepositSuccess];
+  [AppchainEvent.AppchainBridgeDepositFailure]: AppchainEventData[AppchainEvent.AppchainBridgeDepositFailure];
+  [AppchainEvent.AppchainBridgeWithdrawInitiated]: AppchainEventData[AppchainEvent.AppchainBridgeWithdrawInitiated];
+  [AppchainEvent.AppchainBridgeWaitForClaimFailure]: AppchainEventData[AppchainEvent.AppchainBridgeWaitForClaimFailure];
+  [AppchainEvent.AppchainBridgeClaimSuccess]: AppchainEventData[AppchainEvent.AppchainBridgeClaimSuccess];
+  [AppchainEvent.AppchainBridgeClaimFailure]: AppchainEventData[AppchainEvent.AppchainBridgeClaimFailure];
+
   // Wallet events
   [WalletEvent.ConnectError]: WalletEventData[WalletEvent.ConnectError];
   [WalletEvent.ConnectInitiated]: WalletEventData[WalletEvent.ConnectInitiated];
