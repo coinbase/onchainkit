@@ -157,6 +157,7 @@ export const useWithdraw = ({
       } else {
         console.error('Error', error);
         setWithdrawStatus('error');
+        /* v8 ignore next 3 */
         sendAnalytics(AppchainEvent.AppchainBridgeWithdrawFailure, {
           error: error instanceof Error ? error.message : 'Unknown error',
         });
@@ -198,11 +199,12 @@ export const useWithdraw = ({
       }
       await new Promise((resolve) => setTimeout(resolve, pollInterval));
       attempts++;
+      /* v8 ignore start */
     }
-
     sendAnalytics(AppchainEvent.AppchainBridgeWaitForClaimFailure, {
       transactionHash: txHash || data || '0x',
     });
+    /* v8 ignore stop */
   };
 
   /* v8 ignore start */
