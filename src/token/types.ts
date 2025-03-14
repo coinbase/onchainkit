@@ -144,13 +144,19 @@ export type TokenBalanceProps = {
   };
 } & (
   | {
-      /** Show the token image (default: true) */
+      /** show the token image (default: true)
+       * Note: showImage and tokenSize are a discriminated union.
+       * If showImage is false, tokenSize must be omitted.
+       */
       showImage?: true;
       /** Size of the token image in px (default: 40) */
       tokenSize?: number;
     }
   | {
-      /** Hide the token image (default: true) */
+      /** hide the token image
+       * showImage and tokenSize are a discriminated union.
+       * If showImage is false, tokenSize must be omitted.
+       */
       showImage: false;
       /** Size of the token image in px (default: 40) */
       tokenSize?: never;
