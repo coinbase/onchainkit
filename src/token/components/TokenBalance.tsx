@@ -2,33 +2,47 @@ import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
 import { border, cn, color, text } from '@/styles/theme';
 import { TokenImage } from '@/token/components/TokenImage';
-import { useCallback } from 'react';
+import { useMemo } from 'react';
 import { formatUnits } from 'viem';
 import type { TokenBalanceProps } from '../types';
 
 export function TokenBalance({
   token,
   onClick,
+  onActionPress,
+  actionText = 'Max',
   classNames,
+  'aria-label': ariaLabel,
   ...contentProps
 }: TokenBalanceProps) {
   if (onClick) {
     return (
-      <button
-        type="button"
-        onClick={() => onClick(token)}
-        className={cn(
-          'flex w-full items-center justify-start gap-4 px-2 py-1',
-          classNames?.container,
+      <div className="relative">
+        <button
+          type="button"
+          aria-label={ariaLabel ?? `${token.name} token balance`}
+          onClick={() => onClick(token)}
+          className={cn(
+            'flex w-full items-center justify-start gap-4 px-2 py-1',
+            classNames?.container,
+          )}
+          data-testid="ockTokenBalanceButton"
+        >
+          <TokenBalanceContent
+            token={token}
+            classNames={classNames}
+            onActionPress={onActionPress}
+            {...contentProps}
+          />
+        </button>
+        {onActionPress && (
+          <ActionButton
+            actionText={actionText}
+            onActionPress={onActionPress}
+            className={classNames?.action}
+          />
         )}
-        data-testid="ockTokenBalanceButton"
-      >
-        <TokenBalanceContent
-          token={token}
-          {...contentProps}
-          classNames={classNames}
-        />
-      </button>
+      </div>
     );
   }
 
@@ -45,6 +59,13 @@ export function TokenBalance({
         {...contentProps}
         classNames={classNames}
       />
+      {onActionPress && (
+        <ActionButton
+          actionText={actionText}
+          onActionPress={onActionPress}
+          className={classNames?.action}
+        />
+      )}
     </div>
   );
 }
@@ -53,31 +74,26 @@ function TokenBalanceContent({
   token,
   subtitle,
   showImage = true,
-  actionText = 'Use max',
   onActionPress,
   tokenSize = 40,
   classNames,
 }: TokenBalanceProps) {
-  const formattedFiatValue = formatFiatAmount({
-    amount: token.fiatBalance,
-    currency: 'USD',
-  });
-
-  const formattedCryptoValue = truncateDecimalPlaces(
-    formatUnits(BigInt(token.cryptoBalance), token.decimals),
-    3,
+  const formattedFiatValue = useMemo(
+    () =>
+      formatFiatAmount({
+        amount: token.fiatBalance,
+        currency: 'USD',
+      }),
+    [token.fiatBalance],
   );
 
-  const handleActionPress = useCallback(
-    (
-      e:
-        | React.MouseEvent<HTMLDivElement, MouseEvent>
-        | React.KeyboardEvent<HTMLDivElement>,
-    ) => {
-      e.stopPropagation();
-      onActionPress?.();
-    },
-    [onActionPress],
+  const formattedCryptoValue = useMemo(
+    () =>
+      truncateDecimalPlaces(
+        formatUnits(BigInt(token.cryptoBalance), token.decimals),
+        3,
+      ),
+    [token.cryptoBalance, token.decimals],
   );
 
   return (
@@ -107,25 +123,7 @@ function TokenBalanceContent({
         </span>
       </div>
       <div className="text-right">
-        {onActionPress ? (
-          <div
-            role="button"
-            data-testid="ockTokenBalanceAction"
-            aria-label={actionText}
-            onClick={handleActionPress}
-            onKeyDown={handleActionPress}
-            className={cn(
-              text.label2,
-              color.primary,
-              border.radius,
-              'ml-auto cursor-pointer p-0.5 font-bold',
-              'border border-transparent hover:border-[--ock-line-primary]',
-              classNames?.action,
-            )}
-          >
-            {actionText}
-          </div>
-        ) : (
+        {!onActionPress && (
           <span
             className={cn(
               text.label2,
@@ -139,5 +137,33 @@ function TokenBalanceContent({
         )}
       </div>
     </div>
+  );
+}
+
+function ActionButton({
+  actionText,
+  onActionPress,
+  className,
+}: Pick<TokenBalanceProps, 'actionText' | 'onActionPress'> & {
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      data-testid="ockTokenBalanceAction"
+      aria-label={actionText}
+      onClick={onActionPress}
+      className={cn(
+        text.label2,
+        color.primary,
+        border.radius,
+        'cursor-pointer p-0.5 font-bold',
+        'border border-transparent hover:border-[--ock-line-primary]',
+        '-translate-y-1/2 absolute top-1/2 right-2',
+        className,
+      )}
+    >
+      {actionText}
+    </button>
   );
 }
