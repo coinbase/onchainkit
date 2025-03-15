@@ -29,13 +29,13 @@ export const TokenRow = memo(function TokenRow({
       )}
       onClick={() => onClick?.(token)}
     >
-      <span className="flex items-center gap-3">
+      <span className="flex items-center gap-3 max-w-full">
         {!hideImage && <TokenImage token={token} size={28} />}
-        <span className="flex flex-col items-start">
+        <span className="flex flex-col items-start min-w-0">
           <span
             className={cn(
               text.headline,
-              'overflow-hidden text-ellipsis whitespace-nowrap text-left',
+              'overflow-hidden text-ellipsis whitespace-nowrap text-left max-w-full',
             )}
           >
             {token.name.trim()}
