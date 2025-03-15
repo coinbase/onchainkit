@@ -14,22 +14,18 @@ import type {
  */
 export const useNames = (
   { addresses, chain = mainnet }: UseNamesOptions,
-  queryOptions?: UseQueryOptions,
+  queryOptions?: UseQueryOptions<GetNameReturnType[]>,
 ) => {
-  const { enabled, cacheTime, staleTime, refetchOnWindowFocus } = {
-    ...DEFAULT_QUERY_OPTIONS,
-    ...queryOptions,
-  };
-
   const addressesKey = addresses.join(',');
   const queryKey = ['useNames', addressesKey, chain.id];
 
   return useQuery<GetNameReturnType[]>({
     queryKey,
     queryFn: () => getNames({ addresses, chain }),
-    gcTime: cacheTime,
-    staleTime,
-    enabled: enabled && addresses.length > 0,
-    refetchOnWindowFocus,
+    enabled: !!addresses.length,
+    ...DEFAULT_QUERY_OPTIONS,
+    // Use cacheTime as gcTime for backward compatibility
+    gcTime: queryOptions?.cacheTime,
+    ...queryOptions,
   });
 };
