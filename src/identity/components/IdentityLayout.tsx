@@ -9,6 +9,14 @@ import { EthBalance } from './EthBalance';
 import { Name } from './Name';
 import { Socials } from './Socials';
 
+const defaultIdentityChildren = {
+  avatar: <Avatar />,
+  name: <Name />,
+  address: <Address className={color.foregroundMuted} />,
+  ethBalance: <EthBalance />,
+  socials: null,
+};
+
 type IdentityLayoutReact = {
   children: ReactNode;
   className?: string;
@@ -29,6 +37,10 @@ export function IdentityLayout({
     ethBalance,
     socials,
   } = useMemo(() => {
+    // default children implementation
+    if (!children) {
+      return defaultIdentityChildren;
+    }
     const childrenArray = Children.toArray(children);
     const addressElement = childrenArray.find(findComponent(Address));
     return {

@@ -14,6 +14,12 @@ import { WalletAdvanced } from './WalletAdvanced';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
+const defaultWalletChildren = {
+  connect: <ConnectWallet />,
+  dropdown: <WalletDropdown />,
+  advanced: null,
+};
+
 export const Wallet = ({
   children,
   className,
@@ -60,6 +66,10 @@ function WalletContent({
   useOutsideClick(walletContainerRef, handleClose);
 
   const { connect, dropdown, advanced } = useMemo(() => {
+    // default children implementation
+    if (!children) {
+      return defaultWalletChildren;
+    }
     const childrenArray = Children.toArray(children);
     return {
       connect: childrenArray.find(findComponent(ConnectWallet)),
