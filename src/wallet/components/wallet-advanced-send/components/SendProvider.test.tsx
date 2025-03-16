@@ -1,10 +1,7 @@
-import type { APIError } from '@/api/types';
 import { RequestContext } from '@/core/network/constants';
 import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
-import type { Token } from '@/token/types';
-import { useSendTransaction } from '@/wallet/components/wallet-advanced-send/hooks/useSendTransaction';
 import { act, render, renderHook } from '@testing-library/react';
-import { type Address, formatUnits, parseUnits } from 'viem';
+import { formatUnits } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { SendProvider, useSendContext } from './SendProvider';
@@ -29,29 +26,10 @@ vi.mock('viem', async () => {
   };
 });
 
-const mockToken: Token = {
-  symbol: 'TOKEN',
-  decimals: 18,
-  address: '0x0987654321098765432109876543210987654321',
-  chainId: 8453,
-  image: '',
-  name: '',
-};
-
-const mockRecipientAddress =
-  '0x1234567890123456789012345678901234567890' as Address;
-
-const mockCalldata = {
-  to: mockRecipientAddress,
-  data: mockToken.address as Address,
-  value: parseUnits('1.0', 18),
-};
-
 describe('useSendContext', () => {
   const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
     typeof vi.fn
   >;
-  const mockUseSendTransaction = useSendTransaction as ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -68,10 +46,6 @@ describe('useSendContext', () => {
     });
 
     vi.mocked(formatUnits).mockReturnValue('2');
-    mockUseSendTransaction.mockReturnValue({
-      calldata: mockCalldata,
-      error: null,
-    });
   });
 
   it('should provide send context when used within provider', () => {
@@ -98,7 +72,6 @@ describe('useSendContext', () => {
       exchangeRateLoading: undefined,
       selectedInputType: 'crypto',
       setSelectedInputType: expect.any(Function),
-      calldata: mockCalldata,
     });
   });
 
@@ -402,104 +375,5 @@ describe('useSendContext', () => {
       },
       RequestContext.Wallet,
     );
-  });
-
-  it('should fetch transaction data when all required fields are set', () => {
-    mockUseSendTransaction.mockReturnValue({
-      calldata: {
-        to: '0x1234',
-        data: '0x',
-      },
-      error: null,
-    });
-
-    const { result } = renderHook(() => useSendContext(), {
-      wrapper: SendProvider,
-    });
-
-    const token = {
-      name: 'Ethereum',
-      symbol: 'ETH',
-      address: '' as const,
-      decimals: 18,
-      cryptoBalance: 200000000000000,
-      fiatBalance: 4000,
-      chainId: 8453,
-      image: '',
-    };
-
-    act(() => {
-      result.current.handleAddressSelection({
-        display: 'user.eth',
-        value: '0x1234',
-      });
-      result.current.handleTokenSelection(token);
-      result.current.handleCryptoAmountChange('1.0');
-    });
-
-    expect(mockUseSendTransaction).toHaveBeenCalledWith({
-      recipientAddress: '0x1234',
-      token,
-      amount: '1.0',
-    });
-
-    expect(result.current.calldata).toEqual({
-      to: '0x1234',
-      data: '0x',
-    });
-  });
-
-  it('should handle transaction error when useSendTransaction returns an error', () => {
-    mockUseSendTransaction.mockReturnValue({
-      calldata: null,
-      error: null,
-    });
-
-    const { result } = renderHook(() => useSendContext(), {
-      wrapper: SendProvider,
-    });
-
-    const token = {
-      name: 'Ethereum',
-      symbol: 'ETH',
-      address: '' as const,
-      decimals: 18,
-      cryptoBalance: 200000000000000,
-      fiatBalance: 4000,
-      chainId: 8453,
-      image: '',
-    };
-
-    act(() => {
-      result.current.handleAddressSelection({
-        display: 'user.eth',
-        value: '0x1234',
-      });
-      result.current.handleTokenSelection(token);
-    });
-
-    mockUseSendTransaction.mockReturnValue({
-      calldata: null,
-      error: {
-        code: 'TEST_ERROR_CODE',
-        error: 'Test error',
-        message: 'Test error message',
-      },
-    });
-
-    act(() => {
-      result.current.handleCryptoAmountChange('1.0');
-    });
-
-    expect(result.current.lifecycleStatus.statusName).toBe('error');
-    expect((result.current.lifecycleStatus.statusData as APIError).code).toBe(
-      'TEST_ERROR_CODE',
-    );
-    expect((result.current.lifecycleStatus.statusData as APIError).error).toBe(
-      'Error building send transaction: Test error',
-    );
-    expect(
-      (result.current.lifecycleStatus.statusData as APIError).message,
-    ).toBe('Test error message');
   });
 });

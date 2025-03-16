@@ -2,7 +2,6 @@ import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import type { Address, Chain, TransactionReceipt } from 'viem';
 import type { APIError, PortfolioTokenWithFiatValue } from '../../../api/types';
 import type { LifecycleStatusUpdate } from '../../../internal/types';
-import type { Call } from '../../../transaction/types';
 
 export type SendReact = {
   children?: ReactNode;
@@ -61,10 +60,6 @@ export type SendContextType = {
   cryptoAmount: string | null;
   /** Handler for the change of a crypto amount */
   handleCryptoAmountChange: (value: string) => void;
-
-  // Transaction Context
-  /** The call data for the send transaction */
-  calldata: Call | null;
 };
 
 export type RecipientAddress = {

@@ -1,10 +1,9 @@
-import type { APIError, PortfolioTokenWithFiatValue } from '@/api/types';
+import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { RequestContext } from '@/core/network/constants';
 import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
 import { useValue } from '@/internal/hooks/useValue';
 import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
-import { useSendTransaction } from '@/wallet/components/wallet-advanced-send/hooks/useSendTransaction';
 import {
   createContext,
   useCallback,
@@ -198,32 +197,6 @@ export function SendProvider({ children }: SendProviderReact) {
     [updateLifecycleStatus, hasSufficientBalance],
   );
 
-  const handleTransactionError = useCallback(
-    (error: APIError) => {
-      updateLifecycleStatus({
-        statusName: 'error',
-        statusData: {
-          code: error.code,
-          error: `Error building send transaction: ${error.error}`,
-          message: error.message,
-        },
-      });
-    },
-    [updateLifecycleStatus],
-  );
-
-  const { calldata, error: buildSendTransactionError } = useSendTransaction({
-    recipientAddress: selectedRecipientAddress.value,
-    token: selectedToken,
-    amount: cryptoAmount,
-  });
-
-  useEffect(() => {
-    if (buildSendTransactionError) {
-      handleTransactionError(buildSendTransactionError);
-    }
-  }, [buildSendTransactionError, handleTransactionError]);
-
   const value = useValue<SendContextType>({
     isInitialized,
     lifecycleStatus,
@@ -243,7 +216,6 @@ export function SendProvider({ children }: SendProviderReact) {
     exchangeRateLoading,
     selectedInputType,
     setSelectedInputType,
-    calldata,
   });
 
   return <SendContext.Provider value={value}>{children}</SendContext.Provider>;
