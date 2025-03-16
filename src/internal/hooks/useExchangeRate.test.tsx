@@ -58,7 +58,7 @@ describe('useExchangeRate', () => {
     );
 
     await waitFor(() => {
-      expect(result.current.exchangeRate).toEqual(2400);
+      expect(result.current.exchangeRate).toEqual(1 / 2400);
     });
   });
 
@@ -85,7 +85,7 @@ describe('useExchangeRate', () => {
     );
 
     await waitFor(() => {
-      expect(result.current.exchangeRate).toEqual(1 / 2400);
+      expect(result.current.exchangeRate).toEqual(2400);
     });
   });
 
