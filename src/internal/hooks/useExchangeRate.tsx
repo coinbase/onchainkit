@@ -31,10 +31,10 @@ export function useExchangeRate(
     const priceQuote = data.priceQuotes[0];
 
     if (selectedInputType === 'crypto') {
-      return Number(priceQuote.price);
+      return 1 / Number(priceQuote.price);
     }
 
-    return 1 / Number(priceQuote.price);
+    return Number(priceQuote.price);
   }, [data, selectedInputType]);
 
   return {
