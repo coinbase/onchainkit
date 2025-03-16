@@ -92,7 +92,7 @@ describe('Send', () => {
     it('renders skeleton when not initialized', () => {
       vi.mocked(useSendContext).mockReturnValue({
         isInitialized: false,
-        ethBalance: 0,
+        ethBalance: undefined,
         selectedRecipientAddress: { value: null, display: '' },
         selectedToken: null,
       } as SendContextType);

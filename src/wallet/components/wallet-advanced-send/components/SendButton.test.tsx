@@ -8,6 +8,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
 import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
+import { getSendTransaction } from '../utils/getSendTransaction';
 import { SendButton } from './SendButton';
 import { useSendContext } from './SendProvider';
 
@@ -21,6 +22,10 @@ vi.mock('../../WalletProvider', () => ({
 
 vi.mock('../../WalletAdvancedProvider', () => ({
   useWalletAdvancedContext: vi.fn(),
+}));
+
+vi.mock('../utils/getSendTransaction', () => ({
+  getSendTransaction: vi.fn(),
 }));
 
 vi.mock('./SendProvider', () => ({
@@ -100,6 +105,7 @@ describe('SendButton', () => {
   >;
   const mockDefaultSendTxSuccessHandler =
     defaultSendTxSuccessHandler as ReturnType<typeof vi.fn>;
+  const mockGetSendTransaction = getSendTransaction as ReturnType<typeof vi.fn>;
 
   const mockWalletContext = {
     chain: mockChain,
@@ -111,11 +117,16 @@ describe('SendButton', () => {
   };
 
   const mockSendContext = {
-    callData: { to: '0x9876543210987654321098765432109876543210', data: '0x' },
+    selectedRecipientAddress: { value: '0x9876543210987654321098765432109876543210' },
     cryptoAmount: '1.0',
     selectedToken: mockSelectedtoken,
     updateLifecycleStatus: vi.fn(),
   };
+
+  const mockTransactionData = {
+    calldata: { to: '0x9876543210987654321098765432109876543210', data: '0x' },
+    error: null,
+  }
 
   const mockTransactionContext = {
     transactionHash: '0xabcdef',
@@ -128,6 +139,7 @@ describe('SendButton', () => {
     mockUseWalletAdvancedContext.mockReturnValue(mockWalletAdvancedContext);
     mockUseSendContext.mockReturnValue(mockSendContext);
     mockUseTransactionContext.mockReturnValue(mockTransactionContext);
+    mockGetSendTransaction.mockReturnValue(mockTransactionData);
   });
 
   it('renders with default props', () => {
@@ -137,7 +149,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         isSponsored: false,
         chainId: mockChain.id,
-        calls: [mockSendContext.callData],
+        calls: [mockTransactionData.calldata],
       }),
       {},
     );
@@ -230,9 +242,9 @@ describe('SendButton', () => {
   });
 
   it('uses empty calls array when callData is null', () => {
-    mockUseSendContext.mockReturnValue({
-      ...mockSendContext,
-      callData: null,
+    mockGetSendTransaction.mockReturnValue({
+      ...mockTransactionData,
+      calldata: null,
     });
 
     render(<SendButton />);
