@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.37.7",
+  "version": "0.37.8",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -171,7 +171,7 @@
       "module": "./esm/minikit/index.js",
       "import": "./esm/minikit/index.js",
       "default": "./esm/minikit/index.js"
-    },    
+    },
     "./nft": {
       "types": "./esm/nft/index.d.ts",
       "module": "./esm/nft/index.js",
