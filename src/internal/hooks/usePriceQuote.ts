@@ -19,10 +19,6 @@ export function usePriceQuote(
   _context: RequestContext = RequestContext.Hook,
 ): UseQueryResult<GetPriceQuoteResponse> {
   const { token, queryOptions } = params;
-  const { enabled, cacheTime, staleTime, refetchOnWindowFocus } = {
-    ...DEFAULT_QUERY_OPTIONS,
-    ...queryOptions,
-  };
 
   return useQuery({
     queryKey: ['getPriceQuote', token],
@@ -41,10 +37,7 @@ export function usePriceQuote(
 
       return response;
     },
-    enabled,
-    gcTime: cacheTime,
-    staleTime,
-    refetchOnWindowFocus,
+    ...DEFAULT_QUERY_OPTIONS,
     ...queryOptions,
   });
 }
