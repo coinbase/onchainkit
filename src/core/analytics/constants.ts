@@ -4,6 +4,17 @@ export const ANALYTICS_API_URL = 'https://api.developer.coinbase.com/analytics';
  * Analytics event names
  */
 export const ANALYTICS_EVENTS = {
+  // Appchain events
+  APPCHAIN_BRIDGE_DEPOSIT_INITIATED: 'appchainBridgeDepositInitiated',
+  APPCHAIN_BRIDGE_DEPOSIT_SUCCESS: 'appchainBridgeDepositSuccess',
+  APPCHAIN_BRIDGE_DEPOSIT_FAILURE: 'appchainBridgeDepositFailure',
+  APPCHAIN_BRIDGE_WITHDRAW_INITIATED: 'appchainBridgeWithdrawInitiated',
+  APPCHAIN_BRIDGE_WITHDRAW_SUCCESS: 'appchainBridgeWithdrawSuccess',
+  APPCHAIN_BRIDGE_WITHDRAW_FAILURE: 'appchainBridgeWithdrawFailure',
+  APPCHAIN_BRIDGE_WAIT_FOR_CLAIM_FAILURE: 'appchainBridgeWaitForClaimFailure',
+  APPCHAIN_BRIDGE_CLAIM_SUCCESS: 'appchainBridgeClaimSuccess',
+  APPCHAIN_BRIDGE_CLAIM_FAILURE: 'appchainBridgeClaimFailure',
+
   // Buy events
   BUY_FAILURE: 'buyFailure',
   BUY_INITIATED: 'buyInitiated',

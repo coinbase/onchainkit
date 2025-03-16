@@ -1,3 +1,4 @@
+import type { UseQueryOptions as TanstackUseQueryOptions } from '@tanstack/react-query';
 import type { HTMLAttributes, ImgHTMLAttributes, ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
 
@@ -160,7 +161,7 @@ export type GetAttestationsOptions = {
  * Note: exported as public Type
  */
 export type GetAvatar = {
-  /** The ENS name to fetch the avatar for. */
+  /** The ENS or Basename to fetch the avatar for. */
   ensName: string;
   /** Optional chain for domain resolution */
   chain?: Chain;
@@ -170,6 +171,16 @@ export type GetAvatar = {
  * Note: exported as public Type
  */
 export type GetAvatarReturnType = string | null;
+
+/**
+ * Note: exported as public Type
+ */
+export type GetAvatars = {
+  /** Array of ENS or Basenames to resolve avatars for */
+  ensNames: string[];
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
 
 /**
  * Note: exported as public Type
@@ -185,6 +196,16 @@ export type GetName = {
  * Note: exported as public Type
  */
 export type GetNameReturnType = string | Basename | null;
+
+/**
+ * Note: exported as public Type
+ */
+export type GetNames = {
+  /** Array of Ethereum addresses to resolve names for */
+  addresses: Address[];
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
 
 /**
  * Note: exported as public Type
@@ -275,21 +296,49 @@ export type UseAvatarOptions = {
 /**
  * Note: exported as public Type
  */
-export type UseQueryOptions = {
-  /** Whether the query should execute */
-  enabled?: boolean;
-  /** Cache time in milliseconds */
-  cacheTime?: number;
-  /** Stale time in milliseconds */
-  staleTime?: number;
+export type UseNameOptions = {
+  /** The address for which the ENS or Basename is to be fetched. */
+  address: Address;
+  /** Optional chain for domain resolution */
+  chain?: Chain;
 };
 
 /**
  * Note: exported as public Type
  */
-export type UseNameOptions = {
-  /** The Ethereum address for which the ENS name is to be fetched. */
-  address: Address;
+export type UseNamesOptions = {
+  /** Array of addresses to resolve ENS or Basenames for */
+  addresses: Address[];
   /** Optional chain for domain resolution */
   chain?: Chain;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseAvatarsOptions = {
+  /** Array of ENS names to resolve avatars for */
+  ensNames: string[];
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
+
+/**
+ * Note: exported as public Type
+ *
+ * Extends Tanstack Query's UseQueryOptions type but omits 'queryKey' and 'queryFn'
+ * properties which are handled internally.
+ *
+ * This allows developers to pass any Tanstack Query option (like retry, refetchInterval,
+ * select, onSuccess, etc.) to OnchainKit hooks while ensuring type safety.
+ */
+export type UseQueryOptions<TData = unknown> = Omit<
+  TanstackUseQueryOptions<TData>,
+  'queryKey' | 'queryFn'
+> & {
+  /**
+   * @deprecated Use `gcTime` instead. Will be removed in a future version.
+   * The time in milliseconds after data is considered stale before it is removed from the cache.
+   */
+  cacheTime?: number;
 };

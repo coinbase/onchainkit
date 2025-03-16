@@ -13,11 +13,34 @@ vi.mock('@/core/network/getChainPublicClient', () => ({
   getChainPublicClient: vi.fn(() => publicClient),
 }));
 
+const mockUseQuery = vi.fn();
+vi.mock('@tanstack/react-query', async () => {
+  const actual = await vi.importActual('@tanstack/react-query');
+  type UseQueryType = <TData, _TError = Error>(options: {
+    queryKey: unknown[];
+    queryFn: () => Promise<TData>;
+    [key: string]: unknown;
+  }) => unknown;
+
+  return {
+    ...actual,
+    useQuery: <TData, TError = Error>(options: {
+      queryKey: unknown[];
+      queryFn: () => Promise<TData>;
+      [key: string]: unknown;
+    }) => {
+      mockUseQuery(options);
+      return (actual.useQuery as UseQueryType)<TData, TError>(options);
+    },
+  };
+});
+
 describe('useAvatar', () => {
   const mockGetEnsAvatar = publicClient.getEnsAvatar as Mock;
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseQuery.mockClear();
   });
 
   it('returns the correct ENS avatar and loading state', async () => {
@@ -187,5 +210,89 @@ describe('useAvatar', () => {
     });
 
     expect(mockGetEnsAvatar).toHaveBeenCalled();
+  });
+
+  it('disables the query when ensName is empty', async () => {
+    mockGetEnsAvatar.mockImplementation(() => {
+      throw new Error('This should not be called');
+    });
+
+    const { result } = renderHook(() => useAvatar({ ensName: '' }), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    expect(mockGetEnsAvatar).not.toHaveBeenCalled();
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.fetchStatus).toBe('idle');
+  });
+
+  it('enables the query when enabled=true is explicitly set and ensName is valid', async () => {
+    const testEnsName = 'test.ens';
+    const testEnsAvatar = 'avatarUrl';
+
+    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+
+    const { result } = renderHook(
+      () => useAvatar({ ensName: testEnsName }, { enabled: true }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    await waitFor(() => {
+      expect(result.current.data).toBe(testEnsAvatar);
+    });
+
+    expect(mockGetEnsAvatar).toHaveBeenCalled();
+  });
+
+  it('correctly maps cacheTime to gcTime for backwards compatibility', async () => {
+    const testEnsName = 'test.ens';
+    const testEnsAvatar = 'avatarUrl';
+    const mockCacheTime = 60000; // 1 minute in milliseconds
+
+    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+
+    // Test with only cacheTime provided
+    renderHook(
+      () => useAvatar({ ensName: testEnsName }, { cacheTime: mockCacheTime }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    // Verify that cacheTime was mapped to gcTime
+    expect(mockUseQuery).toHaveBeenCalled();
+    const optionsWithCacheTime = mockUseQuery.mock.calls[0][0];
+    expect(optionsWithCacheTime).toHaveProperty('gcTime', mockCacheTime);
+
+    // Test with both cacheTime and gcTime provided
+    const mockGcTime = 120000; // 2 minutes in milliseconds
+
+    // Reset the mock to clear previous calls
+    mockUseQuery.mockClear();
+
+    renderHook(
+      () =>
+        useAvatar(
+          {
+            ensName: testEnsName,
+          },
+          {
+            cacheTime: mockCacheTime,
+            gcTime: mockGcTime,
+          },
+        ),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+
+    // Verify that gcTime takes precedence over cacheTime
+    expect(mockUseQuery).toHaveBeenCalled();
+    const optionsWithBoth = mockUseQuery.mock.calls[0][0];
+    expect(optionsWithBoth).toHaveProperty('gcTime', mockGcTime);
   });
 });

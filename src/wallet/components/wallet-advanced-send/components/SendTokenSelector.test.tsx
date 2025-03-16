@@ -93,7 +93,7 @@ describe('SendTokenSelector', () => {
 
     render(<SendTokenSelector />);
 
-    const maxButton = screen.getByRole('button', { name: 'Use max' });
+    const maxButton = screen.getByRole('button', { name: 'Max' });
     fireEvent.click(maxButton);
 
     expect(defaultContext.setSelectedInputType).toHaveBeenCalledWith('crypto');

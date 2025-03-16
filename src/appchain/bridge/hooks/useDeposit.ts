@@ -1,3 +1,6 @@
+'use client';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { AppchainEvent } from '@/core/analytics/types';
 import { useCallback, useState } from 'react';
 import { parseEther, parseUnits } from 'viem';
 import type { Hex } from 'viem';
@@ -16,6 +19,7 @@ export function useDeposit() {
   const [status, setStatus] = useState<
     'depositPending' | 'depositSuccess' | 'error' | 'idle' | 'depositRejected'
   >('idle');
+  const { sendAnalytics } = useAnalytics();
 
   const resetDepositStatus = useCallback(() => {
     setStatus('idle');
@@ -30,6 +34,12 @@ export function useDeposit() {
     if (chainId !== from.id) {
       await switchChainAsync({ chainId: from.id });
     }
+
+    sendAnalytics(AppchainEvent.AppchainBridgeDepositInitiated, {
+      amount: bridgeParams.amount,
+      tokenAddress: bridgeParams.token.address,
+      recipient: bridgeParams.recipient,
+    });
 
     setStatus('depositPending');
 
@@ -119,6 +129,12 @@ export function useDeposit() {
         });
       }
 
+      sendAnalytics(AppchainEvent.AppchainBridgeDepositSuccess, {
+        amount: bridgeParams.amount,
+        tokenAddress: bridgeParams.token.address,
+        recipient: bridgeParams.recipient,
+      });
+
       setStatus('depositSuccess');
     } catch (error) {
       if (isUserRejectedRequestError(error)) {
@@ -126,6 +142,9 @@ export function useDeposit() {
         setStatus('depositRejected');
       } else {
         setStatus('error');
+        sendAnalytics(AppchainEvent.AppchainBridgeDepositFailure, {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        });
       }
     }
   };

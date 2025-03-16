@@ -1,3 +1,4 @@
+'use client';
 import { Avatar, Address as OCKAddress } from '@/identity';
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { TextInput } from '@/internal/components/TextInput';

@@ -4,6 +4,7 @@ import { type Chain, parseEther, parseUnits } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConfig, useSwitchChain, useWriteContract } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
+import { EXTRA_DATA } from '../constants';
 import { useDeposit } from './useDeposit';
 
 vi.mock('wagmi', async (importOriginal) => {
@@ -113,7 +114,7 @@ describe('useDeposit', () => {
     expect(mockWriteContractAsync).toHaveBeenCalledWith({
       abi: expect.any(Array),
       functionName: 'bridgeETHTo',
-      args: [mockBridgeParams.recipient, 100000, '0x'],
+      args: [mockBridgeParams.recipient, 100000, EXTRA_DATA],
       address: mockAppchainConfig.contracts.l1StandardBridge,
       value: parseEther(mockBridgeParams.amount),
       chainId: mockChain.id,
@@ -145,7 +146,7 @@ describe('useDeposit', () => {
         mockBridgeParams.recipient,
         parseUnits(mockBridgeParams.amount, mockBridgeParams.token.decimals),
         100000,
-        '0x',
+        EXTRA_DATA,
       ],
       address: mockAppchainConfig.contracts.l1StandardBridge,
     });
@@ -281,7 +282,7 @@ describe('useDeposit', () => {
         BigInt(0),
         BigInt(100000),
         false,
-        '0x',
+        EXTRA_DATA,
       ],
       address: mockAppchainConfig.contracts.optimismPortal,
     });
