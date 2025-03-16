@@ -117,7 +117,9 @@ describe('SendButton', () => {
   };
 
   const mockSendContext = {
-    selectedRecipientAddress: { value: '0x9876543210987654321098765432109876543210' },
+    selectedRecipientAddress: {
+      value: '0x9876543210987654321098765432109876543210',
+    },
     cryptoAmount: '1.0',
     selectedToken: mockSelectedtoken,
     updateLifecycleStatus: vi.fn(),
@@ -126,7 +128,7 @@ describe('SendButton', () => {
   const mockTransactionData = {
     calldata: { to: '0x9876543210987654321098765432109876543210', data: '0x' },
     error: null,
-  }
+  };
 
   const mockTransactionContext = {
     transactionHash: '0xabcdef',
