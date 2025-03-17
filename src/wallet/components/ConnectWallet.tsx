@@ -24,11 +24,6 @@ import { ConnectWalletText } from './ConnectWalletText';
 import { WalletModal } from './WalletModal';
 import { useWalletContext } from './WalletProvider';
 
-const defaultConnectWalletChildren = [
-  <Avatar className="h-6 w-6" key="avatar" />,
-  <Name key="name" />,
-];
-
 export function ConnectWallet({
   children,
   className,
@@ -61,13 +56,6 @@ export function ConnectWallet({
   // Get connectWalletText from children when present,
   // this is used to customize the connect wallet button text
   const { connectWalletText } = useMemo(() => {
-    if (!children) {
-      return {
-        connectWalletText: (
-          <ConnectWalletText>Connect Wallet</ConnectWalletText>
-        ),
-      };
-    }
     const childrenArray = Children.toArray(children);
     return {
       connectWalletText: childrenArray.find(findComponent(ConnectWalletText)),
@@ -76,9 +64,6 @@ export function ConnectWallet({
 
   // Remove connectWalletText from children if present
   const childrenWithoutConnectWalletText = useMemo(() => {
-    if (!children) {
-      return defaultConnectWalletChildren;
-    }
     return Children.map(children, (child: ReactNode) => {
       if (isValidElement(child) && child.type === ConnectWalletText) {
         return null;
