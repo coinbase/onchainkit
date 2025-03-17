@@ -2,6 +2,10 @@ root:
 - changed-files:
   - any-glob-to-any-file: '*'
 
+documentation:
+- changed-files:
+  - any-glob-to-any-file: site/**
+
 'pkg: core':
 - changed-files:
   - any-glob-to-any-file: src/core/**

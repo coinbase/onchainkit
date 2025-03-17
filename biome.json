@@ -64,7 +64,12 @@
         "useSingleCaseStatement": "error"
       }
     },
-    "ignore": ["src/internal/hooks/useDebounce.ts"]
+    "ignore": [
+      "site/env.d.ts",
+      "site/tailwind.config.js",
+      "site/vocs.config.tsx",
+      "src/internal/hooks/useDebounce.ts"
+    ]
   },
   "json": {
     "formatter": {
