@@ -24,6 +24,7 @@ export async function fetchOnrampQuote({
   paymentAmount,
   country,
   subdivision,
+  apiKey,
 }: {
   purchaseCurrency: string;
   purchaseNetwork?: string;
@@ -32,8 +33,9 @@ export async function fetchOnrampQuote({
   paymentAmount: string;
   country: string;
   subdivision?: string;
+  apiKey?: string;
 }): Promise<OnrampQuoteResponseData> {
-  const apiKey = getApiKey();
+  const cpdApiKey = apiKey || getApiKey();
 
   const response = await fetch(`${ONRAMP_API_BASE_URL}/buy/quote`, {
     method: 'POST',
@@ -47,7 +49,7 @@ export async function fetchOnrampQuote({
       subdivision,
     }),
     headers: {
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Bearer ${cpdApiKey}`,
     },
   });
 

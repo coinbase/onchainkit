@@ -49,6 +49,25 @@ describe('fetchOnrampTransactionStatus', () => {
     });
   });
 
+  it('should use provided apiKey when available', async () => {
+    const customApiKey = 'custom-api-key';
+    await fetchOnrampTransactionStatus({
+      partnerUserId,
+      nextPageKey,
+      pageSize,
+      apiKey: customApiKey,
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      `${ONRAMP_API_BASE_URL}/buy/user/${partnerUserId}/transactions?page_key=${nextPageKey}&page_size=${pageSize}`,
+      expect.objectContaining({
+        headers: {
+          Authorization: `Bearer ${customApiKey}`,
+        },
+      }),
+    );
+  });
+
   it('should throw an error if fetch fails', async () => {
     global.fetch = vi.fn(() => Promise.reject(new Error('Fetch failed')));
 

@@ -72,6 +72,29 @@ describe('fetchOnrampQuote', () => {
     });
   });
 
+  it('should use provided apiKey when available', async () => {
+    const customApiKey = 'custom-api-key';
+    await fetchOnrampQuote({
+      purchaseCurrency: mockPurchaseCurrency,
+      purchaseNetwork: mockPurchaseNetwork,
+      paymentCurrency: mockPaymentCurrency,
+      paymentMethod: mockPaymentMethod,
+      paymentAmount: mockPaymentAmount,
+      country: mockCountry,
+      subdivision: mockSubdivision,
+      apiKey: customApiKey,
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      `${ONRAMP_API_BASE_URL}/buy/quote`,
+      expect.objectContaining({
+        headers: {
+          Authorization: `Bearer ${customApiKey}`,
+        },
+      }),
+    );
+  });
+
   it('should throw an error if fetch fails', async () => {
     global.fetch = vi.fn(() =>
       Promise.reject(new Error('Fetch failed')),

@@ -16,19 +16,21 @@ export async function fetchOnrampTransactionStatus({
   partnerUserId,
   nextPageKey,
   pageSize,
+  apiKey,
 }: {
   partnerUserId: string;
   nextPageKey: string;
   pageSize: string;
+  apiKey?: string;
 }): Promise<OnrampTransactionStatusResponseData> {
-  const apiKey = getApiKey();
+  const cpdApiKey = apiKey || getApiKey();
 
   const response = await fetch(
     `${ONRAMP_API_BASE_URL}/buy/user/${partnerUserId}/transactions?page_key=${nextPageKey}&page_size=${pageSize}`,
     {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${cpdApiKey}`,
       },
     },
   );
