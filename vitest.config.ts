@@ -22,7 +22,6 @@ export default defineConfig({
         'node_modules/**',
         'onchainkit/esm/**',
         'playground/**',
-        'site/**',
         'create-onchain/**',
         '**/**.test.tsx',
       ],
@@ -41,7 +40,6 @@ export default defineConfig({
     exclude: [
       '**/node_modules/**',
       'playground/**',
-      'site/**',
       'create-onchain/**',
     ],
     setupFiles: ['./vitest.setup.ts'],
