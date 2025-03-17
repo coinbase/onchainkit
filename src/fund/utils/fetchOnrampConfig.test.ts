@@ -46,6 +46,20 @@ describe('fetchOnrampConfig', () => {
     });
   });
 
+  it('should use provided apiKey when available', async () => {
+    const customApiKey = 'custom-api-key';
+    await fetchOnrampConfig(customApiKey);
+
+    expect(fetch).toHaveBeenCalledWith(
+      `${ONRAMP_API_BASE_URL}/buy/config`,
+      expect.objectContaining({
+        headers: {
+          Authorization: `Bearer ${customApiKey}`,
+        },
+      }),
+    );
+  });
+
   it('should throw an error if the fetch fails', async () => {
     (fetch as Mock).mockImplementationOnce(() =>
       Promise.reject(new Error('Fetch failed')),
