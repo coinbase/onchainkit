@@ -1,6 +1,5 @@
 'use client';
 
-import { Avatar, Name } from '@/identity';
 import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
