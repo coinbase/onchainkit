@@ -44,7 +44,6 @@ export function Transaction({
       capabilities={capabilities}
       chainId={accountChainId}
       contracts={contracts}
-      disabled={disabled}
       isSponsored={isSponsored}
       onError={onError}
       onStatus={onStatus}
@@ -56,7 +55,7 @@ export function Transaction({
       >
         {children ?? (
           <>
-            <TransactionButton />
+            <TransactionButton disabled={disabled} />
             <TransactionToast />
           </>
         )}

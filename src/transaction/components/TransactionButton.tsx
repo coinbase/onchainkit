@@ -18,7 +18,6 @@ export function TransactionButton({
   const {
     chainId,
     errorMessage,
-    disabled: disabledParent,
     isLoading,
     lifecycleStatus,
     onSubmit,
@@ -49,11 +48,7 @@ export function TransactionButton({
 
   const isDisabled =
     !receipt &&
-    (isInProgress ||
-      isMissingProps ||
-      isWaitingForReceipt ||
-      disabled ||
-      disabledParent);
+    (isInProgress || isMissingProps || isWaitingForReceipt || disabled);
 
   const displayPendingState = isSpinnerDisplayed({
     errorMessage,

@@ -38,6 +38,7 @@ export default function TransactionDefaultDemo() {
           : { calls: contracts })}
         capabilities={capabilities}
         onStatus={handleOnStatus}
+        disabled={!chainId && !transactionType}
       />
     </div>
   );
