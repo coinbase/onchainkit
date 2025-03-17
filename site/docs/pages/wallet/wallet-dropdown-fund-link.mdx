@@ -1,0 +1,212 @@
+---
+title: Wallet Components & Utilities · OnchainKit
+description: Introduction to Wallet Components & Utilities
+---
+
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownFundLink,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import WalletComponents from '../../components/WalletComponents';
+import { walletDropdownLinkCustomBaseIconSvg } from '../../components/svg/walletDropdownLinkCustomBaseIconSvg';
+
+# `<WalletDropdownFundLink />`
+
+The `WalletDropdownFundLink` works just like the [`FundButton`](/fund/fund-button) except that it's inside your wallet
+dropdown menu.
+
+If your user connects a Coinbase Smart Wallet, it provides an easy way to access the Coinbase Smart Wallet 
+[Fund](https://keys.coinbase.com/fund) flow. Users will be able to buy and receive crypto, or use their Coinbase 
+balances onchain with [Magic Spend](https://www.smartwallet.dev/guides/magic-spend).
+
+If your user connects any other EOA wallet, it provides an easy way to access [Coinbase Onramp](https://docs.cdp.coinbase.com/onramp/docs/welcome/)
+where your users will also be able to buy crypto using a fiat payment method, or transfer existing crypto from their
+Coinbase account.
+
+:::tip[Coinbase Onramp Support]
+If you would like to provide non Coinbase Smart Wallet users with an easy way to access Coinbase Onramp, please make
+sure you go through the `FundButton` [walkthrough](/fund/fund-button#walkthrough) to configure your Project ID. Otherwise
+only Coinbase Smart Wallet users will be able to use the `WalletDropdownFundLink`.
+:::
+
+## Usage
+
+```tsx twoslash
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownDisconnect,
+  WalletDropdownFundLink, // [!code focus]
+} from '@coinbase/onchainkit/wallet'; // [!code focus]
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+
+export function WalletComponents() {
+  return (
+    <div className="flex justify-end">
+      <Wallet>
+        <ConnectWallet>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletDropdown>
+          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+            <Avatar />
+            <Name />
+            <Address />
+            <EthBalance />
+          </Identity>
+          <WalletDropdownFundLink /> // [!code focus]
+          <WalletDropdownDisconnect />
+        </WalletDropdown>
+      </Wallet>
+    </div>
+  );
+}
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownFundLink />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Override text
+
+You can override component text using the `text` prop.
+
+```tsx
+<WalletDropdownFundLink text="Add crypto" /> // [!code focus]
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <WalletDropdownFundLink text="Add crypto" />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Override icon
+
+You can override the icon using the `icon` prop.
+
+```tsx
+<WalletDropdownFundLink icon={baseIcon} /> // [!code focus]
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <WalletDropdownFundLink icon={walletDropdownLinkCustomBaseIconSvg} />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Customizing the popup size
+
+You're able to customize the size of the popup window using the `popupSize` prop. Valid values are `sm`, `md`, and `lg`.
+
+```tsx
+<WalletDropdownFundLink popupSize="sm" /> // [!code focus]
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <WalletDropdownFundLink popupSize="sm" />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Override default behavior
+
+You can override default link behavior by using the `openIn` prop. Valid values are `popup` and `tab`.
+
+```tsx
+<WalletDropdownFundLink openIn="tab" target="_blank" /> // [!code focus]
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <WalletDropdownFundLink openIn="tab" target="_blank" />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Override funding URL
+
+You can override the default URL by using the `fundingUrl` prop.
+
+```tsx
+<WalletDropdownFundLink fundingUrl={"https://base.org"} openIn="tab" target="_blank" /> // [!code focus]
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <WalletDropdownFundLink fundingUrl={"https://base.org"} openIn="tab" target="_blank" />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+## Props
+
+- [`WalletDropdownFundLinkReact`](/wallet/types#walletdropdownfundlinkreact)

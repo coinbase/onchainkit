@@ -1,0 +1,112 @@
+---
+title: <Buy /> · OnchainKit
+description: Buy components & utilities
+---
+
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
+import { Swap, SwapAmountInput, SwapButton, SwapDefault, SwapMessage, SwapToggleButton, SwapToast } from '@coinbase/onchainkit/swap';
+import { Buy } from '@coinbase/onchainkit/buy';
+import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+import App from '../../components/App';
+import SwapWrapper from '../../components/SwapWrapper';
+import BuyWrapper from '../../components/BuyWrapper';
+
+# `<Buy />`
+
+<img alt="Buy"
+  src="https://onchainkit.xyz/assets/buy.gif"
+  height="364"/>
+
+The `Buy` components provide a comprehensive interface for users to purchase [Tokens](/token/types#token).
+
+The `Buy` component supports token swaps from USDC and ETH by default with the option to provide an additional token of choice using the `fromToken` prop. In addition, users are able to purchase tokens using their Coinbase account, Apple Pay, or debit card.
+
+:::info
+The Apple Pay and Debit Card onramp options are only available for Coinbase supported assets.  
+:::
+
+Before using, ensure you've completed all [Getting Started steps](/getting-started).
+
+:::info
+This component requires a `projectId` to be set in the `OnchainKitProvider`. You can find your `projectId` on [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
+:::
+
+## Usage
+
+Example using `@coinbase/onchainkit/buy`.
+
+```tsx twoslash
+import { Buy } from '@coinbase/onchainkit/buy'; // [!code focus]
+import type { Token } from '@coinbase/onchainkit/token';
+
+export default function BuyComponents() { // [!code focus]
+  const degenToken: Token = {
+    name: 'DEGEN',
+    address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
+    symbol: 'DEGEN',
+    decimals: 18,
+    image:
+    'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
+    chainId: 8453,
+  };
+
+  return ( // [!code focus]
+    <Buy toToken={degenToken} /> // [!code focus]
+  ) // [!code focus]
+} // [!code focus]
+
+```
+
+<App>
+  <BuyWrapper>
+    {({ address, toToken }) => {
+      return (
+        <Buy toToken={toToken} disabled />
+      )
+    }}
+  </BuyWrapper>
+</App>
+
+:::danger
+**Note: This interface is for demonstration purposes only.**
+
+Swap and Onramp flows will execute and work out of the box when you implement the component in your own app.
+:::
+
+### Sponsor gas with Paymaster
+
+To sponsor swap transactions for your users, toggle the Paymaster using the `isSponsored` prop.
+
+By default, this will use the [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/bundler-and-paymaster) Paymaster.
+
+You can configure sponsorship settings on the [Paymaster](https://portal.cdp.coinbase.com/products/bundler-and-paymaster) page.
+For security reasons, we recommend setting up a contract allowlist in the Portal. Without a contract allowlist defined, your Paymaster will only be able to sponsor up to $1.
+
+The contract used in our Swap API is Uniswap's [Universal Router](https://basescan.org/address/0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD), which is deployed on Base at `0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD`.
+
+Note that gas sponsorship will only work for Smart Wallets.
+
+```tsx twoslash
+import { Buy } from '@coinbase/onchainkit/buy'; // [!code focus]
+import type { Token } from '@coinbase/onchainkit/token';
+
+export default function BuyComponents() { // [!code focus]
+  const degenToken: Token = {
+    name: 'DEGEN',
+    address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
+    symbol: 'DEGEN',
+    decimals: 18,
+    image:
+    'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
+    chainId: 8453,
+  };
+
+  return ( // [!code focus]
+    <Buy toToken={degenToken} isSponsored /> // [!code focus]
+  ) // [!code focus]
+} // [!code focus]
+```
+
+## Props
+
+- [`BuyReact`](/buy/types#buyreact)

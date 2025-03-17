@@ -1,0 +1,75 @@
+---
+title: Checkout components & utilities Types
+description: Glossary of Types in Checkout components & utilities.
+---
+
+# Types [Glossary of Types in Checkout components & utilities.]
+
+
+## `LifecycleStatus`
+
+```ts
+type LifecycleStatus =
+  | {
+      statusName: 'init';
+      statusData: LifecycleStatusDataShared;
+    }
+  | {
+      statusName: 'error';
+      statusData: TransactionError;
+    }
+  | {
+      statusName: 'fetchingData';
+      statusData: LifecycleStatusDataShared;
+    }
+  | {
+      statusName: 'ready';
+      statusData: {
+        chargeId: string;
+        contracts: ContractFunctionParameters[];
+      };
+    }
+  | {
+      statusName: 'pending';
+      statusData: LifecycleStatusDataShared;
+    }
+  | {
+      statusName: 'success'; // if the last mutation attempt was successful
+      statusData: {
+        transactionReceipts: TransactionReceipt[];
+        chargeId: string;
+        receiptUrl: string;
+      };
+    };
+```
+
+## `CheckoutButtonReact`
+
+```ts
+type CheckoutButtonReact = {
+  className?: string;
+  coinbaseBranded?: boolean;
+  disabled?: boolean;
+  icon?: React.ReactNode;
+  text?: string;
+};
+```
+
+## `CheckoutReact`
+
+```ts
+type CheckoutReact = {
+  chargeHandler?: () => Promise<string>;
+  children: React.ReactNode;
+  className?: string;
+  isSponsored?: boolean;
+  onStatus?: (status: LifecycleStatus) => void;
+  productId?: string;
+};
+```
+
+## `CheckoutStatusReact`
+
+```ts
+type CheckoutStatusReact = { className?: string };
+```

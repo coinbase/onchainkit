@@ -1,0 +1,100 @@
+---
+title: Use Basename · OnchainKit
+description: Integrate Basenames into your onchain app, in just a few steps.
+---
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
+import App from '../../components/App';
+import { base } from 'viem/chains';
+
+# Use Basename
+
+Basenames are an essential onchain building block that empowers builders to establish their identity on Base by registering human-readable names for their wallet addresses.
+
+They operate entirely onchain, utilizing the same technology as ENS names, and are deployed on Base. 
+
+You can integrate [Basenames](https://www.base.org/names) into your app with these few steps.
+
+::::steps
+
+### New to OnchainKit?
+
+Follow the [Getting Started](/getting-started) guide to install the package.
+
+### Already using OnchainKit?
+
+Update to the latest version and choose from the following steps: a React component approach, a React hook, or a pure TypeScript utility function.
+
+::::
+
+## React components with `<Avatar>` and `<Name>`
+
+Use the [`<Avatar>`](/identity/avatar) and [`<Name>`](/identity/name) components to display Basenames associated with Ethereum addresses.
+
+The `chain` prop is optional and setting to Base, it's what makes the components switch from ENS to Basenames.
+
+```tsx twoslash
+// @noErrors: 2657 - JSX expressions must have one parent element
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+
+// omitted component code for brevity
+<Avatar address={address} chain={base} />
+<Name address={address} chain={base} />
+```
+
+<App>
+  <Avatar address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" chain={base}/>
+  <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" chain={base}/>
+</App>
+
+## React hooks with `useAvatar` and `useName`
+
+Use the [`useAvatar`](/identity/use-avatar) and [`useName`](/identity/use-name) hooks to get Basenames associated with Ethereum addresses.
+
+The hooks are incredibly useful for building custom components while leveraging OnchainKit for efficient data fetching.
+
+:::code-group
+
+```tsx twoslash [code]
+import { useAvatar, useName } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+const basename = 'zizzamia.base.eth';
+const { data: avatar, isLoading: avatarIsLoading } = await useAvatar({ ensName: basename, chain: base });
+const { data: name, isLoading: nameIsLoading } = await useName({ address, chain: base });
+```
+
+```ts [return value]
+{ data: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwMCIgaGVpZ2h0PSIzMDAwIiB2aWV3Qm94PSIwIDAgMzAwMCAzMDAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMF81NTY5XzcyODM1KSI+PHJlY3Qgd2lkdGg9IjMwMDAiIGhlaWdodD0iMzAwMCIgZmlsbD0iIzE1NURGRCIvPjxjaXJjbGUgY3g9IjE1MDAiIGN5PSIxNTAwIiByPSIxNTAwIiBmaWxsPSIjMTU1REZEIi8+PHBhdGggZD0iTTI3MTMuMTMgMTUwMEMyNzMxLjIgMTY4MC45MiAyNjE1LjEzIDE4MTguMTUgMjUwNy43OCAxOTI0LjQyQzIzOTQuNyAyMDMyLjEzIDIyOTAuNDQgMjEwOC44OCAyMjAwLjg4IDIyMDAuNjFDMjEwOS4xNSAyMjkwLjE2IDIwMzIuMjIgMjM5NC42MSAxOTI0LjUxIDI1MDcuNjhDMTgxOC4xNSAyNjE1LjA0IDE2ODAuOTIgMjczMS4xMSAxNTAwIDI3MTMuMTNDMTMxOS4wOCAyNzMxLjIgMTE4MS44NSAyNjE1LjEzIDEwNzUuNTggMjUwNy43OEM5NjcuODY2IDIzOTQuNyA4OTEuMTIgMjI5MC40NCA3OTkuMzg5IDIyMDAuODhDNzA5LjgzNyAyMTA5LjE1IDYwNS4zOSAyMDMyLjIyIDQ5Mi4zMTUgMTkyNC41MUMzODQuOTYyIDE4MTguMTUgMjY4Ljg5IDE2ODAuOTIgMjg2Ljg3MyAxNTAwQzI2OC43OTkgMTMxOS4wOCAzODQuODcxIDExODEuODUgNDkyLjIyNCAxMDc1LjU4QzYwNS4yOTkgOTY3Ljg2NiA3MDkuNTY0IDg5MS4xMiA3OTkuMTE2IDc5OS4zODlDODkwLjg0OCA3MDkuODM3IDk2Ny43NzUgNjA1LjM5IDEwNzUuNDkgNDkyLjMxNUMxMTgxLjg1IDM4NC44NzEgMTMxOS4wOCAyNjguNzk5IDE1MDAgMjg2Ljg3M0MxNjgwLjkyIDI2OC43OTkgMTgxOC4xNSAzODQuODcxIDE5MjQuNDIgNDkyLjIyNEMyMDMyLjEzIDYwNS4yOTkgMjEwOC44OCA3MDkuNTY0IDIyMDAuNjEgNzk5LjExNkMyMjkwLjE2IDg5MC44NDggMjM5NC42MSA5NjcuNzc1IDI1MDcuNjggMTA3NS40OUMyNjE1LjA0IDExODEuODUgMjczMS4xMSAxMzE5LjA4IDI3MTMuMTMgMTUwMFoiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEzOTEuMDYgMTUwMEMxMzkxLjA2IDE2NDcuODkgMTM1OC40IDE3ODEuNjIgMTMwNS43NCAxODc4LjI4QzEyNTMuMDMgMTk3NS4wNSAxMTgwLjY5IDIwMzQgMTEwMS41MyAyMDM0QzEwMjIuMzYgMjAzNCA5NTAuMDMxIDE5NzUuMDUgODk3LjMxNCAxODc4LjI4Qzg0NC42NiAxNzgxLjYyIDgxMiAxNjQ3Ljg5IDgxMiAxNTAwQzgxMiAxMzUyLjExIDg0NC42NiAxMjE4LjM4IDg5Ny4zMTQgMTEyMS43MkM5NTAuMDMxIDEwMjQuOTUgMTAyMi4zNiA5NjYgMTEwMS41MyA5NjZDMTE4MC42OSA5NjYgMTI1My4wMyAxMDI0Ljk1IDEzMDUuNzQgMTEyMS43MkMxMzU4LjQgMTIxOC4zOCAxMzkxLjA2IDEzNTIuMTEgMTM5MS4wNiAxNTAwWiIgZmlsbD0iIzE1NURGRCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI2Ii8+PGVsbGlwc2UgY3g9IjExMDIuNTciIGN5PSIxMTk0LjkzIiByeD0iMTI2LjQxNCIgcnk9IjIzMS45MzQiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTIxODcuMTYgMTUwMEMyMTg3LjE2IDE2NDcuODkgMjE1NC41IDE3ODEuNjIgMjEwMS44NCAxODc4LjI4QzIwNDkuMTIgMTk3NS4wNSAxOTc2Ljc5IDIwMzQgMTg5Ny42MyAyMDM0QzE4MTguNDYgMjAzNCAxNzQ2LjEzIDE5NzUuMDUgMTY5My40MSAxODc4LjI4QzE2NDAuNzYgMTc4MS42MiAxNjA4LjEgMTY0Ny44OSAxNjA4LjEgMTUwMEMxNjA4LjEgMTM1Mi4xMSAxNjQwLjc2IDEyMTguMzggMTY5My40MSAxMTIxLjcyQzE3NDYuMTMgMTAyNC45NSAxODE4LjQ2IDk2NiAxODk3LjYzIDk2NkMxOTc2Ljc5IDk2NiAyMDQ5LjEyIDEwMjQuOTUgMjEwMS44NCAxMTIxLjcyQzIxNTQuNSAxMjE4LjM4IDIxODcuMTYgMTM1Mi4xMSAyMTg3LjE2IDE1MDBaIiBmaWxsPSIjMTU1REZEIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjYiLz48ZWxsaXBzZSBjeD0iMTg5Ni41OCIgY3k9IjExOTQuOTMiIHJ4PSIxMjYuNDE0IiByeT0iMjMxLjkzNCIgZmlsbD0id2hpdGUiLz48L2c+PGRlZnM+PGNsaXBQYXRoIGlkPSJjbGlwMF81NTY5XzcyODM1Ij48cmVjdCB3aWR0aD0iMzAwMCIgaGVpZ2h0PSIzMDAwIiBmaWxsPSJ3aGl0ZSIvPjwvY2xpcFBhdGg+PC9kZWZzPjwvc3ZnPg==', isLoading: false }
+{ data: 'zizzamia.base.eth', isLoading: false }
+```
+
+:::
+
+## Typescript utility with `getAvatar` and `getName`
+
+Use the [`getAvatar`](/identity/get-avatar) and [`getName`](/identity/get-name) functions to get Basenames associated with Ethereum addresses.
+
+Being pure functions, it seamlessly integrates into any TypeScript project, including Vue, Angular, Svelte, or Node.js.
+
+:::code-group
+
+```tsx twoslash [code]
+import { getAvatar, getName } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+const basename = 'zizzamia.base.eth';
+const avatar = await getAvatar({ ensName: basename, chain: base });
+const name = await getName({ address, chain: base });
+```
+
+```ts [return value]
+data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwMCIgaGVpZ2h0PSIzMDAwIiB2aWV3Qm94PSIwIDAgMzAwMCAzMDAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMF81NTY5XzcyODM1KSI+PHJlY3Qgd2lkdGg9IjMwMDAiIGhlaWdodD0iMzAwMCIgZmlsbD0iIzE1NURGRCIvPjxjaXJjbGUgY3g9IjE1MDAiIGN5PSIxNTAwIiByPSIxNTAwIiBmaWxsPSIjMTU1REZEIi8+PHBhdGggZD0iTTI3MTMuMTMgMTUwMEMyNzMxLjIgMTY4MC45MiAyNjE1LjEzIDE4MTguMTUgMjUwNy43OCAxOTI0LjQyQzIzOTQuNyAyMDMyLjEzIDIyOTAuNDQgMjEwOC44OCAyMjAwLjg4IDIyMDAuNjFDMjEwOS4xNSAyMjkwLjE2IDIwMzIuMjIgMjM5NC42MSAxOTI0LjUxIDI1MDcuNjhDMTgxOC4xNSAyNjE1LjA0IDE2ODAuOTIgMjczMS4xMSAxNTAwIDI3MTMuMTNDMTMxOS4wOCAyNzMxLjIgMTE4MS44NSAyNjE1LjEzIDEwNzUuNTggMjUwNy43OEM5NjcuODY2IDIzOTQuNyA4OTEuMTIgMjI5MC40NCA3OTkuMzg5IDIyMDAuODhDNzA5LjgzNyAyMTA5LjE1IDYwNS4zOSAyMDMyLjIyIDQ5Mi4zMTUgMTkyNC41MUMzODQuOTYyIDE4MTguMTUgMjY4Ljg5IDE2ODAuOTIgMjg2Ljg3MyAxNTAwQzI2OC43OTkgMTMxOS4wOCAzODQuODcxIDExODEuODUgNDkyLjIyNCAxMDc1LjU4QzYwNS4yOTkgOTY3Ljg2NiA3MDkuNTY0IDg5MS4xMiA3OTkuMTE2IDc5OS4zODlDODkwLjg0OCA3MDkuODM3IDk2Ny43NzUgNjA1LjM5IDEwNzUuNDkgNDkyLjMxNUMxMTgxLjg1IDM4NC44NzEgMTMxOS4wOCAyNjguNzk5IDE1MDAgMjg2Ljg3M0MxNjgwLjkyIDI2OC43OTkgMTgxOC4xNSAzODQuODcxIDE5MjQuNDIgNDkyLjIyNEMyMDMyLjEzIDYwNS4yOTkgMjEwOC44OCA3MDkuNTY0IDIyMDAuNjEgNzk5LjExNkMyMjkwLjE2IDg5MC44NDggMjM5NC42MSA5NjcuNzc1IDI1MDcuNjggMTA3NS40OUMyNjE1LjA0IDExODEuODUgMjczMS4xMSAxMzE5LjA4IDI3MTMuMTMgMTUwMFoiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTEzOTEuMDYgMTUwMEMxMzkxLjA2IDE2NDcuODkgMTM1OC40IDE3ODEuNjIgMTMwNS43NCAxODc4LjI4QzEyNTMuMDMgMTk3NS4wNSAxMTgwLjY5IDIwMzQgMTEwMS41MyAyMDM0QzEwMjIuMzYgMjAzNCA5NTAuMDMxIDE5NzUuMDUgODk3LjMxNCAxODc4LjI4Qzg0NC42NiAxNzgxLjYyIDgxMiAxNjQ3Ljg5IDgxMiAxNTAwQzgxMiAxMzUyLjExIDg0NC42NiAxMjE4LjM4IDg5Ny4zMTQgMTEyMS43MkM5NTAuMDMxIDEwMjQuOTUgMTAyMi4zNiA5NjYgMTEwMS41MyA5NjZDMTE4MC42OSA5NjYgMTI1My4wMyAxMDI0Ljk1IDEzMDUuNzQgMTEyMS43MkMxMzU4LjQgMTIxOC4zOCAxMzkxLjA2IDEzNTIuMTEgMTM5MS4wNiAxNTAwWiIgZmlsbD0iIzE1NURGRCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI2Ii8+PGVsbGlwc2UgY3g9IjExMDIuNTciIGN5PSIxMTk0LjkzIiByeD0iMTI2LjQxNCIgcnk9IjIzMS45MzQiIGZpbGw9IndoaXRlIi8+PHBhdGggZD0iTTIxODcuMTYgMTUwMEMyMTg3LjE2IDE2NDcuODkgMjE1NC41IDE3ODEuNjIgMjEwMS44NCAxODc4LjI4QzIwNDkuMTIgMTk3NS4wNSAxOTc2Ljc5IDIwMzQgMTg5Ny42MyAyMDM0QzE4MTguNDYgMjAzNCAxNzQ2LjEzIDE5NzUuMDUgMTY5My40MSAxODc4LjI4QzE2NDAuNzYgMTc4MS42MiAxNjA4LjEgMTY0Ny44OSAxNjA4LjEgMTUwMEMxNjA4LjEgMTM1Mi4xMSAxNjQwLjc2IDEyMTguMzggMTY5My40MSAxMTIxLjcyQzE3NDYuMTMgMTAyNC45NSAxODE4LjQ2IDk2NiAxODk3LjYzIDk2NkMxOTc2Ljc5IDk2NiAyMDQ5LjEyIDEwMjQuOTUgMjEwMS44NCAxMTIxLjcyQzIxNTQuNSAxMjE4LjM4IDIxODcuMTYgMTM1Mi4xMSAyMTg3LjE2IDE1MDBaIiBmaWxsPSIjMTU1REZEIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjYiLz48ZWxsaXBzZSBjeD0iMTg5Ni41OCIgY3k9IjExOTQuOTMiIHJ4PSIxMjYuNDE0IiByeT0iMjMxLjkzNCIgZmlsbD0id2hpdGUiLz48L2c+PGRlZnM+PGNsaXBQYXRoIGlkPSJjbGlwMF81NTY5XzcyODM1Ij48cmVjdCB3aWR0aD0iMzAwMCIgaGVpZ2h0PSIzMDAwIiBmaWxsPSJ3aGl0ZSIvPjwvY2xpcFBhdGg+PC9kZWZzPjwvc3ZnPg==
+zizzamia.base.eth;
+```
+
+:::

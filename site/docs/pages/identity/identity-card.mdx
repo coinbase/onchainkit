@@ -1,0 +1,114 @@
+---
+title: <IdentityCard /> · OnchainKit
+description: Display user identity information with ENS and chain-specific name resolution
+---
+
+import {
+  Address,
+  Avatar,
+  Identity,
+  IdentityCard,
+  Name,
+} from '@coinbase/onchainkit/identity';
+import App from '../../components/App';
+import { base, mainnet } from 'viem/chains';
+
+# `<IdentityCard />`
+
+The `IdentityCard` component provides a comprehensive way to display user identity information, including ENS names, avatars, and chain-specific name resolution.
+
+## Features
+- **Name Resolution:** Resolves both Basenames and ENS names automatically
+- **Avatar Support:** Displays ENS and chain-specific avatars
+- **Flexible Display:** Customizable layout and styling options
+- **Chain-Aware:** Works across different EVM chains that support name resolution
+
+## Usage
+
+### Basic Usage
+
+```tsx twoslash
+// @errors: 2305
+import { IdentityCard } from '@coinbase/onchainkit/identity'; // [!code focus]
+import { base } from 'viem/chains';
+
+<IdentityCard // [!code focus] 
+  address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF" // [!code focus]
+  chain={base} // [!code focus]
+  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+/> // [!code focus]
+```
+<App>
+  <IdentityCard 
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+    address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF"
+    chain={base}
+    className="max-w-[300px]"
+  />
+</App>
+
+## Customization
+
+You can override styles using `className` or by setting a custom [OnchainKit theme](/guides/themes#custom-theme). You can also set the `mainnet` chain for ENS name resolution:
+
+```tsx
+import { IdentityCard } from '@coinbase/onchainkit/identity';
+import { mainnet } from 'viem/chains'; // [!code focus]
+
+<OnchainKitProvider
+  config={{
+    appearance: {
+      mode: 'auto',
+      theme: 'cyberpunk', // [!code focus]
+    },
+  }}
+>
+</OnchainKitProvider>
+
+<IdentityCard 
+  address="0x123..."
+  chain={mainnet} // [!code focus]
+  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+/>
+
+```
+<App>
+  <IdentityCard 
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+    address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF"
+    chain={mainnet}
+    className="cyberpunk max-w-[300px]"
+  />
+</App>
+
+## Props
+
+The `IdentityCard` component accepts the following props:
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `address` | `string` | The wallet address to display identity for |
+| `chain` | `Chain` | The chain to resolve the identity on |
+| `className` | `string` | Additional CSS classes to apply |
+
+## Error Handling
+
+The component handles various error states gracefully:
+
+- Invalid addresses display a shortened address format
+- Missing ENS names fallback to shortened addresses
+- Failed avatar fetches show a default avatar
+- Network errors maintain a degraded but functional display
+
+## Best Practices
+
+1. Always provide a valid chain object from viem/chains
+2. Handle loading states in parent components when address might be undefined
+4. Implement proper error boundaries in parent components
+5. Consider mobile responsiveness when styling
+
+## Related Components
+
+- [`<Avatar />`](/identity/avatar) - Displays user avatars
+- [`<Name />`](/identity/name) - Displays resolved names
+- [`<Identity />`](/identity/identity) - Simplified identity display

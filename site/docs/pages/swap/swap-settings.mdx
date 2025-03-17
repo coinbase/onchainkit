@@ -1,0 +1,377 @@
+---
+title: <SwapSettings /> · OnchainKit
+description: Customizable components for token Swap settings and slippage configuration
+---
+
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
+import {
+  Swap,
+  SwapAmountInput,
+  SwapButton,
+  SwapMessage,
+  SwapSettings,
+  SwapSettingsSlippageDescription,
+  SwapSettingsSlippageInput,
+  SwapSettingsSlippageTitle,
+  SwapToggleButton,
+} from '@coinbase/onchainkit/swap';
+import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+import App from '../../components/App';
+import SwapWrapper from '../../components/SwapWrapper';
+import { walletDropdownLinkCustomBaseIconSvg } from '../../components/svg/walletDropdownLinkCustomBaseIconSvg';
+
+# `SwapSettings`
+The `SwapSettings` component enables customizable slippage configuration in the `Swap` component. 
+
+## Usage 
+
+```tsx twoslash 
+// omitted for brevity  
+import {
+  Swap,
+  SwapSettings, // [!code focus]
+  SwapSettingsSlippageDescription, // [!code focus]
+  SwapSettingsSlippageInput, // [!code focus]
+  SwapSettingsSlippageTitle, // [!code focus]
+} from '@coinbase/onchainkit/swap';
+
+<Swap> 
+  <SwapSettings>// [!code focus]
+    <SwapSettingsSlippageTitle>// [!code focus]
+      Max. slippage// [!code focus]
+    </SwapSettingsSlippageTitle>// [!code focus]
+    <SwapSettingsSlippageDescription>// [!code focus]
+      Your swap will revert if the prices change by more than the selected// [!code focus]
+      percentage.// [!code focus]
+    </SwapSettingsSlippageDescription>// [!code focus]
+    <SwapSettingsSlippageInput />// [!code focus]
+  </SwapSettings>// [!code focus]
+</Swap> 
+```
+
+<App>
+  <SwapWrapper>
+    {({ address, swappableTokens }) => {
+      if (address) {
+        return (
+          <Swap>
+            <SwapSettings>
+             <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
+             <SwapSettingsSlippageDescription>
+              Your swap will revert if the prices change by more than the selected
+              percentage.
+             </SwapSettingsSlippageDescription>
+             <SwapSettingsSlippageInput />
+            </SwapSettings>
+            <SwapAmountInput
+              label="Sell"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[1]}
+              type="from"
+            />
+            <SwapToggleButton />
+            <SwapAmountInput
+              label="Buy"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[2]}
+              type="to"
+            />
+            <SwapButton disabled />
+            <SwapMessage />
+          </Swap>
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </SwapWrapper>
+</App>
+
+### Override styles
+
+You can override component styles using `className`.
+
+```tsx twoslash 
+import {
+  Swap,
+  SwapSettings,
+  SwapSettingsSlippageDescription,
+  SwapSettingsSlippageInput,
+  SwapSettingsSlippageTitle,
+} from '@coinbase/onchainkit/swap';
+// ---cut-before---
+// omitted for brevity  
+<Swap> 
+  <SwapSettings>
+    <SwapSettingsSlippageTitle className="text-[#EA580C]">// [!code focus]
+      Max. slippage
+    </SwapSettingsSlippageTitle>
+    <SwapSettingsSlippageDescription className="text-[#EA580C]">// [!code focus]
+      Your swap will revert if the prices change by more than the selected
+      percentage.
+    </SwapSettingsSlippageDescription>
+    <SwapSettingsSlippageInput/>
+  </SwapSettings>
+</Swap> 
+```
+
+
+<App>
+  <SwapWrapper>
+    {({ address, swappableTokens }) => {
+      if (address) {
+        return (
+          <Swap>
+            <SwapSettings>
+             <SwapSettingsSlippageTitle className="text-[#EA580C]">Max. slippage</SwapSettingsSlippageTitle>
+             <SwapSettingsSlippageDescription className="text-[#EA580C]">
+              Your swap will revert if the prices change by more than the selected
+              percentage.
+             </SwapSettingsSlippageDescription>
+             <SwapSettingsSlippageInput/>
+            </SwapSettings>
+            <SwapAmountInput
+              label="Sell"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[1]}
+              type="from"
+            />
+            <SwapToggleButton />
+            <SwapAmountInput
+              label="Buy"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[2]}
+              type="to"
+            />
+            <SwapButton disabled />
+            <SwapMessage />
+          </Swap>
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </SwapWrapper>
+</App>
+
+### Override icon
+You can override the icon using the icon prop.
+
+
+```tsx twoslash 
+// suppress twoslash error
+declare const baseIcon: any;
+
+import {
+  Swap,
+  SwapSettings,
+  SwapSettingsSlippageDescription,
+  SwapSettingsSlippageInput,
+  SwapSettingsSlippageTitle,
+} from '@coinbase/onchainkit/swap';
+// ---cut-before---
+// omitted for brevity  
+<SwapSettings icon={baseIcon}>// [!code focus]
+// ---cut-after---
+</SwapSettings>
+```
+
+<App>
+  <SwapWrapper>
+    {({ address, swappableTokens }) => {
+      if (address) {
+        return (
+          <Swap>
+            <SwapSettings icon={walletDropdownLinkCustomBaseIconSvg}>
+             <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
+             <SwapSettingsSlippageDescription>
+              Your swap will revert if the prices change by more than the selected
+              percentage.
+             </SwapSettingsSlippageDescription>
+             <SwapSettingsSlippageInput/>
+            </SwapSettings>
+            <SwapAmountInput
+              label="Sell"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[1]}
+              type="from"
+            />
+            <SwapToggleButton />
+            <SwapAmountInput
+              label="Buy"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[2]}
+              type="to"
+            />
+            <SwapButton disabled />
+            <SwapMessage />
+          </Swap>
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </SwapWrapper>
+</App>
+
+### Add text
+You can add text next to the `SwapSettings` component using text.
+
+```tsx twoslash 
+import {
+  Swap,
+  SwapSettings,
+  SwapSettingsSlippageDescription,
+  SwapSettingsSlippageInput,
+  SwapSettingsSlippageTitle,
+} from '@coinbase/onchainkit/swap';
+// ---cut-before---
+// omitted for brevity  
+<SwapSettings text="Settings">// [!code focus]
+// ---cut-after---
+</SwapSettings>
+```
+
+<App>
+  <SwapWrapper>
+    {({ address, swappableTokens }) => {
+      if (address) {
+        return (
+          <Swap>
+            <SwapSettings text="Settings">
+             <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
+             <SwapSettingsSlippageDescription>
+              Your swap will revert if the prices change by more than the selected
+              percentage.
+             </SwapSettingsSlippageDescription>
+             <SwapSettingsSlippageInput/>
+            </SwapSettings>
+            <SwapAmountInput
+              label="Sell"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[1]}
+              type="from"
+            />
+            <SwapToggleButton />
+            <SwapAmountInput
+              label="Buy"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[2]}
+              type="to"
+            />
+            <SwapButton disabled />
+            <SwapMessage />
+          </Swap>
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </SwapWrapper>
+</App>
+
+### Override text
+You can override component text by providing children text.
+
+```tsx twoslash 
+import {
+  Swap,
+  SwapSettings,
+  SwapSettingsSlippageDescription,
+  SwapSettingsSlippageInput,
+  SwapSettingsSlippageTitle,
+} from '@coinbase/onchainkit/swap';
+<Swap>  
+// ---cut-before---
+// omitted for brevity  
+
+<SwapSettingsSlippageTitle>
+  Slippage Settings// [!code focus]
+</SwapSettingsSlippageTitle>
+<SwapSettingsSlippageDescription>
+  Set a max slippage you are willing to accept.// [!code focus]
+</SwapSettingsSlippageDescription>
+// ---cut-after---
+</Swap> 
+```
+
+<App>
+  <SwapWrapper>
+    {({ address, swappableTokens }) => {
+      if (address) {
+        return (
+          <Swap>
+            <SwapSettings>
+             <SwapSettingsSlippageTitle>Slippage Settings</SwapSettingsSlippageTitle>
+             <SwapSettingsSlippageDescription>
+              Set a max slippage you are willing to accept.
+             </SwapSettingsSlippageDescription>
+             <SwapSettingsSlippageInput/>
+            </SwapSettings>
+            <SwapAmountInput
+              label="Sell"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[1]}
+              type="from"
+            />
+            <SwapToggleButton />
+            <SwapAmountInput
+              label="Buy"
+              swappableTokens={swappableTokens}
+              token={swappableTokens[2]}
+              type="to"
+            />
+            <SwapButton disabled />
+            <SwapMessage />
+          </Swap>
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </SwapWrapper>
+</App>
+
+## Components
+
+- `<SwapSettings />` - Container component for swap slippage settings.
+- `<SwapSettingsSlippageDescription />` - Displays description text explaining the slippage setting.
+- `<SwapSettingsSlippageInput />` - Input field for users to enter their desired max slippage percentage
+- `<SwapSettingsSlippageTitle />` - Displays the title for the slippage settings section
+
+## Props
+
+- [`SwapsSettingsReact`](/swap/types#swapsettingsreact)
+- [`SwapSettingsSlippageDescriptionReact`](/swap/types#swapsettingsslippagedescriptionreact)
+- [`SwapSettingsSlippageInputReact`](/swap/types#swapsettingsslippageinputreact)
+- [`SwapSettingsSlippageTitleReact`](/swap/types#swapsettingsslippagetitlereact)

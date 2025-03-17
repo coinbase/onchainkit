@@ -1,0 +1,173 @@
+---
+title: Lifecycle Status · OnchainKit
+description: How to influence the behavior of your components and onchain data with Lifecycle Status.
+---
+
+# Lifecycle Status
+
+OnchainKit Lifecycle Status allows you to manage the state of APIs and onchain transactions seamlessly within components.
+
+## How to listen to the Lifecycle Status
+
+The Lifecycle Status is a TypeScript object that provides easy access to the `statusName` and `statusData` properties, 
+allowing you to stay informed and responsive.
+
+```tsx twoslash
+import { useCallback } from 'react';
+import { Transaction } from '@coinbase/onchainkit/transaction';
+// ---cut-before---
+import type { LifecycleStatus } from '@coinbase/onchainkit/transaction';
+
+const handleOnStatus = useCallback((status: LifecycleStatus) => {
+  console.log('LifecycleStatus', status);
+}, []);
+
+<Transaction onStatus={handleOnStatus}>
+  // omitted component code for brevity
+</Transaction>
+```
+
+## Lifecycle Status
+
+The Lifecycle Status includes 3 states common to all components:
+
+### `init`
+
+The component is initialized and ready for use.
+
+```ts
+{
+  statusName: 'init';
+  statusData: null;
+}
+```
+
+### `success`
+
+The component has successfully completed its main action, such as `swap` or `transaction`.
+
+```ts
+{
+  statusName: 'success';
+  statusData: {
+    // the data returned from the API or onchain operation
+  };
+}
+```
+
+### `error`
+
+The component has encountered an issue while fetching API data, executing an onchain operation, 
+or needs to display a visual message to the user.
+
+```ts
+{
+  statusName: 'error';
+  statusData: {
+    code: string; // The error code representing the location of the error
+    error: string; // The error message providing developer details
+    message: string; // The error message providing user-facing details
+  };
+}
+```
+
+<br />
+
+Each component brings its own unique experience, and we have explored both the swap and transaction processes.
+
+## Lifecycle Status with [`<Swap />`](/swap/swap)
+
+### `amountChange`
+
+Any of the Swap Input fields have been updated.
+
+```ts
+{
+  statusName: 'amountChange';
+  statusData: {
+    amountFrom: string;
+    amountTo: string;
+    tokenFrom?: Token;
+    tokenTo?: Token;
+    isMissingRequiredField: boolean;
+  };
+}
+```
+
+### `transactionPending`
+
+The transaction has been submitted to the network but has not yet been confirmed to be included in a block. 
+During this pending state, the transaction is waiting to be validated by the network's consensus mechanism.
+
+```ts
+{
+  statusName: 'transactionPending';
+  statusData: null;
+}
+```
+
+### `transactionApproved`
+
+The transaction has been verified to be valid and it has been included in a block
+however the transaction is not yet finalized.
+
+```ts
+{
+  statusName: 'transactionApproved';
+  statusData: {
+    transactionHash: Hex;
+    transactionType: 'Batched' | 'ERC20' | 'Permit2' | 'Swap';
+  };
+}
+```
+
+### `success`
+
+The transaction has been added to the blockchain and the transaction is considered final.
+
+```ts
+{
+  statusName: 'success';
+  statusData: {
+    transactionReceipt: TransactionReceipt;
+  };
+}
+```
+
+## Lifecycle Status with [`<Transaction />`](/transaction/transaction)
+
+### `transactionIdle`
+
+The transaction component is waiting for the user to take action.
+
+```ts
+{
+  statusName: 'transactionIdle';
+  statusData: null;
+}
+```
+
+### `transactionPending`
+
+The transaction has been submitted to the network but has not yet been confirmed to be included in a block. 
+During this pending state, the transaction is waiting to be validated by the network's consensus mechanism.
+
+```ts
+{
+  statusName: 'transactionPending';
+  statusData: null;
+}
+```
+
+### `success`
+
+The transaction has been added to the blockchain and the transaction is considered final.
+
+```ts
+{
+  statusName: 'success';
+  statusData: {
+    transactionReceipts: TransactionReceipt[];
+  };
+}
+```

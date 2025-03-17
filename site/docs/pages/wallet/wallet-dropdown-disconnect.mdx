@@ -1,0 +1,139 @@
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import { 
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownLink,
+  WalletDropdownBasename,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+import WalletComponents from '../../components/WalletComponents';
+
+# `<WalletDropdownDisconnect />`
+
+The `WalletDropdownDisconnect` component is used to disconnect the wallet from the application.
+
+## Usage 
+
+```tsx twoslash
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown, 
+  WalletDropdownDisconnect, // [!code focus]
+} from '@coinbase/onchainkit/wallet';
+
+export function WalletComponents() {
+  return (
+    <div className="flex justify-end">
+      <Wallet>
+        <ConnectWallet>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletDropdown>
+          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+            <Avatar />
+            <Name />
+            <Address className={color.foregroundMuted} />
+            <EthBalance />
+          </Identity>
+          <WalletDropdownDisconnect /> // [!code focus]
+        </WalletDropdown>
+      </Wallet>
+    </div>
+  );
+}      
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Override styles
+
+You can override component styles using `className`.
+  
+```tsx
+// omitted for brevity
+
+<WalletDropdownDisconnect className="hover:bg-red-500" /> // [!code focus] 
+```
+  
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet text="Log In">
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownDisconnect className="hover:bg-red-500" />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Override text
+
+You can override component text using `text`.
+
+```tsx
+// omitted for brevity
+
+<WalletDropdownDisconnect text="Log out" /> // [!code focus] 
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet text="Log In">
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownDisconnect text="Log out" />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+## Props 
+- [`WalletDropdownDisconnectReact`](/wallet/types#walletdropdowndisconnectreact)

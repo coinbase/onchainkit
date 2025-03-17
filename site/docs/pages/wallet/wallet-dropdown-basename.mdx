@@ -1,0 +1,119 @@
+import { 
+  Address,
+  Avatar,
+  EthBalance,
+  Identity,
+  Name 
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownBasename,
+  WalletDropdownDisconnect
+} from '@coinbase/onchainkit/wallet';
+import WalletComponents from '../../components/WalletComponents';
+
+# `<WalletDropdownBasename />`
+
+The `WalletDropdownBasename` component adds a [Basename](https://www.base.org/names) tab to the Wallet Component. This tab serves two purposes:
+
+1. For users with a Basename: It provides a link to their Basename profile page.
+2. For users without a Basename: It provides a link to a page where they can create one.
+
+This component enhances the wallet interface by providing easy access to Basename functionality, whether for viewing an existing profile or setting up a new one.
+
+## Usage
+
+```tsx twoslash
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownBasename, // [!code focus]
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+
+export function WalletComponents() {
+  return (
+    <div className="flex justify-end">
+      <Wallet>
+        <ConnectWallet>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletDropdown>
+          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+            <Avatar />
+            <Name />
+            <Address className={color.foregroundMuted} />
+            <EthBalance />
+          </Identity>
+          <WalletDropdownBasename /> // [!code focus] 
+          <WalletDropdownDisconnect />
+        </WalletDropdown>
+      </Wallet>
+    </div>
+  );
+}
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet text="Log In">
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownBasename />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Override styles
+
+You can override component styles using `className`.
+  
+```tsx
+// omitted for brevity
+
+<WalletDropdownBasename className="hover:bg-red-500" /> // [!code focus] 
+```
+  
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet text="Log In">
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownBasename className="hover:bg-red-500"/>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+## Props
+- [`WalletDropdownBasenameReact`](/wallet/types#walletdropdownbasenamereact)

@@ -1,0 +1,206 @@
+---
+title: Remix Installation · OnchainKit
+description: Install OnchainKit using Remix
+---
+
+import StartBuilding from '../../components/StartBuilding';
+
+# Remix Installation
+
+Install and configure OnchainKit with Remix.
+If you are integrating OnchainKit into an existing project,
+skip to the [OnchainKit installation](#install-onchainkit).
+
+::::steps
+
+## Install Remix
+
+Create a new Remix project by using the Remix CLI.
+More information about Remix can be found [here](https://remix.run/docs/en/main/start/quickstart).
+
+```bash
+npx create-remix@latest
+```
+
+## Install OnchainKit
+
+Add OnchainKit to your project by installing the `@coinbase/onchainkit` package.
+
+:::code-group
+
+```bash [npm]
+npm install @coinbase/onchainkit
+```
+
+```bash [yarn]
+yarn add @coinbase/onchainkit
+```
+
+```bash [pnpm]
+pnpm add @coinbase/onchainkit
+```
+
+```bash [bun]
+bun add @coinbase/onchainkit
+```
+
+:::
+
+## Get A Client API Key
+
+Get your [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+
+<img
+  alt="OnchainKit copy Client API Key"
+  src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
+  height="364"
+/>
+
+Create a `.env` file in your project's root directory.
+
+<img
+  alt="OnchainKit define Client API Key"
+  src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
+  width="250"
+  loading="lazy"
+/>
+
+Add your Client API Key to the `.env` file:
+
+```dotenv [.env]
+PUBLIC_ONCHAINKIT_API_KEY=YOUR_CLIENT_API_KEY
+```
+
+Update the `app/root.tsx` file to provide access to your Client API Key
+through `window.ENV`:
+
+```tsx
+declare global {
+  interface Window {
+    ENV: {
+      PUBLIC_ONCHAINKIT_API_KEY: string; // [!code ++]
+    };
+  }
+}
+
+export async function loader() {
+  return json({
+    ENV: {
+      PUBLIC_ONCHAINKIT_API_KEY: process.env.PUBLIC_ONCHAINKIT_API_KEY, // [!code ++]
+    },
+  });
+}
+```
+
+If this is the first env variable you've added to your project, you will need to
+update the `Layout` component of `app/root.tsx` to make it available to your app:
+
+```tsx
+export function Layout({ children }: { children: React.ReactNode }) {
+  const data = useLoaderData<typeof loader>(); // [!code ++]
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        {children}
+        <ScrollRestoration />
+        <script // [!code ++]
+          dangerouslySetInnerHTML={{
+            // [!code ++]
+            __html: `window.ENV = ${JSON.stringify(
+              // [!code ++]
+              data.ENV // [!code ++]
+            )}`, // [!code ++]
+          }} // [!code ++]
+        />{' '}
+        // [!code ++]
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+```
+
+## Add Providers
+
+Create a `providers.tsx` file. Add `OnchainKitProvider` with your desired config.
+
+Under the hood, OnchainKit will create our recommended Wagmi and QueryClient
+providers. If you wish to customize these providers, check out [Custom
+Supplemental Providers](/config/supplemental-providers).
+
+```tsx twoslash [providers.tsx]
+// @noErrors: 2307 2580 2339 - cannot find 'process', cannot find './wagmi', cannot find 'import.meta'
+'use client';
+
+import type { ReactNode } from 'react';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { base } from 'wagmi/chains'; // add baseSepolia for testing // [!code ++]
+
+export function Providers(props: { children: ReactNode }) {
+  const apiKey =
+    typeof window !== 'undefined'
+      ? window.ENV?.PUBLIC_ONCHAINKIT_API_KEY
+      : undefined;
+  return (
+    <OnchainKitProvider
+      apiKey={apiKey} // [!code ++]
+      chain={base} // add baseSepolia for testing // [!code ++]
+    >
+      {props.children}
+    </OnchainKitProvider>
+  );
+}
+```
+
+## Wrap your app with `<Providers />`
+
+After configuring the providers in step 4, wrap your app with
+the `<Providers />` component.
+
+```tsx
+import { Providers } from 'src/Providers';
+
+export default function App() {
+  return (
+    <Providers>
+      <Outlet />
+    </Providers>
+  );
+}
+```
+
+## Import OnchainKit Styles
+
+OnchainKit components come with pre-configured styles.
+To include these styles in your project, add the following import
+statement at the top of the file where imported `<Providers />`:
+
+```tsx
+import { Providers } from 'src/Providers';
+import '@coinbase/onchainkit/styles.css'; // [!code ++]
+
+export default function App() {
+  return (
+    <Providers>
+      <Outlet />
+    </Providers>
+  );
+}
+```
+
+This ensures that the OnchainKit styles are loaded and applied to your entire application.
+
+- For Tailwind CSS users, check out our [Tailwind Integration Guide](/guides/tailwind).
+
+- Update the appearance of components by using our built-in themes or crafting your own custom theme.
+  Explore the possibilities in our [Theming Guide](/guides/themes).
+
+::::
+
+<StartBuilding />

@@ -1,0 +1,232 @@
+---
+title: <FundButton /> · OnchainKit
+description: The `<FundButton />` component provides a way for users to onramp from fiat to crypto from within your app.
+---
+
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
+// import { FundButton } from '../../../../src/fund';
+import { FundButton, getOnrampBuyUrl } from '@coinbase/onchainkit/fund';
+import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+import App from '../../components/App';
+import FundWrapper from '../../components/FundWrapper';
+
+# `<FundButton />`
+
+The `<FundButton />` component provides a way for users to fund their wallet without leaving your app. It automatically
+detects the user's wallet type (EOA vs Smart Wallet) and directs them to the appropriate funding URL.
+
+If your user connects a Coinbase Smart Wallet, it provides an easy way to access the Coinbase Smart Wallet 
+[Fund](https://keys.coinbase.com/fund) flow. Users will be able to buy and receive crypto, or use their Coinbase 
+balances onchain with [Magic Spend](https://www.smartwallet.dev/guides/magic-spend).
+
+If your user connects any other EOA wallet, it provides an easy way to access [Coinbase Onramp](https://docs.cdp.coinbase.com/onramp/docs/welcome/)
+where your users will also be able to buy crypto using a fiat payment method, or transfer existing crypto from their
+Coinbase account.
+
+Before using it, ensure you've completed all [Getting Started steps](/getting-started). 
+
+## Walkthrough
+
+::::steps
+
+### Get your Project ID
+
+1. Get your Project ID from the [Coinbase Developer Platform Dashboard](https://portal.cdp.coinbase.com/).
+
+<img alt="OnchainKit copy Project Id" src="../../assets/copy-project-id.png" />
+
+2. Add your Project ID to your `.env` file.
+
+```tsx twoslash [.env]
+// @noErrors
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY
+NEXT_PUBLIC_CDP_PROJECT_ID=YOUR_CDP_PROJECT_ID // [!code ++]
+```
+
+### Add Project ID to OnchainKitProvider
+
+```tsx twoslash
+// @noErrors
+<OnchainKitProvider
+  apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY} 
+  projectId={process.env.NEXT_PUBLIC_CDP_PROJECT_ID} // [!code ++]
+  chain={base}
+>
+  {props.children}
+</OnchainKitProvider>
+```
+
+### Drop in the ```<FundButton />``` component
+
+```tsx
+import { FundButton } from '@coinbase/onchainkit/fund';
+
+<FundButton />
+```
+
+<App>
+  <FundWrapper>
+    {({ address }) => {
+      if (address) {
+        return (
+          <FundButton />
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </FundWrapper>
+</App>
+
+::::
+
+:::tip[Troubleshooting]
+If you see a "something went wrong" error message when navigating to pay.coinbase.com, make sure you have "enforce 
+secure initialization" disabled on the [Onramp config page in Coinbase Developer Platform Dashboard](https://portal.cdp.coinbase.com/products/onramp).
+
+<img alt="OnchainKit require secure init" src="../../assets/onramp-secure-init.png" />
+:::
+
+## Customizing the funding experience
+
+You can customize the Coinbase Onramp experience by bringing your own Onramp URL and passing it to the ```<FundButton />```
+component. We provide the [`getOnrampBuyUrl`](/fund/get-onramp-buy-url) utility to help you generate a Coinbase Onramp
+URL tailored to your use case.
+
+```tsx
+import { FundButton, getOnrampBuyUrl } from '@coinbase/onchainkit/fund';
+import { useAccount } from 'wagmi';
+
+const projectId = 'YOUR_CDP_PROJECT_ID';
+const { address } = useAccount();
+
+const onrampBuyUrl = getOnrampBuyUrl({
+  projectId,
+  addresses: { [address]: ['base'] },
+  assets: ['USDC'],
+  presetFiatAmount: 20,
+  fiatCurrency: 'USD'
+});
+
+<FundButton fundingUrl={onrampBuyUrl} />
+```
+
+<App>
+  <FundWrapper>
+    {({ address, projectId }) => {
+      if (address && projectId) {
+        const onrampBuyUrl = getOnrampBuyUrl({
+          projectId,
+          addresses: { [address]: ['base'] },
+          assets: ['USDC'],
+          presetFiatAmount: 20,
+          fiatCurrency: 'USD'
+        });
+        return (
+          <FundButton fundingUrl={onrampBuyUrl} />
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </FundWrapper>
+</App>
+
+You can choose to have the funding URL open in a popup or a new tab using the `openIn` prop.
+
+```tsx
+<FundButton openIn={"tab"} />
+```
+
+<App>
+  <FundWrapper>
+    {({ address }) => {
+      if (address) {
+        return (
+          <FundButton openIn={"tab"} />
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </FundWrapper>
+</App>
+
+## Customizing the fund button
+
+You can override the text on the fund button using the `text` prop, and hide the icon with the `hideIcon` prop.
+
+```tsx
+<FundButton text={"Onramp"} hideIcon={true} />
+```
+
+<App>
+  <FundWrapper>
+    {({ address }) => {
+      if (address) {
+        return (
+          <FundButton text={"Onramp"} hideIcon={true} />
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </FundWrapper>
+</App>
+
+You can hide the text with the `hideText` prop.
+
+```tsx
+<FundButton hideText={true} />
+```
+
+<App>
+  <FundWrapper>
+    {({ address }) => {
+      if (address) {
+        return (
+          <>
+            <FundButton hideText={true} />
+          </>
+        )
+      }
+      return <>
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      </>;
+    }}
+  </FundWrapper>
+</App>
+
+See [`FundButtonReact`](/fund/types#fundbuttonreact) for the full list of customization options.
+
+## Props
+- [`FundButtonReact`](/fund/types#fundbuttonreact)

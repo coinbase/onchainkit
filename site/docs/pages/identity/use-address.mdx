@@ -1,0 +1,20 @@
+# `useAddress`
+
+The `useAddress` hook is used to get an address from an onchain identity provider for a given name.
+
+## Usage
+
+```tsx twoslash
+import { useAddress } from '@coinbase/onchainkit/identity';
+
+const { data: address, isLoading } = useAddress({ name: 'zizzamia.base.eth' });
+```
+
+## Returns
+
+[`useQuery<Promise<GetAddressReturnType>>`](/identity/types#getaddressreturntype)
+
+## Parameters
+
+[`UseAddressOptions`](/identity/types#useaddressoptions)
+[`UseQueryOptions`](/identity/types#usequeryoptions)

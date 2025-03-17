@@ -1,0 +1,159 @@
+---
+title: API types
+description: Glossary of Types.
+---
+
+# Types [Glossary of Types in APIs.]
+
+## `APIError`
+
+```ts
+type APIError = {
+  code: string; // The Error code
+  error: string; // The Error long message
+  message: string; // The Error short message
+};
+```
+
+## `BuildPayTransactionParams`
+
+```ts
+type BuildPayTransactionParams = {
+  address: Address; // The address of the wallet paying
+  chainId: number; // The Chain ID of the payment Network (only Base is supported)
+  chargeId: string; // The ID of the Commerce Charge to be paid
+};
+```
+
+## `BuildPayTransactionResponse`
+
+```ts
+type BuildPayTransactionResponse = PayTransaction | APIError;
+```
+
+## `BuildSwapTransaction`
+
+```ts
+type BuildSwapTransaction = {
+  approveTransaction?: Transaction; // ERC20 approve transaction which allows token holders to authorize spending
+  fee: Fee; // The fee for the swap
+  quote: SwapQuote; // The quote for the swap
+  transaction: Transaction; // The object developers should pass into Wagmi's signTransaction
+  warning?: QuoteWarning; // The warning associated with the swap
+};
+```
+
+## `BuildSwapTransactionParams`
+
+```ts
+type BuildSwapTransactionParams = GetSwapQuoteParams & {
+  fromAddress: Address; // The address of the user
+};
+```
+
+## `BuildSwapTransactionResponse`
+
+```ts
+type BuildSwapTransactionResponse = BuildSwapTransaction | APIError;
+```
+
+## `GetSwapQuoteParams`
+
+```ts
+type GetSwapQuoteParams = {
+  amount: string; // The amount to be swapped
+  amountReference?: string; // The reference amount for the swap
+  from: Token; // The source token for the swap
+  isAmountInDecimals?: boolean; // Whether the amount is in decimals
+  maxSlippage?: string; // The slippage of the swap
+  to: Token; // The destination token for the swap
+  useAggregator: boolean; // Whether to use a DEX aggregator
+};
+```
+
+## `GetSwapQuoteResponse`
+
+```ts
+type GetSwapQuoteResponse = SwapQuote | APIError;
+```
+
+## `GetTokensOptions`
+
+```ts
+type GetTokensOptions = {
+  limit?: string; // The maximum number of tokens to return (default: 50)
+  page?: string; // The page number to return (default: 1)
+  search?: string; // A string to search for in the token name, symbol or address
+};
+```
+
+## `GetTokensResponse`
+
+```ts
+type GetTokensResponse = Token[] | APIError;
+```
+
+## `GetTokenDetailsParams`
+
+```ts
+type GetTokenDetailsParams = {
+  contractAddress: Address;
+  tokenId?: string;
+};
+```
+
+## `GetTokenDetailsResponse`
+
+```ts
+type GetTokenDetailsResponse = TokenDetails | APIError;
+```
+
+## `GetMintDetailsParams`
+
+```ts
+type GetMintDetailsParams = {
+  contractAddress: Address;
+  takerAddress?: Address;
+  tokenId?: string;
+};
+```
+
+## `GetMintDetailsResponse`
+
+```ts
+type GetMintDetailsResponse = MintDetails | APIError;
+```
+
+## `BuildMintTransactionParams`
+
+```ts
+type BuildMintTransactionParams = {
+  mintAddress: Address;
+  takerAddress: Address;
+  tokenId?: string;
+  quantity: number;
+  network?: string;
+};
+```
+
+## `BuildMintTransactionResponse`
+
+```ts
+type BuildMintTransactionResponse = MintTransaction | APIError;
+```
+
+## `GetPortfoliosParams`
+
+```ts
+type GetPortfoliosParams = {
+  addresses: Address[] | null | undefined;
+};
+```
+
+## `GetPortfoliosResponse`
+
+```ts
+type GetPortfoliosResponse = {
+  portfolios: Portfolio[];
+};
+```
