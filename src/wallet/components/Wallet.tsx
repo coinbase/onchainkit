@@ -13,9 +13,15 @@ import { ConnectWallet } from './ConnectWallet';
 import { WalletAdvanced } from './WalletAdvanced';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
+import { Avatar, Name } from '@/identity';
 
 const defaultWalletChildren = {
-  connect: <ConnectWallet />,
+  connect: (
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" key="avatar" />
+      <Name key="name" />
+    </ConnectWallet>
+  ),
   dropdown: <WalletDropdown />,
   advanced: null,
 };
