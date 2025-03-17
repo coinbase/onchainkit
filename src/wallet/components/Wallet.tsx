@@ -1,5 +1,6 @@
 'use client';
 
+import { Avatar, Name } from '@/identity';
 import { Draggable } from '@/internal/components/Draggable/Draggable';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
@@ -13,7 +14,6 @@ import { ConnectWallet } from './ConnectWallet';
 import { WalletAdvanced } from './WalletAdvanced';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
-import { Avatar, Name } from '@/identity';
 
 const defaultWalletChildren = {
   connect: (
