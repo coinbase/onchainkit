@@ -1,6 +1,6 @@
 'use client';
 
-import { Identity } from '@/identity';
+import { Address, Avatar, EthBalance, Identity, Name } from '@/identity';
 import { zIndex } from '@/styles/constants';
 import { cn, color, pressable } from '@/styles/theme';
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
@@ -11,7 +11,12 @@ import { WalletDropdownLink } from './WalletDropdownLink';
 import { useWalletContext } from './WalletProvider';
 
 const defaultWalletDropdownChildren = [
-  <Identity className="px-4 pt-3 pb-2" key="wallet-dd-identity" />,
+  <Identity className="px-4 pt-3 pb-2" key="wallet-dd-identity">
+    <Avatar />
+    <Name />
+    <Address className={color.foregroundMuted} />
+    <EthBalance />
+  </Identity>,
   <WalletDropdownLink
     icon="wallet"
     key="wallet-dd-link"
