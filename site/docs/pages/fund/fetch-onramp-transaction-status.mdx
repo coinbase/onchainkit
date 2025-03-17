@@ -9,10 +9,12 @@ The `fetchOnrampTransactionStatus` utility retrieves the status of onramp transa
 ```tsx twoslash [code]
 import { fetchOnrampTransactionStatus } from '@coinbase/onchainkit/fund';
 
+// When using with OnchainKitProvider
 const transactions = await fetchOnrampTransactionStatus({
   partnerUserId: 'user123',
   nextPageKey: '',
   pageSize: '10',
+  apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in non-React environment
 });
 ```
 
@@ -48,6 +50,12 @@ const transactions = await fetchOnrampTransactionStatus({
   partnerUserId: string; // Your unique identifier for the user
   nextPageKey: string;   // Token for pagination
   pageSize: string;      // Number of transactions per page
+  /**
+   * Optional API key for Coinbase Onramp. If not provided, the API key from
+   * OnchainKitProvider will be used. Required when using the utility without
+   * OnchainKitProvider or in a non-React environment.
+   */
+  apiKey?: string;
 }
 ```
 
