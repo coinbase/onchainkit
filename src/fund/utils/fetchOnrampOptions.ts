@@ -12,11 +12,13 @@ import type { OnrampOptionsResponseData } from '../types';
 export async function fetchOnrampOptions({
   country,
   subdivision,
+  apiKey,
 }: {
   country: string;
   subdivision?: string;
+  apiKey?: string;
 }): Promise<OnrampOptionsResponseData> {
-  const apiKey = getApiKey();
+  const cpdApiKey = apiKey || getApiKey();
 
   let queryParams = `?country=${country}`;
 
@@ -29,7 +31,7 @@ export async function fetchOnrampOptions({
     {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${cpdApiKey}`,
       },
     },
   );
