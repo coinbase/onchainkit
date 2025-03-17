@@ -35,7 +35,7 @@ jobs:
       - name: Get Version
         id: get_version
         run: |
-          VERSION=$(grep -oP "export const version = '\K[^']+" src/version.ts)
+          VERSION=$(grep -o "export const version = '[^']*'" src/version.ts | cut -d"'" -f2)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       # https://github.com/changesets/action#with-publishing
