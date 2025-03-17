@@ -37,11 +37,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
     environment: 'jsdom',
-    exclude: [
-      '**/node_modules/**',
-      'playground/**',
-      'create-onchain/**',
-    ],
+    exclude: ['**/node_modules/**', 'playground/**', 'create-onchain/**'],
     setupFiles: ['./vitest.setup.ts'],
     globals: true,
   },

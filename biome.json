@@ -64,9 +64,7 @@
         "useSingleCaseStatement": "error"
       }
     },
-    "ignore": [
-      "src/internal/hooks/useDebounce.ts"
-    ]
+    "ignore": ["src/internal/hooks/useDebounce.ts"]
   },
   "json": {
     "formatter": {
