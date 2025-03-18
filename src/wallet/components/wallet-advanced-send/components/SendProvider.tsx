@@ -1,8 +1,9 @@
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { RequestContext } from '@/core/network/constants';
-import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
+import { usePriceQuote } from '@/internal/hooks/usePriceQuote';
 import { useValue } from '@/internal/hooks/useValue';
+import { isApiError } from '@/internal/utils/isApiResponseError';
 import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
 import {
   createContext,
@@ -107,13 +108,24 @@ export function SendProvider({ children }: SendProviderReact) {
   }, [ethBalance, updateLifecycleStatus]);
 
   // fetch & set exchange rate
-  const { isLoading: exchangeRateLoading, exchangeRate } = useExchangeRate(
-    {
-      token: selectedToken?.address === '' ? 'ETH' : selectedToken?.address,
-      selectedInputType,
-    },
-    RequestContext.Wallet,
-  );
+  const { isLoading: exchangeRateLoading, data: exchangeRateData } =
+    usePriceQuote(
+      {
+        token: selectedToken?.address === '' ? 'ETH' : selectedToken?.address,
+      },
+      RequestContext.Wallet,
+    );
+  const exchangeRate = useMemo(() => {
+    if (
+      !exchangeRateData ||
+      isApiError(exchangeRateData) ||
+      exchangeRateData.priceQuotes.length === 0
+    ) {
+      return 0;
+    }
+
+    return 1 / Number(exchangeRateData.priceQuotes[0].price);
+  }, [exchangeRateData]);
 
   // handlers
   const handleRecipientInputChange = useCallback(() => {

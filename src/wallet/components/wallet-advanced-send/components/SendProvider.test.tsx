@@ -1,5 +1,5 @@
 import { RequestContext } from '@/core/network/constants';
-import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
+import { usePriceQuote } from '@/internal/hooks/usePriceQuote';
 import { act, render, renderHook } from '@testing-library/react';
 import { formatUnits } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -10,8 +10,11 @@ vi.mock('../../WalletAdvancedProvider', () => ({
   useWalletAdvancedContext: vi.fn(),
 }));
 
-vi.mock('@/internal/hooks/useExchangeRate', () => ({
-  useExchangeRate: vi.fn().mockReturnValue(Promise.resolve()),
+vi.mock('@/internal/hooks/usePriceQuote', () => ({
+  usePriceQuote: vi.fn().mockReturnValue({
+    isLoading: undefined,
+    data: null,
+  }),
 }));
 
 vi.mock('../hooks/useSendTransaction', () => ({
@@ -68,7 +71,7 @@ describe('useSendContext', () => {
       handleFiatAmountChange: expect.any(Function),
       cryptoAmount: null,
       handleCryptoAmountChange: expect.any(Function),
-      exchangeRate: undefined,
+      exchangeRate: 0,
       exchangeRateLoading: undefined,
       selectedInputType: 'crypto',
       setSelectedInputType: expect.any(Function),
@@ -284,7 +287,7 @@ describe('useSendContext', () => {
     expect(result.current.selectedInputType).toBe('fiat');
   });
 
-  it('should call useExchangeRate with correct parameters when ETH token is selected', () => {
+  it('should call usePriceQuote with correct parameters when ETH token is selected', () => {
     const { result } = renderHook(() => useSendContext(), {
       wrapper: SendProvider,
     });
@@ -304,16 +307,15 @@ describe('useSendContext', () => {
       result.current.handleTokenSelection(ethToken);
     });
 
-    expect(useExchangeRate).toHaveBeenCalledWith(
+    expect(usePriceQuote).toHaveBeenCalledWith(
       {
         token: 'ETH',
-        selectedInputType: 'crypto',
       },
       RequestContext.Wallet,
     );
   });
 
-  it('should call useExchangeRate with token address for non-ETH tokens', () => {
+  it('should call usePriceQuote with token address for non-ETH tokens', () => {
     const { result } = renderHook(() => useSendContext(), {
       wrapper: SendProvider,
     });
@@ -333,16 +335,15 @@ describe('useSendContext', () => {
       result.current.handleTokenSelection(usdcToken);
     });
 
-    expect(useExchangeRate).toHaveBeenCalledWith(
+    expect(usePriceQuote).toHaveBeenCalledWith(
       {
         token: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-        selectedInputType: 'crypto',
       },
       RequestContext.Wallet,
     );
   });
 
-  it('should call useExchangeRate when selectedInputType changes', () => {
+  it('should call usePriceQuote when selectedInputType changes', () => {
     const { result } = renderHook(() => useSendContext(), {
       wrapper: SendProvider,
     });
@@ -368,12 +369,161 @@ describe('useSendContext', () => {
       result.current.setSelectedInputType('fiat');
     });
 
-    expect(useExchangeRate).toHaveBeenCalledWith(
+    expect(usePriceQuote).toHaveBeenCalledWith(
       {
         token: 'ETH',
-        selectedInputType: 'fiat',
       },
       RequestContext.Wallet,
     );
+  });
+
+  it('should return the correct exchange rate when the price quote is loaded', () => {
+    vi.resetAllMocks();
+
+    mockUseWalletAdvancedContext.mockReturnValue({
+      tokenBalances: [
+        {
+          address: '0x0000000000000000000000000000000000000000',
+          symbol: 'USDC',
+          decimals: 6,
+          cryptoBalance: '2000000000000000000',
+          fiatBalance: 4000,
+        },
+      ],
+    });
+
+    const mockUsePriceQuote = usePriceQuote as ReturnType<typeof vi.fn>;
+    mockUsePriceQuote.mockReturnValue({
+      isLoading: false,
+      data: {
+        priceQuotes: [
+          {
+            name: 'Ethereum',
+            symbol: 'ETH',
+            contractAddress: '',
+            price: '2000',
+            timestamp: 1714761600,
+          },
+        ],
+      },
+    });
+
+    const { result } = renderHook(() => useSendContext(), {
+      wrapper: SendProvider,
+    });
+
+    const ethToken = {
+      name: 'Ethereum',
+      symbol: 'ETH',
+      address: '' as const,
+      decimals: 18,
+      cryptoBalance: 200000000000000,
+      fiatBalance: 4000,
+      chainId: 8453,
+      image: '',
+    };
+
+    act(() => {
+      result.current.handleTokenSelection(ethToken);
+    });
+
+
+    expect(result.current.exchangeRate).toBe(1 / 2000);
+  });
+
+  it('should return 0 for exchange rate when the price quote response is empty', () => {
+    vi.resetAllMocks();
+
+    mockUseWalletAdvancedContext.mockReturnValue({
+      tokenBalances: [
+        {
+          address: '0x0000000000000000000000000000000000000000',
+          symbol: 'USDC',
+          decimals: 6,
+          cryptoBalance: '2000000000000000000',
+          fiatBalance: 4000,
+        },
+      ],
+    });
+
+    const mockUsePriceQuote = usePriceQuote as ReturnType<typeof vi.fn>;
+    mockUsePriceQuote.mockReturnValue({
+      isLoading: false,
+      data: {
+        priceQuotes: [],
+      },
+    });
+
+    const { result } = renderHook(() => useSendContext(), {
+      wrapper: SendProvider,
+    });
+
+    const ethToken = {
+      name: 'Ethereum',
+      symbol: 'ETH',
+      address: '' as const,
+      decimals: 18,
+      cryptoBalance: 200000000000000,
+      fiatBalance: 4000,
+      chainId: 8453,
+      image: '',
+    };
+
+    act(() => {
+      result.current.handleTokenSelection(ethToken);
+    });
+
+
+    expect(result.current.exchangeRate).toBe(0);
+  });
+
+  it('should return 0 for exchange rate when the price quote response is an error', () => {
+    vi.resetAllMocks();
+
+    mockUseWalletAdvancedContext.mockReturnValue({
+      tokenBalances: [
+        {
+          address: '0x0000000000000000000000000000000000000000',
+          symbol: 'USDC',
+          decimals: 6,
+          cryptoBalance: '2000000000000000000',
+          fiatBalance: 4000,
+        },
+      ],
+    });
+
+    const mockUsePriceQuote = usePriceQuote as ReturnType<typeof vi.fn>;
+    mockUsePriceQuote.mockReturnValue({
+      isLoading: false,
+      data: {
+        error: {
+          code: 'error',
+          message: 'error',
+          error: 'error',
+        },
+      },
+    });
+
+    const { result } = renderHook(() => useSendContext(), {
+      wrapper: SendProvider,
+    });
+
+    const ethToken = {
+      name: 'Ethereum',
+      symbol: 'ETH',
+      address: '' as const,
+      decimals: 18,
+      cryptoBalance: 200000000000000,
+      fiatBalance: 4000,
+      chainId: 8453,
+      image: '',
+    };
+
+    act(() => {
+      result.current.handleTokenSelection(ethToken);
+    });
+
+
+    expect(result.current.exchangeRate).toBe(0);
   });
 });
