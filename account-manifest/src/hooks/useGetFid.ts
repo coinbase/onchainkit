@@ -15,8 +15,6 @@ const ID_REGISTRY_ABI = [
   },
 ];
 
-// TODO: will delegate accounts exist on the ID registry linked to an FID?
-
 export function useGetFid() {
   return async function getFid(address: Address) {
     const client = createPublicClient({

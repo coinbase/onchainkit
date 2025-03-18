@@ -66,6 +66,7 @@ export function useSignManifest({
     const payload = {
       domain: domain.replace(/^(http|https):\/\//, ''),
     };
+    console.log(' payload:', payload);
 
     encodedHeader.current = toBase64Url(JSON.stringify(header));
     encodedPayload.current = toBase64Url(JSON.stringify(payload));
