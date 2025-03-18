@@ -427,7 +427,6 @@ describe('useSendContext', () => {
       result.current.handleTokenSelection(ethToken);
     });
 
-
     expect(result.current.exchangeRate).toBe(1 / 2000);
   });
 
@@ -472,7 +471,6 @@ describe('useSendContext', () => {
     act(() => {
       result.current.handleTokenSelection(ethToken);
     });
-
 
     expect(result.current.exchangeRate).toBe(0);
   });
@@ -522,7 +520,6 @@ describe('useSendContext', () => {
     act(() => {
       result.current.handleTokenSelection(ethToken);
     });
-
 
     expect(result.current.exchangeRate).toBe(0);
   });
