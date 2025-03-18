@@ -134,7 +134,7 @@ function Page() {
         <Step
           number={1}
           label="Connect your wallet"
-          description="Set up a wallet using your warpcast recovery key.  This is available in warp cast under settings/account."
+          description="Set up a wallet using your Warpcast recovery key.  This is available in the Warpcast mobile app under settings/account."
         >
           <Wallet>
             <ConnectWallet className="w-full">
@@ -182,7 +182,7 @@ function Page() {
             {fid === 0 ? (
               <p className="text-red-500">
                 There is no FID associated with this account, please connect
-                with your TBA passkey account.
+                with your Coinbase Wallet account.
               </p>
             ) : (
               <p>Your FID is {fid}</p>
