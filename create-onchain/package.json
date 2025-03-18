@@ -1,7 +1,7 @@
 {
   "name": "create-onchain",
   "description": "Instantly create onchain applications with OnchainKit.",
-  "version": "0.0.16",
+  "version": "0.0.17-alpha.2",
   "license": "MIT",
   "scripts": {
     "build": "bun run clean && bun run build:esm+types && bun run build:manifest",
@@ -21,9 +21,7 @@
     "!src/**/*.test-d.ts",
     "templates/**"
   ],
-  "bin": {
-    "create-onchain": "./dist/esm/cli.js"
-  },
+  "bin": "./dist/esm/cli.js",
   "sideEffects": false,
   "type": "module",
   "exports": {
