@@ -10,7 +10,7 @@ import { Name } from './Name';
 import { Socials } from './Socials';
 
 type IdentityLayoutReact = {
-  children?: ReactNode;
+  children: ReactNode;
   className?: string;
   hasCopyAddressOnClick?: boolean;
 };
