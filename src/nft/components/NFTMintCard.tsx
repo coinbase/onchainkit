@@ -9,9 +9,30 @@ import { buildMintTransactionData as defaultBuildMintTransaction } from '@/nft/u
 import { background, border, cn, color } from '../../styles/theme';
 import NFTErrorBoundary from './NFTErrorBoundary';
 import { NFTErrorFallback } from './NFTErrorFallback';
+import {
+  NFTAssetCost,
+  NFTCollectionTitle,
+  NFTCreator,
+  NFTMintButton,
+  NFTQuantitySelector,
+} from '@/nft/components/mint';
+import { NFTMedia } from './view';
+
+function NFTMintCardDefaultContent() {
+  return (
+    <>
+      <NFTCreator />
+      <NFTMedia />
+      <NFTCollectionTitle />
+      <NFTQuantitySelector />
+      <NFTAssetCost />
+      <NFTMintButton />
+    </>
+  );
+}
 
 export function NFTMintCard({
-  children,
+  children = <NFTMintCardDefaultContent />,
   className,
   contractAddress,
   tokenId,
