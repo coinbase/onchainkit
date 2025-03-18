@@ -21,9 +21,7 @@
     "!src/**/*.test-d.ts",
     "templates/**"
   ],
-  "bin": {
-    "create-onchain": "./dist/esm/cli.js"
-  },
+  "bin": "./dist/esm/cli.js",
   "sideEffects": false,
   "type": "module",
   "exports": {
