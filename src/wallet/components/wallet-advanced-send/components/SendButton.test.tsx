@@ -8,7 +8,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
 import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
-import { getSendTransaction } from '../utils/getSendTransaction';
+import { getSendCalldata } from '../utils/getSendCalldata';
 import { SendButton } from './SendButton';
 import { useSendContext } from './SendProvider';
 
@@ -24,8 +24,8 @@ vi.mock('../../WalletAdvancedProvider', () => ({
   useWalletAdvancedContext: vi.fn(),
 }));
 
-vi.mock('../utils/getSendTransaction', () => ({
-  getSendTransaction: vi.fn(),
+vi.mock('../utils/getSendCalldata', () => ({
+  getSendCalldata: vi.fn(),
 }));
 
 vi.mock('./SendProvider', () => ({
@@ -105,7 +105,7 @@ describe('SendButton', () => {
   >;
   const mockDefaultSendTxSuccessHandler =
     defaultSendTxSuccessHandler as ReturnType<typeof vi.fn>;
-  const mockGetSendTransaction = getSendTransaction as ReturnType<typeof vi.fn>;
+  const mockGetSendCalldata = getSendCalldata as ReturnType<typeof vi.fn>;
 
   const mockWalletContext = {
     chain: mockChain,
@@ -141,7 +141,7 @@ describe('SendButton', () => {
     mockUseWalletAdvancedContext.mockReturnValue(mockWalletAdvancedContext);
     mockUseSendContext.mockReturnValue(mockSendContext);
     mockUseTransactionContext.mockReturnValue(mockTransactionContext);
-    mockGetSendTransaction.mockReturnValue(mockTransactionData);
+    mockGetSendCalldata.mockReturnValue(mockTransactionData);
   });
 
   it('renders with default props', () => {
@@ -244,7 +244,7 @@ describe('SendButton', () => {
   });
 
   it('uses empty calls array when callData is null', () => {
-    mockGetSendTransaction.mockReturnValue({
+    mockGetSendCalldata.mockReturnValue({
       ...mockTransactionData,
       calldata: null,
     });

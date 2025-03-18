@@ -19,7 +19,7 @@ import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
 import type { SendLifecycleStatus } from '../types';
 import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
-import { getSendTransaction } from '../utils/getSendTransaction';
+import { getSendCalldata } from '../utils/getSendCalldata';
 import { useSendContext } from './SendProvider';
 
 type SendButtonProps = {
@@ -48,7 +48,7 @@ export function SendButton({
     updateLifecycleStatus,
   } = useSendContext();
 
-  const { calldata, error } = getSendTransaction({
+  const { calldata, error } = getSendCalldata({
     recipientAddress: selectedRecipientAddress.value,
     token: selectedToken,
     amount: inputAmount,
