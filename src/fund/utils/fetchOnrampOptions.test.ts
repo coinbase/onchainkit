@@ -53,6 +53,20 @@ describe('fetchOnrampOptions', () => {
     });
   });
 
+  it('should use provided apiKey when available', async () => {
+    const customApiKey = 'custom-api-key';
+    await fetchOnrampOptions({ country, subdivision, apiKey: customApiKey });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      `${ONRAMP_API_BASE_URL}/buy/options?country=${country}&subdivision=${subdivision}`,
+      expect.objectContaining({
+        headers: {
+          Authorization: `Bearer ${customApiKey}`,
+        },
+      }),
+    );
+  });
+
   it('should handle fetch errors', async () => {
     (global.fetch as Mock).mockRejectedValue(new Error('Fetch error'));
 

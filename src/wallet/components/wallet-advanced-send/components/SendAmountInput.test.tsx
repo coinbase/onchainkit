@@ -1,11 +1,14 @@
 import { AmountInput } from '@/internal/components/amount-input/AmountInput';
 import { render } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { SendAmountInput } from './SendAmountInput';
-import { SendAmountInputTypeSwitch } from './SendAmountInputTypeSwitch';
+import { useSendContext } from './SendProvider';
 
 vi.mock('@/internal/components/amount-input/AmountInput');
 vi.mock('./SendAmountInputTypeSwitch');
+vi.mock('./SendProvider', () => ({
+  useSendContext: vi.fn(),
+}));
 
 const mockToken = {
   symbol: 'ETH',
@@ -18,36 +21,46 @@ const mockToken = {
   fiatBalance: 3300,
 };
 
+const defaultContext = {
+  selectedToken: mockToken,
+  cryptoAmount: '1.0',
+  handleCryptoAmountChange: vi.fn(),
+  fiatAmount: '2000',
+  handleFiatAmountChange: vi.fn(),
+  selectedInputType: 'crypto' as const,
+  setSelectedInputType: vi.fn(),
+  exchangeRate: 2000,
+  exchangeRateLoading: false,
+  className: 'test-class',
+  textClassName: 'test-text-class',
+};
+
 describe('SendAmountInput', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    (useSendContext as Mock).mockReturnValue(defaultContext);
   });
 
-  const defaultProps = {
-    selectedToken: mockToken,
-    cryptoAmount: '1.0',
-    handleCryptoAmountChange: vi.fn(),
-    fiatAmount: '2000',
-    handleFiatAmountChange: vi.fn(),
-    selectedInputType: 'crypto' as const,
-    setSelectedInputType: vi.fn(),
-    exchangeRate: 2000,
-    exchangeRateLoading: false,
-    className: 'test-class',
-    textClassName: 'test-text-class',
-  };
-
   it('passes correct props to AmountInput', () => {
-    render(<SendAmountInput {...defaultProps} />);
+    (useSendContext as Mock).mockReturnValue({
+      ...defaultContext,
+    });
+
+    render(
+      <SendAmountInput
+        className="test-class"
+        textClassName="test-text-class"
+      />,
+    );
     expect(AmountInput).toHaveBeenCalledWith(
       {
-        fiatAmount: defaultProps.fiatAmount,
-        cryptoAmount: defaultProps.cryptoAmount,
-        asset: defaultProps.selectedToken.symbol,
+        fiatAmount: defaultContext.fiatAmount,
+        cryptoAmount: defaultContext.cryptoAmount,
+        asset: defaultContext.selectedToken.symbol,
         currency: 'USD',
-        selectedInputType: defaultProps.selectedInputType,
-        setFiatAmount: defaultProps.handleFiatAmountChange,
-        setCryptoAmount: defaultProps.handleCryptoAmountChange,
+        selectedInputType: defaultContext.selectedInputType,
+        setFiatAmount: defaultContext.handleFiatAmountChange,
+        setCryptoAmount: defaultContext.handleCryptoAmountChange,
         exchangeRate: '2000',
         className: 'test-class',
         textClassName: 'test-text-class',
@@ -56,32 +69,20 @@ describe('SendAmountInput', () => {
     );
   });
 
-  it('passes correct props to SendAmountInputTypeSwitch', () => {
-    render(<SendAmountInput {...defaultProps} />);
-    expect(SendAmountInputTypeSwitch).toHaveBeenCalledWith(
-      {
-        selectedToken: defaultProps.selectedToken,
-        fiatAmount: defaultProps.fiatAmount,
-        cryptoAmount: defaultProps.cryptoAmount,
-        selectedInputType: defaultProps.selectedInputType,
-        setSelectedInputType: defaultProps.setSelectedInputType,
-        exchangeRate: defaultProps.exchangeRate,
-        exchangeRateLoading: defaultProps.exchangeRateLoading,
-      },
-      {},
-    );
-  });
-
   it('handles null/undefined values correctly', () => {
+    (useSendContext as Mock).mockReturnValue({
+      ...defaultContext,
+      selectedToken: null,
+      fiatAmount: null,
+      cryptoAmount: null,
+    });
+
     render(
       <SendAmountInput
-        {...defaultProps}
-        selectedToken={null}
-        fiatAmount={null}
-        cryptoAmount={null}
+        className="test-class"
+        textClassName="test-text-class"
       />,
     );
-
     expect(AmountInput).toHaveBeenCalledWith(
       {
         fiatAmount: '',
@@ -89,24 +90,11 @@ describe('SendAmountInput', () => {
         asset: '',
         currency: 'USD',
         selectedInputType: 'crypto',
-        setFiatAmount: defaultProps.handleFiatAmountChange,
-        setCryptoAmount: defaultProps.handleCryptoAmountChange,
+        setFiatAmount: defaultContext.handleFiatAmountChange,
+        setCryptoAmount: defaultContext.handleCryptoAmountChange,
         exchangeRate: '2000',
         className: 'test-class',
         textClassName: 'test-text-class',
-      },
-      {},
-    );
-
-    expect(SendAmountInputTypeSwitch).toHaveBeenCalledWith(
-      {
-        selectedToken: null,
-        fiatAmount: '',
-        cryptoAmount: '',
-        selectedInputType: defaultProps.selectedInputType,
-        setSelectedInputType: defaultProps.setSelectedInputType,
-        exchangeRate: defaultProps.exchangeRate,
-        exchangeRateLoading: defaultProps.exchangeRateLoading,
       },
       {},
     );
