@@ -67,6 +67,10 @@ export type AvatarReact = {
 export type BadgeReact = {
   /** Optional className override for top span element. */
   className?: string;
+  /** Controls whether the badge shows a tooltip on hover. Defaults to true. */
+  tooltip?: boolean;
+  /** Custom text to display in the badge tooltip. Defaults to the attestation name if not provided. */
+  tooltipText?: string;
 };
 
 /**

@@ -14,6 +14,10 @@ type IdentityCardReact = {
   chain?: Chain;
   className?: string;
   schemaId?: Address | null;
+  /** Controls whether the badge shows a tooltip on hover. Defaults to false. */
+  badgeTooltip?: boolean;
+  /** Custom text to display in the badge tooltip. Defaults to the attestation name if not provided. */
+  badgeTooltipText?: string;
 };
 
 export function IdentityCard({
@@ -21,6 +25,8 @@ export function IdentityCard({
   chain,
   className = '',
   schemaId,
+  badgeTooltip,
+  badgeTooltipText,
 }: IdentityCardReact) {
   return (
     <Identity
@@ -37,7 +43,7 @@ export function IdentityCard({
     >
       <Avatar />
       <Name>
-        <Badge />
+        <Badge tooltip={badgeTooltip} tooltipText={badgeTooltipText} />
       </Name>
       <AddressComponent />
       <Socials />
