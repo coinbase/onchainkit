@@ -1,95 +1,118 @@
 'use client';
 import { useAttestations } from '@/identity/hooks/useAttestations';
 import type { BadgeReact } from '@/identity/types';
-import { Popover } from '@/internal/components/Popover';
 import { badgeSvg } from '@/internal/svg/badgeSvg';
-import { background, cn } from '@/styles/theme';
-import { border, color, pressable, text } from '@/styles/theme';
-import { useOnchainKit } from '@/useOnchainKit';
-import { useCallback, useRef, useState } from 'react';
+import { zIndex } from '@/styles/constants';
+import { background, border, cn, color, pressable, text } from '@/styles/theme';
+import { useState } from 'react';
+import { useOnchainKit } from '../../useOnchainKit';
 import { useIdentityContext } from './IdentityProvider';
 
 /**
  * Badge component.
  */
-export function Badge({
-  className,
-  tooltipText,
-  tooltip = !!tooltipText, // Default to true if tooltipText exists
-}: BadgeReact) {
-  // TODO: Implement the Badge component as span and CSS without an SVG element.
-  const badgeRef = useRef<HTMLSpanElement>(null);
-  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
-  const { chain, schemaId } = useOnchainKit();
-  const { schemaId: contextSchemaId, address: contextAddress } =
-    useIdentityContext();
+export function Badge({ className, tooltip = false, tooltipText }: BadgeReact) {
+  const [showTooltip, setShowTooltip] = useState(false);
+  const { address, schemaId: contextSchemaId } = useIdentityContext();
+  const { chain, schemaId: kitSchemaId } = useOnchainKit();
+
+  // If tooltipText is provided, tooltip should be enabled
+  const showTooltipFeature = tooltipText ? true : tooltip;
 
   const attestations = useAttestations({
-    address: contextAddress,
+    address,
     chain,
-    schemaId: contextSchemaId ?? schemaId,
+    schemaId: contextSchemaId ?? kitSchemaId,
   });
 
-  const handleMouseEnter = useCallback(() => {
-    if (tooltip) {
-      setIsTooltipOpen(true);
-    }
-  }, [tooltip]);
+  // Extract displayText from attestation or use default
+  const displayText = tooltipText ?? extractAttestationName(attestations[0]);
 
-  const handleMouseLeave = useCallback(() => {
-    setIsTooltipOpen(false);
-  }, []);
-
-  // Use tooltipText if provided, otherwise fall back to the attestation name
-  const displayText =
-    tooltipText ??
-    (attestations[0]?.decodedDataJson
-      ? JSON.parse(attestations[0].decodedDataJson)[0]?.name
-      : null);
+  const badgeSize = '12px';
 
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-flex" data-testid="ockBadgeContainer">
       <span
-        ref={badgeRef}
         className={cn(
           background.primary,
-          'h-3 w-3 max-h-3 max-w-3',
-          'rounded-full border border-transparent inline-block',
-          tooltip && 'cursor-default group',
+          border.default,
+          border.radius,
+          showTooltipFeature && 'cursor-pointer',
           className,
         )}
+        style={{
+          height: badgeSize,
+          width: badgeSize,
+          maxHeight: badgeSize,
+          maxWidth: badgeSize,
+        }}
         data-testid="ockBadge"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        {...(showTooltipFeature && {
+          onMouseEnter: () => setShowTooltip(true),
+          onMouseLeave: () => setShowTooltip(false),
+        })}
       >
         {badgeSvg}
       </span>
-      {tooltip && displayText && (
-        <Popover
-          anchor={badgeRef.current}
-          isOpen={isTooltipOpen}
-          onClose={() => setIsTooltipOpen(false)}
-          position="top"
-          align="center"
-          offset={4}
-          trigger={badgeRef}
+      {showTooltip && showTooltipFeature && (
+        <div
+          className={cn(
+            border.radius,
+            border.default,
+            pressable.alternate,
+            text.legal,
+            color.foreground,
+            zIndex.tooltip,
+            'absolute bottom-full left-1/2 mb-1 -translate-x-1/2 transform',
+            'whitespace-nowrap px-1.5 py-0.5',
+          )}
+          data-testid="ockBadgeTooltip"
         >
+          {displayText}
           <div
             className={cn(
-              pressable.alternate,
-              text.legal,
-              color.foreground,
-              border.default,
-              border.radius,
-              'rounded-md bg-gray-900 px-2 py-1 text-xs text-white whitespace-nowrap',
+              'absolute left-1/2 top-full -translate-x-1/2 transform',
             )}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            {displayText}
-          </div>
-        </Popover>
+          />
+        </div>
       )}
     </div>
   );
+}
+
+/**
+ * Extracts the attestation name from an attestation object
+ */
+function extractAttestationName(attestation?: any): string {
+  if (!attestation?.decodedDataJson) {
+    return 'Verified';
+  }
+
+  try {
+    const decodedData = JSON.parse(attestation.decodedDataJson);
+
+    if (Array.isArray(decodedData) && decodedData[0]?.name) {
+      return decodedData[0].name;
+    }
+
+    const firstKey = Object.keys(decodedData)[0];
+    const value = decodedData[firstKey];
+
+    if (typeof value === 'string') {
+      return value;
+    }
+
+    if (
+      value &&
+      typeof value === 'object' &&
+      'value' in value &&
+      typeof value.value === 'string'
+    ) {
+      return value.value;
+    }
+  } catch {
+    // If parsing fails, return default
+  }
+
+  return 'Verified';
 }
