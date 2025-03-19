@@ -23,7 +23,7 @@ export function Identity({
 
   return (
     <IdentityProvider
-      address={address || addressProp}
+      address={addressProp || address}
       schemaId={schemaId}
       chain={accountChain}
     >

@@ -54,6 +54,108 @@ describe('WalletAdvanced', () => {
     vi.clearAllMocks();
   });
 
+  it('should render WalletAdvanced right-aligned when there is not enough space on the right', () => {
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 500,
+    });
+
+    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
+      isSubComponentOpen: true,
+      alignSubComponentRight: true,
+    });
+
+    render(
+      <Wallet>
+        <ConnectWallet />
+        <WalletAdvanced>
+          <div>Wallet Advanced</div>
+        </WalletAdvanced>
+      </Wallet>,
+    );
+
+    expect(screen.getByTestId('ockWalletAdvancedContainer')).toHaveClass(
+      'right-0',
+    );
+  });
+
+  it('should render WalletAdvanced left-aligned when there is enough space on the right', () => {
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 1000,
+    });
+
+    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
+      isSubComponentOpen: true,
+    });
+
+    render(
+      <Wallet>
+        <ConnectWallet />
+        <WalletAdvanced>
+          <div>Wallet Advanced</div>
+        </WalletAdvanced>
+      </Wallet>,
+    );
+
+    expect(screen.getByTestId('ockWalletAdvancedContainer')).toHaveClass(
+      'left-0',
+    );
+  });
+
+  it('should render WalletAdvanced above ConnectWallet when there is not enough space on the bottom', () => {
+    Object.defineProperty(window, 'innerHeight', {
+      writable: true,
+      configurable: true,
+      value: 1000,
+    });
+
+    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
+      isSubComponentOpen: true,
+      showSubComponentAbove: true,
+    });
+
+    render(
+      <Wallet>
+        <ConnectWallet />
+        <WalletAdvanced>
+          <div>Wallet Advanced</div>
+        </WalletAdvanced>
+      </Wallet>,
+    );
+
+    expect(screen.getByTestId('ockWalletAdvancedContainer')).toHaveClass(
+      'bottom-full',
+    );
+  });
+
+  it('should render WalletAdvanced below ConnectWallet when there is enough space on the bottom', () => {
+    Object.defineProperty(window, 'innerHeight', {
+      writable: true,
+      configurable: true,
+      value: 1000,
+    });
+
+    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
+      isSubComponentOpen: true,
+    });
+
+    render(
+      <Wallet>
+        <ConnectWallet />
+        <WalletAdvanced>
+          <div>Wallet Advanced</div>
+        </WalletAdvanced>
+      </Wallet>,
+    );
+
+    expect(screen.getByTestId('ockWalletAdvancedContainer')).toHaveClass(
+      'top-full',
+    );
+  });
+
   it('renders connect-wallet when isSubComponentOpen is false', () => {
     mockUseWalletContext.mockReturnValue({ isSubComponentOpen: false });
 
