@@ -4,12 +4,10 @@ import { usePreferredColorScheme } from './usePreferredColorScheme';
 
 export function useTheme(): UseThemeReact {
   const preferredMode = usePreferredColorScheme();
-  const {
-    config: { appearance } = {},
-  } = useOnchainKit();
+  const { config: { appearance } = {} } = useOnchainKit();
   const { theme = 'default', mode = 'auto' } = appearance || {};
 
-  if (theme === 'cyberpunk' || theme === 'base' || theme === 'hacker') {
+  if (theme === 'cyberpunk' || theme === 'hacker') {
     return theme;
   }
 
