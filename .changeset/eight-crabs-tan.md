@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **feat**: Add Badge tooltip display. By @cpcramer #2140
+- **feat**: Added `Badge` tooltip display. By @cpcramer #2140
