@@ -14,7 +14,7 @@ type IdentityCardReact = {
   chain?: Chain;
   className?: string;
   schemaId?: Address | null;
-  /** Controls whether the badge shows a tooltip on hover. When a string is provided, it shows that text in the tooltip. Defaults to false. */
+  /** Controls whether the badge shows a tooltip on hover. When true, the tooltip displays the attestation's name. When a string is provided, it overrides the default and shows that text in the tooltip. Defaults to false. */
   badgeTooltip?: boolean | string;
 };
 
