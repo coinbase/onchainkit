@@ -218,7 +218,7 @@ describe('Badge Component', () => {
     expect(screen.getByTestId('ockBadgeTooltip')).toHaveTextContent('Verified');
   });
 
-  it('should use context schemaId if available', async () => {
+  it('should use context schemaId if tooltip is enabled', async () => {
     vi.mocked(useIdentityContext).mockReturnValue({
       address: '0x123',
       schemaId: '0xcontextSchema',
@@ -237,7 +237,7 @@ describe('Badge Component', () => {
       },
     });
 
-    render(<Badge />);
+    render(<Badge tooltip={true} />);
 
     expect(useAttestations).toHaveBeenCalledWith({
       address: '0x123',
@@ -246,7 +246,35 @@ describe('Badge Component', () => {
     });
   });
 
-  it('should fall back to kit schemaId if context schemaId is not available', async () => {
+  it('should pass null schemaId when tooltip is disabled', async () => {
+    vi.mocked(useIdentityContext).mockReturnValue({
+      address: '0x123',
+      schemaId: '0xcontextSchema',
+    });
+
+    vi.mocked(useOnchainKit).mockReturnValue({
+      address: null,
+      apiKey: null,
+      chain: base,
+      rpcUrl: null,
+      schemaId: '0xkitSchema',
+      projectId: null,
+      sessionId: null,
+      config: {
+        appearance: {},
+      },
+    });
+
+    render(<Badge tooltip={false} />);
+
+    expect(useAttestations).toHaveBeenCalledWith({
+      address: '0x123',
+      chain: base,
+      schemaId: null,
+    });
+  });
+
+  it('should fall back to kit schemaId if context schemaId is not available and tooltip is enabled', async () => {
     vi.mocked(useIdentityContext).mockReturnValue({
       address: '0x123',
       schemaId: null,
@@ -265,7 +293,7 @@ describe('Badge Component', () => {
       },
     });
 
-    render(<Badge />);
+    render(<Badge tooltip={true} />);
 
     expect(useAttestations).toHaveBeenCalledWith({
       address: '0x123',

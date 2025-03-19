@@ -28,14 +28,14 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
   const { address, schemaId: contextSchemaId } = useIdentityContext();
   const { chain, schemaId: kitSchemaId } = useOnchainKit();
 
+  // Only enable tooltip if tooltip is true or a string
+  const showTooltipFeature = Boolean(tooltip);
+
   const attestations = useAttestations({
     address,
     chain,
-    schemaId: contextSchemaId ?? kitSchemaId,
+    schemaId: showTooltipFeature ? contextSchemaId ?? kitSchemaId : null,
   });
-
-  // Only enable tooltip if tooltip is true or a string
-  const showTooltipFeature = Boolean(tooltip);
 
   // Get tooltip text from tooltip prop or attestation
   const displayText = useMemo(() => {
