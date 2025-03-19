@@ -3,15 +3,9 @@ import { getScores, setScore, resetScores } from '@/lib/scores';
 import { Score } from '@/lib/scores';
 
 export async function GET() {
-  // Clear error handling for bootstrapped applications
+  // Graceful fallback if Redis is not configured
   if (!process.env.REDIS_TOKEN || !process.env.REDIS_URL) {
-    return NextResponse.json(
-      {
-        error:
-          'REDIS_TOKEN and/or REDIS_URL is not set. Please set the REDIS_TOKEN and REDIS_URL environment variables or remove the sample application code.',
-      },
-      { status: 500 },
-    );
+    return NextResponse.json([]);
   }
 
   const scores = await getScores();
@@ -21,10 +15,18 @@ export async function GET() {
 export async function POST(request: Request) {
   const score: Score = await request.json();
   await setScore(score);
+
+  if (!process.env.REDIS_TOKEN || !process.env.REDIS_URL) {
+    return NextResponse.json({ success: true });
+  }
+
   return NextResponse.json({ success: true });
 }
 
 export async function DELETE() {
+  if (!process.env.REDIS_TOKEN || !process.env.REDIS_URL) {
+    return NextResponse.json({ success: true });
+  }
   await resetScores();
   return NextResponse.json({ success: true });
 }

@@ -142,6 +142,5 @@ export const useAuthenticate = (domain?: string) => {
     },
     [domain, context?.client.clientFid],
   );
-
   return { signIn };
 };
