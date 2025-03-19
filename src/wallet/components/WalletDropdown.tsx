@@ -35,6 +35,7 @@ export function WalletDropdown({ children, className }: WalletDropdownReact) {
     isSubComponentClosing,
     setIsSubComponentOpen,
     setIsSubComponentClosing,
+    isSubComponentOpen,
   } = useWalletContext();
 
   const childrenArray = useMemo(() => {
@@ -57,6 +58,10 @@ export function WalletDropdown({ children, className }: WalletDropdownReact) {
   }
 
   if (!breakpoint) {
+    return null;
+  }
+
+  if (!isSubComponentOpen) {
     return null;
   }
 

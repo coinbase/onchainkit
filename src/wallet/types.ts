@@ -115,16 +115,6 @@ export type WalletReact = {
   | { draggable?: false; draggableStartingPosition?: never }
 );
 
-export type WalletSubComponentReact = {
-  connect: React.ReactNode;
-  connectRef: React.RefObject<HTMLDivElement>;
-  dropdown: React.ReactNode;
-  advanced: React.ReactNode;
-  isSubComponentOpen: boolean;
-  alignSubComponentRight: boolean;
-  showSubComponentAbove: boolean;
-};
-
 /**
  * Note: exported as public Type
  */
