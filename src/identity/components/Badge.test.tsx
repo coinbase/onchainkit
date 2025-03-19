@@ -287,4 +287,16 @@ describe('Badge Component', () => {
       schemaId: '0xkitSchema',
     });
   });
+
+  it('should display default "Verified" text when no attestation is available', async () => {
+    // Test with empty attestations array
+    vi.mocked(useAttestations).mockReturnValue([]);
+
+    render(<Badge tooltip={true} />);
+
+    const badge = await screen.findByTestId('ockBadge');
+    fireEvent.mouseEnter(badge);
+
+    expect(screen.getByTestId('ockBadgeTooltip')).toHaveTextContent('Verified');
+  });
 });

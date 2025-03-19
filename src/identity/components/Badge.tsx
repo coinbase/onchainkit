@@ -8,6 +8,18 @@ import { useState } from 'react';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIdentityContext } from './IdentityProvider';
 
+type extractAttestationNameParams = {
+  decodedDataJson?: string;
+  id?: string;
+  attester?: string;
+  expirationTime?: number;
+  recipient?: string;
+  revocationTime?: number;
+  revoked?: boolean;
+  schemaId?: string;
+  time?: number;
+};
+
 /**
  * Badge component.
  */
@@ -63,7 +75,7 @@ export function Badge({ className, tooltip = false, tooltipText }: BadgeReact) {
             text.legal,
             color.foreground,
             zIndex.tooltip,
-            'absolute bottom-full left-1/2 mb-1 -translate-x-1/2 transform',
+            '-translate-x-1/2 absolute bottom-full left-1/2 mb-1 transform',
             'whitespace-nowrap px-1.5 py-0.5',
           )}
           data-testid="ockBadgeTooltip"
@@ -71,7 +83,7 @@ export function Badge({ className, tooltip = false, tooltipText }: BadgeReact) {
           {displayText}
           <div
             className={cn(
-              'absolute left-1/2 top-full -translate-x-1/2 transform',
+              '-translate-x-1/2 absolute top-full left-1/2 transform',
             )}
           />
         </div>
@@ -83,7 +95,9 @@ export function Badge({ className, tooltip = false, tooltipText }: BadgeReact) {
 /**
  * Extracts the attestation name from an attestation object
  */
-function extractAttestationName(attestation?: any): string {
+function extractAttestationName(
+  attestation?: extractAttestationNameParams,
+): string {
   if (!attestation?.decodedDataJson) {
     return 'Verified';
   }
