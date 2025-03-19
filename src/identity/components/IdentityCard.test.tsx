@@ -175,10 +175,6 @@ describe('IdentityCard', () => {
     renderWithProvider(
       <IdentityCard address={mockAddress} badgeTooltip={true} />,
     );
-
-    // Verify that the Badge component receives the tooltip prop
-    // Since we're mocking the Name component and checking its children,
-    // we can verify that it contains the Badge with the correct props
     expect(screen.getByTestId('ockIdentity_Text')).toBeInTheDocument();
   });
 
@@ -186,10 +182,6 @@ describe('IdentityCard', () => {
     renderWithProvider(
       <IdentityCard address={mockAddress} badgeTooltip="Custom Tooltip" />,
     );
-
-    // Verify that the Badge component receives the tooltip prop
-    // Since we're mocking the Name component and checking its children,
-    // we can verify that it contains the Badge with the correct props
     expect(screen.getByTestId('ockIdentity_Text')).toBeInTheDocument();
   });
 });
