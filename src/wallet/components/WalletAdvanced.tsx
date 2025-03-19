@@ -1,22 +1,40 @@
 'use client';
 
+import { cn } from '@/styles/theme';
 import type { WalletAdvancedReact } from '../types';
 import { WalletAdvancedContent } from './WalletAdvancedContent';
 import { WalletAdvancedProvider } from './WalletAdvancedProvider';
+import { useWalletContext } from './WalletProvider';
 
 export function WalletAdvanced({
   children,
   classNames,
   swappableTokens,
 }: WalletAdvancedReact) {
+  const { isSubComponentOpen, showSubComponentAbove, alignSubComponentRight } =
+    useWalletContext();
+
+  if (!isSubComponentOpen) {
+    return null;
+  }
+
   return (
     <WalletAdvancedProvider>
-      <WalletAdvancedContent
-        classNames={classNames}
-        swappableTokens={swappableTokens}
+      <div
+        data-testid="ockWalletAdvancedContainer"
+        className={cn(
+          'absolute',
+          showSubComponentAbove ? 'bottom-full' : 'top-full',
+          alignSubComponentRight ? 'right-0' : 'left-0',
+        )}
       >
-        {children}
-      </WalletAdvancedContent>
+        <WalletAdvancedContent
+          classNames={classNames}
+          swappableTokens={swappableTokens}
+        >
+          {children}
+        </WalletAdvancedContent>
+      </div>
     </WalletAdvancedProvider>
   );
 }
