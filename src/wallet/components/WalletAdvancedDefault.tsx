@@ -5,10 +5,6 @@ import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';
 import { Wallet } from './Wallet';
 import { WalletAdvanced } from './WalletAdvanced';
-import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
-import { WalletAdvancedTokenHoldings } from './WalletAdvancedTokenHoldings';
-import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';
-import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
 
 export function WalletAdvancedDefault() {
   return (
@@ -18,12 +14,7 @@ export function WalletAdvancedDefault() {
         <Avatar className="h-6 w-6" />
         <Name />
       </ConnectWallet>
-      <WalletAdvanced>
-        <WalletAdvancedWalletActions />
-        <WalletAdvancedAddressDetails />
-        <WalletAdvancedTransactionActions />
-        <WalletAdvancedTokenHoldings />
-      </WalletAdvanced>
+      <WalletAdvanced />
     </Wallet>
   );
 }
