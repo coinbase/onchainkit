@@ -173,7 +173,7 @@
     --ock-bg-inverse: theme(colors.gray.900);
     --ock-bg-inverse-hover: theme(colors.gray.800);
     --ock-bg-inverse-active: theme(colors.gray.700);
-    --ock-text-primary: #578bfa;
+    --ock-bg-primary: #578bfa;
     --ock-bg-primary-hover: #477ef5;
     --ock-bg-primary-active: #5386f5;
     --ock-bg-primary-washed: #051537;
