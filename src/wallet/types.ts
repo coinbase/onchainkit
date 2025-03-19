@@ -194,7 +194,7 @@ export type WalletDropdownLinkReact = {
  * Note: exported as public Type
  */
 export type WalletAdvancedReact = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   swappableTokens?: Token[];
   classNames?: {
     container?: string;

@@ -5,6 +5,19 @@ import type { WalletAdvancedReact } from '../types';
 import { WalletAdvancedContent } from './WalletAdvancedContent';
 import { WalletAdvancedProvider } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
+import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
+import { WalletAdvancedTokenHoldings } from './WalletAdvancedTokenHoldings';
+import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';
+import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
+
+const defaultWalletAdvancedChildren = (
+  <>
+    <WalletAdvancedWalletActions />
+    <WalletAdvancedAddressDetails />
+    <WalletAdvancedTransactionActions />
+    <WalletAdvancedTokenHoldings />
+  </>
+);
 
 export function WalletAdvanced({
   children,
@@ -32,7 +45,7 @@ export function WalletAdvanced({
           classNames={classNames}
           swappableTokens={swappableTokens}
         >
-          {children}
+          {children || defaultWalletAdvancedChildren}
         </WalletAdvancedContent>
       </div>
     </WalletAdvancedProvider>
