@@ -2,13 +2,13 @@
 
 import { cn } from '@/styles/theme';
 import type { WalletAdvancedReact } from '../types';
+import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
 import { WalletAdvancedContent } from './WalletAdvancedContent';
 import { WalletAdvancedProvider } from './WalletAdvancedProvider';
-import { useWalletContext } from './WalletProvider';
-import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
 import { WalletAdvancedTokenHoldings } from './WalletAdvancedTokenHoldings';
 import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';
 import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
+import { useWalletContext } from './WalletProvider';
 
 const defaultWalletAdvancedChildren = (
   <>
