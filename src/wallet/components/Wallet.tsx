@@ -7,7 +7,7 @@ import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { findComponent } from '@/internal/utils/findComponent';
 import { cn } from '@/styles/theme';
-import { Children, useMemo, useRef } from 'react';
+import { Children, isValidElement, ReactNode, useMemo, useRef } from 'react';
 import type { WalletReact } from '../types';
 import { getWalletDraggableProps } from '../utils/getWalletDraggableProps';
 import { ConnectWallet } from './ConnectWallet';
@@ -76,6 +76,17 @@ function WalletContent({
     };
   }, [children]);
 
+  // cannot use advanced and dropdown, 
+  // default to dropdown
+  const childrenToRender = useMemo(() => {
+    return Children.map(children, (child: ReactNode) => {
+      if (isValidElement(child) && child.type === WalletAdvanced && dropdown) {
+        return null;
+      }
+      return child;
+    });
+  }, [dropdown, advanced, children]);
+
   if (dropdown && advanced) {
     console.error(
       'Defaulted to WalletDropdown. Wallet cannot have both WalletDropdown and WalletAdvanced as children.',
@@ -97,7 +108,9 @@ function WalletContent({
           startingPosition={draggableStartingPosition}
           disabled={disableDraggable}
         >
-          <div ref={connectRef}>{children || defaultWalletChildren}</div>
+          <div ref={connectRef}>
+            {childrenToRender || defaultWalletChildren}
+          </div>
         </Draggable>
       </div>
     );
@@ -108,7 +121,7 @@ function WalletContent({
       ref={walletContainerRef}
       className={cn('relative w-fit shrink-0', className)}
     >
-      <div ref={connectRef}>{children || defaultWalletChildren}</div>
+      <div ref={connectRef}>{childrenToRender || defaultWalletChildren}</div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useAccount } from 'wagmi';
 import '@testing-library/jest-dom';
 import { useAvatar } from '@/identity/hooks/useAvatar';
 import { useName } from '@/identity/hooks/useName';
@@ -13,6 +14,13 @@ import { Name } from './Name';
 function mock<T>(func: T) {
   return func as Mock;
 }
+
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  WagmiProvider: ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  ),
+}));
 
 vi.mock('@/identity/hooks/useAvatar', () => ({
   useAvatar: vi.fn(),
@@ -43,6 +51,7 @@ describe('Identity Component', () => {
         },
       },
     });
+    (useAccount as Mock).mockReturnValue({ address: '123' });
   });
 
   it('should render the Identity component with Avatar', async () => {
@@ -70,6 +79,25 @@ describe('Identity Component', () => {
     );
     await waitFor(() => {
       expect(screen.getByTestId('ockIdentity_Text')).toBeInTheDocument();
+    });
+  });
+
+  it('should return null if no address provided', async () => {
+    useAvatarMock.mockReturnValue({
+      data: 'avatar_url',
+      isLoading: false,
+    });
+    useNameMock.mockReturnValue({ data: 'name', isLoading: false });
+    (useAccount as Mock).mockReturnValue({ address: undefined });
+    render(
+      <Identity>
+        <Avatar />
+      </Identity>,
+    );
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId('ockIdentityLayout_container'),
+      ).not.toBeInTheDocument();
     });
   });
 
