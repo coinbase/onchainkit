@@ -28,13 +28,10 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
   const { address, schemaId: contextSchemaId } = useIdentityContext();
   const { chain, schemaId: kitSchemaId } = useOnchainKit();
 
-  // Only enable tooltip if tooltip is true or a string
-  const showTooltipFeature = Boolean(tooltip);
-
   const attestations = useAttestations({
     address,
     chain,
-    schemaId: showTooltipFeature ? contextSchemaId ?? kitSchemaId : null,
+    schemaId: tooltip ? contextSchemaId ?? kitSchemaId : null,
   });
 
   // Get tooltip text from tooltip prop or attestation
@@ -57,7 +54,7 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
           background.primary,
           border.default,
           border.radius,
-          showTooltipFeature && 'cursor-pointer',
+          tooltip && 'cursor-pointer',
           className,
         )}
         style={{
@@ -67,14 +64,14 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
           maxWidth: badgeSize,
         }}
         data-testid="ockBadge"
-        {...(showTooltipFeature && {
+        {...(tooltip && {
           onMouseEnter: () => setShowTooltip(true),
           onMouseLeave: () => setShowTooltip(false),
         })}
       >
         {badgeSvg}
       </span>
-      {showTooltip && showTooltipFeature && (
+      {showTooltip && tooltip && (
         <div
           className={cn(
             border.radius,
