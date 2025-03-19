@@ -191,7 +191,7 @@ export type NFTCardDefaultReact = Omit<NFTCardReact, 'children'>;
  * NFTMint must be used if the NFTMintButton is included
  */
 export type NFTMintCardReact = {
-  children: ReactNode;
+  children?: ReactNode;
   /** Optional className override for top div element. */
   className?: string;
   /** Contract address of the NFT */
