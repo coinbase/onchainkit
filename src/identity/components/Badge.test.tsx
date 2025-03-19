@@ -66,7 +66,7 @@ describe('Badge Component', () => {
     expect(screen.queryByTestId('ockBadgeTooltip')).not.toBeInTheDocument();
   });
 
-  it('should show tooltip when hovered and tooltip is true', async () => {
+  it('should show tooltip with default content when tooltip is true', async () => {
     render(<Badge tooltip={true} />);
 
     const badge = await screen.findByTestId('ockBadge');
@@ -76,8 +76,8 @@ describe('Badge Component', () => {
     expect(screen.getByTestId('ockBadgeTooltip')).toHaveTextContent('Verified');
   });
 
-  it('should show tooltipText when provided', async () => {
-    render(<Badge tooltipText="Custom tooltip" />);
+  it('should show tooltip with custom text when tooltip is a string', async () => {
+    render(<Badge tooltip="Custom tooltip" />);
 
     const badge = await screen.findByTestId('ockBadge');
     fireEvent.mouseEnter(badge);
@@ -106,21 +106,7 @@ describe('Badge Component', () => {
     expect(badge).toHaveClass('custom-class');
   });
 
-  it('should automatically enable tooltip when tooltipText is provided', async () => {
-    render(<Badge tooltip={false} tooltipText="Auto-enabled" />);
-
-    const badge = await screen.findByTestId('ockBadge');
-
-    expect(badge).toHaveClass('cursor-pointer');
-
-    fireEvent.mouseEnter(badge);
-    expect(screen.getByTestId('ockBadgeTooltip')).toBeInTheDocument();
-    expect(screen.getByTestId('ockBadgeTooltip')).toHaveTextContent(
-      'Auto-enabled',
-    );
-  });
-
-  it('should use attestation name when available', async () => {
+  it('should use attestation name when available and tooltip is true', async () => {
     vi.mocked(useAttestations).mockReturnValue([
       {
         decodedDataJson: JSON.stringify({ attestation: 'Coinbase Verified' }),

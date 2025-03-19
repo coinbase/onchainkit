@@ -4,11 +4,11 @@ import type { BadgeReact } from '@/identity/types';
 import { badgeSvg } from '@/internal/svg/badgeSvg';
 import { zIndex } from '@/styles/constants';
 import { background, border, cn, color, pressable, text } from '@/styles/theme';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIdentityContext } from './IdentityProvider';
 
-type extractAttestationNameParams = {
+type ExtractAttestationNameParams = {
   decodedDataJson?: string;
   id?: string;
   attester?: string;
@@ -23,13 +23,10 @@ type extractAttestationNameParams = {
 /**
  * Badge component.
  */
-export function Badge({ className, tooltip = false, tooltipText }: BadgeReact) {
+export function Badge({ className, tooltip = false }: BadgeReact) {
   const [showTooltip, setShowTooltip] = useState(false);
   const { address, schemaId: contextSchemaId } = useIdentityContext();
   const { chain, schemaId: kitSchemaId } = useOnchainKit();
-
-  // If tooltipText is provided, tooltip should be enabled
-  const showTooltipFeature = tooltipText ? true : tooltip;
 
   const attestations = useAttestations({
     address,
@@ -37,8 +34,19 @@ export function Badge({ className, tooltip = false, tooltipText }: BadgeReact) {
     schemaId: contextSchemaId ?? kitSchemaId,
   });
 
-  // Extract displayText from attestation or use default
-  const displayText = tooltipText ?? extractAttestationName(attestations[0]);
+  // Only enable tooltip if tooltip is true or a string
+  const showTooltipFeature = Boolean(tooltip);
+
+  // Get tooltip text from tooltip prop or attestation
+  const displayText = useMemo(() => {
+    if (!tooltip) {
+      return null;
+    }
+
+    return typeof tooltip === 'string'
+      ? tooltip
+      : extractAttestationName(attestations[0]);
+  }, [tooltip, attestations]);
 
   const badgeSize = '12px';
 
@@ -96,7 +104,7 @@ export function Badge({ className, tooltip = false, tooltipText }: BadgeReact) {
  * Extracts the attestation name from an attestation object
  */
 function extractAttestationName(
-  attestation?: extractAttestationNameParams,
+  attestation?: ExtractAttestationNameParams,
 ): string {
   if (!attestation?.decodedDataJson) {
     return 'Verified';
@@ -109,8 +117,7 @@ function extractAttestationName(
       return decodedData[0].name;
     }
 
-    const firstKey = Object.keys(decodedData)[0];
-    const value = decodedData[firstKey];
+    const value = Object.values(decodedData)[0];
 
     if (typeof value === 'string') {
       return value;
