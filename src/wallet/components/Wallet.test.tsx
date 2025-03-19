@@ -99,14 +99,13 @@ describe('Wallet Component', () => {
       containerRef: { current: document.createElement('div') },
     });
 
-    render(<Wallet draggable />);
+    render(<Wallet draggable={true} />);
 
     expect(screen.getByTestId('connect-wallet')).toBeDefined();
     expect(screen.queryByTestId('wallet-dropdown')).toBeNull();
   });
 
   it('should close the wallet when clicking outside', () => {
-    const container = document.createElement('div');
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
       isSubComponentOpen: true,
       handleClose: mockHandleClose,
