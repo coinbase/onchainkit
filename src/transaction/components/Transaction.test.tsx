@@ -1,3 +1,4 @@
+import { useOnchainKit } from '@/useOnchainKit';
 import { render, screen } from '@testing-library/react';
 import { base, baseSepolia } from 'viem/chains';
 import {
@@ -9,10 +10,12 @@ import {
   it,
   vi,
 } from 'vitest';
-
-import { useOnchainKit } from '@/useOnchainKit';
+import { type Config, type UseAccountReturnType, useAccount } from 'wagmi';
 import { Transaction } from './Transaction';
-import { TransactionProvider } from './TransactionProvider';
+import {
+  TransactionProvider,
+  useTransactionContext,
+} from './TransactionProvider';
 
 function mock<T>(func: T) {
   return func as Mock;
@@ -27,6 +30,7 @@ vi.mock('./TransactionProvider', () => ({
       </div>
     ),
   ),
+  useTransactionContext: vi.fn(),
 }));
 
 vi.mock('@/useOnchainKit', () => ({
@@ -37,6 +41,13 @@ vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useConnect: vi.fn(),
+  useConfig: vi.fn(),
+  useChainId: vi.fn(),
+}));
+
 const useOnchainKitMock = mock(useOnchainKit);
 
 describe('Transaction', () => {
@@ -44,6 +55,16 @@ describe('Transaction', () => {
     useOnchainKitMock.mockReturnValue({
       chain: baseSepolia,
     });
+    (useTransactionContext as Mock).mockReturnValue({
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      transactionId: undefined,
+      onSubmit: vi.fn(),
+      isLoading: false,
+      transactions: ['transact'],
+    });
+    vi.mocked(useAccount).mockReturnValue({
+      address: '0x123',
+    } as unknown as UseAccountReturnType<Config>);
   });
 
   afterEach(() => {
@@ -134,5 +155,21 @@ describe('Transaction', () => {
       </Transaction>,
     );
     expect(screen.getByText(`chainId: ${base.id}`)).toBeInTheDocument();
+  });
+
+  it('should render default children if no children provided', () => {
+    render(
+      <Transaction
+        capabilities={{}}
+        chainId={base.id}
+        className="test-class"
+        contracts={[]}
+        onError={vi.fn()}
+        onSuccess={vi.fn()}
+      />,
+    );
+    expect(
+      screen.getByTestId('ockTransactionButton_Button'),
+    ).toBeInTheDocument();
   });
 });

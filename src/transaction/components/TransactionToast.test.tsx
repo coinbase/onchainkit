@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useShowCallsStatus } from 'wagmi/experimental';
 import { useTransactionContext } from './TransactionProvider';
 import { TransactionToast } from './TransactionToast';
 
@@ -7,9 +8,23 @@ vi.mock('./TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
 }));
 
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useConnect: vi.fn(),
+  useConfig: vi.fn(),
+  useChainId: vi.fn(),
+}));
+
+vi.mock('wagmi/experimental', () => ({
+  useShowCallsStatus: vi.fn(),
+}));
+
 describe('TransactionToast', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    (useShowCallsStatus as Mock).mockReturnValue({
+      showCallsStatus: vi.fn(),
+    });
   });
 
   it('renders children correctly', () => {
@@ -29,6 +44,20 @@ describe('TransactionToast', () => {
 
     const contentElement = screen.getByText('Transaction Toast Content');
     expect(contentElement).toBeInTheDocument();
+  });
+
+  it('renders default children correctly', () => {
+    (useTransactionContext as Mock).mockReturnValue({
+      isLoading: true,
+      isToastVisible: true,
+      lifecycleStatus: {
+        statusName: 'test-status',
+      },
+    });
+
+    render(<TransactionToast className="custom-class" />);
+
+    expect(screen.getByText('Transaction in progress')).toBeInTheDocument();
   });
 
   it('does not render when not visible', () => {
