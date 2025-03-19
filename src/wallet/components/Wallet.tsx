@@ -7,7 +7,13 @@ import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { findComponent } from '@/internal/utils/findComponent';
 import { cn } from '@/styles/theme';
-import { Children, isValidElement, ReactNode, useMemo, useRef } from 'react';
+import {
+  Children,
+  type ReactNode,
+  isValidElement,
+  useMemo,
+  useRef,
+} from 'react';
 import type { WalletReact } from '../types';
 import { getWalletDraggableProps } from '../utils/getWalletDraggableProps';
 import { ConnectWallet } from './ConnectWallet';
@@ -76,7 +82,7 @@ function WalletContent({
     };
   }, [children]);
 
-  // cannot use advanced and dropdown, 
+  // cannot use advanced and dropdown,
   // default to dropdown
   const childrenToRender = useMemo(() => {
     return Children.map(children, (child: ReactNode) => {
@@ -85,7 +91,7 @@ function WalletContent({
       }
       return child;
     });
-  }, [dropdown, advanced, children]);
+  }, [dropdown, children]);
 
   if (dropdown && advanced) {
     console.error(

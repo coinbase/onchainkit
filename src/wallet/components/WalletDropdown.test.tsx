@@ -1,16 +1,10 @@
 import '@testing-library/jest-dom';
-import {
-  IdentityProvider,
-} from '@/identity/components/IdentityProvider';
-import {
-  fireEvent,
-  render,
-  screen,
-} from '@testing-library/react';
+import { IdentityProvider } from '@/identity/components/IdentityProvider';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useDisconnect } from 'wagmi';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
-import { useDisconnect } from 'wagmi';
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
