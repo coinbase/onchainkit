@@ -7,7 +7,6 @@ import { useOnchainKit } from '../../useOnchainKit';
 import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
 
-// Mock the hooks
 vi.mock('@/identity/hooks/useAttestations');
 vi.mock('./IdentityProvider');
 vi.mock('../../useOnchainKit');
@@ -112,7 +111,6 @@ describe('Badge Component', () => {
 
     const badge = await screen.findByTestId('ockBadge');
 
-    // Should have cursor-pointer when tooltipText is provided
     expect(badge).toHaveClass('cursor-pointer');
 
     fireEvent.mouseEnter(badge);
