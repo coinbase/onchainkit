@@ -3,7 +3,7 @@ import { clickCalls, clickContracts } from '@/lib/transactions';
 import { TransactionTypes } from '@/types/onchainkit';
 import {
   type LifecycleStatus,
-  TransactionDefault,
+  Transaction,
 } from '@coinbase/onchainkit/transaction';
 import { useCallback, useContext, useEffect } from 'react';
 import { AppContext } from '../AppProvider';
@@ -31,7 +31,7 @@ export default function TransactionDefaultDemo() {
 
   return (
     <div className="mx-auto grid w-1/2 gap-8">
-      <TransactionDefault
+      <Transaction
         chainId={chainId ?? 84532} // something breaks if we don't have default network?
         {...(transactionType === TransactionTypes.Calls
           ? { calls }

@@ -24,6 +24,13 @@ vi.mock('@/internal/hooks/useIsMounted');
 vi.mock('@/nft/components/NFTProvider', () => ({
   NFTProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));
+vi.mock('./view', () => ({
+  NFTMedia: () => <div data-testid="nft-media" />,
+  NFTTitle: () => <div data-testid="nft-title" />,
+  NFTOwner: () => <div data-testid="nft-owner" />,
+  NFTLastSoldPrice: () => <div data-testid="nft-last-sold-price" />,
+  NFTNetwork: () => <div data-testid="nft-network" />,
+}));
 
 describe('NFTView', () => {
   beforeEach(() => {
@@ -57,6 +64,17 @@ describe('NFTView', () => {
     );
 
     expect(queryByTestId('ockNFTCard_Container')).not.toBeInTheDocument();
+  });
+
+  it('should render default content when no children are provided', () => {
+    const { getByTestId } = render(
+      <NFTCard contractAddress="0x123" tokenId="1" />,
+    );
+    expect(getByTestId('nft-media')).toBeInTheDocument();
+    expect(getByTestId('nft-title')).toBeInTheDocument();
+    expect(getByTestId('nft-owner')).toBeInTheDocument();
+    expect(getByTestId('nft-last-sold-price')).toBeInTheDocument();
+    expect(getByTestId('nft-network')).toBeInTheDocument();
   });
 
   it('should pass contractAddress and tokenId to NFTProvider', () => {

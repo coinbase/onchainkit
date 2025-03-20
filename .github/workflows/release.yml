@@ -32,13 +32,19 @@ jobs:
       - name: Set deployment token
         run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
 
+      - name: Get Version
+        id: get_version
+        run: |
+          VERSION=$(grep -o "export const version = '[^']*'" src/version.ts | cut -d"'" -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       # https://github.com/changesets/action#with-publishing
       - name: Handle Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          title: 'chore: version packages 🔖'
-          commit: 'chore: version packages 🔖'
+          title: 'chore: version packages v${{ steps.get_version.outputs.version }} 🌊'
+          commit: 'chore: version packages v${{ steps.get_version.outputs.version }} 🌊'
           publish: yarn release:publish
           version: yarn release:version
         env:

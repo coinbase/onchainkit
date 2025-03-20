@@ -1,7 +1,7 @@
 import {
   type LifecycleStatus,
   type NFTError,
-  NFTMintCardDefault,
+  NFTMintCard,
 } from '@coinbase/onchainkit/nft';
 import { useCallback, useContext } from 'react';
 import type { TransactionReceipt } from 'viem';
@@ -30,7 +30,7 @@ function NFTMintCardDefaultDemo() {
   }, []);
 
   return (
-    <NFTMintCardDefault
+    <NFTMintCard
       contractAddress={contractAddress}
       tokenId={tokenId}
       isSponsored={isSponsored}
