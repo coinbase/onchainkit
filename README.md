@@ -1,3 +1,5 @@
+[![Version 🔖](https://github.com/nodoubtz/onchainkit/actions/workflows/release.yml/badge.svg)](https://github.com/nodoubtz/onchainkit/actions/workflows/release.yml)
+
 <div align="center">
   <p>
     <a href="https://onchainkit.xyz">
