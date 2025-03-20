@@ -44,17 +44,23 @@ async function copyDir(src: string, dest: string) {
   }
 }
 
-type WebpageData = { header: string, payload: string, signature: string, domain: string };
+type WebpageData = {
+  header: string;
+  payload: string;
+  signature: string;
+  domain: string;
+};
 
 async function getWebpageData(): Promise<WebpageData> {
   const app = express();
   const server = createServer(app);
   const wss = new WebSocketServer({ server });
 
-  app.use(express.static(path.resolve(
-    fileURLToPath(import.meta.url),
-    '../../manifest'
-  )));
+  app.use(
+    express.static(
+      path.resolve(fileURLToPath(import.meta.url), '../../manifest'),
+    ),
+  );
 
   return new Promise((resolve, reject) => {
     wss.on('connection', (ws: WebSocket) => {
@@ -76,9 +82,15 @@ async function createMiniKitAccountAssociation(envPath?: string) {
     envPath = path.join(process.cwd(), '.env');
   }
 
-  const existingEnv = await fs.promises.readFile(envPath, 'utf-8').catch(() => null);
+  const existingEnv = await fs.promises
+    .readFile(envPath, 'utf-8')
+    .catch(() => null);
   if (!existingEnv) {
-    console.log(pc.red('\n* Failed to read .env file. Please ensure you are in your project directory.'));
+    console.log(
+      pc.red(
+        '\n* Failed to read .env file. Please ensure you are in your project directory.',
+      ),
+    );
     return false;
   }
 
@@ -87,14 +99,23 @@ async function createMiniKitAccountAssociation(envPath?: string) {
     const envContent = `FARCASTER_HEADER=${webpageData.header}\nFARCASTER_PAYLOAD=${webpageData.payload}\nFARCASTER_SIGNATURE=${webpageData.signature}\nNEXT_PUBLIC_URL=${webpageData.domain}`;
     const updatedEnv = existingEnv
       .split('\n')
-      .filter(line => !line.startsWith('FARCASTER_') && !line.startsWith('NEXT_PUBLIC_URL'))
+      .filter(
+        (line) =>
+          !line.startsWith('FARCASTER_') && !line.startsWith('NEXT_PUBLIC_URL'),
+      )
       .concat(envContent)
       .join('\n');
     await fs.promises.writeFile(envPath, updatedEnv);
 
-    console.log(pc.blue('\n* Account association generated successfully and added to your .env file!'));
+    console.log(
+      pc.blue(
+        '\n* Account association generated successfully and added to your .env file!',
+      ),
+    );
   } catch (error) {
-    console.log(pc.red('\n* Failed to generate account association. Please try again.'));
+    console.log(
+      pc.red('\n* Failed to generate account association. Please try again.'),
+    );
     return false;
   }
 
@@ -115,14 +136,12 @@ async function createMiniKitTemplate() {
     //   ###       ###  ########  ###    ####   ########  ###    ###   ########      ###           //
     //                                                                                             //
     //                                                                     Powered by OnchainKit   //
-    /////////////////////////////////////////////////////////////////////////////////////////////////`)}\n\n`
+    /////////////////////////////////////////////////////////////////////////////////////////////////`)}\n\n`,
   );
 
   const defaultProjectName = 'my-minikit-app';
 
-  let result: prompts.Answers<
-    'projectName' | 'packageName' | 'clientKey'
-  >;
+  let result: prompts.Answers<'projectName' | 'packageName' | 'clientKey'>;
 
   try {
     result = await prompts(
@@ -162,8 +181,8 @@ async function createMiniKitTemplate() {
           message: pc.reset(
             `Enter your ${createClickableLink(
               'Coinbase Developer Platform Client API Key:',
-              'https://portal.cdp.coinbase.com/products/onchainkit'
-            )} (optional)`
+              'https://portal.cdp.coinbase.com/products/onchainkit',
+            )} (optional)`,
           ),
         },
       ],
@@ -172,7 +191,7 @@ async function createMiniKitTemplate() {
           console.log('\nProject creation cancelled.');
           process.exit(0);
         },
-      }
+      },
     );
   } catch (cancelled: any) {
     console.log(cancelled.message);
@@ -185,10 +204,10 @@ async function createMiniKitTemplate() {
   const spinner = ora(`Creating ${projectName}...`).start();
 
   const sourceDir = path.resolve(
-    fileURLToPath(import.meta.url), 
-    '../../../templates/minikit'
+    fileURLToPath(import.meta.url),
+    '../../../templates/minikit',
   );
-  
+
   await copyDir(sourceDir, root);
   const pkgPath = path.join(root, 'package.json');
   const pkg = JSON.parse(await fs.promises.readFile(pkgPath, 'utf-8'));
@@ -208,16 +227,24 @@ NEXT_PUBLIC_IMAGE_URL=$NEXT_PUBLIC_URL/snake.png
 NEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/snake.png
 NEXT_PUBLIC_VERSION=next
 REDIS_URL=
-REDIS_TOKEN=`
+REDIS_TOKEN=`,
   );
 
   spinner.succeed();
 
   console.log(`\n\n${pc.magenta(`Created new MiniKit project in ${root}`)}\n`);
 
-  console.log(`\n${pc.reset('Do you want to set up your Frames Account Manifest now?')}`);
-  console.log(pc.blue('* You can set this up later by running `npm create-onchain --generate` in your project directory.'));
-  console.log(pc.blue('* Note: this process will open in a new browser window.'));
+  console.log(
+    `\n${pc.reset('Do you want to set up your Frames Account Manifest now?')}`,
+  );
+  console.log(
+    pc.blue(
+      '* You can set this up later by running `npx create-onchain@alpha --generate` in your project directory.',
+    ),
+  );
+  console.log(
+    pc.blue('* Note: this process will open in a new browser window.'),
+  );
 
   let setUpFrameResult: prompts.Answers<'setUpFrame'>;
   try {
@@ -237,7 +264,7 @@ REDIS_TOKEN=`
           console.log('\nSetup frame cancelled.');
           return false;
         },
-      }
+      },
     );
   } catch (cancelled: any) {
     console.log(cancelled.message);
@@ -252,14 +279,22 @@ REDIS_TOKEN=`
   logMiniKitSetupSummary(projectName, root, clientKey);
 }
 
-function logMiniKitSetupSummary(projectName: string, root: string, clientKey: string) {
+function logMiniKitSetupSummary(
+  projectName: string,
+  root: string,
+  clientKey: string,
+) {
   console.log(`\nIntegrations:`);
 
   console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`MiniKit`)}`);
   console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`OnchainKit`)}`);
   console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Base`)}`);
   if (clientKey) {
-    console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Coinbase Developer Platform`)}`);
+    console.log(
+      `${pc.greenBright('\u2713')} ${pc.blueBright(
+        `Coinbase Developer Platform`,
+      )}`,
+    );
     console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Paymaster`)}`);
   }
 
@@ -271,14 +306,22 @@ function logMiniKitSetupSummary(projectName: string, root: string, clientKey: st
   console.log(`${pc.cyan('- ESLint')}`);
   console.log(`${pc.cyan('- Upstash Redis')}`);
 
-  console.log(`\nTo get started with ${pc.green(projectName)}, run the following commands:\n`);
+  console.log(
+    `\nTo get started with ${pc.green(
+      projectName,
+    )}, run the following commands:\n`,
+  );
   if (root !== process.cwd()) {
     console.log(` - cd ${path.relative(process.cwd(), root)}`);
   }
   console.log(' - npm install');
   console.log(' - npm run dev');
 
-  console.log(pc.blue('\n* Don\'t forget to update the environment variables for your project in the `.env` file.'));
+  console.log(
+    pc.blue(
+      "\n* Don't forget to update the environment variables for your project in the `.env` file.",
+    ),
+  );
 }
 
 async function createOnchainKitTemplate() {
@@ -294,9 +337,8 @@ async function createOnchainKitTemplate() {
     //   #+#    #+# #+#   #+#+# #+#    #+# #+#    #+# #+#     #+#     #+#     #+#   #+#+# #+#   #+#      #+#         #+#            //
     //   ########  ###    ####  ########  ###    ### ###     ### ########### ###    #### ###    ### ###########     ###             //
     //                                                                                                                              //
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////`)}\n\n`
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////`)}\n\n`,
   );
-
 
   const defaultProjectName = 'my-onchainkit-app';
 
@@ -342,8 +384,8 @@ async function createOnchainKitTemplate() {
           message: pc.reset(
             `Enter your ${createClickableLink(
               'Coinbase Developer Platform Client API Key:',
-              'https://portal.cdp.coinbase.com/products/onchainkit'
-            )} (optional)`
+              'https://portal.cdp.coinbase.com/products/onchainkit',
+            )} (optional)`,
           ),
         },
         {
@@ -353,14 +395,14 @@ async function createOnchainKitTemplate() {
           initial: true,
           active: 'yes',
           inactive: 'no',
-        }
+        },
       ],
       {
         onCancel: () => {
           console.log('\nProject creation cancelled.');
           process.exit(0);
         },
-      }
+      },
     );
   } catch (cancelled: any) {
     console.log(cancelled.message);
@@ -373,10 +415,10 @@ async function createOnchainKitTemplate() {
   const spinner = ora(`Creating ${projectName}...`).start();
 
   const sourceDir = path.resolve(
-    fileURLToPath(import.meta.url), 
-    '../../../templates/next'
+    fileURLToPath(import.meta.url),
+    '../../../templates/next',
   );
-  
+
   await copyDir(sourceDir, root);
   const pkgPath = path.join(root, 'package.json');
   const pkg = JSON.parse(await fs.promises.readFile(pkgPath, 'utf-8'));
@@ -389,9 +431,9 @@ async function createOnchainKitTemplate() {
     envPath,
     `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${
       smartWallet ? 'smartWalletOnly' : 'all'
-    }`
+    }`,
   );
-  
+
   spinner.succeed();
   console.log(`\n${pc.magenta(`Created new OnchainKit project in ${root}`)}`);
 
@@ -403,14 +445,10 @@ async function createOnchainKitTemplate() {
   if (clientKey) {
     console.log(
       `${pc.greenBright('\u2713')} ${pc.blueBright(
-        `Coinbase Developer Platform`
-      )}`
+        `Coinbase Developer Platform`,
+      )}`,
     );
-    console.log(
-      `${pc.greenBright('\u2713')} ${pc.blueBright(
-        `Paymaster`
-      )}`
-    );
+    console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Paymaster`)}`);
   }
 
   console.log(`\nFrameworks:`);
@@ -422,8 +460,8 @@ async function createOnchainKitTemplate() {
 
   console.log(
     `\nTo get started with ${pc.green(
-      projectName
-    )}, run the following commands:\n`
+      projectName,
+    )}, run the following commands:\n`,
   );
   if (root !== process.cwd()) {
     console.log(` - cd ${path.relative(process.cwd(), root)}`);
@@ -433,11 +471,18 @@ async function createOnchainKitTemplate() {
 }
 
 export function getArgs() {
-  const options = { isHelp: false, isVersion: false, isGenerate: false, isMiniKit: false };
+  const options = {
+    isHelp: false,
+    isVersion: false,
+    isGenerate: false,
+    isMiniKit: false,
+  };
 
   // find any argument with -- or -
-  const arg = process.argv.find(arg => arg.startsWith('--') || arg.startsWith('-'));
-  switch(arg) {
+  const arg = process.argv.find(
+    (arg) => arg.startsWith('--') || arg.startsWith('-'),
+  );
+  switch (arg) {
     case '-h':
     case '--help':
       options.isHelp = true;
@@ -465,7 +510,7 @@ async function init() {
   const { isHelp, isVersion, isGenerate, isMiniKit } = getArgs();
   if (isHelp) {
     console.log(
-`${pc.greenBright(`
+      `${pc.greenBright(`
 Usage:
 npm create-onchain [options]
 
@@ -476,7 +521,7 @@ Options:
 --mini, -m: Create a MiniKit project
 --generate, -g: Generate your Frames account association
 --help, -h: Show help
-`)}`
+`)}`,
     );
     process.exit(0);
   }
@@ -484,14 +529,14 @@ Options:
   if (isVersion) {
     const pkgPath = path.resolve(
       fileURLToPath(import.meta.url),
-      '../../../package.json'
+      '../../../package.json',
     );
     const packageJsonContent = fs.readFileSync(pkgPath, 'utf8');
     const packageJson = JSON.parse(packageJsonContent);
     console.log(`${pc.greenBright(`v${packageJson.version}`)}`);
     process.exit(0);
   }
-  
+
   if (isGenerate) {
     await createMiniKitAccountAssociation();
     process.exit(0);
