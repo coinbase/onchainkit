@@ -134,7 +134,7 @@ function Page() {
         <Step
           number={1}
           label="Connect your wallet"
-          description="Set up a wallet using your Warpcast recovery key.  This is available in the Warpcast mobile app under settings/account."
+          description="Set up a wallet using your Warpcast recovery key.  This is available in the Warpcast mobile app under Settings > Advanced > Farcaster recovery phrase."
         >
           <Wallet>
             <ConnectWallet className="w-full">
