@@ -35,6 +35,7 @@
     "react-dom": "^18 || ^19"
   },
   "dependencies": {
+    "@farcaster/auth-kit": "^0.6.0",
     "@farcaster/frame-sdk": "^0.0.28",
     "@farcaster/frame-wagmi-connector": "^0.0.16",
     "@tanstack/react-query": "^5",

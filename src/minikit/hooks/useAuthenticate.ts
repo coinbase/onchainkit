@@ -29,11 +29,10 @@ type UseAuthenticateProps = Omit<SignInCore.SignInOptions, 'nonce'> & {
 
 /**
  * Authenticates the user's account.
- * @param domain [optional] - The domain of the frame to authenticate against, if not provided, the domain will not be validated
- * @returns The frames SDK signInResult consistent of a message, a signature, and a nonce or false if the domain or uri is invalid
+ * @returns `signIn`, `signOut`, `isConnected`, `validSignature`, and other AuthKit authentication data
  */
 export const useAuthenticate = (domain?: string) => {
-  return useCallback(
+  const signIn = useCallback(
     async (signInOptions: UseAuthenticateProps = {}) => {
       try {
         if (!signInOptions?.nonce) {
@@ -41,7 +40,6 @@ export const useAuthenticate = (domain?: string) => {
             .map(() => Math.floor(Math.random() * 36).toString(36))
             .join('');
         }
-
         const result = await sdk.actions.signIn(
           signInOptions as SignInCore.SignInOptions,
         );
@@ -56,4 +54,6 @@ export const useAuthenticate = (domain?: string) => {
     },
     [domain],
   );
+  // TODO: later, wrap signIn and verify, plus provide verification details
+  return { signIn };
 };
