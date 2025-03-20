@@ -1,11 +1,9 @@
 import type { TransactionDefaultReact } from '../types';
 import { Transaction } from './Transaction';
-import { TransactionButton } from './TransactionButton';
-import { TransactionToast } from './TransactionToast';
-import { TransactionToastAction } from './TransactionToastAction';
-import { TransactionToastIcon } from './TransactionToastIcon';
-import { TransactionToastLabel } from './TransactionToastLabel';
 
+/**
+ * @deprecated Use the `Transaction` component instead with no 'children' props.
+ */
 export function TransactionDefault({
   calls,
   capabilities,
@@ -23,17 +21,11 @@ export function TransactionDefault({
       capabilities={capabilities}
       chainId={chainId}
       className={className}
+      disabled={disabled}
       contracts={contracts}
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}
-    >
-      <TransactionButton disabled={disabled} />
-      <TransactionToast>
-        <TransactionToastIcon />
-        <TransactionToastLabel />
-        <TransactionToastAction />
-      </TransactionToast>
-    </Transaction>
+    />
   );
 }

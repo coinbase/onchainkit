@@ -9,6 +9,9 @@ import {
   NFTTitle,
 } from './view';
 
+/**
+ * @deprecated Use the `NFTCard` component instead with no 'children' props.
+ */
 export function NFTCardDefault({
   contractAddress,
   tokenId,

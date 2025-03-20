@@ -19,6 +19,16 @@ vi.mock('@/internal/hooks/useIsMounted');
 vi.mock('@/nft/components/NFTProvider', () => ({
   NFTProvider: vi.fn(({ children }) => <div>{children}</div>),
 }));
+vi.mock('@/nft/components/mint', () => ({
+  NFTCreator: vi.fn(() => <div data-testid="nft-creator" />),
+  NFTCollectionTitle: vi.fn(() => <div data-testid="nft-collection-title" />),
+  NFTQuantitySelector: vi.fn(() => <div data-testid="nft-quantity-selector" />),
+  NFTAssetCost: vi.fn(() => <div data-testid="nft-asset-cost" />),
+  NFTMintButton: vi.fn(() => <div data-testid="nft-mint-button" />),
+}));
+vi.mock('@/nft/components/view', () => ({
+  NFTMedia: vi.fn(() => <div data-testid="nft-media" />),
+}));
 
 describe('NFTMintCard', () => {
   beforeEach(() => {
@@ -51,5 +61,21 @@ describe('NFTMintCard', () => {
     );
 
     expect(queryByTestId('ockNFTMintCard_Container')).not.toBeInTheDocument();
+  });
+
+  it('should render default content when no children are provided', () => {
+    const { getByTestId } = render(
+      <NFTMintCard
+        contractAddress="0x123"
+        tokenId="1"
+        className="test-class"
+      />,
+    );
+    expect(getByTestId('nft-media')).toBeInTheDocument();
+    expect(getByTestId('nft-creator')).toBeInTheDocument();
+    expect(getByTestId('nft-collection-title')).toBeInTheDocument();
+    expect(getByTestId('nft-quantity-selector')).toBeInTheDocument();
+    expect(getByTestId('nft-asset-cost')).toBeInTheDocument();
+    expect(getByTestId('nft-mint-button')).toBeInTheDocument();
   });
 });
