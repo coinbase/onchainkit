@@ -9,6 +9,7 @@ import type {
 
 /**
  * Retrieves the portfolios for the provided addresses
+ * Supported networks: Base mainnet and Ethereum mainnet
  */
 export async function getPortfolios(
   params: GetPortfoliosParams,

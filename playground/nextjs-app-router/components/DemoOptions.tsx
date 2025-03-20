@@ -63,6 +63,7 @@ const COMPONENT_CONFIG: Partial<
     NFTOptions,
   ],
   [OnchainKitComponent.Earn]: [EarnOptions],
+  [OnchainKitComponent.Signature]: [Chain],
 };
 
 export default function DemoOptions({

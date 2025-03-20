@@ -1,3 +1,4 @@
+import type { UseQueryOptions as TanstackUseQueryOptions } from '@tanstack/react-query';
 import type { HTMLAttributes, ImgHTMLAttributes, ReactNode } from 'react';
 import type { Address, Chain } from 'viem';
 
@@ -324,12 +325,20 @@ export type UseAvatarsOptions = {
 
 /**
  * Note: exported as public Type
+ *
+ * Extends Tanstack Query's UseQueryOptions type but omits 'queryKey' and 'queryFn'
+ * properties which are handled internally.
+ *
+ * This allows developers to pass any Tanstack Query option (like retry, refetchInterval,
+ * select, onSuccess, etc.) to OnchainKit hooks while ensuring type safety.
  */
-export type UseQueryOptions = {
-  /** Whether the query should execute */
-  enabled?: boolean;
-  /** Cache time in milliseconds */
+export type UseQueryOptions<TData = unknown> = Omit<
+  TanstackUseQueryOptions<TData>,
+  'queryKey' | 'queryFn'
+> & {
+  /**
+   * @deprecated Use `gcTime` instead. Will be removed in a future version.
+   * The time in milliseconds after data is considered stale before it is removed from the cache.
+   */
   cacheTime?: number;
-  /** Stale time in milliseconds */
-  staleTime?: number;
 };

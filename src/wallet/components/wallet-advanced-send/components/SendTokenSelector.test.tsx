@@ -2,11 +2,16 @@ import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
+import { useSendContext } from './SendProvider';
 import { SendTokenSelector } from './SendTokenSelector';
 
 // Mock the context hook
 vi.mock('../../WalletAdvancedProvider', () => ({
   useWalletAdvancedContext: vi.fn(),
+}));
+
+vi.mock('./SendProvider', () => ({
+  useSendContext: vi.fn(),
 }));
 
 const mockTokenBalances: PortfolioTokenWithFiatValue[] = [
@@ -32,25 +37,26 @@ const mockTokenBalances: PortfolioTokenWithFiatValue[] = [
   },
 ];
 
-describe('SendTokenSelector', () => {
-  const defaultProps = {
-    selectedToken: null,
-    handleTokenSelection: vi.fn(),
-    handleResetTokenSelection: vi.fn(),
-    setSelectedInputType: vi.fn(),
-    handleCryptoAmountChange: vi.fn(),
-    handleFiatAmountChange: vi.fn(),
-  };
+const defaultContext = {
+  selectedToken: null,
+  handleTokenSelection: vi.fn(),
+  handleResetTokenSelection: vi.fn(),
+  setSelectedInputType: vi.fn(),
+  handleCryptoAmountChange: vi.fn(),
+  handleFiatAmountChange: vi.fn(),
+};
 
+describe('SendTokenSelector', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     (useWalletAdvancedContext as Mock).mockReturnValue({
       tokenBalances: mockTokenBalances,
     });
+    (useSendContext as Mock).mockReturnValue(defaultContext);
   });
 
   it('renders token selection list when no token is selected', () => {
-    render(<SendTokenSelector {...defaultProps} />);
+    render(<SendTokenSelector />);
 
     expect(screen.getByText('Select a token')).toBeInTheDocument();
     expect(screen.getAllByRole('button')).toHaveLength(
@@ -59,54 +65,54 @@ describe('SendTokenSelector', () => {
   });
 
   it('calls handleTokenSelection when a token is clicked from the list', () => {
-    render(<SendTokenSelector {...defaultProps} />);
+    render(<SendTokenSelector />);
 
     fireEvent.click(screen.getAllByTestId('ockTokenBalanceButton')[0]);
-    expect(defaultProps.handleTokenSelection).toHaveBeenCalledWith(
+    expect(defaultContext.handleTokenSelection).toHaveBeenCalledWith(
       mockTokenBalances[0],
     );
   });
 
   it('renders selected token with max button when token is selected', () => {
-    render(
-      <SendTokenSelector
-        {...defaultProps}
-        selectedToken={mockTokenBalances[0]}
-      />,
-    );
+    (useSendContext as Mock).mockReturnValue({
+      ...defaultContext,
+      selectedToken: mockTokenBalances[0],
+    });
+
+    render(<SendTokenSelector />);
 
     expect(screen.getByText('Test Token')).toBeInTheDocument();
     expect(screen.getByText(/0\.000 TEST available/)).toBeInTheDocument();
   });
 
   it('handles max button click correctly', () => {
-    render(
-      <SendTokenSelector
-        {...defaultProps}
-        selectedToken={mockTokenBalances[0]}
-      />,
-    );
+    (useSendContext as Mock).mockReturnValue({
+      ...defaultContext,
+      selectedToken: mockTokenBalances[0],
+    });
 
-    const maxButton = screen.getByRole('button', { name: 'Use max' });
+    render(<SendTokenSelector />);
+
+    const maxButton = screen.getByRole('button', { name: 'Max' });
     fireEvent.click(maxButton);
 
-    expect(defaultProps.setSelectedInputType).toHaveBeenCalledWith('crypto');
-    expect(defaultProps.handleFiatAmountChange).toHaveBeenCalledWith('100');
-    expect(defaultProps.handleCryptoAmountChange).toHaveBeenCalledWith(
+    expect(defaultContext.setSelectedInputType).toHaveBeenCalledWith('crypto');
+    expect(defaultContext.handleFiatAmountChange).toHaveBeenCalledWith('100');
+    expect(defaultContext.handleCryptoAmountChange).toHaveBeenCalledWith(
       '0.000000001',
     );
   });
 
   it('calls handleResetTokenSelection when selected token is clicked', () => {
-    render(
-      <SendTokenSelector
-        {...defaultProps}
-        selectedToken={mockTokenBalances[0]}
-      />,
-    );
+    (useSendContext as Mock).mockReturnValue({
+      ...defaultContext,
+      selectedToken: mockTokenBalances[0],
+    });
+
+    render(<SendTokenSelector />);
 
     fireEvent.click(screen.getByTestId('ockTokenBalanceButton'));
-    expect(defaultProps.handleResetTokenSelection).toHaveBeenCalled();
+    expect(defaultContext.handleResetTokenSelection).toHaveBeenCalled();
   });
 
   it('handles empty tokenBalances gracefully', () => {
@@ -114,7 +120,7 @@ describe('SendTokenSelector', () => {
       tokenBalances: [],
     });
 
-    render(<SendTokenSelector {...defaultProps} />);
+    render(<SendTokenSelector />);
     expect(screen.getByText('Select a token')).toBeInTheDocument();
   });
 
@@ -124,19 +130,18 @@ describe('SendTokenSelector', () => {
     };
 
     const { rerender } = render(
-      <SendTokenSelector {...defaultProps} classNames={customClassNames} />,
+      <SendTokenSelector classNames={customClassNames} />,
     );
     const buttons = screen.getAllByTestId('ockTokenBalanceButton');
     expect(buttons[0]).toHaveClass(customClassNames.container);
     expect(buttons[1]).toHaveClass(customClassNames.container);
 
-    rerender(
-      <SendTokenSelector
-        {...defaultProps}
-        selectedToken={mockTokenBalances[0]}
-        classNames={customClassNames}
-      />,
-    );
+    (useSendContext as Mock).mockReturnValue({
+      ...defaultContext,
+      selectedToken: mockTokenBalances[0],
+    });
+
+    rerender(<SendTokenSelector classNames={customClassNames} />);
     const button = screen.getByTestId('ockTokenBalanceButton');
     expect(button).toHaveClass(customClassNames.container);
   });

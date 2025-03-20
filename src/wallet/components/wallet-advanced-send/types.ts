@@ -1,8 +1,12 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import type { Address, TransactionReceipt } from 'viem';
+import type { Address, Chain, TransactionReceipt } from 'viem';
 import type { APIError, PortfolioTokenWithFiatValue } from '../../../api/types';
 import type { LifecycleStatusUpdate } from '../../../internal/types';
-import type { Call } from '../../../transaction/types';
+
+export type SendReact = {
+  children?: ReactNode;
+  className?: string;
+};
 
 export type SendProviderReact = {
   children: ReactNode;
@@ -47,7 +51,7 @@ export type SendContextType = {
   /** The exchange rate for the selected token */
   exchangeRate: number;
   /** Whether the exchange rate is loading */
-  exchangeRateLoading: boolean;
+  exchangeRateLoading: boolean | undefined;
   /** The fiat amount selected by the user for the send transaction */
   fiatAmount: string | null;
   /** Handler for the change of a fiat amount */
@@ -56,10 +60,6 @@ export type SendContextType = {
   cryptoAmount: string | null;
   /** Handler for the change of a crypto amount */
   handleCryptoAmountChange: (value: string) => void;
-
-  // Transaction Context
-  /** The call data for the send transaction */
-  callData: Call | null;
 };
 
 export type RecipientAddress = {
@@ -122,47 +122,27 @@ export type SendLifecycleStatus =
       statusData: APIError;
     };
 
-export type SendAmountInputProps = {
-  className?: string;
-  textClassName?: string;
-} & Pick<
-  SendContextType,
-  | 'selectedToken'
-  | 'cryptoAmount'
-  | 'handleCryptoAmountChange'
-  | 'fiatAmount'
-  | 'handleFiatAmountChange'
-  | 'selectedInputType'
-  | 'setSelectedInputType'
-  | 'exchangeRate'
-  | 'exchangeRateLoading'
->;
-
-export type SendFundingWalletProps = {
-  onError?: () => void;
-  onStatus?: () => void;
-  onSuccess?: () => void;
+export type SendAddressInputProps = {
+  selectedRecipientAddress: RecipientAddress;
+  recipientInput: string;
+  setRecipientInput: Dispatch<SetStateAction<string>>;
+  setValidatedInput: Dispatch<SetStateAction<RecipientAddress>>;
+  handleRecipientInputChange: () => void;
   classNames?: {
     container?: string;
-    subtitle?: string;
-    fundCard?: string;
+    label?: string;
+    input?: string;
   };
 };
 
-export type SendTokenSelectorProps = {
+export type SendAddressSelectorProps = {
+  address: Address | null;
+  senderChain: Chain | null | undefined;
+  handleClick: () => Promise<void>;
   classNames?: {
     container?: string;
-    tokenName?: string;
-    tokenValue?: string;
-    fiatValue?: string;
-    action?: string;
+    avatar?: string;
+    name?: string;
+    address?: string;
   };
-} & Pick<
-  SendContextType,
-  | 'selectedToken'
-  | 'handleTokenSelection'
-  | 'handleResetTokenSelection'
-  | 'setSelectedInputType'
-  | 'handleCryptoAmountChange'
-  | 'handleFiatAmountChange'
->;
+};
