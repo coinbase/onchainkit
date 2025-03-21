@@ -1,12 +1,32 @@
 'use client';
 
-import { Identity } from '@/identity/components/Identity';
+import { Address, Avatar, EthBalance, Identity, Name } from '@/identity';
 import { zIndex } from '@/styles/constants';
 import { cn, color, pressable } from '@/styles/theme';
 import { Children, cloneElement, isValidElement, useMemo } from 'react';
 import type { WalletDropdownReact } from '../types';
 import { WalletBottomSheet } from './WalletBottomSheet';
+import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
+import { WalletDropdownLink } from './WalletDropdownLink';
 import { useWalletContext } from './WalletProvider';
+
+const defaultWalletDropdownChildren = [
+  <Identity className="px-4 pt-3 pb-2" key="wallet-dd-identity">
+    <Avatar />
+    <Name />
+    <Address className={color.foregroundMuted} />
+    <EthBalance />
+  </Identity>,
+  <WalletDropdownLink
+    icon="wallet"
+    key="wallet-dd-link"
+    href="https://keys.coinbase.com"
+    target="_blank"
+  >
+    Wallet
+  </WalletDropdownLink>,
+  <WalletDropdownDisconnect key="wallet-dd-disconnect" />,
+];
 
 export function WalletDropdown({ children, className }: WalletDropdownReact) {
   const {
@@ -18,7 +38,12 @@ export function WalletDropdown({ children, className }: WalletDropdownReact) {
   } = useWalletContext();
 
   const childrenArray = useMemo(() => {
-    return Children.toArray(children).map((child) => {
+    // default children implementation
+    const childrenToClone = children
+      ? Children.toArray(children)
+      : defaultWalletDropdownChildren;
+
+    return childrenToClone.map((child) => {
       if (isValidElement(child) && child.type === Identity) {
         // @ts-ignore
         return cloneElement(child, { address });

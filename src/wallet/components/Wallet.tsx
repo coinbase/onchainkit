@@ -1,5 +1,6 @@
 'use client';
 
+import { Avatar, Name } from '@/identity';
 import { Draggable } from '@/internal/components/Draggable/Draggable';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
@@ -13,6 +14,17 @@ import { ConnectWallet } from './ConnectWallet';
 import { WalletAdvanced } from './WalletAdvanced';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
+
+const defaultWalletChildren = {
+  connect: (
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" key="avatar" />
+      <Name key="name" />
+    </ConnectWallet>
+  ),
+  dropdown: <WalletDropdown />,
+  advanced: null,
+};
 
 export const Wallet = ({
   children,
@@ -60,6 +72,10 @@ function WalletContent({
   useOutsideClick(walletContainerRef, handleClose);
 
   const { connect, dropdown, advanced } = useMemo(() => {
+    // default children implementation
+    if (!children) {
+      return defaultWalletChildren;
+    }
     const childrenArray = Children.toArray(children);
     return {
       connect: childrenArray.find(findComponent(ConnectWallet)),

@@ -69,6 +69,20 @@ describe('WalletDropdown', () => {
     expect(bottomSheet).toHaveClass('bottom-sheet');
   });
 
+  it('renders default children', () => {
+    useWalletContextMock.mockReturnValue({
+      address: '0x123',
+      breakpoint: 'sm',
+    });
+
+    render(<WalletDropdown className="bottom-sheet" />);
+
+    const bottomSheet = screen.getByTestId('ockWalletBottomSheet');
+
+    expect(bottomSheet).toBeInTheDocument();
+    expect(bottomSheet).toHaveClass('bottom-sheet');
+  });
+
   it('renders WalletDropdown when breakpoint is not "sm"', () => {
     useWalletContextMock.mockReturnValue({
       address: '0x123',
