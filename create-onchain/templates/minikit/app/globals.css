@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #E5E5E5;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #E5E5E5;
+    --foreground: #171717;
+  }
+}
+
+* {
+  touch-action: manipulation;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+
+  font-family: "Pixelify Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
