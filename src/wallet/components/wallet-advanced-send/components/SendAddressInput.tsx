@@ -8,7 +8,7 @@ import { resolveAddressInput } from '../utils/resolveAddressInput';
 import { validateAddressInput } from '../utils/validateAddressInput';
 
 export function SendAddressInput({
-  selectedRecipientAddress,
+  selectedRecipient,
   recipientInput,
   setRecipientInput,
   setValidatedInput,
@@ -16,27 +16,27 @@ export function SendAddressInput({
   classNames,
 }: SendAddressInputProps) {
   const displayValue = useMemo(() => {
-    if (selectedRecipientAddress?.display) {
-      return selectedRecipientAddress.display;
+    if (selectedRecipient?.displayValue) {
+      return selectedRecipient.displayValue;
     }
     return recipientInput;
-  }, [selectedRecipientAddress, recipientInput]);
+  }, [selectedRecipient, recipientInput]);
 
   const handleFocus = useCallback(() => {
-    if (selectedRecipientAddress.value) {
+    if (selectedRecipient.address) {
       handleRecipientInputChange();
     }
-  }, [selectedRecipientAddress, handleRecipientInputChange]);
+  }, [selectedRecipient, handleRecipientInputChange]);
 
   const handleSetValue = useCallback(
     async (input: string) => {
       const resolved = await resolveAddressInput(
-        selectedRecipientAddress.value,
+        selectedRecipient.address,
         input,
       );
       setValidatedInput(resolved);
     },
-    [selectedRecipientAddress.value, setValidatedInput],
+    [selectedRecipient.address, setValidatedInput],
   );
 
   return (

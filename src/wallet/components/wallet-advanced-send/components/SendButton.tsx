@@ -42,14 +42,14 @@ export function SendButton({
 }: SendButtonProps) {
   const { chain: senderChain } = useWalletContext();
   const {
-    selectedRecipientAddress,
+    selectedRecipient,
     cryptoAmount: inputAmount,
     selectedToken,
     updateLifecycleStatus,
   } = useSendContext();
 
   const { calldata, error } = getSendCalldata({
-    recipientAddress: selectedRecipientAddress.value,
+    recipientAddress: selectedRecipient.address,
     token: selectedToken,
     amount: inputAmount,
   });

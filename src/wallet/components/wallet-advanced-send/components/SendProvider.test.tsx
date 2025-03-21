@@ -61,8 +61,8 @@ describe('useSendContext', () => {
       lifecycleStatus: expect.any(Object),
       updateLifecycleStatus: expect.any(Function),
       ethBalance: expect.any(Number),
-      selectedRecipientAddress: expect.any(Object),
-      handleAddressSelection: expect.any(Function),
+      selectedRecipient: expect.any(Object),
+      handleRecipientSelection: expect.any(Function),
       selectedToken: null,
       handleRecipientInputChange: expect.any(Function),
       handleTokenSelection: expect.any(Function),
@@ -129,15 +129,15 @@ describe('useSendContext', () => {
     });
 
     act(() => {
-      result.current.handleAddressSelection({
-        display: 'user.eth',
-        value: '0x1234',
+      result.current.handleRecipientSelection({
+        displayValue: 'user.eth',
+        address: '0x1234',
       });
     });
 
-    expect(result.current.selectedRecipientAddress).toEqual({
-      display: 'user.eth',
-      value: '0x1234',
+    expect(result.current.selectedRecipient).toEqual({
+      displayValue: 'user.eth',
+      address: '0x1234',
     });
     expect(result.current.lifecycleStatus.statusName).toBe('selectingToken');
   });
@@ -148,24 +148,24 @@ describe('useSendContext', () => {
     });
 
     act(() => {
-      result.current.handleAddressSelection({
-        display: 'user.eth',
-        value: '0x1234',
+      result.current.handleRecipientSelection({
+        displayValue: 'user.eth',
+        address: '0x1234',
       });
     });
 
-    expect(result.current.selectedRecipientAddress).toEqual({
-      display: 'user.eth',
-      value: '0x1234',
+    expect(result.current.selectedRecipient).toEqual({
+      displayValue: 'user.eth',
+      address: '0x1234',
     });
 
     act(() => {
       result.current.handleRecipientInputChange();
     });
 
-    expect(result.current.selectedRecipientAddress).toEqual({
-      display: '',
-      value: null,
+    expect(result.current.selectedRecipient).toEqual({
+      displayValue: '',
+      address: null,
     });
 
     expect(result.current.lifecycleStatus.statusName).toBe('selectingAddress');

@@ -41,8 +41,8 @@ const mockChain = {
 } as Chain;
 
 const mockSendContext = {
-  selectedRecipientAddress: { value: null, display: '' },
-  handleAddressSelection: vi.fn(),
+  selectedRecipient: { address: null, displayValue: '' },
+  handleRecipientSelection: vi.fn(),
   handleRecipientInputChange: vi.fn(),
 };
 
@@ -63,7 +63,7 @@ describe('SendAddressSelection', () => {
 
     expect(SendAddressInput).toHaveBeenCalledWith(
       expect.objectContaining({
-        selectedRecipientAddress: mockSendContext.selectedRecipientAddress,
+        selectedRecipient: mockSendContext.selectedRecipient,
         recipientInput: '',
         handleRecipientInputChange: mockSendContext.handleRecipientInputChange,
       }),
@@ -92,12 +92,12 @@ describe('SendAddressSelection', () => {
     );
   });
 
-  it('does not render SendAddressSelector when selectedRecipientAddress.value exists', () => {
+  it('does not render SendAddressSelector when selectedRecipient.address exists', () => {
     vi.mocked(mockUseSendContext).mockReturnValue({
       ...mockSendContext,
-      selectedRecipientAddress: {
-        value: '0x1234567890123456789012345678901234567890',
-        display: 'user.eth',
+      selectedRecipient: {
+        address: '0x1234567890123456789012345678901234567890',
+        displayValue: 'user.eth',
       },
     });
 
@@ -109,7 +109,7 @@ describe('SendAddressSelection', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('does not render SendAddressSelector when validatedInput.value is null', () => {
+  it('does not render SendAddressSelector when validatedInput.address is null', () => {
     render(<SendAddressSelection />);
 
     expect(SendAddressSelector).not.toHaveBeenCalled();
@@ -118,14 +118,14 @@ describe('SendAddressSelection', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('renders SendAddressSelector when validatedInput.value exists and no selectedRecipientAddress', async () => {
+  it('renders SendAddressSelector when validatedInput.address exists and no selectedRecipient.address', async () => {
     const { rerender } = render(<SendAddressSelection />);
     const { setValidatedInput } = vi.mocked(SendAddressInput).mock.calls[0][0];
 
     act(() => {
       setValidatedInput({
-        value: '0x1234567890123456789012345678901234567890',
-        display: 'user.eth',
+        address: '0x1234567890123456789012345678901234567890',
+        displayValue: 'user.eth',
       });
 
       rerender(<SendAddressSelection />);
@@ -158,8 +158,8 @@ describe('SendAddressSelection', () => {
 
     act(() => {
       setValidatedInput({
-        value: '0x1234567890123456789012345678901234567890',
-        display: 'user.eth',
+        address: '0x1234567890123456789012345678901234567890',
+        displayValue: 'user.eth',
       });
 
       rerender(<SendAddressSelection classNames={customClassNames} />);
@@ -173,10 +173,10 @@ describe('SendAddressSelection', () => {
     );
   });
 
-  it('calls resolveAddressInput and handleAddressSelection when handleClick is triggered', async () => {
+  it('calls resolveAddressInput and handleRecipientSelection when handleClick is triggered', async () => {
     vi.mocked(resolveAddressInput).mockResolvedValue({
-      value: '0x9876543210987654321098765432109876543210',
-      display: 'resolved.eth',
+      address: '0x9876543210987654321098765432109876543210',
+      displayValue: 'resolved.eth',
     });
 
     const { rerender } = render(<SendAddressSelection />);
@@ -184,8 +184,8 @@ describe('SendAddressSelection', () => {
     const { setValidatedInput } = vi.mocked(SendAddressInput).mock.calls[0][0];
     act(() => {
       setValidatedInput({
-        value: '0x1234567890123456789012345678901234567890',
-        display: 'user.eth',
+        address: '0x1234567890123456789012345678901234567890',
+        displayValue: 'user.eth',
       });
 
       rerender(<SendAddressSelection />);
@@ -199,9 +199,9 @@ describe('SendAddressSelection', () => {
       '0x1234567890123456789012345678901234567890',
       'user.eth',
     );
-    expect(mockSendContext.handleAddressSelection).toHaveBeenCalledWith({
-      value: '0x9876543210987654321098765432109876543210',
-      display: 'resolved.eth',
+    expect(mockSendContext.handleRecipientSelection).toHaveBeenCalledWith({
+      address: '0x9876543210987654321098765432109876543210',
+      displayValue: 'resolved.eth',
     });
   });
 });

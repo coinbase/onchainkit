@@ -50,7 +50,7 @@ describe('Send', () => {
     vi.mocked(useSendContext).mockReturnValue({
       isInitialized: false,
       ethBalance: 0,
-      selectedRecipientAddress: { value: null, display: '' },
+      selectedRecipient: { address: null, displayValue: '' },
       selectedToken: null,
     } as SendContextType);
 
@@ -65,7 +65,7 @@ describe('Send', () => {
     vi.mocked(useSendContext).mockReturnValue({
       isInitialized: false,
       ethBalance: 0,
-      selectedRecipientAddress: { value: null, display: '' },
+      selectedRecipient: { address: null, displayValue: '' },
       selectedToken: null,
     } as SendContextType);
 
@@ -93,7 +93,7 @@ describe('Send', () => {
       vi.mocked(useSendContext).mockReturnValue({
         isInitialized: false,
         ethBalance: undefined,
-        selectedRecipientAddress: { value: null, display: '' },
+        selectedRecipient: { address: null, displayValue: '' },
         selectedToken: null,
       } as SendContextType);
 
@@ -122,7 +122,7 @@ describe('Send', () => {
       vi.mocked(useSendContext).mockReturnValue({
         isInitialized: true,
         ethBalance: ETH_REQUIRED_FOR_SEND + 0.0000000001, // de-minimis amount above ETH_REQUIRED_FOR_SEND
-        selectedRecipientAddress: { value: null, display: '' },
+        selectedRecipient: { address: null, displayValue: '' },
         selectedToken: null,
       } as SendContextType);
 
@@ -138,9 +138,9 @@ describe('Send', () => {
       vi.mocked(useSendContext).mockReturnValue({
         isInitialized: true,
         ethBalance: ETH_REQUIRED_FOR_SEND + 0.0000000001, // de-minimis amount above ETH_REQUIRED_FOR_SEND
-        selectedRecipientAddress: {
-          value: '0x1234567890123456789012345678901234567890' as Address,
-          display: '0x1234567890123456789012345678901234567890',
+        selectedRecipient: {
+          address: '0x1234567890123456789012345678901234567890' as Address,
+          displayValue: '0x1234567890123456789012345678901234567890',
         },
         selectedToken: null,
       } as SendContextType);
@@ -157,9 +157,9 @@ describe('Send', () => {
       vi.mocked(useSendContext).mockReturnValue({
         isInitialized: true,
         ethBalance: ETH_REQUIRED_FOR_SEND + 0.0000001,
-        selectedRecipientAddress: {
-          value: '0x1234567890123456789012345678901234567890' as Address,
-          display: '0x1234567890123456789012345678901234567890',
+        selectedRecipient: {
+          address: '0x1234567890123456789012345678901234567890' as Address,
+          displayValue: '0x1234567890123456789012345678901234567890',
         },
         selectedToken: mockSelectedtoken,
       } as SendContextType);

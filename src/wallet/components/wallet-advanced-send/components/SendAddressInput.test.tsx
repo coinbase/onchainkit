@@ -20,7 +20,7 @@ vi.mock('../utils/validateAddressInput', () => ({
 
 describe('SendAddressInput', () => {
   const mockProps = {
-    selectedRecipientAddress: { value: null, display: '' },
+    selectedRecipient: { address: null, displayValue: '' },
     recipientInput: '',
     setRecipientInput: vi.fn(),
     setValidatedInput: vi.fn(),
@@ -57,12 +57,12 @@ describe('SendAddressInput', () => {
     );
   });
 
-  it('displays selectedRecipientAddress.display when available', () => {
+  it('displays selectedRecipient.displayValue when available', () => {
     const props = {
       ...mockProps,
-      selectedRecipientAddress: {
-        value: '0x1234567890123456789012345678901234567890' as Address,
-        display: 'user.eth',
+      selectedRecipient: {
+        address: '0x1234567890123456789012345678901234567890' as Address,
+        displayValue: 'user.eth',
       },
     };
 
@@ -76,10 +76,10 @@ describe('SendAddressInput', () => {
     );
   });
 
-  it('displays recipientInput when no selectedRecipientAddress.display', () => {
+  it('displays recipientInput when no selectedRecipient.displayValue', () => {
     const props = {
       ...mockProps,
-      selectedRecipientAddress: { value: null, display: '' },
+      selectedRecipient: { address: null, displayValue: '' },
       recipientInput: 'test-input',
     };
 
@@ -93,12 +93,12 @@ describe('SendAddressInput', () => {
     );
   });
 
-  it('calls handleRecipientInputChange on focus when selectedRecipientAddress.value exists', () => {
+  it('calls handleRecipientInputChange on focus when selectedRecipient.address exists', () => {
     const props = {
       ...mockProps,
-      selectedRecipientAddress: {
-        value: '0x1234567890123456789012345678901234567890' as Address,
-        display: 'user.eth',
+      selectedRecipient: {
+        address: '0x1234567890123456789012345678901234567890' as Address,
+        displayValue: 'user.eth',
       },
     };
 
@@ -111,7 +111,7 @@ describe('SendAddressInput', () => {
     expect(props.handleRecipientInputChange).toHaveBeenCalled();
   });
 
-  it('does not call handleRecipientInputChange on focus when selectedRecipientAddress.value does not exist', () => {
+  it('does not call handleRecipientInputChange on focus when selectedRecipient.address does not exist', () => {
     render(<SendAddressInput {...mockProps} />);
 
     const { onFocus } = vi.mocked(TextInput).mock.calls[0][0];
@@ -133,8 +133,8 @@ describe('SendAddressInput', () => {
 
   it('calls resolveAddressInput and setValidatedInput when input changes', async () => {
     vi.mocked(resolveAddressInput).mockResolvedValue({
-      value: '0x456',
-      display: 'resolved.eth',
+      address: '0x456',
+      displayValue: 'resolved.eth',
     });
 
     render(<SendAddressInput {...mockProps} />);
@@ -145,8 +145,8 @@ describe('SendAddressInput', () => {
 
     expect(resolveAddressInput).toHaveBeenCalledWith(null, 'new-input');
     expect(mockProps.setValidatedInput).toHaveBeenCalledWith({
-      value: '0x456',
-      display: 'resolved.eth',
+      address: '0x456',
+      displayValue: 'resolved.eth',
     });
   });
 

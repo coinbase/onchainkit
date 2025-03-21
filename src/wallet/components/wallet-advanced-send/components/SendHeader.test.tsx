@@ -44,7 +44,7 @@ describe('SendHeader', () => {
   };
 
   const mockSendContext = {
-    selectedRecipientAddress: { value: null, display: null },
+    selectedRecipient: { address: null, displayValue: '' },
     selectedToken: null,
     handleResetTokenSelection: vi.fn(),
     handleRecipientInputChange: vi.fn(),
@@ -80,7 +80,7 @@ describe('SendHeader', () => {
 
     mockUseSendContext.mockReturnValue({
       ...mockSendContext,
-      selectedRecipientAddress: { value: '0x123', display: 'user.eth' },
+      selectedRecipient: { address: '0x123', displayValue: 'user.eth' },
     });
 
     render(<SendHeader classNames={customClassNames} />);
@@ -101,9 +101,9 @@ describe('SendHeader', () => {
   it('shows back button when recipient address is selected', () => {
     mockUseSendContext.mockReturnValue({
       ...mockSendContext,
-      selectedRecipientAddress: {
-        value: '0x1234567890123456789012345678901234567890',
-        display: 'user.eth',
+      selectedRecipient: {
+        address: '0x1234567890123456789012345678901234567890',
+        displayValue: 'user.eth',
       },
     });
 
@@ -126,7 +126,7 @@ describe('SendHeader', () => {
   it('calls handleResetTokenSelection when back button is clicked and token is selected', () => {
     mockUseSendContext.mockReturnValue({
       ...mockSendContext,
-      selectedRecipientAddress: { value: '0x123', display: 'user.eth' },
+      selectedRecipient: { address: '0x123', displayValue: 'user.eth' },
       selectedToken: { symbol: 'ETH' },
     });
 
@@ -142,7 +142,7 @@ describe('SendHeader', () => {
   it('calls handleRecipientInputChange when back button is clicked and no token is selected', () => {
     mockUseSendContext.mockReturnValue({
       ...mockSendContext,
-      selectedRecipientAddress: { value: '0x123', display: 'user.eth' },
+      selectedRecipient: { address: '0x123', displayValue: 'user.eth' },
       selectedToken: null,
     });
 

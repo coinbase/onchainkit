@@ -36,7 +36,7 @@ export function Send({
 }
 
 function SendDefaultChildren() {
-  const { ethBalance, isInitialized, selectedRecipientAddress, selectedToken } =
+  const { ethBalance, isInitialized, selectedRecipient, selectedToken } =
     useSendContext();
 
   const walletHasEth = (ethBalance ?? 0) > ETH_REQUIRED_FOR_SEND;
@@ -52,11 +52,11 @@ function SendDefaultChildren() {
         <div className="flex h-full flex-col justify-between gap-4">
           <div>
             <SendAddressSelection />
-            {selectedRecipientAddress.value && !selectedToken && (
+            {selectedRecipient.address && !selectedToken && (
               <SendTokenSelector />
             )}
           </div>
-          {selectedRecipientAddress.value && selectedToken && (
+          {selectedRecipient.address && selectedToken && (
             <>
               <SendAmountInput />
               <SendTokenSelector />

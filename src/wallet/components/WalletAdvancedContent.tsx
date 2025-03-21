@@ -42,7 +42,7 @@ export function WalletAdvancedContent({
     if (activeFeature === 'send') {
       return (
         <ContentWrapper>
-          <Send className={cn('h-full w-full border-none')} />
+          <Send className="h-full w-full border-none" />
         </ContentWrapper>
       );
     }

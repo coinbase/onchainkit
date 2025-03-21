@@ -117,8 +117,9 @@ describe('SendButton', () => {
   };
 
   const mockSendContext = {
-    selectedRecipientAddress: {
-      value: '0x9876543210987654321098765432109876543210',
+    selectedRecipient: {
+      address: '0x9876543210987654321098765432109876543210',
+      displayValue: 'resolved.eth',
     },
     cryptoAmount: '1.0',
     selectedToken: mockSelectedtoken,

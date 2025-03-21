@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useWalletContext } from '../../WalletProvider';
 import type {
-  RecipientAddress,
+  Recipient,
   SendAddressInputProps,
   SendAddressSelectorProps,
 } from '../types';
@@ -21,40 +21,40 @@ export function SendAddressSelection({
   classNames,
 }: SendAddressSelectionProps) {
   const [recipientInput, setRecipientInput] = useState<string>('');
-  const [validatedInput, setValidatedInput] = useState<RecipientAddress>({
-    display: '',
-    value: null,
+  const [validatedInput, setValidatedInput] = useState<Recipient>({
+    displayValue: '',
+    address: null,
   });
 
   const { chain: senderChain } = useWalletContext();
   const {
-    selectedRecipientAddress,
-    handleAddressSelection,
+    selectedRecipient,
+    handleRecipientSelection,
     handleRecipientInputChange,
   } = useSendContext();
 
   const handleClick = useCallback(async () => {
     const resolvedSelection = await resolveAddressInput(
-      validatedInput.value,
-      validatedInput.display,
+      validatedInput.address,
+      validatedInput.displayValue,
     );
-    handleAddressSelection(resolvedSelection);
-  }, [validatedInput, handleAddressSelection]);
+    handleRecipientSelection(resolvedSelection);
+  }, [validatedInput, handleRecipientSelection]);
 
   const addressSelector = useMemo(() => {
-    if (selectedRecipientAddress.value || !validatedInput.value) {
+    if (selectedRecipient.address || !validatedInput.address) {
       return null;
     }
     return (
       <SendAddressSelector
-        address={validatedInput.value}
+        address={validatedInput.address}
         senderChain={senderChain}
         handleClick={handleClick}
         classNames={classNames?.selector}
       />
     );
   }, [
-    selectedRecipientAddress,
+    selectedRecipient,
     validatedInput,
     senderChain,
     handleClick,
@@ -64,7 +64,7 @@ export function SendAddressSelection({
   return (
     <div>
       <SendAddressInput
-        selectedRecipientAddress={selectedRecipientAddress}
+        selectedRecipient={selectedRecipient}
         recipientInput={recipientInput}
         setRecipientInput={setRecipientInput}
         setValidatedInput={setValidatedInput}

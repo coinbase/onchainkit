@@ -16,7 +16,7 @@ import {
 import { formatUnits } from 'viem';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import type {
-  RecipientAddress,
+  Recipient,
   SendContextType,
   SendLifecycleStatus,
   SendProviderReact,
@@ -36,11 +36,10 @@ export function useSendContext() {
 
 export function SendProvider({ children }: SendProviderReact) {
   // state for recipient address selection
-  const [selectedRecipientAddress, setSelectedRecipientAddress] =
-    useState<RecipientAddress>({
-      display: '',
-      value: null,
-    });
+  const [selectedRecipient, setSelectedRecipient] = useState<Recipient>({
+    displayValue: '',
+    address: null,
+  });
 
   // state for token selection
   const [selectedToken, setSelectedToken] =
@@ -129,9 +128,9 @@ export function SendProvider({ children }: SendProviderReact) {
 
   // handlers
   const handleRecipientInputChange = useCallback(() => {
-    setSelectedRecipientAddress({
-      display: '',
-      value: null,
+    setSelectedRecipient({
+      displayValue: '',
+      address: null,
     });
     updateLifecycleStatus({
       statusName: 'selectingAddress',
@@ -142,8 +141,8 @@ export function SendProvider({ children }: SendProviderReact) {
   }, [updateLifecycleStatus]);
 
   const handleAddressSelection = useCallback(
-    async (selection: RecipientAddress) => {
-      setSelectedRecipientAddress(selection);
+    async (selection: Recipient) => {
+      setSelectedRecipient(selection);
       updateLifecycleStatus({
         statusName: 'selectingToken',
         statusData: {
@@ -214,8 +213,8 @@ export function SendProvider({ children }: SendProviderReact) {
     lifecycleStatus,
     updateLifecycleStatus,
     ethBalance,
-    selectedRecipientAddress,
-    handleAddressSelection,
+    selectedRecipient,
+    handleRecipientSelection: handleAddressSelection,
     selectedToken,
     handleRecipientInputChange,
     handleTokenSelection,
