@@ -9,9 +9,11 @@ The `fetchOnrampOptions` utility retrieves supported fiat currencies and availab
 ```tsx twoslash [code]
 import { fetchOnrampOptions } from '@coinbase/onchainkit/fund';
 
+// When using with OnchainKitProvider
 const options = await fetchOnrampOptions({
   country: 'US',
   subdivision: 'CA', // Required for US residents
+  apiKey: 'your-api-key', //   Required when using without OnchainKitProvider or in non-React environment
 });
 ```
 
@@ -50,16 +52,22 @@ const options = await fetchOnrampOptions({
 {
   /**
    * ISO 3166-1 two-digit country code string representing
-   * the purchasing user’s country of residence, e.g., US.
+   * the purchasing user's country of residence, e.g., US.
    */
   country: string;
   /**
    * ISO 3166-2 two-digit country subdivision code representing
-   * the purchasing user’s subdivision of residence within their country,
-   * e.g. NY. Required if the country=“US” because certain states (e.g., NY)
+   * the purchasing user's subdivision of residence within their country,
+   * e.g. NY. Required if the country="US" because certain states (e.g., NY)
    * have state specific asset restrictions.
    */
   subdivision?: string;
+  /**
+   * Optional API key for Coinbase Onramp. If not provided, the API key from
+   * OnchainKitProvider will be used. Required when using the utility without
+   * OnchainKitProvider or in a non-React environment.
+   */
+  apiKey?: string;
 }
 ```
 

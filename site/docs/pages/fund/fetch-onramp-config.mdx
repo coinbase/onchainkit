@@ -9,7 +9,11 @@ The `fetchOnrampConfig` utility fetches the list of countries supported by Coinb
 ```tsx twoslash [code]
 import { fetchOnrampConfig } from '@coinbase/onchainkit/fund';
 
+// When using with OnchainKitProvider
 const config = await fetchOnrampConfig();
+
+// When using without OnchainKitProvider or in non-React environment
+const config2 = await fetchOnrampConfig('your-api-key');
 ```
 
 ```json [return value]
@@ -34,6 +38,17 @@ const config = await fetchOnrampConfig();
 ```
 
 :::
+
+## Parameters
+
+```typescript
+/**
+ * Optional API key for Coinbase Onramp. If not provided, the API key from
+ * OnchainKitProvider will be used. Required when using the utility without
+ * OnchainKitProvider or in a non-React environment.
+ */
+apiKey?: string;
+```
 
 ## Returns
 

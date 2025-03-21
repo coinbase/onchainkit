@@ -9,6 +9,7 @@ The `fetchOnrampQuote` utility provides a quote based on the asset the user woul
 ```tsx twoslash [code]
 import { fetchOnrampQuote } from '@coinbase/onchainkit/fund';
 
+// When using with OnchainKitProvider
 const quote = await fetchOnrampQuote({
   purchaseCurrency: 'ETH',
   purchaseNetwork: 'ethereum',
@@ -17,6 +18,7 @@ const quote = await fetchOnrampQuote({
   paymentAmount: '100.00',
   country: 'US',
   subdivision: 'CA', // Required for US residents
+  apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in non-React environment
 });
 ```
 
@@ -93,6 +95,13 @@ const quote = await fetchOnrampQuote({
    * because certain states (e.g., NY) have state specific asset restrictions.
    */
   subdivision?: string;
+
+  /**
+   * Optional API key for Coinbase Onramp. If not provided, the API key from
+   * OnchainKitProvider will be used. Required when using the utility without
+   * OnchainKitProvider or in a non-React environment.
+   */
+  apiKey?: string;
 }
 ```
 
