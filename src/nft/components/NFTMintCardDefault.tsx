@@ -10,6 +10,9 @@ import type { NFTMintCardDefaultReact } from '@/nft/types';
 import { NFTMintCard } from './NFTMintCard';
 import { NFTMedia } from './view';
 
+/**
+ * @deprecated Use the `NFTMintCard` component instead with no 'children' props.
+ */
 export function NFTMintCardDefault({
   contractAddress,
   tokenId,

@@ -194,7 +194,7 @@ export type TransactionReact = {
   /** The chainId for the transaction */
   chainId?: number;
   /** The child components to be rendered within the transaction component */
-  children: ReactNode;
+  children?: ReactNode;
   /** An optional CSS class name for styling the component */
   className?: string;
   /**
@@ -211,7 +211,18 @@ export type TransactionReact = {
   onSuccess?: (response: TransactionResponse) => void;
   /** An optional time (in ms) after which to reset the component */
   resetAfter?: number;
-};
+} & (
+  | {
+      children: ReactNode;
+      /** An optional prop to disable submit button. Only available when children are not provided. */
+      disabled?: never;
+    }
+  | {
+      children?: never;
+      /** An optional prop to disable submit button. Only available when children are not provided. */
+      disabled?: boolean;
+    }
+);
 
 /**
  * Note: exported as public Type
@@ -233,7 +244,7 @@ export type TransactionSponsorReact = {
  */
 export type TransactionStatusReact = {
   /** The child components to be rendered within the status component */
-  children: ReactNode;
+  children?: ReactNode;
   /** An optional CSS class name for styling the status component */
   className?: string;
 };
@@ -259,7 +270,7 @@ export type TransactionStatusLabelReact = {
  */
 export type TransactionToastReact = {
   /** The child components to be rendered within the toast component */
-  children: ReactNode;
+  children?: ReactNode;
   /** An optional CSS class name for styling the toast component */
   className?: string;
   /** An optional value to customize time until toast disappears */

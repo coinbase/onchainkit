@@ -9,7 +9,7 @@ export function useTheme(): UseThemeReact {
   } = useOnchainKit();
   const { theme = 'default', mode = 'auto' } = appearance || {};
 
-  if (theme === 'cyberpunk' || theme === 'base' || theme === 'hacker') {
+  if (theme === 'cyberpunk' || theme === 'hacker') {
     return theme;
   }
 

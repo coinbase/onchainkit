@@ -3,7 +3,9 @@ import { useTheme } from '../../internal/hooks/useTheme';
 import { cn } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
 import type { TransactionReact } from '../types';
+import { TransactionButton } from './TransactionButton';
 import { TransactionProvider } from './TransactionProvider';
+import { TransactionToast } from './TransactionToast';
 
 export function Transaction({
   calls,
@@ -12,6 +14,7 @@ export function Transaction({
   className,
   children,
   contracts,
+  disabled = false,
   isSponsored,
   onError,
   onStatus,
@@ -50,7 +53,12 @@ export function Transaction({
       <div
         className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}
       >
-        {children}
+        {children ?? (
+          <>
+            <TransactionButton disabled={disabled} />
+            <TransactionToast />
+          </>
+        )}
       </div>
     </TransactionProvider>
   );
