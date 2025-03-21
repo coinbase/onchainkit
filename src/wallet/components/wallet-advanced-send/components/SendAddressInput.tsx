@@ -2,7 +2,7 @@
 
 import { TextInput } from '@/internal/components/TextInput';
 import { background, border, cn, color } from '@/styles/theme';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import type { SendAddressInputProps } from '../types';
 import { resolveAddressInput } from '../utils/resolveAddressInput';
 import { validateAddressInput } from '../utils/validateAddressInput';
@@ -15,12 +15,7 @@ export function SendAddressInput({
   handleRecipientInputChange,
   classNames,
 }: SendAddressInputProps) {
-  const displayValue = useMemo(() => {
-    if (selectedRecipient?.displayValue) {
-      return selectedRecipient.displayValue;
-    }
-    return recipientInput;
-  }, [selectedRecipient, recipientInput]);
+  const displayValue = selectedRecipient?.displayValue || recipientInput;
 
   const handleFocus = useCallback(() => {
     if (selectedRecipient.address) {
@@ -37,6 +32,11 @@ export function SendAddressInput({
       setValidatedInput(resolved);
     },
     [selectedRecipient.address, setValidatedInput],
+  );
+
+  const validateInput = useCallback(
+    (recipientInput: string) => !!validateAddressInput(recipientInput),
+    [],
   );
 
   return (
@@ -56,9 +56,7 @@ export function SendAddressInput({
         inputMode="text"
         placeholder="Basename, ENS, or Address"
         value={displayValue}
-        inputValidator={(recipientInput) =>
-          !!validateAddressInput(recipientInput)
-        }
+        inputValidator={validateInput}
         setValue={setRecipientInput}
         onChange={handleSetValue}
         onFocus={handleFocus}
