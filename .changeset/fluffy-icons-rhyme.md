@@ -2,7 +2,7 @@
 "@coinbase/onchainkit": minor
 ---
 
-- **feat**: Added `Signature` component which utilizes wagmi signTypedData (EIP 712) and signMessage (personal_sign falling back to eth_sign) to sign data. @By alessey #2105
+- **feat**: Added `Signature` component which utilizes wagmi signTypedData (EIP 712) and signMessage (personal_sign falling back to eth_sign) to sign data. By @alessey #2105
 - **feat**: Added light/dark mode support for the Base `theme`. This will respect the `mode` setting in your `OnchainKitProvider` config (defaults to 'auto' if not specified). Users of the Base theme may now see light or dark variants depending on their system preferences or explicit mode configuration. By @cpcramer #2143
 - **feat**: Added `Badge` tooltip display. By @cpcramer #2140
 - **feat**: Implemented default children for `NFTCard`, `NFTMintCard`, and `Transaction` components. By @dgca @abcrane123 #2138 #2139 #2108
