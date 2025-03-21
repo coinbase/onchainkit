@@ -108,22 +108,12 @@ export type WalletContextType = {
  * Note: exported as public Type
  */
 export type WalletReact = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 } & (
   | { draggable?: true; draggableStartingPosition?: { x: number; y: number } }
   | { draggable?: false; draggableStartingPosition?: never }
 );
-
-export type WalletSubComponentReact = {
-  connect: React.ReactNode;
-  connectRef: React.RefObject<HTMLDivElement>;
-  dropdown: React.ReactNode;
-  advanced: React.ReactNode;
-  isSubComponentOpen: boolean;
-  alignSubComponentRight: boolean;
-  showSubComponentAbove: boolean;
-};
 
 /**
  * Note: exported as public Type
@@ -146,7 +136,7 @@ export type WalletDropdownBasenameReact = {
  * Note: exported as public Type
  */
 export type WalletDropdownReact = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   /** Optional className override for top div element */
   className?: string;
 };
@@ -204,7 +194,7 @@ export type WalletDropdownLinkReact = {
  * Note: exported as public Type
  */
 export type WalletAdvancedReact = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   swappableTokens?: Token[];
   classNames?: {
     container?: string;
