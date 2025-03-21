@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "clean:all": "rm -rf node_modules packages/*/node_modules"
+    "clean:all": "rm -rf node_modules packages/*/node_modules",
+    "ock": "pnpm --filter @coinbase/onchainkit"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,7 @@
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "globals": "^16.0.0",
     "prettier": "^3.5.3",
     "typescript": "~5.4.0",
