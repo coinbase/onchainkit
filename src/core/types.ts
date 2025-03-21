@@ -89,7 +89,8 @@ export type ComponentTheme =
  * Internal theme options, including light/dark variants for 'default'
  */
 export type UseThemeReact =
-  | 'base'
+  | 'base-light'
+  | 'base-dark'
   | 'cyberpunk'
   | 'default'
   | 'hacker'
