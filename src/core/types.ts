@@ -46,32 +46,22 @@ export type CreateWagmiConfigParams = {
 /**
  * Note: exported as public Type
  */
-export type IsBaseOptions = {
+export type isBaseOptions = {
   /** Chain ID for the network */
   chainId: number;
   /** If the chainId check is only allowed on mainnet */
   isMainnetOnly?: boolean;
 };
-
-/**
- * @deprecated Use IsBaseOptions instead
- */
-export type isBaseOptions = IsBaseOptions;
 
 /**
  * Note: exported as public Type
  */
-export type IsEthereumOptions = {
+export type isEthereumOptions = {
   /** Chain ID for the network */
   chainId: number;
   /** If the chainId check is only allowed on mainnet */
   isMainnetOnly?: boolean;
 };
-
-/**
- * @deprecated Use IsEthereumOptions instead
- */
-export type isEthereumOptions = IsEthereumOptions;
 
 export type Mode = 'auto' | 'light' | 'dark';
 

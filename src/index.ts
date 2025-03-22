@@ -10,12 +10,10 @@ export { useOnchainKit } from './useOnchainKit';
 export { version } from './version';
 export type {
   AppConfig,
-  IsBaseOptions,
-  IsEthereumOptions,
-  OnchainKitConfig,
-  OnchainKitContextType,
   isBaseOptions,
   isEthereumOptions,
+  OnchainKitConfig,
+  OnchainKitContextType,
 } from './core/types';
 
 export type { OnchainKitProviderReact } from './types';
