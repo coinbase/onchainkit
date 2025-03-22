@@ -1,17 +1,17 @@
 import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
 import { type Address, isAddress } from 'viem';
-import type { RecipientAddress } from '../types';
+import type { Recipient } from '../types';
 import { validateAddressInput } from './validateAddressInput';
 
 export async function resolveAddressInput(
   selectedAddress: Address | null,
   input: string | null,
-): Promise<RecipientAddress> {
+): Promise<Recipient> {
   // if there is no user input, return nullish values
   if (!input) {
     return {
-      display: '',
-      value: null,
+      displayValue: '',
+      address: null,
     };
   }
 
@@ -19,8 +19,8 @@ export async function resolveAddressInput(
   if (!selectedAddress) {
     const validatedAddress = await validateAddressInput(input);
     return {
-      display: input,
-      value: validatedAddress,
+      displayValue: input,
+      address: validatedAddress,
     };
   }
 
@@ -28,14 +28,14 @@ export async function resolveAddressInput(
   // if the user's input is address-format, then return the sliced address
   if (isAddress(input)) {
     return {
-      display: getSlicedAddress(input),
-      value: selectedAddress,
+      displayValue: getSlicedAddress(input),
+      address: selectedAddress,
     };
   }
 
   // otherwise, the user's input is a name, so display the name
   return {
-    display: input,
-    value: selectedAddress,
+    displayValue: input,
+    address: selectedAddress,
   };
 }

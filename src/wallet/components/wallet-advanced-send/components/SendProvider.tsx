@@ -1,8 +1,9 @@
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { RequestContext } from '@/core/network/constants';
-import { useExchangeRate } from '@/internal/hooks/useExchangeRate';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
+import { usePriceQuote } from '@/internal/hooks/usePriceQuote';
 import { useValue } from '@/internal/hooks/useValue';
+import { isApiError } from '@/internal/utils/isApiResponseError';
 import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
 import {
   createContext,
@@ -15,7 +16,7 @@ import {
 import { formatUnits } from 'viem';
 import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import type {
-  RecipientAddress,
+  Recipient,
   SendContextType,
   SendLifecycleStatus,
   SendProviderReact,
@@ -35,11 +36,10 @@ export function useSendContext() {
 
 export function SendProvider({ children }: SendProviderReact) {
   // state for recipient address selection
-  const [selectedRecipientAddress, setSelectedRecipientAddress] =
-    useState<RecipientAddress>({
-      display: '',
-      value: null,
-    });
+  const [selectedRecipient, setSelectedRecipient] = useState<Recipient>({
+    displayValue: '',
+    address: null,
+  });
 
   // state for token selection
   const [selectedToken, setSelectedToken] =
@@ -107,19 +107,30 @@ export function SendProvider({ children }: SendProviderReact) {
   }, [ethBalance, updateLifecycleStatus]);
 
   // fetch & set exchange rate
-  const { isLoading: exchangeRateLoading, exchangeRate } = useExchangeRate(
-    {
-      token: selectedToken?.address === '' ? 'ETH' : selectedToken?.address,
-      selectedInputType,
-    },
-    RequestContext.Wallet,
-  );
+  const { isLoading: exchangeRateLoading, data: exchangeRateData } =
+    usePriceQuote(
+      {
+        token: selectedToken?.address === '' ? 'ETH' : selectedToken?.address,
+      },
+      RequestContext.Wallet,
+    );
+  const exchangeRate = useMemo(() => {
+    if (
+      !exchangeRateData ||
+      isApiError(exchangeRateData) ||
+      exchangeRateData.priceQuotes.length === 0
+    ) {
+      return 0;
+    }
+
+    return 1 / Number(exchangeRateData.priceQuotes[0].price);
+  }, [exchangeRateData]);
 
   // handlers
   const handleRecipientInputChange = useCallback(() => {
-    setSelectedRecipientAddress({
-      display: '',
-      value: null,
+    setSelectedRecipient({
+      displayValue: '',
+      address: null,
     });
     updateLifecycleStatus({
       statusName: 'selectingAddress',
@@ -130,8 +141,8 @@ export function SendProvider({ children }: SendProviderReact) {
   }, [updateLifecycleStatus]);
 
   const handleAddressSelection = useCallback(
-    async (selection: RecipientAddress) => {
-      setSelectedRecipientAddress(selection);
+    async (selection: Recipient) => {
+      setSelectedRecipient(selection);
       updateLifecycleStatus({
         statusName: 'selectingToken',
         statusData: {
@@ -202,8 +213,8 @@ export function SendProvider({ children }: SendProviderReact) {
     lifecycleStatus,
     updateLifecycleStatus,
     ethBalance,
-    selectedRecipientAddress,
-    handleAddressSelection,
+    selectedRecipient,
+    handleRecipientSelection: handleAddressSelection,
     selectedToken,
     handleRecipientInputChange,
     handleTokenSelection,

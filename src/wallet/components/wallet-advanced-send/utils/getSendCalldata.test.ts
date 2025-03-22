@@ -2,7 +2,7 @@ import { buildSendTransaction } from '@/api/buildSendTransaction';
 import { renderHook } from '@testing-library/react';
 import { type Address, parseUnits } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { getSendTransaction } from './getSendTransaction';
+import { getSendCalldata } from './getSendCalldata';
 
 vi.mock('@/api/buildSendTransaction', () => ({
   buildSendTransaction: vi.fn(),
@@ -12,7 +12,7 @@ vi.mock('@/internal/utils/isApiResponseError', () => ({
   isApiError: vi.fn((response) => response && 'code' in response),
 }));
 
-describe('getSendTransaction', () => {
+describe('getSendCalldata', () => {
   const mockToken = {
     name: 'USD Coin',
     symbol: 'USDC',
@@ -50,7 +50,7 @@ describe('getSendTransaction', () => {
 
   it('should return null calldata and error when parameters are missing', () => {
     const { result: result1 } = renderHook(() =>
-      getSendTransaction({
+      getSendCalldata({
         recipientAddress: null,
         token: mockToken,
         amount: mockAmount,
@@ -64,7 +64,7 @@ describe('getSendTransaction', () => {
     });
 
     const { result: result2 } = renderHook(() =>
-      getSendTransaction({
+      getSendCalldata({
         recipientAddress: mockRecipientAddress,
         token: null,
         amount: mockAmount,
@@ -78,7 +78,7 @@ describe('getSendTransaction', () => {
     });
 
     const { result: result3 } = renderHook(() =>
-      getSendTransaction({
+      getSendCalldata({
         recipientAddress: mockRecipientAddress,
         token: mockToken,
         amount: null,
@@ -101,7 +101,7 @@ describe('getSendTransaction', () => {
     };
 
     const { result } = renderHook(() =>
-      getSendTransaction({
+      getSendCalldata({
         recipientAddress: mockRecipientAddress,
         token: invalidToken,
         amount: mockAmount,
@@ -118,7 +118,7 @@ describe('getSendTransaction', () => {
 
   it('should handle ETH token correctly', () => {
     const { result } = renderHook(() =>
-      getSendTransaction({
+      getSendCalldata({
         recipientAddress: mockRecipientAddress,
         token: mockEthToken,
         amount: mockAmount,
@@ -137,7 +137,7 @@ describe('getSendTransaction', () => {
 
   it('should handle regular token correctly', () => {
     const { result } = renderHook(() =>
-      getSendTransaction({
+      getSendCalldata({
         recipientAddress: mockRecipientAddress,
         token: mockToken,
         amount: mockAmount,
@@ -164,7 +164,7 @@ describe('getSendTransaction', () => {
     mockBuildSendTransaction.mockReturnValue(apiError);
 
     const { result } = renderHook(() =>
-      getSendTransaction({
+      getSendCalldata({
         recipientAddress: mockRecipientAddress,
         token: mockToken,
         amount: mockAmount,
@@ -182,7 +182,7 @@ describe('getSendTransaction', () => {
     });
 
     const { result } = renderHook(() =>
-      getSendTransaction({
+      getSendCalldata({
         recipientAddress: mockRecipientAddress,
         token: mockToken,
         amount: mockAmount,
@@ -203,7 +203,7 @@ describe('getSendTransaction', () => {
     });
 
     const { result } = renderHook(() =>
-      getSendTransaction({
+      getSendCalldata({
         recipientAddress: mockRecipientAddress,
         token: mockToken,
         amount: mockAmount,
@@ -219,16 +219,13 @@ describe('getSendTransaction', () => {
   });
 
   it('should update when parameters change', async () => {
-    const { result, rerender } = renderHook(
-      (props) => getSendTransaction(props),
-      {
-        initialProps: {
-          recipientAddress: mockRecipientAddress as Address,
-          token: mockToken,
-          amount: mockAmount,
-        },
+    const { result, rerender } = renderHook((props) => getSendCalldata(props), {
+      initialProps: {
+        recipientAddress: mockRecipientAddress as Address,
+        token: mockToken,
+        amount: mockAmount,
       },
-    );
+    });
 
     expect(result.current.calldata).toEqual(mockCall);
 

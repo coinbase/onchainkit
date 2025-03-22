@@ -8,6 +8,7 @@ import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
 import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
+import { Send } from './wallet-advanced-send/components/Send';
 
 export function WalletAdvancedContent({
   children,
@@ -38,6 +39,14 @@ export function WalletAdvancedContent({
   }, [isSubComponentClosing, setIsSubComponentOpen, setIsSubComponentClosing]);
 
   const content = useMemo(() => {
+    if (activeFeature === 'send') {
+      return (
+        <ContentWrapper>
+          <Send className="h-full w-full border-none" />
+        </ContentWrapper>
+      );
+    }
+
     if (activeFeature === 'qr') {
       return (
         <ContentWrapper>
