@@ -25,7 +25,7 @@ type State = {
   setChainId?: (chainId: number) => void;
   transactionType?: TransactionTypes;
   setTransactionType?: (transactionType: TransactionTypes) => void;
-  paymasters?: Record<number, Paymaster>; // paymasters is per network
+  paymasters?: Record<number, Paymaster>; // paymasters are per network
   setPaymaster?: (chainId: number, url: string, enabled: boolean) => void;
   checkoutOptions?: CheckoutOptions;
   setCheckoutOptions?: (checkoutOptions: CheckoutOptions) => void;
