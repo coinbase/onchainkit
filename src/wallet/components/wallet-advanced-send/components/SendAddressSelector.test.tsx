@@ -24,7 +24,7 @@ describe('SendAddressSelector', () => {
   const mockProps = {
     address: '0x1234567890123456789012345678901234567890' as AddressType,
     senderChain: mockChain,
-    handleClick: vi.fn(),
+    onClick: vi.fn(),
     classNames: {
       container: 'custom-container',
       avatar: 'custom-avatar',
@@ -100,12 +100,12 @@ describe('SendAddressSelector', () => {
     );
   });
 
-  it('calls handleClick when button is clicked', () => {
+  it('calls onClick when button is clicked', () => {
     render(<SendAddressSelector {...mockProps} />);
 
     const button = screen.getByTestId('ockSendAddressSelector_button');
     fireEvent.click(button);
 
-    expect(mockProps.handleClick).toHaveBeenCalledTimes(1);
+    expect(mockProps.onClick).toHaveBeenCalledTimes(1);
   });
 });

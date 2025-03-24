@@ -49,7 +49,7 @@ export function SendAddressSelection({
       <SendAddressSelector
         address={validatedInput.address}
         senderChain={senderChain}
-        handleClick={handleClick}
+        onClick={handleClick}
         classNames={classNames?.selector}
       />
     );

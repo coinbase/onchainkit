@@ -138,7 +138,7 @@ export type SendAddressInputProps = {
 export type SendAddressSelectorProps = {
   address: Address | null;
   senderChain: Chain | null | undefined;
-  handleClick: () => Promise<void>;
+  onClick: () => Promise<void>;
   classNames?: {
     container?: string;
     avatar?: string;

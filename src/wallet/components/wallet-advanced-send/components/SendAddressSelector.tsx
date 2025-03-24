@@ -7,7 +7,7 @@ import type { SendAddressSelectorProps } from '../types';
 export function SendAddressSelector({
   address,
   senderChain,
-  handleClick,
+  onClick,
   classNames,
 }: SendAddressSelectorProps) {
   if (!address || !senderChain) {
@@ -18,7 +18,7 @@ export function SendAddressSelector({
     <button
       data-testid="ockSendAddressSelector_button"
       type="button"
-      onClick={handleClick}
+      onClick={onClick}
       className="w-full text-left"
     >
       <div

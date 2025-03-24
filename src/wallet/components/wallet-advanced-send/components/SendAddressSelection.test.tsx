@@ -173,7 +173,7 @@ describe('SendAddressSelection', () => {
     );
   });
 
-  it('calls resolveAddressInput and handleRecipientSelection when handleClick is triggered', async () => {
+  it('calls resolveAddressInput and handleRecipientSelection when onClick is triggered', async () => {
     vi.mocked(resolveAddressInput).mockResolvedValue({
       address: '0x9876543210987654321098765432109876543210',
       displayValue: 'resolved.eth',
@@ -191,9 +191,9 @@ describe('SendAddressSelection', () => {
       rerender(<SendAddressSelection />);
     });
 
-    const { handleClick } = vi.mocked(SendAddressSelector).mock.calls[0][0];
+    const { onClick } = vi.mocked(SendAddressSelector).mock.calls[0][0];
 
-    await handleClick();
+    await onClick();
 
     expect(resolveAddressInput).toHaveBeenCalledWith(
       '0x1234567890123456789012345678901234567890',
