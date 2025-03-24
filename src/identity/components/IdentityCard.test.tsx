@@ -170,4 +170,18 @@ describe('IdentityCard', () => {
       chain: goerli,
     });
   });
+
+  it('passes boolean tooltip prop to Badge component', () => {
+    renderWithProvider(
+      <IdentityCard address={mockAddress} badgeTooltip={true} />,
+    );
+    expect(screen.getByTestId('ockIdentity_Text')).toBeInTheDocument();
+  });
+
+  it('passes string tooltip prop to Badge component', () => {
+    renderWithProvider(
+      <IdentityCard address={mockAddress} badgeTooltip="Custom Tooltip" />,
+    );
+    expect(screen.getByTestId('ockIdentity_Text')).toBeInTheDocument();
+  });
 });
