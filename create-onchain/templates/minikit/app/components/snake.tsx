@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useEffect, useRef, useMemo, useState, DependencyList, useCallback } from 'react';
+import React, { useEffect, useRef, useMemo, useState, DependencyList, useCallback, createContext, useContext } from 'react';
 import { useOpenUrl, useNotification } from "@coinbase/onchainkit/minikit";
 import { Transaction, TransactionButton, TransactionResponse, TransactionToast, TransactionToastAction, TransactionToastIcon, TransactionToastLabel, TransactionError } from "@coinbase/onchainkit/transaction";
-import { ConnectWallet, ConnectWalletText, Wallet, WalletDropdown, WalletDropdownDisconnect, WalletDropdownLink } from "@coinbase/onchainkit/wallet";
+import { ConnectWallet, ConnectWalletText, Wallet, WalletDropdown, WalletDropdownDisconnect } from "@coinbase/onchainkit/wallet";
 import { Name, Identity, EthBalance, Address, Avatar } from "@coinbase/onchainkit/identity";
 import { getTopScores, addScore, MAX_SCORES } from "@/lib/scores-client";
 import { Score } from "@/lib/scores";
@@ -21,6 +21,7 @@ const COLORS = {
   random: () => `#${Math.floor(Math.random() * 12582912).toString(16).padStart(6, '0')}`
 };
 const NUM_TARGETS_PER_LEVEL = 10;
+const EAS_GRAPHQL_URL = "https://base.easscan.org/graphql";
 
 const GameState = {
   INTRO: 0,
@@ -89,20 +90,60 @@ const DIRECTION_MAP:Record<string, number> = {
   'ArrowLeft': MoveState.LEFT,
 };
 
-function useDbEnabled() {
-  const [dbEnabled, setDbEnabled] = useState(false);
+async function fetchDbEnabled() {
+  const res = await fetch('/api/scores', { method: 'OPTIONS' });
+  const { enabled } = await res.json();
+  return Boolean(enabled);
+}
 
-  useEffect(() => {
-    const checkDbEnabled = async () => {
-      const res = await fetch('/api/scores', { method: 'OPTIONS' });
-      const { enabled } = await res.json();
-      setDbEnabled(enabled);
-    };
+type Attestation = {
+  decodedDataJson: string;
+  attester: string;
+  time: string;
+  id: string;
+  txid: string;
+};
 
-    checkDbEnabled();
-  }, []);
+async function fetchLastAttestations() {
+  const query = `
+    query GetAttestations {
+      attestations(
+        where: { schemaId: { equals: "${SCHEMA_UID}" } }
+        orderBy: { time: desc }
+        take: 8
+      ) {
+        decodedDataJson
+        attester
+        time
+        id
+        txid
+      }
+    }
+  `;
 
-  return dbEnabled;
+  const response = await fetch(EAS_GRAPHQL_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query })
+  });
+
+  const { data } = await response.json();
+  return (data?.attestations ?? []).map((attestation: Attestation) => {
+    const parsedData = JSON.parse(attestation?.decodedDataJson ?? "[]");
+    const pattern = /(0x[a-fA-F0-9]{40}) scored (\d+) on minikit/;
+    const match = parsedData[0].value?.value?.match(pattern);
+    if (match) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [_, address, score] = match;
+      return {
+        score: parseInt(score),
+        address,
+        attestationUid: attestation.id,
+        transactionHash: attestation.txid
+      };
+    }
+    return null;
+  });
 }
 
 function useKonami(gameState: number) {
@@ -135,6 +176,74 @@ function useKonami(gameState: number) {
   };
 
   return { konami, updateSequence };
+}
+
+type HighScoresContextType = {
+  isDbEnabled: boolean | undefined;
+  highScores: Score[];
+  checkIsHighScore: (currentScore: number) => boolean;
+  invalidateHighScores: () => void;
+  loadHighScores: () => Promise<void>;
+}
+
+const emptyHighScoresContext = {} as HighScoresContextType;
+export const HighScoresContext = createContext<HighScoresContextType>(emptyHighScoresContext);
+export function useHighScores() {
+  const context = useContext(HighScoresContext);
+  if (context === emptyHighScoresContext) {
+    throw new Error(
+      'useHighScores must be used within an HighScoresProvider component',
+    );
+  }
+  return context;
+}
+
+function HighScoresProvider({children}: {children: React.ReactNode}) {
+  const [highScores, setHighScores] = useState<Score[]>([]);
+  const [invalidate, setInvalidate] = useState(true);
+  const [isDbEnabled, setIsDbEnabled] = useState<boolean>();
+
+  const loadHighScores = useCallback(async () => {
+    if (invalidate) {
+      setInvalidate(false);
+      const dbEnabled = isDbEnabled ?? await fetchDbEnabled();
+      setIsDbEnabled(dbEnabled);
+
+      // if db is enabled, fetch top scores, otherwise fetch last 8 attestations
+      const scores = dbEnabled ? await getTopScores() : await fetchLastAttestations();
+      setHighScores(scores ?? []);
+    }
+  }, [invalidate, isDbEnabled]);
+
+  const invalidateHighScores = useCallback(() => {
+    setInvalidate(true);
+  }, []);
+
+  const checkIsHighScore = useCallback((currentScore: number) => {
+    if (currentScore === 0) {
+      return false;
+    }
+
+    // if less than MAX_SCORES scores or current score is higher than lowest score
+    if ((highScores?.length ?? 0) < MAX_SCORES || currentScore > (highScores?.[highScores.length - 1]?.score ?? 0)) {
+      return true;
+    }
+    return false;
+  }, [highScores]);
+
+  const value = useMemo(() => ({
+    highScores,
+    invalidateHighScores,
+    isDbEnabled,
+    checkIsHighScore,
+    loadHighScores
+  }), [highScores, invalidateHighScores, isDbEnabled, checkIsHighScore, loadHighScores]);
+
+  return (
+    <HighScoresContext.Provider value={value}>
+      {children}
+    </HighScoresContext.Provider>
+  )
 }
 
 type ControlButtonProps = {
@@ -247,11 +356,11 @@ function DPad({ onDirectionChange }: DPadProps) {
 type StatsProps = {
   score: number;
   level: number;
-  highScores: Score[];
   width?: number;
 };
 
-function Stats({ score, level, highScores, width = 390 }: StatsProps) {
+function Stats({ score, level, width = 390 }: StatsProps) {
+  const { highScores } = useHighScores();
   const record = highScores?.[0]?.score ?? 0;
   return (
     <div className="grid grid-cols-2" style={{width}}>
@@ -272,20 +381,19 @@ function Stats({ score, level, highScores, width = 390 }: StatsProps) {
 type AwaitingNextLevelProps = {
   score: number;
   level: number;
-  highScores: Score[];
 };
 
-function AwaitingNextLevel({score, level, highScores}: AwaitingNextLevelProps) {
+function AwaitingNextLevel({score, level}: AwaitingNextLevelProps) {
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/70 z-20 m-[10px] mb-[30px]">
       <h1 className="text-5xl mb-4">LEVEL COMPLETE!</h1>
-      <Stats score={score} level={level} highScores={highScores} />
+      <Stats score={score} level={level} />
       <p className="absolute bottom-4 text-lg">Press play or space for the next level</p>
     </div>
   )
 }
 
-const SCHEMA_UID = "0xf58b8b212ef75ee8cd7e8d803c37c03e0519890502d5e99ee2412aae1456cafe";
+const SCHEMA_UID = "0xdc3cf7f28b4b5255ce732cbf99fe906a5bc13fbd764e2463ba6034b4e1881835";
 const EAS_CONTRACT = "0x4200000000000000000000000000000000000021";
 const easABI = [
   {
@@ -315,33 +423,20 @@ const easABI = [
   }
 ];
 
-const checkIsHighScore = (currentScore: number, highScores: Score[]) => {
-  if (currentScore === 0) {
-    return false;
-  }
-
-  // if less than MAX_SCORES scores or current score is higher than lowest score
-  if ((highScores?.length ?? 0) < MAX_SCORES || currentScore > (highScores?.[highScores.length - 1]?.score ?? 0)) {
-    return true;
-  }
-  return false;
-};
-
 type DeadProps = {
   score: number;
   level: number;
   onGoToIntro: () => void;
   isWin: boolean;
-  highScores: Score[];
 };
 
-export function Dead({score, level, onGoToIntro, isWin, highScores}: DeadProps) {
+export function Dead({score, level, onGoToIntro, isWin}: DeadProps) {
+  const { invalidateHighScores, checkIsHighScore } = useHighScores();
   const sendNotification = useNotification();
   const { address } = useAccount();
-  const isHighScore = checkIsHighScore(score, highScores);
-  const dbEnabled = useDbEnabled();
+  const isHighScore = checkIsHighScore(score);
 
-  const handleAttestationSuccess = async (response: TransactionResponse) => {
+  const handleAttestationSuccess = useCallback(async (response: TransactionResponse) => {
     if (!address) {
       return null;
     }
@@ -356,8 +451,10 @@ export function Dead({score, level, onGoToIntro, isWin, highScores}: DeadProps) 
     await sendNotification({
       title: 'Congratulations!',
       body: `You scored a new high score of ${score} on minikit!`,
-    })
-  }
+    });
+
+    invalidateHighScores();
+  }, [address, invalidateHighScores, score, sendNotification]);
 
   const transactionButton = useMemo(() => {
     if (!address) {
@@ -379,7 +476,7 @@ export function Dead({score, level, onGoToIntro, isWin, highScores}: DeadProps) 
           args: [{
             schema: SCHEMA_UID,
             data: {
-              recipient: '0x0000000000000000000000000000000000000000',
+              recipient: address,
               expirationTime: BigInt(0),
               revocable: false,
               refUID: '0x0000000000000000000000000000000000000000000000000000000000000000',
@@ -395,10 +492,10 @@ export function Dead({score, level, onGoToIntro, isWin, highScores}: DeadProps) 
         onError={(error: TransactionError) => console.error("Attestation failed:", error)}
       >
         <TransactionButton
-          text={dbEnabled ? "Submit to save high score" : "Submit high score attestation"}
+          text="Submit to save high score"
           className="mx-auto w-[60%]"
           successOverride={{
-            text: dbEnabled ? "View High Scores" : "Return to Intro",
+            text: "View High Scores",
             onClick: onGoToIntro
           }}
         />
@@ -409,13 +506,13 @@ export function Dead({score, level, onGoToIntro, isWin, highScores}: DeadProps) 
         </TransactionToast>
       </Transaction>
     )
-  }, [onGoToIntro, address, score]);
+  }, [address, handleAttestationSuccess, onGoToIntro, score]);
 
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/70 z-20 m-[10px] mb-[30px]">
       <h1 className="text-6xl mb-4">{isWin ? 'YOU WON!' : 'GAME OVER'}</h1>
       {isHighScore && <p className="text-2xl mb-4">You got a high score!</p>}
-      <Stats score={score} level={level} highScores={highScores} width={250} />
+      <Stats score={score} level={level} width={250} />
       {isHighScore && address && (
         <fieldset className="border-2 border-gray-300 rounded-md mb-4">
           <legend className="text-sm">Attestation</legend>
@@ -429,25 +526,21 @@ export function Dead({score, level, onGoToIntro, isWin, highScores}: DeadProps) 
   )
 }
 
-type HighScoresProps = {
-  highScores: Score[];
-};
-
-function HighScores({ highScores }: HighScoresProps) {
+function HighScores() {
+  const { highScores, isDbEnabled, loadHighScores } = useHighScores();
   const openUrl = useOpenUrl();
-  const dbEnabled = useDbEnabled();
+
+  useEffect(() => {
+    loadHighScores();
+  }, [loadHighScores]);
 
   const handleHighScoreClick = (score: Score) => {
     openUrl(`https://basescan.org/tx/${score.transactionHash}`);
   }
 
-  if (!dbEnabled) {
-    return null;
-  }
-
   return (
     <div className="flex flex-col items-center justify-center absolute top-32 w-[80%]">
-      <h1 className="text-2xl mb-4">HIGH SCORES</h1>
+      <h1 className="text-2xl mb-4">{isDbEnabled ? "HIGH SCORES" : "RECENT HIGH SCORES"}</h1>
       {highScores.sort((a, b) => b.score - a.score).map((score, index) => (
         <button type="button" key={score.attestationUid} className="flex items-center w-full" onClick={() => handleHighScoreClick(score)}>
           <span className="text-black w-8">{index + 1}.</span>
@@ -470,22 +563,16 @@ function HighScores({ highScores }: HighScoresProps) {
 }
 
 type IntroProps = {
-  highScores: Score[];
   konami: boolean;
-  fetchHighScores: () => Promise<void>;
 };
 
-function Intro({ highScores, konami, fetchHighScores }: IntroProps) {
-  useEffect(() => {
-    fetchHighScores();
-  }, [fetchHighScores]);
-
+function Intro({ konami }: IntroProps) {
   return (
     <div className="absolute inset-0 flex flex-col items-center bg-white/70 z-20 m-[10px] mb-[30px] pb-6">
       <div className="absolute top-12">
         <SnakeLogo width={300} height={60} animate={konami}/>
       </div>
-      <HighScores highScores={highScores} />
+      <HighScores />
       <div className="absolute bottom-4">
         Press play or space to start
       </div>
@@ -508,7 +595,7 @@ const useGameLoop = (callback: () => void, dependencies: DependencyList) => {
     };
     frameId = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(frameId);
-  }, dependencies);
+  }, [...dependencies, callback]);
 };
 
 type Segment = { x: number; y: number };
@@ -547,8 +634,56 @@ const Sammy = () => {
     color: COLORS.black
   });
   const [scale, setScale] = useState<number | null>(null);
-  const [highScores, setHighScores] = useState<Score[]>([]);
   const { konami, updateSequence } = useKonami(gameState);
+
+  const getStartingScore = useCallback((level: number, adjust = false) => {
+    const startingScore = 2000 + ((level-1) * 500);
+    if (adjust) {
+      return konami ? startingScore + 1 : startingScore + 2;
+    }
+    return startingScore;
+  }, [konami]);
+
+  const updateGameState = useCallback(() => {
+    setGameState(prev => {
+      switch (prev) {
+        case GameState.RUNNING:
+          return GameState.PAUSED;
+        case GameState.PAUSED:
+        case GameState.INTRO:
+          return GameState.RUNNING;
+        case GameState.WON:
+        case GameState.DEAD:
+          setSammy({
+            x: 50,
+            y: 100,
+            length: 10,
+            direction: MoveState.DOWN,
+            newDirection: MoveState.NONE,
+            segments: []
+          });
+          setScore({ points: getStartingScore(1), total: 0 });
+          setTarget({ exists: false, num: 0, x: 0, y: 0, color: '' });
+          setLevel(1);
+          return GameState.RUNNING;
+        case GameState.AWAITINGNEXTLEVEL:
+          setSammy({
+            x: 50,
+            y: 100,
+            length: 10,
+            direction: MoveState.DOWN,
+            newDirection: MoveState.NONE,
+            segments: []
+          });
+          setScore(prevScore => ({ ...prevScore, points: getStartingScore(levelRef.current + 1) }));
+          setTarget({ exists: false, num: 0, x: 0, y: 0, color: '' });
+          setLevel(levelRef.current + 1);
+          return GameState.RUNNING;
+        default:
+          return prev;
+      }
+    });
+  }, [getStartingScore, setGameState]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -582,7 +717,7 @@ const Sammy = () => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [konami, updateSequence]);
+  }, [konami, updateGameState, updateSequence]);
 
   const drawMap = useCallback(() => {
     const ctx = mapCanvasRef.current?.getContext('2d');
@@ -603,12 +738,7 @@ const Sammy = () => {
     }
   }, [drawMap, level, scale])
 
-  const fetchScores = useCallback(async () => {
-    const scores = await getTopScores();
-    setHighScores(scores ?? []);
-  }, []);
-
-  const createTarget = () => {
+  const createTarget = useCallback(() => {
     if (!target.exists) {
       let isValidPosition = false;
       const newTarget = {
@@ -651,9 +781,9 @@ const Sammy = () => {
 
       setTarget(newTarget);
     }
-  };
+  }, [level, setTarget, target]);
 
-  const moveSammy = () => {
+  const moveSammy = useCallback(() => {
     const newSammy = { ...sammy };
 
     if (newSammy.newDirection !== MoveState.NONE) {
@@ -690,9 +820,9 @@ const Sammy = () => {
     }
 
     setSammy(newSammy);
-  };
+  }, [sammy, setSammy]);
 
-  const checkCollisions = () => {
+  const checkCollisions = useCallback(() => {
     // wall collisions
     const hitWall = LevelMaps[level].some(wall => {
       const sammyLeft = sammy.x;
@@ -745,9 +875,9 @@ const Sammy = () => {
         }
       }
     }
-  };
+  }, [level, sammy, setSammy, setGameState, setScore, getStartingScore, target]);
 
-  const updateScore = () => {
+  const updateScore = useCallback(() => {
     const scoreCtx = scoreCanvasRef.current?.getContext('2d');
     if (scoreCtx) {
       scoreCtx.clearRect(0, 0, 500, 530);
@@ -757,9 +887,9 @@ const Sammy = () => {
       scoreCtx.fillText(`Points: ${score.points}`, 200, 520);
       scoreCtx.fillText(`Level: ${level}`, 400, 520);
     }
-  }
+  }, [level, score]);
 
-  const drawGame = () => {
+  const drawGame = useCallback(() => {
     if (gameState !== GameState.RUNNING) {
       return;
     }
@@ -783,7 +913,7 @@ const Sammy = () => {
 
     // update score
     updateScore();
-  };
+  }, [gameState, sammy, target, updateScore]);
 
   useGameLoop(() => {
     if (gameState === GameState.RUNNING) {
@@ -800,60 +930,13 @@ const Sammy = () => {
     }
   }, [gameState, sammy, target, score]);
 
-  const getStartingScore = (level: number, adjust = false) => {
-    const startingScore = 2000 + ((level-1) * 500);
-    if (adjust) {
-      return konami ? startingScore + 1 : startingScore + 2;
-    }
-    return startingScore;
-  }
-
-  const updateGameState = () => {
-    setGameState(prev => {
-      switch (prev) {
-        case GameState.RUNNING:
-          return GameState.PAUSED;
-        case GameState.PAUSED:
-        case GameState.INTRO:
-          return GameState.RUNNING;
-        case GameState.WON:
-        case GameState.DEAD:
-          setSammy({
-            x: 50,
-            y: 100,
-            length: 10,
-            direction: MoveState.DOWN,
-            newDirection: MoveState.NONE,
-            segments: []
-          });
-          setScore({ points: getStartingScore(1), total: 0 });
-          setTarget({ exists: false, num: 0, x: 0, y: 0, color: '' });
-          setLevel(1);
-          return GameState.RUNNING;
-        case GameState.AWAITINGNEXTLEVEL:
-          setSammy({
-            x: 50,
-            y: 100,
-            length: 10,
-            direction: MoveState.DOWN,
-            newDirection: MoveState.NONE,
-            segments: []
-          });
-          setScore(prevScore => ({ ...prevScore, points: getStartingScore(levelRef.current + 1) }));
-          setTarget({ exists: false, num: 0, x: 0, y: 0, color: '' });
-          setLevel(levelRef.current + 1);
-          return GameState.RUNNING;
-        default:
-          return prev;
-      }
-    });
-  };
-
   const overlays = useMemo(() => {
     switch (gameState) {
       case GameState.INTRO:
       case GameState.PAUSED:
-        return <Intro highScores={highScores} konami={konami} fetchHighScores={fetchScores} />
+        return <Intro
+          konami={konami}
+        />
       case GameState.WON:
       case GameState.DEAD:
         return <Dead
@@ -861,21 +944,19 @@ const Sammy = () => {
           level={level}
           onGoToIntro={() => {
             updateGameState();
-            setGameState(GameState.PAUSED)
+            setGameState(GameState.PAUSED);
           }}
           isWin={gameState === GameState.WON}
-          highScores={highScores}
         />
       case GameState.AWAITINGNEXTLEVEL:
         return <AwaitingNextLevel
           score={score.total}
           level={level}
-          highScores={highScores}
         />
       default:
         return null;
     }
-  }, [gameState, score.total, level, setGameState, Intro, Dead, AwaitingNextLevel, highScores, konami]);
+  }, [gameState, konami, level, score.total, setGameState, updateGameState]);
 
   if (!scale) {
     return <div className="flex flex-col justify-center items-center h-screen">Loading...</div>;
@@ -919,7 +1000,9 @@ const Sammy = () => {
           height={530}
           className="absolute top-0 left-0 z-1"
         />
-        {overlays}
+        <HighScoresProvider>
+          {overlays}
+        </HighScoresProvider>
       </div>
 
       <div className="flex mt-6">

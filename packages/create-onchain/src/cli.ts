@@ -319,7 +319,7 @@ function logMiniKitSetupSummary(
 
   console.log(
     pc.blue(
-      "\n* Don't forget to update the environment variables for your project in the `.env` file. Including your Redis credentials to enable notifications, webhooks and high scores.",
+      "\n* Don't forget to update the environment variables for your project in the `.env` file. Including your Redis credentials to enable notifications, webhooks and personalized high scores.",
     ),
   );
 }
