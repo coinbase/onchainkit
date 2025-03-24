@@ -1,8 +1,3 @@
-⛵️
+# Onchainkit Documentation (Deprecated)
 
-To run the site locally:
-
-```bash
-pnpm install
-pnpm dev
-```
+The documentation for Onchainkit is now located in the [@base/web](https://github.com/base/web) repository.
