@@ -543,16 +543,18 @@ const Sammy = () => {
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      e.preventDefault();
       const newDirection = DIRECTION_MAP[e.code];
-      if (e.code === 'Space') {
-        updateGameState();
-      } else {
-        setSammy(prev => ({
-          ...prev,
-          newDirection: newDirection || prev.newDirection
-        }));
-        updateSequence(newDirection);
+      if (newDirection || e.code === 'Space') {
+        e.preventDefault();
+        if (e.code === 'Space') {
+          updateGameState();
+        } else {
+          setSammy(prev => ({
+            ...prev,
+            newDirection: newDirection || prev.newDirection
+          }));
+          updateSequence(newDirection);
+        }
       }
     };
 

@@ -7,6 +7,12 @@ import App from './App.tsx';
 // biome-ignore lint/correctness/noNodejsModules: https://github.com/wevm/wagmi/issues/270#issuecomment-1075473815
 import { Buffer } from 'buffer';
 
+declare global {
+  interface Window {
+    Buffer: typeof Buffer;
+  }
+}
+
 // polyfill Buffer for client to fix wagmi errors
 if (!window.Buffer) {
   window.Buffer = Buffer;
