@@ -28,6 +28,10 @@ body {
   font-style: normal;
 }
 
+.high-score-badge + div {
+  transform: translate(10px, 20px) !important;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
