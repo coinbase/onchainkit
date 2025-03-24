@@ -89,6 +89,22 @@ const DIRECTION_MAP:Record<string, number> = {
   'ArrowLeft': MoveState.LEFT,
 };
 
+function useDbEnabled() {
+  const [dbEnabled, setDbEnabled] = useState(false);
+
+  useEffect(() => {
+    const checkDbEnabled = async () => {
+      const res = await fetch('/api/scores', { method: 'OPTIONS' });
+      const { enabled } = await res.json();
+      setDbEnabled(enabled);
+    };
+
+    checkDbEnabled();
+  }, []);
+
+  return dbEnabled;
+}
+
 function useKonami(gameState: number) {
   const CODE = [
     MoveState.UP,
@@ -323,6 +339,7 @@ export function Dead({score, level, onGoToIntro, isWin, highScores}: DeadProps) 
   const sendNotification = useNotification();
   const { address } = useAccount();
   const isHighScore = checkIsHighScore(score, highScores);
+  const dbEnabled = useDbEnabled();
 
   const handleAttestationSuccess = async (response: TransactionResponse) => {
     if (!address) {
@@ -378,10 +395,10 @@ export function Dead({score, level, onGoToIntro, isWin, highScores}: DeadProps) 
         onError={(error: TransactionError) => console.error("Attestation failed:", error)}
       >
         <TransactionButton
-          text="Submit to save high score"
+          text={dbEnabled ? "Submit to save high score" : "Submit high score attestation"}
           className="mx-auto w-[60%]"
           successOverride={{
-            text: "View High Scores",
+            text: dbEnabled ? "View High Scores" : "Return to Intro",
             onClick: onGoToIntro
           }}
         />
@@ -418,9 +435,14 @@ type HighScoresProps = {
 
 function HighScores({ highScores }: HighScoresProps) {
   const openUrl = useOpenUrl();
+  const dbEnabled = useDbEnabled();
 
   const handleHighScoreClick = (score: Score) => {
     openUrl(`https://basescan.org/tx/${score.transactionHash}`);
+  }
+
+  if (!dbEnabled) {
+    return null;
   }
 
   return (
