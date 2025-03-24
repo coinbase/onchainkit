@@ -50,7 +50,6 @@
     "graphql-request": "^6.1.0",
     "qrcode": "^1.5.4",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7",
     "viem": "^2.23.0",
     "wagmi": "^2.14.11"
   },
@@ -87,6 +86,7 @@
     "rimraf": "^5.0.5",
     "storybook": "^8.2.9",
     "tailwindcss": "^3.4.3",
+    "tailwindcss-animate": "^1.0.7",
     "tscpaths": "^0.0.9",
     "tsup": "^8.3.5",
     "vite": "^5.3.3",
