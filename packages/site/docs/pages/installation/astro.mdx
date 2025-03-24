@@ -1,0 +1,213 @@
+---
+title: Astro Installation · OnchainKit
+description: Install OnchainKit using Astro
+---
+
+import StartBuilding from '../../components/StartBuilding';
+
+# Astro Installation
+
+Install and configure OnchainKit with Astro.
+If you are integrating OnchainKit into an existing project,
+skip to the [OnchainKit installation](#install-onchainkit).
+
+::::steps
+
+## Install Astro
+
+Create a new Astro project by using the Astro CLI.
+More information about Astro can be found [here](https://docs.astro.build/en/install-and-setup/#start-a-new-project).
+
+:::code-group
+
+```bash [npm]
+npm create astro@latest
+```
+
+```bash [yarn]
+yarn create astro
+```
+
+```bash [pnpm]
+pnpm create astro@latest
+```
+
+:::
+
+## Install React
+
+Astro does not come with React by default, so if you are not already using React
+in your application, you will need to install it.
+
+```bash
+npx astro add react
+```
+
+## Install OnchainKit
+
+Add OnchainKit to your project by installing the `@coinbase/onchainkit` package.
+
+:::code-group
+
+```bash [npm]
+npm install @coinbase/onchainkit
+```
+
+```bash [yarn]
+yarn add @coinbase/onchainkit
+```
+
+```bash [pnpm]
+pnpm add @coinbase/onchainkit
+```
+
+```bash [bun]
+bun add @coinbase/onchainkit
+```
+
+:::
+
+## Get A Client API Key
+
+Get your [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+
+<img
+  alt="OnchainKit copy Client API Key"
+  src="https://onchainkit.xyz/assets/copy-api-key-guide.png"
+  height="364"
+/>
+
+Create a `.env` file in your project's root directory.
+
+<img
+  alt="OnchainKit define Client API Key"
+  src="https://onchainkit.xyz/assets/getting-started-create-env-file.png"
+  width="250"
+  loading="lazy"
+/>
+
+Add your Client API Key to the `.env` file:
+
+```dotenv [.env]
+PUBLIC_ONCHAINKIT_API_KEY=YOUR_CLIENT_API_KEY
+```
+
+## Add Providers
+
+Create a `providers.tsx` file. Add `OnchainKitProvider` with your desired config.
+
+Under the hood, OnchainKit will create our recommended Wagmi and QueryClient
+providers. If you wish to customize these providers, check out [Custom
+Supplemental Providers](/config/supplemental-providers).
+
+```tsx twoslash [providers.tsx]
+// @noErrors: 2307 2580 2339 - cannot find 'process', cannot find './wagmi', cannot find 'import.meta'
+'use client';
+
+import type { ReactNode } from 'react';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { base } from 'wagmi/chains'; // add baseSepolia for testing // [!code ++]
+
+export function Providers(props: { children: ReactNode }) {
+  return (
+    <OnchainKitProvider
+      apiKey={import.meta.env.PUBLIC_ONCHAINKIT_API_KEY} // [!code ++]
+      chain={base} // add baseSepolia for testing // [!code ++]
+    >
+      {props.children}
+    </OnchainKitProvider>
+  );
+}
+```
+
+## Wrap your OnchainKit components with `<Providers />`
+
+After configuring the providers in step 4, you will need to wrap your OnchainKit components
+with the `<Providers />` component.
+
+There are two options for this:
+
+1. Create a component, eg. `<ReactIsland />` that contains all OnchainKit components.
+2. Wrap every OnchainKit component individually.
+
+:::code-group
+
+```tsx [ReactIsland]
+import { Providers } from '../Providers';
+
+export default function ReactIsland() {
+  return (
+    <Providers>
+      <YourReactAppContainingOnchainKitComponents />
+    </Providers>
+  );
+}
+```
+
+```tsx [OnchainKit Wrappers]
+import { Providers } from '../Providers';
+import { OnchainKitComponent } from '@coinbase/onchainkit';
+
+export default function OnchainKitComponentWrapper() {
+  return (
+    <Providers>
+      <OnchainKitComponent />
+    </Providers>
+  );
+}
+```
+
+:::
+
+The advantage of ReactIsland is that you will only have a single provider at any time.
+The drawback is that your OnchainKit components will all need to live in the same Island.
+
+The advantage of individual wrappers is that you can use OnchainKit components anywhere in your app.
+The drawback is that you will have multiple providers if you use more than one OnchainKit component.
+
+## Add OnchainKit Components to your App
+
+You can add OnchainKit components to your app by using the component(s) you
+created above into your `.astro` files.
+
+For example, if you created a ReactIsland, you can add it to your
+`src/pages/index.astro` file:
+
+```astro [src/pages/index.astro]
+---
+import Layout from '../layouts/Layout.astro';
+import ReactIsland from '../components/ReactIsland';
+---
+
+<Layout title="Welcome to Astro.">
+	<main>
+    ...
+		<ReactIsland client:only="react" />
+    ...
+	</main>
+</Layout>
+```
+
+Don't forget to add the `client:only="react"` directive to your OnchainKit component,
+as this is required for Astro to render React components.
+
+## Import OnchainKit Styles
+
+OnchainKit components come with pre-configured styles.
+To include these styles in your project, add the following import
+statement at the top of the `Layout.astro` file:
+
+```tsx
+import '@coinbase/onchainkit/styles.css';
+```
+
+This ensures that the OnchainKit styles are loaded and applied to your entire application.
+
+- For Tailwind CSS users, check out our [Tailwind Integration Guide](/guides/tailwind).
+
+- Update the appearance of components by using our built-in themes or crafting your own custom theme.
+  Explore the possibilities in our [Theming Guide](/guides/themes).
+
+::::
+
+<StartBuilding />

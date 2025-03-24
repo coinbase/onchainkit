@@ -1,0 +1,209 @@
+import {
+  Address,
+  Avatar,
+  EthBalance,
+  Identity,
+  Name,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownBasename,
+  WalletDropdownDisconnect,
+  WalletDropdownLink,
+} from '@coinbase/onchainkit/wallet';
+import WalletComponents from '../../components/WalletComponents';
+import { walletDropdownLinkCustomBaseIconSvg } from '../../components/svg/walletDropdownLinkCustomBaseIconSvg'
+
+# `<WalletDropdownLink />`
+
+The `WalletDropdownLink` component creates customizable, interactive links within the wallet dropdown menu. 
+
+## Usage 
+
+```tsx twoslash
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown, 
+  WalletDropdownLink, // [!code focus]
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+
+export function WalletComponents() {
+  return (
+    <div className="flex justify-end">
+      <Wallet>
+        <ConnectWallet>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletDropdown>
+          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+            <Avatar />
+            <Name />
+            <Address className={color.foregroundMuted} />
+            <EthBalance />
+          </Identity>
+          <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com"> // [!code focus]
+            Wallet // [!code focus]
+          </WalletDropdownLink> // [!code focus]
+          <WalletDropdownDisconnect />
+        </WalletDropdown>
+      </Wallet>
+    </div>
+  );
+}      
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
+        Wallet
+      </WalletDropdownLink>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Custom link
+Add a custom link to the wallet dropdown menu, allowing users to navigate to external resources directly from the wallet interface.
+
+```tsx twoslash
+// @noErrors: 2304 Cannot find name 'BaseIcon'
+import {
+  WalletDropdownLink,
+} from '@coinbase/onchainkit/wallet';
+// ---cut-before---
+// omitted for brevity
+<WalletDropdownLink // [!code focus] 
+  icon={BaseIcon} // [!code focus] 
+  href="https://www.base.org/" // [!code focus] 
+  rel="noopener noreferrer" // [!code focus] 
+> // [!code focus]
+  Base.org // [!code focus]
+</WalletDropdownLink> // [!code focus]
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownLink 
+        icon={walletDropdownLinkCustomBaseIconSvg} 
+        href="https://www.base.org/" 
+        rel="noopener noreferrer" 
+      >
+        Base.org
+      </WalletDropdownLink>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Custom children components
+Accepts React children, enabling the use of custom elements, styled text, icons, and complex components.
+This allows for diverse customizations, including complex layouts and conditional rendering based on your app's state.
+
+```tsx twoslash
+// @noErrors: 2322 - type 'Element' is not assignable to type 'string'
+import {
+  WalletDropdownLink,
+} from '@coinbase/onchainkit/wallet';
+// ---cut-before---
+// omitted for brevity
+<WalletDropdownLink icon="wallet" href="https://keys.coinbase.com"> // [!code focus]
+  <span className="font-bold italic">Profile</span> // [!code focus]
+  <span> 🔵 </span> // [!code focus]
+</WalletDropdownLink> // [!code focus]
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
+        <span className="font-bold italic">Profile</span>
+        <span> 🔵 </span>
+      </WalletDropdownLink>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+### Override styles
+You can override component styles using className.
+
+```tsx twoslash
+import {
+  WalletDropdownLink,
+} from '@coinbase/onchainkit/wallet';
+// ---cut-before---
+// omitted for brevity
+<WalletDropdownLink className="hover:bg-red-500" icon="wallet" href="https://keys.coinbase.com" > // [!code focus]
+  Wallet // [!code focus]
+</WalletDropdownLink> // [!code focus]
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownLink className="hover:bg-red-500" icon="wallet" href="https://keys.coinbase.com">
+        Wallet
+      </WalletDropdownLink>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents>
+
+## Props 
+- [`WalletDropdownLinkReact`](/wallet/types#walletdropdownlinkreact)

@@ -1,0 +1,285 @@
+---
+title: <WalletAdvanced /> · OnchainKit
+description: The `<WalletAdvanced />` components provide an advanced Wallet interface for users.
+---
+
+import {
+  ConnectWallet,
+  ConnectWalletText,
+  Wallet,
+  WalletAdvanced,
+  WalletAdvancedDefault,
+  WalletAdvancedAddressDetails,
+  WalletAdvancedTransactionActions,
+  WalletAdvancedTokenHoldings,
+  WalletAdvancedWalletActions,
+  WalletIsland,
+} from '@coinbase/onchainkit/wallet';
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import WalletComponents from '../../components/WalletComponents';
+import AppWithWalletModal from '../../components/AppWithWalletModal';
+
+# `<WalletIsland />`
+
+<img alt="WalletIsland"
+  src="https://onchainkit.xyz/assets/wallet-island.gif"
+  height="364"/>
+
+`WalletIsland` is our flagship implementation of the new `<WalletAdvanced />`
+component, providing an advanced Wallet interface for users, including:
+
+- a QR code for receiving funds
+- a link to buy crypto with fiat
+- a swap interface
+- the user's token portfolio
+- a button that moves anywhere on the screen
+
+Designed for desktop experiences, `WalletIsland` component gives
+users a seamless way to interact with their wallet and manage their assets.
+
+Before using these components, ensure you've completed all [Getting Started steps](/getting-started).
+
+:::info
+This component requires a `projectId` and an `apiKey`to be set in the `OnchainKitProvider`. You
+can find your both of these values on [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
+:::
+
+:::info
+Please note: token balances are only available for Base mainnet and Ethereum mainnet.
+You can control the network in the `OnchainKitProvider` by setting the `chain` prop.
+:::
+
+## Quick start
+
+`WalletAdvanced` has two default implementations:
+
+- `WalletAdvancedDefault`
+- `WalletIsland`
+
+`WalletAdvancedDefault` provides the user with an advanced wallet
+interface, anchored to the screen like our standard `Wallet` component.
+`WalletIsland` provides the same powerful interface, while enabling
+the user to drag the component around the window.
+
+If you'd like more customization, follow the implementation guide below.
+
+```tsx twoslash
+import { WalletAdvancedDefault } from '@coinbase/onchainkit/wallet';
+import { WalletIsland } from '@coinbase/onchainkit/wallet';
+<>
+  <WalletAdvancedDefault />
+  <WalletIsland />
+</>
+```
+
+You will see two Wallet buttons below. Right below is `WalletAdvancedDefault`.
+This version will stay anchored to its current position.
+
+`WalletIsland` is in the bottom-right corner of the window. Feel free to drag
+it around.
+
+<WalletComponents>
+  <WalletAdvancedDefault />
+  <WalletIsland />
+</WalletComponents>
+
+While this behavior is more noticeable with the `WalletIsland` component, you'll
+notice that for both components, the `WalletAdvanced` container will appear in
+different positions depending on the component's location in the window:
+
+- If there is sufficient space to the right, it will be left-aligned.
+- If there is not enough space to the right, it will be right-aligned.
+- If there is enough space below, it will open below.
+- If there is not enough space below, it will open above.
+
+:::info
+If you are attempting to use this component and the Buy button is not working,
+make sure you have a `projectId` configured correctly in your providers.
+
+<br />
+If transaction history is not loading, make sure you have an `apiKey` configured
+correctly in your providers.
+:::
+
+## Configuring `WalletIsland` and `WalletAdvanced`
+
+Experience the magic by simply dropping in `<Wallet />` and `<WalletAdvanced />`
+components, and watch your component seamlessly come to life.
+
+<br />
+As with [`WalletDefault`](/wallet/wallet) , `WalletAdvancedDefault` leverages
+several [`<Identity>`](/identity/identity) components like [`<Avatar>`](/identity/avatar),
+[`<Name>`](/identity/name), and [`<Address>`](/identity/address).
+
+<br />
+And `WalletAdvanced` introduces several advanced wallet components, including
+`<WalletIslandAddressDetails>`, `<WalletIslandTokenHoldings>`, and
+`<WalletIslandTransactionActions>`.
+
+```tsx twoslash
+import {
+  ConnectWallet,
+  Wallet,
+  WalletAdvanced, // [!code focus]
+  WalletAdvancedAddressDetails, // [!code focus]
+  WalletAdvancedTokenHoldings, // [!code focus]
+  WalletAdvancedTransactionActions, // [!code focus]
+  WalletAdvancedWalletActions, // [!code focus]
+} from '@coinbase/onchainkit/wallet'; // [!code focus]
+import { Address, Avatar, Name, Identity } from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+
+export function YourWalletAdvanced() {
+  return (
+    <div className="flex justify-end">
+      <Wallet>
+        <ConnectWallet>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletAdvanced> // [!code focus]
+          <WalletAdvancedWalletActions /> // [!code focus]
+          <WalletAdvancedAddressDetails /> // [!code focus]
+          <WalletAdvancedTransactionActions /> // [!code focus]
+          <WalletAdvancedTokenHoldings /> // [!code focus]
+        </WalletAdvanced> // [!code focus]
+      </Wallet>
+    </div>
+  );
+}
+```
+
+<WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <ConnectWalletText>Connect Wallet</ConnectWalletText>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletAdvanced>
+      <WalletAdvancedWalletActions />
+      <WalletAdvancedAddressDetails />
+      <WalletAdvancedTransactionActions />
+      <WalletAdvancedTokenHoldings />
+    </WalletAdvanced>
+  </Wallet>
+</WalletComponents>
+
+When customizing your `WalletAdvanced` implementation, use the `draggable` prop on
+`Wallet` to enable draggability. `draggable` defaults to `false`, but
+when `draggable` is set to `true`, you can also set a `draggableStartingPosition` prop to
+specify the initial position of your `WalletIsland`.
+
+```tsx twoslash
+import {
+  ConnectWallet,
+  Wallet,
+  WalletAdvanced,
+  WalletAdvancedAddressDetails,
+  WalletAdvancedTokenHoldings,
+  WalletAdvancedTransactionActions,
+  WalletAdvancedWalletActions,
+} from '@coinbase/onchainkit/wallet';
+import { Address, Avatar, Name, Identity } from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+
+export function DraggableWalletAdvanced() {
+  return (
+    <div className="flex justify-end">
+      <Wallet
+        draggable={true} // [!code focus]
+        draggableStartingPosition={{ // [!code focus]
+          x: window.innerWidth - 300, // [!code focus]
+          y: window.innerHeight - 100, // [!code focus]
+        }}
+      >
+        <ConnectWallet>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletAdvanced>
+          <WalletAdvancedWalletActions />
+          <WalletAdvancedAddressDetails />
+          <WalletAdvancedTransactionActions />
+          <WalletAdvancedTokenHoldings />
+        </WalletAdvanced>
+      </Wallet>
+    </div>
+  );
+}
+```
+
+## Customize Connect button text and style
+
+Each OnchainKit component offers the flexibility to customize `className`
+and adjust the style of the React components it represents.
+
+Explore the options for customizing the Connect button text and style [here](/wallet/wallet#customize-connect-button-text-and-style).
+
+## Using Wallet Modal
+
+<img
+  alt="Wallet Modal"
+  src="https://onchainkit.xyz/assets/wallet-modal.png"
+  height="364"
+  width="364"
+  className="mx-auto"
+/>
+
+Wallet modal offers users multiple wallet connection options. Explore these options
+[here](/wallet/wallet-modal).
+
+## Example usage
+
+### Usage with Sign In With Ethereum (SIWE)
+
+To use [Sign In With Ethereum (SIWE)](https://docs.login.xyz/general-information/siwe-overview) with OnchainKit,
+check out our [SIWE example](/wallet/wallet#usage-with-sign-in-with-ethereum-siwe).
+
+## Components
+
+The components are designed to work together hierarchically. For each component, ensure the following:
+
+- `<Wallet />` - Serves as the main container for all wallet-related components.
+- `<WalletAdvanced />` - Contains additional wallet information and options. Place inside the `<Wallet />` component.
+- `<WalletAdvancedWalletActions />` - Provides wallet actions like View Transaction History, view QR Code, and Disconnect wallet. Place inside the `<WalletAdvanced />` component.
+- `<WalletAdvancedAddressDetails />` - Displays user address, avatar, and portfolio balance in fiat. Place inside the `<WalletAdvanced />` component.
+- `<WalletAdvancedTransactionActions />` - Buttons for buying crypto with fiat, transferring crypto, and swapping. Place inside the `<WalletAdvanced />` component.
+- `<WalletAdvancedTokenHoldings />` - Displays token balances and their value in fiat. Place inside the `<WalletAdvanced />` component.
+- `<ConnectWallet />` - Handles the wallet connection process. Place child components inside to customize the connect button appearance.
+- `<AppWithWalletModal />` - Enables a wallet aggregation experience.
+- `<WalletDropdown />` - Contains additional wallet information and options. Place inside the `<Wallet />` component.
+- `<Identity />` - Displays user identity information. Place inside `<WalletDropdown />` for a complete profile view.
+- `<WalletDropdownBasename />` - Displays the user's Basename within the dropdown.
+- `<WalletDropdownLink />` - Creates a custom link within the dropdown. Use the `icon` prop to add an icon, and `href` to specify the destination.
+- `<WalletDropdownDisconnect />` - Provides a disconnect option within the dropdown.
+
+Additional components for customizing the wallet interface include:
+
+- `<Avatar />` - Displays the user's avatar image.
+- `<Name />` - Shows the user's name or ENS.
+- `<Badge />` - Can be used to display additional user status or information.
+- `<Address />` - Shows the user's wallet address.
+- `<EthBalance />` - Displays the user's ETH balance.
+
+The Wallet component automatically handles the wallet connection state and updates the UI accordingly.
+You need to wrap your application or relevant part of it with these components
+to provide a complete wallet interaction experience.
+
+## Component types
+
+- [`WalletAdvancedReact`](/wallet/types#walletadvancedreact)
+- [`WalletAdvancedContextType`](/wallet/types#walletadvancedcontexttype)
+- [`WalletReact`](/wallet/types#walletreact)
+- [`ConnectWalletReact`](/wallet/types#connectwalletreact)
+- [`WalletDropdownReact`](/wallet/types#walletdropdownreact)
+- [`WalletDropdownBasenameReact`](/wallet/types#walletdropdownbasenamereact)
+- [`WalletDropdownDisconnectReact`](/wallet/types#walletdropdowndisconnectreact)
+- [`WalletDropdownLinkReact`](/wallet/types#walletdropdownlinkreact)

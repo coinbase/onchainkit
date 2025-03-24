@@ -27,7 +27,6 @@ describe('useTheme', () => {
 
   it.each([
     ['cyberpunk', 'auto', 'light', 'cyberpunk'],
-    ['base', 'dark', 'dark', 'base'],
     ['hacker', 'light', 'light', 'hacker'],
   ] as const)(
     'should return %s theme when set, regardless of mode or system preference',
@@ -44,6 +43,10 @@ describe('useTheme', () => {
     ['default', 'auto', 'dark', 'default-dark'],
     ['default', 'light', 'dark', 'default-light'],
     ['default', 'dark', 'light', 'default-dark'],
+    ['base', 'auto', 'light', 'base-light'],
+    ['base', 'auto', 'dark', 'base-dark'],
+    ['base', 'light', 'dark', 'base-light'],
+    ['base', 'dark', 'light', 'base-dark'],
     ['custom', 'auto', 'light', 'custom-light'],
     ['custom', 'auto', 'dark', 'custom-dark'],
   ] as const)(
@@ -59,6 +62,8 @@ describe('useTheme', () => {
   it.each([
     ['default', undefined, 'light', 'default-light'],
     ['default', undefined, 'dark', 'default-dark'],
+    ['base', undefined, 'light', 'base-light'],
+    ['base', undefined, 'dark', 'base-dark'],
     ['custom', undefined, 'light', 'custom-light'],
     ['custom', undefined, 'dark', 'custom-dark'],
   ] as const)(
@@ -88,14 +93,15 @@ describe('useTheme', () => {
   it('should handle all possible return types of UseThemeReact', () => {
     const allThemes: UseThemeReact[] = [
       'cyberpunk',
-      'base',
       'hacker',
       'default-light',
       'default-dark',
+      'base-light',
+      'base-dark',
     ];
 
     for (const theme of allThemes) {
-      if (theme === 'cyberpunk' || theme === 'base' || theme === 'hacker') {
+      if (theme === 'cyberpunk' || theme === 'hacker') {
         mockUseOnchainKit(theme, 'auto');
       } else {
         const [baseTheme, mode] = theme.split('-');

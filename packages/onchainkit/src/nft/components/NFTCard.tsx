@@ -10,9 +10,28 @@ import { useAccount } from 'wagmi';
 import { border, cn, color, pressable } from '../../styles/theme';
 import NFTErrorBoundary from './NFTErrorBoundary';
 import { NFTErrorFallback } from './NFTErrorFallback';
+import {
+  NFTLastSoldPrice,
+  NFTMedia,
+  NFTNetwork,
+  NFTOwner,
+  NFTTitle,
+} from './view';
+
+function NFTCardDefaultContent() {
+  return (
+    <>
+      <NFTMedia />
+      <NFTTitle />
+      <NFTOwner />
+      <NFTLastSoldPrice />
+      <NFTNetwork />
+    </>
+  );
+}
 
 export function NFTCard({
-  children,
+  children = <NFTCardDefaultContent />,
   className,
   contractAddress,
   tokenId,

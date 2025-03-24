@@ -1,0 +1,32 @@
+---
+title: Buy components & utilities Types
+description: Glossary of Types in Buy components & utilities.
+---
+
+# Types [Glossary of Types in Buy components & utilities.]
+
+## `BuyReact`
+
+```ts
+type BuyReact = {
+  className?: string; // Optional className override for top div element.
+  config?: {
+    maxSlippage: number; // Maximum acceptable slippage for a swap (e.g., 3 for 3%). This is a percentage, not basis points.
+  };
+  experimental?: {
+    /**
+     * Whether to use a DEX aggregator.
+     * true - 0x Aggregator
+     * false - Uniswap V3
+     * @default false
+     */
+    useAggregator: boolean;
+  };
+  isSponsored?: boolean; // An optional setting to sponsor swaps with a Paymaster. (default: false)
+  onError?: (error: SwapError) => void; // An optional callback function that handles errors within the provider.
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void; // An optional callback function that exposes the component lifecycle state.
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void; // An optional callback function that exposes the transaction receipt.
+  fromToken?: Token; // An optional token to swap from. (USDC and ETH supported by default)
+  toToken: Token; // The token to purchase.
+};
+```

@@ -1,0 +1,289 @@
+---
+title: <NFTCard /> · OnchainKit
+description: View NFTs with OnchainKit
+---
+
+import { 
+  ViewCardMain, 
+  ViewCardTitleAbove, 
+  ViewCardScaled, 
+  ViewCardOverrideStyles 
+} from '../../components/NFTComponents';
+
+# `<NFTCard />`
+
+The `NFTCard` component provides an easy way to view any NFT.  Just enter the NFT contract address and token Id and include the child components you want to render.
+
+<img alt="Checkout"
+  src="../assets/NFTCard.gif"
+  height="364"
+/>
+
+## Prerequisites
+
+Before using the `NFTCard` component, ensure you've completed the [Getting Started](/getting-started) steps.
+
+To use the `NFTCard` component, you'll need to provide an API Key in `OnchainKitProvider`. You can get one following our [Getting Started](/getting-started#get-your-public-api-key) steps.
+
+### Starting a new project
+
+If you're starting a new project, we recommend using `create onchain` to scaffold your project. 
+
+```bash
+npm create onchain@latest
+```
+
+### Adding to an existing project
+
+If you're adding `NFTCard` to an existing project, simply install OnchainKit.
+
+:::code-group
+
+```bash [npm]
+npm install @coinbase/onchainkit
+```
+
+```bash [yarn]
+yarn add @coinbase/onchainkit
+```
+
+```bash [pnpm]
+pnpm add @coinbase/onchainkit
+```
+
+```bash [bun]
+bun add @coinbase/onchainkit
+```
+
+:::
+
+Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](/getting-started#add-providers).
+
+## Quickstart
+
+The `NFTCardDefault` component is a simplified version of the `NFTCard` component, designed to streamline the integration process for developers.  Instead of manually defining each subcomponent, developers can use this shorthand version which renders our suggested implementation of the component and includes `NFTTitle`, `NFTMedia`, `NFTOwner`, `NFTLastSoldPrice` and `NFTNetwork`.
+
+```tsx twoslash
+import { NFTCardDefault } from '@coinbase/onchainkit/nft'; // [!code focus]
+
+<NFTCardDefault // [!code focus]
+  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'  // [!code focus]
+  tokenId='1' // [!code focus]
+/>  // [!code focus]
+```
+
+If you'd like more customization you can follow the steps below to customize which subcomponents are rendered.
+
+::::steps
+
+### Add the NFTCard
+
+```tsx twoslash
+// @noErrors: 2741 - Property children missing in type
+import { NFTCard } from '@coinbase/onchainkit/nft'; // [!code focus]
+
+<NFTCard // [!code focus]
+  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'  // [!code focus]
+  tokenId='1' // [!code focus]
+> 
+</NFTCard>
+```
+
+### Add the NFTCard components
+
+```tsx twoslash
+import { NFTCard } from '@coinbase/onchainkit/nft';
+import {
+  NFTLastSoldPrice, // [!code ++]
+  NFTMedia, // [!code ++]
+  NFTNetwork, // [!code ++]
+  NFTOwner, // [!code ++]
+  NFTTitle, // [!code ++]
+} from '@coinbase/onchainkit/nft/view'; // [!code ++]
+
+<NFTCard 
+  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941' 
+  tokenId='1'
+> 
+  <NFTMedia /> // [!code ++] 
+  <NFTTitle /> // [!code ++]
+  <NFTOwner /> // [!code ++]
+  <NFTLastSoldPrice /> // [!code ++]
+  <NFTNetwork /> // [!code ++]
+</NFTCard>
+```
+
+<ViewCardMain />
+
+::::
+
+That's it! You've now created an NFT card.
+
+## Customization
+
+### Add the NFTCard subcomponents in any order
+
+If you prefer to have the title above the media, you can easily change the order of the subcomponents and they will render in the new order.
+
+```tsx twoslash
+import { NFTCard } from '@coinbase/onchainkit/nft';
+import {
+  NFTMedia,
+  NFTTitle,
+} from '@coinbase/onchainkit/nft/view';
+// ---cut-before---
+<NFTCard 
+  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941' 
+  tokenId='1'
+> 
+  <NFTTitle /> // [!code ++]
+  <NFTMedia />
+  <NFTTitle /> // [!code --]
+</NFTCard>
+// ---cut-after---
+```
+
+<ViewCardTitleAbove />
+
+### Customize the `<NFTMedia />` aspect ratio
+
+By default, we display all media scaled to fit the card.  If you would prefer to show the media at its original aspect ratio you can set `square={false}` on the `<NFTMedia />` component.
+
+```tsx twoslash
+import { NFTCard } from '@coinbase/onchainkit/nft';
+import {
+  NFTMedia,
+} from '@coinbase/onchainkit/nft/view';
+// ---cut-before---
+<NFTCard 
+  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941' 
+  tokenId='1'
+> 
+  <NFTMedia square={false} /> // [!code focus]
+</NFTCard>
+// ---cut-after---
+```
+
+| Scaled to fit (default) | Original Aspect Ratio |
+|-----------------|------------|
+| <ViewCardScaled square={true} /> | <ViewCardScaled square={false} /> |
+
+### Override styles
+
+We recommend style customization by setting a custom [OnchainKit theme](/guides/themes#custom-theme). You can also override individual component styles using `className`.
+
+```tsx twoslash
+import { NFTCard } from '@coinbase/onchainkit/nft';
+import {
+  NFTMedia,
+  NFTTitle,
+} from '@coinbase/onchainkit/nft/view';
+export default function NFTComponent() {
+  return (
+// ---cut-before---
+<NFTCard 
+  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941' 
+  tokenId='1'
+>
+  <NFTMedia/>
+  <NFTTitle className='text-[#EA580C]'/> // [!code focus]
+</NFTCard>
+// ---cut-after---
+);
+}
+```
+
+<ViewCardOverrideStyles />
+
+## Advanced Usage
+
+### Bring your own data
+
+The default `NFTCard` implementation uses Coinbase Developer Platform to provide the data and requires an API key.  If you would like to use your own data, you can use the `useNFTData` prop to pass in a hook which fetches the NFT data from a source of your choice.  As long as this hook returns an object with the same shape as the [`NFTData`](/mint/types#nftdata) type, the NFTCard will render.
+
+```tsx twoslash
+import { NFTCard } from '@coinbase/onchainkit/nft';
+import {
+  NFTMedia,
+  NFTTitle,
+} from '@coinbase/onchainkit/nft/view';
+// ---cut-before---
+
+function useNFTData() {  // [!code focus]
+  return {  // [!code focus]
+    title: 'My NFT',  // [!code focus]
+    imageUrl: 'https://example.com/image.png',  // [!code focus]
+  }  // [!code focus]
+}  // [!code focus]
+
+export default function NFTComponent() {
+  return (
+    <NFTCard 
+      contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941' 
+      tokenId='1'
+      useNFTData={useNFTData}  // [!code focus]
+    >
+      <NFTMedia/>
+      <NFTTitle />
+    </NFTCard>
+  );
+}
+```
+
+### Listening to the component lifecycle
+
+You can use our NFT [`LifecycleStatus`](/mint/types#lifecyclestatus) and the `onStatus` prop to listen to transaction states.
+
+NFTCard has 4 lifecycle states:
+* `init` - The component is initialized
+* `error` - The component has encountered an error
+* `mediaLoading` - The media is loading
+* `success` - The media has been loaded
+
+```tsx twoslash
+import { NFTCard } from '@coinbase/onchainkit/nft';
+import { NFTMedia } from '@coinbase/onchainkit/nft/view';
+// ---cut-before---
+import type { LifecycleStatus } from '@coinbase/onchainkit/nft'; // [!code focus]
+
+const statusHandler = (status: LifecycleStatus) => { // [!code focus]
+  const { statusName, statusData } = status; // [!code focus]
+  switch (statusName) { // [!code focus]
+    case 'success': // [!code focus]
+      // handle success 
+    case 'error': // [!code focus]
+      // handle error
+    default: // [!code focus]
+      // handle 'init' state
+  } // [!code focus]
+} // [!code focus]
+
+<NFTCard  // [!code focus]
+  onStatus={statusHandler}  // [!code focus]
+  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941' 
+  tokenId='1'
+>
+  <NFTMedia />
+</NFTCard>
+// ---cut-after---
+```
+
+## Example use cases
+- **Display your favorite NFT:** Create your own gallery showcasing your favorite NFTs
+- **Display a minted in game avatar:** Allow your users to mint and then view a minted avatar
+
+## Components
+
+The `NFTCard` component can be customized with the following components:
+
+- `<NFTMedia square={boolean}/>` - The media for the NFT, this includes support for images, videos and audio NFTs.
+- `<NFTTitle />` - The title of the NFT.
+- `<NFTOwner />` - Displays the Owners Avatar, name or address and badge (if applicable).
+- `<NFTLastSoldPrice />` - The last sold price of the NFT in native currency and USD.
+- `<NFTNetwork />` - The network the NFT is on, currently only BASE NFTs are supported.
+
+## Props
+
+- [`LifecycleStatus`](/mint/types#lifecyclestatus)
+- [`NFTCardReact`](/mint/types#nftcardreact)
+- [`NFTData`](/mint/types#nftdata)

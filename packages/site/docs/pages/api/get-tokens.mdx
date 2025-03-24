@@ -1,0 +1,105 @@
+# `getTokens`
+
+The `getTokens` function retrieves a list of tokens on Base by searching for the name, symbol, or address of a token.
+
+Before using them, make sure to obtain a [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+
+## Usage
+
+Search by symbol
+
+:::code-group
+
+```tsx twoslash [code]
+import { setOnchainKitConfig } from '@coinbase/onchainkit';
+import { getTokens } from '@coinbase/onchainkit/api'; // [!code focus]
+
+setOnchainKitConfig({ apiKey: 'YOUR_API_KEY' });
+
+const tokens = await getTokens({ limit: '1', search: 'degen' }); // [!code focus]
+```
+
+```ts [return value]
+[
+  {
+    address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
+    chainId: 8453,
+    decimals: 18,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
+    name: 'DEGEN',
+    symbol: 'DEGEN',
+  },
+];
+```
+
+:::
+
+Search by name
+
+:::code-group
+
+```tsx twoslash [code]
+import { setOnchainKitConfig } from '@coinbase/onchainkit';
+import { getTokens } from '@coinbase/onchainkit/api'; // [!code focus]
+
+setOnchainKitConfig({ apiKey: 'YOUR_API_KEY' });
+
+const tokens = await getTokens({ limit: '1', search: 'Wrapped Ether' }); // [!code focus]
+```
+
+```ts [return value]
+[
+  {
+    address: '0x4200000000000000000000000000000000000006',
+    chainId: 8453,
+    decimals: 18,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/47/bc/47bc3593c2dec7c846b66b7ba5f6fa6bd69ec34f8ebb931f2a43072e5aaac7a8-YmUwNmRjZDUtMjczYy00NDFiLWJhZDUtMzgwNjFmYWM0Njkx',
+    name: 'Wrapped Ether',
+    symbol: 'WETH',
+  },
+];
+```
+
+:::
+
+Search by address
+
+:::code-group
+
+```tsx twoslash [code]
+import { setOnchainKitConfig } from '@coinbase/onchainkit';
+import { getTokens } from '@coinbase/onchainkit/api'; // [!code focus]
+
+setOnchainKitConfig({ apiKey: 'YOUR_API_KEY' });
+
+const tokens = await getTokens({
+  limit: '1',
+  search: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+}); // [!code focus]
+```
+
+```ts [return value]
+[
+  {
+    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+    chainId: 8453,
+    decimals: 6,
+    image:
+      'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/44/2b/442b80bd16af0c0d9b22e03a16753823fe826e5bfd457292b55fa0ba8c1ba213-ZWUzYjJmZGUtMDYxNy00NDcyLTg0NjQtMWI4OGEwYjBiODE2',
+    name: 'USDC',
+    symbol: 'USDC',
+  },
+];
+```
+
+:::
+
+## Returns
+
+[`Promise<GetTokensResponse>`](/api/types#gettokensresponse)
+
+## Parameters
+
+[`GetTokensOptions`](/api/types#gettokensoptions)

@@ -1,0 +1,41 @@
+# `getOnrampBuyUrl`
+
+The `getOnrampBuyUrl` utility is a helper method to generate a Coinbase Onramp URL. It helps you customize the funding
+experience for your users. For example:
+
+- Selecting which assets should be available to buy/send
+- Selecting which networks crypto should be received on
+- Setting a default buy/send amount
+- Setting a redirect URL to return your users to your app after they complete the fund flow
+
+## Usage
+
+:::code-group
+
+```tsx twoslash [code]
+import { getOnrampBuyUrl } from '@coinbase/onchainkit/fund';
+
+const projectId = 'YOUR_CDP_PROJECT_ID';
+const onrampBuyUrl = getOnrampBuyUrl({
+  projectId,
+  addresses: { '0x1': ['base'] },
+  assets: ['USDC'],
+  presetFiatAmount: 20,
+  fiatCurrency: 'USD',
+  redirectUrl: 'https://yourapp.com/onramp-return?param=foo',
+});
+```
+
+```json [return value]
+'https://pay.coinbase.com/buy?addresses=%7B%220x1%22%3A%5B%22base%22%5D%7D&appId=project-id&assets=%5B%22USDC%22%5D&fiatCurrency=USD&presetFiatAmount=20&redirectUrl=https%3A%2F%2Fyourapp.com%2Fonramp-return%3Fparam%3Dfoo'
+```
+
+:::
+
+## Returns
+
+`string` - Returns a full Coinbase Onramp URL that you can redirect your users to, or open in a popup.
+
+## Parameters
+
+[`GetOnrampUrlWithProjectIdParams`](/fund/types#getonrampurlwithsessiontokenparams) | [`GetOnrampUrlWithSessionTokenParams`](/fund/types#getonrampurlwithsessiontokenparams)

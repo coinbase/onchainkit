@@ -1,0 +1,238 @@
+---
+title: <FundCard /> · OnchainKit
+description: The `<FundCard />` component provides a complete fiat onramp experience with amount input, currency switching, and payment method selection.
+---
+
+import { Avatar, Name } from '@coinbase/onchainkit/identity';
+import { FundCard } from '@coinbase/onchainkit/fund';
+import { Wallet, ConnectWallet } from '@coinbase/onchainkit/wallet';
+import App from '../../components/App';
+import FundWrapper from '../../components/FundWrapper';
+
+# `<FundCard />`
+
+<img alt="FundCard"
+  src="https://onchainkit.xyz/assets/fund-card.gif"
+  height="364"/>
+
+The `<FundCard />` component provides a complete fiat onramp experience within your app. It includes:
+
+- Amount input with fiat/crypto switching
+- Payment method selection (Coinbase, Apple Pay, Debit Card)
+- Automatic exchange rate updates
+- Smart handling of payment method restrictions (based on country and subdivision)
+
+:::info
+The Apple Pay and Debit Card onramp options are only available for Coinbase supported assets.  
+:::
+
+## Prerequisites
+
+Before using the `FundCard` component, ensure you've completed the [Getting Started](/installation/nextjs#get-your-client-api-key) steps.
+
+::::tip
+To use the `FundCard` component, you'll need to provide a Client API Key in `OnchainKitProvider`. You can get one following our [Getting Started](/installation/nextjs#get-your-client-api-key) steps.
+:::::
+
+## Usage
+
+### Drop in the `<FundCard />` component
+
+```tsx
+import { FundCard } from '@coinbase/onchainkit/fund';
+
+<FundCard
+  assetSymbol="ETH"
+  country="US"
+  currency="USD"
+/>;
+```
+
+<App>
+  <FundWrapper>
+    {({ address }) => {
+      if (address) {
+        return <FundCard assetSymbol="ETH" country="US" currency="USD" />;
+      }
+      return (
+        <>
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        </>
+      );
+    }}
+  </FundWrapper>
+</App>
+
+## Customization
+
+### Custom Header and Button Text
+
+You can customize the header and button text:
+
+```tsx
+<FundCard
+  assetSymbol="ETH"
+  country="US"
+  currency="USD"
+  headerText="Purchase Ethereum"
+  buttonText="Purchase"
+/>
+```
+
+<App>
+  <FundWrapper>
+    {({ address }) => {
+      if (address) {
+        return (
+          <FundCard
+            assetSymbol="ETH"
+            country="US"
+            currency="USD"
+            headerText="Purchase Ethereum"
+            buttonText="Purchase"
+          />
+        );
+      }
+      return (
+        <>
+          <Wallet>
+            <ConnectWallet>
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+          </Wallet>
+        </>
+      );
+    }}
+  </FundWrapper>
+</App>
+
+### Custom Currency
+
+You can specify which fiat currency to use:
+
+```tsx
+<FundCard
+  assetSymbol="ETH"
+  country="GB"
+  currency="GBP"
+/>
+```
+
+### Preset Amount Inputs
+
+You can specify preset amount buttons:
+
+```tsx
+const presetAmountInputs = ['10', '20', '50'] as const;
+
+<FundCard
+  assetSymbol="ETH"
+  country="US"
+  currency="USD"
+  presetAmountInputs={presetAmountInputs}
+/>;
+```
+
+:::info
+**Note: 3 preset amount inputs are required in order to show the preset amount buttons.**
+:::
+
+### Custom Content
+
+You can provide custom children to completely customize the card content while keeping the fund button functionality:
+
+```tsx
+<FundCard
+  assetSymbol="ETH"
+  country="US"
+  currency="USD"
+>
+  <div className="space-y-4">
+    <h2>Custom Header</h2>
+    <input type="number" placeholder="Enter amount" />
+    <select>
+      <option>Payment Method 1</option>
+      <option>Payment Method 2</option>
+    </select>
+  </div>
+</FundCard>
+```
+
+You can also reuse the existing children from the default implementation and add your own custom content.
+
+```tsx
+import {
+  FundCardHeader,
+  FundCardAmountInput,
+  FundCardAmountInputTypeSwitch,
+  FundCardPresetAmountInputList,
+  FundCardPaymentMethodDropdown,
+  FundCardSubmitButton,
+ } from '@coinbase/onchainkit/fund';
+
+<FundCard
+  assetSymbol="ETH"
+  country="US"
+  currency="USD"
+>
+
+  <h2>Custom Header instead of the default "FundCardHeader" </h2>
+  <FundCardAmountInput />
+  <FundCardAmountInputTypeSwitch />
+  <FundCardPresetAmountInputList />
+  <div>Any custom content</div>
+  <FundCardPaymentMethodDropdown />
+  <FundCardSubmitButton />
+  <div>Any custom content</div>
+</FundCard>
+```
+
+:::info
+**Note:** If you are using the custom components then you are going to need to access the state of the `FundCard` component. You can do this by using the `useFundContext` hook.
+:::
+
+```tsx
+const {
+    asset,
+    currency,
+    selectedPaymentMethod,
+    setSelectedPaymentMethod,
+    fundAmountFiat,
+    setFundAmountFiat,
+    fundAmountCrypto,
+    setFundAmountCrypto,
+    selectedInputType,
+    setSelectedInputType,
+    exchangeRate,
+    setExchangeRate,
+    exchangeRateLoading,
+    setExchangeRateLoading,
+    submitButtonState,
+    setSubmitButtonState,
+    paymentMethods,
+    setPaymentMethods,
+    paymentMethodsLoading,
+    setPaymentMethodsLoading,
+    headerText,
+    buttonText,
+    country,
+    subdivision,
+    lifecycleStatus,
+    updateLifecycleStatus,
+    presetAmountInputs,
+ } = useFundContext();
+```
+
+## Props
+
+- [`FundCardPropsReact`](/fund/types#fundcardpropsreact)
+
+## Related Components
+
+- [`<FundButton />`](/fund/fund-button)

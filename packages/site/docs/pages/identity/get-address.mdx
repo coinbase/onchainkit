@@ -1,0 +1,45 @@
+# `getAddress`
+
+The `getAddress` utility is designed to retrieve an address from an onchain identity provider for a given name.
+
+## Usage
+
+Get ENS Name from mainnet chain
+
+:::code-group
+```tsx twoslash [code]
+import { getAddress } from '@coinbase/onchainkit/identity';
+
+const address = await getAddress({ name: 'zizzamia.eth' });
+```
+
+```ts [return value]
+0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1
+```
+
+:::
+
+Get Basename from base chain
+
+:::code-group
+
+```tsx twoslash [code]
+import { getAddress } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const address = await getAddress({ name: 'zizzamia.base.eth', chain: base });
+```
+
+```ts [return value]
+0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1
+```
+
+:::
+
+## Returns
+
+[`Promise<GetAddressReturnType>`](/identity/types#getaddressreturntype)
+
+## Parameters
+
+[`GetAddress`](/identity/types#getaddress)

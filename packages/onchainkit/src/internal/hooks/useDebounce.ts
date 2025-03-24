@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { useLayoutEffect, useMemo, useRef } from 'react';
 
 export const useDebounce = (

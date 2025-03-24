@@ -164,7 +164,7 @@ export type NFTReact = {
  * Note: exported as public Type
  */
 export type NFTCardReact = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   /** Optional className override for top div element. */
   className?: string;
   /** Contract address of the NFT */
