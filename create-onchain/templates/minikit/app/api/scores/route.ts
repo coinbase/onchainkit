@@ -2,6 +2,12 @@ import { NextResponse } from 'next/server';
 import { getScores, setScore, resetScores } from '@/lib/scores';
 import { Score } from '@/lib/scores';
 
+export async function OPTIONS() {
+  return NextResponse.json({
+    enabled: !!(process.env.REDIS_TOKEN && process.env.REDIS_URL)
+  });
+}
+
 export async function GET() {
   // Graceful fallback if Redis is not configured
   if (!process.env.REDIS_TOKEN || !process.env.REDIS_URL) {
