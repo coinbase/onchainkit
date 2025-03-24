@@ -8,11 +8,14 @@ import {
 import {
   Name,
   Identity,
+  Badge,
 } from '@coinbase/onchainkit/identity';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Snake from './components/snake';
 import { useAccount } from 'wagmi';
 import Check from './svg/Check';
+
+const SCHEMA_UID = "0x7889a09fb295b0a0c63a3d7903c4f00f7896cca4fa64d2c1313f8547390b7d39";
 
 export default function App() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
@@ -28,11 +31,10 @@ export default function App() {
     }
   }, [setFrameReady, isFrameReady]);
 
-
-  const handleAddFrame = async () => {
+  const handleAddFrame = useCallback(async () => {
     const frameAdded = await addFrame();
     setFrameAdded(Boolean(frameAdded));
-  }
+  }, [addFrame, setFrameAdded]);
 
   const saveFrameButton = useMemo(() => {
     if (context && !context.client.added) {
@@ -56,7 +58,7 @@ export default function App() {
     }
 
     return null;
-  }, [context, handleAddFrame]);
+  }, [context, handleAddFrame, frameAdded]);
 
   return (
     <div className="flex flex-col min-h-screen sm:min-h-[820px] font-sans bg-[#E5E5E5] text-black items-center snake-dark relative">
@@ -64,8 +66,14 @@ export default function App() {
         <header className="mr-2 mt-1 flex justify-between">
           <div className="justify-start pl-1">
             {address ? (
-                <Identity address={address} className="!bg-inherit p-0 [&>div]:space-x-2">
-                  <Name className="text-inherit" />
+                <Identity
+                  address={address}
+                  schemaId={SCHEMA_UID}
+                  className="!bg-inherit p-0 [&>div]:space-x-2"
+                >
+                  <Name className="text-inherit">
+                    <Badge tooltip="High Scorer" className="!bg-inherit high-score-badge"/>
+                  </Name>
                 </Identity>
               ) : <div className="pl-2 pt-1 text-gray-500 text-sm font-semibold">NOT CONNECTED</div>}
           </div>
