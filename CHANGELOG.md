@@ -4,17 +4,17 @@
 
 ### Patch Changes
 
-- c0287d6: - **feat**: Added WalletAdvanced Send. By @brendan-defi #2134
+- **feat**: Added WalletAdvanced Send. By @brendan-defi #2134
   - **fix**: Added accesibility improvements to playground. By @futreall #2150
 
 ## 0.38.0
 
 ### Minor Changes
 
-- 06f1b3f: - **feat**: Added `Signature` component which utilizes wagmi signTypedData (EIP 712) and signMessage (personal_sign falling back to eth_sign) to sign data. By @alessey #2105
+- **feat**: Added `Signature` component which utilizes wagmi signTypedData (EIP 712) and signMessage (personal_sign falling back to eth_sign) to sign data. By @alessey #2105
+- **feat**: Added light/dark mode support for the Base `theme`. This will respect the `mode` setting in your `OnchainKitProvider` config (defaults to 'auto' if not specified). Users of the Base theme may now see light or dark variants depending on their system preferences or explicit mode configuration. By @cpcramer #2143
+- **feat**: Added `Badge` tooltip display. By @cpcramer #2140
 
-  - **feat**: Added light/dark mode support for the Base `theme`. This will respect the `mode` setting in your `OnchainKitProvider` config (defaults to 'auto' if not specified). Users of the Base theme may now see light or dark variants depending on their system preferences or explicit mode configuration. By @cpcramer #2143
-  - **feat**: Added `Badge` tooltip display. By @cpcramer #2140
   - **feat**: Implemented default children for `NFTCard`, `NFTMintCard`, and `Transaction` components. By @dgca @abcrane123 #2138 #2139 #2108
   - **chore**: Updated `IsBaseOptions` and `IsEthereumOptions` type naming convention to PascalCase. By @crStiv @cpcramer #1920
   - **chore**: Refactored `TokenBalance`'s ActionButton and improved `TokenBalance` types. By @brendan-defi #2068
@@ -29,7 +29,7 @@
 
 ### Patch Changes
 
-- 80ae089: - **feat:**: Enhanced `Identity` hooks with full TanStack Query options support. By @cpcramer #2116
+- **feat:**: Enhanced `Identity` hooks with full TanStack Query options support. By @cpcramer #2116
   - **feat:**: Added MiniKit Provider and Hooks. By @alessey #2082, #2101, #2112
   - **fix:**: Fixed WalletDropdownLinkReact type to allow ReactNode in icon property. By @gmolki #2058
   - **feat**: Added event handlers to `Earn` components. @abcrane123 #2106
