@@ -18,16 +18,16 @@ describe('resolveAddressInput', () => {
   it('returns empty values when input is null', async () => {
     const result = await resolveAddressInput(null, null);
     expect(result).toEqual({
-      display: '',
-      value: null,
+      displayValue: '',
+      address: null,
     });
   });
 
   it('returns empty values when input is empty string', async () => {
     const result = await resolveAddressInput(null, '');
     expect(result).toEqual({
-      display: '',
-      value: null,
+      displayValue: '',
+      address: null,
     });
   });
 
@@ -37,8 +37,8 @@ describe('resolveAddressInput', () => {
 
     expect(validateAddressInput).toHaveBeenCalledWith(input);
     expect(result).toEqual({
-      display: input,
-      value: mockAddress,
+      displayValue: input,
+      address: mockAddress,
     });
   });
 
@@ -50,8 +50,8 @@ describe('resolveAddressInput', () => {
 
     expect(getSlicedAddress).toHaveBeenCalledWith(input);
     expect(result).toEqual({
-      display: mockSlicedAddress,
-      value: selectedAddress,
+      displayValue: mockSlicedAddress,
+      address: selectedAddress,
     });
   });
 
@@ -62,8 +62,8 @@ describe('resolveAddressInput', () => {
     const result = await resolveAddressInput(selectedAddress, input);
 
     expect(result).toEqual({
-      display: input,
-      value: selectedAddress,
+      displayValue: input,
+      address: selectedAddress,
     });
   });
 });

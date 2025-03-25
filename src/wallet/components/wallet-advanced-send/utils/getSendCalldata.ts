@@ -5,22 +5,22 @@ import type { Token } from '@/token';
 import type { Call } from '@/transaction/types';
 import { type Address, parseUnits } from 'viem';
 
-type GetSendTransactionParams = {
+type GetSendCalldataParams = {
   recipientAddress: Address | null;
   token: Token | null;
   amount: string | null;
 };
 
-type GetSendTransactionResponse = {
+type GetSendCalldataResponse = {
   calldata: Call | null;
   error: APIError | null;
 };
 
-export function getSendTransaction({
+export function getSendCalldata({
   recipientAddress,
   token,
   amount,
-}: GetSendTransactionParams): GetSendTransactionResponse {
+}: GetSendCalldataParams): GetSendCalldataResponse {
   if (!recipientAddress || !token || !token.decimals || !amount) {
     return {
       calldata: null,

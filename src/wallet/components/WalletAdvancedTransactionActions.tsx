@@ -80,8 +80,8 @@ export function WalletAdvancedTransactionActions({
 
   const handleSend = useCallback(() => {
     handleAnalyticsOptionSelected(WalletOption.Send);
-    window.open('https://wallet.coinbase.com', '_blank');
-  }, [handleAnalyticsOptionSelected]);
+    setActiveFeature('send');
+  }, [handleAnalyticsOptionSelected, setActiveFeature]);
 
   const handleSwap = useCallback(() => {
     handleAnalyticsOptionSelected(WalletOption.Swap);
