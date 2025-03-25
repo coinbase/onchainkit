@@ -109,7 +109,11 @@ describe('WalletAdvancedDefault', () => {
       address: '0x123',
     });
 
-    mockUseWalletContext.mockReturnValue({ isSubComponentOpen: true });
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
+      breakpoint: 'md',
+      address: '0x123',
+    });
 
     render(<WalletAdvancedDefault />);
 

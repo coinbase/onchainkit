@@ -58,7 +58,7 @@ export function WalletDropdown({
   return (
     <WalletAdvancedProvider>
       <div
-        data-testid="ockWalletDropdownContainer"
+        data-testid="ockWalletDropdown"
         className={cn(
           'absolute',
           showSubComponentAbove ? 'bottom-full' : 'top-full',

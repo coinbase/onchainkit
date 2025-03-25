@@ -25,6 +25,12 @@ vi.mock('./WalletAdvanced', () => ({
   ),
 }));
 
+vi.mock('./WalletDropdown', () => ({
+  WalletDropdown: () => (
+    <div data-testid="ockWalletDropdown">Wallet Advanced</div>
+  ),
+}));
+
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
   WalletProvider: ({ children }: WalletProviderReact) => <>{children}</>,

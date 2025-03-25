@@ -33,6 +33,30 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
+vi.mock('./WalletAdvancedWalletActions', () => ({
+  WalletAdvancedWalletActions: () => (
+    <div data-testid="WalletAdvancedWalletActions">Wallet Advanced</div>
+  ),
+}));
+
+vi.mock('./WalletAdvancedAddressDetails', () => ({
+  WalletAdvancedAddressDetails: () => (
+    <div data-testid="WalletAdvancedAddressDetails">Wallet Advanced</div>
+  ),
+}));
+
+vi.mock('./WalletAdvancedTransactionActions', () => ({
+  WalletAdvancedTransactionActions: () => (
+    <div data-testid="WalletAdvancedTransactionActions">Wallet Advanced</div>
+  ),
+}));
+
+vi.mock('./WalletAdvancedTokenHoldings', () => ({
+  WalletAdvancedTokenHoldings: () => (
+    <div data-testid="WalletAdvancedTokenHoldings">Wallet Advanced</div>
+  ),
+}));
+
 describe('WalletAdvanced', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
 
@@ -187,5 +211,19 @@ describe('WalletAdvanced', () => {
 
     expect(screen.getByTestId('wallet-advanced-content')).toBeDefined();
     expect(screen.getByTestId('child-content')).toBeDefined();
+  });
+
+  it('renders default children when no children are provided', () => {
+    mockUseWalletContext.mockReturnValue({ isSubComponentOpen: true });
+
+    render(
+      <Wallet>
+        <ConnectWallet />
+        <WalletAdvanced />
+      </Wallet>,
+    );
+
+    expect(screen.getByTestId('WalletAdvancedWalletActions')).toBeDefined();
+    expect(screen.getByTestId('WalletAdvancedAddressDetails')).toBeDefined();
   });
 });
