@@ -1,6 +1,15 @@
 import { MiniKitContext, emptyContext } from '@/minikit/MiniKitProvider';
 import sdk from '@farcaster/frame-sdk';
 import { useContext, useState } from 'react';
+import type { MiniKitContextType } from '../types';
+
+type UseMiniKitReturn = {
+  setFrameReady: () => Promise<MiniKitContextType>;
+  isFrameReady: boolean;
+  context: MiniKitContextType['context'];
+  updateClientContext: MiniKitContextType['updateClientContext'];
+  notificationProxyUrl: MiniKitContextType['notificationProxyUrl'];
+};
 
 /**
  * Allows for the use of the MiniKit context.
@@ -11,7 +20,7 @@ import { useContext, useState } from 'react';
  * - `updateClientContext` - A function to update the client context.
  * - `notificationProxyUrl` - The notification proxy URL.
  */
-export const useMiniKit = () => {
+export const useMiniKit = (): UseMiniKitReturn => {
   const [isFrameReady, setIsFrameReady] = useState(false);
   const context = useContext(MiniKitContext);
   if (context === emptyContext) {
