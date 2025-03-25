@@ -10,6 +10,7 @@ describe('buildPaymentMethods', () => {
     paymentCurrencies: [
       {
         id: 'USD',
+        iconUrl: 'https://example.com/usd.png',
         limits: [
           { id: 'CARD', min: '10', max: '500' },
           { id: 'APPLE_PAY', min: '5', max: '300' },
@@ -91,6 +92,7 @@ describe('buildPaymentMethods', () => {
         paymentCurrencies: [
           {
             id: 'USD',
+            iconUrl: 'https://example.com/usd.png',
             limits: [{ id: 'CARD', min: '', max: '' }],
           },
         ],
