@@ -37,4 +37,14 @@ To run a script in all packages, use the following command:
 pnpm run <script-name>
 ```
 
-To run a script in the `@coinbase/onchainkit` package, use the shorthand `pnpm ock <script-name>` provided by the root `package.json`.
+### Shorthands
+
+We provide shorthands to filter by project in the root `package.json`.
+
+The following shorthands are available:
+
+- `pnpm f:ock`: `pnpm --filter @coinbase/onchainkit`
+- `pnpm f:play`: `pnpm --filter playground`
+- `pnpm f:create`: `pnpm --filter create-onchain`
+
+If you create a new project, feel free to add a shorthand to the root `package.json`.

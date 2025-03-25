@@ -70,8 +70,8 @@ importers:
   packages/onchainkit:
     dependencies:
       '@farcaster/frame-core':
-        specifier: ^0.0.29
-        version: 0.0.29(typescript@5.8.2)
+        specifier: 0.0.26
+        version: 0.0.26(typescript@5.8.2)
       '@farcaster/frame-sdk':
         specifier: ^0.0.28
         version: 0.0.28(typescript@5.8.2)(zod@3.24.2)
@@ -1510,9 +1510,6 @@ packages:
 
   '@farcaster/frame-core@0.0.26':
     resolution: {integrity: sha512-DqBsi+lz7WBlqcxJfYv8ZiU8+Th4Y49euq13kCxVOn6YU/rKR7Wq6E6N1bgeb625wyoIrlC3NnPRXf5SoRxNhA==}
-
-  '@farcaster/frame-core@0.0.29':
-    resolution: {integrity: sha512-+iQjOS4OE0YCeW7hhBOg0QK8Pch7/C3mlkfD0OLey0Thnj4Uab4tWmvmfKxnsJNSYnESx9BT+Sw/pn9cueCl1Q==}
 
   '@farcaster/frame-sdk@0.0.28':
     resolution: {integrity: sha512-raxJkwy9oNDTodyfcY8DNvQNkt/9wdWGIqGnXW70biBPfVxfdG9WAqy1Bm552KSynd0+hGzcrQVwkMNzvpSZBg==}
@@ -9230,13 +9227,6 @@ snapshots:
       micro-ftch: 0.3.1
 
   '@farcaster/frame-core@0.0.26(typescript@5.8.2)':
-    dependencies:
-      ox: 0.4.4(typescript@5.8.2)(zod@3.24.2)
-      zod: 3.24.2
-    transitivePeerDependencies:
-      - typescript
-
-  '@farcaster/frame-core@0.0.29(typescript@5.8.2)':
     dependencies:
       ox: 0.4.4(typescript@5.8.2)(zod@3.24.2)
       zod: 3.24.2

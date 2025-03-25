@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "clean:all": "rm -rf node_modules packages/*/node_modules",
-    "ock": "pnpm --filter @coinbase/onchainkit"
+    "clean:node_modules": "rm -rf node_modules packages/*/node_modules",
+    "f:ock": "pnpm --filter @coinbase/onchainkit",
+    "f:play": "pnpm --filter playground",
+    "f:create": "pnpm --filter create-onchain"
   },
   "keywords": [],
   "author": "",
