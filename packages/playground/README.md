@@ -5,7 +5,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 To run the development server, run the following command:
 
 ```bash
-bun dev:watch
+pnpm dev:watch
 ```
 
 This will start the Next.js dev server, watch for changes in the `src` directory, and rebuild the `@coinbase/onchainkit` package.

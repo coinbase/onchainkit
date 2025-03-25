@@ -349,11 +349,6 @@
       "source": "/farcaster/:match*",
       "destination": "https://docs.base.org/builderkits/onchainkit/getting-started",
       "permanent": true
-    },
-    {
-      "source": "/test/redirect/from/onchainkit-routes",
-      "destination": "https://docs.base.org/builderkits/onchainkit/getting-started",
-      "permanent": false
     }
   ],
   "rewrites": [

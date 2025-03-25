@@ -1,20 +1,26 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.37.8",
+  "version": "0.38.1",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
   "scripts": {
-    "build": "packemon build --addEngines --addFiles --loadConfigs --declaration && tscpaths -p tsconfig.esm.json -s ./src -o ./esm && npx packemon validate --no-license --no-people --no-repo && tailwindcss -i ./src/styles/index.css -o ./src/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --minify",
-    "check": "biome check --write .",
-    "check:unsafe": "biome check . --fix --unsafe",
-    "ci:check": "biome ci --formatter-enabled=false --linter-enabled=false",
-    "ci:format": "biome ci --linter-enabled=false --organize-imports-enabled=false",
-    "ci:lint": "biome ci --formatter-enabled=false --organize-imports-enabled=false",
-    "dev:watch": "concurrently \"tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch\" \"tsup\"",
-    "format": "biome format --write .",
-    "lint": "biome lint --write .",
-    "lint:unsafe": "biome lint --write --unsafe .",
+    "build": "pnpm clean && pnpm bundle:prod && pnpm tailwind:prod",
+    "dev": "concurrently \"pnpm tailwind:dev\" \"pnpm bundle:dev\"",
+    "bundle:dev": "tsup -- --watch",
+    "bundle:dev:no-watch": "tsup",
+    "bundle:prod": "packemon build --addEngines --addFiles --loadConfigs --declaration && tscpaths -p tsconfig.esm.json -s ./src -o ./esm && npx packemon validate --no-license --no-people --no-repo",
+    "tailwind:dev": "tailwind -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --watch",
+    "tailwind:prod": "tailwindcss -i ./src/styles/index.css -o ./dist/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --minify",
+    "clean": "rm -rf dist esm",
+    "check": "eslint . --ext .ts,.tsx && prettier --check .",
+    "check:unsafe": "eslint . --ext .ts,.tsx --fix && prettier --write .",
+    "ci:check": "eslint . --ext .ts,.tsx --max-warnings=0",
+    "ci:format": "prettier --check .",
+    "ci:lint": "eslint . --ext .ts,.tsx --max-warnings=0",
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .ts,.tsx --fix",
+    "lint:unsafe": "eslint . --ext .ts,.tsx --fix --max-warnings=0",
     "storybook:dev": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "storybook:test": "test-storybook",
@@ -23,8 +29,8 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "release:check": "changeset status --verbose --since=origin/main",
-    "release:publish": "yarn install && yarn build && changeset publish",
-    "release:version": "changeset version && yarn install --immutable",
+    "release:publish": "pnpm install && pnpm build && changeset publish",
+    "release:version": "changeset version && pnpm install --frozen-lockfile",
     "watch": "tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch",
     "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch"
   },
@@ -34,20 +40,20 @@
     "react-dom": "^18 || ^19"
   },
   "dependencies": {
+    "@farcaster/frame-core": "0.0.26",
     "@farcaster/frame-sdk": "^0.0.28",
     "@farcaster/frame-wagmi-connector": "^0.0.16",
     "@tanstack/react-query": "^5",
+    "@wagmi/core": "^2.16.7",
     "clsx": "^2.1.1",
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
     "qrcode": "^1.5.4",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7",
     "viem": "^2.23.0",
     "wagmi": "^2.14.11"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.3",
     "@changesets/cli": "^2.27.10",
     "@chromatic-com/storybook": "^1.7.0",
     "@storybook/addon-a11y": "^8.2.9",
@@ -61,6 +67,8 @@
     "@storybook/test-runner": "^0.19.1",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^14.2.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^22.13.10",
     "@types/qrcode": "^1",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -78,14 +86,11 @@
     "rimraf": "^5.0.5",
     "storybook": "^8.2.9",
     "tailwindcss": "^3.4.3",
+    "tailwindcss-animate": "^1.0.7",
     "tscpaths": "^0.0.9",
     "tsup": "^8.3.5",
-    "typescript": "~5.3.3",
     "vite": "^5.3.3",
     "vitest": "^3.0.5"
-  },
-  "resolutions": {
-    "react": "npm:react@^18"
   },
   "packemon": [
     {
@@ -108,8 +113,8 @@
   "module": "./esm/index.js",
   "exports": {
     "./package.json": "./package.json",
-    "./styles.css": "./src/styles.css",
-    "./tailwind.css": "./src/tailwind.css",
+    "./styles.css": "./dist/styles.css",
+    "./tailwind.css": "./dist/tailwind.css",
     "./theme": "./esm/styles/theme.js",
     ".": {
       "types": "./esm/index.d.ts",
@@ -220,5 +225,5 @@
       "default": "./esm/wallet/index.js"
     }
   },
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "pnpm@10.6.3"
 }

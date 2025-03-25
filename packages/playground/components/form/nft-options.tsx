@@ -8,7 +8,7 @@ export function NFTOptions() {
 
   return (
     <div className="grid gap-2">
-      <Label htmlFor="nftToken">NFT contract:tokenId</Label>
+      <Label htmlFor="chain">NFT contract:tokenId</Label>
       <Input
         id="nftToken"
         placeholder="Enter contractAddress:tokenId"
