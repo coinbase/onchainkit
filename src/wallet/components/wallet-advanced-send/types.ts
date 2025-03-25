@@ -29,9 +29,9 @@ export type SendContextType = {
 
   // Recipient Address Context
   /** The selected recipient address */
-  selectedRecipientAddress: RecipientAddress;
+  selectedRecipient: Recipient;
   /** Handler for the selection of a recipient address */
-  handleAddressSelection: (selection: RecipientAddress) => void;
+  handleRecipientSelection: (selection: Recipient) => void;
   /** Handler for the change of a recipient address */
   handleRecipientInputChange: () => void;
 
@@ -62,11 +62,11 @@ export type SendContextType = {
   handleCryptoAmountChange: (value: string) => void;
 };
 
-export type RecipientAddress = {
+export type Recipient = {
   /** The value to display in the input field of the recipient address */
-  display: string;
+  displayValue: string;
   /** The address of the recipient */
-  value: Address | null;
+  address: Address | null;
 };
 
 export type SendLifecycleStatus =
@@ -123,10 +123,10 @@ export type SendLifecycleStatus =
     };
 
 export type SendAddressInputProps = {
-  selectedRecipientAddress: RecipientAddress;
+  selectedRecipient: Recipient;
   recipientInput: string;
   setRecipientInput: Dispatch<SetStateAction<string>>;
-  setValidatedInput: Dispatch<SetStateAction<RecipientAddress>>;
+  setValidatedInput: Dispatch<SetStateAction<Recipient>>;
   handleRecipientInputChange: () => void;
   classNames?: {
     container?: string;
@@ -138,7 +138,7 @@ export type SendAddressInputProps = {
 export type SendAddressSelectorProps = {
   address: Address | null;
   senderChain: Chain | null | undefined;
-  handleClick: () => Promise<void>;
+  onClick: () => Promise<void>;
   classNames?: {
     container?: string;
     avatar?: string;
