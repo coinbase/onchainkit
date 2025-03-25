@@ -36,3 +36,5 @@ To run a script in all packages, use the following command:
 ```bash
 pnpm run <script-name>
 ```
+
+To run a script in the `@coinbase/onchainkit` package, use the shorthand `pnpm ock <script-name>` provided by the root `package.json`.

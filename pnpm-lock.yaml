@@ -309,8 +309,6 @@ importers:
         specifier: ^3.4.1
         version: 3.4.17
 
-  packages/site: {}
-
 packages:
 
   '@adobe/css-tools@4.4.2':

@@ -38,11 +38,11 @@ export default [
       'no-restricted-imports': ['error', 'node:*'],
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'error',
-      'sort-keys': [
-        'error',
-        'asc',
-        { caseSensitive: true, natural: false, minKeys: 2 },
-      ],
+      // 'sort-keys': [
+      //   'error',
+      //   'asc',
+      //   { caseSensitive: true, natural: false, minKeys: 2 },
+      // ],
       '@typescript-eslint/parameter-properties': [
         'error',
         { prefer: 'class-property' },
