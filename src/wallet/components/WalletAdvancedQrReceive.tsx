@@ -71,7 +71,7 @@ export function WalletAdvancedQrReceive({
         text.headline,
         'flex flex-col items-center justify-between',
         'h-full w-full',
-        'px-4 pt-3 pb-4',
+        'px-4 pt-3 pb-4 w-88 h-120',
         isActiveFeatureClosing
           ? 'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-left-5 linear animate-in duration-150',

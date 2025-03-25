@@ -46,7 +46,7 @@ export function WalletAdvancedTokenHoldings({
       className={cn(
         'flex flex-col items-center gap-4',
         'my-2 h-44 max-h-44 w-full',
-        'scrollbar-hidden overflow-y-auto',
+        'scrollbar-hidden overflow-y-auto px-4 py-3 w-88',
         animations.content,
         classNames?.container,
       )}

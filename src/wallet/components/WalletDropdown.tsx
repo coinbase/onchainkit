@@ -1,10 +1,10 @@
 'use client';
 
 import { Address, Avatar, EthBalance, Identity, Name } from '@/identity';
-import { zIndex } from '@/styles/constants';
-import { cn, color, pressable } from '@/styles/theme';
+import { cn, color } from '@/styles/theme';
 import type { WalletDropdownReact } from '../types';
-import { WalletBottomSheet } from './WalletBottomSheet';
+import { WalletAdvancedContent } from './WalletAdvancedContent';
+import { WalletAdvancedProvider } from './WalletAdvancedProvider';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 import { WalletDropdownLink } from './WalletDropdownLink';
 import { useWalletContext } from './WalletProvider';
@@ -29,14 +29,18 @@ const defaultWalletDropdownChildren = (
   </>
 );
 
-export function WalletDropdown({ children, className }: WalletDropdownReact) {
+export function WalletDropdown({
+  children,
+  className,
+  classNames,
+  swappableTokens,
+}: WalletDropdownReact) {
   const {
     address,
     breakpoint,
-    isSubComponentClosing,
-    setIsSubComponentOpen,
-    setIsSubComponentClosing,
     isSubComponentOpen,
+    showSubComponentAbove,
+    alignSubComponentRight,
   } = useWalletContext();
 
   if (!address) {
@@ -51,33 +55,24 @@ export function WalletDropdown({ children, className }: WalletDropdownReact) {
     return null;
   }
 
-  if (breakpoint === 'sm') {
-    return (
-      <WalletBottomSheet className={className}>{children}</WalletBottomSheet>
-    );
-  }
-
   return (
-    <div
-      className={cn(
-        pressable.default,
-        color.foreground,
-        zIndex.dropdown,
-        'absolute right-0 mt-1.5 flex w-max min-w-[300px] cursor-default flex-col overflow-hidden rounded-xl',
-        isSubComponentClosing
-          ? 'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out'
-          : 'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
-        className,
-      )}
-      onAnimationEnd={() => {
-        if (isSubComponentClosing) {
-          setIsSubComponentOpen(false);
-          setIsSubComponentClosing(false);
-        }
-      }}
-      data-testid="ockWalletDropdown"
-    >
-      {children || defaultWalletDropdownChildren}
-    </div>
+    <WalletAdvancedProvider>
+      <div
+        data-testid="ockWalletDropdownContainer"
+        className={cn(
+          'absolute',
+          showSubComponentAbove ? 'bottom-full' : 'top-full',
+          alignSubComponentRight ? 'right-0' : 'left-0',
+          className,
+        )}
+      >
+        <WalletAdvancedContent
+          classNames={classNames}
+          swappableTokens={swappableTokens}
+        >
+          {children || defaultWalletDropdownChildren}
+        </WalletAdvancedContent>
+      </div>
+    </WalletAdvancedProvider>
   );
 }

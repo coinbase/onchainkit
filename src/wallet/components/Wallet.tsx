@@ -74,6 +74,7 @@ function WalletContent({
 
   useOutsideClick(walletContainerRef, handleClose);
 
+  // Note: this can be removed after deprecating WalletAdvanced
   const { dropdown, advanced } = useMemo(() => {
     const childrenArray = Children.toArray(children);
     return {
@@ -82,6 +83,7 @@ function WalletContent({
     };
   }, [children]);
 
+  // Note: this can be removed after deprecating WalletAdvanced
   // cannot use advanced and dropdown,
   // default to dropdown
   const childrenToRender = useMemo(() => {
@@ -93,6 +95,7 @@ function WalletContent({
     });
   }, [dropdown, children]);
 
+  // Note: this can be removed after deprecating WalletAdvanced
   if (dropdown && advanced) {
     console.error(
       'Defaulted to WalletDropdown. Wallet cannot have both WalletDropdown and WalletAdvanced as children.',
@@ -115,6 +118,7 @@ function WalletContent({
           disabled={disableDraggable}
         >
           <div ref={connectRef}>
+            {/* Note: update childrenToRender to children after deprecating WalletAdvanced */}
             {childrenToRender || defaultWalletChildren}
           </div>
         </Draggable>
@@ -127,6 +131,7 @@ function WalletContent({
       ref={walletContainerRef}
       className={cn('relative w-fit shrink-0', className)}
     >
+      {/* Note: update childrenToRender to children after deprecating WalletAdvanced */}
       <div ref={connectRef}>{childrenToRender || defaultWalletChildren}</div>
     </div>
   );

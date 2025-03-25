@@ -83,7 +83,7 @@ export function WalletAdvancedContent({
       );
     }
 
-    return <ContentWrapper className="px-4 py-3">{children}</ContentWrapper>;
+    return <ContentWrapper className="p-1">{children}</ContentWrapper>;
   }, [activeFeature, swappableTokens, tokenBalances, children, classNames]);
 
   if (breakpoint === 'sm') {
@@ -110,7 +110,7 @@ export function WalletAdvancedContent({
         border.lineDefault,
         zIndex.dropdown,
         'my-1.5 h-auto w-full',
-        'flex items-center justify-center',
+        'flex justify-center',
         animations.container,
         classNames?.container,
       )}
@@ -131,8 +131,8 @@ function ContentWrapper({
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-between',
-        'h-120 w-88',
+        'flex flex-col justify-between',
+        'min-w-80',
         className,
       )}
     >

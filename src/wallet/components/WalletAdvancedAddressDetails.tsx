@@ -44,7 +44,7 @@ export function WalletAdvancedAddressDetails({
     <div
       data-testid="ockWalletAdvanced_AddressDetails"
       className={cn(
-        'mt-2 flex flex-col items-center justify-center',
+        'mt-2 flex flex-col items-center justify-center px-4 py-3 w-88',
         color.foreground,
         text.body,
         animations.content,

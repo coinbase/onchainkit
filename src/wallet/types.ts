@@ -139,6 +139,12 @@ export type WalletDropdownReact = {
   children?: React.ReactNode;
   /** Optional className override for top div element */
   className?: string;
+  classNames?: {
+    container?: string;
+    qr?: WalletAdvancedQrReceiveProps['classNames'];
+    swap?: WalletAdvancedSwapProps['classNames'];
+  };
+  swappableTokens?: Token[];
 };
 
 /**
