@@ -351,9 +351,9 @@
       "permanent": true
     },
     {
-      "source": "/foo/bar",
-      "destination": "https://x.com/buildonbase",
-      "permanent": true
+      "source": "/test/redirect/from/onchainkit-routes",
+      "destination": "https://docs.base.org/builderkits/onchainkit/getting-started",
+      "permanent": false
     }
   ],
   "rewrites": [
