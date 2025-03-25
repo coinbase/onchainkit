@@ -47,9 +47,6 @@ function OnchainProviders({ children }: { children: ReactNode }) {
               display: 'modal', // 'modal' || 'classic"
               termsUrl: 'https://www.coinbase.com/legal/cookie',
               privacyUrl: 'https://www.coinbase.com/legal/privacy',
-              supportedWallets: {
-                rabby: true,
-              },
             },
           }}
           projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}

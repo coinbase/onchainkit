@@ -61,12 +61,6 @@ export function OnchainKitProvider({
           display: config?.wallet?.display ?? 'classic',
           termsUrl: config?.wallet?.termsUrl || DEFAULT_TERMS_URL,
           privacyUrl: config?.wallet?.privacyUrl || DEFAULT_PRIVACY_URL,
-          supportedWallets: {
-            coinbase: config?.wallet?.supportedWallets?.coinbase ?? true,
-            metamask: config?.wallet?.supportedWallets?.metamask ?? true,
-            phantom: config?.wallet?.supportedWallets?.phantom ?? true,
-            rabby: config?.wallet?.supportedWallets?.rabby ?? false,
-          },
         },
       },
       projectId: projectId ?? null,
