@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.38.1
+
+### Patch Changes
+
+- c0287d6: - **feat**: Added WalletAdvanced Send. By @brendan-defi #2134
+  - **fix**: Added accesibility improvements to playground. By @futreall #2150
+
 ## 0.38.0
 
 ### Minor Changes
