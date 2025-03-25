@@ -6,11 +6,20 @@ import { coinbaseWalletSvg } from '@/internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '@/internal/svg/defaultAvatarSVG';
 import { metamaskSvg } from '@/internal/svg/metamaskSvg';
 import { phantomSvg } from '@/internal/svg/phantomSvg';
+import { rabbySvg } from '@/internal/svg/rabbySvg';
 import { background, border, cn, color, pressable, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
+
+type WalletProviderOption = {
+  id: string;
+  name: string;
+  icon: React.ReactNode;
+  connector: () => void;
+  enabled: boolean;
+};
 
 type WalletModalProps = {
   isOpen: boolean;
@@ -33,6 +42,7 @@ export function WalletModal({
   const appName = config?.appearance?.name ?? undefined;
   const privacyPolicyUrl = config?.wallet?.privacyUrl ?? undefined;
   const termsOfServiceUrl = config?.wallet?.termsUrl ?? undefined;
+  const supportedWallets = config?.wallet?.supportedWallets ?? { rabby: false };
 
   const handleCoinbaseWalletConnection = useCallback(() => {
     try {
@@ -90,6 +100,53 @@ export function WalletModal({
       );
     }
   }, [connect, onClose, onError]);
+
+  const handleRabbyConnection = useCallback(() => {
+    try {
+      const rabbyConnector = injected({
+        target: 'rabby',
+      });
+
+      connect({ connector: rabbyConnector });
+      onClose();
+    } catch (error) {
+      console.error('Rabby connection error:', error);
+      onError?.(
+        error instanceof Error ? error : new Error('Failed to connect wallet'),
+      );
+    }
+  }, [connect, onClose, onError]);
+
+  const availableWallets: WalletProviderOption[] = [
+    {
+      id: 'coinbase',
+      name: 'Coinbase Wallet',
+      icon: coinbaseWalletSvg,
+      connector: handleCoinbaseWalletConnection,
+      enabled: true,
+    },
+    {
+      id: 'metamask',
+      name: 'MetaMask',
+      icon: metamaskSvg,
+      connector: handleMetaMaskConnection,
+      enabled: true,
+    },
+    {
+      id: 'phantom',
+      name: 'Phantom',
+      icon: phantomSvg,
+      connector: handlePhantomConnection,
+      enabled: true,
+    },
+    {
+      id: 'rabby',
+      name: 'Rabby',
+      icon: rabbySvg,
+      connector: handleRabbyConnection,
+      enabled: supportedWallets.rabby === true,
+    },
+  ].filter((wallet) => wallet.enabled);
 
   return (
     <Dialog isOpen={isOpen} onClose={onClose} aria-label="Connect Wallet">
@@ -180,58 +237,26 @@ export function WalletModal({
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={handleCoinbaseWalletConnection}
-            className={cn(
-              border.radius,
-              background.default,
-              text.body,
-              pressable.alternate,
-              color.foreground,
-              'px-4 py-3',
-              'flex items-center justify-between text-left',
-            )}
-          >
-            Coinbase Wallet
-            <div className="h-4 w-4">{coinbaseWalletSvg}</div>
-          </button>
-
-          <button
-            type="button"
-            onClick={handleMetaMaskConnection}
-            className={cn(
-              border.radius,
-              background.default,
-              text.body,
-              pressable.alternate,
-              color.foreground,
-              'flex items-center justify-between px-4 py-3 text-left',
-            )}
-          >
-            MetaMask
-            <div className="-mr-0.5 flex h-5 w-5 items-center justify-center">
-              {metamaskSvg}
-            </div>
-          </button>
-
-          <button
-            type="button"
-            onClick={handlePhantomConnection}
-            className={cn(
-              border.radius,
-              background.default,
-              text.body,
-              pressable.alternate,
-              color.foreground,
-              'flex items-center justify-between px-4 py-3 text-left',
-            )}
-          >
-            Phantom
-            <div className="-mr-0.5 flex h-4 w-4 items-center justify-center">
-              {phantomSvg}
-            </div>
-          </button>
+          {availableWallets.map((wallet) => (
+            <button
+              key={wallet.id}
+              type="button"
+              onClick={wallet.connector}
+              className={cn(
+                border.radius,
+                background.default,
+                text.body,
+                pressable.alternate,
+                color.foreground,
+                'flex items-center justify-between px-4 py-3 text-left',
+              )}
+            >
+              {wallet.name}
+              <div className="-mr-0.5 flex h-4 w-4 items-center justify-center">
+                {wallet.icon}
+              </div>
+            </button>
+          ))}
         </div>
 
         <div

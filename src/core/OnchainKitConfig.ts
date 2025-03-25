@@ -23,6 +23,9 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
       display: null,
       termsUrl: null,
       privacyUrl: null,
+      supportedWallets: {
+        rabby: false,
+      },
     },
   },
   rpcUrl: null,

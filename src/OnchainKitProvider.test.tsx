@@ -193,6 +193,9 @@ describe('OnchainKitProvider', () => {
               display: 'classic',
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
+              supportedWallets: {
+                rabby: false,
+              },
             },
           },
           chain: base,
@@ -233,6 +236,9 @@ describe('OnchainKitProvider', () => {
               display: 'classic',
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
+              supportedWallets: {
+                rabby: false,
+              },
             },
           },
         }),
@@ -312,11 +318,79 @@ describe('OnchainKitProvider', () => {
               display: 'classic',
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
+              supportedWallets: {
+                rabby: false,
+              },
             },
           },
           projectId: null,
           rpcUrl: null,
           schemaId: schemaId,
+          sessionId: expect.any(String),
+        }),
+      );
+    });
+  });
+
+  it('should set default supportedWallets configuration when not provided', async () => {
+    render(
+      <WagmiProvider config={mockConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider chain={base} schemaId={schemaId}>
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await waitFor(() => {
+      expect(setOnchainKitConfig).toHaveBeenCalledWith(
+        expect.objectContaining({
+          config: expect.objectContaining({
+            wallet: expect.objectContaining({
+              supportedWallets: {
+                rabby: false,
+              },
+            }),
+          }),
+        }),
+      );
+    });
+  });
+
+  it('should use custom supportedWallets configuration when provided', async () => {
+    const customConfig: AppConfig = {
+      wallet: {
+        supportedWallets: {
+          rabby: true,
+        },
+      },
+    };
+
+    render(
+      <WagmiProvider config={mockConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider
+            chain={base}
+            schemaId={schemaId}
+            config={customConfig}
+          >
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await waitFor(() => {
+      expect(setOnchainKitConfig).toHaveBeenCalledWith(
+        expect.objectContaining({
+          config: expect.objectContaining({
+            wallet: expect.objectContaining({
+              supportedWallets: {
+                rabby: true,
+              },
+            }),
+          }),
         }),
       );
     });
@@ -328,6 +402,9 @@ describe('OnchainKitProvider', () => {
         display: 'modal',
         termsUrl: 'https://example.com/terms',
         privacyUrl: 'https://example.com/privacy',
+        supportedWallets: {
+          rabby: true,
+        },
       },
     };
 
@@ -353,6 +430,9 @@ describe('OnchainKitProvider', () => {
               display: 'modal',
               termsUrl: 'https://example.com/terms',
               privacyUrl: 'https://example.com/privacy',
+              supportedWallets: {
+                rabby: true,
+              },
             },
           }),
         }),
