@@ -1,4 +1,4 @@
-name: Kit Build
+name: onchainkit build
 on:
   push:
     branches: ['main']
@@ -18,7 +18,6 @@ jobs:
       - name: 'Setup'
         uses: ./.github/actions/setup
 
-      - name: Kit Test Build
-        # When fails, please check your build
+      - name: Build
         run: |
           pnpm f:ock build

@@ -1,4 +1,4 @@
-name: Kit Check
+name: onchainkit ci:check
 on:
   push:
     branches: ['main']
@@ -18,5 +18,5 @@ jobs:
       - name: 'Setup'
         uses: ./.github/actions/setup
 
-      - name: Kit Check
-        run: npm run ci:check
+      - name: Check
+        run: pnpm f:ock ci:check
