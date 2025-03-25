@@ -20,6 +20,7 @@ type WalletModalProps = {
 };
 
 // Is there a better way to do this?
+// Add for Rabby once its supported
 declare global {
   interface Window {
     phantom?: {
