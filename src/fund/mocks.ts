@@ -14,6 +14,7 @@ export const optionsResponseDataMock: OnrampOptionsResponseData = {
   paymentCurrencies: [
     {
       id: 'USD',
+      iconUrl: 'https://example.com/usd.png',
       limits: [
         {
           id: 'ACH_BANK_ACCOUNT',
