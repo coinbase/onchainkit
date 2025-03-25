@@ -23,18 +23,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: 'Setup'
+        uses: ./.github/actions/setup
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
 
       - name: Install dependencies
-        working-directory: ./packages/create-onchain
-        run: bun install
+        run: pnpm f:create install
 
       - name: Build CLI
-        working-directory: ./packages/create-onchain
-        run: bun build
+        run: pnpm f:create build
 
       - name: Make CLI executable
         run: chmod +x ./packages/create-onchain/dist/esm/cli.js

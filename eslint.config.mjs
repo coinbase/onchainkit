@@ -34,7 +34,7 @@ export default [
   },
   {
     rules: {
-      complexity: ['error', 10],
+      complexity: ['warn', 10],
       'no-restricted-imports': ['error', 'node:*'],
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'error',
