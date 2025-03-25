@@ -23,6 +23,12 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
       display: null,
       termsUrl: null,
       privacyUrl: null,
+      supportedWallets: {
+        coinbase: true,
+        metamask: true,
+        phantom: true,
+        rabby: false,
+      },
     },
   },
   rpcUrl: null,

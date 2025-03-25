@@ -29,6 +29,13 @@ export type AppConfig = {
     termsUrl?: string | null;
     /** URL to the privacy policy for the wallet modal */
     privacyUrl?: string | null;
+    /** Supported wallets for the wallet modal */
+    supportedWallets?: {
+      coinbase?: boolean;
+      metamask?: boolean;
+      phantom?: boolean;
+      rabby?: boolean;
+    };
   };
 };
 
