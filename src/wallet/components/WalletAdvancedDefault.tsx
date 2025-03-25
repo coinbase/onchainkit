@@ -4,11 +4,11 @@ import { Avatar, Name } from '@/identity';
 import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';
 import { Wallet } from './Wallet';
-import { WalletDropdown } from './WalletDropdown';
-import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';
 import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
 import { WalletAdvancedTokenHoldings } from './WalletAdvancedTokenHoldings';
+import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';
 import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
+import { WalletDropdown } from './WalletDropdown';
 
 export function WalletAdvancedDefault() {
   return (
