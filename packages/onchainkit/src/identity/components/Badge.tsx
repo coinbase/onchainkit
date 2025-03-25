@@ -31,7 +31,7 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
   const attestations = useAttestations({
     address,
     chain,
-    schemaId: tooltip ? contextSchemaId ?? kitSchemaId : null,
+    schemaId: tooltip ? (contextSchemaId ?? kitSchemaId) : null,
   });
 
   // Get tooltip text from tooltip prop or attestation

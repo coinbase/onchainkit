@@ -59,10 +59,8 @@ export function BuyProvider({
   toToken,
   fromToken,
 }: BuyProviderReact) {
-  const {
-    config: { paymaster } = { paymaster: undefined },
-    projectId,
-  } = useOnchainKit();
+  const { config: { paymaster } = { paymaster: undefined }, projectId } =
+    useOnchainKit();
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
   // Feature flags

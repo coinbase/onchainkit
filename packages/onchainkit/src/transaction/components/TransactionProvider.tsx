@@ -65,9 +65,7 @@ export function TransactionProvider({
   // Core Hooks
   const account = useAccount();
   const config = useConfig();
-  const {
-    config: { paymaster } = { paymaster: undefined },
-  } = useOnchainKit();
+  const { config: { paymaster } = { paymaster: undefined } } = useOnchainKit();
 
   const [errorMessage, setErrorMessage] = useState('');
   const [errorCode, setErrorCode] = useState('');

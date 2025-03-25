@@ -62,11 +62,7 @@ const TestComponent = () => {
   );
 };
 
-const wrapper = ({
-  children,
-}: {
-  children?: React.ReactNode;
-}) => (
+const wrapper = ({ children }: { children?: React.ReactNode }) => (
   <WagmiProvider config={mockConfig}>
     <QueryClientProvider client={queryClient}>
       <EarnProvider vaultAddress={DUMMY_ADDRESS}>{children}</EarnProvider>

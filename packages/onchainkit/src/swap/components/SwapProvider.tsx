@@ -57,9 +57,7 @@ export function SwapProvider({
   onStatus,
   onSuccess,
 }: SwapProviderReact) {
-  const {
-    config: { paymaster } = { paymaster: undefined },
-  } = useOnchainKit();
+  const { config: { paymaster } = { paymaster: undefined } } = useOnchainKit();
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();
   // Feature flags

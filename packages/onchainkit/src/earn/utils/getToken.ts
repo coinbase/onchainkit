@@ -8,9 +8,12 @@ export function getToken({
   symbol,
   name,
   decimals,
-}: { address: Address; symbol?: string; name?: string; decimals?: number }):
-  | Token
-  | undefined {
+}: {
+  address: Address;
+  symbol?: string;
+  name?: string;
+  decimals?: number;
+}): Token | undefined {
   const token = baseTokens.find((token) => token.address === address);
   if (token) {
     return token;

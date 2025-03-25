@@ -11,9 +11,10 @@ vi.mock('@/identity', async () => ({
   Identity: ({
     className,
     children,
-  }: { className: string; children: React.ReactNode }) => (
-    <div className={className}>{children}</div>
-  ),
+  }: {
+    className: string;
+    children: React.ReactNode;
+  }) => <div className={className}>{children}</div>,
   Avatar: () => <div>Avatar</div>,
   Name: () => <div>Name</div>,
 }));

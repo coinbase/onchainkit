@@ -19,7 +19,7 @@ export function useBreakpoints() {
   useEffect(() => {
     // get the current breakpoint based on media queries
     const getCurrentBreakpoint = () => {
-      const entries = Object.entries(BREAKPOINTS) as [string, string][];
+      const entries = Object.entries(BREAKPOINTS) as Array<[string, string]>;
       for (const [key, query] of entries) {
         if (window.matchMedia(query).matches) {
           return key;

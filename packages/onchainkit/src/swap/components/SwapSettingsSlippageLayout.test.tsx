@@ -15,9 +15,9 @@ vi.mock('./SwapSettingsSlippageTitle', () => ({
 vi.mock('./SwapSettingsSlippageDescription', () => ({
   SwapSettingsSlippageDescription: ({
     children,
-  }: { children: React.ReactNode }) => (
-    <div data-testid="mock-description">{children}</div>
-  ),
+  }: {
+    children: React.ReactNode;
+  }) => <div data-testid="mock-description">{children}</div>,
 }));
 
 vi.mock('./SwapSettingsSlippageInput', () => ({

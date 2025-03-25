@@ -21,10 +21,7 @@ export type { NFTError } from '../api/types';
 // Hooks
 export { useTokenDetails } from './hooks/useTokenDetails';
 export { useMintDetails } from './hooks/useMintDetails';
-export type {
-  UseTokenDetailsParams,
-  UseMintDetailsParams,
-} from './types';
+export type { UseTokenDetailsParams, UseMintDetailsParams } from './types';
 
 // Providers
 export { useNFTContext } from './components/NFTProvider';

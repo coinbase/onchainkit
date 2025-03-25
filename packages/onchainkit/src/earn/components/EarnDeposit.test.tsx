@@ -38,7 +38,11 @@ vi.mock('@/transaction', () => ({
     className,
     calls,
     children,
-  }: { className: string; calls: Call[]; children: React.ReactNode }) => (
+  }: {
+    className: string;
+    calls: Call[];
+    children: React.ReactNode;
+  }) => (
     <div
       data-testid="transaction"
       className={className}

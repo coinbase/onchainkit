@@ -20,9 +20,10 @@ vi.mock('@/identity', async () => ({
   Identity: ({
     className,
     address,
-  }: { className: string; address: string }) => (
-    <div className={className}>{address}</div>
-  ),
+  }: {
+    className: string;
+    address: string;
+  }) => <div className={className}>{address}</div>,
 }));
 
 describe('NFTOwner', () => {

@@ -114,7 +114,7 @@ export type TransactionContextType = {
   /** A function to set the transaction ID */
   setTransactionId: (id: string) => void;
   /** An array of transactions for the component or a promise that resolves to an array of transactions */
-  transactions?: Calls | Contracts | (Call | ContractFunctionParameters)[];
+  transactions?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
   /** An optional string representing the ID of the transaction */
   transactionId?: string;
   /** An optional string representing the hash of the transaction */
@@ -131,13 +131,13 @@ export type SendBatchedTransactionsParams = {
   capabilities?: WalletCapabilities;
   // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
-  transactions?: (Call | ContractFunctionParameters)[];
+  transactions?: Array<Call | ContractFunctionParameters>;
 };
 
 export type SendSingleTransactionParams = {
   config: Config;
   sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
-  transactions: (Call | ContractFunctionParameters)[];
+  transactions: Array<Call | ContractFunctionParameters>;
 };
 
 /**
@@ -156,7 +156,7 @@ export type Contracts =
 
 export type TransactionProviderReact = {
   /** An array of calls to be made in the transaction */
-  calls?: Calls | Contracts | (Call | ContractFunctionParameters)[];
+  calls?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
   /**
    * @deprecated Use `isSponsored` instead.
    */
@@ -168,7 +168,7 @@ export type TransactionProviderReact = {
   /**
    * @deprecated Use `calls` instead.
    */
-  contracts?: Calls | Contracts | (Call | ContractFunctionParameters)[];
+  contracts?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
   /** Whether the transactions are sponsored (default: false) */
   isSponsored?: boolean;
   /** An optional callback function that handles errors within the provider */
@@ -186,7 +186,7 @@ export type TransactionProviderReact = {
  */
 export type TransactionReact = {
   /** An array of calls to be made in the transaction */
-  calls?: Calls | Contracts | (Call | ContractFunctionParameters)[];
+  calls?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
   /**
    * @deprecated Use `isSponsored` instead.
    */
@@ -200,7 +200,7 @@ export type TransactionReact = {
   /**
    * @deprecated Use `calls` instead.
    */
-  contracts?: Calls | Contracts | (Call | ContractFunctionParameters)[];
+  contracts?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
   /** Whether the transactions are sponsored (default: false) */
   isSponsored?: boolean;
   /** An optional callback function that handles transaction errors */

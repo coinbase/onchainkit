@@ -22,7 +22,7 @@ export function getOnrampBuyUrl({
     url.searchParams.append('appId', projectId);
   }
 
-  for (const key of Object.keys(props) as (keyof typeof props)[]) {
+  for (const key of Object.keys(props) as Array<keyof typeof props>) {
     const value = props[key];
     if (value !== undefined) {
       if (['string', 'number', 'boolean'].includes(typeof value)) {

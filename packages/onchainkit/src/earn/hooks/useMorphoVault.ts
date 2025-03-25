@@ -34,11 +34,11 @@ export type UseMorphoVaultReturnType = {
   nativeApy: number | undefined;
   /** Additional rewards (e.g. MORPHO) */
   rewards:
-    | {
+    | Array<{
         asset: Address;
         assetName: string;
         apy: number;
-      }[]
+      }>
     | undefined;
   /** Vault fee, in percent (e.g. 0.03 for 3%) */
   vaultFee: number | undefined;

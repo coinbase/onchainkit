@@ -36,7 +36,10 @@ vi.mock('@/transaction', async (importOriginal) => {
     TransactionButton: ({
       text,
       disabled,
-    }: { text: string; disabled: boolean }) => (
+    }: {
+      text: string;
+      disabled: boolean;
+    }) => (
       <button type="button" disabled={disabled} data-testid="transactionButton">
         {text}
       </button>
