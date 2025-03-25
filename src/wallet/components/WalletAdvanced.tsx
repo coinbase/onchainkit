@@ -19,6 +19,10 @@ const defaultWalletAdvancedChildren = (
   </>
 );
 
+/**
+ * @deprecated Use the `WalletDropdown` component instead.
+ */
+
 export function WalletAdvanced({
   children,
   classNames,

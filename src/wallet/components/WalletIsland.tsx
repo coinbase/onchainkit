@@ -7,11 +7,11 @@ import { getDefaultDraggableStartingPosition } from '../utils/getDefaultDraggabl
 import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';
 import { Wallet } from './Wallet';
-import { WalletAdvanced } from './WalletAdvanced';
 import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
 import { WalletAdvancedTokenHoldings } from './WalletAdvancedTokenHoldings';
 import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';
 import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
+import { WalletDropdown } from './WalletDropdown';
 
 export function WalletIsland({
   startingPosition = getDefaultDraggableStartingPosition(),
@@ -32,12 +32,12 @@ export function WalletIsland({
           <div className="h-5 w-5">{portfolioSvg}</div>
         )}
       </ConnectWallet>
-      <WalletAdvanced>
+      <WalletDropdown>
         <WalletAdvancedWalletActions />
         <WalletAdvancedAddressDetails />
         <WalletAdvancedTransactionActions />
         <WalletAdvancedTokenHoldings />
-      </WalletAdvanced>
+      </WalletDropdown>
     </Wallet>
   );
 }
