@@ -70,7 +70,7 @@ importers:
   packages/onchainkit:
     dependencies:
       '@farcaster/frame-core':
-        specifier: 0.0.26
+        specifier: ^0.0.26
         version: 0.0.26(typescript@5.8.2)
       '@farcaster/frame-sdk':
         specifier: ^0.0.28
