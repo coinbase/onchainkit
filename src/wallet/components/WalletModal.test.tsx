@@ -792,6 +792,41 @@ describe('WalletModal', () => {
     );
   });
 
+  it('handles non-Error objects in Trust Wallet connection errors', () => {
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw 'Some string error';
+      }),
+    });
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          supportedWallets: {
+            rabby: false,
+            trust: true,
+            frame: false,
+          },
+        },
+      },
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Trust Wallet'));
+
+    expect(mockOnError).toHaveBeenCalledWith(
+      new Error('Failed to connect wallet'),
+    );
+    expect(console.error).toHaveBeenCalledWith(
+      'Trust Wallet connection error:',
+      'Some string error',
+    );
+  });
+
   it('handles Frame Wallet connection errors', () => {
     const mockError = new Error('Frame Wallet connection failed');
     const mockOnError = vi.fn();
@@ -823,6 +858,41 @@ describe('WalletModal', () => {
     expect(console.error).toHaveBeenCalledWith(
       'Frame Wallet connection error:',
       mockError,
+    );
+  });
+
+  it('handles non-Error objects in Frame Wallet connection errors', () => {
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw 'Some string error';
+      }),
+    });
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          supportedWallets: {
+            rabby: false,
+            trust: false,
+            frame: true,
+          },
+        },
+      },
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Frame'));
+
+    expect(mockOnError).toHaveBeenCalledWith(
+      new Error('Failed to connect wallet'),
+    );
+    expect(console.error).toHaveBeenCalledWith(
+      'Frame Wallet connection error:',
+      'Some string error',
     );
   });
 });
