@@ -13,8 +13,8 @@ vi.mock('./ConnectWallet', () => ({
   ConnectWallet: () => <div data-testid="connect-wallet">Connect Wallet</div>,
 }));
 
-vi.mock('./WalletAdvancedContent', () => ({
-  WalletAdvancedContent: ({ children }: { children: React.ReactNode }) => (
+vi.mock('./WalletDropdownContent', () => ({
+  WalletDropdownContent: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="wallet-advanced-content">{children}</div>
   ),
 }));

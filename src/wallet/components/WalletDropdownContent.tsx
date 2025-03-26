@@ -10,7 +10,7 @@ import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
 import { Send } from './wallet-advanced-send/components/Send';
 
-export function WalletAdvancedContent({
+export function WalletDropdownContent({
   children,
   swappableTokens,
   classNames,
@@ -103,7 +103,7 @@ export function WalletAdvancedContent({
 
   return (
     <div
-      data-testid="ockWalletAdvancedContent"
+      data-testid="ockWalletDropdownContent"
       className={cn(
         background.default,
         border.radius,

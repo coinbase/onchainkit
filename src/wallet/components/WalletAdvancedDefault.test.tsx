@@ -29,9 +29,9 @@ vi.mock('./WalletAdvancedProvider', () => ({
   ),
 }));
 
-vi.mock('./WalletAdvancedContent', () => ({
-  WalletAdvancedContent: () => (
-    <div data-testid="ockWalletAdvancedContent">WalletAdvancedContent</div>
+vi.mock('./WalletDropdownContent', () => ({
+  WalletDropdownContent: () => (
+    <div data-testid="ockWalletDropdownContent">WalletDropdownContent</div>
   ),
 }));
 
@@ -99,7 +99,7 @@ describe('WalletAdvancedDefault', () => {
     expect(screen.getByTestId('ockIdentity_Text')).toBeDefined();
   });
 
-  it('renders WalletAdvancedContent in connected state and isOpen is true', () => {
+  it('renders WalletDropdownContent in connected state and isOpen is true', () => {
     (useConnect as ReturnType<typeof vi.fn>).mockReturnValue({
       connectors: [],
       status: 'connected',
@@ -117,6 +117,6 @@ describe('WalletAdvancedDefault', () => {
 
     render(<WalletAdvancedDefault />);
 
-    expect(screen.getByTestId('ockWalletAdvancedContent')).toBeDefined();
+    expect(screen.getByTestId('ockWalletDropdownContent')).toBeDefined();
   });
 });

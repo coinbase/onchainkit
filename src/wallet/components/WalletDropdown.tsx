@@ -3,9 +3,9 @@
 import { Address, Avatar, EthBalance, Identity, Name } from '@/identity';
 import { cn, color } from '@/styles/theme';
 import type { WalletDropdownReact } from '../types';
-import { WalletAdvancedContent } from './WalletAdvancedContent';
 import { WalletAdvancedProvider } from './WalletAdvancedProvider';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
+import { WalletDropdownContent } from './WalletDropdownContent';
 import { WalletDropdownLink } from './WalletDropdownLink';
 import { useWalletContext } from './WalletProvider';
 
@@ -66,12 +66,12 @@ export function WalletDropdown({
           className,
         )}
       >
-        <WalletAdvancedContent
+        <WalletDropdownContent
           classNames={classNames}
           swappableTokens={swappableTokens}
         >
           {children || defaultWalletDropdownChildren}
-        </WalletAdvancedContent>
+        </WalletDropdownContent>
       </div>
     </WalletAdvancedProvider>
   );
