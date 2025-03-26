@@ -10,6 +10,7 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
   apiKey: null,
   chain: baseSepolia,
   config: {
+    analytics: true,
     analyticsUrl: null,
     appearance: {
       name: null,
@@ -27,7 +28,7 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
   rpcUrl: null,
   schemaId: null,
   projectId: null,
-  interactionId: null,
+  sessionId: null,
 };
 
 /**
@@ -43,9 +44,9 @@ export const getOnchainKitConfig = <K extends keyof typeof ONCHAIN_KIT_CONFIG>(
 /**
  * Update the ONCHAIN_KIT_CONFIG object directly by providing the properties to update.
  * This is powerful when you use OnchainKit utilities outside of the React context.
- * 
- * @param {SetOnchainKitConfig} properties - Properties to update in the configuration
- * @returns {Function} Returns the getOnchainKitConfig function for chaining
+ *
+ * @param properties - Properties to update in the configuration
+ * @returns The getOnchainKitConfig function for chaining
  */
 export const setOnchainKitConfig = (properties: SetOnchainKitConfig) => {
   Object.assign(ONCHAIN_KIT_CONFIG, properties);
