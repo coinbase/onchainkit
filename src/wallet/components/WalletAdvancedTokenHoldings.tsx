@@ -3,7 +3,7 @@
 import { cn, color, text } from '@/styles/theme';
 import { type Token, TokenImage } from '@/token';
 import { formatUnits } from 'viem';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
+import { useWalletContext } from './WalletProvider';
 
 type WalletAdvancedTokenDetailsProps = {
   token: Token;
@@ -30,7 +30,7 @@ export function WalletAdvancedTokenHoldings({
   classNames,
 }: WalletAdvancedTokenHoldingsProps) {
   const { tokenBalances, isFetchingPortfolioData, animations } =
-    useWalletAdvancedContext();
+    useWalletContext();
 
   if (isFetchingPortfolioData || !tokenBalances || tokenBalances.length === 0) {
     return (

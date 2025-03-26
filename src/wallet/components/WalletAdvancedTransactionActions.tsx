@@ -9,7 +9,6 @@ import { toggleSvg } from '@/internal/svg/toggleSvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
 type WalletAdvancedTransactionActionProps = {
@@ -35,10 +34,14 @@ type WalletAdvancedTransactionActionsProps = {
 export function WalletAdvancedTransactionActions({
   classNames,
 }: WalletAdvancedTransactionActionsProps) {
-  const { address, chain } = useWalletContext();
+  const {
+    address,
+    chain,
+    isFetchingPortfolioData,
+    setActiveFeature,
+    animations,
+  } = useWalletContext();
   const { projectId } = useOnchainKit();
-  const { isFetchingPortfolioData, setActiveFeature, animations } =
-    useWalletAdvancedContext();
   const { sendAnalytics } = useAnalytics();
 
   const handleAnalyticsOptionSelected = useCallback(

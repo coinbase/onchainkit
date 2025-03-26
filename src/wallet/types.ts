@@ -102,6 +102,20 @@ export type WalletContextType = {
   connectRef: React.RefObject<HTMLDivElement>;
   showSubComponentAbove: boolean;
   alignSubComponentRight: boolean;
+
+  activeFeature: WalletAdvancedFeature | null;
+  setActiveFeature: Dispatch<SetStateAction<WalletAdvancedFeature | null>>;
+  isActiveFeatureClosing: boolean;
+  setIsActiveFeatureClosing: Dispatch<SetStateAction<boolean>>;
+  tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
+  portfolioFiatValue: number | undefined;
+  isFetchingPortfolioData: boolean;
+  portfolioDataUpdatedAt: number | undefined;
+  refetchPortfolioData: () => Promise<QueryObserverResult<Portfolio, Error>>;
+  animations: {
+    container: string;
+    content: string;
+  };
 };
 
 /**

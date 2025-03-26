@@ -4,7 +4,6 @@ import { background, border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
 import type { WalletAdvancedReact } from '../types';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
 import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
@@ -22,10 +21,10 @@ export function WalletDropdownContent({
     setIsSubComponentClosing,
     connectRef,
     breakpoint,
+    activeFeature,
+    tokenBalances,
+    animations,
   } = useWalletContext();
-
-  const { activeFeature, tokenBalances, animations } =
-    useWalletAdvancedContext();
 
   const handleBottomSheetClose = useCallback(() => {
     setIsSubComponentOpen(false);

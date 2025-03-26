@@ -3,7 +3,6 @@
 import { Address, Avatar, EthBalance, Identity, Name } from '@/identity';
 import { cn, color } from '@/styles/theme';
 import type { WalletDropdownReact } from '../types';
-import { WalletAdvancedProvider } from './WalletAdvancedProvider';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 import { WalletDropdownContent } from './WalletDropdownContent';
 import { WalletDropdownLink } from './WalletDropdownLink';
@@ -56,23 +55,21 @@ export function WalletDropdown({
   }
 
   return (
-    <WalletAdvancedProvider>
-      <div
-        data-testid="ockWalletDropdown"
-        className={cn(
-          'absolute',
-          showSubComponentAbove ? 'bottom-full' : 'top-full',
-          alignSubComponentRight ? 'right-0' : 'left-0',
-          className,
-        )}
+    <div
+      data-testid="ockWalletDropdown"
+      className={cn(
+        'absolute',
+        showSubComponentAbove ? 'bottom-full' : 'top-full',
+        alignSubComponentRight ? 'right-0' : 'left-0',
+        className,
+      )}
+    >
+      <WalletDropdownContent
+        classNames={classNames}
+        swappableTokens={swappableTokens}
       >
-        <WalletDropdownContent
-          classNames={classNames}
-          swappableTokens={swappableTokens}
-        >
-          {children || defaultWalletDropdownChildren}
-        </WalletDropdownContent>
-      </div>
-    </WalletAdvancedProvider>
+        {children || defaultWalletDropdownChildren}
+      </WalletDropdownContent>
+    </div>
   );
 }

@@ -5,7 +5,6 @@ import { Spinner } from '@/internal/components/Spinner';
 import { zIndex } from '@/styles/constants';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
 type WalletAdvancedAddressDetailsProps = {
@@ -20,8 +19,7 @@ type WalletAdvancedAddressDetailsProps = {
 export function WalletAdvancedAddressDetails({
   classNames,
 }: WalletAdvancedAddressDetailsProps) {
-  const { address, chain } = useWalletContext();
-  const { animations } = useWalletAdvancedContext();
+  const { address, chain, animations } = useWalletContext();
   const [copyText, setCopyText] = useState('Copy');
 
   const handleCopyAddress = useCallback(async () => {
@@ -95,8 +93,7 @@ export function WalletAdvancedAddressDetails({
 }
 
 function AddressBalanceInFiat({ className }: { className?: string }) {
-  const { portfolioFiatValue, isFetchingPortfolioData } =
-    useWalletAdvancedContext();
+  const { portfolioFiatValue, isFetchingPortfolioData } = useWalletContext();
 
   const formattedValueInFiat = new Intl.NumberFormat('en-US', {
     style: 'currency',

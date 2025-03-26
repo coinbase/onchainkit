@@ -3,7 +3,6 @@
 import { cn } from '@/styles/theme';
 import type { WalletAdvancedReact } from '../types';
 import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
-import { WalletAdvancedProvider } from './WalletAdvancedProvider';
 import { WalletAdvancedTokenHoldings } from './WalletAdvancedTokenHoldings';
 import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';
 import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
@@ -36,22 +35,20 @@ export function WalletAdvanced({
   }
 
   return (
-    <WalletAdvancedProvider>
-      <div
-        data-testid="ockWalletAdvancedContainer"
-        className={cn(
-          'absolute',
-          showSubComponentAbove ? 'bottom-full' : 'top-full',
-          alignSubComponentRight ? 'right-0' : 'left-0',
-        )}
+    <div
+      data-testid="ockWalletAdvancedContainer"
+      className={cn(
+        'absolute',
+        showSubComponentAbove ? 'bottom-full' : 'top-full',
+        alignSubComponentRight ? 'right-0' : 'left-0',
+      )}
+    >
+      <WalletDropdownContent
+        classNames={classNames}
+        swappableTokens={swappableTokens}
       >
-        <WalletDropdownContent
-          classNames={classNames}
-          swappableTokens={swappableTokens}
-        >
-          {children || defaultWalletAdvancedChildren}
-        </WalletDropdownContent>
-      </div>
-    </WalletAdvancedProvider>
+        {children || defaultWalletAdvancedChildren}
+      </WalletDropdownContent>
+    </div>
   );
 }
