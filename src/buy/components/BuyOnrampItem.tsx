@@ -41,7 +41,7 @@ export function BuyOnrampItem({
     // if token is USDC the usd estimate
     // can be slightly off (4.9999999) so
     // use amount instead to prevent disabling of onramp
-    if (to?.token?.symbol === usdcToken?.symbol) {
+    if (to?.token?.address === usdcToken?.address) {
       return to?.amount;
     }
     return to?.amountUSD;

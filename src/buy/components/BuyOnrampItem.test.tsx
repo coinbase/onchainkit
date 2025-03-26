@@ -4,6 +4,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BuyOnrampItem } from './BuyOnrampItem';
 import { useBuyContext } from './BuyProvider';
+import { Address } from 'viem';
 
 vi.mock('./BuyProvider', () => ({
   useBuyContext: vi.fn(),
@@ -18,7 +19,7 @@ vi.mock('../../internal/svg', () => ({
 const mockTo = {
   amountUSD: '5',
   amount: '5',
-  token: { symbol: 'USDC' },
+  token: { address: 'USDC' },
 };
 
 describe('BuyOnrampItem', () => {
@@ -108,7 +109,7 @@ describe('BuyOnrampItem', () => {
           {
             amount: '5',
             amountUSD: '4',
-            token: { symbol: 'DEGEN' } as Token,
+            token: { address: 'DEGEN' as Address } as Token,
           } as SwapUnit
         }
       />,
