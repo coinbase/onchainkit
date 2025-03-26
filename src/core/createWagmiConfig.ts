@@ -4,13 +4,13 @@ import { coinbaseWallet } from 'wagmi/connectors';
 import type { CreateWagmiConfigParams } from './types';
 
 /**
- * createWagmiConfig returns a WagmiConfig (https://wagmi.sh/react/api/createConfig) using OnchainKit provided settings.
- * This function should only be used if the user does not provide WagmiProvider as a parent in the React context.
- * @param {Object} params - Configuration parameters
- * @param {string} [params.apiKey] - Optional API key for Coinbase Developer Platform
- * @param {string} [params.appName] - Optional application name for Coinbase Wallet
- * @param {string} [params.appLogoUrl] - Optional application logo URL for Coinbase Wallet
- * @returns {Config} Wagmi configuration object
+ * Create a Wagmi configuration with default values for Coinbase Wallet.
+ *
+ * @param params - Configuration parameters
+ * @param [params.apiKey] - Optional API key for Coinbase Developer Platform
+ * @param [params.appName] - Optional application name for Coinbase Wallet
+ * @param [params.appLogoUrl] - Optional application logo URL for Coinbase Wallet
+ * @returns Wagmi configuration object
  */
 export const createWagmiConfig = ({
   apiKey,
