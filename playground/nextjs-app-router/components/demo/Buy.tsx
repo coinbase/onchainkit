@@ -7,6 +7,7 @@ import type { TransactionReceipt } from 'viem';
 import { base } from 'viem/chains';
 import { degenToken } from '../../lib/constants';
 import { AppContext } from '../AppProvider';
+import { usdcToken } from '../../onchainkit/esm/token/constants';
 
 const FALLBACK_DEFAULT_MAX_SLIPPAGE = 3;
 
@@ -55,7 +56,7 @@ function BuyComponent() {
           maxSlippage: defaultMaxSlippage || FALLBACK_DEFAULT_MAX_SLIPPAGE,
         }}
         isSponsored={isSponsored}
-        toToken={degenToken}
+        toToken={usdcToken}
       />
     </div>
   );
