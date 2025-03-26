@@ -1,10 +1,10 @@
 import type { SwapUnit } from '@/swap/types';
 import type { Token } from '@/token';
 import { fireEvent, render, screen } from '@testing-library/react';
+import type { Address } from 'viem';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BuyOnrampItem } from './BuyOnrampItem';
 import { useBuyContext } from './BuyProvider';
-import { Address } from 'viem';
 
 vi.mock('./BuyProvider', () => ({
   useBuyContext: vi.fn(),
