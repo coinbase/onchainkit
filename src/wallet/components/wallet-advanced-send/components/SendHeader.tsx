@@ -5,8 +5,8 @@ import { backArrowSvg } from '@/internal/svg/backArrowSvg';
 import { CloseSvg } from '@/internal/svg/closeSvg';
 import { cn, text } from '@/styles/theme';
 import { useCallback } from 'react';
-import { useSendContext } from './SendProvider';
 import { useWalletContext } from '../../WalletProvider';
+import { useSendContext } from './SendProvider';
 
 type SendHeaderProps = {
   label?: string;

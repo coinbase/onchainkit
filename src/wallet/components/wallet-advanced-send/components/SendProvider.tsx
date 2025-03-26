@@ -14,13 +14,13 @@ import {
   useState,
 } from 'react';
 import { formatUnits } from 'viem';
+import { useWalletContext } from '../../WalletProvider';
 import type {
   Recipient,
   SendContextType,
   SendLifecycleStatus,
   SendProviderReact,
 } from '../types';
-import { useWalletContext } from '../../WalletProvider';
 
 const emptyContext = {} as SendContextType;
 

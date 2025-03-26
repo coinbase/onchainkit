@@ -3,8 +3,8 @@ import { usePriceQuote } from '@/internal/hooks/usePriceQuote';
 import { act, render, renderHook } from '@testing-library/react';
 import { formatUnits } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { SendProvider, useSendContext } from './SendProvider';
 import { useWalletContext } from '../../WalletProvider';
+import { SendProvider, useSendContext } from './SendProvider';
 
 vi.mock('../../WalletProvider', () => ({
   useWalletContext: vi.fn(),

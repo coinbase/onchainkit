@@ -137,7 +137,6 @@ describe('WalletAdvancedTransactionActons', () => {
   });
 
   it('sets activeFeature to send when the send button is clicked', () => {
-
     render(<WalletAdvancedTransactionActions />);
 
     const sendButton = screen.getByRole('button', { name: 'Send' });
@@ -149,7 +148,6 @@ describe('WalletAdvancedTransactionActons', () => {
   });
 
   it('sets activeFeature to swap when the swap button is clicked', () => {
-
     render(<WalletAdvancedTransactionActions />);
 
     const swapButton = screen.getByRole('button', { name: 'Swap' });

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletContext } from './WalletProvider';
 import { WalletAdvancedTokenHoldings } from './WalletAdvancedTokenHoldings';
+import { useWalletContext } from './WalletProvider';
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),

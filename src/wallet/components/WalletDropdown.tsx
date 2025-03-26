@@ -3,8 +3,8 @@
 import { Address, Avatar, EthBalance, Identity, Name } from '@/identity';
 import { cn, color } from '@/styles/theme';
 import type { WalletDropdownReact } from '../types';
-import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 import { WalletDropdownContent } from './WalletDropdownContent';
+import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 import { WalletDropdownLink } from './WalletDropdownLink';
 import { useWalletContext } from './WalletProvider';
 

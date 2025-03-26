@@ -1,5 +1,6 @@
 'use client';
 
+import { RequestContext } from '@/core/network/constants';
 import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import { useValue } from '@/internal/hooks/useValue';
 import { useOnchainKit } from '@/useOnchainKit';
@@ -13,11 +14,10 @@ import {
 } from 'react';
 import type { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
-import type { WalletAdvancedFeature, WalletContextType } from '../types';
-import { calculateSubComponentPosition } from '../utils/getWalletSubComponentPosition';
-import { RequestContext } from '@/core/network/constants';
 import { usePortfolio } from '../hooks/usePortfolio';
+import type { WalletAdvancedFeature, WalletContextType } from '../types';
 import { getAnimations } from '../utils/getAnimations';
+import { calculateSubComponentPosition } from '../utils/getWalletSubComponentPosition';
 
 const emptyContext = {} as WalletContextType;
 
