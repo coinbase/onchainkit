@@ -3,6 +3,6 @@ export const zIndex = {
   navigation: 'z-1',
   dropdown: 'z-10',
   tooltip: 'z-20',
-  modal: 'z-40',
+  modal: 'z-30',
   notification: 'z-50',
 } as const;
