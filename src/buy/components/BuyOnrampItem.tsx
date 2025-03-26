@@ -1,5 +1,5 @@
 'use client';
-import { SwapUnit } from '@/swap/types';
+import type { SwapUnit } from '@/swap/types';
 import { usdcToken } from '@/token/constants';
 import { useCallback, useMemo } from 'react';
 import { applePaySvg } from '../../internal/svg/applePaySvg';
