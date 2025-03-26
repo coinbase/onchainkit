@@ -36,7 +36,7 @@ export function WalletAdvancedTokenHoldings({
     return (
       <div
         data-testid="ockWalletAdvanced_LoadingPlaceholder"
-        className="my-2 h-44 w-80"
+        className="mx-auto my-2 h-44 w-80 px-4 py-3"
       />
     ); // Prevent layout shift
   }

@@ -89,7 +89,7 @@ export function WalletAdvancedTransactionActions({
   }, [setActiveFeature, handleAnalyticsOptionSelected]);
 
   if (isFetchingPortfolioData) {
-    return <Skeleton className="my-3 h-16 w-80" />;
+    return <Skeleton className="mx-auto my-3 h-16 w-80 px-4 py-3" />;
   }
 
   return (

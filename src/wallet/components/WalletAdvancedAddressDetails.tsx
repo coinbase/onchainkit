@@ -37,7 +37,7 @@ export function WalletAdvancedAddressDetails({
   }, [address]);
 
   if (!address || !chain) {
-    return <div className="mt-1 h-28 w-10" />; // Prevent layout shift
+    return <div className="mt-1 h-28 w-10 px-4 py-3" />; // Prevent layout shift
   }
 
   return (
