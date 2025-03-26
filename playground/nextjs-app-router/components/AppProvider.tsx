@@ -189,6 +189,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             privacyUrl: 'https://www.coinbase.com/legal/privacy',
             supportedWallets: {
               rabby: true,
+              trust: true,
+              frame: true,
             },
           },
         }}

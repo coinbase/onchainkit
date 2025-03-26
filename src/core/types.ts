@@ -36,6 +36,8 @@ export type AppConfig = {
      */
     supportedWallets?: {
       rabby?: boolean;
+      trust?: boolean;
+      frame?: boolean;
     };
   };
 };

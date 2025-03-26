@@ -671,4 +671,158 @@ describe('WalletModal', () => {
 
     expect(walletButtons.length).toBe(4);
   });
+
+  it('renders Trust Wallet button when enabled in config', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          supportedWallets: {
+            rabby: false,
+            trust: true,
+            frame: false,
+          },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    expect(screen.getByText('Trust Wallet')).toBeInTheDocument();
+  });
+
+  it('renders Frame Wallet button when enabled in config', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          supportedWallets: {
+            rabby: false,
+            trust: false,
+            frame: true,
+          },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    expect(screen.getByText('Frame')).toBeInTheDocument();
+  });
+
+  it('connects with Trust Wallet when clicking Trust Wallet button', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          supportedWallets: {
+            rabby: false,
+            trust: true,
+            frame: false,
+          },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    fireEvent.click(screen.getByText('Trust Wallet'));
+
+    expect(mockConnect).toHaveBeenCalledWith({
+      connector: { target: 'trust' },
+    });
+    expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('connects with Frame when clicking Frame button', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          supportedWallets: {
+            rabby: false,
+            trust: false,
+            frame: true,
+          },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    fireEvent.click(screen.getByText('Frame'));
+
+    expect(mockConnect).toHaveBeenCalledWith({
+      connector: { target: 'frame' },
+    });
+    expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('handles Trust Wallet connection errors', () => {
+    const mockError = new Error('Trust Wallet connection failed');
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw mockError;
+      }),
+    });
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          supportedWallets: {
+            rabby: false,
+            trust: true,
+            frame: false,
+          },
+        },
+      },
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Trust Wallet'));
+
+    expect(mockOnError).toHaveBeenCalledWith(mockError);
+    expect(console.error).toHaveBeenCalledWith(
+      'Trust Wallet connection error:',
+      mockError,
+    );
+  });
+
+  it('handles Frame Wallet connection errors', () => {
+    const mockError = new Error('Frame Wallet connection failed');
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw mockError;
+      }),
+    });
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          supportedWallets: {
+            rabby: false,
+            trust: false,
+            frame: true,
+          },
+        },
+      },
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Frame'));
+
+    expect(mockOnError).toHaveBeenCalledWith(mockError);
+    expect(console.error).toHaveBeenCalledWith(
+      'Frame Wallet connection error:',
+      mockError,
+    );
+  });
 });

@@ -25,6 +25,8 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
       privacyUrl: null,
       supportedWallets: {
         rabby: false,
+        trust: false,
+        frame: false,
       },
     },
   },

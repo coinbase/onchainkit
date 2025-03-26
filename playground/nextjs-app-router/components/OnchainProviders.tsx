@@ -49,6 +49,8 @@ function OnchainProviders({ children }: { children: ReactNode }) {
               privacyUrl: 'https://www.coinbase.com/legal/privacy',
               supportedWallets: {
                 rabby: true,
+                trust: true,
+                frame: true,
               },
             },
           }}

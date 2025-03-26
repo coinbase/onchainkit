@@ -4,9 +4,11 @@ import { Dialog } from '@/internal/components/Dialog';
 import { CloseSvg } from '@/internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '@/internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '@/internal/svg/defaultAvatarSVG';
+import { frameWalletSvg } from '@/internal/svg/frameWalletSvg';
 import { metamaskSvg } from '@/internal/svg/metamaskSvg';
 import { phantomSvg } from '@/internal/svg/phantomSvg';
 import { rabbySvg } from '@/internal/svg/rabbySvg';
+import { trustWalletSvg } from '@/internal/svg/trustWalletSvg';
 import { background, border, cn, color, pressable, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
@@ -42,7 +44,11 @@ export function WalletModal({
   const appName = config?.appearance?.name ?? undefined;
   const privacyPolicyUrl = config?.wallet?.privacyUrl ?? undefined;
   const termsOfServiceUrl = config?.wallet?.termsUrl ?? undefined;
-  const supportedWallets = config?.wallet?.supportedWallets ?? { rabby: false };
+  const supportedWallets = config?.wallet?.supportedWallets ?? {
+    rabby: false,
+    trust: false,
+    frame: false,
+  };
 
   const handleCoinbaseWalletConnection = useCallback(() => {
     try {
@@ -117,6 +123,38 @@ export function WalletModal({
     }
   }, [connect, onClose, onError]);
 
+  const handleTrustWalletConnection = useCallback(() => {
+    try {
+      const trustConnector = injected({
+        target: 'trust',
+      });
+
+      connect({ connector: trustConnector });
+      onClose();
+    } catch (error) {
+      console.error('Trust Wallet connection error:', error);
+      onError?.(
+        error instanceof Error ? error : new Error('Failed to connect wallet'),
+      );
+    }
+  }, [connect, onClose, onError]);
+
+  const handleFrameWalletConnection = useCallback(() => {
+    try {
+      const frameConnector = injected({
+        target: 'frame',
+      });
+
+      connect({ connector: frameConnector });
+      onClose();
+    } catch (error) {
+      console.error('Frame Wallet connection error:', error);
+      onError?.(
+        error instanceof Error ? error : new Error('Failed to connect wallet'),
+      );
+    }
+  }, [connect, onClose, onError]);
+
   const availableWallets: WalletProviderOption[] = [
     {
       id: 'coinbase',
@@ -145,6 +183,20 @@ export function WalletModal({
       icon: rabbySvg,
       connector: handleRabbyConnection,
       enabled: supportedWallets.rabby === true,
+    },
+    {
+      id: 'trust',
+      name: 'Trust Wallet',
+      icon: trustWalletSvg,
+      connector: handleTrustWalletConnection,
+      enabled: supportedWallets.trust === true,
+    },
+    {
+      id: 'frame',
+      name: 'Frame',
+      icon: frameWalletSvg,
+      connector: handleFrameWalletConnection,
+      enabled: supportedWallets.frame === true,
     },
   ].filter((wallet) => wallet.enabled);
 
