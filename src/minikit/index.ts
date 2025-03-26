@@ -2,7 +2,7 @@ export { MiniKitProvider } from './MiniKitProvider';
 export type { MiniKitProviderReact } from './types';
 export { useMiniKit } from './hooks/useMiniKit';
 export { useOpenUrl } from './hooks/useOpenUrl';
-export { useAuthenticate } from './hooks/useAuthenticate';
+export { useAuthenticate, parseSignInMessage } from './hooks/useAuthenticate';
 export { useViewProfile } from './hooks/useViewProfile';
 export { useAddFrame } from './hooks/useAddFrame';
 export { usePrimaryButton } from './hooks/usePrimaryButton';
