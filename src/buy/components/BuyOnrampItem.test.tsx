@@ -2,6 +2,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BuyOnrampItem } from './BuyOnrampItem';
 import { useBuyContext } from './BuyProvider';
+import { SwapUnit } from '@/swap/types';
+import { Token } from '@/token';
 
 vi.mock('./BuyProvider', () => ({
   useBuyContext: vi.fn(),
@@ -12,6 +14,12 @@ vi.mock('../../internal/svg', () => ({
   cardSvg: <svg data-testid="cardSvg" />,
   coinbaseLogoSvg: <svg data-testid="coinbaseLogoSvg" />,
 }));
+
+const mockTo = {
+  amountUSD: '5',
+  amount: '5',
+  token: { symbol: 'USDC' },
+};
 
 describe('BuyOnrampItem', () => {
   const mockSetIsDropdownOpen = vi.fn();
@@ -31,7 +39,7 @@ describe('BuyOnrampItem', () => {
         description="Fast and secure payments."
         onClick={mockOnClick}
         icon="applePay"
-        amountUSDC="5"
+        to={mockTo as SwapUnit}
       />,
     );
 
@@ -48,7 +56,7 @@ describe('BuyOnrampItem', () => {
         description="Use your card to pay."
         onClick={mockOnClick}
         icon="creditCard"
-        amountUSDC="5"
+        to={mockTo as SwapUnit}
       />,
     );
 
@@ -62,7 +70,7 @@ describe('BuyOnrampItem', () => {
         description="Pay using your Coinbase account."
         onClick={mockOnClick}
         icon="coinbasePay"
-        amountUSDC="5"
+        to={mockTo as SwapUnit}
       />,
     );
 
@@ -80,7 +88,7 @@ describe('BuyOnrampItem', () => {
         description="Fast and secure payments."
         onClick={mockOnClick}
         icon="applePay"
-        amountUSDC="5"
+        to={mockTo as SwapUnit}
       />,
     );
 
@@ -96,7 +104,13 @@ describe('BuyOnrampItem', () => {
         description="Fast and secure payments."
         onClick={mockOnClick}
         icon="applePay"
-        amountUSDC=".4"
+        to={
+          {
+            amount: '5',
+            amountUSD: '4',
+            token: { symbol: 'DEGEN' } as Token,
+          } as SwapUnit
+        }
       />,
     );
 
