@@ -23,6 +23,7 @@ import { ConnectWalletText } from './ConnectWalletText';
 import { WalletModal } from './WalletModal';
 import { useWalletContext } from './WalletProvider';
 
+
 export function ConnectWallet({
   children,
   className,
