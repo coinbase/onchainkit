@@ -111,7 +111,7 @@ export function BuyDropdown() {
             description={method.description}
             onClick={handleOnrampClick(method.id)}
             icon={method.icon}
-            amountUSDC={to?.amountUSD}
+            to={to}
           />
         );
       })}
