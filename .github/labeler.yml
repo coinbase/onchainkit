@@ -16,28 +16,28 @@ documentation:
 
 'pkg: identity':
 - changed-files:
-  - any-glob-to-any-file: packages/onchainkit/identity/**
+  - any-glob-to-any-file: packages/onchainkit/src/identity/**
 
 'pkg: network':
 - changed-files:
-  - any-glob-to-any-file: packages/onchainkit/network/**
+  - any-glob-to-any-file: packages/onchainkit/src/core/network/**
 
 'pkg: styles':
 - changed-files:
-  - any-glob-to-any-file: packages/onchainkit/styles/**
+  - any-glob-to-any-file: packages/onchainkit/src/styles/**
 
 'pkg: swap':
 - changed-files:
-  - any-glob-to-any-file: packages/onchainkit/swap/**
+  - any-glob-to-any-file: packages/onchainkit/src/swap/**
 
 'pkg: token':
 - changed-files:
-  - any-glob-to-any-file: packages/onchainkit/token/**
+  - any-glob-to-any-file: packages/onchainkit/src/token/**
 
 'pkg: utils':
 - changed-files:
-  - any-glob-to-any-file: packages/onchainkit/utils/**
+  - any-glob-to-any-file: packages/onchainkit/src/core/utils/**
 
 'pkg: wallet':
 - changed-files:
-  - any-glob-to-any-file: packages/onchainkit/wallet/**
+  - any-glob-to-any-file: packages/onchainkit/src/wallet/**
