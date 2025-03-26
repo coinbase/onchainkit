@@ -285,15 +285,15 @@ describe('WalletDropdownContent', () => {
   });
 
   it('renders WalletAdvancedSend when activeFeature is send', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'send',
     });
 
     render(
-      <WalletAdvancedContent>
-        <div>WalletAdvancedContent</div>
-      </WalletAdvancedContent>,
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
     );
 
     expect(screen.getByTestId('ockWalletAdvancedSend')).toBeDefined();

@@ -5,8 +5,8 @@ import { backArrowSvg } from '@/internal/svg/backArrowSvg';
 import { CloseSvg } from '@/internal/svg/closeSvg';
 import { cn, text } from '@/styles/theme';
 import { useCallback } from 'react';
-import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useSendContext } from './SendProvider';
+import { useWalletContext } from '../../WalletProvider';
 
 type SendHeaderProps = {
   label?: string;
@@ -19,7 +19,7 @@ type SendHeaderProps = {
 };
 
 export function SendHeader({ label = 'Send', classNames }: SendHeaderProps) {
-  const { setActiveFeature } = useWalletAdvancedContext();
+  const { setActiveFeature } = useWalletContext();
 
   const {
     selectedRecipient,

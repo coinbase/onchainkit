@@ -137,9 +137,6 @@ describe('WalletAdvancedTransactionActons', () => {
   });
 
   it('sets activeFeature to send when the send button is clicked', () => {
-    mockUseWalletAdvancedContext.mockReturnValue(
-      defaultMockUseWalletAdvancedContext,
-    );
 
     render(<WalletAdvancedTransactionActions />);
 
@@ -152,9 +149,6 @@ describe('WalletAdvancedTransactionActons', () => {
   });
 
   it('sets activeFeature to swap when the swap button is clicked', () => {
-    // mockUseWalletAdvancedContext.mockReturnValue(
-    //   defaultMockUseWalletAdvancedContext,
-    // );
 
     render(<WalletAdvancedTransactionActions />);
 

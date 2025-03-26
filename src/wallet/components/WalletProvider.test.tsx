@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
+import { usePortfolio } from '@/wallet/hooks/usePortfolio';
 import { act, render, renderHook } from '@testing-library/react';
 import { useEffect } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -17,11 +18,26 @@ vi.mock('@/internal/hooks/useBreakpoints', () => ({
   useBreakpoints: vi.fn(),
 }));
 
+vi.mock('@/wallet/hooks/usePortfolio', () => ({
+  usePortfolio: vi.fn(),
+}));
+
 describe('useWalletContext', () => {
   const mockUseBreakpoints = useBreakpoints as Mock;
+  const mockUsePortfolio = usePortfolio as ReturnType<typeof vi.fn>;
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseBreakpoints.mockReturnValue('md');
+    mockUsePortfolio.mockReturnValue({
+      data: {
+        address: '0x123',
+        tokenBalances: [],
+        portfolioBalanceInUsd: 0,
+      },
+      refetch: vi.fn(),
+      isFetching: false,
+      dataUpdatedAt: new Date(),
+    });
   });
 
   it('should return default context', () => {

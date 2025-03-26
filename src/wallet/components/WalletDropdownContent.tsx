@@ -41,7 +41,7 @@ export function WalletDropdownContent({
     if (activeFeature === 'send') {
       return (
         <ContentWrapper>
-          <Send className="h-full w-full border-none" />
+          <Send className="border-none" />
         </ContentWrapper>
       );
     }

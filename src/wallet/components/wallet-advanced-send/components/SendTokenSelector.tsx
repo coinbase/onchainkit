@@ -16,9 +16,7 @@ type SendTokenSelectorProps = {
   };
 };
 
-export function SendTokenSelector({
-  classNames,
-}: SendTokenSelectorProps) {
+export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
   const { tokenBalances } = useWalletContext();
   const {
     selectedToken,
