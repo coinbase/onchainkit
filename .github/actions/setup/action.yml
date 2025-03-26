@@ -1,4 +1,6 @@
 name: Setup
+permissions:
+  contents: read
 runs:
   using: composite
   steps:
