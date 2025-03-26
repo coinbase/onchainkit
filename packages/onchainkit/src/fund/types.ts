@@ -290,6 +290,7 @@ export type OnrampPurchaseCurrency = {
 export type OnrampPaymentCurrency = {
   id: string;
   limits: OnrampPaymentMethodLimit[];
+  iconUrl: string;
 };
 
 export type FundCardAmountInputPropsReact = {
