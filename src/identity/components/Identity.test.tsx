@@ -40,6 +40,7 @@ vi.mock('@/internal/hooks/useTheme', () => ({
 const useAvatarMock = mock(useAvatar);
 const useNameMock = mock(useName);
 const useGetEthBalanceMock = mock(useGetETHBalance);
+const useAccountMock = mock(useAccount);
 
 describe('Identity Component', () => {
   beforeEach(() => {
@@ -51,7 +52,7 @@ describe('Identity Component', () => {
         },
       },
     });
-    (useAccount as Mock).mockReturnValue({ address: '123' });
+    useAccountMock.mockReturnValue({ address: '123' });
   });
 
   it('should render the Identity component with Avatar', async () => {
@@ -88,7 +89,7 @@ describe('Identity Component', () => {
       isLoading: false,
     });
     useNameMock.mockReturnValue({ data: 'name', isLoading: false });
-    (useAccount as Mock).mockReturnValue({ address: undefined });
+    useAccountMock.mockReturnValue({ address: undefined });
     render(
       <Identity>
         <Avatar />
