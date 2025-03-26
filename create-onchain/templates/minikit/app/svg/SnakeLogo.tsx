@@ -1,6 +1,16 @@
-import React from 'react';
+import React from "react";
 
-const SnakeLogo = ({ width = 164, height = 34, color = '#0052FF', animate = false }: { width?: number | string, height?: number | string, color?: string, animate?: boolean }) => {
+const SnakeLogo = ({
+  width = 164,
+  height = 34,
+  color = "#0052FF",
+  animate = false,
+}: {
+  width?: number | string;
+  height?: number | string;
+  color?: string;
+  animate?: boolean;
+}) => {
   // [x, y, width, height]
   // each letter is 28px wide and 34px high with 6px padding between letters
   const segments = [
@@ -26,7 +36,7 @@ const SnakeLogo = ({ width = 164, height = 34, color = '#0052FF', animate = fals
       [116, 5, 10, 4], // K
       [136, 5, 10, 4], // E
     ],
-    
+
     [
       // third Row
       [0, 10, 8, 4], // S
@@ -85,11 +95,17 @@ const SnakeLogo = ({ width = 164, height = 34, color = '#0052FF', animate = fals
   ];
 
   return (
-    <svg width={width} height={height} viewBox="0 0 164 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 164 34"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       {segments.map((row, i) => {
         return (
           <g key={i} opacity={0}>
-            {row.map(([ x, y, width, height ], j) => (
+            {row.map(([x, y, width, height], j) => (
               <rect
                 key={j}
                 x={x}
