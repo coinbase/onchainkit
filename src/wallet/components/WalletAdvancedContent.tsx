@@ -83,7 +83,7 @@ export function WalletAdvancedContent({
       );
     }
 
-    return <ContentWrapper className="p-1">{children}</ContentWrapper>;
+    return <ContentWrapper>{children}</ContentWrapper>;
   }, [activeFeature, swappableTokens, tokenBalances, children, classNames]);
 
   if (breakpoint === 'sm') {
@@ -111,6 +111,8 @@ export function WalletAdvancedContent({
         zIndex.dropdown,
         'my-1.5 h-auto w-full',
         'flex justify-center',
+        // ensure border radius is respected
+        'overflow-hidden',
         animations.container,
         classNames?.container,
       )}

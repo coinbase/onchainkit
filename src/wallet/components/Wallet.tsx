@@ -31,12 +31,12 @@ const defaultWalletChildren = (
   </>
 );
 
-export const Wallet = ({
+export function Wallet({
   children,
   className,
   draggable,
   draggableStartingPosition,
-}: WalletReact) => {
+}: WalletReact) {
   const componentTheme = useTheme();
   const isMounted = useIsMounted();
 
@@ -55,7 +55,7 @@ export const Wallet = ({
       </WalletContent>
     </WalletProvider>
   );
-};
+}
 
 function WalletContent({
   children,
