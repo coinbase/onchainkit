@@ -1,24 +1,57 @@
-'use client';
+"use client";
 
-import React, { useEffect, useRef, useMemo, useState, DependencyList, useCallback, createContext, useContext } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useMemo,
+  useState,
+  DependencyList,
+  useCallback,
+  createContext,
+  useContext,
+} from "react";
 import { useOpenUrl, useNotification } from "@coinbase/onchainkit/minikit";
-import { Transaction, TransactionButton, TransactionResponse, TransactionToast, TransactionToastAction, TransactionToastIcon, TransactionToastLabel, TransactionError } from "@coinbase/onchainkit/transaction";
-import { ConnectWallet, ConnectWalletText, Wallet, WalletDropdown, WalletDropdownDisconnect } from "@coinbase/onchainkit/wallet";
-import { Name, Identity, EthBalance, Address, Avatar } from "@coinbase/onchainkit/identity";
+import {
+  Transaction,
+  TransactionButton,
+  TransactionResponse,
+  TransactionToast,
+  TransactionToastAction,
+  TransactionToastIcon,
+  TransactionToastLabel,
+  TransactionError,
+} from "@coinbase/onchainkit/transaction";
+import {
+  ConnectWallet,
+  ConnectWalletText,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownDisconnect,
+} from "@coinbase/onchainkit/wallet";
+import {
+  Name,
+  Identity,
+  EthBalance,
+  Address,
+  Avatar,
+} from "@coinbase/onchainkit/identity";
 import { getTopScores, addScore, MAX_SCORES } from "@/lib/scores-client";
 import { Score } from "@/lib/scores";
 import { useAccount } from "wagmi";
 import { encodeAbiParameters } from "viem";
 import ArrowSvg from "../svg/ArrowSvg";
-import SnakeLogo from '../svg/SnakeLogo';
+import SnakeLogo from "../svg/SnakeLogo";
 
 const FPS = 60;
 const MS_PER_FRAME = 1000 / FPS;
 const COLORS = {
-  blue: '#0052FF',
-  white: '#FFFFFF',
-  black: '#000000',
-  random: () => `#${Math.floor(Math.random() * 12582912).toString(16).padStart(6, '0')}`
+  blue: "#0052FF",
+  white: "#FFFFFF",
+  black: "#000000",
+  random: () =>
+    `#${Math.floor(Math.random() * 12582912)
+      .toString(16)
+      .padStart(6, "0")}`,
 };
 const NUM_TARGETS_PER_LEVEL = 10;
 const EAS_GRAPHQL_URL = "https://base.easscan.org/graphql";
@@ -29,7 +62,7 @@ const GameState = {
   RUNNING: 2,
   WON: 3,
   DEAD: 4,
-  AWAITINGNEXTLEVEL: 5
+  AWAITINGNEXTLEVEL: 5,
 };
 
 const MoveState = {
@@ -37,15 +70,17 @@ const MoveState = {
   UP: 1,
   RIGHT: 2,
   DOWN: 3,
-  LEFT: 4
+  LEFT: 4,
 };
 
-const LevelMaps: { [key: number]: { x1: number, y1: number, width: number, height: number }[] } = {
+const LevelMaps: {
+  [key: number]: { x1: number; y1: number; width: number; height: number }[];
+} = {
   1: [
     { x1: 0, y1: 0, width: 10, height: 500 },
     { x1: 0, y1: 0, width: 500, height: 10 },
     { x1: 490, y1: 0, width: 10, height: 500 },
-    { x1: 0, y1: 490, width: 500, height: 10 }
+    { x1: 0, y1: 490, width: 500, height: 10 },
   ],
   2: [
     { x1: 0, y1: 0, width: 10, height: 500 },
@@ -53,7 +88,7 @@ const LevelMaps: { [key: number]: { x1: number, y1: number, width: number, heigh
     { x1: 490, y1: 0, width: 10, height: 500 },
     { x1: 0, y1: 490, width: 500, height: 10 },
     { x1: 250, y1: 0, width: 10, height: 200 },
-    { x1: 250, y1: 300, width: 10, height: 200 }
+    { x1: 250, y1: 300, width: 10, height: 200 },
   ],
   3: [
     { x1: 0, y1: 0, width: 10, height: 500 },
@@ -63,7 +98,7 @@ const LevelMaps: { [key: number]: { x1: number, y1: number, width: number, heigh
     { x1: 250, y1: 0, width: 10, height: 200 },
     { x1: 250, y1: 300, width: 10, height: 200 },
     { x1: 0, y1: 250, width: 200, height: 10 },
-    { x1: 300, y1: 250, width: 200, height: 10 }
+    { x1: 300, y1: 250, width: 200, height: 10 },
   ],
   4: [
     { x1: 0, y1: 0, width: 10, height: 500 },
@@ -77,21 +112,21 @@ const LevelMaps: { [key: number]: { x1: number, y1: number, width: number, heigh
     { x1: 100, y1: 300, width: 10, height: 200 },
     { x1: 200, y1: 300, width: 10, height: 200 },
     { x1: 300, y1: 300, width: 10, height: 200 },
-    { x1: 400, y1: 300, width: 10, height: 200 }
+    { x1: 400, y1: 300, width: 10, height: 200 },
   ],
 };
 
 const NumberOfMaps = Object.keys(LevelMaps).length;
 
-const DIRECTION_MAP:Record<string, number> = {
-  'ArrowUp': MoveState.UP,
-  'ArrowRight': MoveState.RIGHT,
-  'ArrowDown': MoveState.DOWN,
-  'ArrowLeft': MoveState.LEFT,
+const DIRECTION_MAP: Record<string, number> = {
+  ArrowUp: MoveState.UP,
+  ArrowRight: MoveState.RIGHT,
+  ArrowDown: MoveState.DOWN,
+  ArrowLeft: MoveState.LEFT,
 };
 
 async function fetchDbEnabled() {
-  const res = await fetch('/api/scores', { method: 'OPTIONS' });
+  const res = await fetch("/api/scores", { method: "OPTIONS" });
   const { enabled } = await res.json();
   return Boolean(enabled);
 }
@@ -122,9 +157,9 @@ async function fetchLastAttestations() {
   `;
 
   const response = await fetch(EAS_GRAPHQL_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query })
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query }),
   });
 
   const { data } = await response.json();
@@ -139,7 +174,7 @@ async function fetchLastAttestations() {
         score: parseInt(score),
         address,
         attestationUid: attestation.id,
-        transactionHash: attestation.txid
+        transactionHash: attestation.txid,
       };
     }
     return null;
@@ -155,7 +190,7 @@ function useKonami(gameState: number) {
     MoveState.LEFT,
     MoveState.RIGHT,
     MoveState.LEFT,
-    MoveState.RIGHT
+    MoveState.RIGHT,
   ];
   const [konami, setKonami] = useState(false);
   const [sequence, setSequence] = useState<number[]>([]);
@@ -166,9 +201,9 @@ function useKonami(gameState: number) {
       if (newSequence.length > CODE.length) {
         newSequence.shift();
       }
-      if (newSequence.join(',') === CODE.join(',')) {
+      if (newSequence.join(",") === CODE.join(",")) {
         setKonami(true);
-        console.log('Slow motion activated!');
+        console.log("Slow motion activated!");
       } else {
         setSequence(newSequence);
       }
@@ -184,21 +219,23 @@ type HighScoresContextType = {
   checkIsHighScore: (currentScore: number) => boolean;
   invalidateHighScores: () => void;
   loadHighScores: () => Promise<void>;
-}
+};
 
 const emptyHighScoresContext = {} as HighScoresContextType;
-export const HighScoresContext = createContext<HighScoresContextType>(emptyHighScoresContext);
+export const HighScoresContext = createContext<HighScoresContextType>(
+  emptyHighScoresContext,
+);
 export function useHighScores() {
   const context = useContext(HighScoresContext);
   if (context === emptyHighScoresContext) {
     throw new Error(
-      'useHighScores must be used within an HighScoresProvider component',
+      "useHighScores must be used within an HighScoresProvider component",
     );
   }
   return context;
 }
 
-function HighScoresProvider({children}: {children: React.ReactNode}) {
+function HighScoresProvider({ children }: { children: React.ReactNode }) {
   const [highScores, setHighScores] = useState<Score[]>([]);
   const [invalidate, setInvalidate] = useState(true);
   const [isDbEnabled, setIsDbEnabled] = useState<boolean>();
@@ -206,11 +243,13 @@ function HighScoresProvider({children}: {children: React.ReactNode}) {
   const loadHighScores = useCallback(async () => {
     if (invalidate) {
       setInvalidate(false);
-      const dbEnabled = isDbEnabled ?? await fetchDbEnabled();
+      const dbEnabled = isDbEnabled ?? (await fetchDbEnabled());
       setIsDbEnabled(dbEnabled);
 
       // if db is enabled, fetch top scores, otherwise fetch last 8 attestations
-      const scores = dbEnabled ? await getTopScores() : await fetchLastAttestations();
+      const scores = dbEnabled
+        ? await getTopScores()
+        : await fetchLastAttestations();
       setHighScores(scores ?? []);
     }
   }, [invalidate, isDbEnabled]);
@@ -219,40 +258,55 @@ function HighScoresProvider({children}: {children: React.ReactNode}) {
     setInvalidate(true);
   }, []);
 
-  const checkIsHighScore = useCallback((currentScore: number) => {
-    if (currentScore === 0) {
+  const checkIsHighScore = useCallback(
+    (currentScore: number) => {
+      if (currentScore === 0) {
+        return false;
+      }
+
+      // if less than MAX_SCORES scores or current score is higher than lowest score
+      if (
+        (highScores?.length ?? 0) < MAX_SCORES ||
+        currentScore > (highScores?.[highScores.length - 1]?.score ?? 0)
+      ) {
+        return true;
+      }
       return false;
-    }
+    },
+    [highScores],
+  );
 
-    // if less than MAX_SCORES scores or current score is higher than lowest score
-    if ((highScores?.length ?? 0) < MAX_SCORES || currentScore > (highScores?.[highScores.length - 1]?.score ?? 0)) {
-      return true;
-    }
-    return false;
-  }, [highScores]);
-
-  const value = useMemo(() => ({
-    highScores,
-    invalidateHighScores,
-    isDbEnabled,
-    checkIsHighScore,
-    loadHighScores
-  }), [highScores, invalidateHighScores, isDbEnabled, checkIsHighScore, loadHighScores]);
+  const value = useMemo(
+    () => ({
+      highScores,
+      invalidateHighScores,
+      isDbEnabled,
+      checkIsHighScore,
+      loadHighScores,
+    }),
+    [
+      highScores,
+      invalidateHighScores,
+      isDbEnabled,
+      checkIsHighScore,
+      loadHighScores,
+    ],
+  );
 
   return (
     <HighScoresContext.Provider value={value}>
       {children}
     </HighScoresContext.Provider>
-  )
+  );
 }
 
 type ControlButtonProps = {
   className?: string;
   children?: React.ReactNode;
   onClick: () => void;
-}
+};
 
-function ControlButton({ children, onClick, className }:ControlButtonProps) {
+function ControlButton({ children, onClick, className }: ControlButtonProps) {
   const [isPressed, setIsPressed] = useState(false);
 
   return (
@@ -260,9 +314,10 @@ function ControlButton({ children, onClick, className }:ControlButtonProps) {
       type="button"
       className={`w-12 h-12 bg-[#0052FF] rounded-full cursor-pointer select-none
         transition-all duration-150 border-[1px] border-[#0052FF] ${className}
-        ${isPressed
-          ? 'translate-y-1 [box-shadow:0_0px_0_0_#002299,0_0px_0_0_#0033cc33] border-b-[0px]'
-          : '[box-shadow:0_5px_0_0_#002299,0_8px_0_0_#0033cc33]'
+        ${
+          isPressed
+            ? "translate-y-1 [box-shadow:0_0px_0_0_#002299,0_0px_0_0_#0033cc33] border-b-[0px]"
+            : "[box-shadow:0_5px_0_0_#002299,0_8px_0_0_#0033cc33]"
         }`}
       onPointerDown={() => setIsPressed(true)}
       onPointerUp={() => setIsPressed(false)}
@@ -271,14 +326,14 @@ function ControlButton({ children, onClick, className }:ControlButtonProps) {
     >
       {children}
     </button>
-  )
+  );
 }
 
 function WalletControl() {
   return (
     <Wallet className="[&>div:nth-child(2)]:!opacity-20 md:[&>div:nth-child(2)]:!opacity-100">
-      <ConnectWallet className="w-12 h-12 bg-[#0052FF] rounded-full hover:bg-[#0052FF] focus:bg-[#0052FF] focus:bg-[#0052FF] cursor-pointer select-none transition-all duration-150 border-[1px] border-[#0052FF] min-w-12 [box-shadow:0_5px_0_0_#002299,0_8px_0_0_#0033cc33]">
-        <ConnectWalletText>{''}</ConnectWalletText>
+      <ConnectWallet className="w-12 h-12 bg-[#0052FF] rounded-full hover:bg-[#0052FF] focus:bg-[#0052FF] cursor-pointer select-none transition-all duration-150 border-[1px] border-[#0052FF] min-w-12 [box-shadow:0_5px_0_0_#002299,0_8px_0_0_#0033cc33]">
+        <ConnectWalletText>{""}</ConnectWalletText>
       </ConnectWallet>
       <WalletDropdown>
         <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
@@ -290,15 +345,18 @@ function WalletControl() {
         <WalletDropdownDisconnect />
       </WalletDropdown>
     </Wallet>
-  )
+  );
 }
 
 type ControlButtonsProps = {
   gameState: number;
   handleMobileGameState: () => void;
-}
+};
 
-function ControlButtons({ gameState, handleMobileGameState }: ControlButtonsProps) {
+function ControlButtons({
+  gameState,
+  handleMobileGameState,
+}: ControlButtonsProps) {
   const { address } = useAccount();
 
   return (
@@ -306,17 +364,17 @@ function ControlButtons({ gameState, handleMobileGameState }: ControlButtonsProp
       <div className="absolute left-8 top-16 w-24">
         <ControlButton className="block" onClick={handleMobileGameState} />
         <div className="ml-6 w-16 text-center -rotate-45 leading-[1.2]">
-          {gameState === GameState.RUNNING ? 'PAUSE' : 'PLAY'}
+          {gameState === GameState.RUNNING ? "PAUSE" : "PLAY"}
         </div>
       </div>
       <div className="absolute right-0 top-4 w-24">
         <WalletControl />
         <div className="ml-4 w-20 text-center -rotate-45 leading-[1.2]">
-          {address ? 'LOGOUT' : 'LOGIN'}
+          {address ? "LOGOUT" : "LOGIN"}
         </div>
       </div>
     </>
-  )
+  );
 }
 
 type DPadProps = {
@@ -351,7 +409,7 @@ function DPad({ onDirectionChange }: DPadProps) {
       </div>
     </div>
   );
-};
+}
 
 type StatsProps = {
   score: number;
@@ -363,7 +421,7 @@ function Stats({ score, level, width = 390 }: StatsProps) {
   const { highScores } = useHighScores();
   const record = highScores?.[0]?.score ?? 0;
   return (
-    <div className="grid grid-cols-2" style={{width}}>
+    <div className="grid grid-cols-2" style={{ width }}>
       {record > 0 && (
         <>
           <div className="text-lg mb-4 w-[200px]">RECORD</div>
@@ -383,17 +441,20 @@ type AwaitingNextLevelProps = {
   level: number;
 };
 
-function AwaitingNextLevel({score, level}: AwaitingNextLevelProps) {
+function AwaitingNextLevel({ score, level }: AwaitingNextLevelProps) {
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/70 z-20 m-[10px] mb-[30px]">
       <h1 className="text-5xl mb-4">LEVEL COMPLETE!</h1>
       <Stats score={score} level={level} />
-      <p className="absolute bottom-4 text-lg">Press play or space for the next level</p>
+      <p className="absolute bottom-4 text-lg">
+        Press play or space for the next level
+      </p>
     </div>
-  )
+  );
 }
 
-const SCHEMA_UID = "0xdc3cf7f28b4b5255ce732cbf99fe906a5bc13fbd764e2463ba6034b4e1881835";
+const SCHEMA_UID =
+  "0xdc3cf7f28b4b5255ce732cbf99fe906a5bc13fbd764e2463ba6034b4e1881835";
 const EAS_CONTRACT = "0x4200000000000000000000000000000000000021";
 const easABI = [
   {
@@ -406,21 +467,23 @@ const easABI = [
         type: "tuple",
         components: [
           { name: "schema", type: "bytes32" },
-          { name: "data", type: "tuple",
+          {
+            name: "data",
+            type: "tuple",
             components: [
               { name: "recipient", type: "address" },
               { name: "expirationTime", type: "uint64" },
               { name: "revocable", type: "bool" },
               { name: "refUID", type: "bytes32" },
               { name: "data", type: "bytes" },
-              { name: "value", type: "uint256" }
-            ]
-          }
-        ]
-      }
+              { name: "value", type: "uint256" },
+            ],
+          },
+        ],
+      },
     ],
-    outputs: [{ name: "", type: "bytes32" }]
-  }
+    outputs: [{ name: "", type: "bytes32" }],
+  },
 ];
 
 type DeadProps = {
@@ -430,31 +493,34 @@ type DeadProps = {
   isWin: boolean;
 };
 
-export function Dead({score, level, onGoToIntro, isWin}: DeadProps) {
+export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
   const { invalidateHighScores, checkIsHighScore } = useHighScores();
   const sendNotification = useNotification();
   const { address } = useAccount();
   const isHighScore = checkIsHighScore(score);
 
-  const handleAttestationSuccess = useCallback(async (response: TransactionResponse) => {
-    if (!address) {
-      return null;
-    }
+  const handleAttestationSuccess = useCallback(
+    async (response: TransactionResponse) => {
+      if (!address) {
+        return null;
+      }
 
-    await addScore({
-      address,
-      score,
-      attestationUid: response.transactionReceipts[0].logs[0].data,
-      transactionHash: response.transactionReceipts[0].transactionHash
-    });
+      await addScore({
+        address,
+        score,
+        attestationUid: response.transactionReceipts[0].logs[0].data,
+        transactionHash: response.transactionReceipts[0].transactionHash,
+      });
 
-    await sendNotification({
-      title: 'Congratulations!',
-      body: `You scored a new high score of ${score} on minikit!`,
-    });
+      await sendNotification({
+        title: "Congratulations!",
+        body: `You scored a new high score of ${score} on minikit!`,
+      });
 
-    invalidateHighScores();
-  }, [address, invalidateHighScores, score, sendNotification]);
+      invalidateHighScores();
+    },
+    [address, invalidateHighScores, score, sendNotification],
+  );
 
   const transactionButton = useMemo(() => {
     if (!address) {
@@ -464,39 +530,46 @@ export function Dead({score, level, onGoToIntro, isWin}: DeadProps) {
             <ConnectWalletText>Login to save your high score</ConnectWalletText>
           </ConnectWallet>
         </Wallet>
-      )
+      );
     }
 
     return (
       <Transaction
-        calls={[{
-          address: EAS_CONTRACT,
-          abi: easABI,
-          functionName: 'attest',
-          args: [{
-            schema: SCHEMA_UID,
-            data: {
-              recipient: address,
-              expirationTime: BigInt(0),
-              revocable: false,
-              refUID: '0x0000000000000000000000000000000000000000000000000000000000000000',
-              data: encodeAbiParameters(
-                [{ type: 'string' }],
-                [`${address} scored ${score} on minikit`]
-              ),
-              value: BigInt(0)
-            }
-          }]
-        }]}
+        calls={[
+          {
+            address: EAS_CONTRACT,
+            abi: easABI,
+            functionName: "attest",
+            args: [
+              {
+                schema: SCHEMA_UID,
+                data: {
+                  recipient: address,
+                  expirationTime: BigInt(0),
+                  revocable: false,
+                  refUID:
+                    "0x0000000000000000000000000000000000000000000000000000000000000000",
+                  data: encodeAbiParameters(
+                    [{ type: "string" }],
+                    [`${address} scored ${score} on minikit`],
+                  ),
+                  value: BigInt(0),
+                },
+              },
+            ],
+          },
+        ]}
         onSuccess={handleAttestationSuccess}
-        onError={(error: TransactionError) => console.error("Attestation failed:", error)}
+        onError={(error: TransactionError) =>
+          console.error("Attestation failed:", error)
+        }
       >
         <TransactionButton
           text="Submit to save high score"
           className="mx-auto w-[60%]"
           successOverride={{
             text: "View High Scores",
-            onClick: onGoToIntro
+            onClick: onGoToIntro,
           }}
         />
         <TransactionToast className="mb-4">
@@ -505,25 +578,30 @@ export function Dead({score, level, onGoToIntro, isWin}: DeadProps) {
           <TransactionToastAction />
         </TransactionToast>
       </Transaction>
-    )
+    );
   }, [address, handleAttestationSuccess, onGoToIntro, score]);
 
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/70 z-20 m-[10px] mb-[30px]">
-      <h1 className="text-6xl mb-4">{isWin ? 'YOU WON!' : 'GAME OVER'}</h1>
+      <h1 className="text-6xl mb-4">{isWin ? "YOU WON!" : "GAME OVER"}</h1>
       {isHighScore && <p className="text-2xl mb-4">You got a high score!</p>}
       <Stats score={score} level={level} width={250} />
       {isHighScore && address && (
         <fieldset className="border-2 border-gray-300 rounded-md mb-4">
           <legend className="text-sm">Attestation</legend>
-          <div className="text-gray-800 px-2 py-1 italic"><Address className="text-inherit" address={address} /> scored {score} on minikit</div>
+          <div className="text-gray-800 px-2 py-1 italic">
+            <Address className="text-inherit" address={address} /> scored{" "}
+            {score} on minikit
+          </div>
         </fieldset>
       )}
 
       {isHighScore && transactionButton}
-      <p className="text-lg mb-4 absolute bottom-0">Press play or space to play again</p>
+      <p className="text-lg mb-4 absolute bottom-0">
+        Press play or space to play again
+      </p>
     </div>
-  )
+  );
 }
 
 function HighScores() {
@@ -536,30 +614,39 @@ function HighScores() {
 
   const handleHighScoreClick = (score: Score) => {
     openUrl(`https://basescan.org/tx/${score.transactionHash}`);
-  }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center absolute top-32 w-[80%]">
-      <h1 className="text-2xl mb-4">{isDbEnabled ? "HIGH SCORES" : "RECENT HIGH SCORES"}</h1>
-      {highScores.sort((a, b) => b.score - a.score).map((score, index) => (
-        <button type="button" key={score.attestationUid} className="flex items-center w-full" onClick={() => handleHighScoreClick(score)}>
-          <span className="text-black w-8">{index + 1}.</span>
-          <div className="flex items-center flex-grow">
-            <Identity
-              className="!bg-inherit space-x-1 px-0 [&>div]:space-x-2"
-              address={score.address}
-            >
-              <Name className="text-black"/>
-            </Identity>
-            <div className="px-2">
-              <ArrowSvg />
+      <h1 className="text-2xl mb-4">
+        {isDbEnabled ? "HIGH SCORES" : "RECENT HIGH SCORES"}
+      </h1>
+      {highScores
+        .sort((a, b) => b.score - a.score)
+        .map((score, index) => (
+          <button
+            type="button"
+            key={score.attestationUid}
+            className="flex items-center w-full"
+            onClick={() => handleHighScoreClick(score)}
+          >
+            <span className="text-black w-8">{index + 1}.</span>
+            <div className="flex items-center flex-grow">
+              <Identity
+                className="!bg-inherit space-x-1 px-0 [&>div]:space-x-2"
+                address={score.address}
+              >
+                <Name className="text-black" />
+              </Identity>
+              <div className="px-2">
+                <ArrowSvg />
+              </div>
             </div>
-          </div>
-          <div className="text-black text-right flex-grow">{score.score}</div>
-        </button>
-      ))}
+            <div className="text-black text-right flex-grow">{score.score}</div>
+          </button>
+        ))}
     </div>
-  )
+  );
 }
 
 type IntroProps = {
@@ -570,14 +657,12 @@ function Intro({ konami }: IntroProps) {
   return (
     <div className="absolute inset-0 flex flex-col items-center bg-white/70 z-20 m-[10px] mb-[30px] pb-6">
       <div className="absolute top-12">
-        <SnakeLogo width={300} height={60} animate={konami}/>
+        <SnakeLogo width={300} height={60} animate={konami} />
       </div>
       <HighScores />
-      <div className="absolute bottom-4">
-        Press play or space to start
-      </div>
+      <div className="absolute bottom-4">Press play or space to start</div>
     </div>
-  )
+  );
 }
 
 let msPrev = performance.now();
@@ -595,6 +680,7 @@ const useGameLoop = (callback: () => void, dependencies: DependencyList) => {
     };
     frameId = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(frameId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [...dependencies, callback]);
 };
 
@@ -624,28 +710,31 @@ const Sammy = () => {
     length: 10,
     direction: MoveState.DOWN,
     newDirection: MoveState.NONE,
-    segments: []
+    segments: [],
   });
   const [target, setTarget] = useState({
     exists: false,
     num: 0,
     x: 0,
     y: 0,
-    color: COLORS.black
+    color: COLORS.black,
   });
   const [scale, setScale] = useState<number | null>(null);
   const { konami, updateSequence } = useKonami(gameState);
 
-  const getStartingScore = useCallback((level: number, adjust = false) => {
-    const startingScore = 2000 + ((level-1) * 500);
-    if (adjust) {
-      return konami ? startingScore + 1 : startingScore + 2;
-    }
-    return startingScore;
-  }, [konami]);
+  const getStartingScore = useCallback(
+    (level: number, adjust = false) => {
+      const startingScore = 2000 + (level - 1) * 500;
+      if (adjust) {
+        return konami ? startingScore + 1 : startingScore + 2;
+      }
+      return startingScore;
+    },
+    [konami],
+  );
 
   const updateGameState = useCallback(() => {
-    setGameState(prev => {
+    setGameState((prev) => {
       switch (prev) {
         case GameState.RUNNING:
           return GameState.PAUSED;
@@ -660,10 +749,10 @@ const Sammy = () => {
             length: 10,
             direction: MoveState.DOWN,
             newDirection: MoveState.NONE,
-            segments: []
+            segments: [],
           });
           setScore({ points: getStartingScore(1), total: 0 });
-          setTarget({ exists: false, num: 0, x: 0, y: 0, color: '' });
+          setTarget({ exists: false, num: 0, x: 0, y: 0, color: "" });
           setLevel(1);
           return GameState.RUNNING;
         case GameState.AWAITINGNEXTLEVEL:
@@ -673,10 +762,13 @@ const Sammy = () => {
             length: 10,
             direction: MoveState.DOWN,
             newDirection: MoveState.NONE,
-            segments: []
+            segments: [],
           });
-          setScore(prevScore => ({ ...prevScore, points: getStartingScore(levelRef.current + 1) }));
-          setTarget({ exists: false, num: 0, x: 0, y: 0, color: '' });
+          setScore((prevScore) => ({
+            ...prevScore,
+            points: getStartingScore(levelRef.current + 1),
+          }));
+          setTarget({ exists: false, num: 0, x: 0, y: 0, color: "" });
           setLevel(levelRef.current + 1);
           return GameState.RUNNING;
         default:
@@ -687,11 +779,17 @@ const Sammy = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setScale(Math.min(window.document.body.clientWidth / 520, window.document.body.clientHeight / 520, 1));
+      setScale(
+        Math.min(
+          window.document.body.clientWidth / 520,
+          window.document.body.clientHeight / 520,
+          1,
+        ),
+      );
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -701,31 +799,31 @@ const Sammy = () => {
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       const newDirection = DIRECTION_MAP[e.code];
-      if (newDirection || e.code === 'Space') {
+      if (newDirection || e.code === "Space") {
         e.preventDefault();
-        if (e.code === 'Space') {
+        if (e.code === "Space") {
           updateGameState();
         } else {
-          setSammy(prev => ({
+          setSammy((prev) => ({
             ...prev,
-            newDirection: newDirection || prev.newDirection
+            newDirection: newDirection || prev.newDirection,
           }));
           updateSequence(newDirection);
         }
       }
     };
 
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
   }, [konami, updateGameState, updateSequence]);
 
   const drawMap = useCallback(() => {
-    const ctx = mapCanvasRef.current?.getContext('2d');
+    const ctx = mapCanvasRef.current?.getContext("2d");
     if (ctx) {
       ctx.clearRect(0, 0, 500, 520);
       ctx.fillStyle = COLORS.white;
       ctx.fillRect(0, 0, 500, 520);
-      LevelMaps[level].forEach(wall => {
+      LevelMaps[level].forEach((wall) => {
         ctx.fillStyle = COLORS.blue;
         ctx.fillRect(wall.x1, wall.y1, wall.width, wall.height);
       });
@@ -736,7 +834,7 @@ const Sammy = () => {
     if (mapCanvasRef.current) {
       drawMap();
     }
-  }, [drawMap, level, scale])
+  }, [drawMap, level, scale]);
 
   const createTarget = useCallback(() => {
     if (!target.exists) {
@@ -746,16 +844,16 @@ const Sammy = () => {
         y: 0,
         exists: true,
         num: target.num + 1,
-        color: COLORS.black
+        color: COLORS.black,
       };
 
       while (!isValidPosition) {
         newTarget.x = Math.floor(Math.random() * 48) * 10 + 10;
         newTarget.y = Math.floor(Math.random() * 48) * 10 + 10;
-        newTarget.color = COLORS.random()
+        newTarget.color = COLORS.random();
 
         // check if target overlaps with any wall
-        isValidPosition = !LevelMaps[level].some(wall => {
+        isValidPosition = !LevelMaps[level].some((wall) => {
           const targetLeft = newTarget.x;
           const targetRight = newTarget.x + 10;
           const targetTop = newTarget.y;
@@ -766,14 +864,16 @@ const Sammy = () => {
           const wallTop = wall.y1;
           const wallBottom = wall.y1 + wall.height;
 
-          return !(targetLeft > wallRight ||
-                  targetRight < wallLeft ||
-                  targetTop > wallBottom ||
-                  targetBottom < wallTop);
+          return !(
+            targetLeft > wallRight ||
+            targetRight < wallLeft ||
+            targetTop > wallBottom ||
+            targetBottom < wallTop
+          );
         });
       }
 
-      const ctx = sammyCanvasRef.current?.getContext('2d');
+      const ctx = sammyCanvasRef.current?.getContext("2d");
       if (ctx) {
         ctx.fillStyle = newTarget.color;
         ctx.fillRect(newTarget.x, newTarget.y, 10, 10);
@@ -787,11 +887,18 @@ const Sammy = () => {
     const newSammy = { ...sammy };
 
     if (newSammy.newDirection !== MoveState.NONE) {
-      const isHorizontal = newSammy.newDirection === MoveState.LEFT || newSammy.newDirection === MoveState.RIGHT;
-      const isVertical = newSammy.newDirection === MoveState.UP || newSammy.newDirection === MoveState.DOWN;
+      const isHorizontal =
+        newSammy.newDirection === MoveState.LEFT ||
+        newSammy.newDirection === MoveState.RIGHT;
+      const isVertical =
+        newSammy.newDirection === MoveState.UP ||
+        newSammy.newDirection === MoveState.DOWN;
 
       // only change direction on a grid
-      if ((isHorizontal && newSammy.y % 10 === 0) || (isVertical && newSammy.x % 10 === 0)) {
+      if (
+        (isHorizontal && newSammy.y % 10 === 0) ||
+        (isVertical && newSammy.x % 10 === 0)
+      ) {
         newSammy.direction = newSammy.newDirection;
         newSammy.newDirection = MoveState.NONE;
       }
@@ -824,7 +931,7 @@ const Sammy = () => {
 
   const checkCollisions = useCallback(() => {
     // wall collisions
-    const hitWall = LevelMaps[level].some(wall => {
+    const hitWall = LevelMaps[level].some((wall) => {
       const sammyLeft = sammy.x;
       const sammyRight = sammy.x + 10;
       const sammyTop = sammy.y;
@@ -836,16 +943,18 @@ const Sammy = () => {
       const wallTop = wall.y1 + 1;
       const wallBottom = wall.y1 + wall.height - 2;
 
-      return !(sammyLeft > wallRight ||
-              sammyRight < wallLeft ||
-              sammyTop > wallBottom ||
-              sammyBottom < wallTop);
+      return !(
+        sammyLeft > wallRight ||
+        sammyRight < wallLeft ||
+        sammyTop > wallBottom ||
+        sammyBottom < wallTop
+      );
     });
 
     // self collision
-    const hitSelf = sammy.segments.slice(1).some(segment =>
-      segment.x === sammy.x && segment.y === sammy.y
-    );
+    const hitSelf = sammy.segments
+      .slice(1)
+      .some((segment) => segment.x === sammy.x && segment.y === sammy.y);
 
     if (hitWall || hitSelf) {
       setGameState(GameState.DEAD);
@@ -854,34 +963,42 @@ const Sammy = () => {
     // target collision
     if (target.exists && sammy.x === target.x && sammy.y === target.y) {
       if (target.num < NUM_TARGETS_PER_LEVEL) {
-        setSammy(prev => ({
+        setSammy((prev) => ({
           ...prev,
-          length: prev.length + 10 * target.num * target.num / 2
+          length: prev.length + (10 * target.num * target.num) / 2,
         }));
-        setScore(prev => ({
+        setScore((prev) => ({
           points: getStartingScore(levelRef.current),
-          total: prev.total + prev.points
+          total: prev.total + prev.points,
         }));
-        setTarget(prev => ({ ...prev, exists: false }));
+        setTarget((prev) => ({ ...prev, exists: false }));
       } else {
         if (level === NumberOfMaps) {
           setGameState(GameState.WON);
         } else {
-          setScore(prev => ({
+          setScore((prev) => ({
             points: getStartingScore(levelRef.current + 1, true),
-            total: prev.total + prev.points
+            total: prev.total + prev.points,
           }));
           setGameState(GameState.AWAITINGNEXTLEVEL);
         }
       }
     }
-  }, [level, sammy, setSammy, setGameState, setScore, getStartingScore, target]);
+  }, [
+    level,
+    sammy,
+    setSammy,
+    setGameState,
+    setScore,
+    getStartingScore,
+    target,
+  ]);
 
   const updateScore = useCallback(() => {
-    const scoreCtx = scoreCanvasRef.current?.getContext('2d');
+    const scoreCtx = scoreCanvasRef.current?.getContext("2d");
     if (scoreCtx) {
       scoreCtx.clearRect(0, 0, 500, 530);
-      scoreCtx.font = '20px Pixelify Sans';
+      scoreCtx.font = "20px Pixelify Sans";
       scoreCtx.fillStyle = COLORS.black;
       scoreCtx.fillText(`Score: ${score.total}`, 10, 520);
       scoreCtx.fillText(`Points: ${score.points}`, 200, 520);
@@ -894,13 +1011,13 @@ const Sammy = () => {
       return;
     }
 
-    const ctx = sammyCanvasRef.current?.getContext('2d');
+    const ctx = sammyCanvasRef.current?.getContext("2d");
     if (ctx) {
       ctx.clearRect(0, 0, 500, 520);
 
       // draw sammy
       ctx.fillStyle = COLORS.blue;
-      sammy.segments.forEach(segment => {
+      sammy.segments.forEach((segment) => {
         ctx.fillRect(segment.x, segment.y, 10, 10);
       });
 
@@ -921,9 +1038,9 @@ const Sammy = () => {
       checkCollisions();
       createTarget();
       drawGame();
-      setScore(prev => ({
+      setScore((prev) => ({
         ...prev,
-        points: Math.max(0, prev.points - (konami ? 1 : 2))
+        points: Math.max(0, prev.points - (konami ? 1 : 2)),
       }));
     } else if (gameState === GameState.AWAITINGNEXTLEVEL) {
       updateScore();
@@ -934,32 +1051,33 @@ const Sammy = () => {
     switch (gameState) {
       case GameState.INTRO:
       case GameState.PAUSED:
-        return <Intro
-          konami={konami}
-        />
+        return <Intro konami={konami} />;
       case GameState.WON:
       case GameState.DEAD:
-        return <Dead
-          score={score.total}
-          level={level}
-          onGoToIntro={() => {
-            updateGameState();
-            setGameState(GameState.PAUSED);
-          }}
-          isWin={gameState === GameState.WON}
-        />
+        return (
+          <Dead
+            score={score.total}
+            level={level}
+            onGoToIntro={() => {
+              updateGameState();
+              setGameState(GameState.PAUSED);
+            }}
+            isWin={gameState === GameState.WON}
+          />
+        );
       case GameState.AWAITINGNEXTLEVEL:
-        return <AwaitingNextLevel
-          score={score.total}
-          level={level}
-        />
+        return <AwaitingNextLevel score={score.total} level={level} />;
       default:
         return null;
     }
   }, [gameState, konami, level, score.total, setGameState, updateGameState]);
 
   if (!scale) {
-    return <div className="flex flex-col justify-center items-center h-screen">Loading...</div>;
+    return (
+      <div className="flex flex-col justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -969,7 +1087,7 @@ const Sammy = () => {
         className="relative origin-top-left w-[500px] h-[520px]"
         style={{
           transform: `scale(${scale})`,
-          marginBottom: `${-520 * (1 - scale)}px`
+          marginBottom: `${-520 * (1 - scale)}px`,
         }}
       >
         <canvas
@@ -1000,15 +1118,14 @@ const Sammy = () => {
           height={530}
           className="absolute top-0 left-0 z-1"
         />
-        <HighScoresProvider>
-          {overlays}
-        </HighScoresProvider>
+        <HighScoresProvider>{overlays}</HighScoresProvider>
       </div>
 
       <div className="flex mt-6">
         <div className="flex flex-1 justify-center">
-          <DPad onDirectionChange={(direction: number) => {
-              setSammy(prev => ({ ...prev, newDirection: direction }));
+          <DPad
+            onDirectionChange={(direction: number) => {
+              setSammy((prev) => ({ ...prev, newDirection: direction }));
               updateSequence(direction);
             }}
           />
@@ -1023,6 +1140,5 @@ const Sammy = () => {
     </div>
   );
 };
-
 
 export default Sammy;

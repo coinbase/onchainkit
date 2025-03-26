@@ -7,9 +7,10 @@ export type Score = {
   transactionHash: string;
   address: Address;
   score: number;
-}
+};
 
-const notificationServiceKey = process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME ?? 'minikit';
+const notificationServiceKey =
+  process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME ?? "minikit";
 
 const scoresKey = `${notificationServiceKey}:scores`;
 
@@ -23,10 +24,13 @@ export async function getScores(): Promise<Score[]> {
     return [];
   }
 
-  const scores = await redis.zrange(scoresKey, 0, -1, {
+  const scores = (await redis.zrange(scoresKey, 0, -1, {
     withScores: true,
-    rev: true
-  }) as Array<{ address: Address, attestationUid: string, transactionHash: string } | number>;
+    rev: true,
+  })) as Array<
+    | { address: Address; attestationUid: string; transactionHash: string }
+    | number
+  >;
 
   if (!Array.isArray(scores) || scores.length < 2) return [];
 
@@ -34,12 +38,16 @@ export async function getScores(): Promise<Score[]> {
 
   // Process pairs of entries (member and score)
   for (let i = 0; i < scores.length; i += 2) {
-    const memberData = scores[i] as { address: Address, attestationUid: string, transactionHash: string };
+    const memberData = scores[i] as {
+      address: Address;
+      attestationUid: string;
+      transactionHash: string;
+    };
     const score = scores[i + 1] as number;
 
     result.push({
       ...memberData,
-      score
+      score,
     });
   }
 
@@ -56,8 +64,8 @@ export async function setScore(score: Score): Promise<void> {
     member: {
       attestationUid: score.attestationUid,
       transactionHash: score.transactionHash,
-      address: score.address
-    }
+      address: score.address,
+    },
   });
 
   // only save the top MAX_SCORES scores
