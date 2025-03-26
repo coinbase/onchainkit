@@ -8,7 +8,9 @@ export const trustWalletSvg = (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className={cn('text-foreground')}
+    aria-labelledby="trustWallet"
   >
+    <title id="trustWalletTitle">Trust Wallet Logo</title>
     <path
       fillRule="evenodd"
       clipRule="evenodd"

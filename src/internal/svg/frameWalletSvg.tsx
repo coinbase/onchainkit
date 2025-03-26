@@ -6,7 +6,9 @@ export const frameWalletSvg = (
     height="350.000000pt"
     viewBox="0 0 366.000000 267.000000"
     preserveAspectRatio="xMidYMid meet"
+    aria-labelledby="frameWallet"
   >
+    <title id="frameWalletTitle">Frame Wallet Logo</title>
     <g
       transform="translate(0.000000,267.000000) scale(0.100000,-0.100000)"
       fill="#000000"
