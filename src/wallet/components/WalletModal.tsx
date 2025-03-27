@@ -89,11 +89,6 @@ export function WalletModal({
     }
   }, [connect, onClose, onError]);
 
-  /* let isBrowserWalletInstalled = false
-   * if (window && window.ethereum) {
-   *   isBrowserWalletInstalled = true
-   * } */
-
   const [isBrowserWalletInstalled, setIsBrowserWalletInstalled] = useState(false);
 
   useEffect(() => {
@@ -228,26 +223,6 @@ export function WalletModal({
             Coinbase Wallet
             <div className="h-4 w-4">{coinbaseWalletSvg}</div>
           </button>
-
-          {/* {isMetaMaskInstalled &&
-            <button
-            type="button"
-            onClick={handleMetaMaskConnection}
-            className={cn(
-            border.radius,
-            background.default,
-            text.body,
-            pressable.alternate,
-            color.foreground,
-            'flex items-center justify-between px-4 py-3 text-left',
-            )}
-            >
-            MetaMask
-            <div className="-mr-0.5 flex h-5 w-5 items-center justify-center">
-            {metamaskSvg}
-            </div>
-            </button>
-            } */}
         </div>
         <div
           className={cn(
@@ -258,7 +233,7 @@ export function WalletModal({
           )}
         >
           <span className="font-normal text-[10px] leading-[13px]">
-            By connecting wallets, you agree to our
+            By connecting a wallet, you agree to our
           </span>
           <span className="font-normal text-[10px] leading-[13px]">
             {termsOfServiceUrl && (
