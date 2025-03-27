@@ -34,6 +34,7 @@ export function WalletProvider({ children }: WalletProviderReact) {
   const [isSubComponentClosing, setIsSubComponentClosing] = useState(false);
   const [showSubComponentAbove, setShowSubComponentAbove] = useState(false);
   const [alignSubComponentRight, setAlignSubComponentRight] = useState(false);
+  
   const connectRef = useRef<HTMLDivElement>(null);
   const { address } = useAccount();
   const breakpoint = useBreakpoints();
