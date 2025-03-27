@@ -26,6 +26,7 @@ export function useNotification() {
             fid: context.user.fid,
             notification: {
               notificationId: crypto.randomUUID(),
+              notificationDetails: context.client?.notificationDetails ?? null,
               title,
               body,
             },
