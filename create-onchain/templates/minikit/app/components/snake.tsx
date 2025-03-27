@@ -14,7 +14,6 @@ import { useOpenUrl, useNotification } from "@coinbase/onchainkit/minikit";
 import {
   Transaction,
   TransactionButton,
-  TransactionResponse,
   TransactionToast,
   TransactionToastAction,
   TransactionToastIcon,
@@ -35,13 +34,12 @@ import {
   Address,
   Avatar,
 } from "@coinbase/onchainkit/identity";
-import { getTopScores, addScore, MAX_SCORES } from "@/lib/scores-client";
-import { Score } from "@/lib/scores";
 import { useAccount } from "wagmi";
-import { encodeAbiParameters } from "viem";
+import { encodeAbiParameters, type Address as AddressType } from "viem";
 import ArrowSvg from "../svg/ArrowSvg";
 import SnakeLogo from "../svg/SnakeLogo";
 
+const MAX_SCORES = 8;
 const FPS = 60;
 const MS_PER_FRAME = 1000 / FPS;
 const COLORS = {
@@ -71,6 +69,13 @@ const MoveState = {
   RIGHT: 2,
   DOWN: 3,
   LEFT: 4,
+};
+
+export type Score = {
+  attestationUid: string;
+  transactionHash: string;
+  address: AddressType;
+  score: number;
 };
 
 const LevelMaps: {
@@ -125,12 +130,6 @@ const DIRECTION_MAP: Record<string, number> = {
   ArrowLeft: MoveState.LEFT,
 };
 
-async function fetchDbEnabled() {
-  const res = await fetch("/api/scores", { method: "OPTIONS" });
-  const { enabled } = await res.json();
-  return Boolean(enabled);
-}
-
 type Attestation = {
   decodedDataJson: string;
   attester: string;
@@ -163,22 +162,24 @@ async function fetchLastAttestations() {
   });
 
   const { data } = await response.json();
-  return (data?.attestations ?? []).map((attestation: Attestation) => {
-    const parsedData = JSON.parse(attestation?.decodedDataJson ?? "[]");
-    const pattern = /(0x[a-fA-F0-9]{40}) scored (\d+) on minikit/;
-    const match = parsedData[0].value?.value?.match(pattern);
-    if (match) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const [_, address, score] = match;
-      return {
-        score: parseInt(score),
-        address,
-        attestationUid: attestation.id,
-        transactionHash: attestation.txid,
-      };
-    }
-    return null;
-  });
+  return (data?.attestations ?? [])
+    .map((attestation: Attestation) => {
+      const parsedData = JSON.parse(attestation?.decodedDataJson ?? "[]");
+      const pattern = /(0x[a-fA-F0-9]{40}) scored (\d+) on minikit/;
+      const match = parsedData[0].value?.value?.match(pattern);
+      if (match) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [_, address, score] = match;
+        return {
+          score: parseInt(score),
+          address,
+          attestationUid: attestation.id,
+          transactionHash: attestation.txid,
+        };
+      }
+      return null;
+    })
+    .sort((a: Score, b: Score) => b.score - a.score);
 }
 
 function useKonami(gameState: number) {
@@ -214,7 +215,6 @@ function useKonami(gameState: number) {
 }
 
 type HighScoresContextType = {
-  isDbEnabled: boolean | undefined;
   highScores: Score[];
   checkIsHighScore: (currentScore: number) => boolean;
   invalidateHighScores: () => void;
@@ -238,21 +238,14 @@ export function useHighScores() {
 function HighScoresProvider({ children }: { children: React.ReactNode }) {
   const [highScores, setHighScores] = useState<Score[]>([]);
   const [invalidate, setInvalidate] = useState(true);
-  const [isDbEnabled, setIsDbEnabled] = useState<boolean>();
 
   const loadHighScores = useCallback(async () => {
     if (invalidate) {
       setInvalidate(false);
-      const dbEnabled = isDbEnabled ?? (await fetchDbEnabled());
-      setIsDbEnabled(dbEnabled);
-
-      // if db is enabled, fetch top scores, otherwise fetch last 8 attestations
-      const scores = dbEnabled
-        ? await getTopScores()
-        : await fetchLastAttestations();
+      const scores = await fetchLastAttestations();
       setHighScores(scores ?? []);
     }
-  }, [invalidate, isDbEnabled]);
+  }, [invalidate]);
 
   const invalidateHighScores = useCallback(() => {
     setInvalidate(true);
@@ -280,17 +273,10 @@ function HighScoresProvider({ children }: { children: React.ReactNode }) {
     () => ({
       highScores,
       invalidateHighScores,
-      isDbEnabled,
       checkIsHighScore,
       loadHighScores,
     }),
-    [
-      highScores,
-      invalidateHighScores,
-      isDbEnabled,
-      checkIsHighScore,
-      loadHighScores,
-    ],
+    [highScores, invalidateHighScores, checkIsHighScore, loadHighScores],
   );
 
   return (
@@ -499,28 +485,18 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
   const { address } = useAccount();
   const isHighScore = checkIsHighScore(score);
 
-  const handleAttestationSuccess = useCallback(
-    async (response: TransactionResponse) => {
-      if (!address) {
-        return null;
-      }
+  const handleAttestationSuccess = useCallback(async () => {
+    if (!address) {
+      return null;
+    }
 
-      await addScore({
-        address,
-        score,
-        attestationUid: response.transactionReceipts[0].logs[0].data,
-        transactionHash: response.transactionReceipts[0].transactionHash,
-      });
+    await sendNotification({
+      title: "Congratulations!",
+      body: `You scored a new high score of ${score} on minikit!`,
+    });
 
-      await sendNotification({
-        title: "Congratulations!",
-        body: `You scored a new high score of ${score} on minikit!`,
-      });
-
-      invalidateHighScores();
-    },
-    [address, invalidateHighScores, score, sendNotification],
-  );
+    invalidateHighScores();
+  }, [address, invalidateHighScores, score, sendNotification]);
 
   const transactionButton = useMemo(() => {
     if (!address) {
@@ -605,7 +581,7 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
 }
 
 function HighScores() {
-  const { highScores, isDbEnabled, loadHighScores } = useHighScores();
+  const { highScores, loadHighScores } = useHighScores();
   const openUrl = useOpenUrl();
 
   useEffect(() => {
@@ -618,9 +594,7 @@ function HighScores() {
 
   return (
     <div className="flex flex-col items-center justify-center absolute top-32 w-[80%]">
-      <h1 className="text-2xl mb-4">
-        {isDbEnabled ? "HIGH SCORES" : "RECENT HIGH SCORES"}
-      </h1>
+      <h1 className="text-2xl mb-4">RECENT HIGH SCORES</h1>
       {highScores
         .sort((a, b) => b.score - a.score)
         .map((score, index) => (
