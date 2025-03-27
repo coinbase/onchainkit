@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-- **feat**: Add Rabby wallet connection support in `WalletModal`. By @cpcramer #2168
+- **feat**: Add Rabby, Trust, and Frame wallet connection support in `WalletModal`. By @cpcramer #2168
