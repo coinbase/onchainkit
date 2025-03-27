@@ -146,17 +146,25 @@ export function WalletModal({
     }
   }, [connect, onClose, onError]);
 
-  const handleFrameWalletConnection = useCallback(() => {
+  const handleFrameWalletConnection = useCallback(async () => {
     try {
-      if (!window.ethereum) {
-        throw new Error(
-          'Frame wallet not found. Please install the Frame wallet extension.',
-        );
-      }
+      // Wait for the Frame wallet provider to be initialized
+      await new Promise<void>((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          reject(new Error('Frame wallet initialization timeout'));
+        }, 5000); // 5 second timeout
 
-      if (!window.ethereum.request) {
-        throw new Error('Frame wallet provider is not properly initialized.');
-      }
+        const checkProvider = () => {
+          if (window.ethereum?.isFrame) {
+            clearTimeout(timeout);
+            resolve();
+          } else {
+            setTimeout(checkProvider, 100);
+          }
+        };
+
+        checkProvider();
+      });
 
       const frameConnector = injected({
         target: 'frame',
