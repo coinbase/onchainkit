@@ -146,13 +146,6 @@ export function WalletModal({
    */
   const handleFrameWalletConnection = useCallback(() => {
     try {
-      // Check if window.ethereum exists at all
-      if (typeof window === 'undefined' || !window.ethereum) {
-        throw new Error(
-          'No Ethereum provider detected. Please install Frame or another wallet.',
-        );
-      }
-
       // Check if it's not Frame wallet
       if (!window.ethereum.isFrame) {
         throw new Error(
