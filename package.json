@@ -1,6 +1,5 @@
 {
   "name": "onchainkit-monorepo",
-  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,7 +8,10 @@
     "f:ock": "pnpm --filter @coinbase/onchainkit",
     "f:play": "pnpm --filter playground",
     "f:create": "pnpm --filter create-onchain",
-    "changeset": "changeset"
+    "changeset": "changeset",
+    "release:check": "changeset status --verbose --since=origin/main",
+    "release:version": "changeset version",
+    "release:publish": "pnpm publish -r"
   },
   "keywords": [],
   "author": "",

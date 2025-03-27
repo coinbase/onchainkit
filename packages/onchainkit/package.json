@@ -28,9 +28,6 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "release:check": "changeset status --verbose --since=origin/main",
-    "release:publish": "pnpm install && pnpm build && changeset publish",
-    "release:version": "changeset version && pnpm install --frozen-lockfile",
     "watch": "tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch",
     "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch"
   },

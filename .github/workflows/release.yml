@@ -19,8 +19,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: 'Setup'
         uses: ./.github/actions/setup
@@ -35,7 +33,7 @@ jobs:
       - name: Get Version
         id: get_version
         run: |
-          VERSION=$(grep -o "export const version = '[^']*'" src/version.ts | cut -d"'" -f2)
+          VERSION=$(grep -o "export const version = '[^']*'" packages/onchainkit/version.ts | cut -d"'" -f2)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       # https://github.com/changesets/action#with-publishing
@@ -45,8 +43,8 @@ jobs:
         with:
           title: 'chore: version packages v${{ steps.get_version.outputs.version }} 🌊'
           commit: 'chore: version packages v${{ steps.get_version.outputs.version }} 🌊'
-          publish: pnpm f:ock release:publish
-          version: pnpm f:ock release:version
+          publish: pnpm release:publish
+          version: pnpm release:version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
