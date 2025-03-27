@@ -9,6 +9,7 @@ export async function POST(request: Request) {
       fid,
       title: notification.title,
       body: notification.body,
+      notificationDetails: notification.notificationDetails,
     });
 
     if (result.state === "error") {
