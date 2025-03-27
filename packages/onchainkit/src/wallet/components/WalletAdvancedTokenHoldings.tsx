@@ -3,7 +3,7 @@
 import { cn, color, text } from '@/styles/theme';
 import { type Token, TokenImage } from '@/token';
 import { formatUnits } from 'viem';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
+import { useWalletContext } from './WalletProvider';
 
 type WalletAdvancedTokenDetailsProps = {
   token: Token;
@@ -30,13 +30,13 @@ export function WalletAdvancedTokenHoldings({
   classNames,
 }: WalletAdvancedTokenHoldingsProps) {
   const { tokenBalances, isFetchingPortfolioData, animations } =
-    useWalletAdvancedContext();
+    useWalletContext();
 
   if (isFetchingPortfolioData || !tokenBalances || tokenBalances.length === 0) {
     return (
       <div
         data-testid="ockWalletAdvanced_LoadingPlaceholder"
-        className="my-2 h-44 w-80"
+        className="mx-auto my-2 h-44 w-80 px-4 py-3"
       />
     ); // Prevent layout shift
   }
@@ -45,8 +45,8 @@ export function WalletAdvancedTokenHoldings({
     <div
       className={cn(
         'flex flex-col items-center gap-4',
-        'my-2 h-44 max-h-44 w-full',
-        'scrollbar-hidden overflow-y-auto',
+        'my-2 h-44 max-h-44',
+        'scrollbar-hidden w-88 overflow-y-auto px-4 py-3',
         animations.content,
         classNames?.container,
       )}

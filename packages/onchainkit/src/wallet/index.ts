@@ -19,6 +19,7 @@ export { WalletAdvancedQrReceive } from './components/WalletAdvancedQrReceive';
 export { WalletAdvancedSwap } from './components/WalletAdvancedSwap';
 export { WalletAdvancedWalletActions } from './components/WalletAdvancedWalletActions';
 export { WalletModal } from './components/WalletModal';
+export { WalletProvider } from './components/WalletProvider';
 
 // Utils
 export { isValidAAEntrypoint } from './utils/isValidAAEntrypoint';

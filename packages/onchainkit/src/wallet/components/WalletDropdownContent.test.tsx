@@ -4,8 +4,7 @@ import type {
   WalletAdvancedQrReceiveProps,
   WalletAdvancedSwapProps,
 } from '../types';
-import { WalletAdvancedContent } from './WalletAdvancedContent';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
+import { WalletDropdownContent } from './WalletDropdownContent';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('@/internal/hooks/useTheme', () => ({
@@ -57,11 +56,8 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
-describe('WalletAdvancedContent', () => {
+describe('WalletDropdownContent', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
-    typeof vi.fn
-  >;
 
   const defaultMockUseWalletAdvancedContext = {
     activeFeature: null,
@@ -75,18 +71,12 @@ describe('WalletAdvancedContent', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseWalletAdvancedContext.mockReturnValue(
-      defaultMockUseWalletAdvancedContext,
-    );
   });
 
-  it('renders WalletAdvancedContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is false', () => {
+  it('renders WalletDropdownContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is false', () => {
     mockUseWalletContext.mockReturnValue({
       isSubComponentClosing: false,
       showSubComponentAbove: false,
-    });
-
-    mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       animations: {
         container:
@@ -97,13 +87,13 @@ describe('WalletAdvancedContent', () => {
     });
 
     render(
-      <WalletAdvancedContent>
-        <div>WalletAdvancedContent</div>
-      </WalletAdvancedContent>,
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
     );
 
-    expect(screen.getByTestId('ockWalletAdvancedContent')).toBeDefined();
-    expect(screen.queryByTestId('ockWalletAdvancedContent')).toHaveClass(
+    expect(screen.getByTestId('ockWalletDropdownContent')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletDropdownContent')).toHaveClass(
       'fade-in slide-in-from-top-1.5 animate-in duration-300 ease-out',
     );
     expect(
@@ -114,13 +104,10 @@ describe('WalletAdvancedContent', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('renders WalletAdvancedContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is true', () => {
+  it('renders WalletDropdownContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is true', () => {
     mockUseWalletContext.mockReturnValue({
       isSubComponentClosing: false,
       showSubComponentAbove: true,
-    });
-
-    mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       animations: {
         container:
@@ -131,13 +118,13 @@ describe('WalletAdvancedContent', () => {
     });
 
     render(
-      <WalletAdvancedContent>
-        <div>WalletAdvancedContent</div>
-      </WalletAdvancedContent>,
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
     );
 
-    expect(screen.getByTestId('ockWalletAdvancedContent')).toBeDefined();
-    expect(screen.queryByTestId('ockWalletAdvancedContent')).toHaveClass(
+    expect(screen.getByTestId('ockWalletDropdownContent')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletDropdownContent')).toHaveClass(
       'fade-in slide-in-from-bottom-1.5 animate-in duration-300 ease-out',
     );
     expect(
@@ -148,13 +135,10 @@ describe('WalletAdvancedContent', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('closes WalletAdvancedContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is false', () => {
+  it('closes WalletDropdownContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is false', () => {
     mockUseWalletContext.mockReturnValue({
       isSubComponentClosing: true,
       showSubComponentAbove: false,
-    });
-
-    mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       animations: {
         container:
@@ -164,13 +148,13 @@ describe('WalletAdvancedContent', () => {
     });
 
     render(
-      <WalletAdvancedContent>
-        <div>WalletAdvancedContent</div>
-      </WalletAdvancedContent>,
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
     );
 
-    expect(screen.getByTestId('ockWalletAdvancedContent')).toBeDefined();
-    expect(screen.queryByTestId('ockWalletAdvancedContent')).toHaveClass(
+    expect(screen.getByTestId('ockWalletDropdownContent')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletDropdownContent')).toHaveClass(
       'fade-out slide-out-to-top-1.5 animate-out fill-mode-forwards ease-in-out',
     );
     expect(
@@ -181,13 +165,10 @@ describe('WalletAdvancedContent', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('closes WalletAdvancedContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is true', () => {
+  it('closes WalletDropdownContent with correct animations when isSubComponentClosing is true and showSubComponentAbove is true', () => {
     mockUseWalletContext.mockReturnValue({
       isSubComponentClosing: true,
       showSubComponentAbove: true,
-    });
-
-    mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       animations: {
         container:
@@ -197,13 +178,13 @@ describe('WalletAdvancedContent', () => {
     });
 
     render(
-      <WalletAdvancedContent>
-        <div>WalletAdvancedContent</div>
-      </WalletAdvancedContent>,
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
     );
 
-    expect(screen.getByTestId('ockWalletAdvancedContent')).toBeDefined();
-    expect(screen.queryByTestId('ockWalletAdvancedContent')).toHaveClass(
+    expect(screen.getByTestId('ockWalletDropdownContent')).toBeDefined();
+    expect(screen.queryByTestId('ockWalletDropdownContent')).toHaveClass(
       'fade-out slide-out-to-bottom-1.5 animate-out fill-mode-forwards ease-in-out',
     );
     expect(
@@ -214,7 +195,7 @@ describe('WalletAdvancedContent', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('closes WalletAdvancedContent when mobile tray is closed', () => {
+  it('closes WalletDropdownContent when mobile tray is closed', () => {
     const setIsSubComponentOpen = vi.fn();
     mockUseWalletContext.mockReturnValue({
       isSubComponentOpen: true,
@@ -223,9 +204,9 @@ describe('WalletAdvancedContent', () => {
     });
 
     render(
-      <WalletAdvancedContent>
-        <div>WalletAdvancedContent</div>
-      </WalletAdvancedContent>,
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
     );
 
     fireEvent.pointerDown(document.body);
@@ -237,6 +218,7 @@ describe('WalletAdvancedContent', () => {
     const setIsSubComponentOpen = vi.fn();
     const setIsSubComponentClosing = vi.fn();
     mockUseWalletContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
       isSubComponentOpen: true,
       setIsSubComponentOpen,
       isSubComponentClosing: true,
@@ -244,12 +226,12 @@ describe('WalletAdvancedContent', () => {
     });
 
     render(
-      <WalletAdvancedContent>
-        <div>WalletAdvancedContent</div>
-      </WalletAdvancedContent>,
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
     );
 
-    const content = screen.getByTestId('ockWalletAdvancedContent');
+    const content = screen.getByTestId('ockWalletDropdownContent');
     fireEvent.animationEnd(content);
 
     expect(setIsSubComponentOpen).toHaveBeenCalledWith(false);
@@ -257,15 +239,15 @@ describe('WalletAdvancedContent', () => {
   });
 
   it('renders WalletAdvancedQrReceive when activeFeature is qr', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'qr',
     });
 
     render(
-      <WalletAdvancedContent>
-        <div>WalletAdvancedContent</div>
-      </WalletAdvancedContent>,
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
     );
 
     expect(screen.getByTestId('ockWalletAdvancedQrReceive')).toBeDefined();
@@ -281,15 +263,15 @@ describe('WalletAdvancedContent', () => {
   });
 
   it('renders WalletAdvancedSwap when activeFeature is swap', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'swap',
     });
 
     render(
-      <WalletAdvancedContent>
-        <div>WalletAdvancedContent</div>
-      </WalletAdvancedContent>,
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
     );
 
     expect(screen.getByTestId('ockWalletAdvancedSwap')).toBeDefined();
@@ -303,15 +285,15 @@ describe('WalletAdvancedContent', () => {
   });
 
   it('renders WalletAdvancedSend when activeFeature is send', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'send',
     });
 
     render(
-      <WalletAdvancedContent>
-        <div>WalletAdvancedContent</div>
-      </WalletAdvancedContent>,
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
     );
 
     expect(screen.getByTestId('ockWalletAdvancedSend')).toBeDefined();
@@ -344,18 +326,17 @@ describe('WalletAdvancedContent', () => {
       },
     ];
 
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'swap',
       tokenBalances: mockTokenBalances,
+      isSubComponentClosing: false,
     });
 
-    mockUseWalletContext.mockReturnValue({ isSubComponentClosing: false });
-
     render(
-      <WalletAdvancedContent>
-        <div>WalletAdvancedContent</div>
-      </WalletAdvancedContent>,
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
     );
 
     const swapComponent = screen.getByTestId('ockWalletAdvancedSwap');
@@ -379,9 +360,6 @@ describe('WalletAdvancedContent', () => {
     mockUseWalletContext.mockReturnValue({
       isSubComponentClosing: false,
       showSubComponentAbove: false,
-    });
-
-    mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'qr',
     });
@@ -397,12 +375,12 @@ describe('WalletAdvancedContent', () => {
     };
 
     const { rerender } = render(
-      <WalletAdvancedContent classNames={customClassNames}>
+      <WalletDropdownContent classNames={customClassNames}>
         <div>Content</div>
-      </WalletAdvancedContent>,
+      </WalletDropdownContent>,
     );
 
-    expect(screen.getByTestId('ockWalletAdvancedContent')).toHaveClass(
+    expect(screen.getByTestId('ockWalletDropdownContent')).toHaveClass(
       'custom-container',
     );
 
@@ -411,15 +389,17 @@ describe('WalletAdvancedContent', () => {
     expect(qrComponent).toHaveClass('custom-qr-container');
     expect(qrComponent).toHaveProperty('className', 'custom-qr-container');
 
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentClosing: false,
+      showSubComponentAbove: false,
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'swap',
     });
 
     rerender(
-      <WalletAdvancedContent classNames={customClassNames}>
+      <WalletDropdownContent classNames={customClassNames}>
         <div>Content</div>
-      </WalletAdvancedContent>,
+      </WalletDropdownContent>,
     );
 
     const swapComponent = screen.getByTestId('ockWalletAdvancedSwap');
@@ -435,9 +415,9 @@ describe('WalletAdvancedContent', () => {
     });
 
     render(
-      <WalletAdvancedContent>
-        <div>WalletAdvancedContent</div>
-      </WalletAdvancedContent>,
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
     );
 
     expect(screen.getByTestId('ockBottomSheet')).toBeDefined();
@@ -447,9 +427,6 @@ describe('WalletAdvancedContent', () => {
     mockUseWalletContext.mockReturnValue({
       isSubComponentOpen: true,
       breakpoint: 'sm',
-    });
-
-    mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'qr',
     });
@@ -459,9 +436,9 @@ describe('WalletAdvancedContent', () => {
     };
 
     render(
-      <WalletAdvancedContent classNames={customClassNames}>
+      <WalletDropdownContent classNames={customClassNames}>
         <div>Content</div>
-      </WalletAdvancedContent>,
+      </WalletDropdownContent>,
     );
 
     expect(screen.getByTestId('ockBottomSheet')).toHaveClass(

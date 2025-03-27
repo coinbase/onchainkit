@@ -9,18 +9,18 @@ import { zIndex } from '@/styles/constants';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
 import type { WalletAdvancedQrReceiveProps } from '../types';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
 export function WalletAdvancedQrReceive({
   classNames,
 }: WalletAdvancedQrReceiveProps) {
-  const { address } = useWalletContext();
   const {
+    address,
     setActiveFeature,
     isActiveFeatureClosing,
     setIsActiveFeatureClosing,
-  } = useWalletAdvancedContext();
+  } = useWalletContext();
+
   const [copyText, setCopyText] = useState('Copy');
   const [copyButtonText, setCopyButtonText] = useState('Copy address');
 
@@ -70,8 +70,7 @@ export function WalletAdvancedQrReceive({
         color.foreground,
         text.headline,
         'flex flex-col items-center justify-between',
-        'h-full w-full',
-        'px-4 pt-3 pb-4',
+        'h-120 w-88 px-4 pt-3 pb-4',
         isActiveFeatureClosing
           ? 'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-left-5 linear animate-in duration-150',

@@ -23,7 +23,7 @@ export function Send({
           border.radius,
           border.lineDefault,
           color.foreground,
-          'h-96 w-88',
+          'h-120 w-88',
           'flex flex-col',
           'p-4',
           className,

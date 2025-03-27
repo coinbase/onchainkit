@@ -13,6 +13,14 @@ function mock<T>(func: T) {
   return func as Mock;
 }
 
+vi.mock(import('wagmi'), async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    useAccount: vi.fn().mockReturnValue({ address: '123' }),
+  };
+});
+
 vi.mock('@/identity/hooks/useAvatar', () => ({
   useAvatar: vi.fn(),
 }));

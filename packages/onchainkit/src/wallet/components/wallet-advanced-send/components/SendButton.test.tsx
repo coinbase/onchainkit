@@ -5,7 +5,6 @@ import { render, screen } from '@testing-library/react';
 import { type Address, type Chain, parseUnits } from 'viem';
 import { base } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
 import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
 import { getSendCalldata } from '../utils/getSendCalldata';
@@ -18,10 +17,6 @@ vi.mock('viem', () => ({
 
 vi.mock('../../WalletProvider', () => ({
   useWalletContext: vi.fn(),
-}));
-
-vi.mock('../../WalletAdvancedProvider', () => ({
-  useWalletAdvancedContext: vi.fn(),
 }));
 
 vi.mock('../utils/getSendCalldata', () => ({
@@ -96,9 +91,6 @@ const mockSelectedtoken = {
 
 describe('SendButton', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
-    typeof vi.fn
-  >;
   const mockUseSendContext = useSendContext as ReturnType<typeof vi.fn>;
   const mockUseTransactionContext = useTransactionContext as ReturnType<
     typeof vi.fn
@@ -138,8 +130,10 @@ describe('SendButton', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseWalletContext.mockReturnValue(mockWalletContext);
-    mockUseWalletAdvancedContext.mockReturnValue(mockWalletAdvancedContext);
+    mockUseWalletContext.mockReturnValue({
+      ...mockWalletContext,
+      ...mockWalletAdvancedContext,
+    });
     mockUseSendContext.mockReturnValue(mockSendContext);
     mockUseTransactionContext.mockReturnValue(mockTransactionContext);
     mockGetSendCalldata.mockReturnValue(mockTransactionData);
@@ -403,7 +397,8 @@ describe('SendButton', () => {
 
   it('calls setActiveFeature when completionHandler is triggered', () => {
     const setActiveFeature = vi.fn();
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      ...mockWalletContext,
       setActiveFeature,
     });
 

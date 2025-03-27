@@ -29,9 +29,9 @@ vi.mock('./WalletAdvancedProvider', () => ({
   ),
 }));
 
-vi.mock('./WalletAdvancedContent', () => ({
-  WalletAdvancedContent: () => (
-    <div data-testid="ockWalletAdvancedContent">WalletAdvancedContent</div>
+vi.mock('./WalletDropdownContent', () => ({
+  WalletDropdownContent: () => (
+    <div data-testid="ockWalletDropdownContent">WalletDropdownContent</div>
   ),
 }));
 
@@ -99,7 +99,7 @@ describe('WalletIsland', () => {
     expect(screen.getByTestId('ockAvatar_ImageContainer')).toBeDefined();
   });
 
-  it('renders WalletAdvancedContent in connected state and isSubComponentOpen is true', () => {
+  it('renders WalletDropdownContent in connected state and isSubComponentOpen is true', () => {
     (useConnect as ReturnType<typeof vi.fn>).mockReturnValue({
       connectors: [],
       status: 'connected',
@@ -109,10 +109,14 @@ describe('WalletIsland', () => {
       address: '0x123',
     });
 
-    mockUseWalletContext.mockReturnValue({ isSubComponentOpen: true });
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
+      breakpoint: 'md',
+      address: '0x123',
+    });
 
     render(<WalletIsland />);
 
-    expect(screen.getByTestId('ockWalletAdvancedContent')).toBeDefined();
+    expect(screen.getByTestId('ockWalletDropdownContent')).toBeDefined();
   });
 });
