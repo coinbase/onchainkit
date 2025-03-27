@@ -735,6 +735,10 @@ describe('WalletModal', () => {
   });
 
   it('connects with Frame when clicking Frame button', () => {
+    // Mock window.ethereum with isFrame property
+    const originalEthereum = window.ethereum;
+    window.ethereum = { isFrame: true };
+
     (useOnchainKit as Mock).mockReturnValue({
       config: {
         appearance: {},
@@ -752,10 +756,49 @@ describe('WalletModal', () => {
 
     fireEvent.click(screen.getByText('Frame'));
 
+    // Should use the generic injected connector without target
     expect(mockConnect).toHaveBeenCalledWith({
-      connector: { target: 'frame' },
+      connector: {},
     });
     expect(mockOnClose).toHaveBeenCalled();
+
+    // Restore original window.ethereum
+    window.ethereum = originalEthereum;
+  });
+
+  it('shows error when clicking Frame button but Frame is not the active wallet', () => {
+    // Mock window.ethereum without isFrame property
+    const originalEthereum = window.ethereum;
+    window.ethereum = { isMetaMask: true };
+    
+    const mockOnError = vi.fn();
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          supportedWallets: {
+            rabby: false,
+            trust: false,
+            frame: true,
+          },
+        },
+      },
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Frame'));
+
+    expect(mockOnError).toHaveBeenCalledWith(
+      new Error('Frame is not the active wallet. Please activate Frame before connecting.')
+    );
+    expect(console.error).toHaveBeenCalled();
+    expect(mockConnect).not.toHaveBeenCalled();
+
+    // Restore original window.ethereum
+    window.ethereum = originalEthereum;
   });
 
   it('handles Trust Wallet connection errors', () => {
@@ -828,6 +871,10 @@ describe('WalletModal', () => {
   });
 
   it('handles Frame Wallet connection errors', () => {
+    // Mock window.ethereum with isFrame property
+    const originalEthereum = window.ethereum;
+    window.ethereum = { isFrame: true };
+    
     const mockError = new Error('Frame Wallet connection failed');
     const mockOnError = vi.fn();
     (useConnect as Mock).mockReturnValue({
@@ -859,9 +906,16 @@ describe('WalletModal', () => {
       'Frame Wallet connection error:',
       mockError,
     );
+    
+    // Restore original window.ethereum
+    window.ethereum = originalEthereum;
   });
 
   it('handles non-Error objects in Frame Wallet connection errors', () => {
+    // Mock window.ethereum with isFrame property
+    const originalEthereum = window.ethereum;
+    window.ethereum = { isFrame: true };
+    
     const mockOnError = vi.fn();
     (useConnect as Mock).mockReturnValue({
       connect: vi.fn(() => {
@@ -894,5 +948,8 @@ describe('WalletModal', () => {
       'Frame Wallet connection error:',
       'Some string error',
     );
+    
+    // Restore original window.ethereum
+    window.ethereum = originalEthereum;
   });
 });
