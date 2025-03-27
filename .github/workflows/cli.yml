@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - 'create-onchain/**'
+      - 'packages/create-onchain/**'
   pull_request:
     branches:
       - main
     paths:
-      - 'create-onchain/**'
+      - 'packages/create-onchain/**'
 
 jobs:
   test:
@@ -23,27 +23,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: 'Setup'
+        uses: ./.github/actions/setup
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
 
       - name: Install dependencies
-        working-directory: ./create-onchain
-        run: bun install
+        run: pnpm f:create install
 
       - name: Build CLI
-        working-directory: ./create-onchain
-        run: bun run build
+        run: pnpm f:create build
 
       - name: Make CLI executable
-        run: chmod +x ./create-onchain/dist/esm/cli.js
+        run: chmod +x ./packages/create-onchain/dist/esm/cli.js
 
       - name: Create test project
         run: |
           mkdir test-project
           cd test-project
-          yes "" | ../create-onchain/dist/esm/cli.js
+          yes "" | ../packages/create-onchain/dist/esm/cli.js
 
       - name: Install & Build test project
         working-directory: ./test-project/my-onchainkit-app

@@ -27,7 +27,7 @@ jobs:
 
       - name: Build
         shell: bash
-        run: yarn build
+        run: pnpm f:ock build
 
       - name: Set deployment token
         run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
@@ -45,8 +45,8 @@ jobs:
         with:
           title: 'chore: version packages v${{ steps.get_version.outputs.version }} 🌊'
           commit: 'chore: version packages v${{ steps.get_version.outputs.version }} 🌊'
-          publish: yarn release:publish
-          version: yarn release:version
+          publish: pnpm f:ock release:publish
+          version: pnpm f:ock release:version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

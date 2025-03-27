@@ -1,4 +1,4 @@
-name: Kit Lint
+name: onchainkit lint
 on:
   push:
     branches: ['main']
@@ -17,14 +17,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+      - name: 'Setup'
+        uses: ./.github/actions/setup
 
-      - name: Kit Install dependencies
-        run: npm install
-
-      - name: Kit Lint
-        run: npm run ci:lint
+      - name: Lint
+        run: pnpm f:ock ci:lint
