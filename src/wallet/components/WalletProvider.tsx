@@ -2,13 +2,13 @@
 
 import { RequestContext } from '@/core/network/constants';
 import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
-import { useValue } from '@/internal/hooks/useValue';
 import { useOnchainKit } from '@/useOnchainKit';
 import {
   createContext,
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -51,10 +51,9 @@ export function WalletProvider({ children }: WalletProviderReact) {
   const portfolioFiatValue = portfolioData?.portfolioBalanceInUsd;
   const tokenBalances = portfolioData?.tokenBalances;
 
-  const animations = getAnimations(
-    isSubComponentClosing,
-    showSubComponentAbove,
-  );
+  const animations = useMemo(() => {
+    return getAnimations(isSubComponentClosing, showSubComponentAbove);
+  }, [isSubComponentClosing, showSubComponentAbove]);
 
   const handleClose = useCallback(() => {
     if (!isSubComponentOpen) {
@@ -72,7 +71,33 @@ export function WalletProvider({ children }: WalletProviderReact) {
     }
   }, [isSubComponentOpen]);
 
-  const value = useValue<WalletContextType>({
+  const value = useMemo(() => {
+    return {
+      address,
+      chain,
+      breakpoint,
+      isConnectModalOpen,
+      setIsConnectModalOpen,
+      isSubComponentOpen,
+      setIsSubComponentOpen,
+      isSubComponentClosing,
+      setIsSubComponentClosing,
+      handleClose,
+      connectRef,
+      showSubComponentAbove,
+      alignSubComponentRight,
+      activeFeature,
+      setActiveFeature,
+      isActiveFeatureClosing,
+      setIsActiveFeatureClosing,
+      tokenBalances,
+      portfolioFiatValue,
+      isFetchingPortfolioData,
+      portfolioDataUpdatedAt,
+      refetchPortfolioData,
+      animations,
+    };
+  }, [
     address,
     chain,
     breakpoint,
@@ -96,7 +121,7 @@ export function WalletProvider({ children }: WalletProviderReact) {
     portfolioDataUpdatedAt,
     refetchPortfolioData,
     animations,
-  });
+  ]);
 
   return (
     <WalletContext.Provider value={value}>{children}</WalletContext.Provider>
