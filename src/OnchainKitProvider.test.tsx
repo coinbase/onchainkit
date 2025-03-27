@@ -436,11 +436,20 @@ describe('OnchainKitProvider', () => {
         expect.objectContaining({
           config: expect.objectContaining({
             wallet: expect.objectContaining({
-              supportedWallets: {
+              supportedWallets: expect.objectContaining({
                 trust: true,
-              },
+                frame: false,
+                rabby: false,
+              }),
             }),
           }),
+          chain: expect.any(Object),
+          schemaId: schemaId,
+          sessionId: expect.any(String),
+          address: null,
+          apiKey: null,
+          projectId: null,
+          rpcUrl: null,
         }),
       );
     });
