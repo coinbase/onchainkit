@@ -139,12 +139,6 @@ describe('WalletAdvancedQrReceive', () => {
       activeFeature: 'qr',
     });
 
-    // mockUseWalletAdvancedContext.mockReturnValue({
-    //   ...defaultWalletContext,
-    //   ...defaultMockUseWalletAdvancedContext,
-    //   activeFeature: 'qr',
-    // });
-
     render(<WalletAdvancedQrReceive />);
 
     const copyIcon = screen.getByRole('button', {

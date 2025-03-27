@@ -99,7 +99,7 @@ export function WalletAdvancedTransactionActions({
     <div
       data-testid="ockWalletAdvanced_TransactionActions"
       className={cn(
-        'my-3 flex w-88 w-full flex-row justify-between gap-2 px-4 py-3',
+        'my-3 flex w-88 flex-row justify-between gap-2 px-4 py-3',
         animations.content,
         classNames?.container,
       )}

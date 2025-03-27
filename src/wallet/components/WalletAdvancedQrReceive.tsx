@@ -70,7 +70,6 @@ export function WalletAdvancedQrReceive({
         color.foreground,
         text.headline,
         'flex flex-col items-center justify-between',
-        'h-full w-full',
         'h-120 w-88 px-4 pt-3 pb-4',
         isActiveFeatureClosing
           ? 'fade-out slide-out-to-left-5 animate-out fill-mode-forwards ease-in-out'
