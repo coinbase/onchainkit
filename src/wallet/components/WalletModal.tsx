@@ -15,13 +15,6 @@ import { useCallback } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
 
-// Add type declaration for Frame wallet
-declare global {
-  interface Window {
-    frame?: any;
-  }
-}
-
 type WalletProviderOption = {
   id: string;
   name: string;
@@ -146,30 +139,9 @@ export function WalletModal({
     }
   }, [connect, onClose, onError]);
 
-  const handleFrameWalletConnection = useCallback(async () => {
+  const handleFrameWalletConnection = useCallback(() => {
     try {
-      // Wait for the Frame wallet provider to be initialized
-      await new Promise<void>((resolve, reject) => {
-        const timeout = setTimeout(() => {
-          reject(new Error('Frame wallet initialization timeout'));
-        }, 5000); // 5 second timeout
-
-        const checkProvider = () => {
-          if (window.ethereum?.isFrame) {
-            clearTimeout(timeout);
-            resolve();
-          } else {
-            setTimeout(checkProvider, 100);
-          }
-        };
-
-        checkProvider();
-      });
-
-      const frameConnector = injected({
-        target: 'frame',
-        unstable_shimAsyncInject: true,
-      });
+      const frameConnector = injected();
 
       connect({ connector: frameConnector });
       onClose();
