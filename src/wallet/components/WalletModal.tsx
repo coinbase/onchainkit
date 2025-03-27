@@ -4,8 +4,8 @@ import { Dialog } from '@/internal/components/Dialog';
 import { CloseSvg } from '@/internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '@/internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '@/internal/svg/defaultAvatarSVG';
-import { metamaskSvg } from '@/internal/svg/metamaskSvg';
-import { rabbySvg } from '@/internal/svg/rabby';
+// import { metamaskSvg } from '@/internal/svg/metamaskSvg';
+import { browserWalletIconSvg } from '@/internal/svg/browserWalletIconSvg';
 import { background, border, cn, color, pressable, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback, useEffect, useState } from 'react';
@@ -202,7 +202,7 @@ export function WalletModal({
             >
               Browser Wallet
               <div className="-mr-0.5 flex h-4 w-4 items-center justify-center">
-                {rabbySvg}
+                {browserWalletIconSvg}
               </div>
             </button>
           }
