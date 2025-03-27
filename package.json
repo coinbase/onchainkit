@@ -10,8 +10,7 @@
     "f:create": "pnpm --filter create-onchain",
     "changeset": "changeset",
     "release:check": "changeset status --verbose --since=origin/main",
-    "release:version": "changeset version",
-    "release:publish": "pnpm publish -r"
+    "release:publish": "pnpm publish -r --access=public"
   },
   "keywords": [],
   "author": "",
