@@ -3,7 +3,6 @@ import type { Token } from '@/token';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
 
@@ -67,19 +66,12 @@ vi.mock('../../swap/components/SwapProvider', () => ({
   ),
 }));
 
-vi.mock('./WalletAdvancedProvider', () => ({
-  useWalletAdvancedContext: vi.fn(),
-}));
-
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
 }));
 
 describe('WalletAdvancedSwap', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
-    typeof vi.fn
-  >;
   const mockUseSwapContext = useSwapContext as ReturnType<typeof vi.fn>;
   const mockUseAccount = useAccount as ReturnType<typeof vi.fn>;
 
@@ -119,10 +111,8 @@ describe('WalletAdvancedSwap', () => {
     mockUseWalletContext.mockReturnValue({
       isOpen: true,
       isClosing: false,
-    });
-    mockUseWalletAdvancedContext.mockReturnValue(
       defaultMockUseWalletAdvancedContext,
-    );
+    });
     mockUseSwapContext.mockReturnValue(defaultMockUseSwapContext);
     mockUseAccount.mockReturnValue({
       address: '0x123',
@@ -144,7 +134,9 @@ describe('WalletAdvancedSwap', () => {
   });
 
   it('should render correctly', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      isOpen: true,
+      isClosing: false,
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'swap',
     });
@@ -163,7 +155,9 @@ describe('WalletAdvancedSwap', () => {
   });
 
   it('should render correctly based on isSwapClosing state', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      isOpen: true,
+      isClosing: false,
       isActiveFeatureClosing: false,
     });
 
@@ -182,7 +176,9 @@ describe('WalletAdvancedSwap', () => {
       'fade-in slide-in-from-right-5 linear animate-in duration-150',
     );
 
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      isOpen: true,
+      isClosing: false,
       isActiveFeatureClosing: true,
     });
     rerender(
@@ -201,7 +197,9 @@ describe('WalletAdvancedSwap', () => {
   });
 
   it('should close swap when back button is clicked', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      isOpen: true,
+      isClosing: false,
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'swap',
       tokenHoldings: [tokens],
@@ -224,7 +222,9 @@ describe('WalletAdvancedSwap', () => {
       defaultMockUseWalletAdvancedContext.setIsActiveFeatureClosing,
     ).toHaveBeenCalledWith(true);
 
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      isOpen: true,
+      isClosing: false,
       ...defaultMockUseWalletAdvancedContext,
       tokenHoldings: [tokens],
       isActiveFeatureClosing: true,
@@ -253,7 +253,9 @@ describe('WalletAdvancedSwap', () => {
   });
 
   it('should apply custom classNames to all elements', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      isOpen: true,
+      isClosing: false,
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'swap',
     });

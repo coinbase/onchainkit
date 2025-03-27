@@ -3,7 +3,7 @@
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { TokenBalance } from '@/token';
 import { formatUnits } from 'viem';
-import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
+import { useWalletContext } from '../../WalletProvider';
 import { useSendContext } from './SendProvider';
 
 type SendTokenSelectorProps = {
@@ -17,7 +17,7 @@ type SendTokenSelectorProps = {
 };
 
 export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
-  const { tokenBalances } = useWalletAdvancedContext();
+  const { tokenBalances } = useWalletContext();
   const {
     selectedToken,
     handleTokenSelection,
