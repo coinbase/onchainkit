@@ -106,7 +106,16 @@ The following shorthands are available:
 - `pnpm f:play`: `pnpm --filter playground`
 - `pnpm f:create`: `pnpm --filter create-onchain`
 
-If you create a new project, feel free to add a shorthand to the root `package.json`.
+### Development
+
+When working on components, you can build OnchainKit in watch mode and start the playground to view your components with the following command:
+
+```bash
+pnpm f:play dev:watch
+```
+
+Then, you can view the playground at [http://localhost:3000](http://localhost:3000).
+
 
 ## 🌁 Team and Community
 
