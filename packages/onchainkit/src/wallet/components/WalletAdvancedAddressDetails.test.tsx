@@ -2,7 +2,6 @@ import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('@/internal/hooks/useTheme', () => ({
@@ -27,13 +26,6 @@ vi.mock('@/identity/hooks/useName', () => ({
   useName: () => ({ data: null, isLoading: false }),
 }));
 
-vi.mock('./WalletAdvancedProvider', () => ({
-  useWalletAdvancedContext: vi.fn(),
-  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
-}));
-
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
   WalletProvider: ({ children }: { children: React.ReactNode }) => (
@@ -44,10 +36,6 @@ vi.mock('./WalletProvider', () => ({
 describe('WalletAdvancedAddressDetails', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
   const mockUseIdentityContext = useIdentityContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
-    typeof vi.fn
-  >;
-
   const mockClipboard = {
     writeText: vi.fn(),
   };
@@ -55,7 +43,7 @@ describe('WalletAdvancedAddressDetails', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
       animations: {
         content: '',
       },
@@ -80,17 +68,14 @@ describe('WalletAdvancedAddressDetails', () => {
       isClosing: false,
       address: '0x1234567890',
       chain: { id: 8453 },
-    });
-
-    mockUseIdentityContext.mockReturnValue({
-      schemaId: '1',
-    });
-
-    mockUseWalletAdvancedContext.mockReturnValue({
       portfolioFiatValue: 1000,
       animations: {
         content: '',
       },
+    });
+
+    mockUseIdentityContext.mockReturnValue({
+      schemaId: '1',
     });
 
     render(<WalletAdvancedAddressDetails />);
@@ -104,6 +89,9 @@ describe('WalletAdvancedAddressDetails', () => {
 
   it('copies address to clipboard and shows tooltip when Name group is clicked', async () => {
     mockUseWalletContext.mockReturnValue({
+      animations: {
+        content: '',
+      },
       isClosing: false,
       address: '0x1234567890',
       chain: { id: 8453 },
@@ -128,6 +116,9 @@ describe('WalletAdvancedAddressDetails', () => {
 
   it('shows error state when clipboard fails', async () => {
     mockUseWalletContext.mockReturnValue({
+      animations: {
+        content: '',
+      },
       isClosing: false,
       address: '0x1234567890',
       chain: { id: 8453 },
@@ -151,7 +142,9 @@ describe('WalletAdvancedAddressDetails', () => {
   });
 
   it('should show spinner when fetching portfolio data', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      address: '0x123',
+      chain: 'base',
       isFetchingPortfolioData: true,
       animations: {
         content: '',
@@ -164,7 +157,9 @@ describe('WalletAdvancedAddressDetails', () => {
   });
 
   it('should display formatted portfolio value when available', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      address: '0x123',
+      chain: 'base',
       isFetchingPortfolioData: false,
       portfolioFiatValue: null,
       animations: {
@@ -176,7 +171,9 @@ describe('WalletAdvancedAddressDetails', () => {
 
     expect(screen.queryByTestId('ockWalletAdvanced_AddressBalance')).toBeNull();
 
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      address: '0x123',
+      chain: 'base',
       isFetchingPortfolioData: false,
       portfolioFiatValue: 1234.567,
       animations: {
@@ -196,9 +193,6 @@ describe('WalletAdvancedAddressDetails', () => {
       isClosing: false,
       address: '0x1234567890',
       chain: { id: 8453 },
-    });
-
-    mockUseWalletAdvancedContext.mockReturnValue({
       portfolioFiatValue: 1000,
       animations: {
         content: '',

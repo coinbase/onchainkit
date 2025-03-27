@@ -5,7 +5,6 @@ import { Spinner } from '@/internal/components/Spinner';
 import { zIndex } from '@/styles/constants';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
 type WalletAdvancedAddressDetailsProps = {
@@ -20,8 +19,7 @@ type WalletAdvancedAddressDetailsProps = {
 export function WalletAdvancedAddressDetails({
   classNames,
 }: WalletAdvancedAddressDetailsProps) {
-  const { address, chain } = useWalletContext();
-  const { animations } = useWalletAdvancedContext();
+  const { address, chain, animations } = useWalletContext();
   const [copyText, setCopyText] = useState('Copy');
 
   const handleCopyAddress = useCallback(async () => {
@@ -37,14 +35,14 @@ export function WalletAdvancedAddressDetails({
   }, [address]);
 
   if (!address || !chain) {
-    return <div className="mt-1 h-28 w-10" />; // Prevent layout shift
+    return <div className="mt-1 h-28 w-10 px-4 py-3" />; // Prevent layout shift
   }
 
   return (
     <div
       data-testid="ockWalletAdvanced_AddressDetails"
       className={cn(
-        'mt-2 flex flex-col items-center justify-center',
+        'mt-2 flex w-88 flex-col items-center justify-center px-4 py-3',
         color.foreground,
         text.body,
         animations.content,
@@ -95,8 +93,7 @@ export function WalletAdvancedAddressDetails({
 }
 
 function AddressBalanceInFiat({ className }: { className?: string }) {
-  const { portfolioFiatValue, isFetchingPortfolioData } =
-    useWalletAdvancedContext();
+  const { portfolioFiatValue, isFetchingPortfolioData } = useWalletContext();
 
   const formattedValueInFiat = new Intl.NumberFormat('en-US', {
     style: 'currency',

@@ -9,7 +9,6 @@ import { toggleSvg } from '@/internal/svg/toggleSvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
 type WalletAdvancedTransactionActionProps = {
@@ -35,10 +34,14 @@ type WalletAdvancedTransactionActionsProps = {
 export function WalletAdvancedTransactionActions({
   classNames,
 }: WalletAdvancedTransactionActionsProps) {
-  const { address, chain } = useWalletContext();
+  const {
+    address,
+    chain,
+    isFetchingPortfolioData,
+    setActiveFeature,
+    animations,
+  } = useWalletContext();
   const { projectId } = useOnchainKit();
-  const { isFetchingPortfolioData, setActiveFeature, animations } =
-    useWalletAdvancedContext();
   const { sendAnalytics } = useAnalytics();
 
   const handleAnalyticsOptionSelected = useCallback(
@@ -89,14 +92,14 @@ export function WalletAdvancedTransactionActions({
   }, [setActiveFeature, handleAnalyticsOptionSelected]);
 
   if (isFetchingPortfolioData) {
-    return <Skeleton className="my-3 h-16 w-80" />;
+    return <Skeleton className="mx-auto my-3 h-16 w-80 px-4 py-3" />;
   }
 
   return (
     <div
       data-testid="ockWalletAdvanced_TransactionActions"
       className={cn(
-        'my-3 flex w-full flex-row justify-between gap-2',
+        'my-3 flex w-88 flex-row justify-between gap-2 px-4 py-3',
         animations.content,
         classNames?.container,
       )}

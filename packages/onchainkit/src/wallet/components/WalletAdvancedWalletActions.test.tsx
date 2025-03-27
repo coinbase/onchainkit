@@ -3,7 +3,6 @@ import { WalletEvent, WalletOption } from '@/core/analytics/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useDisconnect } from 'wagmi';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
 import { useWalletContext } from './WalletProvider';
 
@@ -13,13 +12,6 @@ vi.mock('wagmi', () => ({
 
 vi.mock('wagmi/actions', () => ({
   disconnect: vi.fn(),
-}));
-
-vi.mock('./WalletAdvancedProvider', () => ({
-  useWalletAdvancedContext: vi.fn(),
-  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
 }));
 
 vi.mock('./WalletProvider', () => ({
@@ -37,9 +29,6 @@ vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
 
 describe('WalletAdvancedWalletActions', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
-    typeof vi.fn
-  >;
   const mockSendAnalytics = vi.fn();
 
   const defaultMockUseWalletAdvancedContext = {
@@ -52,9 +41,7 @@ describe('WalletAdvancedWalletActions', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseWalletAdvancedContext.mockReturnValue(
-      defaultMockUseWalletAdvancedContext,
-    );
+    mockUseWalletContext.mockReturnValue(defaultMockUseWalletAdvancedContext);
 
     (useAnalytics as Mock).mockReturnValue({
       sendAnalytics: mockSendAnalytics,
@@ -63,7 +50,10 @@ describe('WalletAdvancedWalletActions', () => {
 
   it('renders the WalletAdvancedWalletActions component', () => {
     const handleCloseMock = vi.fn();
-    mockUseWalletContext.mockReturnValue({ handleClose: handleCloseMock });
+    mockUseWalletContext.mockReturnValue({
+      handleClose: handleCloseMock,
+      ...defaultMockUseWalletAdvancedContext,
+    });
 
     (useDisconnect as Mock).mockReturnValue({
       disconnect: vi.fn(),
@@ -107,7 +97,7 @@ describe('WalletAdvancedWalletActions', () => {
   });
 
   it('sets showQr to true when qr button is clicked', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
     });
 
@@ -122,7 +112,7 @@ describe('WalletAdvancedWalletActions', () => {
   });
 
   it('refreshes portfolio data when refresh button is clicked', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
     });
 
@@ -173,9 +163,6 @@ describe('WalletAdvancedWalletActions', () => {
     mockUseWalletContext.mockReturnValue({
       address: '0x123',
       handleClose: vi.fn(),
-    });
-
-    mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       setShowQr: vi.fn(),
       refetchPortfolioData: vi.fn(),
@@ -214,6 +201,7 @@ describe('WalletAdvancedWalletActions', () => {
     it('sends analytics when transactions button is clicked', () => {
       const address = '0x123';
       mockUseWalletContext.mockReturnValue({
+        ...defaultMockUseWalletAdvancedContext,
         address,
         handleClose: vi.fn(),
       });
@@ -240,7 +228,7 @@ describe('WalletAdvancedWalletActions', () => {
     });
 
     it('sends analytics when QR button is clicked', () => {
-      mockUseWalletAdvancedContext.mockReturnValue({
+      mockUseWalletContext.mockReturnValue({
         ...defaultMockUseWalletAdvancedContext,
       });
 
@@ -258,7 +246,7 @@ describe('WalletAdvancedWalletActions', () => {
     });
 
     it('sends analytics when refresh button is clicked', () => {
-      mockUseWalletAdvancedContext.mockReturnValue({
+      mockUseWalletContext.mockReturnValue({
         ...defaultMockUseWalletAdvancedContext,
       });
 
@@ -282,6 +270,7 @@ describe('WalletAdvancedWalletActions', () => {
       const mockWalletProvider = 'TestWallet';
 
       mockUseWalletContext.mockReturnValue({
+        ...defaultMockUseWalletAdvancedContext,
         handleClose: handleCloseMock,
       });
 
@@ -307,6 +296,7 @@ describe('WalletAdvancedWalletActions', () => {
       const handleCloseMock = vi.fn();
 
       mockUseWalletContext.mockReturnValue({
+        ...defaultMockUseWalletAdvancedContext,
         handleClose: handleCloseMock,
       });
 

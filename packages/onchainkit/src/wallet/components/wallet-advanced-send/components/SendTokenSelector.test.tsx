@@ -1,13 +1,13 @@
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
+import { useWalletContext } from '../../WalletProvider';
 import { useSendContext } from './SendProvider';
 import { SendTokenSelector } from './SendTokenSelector';
 
 // Mock the context hook
-vi.mock('../../WalletAdvancedProvider', () => ({
-  useWalletAdvancedContext: vi.fn(),
+vi.mock('../../WalletProvider', () => ({
+  useWalletContext: vi.fn(),
 }));
 
 vi.mock('./SendProvider', () => ({
@@ -49,7 +49,7 @@ const defaultContext = {
 describe('SendTokenSelector', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (useWalletAdvancedContext as Mock).mockReturnValue({
+    (useWalletContext as Mock).mockReturnValue({
       tokenBalances: mockTokenBalances,
     });
     (useSendContext as Mock).mockReturnValue(defaultContext);
@@ -116,7 +116,7 @@ describe('SendTokenSelector', () => {
   });
 
   it('handles empty tokenBalances gracefully', () => {
-    (useWalletAdvancedContext as Mock).mockReturnValue({
+    (useWalletContext as Mock).mockReturnValue({
       tokenBalances: [],
     });
 
