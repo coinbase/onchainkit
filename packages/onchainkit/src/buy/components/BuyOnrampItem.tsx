@@ -1,4 +1,6 @@
 'use client';
+import type { SwapUnit } from '@/swap/types';
+import { usdcToken } from '@/token/constants';
 import { useCallback, useMemo } from 'react';
 import { applePaySvg } from '../../internal/svg/applePaySvg';
 import { cardSvg } from '../../internal/svg/cardSvg';
@@ -12,7 +14,7 @@ type OnrampItemReact = {
   onClick: () => void;
   svg?: React.ReactNode;
   icon: string;
-  amountUSDC?: string;
+  to?: SwapUnit;
 };
 
 const ONRAMP_ICON_MAP: Record<string, React.ReactNode> = {
@@ -26,7 +28,7 @@ export function BuyOnrampItem({
   description,
   onClick,
   icon,
-  amountUSDC,
+  to,
 }: OnrampItemReact) {
   const { setIsDropdownOpen } = useBuyContext();
 
@@ -35,9 +37,21 @@ export function BuyOnrampItem({
     onClick();
   }, [onClick, setIsDropdownOpen]);
 
+  const fiatAmount = useMemo(() => {
+    // if token is USDC the usd estimate
+    // can be slightly off (4.9999999) so
+    // use amount instead to prevent disabling of onramp
+    if (
+      to?.token?.address?.toLowerCase() === usdcToken?.address.toLowerCase()
+    ) {
+      return to?.amount;
+    }
+    return to?.amountUSD;
+  }, [to]);
+
   // Debit and Apple Pay have a minimum purchase amount of $5
   const isDisabled =
-    !amountUSDC || (Number.parseFloat(amountUSDC) < 5 && name !== 'Coinbase');
+    !fiatAmount || (Number.parseFloat(fiatAmount) < 5 && name !== 'Coinbase');
 
   const message = useMemo(() => {
     if (isDisabled) {

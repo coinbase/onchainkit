@@ -65,6 +65,55 @@ describe('useNotification', () => {
         notificationId: expect.any(String),
         title: 'test',
         body: 'test',
+        notificationDetails: null,
+      },
+    });
+  });
+
+  it('should allow notificationDetails to be passed in from context', async () => {
+    global.fetch = vi.fn().mockImplementation(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ success: true }),
+      }),
+    );
+
+    (useMiniKit as Mock).mockReturnValue({
+      context: {
+        user: {
+          fid: 123,
+        },
+        client: {
+          notificationDetails: {
+            token: '123',
+            url: 'https://example.com',
+          },
+        },
+      },
+      notificationProxyUrl: '/api/notification',
+    });
+
+    const { result } = renderHook(() => useNotification());
+
+    const response = await act(async () => {
+      return await result.current({
+        title: 'test',
+        body: 'test',
+      });
+    });
+
+    expect(response).toBe(true);
+    const calledBody = JSON.parse((global.fetch as Mock).mock.calls[0][1].body);
+    expect(calledBody).toEqual({
+      fid: 123,
+      notification: {
+        notificationId: expect.any(String),
+        title: 'test',
+        body: 'test',
+        notificationDetails: {
+          token: '123',
+          url: 'https://example.com',
+        },
       },
     });
   });
