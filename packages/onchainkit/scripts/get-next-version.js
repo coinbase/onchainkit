@@ -5,28 +5,34 @@ import path from 'path';
 
 const packageName = '@coinbase/onchainkit';
 
-try {
-  process.chdir('../..');
-  const output = execSync(
-    'pnpm changeset status --verbose --since=origin/main',
-    {
-      encoding: 'utf-8',
-    },
-  );
+function getNextVersion() {
+  try {
+    process.chdir('../..');
+    const output = execSync(
+      'pnpm changeset status --verbose --since=origin/main',
+      {
+        encoding: 'utf-8',
+      },
+    );
 
-  const lines = output.split('\n');
-  const onchainkitVersionLine = lines.find((line) =>
-    line.includes(packageName),
-  );
+    const lines = output.split('\n');
+    const onchainkitVersionLine = lines.find((line) =>
+      line.includes(packageName),
+    );
 
-  if (!onchainkitVersionLine) return;
+    if (!onchainkitVersionLine) return;
 
-  const nextVersion = onchainkitVersionLine.split(packageName)[1].trim();
+    const nextVersion = onchainkitVersionLine.split(packageName)[1].trim();
 
-  // Write version to dist/version.txt, adjusting for the directory change
-  const versionPath = path.join('packages/onchainkit/dist/version.txt');
-  fs.writeFileSync(versionPath, nextVersion);
-} catch (error) {
-  console.error('Error checking changeset status:', error.message);
-  process.exit(1);
+    // Write version to dist/version.txt, adjusting for the directory change
+    const versionPath = path.join('packages/onchainkit/dist/version.txt');
+    fs.writeFileSync(versionPath, nextVersion);
+
+    return nextVersion;
+  } catch (error) {
+    console.error('Error checking changeset status:', error.message);
+    process.exit(1);
+  }
 }
+
+getNextVersion();
