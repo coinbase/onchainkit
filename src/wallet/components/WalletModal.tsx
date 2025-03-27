@@ -139,10 +139,24 @@ export function WalletModal({
     }
   }, [connect, onClose, onError]);
 
+  /**
+   * Frame wallet doesn't respond properly to injected({ target: 'frame' }) unlike other wallets.
+   * Solution: Verify window.ethereum.isFrame first, then use untargeted injected() connector.
+   * This ensures the Frame button only connects to Frame wallet.
+   */
   const handleFrameWalletConnection = useCallback(() => {
     try {
-      const frameConnector = injected();
+      if (
+        typeof window !== 'undefined' &&
+        window.ethereum &&
+        !window.ethereum.isFrame
+      ) {
+        throw new Error(
+          'Frame is not the active wallet. Please activate Frame before connecting.',
+        );
+      }
 
+      const frameConnector = injected();
       connect({ connector: frameConnector });
       onClose();
     } catch (error) {
