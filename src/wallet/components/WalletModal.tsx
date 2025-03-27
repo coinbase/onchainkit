@@ -15,6 +15,13 @@ import { useCallback } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
 
+// Add type declaration for Frame wallet
+declare global {
+  interface Window {
+    frame?: any;
+  }
+}
+
 type WalletProviderOption = {
   id: string;
   name: string;
@@ -141,8 +148,19 @@ export function WalletModal({
 
   const handleFrameWalletConnection = useCallback(() => {
     try {
+      if (!window.ethereum) {
+        throw new Error(
+          'Frame wallet not found. Please install the Frame wallet extension.',
+        );
+      }
+
+      if (!window.ethereum.request) {
+        throw new Error('Frame wallet provider is not properly initialized.');
+      }
+
       const frameConnector = injected({
         target: 'frame',
+        unstable_shimAsyncInject: true,
       });
 
       connect({ connector: frameConnector });
