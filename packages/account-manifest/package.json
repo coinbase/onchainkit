@@ -7,23 +7,23 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "copy": "cp -R ./dist/* ../create-onchain/dist/manifest",
-    "build:copy": "npm run build && npm run copy",
+    "build:copy": "pnpm run build && pnpm run copy",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "^0.37.5",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "@coinbase/onchainkit": "latest",
+    "react": "^18",
+    "react-dom": "^18",
     "wagmi": "^2.14.12",
+    "viem": "^2.23.0",
     "buffer": "^6.0.3"
-
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@tailwindcss/vite": "^4.0.9",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
@@ -33,5 +33,6 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0"
-  }
+  },
+  "packageManager": "pnpm@10.6.3"
 }

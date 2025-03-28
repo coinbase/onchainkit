@@ -16,16 +16,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: 'Setup'
+        uses: ./.github/actions/setup
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
 
       - name: Install dependencies
-        working-directory: ./create-onchain
-        run: bun install
+        run: pnpm f:create install
 
       - name: Run CLI tests
-        working-directory: ./create-onchain
-        run: |
-          bun run test:coverage
+        run: pnpm f:create test:coverage

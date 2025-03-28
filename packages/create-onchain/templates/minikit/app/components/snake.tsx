@@ -1,11 +1,12 @@
 "use client";
 
-import React, {
+import {
   useEffect,
   useRef,
   useMemo,
   useState,
-  DependencyList,
+  type DependencyList,
+  type ReactNode,
   useCallback,
   createContext,
   useContext,
@@ -18,7 +19,7 @@ import {
   TransactionToastAction,
   TransactionToastIcon,
   TransactionToastLabel,
-  TransactionError,
+  type TransactionError,
 } from "@coinbase/onchainkit/transaction";
 import {
   ConnectWallet,
@@ -171,7 +172,7 @@ async function fetchLastAttestations() {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [_, address, score] = match;
         return {
-          score: parseInt(score),
+          score: Number.parseInt(score),
           address,
           attestationUid: attestation.id,
           transactionHash: attestation.txid,
@@ -235,7 +236,7 @@ export function useHighScores() {
   return context;
 }
 
-function HighScoresProvider({ children }: { children: React.ReactNode }) {
+function HighScoresProvider({ children }: { children: ReactNode }) {
   const [highScores, setHighScores] = useState<Score[]>([]);
   const [invalidate, setInvalidate] = useState(true);
 
@@ -288,7 +289,7 @@ function HighScoresProvider({ children }: { children: React.ReactNode }) {
 
 type ControlButtonProps = {
   className?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   onClick: () => void;
 };
 
@@ -373,21 +374,25 @@ function DPad({ onDirectionChange }: DPadProps) {
       <div className="grid grid-cols-3">
         <div className="h-12 w-12" />
         <button
+          type="button"
           className="h-12 w-12 bg-black rounded-t-lg hover:shadow-dpad-hover active:shadow-dpad-pressed active:translate-y-[1px] bg-dpad-gradient shadow-dpad"
           onClick={() => onDirectionChange(MoveState.UP)}
         />
         <div className="h-12 w-12" />
         <button
+          type="button"
           className="h-12 w-12 bg-black rounded-t-lg hover:shadow-dpad-hover active:shadow-dpad-pressed active:translate-x-[1px] bg-dpad-gradient -rotate-90"
           onClick={() => onDirectionChange(MoveState.LEFT)}
         />
         <div className="h-12 w-12 bg-black" />
         <button
+          type="button"
           className="h-12 w-12 bg-black rounded-t-lg hover:shadow-dpad-hover active:shadow-dpad-pressed active:translate-x-[-1px] bg-dpad-gradient shadow-dpad rotate-90"
           onClick={() => onDirectionChange(MoveState.RIGHT)}
         />
         <div className="h-12 w-12" />
         <button
+          type="button"
           className="h-12 w-12 bg-black rounded-t-lg hover:shadow-dpad-hover active:shadow-dpad-pressed active:translate-y-[-1px] bg-dpad-gradient shadow-dpad rotate-180"
           onClick={() => onDirectionChange(MoveState.DOWN)}
         />
@@ -439,7 +444,7 @@ function AwaitingNextLevel({ score, level }: AwaitingNextLevelProps) {
   );
 }
 
-const SCHEMA_UID =
+export const SCHEMA_UID =
   "0xdc3cf7f28b4b5255ce732cbf99fe906a5bc13fbd764e2463ba6034b4e1881835";
 const EAS_CONTRACT = "0x4200000000000000000000000000000000000021";
 const easABI = [
@@ -749,7 +754,7 @@ const Sammy = () => {
           return prev;
       }
     });
-  }, [getStartingScore, setGameState]);
+  }, [getStartingScore]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -789,7 +794,7 @@ const Sammy = () => {
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [konami, updateGameState, updateSequence]);
+  }, [updateGameState, updateSequence]);
 
   const drawMap = useCallback(() => {
     const ctx = mapCanvasRef.current?.getContext("2d");
@@ -797,10 +802,10 @@ const Sammy = () => {
       ctx.clearRect(0, 0, 500, 520);
       ctx.fillStyle = COLORS.white;
       ctx.fillRect(0, 0, 500, 520);
-      LevelMaps[level].forEach((wall) => {
+      for (const wall of LevelMaps[level]) {
         ctx.fillStyle = COLORS.blue;
         ctx.fillRect(wall.x1, wall.y1, wall.width, wall.height);
-      });
+      };
     }
   }, [level]);
 
@@ -855,7 +860,7 @@ const Sammy = () => {
 
       setTarget(newTarget);
     }
-  }, [level, setTarget, target]);
+  }, [level, target]);
 
   const moveSammy = useCallback(() => {
     const newSammy = { ...sammy };
@@ -901,7 +906,7 @@ const Sammy = () => {
     }
 
     setSammy(newSammy);
-  }, [sammy, setSammy]);
+  }, [sammy]);
 
   const checkCollisions = useCallback(() => {
     // wall collisions
@@ -961,9 +966,6 @@ const Sammy = () => {
   }, [
     level,
     sammy,
-    setSammy,
-    setGameState,
-    setScore,
     getStartingScore,
     target,
   ]);
@@ -991,9 +993,9 @@ const Sammy = () => {
 
       // draw sammy
       ctx.fillStyle = COLORS.blue;
-      sammy.segments.forEach((segment) => {
+      for (const segment of sammy.segments) {
         ctx.fillRect(segment.x, segment.y, 10, 10);
-      });
+      }
 
       // draw target if exists
       if (target.exists) {
@@ -1044,7 +1046,7 @@ const Sammy = () => {
       default:
         return null;
     }
-  }, [gameState, konami, level, score.total, setGameState, updateGameState]);
+  }, [gameState, konami, level, score.total, updateGameState]);
 
   if (!scale) {
     return (
