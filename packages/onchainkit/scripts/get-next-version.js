@@ -3,14 +3,13 @@ import process from 'process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 
 const packageName = '@coinbase/onchainkit';
 const onchainkitPath = 'packages/onchainkit';
 
 function getNextVersion() {
   const currentFilePath = fileURLToPath(import.meta.url);
-  const currentDir = dirname(currentFilePath);
+  const currentDir = path.dirname(currentFilePath);
 
   // Move to monorepo root
   const monorepoRoot = path.resolve(currentDir, '../../..');
