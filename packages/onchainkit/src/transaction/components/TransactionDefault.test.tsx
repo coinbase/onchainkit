@@ -64,7 +64,7 @@ describe('TransactionDefault Component', () => {
 
   beforeEach(() => {
     // TODO: fix this by using actual account and spreading it
-    // @ts-ignore
+    // @ts-expect-error - incomplete account mock
     vi.mocked(useAccount).mockReturnValue({
       address: '0x123',
     });

@@ -1,4 +1,3 @@
-// @ts-nocheck - investigate wagmi types
 import { renderHook } from '@testing-library/react';
 import type { TransactionExecutionError } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -8,6 +7,13 @@ import { useWriteContracts } from './useWriteContracts';
 vi.mock('wagmi/experimental', () => ({
   useWriteContracts: vi.fn(),
 }));
+
+interface UseWriteContractsConfig {
+  mutation: {
+    onError?: (error: any) => void;
+    onSuccess?: (id: string) => void;
+  };
+}
 
 describe('useWriteContracts', () => {
   const mockSetLifecycleStatus = vi.fn();
@@ -70,9 +76,14 @@ describe('useWriteContracts', () => {
     onErrorCallback?.({
       cause: {
         name: 'UserRejectedRequestError',
+        details: 'User rejected the request',
+        shortMessage: 'User rejected',
+        message: 'User rejected the transaction',
+        version: '1.0',
+        walk: () => {},
       },
       message: 'Request denied.',
-    });
+    } as TransactionExecutionError);
     expect(mockSetLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
       statusData: {
@@ -107,9 +118,14 @@ describe('useWriteContracts', () => {
     onErrorCallback?.({
       cause: {
         name: 'eoa-error',
+        details: 'EOA error details',
+        shortMessage: 'EOA error',
+        message: 'Error with EOA',
+        version: '1.0',
+        walk: () => {},
       },
       message: 'this request method is not supported',
-    });
+    } as TransactionExecutionError);
     expect(mockSetLifecycleStatus).not.toHaveBeenCalled();
   });
 
