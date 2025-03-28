@@ -187,6 +187,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             display: 'modal',
             termsUrl: 'https://www.coinbase.com/legal/cookie',
             privacyUrl: 'https://www.coinbase.com/legal/privacy',
+            supportedWallets: {
+              rabby: false,
+              trust: false,
+              frame: false,
+            },
           },
         }}
         projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
