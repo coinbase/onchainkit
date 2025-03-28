@@ -71,7 +71,7 @@ describe('useOutsideClick', () => {
 
     // Mock a MouseEvent without composedPath
     const originalComposedPath = MouseEvent.prototype.composedPath;
-    // @ts-ignore - Intentionally removing for test
+    // @ts-expect-error - Intentionally removing for test
     MouseEvent.prototype.composedPath = undefined;
 
     renderHook(() => useOutsideClick(elementRef, callback));

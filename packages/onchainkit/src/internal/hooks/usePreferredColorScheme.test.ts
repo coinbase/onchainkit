@@ -1,26 +1,36 @@
-// @ts-nocheck - more complex changes required to fix this
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { usePreferredColorScheme } from './usePreferredColorScheme';
 
 describe('usePreferredColorScheme', () => {
-  let mockMediaQueryList: MediaQueryList;
+  type MockMediaQueryList = {
+    matches: boolean;
+    media: string;
+    onchange: null;
+    addEventListener: ReturnType<typeof vi.fn>;
+    removeEventListener: ReturnType<typeof vi.fn>;
+    addListener: ReturnType<typeof vi.fn>;
+    removeListener: ReturnType<typeof vi.fn>;
+    dispatchEvent: ReturnType<typeof vi.fn>;
+  };
+
+  let mockMediaQueryList: MockMediaQueryList;
 
   beforeEach(() => {
     mockMediaQueryList = {
       matches: false,
       media: '(prefers-color-scheme: dark)',
       onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
       dispatchEvent: vi.fn(),
     };
 
     if (typeof window !== 'undefined') {
       vi.spyOn(window, 'matchMedia').mockImplementation(
-        () => mockMediaQueryList,
+        () => mockMediaQueryList as unknown as MediaQueryList,
       );
     }
   });
@@ -46,17 +56,17 @@ describe('usePreferredColorScheme', () => {
 
     act(() => {
       mockMediaQueryList.matches = true;
-      mockMediaQueryList.addEventListener.mock.calls[0][1]({
-        matches: true,
-      } as MediaQueryListEvent);
+      const changeHandler =
+        mockMediaQueryList.addEventListener.mock.calls[0][1];
+      changeHandler({ matches: true } as MediaQueryListEvent);
     });
     expect(result.current).toBe('dark');
 
     act(() => {
       mockMediaQueryList.matches = false;
-      mockMediaQueryList.addEventListener.mock.calls[0][1]({
-        matches: false,
-      } as MediaQueryListEvent);
+      const changeHandler =
+        mockMediaQueryList.addEventListener.mock.calls[0][1];
+      changeHandler({ matches: false } as MediaQueryListEvent);
     });
     expect(result.current).toBe('light');
   });

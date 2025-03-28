@@ -22,7 +22,7 @@ export function WalletBottomSheet({
   const childrenArray = useMemo(() => {
     return Children.toArray(children).map((child) => {
       if (isValidElement(child) && child.type === Identity) {
-        // @ts-ignore
+        // @ts-expect-error - Testing undefined address case
         return cloneElement(child, { address });
       }
       return child;
