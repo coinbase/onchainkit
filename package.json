@@ -1,6 +1,5 @@
 {
   "name": "onchainkit-monorepo",
-  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,12 +7,16 @@
     "clean:node_modules": "rm -rf node_modules packages/*/node_modules",
     "f:ock": "pnpm --filter @coinbase/onchainkit",
     "f:play": "pnpm --filter playground",
-    "f:create": "pnpm --filter create-onchain"
+    "f:create": "pnpm --filter create-onchain",
+    "changeset": "changeset",
+    "release:check": "changeset status --verbose --since=origin/main",
+    "release:publish": "pnpm publish -r --access=public"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@changesets/cli": "^2.27.10",
     "@eslint/js": "^9.22.0",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
