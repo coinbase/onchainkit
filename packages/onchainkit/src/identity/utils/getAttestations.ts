@@ -12,6 +12,11 @@ export async function getAttestations(
   chain: Chain,
   options?: GetAttestationsOptions,
 ): Promise<Attestation[]> {
+  if (!address) {
+    console.log('Error in getAttestation: Address is not provided');
+    return [];
+  }
+
   if (!isChainSupported(chain)) {
     console.log('Error in getAttestation: Chain is not supported');
     return [];
