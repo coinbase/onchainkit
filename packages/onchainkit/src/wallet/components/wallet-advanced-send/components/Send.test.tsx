@@ -58,7 +58,7 @@ describe('Send', () => {
 
     expect(SendProvider).toHaveBeenCalled();
     const sendContainer = screen.getByTestId('ockSend');
-    expect(sendContainer).toHaveClass('h-96 w-88 flex flex-col p-4');
+    expect(sendContainer).toHaveClass('h-120 w-88 flex flex-col p-4');
   });
 
   it('applies custom className when provided', () => {

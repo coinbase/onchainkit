@@ -15,7 +15,7 @@ import { SwapToast } from '@/swap/components/SwapToast';
 import { SwapToggleButton } from '@/swap/components/SwapToggleButton';
 import { useCallback } from 'react';
 import type { WalletAdvancedSwapProps } from '../types';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
+import { useWalletContext } from './WalletProvider';
 
 export function WalletAdvancedSwap({
   config,
@@ -34,7 +34,7 @@ export function WalletAdvancedSwap({
     setActiveFeature,
     isActiveFeatureClosing,
     setIsActiveFeatureClosing,
-  } = useWalletAdvancedContext();
+  } = useWalletContext();
 
   const handleCloseSwap = useCallback(() => {
     setIsActiveFeatureClosing(true);
@@ -61,7 +61,7 @@ export function WalletAdvancedSwap({
         isActiveFeatureClosing
           ? 'fade-out slide-out-to-right-5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-right-5 linear animate-in duration-150',
-        'relative',
+        'relative w-88 h-120',
         classNames?.container,
       )}
       onAnimationEnd={handleAnimationEnd}

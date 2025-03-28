@@ -10,7 +10,6 @@ import { refreshSvg } from '@/internal/svg/refreshSvg';
 import { cn } from '@/styles/theme';
 import { useCallback } from 'react';
 import { useDisconnect } from 'wagmi';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { useWalletContext } from './WalletProvider';
 
 type WalletAdvancedWalletActionsProps = {
@@ -26,9 +25,13 @@ type WalletAdvancedWalletActionsProps = {
 export function WalletAdvancedWalletActions({
   classNames,
 }: WalletAdvancedWalletActionsProps) {
-  const { address, handleClose } = useWalletContext();
-  const { setActiveFeature, refetchPortfolioData, animations } =
-    useWalletAdvancedContext();
+  const {
+    address,
+    handleClose,
+    setActiveFeature,
+    refetchPortfolioData,
+    animations,
+  } = useWalletContext();
   const { disconnect, connectors } = useDisconnect();
   const { sendAnalytics } = useAnalytics();
 
@@ -80,7 +83,7 @@ export function WalletAdvancedWalletActions({
     <div
       data-testid="ockWalletAdvanced_WalletActions"
       className={cn(
-        'flex w-full items-center justify-between',
+        'flex w-88 items-center justify-between px-4 py-3',
         animations.content,
         classNames?.container,
       )}

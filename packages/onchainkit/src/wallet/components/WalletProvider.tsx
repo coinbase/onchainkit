@@ -1,19 +1,22 @@
 'use client';
 
+import { RequestContext } from '@/core/network/constants';
 import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
-import { useValue } from '@/internal/hooks/useValue';
 import { useOnchainKit } from '@/useOnchainKit';
 import {
   createContext,
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
 import type { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
-import type { WalletContextType } from '../types';
+import { usePortfolio } from '../hooks/usePortfolio';
+import type { WalletAdvancedFeature, WalletContextType } from '../types';
+import { getAnimations } from '../utils/getAnimations';
 import { calculateSubComponentPosition } from '../utils/getWalletSubComponentPosition';
 
 const emptyContext = {} as WalletContextType;
@@ -31,9 +34,27 @@ export function WalletProvider({ children }: WalletProviderReact) {
   const [isSubComponentClosing, setIsSubComponentClosing] = useState(false);
   const [showSubComponentAbove, setShowSubComponentAbove] = useState(false);
   const [alignSubComponentRight, setAlignSubComponentRight] = useState(false);
+
   const connectRef = useRef<HTMLDivElement>(null);
   const { address } = useAccount();
   const breakpoint = useBreakpoints();
+
+  const [activeFeature, setActiveFeature] =
+    useState<WalletAdvancedFeature | null>(null);
+  const [isActiveFeatureClosing, setIsActiveFeatureClosing] = useState(false);
+  const {
+    data: portfolioData,
+    refetch: refetchPortfolioData,
+    isFetching: isFetchingPortfolioData,
+    dataUpdatedAt: portfolioDataUpdatedAt,
+  } = usePortfolio({ address }, RequestContext.Wallet);
+
+  const portfolioFiatValue = portfolioData?.portfolioBalanceInUsd;
+  const tokenBalances = portfolioData?.tokenBalances;
+
+  const animations = useMemo(() => {
+    return getAnimations(isSubComponentClosing, showSubComponentAbove);
+  }, [isSubComponentClosing, showSubComponentAbove]);
 
   const handleClose = useCallback(() => {
     if (!isSubComponentOpen) {
@@ -51,21 +72,51 @@ export function WalletProvider({ children }: WalletProviderReact) {
     }
   }, [isSubComponentOpen]);
 
-  const value = useValue<WalletContextType>({
+  const value = useMemo(() => {
+    return {
+      address,
+      chain,
+      breakpoint,
+      isConnectModalOpen,
+      setIsConnectModalOpen,
+      isSubComponentOpen,
+      setIsSubComponentOpen,
+      isSubComponentClosing,
+      setIsSubComponentClosing,
+      handleClose,
+      connectRef,
+      showSubComponentAbove,
+      alignSubComponentRight,
+      activeFeature,
+      setActiveFeature,
+      isActiveFeatureClosing,
+      setIsActiveFeatureClosing,
+      tokenBalances,
+      portfolioFiatValue,
+      isFetchingPortfolioData,
+      portfolioDataUpdatedAt,
+      refetchPortfolioData,
+      animations,
+    };
+  }, [
     address,
     chain,
     breakpoint,
     isConnectModalOpen,
-    setIsConnectModalOpen,
     isSubComponentOpen,
-    setIsSubComponentOpen,
     isSubComponentClosing,
-    setIsSubComponentClosing,
     handleClose,
-    connectRef,
     showSubComponentAbove,
     alignSubComponentRight,
-  });
+    activeFeature,
+    isActiveFeatureClosing,
+    tokenBalances,
+    portfolioFiatValue,
+    isFetchingPortfolioData,
+    portfolioDataUpdatedAt,
+    refetchPortfolioData,
+    animations,
+  ]);
 
   return (
     <WalletContext.Provider value={value}>{children}</WalletContext.Provider>

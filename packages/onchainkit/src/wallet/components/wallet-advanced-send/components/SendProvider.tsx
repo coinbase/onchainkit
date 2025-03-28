@@ -14,7 +14,7 @@ import {
   useState,
 } from 'react';
 import { formatUnits } from 'viem';
-import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
+import { useWalletContext } from '../../WalletProvider';
 import type {
   Recipient,
   SendContextType,
@@ -80,7 +80,7 @@ export function SendProvider({ children }: SendProviderReact) {
   }, [selectedInputType, selectedToken, cryptoAmount, fiatAmount]);
 
   // fetch & set ETH balance
-  const { tokenBalances } = useWalletAdvancedContext();
+  const { tokenBalances } = useWalletContext();
   const ethHolding = tokenBalances?.find((token) => token.address === '');
   const ethBalance = ethHolding
     ? Number(formatUnits(BigInt(ethHolding.cryptoBalance), ethHolding.decimals))

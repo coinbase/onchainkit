@@ -15,7 +15,6 @@ import type {
 import { useCallback } from 'react';
 import { parseUnits } from 'viem';
 import { type Chain, base } from 'viem/chains';
-import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
 import { useWalletContext } from '../../WalletProvider';
 import type { SendLifecycleStatus } from '../types';
 import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
@@ -133,8 +132,7 @@ function SendTransactionButton({
   errorOverride?: TransactionButtonReact['errorOverride'];
   className?: string;
 }) {
-  const { address } = useWalletContext();
-  const { setActiveFeature } = useWalletAdvancedContext();
+  const { address, setActiveFeature } = useWalletContext();
   const { transactionHash, transactionId } = useTransactionContext();
 
   const completionHandler = useCallback(() => {

@@ -1,19 +1,11 @@
 import { useTheme } from '@/internal/hooks/useTheme';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
-}));
-
-vi.mock('./WalletAdvancedProvider', () => ({
-  useWalletAdvancedContext: vi.fn(),
-  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
 }));
 
 vi.mock('./WalletProvider', () => ({
@@ -48,12 +40,14 @@ Object.defineProperty(navigator, 'clipboard', {
   configurable: true,
 });
 
+const defaultWalletContext = {
+  isSubComponentOpen: true,
+  isSubComponentClosing: false,
+};
+
 describe('WalletAdvancedQrReceive', () => {
   const mockUseTheme = useTheme as ReturnType<typeof vi.fn>;
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
-    typeof vi.fn
-  >;
 
   const defaultMockUseWalletAdvancedContext = {
     activeFeature: null,
@@ -68,19 +62,17 @@ describe('WalletAdvancedQrReceive', () => {
   beforeEach(() => {
     mockUseTheme.mockReturnValue('');
     mockUseWalletContext.mockReturnValue({
-      isSubComponentOpen: true,
-      isSubComponentClosing: false,
+      ...defaultWalletContext,
+      ...defaultMockUseWalletAdvancedContext,
     });
-    mockUseWalletAdvancedContext.mockReturnValue(
-      defaultMockUseWalletAdvancedContext,
-    );
     mockSetCopyText.mockClear();
     mockSetCopyButtonText.mockClear();
     mockClipboard.writeText.mockReset();
   });
 
   it('should render correctly based on isQrClosing state', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      ...defaultWalletContext,
       isActiveFeatureClosing: false,
     });
 
@@ -92,7 +84,7 @@ describe('WalletAdvancedQrReceive', () => {
       'fade-in slide-in-from-left-5 linear animate-in duration-150',
     );
 
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
       isActiveFeatureClosing: true,
     });
     rerender(<WalletAdvancedQrReceive />);
@@ -102,7 +94,8 @@ describe('WalletAdvancedQrReceive', () => {
   });
 
   it('should close when back button is clicked', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      ...defaultWalletContext,
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'qr',
     });
@@ -115,7 +108,8 @@ describe('WalletAdvancedQrReceive', () => {
       defaultMockUseWalletAdvancedContext.setIsActiveFeatureClosing,
     ).toHaveBeenCalledWith(true);
 
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      ...defaultWalletContext,
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'qr',
       isActiveFeatureClosing: true,
@@ -141,9 +135,6 @@ describe('WalletAdvancedQrReceive', () => {
 
     mockUseWalletContext.mockReturnValue({
       address: '0x1234567890',
-    });
-
-    mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'qr',
     });
@@ -183,9 +174,6 @@ describe('WalletAdvancedQrReceive', () => {
 
     mockUseWalletContext.mockReturnValue({
       address: '0x1234567890',
-    });
-
-    mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'qr',
     });
@@ -225,9 +213,6 @@ describe('WalletAdvancedQrReceive', () => {
 
     mockUseWalletContext.mockReturnValue({
       address: '0x1234567890',
-    });
-
-    mockUseWalletAdvancedContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'qr',
     });
