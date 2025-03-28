@@ -20,7 +20,7 @@ export function WalletDropdown({ children, className }: WalletDropdownReact) {
   const childrenArray = useMemo(() => {
     return Children.toArray(children).map((child) => {
       if (isValidElement(child) && child.type === Identity) {
-        // @ts-ignore
+        // @ts-expect-error - Identity component accepts address prop
         return cloneElement(child, { address });
       }
       return child;

@@ -30,7 +30,7 @@ describe('EthBalance', () => {
   const testEthBalanceComponentAddress = '0xEthBalanceComponentAddress';
   it('should console.error and return null when no address is provided', () => {
     vi.mocked(useIdentityContext).mockReturnValue({
-      // @ts-expect-error
+      // @ts-expect-error - Testing undefined address case
       address: undefined,
     });
     const consoleErrorSpy = vi

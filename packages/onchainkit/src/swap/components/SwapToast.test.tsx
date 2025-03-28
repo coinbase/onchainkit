@@ -16,7 +16,6 @@ describe('SwapToast', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     // TODO: set up proper mock data
-    // @ts-ignore
     vi.mocked(useAccount).mockReturnValue({
       chainId: 8453,
     } as unknown as UseAccountReturnType<Config>);
