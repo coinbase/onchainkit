@@ -31,6 +31,8 @@ export type ConnectWalletReact = {
   text?: string;
   /** Optional callback function to execute when the wallet is connected. */
   onConnect?: () => void;
+  /** Optional disconnected display override */
+  disconnectedLabel?: React.ReactNode;
 };
 
 /**

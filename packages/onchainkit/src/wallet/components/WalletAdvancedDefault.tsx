@@ -1,8 +1,6 @@
 'use client';
 
-import { Avatar, Name } from '@/identity';
 import { ConnectWallet } from './ConnectWallet';
-import { ConnectWalletText } from './ConnectWalletText';
 import { Wallet } from './Wallet';
 import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
 import { WalletAdvancedTokenHoldings } from './WalletAdvancedTokenHoldings';
@@ -13,11 +11,7 @@ import { WalletDropdown } from './WalletDropdown';
 export function WalletAdvancedDefault() {
   return (
     <Wallet>
-      <ConnectWallet>
-        <ConnectWalletText>Connect Wallet</ConnectWalletText>
-        <Avatar className="h-6 w-6" />
-        <Name />
-      </ConnectWallet>
+      <ConnectWallet />
       <WalletDropdown>
         <WalletAdvancedWalletActions />
         <WalletAdvancedAddressDetails />

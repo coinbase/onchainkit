@@ -1,5 +1,6 @@
 'use client';
 
+import { Avatar, Name } from '@/identity';
 import { Children, isValidElement, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
@@ -23,6 +24,13 @@ import { ConnectWalletText } from './ConnectWalletText';
 import { WalletModal } from './WalletModal';
 import { useWalletContext } from './WalletProvider';
 
+const connectWalletDefaultchildren = (
+  <>
+    <Avatar className="h-6 w-6" />
+    <Name />
+  </>
+);
+
 export function ConnectWallet({
   children,
   className,
@@ -30,6 +38,7 @@ export function ConnectWallet({
   // but for now we will keep it for backward compatibility.
   text = 'Connect Wallet',
   onConnect,
+  disconnectedLabel,
 }: ConnectWalletReact) {
   const { config = { wallet: { display: undefined } } } = useOnchainKit();
 
@@ -52,6 +61,7 @@ export function ConnectWallet({
   const [hasClickedConnect, setHasClickedConnect] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // duplicate modal state because ConnectWallet not always within WalletProvider
 
+  // TODO: remove lines 57-74 after deprecating ConnectWalletText
   // Get connectWalletText from children when present,
   // this is used to customize the connect wallet button text
   const { connectWalletText } = useMemo(() => {
@@ -143,47 +153,40 @@ export function ConnectWallet({
     }
   }, [status, accountAddress, connector, handleAnalyticsSuccess]);
 
-  if (status === 'disconnected') {
+  const handleConnectClick = useCallback(() => {
     if (config?.wallet?.display === 'modal') {
-      return (
-        <div className="flex" data-testid="ockConnectWallet_Container">
-          <ConnectButton
-            className={className}
-            connectWalletText={connectWalletText}
-            onClick={() => {
-              handleOpenConnectModal();
-              setHasClickedConnect(true);
-              handleAnalyticsInitiated('WalletModal');
-            }}
-            text={text}
-          />
-          <WalletModal isOpen={isModalOpen} onClose={handleCloseConnectModal} />
-        </div>
-      );
+      handleOpenConnectModal();
+      setHasClickedConnect(true);
+      handleAnalyticsInitiated('WalletModal');
+      return;
     }
+    handleAnalyticsInitiated('ConnectWallet');
+    connect(
+      { connector },
+      {
+        onSuccess: () => {
+          onConnect?.();
+          handleAnalyticsSuccess(accountAddress);
+        },
+        onError: (error) => {
+          handleAnalyticsError(error.message, 'ConnectWallet');
+        },
+      },
+    );
+  }, [config?.wallet?.display]);
+
+  if (status === 'disconnected') {
     return (
       <div className="flex" data-testid="ockConnectWallet_Container">
         <ConnectButton
           className={className}
-          connectWalletText={connectWalletText}
-          onClick={() => {
-            handleAnalyticsInitiated('ConnectWallet');
-
-            connect(
-              { connector },
-              {
-                onSuccess: () => {
-                  onConnect?.();
-                  handleAnalyticsSuccess(accountAddress);
-                },
-                onError: (error) => {
-                  handleAnalyticsError(error.message, 'ConnectWallet');
-                },
-              },
-            );
-          }}
+          connectWalletText={connectWalletText || disconnectedLabel}
+          onClick={handleConnectClick}
           text={text}
         />
+        {config?.wallet?.display === 'modal' && (
+          <WalletModal isOpen={isModalOpen} onClose={handleCloseConnectModal} />
+        )}
       </div>
     );
   }
@@ -228,7 +231,7 @@ export function ConnectWallet({
           onClick={handleToggle}
         >
           <div className="flex items-center justify-center gap-2">
-            {childrenWithoutConnectWalletText}
+            {childrenWithoutConnectWalletText || connectWalletDefaultchildren}
           </div>
         </button>
       </div>
