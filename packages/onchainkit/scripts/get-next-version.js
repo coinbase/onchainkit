@@ -2,13 +2,19 @@ import { execSync } from 'child_process';
 import process from 'process';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const packageName = '@coinbase/onchainkit';
 const onchainkitPath = 'packages/onchainkit';
 
 function getNextVersion() {
+  const currentFilePath = fileURLToPath(import.meta.url);
+  const currentDir = dirname(currentFilePath);
+
   // Move to monorepo root
-  process.chdir('../..');
+  const monorepoRoot = path.resolve(currentDir, '../../..');
+  process.chdir(monorepoRoot);
 
   let nextVersion = '';
 
@@ -30,10 +36,7 @@ function getNextVersion() {
 
     if (!nextVersion) throw new Error('No onchainkit version found');
   } catch (error) {
-    console.error(
-      'Error checking changeset status:\n',
-      error instanceof Error ? error.message : error,
-    );
+    console.error('Error checking changeset status:\n', error);
   }
 
   if (!nextVersion) {
@@ -43,10 +46,7 @@ function getNextVersion() {
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
       nextVersion = packageJson.version;
     } catch (error) {
-      console.error(
-        'Error falling back to package.json:\n',
-        error instanceof Error ? error.message : error,
-      );
+      console.error('Error falling back to package.json:\n', error);
 
       process.exit(1);
     }
