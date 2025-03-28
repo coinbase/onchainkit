@@ -31,6 +31,16 @@ describe('getAttestations', () => {
     vi.clearAllMocks();
   });
 
+  it('returns an empty array if no address is provided', async () => {
+    const result = await getAttestations(
+      null as unknown as `0x${string}`,
+      base,
+      mockOptions,
+    );
+    expect(result).toEqual([]);
+    expect(getAttestationsByFilter).not.toHaveBeenCalled();
+  });
+
   it('should return and empty array for unsupported chains', async () => {
     const result = await getAttestations(
       mockAddress,

@@ -14,16 +14,10 @@ export function useAttestations(
   { address, chain, schemaId }: UseAttestations,
   queryOptions?: UseQueryOptions<Attestation[]>,
 ): Attestation[] {
-  if (!schemaId) {
-    return [];
-  }
-
-  const queryKey = ['useAttestations', address, chain?.id, schemaId];
-
   const result = useQuery<Attestation[]>({
-    queryKey,
+    queryKey: ['useAttestations', address, chain?.id, schemaId],
     queryFn: async () => {
-      return getAttestations(address, chain, { schemas: [schemaId] });
+      return getAttestations(address, chain, { schemas: [schemaId!] });
     },
     enabled: !!address && !!schemaId,
     ...DEFAULT_QUERY_OPTIONS,
