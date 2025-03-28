@@ -1,4 +1,3 @@
-// @ts-nocheck -- made simple fixes for now, will fix rest later
 import { TransactionEvent } from '@/core/analytics/types';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
@@ -323,8 +322,8 @@ describe('TransactionProvider', () => {
     ).toBe('success');
 
     vi.advanceTimersByTime(resetAfter + 100);
-
-    expect(useSendCall().reset).toHaveBeenCalled();
+    const mockSendCall = useSendCall as ReturnType<typeof vi.fn>;
+    expect(mockSendCall().reset).toHaveBeenCalled();
 
     vi.useRealTimers();
     vi.clearAllTimers();

@@ -170,7 +170,7 @@ describe('SignatureProvider', () => {
     mockSignTypedData.mockRejectedValue('Invalid message data');
 
     render(
-      /* @ts-expect-error */
+      /* @ts-expect-error - Missing required message prop for testing invalid state */
       <SignatureProvider
         domain={{ name: 'Test', version: '1' }}
         types={{ Test: [{ name: 'test', type: 'string' }] }}

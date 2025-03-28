@@ -1,10 +1,12 @@
-// @ts-nocheck - more complex changes required
 import { act, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useCallsStatus } from 'wagmi/experimental';
 import type { LifecycleStatus } from '../types';
 import { useAwaitCalls } from './useAwaitCalls';
+import { base } from 'viem/chains';
+import type { Mock } from 'vitest';
+import type { Config } from 'wagmi';
 
 vi.mock('wagmi/actions', () => ({
   waitForTransactionReceipt: vi.fn(),
@@ -17,15 +19,19 @@ vi.mock('wagmi/experimental', () => ({
 describe('useAwaitCalls', () => {
   const mockAccountConfig = {
     address: '0x123',
-  };
+    chains: [base] as const,
+  } as unknown as Config;
+
   const mockUpdateLifecycleStatus = vi.fn();
-  const mockLifecycleStatus: LifecycleStatus = {
+  const mockLifecycleStatus = {
     statusName: 'transactionApproved',
     statusData: {
       callsId: '0x456',
       transactionType: 'Batched',
+      isMissingRequiredField: false,
+      maxSlippage: 0.5,
     },
-  };
+  } as LifecycleStatus;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -54,7 +60,7 @@ describe('useAwaitCalls', () => {
 
   it('should call waitForTransactionReceipt and update lifecycle status when data status is CONFIRMED', async () => {
     const mockTransactionReceipt = { blockNumber: 123 };
-    (waitForTransactionReceipt as vi.Mock).mockResolvedValue(
+    (waitForTransactionReceipt as Mock).mockResolvedValue(
       mockTransactionReceipt,
     );
     const mockData = {
@@ -91,7 +97,7 @@ describe('useAwaitCalls', () => {
       status: 'CONFIRMED',
       receipts: [{}],
     };
-    let refetchIntervalFn: typeof vi.fn;
+    let refetchIntervalFn = vi.fn();
     (useCallsStatus as ReturnType<typeof vi.fn>).mockImplementation(
       ({ query }) => {
         refetchIntervalFn = query.refetchInterval;
@@ -113,7 +119,7 @@ describe('useAwaitCalls', () => {
     const mockData = {
       status: 'PENDING',
     };
-    let refetchIntervalFn: typeof vi.fn;
+    let refetchIntervalFn = vi.fn();
     (useCallsStatus as ReturnType<typeof vi.fn>).mockImplementation(
       ({ query }) => {
         refetchIntervalFn = query.refetchInterval;
@@ -142,7 +148,13 @@ describe('useAwaitCalls', () => {
     renderHook(() =>
       useAwaitCalls({
         accountConfig: mockAccountConfig,
-        lifecycleStatus: { statusName: 'init' },
+        lifecycleStatus: {
+          statusName: 'init',
+          statusData: {
+            isMissingRequiredField: false,
+            maxSlippage: 0.5,
+          },
+        } as LifecycleStatus,
         updateLifecycleStatus: mockUpdateLifecycleStatus,
       }),
     );

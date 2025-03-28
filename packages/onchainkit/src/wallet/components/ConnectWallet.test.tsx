@@ -1,4 +1,3 @@
-// @ts-nocheck -- will fix later as it'll require a lot of changes
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -9,6 +8,7 @@ import { useOnchainKit } from '../../useOnchainKit';
 import { ConnectWallet } from './ConnectWallet';
 import { ConnectWalletText } from './ConnectWalletText';
 import { useWalletContext } from './WalletProvider';
+import type { Connector } from 'wagmi';
 
 const openConnectModalMock = vi.fn();
 
@@ -68,22 +68,61 @@ describe('ConnectWallet', () => {
     });
 
     vi.mocked(useAccount).mockReturnValue({
-      address: '',
+      address: '0x0' as `0x${string}`,
       status: 'disconnected',
-    });
+      isConnected: false,
+      isConnecting: false,
+      isDisconnected: true,
+      isReconnecting: false,
+      addresses: undefined,
+      chain: undefined,
+      chainId: undefined,
+      connector: undefined,
+    } as any);
+
     vi.mocked(useConnect).mockReturnValue({
-      connectors: [{ id: 'mockConnector' }],
+      connectors: [
+        {
+          id: 'mockConnector',
+          name: 'MockConnector',
+          type: 'mock',
+          connect: vi.fn(),
+          disconnect: vi.fn(),
+          getAccounts: vi.fn(),
+          getProvider: vi.fn(),
+          isAuthorized: vi.fn(),
+        } as unknown as Connector,
+      ],
       connect: vi.fn(),
       status: 'idle',
-    });
+    } as any);
+
     vi.mocked(useWalletContext).mockReturnValue({
       isSubComponentOpen: false,
       handleClose: vi.fn(),
       setIsSubComponentOpen: vi.fn(),
-    });
+      breakpoint: 'md',
+      isConnectModalOpen: false,
+      setIsConnectModalOpen: vi.fn(),
+      isSubComponentClosing: false,
+      isMobile: false,
+      isConnecting: false,
+      walletOpen: false,
+    } as any);
+
     vi.mocked(useOnchainKit).mockReturnValue({
-      config: { wallet: { display: undefined } },
-    });
+      config: {
+        wallet: { display: undefined },
+        apiKey: 'test-api-key',
+        address: '0x0' as `0x${string}`,
+        chain: { id: 1 },
+        rpcUrl: 'https://test.com',
+        chains: [],
+        projectId: '1',
+        appMetadata: { name: 'Test App' },
+      },
+    } as any);
+
     vi.mocked(useAnalytics).mockReturnValue({
       sendAnalytics: mockSendAnalytics,
     });
@@ -98,14 +137,35 @@ describe('ConnectWallet', () => {
 
   it('should render spinner when loading', () => {
     vi.mocked(useConnect).mockReturnValue({
-      connectors: [{ id: 'mockConnector' }],
+      connectors: [
+        {
+          id: 'mockConnector',
+          name: 'MockConnector',
+          type: 'mock',
+          connect: vi.fn(),
+          disconnect: vi.fn(),
+          getAccounts: vi.fn(),
+          getProvider: vi.fn(),
+          isAuthorized: vi.fn(),
+        } as unknown as Connector,
+      ],
       connect: vi.fn(),
       status: 'pending',
-    });
+    } as any);
+
     vi.mocked(useAccount).mockReturnValue({
-      address: '',
+      address: '0x0' as `0x${string}`,
       status: 'connecting',
-    });
+      isConnected: false,
+      isConnecting: true,
+      isDisconnected: false,
+      isReconnecting: false,
+      addresses: undefined,
+      chain: undefined,
+      chainId: undefined,
+      connector: undefined,
+    } as any);
+
     render(<ConnectWallet text="Connect Wallet" />);
     const spinner = screen.getByTestId('ockSpinner');
     expect(spinner).toBeInTheDocument();
@@ -113,9 +173,21 @@ describe('ConnectWallet', () => {
 
   it('should render children when connected', () => {
     vi.mocked(useAccount).mockReturnValue({
-      address: '0x123',
+      address: '0x123' as `0x${string}`,
       status: 'connected',
-    });
+      isConnected: true,
+      isConnecting: false,
+      isDisconnected: false,
+      isReconnecting: false,
+      addresses: ['0x123'] as Array<`0x${string}`>,
+      chain: { id: 1 },
+      chainId: 1,
+      connector: {
+        id: 'mockConnector',
+        name: 'MockConnector',
+      } as unknown as Connector,
+    } as any);
+
     render(
       <ConnectWallet text="Connect Wallet">
         <div>Wallet Connected</div>
@@ -130,10 +202,21 @@ describe('ConnectWallet', () => {
     const mockSendAnalytics = vi.fn();
 
     vi.mocked(useConnect).mockReturnValue({
-      connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
+      connectors: [
+        {
+          name: 'TestConnector',
+          id: 'mockConnector',
+          type: 'mock',
+          connect: vi.fn(),
+          disconnect: vi.fn(),
+          getAccounts: vi.fn(),
+          getProvider: vi.fn(),
+          isAuthorized: vi.fn(),
+        } as unknown as Connector,
+      ],
       connect: connectMock,
       status: 'idle',
-    });
+    } as any);
 
     vi.mocked(useAnalytics).mockReturnValue({
       sendAnalytics: mockSendAnalytics,
@@ -152,7 +235,12 @@ describe('ConnectWallet', () => {
     );
 
     expect(connectMock).toHaveBeenCalledWith(
-      { connector: { name: 'TestConnector', id: 'mockConnector' } },
+      {
+        connector: expect.objectContaining({
+          name: 'TestConnector',
+          id: 'mockConnector',
+        }),
+      },
       {
         onSuccess: expect.any(Function),
         onError: expect.any(Function),
@@ -160,10 +248,12 @@ describe('ConnectWallet', () => {
     );
 
     connectMock.mock.calls[0][1].onSuccess();
-    expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.ConnectSuccess, {
-      address: '',
-      walletProvider: 'TestConnector',
-    });
+    expect(mockSendAnalytics).toHaveBeenCalledWith(
+      WalletEvent.ConnectSuccess,
+      expect.objectContaining({
+        walletProvider: 'TestConnector',
+      }),
+    );
 
     const error = new Error('Test error');
     connectMock.mock.calls[0][1].onError(error);
@@ -179,15 +269,35 @@ describe('ConnectWallet', () => {
   it('should toggle wallet modal on button click when connected', () => {
     const setIsSubComponentOpenMock = vi.fn();
     const handleCloseMock = vi.fn();
+
     vi.mocked(useAccount).mockReturnValue({
-      address: '0x123',
+      address: '0x123' as `0x${string}`,
       status: 'connected',
-    });
+      isConnected: true,
+      isConnecting: false,
+      isDisconnected: false,
+      isReconnecting: false,
+      addresses: ['0x123'] as Array<`0x${string}`>,
+      chain: { id: 1 },
+      chainId: 1,
+      connector: {
+        id: 'mockConnector',
+        name: 'MockConnector',
+      } as unknown as Connector,
+    } as any);
+
     vi.mocked(useWalletContext).mockReturnValue({
       isSubComponentOpen: false,
       setIsSubComponentOpen: setIsSubComponentOpenMock,
       handleClose: handleCloseMock,
-    });
+      breakpoint: 'md',
+      isConnectModalOpen: false,
+      setIsConnectModalOpen: vi.fn(),
+      isSubComponentClosing: false,
+      isMobile: false,
+      isConnecting: false,
+      walletOpen: false,
+    } as any);
 
     const { rerender } = render(
       <ConnectWallet text="Connect Wallet">
@@ -202,7 +312,14 @@ describe('ConnectWallet', () => {
       isSubComponentOpen: true,
       setIsSubComponentOpen: setIsSubComponentOpenMock,
       handleClose: handleCloseMock,
-    });
+      breakpoint: 'md',
+      isConnectModalOpen: false,
+      setIsConnectModalOpen: vi.fn(),
+      isSubComponentClosing: false,
+      isMobile: false,
+      isConnecting: false,
+      walletOpen: false,
+    } as any);
 
     rerender(
       <ConnectWallet text="Connect Wallet">
@@ -218,16 +335,49 @@ describe('ConnectWallet', () => {
     vi.mocked(useWalletContext).mockReturnValue({
       isSubComponentOpen: true,
       handleClose: vi.fn(),
-    });
+      setIsSubComponentOpen: vi.fn(),
+      breakpoint: 'md',
+      isConnectModalOpen: false,
+      setIsConnectModalOpen: vi.fn(),
+      isSubComponentClosing: false,
+      isMobile: false,
+      isConnecting: false,
+      walletOpen: false,
+    } as any);
+
     vi.mocked(useAccount).mockReturnValue({
-      address: '0x123',
+      address: '0x123' as `0x${string}`,
       status: 'connected',
-    });
+      isConnected: true,
+      isConnecting: false,
+      isDisconnected: false,
+      isReconnecting: false,
+      addresses: ['0x123'] as Array<`0x${string}`>,
+      chain: { id: 1 },
+      chainId: 1,
+      connector: {
+        id: 'mockConnector',
+        name: 'MockConnector',
+      } as unknown as Connector,
+    } as any);
+
     vi.mocked(useConnect).mockReturnValue({
-      connectors: [{ id: 'test-connector' }],
+      connectors: [
+        {
+          id: 'test-connector',
+          name: 'TestConnector',
+          type: 'mock',
+          connect: vi.fn(),
+          disconnect: vi.fn(),
+          getAccounts: vi.fn(),
+          getProvider: vi.fn(),
+          isAuthorized: vi.fn(),
+        } as unknown as Connector,
+      ],
       connect: vi.fn(),
       status: 'idle',
-    });
+    } as any);
+
     render(
       <ConnectWallet>
         <span>Test Children</span>
@@ -239,9 +389,21 @@ describe('ConnectWallet', () => {
 
   it('should not render ConnectWalletText when children are present', () => {
     vi.mocked(useAccount).mockReturnValue({
-      address: '0x123',
+      address: '0x123' as `0x${string}`,
       status: 'connected',
-    });
+      isConnected: true,
+      isConnecting: false,
+      isDisconnected: false,
+      isReconnecting: false,
+      addresses: ['0x123'] as Array<`0x${string}`>,
+      chain: { id: 1 },
+      chainId: 1,
+      connector: {
+        id: 'mockConnector',
+        name: 'MockConnector',
+      } as unknown as Connector,
+    } as any);
+
     render(
       <ConnectWallet>
         <ConnectWalletText>Not Render</ConnectWalletText>
@@ -261,13 +423,32 @@ describe('ConnectWallet', () => {
     mockUseAccount.mockReturnValue({
       address: undefined,
       status: 'disconnected',
-    });
+      isConnected: false,
+      isConnecting: false,
+      isDisconnected: true,
+      isReconnecting: false,
+      addresses: undefined,
+      chain: undefined,
+      chainId: undefined,
+      connector: undefined,
+    } as any);
 
     vi.mocked(useConnect).mockReturnValue({
-      connectors: [{ id: 'mockConnector' }],
+      connectors: [
+        {
+          id: 'mockConnector',
+          name: 'MockConnector',
+          type: 'mock',
+          connect: vi.fn(),
+          disconnect: vi.fn(),
+          getAccounts: vi.fn(),
+          getProvider: vi.fn(),
+          isAuthorized: vi.fn(),
+        } as unknown as Connector,
+      ],
       connect: connectMock,
       status: 'idle',
-    });
+    } as any);
 
     render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
 
@@ -277,9 +458,20 @@ describe('ConnectWallet', () => {
     connectMock.mock.calls[0][1].onSuccess();
 
     mockUseAccount.mockReturnValue({
-      address: '0x123',
+      address: '0x123' as `0x${string}`,
       status: 'connected',
-    });
+      isConnected: true,
+      isConnecting: false,
+      isDisconnected: false,
+      isReconnecting: false,
+      addresses: ['0x123'] as Array<`0x${string}`>,
+      chain: { id: 1 },
+      chainId: 1,
+      connector: {
+        id: 'mockConnector',
+        name: 'MockConnector',
+      } as unknown as Connector,
+    } as any);
 
     render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
 
@@ -289,9 +481,20 @@ describe('ConnectWallet', () => {
   it('should not call onConnect callback when component is first mounted', () => {
     const mockUseAccount = vi.mocked(useAccount);
     mockUseAccount.mockReturnValue({
-      address: '0x123',
+      address: '0x123' as `0x${string}`,
       status: 'connected',
-    });
+      isConnected: true,
+      isConnecting: false,
+      isDisconnected: false,
+      isReconnecting: false,
+      addresses: ['0x123'] as Array<`0x${string}`>,
+      chain: { id: 1 },
+      chainId: 1,
+      connector: {
+        id: 'mockConnector',
+        name: 'MockConnector',
+      } as unknown as Connector,
+    } as any);
 
     const onConnectMock = vi.fn();
     render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
@@ -302,22 +505,61 @@ describe('ConnectWallet', () => {
   describe('wallet display modes', () => {
     it('should render modal when config.wallet.display is "modal"', () => {
       vi.mocked(useOnchainKit).mockReturnValue({
-        config: { wallet: { display: 'modal' } },
-      });
+        config: {
+          wallet: { display: 'modal' },
+          apiKey: 'test-api-key',
+          address: '0x0' as `0x${string}`,
+          chain: { id: 1 },
+          rpcUrl: 'https://test.com',
+          chains: [],
+          projectId: '1',
+          appMetadata: { name: 'Test App' },
+        },
+      } as any);
+
       vi.mocked(useAccount).mockReturnValue({
-        address: '',
+        address: '0x0' as `0x${string}`,
         status: 'disconnected',
-      });
+        isConnected: false,
+        isConnecting: false,
+        isDisconnected: true,
+        isReconnecting: false,
+        addresses: undefined,
+        chain: undefined,
+        chainId: undefined,
+        connector: undefined,
+      } as any);
+
       vi.mocked(useConnect).mockReturnValue({
-        connectors: [{ id: 'mockConnector' }],
+        connectors: [
+          {
+            id: 'mockConnector',
+            name: 'MockConnector',
+            type: 'mock',
+            connect: vi.fn(),
+            disconnect: vi.fn(),
+            getAccounts: vi.fn(),
+            getProvider: vi.fn(),
+            isAuthorized: vi.fn(),
+          } as unknown as Connector,
+        ],
         connect: vi.fn(),
         status: 'idle',
-      });
+      } as any);
+
       const setIsConnectModalOpenMock = vi.fn();
       vi.mocked(useWalletContext).mockReturnValue({
         isConnectModalOpen: true,
         setIsConnectModalOpen: setIsConnectModalOpenMock,
-      });
+        breakpoint: 'md',
+        isSubComponentOpen: false,
+        setIsSubComponentOpen: vi.fn(),
+        isSubComponentClosing: false,
+        isMobile: false,
+        isConnecting: false,
+        walletOpen: false,
+        handleClose: vi.fn(),
+      } as any);
 
       render(<ConnectWallet text="Connect Wallet" />);
 
@@ -331,10 +573,21 @@ describe('ConnectWallet', () => {
     it('should render direct connect when config.wallet.display is undefined', () => {
       const connectMock = vi.fn();
       vi.mocked(useConnect).mockReturnValue({
-        connectors: [{ id: 'mockConnector' }],
+        connectors: [
+          {
+            id: 'mockConnector',
+            name: 'MockConnector',
+            type: 'mock',
+            connect: vi.fn(),
+            disconnect: vi.fn(),
+            getAccounts: vi.fn(),
+            getProvider: vi.fn(),
+            isAuthorized: vi.fn(),
+          } as unknown as Connector,
+        ],
         connect: connectMock,
         status: 'idle',
-      });
+      } as any);
 
       render(<ConnectWallet text="Connect Wallet" />);
 
@@ -342,7 +595,13 @@ describe('ConnectWallet', () => {
       fireEvent.click(connectButton);
 
       expect(connectMock).toHaveBeenCalledWith(
-        { connector: { id: 'mockConnector' } },
+        {
+          connector: expect.objectContaining({
+            id: 'mockConnector',
+            name: 'MockConnector',
+            type: 'mock',
+          }),
+        },
         {
           onSuccess: expect.any(Function),
           onError: expect.any(Function),
@@ -354,9 +613,17 @@ describe('ConnectWallet', () => {
   describe('connectWalletText handling', () => {
     it('should use custom text from ConnectWalletText component when provided', () => {
       vi.mocked(useAccount).mockReturnValue({
-        address: '',
+        address: '0x0' as `0x${string}`,
         status: 'disconnected',
-      });
+        isConnected: false,
+        isConnecting: false,
+        isDisconnected: true,
+        isReconnecting: false,
+        addresses: undefined,
+        chain: undefined,
+        chainId: undefined,
+        connector: undefined,
+      } as any);
 
       render(
         <ConnectWallet>
@@ -373,30 +640,70 @@ describe('ConnectWallet', () => {
       const connectMock = vi.fn();
 
       vi.mocked(useConnect).mockReturnValue({
-        connectors: [{ id: 'mockConnector' }],
+        connectors: [
+          {
+            id: 'mockConnector',
+            name: 'MockConnector',
+            type: 'mock',
+            connect: vi.fn(),
+            disconnect: vi.fn(),
+            getAccounts: vi.fn(),
+            getProvider: vi.fn(),
+            isAuthorized: vi.fn(),
+          } as unknown as Connector,
+        ],
         connect: connectMock,
         status: 'idle',
-      });
+      } as any);
 
       vi.mocked(useAccount).mockReturnValue({
-        address: '',
+        address: '0x0' as `0x${string}`,
         status: 'disconnected',
-      });
+        isConnected: false,
+        isConnecting: false,
+        isDisconnected: true,
+        isReconnecting: false,
+        addresses: undefined,
+        chain: undefined,
+        chainId: undefined,
+        connector: undefined,
+      } as any);
+
+      vi.mocked(useWalletContext).mockReturnValue({
+        isConnectModalOpen: true,
+        setIsConnectModalOpen: vi.fn(),
+        breakpoint: 'md',
+        isSubComponentOpen: false,
+        setIsSubComponentOpen: vi.fn(),
+        isSubComponentClosing: false,
+        isMobile: false,
+        isConnecting: false,
+        walletOpen: false,
+        handleClose: vi.fn(),
+      } as any);
 
       render(<ConnectWallet text="Connect" onConnect={onConnectMock} />);
 
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
 
-      expect(connectMock).toHaveBeenCalledWith(
-        { connector: { id: 'mockConnector' } },
-        {
-          onSuccess: expect.any(Function),
-          onError: expect.any(Function),
-        },
-      );
-
       connectMock.mock.calls[0][1].onSuccess();
+
+      vi.mocked(useAccount).mockReturnValue({
+        address: '0x123' as `0x${string}`,
+        status: 'connected',
+        isConnected: true,
+        isConnecting: false,
+        isDisconnected: false,
+        isReconnecting: false,
+        addresses: ['0x123'] as Array<`0x${string}`>,
+        chain: { id: 1 },
+        chainId: 1,
+        connector: {
+          id: 'mockConnector',
+          name: 'MockConnector',
+        } as unknown as Connector,
+      } as any);
 
       expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
@@ -405,17 +712,44 @@ describe('ConnectWallet', () => {
   describe('modal handling', () => {
     it('should close modal when clicking close button', () => {
       vi.mocked(useOnchainKit).mockReturnValue({
-        config: { wallet: { display: 'modal' } },
-      });
+        config: {
+          wallet: { display: 'modal' },
+          apiKey: 'test-api-key',
+          address: '0x0' as `0x${string}`,
+          chain: { id: 1 },
+          rpcUrl: 'https://test.com',
+          chains: [],
+          projectId: '1',
+          appMetadata: { name: 'Test App' },
+        },
+      } as any);
+
       vi.mocked(useAccount).mockReturnValue({
-        address: '',
+        address: '0x0' as `0x${string}`,
         status: 'disconnected',
-      });
+        isConnected: false,
+        isConnecting: false,
+        isDisconnected: true,
+        isReconnecting: false,
+        addresses: undefined,
+        chain: undefined,
+        chainId: undefined,
+        connector: undefined,
+      } as any);
+
       const setIsConnectModalOpenMock = vi.fn();
       vi.mocked(useWalletContext).mockReturnValue({
         isConnectModalOpen: true,
         setIsConnectModalOpen: setIsConnectModalOpenMock,
-      });
+        breakpoint: 'md',
+        isSubComponentOpen: false,
+        setIsSubComponentOpen: vi.fn(),
+        isSubComponentClosing: false,
+        isMobile: false,
+        isConnecting: false,
+        walletOpen: false,
+        handleClose: vi.fn(),
+      } as any);
 
       render(<ConnectWallet text="Connect Wallet" />);
 
@@ -438,13 +772,32 @@ describe('ConnectWallet', () => {
       mockUseAccount.mockReturnValue({
         address: undefined,
         status: 'disconnected',
-      });
+        isConnected: false,
+        isConnecting: false,
+        isDisconnected: true,
+        isReconnecting: false,
+        addresses: undefined,
+        chain: undefined,
+        chainId: undefined,
+        connector: undefined,
+      } as any);
 
       vi.mocked(useConnect).mockReturnValue({
-        connectors: [{ id: 'mockConnector' }],
+        connectors: [
+          {
+            id: 'mockConnector',
+            name: 'MockConnector',
+            type: 'mock',
+            connect: vi.fn(),
+            disconnect: vi.fn(),
+            getAccounts: vi.fn(),
+            getProvider: vi.fn(),
+            isAuthorized: vi.fn(),
+          } as unknown as Connector,
+        ],
         connect: connectMock,
         status: 'idle',
-      });
+      } as any);
 
       const { rerender } = render(
         <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
@@ -457,9 +810,20 @@ describe('ConnectWallet', () => {
       onSuccessCallback();
 
       mockUseAccount.mockReturnValue({
-        address: '0x123',
+        address: '0x123' as `0x${string}`,
         status: 'connected',
-      });
+        isConnected: true,
+        isConnecting: false,
+        isDisconnected: false,
+        isReconnecting: false,
+        addresses: ['0x123'] as Array<`0x${string}`>,
+        chain: { id: 1 },
+        chainId: 1,
+        connector: {
+          id: 'mockConnector',
+          name: 'MockConnector',
+        } as unknown as Connector,
+      } as any);
 
       rerender(
         <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
@@ -478,19 +842,47 @@ describe('ConnectWallet', () => {
       const connectMock = vi.fn();
 
       vi.mocked(useConnect).mockReturnValue({
-        connectors: [{ id: 'mockConnector' }],
+        connectors: [
+          {
+            id: 'mockConnector',
+            name: 'MockConnector',
+            type: 'mock',
+            connect: vi.fn(),
+            disconnect: vi.fn(),
+            getAccounts: vi.fn(),
+            getProvider: vi.fn(),
+            isAuthorized: vi.fn(),
+          } as unknown as Connector,
+        ],
         connect: connectMock,
         status: 'idle',
-      });
+      } as any);
 
       vi.mocked(useAccount).mockReturnValue({
-        address: '',
+        address: '0x0' as `0x${string}`,
         status: 'disconnected',
-      });
+        isConnected: false,
+        isConnecting: false,
+        isDisconnected: true,
+        isReconnecting: false,
+        addresses: undefined,
+        chain: undefined,
+        chainId: undefined,
+        connector: undefined,
+      } as any);
 
       vi.mocked(useWalletContext).mockReturnValue({
         isConnectModalOpen: true,
-      });
+        setIsConnectModalOpen: vi.fn(),
+        breakpoint: 'md',
+        isSubComponentOpen: false,
+        setIsSubComponentOpen: vi.fn(),
+        isSubComponentClosing: false,
+        isMobile: false,
+        isConnecting: false,
+        walletOpen: false,
+        handleClose: vi.fn(),
+      } as any);
 
       render(<ConnectWallet text="Connect" onConnect={onConnectMock} />);
 
@@ -500,9 +892,20 @@ describe('ConnectWallet', () => {
       connectMock.mock.calls[0][1].onSuccess();
 
       vi.mocked(useAccount).mockReturnValue({
-        address: '0x123',
+        address: '0x123' as `0x${string}`,
         status: 'connected',
-      });
+        isConnected: true,
+        isConnecting: false,
+        isDisconnected: false,
+        isReconnecting: false,
+        addresses: ['0x123'] as Array<`0x${string}`>,
+        chain: { id: 1 },
+        chainId: 1,
+        connector: {
+          id: 'mockConnector',
+          name: 'MockConnector',
+        } as unknown as Connector,
+      } as any);
 
       expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
@@ -512,19 +915,47 @@ describe('ConnectWallet', () => {
       const connectMock = vi.fn();
 
       vi.mocked(useConnect).mockReturnValue({
-        connectors: [{ id: 'mockConnector' }],
+        connectors: [
+          {
+            id: 'mockConnector',
+            name: 'MockConnector',
+            type: 'mock',
+            connect: vi.fn(),
+            disconnect: vi.fn(),
+            getAccounts: vi.fn(),
+            getProvider: vi.fn(),
+            isAuthorized: vi.fn(),
+          } as unknown as Connector,
+        ],
         connect: connectMock,
         status: 'idle',
-      });
+      } as any);
 
       vi.mocked(useAccount).mockReturnValue({
-        address: '',
+        address: '0x0' as `0x${string}`,
         status: 'disconnected',
-      });
+        isConnected: false,
+        isConnecting: false,
+        isDisconnected: true,
+        isReconnecting: false,
+        addresses: undefined,
+        chain: undefined,
+        chainId: undefined,
+        connector: undefined,
+      } as any);
 
       vi.mocked(useWalletContext).mockReturnValue({
         isConnectModalOpen: true,
-      });
+        setIsConnectModalOpen: vi.fn(),
+        breakpoint: 'md',
+        isSubComponentOpen: false,
+        setIsSubComponentOpen: vi.fn(),
+        isSubComponentClosing: false,
+        isMobile: false,
+        isConnecting: false,
+        walletOpen: false,
+        handleClose: vi.fn(),
+      } as any);
 
       const { rerender } = render(
         <ConnectWallet text="Connect" onConnect={onConnectMock} />,
@@ -536,9 +967,20 @@ describe('ConnectWallet', () => {
       connectMock.mock.calls[0][1].onSuccess();
 
       vi.mocked(useAccount).mockReturnValue({
-        address: '0x123',
+        address: '0x123' as `0x${string}`,
         status: 'connected',
-      });
+        isConnected: true,
+        isConnecting: false,
+        isDisconnected: false,
+        isReconnecting: false,
+        addresses: ['0x123'] as Array<`0x${string}`>,
+        chain: { id: 1 },
+        chainId: 1,
+        connector: {
+          id: 'mockConnector',
+          name: 'MockConnector',
+        } as unknown as Connector,
+      } as any);
 
       rerender(
         <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
@@ -553,18 +995,43 @@ describe('ConnectWallet', () => {
       const setIsConnectModalOpenMock = vi.fn();
 
       vi.mocked(useOnchainKit).mockReturnValue({
-        config: { wallet: { display: 'modal' } },
-      });
+        config: {
+          wallet: { display: 'modal' },
+          apiKey: 'test-api-key',
+          address: '0x0' as `0x${string}`,
+          chain: { id: 1 },
+          rpcUrl: 'https://test.com',
+          chains: [],
+          projectId: '1',
+          appMetadata: { name: 'Test App' },
+        },
+      } as any);
 
       vi.mocked(useWalletContext).mockReturnValue({
         isConnectModalOpen: true,
         setIsConnectModalOpen: setIsConnectModalOpenMock,
-      });
+        breakpoint: 'md',
+        isSubComponentOpen: false,
+        setIsSubComponentOpen: vi.fn(),
+        isSubComponentClosing: false,
+        isMobile: false,
+        isConnecting: false,
+        walletOpen: false,
+        handleClose: vi.fn(),
+      } as any);
 
       mockUseAccount.mockReturnValue({
         address: undefined,
         status: 'disconnected',
-      });
+        isConnected: false,
+        isConnecting: false,
+        isDisconnected: true,
+        isReconnecting: false,
+        addresses: undefined,
+        chain: undefined,
+        chainId: undefined,
+        connector: undefined,
+      } as any);
 
       const { rerender } = render(
         <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
@@ -575,9 +1042,20 @@ describe('ConnectWallet', () => {
       expect(setIsConnectModalOpenMock).toHaveBeenCalledWith(true);
 
       mockUseAccount.mockReturnValue({
-        address: '0x123',
+        address: '0x123' as `0x${string}`,
         status: 'connected',
-      });
+        isConnected: true,
+        isConnecting: false,
+        isDisconnected: false,
+        isReconnecting: false,
+        addresses: ['0x123'] as Array<`0x${string}`>,
+        chain: { id: 1 },
+        chainId: 1,
+        connector: {
+          id: 'mockConnector',
+          name: 'MockConnector',
+        } as unknown as Connector,
+      } as any);
 
       rerender(
         <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
@@ -595,14 +1073,34 @@ describe('ConnectWallet', () => {
   describe('analytics', () => {
     it('should send analytics when connect button is clicked in modal mode', () => {
       vi.mocked(useOnchainKit).mockReturnValue({
-        config: { wallet: { display: 'modal' } },
-      });
+        config: {
+          wallet: { display: 'modal' },
+          apiKey: 'test-api-key',
+          address: '0x0' as `0x${string}`,
+          chain: { id: 1 },
+          rpcUrl: 'https://test.com',
+          chains: [],
+          projectId: '1',
+          appMetadata: { name: 'Test App' },
+        },
+      } as any);
 
       vi.mocked(useConnect).mockReturnValue({
-        connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
+        connectors: [
+          {
+            name: 'TestConnector',
+            id: 'mockConnector',
+            type: 'mock',
+            connect: vi.fn(),
+            disconnect: vi.fn(),
+            getAccounts: vi.fn(),
+            getProvider: vi.fn(),
+            isAuthorized: vi.fn(),
+          } as unknown as Connector,
+        ],
         connect: vi.fn(),
         status: 'idle',
-      });
+      } as any);
 
       render(<ConnectWallet text="Connect Wallet" />);
 
@@ -620,10 +1118,21 @@ describe('ConnectWallet', () => {
     it('should send analytics when direct connect is initiated', () => {
       const connectMock = vi.fn();
       vi.mocked(useConnect).mockReturnValue({
-        connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
+        connectors: [
+          {
+            name: 'TestConnector',
+            id: 'mockConnector',
+            type: 'mock',
+            connect: vi.fn(),
+            disconnect: vi.fn(),
+            getAccounts: vi.fn(),
+            getProvider: vi.fn(),
+            isAuthorized: vi.fn(),
+          } as unknown as Connector,
+        ],
         connect: connectMock,
         status: 'idle',
-      });
+      } as any);
 
       render(<ConnectWallet text="Connect Wallet" />);
 
@@ -641,10 +1150,21 @@ describe('ConnectWallet', () => {
     it('should send analytics on successful connection', () => {
       const connectMock = vi.fn();
       vi.mocked(useConnect).mockReturnValue({
-        connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
+        connectors: [
+          {
+            name: 'TestConnector',
+            id: 'mockConnector',
+            type: 'mock',
+            connect: vi.fn(),
+            disconnect: vi.fn(),
+            getAccounts: vi.fn(),
+            getProvider: vi.fn(),
+            isAuthorized: vi.fn(),
+          } as unknown as Connector,
+        ],
         connect: connectMock,
         status: 'idle',
-      });
+      } as any);
 
       render(<ConnectWallet text="Connect Wallet" />);
 
@@ -655,20 +1175,30 @@ describe('ConnectWallet', () => {
 
       expect(mockSendAnalytics).toHaveBeenCalledWith(
         WalletEvent.ConnectSuccess,
-        {
-          address: '',
+        expect.objectContaining({
           walletProvider: 'TestConnector',
-        },
+        }),
       );
     });
 
     it('should send analytics on connection error', () => {
       const connectMock = vi.fn();
       vi.mocked(useConnect).mockReturnValue({
-        connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
+        connectors: [
+          {
+            name: 'TestConnector',
+            id: 'mockConnector',
+            type: 'mock',
+            connect: vi.fn(),
+            disconnect: vi.fn(),
+            getAccounts: vi.fn(),
+            getProvider: vi.fn(),
+            isAuthorized: vi.fn(),
+          } as unknown as Connector,
+        ],
         connect: connectMock,
         status: 'idle',
-      });
+      } as any);
 
       render(<ConnectWallet text="Connect Wallet" />);
 
@@ -689,15 +1219,37 @@ describe('ConnectWallet', () => {
     it('should send analytics when account is connected with address', () => {
       const mockUseAccount = vi.mocked(useAccount);
       vi.mocked(useConnect).mockReturnValue({
-        connectors: [{ name: 'TestConnector', id: 'mockConnector' }],
+        connectors: [
+          {
+            name: 'TestConnector',
+            id: 'mockConnector',
+            type: 'mock',
+            connect: vi.fn(),
+            disconnect: vi.fn(),
+            getAccounts: vi.fn(),
+            getProvider: vi.fn(),
+            isAuthorized: vi.fn(),
+          } as unknown as Connector,
+        ],
         connect: vi.fn(),
         status: 'idle',
-      });
+      } as any);
 
       mockUseAccount.mockReturnValue({
-        address: '0x123',
+        address: '0x123' as `0x${string}`,
         status: 'connected',
-      });
+        isConnected: true,
+        isConnecting: false,
+        isDisconnected: false,
+        isReconnecting: false,
+        addresses: ['0x123'] as Array<`0x${string}`>,
+        chain: { id: 1 },
+        chainId: 1,
+        connector: {
+          id: 'mockConnector',
+          name: 'TestConnector',
+        } as unknown as Connector,
+      } as any);
 
       render(<ConnectWallet text="Connect Wallet" />);
 

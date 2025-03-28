@@ -1,17 +1,26 @@
-// @ts-nocheck - more involved changes required
 import { act, renderHook } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useBreakpoints } from './useBreakpoints';
 
-const createMatchMediaMock = (query: string) => ({
-  matches: query === '(min-width: 769px) and (max-width: 1023px)',
-  addEventListener: vi.fn(),
-  removeEventListener: vi.fn(),
-});
-
 describe('useBreakpoints', () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+  });
+
   it('should set the breakpoint based on the window size', () => {
-    (window.matchMedia as jest.Mock) = createMatchMediaMock;
+    vi.spyOn(window, 'matchMedia').mockImplementation(
+      (query: string) =>
+        ({
+          matches: query === '(min-width: 769px) and (max-width: 1023px)',
+          addEventListener: vi.fn(),
+          removeEventListener: vi.fn(),
+          media: query,
+          onchange: null,
+          dispatchEvent: vi.fn(),
+          addListener: vi.fn(),
+          removeListener: vi.fn(),
+        }) as unknown as MediaQueryList,
+    );
 
     const { result } = renderHook(() => useBreakpoints());
 
@@ -23,16 +32,35 @@ describe('useBreakpoints', () => {
   });
 
   it('should update the breakpoint on resize', () => {
-    (window.matchMedia as jest.Mock) = createMatchMediaMock;
+    vi.spyOn(window, 'matchMedia').mockImplementation(
+      (query: string) =>
+        ({
+          matches: query === '(min-width: 769px) and (max-width: 1023px)',
+          addEventListener: vi.fn(),
+          removeEventListener: vi.fn(),
+          media: query,
+          onchange: null,
+          dispatchEvent: vi.fn(),
+          addListener: vi.fn(),
+          removeListener: vi.fn(),
+        }) as unknown as MediaQueryList,
+    );
 
     const { result } = renderHook(() => useBreakpoints());
 
-    (window.matchMedia as jest.Mock) = (query: string) =>
-      ({
-        matches: query === '(max-width: 640px)',
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-      }) as unknown as MediaQueryList;
+    vi.spyOn(window, 'matchMedia').mockImplementation(
+      (query: string) =>
+        ({
+          matches: query === '(max-width: 640px)',
+          addEventListener: vi.fn(),
+          removeEventListener: vi.fn(),
+          media: query,
+          onchange: null,
+          dispatchEvent: vi.fn(),
+          addListener: vi.fn(),
+          removeListener: vi.fn(),
+        }) as unknown as MediaQueryList,
+    );
 
     act(() => {
       window.dispatchEvent(new Event('resize'));
@@ -42,12 +70,19 @@ describe('useBreakpoints', () => {
   });
 
   it('should return md when no breakpoints match', () => {
-    (window.matchMedia as jest.Mock) = (_query: string) =>
-      ({
-        matches: false,
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-      }) as unknown as MediaQueryList;
+    vi.spyOn(window, 'matchMedia').mockImplementation(
+      (_query: string) =>
+        ({
+          matches: false,
+          addEventListener: vi.fn(),
+          removeEventListener: vi.fn(),
+          media: _query,
+          onchange: null,
+          dispatchEvent: vi.fn(),
+          addListener: vi.fn(),
+          removeListener: vi.fn(),
+        }) as unknown as MediaQueryList,
+    );
 
     const { result } = renderHook(() => useBreakpoints());
 

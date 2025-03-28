@@ -113,7 +113,7 @@ describe('useWalletContext', () => {
     const TestComponent = () => {
       const { connectRef, setIsSubComponentOpen } = useWalletContext();
       useEffect(() => {
-        // @ts-ignore - we know this is safe for testing
+        // @ts-expect-error - Assigning to read-only ref property for testing
         connectRef.current = mockRef;
         setIsSubComponentOpen(true);
       }, [connectRef, setIsSubComponentOpen]);
@@ -153,7 +153,7 @@ describe('useWalletContext', () => {
     const TestComponent = () => {
       const { connectRef, setIsSubComponentOpen } = useWalletContext();
       useEffect(() => {
-        // @ts-ignore - we know this is safe for testing
+        // @ts-expect-error - Assigning to read-only ref property for testing
         connectRef.current = mockRef;
         setIsSubComponentOpen(true);
       }, [connectRef, setIsSubComponentOpen]);
@@ -193,7 +193,7 @@ describe('useWalletContext', () => {
     const TestComponent = () => {
       const { connectRef, setIsSubComponentOpen } = useWalletContext();
       useEffect(() => {
-        // @ts-ignore - we know this is safe for testing
+        // @ts-expect-error - Assigning to read-only ref property for testing
         connectRef.current = mockRef;
         setIsSubComponentOpen(true);
       }, [connectRef, setIsSubComponentOpen]);
@@ -233,7 +233,7 @@ describe('useWalletContext', () => {
     const TestComponent = () => {
       const { connectRef, setIsSubComponentOpen } = useWalletContext();
       useEffect(() => {
-        // @ts-ignore - we know this is safe for testing
+        // @ts-expect-error - Assigning to read-only ref property for testing
         connectRef.current = mockRef;
         setIsSubComponentOpen(true);
       }, [connectRef, setIsSubComponentOpen]);
