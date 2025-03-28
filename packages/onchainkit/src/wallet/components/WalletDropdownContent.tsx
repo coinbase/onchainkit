@@ -130,7 +130,13 @@ function ContentWrapper({
   className?: string;
 }) {
   return (
-    <div className={cn('flex flex-col justify-between', 'min-w-80', className)}>
+    <div
+      className={cn(
+        'flex flex-col justify-between',
+        'min-w-80 max-h-120',
+        className,
+      )}
+    >
       {children}
     </div>
   );
