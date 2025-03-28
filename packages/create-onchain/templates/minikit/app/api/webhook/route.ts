@@ -67,7 +67,6 @@ export async function POST(request: Request) {
   const { fid, key } = headerData;
 
   const valid = await verifyFidOwnership(fid, key);
-  console.log("valid", valid);
 
   if (!valid) {
     return Response.json(
@@ -78,12 +77,12 @@ export async function POST(request: Request) {
 
   switch (event.event) {
     case "frame_added":
+      console.log(
+        "frame_added",
+        "event.notificationDetails",
+        event.notificationDetails,
+      );
       if (event.notificationDetails) {
-        console.log(
-          "frame_added",
-          "event.notificationDetails",
-          event.notificationDetails,
-        );
         await setUserNotificationDetails(fid, event.notificationDetails);
         await sendFrameNotification({
           fid,
@@ -91,11 +90,6 @@ export async function POST(request: Request) {
           body: `Thank you for adding ${appName}`,
         });
       } else {
-        console.log(
-          "frame_added",
-          "event.notificationDetails",
-          event.notificationDetails,
-        );
         await deleteUserNotificationDetails(fid);
       }
 

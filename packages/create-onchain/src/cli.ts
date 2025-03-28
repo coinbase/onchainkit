@@ -235,11 +235,16 @@ REDIS_TOKEN=`,
   console.log(`\n\n${pc.magenta(`Created new MiniKit project in ${root}`)}\n`);
 
   console.log(
-    `\n${pc.reset('Do you want to set up your Frames Account Manifest now?')}`,
+    pc.blue(
+      'Mini-Apps require an account manifest based on your domain host to authenticate and allow users to add your Mini-App.',
+    ),
+  );
+  console.log(
+    `\n${pc.reset('Do you want to set up your Mini-App Account Manifest now?')}`,
   );
   console.log(
     pc.blue(
-      '* You can set this up later by running `npx create-onchain@alpha --generate` in your project directory.',
+      '* You can set this up later by running `npx create-onchain --generate` in your project directory.',
     ),
   );
   console.log(
@@ -261,7 +266,7 @@ REDIS_TOKEN=`,
       ],
       {
         onCancel: () => {
-          console.log('\nSetup frame cancelled.');
+          console.log('\nSetup Mini-App cancelled.');
           return false;
         },
       },
@@ -519,7 +524,7 @@ Creates an OnchainKit project based on nextJs.
 Options:
 --version, -v: Show version
 --mini, -m: Create a MiniKit project
---generate, -g: Generate your Frames account association
+--generate, -g: Generate your Mini-App account association
 --help, -h: Show help
 `)}`,
     );
