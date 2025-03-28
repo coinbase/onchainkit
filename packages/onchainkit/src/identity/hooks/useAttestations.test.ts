@@ -29,7 +29,6 @@ vi.mock('@tanstack/react-query', async () => {
       [key: string]: unknown;
     }) => {
       mockUseQuery(options);
-      // Return an object with data property for the hook to extract
       const result = (actual.useQuery as UseQueryType)<TData, TError>(options);
       return result;
     },
