@@ -36,7 +36,7 @@ function getNextVersion() {
 
     if (!nextVersion) throw new Error('No onchainkit version found');
   } catch (error) {
-    console.error('Error checking changeset status:\n', error);
+    console.error('Error checking changeset status:\n', error.message);
   }
 
   if (!nextVersion) {
@@ -46,7 +46,7 @@ function getNextVersion() {
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
       nextVersion = packageJson.version;
     } catch (error) {
-      console.error('Error falling back to package.json:\n', error);
+      console.error('Error falling back to package.json:\n', error.message);
 
       process.exit(1);
     }
