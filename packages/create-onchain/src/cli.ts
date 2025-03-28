@@ -239,7 +239,7 @@ REDIS_TOKEN=`,
   );
   console.log(
     pc.blue(
-      '* You can set this up later by running `npx create-onchain@alpha --generate` in your project directory.',
+      '* You can set this up later by running `npx create-onchain --generate` in your project directory.',
     ),
   );
   console.log(
