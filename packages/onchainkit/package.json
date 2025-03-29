@@ -10,8 +10,8 @@
     "bundle:dev": "tsup -- --watch",
     "bundle:dev:no-watch": "tsup",
     "bundle:prod": "packemon build --addEngines --addFiles --loadConfigs --declaration && tscpaths -p tsconfig.esm.json -s ./src -o ./esm && npx packemon validate --no-license --no-people --no-repo",
-    "tailwind:dev": "tailwind -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --watch",
-    "tailwind:prod": "tailwindcss -i ./src/styles/index.css -o ./dist/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --minify",
+    "tailwind:dev": "tailwind -i ./src/styles/styles.css -o ./dist/styles.css --watch",
+    "tailwind:prod": "tailwindcss -i ./src/styles/styles.css -o ./dist/styles.css --minify && tailwindcss -i ./src/styles/tailwind-preflight.css -o ./dist/tailwind-preflight.css --minify",
     "clean": "rm -rf dist esm",
     "check": "eslint . --ext .ts,.tsx && prettier --check .",
     "check:unsafe": "eslint . --ext .ts,.tsx --fix && prettier --write .",
@@ -28,8 +28,6 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "watch": "tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch",
-    "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch",
     "get-next-version": "node ./scripts/get-next-version.js"
   },
   "peerDependencies": {
@@ -111,7 +109,7 @@
   "exports": {
     "./package.json": "./package.json",
     "./styles.css": "./dist/styles.css",
-    "./tailwind.css": "./dist/tailwind.css",
+    "./tailwind-preflight.css": "./dist/tailwind-preflight.css",
     "./theme": "./esm/styles/theme.js",
     ".": {
       "types": "./esm/index.d.ts",

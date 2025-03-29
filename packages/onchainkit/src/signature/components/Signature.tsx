@@ -40,7 +40,12 @@ export function Signature({
   if (!isMounted) {
     return (
       <div
-        className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}
+        className={cn(
+          'ock',
+          componentTheme,
+          'flex w-full flex-col gap-2',
+          className,
+        )}
       />
     );
   }
@@ -57,7 +62,12 @@ export function Signature({
       resetAfter={resetAfter}
     >
       <div
-        className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}
+        className={cn(
+          'ock',
+          componentTheme,
+          'flex w-full flex-col gap-2',
+          className,
+        )}
       >
         {children ?? (
           <SignatureDefaultContent label={label} disabled={disabled} />

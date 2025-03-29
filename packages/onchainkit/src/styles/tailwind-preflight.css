@@ -1,0 +1,5 @@
+/*
+ * The base tailwind styles apply a global reset, so we're compiling it
+ * separately so the consumer can choose whether to use it or not.
+ */
+@tailwind base;

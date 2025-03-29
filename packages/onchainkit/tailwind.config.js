@@ -6,6 +6,7 @@ export default {
   content: ['./src/**/*.{ts,tsx}'],
   darkMode: ['class'],
   safelist: ['dark'],
+  prefix: 'ock-',
   theme: {
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
