@@ -51,7 +51,6 @@ export default [
         'asc',
         { caseSensitive: true, natural: false, minKeys: 2 },
       ],
-      '@typescript-eslint/no-unused-vars': 'off',
       'react-hooks/rules-of-hooks': 'off',
       'react/display-name': 'off',
       'react/prop-types': 'off',

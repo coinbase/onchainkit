@@ -17,7 +17,8 @@ export function useLifecycleStatus<T extends AbstractLifecycleStatus>(
         // do not persist errors
         const persistedStatusData =
           prevStatus.statusName === 'error'
-            ? (({ error, code, message, ...statusData }) => statusData)(
+            ? // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              (({ error, code, message, ...statusData }) => statusData)(
                 prevStatus.statusData,
               )
             : prevStatus.statusData;

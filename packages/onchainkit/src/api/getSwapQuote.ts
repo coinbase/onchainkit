@@ -74,7 +74,7 @@ export async function getSwapQuote(
       };
     }
     return res.result;
-  } catch (_error) {
+  } catch {
     return {
       code: getSwapErrorCode('uncaught-quote'),
       error: 'Something went wrong',

@@ -63,7 +63,7 @@ export async function buildPayTransaction(
       };
     }
     return res.result;
-  } catch (_error) {
+  } catch {
     return {
       code: 'AmBPTa03', // Api Module Build Pay Transaction Error 03
       error: 'Something went wrong',

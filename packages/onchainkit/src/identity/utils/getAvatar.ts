@@ -46,7 +46,7 @@ export const getAvatar = async ({
       if (baseEnsAvatar) {
         return baseEnsAvatar;
       }
-    } catch (_error) {
+    } catch {
       // This is a best effort attempt, so we don't need to do anything here.
     }
   }

@@ -11,7 +11,7 @@ import type {
  */
 export async function buildMintTransaction(
   params: BuildMintTransactionParams,
-  _context: RequestContext = RequestContext.API,
+  context: RequestContext = RequestContext.API,
 ): Promise<BuildMintTransactionResponse> {
   const { mintAddress, tokenId, network = '', quantity, takerAddress } = params;
 
@@ -30,7 +30,7 @@ export async function buildMintTransaction(
           tokenId,
         },
       ],
-      RequestContext.API,
+      context,
     );
     if (res.error) {
       return {
@@ -41,7 +41,7 @@ export async function buildMintTransaction(
     }
 
     return res.result;
-  } catch (_error) {
+  } catch {
     return {
       code: 'uncaught-nft',
       error: 'Something went wrong',

@@ -11,6 +11,7 @@ vi.mock('@/identity/utils/getSocials');
 const mockUseQuery = vi.fn();
 vi.mock('@tanstack/react-query', async () => {
   const actual = await vi.importActual('@tanstack/react-query');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   type UseQueryType = <TData, _TError = Error>(options: {
     queryKey: unknown[];
     queryFn: () => Promise<TData>;

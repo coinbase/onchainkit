@@ -107,7 +107,8 @@ describe('Preset Gradients', () => {
 
   it('should have valid percentage formats for all gradients', () => {
     for (const gradient of Object.values(presetGradients)) {
-      for (const [_, percentage] of gradient) {
+      for (const item of gradient) {
+        const percentage = item[1];
         expect(percentage).toMatch(/^\d+(\.\d+)?%$/);
       }
     }
