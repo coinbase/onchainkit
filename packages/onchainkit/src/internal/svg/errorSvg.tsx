@@ -1,4 +1,8 @@
-export const ErrorSvg = ({ fill = '#E11D48' }) => (
+type ErrorSvgProps = {
+  fill?: string;
+};
+
+export const ErrorSvg = ({ fill = '#E11D48' }: ErrorSvgProps) => (
   <svg
     aria-label="ock-errorSvg"
     width="16"

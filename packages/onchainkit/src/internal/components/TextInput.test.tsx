@@ -6,6 +6,17 @@ import { TextInput } from './TextInput';
 
 const DELAY_MS = 100;
 
+type RenderTestProps = {
+  className?: string;
+  delayMs?: number;
+  onChange?: (s: string) => void;
+  placeholder?: string;
+  setValue?: (s: string) => void;
+  value?: string;
+  disabled?: boolean;
+  inputMode?: React.InputHTMLAttributes<HTMLInputElement>['inputMode'];
+};
+
 const RenderTest = ({
   className = 'custom-class',
   delayMs = DELAY_MS,
@@ -14,7 +25,7 @@ const RenderTest = ({
   setValue = vi.fn(),
   value = 'test',
   ...props
-}) => (
+}: RenderTestProps) => (
   <TextInput
     className={className}
     delayMs={delayMs}
