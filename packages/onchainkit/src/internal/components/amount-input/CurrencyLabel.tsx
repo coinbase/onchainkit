@@ -25,3 +25,5 @@ export const CurrencyLabel = forwardRef<HTMLSpanElement, CurrencyLabelProps>(
     );
   },
 );
+
+CurrencyLabel.displayName = 'CurrencyLabel';

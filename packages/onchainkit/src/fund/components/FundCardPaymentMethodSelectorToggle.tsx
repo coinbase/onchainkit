@@ -53,3 +53,6 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
     );
   },
 );
+
+FundCardPaymentMethodSelectorToggle.displayName =
+  'FundCardPaymentMethodSelectorToggle';
