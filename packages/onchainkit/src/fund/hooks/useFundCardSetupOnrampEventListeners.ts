@@ -65,5 +65,5 @@ export const useFundCardSetupOnrampEventListeners = () => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  });
 };

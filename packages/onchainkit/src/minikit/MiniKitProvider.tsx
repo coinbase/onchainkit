@@ -81,7 +81,7 @@ export function MiniKitProvider({
     return () => {
       sdk.removeAllListeners();
     };
-  }, []);
+  });
 
   const updateClientContext = useCallback(
     ({ details, frameAdded }: UpdateClientContextParams) => {

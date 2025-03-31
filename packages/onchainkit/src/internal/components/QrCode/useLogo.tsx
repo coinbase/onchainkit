@@ -25,11 +25,12 @@ export function useLogo({
   logoBorderRadius,
 }: RenderLogoProps) {
   const svgLogo = useMemo(() => {
-    if (React.isValidElement(logo)) {
-      logo = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
-        ReactDOMServer.renderToString(logo),
-      )}`;
-    }
+    const transformedLogo = React.isValidElement(logo)
+      ? `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+          ReactDOMServer.renderToString(logo),
+        )}`
+      : logo;
+
     const logoPosition = (size - logoSize - logoMargin * 2) / 2;
     const logoBackgroundSize = logoSize + logoMargin * 2;
 
@@ -60,7 +61,7 @@ export function useLogo({
             width={logoSize}
             height={logoSize}
             preserveAspectRatio="xMidYMid slice"
-            href={String(logo)}
+            href={String(transformedLogo)}
             clipPath="url(#clip-logo)"
           />
         </g>
