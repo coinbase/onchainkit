@@ -94,8 +94,6 @@ export function SwapSettingsSlippageInput({
   );
 
   return (
-    // <div className="flex items-center max-sm:pt-4">
-    //   <div className="flex-grow">
     <section
       className={cn(
         background.default,
@@ -172,7 +170,5 @@ export function SwapSettingsSlippageInput({
         </span>
       </div>
     </section>
-    //   </div>
-    // </div>
   );
 }
