@@ -32,6 +32,7 @@ function getNextVersion() {
       throw new Error('No onchainkit version line found');
 
     nextVersion = onchainkitVersionLine.split(packageName)[1].trim();
+    console.log('Version bump detected: ', nextVersion);
 
     if (!nextVersion) throw new Error('No onchainkit version found');
   } catch (error) {
@@ -44,6 +45,7 @@ function getNextVersion() {
       const packageJsonPath = path.join(onchainkitPath, 'package.json');
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
       nextVersion = packageJson.version;
+      console.log('Falling back to package.json version: ', nextVersion);
     } catch (error) {
       console.error('Error falling back to package.json:\n', error.message);
 

@@ -1,0 +1,28 @@
+name: Version Test 🔖
+
+on:
+  pull_request:
+      branches: ['main']
+
+jobs:
+  version:
+    name: Release
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 'Setup'
+        uses: ./.github/actions/setup
+
+      - name: Build
+        shell: bash
+        run: pnpm f:ock build
+
+      - name: Extract version
+        shell: bash
+        run: pnpm f:ock get-next-version

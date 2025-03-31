@@ -27,7 +27,7 @@ jobs:
         shell: bash
         run: pnpm f:ock build
 
-      - name: Get version
+      - name: Extract version
         shell: bash
         run: pnpm f:ock get-next-version
 
