@@ -42,6 +42,7 @@ describe('AppchainBridgeWithdraw', () => {
 
   it('renders the loading state correctly', () => {
     (useWithdrawButton as Mock).mockReturnValue({
+      isPending: true,
       isSuccess: false,
       buttonDisabled: false,
       buttonContent: 'Claim',
