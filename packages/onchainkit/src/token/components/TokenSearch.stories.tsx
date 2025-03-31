@@ -11,6 +11,7 @@ const meta = {
 
     // TODO: This requires an API key
     const handleChange = React.useCallback(async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const _data = await getTokens();
       // setTokens(data)
     }, []);

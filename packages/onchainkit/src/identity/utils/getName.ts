@@ -40,7 +40,7 @@ export const getName = async ({
       if (basename) {
         return basename as Basename;
       }
-    } catch (_error) {
+    } catch {
       // This is a best effort attempt, so we don't need to do anything here.
     }
   }

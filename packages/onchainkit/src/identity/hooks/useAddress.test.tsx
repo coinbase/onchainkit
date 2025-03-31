@@ -16,7 +16,8 @@ vi.mock('@/core/network/getChainPublicClient', () => ({
 const mockUseQuery = vi.fn();
 vi.mock('@tanstack/react-query', async () => {
   const actual = await vi.importActual('@tanstack/react-query');
-  type UseQueryType = <TData, _TError = Error>(options: {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  type UseQueryFunctionType = <TData, TError = Error>(options: {
     queryKey: unknown[];
     queryFn: () => Promise<TData>;
     [key: string]: unknown;
@@ -24,13 +25,13 @@ vi.mock('@tanstack/react-query', async () => {
 
   return {
     ...actual,
-    useQuery: <TData, TError = Error>(options: {
+    useQuery: <TData, _TError = Error>(options: {
       queryKey: unknown[];
       queryFn: () => Promise<TData>;
       [key: string]: unknown;
     }) => {
       mockUseQuery(options);
-      return (actual.useQuery as UseQueryType)<TData, TError>(options);
+      return (actual.useQuery as UseQueryFunctionType)<TData, _TError>(options);
     },
   };
 });

@@ -8,7 +8,7 @@ import type { GetMintDetailsParams, GetMintDetailsResponse } from './types';
  */
 export async function getMintDetails(
   params: GetMintDetailsParams,
-  _context: RequestContext = RequestContext.API,
+  context: RequestContext = RequestContext.API,
 ): Promise<GetMintDetailsResponse> {
   const { contractAddress, takerAddress, tokenId } = params;
 
@@ -22,7 +22,7 @@ export async function getMintDetails(
           tokenId,
         },
       ],
-      RequestContext.API,
+      context,
     );
     if (res.error) {
       return {
@@ -33,7 +33,7 @@ export async function getMintDetails(
     }
 
     return res.result;
-  } catch (_error) {
+  } catch {
     return {
       code: 'uncaught-nft',
       error: 'Something went wrong',

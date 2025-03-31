@@ -35,7 +35,7 @@ export async function getTokenDetails(
     }
 
     return res.result;
-  } catch (_error) {
+  } catch {
     return {
       code: 'uncaught-nft',
       error: 'Something went wrong',
