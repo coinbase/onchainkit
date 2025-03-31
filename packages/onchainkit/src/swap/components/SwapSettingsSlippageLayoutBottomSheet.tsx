@@ -1,26 +1,10 @@
-import { Children, useMemo } from 'react';
-import { findComponent } from '../../internal/utils/findComponent';
 import { background, border, cn, color, pressable } from '../../styles/theme';
 import type { SwapSettingsSlippageLayoutReact } from '../types';
-import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
-import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
-import { SwapSettingsSlippageTitle } from './SwapSettingsSlippageTitle';
 
 export function SwapSettingsSlippageLayoutBottomSheet({
   children,
   className,
 }: SwapSettingsSlippageLayoutReact) {
-  const { title, description, input } = useMemo(() => {
-    const childrenArray = Children.toArray(children);
-    return {
-      title: childrenArray.find(findComponent(SwapSettingsSlippageTitle)),
-      description: childrenArray.find(
-        findComponent(SwapSettingsSlippageDescription),
-      ),
-      input: childrenArray.find(findComponent(SwapSettingsSlippageInput)),
-    };
-  }, [children]);
-
   return (
     <div
       className={cn(
@@ -42,11 +26,7 @@ export function SwapSettingsSlippageLayoutBottomSheet({
         <h2 className={cn(color.foreground, 'font-bold text-sm')}>Settings</h2>
       </div>
 
-      <div className="flex flex-col">
-        {title}
-        <div className="pb-4">{description}</div>
-        {input && <div className="flex-grow">{input}</div>}
-      </div>
+      <div className="flex flex-col">{children}</div>
       <div className="mt-4 flex justify-center">
         <div
           className={cn(

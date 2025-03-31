@@ -19,7 +19,7 @@ const DEFAULT_CHILDREN = (
       Your swap will revert if the prices change by more than the selected
       percentage.
     </SwapSettingsSlippageDescription>
-    <SwapSettingsSlippageInput />,
+    <SwapSettingsSlippageInput />
   </>
 );
 
