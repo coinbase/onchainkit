@@ -32,9 +32,7 @@ function getNextVersion() {
     if (!onchainkitVersionLine)
       throw new Error('No onchainkit version line found');
 
-    nextVersion = stripVTControlCharacters(
-      onchainkitVersionLine.split(packageName)[1].trim(),
-    );
+    nextVersion = onchainkitVersionLine.split(packageName)[1].trim();
 
     console.log('Version bump detected: ', nextVersion);
 
@@ -48,7 +46,7 @@ function getNextVersion() {
       // If changeset check fails, fall back to current version from package.json
       const packageJsonPath = path.join(onchainkitPath, 'package.json');
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
-      nextVersion = stripVTControlCharacters(packageJson.version);
+      nextVersion = packageJson.version;
       console.log('Falling back to package.json version: ', nextVersion);
     } catch (error) {
       console.error('Error falling back to package.json:\n', error.message);
@@ -59,7 +57,7 @@ function getNextVersion() {
 
   // Write version to dist/version.txt, adjusting for the directory change
   const versionPath = path.join(onchainkitPath, 'dist/version.txt');
-  fs.writeFileSync(versionPath, nextVersion);
+  fs.writeFileSync(versionPath, stripVTControlCharacters(nextVersion));
 }
 
 getNextVersion();
