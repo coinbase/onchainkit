@@ -29,6 +29,16 @@ export type AppConfig = {
     termsUrl?: string | null;
     /** URL to the privacy policy for the wallet modal */
     privacyUrl?: string | null;
+    /**
+     * Supported wallets for the wallet modal.
+     * By default, the wallet modal automatically supports Coinbase, Metamask, and Phantom.
+     * Additional wallets can be enabled through this config.
+     */
+    supportedWallets?: {
+      rabby?: boolean;
+      trust?: boolean;
+      frame?: boolean;
+    };
   };
 };
 
