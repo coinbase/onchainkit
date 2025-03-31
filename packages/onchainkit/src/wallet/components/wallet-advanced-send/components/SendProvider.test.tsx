@@ -3,11 +3,11 @@ import { usePriceQuote } from '@/internal/hooks/usePriceQuote';
 import { act, render, renderHook } from '@testing-library/react';
 import { formatUnits } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
+import { useWalletContext } from '../../WalletProvider';
 import { SendProvider, useSendContext } from './SendProvider';
 
-vi.mock('../../WalletAdvancedProvider', () => ({
-  useWalletAdvancedContext: vi.fn(),
+vi.mock('../../WalletProvider', () => ({
+  useWalletContext: vi.fn(),
 }));
 
 vi.mock('@/internal/hooks/usePriceQuote', () => ({
@@ -30,7 +30,7 @@ vi.mock('viem', async () => {
 });
 
 describe('useSendContext', () => {
-  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
+  const mockUseWalletAdvancedContext = useWalletContext as ReturnType<
     typeof vi.fn
   >;
 

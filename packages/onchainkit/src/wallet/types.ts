@@ -102,28 +102,32 @@ export type WalletContextType = {
   connectRef: React.RefObject<HTMLDivElement>;
   showSubComponentAbove: boolean;
   alignSubComponentRight: boolean;
+
+  activeFeature: WalletAdvancedFeature | null;
+  setActiveFeature: Dispatch<SetStateAction<WalletAdvancedFeature | null>>;
+  isActiveFeatureClosing: boolean;
+  setIsActiveFeatureClosing: Dispatch<SetStateAction<boolean>>;
+  tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
+  portfolioFiatValue: number | undefined;
+  isFetchingPortfolioData: boolean;
+  portfolioDataUpdatedAt: number | undefined;
+  refetchPortfolioData: () => Promise<QueryObserverResult<Portfolio, Error>>;
+  animations: {
+    container: string;
+    content: string;
+  };
 };
 
 /**
  * Note: exported as public Type
  */
 export type WalletReact = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 } & (
   | { draggable?: true; draggableStartingPosition?: { x: number; y: number } }
   | { draggable?: false; draggableStartingPosition?: never }
 );
-
-export type WalletSubComponentReact = {
-  connect: React.ReactNode;
-  connectRef: React.RefObject<HTMLDivElement>;
-  dropdown: React.ReactNode;
-  advanced: React.ReactNode;
-  isSubComponentOpen: boolean;
-  alignSubComponentRight: boolean;
-  showSubComponentAbove: boolean;
-};
 
 /**
  * Note: exported as public Type
@@ -146,9 +150,15 @@ export type WalletDropdownBasenameReact = {
  * Note: exported as public Type
  */
 export type WalletDropdownReact = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   /** Optional className override for top div element */
   className?: string;
+  classNames?: {
+    container?: string;
+    qr?: WalletAdvancedQrReceiveProps['classNames'];
+    swap?: WalletAdvancedSwapProps['classNames'];
+  };
+  swappableTokens?: Token[];
 };
 
 /**
@@ -204,7 +214,7 @@ export type WalletDropdownLinkReact = {
  * Note: exported as public Type
  */
 export type WalletAdvancedReact = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   swappableTokens?: Token[];
   classNames?: {
     container?: string;

@@ -4,13 +4,12 @@ import { background, border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
 import type { WalletAdvancedReact } from '../types';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
 import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
 import { Send } from './wallet-advanced-send/components/Send';
 
-export function WalletAdvancedContent({
+export function WalletDropdownContent({
   children,
   swappableTokens,
   classNames,
@@ -22,10 +21,10 @@ export function WalletAdvancedContent({
     setIsSubComponentClosing,
     connectRef,
     breakpoint,
+    activeFeature,
+    tokenBalances,
+    animations,
   } = useWalletContext();
-
-  const { activeFeature, tokenBalances, animations } =
-    useWalletAdvancedContext();
 
   const handleBottomSheetClose = useCallback(() => {
     setIsSubComponentOpen(false);
@@ -42,7 +41,7 @@ export function WalletAdvancedContent({
     if (activeFeature === 'send') {
       return (
         <ContentWrapper>
-          <Send className="h-full w-full border-none" />
+          <Send className="border-none" />
         </ContentWrapper>
       );
     }
@@ -83,7 +82,7 @@ export function WalletAdvancedContent({
       );
     }
 
-    return <ContentWrapper className="px-4 py-3">{children}</ContentWrapper>;
+    return <ContentWrapper>{children}</ContentWrapper>;
   }, [activeFeature, swappableTokens, tokenBalances, children, classNames]);
 
   if (breakpoint === 'sm') {
@@ -103,14 +102,16 @@ export function WalletAdvancedContent({
 
   return (
     <div
-      data-testid="ockWalletAdvancedContent"
+      data-testid="ockWalletDropdownContent"
       className={cn(
         background.default,
         border.radius,
         border.lineDefault,
         zIndex.dropdown,
         'my-1.5 h-auto w-full',
-        'flex items-center justify-center',
+        'flex justify-center',
+        // ensure border radius is respected
+        'overflow-hidden',
         animations.container,
         classNames?.container,
       )}
@@ -131,8 +132,8 @@ function ContentWrapper({
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-between',
-        'h-120 w-88',
+        'flex flex-col justify-between',
+        'min-w-80 max-h-120',
         className,
       )}
     >

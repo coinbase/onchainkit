@@ -1,17 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedTokenHoldings } from './WalletAdvancedTokenHoldings';
+import { useWalletContext } from './WalletProvider';
 
-vi.mock('./WalletAdvancedProvider', () => ({
-  useWalletAdvancedContext: vi.fn(),
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
   WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
 }));
 
 describe('WalletAdvancedTokenHoldings', () => {
-  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
+  const mockUseWalletAdvancedContext = useWalletContext as ReturnType<
     typeof vi.fn
   >;
 

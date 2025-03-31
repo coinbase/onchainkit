@@ -19,15 +19,15 @@ vi.mock('./ConnectWallet', () => ({
   ConnectWallet: () => <div data-testid="connect-wallet">Connect Wallet</div>,
 }));
 
-vi.mock('./WalletDropdown', () => ({
-  WalletDropdown: () => (
-    <div data-testid="wallet-dropdown">Wallet Dropdown</div>
-  ),
-}));
-
 vi.mock('./WalletAdvanced', () => ({
   WalletAdvanced: () => (
     <div data-testid="wallet-advanced">Wallet Advanced</div>
+  ),
+}));
+
+vi.mock('./WalletDropdown', () => ({
+  WalletDropdown: () => (
+    <div data-testid="ockWalletDropdown">Wallet Advanced</div>
   ),
 }));
 
@@ -85,12 +85,39 @@ describe('Wallet Component', () => {
     expect(screen.queryByTestId('wallet-dropdown')).toBeNull();
   });
 
+  it('should render default children', () => {
+    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
+      isSubComponentOpen: false,
+      handleClose: mockHandleClose,
+      containerRef: { current: document.createElement('div') },
+    });
+
+    render(<Wallet />);
+
+    expect(screen.getByTestId('connect-wallet')).toBeDefined();
+    expect(screen.queryByTestId('wallet-dropdown')).toBeNull();
+  });
+
+  it('should render default children when draggable', () => {
+    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
+      isSubComponentOpen: false,
+      handleClose: mockHandleClose,
+      containerRef: { current: document.createElement('div') },
+    });
+
+    render(<Wallet draggable={true} />);
+
+    expect(screen.getByTestId('connect-wallet')).toBeDefined();
+    expect(screen.queryByTestId('wallet-dropdown')).toBeNull();
+  });
+
   it('should close the wallet when clicking outside', () => {
-    const container = document.createElement('div');
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
       isSubComponentOpen: true,
       handleClose: mockHandleClose,
-      containerRef: { current: container },
+      containerRef: { current: document.createElement('div') },
+      address: '0x123',
+      breakpoint: 'md',
     });
 
     const mockOutsideClickCallback = vi.fn();
@@ -107,7 +134,7 @@ describe('Wallet Component', () => {
       </Wallet>,
     );
 
-    expect(screen.getByTestId('wallet-dropdown')).toBeDefined();
+    expect(screen.getByTestId('ockWalletDropdown')).toBeDefined();
 
     mockOutsideClickCallback({} as MouseEvent);
 
@@ -144,6 +171,13 @@ describe('Wallet Component', () => {
 
   it('should log error and default to WalletDropdown when both WalletDropdown and WalletAdvanced are provided', () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
+      isSubComponentOpen: true,
+      handleClose: mockHandleClose,
+      containerRef: { current: document.createElement('div') },
+      address: '0x123',
+      breakpoint: 'md',
+    });
 
     render(
       <Wallet>
@@ -160,7 +194,7 @@ describe('Wallet Component', () => {
     expect(consoleSpy).toHaveBeenCalledWith(
       'Defaulted to WalletDropdown. Wallet cannot have both WalletDropdown and WalletAdvanced as children.',
     );
-    expect(screen.getByTestId('wallet-dropdown')).toBeDefined();
+    expect(screen.getByTestId('ockWalletDropdown')).toBeDefined();
     expect(screen.queryByTestId('wallet-advanced')).toBeNull();
 
     consoleSpy.mockRestore();
@@ -223,107 +257,5 @@ describe('Wallet Component', () => {
     );
 
     expect(screen.getByTestId('ockDraggable')).toBeDefined();
-  });
-
-  it('should render WalletAdvanced right-aligned when there is not enough space on the right', () => {
-    Object.defineProperty(window, 'innerWidth', {
-      writable: true,
-      configurable: true,
-      value: 500,
-    });
-
-    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isSubComponentOpen: true,
-      alignSubComponentRight: true,
-    });
-
-    render(
-      <Wallet>
-        <ConnectWallet />
-        <WalletAdvanced>
-          <div>Wallet Advanced</div>
-        </WalletAdvanced>
-      </Wallet>,
-    );
-
-    expect(screen.getByTestId('ockWalletAdvancedContainer')).toHaveClass(
-      'right-0',
-    );
-  });
-
-  it('should render WalletAdvanced left-aligned when there is enough space on the right', () => {
-    Object.defineProperty(window, 'innerWidth', {
-      writable: true,
-      configurable: true,
-      value: 1000,
-    });
-
-    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isSubComponentOpen: true,
-    });
-
-    render(
-      <Wallet>
-        <ConnectWallet />
-        <WalletAdvanced>
-          <div>Wallet Advanced</div>
-        </WalletAdvanced>
-      </Wallet>,
-    );
-
-    expect(screen.getByTestId('ockWalletAdvancedContainer')).toHaveClass(
-      'left-0',
-    );
-  });
-
-  it('should render WalletAdvanced above ConnectWallet when there is not enough space on the bottom', () => {
-    Object.defineProperty(window, 'innerHeight', {
-      writable: true,
-      configurable: true,
-      value: 1000,
-    });
-
-    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isSubComponentOpen: true,
-      showSubComponentAbove: true,
-    });
-
-    render(
-      <Wallet>
-        <ConnectWallet />
-        <WalletAdvanced>
-          <div>Wallet Advanced</div>
-        </WalletAdvanced>
-      </Wallet>,
-    );
-
-    expect(screen.getByTestId('ockWalletAdvancedContainer')).toHaveClass(
-      'bottom-full',
-    );
-  });
-
-  it('should render WalletAdvanced below ConnectWallet when there is enough space on the bottom', () => {
-    Object.defineProperty(window, 'innerHeight', {
-      writable: true,
-      configurable: true,
-      value: 1000,
-    });
-
-    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isSubComponentOpen: true,
-    });
-
-    render(
-      <Wallet>
-        <ConnectWallet />
-        <WalletAdvanced>
-          <div>Wallet Advanced</div>
-        </WalletAdvanced>
-      </Wallet>,
-    );
-
-    expect(screen.getByTestId('ockWalletAdvancedContainer')).toHaveClass(
-      'top-full',
-    );
   });
 });

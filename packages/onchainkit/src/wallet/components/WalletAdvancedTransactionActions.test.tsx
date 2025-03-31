@@ -3,19 +3,11 @@ import { WalletEvent, WalletOption } from '@/core/analytics/types';
 import { useOnchainKit } from '@/useOnchainKit';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletAdvancedContext } from './WalletAdvancedProvider';
 import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
-}));
-
-vi.mock('./WalletAdvancedProvider', () => ({
-  useWalletAdvancedContext: vi.fn(),
-  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
 }));
 
 vi.mock('./WalletProvider', () => ({
@@ -29,10 +21,6 @@ vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
 }));
 
 describe('WalletAdvancedTransactionActons', () => {
-  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
-    typeof vi.fn
-  >;
-
   const mockUseOnchainKit = useOnchainKit as ReturnType<typeof vi.fn>;
 
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
@@ -53,9 +41,6 @@ describe('WalletAdvancedTransactionActons', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(window, 'open').mockImplementation(() => null);
-    mockUseWalletAdvancedContext.mockReturnValue(
-      defaultMockUseWalletAdvancedContext,
-    );
     mockUseOnchainKit.mockReturnValue({
       projectId: mockProjectId,
     });
@@ -63,6 +48,7 @@ describe('WalletAdvancedTransactionActons', () => {
     mockUseWalletContext.mockReturnValue({
       address: mockAddress,
       chain: mockChain,
+      ...defaultMockUseWalletAdvancedContext,
     });
 
     (useAnalytics as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -113,10 +99,16 @@ describe('WalletAdvancedTransactionActons', () => {
     );
   });
 
-  it('opens the buy page when the buy button is clicked and projectId, address or chain.name are not defined', () => {
+  it('does not open the buy page when the buy button is clicked and projectId, address or chain.name are not defined', () => {
     mockUseOnchainKit.mockReturnValue({
       projectId: null,
     });
+    mockUseWalletContext.mockReturnValue({
+      address: '0x123',
+      chain: mockChain,
+      ...defaultMockUseWalletAdvancedContext,
+    });
+
     const { rerender } = render(<WalletAdvancedTransactionActions />);
     const buyButton = screen.getByRole('button', { name: 'Buy' });
     fireEvent.click(buyButton);
@@ -128,6 +120,7 @@ describe('WalletAdvancedTransactionActons', () => {
     mockUseWalletContext.mockReturnValue({
       address: null,
       chain: mockChain,
+      ...defaultMockUseWalletAdvancedContext,
     });
     rerender(<WalletAdvancedTransactionActions />);
     fireEvent.click(buyButton);
@@ -136,6 +129,7 @@ describe('WalletAdvancedTransactionActons', () => {
     mockUseWalletContext.mockReturnValue({
       address: mockAddress,
       chain: null,
+      ...defaultMockUseWalletAdvancedContext,
     });
     rerender(<WalletAdvancedTransactionActions />);
     fireEvent.click(buyButton);
@@ -143,10 +137,6 @@ describe('WalletAdvancedTransactionActons', () => {
   });
 
   it('sets activeFeature to send when the send button is clicked', () => {
-    mockUseWalletAdvancedContext.mockReturnValue(
-      defaultMockUseWalletAdvancedContext,
-    );
-
     render(<WalletAdvancedTransactionActions />);
 
     const sendButton = screen.getByRole('button', { name: 'Send' });
@@ -158,10 +148,6 @@ describe('WalletAdvancedTransactionActons', () => {
   });
 
   it('sets activeFeature to swap when the swap button is clicked', () => {
-    mockUseWalletAdvancedContext.mockReturnValue(
-      defaultMockUseWalletAdvancedContext,
-    );
-
     render(<WalletAdvancedTransactionActions />);
 
     const swapButton = screen.getByRole('button', { name: 'Swap' });
@@ -173,7 +159,9 @@ describe('WalletAdvancedTransactionActons', () => {
   });
 
   it('renders a placeholder when fetcher is loading', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
+    mockUseWalletContext.mockReturnValue({
+      address: mockAddress,
+      chain: mockChain,
       ...defaultMockUseWalletAdvancedContext,
       isFetchingPortfolioData: true,
     });
@@ -300,6 +288,7 @@ describe('WalletAdvancedTransactionActons', () => {
       mockUseWalletContext.mockReturnValue({
         address: mockAddress,
         chain: mockChain,
+        ...defaultMockUseWalletAdvancedContext,
       });
 
       rerender(<WalletAdvancedTransactionActions />);

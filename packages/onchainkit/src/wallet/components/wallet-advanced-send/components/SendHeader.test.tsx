@@ -1,11 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletAdvancedContext } from '../../WalletAdvancedProvider';
+import { useWalletContext } from '../../WalletProvider';
 import { SendHeader } from './SendHeader';
 import { useSendContext } from './SendProvider';
 
-vi.mock('../../WalletAdvancedProvider', () => ({
-  useWalletAdvancedContext: vi.fn(),
+vi.mock('../../WalletProvider', () => ({
+  useWalletContext: vi.fn(),
 }));
 
 vi.mock('./SendProvider', () => ({
@@ -34,7 +34,7 @@ vi.mock('@/internal/svg/closeSvg', () => ({
 }));
 
 describe('SendHeader', () => {
-  const mockUseWalletAdvancedContext = useWalletAdvancedContext as ReturnType<
+  const mockUseWalletAdvancedContext = useWalletContext as ReturnType<
     typeof vi.fn
   >;
   const mockUseSendContext = useSendContext as ReturnType<typeof vi.fn>;
