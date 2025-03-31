@@ -23,6 +23,10 @@ vi.mock('./BuyDropdown', () => ({
   BuyDropdown: () => <div data-testid="mock-BuyDropdown">BuyDropdown</div>,
 }));
 
+vi.mock('./BuyButton', () => ({
+  BuyButton: () => <div data-testid="mock-BuyButton">Buy</div>,
+}));
+
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
