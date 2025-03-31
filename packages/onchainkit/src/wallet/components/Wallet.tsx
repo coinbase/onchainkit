@@ -1,6 +1,5 @@
 'use client';
 
-import { Avatar, Name } from '@/identity';
 import { Draggable } from '@/internal/components/Draggable/Draggable';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
@@ -23,10 +22,7 @@ import { WalletProvider, useWalletContext } from './WalletProvider';
 
 const defaultWalletChildren = (
   <>
-    <ConnectWallet>
-      <Avatar className="h-6 w-6" key="avatar" />
-      <Name key="name" />
-    </ConnectWallet>
+    <ConnectWallet />
     <WalletDropdown />
   </>
 );
