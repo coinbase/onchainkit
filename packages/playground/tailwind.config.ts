@@ -1,5 +1,6 @@
 import type { Config } from 'tailwindcss';
 import colors from 'tailwindcss/colors';
+import tailwindcssAnimate from 'tailwindcss-animate';
 
 const config: Config = {
   content: [
@@ -95,11 +96,6 @@ const config: Config = {
         foreground: 'hsl(var(--card-foreground))',
       },
     },
-    // borderRadius: {
-    //   lg: 'var(--radius)',
-    //   md: 'calc(var(--radius) - 2px)',
-    //   sm: 'calc(var(--radius) - 4px)',
-    // },
     keyframes: {
       'accordion-down': {
         from: {
@@ -119,6 +115,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [tailwindcssAnimate],
 };
 export default config;

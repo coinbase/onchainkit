@@ -38,11 +38,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className="overflow-hidden bg-background">
-        <Providers>{children}</Providers>
-      </body>
-    </html>
-  );
+  return <Providers>{children}</Providers>;
 }

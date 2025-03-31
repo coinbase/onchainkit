@@ -26,6 +26,8 @@ body {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+
+  overflow: hidden;
 }
 
 .high-score-badge + div {
