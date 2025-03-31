@@ -3,6 +3,7 @@ import process from 'process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { stripVTControlCharacters } from 'util';
 
 const packageName = '@coinbase/onchainkit';
 const onchainkitPath = 'packages/onchainkit';
@@ -33,6 +34,8 @@ function getNextVersion() {
 
     nextVersion = onchainkitVersionLine.split(packageName)[1].trim();
 
+    console.log('Version bump detected: ', nextVersion);
+
     if (!nextVersion) throw new Error('No onchainkit version found');
   } catch (error) {
     console.error('Error checking changeset status:\n', error.message);
@@ -44,6 +47,7 @@ function getNextVersion() {
       const packageJsonPath = path.join(onchainkitPath, 'package.json');
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
       nextVersion = packageJson.version;
+      console.log('Falling back to package.json version: ', nextVersion);
     } catch (error) {
       console.error('Error falling back to package.json:\n', error.message);
 
@@ -53,7 +57,7 @@ function getNextVersion() {
 
   // Write version to dist/version.txt, adjusting for the directory change
   const versionPath = path.join(onchainkitPath, 'dist/version.txt');
-  fs.writeFileSync(versionPath, nextVersion);
+  fs.writeFileSync(versionPath, stripVTControlCharacters(nextVersion));
 }
 
 getNextVersion();
