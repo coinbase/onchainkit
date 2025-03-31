@@ -30,7 +30,7 @@
     "test:ui": "vitest --ui",
     "watch": "tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch",
     "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch",
-    "get-next-version": "node ./scripts/get-next-version.js --since=origin/master"
+    "get-next-version": "node ./scripts/get-next-version.js"
   },
   "peerDependencies": {
     "@types/react": "^18 || ^19",
