@@ -12,7 +12,7 @@ export async function GET() {
       name: 'MiniKit',
       homeUrl: 'https://onchainkit.xyz/playground/minikit',
       iconUrl: 'https://onchainkit.xyz/playground/snake.png',
-      imageUrl: 'https://onchainkit.xyz/playground/snake.png',
+      imageUrl: 'https://onchainkit.xyz/playground/snake-image.png',
       buttonTitle: 'Launch MiniKit',
       splashImageUrl: 'https://onchainkit.xyz/playground/snake.png',
       splashBackgroundColor: '#FFFFFF',
