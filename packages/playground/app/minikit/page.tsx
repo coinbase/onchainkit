@@ -41,7 +41,7 @@ export default function App() {
           onClick={handleAddFrame}
           className="cursor-pointer bg-transparent font-semibold text-sm"
         >
-          + SAVE FRAME
+          + SAVE MINI-APP
         </button>
       );
     }
