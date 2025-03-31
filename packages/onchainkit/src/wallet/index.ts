@@ -25,6 +25,9 @@ export { WalletProvider } from './components/WalletProvider';
 export { isValidAAEntrypoint } from './utils/isValidAAEntrypoint';
 export { isWalletACoinbaseSmartWallet } from './utils/isWalletACoinbaseSmartWallet';
 
+// Hooks
+export { useConnectModal } from './hooks/useConnectModal';
+
 // Types
 export type {
   ConnectWalletReact,
