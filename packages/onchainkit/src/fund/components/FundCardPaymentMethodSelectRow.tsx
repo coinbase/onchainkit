@@ -78,3 +78,5 @@ export const FundCardPaymentMethodSelectRow = memo(
     );
   },
 );
+
+FundCardPaymentMethodSelectRow.displayName = 'FundCardPaymentMethodSelectRow';

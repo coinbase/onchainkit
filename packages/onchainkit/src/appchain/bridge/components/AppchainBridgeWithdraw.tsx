@@ -3,7 +3,7 @@ import { Spinner } from '@/internal/components/Spinner';
 import { ErrorSvg } from '@/internal/svg/fullWidthErrorSvg';
 import { SuccessSvg } from '@/internal/svg/fullWidthSuccessSvg';
 import { border, cn, color, pressable, text } from '@/styles/theme';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useWithdrawButton } from '../hooks/useWithdrawButton';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
@@ -49,9 +49,10 @@ export const AppchainBridgeWithdraw = () => {
       </div>
     </div>
   );
+  SuccessIcon.displayName = 'SuccessIcon';
 
-  const LoadingContent = useMemo(
-    () => () => (
+  function LoadingContent() {
+    return (
       <div className="flex h-full flex-col items-center justify-center gap-16">
         <Spinner className="!border-t-[var(--ock-bg-primary)] h-24 w-24" />
         <span className="px-4 text-center font-medium text-base">
@@ -60,12 +61,12 @@ export const AppchainBridgeWithdraw = () => {
           Please do not close this window.
         </span>
       </div>
-    ),
-    [],
-  );
+    );
+  }
+  LoadingContent.displayName = 'LoadingContent';
 
-  const ClaimContent = useMemo(
-    () => () => (
+  function ClaimContent() {
+    return (
       <div className="flex flex-col items-center gap-16">
         <SuccessIcon />
         <button
@@ -80,12 +81,12 @@ export const AppchainBridgeWithdraw = () => {
           </div>
         </button>
       </div>
-    ),
-    [buttonStyles, buttonDisabled, buttonContent, proveAndFinalizeWithdrawal],
-  );
+    );
+  }
+  ClaimContent.displayName = 'ClaimContent';
 
-  const ErrorContent = useMemo(
-    () => () => (
+  function ErrorContent() {
+    return (
       <div className="flex flex-col items-center gap-16">
         <div className="flex justify-center">
           <div className="h-20 w-20">
@@ -115,9 +116,9 @@ export const AppchainBridgeWithdraw = () => {
           </button>
         </div>
       </div>
-    ),
-    [handleResetState, buttonStyles],
-  );
+    );
+  }
+  ErrorContent.displayName = 'ErrorContent';
 
   const renderContent = () => {
     if (isError) {
