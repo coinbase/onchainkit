@@ -353,6 +353,10 @@
   ],
   "rewrites": [
     {
+      "source": "/icon.png",
+      "destination": "/playground/snake-icon.png"
+    },
+    {
       "source": "/playground",
       "destination": "https://onchainkit-bsvq.vercel.app/"
     },

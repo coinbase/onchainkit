@@ -17,14 +17,14 @@ export async function generateMetadata(): Promise<Metadata> {
     other: {
       'fc:frame': JSON.stringify({
         version: 'next',
-        imageUrl: 'https://onchainkit.xyz/playground/snake-icon.png',
+        imageUrl: 'https://onchainkit.xyz/playground/snake.png',
         button: {
           title: 'Launch MiniKit',
           action: {
             type: 'launch_frame',
             name: 'MiniKit',
             url: 'https://onchainkit.xyz/playground/minikit',
-            splashImageUrl: 'https://onchainkit.xyz/playground/snake-icon.png',
+            splashImageUrl: 'https://onchainkit.xyz/playground/snake.png',
             splashBackgroundColor: '#FFFFFF',
           },
         },

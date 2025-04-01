@@ -1,4 +1,5 @@
 import {
+  FrameNotificationDetails,
   type SendNotificationRequest,
   sendNotificationResponseSchema,
 } from "@farcaster/frame-sdk";
@@ -19,12 +20,16 @@ export async function sendFrameNotification({
   fid,
   title,
   body,
+  notificationDetails,
 }: {
   fid: number;
   title: string;
   body: string;
+  notificationDetails?: FrameNotificationDetails | null;
 }): Promise<SendFrameNotificationResult> {
-  const notificationDetails = await getUserNotificationDetails(fid);
+  if (!notificationDetails) {
+    notificationDetails = await getUserNotificationDetails(fid);
+  }
   if (!notificationDetails) {
     return { state: "no_token" };
   }
