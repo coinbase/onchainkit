@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 
 const DIST_TAGS_URL =
   'https://registry.npmjs.org/-/package/@coinbase//onchainkit/dist-tags';
-export const ALPHA_TAG = 'alpha-test';
+export const ALPHA_TAG = 'alpha';
 
 export async function main() {
   let nextAlphaVersion = '';
