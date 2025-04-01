@@ -214,13 +214,13 @@ describe('AppchainBridgeProvider', () => {
   it('should handle address modal state changes', async () => {
     await waitFor(async () => {
       result.current.setIsAddressModalOpen(true);
+      expect(result.current.isAddressModalOpen).toBe(true);
     });
-    expect(result.current.isAddressModalOpen).toBe(true);
 
     await waitFor(async () => {
       result.current.handleAddressSelect('0x456' as `0x${string}`);
+      expect(result.current.bridgeParams.recipient).toBe('0x456');
     });
-    expect(result.current.bridgeParams.recipient).toBe('0x456');
   });
 
   it('should call deposit function when handleDeposit is called', async () => {
