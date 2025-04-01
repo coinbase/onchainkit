@@ -7,12 +7,9 @@ import {
 } from '@coinbase/onchainkit/minikit';
 import { Name, Identity, Badge } from '@coinbase/onchainkit/identity';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import Snake from './components/snake';
+import Snake, { SCHEMA_UID } from './components/snake';
 import { useAccount } from 'wagmi';
 import Check from './svg/Check';
-
-const SCHEMA_UID =
-  '0x7889a09fb295b0a0c63a3d7903c4f00f7896cca4fa64d2c1313f8547390b7d39';
 
 export default function App() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
