@@ -101,6 +101,7 @@
     "access": "public"
   },
   "files": [
+    "dist/**/*",
     "esm/**/*",
     "src/",
     "src/**/*"
