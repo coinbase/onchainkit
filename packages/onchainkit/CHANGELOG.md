@@ -1,14 +1,15 @@
 # Changelog
 
-## 0.39.0
-
-### Minor Changes
-
-- 1ff391f: -**chore**: Add Attestation caching. By @cpcramer #2180
+## 0.38.3
 
 ### Patch Changes
 
-- e1af9e7: - **feat**: Add Rabby, Trust, and Frame wallet connection support in `WalletModal`. By @cpcramer #2168
+- **refactor**: Organized coinbase/onchainkit project into pnpm workspace. By @dgca #2167
+- **chore**: Added Attestation caching. By @cpcramer #2180
+- **feat**: Added `MiniKit` to the playground - https://onchainkit.xyz/playground/minikit. By @alessey #2176
+- **feat**: Added Rabby, Trust, and Frame wallet connection support in `WalletModal`. By @cpcramer #2168
+- **chore**: Refactored `Wallet`. Deprecated `WalletAdvanced`. By @abcrane123 #2179
+- **fix**: `SwapSettings` not rendering for `SwapDefault` component. By @abcrane123 #2200
 
 ## 0.38.2
 
