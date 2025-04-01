@@ -1,12 +1,22 @@
 # Changelog
 
+## 0.39.0
+
+### Minor Changes
+
+- 1ff391f: -**chore**: Add Attestation caching. By @cpcramer #2180
+
+### Patch Changes
+
+- e1af9e7: - **feat**: Add Rabby, Trust, and Frame wallet connection support in `WalletModal`. By @cpcramer #2168
+
 ## 0.38.2
 
 ### Patch Changes
 
-  - **feat**: Add iconUrl to OnrampPaymentCurrency type. By @rustam-cb #2165
-  - **fix**: Fix bug that would disable onramp due to USDC price fluctuations. By @abcrane123 #2171
-  - **chore**: Remove site code from onchainkit repository. By @cpcramer #2136
+- **feat**: Add iconUrl to OnrampPaymentCurrency type. By @rustam-cb #2165
+- **fix**: Fix bug that would disable onramp due to USDC price fluctuations. By @abcrane123 #2171
+- **chore**: Remove site code from onchainkit repository. By @cpcramer #2136
 
 ## 0.38.1
 
