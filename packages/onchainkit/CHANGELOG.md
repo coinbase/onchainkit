@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- c43336f: Fix missing /dist folders in built package
+- **fix**: Fix missing `/dist` folder in package.json. By @dgca #2208
 
 ## 0.38.3
 
