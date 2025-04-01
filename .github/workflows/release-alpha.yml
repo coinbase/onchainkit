@@ -1,15 +1,14 @@
-name: Release alpha version
+name: Publish alpha version
 
 on:
   push:
     branches:
       - main
-      - '**--alpha'
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  release-alpha:
+  publish-alpha:
     runs-on: ubuntu-latest
     environment: release
     permissions:
@@ -28,6 +27,6 @@ jobs:
       - name: Set deployment token
         run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
 
-      - name: Publish alpha version
+      - name: Publish alpha
         shell: bash
-        run: pnpm f:ock get-next-version
+        run: pnpm f:ock publish-alpha
