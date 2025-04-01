@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.4
+
+### Patch Changes
+
+- c43336f: Fix missing /dist folders in built package
+
 ## 0.38.3
 
 ### Patch Changes
