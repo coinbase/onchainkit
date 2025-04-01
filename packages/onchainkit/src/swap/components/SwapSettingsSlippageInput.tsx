@@ -99,7 +99,7 @@ export function SwapSettingsSlippageInput({
         background.default,
         border.defaultActive,
         border.radius,
-        'flex items-center gap-2',
+        'flex items-center gap-2 flex-grow max-sm:pt-4',
         className,
       )}
     >
