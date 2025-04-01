@@ -20,6 +20,7 @@ type GetBuyQuoteParams = Omit<GetSwapQuoteParams, 'from'> & {
 /**
  * Fetches a quote for a swap, but only if the from and to tokens are different.
  */
+// eslint-disable-next-line complexity
 export async function getBuyQuote({
   amount,
   from,

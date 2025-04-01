@@ -19,7 +19,6 @@ describe('NFTImage', () => {
 
     // mock Image constructor to call load/error events based on src
     Object.defineProperty(global.Image.prototype, 'src', {
-      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: test
       set(src) {
         if (src === 'error' && this.onerror) {
           this.onerror('mocked error');

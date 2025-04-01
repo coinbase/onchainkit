@@ -23,7 +23,6 @@ export type SendSwapTransactionParams = {
   config: Config;
   isSponsored?: boolean; // Whether the swap is sponsored (default: false)
   paymaster?: string; // OnchainKit config paymaster RPC url
-  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   transactions: SwapTransaction[]; // A list of transactions to execute
@@ -139,7 +138,6 @@ export type ProcessSwapTransactionParams = {
   config: Config;
   isSponsored?: boolean; // Whether the swap is sponsored (default: false)
   paymaster?: string; // OnchainKit config paymaster RPC url
-  // biome-ignore lint: cannot find module 'wagmi/experimental/query'
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   swapTransaction: BuildSwapTransaction; // The response from the Swap API

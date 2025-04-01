@@ -16,6 +16,7 @@ import { getSwapTransaction } from './utils/getSwapTransaction';
 /**
  * Retrieves an unsigned transaction for a swap from Token A to Token B.
  */
+// eslint-disable-next-line complexity
 export async function buildSwapTransaction(
   params: BuildSwapTransactionParams,
   _context: RequestContext = RequestContext.API,

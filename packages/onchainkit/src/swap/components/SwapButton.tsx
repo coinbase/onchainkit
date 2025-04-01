@@ -5,6 +5,7 @@ import { ConnectWallet } from '@/wallet/components/ConnectWallet';
 import type { SwapButtonReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 
+// eslint-disable-next-line complexity
 export function SwapButton({
   className,
   label = 'Swap',

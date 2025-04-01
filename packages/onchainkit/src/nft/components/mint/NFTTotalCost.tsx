@@ -10,6 +10,7 @@ type NFTTotalCostReact = {
   label?: ReactNode;
 };
 
+// eslint-disable-next-line complexity
 export function NFTTotalCost({
   className,
   label = 'Total cost',

@@ -15,6 +15,7 @@ import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
 /**
  * Retrieves a quote for a swap from Token A to Token B.
  */
+// eslint-disable-next-line complexity
 export async function getSwapQuote(
   params: GetSwapQuoteParams,
   _context: RequestContext = RequestContext.API,

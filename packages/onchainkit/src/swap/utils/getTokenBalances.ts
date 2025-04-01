@@ -8,6 +8,7 @@ type GetTokenBalancesParams = {
   ethBalance?: bigint;
 };
 
+// eslint-disable-next-line complexity
 export function getTokenBalances({
   ethBalance,
   token,

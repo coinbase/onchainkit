@@ -14,7 +14,6 @@ export function SwapConfig() {
     setInputValue(defaultMaxSlippage?.toString() ?? '');
   }, [defaultMaxSlippage]);
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
   const handleSlippageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);

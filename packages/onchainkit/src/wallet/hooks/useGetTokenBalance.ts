@@ -23,6 +23,7 @@ export function useGetTokenBalance(
     },
   });
 
+  // eslint-disable-next-line complexity
   return useMemo(() => {
     let error: SwapError | undefined;
     if (tokenBalanceResponse?.error) {

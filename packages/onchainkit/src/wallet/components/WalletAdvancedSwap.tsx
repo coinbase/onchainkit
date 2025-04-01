@@ -17,6 +17,7 @@ import { useCallback } from 'react';
 import type { WalletAdvancedSwapProps } from '../types';
 import { useWalletContext } from './WalletProvider';
 
+// eslint-disable-next-line complexity
 export function WalletAdvancedSwap({
   config,
   classNames,

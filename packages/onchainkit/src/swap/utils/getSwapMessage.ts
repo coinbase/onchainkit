@@ -2,6 +2,7 @@ import { SwapMessage } from '../constants';
 import type { GetSwapMessageParams } from '../types';
 import { getErrorMessage } from './getErrorMessage';
 
+// eslint-disable-next-line complexity
 export function getSwapMessage({
   address,
   from,

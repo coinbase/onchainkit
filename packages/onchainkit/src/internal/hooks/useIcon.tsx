@@ -10,6 +10,7 @@ import { toggleSvg } from '../svg/toggleSvg';
 import { walletSvg } from '../svg/walletSvg';
 
 export const useIcon = ({ icon }: { icon?: React.ReactNode }) => {
+  // eslint-disable-next-line complexity
   return useMemo(() => {
     if (icon === undefined) {
       return null;

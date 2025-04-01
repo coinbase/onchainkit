@@ -20,6 +20,7 @@ import type { SwapAmountInputReact } from '../types';
 import { formatAmount } from '../utils/formatAmount';
 import { useSwapContext } from './SwapProvider';
 
+// eslint-disable-next-line complexity
 export function SwapAmountInput({
   className,
   delayMs = 1000,

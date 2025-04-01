@@ -36,6 +36,7 @@ export type QRCodeSVGProps = {
   gradientType?: 'radial' | 'linear';
 };
 
+// eslint-disable-next-line complexity
 export function QrCodeSvg({
   value,
   size = QR_CODE_SIZE,

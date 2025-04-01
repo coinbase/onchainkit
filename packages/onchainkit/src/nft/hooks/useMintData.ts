@@ -7,6 +7,7 @@ import { useNFTLifecycleContext } from '../components/NFTLifecycleProvider';
 import type { NFTData } from '../types';
 import { useMintDetails } from './useMintDetails';
 
+// eslint-disable-next-line complexity
 export function useMintData(
   contractAddress: `0x${string}`,
   tokenId?: string,

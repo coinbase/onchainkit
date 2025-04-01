@@ -44,7 +44,7 @@ export default [
 
       // TODO: These rules are temporarily disabled due to existing errors in codebase
       // They will be enabled and fixed as soon as the worskapce PR is merged
-      complexity: ['off', 10],
+      complexity: ['error', 10],
       'no-unused-vars': 'off',
       'sort-keys': [
         'off',

@@ -15,6 +15,7 @@ export function defaultSendTxSuccessHandler({
   address: Address | undefined;
   onComplete?: () => void;
 }) {
+  // eslint-disable-next-line complexity
   return (receipt: TransactionReceipt | undefined) => {
     const accountChainId = senderChain?.id ?? useChainId();
 

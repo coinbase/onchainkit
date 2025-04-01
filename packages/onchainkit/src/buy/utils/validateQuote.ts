@@ -12,6 +12,7 @@ type ValidateQuoteParams = {
   ) => void;
   to: SwapUnit;
 };
+// eslint-disable-next-line complexity
 export function validateQuote({
   to,
   responseETH,

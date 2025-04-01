@@ -215,7 +215,7 @@ export function CheckoutProvider({
     [sendAnalytics],
   );
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component to deprecate funding flow
+  // eslint-disable-next-line complexity
   const handleSubmit = useCallback(async () => {
     try {
       handleAnalytics(CheckoutEvent.CheckoutInitiated, {

@@ -11,6 +11,7 @@ import type {
  *
  * Additionally adds default values for optional request fields.
  */
+// eslint-disable-next-line complexity
 export function getAPIParamsForToken(
   params: GetAPIParamsForToken,
 ): SwapAPIParams | APIError {
