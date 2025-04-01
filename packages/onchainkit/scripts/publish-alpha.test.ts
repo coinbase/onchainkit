@@ -7,7 +7,8 @@ import {
   getNextAlphaVersionNumber,
   publishAlphaRelease,
   main,
-} from './publish-alpha-release.js';
+  ALPHA_TAG,
+} from './publish-alpha.js';
 
 // Mock the modules
 vi.mock('child_process');
@@ -53,11 +54,11 @@ describe('publish-alpha-release script', () => {
   describe('getNextAlphaVersionNumber', () => {
     it('should increment alpha count when base version matches latest', () => {
       const params: VersionParams = {
-        alpha: '1.2.0-alpha.0',
+        alpha: `1.2.0-${ALPHA_TAG}.0`,
         latest: '1.2.0',
       };
       const result = getNextAlphaVersionNumber(params);
-      expect(result).toBe('1.2.0-alpha.1');
+      expect(result).toBe(`1.2.0-${ALPHA_TAG}.1`);
     });
 
     it('should start alpha count at 0 when no alpha version exists', () => {
@@ -66,12 +67,12 @@ describe('publish-alpha-release script', () => {
         latest: '1.2.0',
       };
       const result = getNextAlphaVersionNumber(params);
-      expect(result).toBe('1.2.0-alpha.0');
+      expect(result).toBe(`1.2.0-${ALPHA_TAG}.0`);
     });
 
     it('should throw error when alpha version is greater than latest', () => {
       const params: VersionParams = {
-        alpha: '1.2.1-alpha.0',
+        alpha: `1.2.1-${ALPHA_TAG}.0`,
         latest: '1.2.0',
       };
       expect(() => getNextAlphaVersionNumber(params)).toThrow(
@@ -81,7 +82,7 @@ describe('publish-alpha-release script', () => {
 
     it('should throw error for invalid version format', () => {
       const params: VersionParams = {
-        alpha: '1.2-alpha.0',
+        alpha: `1.2-${ALPHA_TAG}.0`,
         latest: '1.2.0',
       };
       expect(() => getNextAlphaVersionNumber(params)).toThrow(
@@ -95,13 +96,13 @@ describe('publish-alpha-release script', () => {
         latest: '1.2.0',
       };
       const result = getNextAlphaVersionNumber(params);
-      expect(result).toBe('1.2.0-alpha.0');
+      expect(result).toBe(`1.2.0-${ALPHA_TAG}.0`);
     });
   });
 
   describe('publishAlphaRelease', () => {
     it('should update package.json and publish with alpha tag', () => {
-      const nextAlphaVersion = '1.2.0-alpha.0';
+      const nextAlphaVersion = `1.2.0-${ALPHA_TAG}.0`;
       const mockPackageJson = { version: '1.1.0' };
 
       // Mock fs.readFileSync for package.json
@@ -123,7 +124,7 @@ describe('publish-alpha-release script', () => {
 
       // Verify publish command was executed
       expect(execSync).toHaveBeenCalledWith(
-        'pnpm publish --tag alpha --no-git-checks --dry-run',
+        `pnpm publish --tag ${ALPHA_TAG} --no-git-checks --dry-run`,
       );
     });
   });
@@ -135,7 +136,7 @@ describe('publish-alpha-release script', () => {
         json: () =>
           Promise.resolve({
             latest: '1.2.0',
-            alpha: '1.2.0-alpha.0',
+            alpha: `1.2.0-${ALPHA_TAG}.0`,
           }),
       });
 
@@ -149,18 +150,18 @@ describe('publish-alpha-release script', () => {
 
       // Verify console logs
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        'Found tags:\nlatest: 1.2.0\nalpha: 1.2.0-alpha.0',
+        `Found tags:\nlatest: 1.2.0\nalpha: 1.2.0-${ALPHA_TAG}.0`,
       );
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        'Next alpha version: 1.2.0-alpha.1',
+        `Next alpha version: 1.2.0-${ALPHA_TAG}.1`,
       );
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        'Alpha release published: 1.2.0-alpha.1',
+        `Alpha release published: 1.2.0-${ALPHA_TAG}.1`,
       );
 
       // Verify the next alpha version was calculated and published
       expect(execSync).toHaveBeenCalledWith(
-        'pnpm publish --tag alpha --no-git-checks --dry-run',
+        `pnpm publish --tag ${ALPHA_TAG} --no-git-checks --dry-run`,
       );
     });
 
@@ -195,7 +196,7 @@ describe('publish-alpha-release script', () => {
         json: () =>
           Promise.resolve({
             latest: '1.2.0',
-            alpha: '1.2.0-alpha.0',
+            alpha: `1.2.0-${ALPHA_TAG}.0`,
           }),
       });
 

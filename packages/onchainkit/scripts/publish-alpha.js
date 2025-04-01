@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 
 const DIST_TAGS_URL =
   'https://registry.npmjs.org/-/package/@coinbase//onchainkit/dist-tags';
-const ALPHA_TAG = 'alpha';
+export const ALPHA_TAG = 'alpha-test';
 
 export async function main() {
   let nextAlphaVersion = '';
@@ -14,7 +14,8 @@ export async function main() {
   try {
     const distTagsResponse = await fetch(DIST_TAGS_URL);
     const distTags = await distTagsResponse.json();
-    const { alpha, latest } = distTags;
+    const { latest } = distTags;
+    const alpha = distTags[ALPHA_TAG];
 
     console.log(`Found tags:\nlatest: ${latest}\nalpha: ${alpha}`);
 
