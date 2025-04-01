@@ -9,9 +9,6 @@ vi.mock('child_process');
 vi.mock('fs');
 vi.mock('path');
 vi.mock('url');
-vi.mock('util', () => ({
-  stripVTControlCharacters: vi.fn((str) => str),
-}));
 
 describe('get-next-version script', () => {
   beforeEach(() => {
