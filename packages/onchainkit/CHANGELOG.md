@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.4
+
+### Patch Changes
+
+- **fix**: Fix missing `/dist` folder in package.json. By @dgca #2208
+
 ## 0.38.3
 
 ### Patch Changes
