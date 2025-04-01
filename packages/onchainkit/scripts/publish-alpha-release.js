@@ -1,4 +1,4 @@
-import { execSync } from 'child_process';
+// import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
@@ -29,7 +29,7 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`Alpha release created: ${nextAlphaVersion}`);
+  console.log(`Alpha release published: ${nextAlphaVersion}`);
 }
 
 /**
