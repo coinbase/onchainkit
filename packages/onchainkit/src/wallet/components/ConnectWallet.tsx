@@ -24,7 +24,7 @@ import { ConnectWalletText } from './ConnectWalletText';
 import { WalletModal } from './WalletModal';
 import { useWalletContext } from './WalletProvider';
 
-const connectWalletDefaultchildren = (
+const connectWalletDefaultChildren = (
   <>
     <Avatar className="h-6 w-6" />
     <Name />
@@ -231,7 +231,7 @@ export function ConnectWallet({
           onClick={handleToggle}
         >
           <div className="flex items-center justify-center gap-2">
-            {childrenWithoutConnectWalletText || connectWalletDefaultchildren}
+            {childrenWithoutConnectWalletText || connectWalletDefaultChildren}
           </div>
         </button>
       </div>
