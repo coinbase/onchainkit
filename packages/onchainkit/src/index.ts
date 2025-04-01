@@ -19,3 +19,7 @@ export type {
 } from './core/types';
 
 export type { OnchainKitProviderReact } from './types';
+
+export function helloWorld() {
+  console.log('Hello World');
+}
