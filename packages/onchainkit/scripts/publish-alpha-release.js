@@ -1,22 +1,26 @@
-// import { execSync } from 'child_process';
+import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
 import { fileURLToPath } from 'url';
 
 const DIST_TAGS_URL =
-  'https://registry.npmjs.org/-/package/onchainkit/dist-tags';
+  'https://registry.npmjs.org/-/package/@coinbase//onchainkit/dist-tags';
 const ALPHA_TAG = 'alpha';
 
-async function main() {
+export async function main() {
   let nextAlphaVersion = '';
 
   try {
     const distTagsResponse = await fetch(DIST_TAGS_URL);
     const distTags = await distTagsResponse.json();
-    const { alpha, latest } = distTags.alpha;
+    const { alpha, latest } = distTags;
+
+    console.log(`Found tags:\nlatest: ${latest}\nalpha: ${alpha}`);
 
     nextAlphaVersion = getNextAlphaVersionNumber({ alpha, latest });
+
+    console.log(`Next alpha version: ${nextAlphaVersion}`);
   } catch (error) {
     console.error('Error determining next alpha version:\n', error.message);
     process.exit(1);
@@ -25,7 +29,7 @@ async function main() {
   try {
     publishAlphaRelease(nextAlphaVersion);
   } catch (error) {
-    console.error('Error publishing alpha release:\n', error);
+    console.error('Error publishing alpha release:\n', error.message);
     process.exit(1);
   }
 
@@ -33,12 +37,13 @@ async function main() {
 }
 
 /**
- * Get the next alpha version
- * @param {string} maybeAlpha - The alpha version to get the next version of
- * @param {string} latest - The latest version
+ * Get the next alpha version number
+ * @param {Object} params - The version parameters
+ * @param {string} params.alpha - The alpha version to get the next version of
+ * @param {string} params.latest - The latest version
  * @returns {string} The next alpha version
  */
-function getNextAlphaVersionNumber({ alpha: maybeAlpha, latest }) {
+export function getNextAlphaVersionNumber({ alpha: maybeAlpha, latest }) {
   const alpha = maybeAlpha ?? latest;
 
   const [alphaBase, alphaCount] = alpha.split(new RegExp(`-${ALPHA_TAG}\\.`));
@@ -68,7 +73,7 @@ function getNextAlphaVersionNumber({ alpha: maybeAlpha, latest }) {
  * Publish the alpha release
  * @param {string} nextAlphaVersion - The next alpha version
  */
-function publishAlphaRelease(nextAlphaVersion) {
+export function publishAlphaRelease(nextAlphaVersion) {
   const currentFilePath = fileURLToPath(import.meta.url);
   const currentDir = path.dirname(currentFilePath);
 
@@ -84,7 +89,7 @@ function publishAlphaRelease(nextAlphaVersion) {
     JSON.stringify(packageJson, null, 2) + '\n',
   );
 
-  // execSync(`pnpm publish --tag ${ALPHA_TAG} --no-git-checks --dry-run`);
+  execSync(`pnpm publish --tag ${ALPHA_TAG} --no-git-checks --dry-run`);
 }
 
 main();
