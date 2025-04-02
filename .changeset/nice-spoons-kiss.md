@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
-Removes unused \@coinbase/onchainkit/core export
+fix: Removes unused \@coinbase/onchainkit/core export
