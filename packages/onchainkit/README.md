@@ -1,7 +1,7 @@
 <div align="center">
   <p>
     <a href="https://onchainkit.xyz">
-      <img src="./assets/read-me-banner.png" width="100%" height="100%" alt="OnchainKit logo vibes"/>
+      <img src="../../assets/read-me-banner.png" width="100%" height="100%" alt="OnchainKit logo vibes"/>
     </a>
   </p>
 
@@ -137,4 +137,4 @@ Then, you can view the playground at [http://localhost:3000](http://localhost:30
 
 ## 🌊 License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](../../LICENSE.md) file for details
