@@ -11,7 +11,7 @@ import {
   WalletDropdown,
   WalletDropdownDisconnect,
 } from '@coinbase/onchainkit/wallet';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { useGetFid } from '../hooks/useGetFid';
 import {
@@ -28,7 +28,7 @@ function Page() {
   const wsRef = useRef<WebSocket | null>(null);
   const [fid, setFid] = useState<number | null>(null);
   const [domain, setDomain] = useState<string>('');
-  const [domainError, setDomainError] = useState<boolean>(false);
+  const [showDomainError, setShowDomainError] = useState<boolean>(false);
   const [accountAssocation, setAccountAssocation] =
     useState<AccountAssociation | null>(null);
 
@@ -110,21 +110,46 @@ function Page() {
     return () => observer.disconnect();
   }, []);
 
-  const handleValidateUrl = () => {
+  const handleValidateUrl = useCallback(() => {
     const isValid = validateUrl(domain);
     if (!isValid) {
-      setDomainError(true);
+      setShowDomainError(true);
     }
-  };
+  }, [domain]);
 
-  const handleDomainChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDomain(e.target.value);
-    setDomainError(false);
-  };
+  const handleDomainChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setDomain(e.target.value);
+      setShowDomainError(false);
+    },
+    [],
+  );
 
   const handleClose = useCallback(() => {
     window.close();
   }, []);
+
+  const domainError = useMemo(() => {
+    if (!showDomainError) {
+      return null;
+    }
+
+    return (
+      <>
+        <p className="text-red-500">
+          Please enter a valid domain, e.g. https://example.com
+        </p>
+        {/http:/.test(domain) && (
+          <p className="text-sm pl-5 -indent-3 text-gray-600 bg-gray-100 rounded-md pt-2 pb-2 pr-2 border">
+            * http domains are not valid for production, when you are ready to
+            deploy you can regenerate your account manifest by running{' '}
+            <i className="text-gray-600">npx create-onchain --generate</i> in
+            your project directory.
+          </p>
+        )}
+      </>
+    );
+  }, [showDomainError]);
 
   return (
     <main className="flex min-h-screen w-full max-w-[600px] flex-col items-center justify-center gap-6 font-sans">
@@ -166,19 +191,7 @@ function Page() {
               onChange={handleDomainChange}
               onBlur={handleValidateUrl}
             />
-            {domainError && (
-              <>
-                <p className="text-red-500">
-                  Please enter a valid domain, e.g. https://example.com
-                </p>
-                <p className="text-sm pl-3 -indent-3 text-gray-500">
-                  * http domains are not valid for production, when you are
-                  ready to deploy you can regenerate your account manifest by{' '}
-                  running <i>npx create-onchain --generate</i> in your project
-                  directory.
-                </p>
-              </>
-            )}
+            {domainError}
           </div>
         </Step>
 

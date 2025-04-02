@@ -35,7 +35,7 @@ export function Success({ accountAssocation, handleClose }: SuccessProps) {
               JSON.stringify(displayAccountAssocation, null, 2),
             )
           }
-          className="rounded !bg-blue-800 px-2 py-1 text-sm text-white !hover:bg-blue-600"
+          className="rounded !bg-blue-800 px-2 py-1 text-sm text-white hover:!bg-blue-600"
         >
           Copy
         </button>
