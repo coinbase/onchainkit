@@ -145,12 +145,6 @@
       "import": "./esm/checkout/index.js",
       "default": "./esm/checkout/index.js"
     },
-    "./core": {
-      "types": "./esm/core/index.d.ts",
-      "module": "./esm/core/index.js",
-      "import": "./esm/core/index.js",
-      "default": "./esm/core/index.js"
-    },
     "./earn": {
       "types": "./esm/earn/index.d.ts",
       "module": "./esm/earn/index.js",

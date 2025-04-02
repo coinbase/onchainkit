@@ -123,7 +123,7 @@ describe('publish-alpha-release script', () => {
 
       // Verify publish command was executed
       expect(execSync).toHaveBeenCalledWith(
-        `pnpm publish --tag ${ALPHA_TAG} --no-git-checks --dry-run`,
+        `pnpm publish --tag ${ALPHA_TAG} --no-git-checks`,
       );
     });
   });
@@ -160,7 +160,7 @@ describe('publish-alpha-release script', () => {
 
       // Verify the next alpha version was calculated and published
       expect(execSync).toHaveBeenCalledWith(
-        `pnpm publish --tag ${ALPHA_TAG} --no-git-checks --dry-run`,
+        `pnpm publish --tag ${ALPHA_TAG} --no-git-checks`,
       );
     });
 
