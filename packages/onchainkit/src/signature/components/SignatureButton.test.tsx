@@ -8,28 +8,29 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useAccount } from 'wagmi';
+import { useAccount, useConnect } from 'wagmi';
 import { SignatureButton } from './SignatureButton';
 import { useSignatureContext } from './SignatureProvider';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
+  useConnect: vi.fn(),
+  useConnectors: vi.fn(() => ({ connectors: [{ id: 'mockConnector' }] })),
 }));
 
 vi.mock('./SignatureProvider', () => ({
   useSignatureContext: vi.fn(),
 }));
 
-vi.mock('@/wallet/components/ConnectWallet', () => ({
-  ConnectWallet: vi.fn(({ children }) => (
-    <button type="button">{children}</button>
-  )),
-}));
-
 describe('SignatureButton', () => {
   const mockHandleSign = vi.fn();
 
   beforeEach(() => {
+    (useConnect as Mock).mockReturnValue({
+      connectors: [{ id: 'mockConnector' }],
+      connect: vi.fn(),
+      status: 'idle',
+    });
     (useSignatureContext as Mock).mockReturnValue({
       lifecycleStatus: {
         statusName: 'init',
@@ -43,14 +44,20 @@ describe('SignatureButton', () => {
   });
 
   it('should render ConnectWallet when no address is connected', () => {
-    (useAccount as Mock).mockReturnValue({ address: undefined });
+    (useAccount as Mock).mockReturnValue({
+      address: undefined,
+      status: 'disconnected',
+    });
 
     render(<SignatureButton />);
     expect(screen.getByText('Connect Wallet')).toBeInTheDocument();
   });
 
   it('should render connect label when passed in', () => {
-    (useAccount as Mock).mockReturnValue({ address: undefined });
+    (useAccount as Mock).mockReturnValue({
+      address: undefined,
+      status: 'disconnected',
+    });
 
     render(<SignatureButton connectLabel="Sign in please" />);
     expect(screen.getByText('Sign in please')).toBeInTheDocument();

@@ -31,6 +31,11 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
+vi.mock('@/identity', () => ({
+  Name: () => <div data-testid="ockName">Name</div>,
+  Avatar: () => <div data-testid="ockAvatar">Avatar</div>,
+}));
+
 vi.mock('@rainbow-me/rainbowkit', () => ({
   ConnectButton: {
     Custom: ({

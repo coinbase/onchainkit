@@ -1,5 +1,4 @@
 import { ConnectWallet } from '@/wallet/components/ConnectWallet';
-import { ConnectWalletText } from '@/wallet/components/ConnectWalletText';
 import { type ReactNode, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { border, cn, color, pressable, text } from '../../styles/theme';
@@ -51,9 +50,10 @@ export function SignatureButton({
 
   if (!address) {
     return (
-      <ConnectWallet className={cn('w-full', className)}>
-        <ConnectWalletText>{connectLabel}</ConnectWalletText>
-      </ConnectWallet>
+      <ConnectWallet
+        className={cn('w-full', className)}
+        disconnectedLabel={connectLabel}
+      />
     );
   }
 
