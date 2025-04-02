@@ -10,20 +10,20 @@ export const useDebounce = (
     callbackRef.current = callback;
   });
 
-  let timer: number | NodeJS.Timeout;
-
-  const debounce = (
-    func: (...args: any[]) => void,
-    delayMs: number,
-    ...args: any[]
-  ) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      func(...args);
-    }, delayMs);
-  };
-
   return useMemo(() => {
+    let timer: number | NodeJS.Timeout;
+
+    const debounce = (
+      func: (...args: any[]) => void,
+      delayMs: number,
+      ...args: any[]
+    ) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func(...args);
+      }, delayMs);
+    };
+
     return (...args: any) => {
       return debounce(callbackRef.current, delay, ...args);
     };

@@ -81,6 +81,7 @@ export function MiniKitProvider({
     return () => {
       sdk.removeAllListeners();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateClientContext = useCallback(

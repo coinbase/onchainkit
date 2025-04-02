@@ -83,6 +83,19 @@ export function CheckoutProvider({
   const insufficientBalanceRef = useRef<boolean>(false);
   const priceInUSDCRef = useRef<string | undefined>('');
 
+  // Component lifecycle
+  const [lifecycleStatus, updateLifecycleStatus] =
+    useLifecycleStatus<LifecycleStatus>({
+      statusName: CHECKOUT_LIFECYCLESTATUS.INIT,
+      statusData: {},
+    });
+
+  // Transaction hooks
+  const fetchContracts = useCommerceContracts({
+    chargeHandler,
+    productId,
+  });
+
   // Helper function used in both `useEffect` and `handleSubmit` to fetch data from the Commerce API and set state and refs
   const fetchData = useCallback(
     async (address: Address) => {
@@ -121,21 +134,8 @@ export function CheckoutProvider({
         },
       });
     },
-    [chargeId],
+    [chargeId, fetchContracts, updateLifecycleStatus],
   );
-
-  // Component lifecycle
-  const [lifecycleStatus, updateLifecycleStatus] =
-    useLifecycleStatus<LifecycleStatus>({
-      statusName: CHECKOUT_LIFECYCLESTATUS.INIT,
-      statusData: {},
-    });
-
-  // Transaction hooks
-  const fetchContracts = useCommerceContracts({
-    chargeHandler,
-    productId,
-  });
 
   const { status, writeContractsAsync } = useWriteContracts({
     /* v8 ignore start */

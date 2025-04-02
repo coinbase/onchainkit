@@ -33,19 +33,21 @@ export function SwapAmountInput({
 
   const source = useValue(type === 'from' ? from : to);
   const destination = useValue(type === 'from' ? to : from);
+  const { setToken, setAmount, balance, amount, amountUSD } = source;
+
   useEffect(() => {
     if (token) {
-      source.setToken?.(token);
+      setToken?.(token);
     }
-  }, [token, source.setToken]);
+  }, [token, setToken]);
 
   const handleMaxButtonClick = useCallback(() => {
-    if (!source.balance) {
+    if (!balance) {
       return;
     }
-    source.setAmount(source.balance);
-    handleAmountChange(type, source.balance);
-  }, [source.balance, source.setAmount, handleAmountChange, type]);
+    setAmount(balance);
+    handleAmountChange(type, balance);
+  }, [balance, setAmount, handleAmountChange, type]);
 
   const handleChange = useCallback(
     (amount: string) => {
@@ -65,17 +67,11 @@ export function SwapAmountInput({
 
   const handleSetToken = useCallback(
     (token: Token) => {
-      source.setToken?.(token);
-      handleAmountChange(type, source.amount, token);
+      setToken?.(token);
+      handleAmountChange(type, amount, token);
       handleAnalyticsTokenSelected(token);
     },
-    [
-      source.amount,
-      source.setToken,
-      handleAmountChange,
-      handleAnalyticsTokenSelected,
-      type,
-    ],
+    [amount, setToken, handleAmountChange, handleAnalyticsTokenSelected, type],
   );
 
   // We are mocking the token selectors so I'm not able
@@ -89,7 +85,7 @@ export function SwapAmountInput({
   }, [swappableTokens, destination.token]);
 
   const hasInsufficientBalance =
-    type === 'from' && Number(source.balance) < Number(source.amount);
+    type === 'from' && Number(balance) < Number(amount);
 
   const formatUSD = (amount: string) => {
     if (!amount || amount === '0') {
@@ -127,8 +123,8 @@ export function SwapAmountInput({
           )}
           placeholder="0.0"
           delayMs={delayMs}
-          value={formatAmount(source.amount)}
-          setValue={source.setAmount}
+          value={formatAmount(amount)}
+          setValue={setAmount}
           disabled={source.loading}
           onChange={handleChange}
           inputValidator={isValidAmount}
@@ -147,7 +143,7 @@ export function SwapAmountInput({
       </div>
       <div className="mt-4 flex w-full items-center justify-between">
         <div className={cn(text.label2, color.foregroundMuted)}>
-          {formatUSD(source.amountUSD)}
+          {formatUSD(amountUSD)}
         </div>
         <div
           className={cn(
@@ -156,9 +152,7 @@ export function SwapAmountInput({
             'flex grow items-center justify-end',
           )}
         >
-          {source.balance && (
-            <span>{`Balance: ${getRoundedAmount(source.balance, 8)}`}</span>
-          )}
+          {balance && <span>{`Balance: ${getRoundedAmount(balance, 8)}`}</span>}
           {type === 'from' && address && (
             <button
               type="button"
