@@ -20,7 +20,6 @@
     "ci:lint": "eslint . --ext .ts,.tsx --max-warnings=0",
     "format": "prettier --write .",
     "lint": "eslint . --ext .ts,.tsx --fix",
-    "lint:no-fix": "eslint . --ext .ts,.tsx",
     "lint:unsafe": "eslint . --ext .ts,.tsx --fix --max-warnings=0",
     "storybook:dev": "storybook dev -p 6006",
     "storybook:build": "storybook build",
