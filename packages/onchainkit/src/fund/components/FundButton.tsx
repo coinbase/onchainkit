@@ -20,7 +20,6 @@ import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonReact } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 
-// eslint-disable-next-line complexity
 export function FundButton({
   className,
   disabled = false,

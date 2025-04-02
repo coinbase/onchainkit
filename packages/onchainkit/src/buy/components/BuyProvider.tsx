@@ -113,7 +113,6 @@ export function BuyProvider({
   const { sendAnalytics } = useAnalytics();
 
   // Component lifecycle emitters
-  // eslint-disable-next-line complexity
   useEffect(() => {
     // Error
     if (lifecycleStatus.statusName === 'error') {
@@ -214,7 +213,6 @@ export function BuyProvider({
   ]);
 
   const handleAmountChange = useCallback(
-    // eslint-disable-next-line complexity
     async (amount: string) => {
       if (
         to.token === undefined ||

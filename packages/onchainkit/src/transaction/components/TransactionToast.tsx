@@ -6,7 +6,6 @@ import { TransactionToastAction } from './TransactionToastAction';
 import { TransactionToastIcon } from './TransactionToastIcon';
 import { TransactionToastLabel } from './TransactionToastLabel';
 
-// eslint-disable-next-line complexity
 export function TransactionToast({
   children,
   className,

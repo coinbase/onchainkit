@@ -31,7 +31,6 @@ const connectWalletDefaultChildren = (
   </>
 );
 
-// eslint-disable-next-line complexity
 export function ConnectWallet({
   children,
   className,

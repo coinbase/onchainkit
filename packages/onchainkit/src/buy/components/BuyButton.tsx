@@ -15,7 +15,6 @@ import {
 import { ConnectWallet } from '../../wallet';
 import { useBuyContext } from './BuyProvider';
 
-// eslint-disable-next-line complexity
 export function BuyButton() {
   const {
     address,

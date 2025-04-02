@@ -19,7 +19,6 @@ export function useGetETHBalance(address?: Address): UseGetETHBalanceResponse {
     },
   });
 
-  // eslint-disable-next-line complexity
   return useMemo(() => {
     let error: SwapError | undefined;
     if (ethBalanceResponse?.error) {

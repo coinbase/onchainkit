@@ -17,7 +17,6 @@ import { isBasename } from './isBasename';
  * avatars for a given array of ENS names in a single batch request.
  * It returns an array of avatar URLs in the same order as the input names.
  */
-// eslint-disable-next-line complexity
 export const getAvatars = async ({
   ensNames,
   chain = mainnet,

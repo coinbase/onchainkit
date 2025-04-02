@@ -33,7 +33,6 @@ function getDistance(x1: number, y1: number, x2: number, y2: number) {
   return Math.sqrt((y2 - y1) ** 2 + (x2 - x1) ** 2);
 }
 
-// eslint-disable-next-line complexity
 function shouldSkipMaskedCell(
   i: number,
   j: number,

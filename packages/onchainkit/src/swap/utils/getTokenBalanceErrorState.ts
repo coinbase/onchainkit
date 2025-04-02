@@ -8,7 +8,6 @@ type GetTokenBalancesErrorStateParams = {
   tokenBalance?: UseReadContractReturnType;
 };
 
-// eslint-disable-next-line complexity
 export function getTokenBalanceErrorState({
   ethBalance,
   token,

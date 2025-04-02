@@ -12,7 +12,6 @@ import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';
  * names for a given array of Ethereum addresses in a single batch request.
  * It returns an array of ENS names in the same order as the input addresses.
  */
-// eslint-disable-next-line complexity
 export const getNames = async ({
   addresses,
   chain = mainnet,

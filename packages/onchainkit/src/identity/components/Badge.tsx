@@ -100,7 +100,6 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
 /**
  * Extracts the attestation name from an attestation object
  */
-// eslint-disable-next-line complexity
 function extractAttestationName(
   attestation?: ExtractAttestationNameParams,
 ): string {

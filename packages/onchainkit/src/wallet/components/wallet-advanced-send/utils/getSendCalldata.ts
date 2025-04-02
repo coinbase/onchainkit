@@ -16,7 +16,6 @@ type GetSendCalldataResponse = {
   error: APIError | null;
 };
 
-// eslint-disable-next-line complexity
 export function getSendCalldata({
   recipientAddress,
   token,

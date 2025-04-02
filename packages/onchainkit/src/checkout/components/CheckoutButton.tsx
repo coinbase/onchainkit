@@ -16,7 +16,6 @@ import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import type { CheckoutButtonReact } from '../types';
 import { useCheckoutContext } from './CheckoutProvider';
 
-// eslint-disable-next-line complexity
 export function CheckoutButton({
   className,
   coinbaseBranded,

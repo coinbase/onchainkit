@@ -30,7 +30,6 @@ type SendButtonProps = {
   'disabled' | 'pendingOverride' | 'successOverride' | 'errorOverride'
 >;
 
-// eslint-disable-next-line complexity
 export function SendButton({
   label,
   isSponsored = false,

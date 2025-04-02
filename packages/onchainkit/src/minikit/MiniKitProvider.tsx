@@ -26,7 +26,6 @@ export const MiniKitContext = createContext<MiniKitContextType>(emptyContext);
 /**
  * Provides the MiniKit React Context to the app.
  */
-// eslint-disable-next-line complexity
 export function MiniKitProvider({
   children,
   notificationProxyUrl = '/api/notify',

@@ -96,7 +96,6 @@ export function SwapProvider({
   const { sendAnalytics } = useAnalytics();
 
   // Component lifecycle emitters
-  // eslint-disable-next-line complexity
   useEffect(() => {
     // Error
     if (lifecycleStatus.statusName === 'error') {
@@ -207,7 +206,6 @@ export function SwapProvider({
   }, [from, to, updateLifecycleStatus]);
 
   const handleAmountChange = useCallback(
-    // eslint-disable-next-line complexity
     async (
       type: 'from' | 'to',
       amount: string,

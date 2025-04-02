@@ -7,7 +7,6 @@ import type { TransactionButtonReact } from '../types';
 import { isSpinnerDisplayed } from '../utils/isSpinnerDisplayed';
 import { useTransactionContext } from './TransactionProvider';
 
-// eslint-disable-next-line complexity
 export function TransactionButton({
   className,
   disabled = false,

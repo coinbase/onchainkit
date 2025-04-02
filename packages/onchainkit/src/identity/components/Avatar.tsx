@@ -15,7 +15,6 @@ import { DisplayBadge } from './DisplayBadge';
  * Represents an Avatar component that displays either a loading indicator,
  * a default avatar, or a custom avatar based on Ethereum Name Service (ENS).
  */
-// eslint-disable-next-line complexity
 export function Avatar({
   address = null,
   chain,
