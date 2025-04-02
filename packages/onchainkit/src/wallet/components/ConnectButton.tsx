@@ -13,8 +13,6 @@ export function ConnectButton({
   className,
   connectWalletText,
   onClick,
-  // Text will be deprecated in the future
-  text,
 }: ConnectButtonReact) {
   return (
     <button
@@ -30,11 +28,7 @@ export function ConnectButton({
       )}
       onClick={onClick}
     >
-      {connectWalletText ? (
-        connectWalletText
-      ) : (
-        <span className={cn(color.inverse)}>{text}</span>
-      )}
+      {connectWalletText}
     </button>
   );
 }
