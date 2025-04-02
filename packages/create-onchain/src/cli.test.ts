@@ -1,7 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi, type Mock } from 'vitest';
-// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
 import fs from 'fs';
-// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
 import path from 'path';
 import prompts from 'prompts';
 import open from 'open';
@@ -21,7 +19,6 @@ vi.mock('express', () => {
   const mockExpress = vi.fn(() => ({
     use: vi.fn(),
     listen: vi.fn(),
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   })) as any;
   mockExpress.static = vi.fn();
   return { default: mockExpress };

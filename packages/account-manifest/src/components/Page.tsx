@@ -28,7 +28,7 @@ function Page() {
   const wsRef = useRef<WebSocket | null>(null);
   const [fid, setFid] = useState<number | null>(null);
   const [domain, setDomain] = useState<string>('');
-  const [domainError, setDomainError] = useState<string | null>(null);
+  const [domainError, setDomainError] = useState<boolean>(false);
   const [accountAssocation, setAccountAssocation] =
     useState<AccountAssociation | null>(null);
 
@@ -113,13 +113,13 @@ function Page() {
   const handleValidateUrl = () => {
     const isValid = validateUrl(domain);
     if (!isValid) {
-      setDomainError('Invalid URL');
+      setDomainError(true);
     }
   };
 
   const handleDomainChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDomain(e.target.value);
-    setDomainError(null);
+    setDomainError(false);
   };
 
   const handleClose = useCallback(() => {
@@ -166,7 +166,19 @@ function Page() {
               onChange={handleDomainChange}
               onBlur={handleValidateUrl}
             />
-            {domainError && <p className="text-red-500">{domainError}</p>}
+            {domainError && (
+              <>
+                <p className="text-red-500">
+                  Please enter a valid domain, e.g. https://example.com
+                </p>
+                <p className="text-sm pl-3 -indent-3 text-gray-500">
+                  * http domains are not valid for production, when you are
+                  ready to deploy you can regenerate your account manifest by{' '}
+                  running <i>npx create-onchain --generate</i> in your project
+                  directory.
+                </p>
+              </>
+            )}
           </div>
         </Step>
 
@@ -180,7 +192,7 @@ function Page() {
             {fid === 0 ? (
               <p className="text-red-500">
                 There is no FID associated with this account, please connect
-                with your Coinbase Wallet account.
+                with your Farcaster custody account.
               </p>
             ) : (
               <p>Your FID is {fid}</p>
@@ -192,8 +204,8 @@ function Page() {
               onClick={generateAccountAssociation}
               className={`w-fit rounded px-6 py-2 text-white ${
                 !address || !domain || fid === 0
-                  ? 'bg-blue-200!'
-                  : 'bg-blue-800! hover:bg-blue-600!'
+                  ? '!bg-blue-200'
+                  : '!bg-blue-800 hover:!bg-blue-600'
               }`}
             >
               {isPending ? 'Signing...' : 'Sign'}

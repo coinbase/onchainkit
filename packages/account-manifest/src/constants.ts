@@ -8,4 +8,4 @@ export const ID_REGISTRY_ABI = [
     stateMutability: 'view',
     type: 'function',
   },
-];
+] as const;

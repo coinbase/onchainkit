@@ -11,6 +11,28 @@ const appName = process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME;
 
 const KEY_REGISTRY_ADDRESS = "0x00000000Fc1237824fb747aBDE0FF18990E59b7e";
 
+const KEY_REGISTRY_ABI = [
+  {
+    inputs: [
+      { name: "fid", type: "uint256" },
+      { name: "key", type: "bytes" },
+    ],
+    name: "keyDataOf",
+    outputs: [
+      {
+        components: [
+          { name: "state", type: "uint8" },
+          { name: "keyType", type: "uint32" },
+        ],
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+] as const;
+
 async function verifyFidOwnership(fid: number, appKey: `0x${string}`) {
   const client = createPublicClient({
     chain: optimism,
@@ -20,27 +42,7 @@ async function verifyFidOwnership(fid: number, appKey: `0x${string}`) {
   try {
     const result = await client.readContract({
       address: KEY_REGISTRY_ADDRESS,
-      abi: [
-        {
-          inputs: [
-            { name: "fid", type: "uint256" },
-            { name: "key", type: "bytes" },
-          ],
-          name: "keyDataOf",
-          outputs: [
-            {
-              components: [
-                { name: "state", type: "uint8" },
-                { name: "keyType", type: "uint32" },
-              ],
-              name: "",
-              type: "tuple",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-      ],
+      abi: KEY_REGISTRY_ABI,
       functionName: "keyDataOf",
       args: [BigInt(fid), appKey],
     });
