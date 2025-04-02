@@ -173,7 +173,17 @@ export function ConnectWallet({
         },
       },
     );
-  }, [config?.wallet?.display]);
+  }, [
+    config?.wallet?.display,
+    accountAddress,
+    connect,
+    connector,
+    handleAnalyticsError,
+    handleAnalyticsInitiated,
+    handleAnalyticsSuccess,
+    handleOpenConnectModal,
+    onConnect,
+  ]);
 
   if (status === 'disconnected') {
     return (
