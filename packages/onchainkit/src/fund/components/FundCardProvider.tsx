@@ -157,6 +157,7 @@ export function FundCardProvider({
   // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
   useEffect(() => {
     handleFetchExchangeRate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Fetches and sets the payment methods to the context

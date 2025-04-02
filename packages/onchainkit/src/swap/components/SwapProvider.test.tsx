@@ -583,6 +583,7 @@ describe('SwapProvider', () => {
         };
         initializeSwap();
         handleToggle();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
       return null;
     };
@@ -600,6 +601,7 @@ describe('SwapProvider', () => {
           handleAmountChange('from', '100', ETH_TOKEN, DEGEN_TOKEN);
         };
         initializeSwap();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
       return null;
     };
@@ -628,6 +630,7 @@ describe('SwapProvider', () => {
           handleAmountChange('to', '100', ETH_TOKEN, DEGEN_TOKEN);
         };
         initializeSwap();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
       return null;
     };
@@ -656,6 +659,7 @@ describe('SwapProvider', () => {
           handleAmountChange('from', '100', undefined, undefined);
         };
         initializeSwap();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
       return null;
     };

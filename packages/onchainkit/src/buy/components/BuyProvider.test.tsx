@@ -711,6 +711,7 @@ describe('BuyProvider', () => {
           handleAmountChange('5');
         };
         initializeSwap();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
       return null;
     };
@@ -756,6 +757,7 @@ describe('BuyProvider', () => {
           handleAmountChange('100');
         };
         initializeSwap();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
       return null;
     };

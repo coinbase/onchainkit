@@ -37,17 +37,6 @@ export function FundCardPaymentMethodDropdown({
     );
   }, [paymentMethods]);
 
-  const isPaymentMethodDisabled = useCallback(
-    (method: PaymentMethod) => {
-      if (!fundAmountFiat) {
-        return false;
-      }
-
-      return Boolean(getPaymentMethodDisabledReason(method));
-    },
-    [fundAmountFiat],
-  );
-
   const getPaymentMethodDisabledReason = useCallback(
     (method: PaymentMethod) => {
       const amount = Number(fundAmountFiat);
@@ -71,6 +60,17 @@ export function FundCardPaymentMethodDropdown({
       return undefined;
     },
     [fundAmountFiat, currency],
+  );
+
+  const isPaymentMethodDisabled = useCallback(
+    (method: PaymentMethod) => {
+      if (!fundAmountFiat) {
+        return false;
+      }
+
+      return Boolean(getPaymentMethodDisabledReason(method));
+    },
+    [fundAmountFiat, getPaymentMethodDisabledReason],
   );
 
   // If current selected method becomes disabled, switch to Coinbase

@@ -242,17 +242,6 @@ export function TransactionProvider({
   }, [receipt, resetAfter, resetSendCalls, resetSendCall]);
 
   // When all transactions are successful, get the receipts
-  useEffect(() => {
-    if (
-      !transactions ||
-      transactionHashList.length !== transactionCount ||
-      transactionCount < 2
-    ) {
-      return;
-    }
-    getTransactionLegacyReceipts();
-  }, [transactions, transactionCount, transactionHashList]);
-
   const getTransactionLegacyReceipts = useCallback(async () => {
     const receipts = [];
     for (const hash of transactionHashList) {
@@ -280,6 +269,22 @@ export function TransactionProvider({
       },
     });
   }, [chainId, config, transactionHashList]);
+
+  useEffect(() => {
+    if (
+      !transactions ||
+      transactionHashList.length !== transactionCount ||
+      transactionCount < 2
+    ) {
+      return;
+    }
+    getTransactionLegacyReceipts();
+  }, [
+    transactions,
+    transactionCount,
+    transactionHashList,
+    getTransactionLegacyReceipts,
+  ]);
 
   const switchChain = useCallback(
     async (targetChainId: number | undefined) => {
