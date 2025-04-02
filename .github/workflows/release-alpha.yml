@@ -1,0 +1,32 @@
+name: Publish alpha version
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  publish-alpha:
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 'Setup'
+        uses: ./.github/actions/setup
+
+      - name: Build
+        shell: bash
+        run: pnpm f:ock build
+
+      - name: Set deployment token
+        run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
+
+      - name: Publish alpha
+        shell: bash
+        run: pnpm f:ock publish-alpha
