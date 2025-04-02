@@ -1,4 +1,3 @@
-// hooks/useAccountManifest.ts
 import { useEffect, useRef } from 'react';
 import { useSignMessage } from 'wagmi';
 import { toBase64Url } from '../utils';

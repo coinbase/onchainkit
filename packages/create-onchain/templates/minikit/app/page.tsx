@@ -1,3 +1,10 @@
+/**
+ * Mini-App template
+ *
+ * You can use this as a starting point for building your mini-app
+ * Start modifying this component to build your own Mini-App.
+ */
+
 "use client";
 
 import {

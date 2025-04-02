@@ -1,3 +1,26 @@
+/**
+ * Snake game
+ *
+ * Providers
+ *   HighScoresProvider - provides access to high scores to all overlay screens
+ * Components
+ *   Sammy - Main snake game
+ *   Intro - Overlay screen shown when game starts
+ *   AwaitingNextLevel - Overlay screen that shows when level has been completed
+ *   Dead - Overlay screen that shows when you have won the game or die
+ *   HighScores - High score list used by overlays
+ *   ControlButton - play/pause button
+ *   WalletControl - login button
+ *   ControlButtons - buttons wrapper
+ *   DPad - DPad control surface
+ *   Stats - Game information used by overlays
+ * Hooks
+ *   useGameLoop - sets up requestAnimationFrame game loop
+ *   useKonami
+ * Utils
+ *   fetchLastAttestations - fetches the last 8 high score attestations from the EAS graphql endpoint
+ */
+
 "use client";
 
 import {

@@ -77,8 +77,6 @@ function Page() {
   }, [address, getFid]);
 
   useEffect(() => {
-    // super hacky way to remove the sign up button and 'or continue' div from the wallet modal
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: cause above
     const observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
         if (mutation.addedNodes.length) {

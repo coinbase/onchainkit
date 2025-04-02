@@ -2,18 +2,8 @@ import { http } from 'viem';
 import { createPublicClient } from 'viem';
 import type { Address } from 'viem';
 import { optimism } from 'viem/chains';
-
-// ID Registry Contract
-const ID_REGISTRY_ADDRESS = '0x00000000Fc6c5F01Fc30151999387Bb99A9f489b';
-const ID_REGISTRY_ABI = [
-  {
-    inputs: [{ internalType: 'address', name: 'owner', type: 'address' }],
-    name: 'idOf',
-    outputs: [{ internalType: 'uint256', name: 'fid', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-];
+import { ID_REGISTRY_ABI } from '../constants';
+import { ID_REGISTRY_ADDRESS } from '../constants';
 
 export function useGetFid() {
   return async function getFid(address: Address) {
