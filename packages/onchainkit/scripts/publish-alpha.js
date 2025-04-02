@@ -44,30 +44,35 @@ export async function main() {
  * @param {string} params.latest - The latest version
  * @returns {string} The next alpha version
  */
-export function getNextAlphaVersionNumber({ alpha: maybeAlpha, latest }) {
-  const alpha = maybeAlpha ?? latest;
-
-  const [alphaBase, alphaCount] = alpha.split(new RegExp(`-${ALPHA_TAG}\\.`));
-
-  const alphaSplit = alphaBase.split('.').map(Number);
+export function getNextAlphaVersionNumber({ alpha, latest }) {
   const latestSplit = latest.split('.').map(Number);
 
-  if (alphaSplit.length !== 3 || latestSplit.length !== 3) {
+  if (latestSplit.length !== 3) {
     throw new Error('Invalid version format');
   }
 
-  if (alphaBase === latest) {
-    const nextCount = alphaCount?.length ? Number(alphaCount) + 1 : 0;
-    return `${latest}-${ALPHA_TAG}.${nextCount}`;
+  const nextPatchVersion = [
+    latestSplit[0],
+    latestSplit[1],
+    latestSplit[2] + 1,
+  ].join('.');
+
+  const nextPatchAtAlphaZero = `${nextPatchVersion}-${ALPHA_TAG}.0`;
+
+  if (!alpha) {
+    return nextPatchAtAlphaZero;
   }
 
-  alphaSplit.forEach((alphaPart, index) => {
-    if (alphaPart > latestSplit[index]) {
-      throw new Error('Alpha version is greater than latest version');
-    }
-  });
+  const [alphaBase, alphaCount] = alpha.split(new RegExp(`-${ALPHA_TAG}\\.`));
 
-  return `${latest}-${ALPHA_TAG}.0`;
+  // If the next patch version is the same as the current alpha version...
+  if (nextPatchVersion === alphaBase) {
+    // ...increment the current alpha count
+    const nextCount = alphaCount ? Number(alphaCount) + 1 : 0;
+    return `${nextPatchVersion}-${ALPHA_TAG}.${nextCount}`;
+  }
+
+  return nextPatchAtAlphaZero;
 }
 
 /**
