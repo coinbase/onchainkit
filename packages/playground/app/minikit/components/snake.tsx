@@ -443,7 +443,7 @@ function AwaitingNextLevel({ score, level }: AwaitingNextLevelProps) {
   );
 }
 
-const SCHEMA_UID =
+export const SCHEMA_UID =
   "0xdc3cf7f28b4b5255ce732cbf99fe906a5bc13fbd764e2463ba6034b4e1881835";
 const EAS_CONTRACT = "0x4200000000000000000000000000000000000021";
 const easABI = [

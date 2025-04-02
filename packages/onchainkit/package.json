@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.38.5-alpha.0",
+  "version": "0.38.4",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -102,6 +102,7 @@
     "access": "public"
   },
   "files": [
+    "dist/**/*",
     "esm/**/*",
     "src/",
     "src/**/*"

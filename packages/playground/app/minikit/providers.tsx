@@ -14,7 +14,7 @@ export function Providers(props: { children: ReactNode }) {
           mode: 'auto',
           theme: 'snake',
           name: 'MiniKit',
-          logo: 'http://onchainkit.xyz/playground/snake.png',
+          logo: 'https://onchainkit.xyz/playground/snake.png',
         },
       }}
     >

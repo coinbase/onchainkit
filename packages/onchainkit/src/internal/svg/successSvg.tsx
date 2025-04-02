@@ -1,4 +1,8 @@
-export const SuccessSvg = ({ fill = '#65A30D' }) => (
+type SuccessSvgProps = {
+  fill?: string;
+};
+
+export const SuccessSvg = ({ fill = '#65A30D' }: SuccessSvgProps) => (
   <svg
     aria-label="ock-successSvg"
     width="16"

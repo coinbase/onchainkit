@@ -1,12 +1,29 @@
 # Changelog
 
+## 0.38.4
+
+### Patch Changes
+
+- **fix**: Fix missing `/dist` folder in package.json. By @dgca #2208
+
+## 0.38.3
+
+### Patch Changes
+
+- **refactor**: Organized coinbase/onchainkit project into pnpm workspace. By @dgca #2167
+- **chore**: Added Attestation caching. By @cpcramer #2180
+- **feat**: Added `MiniKit` to the playground - https://onchainkit.xyz/playground/minikit. By @alessey #2176
+- **feat**: Added Rabby, Trust, and Frame wallet connection support in `WalletModal`. By @cpcramer #2168
+- **chore**: Refactored `Wallet`. Deprecated `WalletAdvanced`. By @abcrane123 #2179
+- **fix**: `SwapSettings` not rendering for `SwapDefault` component. By @abcrane123 #2200
+
 ## 0.38.2
 
 ### Patch Changes
 
-  - **feat**: Add iconUrl to OnrampPaymentCurrency type. By @rustam-cb #2165
-  - **fix**: Fix bug that would disable onramp due to USDC price fluctuations. By @abcrane123 #2171
-  - **chore**: Remove site code from onchainkit repository. By @cpcramer #2136
+- **feat**: Add iconUrl to OnrampPaymentCurrency type. By @rustam-cb #2165
+- **fix**: Fix bug that would disable onramp due to USDC price fluctuations. By @abcrane123 #2171
+- **chore**: Remove site code from onchainkit repository. By @cpcramer #2136
 
 ## 0.38.1
 
