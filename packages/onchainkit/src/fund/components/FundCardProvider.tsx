@@ -154,7 +154,6 @@ export function FundCardProvider({
     setExchangeRateLoading(false);
   }, [fetchExchangeRate]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: One time effect
   useEffect(() => {
     handleFetchExchangeRate();
     // eslint-disable-next-line react-hooks/exhaustive-deps

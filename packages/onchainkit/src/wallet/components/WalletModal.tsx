@@ -30,7 +30,7 @@ type WalletModalProps = {
   onError?: (error: Error) => void;
 };
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
+// eslint-disable-next-line complexity
 export function WalletModal({
   className,
   isOpen,

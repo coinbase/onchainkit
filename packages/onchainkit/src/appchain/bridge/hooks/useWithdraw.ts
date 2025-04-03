@@ -62,7 +62,6 @@ export const useWithdraw = ({
     setWithdrawal(null);
   }, []);
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
   const withdraw = async () => {
     if (!bridgeParams.recipient) {
       throw new Error('Recipient is required');
@@ -208,7 +207,6 @@ export const useWithdraw = ({
   };
 
   /* v8 ignore start */
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
   const proveAndFinalizeWithdrawal = async () => {
     if (!withdrawal || withdrawal.length === 0) {
       console.error('no withdrawals to prove');

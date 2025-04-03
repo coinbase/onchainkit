@@ -15,6 +15,7 @@ import { BuyOnrampItem } from './BuyOnrampItem';
 import { useBuyContext } from './BuyProvider';
 import { BuyTokenItem } from './BuyTokenItem';
 
+// eslint-disable-next-line complexity
 export function BuyDropdown() {
   const { projectId } = useOnchainKit();
   const { to, fromETH, fromUSDC, from, startPopupMonitor, setIsDropdownOpen } =

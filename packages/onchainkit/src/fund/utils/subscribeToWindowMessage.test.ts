@@ -7,7 +7,7 @@ import {
 describe('subscribeToWindowMessage', () => {
   let unsubscribe: () => void;
   const DEFAULT_ORIGIN = 'https://default.origin';
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+
   const mockMessageEvent = (data: any, origin = DEFAULT_ORIGIN) =>
     new MessageEvent('message', { data, origin });
 

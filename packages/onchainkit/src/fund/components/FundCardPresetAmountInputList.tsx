@@ -31,7 +31,6 @@ export function FundCardPresetAmountInputList() {
     >
       {presetAmountInputs.map((amount, index) => (
         <FundCardPresetAmountInputItem
-          // biome-ignore lint/suspicious/noArrayIndexKey: Preset amounts are static
           key={index}
           presetAmountInput={amount}
           onClick={handleFiatChange}

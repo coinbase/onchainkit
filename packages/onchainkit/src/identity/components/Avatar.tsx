@@ -15,7 +15,6 @@ import { DisplayBadge } from './DisplayBadge';
  * Represents an Avatar component that displays either a loading indicator,
  * a default avatar, or a custom avatar based on Ethereum Name Service (ENS).
  */
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
 export function Avatar({
   address = null,
   chain,
@@ -73,7 +72,6 @@ export function Avatar({
         data-testid="ockAvatar_ImageContainer"
         className={cn('h-10 w-10 overflow-hidden rounded-full', className)}
       >
-        {/* biome-ignore lint: alt gets assigned */}
         {displayAvatarImg ? (
           <img
             className="min-h-full min-w-full object-cover"

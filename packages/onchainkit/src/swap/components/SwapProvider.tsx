@@ -211,7 +211,6 @@ export function SwapProvider({
       amount: string,
       sToken?: Token,
       dToken?: Token,
-      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     ) => {
       const source = type === 'from' ? from : to;
       const destination = type === 'from' ? to : from;
@@ -321,7 +320,6 @@ export function SwapProvider({
     [from, to, lifecycleStatus, updateLifecycleStatus, useAggregator],
   );
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
   const handleSubmit = useCallback(async () => {
     if (!address || !from.token || !to.token || !from.amount) {
       return;

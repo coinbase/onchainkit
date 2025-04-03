@@ -705,7 +705,6 @@ describe('BuyProvider', () => {
   it('should pass the correct slippage to getBuyQuote', async () => {
     const TestComponent = () => {
       const { handleAmountChange } = useBuyContext();
-      // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
           handleAmountChange('5');
@@ -751,7 +750,6 @@ describe('BuyProvider', () => {
   it('should handle undefined in input', async () => {
     const TestComponent = () => {
       const { handleAmountChange } = useBuyContext();
-      // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
           handleAmountChange('100');

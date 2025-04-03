@@ -36,7 +36,7 @@ export function OnchainKitProvider({
 
   const sessionId = useMemo(() => crypto.randomUUID(), []);
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
+  // eslint-disable-next-line complexity
   const value = useMemo(() => {
     const defaultPaymasterUrl = apiKey
       ? `https://api.developer.coinbase.com/rpc/v1/${chain.name

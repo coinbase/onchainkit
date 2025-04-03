@@ -68,7 +68,6 @@ export function AmountInput({
     [handleChange],
   );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: When value changes, we want to update the input width
   useEffect(() => {
     updateScale();
   }, [value, updateScale]);
