@@ -131,7 +131,7 @@ function Page() {
         {/http:/.test(domain) && (
           <p className="text-sm pl-5 -indent-3 text-gray-600 bg-gray-100 rounded-md pt-2 pb-2 pr-2 border">
             * http domains are not valid for production, when you are ready to
-            deploy you can regenerate your account manifest by running{' '}
+            deploy you can regenerate your Mini-App manifest by running{' '}
             <i className="text-gray-600">npx create-onchain --manifest</i> in
             your project directory.
           </p>
@@ -169,7 +169,7 @@ function Page() {
           number={2}
           label="Enter the domain of your app"
           disabled={!address}
-          description="This will be used to generate the account manifest and also added to your .env file as the `NEXT_PUBLIC_URL` variable"
+          description="This will be used to generate your Mini-App manifest and also added to your .env file as the `NEXT_PUBLIC_URL` variable"
         >
           <div className="flex flex-col gap-2">
             <input
@@ -186,9 +186,9 @@ function Page() {
 
         <Step
           number={3}
-          label="Sign to generate and save your account manifeset"
+          label="Sign to generate and save your Mini-App manifeset"
           disabled={!address || !domain || fid === 0}
-          description="The account manifest will be saved to your .env file as `FARCASTER_HEADER`, `FARCASTER_PAYLOAD` and `FARCASTER_SIGNATURE` variables"
+          description="The Mini-App manifest will be saved to your .env file as `FARCASTER_HEADER`, `FARCASTER_PAYLOAD` and `FARCASTER_SIGNATURE` variables"
         >
           <div className="flex flex-col gap-2">
             {fid === 0 ? (

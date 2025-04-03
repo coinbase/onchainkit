@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import type { AccountAssociation } from '../hooks/useSignManifest';
 import { Timer } from './Timer';
