@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.5
+
+### Patch Changes
+
+- e18fc9d: **fix**: Removed unused \@coinbase/onchainkit/core export. By @dgca #2211
+
 ## 0.38.4
 
 ### Patch Changes
