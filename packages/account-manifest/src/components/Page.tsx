@@ -132,7 +132,7 @@ function Page() {
           <p className="text-sm pl-5 -indent-3 text-gray-600 bg-gray-100 rounded-md pt-2 pb-2 pr-2 border">
             * http domains are not valid for production, when you are ready to
             deploy you can regenerate your account manifest by running{' '}
-            <i className="text-gray-600">npx create-onchain --generate</i> in
+            <i className="text-gray-600">npx create-onchain --manifest</i> in
             your project directory.
           </p>
         )}

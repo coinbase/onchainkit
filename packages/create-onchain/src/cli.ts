@@ -77,7 +77,7 @@ async function getWebpageData(): Promise<WebpageData> {
   });
 }
 
-async function createMiniKitAccountAssociation(envPath?: string) {
+async function createMiniKitManifest(envPath?: string) {
   if (!envPath) {
     envPath = path.join(process.cwd(), '.env');
   }
@@ -244,7 +244,7 @@ REDIS_TOKEN=`,
   );
   console.log(
     pc.blue(
-      '* You can set this up later by running `npx create-onchain --generate` in your project directory.',
+      '* You can set this up later by running `npx create-onchain --manifest` in your project directory.',
     ),
   );
   console.log(
@@ -278,7 +278,7 @@ REDIS_TOKEN=`,
 
   const { setUpFrame } = setUpFrameResult;
   if (setUpFrame) {
-    await createMiniKitAccountAssociation(envPath);
+    await createMiniKitManifest(envPath);
   }
 
   logMiniKitSetupSummary(projectName, root, clientKey);
@@ -479,7 +479,7 @@ export function getArgs() {
   const options = {
     isHelp: false,
     isVersion: false,
-    isGenerate: false,
+    isManifest: false,
     isMiniKit: false,
   };
 
@@ -496,9 +496,8 @@ export function getArgs() {
     case '--version':
       options.isVersion = true;
       break;
-    case '-g':
-    case '--generate':
-      options.isGenerate = true;
+    case '--manifest':
+      options.isManifest = true;
       break;
     case '-m':
     case '--mini':
@@ -512,7 +511,7 @@ export function getArgs() {
 }
 
 async function init() {
-  const { isHelp, isVersion, isGenerate, isMiniKit } = getArgs();
+  const { isHelp, isVersion, isManifest, isMiniKit } = getArgs();
   if (isHelp) {
     console.log(
       `${pc.greenBright(`
@@ -522,10 +521,10 @@ npm create-onchain [options]
 Creates an OnchainKit project based on nextJs.
 
 Options:
---version, -v: Show version
---mini, -m: Create a MiniKit project
---generate, -g: Generate your Mini-App account association
---help, -h: Show help
+--version: Show version
+--mini: Create a MiniKit project
+--manifest: Generate your Mini-App account association
+--help: Show help
 `)}`,
     );
     process.exit(0);
@@ -542,8 +541,8 @@ Options:
     process.exit(0);
   }
 
-  if (isGenerate) {
-    await createMiniKitAccountAssociation();
+  if (isManifest) {
+    await createMiniKitManifest();
     process.exit(0);
   }
 
