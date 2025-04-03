@@ -1,0 +1,236 @@
+import {
+  Address,
+  Avatar,
+  EthBalance,
+  Identity,
+  Name,
+} from '@coinbase/onchainkit/identity';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useAccount } from 'wagmi';
+import { useFid } from '../hooks/useFid';
+import {
+  type AccountAssociation,
+  useSignManifest,
+} from '../hooks/useSignManifest';
+import { validateUrl } from '../utils';
+import { Step } from './Step';
+import { Success } from './Success';
+
+const MAX_RECONNECT_ATTEMPTS = 5;
+
+function Page() {
+  const wsRef = useRef<WebSocket | null>(null);
+  const [domain, setDomain] = useState<string>('');
+  const [showDomainError, setShowDomainError] = useState<boolean>(false);
+  const [accountAssocation, setAccountAssocation] =
+    useState<AccountAssociation | null>(null);
+
+  const { address } = useAccount();
+  const fid = useFid(address);
+  const { isPending, error, generateAccountAssociation } = useSignManifest({
+    domain,
+    fid,
+    address,
+    onSigned: useCallback((accountAssociation) => {
+      wsRef.current?.send(JSON.stringify(accountAssociation));
+      setAccountAssocation(accountAssociation);
+    }, []),
+  });
+
+  useEffect(() => {
+    let reconnectAttempts = 0;
+
+    function connect() {
+      wsRef.current = new WebSocket('ws://localhost:3333');
+
+      wsRef.current.onclose = () => {
+        if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+          console.log('WebSocket closed, reconnecting...');
+          reconnectAttempts++;
+          setTimeout(connect, 1000);
+        }
+      };
+
+      wsRef.current.onerror = (err) => {
+        console.error('WebSocket error:', err);
+      };
+    }
+
+    connect();
+
+    return () => {
+      wsRef.current?.close();
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.addedNodes.length) {
+          const modal = document.querySelector(
+            '[data-testid="ockModalOverlay"]',
+          );
+          if (modal) {
+            const signUpButton = modal.querySelector<HTMLElement>(
+              'div > div.flex.w-full.flex-col.gap-3 > button:first-of-type',
+            );
+            const orContinueDiv = modal.querySelector<HTMLElement>(
+              'div > div.flex.w-full.flex-col.gap-3 > div.relative',
+            );
+
+            if (signUpButton) {
+              signUpButton.style.display = 'none';
+            }
+            if (orContinueDiv) {
+              orContinueDiv.style.display = 'none';
+            }
+          }
+        }
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const handleValidateUrl = useCallback(() => {
+    const isValid = validateUrl(domain);
+    if (!isValid) {
+      setShowDomainError(true);
+    }
+  }, [domain]);
+
+  const handleDomainChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setDomain(e.target.value);
+      setShowDomainError(false);
+    },
+    [],
+  );
+
+  const domainError = useMemo(() => {
+    if (!showDomainError) {
+      return null;
+    }
+
+    return (
+      <>
+        <p className="text-red-500">
+          Please enter a valid domain, e.g. https://example.com
+        </p>
+        {/http:/.test(domain) && (
+          <p className="text-sm pl-5 -indent-3 text-gray-600 bg-gray-100 rounded-md pt-2 pb-2 pr-2 border">
+            * http domains are not valid for production, when you are ready to
+            deploy you can regenerate your account manifest by running{' '}
+            <i className="text-gray-600">npx create-onchain --manifest</i> in
+            your project directory.
+          </p>
+        )}
+      </>
+    );
+  }, [showDomainError, domain]);
+
+  return (
+    <main className="flex min-h-screen w-full max-w-[600px] flex-col items-center justify-center gap-6 font-sans">
+      <div className="border border-grey-500 p-4">
+        <Step
+          number={1}
+          label="Connect your wallet"
+          description="Set up a wallet using your Warpcast recovery key.  This is available in the Warpcast mobile app under Settings > Advanced > Farcaster recovery phrase."
+        >
+          <Wallet>
+            <ConnectWallet className="w-full">
+              <Avatar className="h-6 w-6" />
+              <Name />
+            </ConnectWallet>
+            <WalletDropdown>
+              <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick={true}>
+                <Avatar />
+                <Name />
+                <Address />
+                <EthBalance />
+              </Identity>
+              <WalletDropdownDisconnect />
+            </WalletDropdown>
+          </Wallet>
+        </Step>
+
+        <Step
+          number={2}
+          label="Enter the domain of your app"
+          disabled={!address}
+          description="This will be used to generate the account manifest and also added to your .env file as the `NEXT_PUBLIC_URL` variable"
+        >
+          <div className="flex flex-col gap-2">
+            <input
+              type="text"
+              placeholder="Enter the domain"
+              className="rounded border border-gray-300 px-4 py-2"
+              value={domain}
+              onChange={handleDomainChange}
+              onBlur={handleValidateUrl}
+            />
+            {domainError}
+          </div>
+        </Step>
+
+        <Step
+          number={3}
+          label="Sign to generate and save your account manifeset"
+          disabled={!address || !domain || fid === 0}
+          description="The account manifest will be saved to your .env file as `FARCASTER_HEADER`, `FARCASTER_PAYLOAD` and `FARCASTER_SIGNATURE` variables"
+        >
+          <div className="flex flex-col gap-2">
+            {fid === 0 ? (
+              <p className="text-red-500">
+                There is no FID associated with this account, please connect
+                with your Farcaster custody account.
+              </p>
+            ) : (
+              <p>Your FID is {fid}</p>
+            )}
+
+            <button
+              type="button"
+              disabled={!address || !domain || fid === 0}
+              onClick={generateAccountAssociation}
+              className={`w-fit rounded px-6 py-2 text-white ${
+                !address || !domain || fid === 0
+                  ? '!bg-blue-200'
+                  : '!bg-blue-800 hover:!bg-blue-600'
+              }`}
+            >
+              {isPending ? 'Signing...' : 'Sign'}
+            </button>
+            {error && (
+              <p className="text-red-500">
+                {error.message.split('\n').map((line) => (
+                  <span key={line}>
+                    {line}
+                    <br />
+                  </span>
+                ))}
+              </p>
+            )}
+          </div>
+        </Step>
+        <Success
+          accountAssocation={accountAssocation}
+          handleClose={window.close}
+        />
+      </div>
+    </main>
+  );
+}
+
+export default Page;

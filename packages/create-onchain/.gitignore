@@ -1,0 +1,18 @@
+dist
+/coverage
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+# Bun
+.bun/*
+!.bun/patches
+!.bun/releases
+!.bun/plugins
+!.bun/sdks
+!.bun/versions
