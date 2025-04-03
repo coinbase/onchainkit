@@ -190,6 +190,9 @@ export type SuccessEvent = {
   data?: SuccessEventData;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type SuccessEventData = {
   assetImageUrl: string;
   assetName: string;
@@ -202,6 +205,9 @@ export type RequestOpenUrlEvent = {
   url: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type EventMetadata =
   | OpenEvent
   | TransitionViewEvent
@@ -210,6 +216,9 @@ export type EventMetadata =
   | SuccessEvent
   | RequestOpenUrlEvent;
 
+/**
+ * Note: exported as public Type
+ */
 export type OnrampError = {
   errorType:
     | 'internal_error'
@@ -220,6 +229,9 @@ export type OnrampError = {
   debugMessage?: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type OnrampTransactionStatusName =
   | 'ONRAMP_TRANSACTION_STATUS_UNSPECIFIED'
   | 'ONRAMP_TRANSACTION_STATUS_CREATED'
@@ -227,6 +239,9 @@ export type OnrampTransactionStatusName =
   | 'ONRAMP_TRANSACTION_STATUS_SUCCESS'
   | 'ONRAMP_TRANSACTION_STATUS_FAILED';
 
+/**
+ * Note: exported as public Type
+ */
 export type OnrampAmount = {
   value: string;
   currency: string;
@@ -250,10 +265,16 @@ export type OnrampTransaction = {
   transactionId: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type OnrampPaymentMethod = {
   id: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type OnrampPaymentMethodLimit = {
   id: string;
   min: string;
@@ -267,6 +288,9 @@ type OnrampNetwork = {
   contractAddress: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type OnrampOptionsResponseData = {
   /**
    * List of supported fiat currencies that can be exchanged for crypto on Onramp in the given location.
@@ -279,6 +303,9 @@ export type OnrampOptionsResponseData = {
   purchaseCurrencies: OnrampPurchaseCurrency[];
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type OnrampPurchaseCurrency = {
   id: string;
   name: string;
@@ -328,6 +355,9 @@ export type FundCardCurrencyLabelPropsReact = {
   label: string;
 };
 
+/**
+ * Note: exported as public Type
+ */
 export type FundCardPropsReact = {
   children?: ReactNode;
   assetSymbol: string;
@@ -423,16 +453,25 @@ export type PresetAmountInputItemPropsReact = {
  */
 export type PresetAmountInputs = readonly [string, string, string];
 
-export type OnrampConfigResponseData = {
-  countries: OnrampConfigCountry[];
-};
-
+/**
+ * Note: exported as public Type
+ */
 export type OnrampConfigCountry = {
   id: string;
   subdivisions: string[];
   paymentMethods: OnrampPaymentMethod[];
 };
 
+/**
+ * Note: exported as public Type
+ */
+export type OnrampConfigResponseData = {
+  countries: OnrampConfigCountry[];
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type OnrampQuoteResponseData = {
   /**
    * Object with amount and currency of the total fiat payment required to complete the purchase, inclusive of any fees.
@@ -456,7 +495,7 @@ export type OnrampQuoteResponseData = {
    */
   coinbaseFee: OnrampAmount;
   /**
-   * Object with amount and currency of the network fee required to send the purchased crypto to the user’s wallet.
+   * Object with amount and currency of the network fee required to send the purchased crypto to the user's wallet.
    * The currency will match the `paymentCurrency`.
    */
   networkFee: OnrampAmount;
