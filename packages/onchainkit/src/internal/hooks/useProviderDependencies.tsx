@@ -15,6 +15,7 @@ export function useProviderDependencies() {
   let providedQueryClient: QueryClient | null = null;
 
   try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     providedWagmiConfig = useConfig();
   } catch (error) {
     if (!(error instanceof WagmiProviderNotFoundError)) {
@@ -23,6 +24,7 @@ export function useProviderDependencies() {
   }
 
   try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     providedQueryClient = useQueryClient();
   } catch (error) {
     if (

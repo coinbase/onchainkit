@@ -9,6 +9,7 @@ import { useTransactionContext } from '../components/TransactionProvider';
 export function useGetTransactionToastAction() {
   const { chainId, errorMessage, onSubmit, transactionHash, transactionId } =
     useTransactionContext();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const accountChainId = chainId ?? useChainId();
 
   const { showCallsStatus } = useShowCallsStatus();

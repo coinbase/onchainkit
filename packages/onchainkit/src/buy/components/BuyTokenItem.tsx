@@ -13,6 +13,7 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
     return null;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const handleClick = useCallback(() => {
     setIsDropdownOpen(false);
     handleSubmit(swapUnit);
@@ -22,6 +23,7 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
     !swapUnit.balance ||
     Number.parseFloat(swapUnit.balance) < Number.parseFloat(swapUnit.amount);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const roundedAmount = useMemo(() => {
     if (!swapUnit.amount) {
       return '';
@@ -29,6 +31,7 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
     return getRoundedAmount(swapUnit.amount, 10);
   }, [swapUnit.amount]);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const roundedBalance = useMemo(() => {
     return getRoundedAmount(swapUnit.balance || '0', 3);
   }, [swapUnit.balance]);

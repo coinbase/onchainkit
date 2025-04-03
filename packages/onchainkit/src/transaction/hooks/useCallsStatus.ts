@@ -6,6 +6,7 @@ export function useCallsStatus({
   transactionId,
 }: UseCallsStatusParams) {
   try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { data } = useCallsStatusWagmi({
       id: transactionId,
       query: {

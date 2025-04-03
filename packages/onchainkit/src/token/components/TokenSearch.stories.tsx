@@ -10,6 +10,7 @@ const meta = {
     // const [tokens, setTokens] = React.useState<Token[]>([]);
 
     // TODO: This requires an API key
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const handleChange = React.useCallback(async () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const _data = await getTokens();

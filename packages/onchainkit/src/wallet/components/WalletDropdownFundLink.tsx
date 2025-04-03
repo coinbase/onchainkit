@@ -21,6 +21,7 @@ export function WalletDropdownFundLink({
   // If we can't get a funding URL, this component will be a no-op and render a disabled link
   const fundingUrlToRender =
     fundingUrl ??
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useGetFundingUrl({
       originComponentName: 'WalletDropdownFundLink',
     });

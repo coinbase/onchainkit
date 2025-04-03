@@ -37,16 +37,19 @@ export function Avatar({
   }
 
   // The component first attempts to retrieve the ENS name and avatar for the given Ethereum address.
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: name, isLoading: isLoadingName } = useName({
     address: accountAddress,
     chain: accountChain,
   });
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: avatar, isLoading: isLoadingAvatar } = useAvatar(
     { ensName: name ?? '', chain: accountChain },
     { enabled: !!name },
   );
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const badge = useMemo(() => {
     return Children.toArray(children).find(findComponent(Badge));
   }, [children]);

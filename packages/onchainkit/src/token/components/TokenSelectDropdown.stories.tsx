@@ -37,6 +37,7 @@ const tokens: Token[] = [
 const meta = {
   title: 'Token/TokenSelectDropdown',
   component: () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [token, setToken] = React.useState<Token | undefined>(undefined);
     return (
       <TokenSelectDropdown token={token} setToken={setToken} options={tokens} />

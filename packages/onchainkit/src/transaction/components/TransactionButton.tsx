@@ -29,7 +29,7 @@ export function TransactionButton({
   } = useTransactionContext();
 
   const { address } = useAccount();
-
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const accountChainId = chainId ?? useChainId();
 
   const isLegacyTransactionInProgress =

@@ -17,6 +17,7 @@ export function WalletDropdownBasename({
     return null;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: basename, isLoading } = useName({
     address,
     chain: base,
