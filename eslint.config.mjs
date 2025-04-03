@@ -51,7 +51,6 @@ export default [
         'asc',
         { caseSensitive: true, natural: false, minKeys: 2 },
       ],
-      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 ];

@@ -7,8 +7,7 @@ import {
 describe('subscribeToWindowMessage', () => {
   let unsubscribe: () => void;
   const DEFAULT_ORIGIN = 'https://default.origin';
-
-  const mockMessageEvent = (data: any, origin = DEFAULT_ORIGIN) =>
+  const mockMessageEvent = (data: unknown, origin = DEFAULT_ORIGIN) =>
     new MessageEvent('message', { data, origin });
 
   beforeEach(() => {
