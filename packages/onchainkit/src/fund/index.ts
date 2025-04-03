@@ -38,4 +38,5 @@ export type {
   OnrampPurchaseCurrency,
   OnrampQuoteResponseData,
   OnrampTransactionStatusName,
+  SuccessEventData,
 } from './types';
