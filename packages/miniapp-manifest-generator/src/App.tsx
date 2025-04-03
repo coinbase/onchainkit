@@ -8,7 +8,7 @@ function App() {
       chain={base}
       config={{
         appearance: {
-          name: 'Account Manifest Generator',
+          name: 'Mini-App Manifest Generator',
           logo: 'https://pbs.twimg.com/media/GkXUnEnaoAIkKvG?format=jpg&name=medium',
           mode: 'auto',
           theme: 'base',

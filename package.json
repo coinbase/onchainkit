@@ -8,7 +8,7 @@
     "f:ock": "pnpm --filter @coinbase/onchainkit",
     "f:play": "pnpm --filter playground",
     "f:create": "pnpm --filter create-onchain",
-    "f:manifest": "pnpm --filter account-manifest",
+    "f:manifest": "pnpm --filter miniapp-manifest-generator",
     "changeset": "changeset",
     "release:check": "changeset status --verbose --since=origin/main",
     "release:publish": "changeset publish"

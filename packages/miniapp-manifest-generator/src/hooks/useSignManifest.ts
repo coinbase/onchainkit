@@ -42,7 +42,7 @@ export function useSignManifest({
           domain: domain,
         };
 
-        console.log('Account association generated:', accountAssociation);
+        console.log('Mini-App manifest generated:', accountAssociation);
         onSigned(accountAssociation);
       }
     }
