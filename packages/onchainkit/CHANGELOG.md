@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.38.5
+
+### Patch Changes
+
+- **feat**: Enabled Alpha releases for OnchainKit. By @dgca #2201 #2211
+- **feat**: Added MiniKit CLI. By @alessey #2183
+- **fix**: Removed unused \@coinbase/onchainkit/core export. By @dgca #2211
+- **chore**: Updated `ConnectWallet` and added default children. By @abcrane123 #2186
+
 ## 0.38.4
 
 ### Patch Changes
