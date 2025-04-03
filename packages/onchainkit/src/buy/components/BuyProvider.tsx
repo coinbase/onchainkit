@@ -213,10 +213,7 @@ export function BuyProvider({
   ]);
 
   const handleAmountChange = useCallback(
-    async (
-      amount: string,
-      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
-    ) => {
+    async (amount: string) => {
       if (
         to.token === undefined ||
         fromETH.token === undefined ||
@@ -367,7 +364,6 @@ export function BuyProvider({
   );
 
   const handleSubmit = useCallback(
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor this component
     async (from: SwapUnit) => {
       if (!address || !from.token || !to.token || !from.amount) {
         return;

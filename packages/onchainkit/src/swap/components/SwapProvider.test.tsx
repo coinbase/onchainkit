@@ -572,7 +572,6 @@ describe('SwapProvider', () => {
   it('should handle toggles', async () => {
     const TestComponent = () => {
       const { from, to, handleToggle } = useSwapContext();
-      // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = async () => {
           await act(async () => {
@@ -595,7 +594,6 @@ describe('SwapProvider', () => {
   it('should pass the correct slippage to getSwapQuote', async () => {
     const TestComponent = () => {
       const { handleAmountChange } = useSwapContext();
-      // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
           handleAmountChange('from', '100', ETH_TOKEN, DEGEN_TOKEN);
@@ -624,7 +622,6 @@ describe('SwapProvider', () => {
   it('should pass the correct amountReference to getSwapQuote', async () => {
     const TestComponent = () => {
       const { handleAmountChange } = useSwapContext();
-      // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
           handleAmountChange('to', '100', ETH_TOKEN, DEGEN_TOKEN);
@@ -653,7 +650,6 @@ describe('SwapProvider', () => {
   it('should handle undefined in input', async () => {
     const TestComponent = () => {
       const { handleAmountChange } = useSwapContext();
-      // biome-ignore lint: hello
       React.useEffect(() => {
         const initializeSwap = () => {
           handleAmountChange('from', '100', undefined, undefined);

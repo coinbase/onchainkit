@@ -15,8 +15,7 @@ import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';
 export const getNames = async ({
   addresses,
   chain = mainnet,
-}: // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
-GetNames): Promise<GetNameReturnType[]> => {
+}: GetNames): Promise<GetNameReturnType[]> => {
   if (!addresses || addresses.length === 0) {
     return [];
   }

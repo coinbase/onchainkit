@@ -1,4 +1,3 @@
-// biome-ignore lint/correctness/noNodejsModules: Needed for vite resolving
 import path from 'node:path';
 import { defineConfig } from 'vitest/config';
 

@@ -122,7 +122,7 @@ export default function Demo() {
           <div>
             <a
               className="opacity-100 transition-opacity duration-200 hover:opacity-70"
-              href="https://github.com/coinbase/onchainkit/tree/main/playground"
+              href="https://github.com/coinbase/onchainkit/tree/main/packages/playground"
               rel="noreferrer"
               target="_blank"
               title="View OnchainKit Playground on GitHub"

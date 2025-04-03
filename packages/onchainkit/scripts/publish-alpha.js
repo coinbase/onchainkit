@@ -95,7 +95,7 @@ export function publishAlphaRelease(nextAlphaVersion) {
     JSON.stringify(packageJson, null, 2) + '\n',
   );
 
-  execSync(`pnpm publish --tag ${ALPHA_TAG} --no-git-checks --dry-run`);
+  execSync(`pnpm publish --tag ${ALPHA_TAG} --no-git-checks`);
 }
 
 main();

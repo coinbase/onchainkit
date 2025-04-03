@@ -20,8 +20,7 @@ import { isBasename } from './isBasename';
 export const getAvatars = async ({
   ensNames,
   chain = mainnet,
-}: // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
-GetAvatars): Promise<GetAvatarReturnType[]> => {
+}: GetAvatars): Promise<GetAvatarReturnType[]> => {
   if (!ensNames || ensNames.length === 0) {
     return [];
   }

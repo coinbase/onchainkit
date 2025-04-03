@@ -108,7 +108,6 @@ describe('formatFiatAmount', () => {
     expect(() => formatFiatAmount({ amount: 'invalid' })).not.toThrow();
     expect(formatFiatAmount({ amount: 'invalid' })).toBe('$0.00');
     expect(formatFiatAmount({ amount: Number.NaN })).toBe('$0.00');
-    // biome-ignore lint/suspicious/noExplicitAny: testing undefined
     expect(formatFiatAmount({ amount: undefined as any })).toBe('$0.00');
   });
 });
