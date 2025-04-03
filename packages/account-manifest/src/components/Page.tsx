@@ -13,7 +13,7 @@ import {
 } from '@coinbase/onchainkit/wallet';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAccount } from 'wagmi';
-import { useGetFid } from '../hooks/useGetFid';
+import { useFid } from '../hooks/useFid';
 import {
   type AccountAssociation,
   useSignManifest,
@@ -26,14 +26,13 @@ const MAX_RECONNECT_ATTEMPTS = 5;
 
 function Page() {
   const wsRef = useRef<WebSocket | null>(null);
-  const [fid, setFid] = useState<number | null>(null);
   const [domain, setDomain] = useState<string>('');
   const [showDomainError, setShowDomainError] = useState<boolean>(false);
   const [accountAssocation, setAccountAssocation] =
     useState<AccountAssociation | null>(null);
 
-  const getFid = useGetFid();
   const { address } = useAccount();
+  const fid = useFid(address);
   const { isPending, error, generateAccountAssociation } = useSignManifest({
     domain,
     fid,
@@ -69,12 +68,6 @@ function Page() {
       wsRef.current?.close();
     };
   }, []);
-
-  useEffect(() => {
-    if (address) {
-      getFid(address).then(setFid);
-    }
-  }, [address, getFid]);
 
   useEffect(() => {
     const observer = new MutationObserver((mutations) => {
@@ -125,10 +118,6 @@ function Page() {
     [],
   );
 
-  const handleClose = useCallback(() => {
-    window.close();
-  }, []);
-
   const domainError = useMemo(() => {
     if (!showDomainError) {
       return null;
@@ -149,7 +138,7 @@ function Page() {
         )}
       </>
     );
-  }, [showDomainError]);
+  }, [showDomainError, domain]);
 
   return (
     <main className="flex min-h-screen w-full max-w-[600px] flex-col items-center justify-center gap-6 font-sans">
@@ -237,7 +226,7 @@ function Page() {
         </Step>
         <Success
           accountAssocation={accountAssocation}
-          handleClose={handleClose}
+          handleClose={window.close}
         />
       </div>
     </main>
