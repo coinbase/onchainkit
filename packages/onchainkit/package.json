@@ -8,8 +8,7 @@
     "build": "pnpm clean && pnpm bundle:prod && pnpm tailwind:prod",
     "dev": "concurrently \"pnpm tailwind:dev\" \"pnpm bundle:dev\"",
     "bundle:dev": "tsup -- --watch",
-    "bundle:dev:no-watch": "tsup",
-    "bundle:prod": "packemon build --addEngines --addFiles --loadConfigs --declaration && tscpaths -p tsconfig.esm.json -s ./src -o ./esm && npx packemon validate --no-license --no-people --no-repo",
+    "bundle:prod": "tsup",
     "tailwind:dev": "tailwind -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --watch",
     "tailwind:prod": "tailwindcss -i ./src/styles/index.css -o ./dist/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --minify",
     "clean": "rm -rf dist esm",
@@ -34,7 +33,6 @@
     "publish-alpha": "node ./scripts/publish-alpha.js"
   },
   "peerDependencies": {
-    "@types/react": "^18 || ^19",
     "react": "^18 || ^19",
     "react-dom": "^18 || ^19"
   },
@@ -74,6 +72,7 @@
     "autoprefixer": "^10.4.19",
     "babel-plugin-module-resolver": "^5.0.2",
     "concurrently": "^8.0.0",
+    "esbuild-plugin-babel": "^0.2.3",
     "graphql": "^14",
     "graphql-request": "^6.1.0",
     "jsdom": "^24.1.0",
