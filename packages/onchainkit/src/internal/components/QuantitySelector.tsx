@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { TextInput } from '../../internal/components/TextInput';
+import { TextInput } from './TextInput';
 import { background, border, cn, color, pressable } from '../../styles/theme';
 
 export const DELAY_MS = 200;

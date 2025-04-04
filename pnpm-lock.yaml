@@ -188,36 +188,6 @@ importers:
         specifier: ^2.14.11
         version: 2.14.15(@tanstack/query-core@5.69.0)(@tanstack/react-query@5.69.0(react@18.3.1))(@types/react@18.3.19)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.8.2)(utf-8-validate@5.0.10)(viem@2.23.12(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.24.2))(zod@3.24.2)
     devDependencies:
-      '@chromatic-com/storybook':
-        specifier: ^1.7.0
-        version: 1.9.0(react@18.3.1)
-      '@storybook/addon-a11y':
-        specifier: ^8.2.9
-        version: 8.6.7(storybook@8.6.7(bufferutil@4.0.9)(prettier@3.5.3)(utf-8-validate@5.0.10))
-      '@storybook/addon-essentials':
-        specifier: ^8.2.9
-        version: 8.6.7(@types/react@18.3.19)(storybook@8.6.7(bufferutil@4.0.9)(prettier@3.5.3)(utf-8-validate@5.0.10))
-      '@storybook/addon-interactions':
-        specifier: ^8.2.9
-        version: 8.6.7(storybook@8.6.7(bufferutil@4.0.9)(prettier@3.5.3)(utf-8-validate@5.0.10))
-      '@storybook/addon-links':
-        specifier: ^8.2.9
-        version: 8.6.7(react@18.3.1)(storybook@8.6.7(bufferutil@4.0.9)(prettier@3.5.3)(utf-8-validate@5.0.10))
-      '@storybook/blocks':
-        specifier: ^8.2.9
-        version: 8.6.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.6.7(bufferutil@4.0.9)(prettier@3.5.3)(utf-8-validate@5.0.10))
-      '@storybook/react':
-        specifier: ^8.2.9
-        version: 8.6.7(@storybook/test@8.6.7(storybook@8.6.7(bufferutil@4.0.9)(prettier@3.5.3)(utf-8-validate@5.0.10)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.6.7(bufferutil@4.0.9)(prettier@3.5.3)(utf-8-validate@5.0.10))(typescript@5.8.2)
-      '@storybook/react-vite':
-        specifier: ^8.2.9
-        version: 8.6.7(@storybook/test@8.6.7(storybook@8.6.7(bufferutil@4.0.9)(prettier@3.5.3)(utf-8-validate@5.0.10)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.36.0)(storybook@8.6.7(bufferutil@4.0.9)(prettier@3.5.3)(utf-8-validate@5.0.10))(typescript@5.8.2)(vite@5.4.14(@types/node@22.13.10)(lightningcss@1.29.2))
-      '@storybook/test':
-        specifier: ^8.2.9
-        version: 8.6.7(storybook@8.6.7(bufferutil@4.0.9)(prettier@3.5.3)(utf-8-validate@5.0.10))
-      '@storybook/test-runner':
-        specifier: ^0.19.1
-        version: 0.19.1(@swc/helpers@0.5.15)(@types/node@22.13.10)(storybook@8.6.7(bufferutil@4.0.9)(prettier@3.5.3)(utf-8-validate@5.0.10))
       '@testing-library/jest-dom':
         specifier: 6.4.7
         version: 6.4.7(@jest/globals@29.7.0)(jest@29.7.0(@types/node@22.13.10))(vitest@3.0.9)
@@ -281,6 +251,9 @@ importers:
       rimraf:
         specifier: ^5.0.5
         version: 5.0.10
+      rollup-plugin-preserve-use-client:
+        specifier: ^3.0.1
+        version: 3.0.1(rollup@4.36.0)
       storybook:
         specifier: ^8.2.9
         version: 8.6.7(bufferutil@4.0.9)(prettier@3.5.3)(utf-8-validate@5.0.10)
@@ -7440,6 +7413,11 @@ packages:
     resolution: {integrity: sha512-FYEvpCaD5jGtyBuBFcQImEGmTxDTPbiHjJdrYIp+mFIwgXiXabxvKUK7ZT9P31ozu2Tqm9llYQMRWsfvTMTAOw==}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
+
+  rollup-plugin-preserve-use-client@3.0.1:
+    resolution: {integrity: sha512-4WKtGnQsgeCzT/PnA82V4knXVTKxNrxJFcPVa1Kero2XaLs1yazGSCUwxv6NzVmeNeURqE+A5wLbI+zlPKVgMg==}
+    peerDependencies:
+      rollup: ^4.0.0
 
   rollup@4.36.0:
     resolution: {integrity: sha512-zwATAXNQxUcd40zgtQG0ZafcRK4g004WtEl7kbuhTWPvf07PsfohXl39jVUvPF7jvNAIkKPQ2XrsDlWuxBd++Q==}
@@ -17636,6 +17614,10 @@ snapshots:
   rollup-plugin-polyfill-node@0.13.0(rollup@4.36.0):
     dependencies:
       '@rollup/plugin-inject': 5.0.5(rollup@4.36.0)
+      rollup: 4.36.0
+
+  rollup-plugin-preserve-use-client@3.0.1(rollup@4.36.0):
+    dependencies:
       rollup: 4.36.0
 
   rollup@4.36.0:

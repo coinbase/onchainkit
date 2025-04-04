@@ -21,4 +21,4 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Lint
-        run: pnpm f:ock ci:lint
+        run: pnpm f:ock lint

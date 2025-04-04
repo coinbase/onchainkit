@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { useTransactionContext } from '../components/TransactionProvider';
+import { useTransactionContext } from './TransactionProvider
 import { TransactionToastIcon } from './TransactionToastIcon';
 
 vi.mock('../components/TransactionProvider', () => ({

@@ -1,26 +1,7 @@
 {
-  "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "es2020",
-    "module": "es2020",
-    "lib": ["es2020", "dom"],
-    "skipLibCheck": true,
-    "jsx": "react-jsx",
-    "strict": true,
-    "sourceMap": true,
-    "declaration": true,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "declarationDir": "dist/types",
-    "outDir": "dist/es",
-    "typeRoots": ["node_modules/@types", "./types"],
-    "rootDir": "src",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "**/*.stories.*"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.lib.json" }
+  ]
 }
