@@ -15,7 +15,7 @@
     // "noEmit": true,
     // "jsx": "react-jsx",
 
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "target": "es2020",
     "module": "es2020",
     "lib": ["es2020", "dom"],
@@ -27,13 +27,14 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "typeRoots": ["node_modules/@types", "./lib/types"],
+    "typeRoots": ["node_modules/@types", "src/types"],
     "outDir": "dist",
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["lib/*"]
+      "@/*": ["src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["app"],
+  "exclude": ["node_modules"]
 }
