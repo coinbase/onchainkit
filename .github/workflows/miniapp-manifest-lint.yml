@@ -1,0 +1,30 @@
+name: manifest lint
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/miniapp-manifest-generator/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'packages/miniapp-manifest-generator/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Lint
+        run: pnpm f:manifest lint
