@@ -10,8 +10,6 @@ export default function postcssPrefixClassnames({
     prepare(result) {
       const file = result.root.source?.input.file;
 
-      console.log({ file });
-
       return {
         Rule(rule) {
           if (!file || !shouldProcessFile({ file, includeFiles, excludeFiles }))
@@ -27,8 +25,14 @@ export default function postcssPrefixClassnames({
 }
 
 function prefixClasses({ selector, prefix }) {
-  return selector.replace(/(^\.)|((?:[^\\])\.)/g, (match) => {
-    return match + prefix;
+  // Split the selector into parts to handle each class separately
+  return selector.replace(/(\.)([^\s.:]+)/g, (_match, dot, className) => {
+    // If the class already starts with the prefix, leave it as is
+    if (className.startsWith(prefix)) {
+      return dot + className;
+    }
+    // Otherwise, add the prefix to the class
+    return dot + prefix + className;
   });
 }
 

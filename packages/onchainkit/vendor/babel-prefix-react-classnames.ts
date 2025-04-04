@@ -16,19 +16,29 @@ export function babelPrefixReactClassNames({
     t.blockStatement([
       t.returnStatement(
         t.conditionalExpression(
-          t.binaryExpression(
-            '===',
-            t.unaryExpression('typeof', t.identifier('value')),
-            t.stringLiteral('string'),
-          ),
-          t.callExpression(
-            t.memberExpression(t.identifier('value'), t.identifier('replace')),
-            [t.regExpLiteral('(\\S+)', 'g'), t.stringLiteral(`${prefix}$1`)],
-          ),
-          t.binaryExpression(
-            '+',
-            t.stringLiteral(prefix),
-            t.identifier('value'),
+          t.unaryExpression('!', t.identifier('value')),
+          t.identifier('value'),
+          t.conditionalExpression(
+            t.binaryExpression(
+              '===',
+              t.unaryExpression('typeof', t.identifier('value')),
+              t.stringLiteral('string'),
+            ),
+            t.callExpression(
+              t.memberExpression(
+                t.identifier('value'),
+                t.identifier('replace'),
+              ),
+              [
+                t.regExpLiteral(`(^|\\s)(?!${prefix})(\\S+)`, 'g'),
+                t.stringLiteral(`$1${prefix}$2 `),
+              ],
+            ),
+            t.binaryExpression(
+              '+',
+              t.stringLiteral(`${prefix} `),
+              t.identifier('value'),
+            ),
           ),
         ),
       ),
@@ -74,11 +84,11 @@ export function babelPrefixReactClassNames({
 
           // Handle string literals directly in JSX className
           if (types.isStringLiteral(value)) {
-            const prefixedClasses = value.value
-              .split(' ')
-              .map((cls) => `${prefix}${cls}`)
-              .join(' ');
-            value.value = prefixedClasses;
+            // Use a regex with the same pattern as the helper function
+            value.value = value.value.replace(
+              new RegExp(`(^|\\s)(?!${prefix})(\\S+)`, 'g'),
+              `$1${prefix}$2 `,
+            );
           }
 
           // Handle dynamic expressions in JSX className
@@ -108,12 +118,22 @@ export function babelPrefixReactClassNames({
             ) {
               // Process each argument of the cnUtil function
               expression.arguments = expression.arguments.map((arg) => {
+                // Skip falsey values
+                if (
+                  types.isNullLiteral(arg) ||
+                  (types.isBooleanLiteral(arg) && arg.value === false) ||
+                  (types.isIdentifier(arg) && arg.name === 'undefined')
+                ) {
+                  return arg;
+                }
+
                 // Simple string literals can be processed at compile time
                 if (types.isStringLiteral(arg)) {
-                  const prefixedClasses = arg.value
-                    .split(/\s+/)
-                    .map((cls) => `${prefix}${cls}`)
-                    .join(' ');
+                  // Use a regex with the same pattern as the helper function
+                  const prefixedClasses = arg.value.replace(
+                    new RegExp(`(^|\\s)(?!${prefix})(\\S+)`, 'g'),
+                    `$1${prefix}$2 `,
+                  );
                   return types.stringLiteral(prefixedClasses);
                 }
 
