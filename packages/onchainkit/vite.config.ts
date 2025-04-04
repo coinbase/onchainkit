@@ -7,6 +7,7 @@ import { extname, relative, resolve } from 'path';
 import { fileURLToPath } from 'node:url';
 import { glob } from 'glob';
 import path from 'node:path';
+import { babelPrefixReactClassNames } from './vendor/babel-prefix-react-classnames';
 
 const entryPoints = Object.fromEntries(
   glob
@@ -33,7 +34,16 @@ export default defineConfig({
   plugins: [
     externalizeDeps(),
     preserveUseClientDirective(),
-    react(),
+    react({
+      babel: {
+        plugins: [
+          babelPrefixReactClassNames({
+            prefix: 'ock-',
+            cnUtil: 'cn',
+          }),
+        ],
+      },
+    }),
     dts({
       tsconfigPath: './tsconfig.json',
       include: ['src'],
