@@ -129,6 +129,7 @@ type PaymasterService = {
 
 export type SendBatchedTransactionsParams = {
   capabilities?: WalletCapabilities;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   sendCallsAsync: any;
   transactions?: Array<Call | ContractFunctionParameters>;
 };
@@ -329,6 +330,7 @@ export type UseSendCallsParams = {
 
 export type UseSendWalletTransactionsParams = {
   capabilities?: WalletCapabilities;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   sendCallsAsync: any;
   sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
   walletCapabilities: ViemWalletCapabilities;

@@ -23,6 +23,7 @@ export type SendSwapTransactionParams = {
   config: Config;
   isSponsored?: boolean; // Whether the swap is sponsored (default: false)
   paymaster?: string; // OnchainKit config paymaster RPC url
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   sendCallsAsync: any;
   sendTransactionAsync: SendTransactionMutateAsync<Config, unknown>;
   transactions: SwapTransaction[]; // A list of transactions to execute

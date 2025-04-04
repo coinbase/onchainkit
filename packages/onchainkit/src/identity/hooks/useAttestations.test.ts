@@ -96,7 +96,7 @@ describe('useAttestations', () => {
     const chain = base;
 
     const { result } = renderHook(
-      () => useAttestations({ address, chain, schemaId: '' as any }),
+      () => useAttestations({ address, chain, schemaId: '' as `0x${string}` }),
       {
         wrapper: getNewReactQueryTestProvider(),
       },

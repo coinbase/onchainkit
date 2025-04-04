@@ -10,6 +10,7 @@ vi.mock('wagmi/experimental', () => ({
 
 interface UseWriteContractsConfig {
   mutation: {
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     onError?: (error: any) => void;
     onSuccess?: (id: string) => void;
   };
