@@ -1,6 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import fs from 'node:fs/promises';
-import path from 'node:path';
 import {
   optimizedCopy,
   createClickableLink,
@@ -8,6 +7,7 @@ import {
   toValidPackageName,
   detectPackageManager
 } from './utils';
+import { Stats } from 'node:fs';
 
 vi.mock('fs/promises');
 vi.mock('path');
@@ -19,7 +19,7 @@ describe('utils', () => {
     });
 
     it('should copy file when source is a file', async () => {
-      vi.mocked(fs.stat).mockResolvedValue({ isDirectory: () => false } as unknown as fs.Stats);
+      vi.mocked(fs.stat).mockResolvedValue({ isDirectory: () => false } as unknown as Stats);
       vi.mocked(fs.copyFile).mockResolvedValue();
 
       await optimizedCopy('src.txt', 'dest.txt');

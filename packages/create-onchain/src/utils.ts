@@ -1,11 +1,41 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-async function copyFile(src: string, dest: string) {
+
+const renameFiles: Record<string, string | undefined> = {
+  _gitignore: '.gitignore',
+  '_env.local': '.env.local',
+};
+
+const excludeDirs = ['node_modules', '.next'];
+const excludeFiles = ['.DS_Store', 'Thumbs.db'];
+
+export async function copyDir(src: string, dest: string) {
+  await fs.mkdir(dest, { recursive: true });
+  const entries = await fs.readdir(src, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, renameFiles[entry.name] || entry.name);
+
+    if (entry.isDirectory()) {
+      if (!excludeDirs.includes(entry.name)) {
+        await copyDir(srcPath, destPath);
+      }
+    } else {
+      if (!excludeFiles.includes(entry.name)) {
+        await optimizedCopy(srcPath, destPath);
+      }
+    }
+  }
+}
+
+
+async function optimizedCopyFile(src: string, dest: string) {
   await fs.copyFile(src, dest);
 }
 
-async function copyDir(src: string, dest: string) {
+async function optimizedCopyDir(src: string, dest: string) {
   await fs.mkdir(dest, { recursive: true });
   const entries = await fs.readdir(src, { withFileTypes: true });
 
@@ -14,9 +44,9 @@ async function copyDir(src: string, dest: string) {
       const srcPath = path.join(src, entry.name);
       const destPath = path.join(dest, entry.name);
       if (entry.isDirectory()) {
-        await copyDir(srcPath, destPath);
+        await optimizedCopyDir(srcPath, destPath);
       } else {
-        await copyFile(srcPath, destPath);
+        await optimizedCopyFile(srcPath, destPath);
       }
     })
   );
@@ -25,9 +55,9 @@ async function copyDir(src: string, dest: string) {
 export async function optimizedCopy(src: string, dest: string) {
   const stat = await fs.stat(src);
   if (stat.isDirectory()) {
-    await copyDir(src, dest);
+    await optimizedCopyDir(src, dest);
   } else {
-    await copyFile(src, dest);
+    await optimizedCopyFile(src, dest);
   }
 }
 
