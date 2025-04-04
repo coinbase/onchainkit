@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "copy": "cp -R ./dist/* ../create-onchain/dist/manifest",
-    "build:copy": "pnpm run build && pnpm run copy",
+    "build:copy": "pnpm run build && node scripts/copyBuild.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
