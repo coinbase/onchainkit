@@ -10,6 +10,8 @@ export default function postcssPrefixClassnames({
     prepare(result) {
       const file = result.root.source?.input.file;
 
+      console.log({ file });
+
       return {
         Rule(rule) {
           if (!file || !shouldProcessFile({ file, includeFiles, excludeFiles }))

@@ -26,6 +26,8 @@ export function ConnectButton({
         dsText.headline,
         color.inverse,
         'inline-flex min-w-[153px] items-center justify-center px-4 py-3',
+        `testing-123`,
+        `hello-${className} other`,
         className,
       )}
       onClick={onClick}
