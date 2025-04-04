@@ -35,7 +35,7 @@ export default defineConfig({
     preserveUseClientDirective(),
     react(),
     dts({
-      tsconfigPath: './tsconfig.lib.json',
+      tsconfigPath: './tsconfig.json',
       include: ['src'],
       exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
     }),
