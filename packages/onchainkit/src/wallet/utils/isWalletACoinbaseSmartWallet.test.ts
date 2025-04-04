@@ -1,5 +1,4 @@
-import type { PublicClient } from 'viem';
-import type { RpcUserOperation } from 'viem';
+import type { PublicClient, RpcUserOperation } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import {
   CB_SW_PROXY_BYTECODE,

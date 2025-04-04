@@ -2,7 +2,7 @@ import type { OnchainKitContextType } from '@/core/types';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { MockInstance } from 'vitest';
 import { baseSepolia } from 'wagmi/chains';
-import { ANALYTICS_API_URL } from '../constants';
+import { ANALYTICS_API_URL } from '../../analytics/constants';
 import { JSON_HEADERS } from '../../network/constants';
 import { type AnalyticsRequestParams, sendAnalytics } from './sendAnalytics';
 
