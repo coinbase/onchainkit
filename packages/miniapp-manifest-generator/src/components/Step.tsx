@@ -15,6 +15,7 @@ export function Step({
 }: StepProps) {
   return (
     <div
+      data-testid="manifestStep"
       className={`flex w-full items-center gap-4 py-4 ${disabled ? 'opacity-50' : ''}`}
     >
       <div className="flex items-center gap-2">

@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useSignMessage } from 'wagmi';
-import { toBase64Url } from '../utils';
+import { toBase64Url } from '../utilities/toBase64';
 
 export type AccountAssociation = {
   header: string;
@@ -22,8 +22,9 @@ export function useSignManifest({
   address,
   onSigned,
 }: SignManifestProps) {
-  const encodedHeader = useRef<string>('');
-  const encodedPayload = useRef<string>('');
+  const [encodedHeader, setEncodedHeader] = useState<string>('');
+  const [encodedPayload, setEncodedPayload] = useState<string>('');
+
   const {
     data: signMessageData,
     isPending,
@@ -36,8 +37,8 @@ export function useSignManifest({
       if (signMessageData) {
         const encodedSignature = toBase64Url(signMessageData);
         const accountAssociation = {
-          header: encodedHeader.current,
-          payload: encodedPayload.current,
+          header: encodedHeader,
+          payload: encodedPayload,
           signature: encodedSignature,
           domain: domain,
         };
@@ -46,9 +47,10 @@ export function useSignManifest({
         onSigned(accountAssociation);
       }
     }
-
-    signManifest();
-  }, [signMessageData, domain, onSigned]);
+    if (encodedHeader && encodedPayload) {
+      signManifest();
+    }
+  }, [signMessageData, domain, onSigned, encodedHeader, encodedPayload]);
 
   const generateAccountAssociation = async () => {
     if (!domain || !fid || !address) {
@@ -66,9 +68,9 @@ export function useSignManifest({
       domain: domain.replace(/^(http|https):\/\//, ''),
     };
 
-    encodedHeader.current = toBase64Url(JSON.stringify(header));
-    encodedPayload.current = toBase64Url(JSON.stringify(payload));
-    const messageToSign = `${encodedHeader.current}.${encodedPayload.current}`;
+    setEncodedHeader(toBase64Url(JSON.stringify(header)));
+    setEncodedPayload(toBase64Url(JSON.stringify(payload)));
+    const messageToSign = `${encodedHeader}.${encodedPayload}`;
 
     signMessage({ message: messageToSign });
   };
