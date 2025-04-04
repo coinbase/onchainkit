@@ -3,16 +3,20 @@
 import { useEffect, useState } from 'react';
 
 type TimerProps = {
-  /* start time in milliseconds */
   startMs: number;
-  /* countdown interval in milliseconds, default 1000 */
   interval?: number;
-  /* formatter function to display time */
   formatFunc?: (timeMs: number) => string;
-  /* callback to call on timer complete */
   callback?: () => void;
 };
 
+/**
+ * A timer component that displays a countdown timer and calls a callback when the timer is complete.
+ * @param {number} props.startMs - The start time in milliseconds
+ * @param {number} props.interval - The countdown interval in milliseconds, defaults to 1000
+ * @param {function} props.formatFunc - The formatter function to display time, defaults to displaying seconds.
+ * @param {function} props.callback - The callback to call on timer complete
+ * @returns {React.ReactNode} The Timer component.
+ */
 export function Timer({
   startMs,
   interval = 1000,

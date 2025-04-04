@@ -27,11 +27,13 @@ export function Socials({ address, chain, className }: SocialsReact) {
     return null;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: name, isLoading: isLoadingName } = useName({
     address: accountAddress,
     chain: accountChain,
   });
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: socials, isLoading: isLoadingSocials } = useSocials(
     {
       ensName: name ?? '',

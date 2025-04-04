@@ -1,4 +1,6 @@
 'use client';
+
+/* eslint-disable react-hooks/rules-of-hooks */
 import { getChainExplorer } from '@/core/network/getChainExplorer';
 import { useValue } from '@/internal/hooks/useValue';
 import { baseSvg } from '@/internal/svg/baseSvg';

@@ -61,10 +61,7 @@ export function Success({ accountAssocation, handleClose }: SuccessProps) {
           ) : (
             <>
               This window will close automatically in{' '}
-              <Timer
-                startMs={5000}
-                callback={cancelClose ? undefined : handleClose}
-              />
+              <Timer startMs={5000} callback={handleClose} />
             </>
           )}
         </button>

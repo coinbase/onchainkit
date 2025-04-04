@@ -16,7 +16,9 @@ export function useFid(address?: Address) {
 
   useEffect(() => {
     async function getFid() {
-      if (!address) return;
+      if (!address) {
+        return;
+      }
 
       const resolvedFid = await client.readContract({
         address: ID_REGISTRY_ADDRESS,

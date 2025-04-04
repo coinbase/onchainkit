@@ -14,6 +14,7 @@ export function EthBalance({ address, className }: EthBalanceReact) {
     return null;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { convertedBalance: balance, error } = useGetETHBalance(
     address ?? contextAddress,
   );

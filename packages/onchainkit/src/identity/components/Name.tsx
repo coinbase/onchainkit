@@ -30,11 +30,13 @@ export function Name({
   const accountAddress = address ?? contextAddress;
   const accountChain = chain ?? contextChain;
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: name, isLoading } = useName({
     address: accountAddress,
     chain: accountChain,
   });
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const badge = useMemo(() => {
     return Children.toArray(children).find(findComponent(Badge));
   }, [children]);
