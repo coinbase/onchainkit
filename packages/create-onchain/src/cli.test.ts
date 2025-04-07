@@ -63,7 +63,7 @@ describe('CLI', () => {
 
     await import('./cli.js');
 
-    expect(createMiniKitTemplate).toHaveBeenCalled();
+    expect(createMiniKitTemplate).toHaveBeenCalledWith('minikit-basic');
   });
 
   it('calls createMiniKitManifest with --manifest', async () => {
@@ -73,6 +73,15 @@ describe('CLI', () => {
     await import('./cli.js');
 
     expect(createMiniKitManifest).toHaveBeenCalled();
+  });
+
+  it('calls createMiniKitTemplate with --template=minikit-basic', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    process.argv = ['node', 'cli.js', '--template=minikit-basic'];
+
+    await import('./cli.js');
+
+    expect(createMiniKitTemplate).toHaveBeenCalledWith('minikit-basic');
   });
 
   it('shows help text with --help', async () => {

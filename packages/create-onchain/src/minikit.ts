@@ -96,7 +96,9 @@ export async function createMiniKitManifest(envPath?: string) {
   return true;
 }
 
-export async function createMiniKitTemplate() {
+export async function createMiniKitTemplate(
+  template: 'minikit-snake' | 'minikit-basic' = 'minikit-basic',
+) {
   console.log(
     `${pc.greenBright(`
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -179,7 +181,7 @@ export async function createMiniKitTemplate() {
 
   const sourceDir = path.resolve(
     fileURLToPath(import.meta.url),
-    '../../../templates/minikit',
+    `../../../templates/${template}`,
   );
 
   await copyDir(sourceDir, root);
@@ -195,10 +197,10 @@ export async function createMiniKitTemplate() {
     `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}
 NEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}
 NEXT_PUBLIC_URL=
-NEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/snake.png
+NEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/logo.png
 NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=FFFFFF
-NEXT_PUBLIC_IMAGE_URL=$NEXT_PUBLIC_URL/snake.png
-NEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/snake.png
+NEXT_PUBLIC_IMAGE_URL=$NEXT_PUBLIC_URL/logo.png
+NEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/logo.png
 NEXT_PUBLIC_VERSION=next
 REDIS_URL=
 REDIS_TOKEN=`,
