@@ -1,7 +1,9 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Step } from '../Step';
 import { useAccount } from 'wagmi';
 import { validateUrl } from '../../utilities/validateUrl';
+
+const DEBOUNCE_TIME = 500;
 
 type DomainProps = {
   handleSetDomain: (domain: string) => void;
@@ -12,14 +14,21 @@ export function Domain({ handleSetDomain }: DomainProps) {
   const [showDomainError, setShowDomainError] = useState<boolean>(false);
   const { address } = useAccount();
 
-  const handleValidateUrl = useCallback(() => {
+  const validateDomain = useCallback(() => {
+    if (!domain) {
+      return;
+    }
     const isValid = validateUrl(domain);
-    if (!isValid) {
-      setShowDomainError(true);
-    } else {
+    setShowDomainError(!isValid);
+    if (isValid) {
       handleSetDomain(domain);
     }
   }, [domain, handleSetDomain]);
+
+  useEffect(() => {
+    const timer = setTimeout(validateDomain, DEBOUNCE_TIME);
+    return () => clearTimeout(timer);
+  }, [validateDomain]);
 
   const handleDomainChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +52,7 @@ export function Domain({ handleSetDomain }: DomainProps) {
           className="rounded border border-gray-300 px-4 py-2"
           value={domain}
           onChange={handleDomainChange}
-          onBlur={handleValidateUrl}
+          onBlur={validateDomain}
         />
         {showDomainError && (
           <>

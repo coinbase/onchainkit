@@ -24,7 +24,7 @@ export function Success({ accountAssocation, handleClose }: SuccessProps) {
     <div className="flex flex-col gap-2 rounded p-4 text-black">
       <div className="flex items-center justify-between">
         <h3 className="font-bold text-xl">
-          Account Association Generated Successfully!
+          Mini-App Manifest Generated Successfully!
         </h3>
         <button
           type="button"

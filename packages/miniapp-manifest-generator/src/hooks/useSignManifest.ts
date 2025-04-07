@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSignMessage } from 'wagmi';
-import { toBase64Url } from '../utilities/toBase64';
+import { toBase64Url } from '../utilities/base64';
 
 export type AccountAssociation = {
   header: string;
@@ -40,7 +40,7 @@ export function useSignManifest({
           header: encodedHeader,
           payload: encodedPayload,
           signature: encodedSignature,
-          domain: domain,
+          domain: domain.replace(/\/$/, ''), // remove trailing slash
         };
 
         console.log('Mini-App manifest generated:', accountAssociation);
@@ -64,12 +64,17 @@ export function useSignManifest({
       key: address,
     };
 
+    const domainString = new URL(domain).hostname;
     const payload = {
-      domain: domain.replace(/^(http|https):\/\//, ''),
+      domain: domainString,
     };
 
-    setEncodedHeader(toBase64Url(JSON.stringify(header)));
-    setEncodedPayload(toBase64Url(JSON.stringify(payload)));
+    const encodedHeader = toBase64Url(JSON.stringify(header));
+    const encodedPayload = toBase64Url(JSON.stringify(payload));
+
+    setEncodedHeader(encodedHeader);
+    setEncodedPayload(encodedPayload);
+
     const messageToSign = `${encodedHeader}.${encodedPayload}`;
 
     signMessage({ message: messageToSign });
