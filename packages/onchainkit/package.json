@@ -32,7 +32,7 @@
     "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch",
     "get-next-version": "node ./scripts/get-next-version.js",
     "publish-alpha": "node ./scripts/publish-alpha.js",
-    "validate-build": "pnpm pack && node ./scripts/validate-build.js"
+    "validate-build": "node ./scripts/validate-build.js"
   },
   "peerDependencies": {
     "@types/react": "^18 || ^19",

@@ -20,6 +20,10 @@ jobs:
       - name: 'Setup'
         uses: ./.github/actions/setup
 
+      - name: Validate build
+        run: |
+          pnpm f:ock validate-build
+
       - name: Build
         run: |
           pnpm f:ock build
