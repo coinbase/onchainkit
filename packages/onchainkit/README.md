@@ -105,6 +105,7 @@ The following shorthands are available:
 - `pnpm f:ock`: `pnpm --filter @coinbase/onchainkit`
 - `pnpm f:play`: `pnpm --filter playground`
 - `pnpm f:create`: `pnpm --filter create-onchain`
+- `pnpm f:manifest`: `pnpm --filter miniapp-manifest-generator`
 
 ### Development
 

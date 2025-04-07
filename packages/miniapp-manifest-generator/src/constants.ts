@@ -8,4 +8,11 @@ export const ID_REGISTRY_ABI = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    inputs: [{ internalType: 'uint256', name: 'fid', type: 'uint256' }],
+    name: 'custodyOf',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
 ] as const;

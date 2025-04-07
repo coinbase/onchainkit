@@ -32,6 +32,7 @@ export function getArgs() {
       break;
     case '-m':
     case '--mini':
+    case '--template=minikit':
       options.isMiniKit = true;
       break;
     default:
@@ -54,8 +55,13 @@ Creates an OnchainKit project based on nextJs.
 Options:
 --version: Show version
 --mini: Create a MiniKit project
+--template=<template>: Create a specific template
 --manifest: Generate your Mini-App account association
 --help: Show help
+
+Available Templates:
+- onchainkit: Create an OnchainKit project
+- minikit: Create a MiniKit project
 `)}`,
     );
     process.exit(0);

@@ -38,7 +38,7 @@ describe('Success', () => {
     );
 
     expect(
-      screen.getByText('Account Association Generated Successfully!'),
+      screen.getByText('Mini-App Manifest Generated Successfully!'),
     ).toBeInTheDocument();
     expect(screen.getByText('Copy')).toBeInTheDocument();
     expect(screen.getByText(/test-header/)).toBeInTheDocument();
@@ -51,7 +51,7 @@ describe('Success', () => {
     render(<Success accountAssocation={null} handleClose={mockHandleClose} />);
 
     expect(
-      screen.queryByText('Account Association Generated Successfully!'),
+      screen.queryByText('Mini-App Manifest Generated Successfully!'),
     ).not.toBeInTheDocument();
   });
 

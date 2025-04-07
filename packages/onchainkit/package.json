@@ -21,7 +21,8 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "get-next-version": "node ./scripts/get-next-version.js",
-    "publish-alpha": "node ./scripts/publish-alpha.js"
+    "publish-alpha": "node ./scripts/publish-alpha.js",
+    "validate-build": "node ./scripts/validate-build.js"
   },
   "peerDependencies": {
     "react": "^18 || ^19",

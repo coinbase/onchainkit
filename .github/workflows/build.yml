@@ -23,3 +23,7 @@ jobs:
       - name: Build
         run: |
           pnpm f:ock build
+
+      - name: Validate build
+        run: |
+          pnpm f:ock validate-build

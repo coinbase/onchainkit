@@ -33,6 +33,7 @@ export type GetAttestationsByFilterOptions =
 export type AttestationsQueryVariables = {
   distinct: string[];
   take: number;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   where: Record<string, any>;
 };
 
@@ -83,6 +84,7 @@ export function getAttestationQueryVariables(
   filters: GetAttestationQueryVariablesFilters,
 ): AttestationsQueryVariables {
   const checksummedAddress = getAddress(address);
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const conditions: Record<string, any> = {
     recipient: { equals: checksummedAddress },
     revoked: { equals: filters.revoked },
