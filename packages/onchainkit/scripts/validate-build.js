@@ -32,12 +32,14 @@ function validateBuild() {
     const lines = (stdout + stderr).split('\n');
     const tarballContentsStart =
       lines.findIndex((line) => TARBALL_CONTENTS_START_REGEX.test(line)) + 1;
+    console.log({ tarballContentsStart });
     const tarballContentsEnd = lines.findIndex((line) =>
       TARBALL_CONTENTS_END_REGEX.test(line),
     );
+    console.log({ tarballContentsEnd });
     const tarballContentsArr = lines
       .slice(tarballContentsStart, tarballContentsEnd)
-      .map((line) => './' + /(?<path>\S+$)/.exec(line)?.groups?.path?.trim());
+      .map((line) => './' + /(?<path>\S+$)/.exec(line.trim())?.groups?.path);
     const tarballContents = new Set(tarballContentsArr);
 
     console.log(lines.slice(0, 30));
