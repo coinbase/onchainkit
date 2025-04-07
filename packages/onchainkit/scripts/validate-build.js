@@ -32,7 +32,7 @@ function validateBuild() {
     const tarballContents = new Set(tarballContentsArr);
 
     console.log(packageRoot);
-    console.log(tarballContentsArr.slice(0, 10));
+    console.log(lines);
 
     const packageJson = JSON.parse(
       fs.readFileSync(path.join(packageRoot, 'package.json'), 'utf8'),
