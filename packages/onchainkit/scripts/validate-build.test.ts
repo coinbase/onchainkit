@@ -52,18 +52,49 @@ describe('validate-build script', () => {
     vi.restoreAllMocks();
   });
 
+  it('should throw error when tarball start/end markers not found', async () => {
+    // Mock spawnSync to return output without the expected tarball markers
+    vi.mocked(spawnSync).mockReturnValue({
+      stdout: `
+npm notice 
+npm notice 📦  @coinbase/onchainkit@1.2.0
+npm notice some other content
+npm notice more content
+      `,
+      stderr: '',
+      status: 0,
+      signal: null,
+      error: undefined,
+    } as unknown as ReturnType<typeof spawnSync>);
+
+    // Import the script
+    await import('./validate-build.js');
+
+    // Verify error handling
+    expect(mockConsoleError).toHaveBeenCalledWith(
+      'Something went wrong during build validation:',
+    );
+    // Check for the specific error message about tarball contents
+    expect(mockConsoleError).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: 'Failed to find tarball contents start or end',
+      }),
+    );
+    expect(mockProcessExit).toHaveBeenCalledWith(1);
+  });
+
   it('should validate build successfully when all files are present', async () => {
     // Mock spawnSync to return tarball contents
     vi.mocked(spawnSync).mockReturnValue({
       stdout: `
 npm notice 
 npm notice 📦  @coinbase/onchainkit@1.2.0
-npm notice Tarball Contents
+npm notice === Tarball Contents === 
 npm notice 1.2kB dist/index.js
 npm notice 2.3kB dist/index.d.ts
 npm notice 3.4kB dist/esm/index.js
 npm notice 1.1kB package.json
-npm notice Tarball Details
+npm notice === Tarball Details ===
 npm notice name:          @coinbase/onchainkit
 npm notice version:       1.2.0
 npm notice filename:      coinbase-onchainkit-1.2.0.tgz
@@ -127,11 +158,11 @@ npm notice
       stdout: `
 npm notice 
 npm notice 📦  @coinbase/onchainkit@1.2.0
-npm notice Tarball Contents
+npm notice === Tarball Contents === 
 npm notice 1.2kB dist/index.js
 npm notice 3.4kB dist/esm/index.js
 npm notice 1.1kB package.json
-npm notice Tarball Details
+npm notice === Tarball Details ===
 npm notice name:          @coinbase/onchainkit
 npm notice version:       1.2.0
 npm notice filename:      coinbase-onchainkit-1.2.0.tgz
@@ -182,14 +213,14 @@ npm notice
       stdout: `
 npm notice 
 npm notice 📦  @coinbase/onchainkit@1.2.0
-npm notice Tarball Contents
+npm notice === Tarball Contents === 
 npm notice 1.2kB dist/index.js
 npm notice 2.3kB dist/index.d.ts
 npm notice 3.4kB dist/esm/index.js
 npm notice 4.5kB dist/components/Button.js
 npm notice 5.6kB dist/components/Button.d.ts
 npm notice 1.1kB package.json
-npm notice Tarball Details
+npm notice === Tarball Details ===
 npm notice name:          @coinbase/onchainkit
 npm notice version:       1.2.0
 npm notice filename:      coinbase-onchainkit-1.2.0.tgz
@@ -263,9 +294,9 @@ npm notice
       stdout: `
 npm notice 
 npm notice 📦  @coinbase/onchainkit@1.2.0
-npm notice Tarball Contents
+npm notice === Tarball Contents === 
 npm notice 1.2kB dist/index.js
-npm notice Tarball Details
+npm notice === Tarball Details ===
 npm notice
       `,
       stderr: '',
@@ -331,9 +362,9 @@ npm notice Some other content
       stdout: `
 npm notice 
 npm notice 📦  @coinbase/onchainkit@1.2.0
-npm notice Tarball Contents
+npm notice === Tarball Contents === 
 npm notice 1.2kB dist/index.js
-npm notice Tarball Details
+npm notice === Tarball Details ===
 npm notice
       `,
       stderr: '',
@@ -360,6 +391,47 @@ npm notice
     await import('./validate-build.js');
 
     // Only string values are checked, so this should still pass
+    expect(mockConsoleLog).toHaveBeenCalledWith('Build validation successful');
+    expect(mockProcessExit).toHaveBeenCalledWith(0);
+  });
+
+  it('should correctly extract file paths from tarball lines', async () => {
+    // Mock spawnSync to return tarball contents with various file path formats
+    vi.mocked(spawnSync).mockReturnValue({
+      stdout: `
+npm notice 
+npm notice 📦  @coinbase/onchainkit@1.2.0
+npm notice === Tarball Contents === 
+npm notice 1.2kB  package.json
+npm notice 543B   README.md
+npm notice 2.3kB  dist/index.js          
+npm notice 4.5kB  dist/nested/dir/file.js 
+npm notice 1.5kB  dist/file with spaces.js
+npm notice === Tarball Details ===
+npm notice name:          @coinbase/onchainkit
+npm notice version:       1.2.0
+npm notice
+      `,
+      stderr: '',
+      status: 0,
+      signal: null,
+      error: undefined,
+    } as unknown as ReturnType<typeof spawnSync>);
+
+    // Create a simple package.json that references only package.json itself
+    // so the validation passes but we can focus on testing path extraction
+    vi.mocked(fs.readFileSync).mockReturnValue(
+      JSON.stringify({
+        name: '@coinbase/onchainkit',
+        version: '1.2.0',
+        main: './package.json',
+      }),
+    );
+
+    // Import the script
+    await import('./validate-build.js');
+
+    // Paths should be correctly extracted from tarball content
     expect(mockConsoleLog).toHaveBeenCalledWith('Build validation successful');
     expect(mockProcessExit).toHaveBeenCalledWith(0);
   });

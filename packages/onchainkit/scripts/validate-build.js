@@ -6,10 +6,10 @@ import process from 'process';
 import { spawnSync } from 'child_process';
 
 const TARBALL_CONTENTS_START_REGEX = new RegExp(
-  `npm notice[\\s=]+Tarball Contents[\\s=]+`,
+  `npm notice[\\s=]+Tarball Contents[\\s=]*`,
 );
 const TARBALL_CONTENTS_END_REGEX = new RegExp(
-  `npm notice[\\s=]+Tarball Details[\\s=]+`,
+  `npm notice[\\s=]+Tarball Details[\\s=]*`,
 );
 
 function validateBuild() {
@@ -30,21 +30,21 @@ function validateBuild() {
     );
 
     const lines = (stdout + stderr).split('\n');
-    const tarballContentsStart =
-      lines.findIndex((line) => TARBALL_CONTENTS_START_REGEX.test(line)) + 1;
-    console.log({ tarballContentsStart });
+    const tarballContentsStart = lines.findIndex((line) =>
+      TARBALL_CONTENTS_START_REGEX.test(line),
+    );
     const tarballContentsEnd = lines.findIndex((line) =>
       TARBALL_CONTENTS_END_REGEX.test(line),
     );
-    console.log({ tarballContentsEnd });
+
+    if (tarballContentsStart === -1 || tarballContentsEnd === -1) {
+      throw new Error('Failed to find tarball contents start or end');
+    }
+
     const tarballContentsArr = lines
-      .slice(tarballContentsStart, tarballContentsEnd)
+      .slice(tarballContentsStart + 1, tarballContentsEnd)
       .map((line) => './' + /(?<path>\S+$)/.exec(line.trim())?.groups?.path);
     const tarballContents = new Set(tarballContentsArr);
-
-    console.log(lines.slice(0, 30));
-    console.log('---');
-    console.log(tarballContentsArr.slice(0, 30));
 
     const packageJson = JSON.parse(
       fs.readFileSync(path.join(packageRoot, 'package.json'), 'utf8'),
