@@ -40,6 +40,10 @@ function validateBuild() {
       .map((line) => './' + /(?<path>\S+$)/.exec(line)?.groups?.path);
     const tarballContents = new Set(tarballContentsArr);
 
+    console.log(lines.slice(0, 20));
+
+    console.log(tarballContentsArr.slice(0, 20));
+
     const packageJson = JSON.parse(
       fs.readFileSync(path.join(packageRoot, 'package.json'), 'utf8'),
     );
