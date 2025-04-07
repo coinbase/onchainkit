@@ -5,6 +5,13 @@ import { fileURLToPath } from 'url';
 import process from 'process';
 import { spawnSync } from 'child_process';
 
+const TARBALL_CONTENTS_START_REGEX = new RegExp(
+  `npm notice[\\s=]+Tarball Contents[\\s=]+`,
+);
+const TARBALL_CONTENTS_END_REGEX = new RegExp(
+  `npm notice[\\s=]+Tarball Details[\\s=]+`,
+);
+
 function validateBuild() {
   try {
     const currentDir = path.dirname(fileURLToPath(import.meta.url));
@@ -24,15 +31,14 @@ function validateBuild() {
 
     const lines = (stdout + stderr).split('\n');
     const tarballContentsStart =
-      lines.indexOf('npm notice Tarball Contents') + 1;
-    const tarballContentsEnd = lines.indexOf('npm notice Tarball Details');
+      lines.findIndex((line) => TARBALL_CONTENTS_START_REGEX.test(line)) + 1;
+    const tarballContentsEnd = lines.findIndex((line) =>
+      TARBALL_CONTENTS_END_REGEX.test(line),
+    );
     const tarballContentsArr = lines
       .slice(tarballContentsStart, tarballContentsEnd)
       .map((line) => './' + /(?<path>\S+$)/.exec(line)?.groups?.path);
     const tarballContents = new Set(tarballContentsArr);
-
-    console.log(packageRoot);
-    console.log(lines);
 
     const packageJson = JSON.parse(
       fs.readFileSync(path.join(packageRoot, 'package.json'), 'utf8'),
