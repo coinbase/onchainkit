@@ -46,6 +46,19 @@ describe('Domain', () => {
     expect(input).toHaveValue('https://example.com');
   });
 
+  it('should not show error for empty domain', () => {
+    render(<Domain handleSetDomain={mockHandleSetDomain} />);
+
+    const input = screen.getByPlaceholderText('Enter the domain');
+    fireEvent.blur(input);
+
+    expect(
+      screen.queryByText(
+        'Please enter a valid domain, e.g. https://example.com',
+      ),
+    ).not.toBeInTheDocument();
+  });
+
   it('should show error for invalid domain', () => {
     render(<Domain handleSetDomain={mockHandleSetDomain} />);
 
