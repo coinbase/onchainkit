@@ -117,6 +117,11 @@ pnpm f:play dev:watch
 
 Then, you can view the playground at [http://localhost:3000](http://localhost:3000).
 
+ ### Deployment 
+ Want to explore a working example instantly? 
+ Click below to deploy a demo to Vercel in one click:
+ 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcoinbase%2Fonchainkit%23)
 
 ## 🌁 Team and Community
 
