@@ -37,12 +37,12 @@ function validateBuild() {
     );
     const tarballContentsArr = lines
       .slice(tarballContentsStart, tarballContentsEnd)
-      .map((line) => './' + /(?<path>\S+$)/.exec(line)?.groups?.path);
+      .map((line) => './' + /(?<path>\S+$)/.exec(line)?.groups?.path?.trim());
     const tarballContents = new Set(tarballContentsArr);
 
-    console.log(lines.slice(0, 20));
-
-    console.log(tarballContentsArr.slice(0, 20));
+    console.log(lines.slice(0, 30));
+    console.log('---');
+    console.log(tarballContentsArr.slice(0, 30));
 
     const packageJson = JSON.parse(
       fs.readFileSync(path.join(packageRoot, 'package.json'), 'utf8'),
