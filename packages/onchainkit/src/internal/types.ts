@@ -10,6 +10,7 @@ type GenericStatus<T> = {
   statusData: T;
 };
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type AbstractLifecycleStatus = ErrorStatus | GenericStatus<any>;
 
 export type UseLifecycleStatusReturn<T extends AbstractLifecycleStatus> = [
