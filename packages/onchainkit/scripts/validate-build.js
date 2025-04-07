@@ -46,7 +46,11 @@ function validateBuild() {
     );
 
     if (missingFiles.length > 0) {
-      throw new Error('Missing files in the tarball:', missingFiles.join('\n'));
+      console.error(
+        'Failed to find the following files:\n',
+        missingFiles.join('\n'),
+      );
+      throw new Error('Missing files in the tarball.');
     }
   } catch (err) {
     console.error('Something went wrong during build validation:');
