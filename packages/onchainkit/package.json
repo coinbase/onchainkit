@@ -31,7 +31,8 @@
     "watch": "tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch",
     "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch",
     "get-next-version": "node ./scripts/get-next-version.js",
-    "publish-alpha": "node ./scripts/publish-alpha.js"
+    "publish-alpha": "node ./scripts/publish-alpha.js",
+    "validate-build": "node ./scripts/validate-build.js"
   },
   "peerDependencies": {
     "@types/react": "^18 || ^19",
