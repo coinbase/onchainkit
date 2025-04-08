@@ -2,12 +2,14 @@
 
 import { spawnSync } from 'node:child_process';
 import { defineConfig } from 'tsup';
+import { fixAliasPlugin } from 'esbuild-fix-imports-plugin';
 
 const isWatchMode = process.argv.includes('--watch');
 
 const outDir = 'esm';
 
 export default defineConfig({
+  tsconfig: 'tsconfig.dev.json',
   entry: [
     'src/**/*.ts',
     'src/**/*.tsx',
@@ -28,6 +30,7 @@ export default defineConfig({
   watch: isWatchMode ? ['src/**/*.{ts,tsx}'] : false,
   ignoreWatch: ['**/*.{test,stories}.{ts,tsx}'],
   inject: ['react-shim.js'],
+  esbuildPlugins: [fixAliasPlugin()],
 
   esbuildOptions(options) {
     options.jsx = 'automatic';
@@ -60,17 +63,6 @@ export default defineConfig({
         shell: true,
       },
     );
-
-    // Update any type aliases
-    console.log('Updating type aliases...');
-    spawnSync('tscpaths', [
-      '-p',
-      'tsconfig.esm.json',
-      '-s',
-      'src',
-      '-o',
-      outDir,
-    ]);
 
     console.log('⚡ Rebuilt onchainkit.');
   },
