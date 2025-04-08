@@ -67,7 +67,7 @@ vi.mock('path', async () => {
       ...actual,
       resolve: vi.fn((...args) => {
         if (args.some(arg => typeof arg === 'string' && arg.includes('templates'))) {
-          return actual.resolve(__dirname, '..', 'templates', 'minikit');
+          return actual.resolve(__dirname, '..', 'templates', 'minikit-basic');
         }
         return actual.resolve(...args);
       })
@@ -125,7 +125,7 @@ describe('MiniKit', () => {
 
     await createMiniKitTemplate();
 
-    expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.any(String), expect.stringContaining('NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key\nNEXT_PUBLIC_URL=\nNEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/snake.png\nNEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=FFFFFF\nNEXT_PUBLIC_IMAGE_URL=$NEXT_PUBLIC_URL/snake.png\nNEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/snake.png\nNEXT_PUBLIC_VERSION=next\nREDIS_URL=\nREDIS_TOKEN='));
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.any(String), expect.stringContaining('NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key\nNEXT_PUBLIC_URL=\nNEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/logo.png\nNEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=FFFFFF\nNEXT_PUBLIC_IMAGE_URL=$NEXT_PUBLIC_URL/logo.png\nNEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/logo.png\nNEXT_PUBLIC_VERSION=next\nREDIS_URL=\nREDIS_TOKEN='));
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Created new MiniKit project in'));
   });
 
