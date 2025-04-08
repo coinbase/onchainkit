@@ -53,7 +53,7 @@ vi.mock('../../internal/components/Dialog', () => ({
   ),
 }));
 
-vi.mock('../utils/isWalletInstalled', () => ({
+vi.mock('../utils/checkWalletAndRedirect', () => ({
   checkWalletAndRedirect: vi.fn(),
   redirectToWalletInstall: vi.fn(),
 }));
