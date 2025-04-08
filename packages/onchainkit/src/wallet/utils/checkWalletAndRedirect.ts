@@ -13,6 +13,24 @@ export interface WindowWithPhantom extends Window {
 }
 
 export function isWalletInstalled(walletType: string): boolean {
+  // Check if we're in a non-browser environment (e.g., SSR/Node.js)
+  // This prevents ReferenceError when window is not defined
+  if (typeof window === 'undefined') {
+    return false;
+  }
+
+  // Handle case when window.ethereum is undefined
+  // This can happen in browsers without any wallet extensions installed
+  // or when the wallet extension hasn't injected its provider yet
+  if (!window.ethereum) {
+    // Special case for Phantom which has dual injection pattern:
+    // It can be detected via window.phantom even when window.ethereum is undefined
+    if (walletType === 'phantom') {
+      return !!(window as WindowWithPhantom).phantom?.ethereum?.isPhantom;
+    }
+    return false;
+  }
+
   switch (walletType) {
     case 'phantom':
       return (
