@@ -1111,4 +1111,36 @@ describe('WalletModal', () => {
 
     window.ethereum = originalEthereum;
   });
+
+  it('redirects to Frame Wallet download page when Frame is not installed', () => {
+    const originalEthereum = window.ethereum;
+    const originalWindowOpen = window.open;
+    const mockWindowOpen = vi.fn();
+    window.open = mockWindowOpen;
+
+    window.ethereum = { isMetaMask: true };
+
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          supportedWallets: { rabby: false, trust: false, frame: true },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    fireEvent.click(screen.getByText('Frame'));
+
+    expect(mockWindowOpen).toHaveBeenCalledWith(
+      'https://frame.sh/download',
+      '_blank',
+    );
+    expect(mockOnClose).toHaveBeenCalled();
+    expect(mockConnect).not.toHaveBeenCalled();
+
+    window.ethereum = originalEthereum;
+    window.open = originalWindowOpen;
+  });
 });
