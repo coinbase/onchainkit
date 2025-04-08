@@ -13,13 +13,6 @@ export interface WindowWithPhantom extends Window {
 }
 
 export function isWalletInstalled(walletType: string): boolean {
-  if (typeof window === 'undefined' || !window.ethereum) {
-    if (walletType === 'phantom') {
-      return !!(window as WindowWithPhantom).phantom?.ethereum?.isPhantom;
-    }
-    return false;
-  }
-
   switch (walletType) {
     case 'phantom':
       return (

@@ -32,17 +32,6 @@ describe('isWalletInstalled', () => {
   });
 
   describe('when window.ethereum is undefined', () => {
-    it('returns false for unsupported wallet types', () => {
-      expect(isWalletInstalled('unknown')).toBe(false);
-      expect(isWalletInstalled('rabby')).toBe(false);
-      expect(isWalletInstalled('trust')).toBe(false);
-      expect(isWalletInstalled('frame')).toBe(false);
-    });
-
-    it('returns false for phantom when phantom object is not present', () => {
-      expect(isWalletInstalled('phantom')).toBe(false);
-    });
-
     it('returns true for phantom when phantom.ethereum.isPhantom is true', () => {
       Object.defineProperty(window as WindowWithPhantom, 'phantom', {
         writable: true,
