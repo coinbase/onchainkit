@@ -14,6 +14,7 @@ import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
+import { checkWalletAndRedirect } from '../utils/checkWalletAndRedirect';
 
 type WalletProviderOption = {
   id: string;
@@ -93,6 +94,11 @@ export function WalletModal({
 
   const handlePhantomConnection = useCallback(() => {
     try {
+      if (!checkWalletAndRedirect('phantom')) {
+        onClose();
+        return;
+      }
+
       const phantomConnector = injected({
         target: 'phantom',
       });
@@ -109,6 +115,11 @@ export function WalletModal({
 
   const handleRabbyConnection = useCallback(() => {
     try {
+      if (!checkWalletAndRedirect('rabby')) {
+        onClose();
+        return;
+      }
+
       const rabbyConnector = injected({
         target: 'rabby',
       });
@@ -125,6 +136,11 @@ export function WalletModal({
 
   const handleTrustWalletConnection = useCallback(() => {
     try {
+      if (!checkWalletAndRedirect('trust')) {
+        onClose();
+        return;
+      }
+
       const trustConnector = injected({
         target: 'trust',
       });
@@ -136,6 +152,7 @@ export function WalletModal({
       onError?.(
         error instanceof Error ? error : new Error('Failed to connect wallet'),
       );
+      onClose();
     }
   }, [connect, onClose, onError]);
 
@@ -146,11 +163,10 @@ export function WalletModal({
    */
   const handleFrameWalletConnection = useCallback(() => {
     try {
-      // Check if it's not Frame wallet
-      if (!window.ethereum.isFrame) {
-        throw new Error(
-          'Frame is not the active wallet. Please activate Frame before connecting.',
-        );
+      if (!window.ethereum?.isFrame) {
+        window.open('https://frame.sh/download', '_blank');
+        onClose();
+        return;
       }
 
       const frameConnector = injected();
@@ -162,7 +178,6 @@ export function WalletModal({
         error instanceof Error ? error : new Error('Failed to connect wallet'),
       );
 
-      // Ensure the modal is closed on error to prevent infinite loading
       onClose();
     }
   }, [connect, onClose, onError]);
