@@ -31,6 +31,34 @@ describe('isWalletInstalled', () => {
     });
   });
 
+  describe('when window is undefined', () => {
+    let originalWindowRef: Window;
+
+    beforeEach(() => {
+      originalWindowRef = global.window;
+
+      Object.defineProperty(global, 'window', {
+        configurable: true,
+        get: () => undefined,
+      });
+    });
+
+    afterEach(() => {
+      Object.defineProperty(global, 'window', {
+        configurable: true,
+        get: () => originalWindowRef,
+      });
+    });
+
+    it('returns false for any wallet type when window is undefined', () => {
+      expect(isWalletInstalled('phantom')).toBe(false);
+      expect(isWalletInstalled('rabby')).toBe(false);
+      expect(isWalletInstalled('trust')).toBe(false);
+      expect(isWalletInstalled('frame')).toBe(false);
+      expect(isWalletInstalled('unknown')).toBe(false);
+    });
+  });
+
   describe('when window.ethereum is undefined', () => {
     it('returns false for unsupported wallet types', () => {
       expect(isWalletInstalled('unknown')).toBe(false);
@@ -201,7 +229,6 @@ describe('checkWalletAndRedirect', () => {
     window.open = vi.fn();
     vi.clearAllMocks();
 
-    // Ensure both window.ethereum and window.phantom are properly mocked as undefined
     Object.defineProperty(window, 'ethereum', {
       writable: true,
       value: undefined,
