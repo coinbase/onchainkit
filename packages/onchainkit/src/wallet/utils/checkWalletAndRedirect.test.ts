@@ -195,12 +195,19 @@ describe('redirectToWalletInstall', () => {
 
 describe('checkWalletAndRedirect', () => {
   const originalWindowOpen = window.open;
+  const originalWindow = { ...window };
 
   beforeEach(() => {
     window.open = vi.fn();
     vi.clearAllMocks();
 
+    // Ensure both window.ethereum and window.phantom are properly mocked as undefined
     Object.defineProperty(window, 'ethereum', {
+      writable: true,
+      value: undefined,
+    });
+
+    Object.defineProperty(window as WindowWithPhantom, 'phantom', {
       writable: true,
       value: undefined,
     });
@@ -208,6 +215,11 @@ describe('checkWalletAndRedirect', () => {
 
   afterEach(() => {
     window.open = originalWindowOpen;
+
+    Object.defineProperty(window, 'ethereum', {
+      writable: true,
+      value: originalWindow.ethereum,
+    });
   });
 
   it('returns true and does not redirect if wallet is installed', () => {
@@ -242,7 +254,6 @@ describe('checkWalletAndRedirect', () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
     const result = checkWalletAndRedirect('unsupported');
     expect(result).toBe(false);
-    // Should still return false even though it doesn't redirect
     expect(window.open).not.toHaveBeenCalled();
   });
 });
