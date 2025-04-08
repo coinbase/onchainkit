@@ -9,13 +9,13 @@ import {
   createClickableLink,
   isValidPackageName,
   toValidPackageName,
-  optimizedCopy,
   copyDir,
 } from './utils.js';
 import open from 'open';
 import express from 'express';
 import { createServer } from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
+import { analyticsPrompt } from './analytics.js';
 
 type WebpageData = {
   header: string;
@@ -178,6 +178,8 @@ export async function createMiniKitTemplate(
 
   const { projectName, packageName, clientKey } = result;
   const root = path.join(process.cwd(), projectName);
+
+  await analyticsPrompt(template);
 
   const spinner = ora(`Creating ${projectName}...`).start();
 

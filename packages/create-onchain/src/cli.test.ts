@@ -1,19 +1,17 @@
-import { describe, it, expect, beforeEach, afterEach, vi, type Mock } from 'vitest';
-import fs from 'fs';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { createOnchainKitTemplate } from './onchainkit';
 import { createMiniKitTemplate, createMiniKitManifest } from './minikit';
+import { getVersion } from './utils.js';
 
 vi.spyOn(process, 'exit').mockImplementation((code) => {
   throw new Error(`${code}`);
 });
 
-vi.mock('fs', async () => {
-  const actual = await vi.importActual<typeof import('fs')>('fs');
+vi.mock('./utils', async () => {
+  const actual = await vi.importActual<typeof import('./utils')>('./utils');
   return {
-    default: {
-      ...actual,
-      readFileSync: vi.fn().mockReturnValue('{}'),
-    }
+    ...actual,
+    getVersion: vi.fn(),
   };
 });
 
@@ -41,6 +39,8 @@ describe('CLI', () => {
 
   beforeEach(() => {
     process.argv = [...originalGetArgs];
+
+    vi.mocked(getVersion).mockResolvedValue('0.0.1');
   });
 
   afterEach(() => {
@@ -84,6 +84,15 @@ describe('CLI', () => {
     expect(createMiniKitTemplate).toHaveBeenCalledWith('minikit-basic');
   });
 
+  it('calls createMiniKitTemplate with --template=minikit-snake', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    process.argv = ['node', 'cli.js', '--template=minikit-snake'];
+
+    await import('./cli.js');
+
+    expect(createMiniKitTemplate).toHaveBeenCalledWith('minikit-snake');
+  });
+
   it('shows help text with --help', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
     process.argv = ['node', 'cli.js', '--help'];
@@ -105,8 +114,6 @@ describe('CLI', () => {
   });
 
   it('shows version with --version', async () => {
-    (fs.readFileSync as Mock).mockReturnValue(JSON.stringify({version: '0.0.1'}));
-
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     process.argv = ['node', 'cli.js', '--version'];
 
@@ -117,8 +124,6 @@ describe('CLI', () => {
   });
 
   it('shows version with -v', async () => {
-    (fs.readFileSync as Mock).mockReturnValue(JSON.stringify({version: '0.0.1'}));
-
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     process.argv = ['node', 'cli.js', '-v'];
 

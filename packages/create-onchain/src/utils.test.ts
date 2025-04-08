@@ -5,7 +5,8 @@ import {
   createClickableLink,
   isValidPackageName,
   toValidPackageName,
-  detectPackageManager
+  detectPackageManager,
+  getVersion,
 } from './utils';
 import { Stats } from 'node:fs';
 
@@ -13,6 +14,16 @@ vi.mock('fs/promises');
 vi.mock('path');
 
 describe('utils', () => {
+  describe('getVersion', () => {
+    it('should return the version', async () => {
+      vi.mocked(fs.readFile).mockResolvedValue(JSON.stringify({ version: '0.0.1' }));
+
+      const version = await getVersion();
+
+      expect(version).toBe('0.0.1');
+    });
+  });
+
   describe('optimizedCopy', () => {
     beforeEach(() => {
       vi.resetAllMocks();

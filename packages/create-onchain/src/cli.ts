@@ -1,10 +1,8 @@
 #!/usr/bin/env node
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import pc from 'picocolors';
 import { createOnchainKitTemplate } from './onchainkit.js';
 import { createMiniKitTemplate, createMiniKitManifest } from './minikit.js';
+import { getVersion } from './utils.js';
 
 export function getArgs() {
   const options = {
@@ -74,13 +72,8 @@ Available Templates:
   }
 
   if (isVersion) {
-    const pkgPath = path.resolve(
-      fileURLToPath(import.meta.url),
-      '../../../package.json',
-    );
-    const packageJsonContent = fs.readFileSync(pkgPath, 'utf8');
-    const packageJson = JSON.parse(packageJsonContent);
-    console.log(`${pc.greenBright(`v${packageJson.version}`)}`);
+    const version = await getVersion();
+    console.log(`${pc.greenBright(`v${version}`)}`);
     process.exit(0);
   }
 
