@@ -65,7 +65,7 @@ export default function App() {
   return (
     <div className="flex flex-col min-h-screen sm:min-h-[820px] font-sans bg-[#E5E5E5] text-black items-center snake-dark relative">
       <div className="w-screen max-w-[520px]">
-        <header className="mr-2 mt-1 flex justify-between">
+        <header className="mr-2 mt-1 flex justify-between h-6">
           <div className="justify-start pl-1">
             {address ? (
               <Identity

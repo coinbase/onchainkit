@@ -99,6 +99,6 @@ To get started building your own frame, follow these steps:
 ## Learn More
 
 - [MiniKit Documentation](https://docs.base.org/builderkits/minikit/overview)
-- [OnchainKit Documentation](https://www.base.org/builders/onchainkit)
+- [OnchainKit Documentation](https://docs.base.org/builderkits/onchainkit/getting-started)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
