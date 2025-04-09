@@ -20,9 +20,7 @@ export function Domain({ handleSetDomain }: DomainProps) {
     }
     const isValid = validateUrl(domain);
     setShowDomainError(!isValid);
-    if (isValid) {
-      handleSetDomain(domain);
-    }
+    handleSetDomain(domain);
   }, [domain, handleSetDomain]);
 
   useEffect(() => {
