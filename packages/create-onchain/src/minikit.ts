@@ -69,10 +69,12 @@ export async function createMiniKitManifest(envPath?: string) {
 
   try {
     const webpageData = await getWebpageData();
+    // get existing next public url to re-update on subsequent runs
+    const domain = existingEnv.match(/NEXT_PUBLIC_URL=(.*)/)?.[1] || '$NEXT_PUBLIC_URL';
     const envContent = `FARCASTER_HEADER=${webpageData.header}\nFARCASTER_PAYLOAD=${webpageData.payload}\nFARCASTER_SIGNATURE=${webpageData.signature}\nNEXT_PUBLIC_URL=${webpageData.domain}`;
     const updatedEnv = existingEnv
       .split('\n')
-      .map((line) => line.replace('$NEXT_PUBLIC_URL', webpageData.domain))
+      .map((line) => line.replace(domain, webpageData.domain))
       .filter(
         (line) =>
           !line.startsWith('FARCASTER_') && !line.startsWith('NEXT_PUBLIC_URL'),
