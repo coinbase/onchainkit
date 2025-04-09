@@ -2,4 +2,4 @@
 "@coinbase/onchainkit": patch
 ---
 
--**chore**: Add forward resolution to Basenames and ENS names. By @cpcramer #2255
+- **chore**: Add bidirectional resolution validation to `Basenames` and `ENS` names. By @cpcramer #2255
