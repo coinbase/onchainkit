@@ -120,6 +120,24 @@ describe('MiniKit', () => {
       projectName: 'test-project',
       clientKey: 'test-key',
     }).mockResolvedValueOnce({
+      analytics: false,
+    }).mockResolvedValueOnce({
+      setUpFrame: false,
+    });
+
+    await createMiniKitTemplate();
+
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.any(String), expect.stringContaining('NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key\nNEXT_PUBLIC_URL=\nNEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/logo.png\nNEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=FFFFFF\nNEXT_PUBLIC_IMAGE_URL=$NEXT_PUBLIC_URL/logo.png\nNEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/logo.png\nNEXT_PUBLIC_VERSION=next\nREDIS_URL=\nREDIS_TOKEN='));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Created new MiniKit project in'));
+  });
+
+  it('creates a new MiniKit project with analytics', async () => {
+    (prompts as unknown as Mock).mockResolvedValueOnce({
+      projectName: 'test-project',
+      clientKey: 'test-key',
+    }).mockResolvedValueOnce({
+      analytics: true,
+    }).mockResolvedValueOnce({
       setUpFrame: false,
     });
 
@@ -160,6 +178,8 @@ describe('MiniKit', () => {
     (prompts as unknown as Mock).mockResolvedValueOnce({
       projectName: 'test-project',
       clientKey: 'test-key',
+    }).mockResolvedValueOnce({
+      analytics: false,
     }).mockResolvedValueOnce({
       setUpFrame: true,
     });

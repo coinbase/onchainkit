@@ -1,6 +1,16 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
+export const getVersion = async () => {
+  const pkgPath = path.resolve(
+    fileURLToPath(import.meta.url),
+    '../../../package.json',
+  );
+  const packageJsonContent = await fs.readFile(pkgPath, 'utf8');
+  const packageJson = JSON.parse(packageJsonContent);
+  return packageJson.version;
+}
 
 const renameFiles: Record<string, string | undefined> = {
   _gitignore: '.gitignore',

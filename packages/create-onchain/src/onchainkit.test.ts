@@ -117,6 +117,21 @@ describe('CLI', () => {
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Created new OnchainKit project in'));
   });
 
+  it('creates a new OnchainKit project with analytics', async () => {
+    (prompts as unknown as Mock).mockResolvedValueOnce({
+      projectName: 'test-project',
+      clientKey: 'test-key',
+      smartWallet: true,
+    }).mockResolvedValueOnce({
+      analytics: true,
+    });
+
+    await createOnchainKitTemplate();
+
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.any(String), expect.stringContaining('NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=smartWalletOnly'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Created new OnchainKit project in'));
+  });
+
   it('validates the directory', async () => {
     (fs.existsSync as Mock).mockReturnValue(true);
     (fs.readdirSync as Mock).mockReturnValue(['some-file']);
