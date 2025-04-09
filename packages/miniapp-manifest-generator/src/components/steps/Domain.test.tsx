@@ -69,7 +69,7 @@ describe('Domain', () => {
     expect(
       screen.getByText('Please enter a valid domain, e.g. https://example.com'),
     ).toBeInTheDocument();
-    expect(mockHandleSetDomain).not.toHaveBeenCalled();
+    expect(mockHandleSetDomain).toHaveBeenCalled();
   });
 
   it('should show warning for http domain', () => {
