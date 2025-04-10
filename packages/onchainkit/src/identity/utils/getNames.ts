@@ -50,7 +50,6 @@ export const getNames = async ({
         allowFailure: true,
       });
 
-      // Process Basename results and verify with forward resolution
       for (let index = 0; index < batchResults.length; index++) {
         const result = batchResults[index];
         if (result.status === 'success' && result.result) {
@@ -113,7 +112,7 @@ export const getNames = async ({
 
       const ensResults = await Promise.all(ensPromises);
 
-      // Update results with ENS names after verifying with forward resolution
+      // Update results with ENS names
       for (let i = 0; i < ensResults.length; i++) {
         const ensName = ensResults[i];
         const originalIndex = unresolvedIndices[i];
