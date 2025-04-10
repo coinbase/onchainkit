@@ -4,6 +4,7 @@ import { EarnOptions } from '@/components/form/earn-options';
 import { PaymasterUrl } from '@/components/form/paymaster';
 import { OnchainKitComponent } from '@/types/onchainkit';
 import { ActiveComponent } from './form/active-component';
+import { AppchainChainId } from './form/appchain-chain-id';
 import { Chain } from './form/chain';
 import { CheckoutOptions } from './form/checkout-options';
 import { IsSponsored } from './form/is-sponsored';
@@ -11,7 +12,6 @@ import { NFTOptions } from './form/nft-options';
 import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
 import { WalletType } from './form/wallet-type';
-
 const COMMON_OPTIONS = [
   ActiveComponent,
   ComponentMode,
@@ -20,8 +20,12 @@ const COMMON_OPTIONS = [
 ];
 
 const COMPONENT_CONFIG: Partial<
-  Record<OnchainKitComponent, (() => React.JSX.Element)[]>
+  Record<OnchainKitComponent, React.ComponentType[]>
 > = {
+  [OnchainKitComponent.AppchainBridge]: [
+    () => <Chain chains={[{ id: 84532, name: 'Base Sepolia' }]} />,
+    AppchainChainId,
+  ],
   [OnchainKitComponent.Buy]: [Chain, PaymasterUrl, IsSponsored, SwapConfig],
   [OnchainKitComponent.Checkout]: [
     Chain,
