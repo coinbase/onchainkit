@@ -1,4 +1,4 @@
-name: "cli: build & install onchainkit"
+name: "cli: build & install minikit - basic"
 
 on:
   pull_request:
@@ -42,10 +42,10 @@ jobs:
         run: |
           mkdir test-project
           cd test-project
-          (sleep 1; echo ""; sleep 1; echo ""; sleep 1; echo ""; sleep 1; echo -e "\033[D\n") | ../packages/create-onchain/dist/esm/cli.js
+          (sleep 1; echo ""; sleep 1; echo ""; sleep 1; echo -e "\033[D\n"; sleep 1; echo -e "\033[D\n") | ../packages/create-onchain/dist/esm/cli.js --mini
 
       - name: Install & Build test project
-        working-directory: ./test-project/my-onchainkit-app
+        working-directory: ./test-project/my-minikit-app
         run: |
           npm install
           npm run build
