@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import type { UseWithdrawButtonParams } from '../types';
 
 export function useWithdrawButton({ withdrawStatus }: UseWithdrawButtonParams) {
-  const isPending = withdrawStatus === 'claimPending';
+  const isPending = withdrawStatus === 'withdrawPending';
   const isSuccess = withdrawStatus === 'claimSuccess';
   const isError = withdrawStatus === 'error';
   const buttonDisabled = isPending;
