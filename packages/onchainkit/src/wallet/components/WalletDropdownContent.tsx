@@ -8,6 +8,9 @@ import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
 import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
 import { Send } from './wallet-advanced-send/components/Send';
+import { RequestContext } from '@/core/network/constants';
+import { usePortfolio } from '@/wallet/hooks/usePortfolio';
+import { useAccount } from 'wagmi';
 
 export function WalletDropdownContent({
   children,
@@ -22,9 +25,15 @@ export function WalletDropdownContent({
     connectRef,
     breakpoint,
     activeFeature,
-    tokenBalances,
     animations,
   } = useWalletContext();
+
+  const { address } = useAccount();
+  const { data: portfolioData } = usePortfolio(
+    { address, enabled: Boolean(activeFeature) },
+    RequestContext.Wallet,
+  );
+  const tokenBalances = portfolioData?.tokenBalances;
 
   const handleBottomSheetClose = useCallback(() => {
     setIsSubComponentOpen(false);

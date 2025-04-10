@@ -9,8 +9,10 @@ import { qrIconSvg } from '@/internal/svg/qrIconSvg';
 import { refreshSvg } from '@/internal/svg/refreshSvg';
 import { cn } from '@/styles/theme';
 import { useCallback } from 'react';
-import { useDisconnect } from 'wagmi';
+import { useAccount, useDisconnect } from 'wagmi';
 import { useWalletContext } from './WalletProvider';
+import { usePortfolio } from '../hooks/usePortfolio';
+import { RequestContext } from '@/core/network/constants';
 
 type WalletAdvancedWalletActionsProps = {
   classNames?: {
@@ -25,15 +27,15 @@ type WalletAdvancedWalletActionsProps = {
 export function WalletAdvancedWalletActions({
   classNames,
 }: WalletAdvancedWalletActionsProps) {
-  const {
-    address,
-    handleClose,
-    setActiveFeature,
-    refetchPortfolioData,
-    animations,
-  } = useWalletContext();
+  const { address } = useAccount();
+  const { handleClose, setActiveFeature, animations } = useWalletContext();
   const { disconnect, connectors } = useDisconnect();
   const { sendAnalytics } = useAnalytics();
+
+  const { refetch: refetchPortfolioData } = usePortfolio(
+    { address },
+    RequestContext.Wallet,
+  );
 
   const handleAnalyticsOptionSelected = useCallback(
     (option: WalletOption) => {

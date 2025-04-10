@@ -1,9 +1,10 @@
 import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletContext } from '../../WalletProvider';
 import { useSendContext } from './SendProvider';
 import { SendTokenSelector } from './SendTokenSelector';
+import { usePortfolio } from '@/wallet/hooks/usePortfolio';
+import { useAccount } from 'wagmi';
 
 // Mock the context hook
 vi.mock('../../WalletProvider', () => ({
@@ -12,6 +13,14 @@ vi.mock('../../WalletProvider', () => ({
 
 vi.mock('./SendProvider', () => ({
   useSendContext: vi.fn(),
+}));
+
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+}));
+
+vi.mock('@/wallet/hooks/usePortfolio', () => ({
+  usePortfolio: vi.fn(),
 }));
 
 const mockTokenBalances: PortfolioTokenWithFiatValue[] = [
@@ -49,8 +58,13 @@ const defaultContext = {
 describe('SendTokenSelector', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (useWalletContext as Mock).mockReturnValue({
-      tokenBalances: mockTokenBalances,
+    (useAccount as Mock).mockReturnValue({
+      address: '0x123',
+    });
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        tokenBalances: mockTokenBalances,
+      },
     });
     (useSendContext as Mock).mockReturnValue(defaultContext);
   });
@@ -116,8 +130,10 @@ describe('SendTokenSelector', () => {
   });
 
   it('handles empty tokenBalances gracefully', () => {
-    (useWalletContext as Mock).mockReturnValue({
-      tokenBalances: [],
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        tokenBalances: [],
+      },
     });
 
     render(<SendTokenSelector />);

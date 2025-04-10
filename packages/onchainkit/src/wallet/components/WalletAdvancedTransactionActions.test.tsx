@@ -2,9 +2,10 @@ import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { WalletEvent, WalletOption } from '@/core/analytics/types';
 import { useOnchainKit } from '@/useOnchainKit';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';
 import { useWalletContext } from './WalletProvider';
+import { usePortfolio } from '../hooks/usePortfolio';
 
 vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
@@ -12,6 +13,10 @@ vi.mock('@/useOnchainKit', () => ({
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
+}));
+
+vi.mock('../hooks/usePortfolio', () => ({
+  usePortfolio: vi.fn(),
 }));
 
 vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
@@ -53,6 +58,13 @@ describe('WalletAdvancedTransactionActons', () => {
 
     (useAnalytics as ReturnType<typeof vi.fn>).mockReturnValue({
       sendAnalytics: mockSendAnalytics,
+    });
+
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        tokenBalances: [],
+      },
+      isFetching: false,
     });
   });
 
@@ -163,7 +175,13 @@ describe('WalletAdvancedTransactionActons', () => {
       address: mockAddress,
       chain: mockChain,
       ...defaultMockUseWalletAdvancedContext,
-      isFetchingPortfolioData: true,
+    });
+
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        tokenBalances: [],
+      },
+      isFetching: true,
     });
 
     render(<WalletAdvancedTransactionActions />);

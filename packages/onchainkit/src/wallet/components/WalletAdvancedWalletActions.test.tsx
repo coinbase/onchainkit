@@ -5,9 +5,17 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useDisconnect } from 'wagmi';
 import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
 import { useWalletContext } from './WalletProvider';
+import { usePortfolio } from '../hooks/usePortfolio';
 
 vi.mock('wagmi', () => ({
   useDisconnect: vi.fn(),
+  useAccount: vi.fn().mockReturnValue({
+    address: '0x123',
+  }),
+}));
+
+vi.mock('../hooks/usePortfolio', () => ({
+  usePortfolio: vi.fn(),
 }));
 
 vi.mock('wagmi/actions', () => ({
@@ -30,10 +38,10 @@ vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
 describe('WalletAdvancedWalletActions', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
   const mockSendAnalytics = vi.fn();
+  const refetchPortfolioDataMock = vi.fn();
 
   const defaultMockUseWalletAdvancedContext = {
     setActiveFeature: vi.fn(),
-    refetchPortfolioData: vi.fn(),
     animations: {
       content: '',
     },
@@ -45,6 +53,10 @@ describe('WalletAdvancedWalletActions', () => {
 
     (useAnalytics as Mock).mockReturnValue({
       sendAnalytics: mockSendAnalytics,
+    });
+
+    (usePortfolio as Mock).mockReturnValue({
+      refetch: refetchPortfolioDataMock,
     });
   });
 
@@ -121,9 +133,7 @@ describe('WalletAdvancedWalletActions', () => {
     const refreshButton = screen.getByTestId('ockWalletAdvanced_RefreshButton');
     fireEvent.click(refreshButton);
 
-    expect(
-      defaultMockUseWalletAdvancedContext.refetchPortfolioData,
-    ).toHaveBeenCalled();
+    expect(refetchPortfolioDataMock).toHaveBeenCalled();
   });
 
   it('opens transaction history when transactions button is clicked', () => {
