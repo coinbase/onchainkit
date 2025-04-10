@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.38.6
+
+### Patch Changes
+
+- **chore**: Add bidirectional resolution validation to `Basenames` and `ENS` names. By @cpcramer #2255
+- **fix**: Wallet unnecessarily fetching tokenBalances. By @alessey #2258
+- **feat**: Add uninstalled wallet connector redirects. By @cpcramer #2245
+
 ## 0.38.5
 
 ### Patch Changes

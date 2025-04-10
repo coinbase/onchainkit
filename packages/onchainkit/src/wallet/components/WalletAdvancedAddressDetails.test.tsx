@@ -1,8 +1,19 @@
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
 import { useWalletContext } from './WalletProvider';
+import { usePortfolio } from '../hooks/usePortfolio';
+
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn().mockReturnValue({
+    address: '0x1234567890',
+  }),
+}));
+
+vi.mock('../hooks/usePortfolio', () => ({
+  usePortfolio: vi.fn(),
+}));
 
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
@@ -47,6 +58,14 @@ describe('WalletAdvancedAddressDetails', () => {
       animations: {
         content: '',
       },
+      chain: { id: 8453 },
+      address: '0x1234567890',
+    });
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        portfolioBalanceInUsd: 1000,
+      },
+      isFetching: false,
     });
   });
 
@@ -68,7 +87,6 @@ describe('WalletAdvancedAddressDetails', () => {
       isClosing: false,
       address: '0x1234567890',
       chain: { id: 8453 },
-      portfolioFiatValue: 1000,
       animations: {
         content: '',
       },
@@ -142,10 +160,16 @@ describe('WalletAdvancedAddressDetails', () => {
   });
 
   it('should show spinner when fetching portfolio data', () => {
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        portfolioBalanceInUsd: null,
+      },
+      isFetching: true,
+    });
+
     mockUseWalletContext.mockReturnValue({
       address: '0x123',
       chain: 'base',
-      isFetchingPortfolioData: true,
       animations: {
         content: '',
       },
@@ -156,12 +180,35 @@ describe('WalletAdvancedAddressDetails', () => {
     expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
   });
 
+  it('should not display formatted portfolio value when not available', () => {
+    (usePortfolio as Mock).mockReturnValue({
+      data: null,
+      isFetching: false,
+    });
+
+    render(<WalletAdvancedAddressDetails />);
+
+    expect(screen.queryByTestId('ockWalletAdvanced_AddressBalance')).toBeNull();
+  });
+
   it('should display formatted portfolio value when available', () => {
+    (usePortfolio as Mock)
+      .mockReturnValueOnce({
+        data: {
+          portfolioBalanceInUsd: null,
+        },
+        isFetching: true,
+      })
+      .mockReturnValueOnce({
+        data: {
+          portfolioBalanceInUsd: 1234.567,
+        },
+        isFetching: false,
+      });
+
     mockUseWalletContext.mockReturnValue({
       address: '0x123',
       chain: 'base',
-      isFetchingPortfolioData: false,
-      portfolioFiatValue: null,
       animations: {
         content: '',
       },
@@ -170,16 +217,6 @@ describe('WalletAdvancedAddressDetails', () => {
     const { rerender } = render(<WalletAdvancedAddressDetails />);
 
     expect(screen.queryByTestId('ockWalletAdvanced_AddressBalance')).toBeNull();
-
-    mockUseWalletContext.mockReturnValue({
-      address: '0x123',
-      chain: 'base',
-      isFetchingPortfolioData: false,
-      portfolioFiatValue: 1234.567,
-      animations: {
-        content: '',
-      },
-    });
 
     rerender(<WalletAdvancedAddressDetails />);
 
@@ -193,7 +230,6 @@ describe('WalletAdvancedAddressDetails', () => {
       isClosing: false,
       address: '0x1234567890',
       chain: { id: 8453 },
-      portfolioFiatValue: 1000,
       animations: {
         content: '',
       },

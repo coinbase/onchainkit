@@ -1,6 +1,6 @@
 # MiniKit Template
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-onchain --mini`](), configured with:
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-onchain --template=minikit-snake`](), configured with:
 
 - [MiniKit](https://docs.base.org/builderkits/minikit/overview)
 - [OnchainKit](https://www.base.org/builders/onchainkit)
@@ -20,7 +20,7 @@ pnpm install
 bun install
 ```
 
-2. Verify environment variables, these will be set up by the `npx create-onchain --mini` command:
+2. Verify environment variables, these will be set up by the `npx create-onchain --template=minikit-snake` command:
 
 You can regenerate the FARCASTER Account Assocation environment variables by running `npx create-onchain --manifest` in your project directory.
 
@@ -99,6 +99,6 @@ To get started building your own frame, follow these steps:
 ## Learn More
 
 - [MiniKit Documentation](https://docs.base.org/builderkits/minikit/overview)
-- [OnchainKit Documentation](https://www.base.org/builders/onchainkit)
+- [OnchainKit Documentation](https://docs.base.org/builderkits/onchainkit/getting-started)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)

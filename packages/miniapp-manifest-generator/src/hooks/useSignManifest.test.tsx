@@ -86,7 +86,7 @@ describe('useSignManifest', () => {
   it('should handle errors from signMessage', async () => {
     const mockError = new Error('Failed to sign message');
     const mockSignMessage = vi.fn();
-    (vi.mocked(useSignMessage) as any).mockReturnValue({
+    (vi.mocked(useSignMessage) as Mock).mockReturnValue({
       signMessage: mockSignMessage,
       isPending: false,
       error: mockError,
@@ -113,7 +113,7 @@ describe('useSignManifest', () => {
 
   it('should show pending state while signing', async () => {
     const mockSignMessage = vi.fn();
-    (vi.mocked(useSignMessage) as any).mockReturnValue({
+    (vi.mocked(useSignMessage) as Mock).mockReturnValue({
       signMessage: mockSignMessage,
       isPending: true,
       error: null,

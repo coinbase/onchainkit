@@ -97,6 +97,14 @@ describe('usePortfolio', () => {
     expect(getPortfolios).not.toHaveBeenCalled();
   });
 
+  it('should not fetch when enabled is false', () => {
+    renderHook(() => usePortfolio({ address: mockAddress, enabled: false }), {
+      wrapper: createWrapper(),
+    });
+
+    expect(getPortfolios).not.toHaveBeenCalled();
+  });
+
   it('should not fetch when address is undefined', () => {
     renderHook(() => usePortfolio({ address: undefined }), {
       wrapper: createWrapper(),

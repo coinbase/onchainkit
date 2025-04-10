@@ -5,6 +5,7 @@ import ora from 'ora';
 import fs from 'fs';
 import { isValidPackageName, toValidPackageName, createClickableLink, copyDir } from "./utils.js";
 import { fileURLToPath } from 'url';
+import { analyticsPrompt } from "./analytics.js";
 
 export async function createOnchainKitTemplate() {
   console.log(
@@ -93,6 +94,8 @@ export async function createOnchainKitTemplate() {
 
   const { projectName, packageName, clientKey, smartWallet } = result;
   const root = path.join(process.cwd(), projectName);
+
+  await analyticsPrompt('onchainkit');
 
   const spinner = ora(`Creating ${projectName}...`).start();
 

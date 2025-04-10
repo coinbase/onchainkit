@@ -14,13 +14,14 @@ import {
   useState,
 } from 'react';
 import { formatUnits } from 'viem';
-import { useWalletContext } from '../../WalletProvider';
 import type {
   Recipient,
   SendContextType,
   SendLifecycleStatus,
   SendProviderReact,
 } from '../types';
+import { usePortfolio } from '@/wallet/hooks/usePortfolio';
+import { useAccount } from 'wagmi';
 
 const emptyContext = {} as SendContextType;
 
@@ -80,8 +81,14 @@ export function SendProvider({ children }: SendProviderReact) {
   }, [selectedInputType, selectedToken, cryptoAmount, fiatAmount]);
 
   // fetch & set ETH balance
-  const { tokenBalances } = useWalletContext();
-  const ethHolding = tokenBalances?.find((token) => token.address === '');
+  const { address } = useAccount();
+  const { data: portfolioData } = usePortfolio(
+    { address },
+    RequestContext.Wallet,
+  );
+  const ethHolding = portfolioData?.tokenBalances?.find(
+    (token) => token.address === '',
+  );
   const ethBalance = ethHolding
     ? Number(formatUnits(BigInt(ethHolding.cryptoBalance), ethHolding.decimals))
     : 0;

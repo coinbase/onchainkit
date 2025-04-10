@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.38.5",
+  "version": "0.38.6",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -58,6 +58,7 @@
     "esbuild-plugin-babel": "^0.2.3",
     "glob": "^11.0.1",
     "globals": "^15.15.0",
+    "esbuild-fix-imports-plugin": "^1.0.19",
     "graphql": "^14",
     "graphql-request": "^6.1.0",
     "jsdom": "^24.1.0",

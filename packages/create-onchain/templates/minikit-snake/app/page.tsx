@@ -7,15 +7,15 @@
 
 "use client";
 
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   useMiniKit,
   useAddFrame,
   useOpenUrl,
 } from "@coinbase/onchainkit/minikit";
-import { Name, Identity, Badge } from "@coinbase/onchainkit/identity";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Name, Identity, Badge, Avatar, Address, EthBalance } from "@coinbase/onchainkit/identity";
+import { WalletDropdownDisconnect, WalletDropdown, ConnectWallet, Wallet } from "@coinbase/onchainkit/wallet";
 import Snake, { SCHEMA_UID } from "./components/snake";
-import { useAccount } from "wagmi";
 import Check from "./svg/Check";
 
 export default function App() {
@@ -24,7 +24,6 @@ export default function App() {
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
-  const { address } = useAccount();
 
   useEffect(() => {
     if (!isFrameReady) {
@@ -65,26 +64,35 @@ export default function App() {
   return (
     <div className="flex flex-col min-h-screen sm:min-h-[820px] font-sans bg-[#E5E5E5] text-black items-center snake-dark relative">
       <div className="w-screen max-w-[520px]">
-        <header className="mr-2 mt-1 flex justify-between">
+        <header className="mr-2 mt-1 flex justify-between h-6">
           <div className="justify-start pl-1">
-            {address ? (
-              <Identity
-                address={address}
-                schemaId={SCHEMA_UID}
-                className="!bg-inherit p-0 [&>div]:space-x-2"
+            <Wallet className="z-10">
+              <ConnectWallet
+                className="ml-1 py-0 px-2 bg-gray-400 bg-opacity-20 h-6 text-black hover:bg-gray-400 hover:bg-opacity-40 active:bg-gray-400 active:bg-opacity-60"
+                disconnectedLabel="LOGIN"
               >
-                <Name className="text-inherit">
-                  <Badge
-                    tooltip="High Scorer"
-                    className="!bg-inherit high-score-badge"
-                  />
-                </Name>
-              </Identity>
-            ) : (
-              <div className="pl-2 pt-1 text-gray-500 text-sm font-semibold">
-                NOT CONNECTED
-              </div>
-            )}
+                <Identity
+                  schemaId={SCHEMA_UID}
+                  className="!bg-inherit p-0 [&>div]:space-x-2"
+                >
+                  <Name className="text-inherit">
+                    <Badge
+                      tooltip="High Scorer"
+                      className="!bg-inherit high-score-badge"
+                    />
+                  </Name>
+                </Identity>
+              </ConnectWallet>
+              <WalletDropdown>
+                <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+                  <Avatar />
+                  <Name />
+                  <Address />
+                  <EthBalance />
+                </Identity>
+                <WalletDropdownDisconnect />
+              </WalletDropdown>
+            </Wallet>
           </div>
           <div className="pr-1 justify-end">{saveFrameButton}</div>
         </header>

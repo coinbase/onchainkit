@@ -1,11 +1,21 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import type {
   WalletAdvancedQrReceiveProps,
   WalletAdvancedSwapProps,
 } from '../types';
 import { WalletDropdownContent } from './WalletDropdownContent';
 import { useWalletContext } from './WalletProvider';
+import { usePortfolio } from '../hooks/usePortfolio';
+import { useAccount } from 'wagmi';
+
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+}));
+
+vi.mock('@/wallet/hooks/usePortfolio', () => ({
+  usePortfolio: vi.fn(),
+}));
 
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
@@ -71,6 +81,16 @@ describe('WalletDropdownContent', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        tokenBalances: [],
+      },
+    });
+
+    (useAccount as Mock).mockReturnValue({
+      address: '0x123',
+    });
   });
 
   it('renders WalletDropdownContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is false', () => {
@@ -306,6 +326,33 @@ describe('WalletDropdownContent', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('handles empty tokenBalances gracefully', () => {
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        tokenBalances: null,
+      },
+    });
+
+    mockUseWalletContext.mockReturnValue({
+      ...defaultMockUseWalletAdvancedContext,
+      activeFeature: 'swap',
+      isSubComponentClosing: false,
+    });
+
+    render(
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
+    );
+
+    const swapComponent = screen.getByTestId('ockWalletAdvancedSwap');
+    const props = JSON.parse(
+      swapComponent.getAttribute('data-props') as string,
+    );
+
+    expect(props.from).toEqual([]);
+  });
+
   it('correctly maps token balances to the swap component', () => {
     const mockTokenBalances = [
       {
@@ -326,10 +373,15 @@ describe('WalletDropdownContent', () => {
       },
     ];
 
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        tokenBalances: mockTokenBalances,
+      },
+    });
+
     mockUseWalletContext.mockReturnValue({
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'swap',
-      tokenBalances: mockTokenBalances,
       isSubComponentClosing: false,
     });
 

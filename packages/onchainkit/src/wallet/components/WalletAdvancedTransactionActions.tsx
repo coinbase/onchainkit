@@ -10,6 +10,8 @@ import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
 import { useWalletContext } from './WalletProvider';
+import { RequestContext } from '@/core/network/constants';
+import { usePortfolio } from '../hooks/usePortfolio';
 
 type WalletAdvancedTransactionActionProps = {
   icon: React.ReactNode;
@@ -34,15 +36,14 @@ type WalletAdvancedTransactionActionsProps = {
 export function WalletAdvancedTransactionActions({
   classNames,
 }: WalletAdvancedTransactionActionsProps) {
-  const {
-    address,
-    chain,
-    isFetchingPortfolioData,
-    setActiveFeature,
-    animations,
-  } = useWalletContext();
+  const { address, chain, setActiveFeature, animations } = useWalletContext();
   const { projectId } = useOnchainKit();
   const { sendAnalytics } = useAnalytics();
+
+  const { isFetching: isFetchingPortfolioData } = usePortfolio(
+    { address },
+    RequestContext.Wallet,
+  );
 
   const handleAnalyticsOptionSelected = useCallback(
     (option: WalletOption) => {

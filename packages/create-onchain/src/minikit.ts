@@ -9,13 +9,13 @@ import {
   createClickableLink,
   isValidPackageName,
   toValidPackageName,
-  optimizedCopy,
   copyDir,
 } from './utils.js';
 import open from 'open';
 import express from 'express';
 import { createServer } from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
+import { analyticsPrompt } from './analytics.js';
 
 type WebpageData = {
   header: string;
@@ -69,10 +69,12 @@ export async function createMiniKitManifest(envPath?: string) {
 
   try {
     const webpageData = await getWebpageData();
+    // get existing next public url to re-update on subsequent runs
+    const domain = existingEnv.match(/NEXT_PUBLIC_URL=(.*)/)?.[1] || '$NEXT_PUBLIC_URL';
     const envContent = `FARCASTER_HEADER=${webpageData.header}\nFARCASTER_PAYLOAD=${webpageData.payload}\nFARCASTER_SIGNATURE=${webpageData.signature}\nNEXT_PUBLIC_URL=${webpageData.domain}`;
     const updatedEnv = existingEnv
       .split('\n')
-      .map((line) => line.replace('$NEXT_PUBLIC_URL', webpageData.domain))
+      .map((line) => line.replace(domain, webpageData.domain))
       .filter(
         (line) =>
           !line.startsWith('FARCASTER_') && !line.startsWith('NEXT_PUBLIC_URL'),
@@ -96,7 +98,9 @@ export async function createMiniKitManifest(envPath?: string) {
   return true;
 }
 
-export async function createMiniKitTemplate() {
+export async function createMiniKitTemplate(
+  template: 'minikit-snake' | 'minikit-basic' = 'minikit-basic',
+) {
   console.log(
     `${pc.greenBright(`
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -175,11 +179,13 @@ export async function createMiniKitTemplate() {
   const { projectName, packageName, clientKey } = result;
   const root = path.join(process.cwd(), projectName);
 
+  await analyticsPrompt(template);
+
   const spinner = ora(`Creating ${projectName}...`).start();
 
   const sourceDir = path.resolve(
     fileURLToPath(import.meta.url),
-    '../../../templates/minikit',
+    `../../../templates/${template}`,
   );
 
   await copyDir(sourceDir, root);
@@ -195,10 +201,10 @@ export async function createMiniKitTemplate() {
     `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}
 NEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}
 NEXT_PUBLIC_URL=
-NEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/snake.png
+NEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/logo.png
 NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=FFFFFF
-NEXT_PUBLIC_IMAGE_URL=$NEXT_PUBLIC_URL/snake.png
-NEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/snake.png
+NEXT_PUBLIC_IMAGE_URL=$NEXT_PUBLIC_URL/logo.png
+NEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/logo.png
 NEXT_PUBLIC_VERSION=next
 REDIS_URL=
 REDIS_TOKEN=`,

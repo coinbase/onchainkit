@@ -5,9 +5,14 @@ import { publicClient } from '@/core/network/client';
 import { renderHook, waitFor } from '@testing-library/react';
 import { base, optimism } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { Mock } from 'vitest';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 import { useName } from './useName';
+import type { GetName } from '@/identity/types';
+
+const mockGetName = vi.fn();
+vi.mock('@/identity/utils/getName', () => ({
+  getName: (...args: [GetName]) => mockGetName(...args),
+}));
 
 vi.mock('@/core/network/client');
 vi.mock('@/core/network/getChainPublicClient', () => ({
@@ -15,7 +20,14 @@ vi.mock('@/core/network/getChainPublicClient', () => ({
   getChainPublicClient: vi.fn(() => publicClient),
 }));
 
+const mockGetAddress = vi.fn();
+
+vi.mock('@/identity/utils/getAddress', () => ({
+  getAddress: mockGetAddress,
+}));
+
 const mockUseQuery = vi.fn();
+
 vi.mock('@tanstack/react-query', async () => {
   const actual = await vi.importActual('@tanstack/react-query');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,19 +51,18 @@ vi.mock('@tanstack/react-query', async () => {
 });
 
 describe('useName', () => {
-  const mockGetEnsName = publicClient.getEnsName as Mock;
-  const mockReadContract = publicClient.readContract as Mock;
   const testAddress = '0x123';
 
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseQuery.mockClear();
+    mockGetAddress.mockReset();
+    mockGetName.mockReset();
   });
 
   it('returns the correct ENS name and loading state', async () => {
     const testEnsName = 'test.ens';
-
-    mockGetEnsName.mockResolvedValue(testEnsName);
+    mockGetName.mockResolvedValue(testEnsName);
 
     const { result } = renderHook(() => useName({ address: testAddress }), {
       wrapper: getNewReactQueryTestProvider(),
@@ -64,6 +75,9 @@ describe('useName', () => {
   });
 
   it('returns the loading state true while still fetching from ens action', async () => {
+    // Don't resolve the promise immediately
+    mockGetName.mockImplementation(() => new Promise(() => {}));
+
     const { result } = renderHook(() => useName({ address: testAddress }), {
       wrapper: getNewReactQueryTestProvider(),
     });
@@ -76,8 +90,7 @@ describe('useName', () => {
 
   it('returns the correct ENS name and loading state for custom chain ', async () => {
     const testEnsName = 'test.customchain.eth';
-
-    mockReadContract.mockResolvedValue(testEnsName);
+    mockGetName.mockResolvedValue(testEnsName);
 
     const { result } = renderHook(
       () => useName({ address: testAddress, chain: base }),
@@ -93,11 +106,8 @@ describe('useName', () => {
   });
 
   it('default to ENS name if custom chain name is not registered', async () => {
-    const testCustomChainEnsName = undefined;
     const testEnsName = 'ethereum.eth';
-
-    mockReadContract.mockResolvedValue(testCustomChainEnsName);
-    mockGetEnsName.mockResolvedValue(testEnsName);
+    mockGetName.mockResolvedValue(testEnsName);
 
     const { result } = renderHook(
       () => useName({ address: testAddress, chain: base }),
@@ -112,7 +122,24 @@ describe('useName', () => {
     });
   });
 
+  it('returns null when a name fails bidirectional validation', async () => {
+    mockGetName.mockResolvedValue(null);
+
+    const { result } = renderHook(() => useName({ address: testAddress }), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
+
+    await waitFor(() => {
+      expect(result.current.data).toBe(null);
+      expect(result.current.isLoading).toBe(false);
+    });
+  });
+
   it('returns error for unsupported chain ', async () => {
+    mockGetName.mockRejectedValue(
+      'ChainId not supported, name resolution is only supported on Ethereum and Base.',
+    );
+
     const { result } = renderHook(
       () => useName({ address: testAddress, chain: optimism }),
       {
@@ -132,8 +159,7 @@ describe('useName', () => {
 
   it('respects the enabled option in queryOptions', async () => {
     const testEnsName = 'test.ens';
-
-    mockGetEnsName.mockResolvedValue(testEnsName);
+    mockGetName.mockResolvedValue(testEnsName);
 
     const { result } = renderHook(
       () => useName({ address: testAddress }, { enabled: false }),
@@ -144,28 +170,26 @@ describe('useName', () => {
 
     expect(result.current.isLoading).toBe(false);
     expect(result.current.isFetched).toBe(false);
-    expect(mockGetEnsName).not.toHaveBeenCalled();
+    expect(mockGetName).not.toHaveBeenCalled();
   });
 
   it('uses the default query options when no queryOptions are provided', async () => {
     const testEnsName = 'test.ens';
-
-    mockGetEnsName.mockResolvedValue(testEnsName);
+    mockGetName.mockResolvedValue(testEnsName);
 
     renderHook(() => useName({ address: testAddress }), {
       wrapper: getNewReactQueryTestProvider(),
     });
 
     await waitFor(() => {
-      expect(mockGetEnsName).toHaveBeenCalled();
+      expect(mockGetName).toHaveBeenCalled();
     });
   });
 
   it('merges custom queryOptions with default options', async () => {
     const testEnsName = 'test.ens';
     const customGcTime = 120000;
-
-    mockGetEnsName.mockResolvedValue(testEnsName);
+    mockGetName.mockResolvedValue(testEnsName);
 
     const { result } = renderHook(
       () => useName({ address: testAddress }, { gcTime: customGcTime }),
@@ -178,11 +202,11 @@ describe('useName', () => {
       expect(result.current.data).toBe(testEnsName);
     });
 
-    expect(mockGetEnsName).toHaveBeenCalled();
+    expect(mockGetName).toHaveBeenCalled();
   });
 
   it('disables the query when address is empty', async () => {
-    mockGetEnsName.mockImplementation(() => {
+    mockGetName.mockImplementation(() => {
       throw new Error('This should not be called');
     });
 
@@ -195,14 +219,14 @@ describe('useName', () => {
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    expect(mockGetEnsName).not.toHaveBeenCalled();
+    expect(mockGetName).not.toHaveBeenCalled();
     expect(result.current.isLoading).toBe(false);
     expect(result.current.fetchStatus).toBe('idle');
   });
 
   it('enables the query when enabled=true is explicitly set and address is valid', async () => {
     const testEnsName = 'test.ens';
-    mockGetEnsName.mockResolvedValue(testEnsName);
+    mockGetName.mockResolvedValue(testEnsName);
 
     const { result } = renderHook(
       () => useName({ address: testAddress }, { enabled: true }),
@@ -215,11 +239,11 @@ describe('useName', () => {
       expect(result.current.data).toBe(testEnsName);
     });
 
-    expect(mockGetEnsName).toHaveBeenCalled();
+    expect(mockGetName).toHaveBeenCalled();
   });
 
   it('respects enabled=false even with valid address', async () => {
-    mockGetEnsName.mockImplementation(() => {
+    mockGetName.mockImplementation(() => {
       throw new Error('This should not be called');
     });
 
@@ -232,7 +256,7 @@ describe('useName', () => {
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    expect(mockGetEnsName).not.toHaveBeenCalled();
+    expect(mockGetName).not.toHaveBeenCalled();
     expect(result.current.isLoading).toBe(false);
     expect(result.current.fetchStatus).toBe('idle');
   });
@@ -240,8 +264,7 @@ describe('useName', () => {
   it('correctly maps cacheTime to gcTime for backwards compatibility', async () => {
     const mockCacheTime = 60000;
     const testEnsName = 'test.ens';
-
-    mockGetEnsName.mockResolvedValue(testEnsName);
+    mockGetName.mockResolvedValue(testEnsName);
 
     renderHook(
       () => useName({ address: testAddress }, { cacheTime: mockCacheTime }),

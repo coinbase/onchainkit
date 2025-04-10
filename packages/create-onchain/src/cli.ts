@@ -1,17 +1,16 @@
 #!/usr/bin/env node
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import pc from 'picocolors';
 import { createOnchainKitTemplate } from './onchainkit.js';
 import { createMiniKitTemplate, createMiniKitManifest } from './minikit.js';
+import { getVersion } from './utils.js';
 
 export function getArgs() {
   const options = {
     isHelp: false,
     isVersion: false,
     isManifest: false,
-    isMiniKit: false,
+    isMiniKitSnake: false,
+    isMiniKitBasic: false,
   };
 
   // find any argument with -- or -
@@ -32,8 +31,11 @@ export function getArgs() {
       break;
     case '-m':
     case '--mini':
-    case '--template=minikit':
-      options.isMiniKit = true;
+    case '--template=minikit-basic':
+      options.isMiniKitBasic = true;
+      break;
+    case '--template=minikit-snake':
+      options.isMiniKitSnake = true;
       break;
     default:
       break;
@@ -43,7 +45,8 @@ export function getArgs() {
 }
 
 async function init() {
-  const { isHelp, isVersion, isManifest, isMiniKit } = getArgs();
+  const { isHelp, isVersion, isManifest, isMiniKitSnake, isMiniKitBasic } =
+    getArgs();
   if (isHelp) {
     console.log(
       `${pc.greenBright(`
@@ -54,27 +57,23 @@ Creates an OnchainKit project based on nextJs.
 
 Options:
 --version: Show version
---mini: Create a MiniKit project
+--mini: Create the basic MiniKit template
 --template=<template>: Create a specific template
---manifest: Generate your Mini-App account association
+--manifest: Generate your Mini-App manifest
 --help: Show help
 
 Available Templates:
 - onchainkit: Create an OnchainKit project
-- minikit: Create a MiniKit project
+- minikit-basic: Create a Demo Mini-App
+- minikit-snake: Create a Snake Game Mini-App
 `)}`,
     );
     process.exit(0);
   }
 
   if (isVersion) {
-    const pkgPath = path.resolve(
-      fileURLToPath(import.meta.url),
-      '../../../package.json',
-    );
-    const packageJsonContent = fs.readFileSync(pkgPath, 'utf8');
-    const packageJson = JSON.parse(packageJsonContent);
-    console.log(`${pc.greenBright(`v${packageJson.version}`)}`);
+    const version = await getVersion();
+    console.log(`${pc.greenBright(`v${version}`)}`);
     process.exit(0);
   }
 
@@ -83,8 +82,10 @@ Available Templates:
     process.exit(0);
   }
 
-  if (isMiniKit) {
-    await createMiniKitTemplate();
+  if (isMiniKitSnake) {
+    await createMiniKitTemplate('minikit-snake');
+  } else if (isMiniKitBasic) {
+    await createMiniKitTemplate('minikit-basic');
   } else {
     await createOnchainKitTemplate();
   }
