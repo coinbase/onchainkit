@@ -4,7 +4,7 @@ import { Avatar, Name } from '@/identity';
 import { Spinner } from '@/internal/components/Spinner';
 import { zIndex } from '@/styles/constants';
 import { border, cn, color, pressable, text } from '@/styles/theme';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useWalletContext } from './WalletProvider';
 
 type WalletAdvancedAddressDetailsProps = {
@@ -93,7 +93,15 @@ export function WalletAdvancedAddressDetails({
 }
 
 function AddressBalanceInFiat({ className }: { className?: string }) {
-  const { portfolioFiatValue, isFetchingPortfolioData } = useWalletContext();
+  const {
+    portfolioFiatValue,
+    isFetchingPortfolioData,
+    setShouldFetchPortfolioData,
+  } = useWalletContext();
+
+  useEffect(() => {
+    setShouldFetchPortfolioData(true);
+  }, [setShouldFetchPortfolioData]);
 
   const formattedValueInFiat = new Intl.NumberFormat('en-US', {
     style: 'currency',

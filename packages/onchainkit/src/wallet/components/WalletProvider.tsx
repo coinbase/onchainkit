@@ -42,12 +42,17 @@ export function WalletProvider({ children }: WalletProviderReact) {
   const [activeFeature, setActiveFeature] =
     useState<WalletAdvancedFeature | null>(null);
   const [isActiveFeatureClosing, setIsActiveFeatureClosing] = useState(false);
+  const [shouldFetchPortfolioData, setShouldFetchPortfolioData] =
+    useState(false);
   const {
     data: portfolioData,
     refetch: refetchPortfolioData,
     isFetching: isFetchingPortfolioData,
     dataUpdatedAt: portfolioDataUpdatedAt,
-  } = usePortfolio({ address }, RequestContext.Wallet);
+  } = usePortfolio(
+    { address, enabled: shouldFetchPortfolioData },
+    RequestContext.Wallet,
+  );
 
   const portfolioFiatValue = portfolioData?.portfolioBalanceInUsd;
   const tokenBalances = portfolioData?.tokenBalances;
@@ -97,6 +102,7 @@ export function WalletProvider({ children }: WalletProviderReact) {
       portfolioDataUpdatedAt,
       refetchPortfolioData,
       animations,
+      setShouldFetchPortfolioData,
     };
   }, [
     address,
@@ -116,6 +122,7 @@ export function WalletProvider({ children }: WalletProviderReact) {
     portfolioDataUpdatedAt,
     refetchPortfolioData,
     animations,
+    setShouldFetchPortfolioData,
   ]);
 
   return (

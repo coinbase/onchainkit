@@ -4,6 +4,7 @@ import { cn, color, text } from '@/styles/theme';
 import { type Token, TokenImage } from '@/token';
 import { formatUnits } from 'viem';
 import { useWalletContext } from './WalletProvider';
+import { useEffect } from 'react';
 
 type WalletAdvancedTokenDetailsProps = {
   token: Token;
@@ -29,8 +30,16 @@ type WalletAdvancedTokenHoldingsProps = {
 export function WalletAdvancedTokenHoldings({
   classNames,
 }: WalletAdvancedTokenHoldingsProps) {
-  const { tokenBalances, isFetchingPortfolioData, animations } =
-    useWalletContext();
+  const {
+    tokenBalances,
+    isFetchingPortfolioData,
+    animations,
+    setShouldFetchPortfolioData,
+  } = useWalletContext();
+
+  useEffect(() => {
+    setShouldFetchPortfolioData(true);
+  }, [setShouldFetchPortfolioData]);
 
   if (isFetchingPortfolioData || !tokenBalances || tokenBalances.length === 0) {
     return (

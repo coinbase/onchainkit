@@ -118,6 +118,7 @@ export type WalletContextType = {
     container: string;
     content: string;
   };
+  setShouldFetchPortfolioData: Dispatch<SetStateAction<boolean>>;
 };
 
 /**
