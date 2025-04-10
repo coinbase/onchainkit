@@ -98,7 +98,7 @@ export function useDeposit() {
             args: [
               bridgeParams.recipient,
               formattedAmount,
-              BigInt(0),
+              formattedAmount,
               BigInt(MIN_GAS_LIMIT),
               false,
               EXTRA_DATA,
