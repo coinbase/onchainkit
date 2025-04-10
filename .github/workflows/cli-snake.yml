@@ -10,12 +10,6 @@ on:
     branches:
       - changeset-release/main
 
-on:
-  push:
-    branches: ['main']
-  pull_request:
-    branches: ['main']
-
 jobs:
   test:
     runs-on: ubuntu-latest
