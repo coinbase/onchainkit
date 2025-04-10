@@ -10,8 +10,7 @@ export function useWithdrawButton({ withdrawStatus }: UseWithdrawButtonParams) {
   const buttonDisabled = isPending;
   const buttonContent = isPending ? <Spinner /> : 'Claim';
   const shouldShowClaim =
-    withdrawStatus === 'claimReady' ||
-    withdrawStatus === 'claimRejected';
+    withdrawStatus === 'claimReady' || withdrawStatus === 'claimRejected';
   const label = useMemo(() => {
     if (shouldShowClaim) {
       return 'Claim is ready';
