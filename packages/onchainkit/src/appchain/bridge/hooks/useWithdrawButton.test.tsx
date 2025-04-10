@@ -30,13 +30,13 @@ describe('useWithdrawButton', () => {
     });
   });
 
-  it('should show pending state when status is claimPending', () => {
+  it('should show pending state when status is withdrawSuccess', () => {
     (useAccount as Mock).mockReturnValue({
       isConnected: true,
     });
 
     const { result } = renderHook(() =>
-      useWithdrawButton({ withdrawStatus: 'claimPending' }),
+      useWithdrawButton({ withdrawStatus: 'withdrawSuccess' }),
     );
 
     expect(result.current).toEqual({
@@ -45,8 +45,8 @@ describe('useWithdrawButton', () => {
       isError: false,
       buttonDisabled: true,
       buttonContent: expect.any(Object),
-      shouldShowClaim: true,
-      label: 'Claim is ready',
+      shouldShowClaim: false,
+      label: 'Confirming transaction',
     });
   });
 
