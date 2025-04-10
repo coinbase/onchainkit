@@ -4,6 +4,9 @@ import { cn, color, text } from '@/styles/theme';
 import { type Token, TokenImage } from '@/token';
 import { formatUnits } from 'viem';
 import { useWalletContext } from './WalletProvider';
+import { usePortfolio } from '../hooks/usePortfolio';
+import { RequestContext } from '@/core/network/constants';
+import { useAccount } from 'wagmi';
 
 type WalletAdvancedTokenDetailsProps = {
   token: Token;
@@ -29,8 +32,13 @@ type WalletAdvancedTokenHoldingsProps = {
 export function WalletAdvancedTokenHoldings({
   classNames,
 }: WalletAdvancedTokenHoldingsProps) {
-  const { tokenBalances, isFetchingPortfolioData, animations } =
-    useWalletContext();
+  const { address } = useAccount();
+  const { animations } = useWalletContext();
+
+  const { data: portfolioData, isFetching: isFetchingPortfolioData } =
+    usePortfolio({ address }, RequestContext.Wallet);
+
+  const tokenBalances = portfolioData?.tokenBalances;
 
   if (isFetchingPortfolioData || !tokenBalances || tokenBalances.length === 0) {
     return (

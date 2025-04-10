@@ -5,12 +5,17 @@ import { isApiError } from '@/internal/utils/isApiResponseError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { Address } from 'viem';
 
+type UsePortfolioProps = {
+  address: Address | undefined | null;
+  enabled?: boolean;
+};
+
 /**
  * Retrieves the portfolio for the provided address
  * portfolio includes the address, the balance of the address in USD, and the tokens in the address
  */
 export function usePortfolio(
-  { address }: { address: Address | undefined | null },
+  { address, enabled = true }: UsePortfolioProps,
   _context: RequestContext = RequestContext.Hook,
 ): UseQueryResult<Portfolio> {
   return useQuery({
@@ -38,7 +43,7 @@ export function usePortfolio(
       return response.portfolios[0];
     },
     retry: false,
-    enabled: !!address,
+    enabled: !!address && enabled,
     refetchOnWindowFocus: true, // refresh on window focus
     staleTime: 1000 * 60 * 5, // refresh on mount every 5 minutes
     refetchOnMount: true,

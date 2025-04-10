@@ -6,6 +6,9 @@ import { zIndex } from '@/styles/constants';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
 import { useWalletContext } from './WalletProvider';
+import { usePortfolio } from '../hooks/usePortfolio';
+import { RequestContext } from '@/core/network/constants';
+import { useAccount } from 'wagmi';
 
 type WalletAdvancedAddressDetailsProps = {
   classNames?: {
@@ -93,7 +96,12 @@ export function WalletAdvancedAddressDetails({
 }
 
 function AddressBalanceInFiat({ className }: { className?: string }) {
-  const { portfolioFiatValue, isFetchingPortfolioData } = useWalletContext();
+  const { address } = useAccount();
+
+  const { data: portfolioData, isFetching: isFetchingPortfolioData } =
+    usePortfolio({ address }, RequestContext.Wallet);
+
+  const portfolioFiatValue = portfolioData?.portfolioBalanceInUsd;
 
   const formattedValueInFiat = new Intl.NumberFormat('en-US', {
     style: 'currency',

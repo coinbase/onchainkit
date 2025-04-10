@@ -1,7 +1,18 @@
 import { render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import { WalletAdvancedTokenHoldings } from './WalletAdvancedTokenHoldings';
 import { useWalletContext } from './WalletProvider';
+import { usePortfolio } from '../hooks/usePortfolio';
+
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn().mockReturnValue({
+    address: '0x123',
+  }),
+}));
+
+vi.mock('../hooks/usePortfolio', () => ({
+  usePortfolio: vi.fn(),
+}));
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
@@ -31,6 +42,12 @@ describe('WalletAdvancedTokenHoldings', () => {
     mockUseWalletAdvancedContext.mockReturnValue(
       defaultMockUseWalletAdvancedContext,
     );
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        tokenBalances: [],
+      },
+      isFetching: false,
+    });
   });
 
   it('does not render token lists with zero tokens', () => {
@@ -40,9 +57,11 @@ describe('WalletAdvancedTokenHoldings', () => {
   });
 
   it('renders a placeholder when fetcher is loading', () => {
-    mockUseWalletAdvancedContext.mockReturnValue({
-      ...defaultMockUseWalletAdvancedContext,
-      isFetchingPortfolioData: true,
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        tokenBalances: [],
+      },
+      isFetching: true,
     });
 
     render(<WalletAdvancedTokenHoldings />);
@@ -96,9 +115,11 @@ describe('WalletAdvancedTokenHoldings', () => {
       },
     ];
 
-    mockUseWalletAdvancedContext.mockReturnValue({
-      ...defaultMockUseWalletAdvancedContext,
-      tokenBalances: tokens,
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        tokenBalances: tokens,
+      },
+      isFetching: false,
     });
 
     render(<WalletAdvancedTokenHoldings />);
@@ -120,9 +141,11 @@ describe('WalletAdvancedTokenHoldings', () => {
       },
     ];
 
-    mockUseWalletAdvancedContext.mockReturnValue({
-      ...defaultMockUseWalletAdvancedContext,
-      tokenBalances: tokens,
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        tokenBalances: tokens,
+      },
+      isFetching: false,
     });
 
     render(<WalletAdvancedTokenHoldings />);
@@ -155,9 +178,11 @@ describe('WalletAdvancedTokenHoldings', () => {
       },
     };
 
-    mockUseWalletAdvancedContext.mockReturnValue({
-      ...defaultMockUseWalletAdvancedContext,
-      tokenBalances: tokens,
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        tokenBalances: tokens,
+      },
+      isFetching: false,
     });
 
     render(<WalletAdvancedTokenHoldings classNames={customClassNames} />);

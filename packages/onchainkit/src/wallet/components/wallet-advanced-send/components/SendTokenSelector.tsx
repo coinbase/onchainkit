@@ -3,8 +3,10 @@
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { TokenBalance } from '@/token';
 import { formatUnits } from 'viem';
-import { useWalletContext } from '../../WalletProvider';
 import { useSendContext } from './SendProvider';
+import { RequestContext } from '@/core/network/constants';
+import { useAccount } from 'wagmi';
+import { usePortfolio } from '@/wallet/hooks/usePortfolio';
 
 type SendTokenSelectorProps = {
   classNames?: {
@@ -17,7 +19,13 @@ type SendTokenSelectorProps = {
 };
 
 export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
-  const { tokenBalances } = useWalletContext();
+  const { address } = useAccount();
+  const { data: portfolioData } = usePortfolio(
+    { address },
+    RequestContext.Wallet,
+  );
+  const tokenBalances = portfolioData?.tokenBalances;
+
   const {
     selectedToken,
     handleTokenSelection,

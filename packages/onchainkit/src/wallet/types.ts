@@ -109,11 +109,6 @@ export type WalletContextType = {
   setActiveFeature: Dispatch<SetStateAction<WalletAdvancedFeature | null>>;
   isActiveFeatureClosing: boolean;
   setIsActiveFeatureClosing: Dispatch<SetStateAction<boolean>>;
-  tokenBalances: PortfolioTokenWithFiatValue[] | undefined;
-  portfolioFiatValue: number | undefined;
-  isFetchingPortfolioData: boolean;
-  portfolioDataUpdatedAt: number | undefined;
-  refetchPortfolioData: () => Promise<QueryObserverResult<Portfolio, Error>>;
   animations: {
     container: string;
     content: string;

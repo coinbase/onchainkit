@@ -1,6 +1,5 @@
 'use client';
 
-import { RequestContext } from '@/core/network/constants';
 import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import { useOnchainKit } from '@/useOnchainKit';
 import {
@@ -14,7 +13,6 @@ import {
 } from 'react';
 import type { ReactNode } from 'react';
 import { useAccount } from 'wagmi';
-import { usePortfolio } from '../hooks/usePortfolio';
 import type { WalletAdvancedFeature, WalletContextType } from '../types';
 import { getAnimations } from '../utils/getAnimations';
 import { calculateSubComponentPosition } from '../utils/getWalletSubComponentPosition';
@@ -42,15 +40,6 @@ export function WalletProvider({ children }: WalletProviderReact) {
   const [activeFeature, setActiveFeature] =
     useState<WalletAdvancedFeature | null>(null);
   const [isActiveFeatureClosing, setIsActiveFeatureClosing] = useState(false);
-  const {
-    data: portfolioData,
-    refetch: refetchPortfolioData,
-    isFetching: isFetchingPortfolioData,
-    dataUpdatedAt: portfolioDataUpdatedAt,
-  } = usePortfolio({ address }, RequestContext.Wallet);
-
-  const portfolioFiatValue = portfolioData?.portfolioBalanceInUsd;
-  const tokenBalances = portfolioData?.tokenBalances;
 
   const animations = useMemo(() => {
     return getAnimations(isSubComponentClosing, showSubComponentAbove);
@@ -91,11 +80,6 @@ export function WalletProvider({ children }: WalletProviderReact) {
       setActiveFeature,
       isActiveFeatureClosing,
       setIsActiveFeatureClosing,
-      tokenBalances,
-      portfolioFiatValue,
-      isFetchingPortfolioData,
-      portfolioDataUpdatedAt,
-      refetchPortfolioData,
       animations,
     };
   }, [
@@ -110,11 +94,6 @@ export function WalletProvider({ children }: WalletProviderReact) {
     alignSubComponentRight,
     activeFeature,
     isActiveFeatureClosing,
-    tokenBalances,
-    portfolioFiatValue,
-    isFetchingPortfolioData,
-    portfolioDataUpdatedAt,
-    refetchPortfolioData,
     animations,
   ]);
 
