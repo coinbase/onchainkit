@@ -24,4 +24,4 @@ export { useMintDetails } from './hooks/useMintDetails';
 export type { UseTokenDetailsParams, UseMintDetailsParams } from './types';
 
 // Providers
-export { useNFTContext } from './components/NFTProvider';
+export { useNFTContext, NFTProvider } from './components/NFTProvider';
