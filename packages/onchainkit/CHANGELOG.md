@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.7
+
+### Patch Changes
+
+- 3519085: fix: Fix AppchainBridge useDeposit hook. By @0xAlec #2262
+
 ## 0.38.6
 
 ### Patch Changes
