@@ -4,14 +4,13 @@ import { useMemo } from 'react';
 import type { UseWithdrawButtonParams } from '../types';
 
 export function useWithdrawButton({ withdrawStatus }: UseWithdrawButtonParams) {
-  const isPending = withdrawStatus === 'claimPending';
+  const isPending = withdrawStatus === 'withdrawPending';
   const isSuccess = withdrawStatus === 'claimSuccess';
   const isError = withdrawStatus === 'error';
   const buttonDisabled = isPending;
   const buttonContent = isPending ? <Spinner /> : 'Claim';
   const shouldShowClaim =
     withdrawStatus === 'claimReady' ||
-    isPending ||
     withdrawStatus === 'claimRejected';
   const label = useMemo(() => {
     if (shouldShowClaim) {
