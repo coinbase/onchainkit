@@ -2,13 +2,14 @@ import { Skeleton } from '@/internal/components/Skeleton';
 import { background, border, cn, color } from '@/styles/theme';
 import { ETH_REQUIRED_FOR_SEND } from '../constants';
 import type { SendReact } from '../types';
-import { SendAddressSelection } from './SendAddressSelection';
 import { SendAmountInput } from './SendAmountInput';
 import { SendButton } from './SendButton';
 import { SendFundWallet } from './SendFundWallet';
 import { SendHeader } from './SendHeader';
 import { SendProvider, useSendContext } from './SendProvider';
 import { SendTokenSelector } from './SendTokenSelector';
+import { SendAddressInput } from '@/wallet/components/wallet-advanced-send/components/SendAddressInput';
+import { SendAddressSelector } from '@/wallet/components/wallet-advanced-send/components/SendAddressSelector';
 
 export function Send({
   children = <SendDefaultChildren />,
@@ -36,10 +37,12 @@ export function Send({
 }
 
 function SendDefaultChildren() {
-  const { ethBalance, isInitialized, selectedRecipient, selectedToken } =
+  const { ethBalance, isInitialized, recipientState, selectedToken } =
     useSendContext();
 
   const walletHasEth = (ethBalance ?? 0) > ETH_REQUIRED_FOR_SEND;
+
+  console.log({ recipientState });
 
   if (!isInitialized) {
     return <Skeleton className="h-full w-full" />;
@@ -51,12 +54,13 @@ function SendDefaultChildren() {
       {walletHasEth ? (
         <div className="flex h-full flex-col justify-between gap-4">
           <div>
-            <SendAddressSelection />
-            {selectedRecipient.address && !selectedToken && (
+            <SendAddressInput />
+            {recipientState.phase === 'validated' && <SendAddressSelector />}
+            {recipientState.phase === 'selected' && !selectedToken && (
               <SendTokenSelector />
             )}
           </div>
-          {selectedRecipient.address && selectedToken && (
+          {recipientState.phase === 'selected' && selectedToken && (
             <>
               <SendAmountInput />
               <SendTokenSelector />

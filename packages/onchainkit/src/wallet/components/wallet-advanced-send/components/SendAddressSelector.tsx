@@ -2,15 +2,34 @@
 
 import { Address, Avatar, Name } from '@/identity';
 import { background, border, cn, pressable } from '@/styles/theme';
+import { useWalletContext } from '../../WalletProvider';
 import type { SendAddressSelectorProps } from '../types';
+import { useSendContext } from './SendProvider';
+import { useCallback } from 'react';
 
-export function SendAddressSelector({
-  address,
-  senderChain,
-  onClick,
-  classNames,
-}: SendAddressSelectorProps) {
-  if (!address || !senderChain) {
+export function SendAddressSelector({ classNames }: SendAddressSelectorProps) {
+  const { chain } = useWalletContext();
+  const { recipientState, handleRecipientSelection } = useSendContext();
+
+  const handleSelectorClick = useCallback(async () => {
+    if (!recipientState.address) {
+      return;
+    }
+
+    handleRecipientSelection({
+      phase: 'selected',
+      input: recipientState.input,
+      address: recipientState.address,
+      displayValue: recipientState.displayValue,
+    });
+  }, [
+    recipientState.input,
+    recipientState.address,
+    recipientState.displayValue,
+    handleRecipientSelection,
+  ]);
+
+  if (!recipientState.address || !chain) {
     return null;
   }
 
@@ -18,7 +37,7 @@ export function SendAddressSelector({
     <button
       data-testid="ockSendAddressSelector_button"
       type="button"
-      onClick={onClick}
+      onClick={handleSelectorClick}
       className="w-full text-left"
     >
       <div
@@ -35,19 +54,19 @@ export function SendAddressSelector({
         <div className="flex items-center space-x-3">
           <div className="flex-shrink-0">
             <Avatar
-              address={address}
-              chain={senderChain}
+              address={recipientState.address}
+              chain={chain}
               className={classNames?.avatar}
             />
           </div>
           <div className="flex flex-col">
             <Name
-              address={address}
-              chain={senderChain}
+              address={recipientState.address}
+              chain={chain}
               className={classNames?.name}
             />
             <Address
-              address={address}
+              address={recipientState.address}
               hasCopyAddressOnClick={false}
               className={classNames?.address}
             />

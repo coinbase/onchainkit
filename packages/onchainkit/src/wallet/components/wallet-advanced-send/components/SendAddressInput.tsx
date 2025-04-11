@@ -5,38 +5,34 @@ import { background, border, cn, color } from '@/styles/theme';
 import { useCallback } from 'react';
 import type { SendAddressInputProps } from '../types';
 import { resolveAddressInput } from '../utils/resolveAddressInput';
-import { validateAddressInput } from '../utils/validateAddressInput';
+import { useSendContext } from './SendProvider';
 
-export function SendAddressInput({
-  selectedRecipient,
-  recipientInput,
-  setRecipientInput,
-  setValidatedInput,
-  handleRecipientInputChange,
-  classNames,
-}: SendAddressInputProps) {
-  const displayValue = selectedRecipient?.displayValue || recipientInput;
+export function SendAddressInput({ classNames }: SendAddressInputProps) {
+  const { recipientState, setRecipientState, handleRecipientInputChange } =
+    useSendContext();
 
   const handleFocus = useCallback(() => {
-    if (selectedRecipient.address) {
+    if (recipientState.address) {
       handleRecipientInputChange();
     }
-  }, [selectedRecipient, handleRecipientInputChange]);
+  }, [recipientState.address, handleRecipientInputChange]);
 
   const handleSetValue = useCallback(
-    async (input: string) => {
-      const resolved = await resolveAddressInput(
-        selectedRecipient.address,
+    (input: string) => {
+      setRecipientState((prev) => ({
+        ...prev,
         input,
-      );
-      setValidatedInput(resolved);
+      }));
     },
-    [selectedRecipient.address, setValidatedInput],
+    [setRecipientState],
   );
 
-  const validateInput = useCallback(
-    (recipientInput: string) => !!validateAddressInput(recipientInput),
-    [],
+  const handleChange = useCallback(
+    async (input: string) => {
+      const resolvedRecipientState = await resolveAddressInput(input);
+      setRecipientState(resolvedRecipientState);
+    },
+    [setRecipientState],
   );
 
   return (
@@ -55,10 +51,9 @@ export function SendAddressInput({
       <TextInput
         inputMode="text"
         placeholder="Basename, ENS, or Address"
-        value={displayValue}
-        inputValidator={validateInput}
-        setValue={setRecipientInput}
-        onChange={handleSetValue}
+        value={recipientState.displayValue ?? recipientState.input}
+        setValue={handleSetValue}
+        onChange={handleChange}
         onFocus={handleFocus}
         aria-label="Input Receiver Address"
         className={cn(
