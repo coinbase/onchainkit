@@ -11,6 +11,7 @@ export { SwapSettingsSlippageInput } from './components/SwapSettingsSlippageInpu
 export { SwapSettingsSlippageTitle } from './components/SwapSettingsSlippageTitle';
 export { SwapToast } from './components/SwapToast';
 export { SwapToggleButton } from './components/SwapToggleButton';
+export { useSwapContext } from './components/SwapProvider';
 
 // Types
 export type {

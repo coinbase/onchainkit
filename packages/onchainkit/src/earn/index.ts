@@ -2,7 +2,6 @@
 
 // Components
 export { Earn } from './components/Earn';
-export { EarnProvider } from './components/EarnProvider';
 export { EarnDeposit } from './components/EarnDeposit';
 export { EarnWithdraw } from './components/EarnWithdraw';
 export { EarnDetails } from './components/EarnDetails';

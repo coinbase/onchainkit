@@ -10,6 +10,7 @@ export { TransactionToast } from './components/TransactionToast';
 export { TransactionToastIcon } from './components/TransactionToastIcon';
 export { TransactionToastAction } from './components/TransactionToastAction';
 export { TransactionToastLabel } from './components/TransactionToastLabel';
+export { useTransactionContext } from './components/TransactionProvider';
 export type {
   LifecycleStatus,
   TransactionButtonReact,
