@@ -1,3 +1,3 @@
 // 🌲☀🌲
 export { Buy } from './components/Buy';
-export { BuyProvider, useBuyContext } from './components/BuyProvider';
+export { useBuyContext } from './components/BuyProvider';

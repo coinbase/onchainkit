@@ -7,7 +7,4 @@ export type {
   CheckoutReact,
   CheckoutStatusReact,
 } from './types';
-export {
-  CheckoutProvider,
-  useCheckoutContext,
-} from './components/CheckoutProvider';
+export { useCheckoutContext } from './components/CheckoutProvider';
