@@ -1,4 +1,4 @@
-import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
+import { MOCK_EARN_CONTEXT } from '@/earn/mocks/mocks.test';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import { beforeEach, describe, expect, it } from 'vitest';
