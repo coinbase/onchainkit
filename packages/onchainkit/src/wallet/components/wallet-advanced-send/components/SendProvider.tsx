@@ -15,13 +15,16 @@ import {
 } from 'react';
 import { formatUnits } from 'viem';
 import type {
-  Recipient,
+  RecipientState,
   SendContextType,
   SendLifecycleStatus,
   SendProviderReact,
 } from '../types';
 import { usePortfolio } from '@/wallet/hooks/usePortfolio';
 import { useAccount } from 'wagmi';
+import { getName } from '@/identity';
+import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
+import { base } from 'viem/chains';
 
 const emptyContext = {} as SendContextType;
 
@@ -37,9 +40,11 @@ export function useSendContext() {
 
 export function SendProvider({ children }: SendProviderReact) {
   // state for recipient address selection
-  const [selectedRecipient, setSelectedRecipient] = useState<Recipient>({
-    displayValue: '',
+  const [recipientState, setRecipientState] = useState<RecipientState>({
+    phase: 'input',
+    input: '',
     address: null,
+    displayValue: null,
   });
 
   // state for token selection
@@ -113,6 +118,22 @@ export function SendProvider({ children }: SendProviderReact) {
     });
   }, [ethBalance, updateLifecycleStatus]);
 
+  useEffect(() => {
+    if (recipientState.phase === 'selected') {
+      getName({
+        address: recipientState.address,
+        chain: base,
+      }).then((name) => {
+        setRecipientState({
+          phase: recipientState.phase,
+          input: recipientState.input,
+          address: recipientState.address,
+          displayValue: name ?? getSlicedAddress(recipientState.address),
+        });
+      });
+    }
+  }, [recipientState.phase, recipientState.address, recipientState.input]);
+
   // fetch & set exchange rate
   const { isLoading: exchangeRateLoading, data: exchangeRateData } =
     usePriceQuote(
@@ -135,21 +156,30 @@ export function SendProvider({ children }: SendProviderReact) {
 
   // handlers
   const handleRecipientInputChange = useCallback(() => {
-    setSelectedRecipient({
-      displayValue: '',
-      address: null,
-    });
+    if (recipientState.phase === 'selected') {
+      setRecipientState({
+        phase: 'validated',
+        input: recipientState.input,
+        address: recipientState.address,
+        displayValue: null,
+      });
+    } else {
+      setRecipientState({
+        ...recipientState,
+        displayValue: null,
+      });
+    }
     updateLifecycleStatus({
       statusName: 'selectingAddress',
       statusData: {
         isMissingRequiredField: true,
       },
     });
-  }, [updateLifecycleStatus]);
+  }, [recipientState, updateLifecycleStatus]);
 
   const handleAddressSelection = useCallback(
-    async (selection: Recipient) => {
-      setSelectedRecipient(selection);
+    async (selection: Extract<RecipientState, { phase: 'selected' }>) => {
+      setRecipientState(selection);
       updateLifecycleStatus({
         statusName: 'selectingToken',
         statusData: {
@@ -220,7 +250,8 @@ export function SendProvider({ children }: SendProviderReact) {
     lifecycleStatus,
     updateLifecycleStatus,
     ethBalance,
-    selectedRecipient,
+    recipientState,
+    setRecipientState,
     handleRecipientSelection: handleAddressSelection,
     selectedToken,
     handleRecipientInputChange,
