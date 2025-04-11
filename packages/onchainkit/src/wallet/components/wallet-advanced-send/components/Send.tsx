@@ -8,8 +8,8 @@ import { SendFundWallet } from './SendFundWallet';
 import { SendHeader } from './SendHeader';
 import { SendProvider, useSendContext } from './SendProvider';
 import { SendTokenSelector } from './SendTokenSelector';
-import { SendAddressInput } from '@/wallet/components/wallet-advanced-send/components/SendAddressInput';
-import { SendAddressSelector } from '@/wallet/components/wallet-advanced-send/components/SendAddressSelector';
+import { SendAddressInput } from './SendAddressInput';
+import { SendAddressSelector } from './SendAddressSelector';
 
 export function Send({
   children = <SendDefaultChildren />,
@@ -41,8 +41,6 @@ function SendDefaultChildren() {
     useSendContext();
 
   const walletHasEth = (ethBalance ?? 0) > ETH_REQUIRED_FOR_SEND;
-
-  console.log({ recipientState });
 
   if (!isInitialized) {
     return <Skeleton className="h-full w-full" />;
