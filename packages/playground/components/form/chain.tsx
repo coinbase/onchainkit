@@ -9,7 +9,21 @@ import {
 import { useContext } from 'react';
 import { AppContext } from '../AppProvider';
 
-export function Chain() {
+interface ChainOption {
+  id: number;
+  name: string;
+}
+
+const DEFAULT_CHAINS: ChainOption[] = [
+  { id: 84532, name: 'Base Sepolia' },
+  { id: 8453, name: 'Base' },
+];
+
+interface ChainProps {
+  chains?: ChainOption[];
+}
+
+export function Chain({ chains = DEFAULT_CHAINS }: ChainProps) {
   const { chainId, setChainId } = useContext(AppContext);
 
   return (
@@ -25,8 +39,11 @@ export function Chain() {
           <SelectValue placeholder="Select chain" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="84532">Base Sepolia</SelectItem>
-          <SelectItem value="8453">Base</SelectItem>
+          {chains.map((chain) => (
+            <SelectItem key={chain.id} value={chain.id.toString()}>
+              {chain.name}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>

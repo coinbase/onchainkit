@@ -72,6 +72,9 @@ export function ActiveComponent() {
           <SelectItem value={OnchainKitComponent.Signature}>
             Signature
           </SelectItem>
+          <SelectItem value={OnchainKitComponent.AppchainBridge}>
+            Appchain Bridge
+          </SelectItem>
         </SelectContent>
       </Select>
     </div>

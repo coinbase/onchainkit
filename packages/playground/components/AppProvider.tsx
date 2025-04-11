@@ -41,6 +41,8 @@ type State = {
   isSponsored?: boolean;
   vaultAddress?: Address;
   setVaultAddress: (vaultAddress: Address) => void;
+  appChainChainId?: number;
+  setAppChainChainId: (appChainChainId: number) => void;
 };
 
 export const defaultState: State = {
@@ -53,6 +55,8 @@ export const defaultState: State = {
   setNFTToken: () => {},
   setIsSponsored: () => {},
   setVaultAddress: () => {},
+  appChainChainId: 84532,
+  setAppChainChainId: () => {},
 };
 
 export const AppContext = createContext(defaultState);
@@ -125,6 +129,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     defaultValue: '0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A',
   });
 
+  const [appChainChainId, setAppChainChainId] = useStateWithStorage<number>({
+    key: 'appChainChainId',
+    parser: (v) => Number.parseInt(v),
+  });
+
   // Load initial values from localStorage
   useEffect(() => {
     const storedPaymasters = localStorage.getItem('paymasters');
@@ -170,6 +179,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         isSponsored,
         vaultAddress,
         setVaultAddress,
+        appChainChainId,
+        setAppChainChainId,
       }}
     >
       <OnchainKitProvider
