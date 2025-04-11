@@ -1,6 +1,6 @@
 import type { NFTError } from '@/api/types';
 import { useNFTContext } from '@/nft/components/NFTProvider';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { defaultNFTSvg } from '../../../internal/svg/defaultNFTSvg';
 import { cn } from '../../../styles/theme';
 
@@ -42,6 +42,10 @@ export function NFTVideo({
     }
   }, [animationUrl, onLoading, onLoaded, onError]);
 
+  const handleClick = useCallback((e: React.MouseEvent<HTMLVideoElement>) => {
+    e.stopPropagation();
+  }, []);
+
   if (!animationUrl) {
     return <div className="max-h-350 w-350 max-w-350">{defaultNFTSvg}</div>;
   }
@@ -49,16 +53,18 @@ export function NFTVideo({
   return (
     <div
       className={cn(
-        'grid aspect-square w-full',
+        'grid w-full',
         '[&>*]:col-start-1 [&>*]:col-end-1 [&>*]:row-start-1 [&>*]:row-end-1',
         { 'content-center justify-center': !square },
+        { 'aspect-square': square },
         className,
       )}
     >
       <video
         ref={videoRef}
         data-testid="ockNFTVideo"
-        className={cn({ 'h-full w-full object-cover': square })}
+        onClick={handleClick}
+        className={cn({ 'h-full w-full object-cover aspect-square': square })}
         poster={imageUrl}
         controls={true}
         loop={true}

@@ -61,8 +61,9 @@ export function NFTImage({
   return (
     <div
       className={cn(
-        'grid aspect-square w-full',
+        'grid w-full',
         '[&>*]:col-start-1 [&>*]:col-end-1 [&>*]:row-start-1 [&>*]:row-end-1',
+        { 'aspect-square': square },
         className,
       )}
     >

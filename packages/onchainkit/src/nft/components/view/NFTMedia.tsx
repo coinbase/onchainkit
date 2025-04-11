@@ -21,7 +21,7 @@ export function NFTMedia({ className, square }: NFTMediaReact) {
     if (mimeType?.startsWith('video')) {
       return MediaType.Video;
     }
-    if (mimeType?.startsWith('audio') || mimeType?.startsWith('application')) {
+    if (mimeType?.startsWith('audio')) {
       return MediaType.Audio;
     }
     if (mimeType?.startsWith('image')) {

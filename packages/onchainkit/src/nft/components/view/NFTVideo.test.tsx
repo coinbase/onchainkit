@@ -95,4 +95,17 @@ describe('NFTVideo', () => {
       message: 'Error loading video',
     });
   });
+
+  it('should not propagate click event on video', () => {
+    const parentClick = vi.fn();
+    const { getByTestId } = render(
+      <button type="button" onClick={parentClick}>
+        <NFTVideo />
+      </button>,
+    );
+
+    fireEvent.click(getByTestId('ockNFTVideo'));
+
+    expect(parentClick).not.toHaveBeenCalled();
+  });
 });
