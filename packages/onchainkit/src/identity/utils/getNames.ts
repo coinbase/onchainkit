@@ -1,17 +1,19 @@
 import type { Basename, GetNameReturnType, GetNames } from '@/identity/types';
-import { mainnet } from 'viem/chains';
+import { base, mainnet } from 'viem/chains';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { isBase } from '../../core/utils/isBase';
 import { isEthereum } from '../../core/utils/isEthereum';
 import L2ResolverAbi from '../abis/L2ResolverAbi';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';
+import { getAddress } from './getAddress';
 
 /**
  * An asynchronous function to fetch multiple Basenames or Ethereum Name Service (ENS)
  * names for a given array of Ethereum addresses in a single batch request.
  * It returns an array of ENS names in the same order as the input addresses.
  */
+// eslint-disable-next-line complexity
 export const getNames = async ({
   addresses,
   chain = mainnet,
@@ -48,11 +50,31 @@ export const getNames = async ({
         allowFailure: true,
       });
 
-      batchResults.forEach((result, index) => {
+      for (let index = 0; index < batchResults.length; index++) {
+        const result = batchResults[index];
         if (result.status === 'success' && result.result) {
-          results[index] = result.result as Basename;
+          const basename = result.result as Basename;
+          try {
+            // Verify basename with forward resolution
+            const resolvedAddress = await getAddress({
+              name: basename,
+              chain: base,
+            });
+
+            if (
+              resolvedAddress &&
+              resolvedAddress.toLowerCase() === addresses[index].toLowerCase()
+            ) {
+              results[index] = basename;
+            }
+          } catch (error) {
+            console.error(
+              `Error during basename forward resolution verification for ${addresses[index]}:`,
+              error,
+            );
+          }
         }
-      });
+      }
 
       // If we have all results, return them
       if (results.every((result) => result !== null)) {
@@ -91,10 +113,33 @@ export const getNames = async ({
       const ensResults = await Promise.all(ensPromises);
 
       // Update results with ENS names
-      ensResults.forEach((ensName, i) => {
+      for (let i = 0; i < ensResults.length; i++) {
+        const ensName = ensResults[i];
         const originalIndex = unresolvedIndices[i];
-        results[originalIndex] = ensName;
-      });
+
+        if (ensName) {
+          try {
+            // Verify ENS name with forward resolution
+            const resolvedAddress = await getAddress({
+              name: ensName,
+              chain: mainnet,
+            });
+
+            if (
+              resolvedAddress &&
+              resolvedAddress.toLowerCase() ===
+                addresses[originalIndex].toLowerCase()
+            ) {
+              results[originalIndex] = ensName;
+            }
+          } catch (error) {
+            console.error(
+              `Error during ENS forward resolution verification for ${addresses[originalIndex]}:`,
+              error,
+            );
+          }
+        }
+      }
     } catch (error) {
       console.error('Error resolving ENS names in batch:', error);
     }
