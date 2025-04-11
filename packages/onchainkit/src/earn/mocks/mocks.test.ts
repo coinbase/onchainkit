@@ -1,7 +1,7 @@
 import type { EarnContextType } from '@/earn/types';
 import { usdcToken } from '@/token/constants';
 import type { Address } from 'viem';
-import { vi } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
 
 export const MOCK_EARN_CONTEXT: EarnContextType = {
   error: null,
@@ -32,3 +32,9 @@ export const MOCK_EARN_CONTEXT: EarnContextType = {
   updateLifecycleStatus: vi.fn(),
   isSponsored: false,
 };
+
+describe('MOCK_EARN_CONTEXT', () => {
+  it('should be defined', () => {
+    expect(MOCK_EARN_CONTEXT).toBeDefined();
+  });
+});

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "moduleResolution": "bundler",
     "target": "es2020",
     "module": "es2020",
     "lib": ["es2020", "dom"],
@@ -9,18 +10,17 @@
     "strict": true,
     "sourceMap": true,
     "declaration": true,
+    "declarationMap": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "declarationDir": "dist/types",
-    "outDir": "esm",
-    "typeRoots": ["node_modules/@types", "./types"],
-    "rootDir": "src",
+    "typeRoots": ["node_modules/@types", "src/types"],
+    "outDir": "dist",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }
   },
   "include": ["src"],
-  "exclude": ["node_modules", "**/*.stories.*"]
+  "exclude": ["node_modules"]
 }

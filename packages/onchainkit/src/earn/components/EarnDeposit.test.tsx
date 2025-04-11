@@ -1,4 +1,4 @@
-import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
+import { MOCK_EARN_CONTEXT } from '@/earn/mocks/mocks.test';
 import type { EarnContextType } from '@/earn/types';
 import type { MakeRequired } from '@/internal/types';
 import type { Call } from '@/transaction/types';
