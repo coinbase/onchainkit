@@ -31,13 +31,18 @@ export type SendContextType = {
   /** The selected recipient address */
   recipientState: RecipientState;
   /** Handler for the change of a recipient address */
-  setRecipientState: Dispatch<SetStateAction<RecipientState>>;
+  updateRecipientInput: (input: string) => void;
+  validateRecipientInput: (input: string) => void;
   /** Handler for the selection of a recipient address */
-  handleRecipientSelection: (
-    selection: Extract<RecipientState, { phase: 'selected' }>,
-  ) => void;
-  /** Handler for the change of a recipient address */
-  handleRecipientInputChange: () => void;
+  selectRecipient: (
+    selection: Extract<
+      RecipientState,
+      {
+        phase: 'selected';
+      }
+    >,
+  ) => Promise<void>;
+  deselectRecipient: () => void;
 
   // Token Context
   /** The token selected by the user for the send transaction */
@@ -69,12 +74,6 @@ export type SendContextType = {
 export type RecipientState =
   | {
       phase: 'input';
-      input: string;
-      address: null;
-      displayValue: null;
-    }
-  | {
-      phase: 'validating';
       input: string;
       address: null;
       displayValue: null;

@@ -14,17 +14,14 @@ import {
   useState,
 } from 'react';
 import { formatUnits } from 'viem';
+import { useAccount } from 'wagmi';
+import { usePortfolio } from '../../../hooks/usePortfolio';
 import type {
-  RecipientState,
   SendContextType,
   SendLifecycleStatus,
   SendProviderReact,
 } from '../types';
-import { usePortfolio } from '@/wallet/hooks/usePortfolio';
-import { useAccount } from 'wagmi';
-import { getName } from '@/identity';
-import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
-import { base } from 'viem/chains';
+import { useRecipientState } from '../hooks/useRecipientState';
 
 const emptyContext = {} as SendContextType;
 
@@ -39,14 +36,6 @@ export function useSendContext() {
 }
 
 export function SendProvider({ children }: SendProviderReact) {
-  // state for recipient address selection
-  const [recipientState, setRecipientState] = useState<RecipientState>({
-    phase: 'input',
-    input: '',
-    address: null,
-    displayValue: null,
-  });
-
   // state for token selection
   const [selectedToken, setSelectedToken] =
     useState<PortfolioTokenWithFiatValue | null>(null);
@@ -55,6 +44,14 @@ export function SendProvider({ children }: SendProviderReact) {
   );
   const [fiatAmount, setFiatAmount] = useState<string | null>(null);
   const [cryptoAmount, setCryptoAmount] = useState<string | null>(null);
+
+  const {
+    recipientState,
+    updateRecipientInput,
+    validateRecipientInput,
+    selectRecipient,
+    deselectRecipient,
+  } = useRecipientState();
 
   // lifecycle status
   const [lifecycleStatus, updateLifecycleStatus] =
@@ -118,22 +115,6 @@ export function SendProvider({ children }: SendProviderReact) {
     });
   }, [ethBalance, updateLifecycleStatus]);
 
-  useEffect(() => {
-    if (recipientState.phase === 'selected') {
-      getName({
-        address: recipientState.address,
-        chain: base,
-      }).then((name) => {
-        setRecipientState({
-          phase: recipientState.phase,
-          input: recipientState.input,
-          address: recipientState.address,
-          displayValue: name ?? getSlicedAddress(recipientState.address),
-        });
-      });
-    }
-  }, [recipientState.phase, recipientState.address, recipientState.input]);
-
   // fetch & set exchange rate
   const { isLoading: exchangeRateLoading, data: exchangeRateData } =
     usePriceQuote(
@@ -153,42 +134,6 @@ export function SendProvider({ children }: SendProviderReact) {
 
     return 1 / Number(exchangeRateData.priceQuotes[0].price);
   }, [exchangeRateData]);
-
-  // handlers
-  const handleRecipientInputChange = useCallback(() => {
-    if (recipientState.phase === 'selected') {
-      setRecipientState({
-        phase: 'validated',
-        input: recipientState.input,
-        address: recipientState.address,
-        displayValue: null,
-      });
-    } else {
-      setRecipientState({
-        ...recipientState,
-        displayValue: null,
-      });
-    }
-    updateLifecycleStatus({
-      statusName: 'selectingAddress',
-      statusData: {
-        isMissingRequiredField: true,
-      },
-    });
-  }, [recipientState, updateLifecycleStatus]);
-
-  const handleAddressSelection = useCallback(
-    async (selection: Extract<RecipientState, { phase: 'selected' }>) => {
-      setRecipientState(selection);
-      updateLifecycleStatus({
-        statusName: 'selectingToken',
-        statusData: {
-          isMissingRequiredField: true,
-        },
-      });
-    },
-    [updateLifecycleStatus],
-  );
 
   const handleTokenSelection = useCallback(
     (token: PortfolioTokenWithFiatValue) => {
@@ -251,10 +196,11 @@ export function SendProvider({ children }: SendProviderReact) {
     updateLifecycleStatus,
     ethBalance,
     recipientState,
-    setRecipientState,
-    handleRecipientSelection: handleAddressSelection,
+    updateRecipientInput,
+    validateRecipientInput,
+    selectRecipient,
+    deselectRecipient,
     selectedToken,
-    handleRecipientInputChange,
     handleTokenSelection,
     handleResetTokenSelection,
     fiatAmount,

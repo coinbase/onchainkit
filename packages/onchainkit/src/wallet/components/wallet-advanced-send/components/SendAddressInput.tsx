@@ -2,38 +2,16 @@
 
 import { TextInput } from '@/internal/components/TextInput';
 import { background, border, cn, color } from '@/styles/theme';
-import { useCallback } from 'react';
 import type { SendAddressInputProps } from '../types';
-import { resolveAddressInput } from '../utils/resolveAddressInput';
 import { useSendContext } from './SendProvider';
 
 export function SendAddressInput({ classNames }: SendAddressInputProps) {
-  const { recipientState, setRecipientState, handleRecipientInputChange } =
-    useSendContext();
-
-  const handleFocus = useCallback(() => {
-    if (recipientState.address) {
-      handleRecipientInputChange();
-    }
-  }, [recipientState.address, handleRecipientInputChange]);
-
-  const handleSetValue = useCallback(
-    (input: string) => {
-      setRecipientState((prev) => ({
-        ...prev,
-        input,
-      }));
-    },
-    [setRecipientState],
-  );
-
-  const handleChange = useCallback(
-    async (input: string) => {
-      const resolvedRecipientState = await resolveAddressInput(input);
-      setRecipientState(resolvedRecipientState);
-    },
-    [setRecipientState],
-  );
+  const {
+    recipientState,
+    updateRecipientInput,
+    validateRecipientInput,
+    deselectRecipient,
+  } = useSendContext();
 
   return (
     <div
@@ -52,9 +30,9 @@ export function SendAddressInput({ classNames }: SendAddressInputProps) {
         inputMode="text"
         placeholder="Basename, ENS, or Address"
         value={recipientState.displayValue ?? recipientState.input}
-        setValue={handleSetValue}
-        onChange={handleChange}
-        onFocus={handleFocus}
+        setValue={updateRecipientInput}
+        onChange={validateRecipientInput}
+        onFocus={deselectRecipient}
         aria-label="Input Receiver Address"
         className={cn(
           background.default,

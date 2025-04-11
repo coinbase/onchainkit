@@ -2,21 +2,21 @@
 
 import { Address, Avatar, Name } from '@/identity';
 import { background, border, cn, pressable } from '@/styles/theme';
+import { useCallback } from 'react';
 import { useWalletContext } from '../../WalletProvider';
 import type { SendAddressSelectorProps } from '../types';
 import { useSendContext } from './SendProvider';
-import { useCallback } from 'react';
 
 export function SendAddressSelector({ classNames }: SendAddressSelectorProps) {
   const { chain } = useWalletContext();
-  const { recipientState, handleRecipientSelection } = useSendContext();
+  const { recipientState, selectRecipient } = useSendContext();
 
   const handleSelectorClick = useCallback(async () => {
     if (!recipientState.address) {
       return;
     }
 
-    handleRecipientSelection({
+    selectRecipient({
       phase: 'selected',
       input: recipientState.input,
       address: recipientState.address,
@@ -26,7 +26,7 @@ export function SendAddressSelector({ classNames }: SendAddressSelectorProps) {
     recipientState.input,
     recipientState.address,
     recipientState.displayValue,
-    handleRecipientSelection,
+    selectRecipient,
   ]);
 
   if (!recipientState.address || !chain) {
