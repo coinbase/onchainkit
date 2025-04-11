@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.38.8
+
+### Patch Changes
+
+- a17d3f7: Prevented video button clicks from propagating and small style fixes
+- b1c2361: - **chore**: Add bidirectional resolution validation when batching `Basenames` and `ENS` names. By @cpcramer #000
+
 ## 0.38.7
 
 ### Patch Changes
