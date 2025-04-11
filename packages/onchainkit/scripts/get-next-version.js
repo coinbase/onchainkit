@@ -3,7 +3,7 @@ import process from 'process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { stripVTControlCharacters } from 'util';
+import { stripVTControlCharacters } from 'node:util';
 
 const packageName = '@coinbase/onchainkit';
 const onchainkitPath = 'packages/onchainkit';
