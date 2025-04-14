@@ -31,21 +31,34 @@ describe('useValidateManifest', () => {
     vi.mocked(verifyMessage).mockResolvedValue(true);
     mockReadContract.mockResolvedValue('0xabc123');
 
-    const { result } = renderHook(() =>
-      useValidateManifest({ accountAssociation: mockAccountAssociation }),
-    );
+    const { result } = renderHook(() => useValidateManifest());
 
-    await expect(result.current()).resolves.not.toThrow();
+    await expect(result.current(mockAccountAssociation)).resolves.not.toThrow();
+  });
+
+  it('should return manifest details', async () => {
+    vi.mocked(verifyMessage).mockResolvedValue(true);
+    mockReadContract.mockResolvedValue('0xabc123');
+
+    const { result } = renderHook(() => useValidateManifest());
+
+    await expect(result.current(mockAccountAssociation)).resolves.toEqual({
+      fid: 123,
+      type: 'custody',
+      key: '0xabc123',
+      custodyAddress: '0xabc123',
+      domain: 'example.com',
+    });
   });
 
   it('should throw error for invalid signature', async () => {
     vi.mocked(verifyMessage).mockResolvedValue(false);
 
-    const { result } = renderHook(() =>
-      useValidateManifest({ accountAssociation: mockAccountAssociation }),
-    );
+    const { result } = renderHook(() => useValidateManifest());
 
-    await expect(result.current()).rejects.toThrow('Invalid signature');
+    await expect(result.current(mockAccountAssociation)).rejects.toThrow(
+      'Invalid signature',
+    );
   });
 
   it('should throw error for non-custody type', async () => {
@@ -55,11 +68,9 @@ describe('useValidateManifest', () => {
         'eyJmaWQiOjEyMywidHlwZSI6Im5vdGN1c3RvZHkiLCJrZXkiOiIweGFiYzEyMyJ9', // type: "notcustody"
     };
 
-    const { result } = renderHook(() =>
-      useValidateManifest({ accountAssociation: invalidTypeAssociation }),
-    );
+    const { result } = renderHook(() => useValidateManifest());
 
-    await expect(result.current()).rejects.toThrow(
+    await expect(result.current(invalidTypeAssociation)).rejects.toThrow(
       'Invalid type: type must be "custody"',
     );
   });
@@ -68,18 +79,10 @@ describe('useValidateManifest', () => {
     vi.mocked(verifyMessage).mockResolvedValue(true);
     mockReadContract.mockResolvedValue('0xdifferentAddress');
 
-    const { result } = renderHook(() =>
-      useValidateManifest({ accountAssociation: mockAccountAssociation }),
+    const { result } = renderHook(() => useValidateManifest());
+
+    await expect(result.current(mockAccountAssociation)).rejects.toThrow(
+      'Invalid custody address',
     );
-
-    await expect(result.current()).rejects.toThrow('Invalid custody address');
-  });
-
-  it('should do nothing when accountAssociation is null', async () => {
-    const { result } = renderHook(() =>
-      useValidateManifest({ accountAssociation: null }),
-    );
-
-    await expect(result.current()).resolves.toBeUndefined();
   });
 });
