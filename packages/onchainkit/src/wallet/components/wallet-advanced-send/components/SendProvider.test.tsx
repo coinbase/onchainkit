@@ -161,7 +161,6 @@ describe('useSendContext', () => {
       address: '0x1234',
       displayValue: 'user.eth',
     });
-    // expect(result.current.lifecycleStatus.statusName).toBe('selectingToken');
   });
 
   it('should handle recipient input change', () => {
@@ -190,11 +189,6 @@ describe('useSendContext', () => {
       address: null,
       displayValue: null,
     });
-
-    // expect(result.current.lifecycleStatus.statusName).toBe('selectingAddress');
-    // expect(result.current.lifecycleStatus.statusData).toEqual({
-    //   isMissingRequiredField: true,
-    // });
   });
 
   it('should handle token selection', () => {

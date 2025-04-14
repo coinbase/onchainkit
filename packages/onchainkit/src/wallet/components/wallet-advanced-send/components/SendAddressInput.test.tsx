@@ -141,37 +141,4 @@ describe('SendAddressInput', () => {
       'new-input',
     );
   });
-
-  // it('calls resolveAddressInput and setValidatedInput when input changes', async () => {
-  //   vi.mocked(resolveAddressInput).mockResolvedValue({
-  //     address: '0x456',
-  //     displayValue: 'resolved.eth',
-  //   });
-
-  //   render(<SendAddressInput {...mockProps} />);
-
-  //   const { onChange } = vi.mocked(TextInput).mock.calls[0][0];
-
-  //   await onChange?.('new-input');
-
-  //   expect(resolveAddressInput).toHaveBeenCalledWith(null, 'new-input');
-  //   expect(mockProps.setValidatedInput).toHaveBeenCalledWith({
-  //     address: '0x456',
-  //     displayValue: 'resolved.eth',
-  //   });
-  // });
-
-  // it('uses validateAddressInput for input validation', () => {
-  //   vi.mocked(validateAddressInput).mockResolvedValue(
-  //     '0x1234567890123456789012345678901234567890',
-  //   );
-
-  //   render(<SendAddressInput classNames={mockClassNames} />);
-
-  //   const { inputValidator } = vi.mocked(TextInput).mock.calls[0][0];
-
-  //   inputValidator?.('test-input');
-
-  //   expect(validateAddressInput).toHaveBeenCalledWith('test-input');
-  // });
 });

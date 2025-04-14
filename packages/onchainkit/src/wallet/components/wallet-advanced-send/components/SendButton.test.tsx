@@ -408,7 +408,6 @@ describe('SendButton', () => {
 
     const { onComplete } = mockDefaultSendTxSuccessHandler.mock.calls[0][0];
 
-    // Call the callback
     onComplete();
 
     expect(setActiveFeature).toHaveBeenCalledWith(null);
