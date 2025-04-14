@@ -19,13 +19,14 @@ export { WalletAdvancedQrReceive } from './components/WalletAdvancedQrReceive';
 export { WalletAdvancedSwap } from './components/WalletAdvancedSwap';
 export { WalletAdvancedWalletActions } from './components/WalletAdvancedWalletActions';
 export { WalletModal } from './components/WalletModal';
-export { useWalletContext } from './components/WalletProvider';
+export { WalletProvider } from './components/WalletProvider';
 
 // Utils
 export { isValidAAEntrypoint } from './utils/isValidAAEntrypoint';
 export { isWalletACoinbaseSmartWallet } from './utils/isWalletACoinbaseSmartWallet';
 
 // Hooks
+export { useWalletContext } from './components/WalletProvider';
 export { usePortfolio } from './hooks/usePortfolio';
 
 // Types

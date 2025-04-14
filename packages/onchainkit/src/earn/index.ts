@@ -13,6 +13,7 @@ export { WithdrawBalance } from './components/WithdrawBalance';
 export { WithdrawButton } from './components/WithdrawButton';
 export { YieldDetails } from './components/YieldDetails';
 export { VaultDetails } from './components/VaultDetails';
+export { EarnProvider } from './components/EarnProvider';
 
 // Hooks
 export { useEarnContext } from './components/EarnProvider';
