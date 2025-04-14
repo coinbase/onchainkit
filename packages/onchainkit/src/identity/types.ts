@@ -143,6 +143,16 @@ export type GetAddress = {
 /**
  * Note: exported as public Type
  */
+export type GetAddresses = {
+  /** Array of names to resolve addresses for */
+  names: Array<string | Basename>;
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
+
+/**
+ * Note: exported as public Type
+ */
 export type GetAddressReturnType = Address | null;
 
 /**
@@ -281,6 +291,16 @@ export type UseAttestations = {
 export type UseAddressOptions = {
   /** The ENS or Basename for which the Ethereum address is to be fetched */
   name: string | Basename;
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseAddressesOptions = {
+  /** Array of ENS or Basenames to resolve addresses for */
+  names: Array<string | Basename>;
   /** Optional chain for domain resolution */
   chain?: Chain;
 };
