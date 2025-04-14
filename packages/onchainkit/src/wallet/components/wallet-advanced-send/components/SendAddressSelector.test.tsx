@@ -143,7 +143,7 @@ describe('SendAddressSelector', () => {
     );
   });
 
-  it('calls onClick when button is clicked', () => {
+  it('calls onClick when button is clicked and recipientState.address is not null', () => {
     mockUseSendContext.mockReturnValue({
       ...mockSendContext,
       recipientState: {
