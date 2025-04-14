@@ -1,5 +1,5 @@
 import { EarnDetails } from '@/earn/components/EarnDetails';
-import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
+import { MOCK_EARN_CONTEXT } from '@/earn/mocks/mocks.test';
 import { render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useEarnContext } from './EarnProvider';
