@@ -3,6 +3,7 @@
 import { Address, Avatar, Name } from '@/identity';
 import { background, border, cn, pressable } from '@/styles/theme';
 import { useCallback } from 'react';
+import type { Address as AddressType } from 'viem';
 import { useWalletContext } from '../../WalletProvider';
 import type { SendAddressSelectorProps } from '../types';
 import { useSendContext } from './SendProvider';
@@ -12,14 +13,10 @@ export function SendAddressSelector({ classNames }: SendAddressSelectorProps) {
   const { recipientState, selectRecipient } = useSendContext();
 
   const handleSelectorClick = useCallback(async () => {
-    if (!recipientState.address) {
-      return;
-    }
-
     selectRecipient({
       phase: 'selected',
       input: recipientState.input,
-      address: recipientState.address,
+      address: recipientState.address as AddressType,
       displayValue: recipientState.displayValue,
     });
   }, [
