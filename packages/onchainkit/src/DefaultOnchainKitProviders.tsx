@@ -68,6 +68,8 @@ function QueryClientProviderWithDefault({
     return providedQueryClient || new QueryClient();
   }, [providedQueryClient]);
 
+  if (providedQueryClient) return children;
+
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );

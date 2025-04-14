@@ -1,7 +1,7 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { http, WagmiProvider, createConfig } from 'wagmi';
+import { http, createConfig } from 'wagmi';
 import { DefaultOnchainKitProviders } from './DefaultOnchainKitProviders';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
 
@@ -49,8 +49,8 @@ vi.mock('./internal/hooks/useProviderDependencies', () => ({
 describe('DefaultOnchainKitProviders', () => {
   beforeEach(() => {
     (useProviderDependencies as Mock).mockReturnValue({
-      providedWagmiConfig: false,
-      providedQueryClient: false,
+      providedWagmiConfig: null,
+      providedQueryClient: null,
     });
   });
 
@@ -66,39 +66,54 @@ describe('DefaultOnchainKitProviders', () => {
     expect(screen.queryAllByTestId('query-client-provider')).toHaveLength(1);
   });
 
-  it('should not render duplicate default providers when a wagmi provider already exists', () => {
+  it('should not render duplicate WagmiProvider when a wagmi provider already exists', () => {
     (useProviderDependencies as Mock).mockReturnValue({
       providedWagmiConfig: wagmiConfig,
       providedQueryClient: null,
     });
 
     render(
-      <WagmiProvider config={wagmiConfig}>
-        <DefaultOnchainKitProviders>
-          <div>Test Child</div>
-        </DefaultOnchainKitProviders>
-      </WagmiProvider>,
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
     );
 
     expect(screen.getByText('Test Child')).toBeInTheDocument();
-    expect(screen.queryAllByTestId('wagmi-provider')).toHaveLength(1);
+    expect(screen.queryAllByTestId('wagmi-provider')).toHaveLength(0);
+    expect(screen.queryAllByTestId('query-client-provider')).toHaveLength(1);
   });
 
-  it('should not render duplicate default providers when a query client already exists', () => {
+  it('should not render duplicate QueryClientProvider when a query client already exists', () => {
     (useProviderDependencies as Mock).mockReturnValue({
       providedWagmiConfig: null,
       providedQueryClient: queryClient,
     });
 
     render(
-      <QueryClientProvider client={queryClient}>
-        <DefaultOnchainKitProviders>
-          <div>Test Child</div>
-        </DefaultOnchainKitProviders>
-      </QueryClientProvider>,
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
     );
 
     expect(screen.getByText('Test Child')).toBeInTheDocument();
-    expect(screen.queryAllByTestId('query-client-provider')).toHaveLength(1);
+    expect(screen.queryAllByTestId('wagmi-provider')).toHaveLength(1);
+    expect(screen.queryAllByTestId('query-client-provider')).toHaveLength(0);
+  });
+
+  it('should not render any default providers when both providers already exist', () => {
+    (useProviderDependencies as Mock).mockReturnValue({
+      providedWagmiConfig: wagmiConfig,
+      providedQueryClient: queryClient,
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    expect(screen.getByText('Test Child')).toBeInTheDocument();
+    expect(screen.queryAllByTestId('wagmi-provider')).toHaveLength(0);
+    expect(screen.queryAllByTestId('query-client-provider')).toHaveLength(0);
   });
 });
