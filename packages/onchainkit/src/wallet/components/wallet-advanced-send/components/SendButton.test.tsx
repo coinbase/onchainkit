@@ -109,7 +109,9 @@ describe('SendButton', () => {
   };
 
   const mockSendContext = {
-    selectedRecipient: {
+    recipientState: {
+      phase: 'selected',
+      input: '0x9876543210987654321098765432109876543210',
       address: '0x9876543210987654321098765432109876543210',
       displayValue: 'resolved.eth',
     },
