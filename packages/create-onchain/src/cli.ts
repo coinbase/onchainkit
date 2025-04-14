@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import pc from 'picocolors';
 import { createOnchainKitTemplate } from './onchainkit.js';
-import { createMiniKitTemplate, createMiniKitManifest } from './minikit.js';
+import { createMiniKitTemplate, createMiniKitManifest, validateMiniKitManifest } from './minikit.js';
 import { getVersion } from './utils.js';
 
 export function getArgs() {
@@ -9,6 +9,7 @@ export function getArgs() {
     isHelp: false,
     isVersion: false,
     isManifest: false,
+    isManifestValidate: false,
     isMiniKitSnake: false,
     isMiniKitBasic: false,
   };
@@ -29,6 +30,9 @@ export function getArgs() {
     case '--manifest':
       options.isManifest = true;
       break;
+    case '--manifest:validate':
+      options.isManifestValidate = true;
+      break;
     case '-m':
     case '--mini':
     case '--template=minikit-basic':
@@ -45,7 +49,7 @@ export function getArgs() {
 }
 
 async function init() {
-  const { isHelp, isVersion, isManifest, isMiniKitSnake, isMiniKitBasic } =
+  const { isHelp, isVersion, isManifest, isManifestValidate, isMiniKitSnake, isMiniKitBasic } =
     getArgs();
   if (isHelp) {
     console.log(
@@ -60,6 +64,7 @@ Options:
 --mini: Create the basic MiniKit template
 --template=<template>: Create a specific template
 --manifest: Generate your Mini-App manifest
+--manifest:validate: Validate your deployed Mini-App manifest
 --help: Show help
 
 Available Templates:
@@ -79,6 +84,11 @@ Available Templates:
 
   if (isManifest) {
     await createMiniKitManifest();
+    process.exit(0);
+  }
+
+  if (isManifestValidate) {
+    await validateMiniKitManifest();
     process.exit(0);
   }
 

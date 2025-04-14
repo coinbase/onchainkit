@@ -24,6 +24,94 @@ type WebpageData = {
   domain: string;
 };
 
+export async function validateMiniKitManifest() {
+  const app = express();
+  const server = createServer(app);
+  const wss = new WebSocketServer({ server });
+
+  app.get('/api/fetch-manifest', async (req, res) => {
+    const { domain } = req.query;
+    if (!domain) {
+      res.statusMessage = 'Missing domain parameter';
+      res.status(400).end();
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://${domain}/.well-known/farcaster.json`);
+      if (!response.ok) {
+        throw new Error(`status: ${response.status}`);
+      }
+      const data = await response.json();
+      res.json(data);
+    } catch (error) {
+      res.statusMessage = `Failed to fetch manifest: ${error}`;
+      res.status(500).end();
+    }
+  });
+
+  app.get('/api/fetch-frame-meta', async (req, res) => {
+    const { domain } = req.query;
+    if (!domain) {
+      res.statusMessage = 'Missing domain parameter';
+      res.status(400).end();
+      return;
+    }
+
+    try {
+      const response = await fetch(domain as string);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const html = await response.text();
+
+      const metaRegex =
+        /<meta[^>]*name=["']fc:frame["'][^>]*content=["']([^"']+)["'][^>]*>/;
+      const match = html.match(metaRegex);
+
+      if (!match) {
+        res.statusMessage = 'No frame metadata found';
+        res.status(404).end();
+        return;
+      }
+
+      const content = match[1].replace(/&quot;/g, '"');
+      const frameMetadata = JSON.parse(content);
+
+      res.json(frameMetadata);
+    } catch {
+      res.statusMessage = 'Failed to fetch frame metadata';
+      res.status(500).end();
+    }
+  });
+
+  app.use(
+    express.static(
+      path.resolve(fileURLToPath(import.meta.url), '../../manifest'),
+    ),
+  );
+
+  // add catch-all for client-side routing
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/')) return next();
+    res.sendFile(path.resolve(fileURLToPath(import.meta.url), '../../manifest/index.html'));
+  });
+
+  return new Promise(() => {
+    wss.on('connection', (ws: WebSocket) => {
+      ws.on('close', () => {
+        console.log('\nBrowser window closed, exiting...');
+        server.close();
+        process.exit(0);
+      });
+    });
+
+    server.listen(3333, () => {
+      open('http://localhost:3333/validate');
+    });
+  });
+};
+
 async function getWebpageData(): Promise<WebpageData> {
   const app = express();
   const server = createServer(app);
@@ -41,6 +129,12 @@ async function getWebpageData(): Promise<WebpageData> {
         const parsedData = JSON.parse(data.toString());
         server.close();
         resolve(parsedData);
+      });
+
+      ws.on('close', () => {
+        console.log('\nBrowser window closed, exiting...');
+        server.close();
+        process.exit(0);
       });
     });
 
@@ -240,8 +334,8 @@ REDIS_TOKEN=`,
           name: 'setUpFrame',
           message: pc.reset('Set up now?'),
           initial: true,
-          active: 'yes',
-          inactive: 'no',
+          active: 'no',
+          inactive: 'yes',
         },
       ],
       {

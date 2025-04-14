@@ -1,22 +1,26 @@
+import { useCallback } from 'react';
 import { createPublicClient, Hex, http, verifyMessage } from 'viem';
 import { optimism } from 'viem/chains';
-import type { AccountAssociation } from './useSignManifest';
 import { fromBase64Url } from '../utilities/base64';
-import { ID_REGISTRY_ABI } from '../constants';
-import { ID_REGISTRY_ADDRESS } from '../constants';
+import { ID_REGISTRY_ABI, ID_REGISTRY_ADDRESS } from '../constants';
+import { AccountAssociation } from '../types';
 
-type ValidateManifestProps = {
-  accountAssociation: AccountAssociation | null;
+type ValidateManifestReturnType = (
+  accountAssociation: AccountAssociation,
+) => Promise<ValidateManifestResult | undefined>;
+
+export type ValidateManifestResult = {
+  fid: number;
+  type: string;
+  key: `0x${string}`;
+  custodyAddress: `0x${string}`;
+  domain: string;
 };
 
-export function useValidateManifest({
-  accountAssociation,
-}: ValidateManifestProps) {
-  return async function validateManifest() {
-    if (!accountAssociation) {
-      return;
-    }
-
+export function useValidateManifest(): ValidateManifestReturnType {
+  return useCallback(async function validateManifest(
+    accountAssociation: AccountAssociation,
+  ) {
     const {
       header: encodedHeader,
       payload: encodedPayload,
@@ -30,6 +34,7 @@ export function useValidateManifest({
       throw new Error('Invalid type: type must be "custody"');
     }
 
+    const { domain } = JSON.parse(fromBase64Url(encodedPayload));
     const signature = fromBase64Url(encodedSignature) as Hex;
     const valid = await verifyMessage({
       address: key,
@@ -56,5 +61,13 @@ export function useValidateManifest({
     if (resolvedCustodyAddress.toLowerCase() !== key.toLowerCase()) {
       throw new Error('Invalid custody address');
     }
-  };
+
+    return {
+      fid,
+      type,
+      key,
+      custodyAddress: resolvedCustodyAddress,
+      domain,
+    };
+  }, []);
 }
