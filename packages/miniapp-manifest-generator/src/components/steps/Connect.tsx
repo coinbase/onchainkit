@@ -12,8 +12,42 @@ import {
   WalletDropdownDisconnect,
 } from '@coinbase/onchainkit/wallet';
 import { Step } from '../Step';
+import { useEffect } from 'react';
 
 export function Connect() {
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.addedNodes.length) {
+          const modal = document.querySelector(
+            '[data-testid="ockModalOverlay"]',
+          );
+          if (modal) {
+            const signUpButton = modal.querySelector<HTMLElement>(
+              'div > div.flex.w-full.flex-col.gap-3 > button:first-of-type',
+            );
+            const orContinueDiv = modal.querySelector<HTMLElement>(
+              'div > div.flex.w-full.flex-col.gap-3 > div.relative',
+            );
+            if (signUpButton) {
+              signUpButton.style.display = 'none';
+            }
+            if (orContinueDiv) {
+              orContinueDiv.style.display = 'none';
+            }
+          }
+        }
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <Step
       number={1}
