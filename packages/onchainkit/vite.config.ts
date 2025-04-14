@@ -43,6 +43,7 @@ export default defineConfig({
   build: {
     minify: false,
     sourcemap: true,
+    emptyOutDir: process.env.NODE_ENV === 'development' ? false : true,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es'],
