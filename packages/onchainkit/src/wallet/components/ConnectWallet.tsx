@@ -32,7 +32,7 @@ export function ConnectWallet({
   children,
   className,
   onConnect,
-  disconnectedLabel,
+  disconnectedLabel = 'Connect Wallet',
 }: ConnectWalletReact) {
   const { config = { wallet: { display: undefined } } } = useOnchainKit();
 
