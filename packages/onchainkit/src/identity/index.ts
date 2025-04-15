@@ -8,6 +8,7 @@ export { Name } from './components/Name';
 export { Socials } from './components/Socials';
 export { isBasename } from './utils/isBasename';
 export { IdentityCard } from './components/IdentityCard';
+export { BuilderScoreCard } from './components/BuilderScoreCard';
 export { getAddress } from './utils/getAddress';
 export { getAddresses } from './utils/getAddresses';
 export { getAttestations } from './utils/getAttestations';
