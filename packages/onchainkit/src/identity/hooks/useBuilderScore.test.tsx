@@ -93,7 +93,7 @@ describe('useBuilderScore', () => {
   });
 
   it('handles error state correctly', async () => {
-    const errorMessage = 'Error fetching builder score';
+    const errorMessage = 'Failed to fetch builder score: Unauthorized';
     (getBuilderScore as Mock).mockRejectedValue(new Error(errorMessage));
 
     const { result } = renderHook(

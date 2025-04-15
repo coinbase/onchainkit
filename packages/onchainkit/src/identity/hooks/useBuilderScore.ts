@@ -9,7 +9,7 @@ import type {
 
 /**
  * A React hook that leverages the `@tanstack/react-query` for fetching and caching
- * builder scores from the Talent Protocol smart contract on Base.
+ * builder scores via the Coinbase Developer Platform API.
  *
  * @returns An object containing:
  *  - `data`: The fetched builder score for the provided address

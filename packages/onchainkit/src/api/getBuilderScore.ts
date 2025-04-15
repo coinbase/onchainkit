@@ -1,24 +1,11 @@
 import type { Address } from 'viem';
-import { createPublicClient, http } from 'viem';
-import { base } from 'viem/chains';
 import type { BuilderScore } from '../identity/types';
 
-// Builder Score contract on Base
-const BUILDER_SCORE_CONTRACT = '0xBBFeDA7c4d8d9Df752542b03CdD715F790B32D0B';
-
-// Simplified ABI for just the getScoreByAddress function
-const builderScoreABI = [
-  {
-    inputs: [{ name: 'userAddress', type: 'address' }],
-    name: 'getScoreByAddress',
-    outputs: [{ name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-] as const;
+// Builder Score API endpoint
+const BUILDER_SCORE_API_URL = 'https://api.developer.coinbase.com/builderscore';
 
 /**
- * Fetches a builder score from the Talent Protocol smart contract on Base
+ * Fetches a builder score from the Builder Score API endpoint
  *
  * @param address - The wallet address to fetch the builder score for
  * @returns The builder score data
@@ -29,27 +16,20 @@ export async function getBuilderScore(address: Address): Promise<BuilderScore> {
   }
 
   try {
-    const client = createPublicClient({
-      chain: base,
-      transport: http(),
-    });
+    const response = await fetch(`${BUILDER_SCORE_API_URL}?address=${address}`);
 
-    const scoreResult = await client.readContract({
-      address: BUILDER_SCORE_CONTRACT as Address,
-      abi: builderScoreABI,
-      functionName: 'getScoreByAddress',
-      args: [address],
-    });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch builder score: ${response.statusText}`);
+    }
 
-    // Convert BigInt to number
-    const points = Number(scoreResult);
+    const data = await response.json();
 
     return {
-      points,
-      last_calculated_at: new Date().toISOString(),
+      points: data.points || 0,
+      last_calculated_at: data.last_calculated_at || new Date().toISOString(),
     };
   } catch (error) {
-    console.error('Error fetching builder score from contract:', error);
+    console.error('Error fetching builder score:', error);
     throw error;
   }
 }

@@ -48,7 +48,7 @@ describe('BuilderScoreCard', () => {
   it('displays error message when fetching fails', async () => {
     // Mock error response
     vi.mocked(getBuilderScoreModule.getBuilderScore).mockRejectedValue(
-      new Error('Failed to fetch from contract'),
+      new Error('Failed to fetch builder score: Unauthorized'),
     );
 
     render(<BuilderScoreCard address={mockAddress} />);
