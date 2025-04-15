@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { type PropsWithChildren, useMemo } from 'react';
-import { WagmiProvider } from 'wagmi';
+import { Config, WagmiProvider } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { createWagmiConfig } from './core/createWagmiConfig';
 import type { CreateWagmiConfigParams } from './core/types';
@@ -23,37 +23,54 @@ export function DefaultOnchainKitProviders({
   const { providedWagmiConfig, providedQueryClient } =
     useProviderDependencies();
 
-  const defaultConfig = useMemo(() => {
-    // IMPORTANT: Don't create a new Wagmi configuration if one already exists
-    // This prevents the user-provided WagmiConfig from being overridden
-    return (
-      providedWagmiConfig ||
-      createWagmiConfig({
-        apiKey,
-        appName,
-        appLogoUrl,
-        connectors,
-      })
-    );
-  }, [apiKey, appName, appLogoUrl, connectors, providedWagmiConfig]);
+  return (
+    <WagmiProviderWithDefault
+      apiKey={apiKey}
+      appName={appName}
+      appLogoUrl={appLogoUrl}
+      connectors={connectors}
+      providedWagmiConfig={providedWagmiConfig}
+    >
+      <QueryClientProviderWithDefault providedQueryClient={providedQueryClient}>
+        {children}
+      </QueryClientProviderWithDefault>
+    </WagmiProviderWithDefault>
+  );
+}
 
-  const defaultQueryClient = useMemo(() => {
-    // IMPORTANT: Don't create a new QueryClient if one already exists
-    // This prevents the user-provided QueryClient from being overridden
+function WagmiProviderWithDefault({
+  apiKey,
+  appName,
+  appLogoUrl,
+  connectors,
+  children,
+  providedWagmiConfig,
+}: PropsWithChildren<CreateWagmiConfigParams> & {
+  providedWagmiConfig: Config | null;
+}) {
+  if (providedWagmiConfig) return children;
+
+  const config = createWagmiConfig({
+    apiKey,
+    appName,
+    appLogoUrl,
+    connectors,
+  });
+
+  return <WagmiProvider config={config}>{children}</WagmiProvider>;
+}
+
+function QueryClientProviderWithDefault({
+  children,
+  providedQueryClient,
+}: PropsWithChildren<{ providedQueryClient: QueryClient | null }>) {
+  const queryClient = useMemo(() => {
     return providedQueryClient || new QueryClient();
   }, [providedQueryClient]);
 
-  // If both dependencies are missing, return a context with default parent providers
-  // If only one dependency is provided, expect the user to also provide the missing one
-  if (!providedWagmiConfig && !providedQueryClient) {
-    return (
-      <WagmiProvider config={defaultConfig}>
-        <QueryClientProvider client={defaultQueryClient}>
-          {children}
-        </QueryClientProvider>
-      </WagmiProvider>
-    );
-  }
+  if (providedQueryClient) return children;
 
-  return children;
+  return (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
 }
