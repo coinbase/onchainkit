@@ -65,7 +65,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     return (
       <ConnectWallet
         className={cn('w-full', className)}
-        text="Connect to withdraw"
+        disconnectedLabel="Connect to withdraw"
       />
     );
   }

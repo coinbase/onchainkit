@@ -67,7 +67,7 @@ export function DepositButton({ className }: DepositButtonReact) {
     return (
       <ConnectWallet
         className={cn('w-full', className)}
-        text="Connect to deposit"
+        disconnectedLabel="Connect to deposit"
       />
     );
   }

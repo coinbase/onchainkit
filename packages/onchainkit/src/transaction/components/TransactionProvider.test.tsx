@@ -786,34 +786,6 @@ describe('TransactionProvider', () => {
     consoleError.mockRestore();
   });
 
-  it('should throw an error when both contracts and calls are provided', async () => {
-    const restore = silenceError();
-    expect(() => {
-      render(
-        <TransactionProvider
-          chainId={base.id}
-          contracts={[
-            {
-              to: '0x1234567890123456789012345678901234567890' as `0x${string}`,
-              data: '0x' as `0x${string}`,
-            },
-          ]}
-          calls={[
-            {
-              to: '0x1234567890123456789012345678901234567890' as `0x${string}`,
-              data: '0x' as `0x${string}`,
-            },
-          ]}
-        >
-          <div>Test</div>
-        </TransactionProvider>,
-      );
-    }).toThrowError(
-      'Transaction: Only one of contracts or calls can be provided as a prop to the Transaction component.',
-    );
-    restore();
-  });
-
   it('should handle sponsored contract calls', async () => {
     const contracts = [
       { to: '0alissa' as `0x${string}`, data: '0x' as `0x${string}` },

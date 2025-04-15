@@ -77,7 +77,9 @@ export function BuyButton() {
   }, [statusName, isDropdownOpen]);
 
   if (!isDisabled && !address) {
-    return <ConnectWallet text="Buy" className="h-12 w-24 min-w-24" />;
+    return (
+      <ConnectWallet disconnectedLabel="Buy" className="h-12 w-24 min-w-24" />
+    );
   }
 
   return (
