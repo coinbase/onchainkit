@@ -9,7 +9,6 @@ export function TransactionDefault({
   capabilities,
   chainId,
   className,
-  contracts,
   disabled,
   onError,
   onStatus,
@@ -22,7 +21,6 @@ export function TransactionDefault({
       chainId={chainId}
       className={className}
       disabled={disabled}
-      contracts={contracts}
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}

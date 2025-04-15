@@ -14,8 +14,6 @@ export type ConnectButtonReact = {
   connectWalletText: ReactNode | null;
   /** Function to call when the button is clicked */
   onClick: () => void;
-  /** Optional text override for button */
-  text: string;
 };
 
 /**
@@ -26,8 +24,6 @@ export type ConnectWalletReact = {
   children?: React.ReactNode;
   /** Optional className override for button element */
   className?: string;
-  /** @deprecated Prefer `ConnectWalletText component` */
-  text?: string;
   /** Optional callback function to execute when the wallet is connected. */
   onConnect?: () => void;
   /** Optional disconnected display override */
