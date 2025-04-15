@@ -8,6 +8,7 @@ export { getTokenDetails } from './getTokenDetails';
 export { getTokens } from './getTokens';
 export { getPortfolios } from './getPortfolios';
 export { getPriceQuote } from './getPriceQuote';
+export { getBuilderScore } from './getBuilderScore';
 export type {
   APIError,
   BuildMintTransactionParams,

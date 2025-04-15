@@ -62,6 +62,8 @@ const COMPONENT_CONFIG: Partial<
     IsSponsored,
     NFTOptions,
   ],
+  // [OnchainKitComponent.IdentityCard]: [Chain],
+  [OnchainKitComponent.BuilderScoreCard]: [Chain],
   [OnchainKitComponent.Earn]: [EarnOptions],
   [OnchainKitComponent.Signature]: [Chain],
 };
