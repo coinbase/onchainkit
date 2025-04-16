@@ -5,7 +5,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ETH_REQUIRED_FOR_SEND } from '../constants';
 import type { SendContextType } from '../types';
 import { Send } from './Send';
-import { SendAddressSelection } from './SendAddressSelection';
+import { SendAddressInput } from './SendAddressInput';
+import { SendAddressSelector } from './SendAddressSelector';
 import { SendAmountInput } from './SendAmountInput';
 import { SendButton } from './SendButton';
 import { SendFundWallet } from './SendFundWallet';
@@ -16,7 +17,8 @@ import { SendTokenSelector } from './SendTokenSelector';
 // Mock all dependencies
 vi.mock('@/internal/components/Skeleton');
 vi.mock('@/internal/hooks/useTheme');
-vi.mock('./SendAddressSelection');
+vi.mock('./SendAddressInput');
+vi.mock('./SendAddressSelector');
 vi.mock('./SendAmountInput');
 vi.mock('./SendButton');
 vi.mock('./SendFundWallet');
@@ -49,8 +51,15 @@ describe('Send', () => {
   it('renders with SendProvider and applies correct classes', () => {
     vi.mocked(useSendContext).mockReturnValue({
       isInitialized: false,
+      lifecycleStatus: expect.any(Object),
+      updateLifecycleStatus: expect.any(Function),
       ethBalance: 0,
-      selectedRecipient: { address: null, displayValue: '' },
+      recipientState: {
+        phase: 'input',
+        input: '',
+        address: null,
+        displayValue: null,
+      },
       selectedToken: null,
     } as SendContextType);
 
@@ -65,7 +74,12 @@ describe('Send', () => {
     vi.mocked(useSendContext).mockReturnValue({
       isInitialized: false,
       ethBalance: 0,
-      selectedRecipient: { address: null, displayValue: '' },
+      recipientState: {
+        phase: 'input',
+        input: '',
+        address: null,
+        displayValue: null,
+      },
       selectedToken: null,
     } as SendContextType);
 
@@ -93,7 +107,12 @@ describe('Send', () => {
       vi.mocked(useSendContext).mockReturnValue({
         isInitialized: false,
         ethBalance: undefined,
-        selectedRecipient: { address: null, displayValue: '' },
+        recipientState: {
+          phase: 'input',
+          input: '',
+          address: null,
+          displayValue: null,
+        },
         selectedToken: null,
       } as SendContextType);
 
@@ -115,30 +134,37 @@ describe('Send', () => {
 
       expect(SendHeader).toHaveBeenCalled();
       expect(SendFundWallet).toHaveBeenCalled();
-      expect(SendAddressSelection).not.toHaveBeenCalled();
+      expect(SendAddressInput).not.toHaveBeenCalled();
     });
 
-    it('renders SendAddressSelection when wallet has sufficient ETH', () => {
+    it('renders SendAddressInput when wallet has sufficient ETH', () => {
       vi.mocked(useSendContext).mockReturnValue({
         isInitialized: true,
         ethBalance: ETH_REQUIRED_FOR_SEND + 0.0000000001, // de-minimis amount above ETH_REQUIRED_FOR_SEND
-        selectedRecipient: { address: null, displayValue: '' },
+        recipientState: {
+          phase: 'input',
+          input: '',
+          address: null,
+          displayValue: null,
+        },
         selectedToken: null,
       } as SendContextType);
 
       render(<Send />);
 
       expect(SendHeader).toHaveBeenCalled();
-      expect(SendAddressSelection).toHaveBeenCalled();
+      expect(SendAddressInput).toHaveBeenCalled();
       expect(SendFundWallet).not.toHaveBeenCalled();
       expect(SendTokenSelector).not.toHaveBeenCalled();
     });
 
-    it('renders SendTokenSelector when recipient address is selected but token is not', () => {
+    it('renders SendAddressSelector when recipient input is validated but no address has been selected', () => {
       vi.mocked(useSendContext).mockReturnValue({
         isInitialized: true,
         ethBalance: ETH_REQUIRED_FOR_SEND + 0.0000000001, // de-minimis amount above ETH_REQUIRED_FOR_SEND
-        selectedRecipient: {
+        recipientState: {
+          phase: 'validated',
+          input: 'test.base.eth',
           address: '0x1234567890123456789012345678901234567890' as Address,
           displayValue: '0x1234567890123456789012345678901234567890',
         },
@@ -148,7 +174,29 @@ describe('Send', () => {
       render(<Send />);
 
       expect(SendHeader).toHaveBeenCalled();
-      expect(SendAddressSelection).toHaveBeenCalled();
+      expect(SendAddressInput).toHaveBeenCalled();
+      expect(SendAddressSelector).toHaveBeenCalled();
+      expect(SendFundWallet).not.toHaveBeenCalled();
+      expect(SendTokenSelector).not.toHaveBeenCalled();
+    });
+
+    it('renders SendTokenSelector when recipient address is selected but token is not', () => {
+      vi.mocked(useSendContext).mockReturnValue({
+        isInitialized: true,
+        ethBalance: ETH_REQUIRED_FOR_SEND + 0.0000000001, // de-minimis amount above ETH_REQUIRED_FOR_SEND
+        recipientState: {
+          phase: 'selected',
+          input: 'test.base.eth',
+          address: '0x1234567890123456789012345678901234567890' as Address,
+          displayValue: '0x1234567890123456789012345678901234567890',
+        },
+        selectedToken: null,
+      } as SendContextType);
+
+      render(<Send />);
+
+      expect(SendHeader).toHaveBeenCalled();
+      expect(SendAddressInput).toHaveBeenCalled();
       expect(SendTokenSelector).toHaveBeenCalled();
       expect(SendAmountInput).not.toHaveBeenCalled();
     });
@@ -157,7 +205,9 @@ describe('Send', () => {
       vi.mocked(useSendContext).mockReturnValue({
         isInitialized: true,
         ethBalance: ETH_REQUIRED_FOR_SEND + 0.0000001,
-        selectedRecipient: {
+        recipientState: {
+          phase: 'selected',
+          input: 'test.base.eth',
           address: '0x1234567890123456789012345678901234567890' as Address,
           displayValue: '0x1234567890123456789012345678901234567890',
         },
@@ -167,7 +217,7 @@ describe('Send', () => {
       render(<Send />);
 
       expect(SendHeader).toHaveBeenCalled();
-      expect(SendAddressSelection).toHaveBeenCalled();
+      expect(SendAddressInput).toHaveBeenCalled();
       expect(SendAmountInput).toHaveBeenCalled();
       expect(SendTokenSelector).toHaveBeenCalled();
       expect(SendButton).toHaveBeenCalled();

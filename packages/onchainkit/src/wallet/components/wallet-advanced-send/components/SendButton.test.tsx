@@ -109,7 +109,9 @@ describe('SendButton', () => {
   };
 
   const mockSendContext = {
-    selectedRecipient: {
+    recipientState: {
+      phase: 'selected',
+      input: '0x9876543210987654321098765432109876543210',
       address: '0x9876543210987654321098765432109876543210',
       displayValue: 'resolved.eth',
     },
@@ -406,7 +408,6 @@ describe('SendButton', () => {
 
     const { onComplete } = mockDefaultSendTxSuccessHandler.mock.calls[0][0];
 
-    // Call the callback
     onComplete();
 
     expect(setActiveFeature).toHaveBeenCalledWith(null);

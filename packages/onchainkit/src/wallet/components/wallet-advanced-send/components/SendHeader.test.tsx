@@ -44,10 +44,15 @@ describe('SendHeader', () => {
   };
 
   const mockSendContext = {
-    selectedRecipient: { address: null, displayValue: '' },
+    recipientState: {
+      phase: 'input',
+      input: '',
+      address: null,
+      displayValue: null,
+    },
     selectedToken: null,
     handleResetTokenSelection: vi.fn(),
-    handleRecipientInputChange: vi.fn(),
+    deselectRecipient: vi.fn(),
   };
 
   beforeEach(() => {
@@ -80,7 +85,12 @@ describe('SendHeader', () => {
 
     mockUseSendContext.mockReturnValue({
       ...mockSendContext,
-      selectedRecipient: { address: '0x123', displayValue: 'user.eth' },
+      recipientState: {
+        phase: 'selected',
+        input: '0x1234567890123456789012345678901234567890',
+        address: '0x1234567890123456789012345678901234567890',
+        displayValue: 'user.eth',
+      },
     });
 
     render(<SendHeader classNames={customClassNames} />);
@@ -101,7 +111,9 @@ describe('SendHeader', () => {
   it('shows back button when recipient address is selected', () => {
     mockUseSendContext.mockReturnValue({
       ...mockSendContext,
-      selectedRecipient: {
+      recipientState: {
+        phase: 'selected',
+        input: '0x1234567890123456789012345678901234567890',
         address: '0x1234567890123456789012345678901234567890',
         displayValue: 'user.eth',
       },
@@ -126,7 +138,12 @@ describe('SendHeader', () => {
   it('calls handleResetTokenSelection when back button is clicked and token is selected', () => {
     mockUseSendContext.mockReturnValue({
       ...mockSendContext,
-      selectedRecipient: { address: '0x123', displayValue: 'user.eth' },
+      recipientState: {
+        phase: 'selected',
+        input: '0x1234567890123456789012345678901234567890',
+        address: '0x1234567890123456789012345678901234567890',
+        displayValue: 'user.eth',
+      },
       selectedToken: { symbol: 'ETH' },
     });
 
@@ -136,13 +153,18 @@ describe('SendHeader', () => {
     fireEvent.click(backButton);
 
     expect(mockSendContext.handleResetTokenSelection).toHaveBeenCalled();
-    expect(mockSendContext.handleRecipientInputChange).not.toHaveBeenCalled();
+    expect(mockSendContext.deselectRecipient).not.toHaveBeenCalled();
   });
 
-  it('calls handleRecipientInputChange when back button is clicked and no token is selected', () => {
+  it('calls deselectRecipient when back button is clicked and no token is selected', () => {
     mockUseSendContext.mockReturnValue({
       ...mockSendContext,
-      selectedRecipient: { address: '0x123', displayValue: 'user.eth' },
+      recipientState: {
+        phase: 'selected',
+        input: '0x1234567890123456789012345678901234567890',
+        address: '0x1234567890123456789012345678901234567890',
+        displayValue: 'user.eth',
+      },
       selectedToken: null,
     });
 
@@ -151,7 +173,7 @@ describe('SendHeader', () => {
     const backButton = screen.getByTestId('mock-back-arrow');
     fireEvent.click(backButton);
 
-    expect(mockSendContext.handleRecipientInputChange).toHaveBeenCalled();
+    expect(mockSendContext.deselectRecipient).toHaveBeenCalled();
     expect(mockSendContext.handleResetTokenSelection).not.toHaveBeenCalled();
   });
 });

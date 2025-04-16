@@ -1,5 +1,5 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import type { Address, Chain, TransactionReceipt } from 'viem';
+import type { Address, TransactionReceipt } from 'viem';
 import type { APIError, PortfolioTokenWithFiatValue } from '../../../api/types';
 import type { LifecycleStatusUpdate } from '../../../internal/types';
 
@@ -29,11 +29,20 @@ export type SendContextType = {
 
   // Recipient Address Context
   /** The selected recipient address */
-  selectedRecipient: Recipient;
-  /** Handler for the selection of a recipient address */
-  handleRecipientSelection: (selection: Recipient) => void;
+  recipientState: RecipientState;
   /** Handler for the change of a recipient address */
-  handleRecipientInputChange: () => void;
+  updateRecipientInput: (input: string) => void;
+  validateRecipientInput: (input: string) => void;
+  /** Handler for the selection of a recipient address */
+  selectRecipient: (
+    selection: Extract<
+      RecipientState,
+      {
+        phase: 'selected';
+      }
+    >,
+  ) => Promise<void>;
+  deselectRecipient: () => void;
 
   // Token Context
   /** The token selected by the user for the send transaction */
@@ -62,12 +71,25 @@ export type SendContextType = {
   handleCryptoAmountChange: (value: string) => void;
 };
 
-export type Recipient = {
-  /** The value to display in the input field of the recipient address */
-  displayValue: string;
-  /** The address of the recipient */
-  address: Address | null;
-};
+export type RecipientState =
+  | {
+      phase: 'input';
+      input: string;
+      address: null;
+      displayValue: null;
+    }
+  | {
+      phase: 'validated';
+      input: string;
+      address: Address;
+      displayValue: string | null;
+    }
+  | {
+      phase: 'selected';
+      input: string;
+      address: Address;
+      displayValue: string | null;
+    };
 
 export type SendLifecycleStatus =
   | {
@@ -123,11 +145,6 @@ export type SendLifecycleStatus =
     };
 
 export type SendAddressInputProps = {
-  selectedRecipient: Recipient;
-  recipientInput: string;
-  setRecipientInput: Dispatch<SetStateAction<string>>;
-  setValidatedInput: Dispatch<SetStateAction<Recipient>>;
-  handleRecipientInputChange: () => void;
   classNames?: {
     container?: string;
     label?: string;
@@ -136,9 +153,6 @@ export type SendAddressInputProps = {
 };
 
 export type SendAddressSelectorProps = {
-  address: Address | null;
-  senderChain: Chain | null | undefined;
-  onClick: () => Promise<void>;
   classNames?: {
     container?: string;
     avatar?: string;

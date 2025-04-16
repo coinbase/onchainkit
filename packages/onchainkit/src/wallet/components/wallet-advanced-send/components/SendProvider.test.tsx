@@ -74,10 +74,12 @@ describe('useSendContext', () => {
       lifecycleStatus: expect.any(Object),
       updateLifecycleStatus: expect.any(Function),
       ethBalance: expect.any(Number),
-      selectedRecipient: expect.any(Object),
-      handleRecipientSelection: expect.any(Function),
+      recipientState: expect.any(Object),
+      updateRecipientInput: expect.any(Function),
+      validateRecipientInput: expect.any(Function),
+      selectRecipient: expect.any(Function),
+      deselectRecipient: expect.any(Function),
       selectedToken: null,
-      handleRecipientInputChange: expect.any(Function),
       handleTokenSelection: expect.any(Function),
       handleResetTokenSelection: expect.any(Function),
       fiatAmount: null,
@@ -145,17 +147,20 @@ describe('useSendContext', () => {
     });
 
     act(() => {
-      result.current.handleRecipientSelection({
-        displayValue: 'user.eth',
+      result.current.selectRecipient({
+        phase: 'selected',
+        input: '0x1234',
         address: '0x1234',
+        displayValue: 'user.eth',
       });
     });
 
-    expect(result.current.selectedRecipient).toEqual({
-      displayValue: 'user.eth',
+    expect(result.current.recipientState).toEqual({
+      phase: 'selected',
+      input: '0x1234',
       address: '0x1234',
+      displayValue: 'user.eth',
     });
-    expect(result.current.lifecycleStatus.statusName).toBe('selectingToken');
   });
 
   it('should handle recipient input change', () => {
@@ -164,29 +169,25 @@ describe('useSendContext', () => {
     });
 
     act(() => {
-      result.current.handleRecipientSelection({
-        displayValue: 'user.eth',
-        address: '0x1234',
-      });
+      result.current.updateRecipientInput('0x1234');
     });
 
-    expect(result.current.selectedRecipient).toEqual({
-      displayValue: 'user.eth',
-      address: '0x1234',
+    expect(result.current.recipientState).toEqual({
+      phase: 'input',
+      input: '0x1234',
+      address: null,
+      displayValue: null,
     });
 
     act(() => {
-      result.current.handleRecipientInputChange();
+      result.current.deselectRecipient();
     });
 
-    expect(result.current.selectedRecipient).toEqual({
-      displayValue: '',
+    expect(result.current.recipientState).toEqual({
+      phase: 'input',
+      input: '0x1234',
       address: null,
-    });
-
-    expect(result.current.lifecycleStatus.statusName).toBe('selectingAddress');
-    expect(result.current.lifecycleStatus.statusData).toEqual({
-      isMissingRequiredField: true,
+      displayValue: null,
     });
   });
 

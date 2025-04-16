@@ -2,9 +2,8 @@ import { TextInput } from '@/internal/components/TextInput';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { resolveAddressInput } from '../utils/resolveAddressInput';
-import { validateAddressInput } from '../utils/validateAddressInput';
 import { SendAddressInput } from './SendAddressInput';
+import { useSendContext } from './SendProvider';
 
 vi.mock('@/internal/components/TextInput', () => ({
   TextInput: vi.fn(() => <input data-testid="mock-text-input" />),
@@ -18,26 +17,38 @@ vi.mock('../utils/validateAddressInput', () => ({
   validateAddressInput: vi.fn(),
 }));
 
+vi.mock('./SendProvider', () => ({
+  useSendContext: vi.fn(),
+}));
+
+const mockClassNames = {
+  container: 'custom-container',
+  label: 'custom-label',
+  input: 'custom-input',
+};
+
+const mockSendContext = {
+  recipientState: {
+    phase: 'input',
+    input: '',
+    address: null,
+    displayValue: null,
+  },
+  updateRecipientInput: vi.fn(),
+  validateRecipientInput: vi.fn(),
+  deselectRecipient: vi.fn(),
+};
+
 describe('SendAddressInput', () => {
-  const mockProps = {
-    selectedRecipient: { address: null, displayValue: '' },
-    recipientInput: '',
-    setRecipientInput: vi.fn(),
-    setValidatedInput: vi.fn(),
-    handleRecipientInputChange: vi.fn(),
-    classNames: {
-      container: 'custom-container',
-      label: 'custom-label',
-      input: 'custom-input',
-    },
-  };
+  const mockUseSendContext = useSendContext as ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseSendContext.mockReturnValue(mockSendContext);
   });
 
   it('renders with correct structure and classes', () => {
-    render(<SendAddressInput {...mockProps} />);
+    render(<SendAddressInput classNames={mockClassNames} />);
 
     const container = screen.getByTestId('ockSendAddressInput');
     expect(container).toBeInTheDocument();
@@ -58,109 +69,76 @@ describe('SendAddressInput', () => {
   });
 
   it('displays selectedRecipient.displayValue when available', () => {
-    const props = {
-      ...mockProps,
-      selectedRecipient: {
+    mockUseSendContext.mockReturnValue({
+      ...mockSendContext,
+      recipientState: {
+        phase: 'selected',
+        input: 'test.base.eth',
         address: '0x1234567890123456789012345678901234567890' as Address,
-        displayValue: 'user.eth',
+        displayValue: 'test.base.eth',
       },
-    };
+    });
 
-    render(<SendAddressInput {...props} />);
+    render(<SendAddressInput classNames={mockClassNames} />);
 
     expect(TextInput).toHaveBeenCalledWith(
       expect.objectContaining({
-        value: 'user.eth',
+        value: 'test.base.eth',
       }),
       {},
     );
   });
 
   it('displays recipientInput when no selectedRecipient.displayValue', () => {
-    const props = {
-      ...mockProps,
-      selectedRecipient: { address: null, displayValue: '' },
-      recipientInput: 'test-input',
-    };
+    mockUseSendContext.mockReturnValue({
+      ...mockSendContext,
+      recipientState: {
+        phase: 'selected',
+        input: '0x1234567890123456789012345678901234567890',
+        address: '0x1234567890123456789012345678901234567890' as Address,
+        displayValue: null,
+      },
+    });
 
-    render(<SendAddressInput {...props} />);
+    render(<SendAddressInput classNames={mockClassNames} />);
 
     expect(TextInput).toHaveBeenCalledWith(
       expect.objectContaining({
-        value: 'test-input',
+        value: '0x1234567890123456789012345678901234567890',
       }),
       {},
     );
   });
 
-  it('calls handleRecipientInputChange on focus when selectedRecipient.address exists', () => {
-    const props = {
-      ...mockProps,
-      selectedRecipient: {
+  it('calls deselectRecipient on focus', () => {
+    mockUseSendContext.mockReturnValue({
+      ...mockSendContext,
+      recipientState: {
+        phase: 'selected',
+        input: '0x1234567890123456789012345678901234567890',
         address: '0x1234567890123456789012345678901234567890' as Address,
-        displayValue: 'user.eth',
+        displayValue: '0x1234567890123456789012345678901234567890',
       },
-    };
+    });
 
-    render(<SendAddressInput {...props} />);
-
-    const { onFocus } = vi.mocked(TextInput).mock.calls[0][0];
-
-    onFocus?.({} as React.FocusEvent<HTMLInputElement>);
-
-    expect(props.handleRecipientInputChange).toHaveBeenCalled();
-  });
-
-  it('does not call handleRecipientInputChange on focus when selectedRecipient.address does not exist', () => {
-    render(<SendAddressInput {...mockProps} />);
+    render(<SendAddressInput classNames={mockClassNames} />);
 
     const { onFocus } = vi.mocked(TextInput).mock.calls[0][0];
 
     onFocus?.({} as React.FocusEvent<HTMLInputElement>);
 
-    expect(mockProps.handleRecipientInputChange).not.toHaveBeenCalled();
+    expect(mockSendContext.deselectRecipient).toHaveBeenCalled();
   });
 
-  it('calls setRecipientInput when TextInput setValue is called', () => {
-    render(<SendAddressInput {...mockProps} />);
+  it('calls updateRecipientInput when TextInput setValue is called', () => {
+    render(<SendAddressInput classNames={mockClassNames} />);
 
     const { setValue } = vi.mocked(TextInput).mock.calls[0][0];
 
     setValue?.('new-input');
 
-    expect(mockProps.setRecipientInput).toHaveBeenCalledWith('new-input');
-  });
-
-  it('calls resolveAddressInput and setValidatedInput when input changes', async () => {
-    vi.mocked(resolveAddressInput).mockResolvedValue({
-      address: '0x456',
-      displayValue: 'resolved.eth',
-    });
-
-    render(<SendAddressInput {...mockProps} />);
-
-    const { onChange } = vi.mocked(TextInput).mock.calls[0][0];
-
-    await onChange?.('new-input');
-
-    expect(resolveAddressInput).toHaveBeenCalledWith(null, 'new-input');
-    expect(mockProps.setValidatedInput).toHaveBeenCalledWith({
-      address: '0x456',
-      displayValue: 'resolved.eth',
-    });
-  });
-
-  it('uses validateAddressInput for input validation', () => {
-    vi.mocked(validateAddressInput).mockResolvedValue(
-      '0x1234567890123456789012345678901234567890',
+    expect(mockSendContext.updateRecipientInput).toHaveBeenCalledWith(
+      'new-input',
     );
-
-    render(<SendAddressInput {...mockProps} />);
-
-    const { inputValidator } = vi.mocked(TextInput).mock.calls[0][0];
-
-    inputValidator?.('test-input');
-
-    expect(validateAddressInput).toHaveBeenCalledWith('test-input');
   });
 });

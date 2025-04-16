@@ -2,42 +2,16 @@
 
 import { TextInput } from '@/internal/components/TextInput';
 import { background, border, cn, color } from '@/styles/theme';
-import { useCallback } from 'react';
 import type { SendAddressInputProps } from '../types';
-import { resolveAddressInput } from '../utils/resolveAddressInput';
-import { validateAddressInput } from '../utils/validateAddressInput';
+import { useSendContext } from './SendProvider';
 
-export function SendAddressInput({
-  selectedRecipient,
-  recipientInput,
-  setRecipientInput,
-  setValidatedInput,
-  handleRecipientInputChange,
-  classNames,
-}: SendAddressInputProps) {
-  const displayValue = selectedRecipient?.displayValue || recipientInput;
-
-  const handleFocus = useCallback(() => {
-    if (selectedRecipient.address) {
-      handleRecipientInputChange();
-    }
-  }, [selectedRecipient, handleRecipientInputChange]);
-
-  const handleSetValue = useCallback(
-    async (input: string) => {
-      const resolved = await resolveAddressInput(
-        selectedRecipient.address,
-        input,
-      );
-      setValidatedInput(resolved);
-    },
-    [selectedRecipient.address, setValidatedInput],
-  );
-
-  const validateInput = useCallback(
-    (recipientInput: string) => !!validateAddressInput(recipientInput),
-    [],
-  );
+export function SendAddressInput({ classNames }: SendAddressInputProps) {
+  const {
+    recipientState,
+    updateRecipientInput,
+    validateRecipientInput,
+    deselectRecipient,
+  } = useSendContext();
 
   return (
     <div
@@ -55,11 +29,10 @@ export function SendAddressInput({
       <TextInput
         inputMode="text"
         placeholder="Basename, ENS, or Address"
-        value={displayValue}
-        inputValidator={validateInput}
-        setValue={setRecipientInput}
-        onChange={handleSetValue}
-        onFocus={handleFocus}
+        value={recipientState.displayValue ?? recipientState.input}
+        setValue={updateRecipientInput}
+        onChange={validateRecipientInput}
+        onFocus={deselectRecipient}
         aria-label="Input Receiver Address"
         className={cn(
           background.default,
