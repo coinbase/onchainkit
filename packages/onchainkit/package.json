@@ -6,8 +6,8 @@
   "license": "MIT",
   "access": "public",
   "scripts": {
-    "build": "pnpm gen-version && pnpm clean && pnpm bundle:prod && pnpm tailwind:prod",
-    "dev": "pnpm gen-version && concurrently \"pnpm tailwind:dev\" \"pnpm bundle:dev\"",
+    "build": "pnpm clean && pnpm bundle:prod && pnpm tailwind:prod",
+    "dev": "concurrently \"pnpm tailwind:dev\" \"pnpm bundle:dev\"",
     "bundle:dev": "NODE_ENV=development vite build --watch",
     "bundle:prod": "vite build",
     "tailwind:dev": "tailwind -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --watch",
