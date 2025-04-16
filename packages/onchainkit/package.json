@@ -6,8 +6,8 @@
   "license": "MIT",
   "access": "public",
   "scripts": {
-    "build": "pnpm clean && pnpm bundle:prod && pnpm tailwind:prod",
-    "dev": "concurrently \"pnpm tailwind:dev\" \"pnpm bundle:dev\"",
+    "build": "pnpm gen-version && pnpm clean && pnpm bundle:prod && pnpm tailwind:prod",
+    "dev": "pnpm gen-version && concurrently \"pnpm tailwind:dev\" \"pnpm bundle:dev\"",
     "bundle:dev": "NODE_ENV=development vite build --watch",
     "bundle:prod": "vite build",
     "tailwind:dev": "tailwind -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --watch",
@@ -20,6 +20,7 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
+    "gen-version": "node ./scripts/gen-version.js",
     "get-next-version": "node ./scripts/get-next-version.js",
     "publish-alpha": "node ./scripts/publish-alpha.js",
     "validate-build": "node ./scripts/validate-build.js"
