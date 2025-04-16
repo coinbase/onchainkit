@@ -1,12 +1,5 @@
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 
-// Create a mock version of the module
-vi.mock('./version', () => {
-  return {
-    version: '0.0.1', // Default mock value
-  };
-});
-
 describe('version module', () => {
   beforeEach(() => {
     vi.resetModules();
