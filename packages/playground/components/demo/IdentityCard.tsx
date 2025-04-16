@@ -8,10 +8,6 @@ import { useAccount } from 'wagmi';
 export function IdentityCardDemo() {
   const { address } = useAccount();
 
-  if (!address) {
-    return null;
-  }
-
   return (
     <div className="mx-auto max-w-2xl p-4">
       <div className="flex flex-col gap-6">
