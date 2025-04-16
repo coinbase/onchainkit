@@ -22,12 +22,12 @@ bun install
 
 2. Verify environment variables, these will be set up by the `npx create-onchain --template=minikit-snake` command:
 
-You can regenerate the FARCASTER Account Assocation environment variables by running `npx create-onchain --manifest` in your project directory.
+You can regenerate the FARCASTER Account Association environment variables by running `npx create-onchain --manifest` in your project directory.
 
 The environment variables enable the following features:
 
 - Frame metadata - Sets up the Frame Embed that will be shown when you cast your frame
-- Account assocation - Allows users to add your frame to their account, enables notifications
+- Account association - Allows users to add your frame to their account, enables notifications
 - Redis API keys - Enable Webhooks and background notifications for your application by storing users notification details
 
 ```bash
