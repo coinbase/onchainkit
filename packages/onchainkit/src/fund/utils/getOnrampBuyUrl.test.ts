@@ -1,6 +1,10 @@
-import { describe, expect, it } from 'vitest';
-import { version } from '../../version';
+import { describe, expect, it, vi } from 'vitest';
+import { version } from '@/version';
 import { getOnrampBuyUrl } from './getOnrampBuyUrl';
+
+vi.mock('@/version', () => ({
+  version: '0.0.1',
+}));
 
 describe('getOnrampBuyUrl', () => {
   it('should return the correct URL when using project ID props', () => {
