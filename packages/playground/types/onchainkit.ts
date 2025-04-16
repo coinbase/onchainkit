@@ -4,7 +4,6 @@ export enum OnchainKitComponent {
   Buy = 'buy',
   Identity = 'identity',
   IdentityCard = 'identity-card',
-  BuilderScoreCard = 'builder-score-card',
   Checkout = 'checkout',
   Swap = 'swap',
   SwapDefault = 'swap-default',

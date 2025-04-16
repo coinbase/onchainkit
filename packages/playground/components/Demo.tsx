@@ -7,7 +7,6 @@ import { OnchainKitComponent } from '@/types/onchainkit';
 import { useContext, useEffect, useState } from 'react';
 import DemoOptions from './DemoOptions';
 import BuyDemo from './demo/Buy';
-import { BuilderScoreCardDemo } from './demo/BuilderScoreCard';
 import CheckoutDemo from './demo/Checkout';
 import FundButtonDemo from './demo/FundButton';
 import FundCardDemo from './demo/FundCard';
@@ -46,7 +45,6 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.NFTMintCardDefault]: NFTMintCardDefaultDemo,
   [OnchainKitComponent.NFTCardDefault]: NFTCardDefaultDemo,
   [OnchainKitComponent.IdentityCard]: IdentityCardDemo,
-  [OnchainKitComponent.BuilderScoreCard]: BuilderScoreCardDemo,
   [OnchainKitComponent.Earn]: EarnDemo,
   [OnchainKitComponent.Signature]: SignatureDemo,
 };
