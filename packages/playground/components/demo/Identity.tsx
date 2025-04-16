@@ -6,6 +6,7 @@ import {
   Name,
   Socials,
 } from '@coinbase/onchainkit/identity';
+import { ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { base, mainnet } from 'viem/chains';
 import { useAccount } from 'wagmi';
 
@@ -15,7 +16,7 @@ export default function IdentityDemo() {
   return (
     <div className="mx-auto max-w-2xl p-4">
       <div className="relative">
-        {address && (
+        {address ? (
           <div className="flex flex-col gap-6">
             <div className="space-y-2">
               <h2 className="font-medium text-gray-500 text-sm">
@@ -46,6 +47,8 @@ export default function IdentityDemo() {
               </div>
             </div>
           </div>
+        ) : (
+          <ConnectWallet />
         )}
       </div>
     </div>
