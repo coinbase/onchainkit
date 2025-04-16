@@ -1,6 +1,7 @@
 'use client';
 
 import { IdentityCard } from '@coinbase/onchainkit/identity';
+import { ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { base, mainnet } from 'viem/chains';
 import { useAccount } from 'wagmi';
 
@@ -18,11 +19,20 @@ export function IdentityCardDemo() {
           <h2 className="font-medium text-gray-500 text-sm">
             Mainnet Identity
           </h2>
-          <IdentityCard address={address} chain={mainnet} />
+
+          {address ? (g
+            <IdentityCard address={address} chain={mainnet} />
+          ) : (
+            <ConnectWallet />
+          )}
         </div>
         <div className="space-y-2">
           <h2 className="font-medium text-gray-500 text-sm">Base Identity</h2>
-          <IdentityCard address={address} chain={base} />
+          {address ? (
+            <IdentityCard address={address} chain={base} />
+          ) : (
+            <ConnectWallet />
+          )}
         </div>
       </div>
     </div>
