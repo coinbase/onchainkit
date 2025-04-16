@@ -7,6 +7,7 @@ import L2ResolverAbi from '../abis/L2ResolverAbi';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { convertReverseNodeToBytes } from './convertReverseNodeToBytes';
 import { getAddress } from './getAddress';
+import { getAddresses } from './getAddresses';
 import { getNames } from './getNames';
 
 vi.mock('@/core/network/client');
@@ -28,10 +29,15 @@ vi.mock('./getAddress', () => ({
   getAddress: vi.fn(),
 }));
 
+vi.mock('./getAddresses', () => ({
+  getAddresses: vi.fn(),
+}));
+
 describe('getNames', () => {
   const mockGetEnsName = publicClient.getEnsName as Mock;
   const mockMulticall = publicClient.multicall as Mock;
   const mockGetAddress = getAddress as Mock;
+  const mockGetAddresses = getAddresses as Mock;
   const walletAddresses = [
     '0x1234567890123456789012345678901234567890',
     '0x2345678901234567890123456789012345678901',
@@ -53,6 +59,23 @@ describe('getNames', () => {
       }
       return Promise.resolve(null);
     });
+
+    mockGetAddresses.mockImplementation(({ names }) => {
+      return Promise.resolve(
+        names.map((name: string) => {
+          if (name?.includes('user1')) {
+            return walletAddresses[0];
+          }
+          if (name?.includes('user2')) {
+            return walletAddresses[1];
+          }
+          if (name?.includes('user3')) {
+            return walletAddresses[2];
+          }
+          return null;
+        }),
+      );
+    });
   });
 
   it('should return empty array when no addresses are provided', async () => {
@@ -73,7 +96,7 @@ describe('getNames', () => {
 
     expect(names).toEqual(['user1.eth', 'user2.eth', null]);
     expect(mockGetEnsName).toHaveBeenCalledTimes(3);
-    expect(mockGetAddress).toHaveBeenCalledTimes(2);
+    expect(mockGetAddresses).toHaveBeenCalledTimes(1);
     walletAddresses.forEach((address, index) => {
       expect(mockGetEnsName).toHaveBeenNthCalledWith(index + 1, { address });
     });
@@ -96,7 +119,7 @@ describe('getNames', () => {
 
     expect(names).toEqual(expectedBaseNames);
     expect(mockMulticall).toHaveBeenCalledTimes(1);
-    expect(mockGetAddress).toHaveBeenCalledTimes(3);
+    expect(mockGetAddresses).toHaveBeenCalledTimes(1);
     expect(mockMulticall).toHaveBeenCalledWith({
       contracts: walletAddresses.map((address) => ({
         address: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
@@ -132,7 +155,7 @@ describe('getNames', () => {
     expect(names).toEqual(['user1.base', 'user2.base', 'user3.eth']);
     expect(mockMulticall).toHaveBeenCalledTimes(1);
     expect(mockGetEnsName).toHaveBeenCalledTimes(1);
-    expect(mockGetAddress).toHaveBeenCalledTimes(3);
+    expect(mockGetAddresses).toHaveBeenCalledTimes(2);
     expect(mockGetEnsName).toHaveBeenCalledWith({
       address: walletAddresses[2],
     });
@@ -157,7 +180,7 @@ describe('getNames', () => {
     expect(names).toEqual(expectedEnsNames);
     expect(mockMulticall).toHaveBeenCalledTimes(1);
     expect(mockGetEnsName).toHaveBeenCalledTimes(3);
-    expect(mockGetAddress).toHaveBeenCalledTimes(3);
+    expect(mockGetAddresses).toHaveBeenCalledTimes(1);
   });
 
   it('should throw an error for unsupported chains', async () => {
@@ -172,7 +195,7 @@ describe('getNames', () => {
 
     expect(mockGetEnsName).not.toHaveBeenCalled();
     expect(mockMulticall).not.toHaveBeenCalled();
-    expect(mockGetAddress).not.toHaveBeenCalled();
+    expect(mockGetAddresses).not.toHaveBeenCalled();
   });
 
   it('should handle ENS resolution errors gracefully', async () => {
@@ -182,7 +205,7 @@ describe('getNames', () => {
 
     expect(names).toEqual([null, null, null]);
     expect(mockGetEnsName).toHaveBeenCalledTimes(3);
-    expect(mockGetAddress).not.toHaveBeenCalled();
+    expect(mockGetAddresses).not.toHaveBeenCalled();
   });
 
   it('should handle partial ENS resolution failures', async () => {
@@ -204,7 +227,7 @@ describe('getNames', () => {
 
     expect(names).toEqual(['user1.eth', null, 'user3.eth']);
     expect(mockGetEnsName).toHaveBeenCalledTimes(3);
-    expect(mockGetAddress).toHaveBeenCalledTimes(2);
+    expect(mockGetAddresses).toHaveBeenCalledTimes(1);
     expect(consoleSpy).toHaveBeenCalled();
 
     consoleSpy.mockRestore();
@@ -241,18 +264,22 @@ describe('getNames', () => {
       })),
     );
 
-    mockGetAddress.mockReset();
-    mockGetAddress.mockImplementation(({ name }) => {
-      if (name === 'user1.base') {
-        return Promise.resolve(walletAddresses[0]);
-      }
-      if (name === 'user2.base') {
-        return Promise.resolve('0xdifferentaddress');
-      }
-      if (name === 'user3.base') {
-        return Promise.resolve(walletAddresses[2]);
-      }
-      return Promise.resolve(null);
+    mockGetAddresses.mockReset();
+    mockGetAddresses.mockImplementation(({ names }) => {
+      return Promise.resolve(
+        names.map((name: string) => {
+          if (name === 'user1.base') {
+            return walletAddresses[0];
+          }
+          if (name === 'user2.base') {
+            return '0xdifferentaddress';
+          }
+          if (name === 'user3.base') {
+            return walletAddresses[2];
+          }
+          return null;
+        }),
+      );
     });
 
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -263,7 +290,7 @@ describe('getNames', () => {
     });
 
     expect(names).toEqual(['user1.base', null, 'user3.base']);
-    expect(mockGetAddress).toHaveBeenCalledTimes(3);
+    expect(mockGetAddresses).toHaveBeenCalledTimes(1);
     expect(mockGetEnsName).toHaveBeenCalledTimes(1);
 
     consoleSpy.mockRestore();
@@ -279,18 +306,22 @@ describe('getNames', () => {
       return Promise.resolve(expectedEnsNames[index]);
     });
 
-    mockGetAddress.mockReset();
-    mockGetAddress.mockImplementation(({ name }) => {
-      if (name === 'user1.eth') {
-        return Promise.resolve(walletAddresses[0]);
-      }
-      if (name === 'user2.eth') {
-        return Promise.resolve('0xdifferentaddress');
-      }
-      if (name === 'user3.eth') {
-        return Promise.resolve(walletAddresses[2]);
-      }
-      return Promise.resolve(null);
+    mockGetAddresses.mockReset();
+    mockGetAddresses.mockImplementation(({ names }) => {
+      return Promise.resolve(
+        names.map((name: string) => {
+          if (name === 'user1.eth') {
+            return walletAddresses[0];
+          }
+          if (name === 'user2.eth') {
+            return '0xdifferentaddress';
+          }
+          if (name === 'user3.eth') {
+            return walletAddresses[2];
+          }
+          return null;
+        }),
+      );
     });
 
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -301,7 +332,7 @@ describe('getNames', () => {
     });
 
     expect(names).toEqual(['user1.eth', null, 'user3.eth']);
-    expect(mockGetAddress).toHaveBeenCalledTimes(3);
+    expect(mockGetAddresses).toHaveBeenCalledTimes(1);
 
     consoleSpy.mockRestore();
   });
@@ -313,18 +344,13 @@ describe('getNames', () => {
       { status: 'success', result: 'user3.base' },
     ]);
 
-    mockGetAddress.mockReset();
-    mockGetAddress.mockImplementation(({ name }) => {
-      if (name === 'user1.base') {
-        return Promise.resolve(walletAddresses[0]);
+    let calledOnce = false;
+    mockGetAddresses.mockImplementation(() => {
+      if (!calledOnce) {
+        calledOnce = true;
+        return Promise.reject(new Error('Batch forward resolution failed'));
       }
-      if (name === 'user2.base') {
-        return Promise.reject(new Error('Forward resolution failed'));
-      }
-      if (name === 'user3.base') {
-        return Promise.resolve(walletAddresses[2]);
-      }
-      return Promise.resolve(null);
+      return Promise.resolve([null, null, null]);
     });
 
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -334,10 +360,10 @@ describe('getNames', () => {
       chain: base,
     });
 
-    expect(names).toEqual(['user1.base', null, 'user3.base']);
-    expect(mockGetAddress).toHaveBeenCalledTimes(4);
+    expect(names).toEqual([null, null, null]);
+    expect(mockGetAddresses).toHaveBeenCalledTimes(2);
     expect(consoleSpy).toHaveBeenCalledWith(
-      `Error during basename forward resolution verification for ${walletAddresses[1]}:`,
+      'Error during batch basename forward resolution verification:',
       expect.any(Error),
     );
 
@@ -352,19 +378,9 @@ describe('getNames', () => {
       return Promise.resolve(['user1.eth', 'user2.eth', 'user3.eth'][index]);
     });
 
-    mockGetAddress.mockReset();
-    mockGetAddress.mockImplementation(({ name }) => {
-      if (name === 'user1.eth') {
-        return Promise.resolve(walletAddresses[0]);
-      }
-      if (name === 'user2.eth') {
-        return Promise.reject(new Error('Forward resolution failed'));
-      }
-      if (name === 'user3.eth') {
-        return Promise.resolve(walletAddresses[2]);
-      }
-      return Promise.resolve(null);
-    });
+    mockGetAddresses.mockRejectedValue(
+      new Error('Batch forward resolution failed'),
+    );
 
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
@@ -373,10 +389,10 @@ describe('getNames', () => {
       chain: mainnet,
     });
 
-    expect(names).toEqual(['user1.eth', null, 'user3.eth']);
-    expect(mockGetAddress).toHaveBeenCalledTimes(3);
+    expect(names).toEqual([null, null, null]);
+    expect(mockGetAddresses).toHaveBeenCalledTimes(1);
     expect(consoleSpy).toHaveBeenCalledWith(
-      `Error during ENS forward resolution verification for ${walletAddresses[1]}:`,
+      'Error during batch ENS forward resolution verification:',
       expect.any(Error),
     );
 
@@ -391,18 +407,21 @@ describe('getNames', () => {
       return Promise.resolve(['user1.eth', 'user2.eth', 'user3.eth'][index]);
     });
 
-    mockGetAddress.mockReset();
-    mockGetAddress.mockImplementation(({ name }) => {
-      if (name === 'user1.eth') {
-        return Promise.resolve(walletAddresses[0]);
-      }
-      if (name === 'user2.eth') {
-        return Promise.resolve(null);
-      }
-      if (name === 'user3.eth') {
-        return Promise.resolve(walletAddresses[2]);
-      }
-      return Promise.resolve(null);
+    mockGetAddresses.mockImplementation(({ names }) => {
+      return Promise.resolve(
+        names.map((name: string) => {
+          if (name === 'user1.eth') {
+            return walletAddresses[0];
+          }
+          if (name === 'user2.eth') {
+            return null;
+          }
+          if (name === 'user3.eth') {
+            return walletAddresses[2];
+          }
+          return null;
+        }),
+      );
     });
 
     const names = await getNames({
@@ -411,6 +430,6 @@ describe('getNames', () => {
     });
 
     expect(names).toEqual(['user1.eth', null, 'user3.eth']);
-    expect(mockGetAddress).toHaveBeenCalledTimes(3);
+    expect(mockGetAddresses).toHaveBeenCalledTimes(1);
   });
 });
