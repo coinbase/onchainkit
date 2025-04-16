@@ -173,12 +173,14 @@ describe('AppchainBridgeProvider', () => {
     const initialFromId = result.current.from.id;
     const initialToId = result.current.to.id;
 
-    await waitFor(async () => {
+    act(() => {
       result.current.handleToggle();
     });
 
-    expect(result.current.from.id).toEqual(initialToId);
-    expect(result.current.to.id).toEqual(initialFromId);
+    await waitFor(() => {
+      expect(result.current.from.id).toBe(initialToId);
+      expect(result.current.to.id).toBe(initialFromId);
+    });
   });
 
   it('should handle amount changes with price updates', async () => {
