@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Connect } from './Connect';
-import { type ReactNode } from 'react';
+import { type ReactNode, act } from 'react';
 
 vi.mock('@coinbase/onchainkit/wallet', () => ({
   Wallet: ({ children }: { children: React.ReactNode }) => (
@@ -49,6 +49,14 @@ vi.mock('@coinbase/onchainkit/identity', () => ({
 }));
 
 describe('Connect', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it('should render', () => {
     render(<Connect />);
 
@@ -59,5 +67,33 @@ describe('Connect', () => {
     ).toBeInTheDocument();
     expect(screen.getByTestId('mock-wallet')).toBeInTheDocument();
     expect(screen.getByTestId('mock-connect-wallet')).toBeInTheDocument();
+  });
+
+  it('should handle modal mutation observer', async () => {
+    const { container } = render(<Connect />);
+
+    const modal = document.createElement('div');
+    modal.setAttribute('data-testid', 'ockModalOverlay');
+    modal.innerHTML = `
+      <div>
+        <div class="flex w-full flex-col gap-3">
+          <button>Sign Up</button>
+          <div class="relative">Or Continue</div>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(modal);
+
+    const signUpButton = modal.querySelector('button') as HTMLElement;
+    const orContinueDiv = modal.querySelector('.relative') as HTMLElement;
+
+    await act(async () => {
+      // let mutation observer run
+      vi.advanceTimersByTime(1);
+    });
+
+    expect(signUpButton?.style.display).toBe('none');
+    expect(orContinueDiv?.style.display).toBe('none');
   });
 });

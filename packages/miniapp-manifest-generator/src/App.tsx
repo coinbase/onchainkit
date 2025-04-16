@@ -1,8 +1,22 @@
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { base } from 'wagmi/chains';
-import Page from './components/Page';
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+  RouterProvider,
+  Outlet,
+} from '@tanstack/react-router';
+import GenerateManifest from './GenerateManifest';
+import ValidateManifest from './ValidateManifest';
 
-function App() {
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router;
+  }
+}
+
+function Root() {
   return (
     <OnchainKitProvider
       chain={base}
@@ -18,9 +32,30 @@ function App() {
         },
       }}
     >
-      <Page />
+      <Outlet />
     </OnchainKitProvider>
   );
 }
 
-export default App;
+const rootRoute = createRootRoute({
+  component: Root,
+});
+
+const indexRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/',
+  component: GenerateManifest,
+});
+
+const validateRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/validate',
+  component: ValidateManifest,
+});
+
+const routeTree = rootRoute.addChildren([indexRoute, validateRoute]);
+const router = createRouter({ routeTree });
+
+export default function App() {
+  return <RouterProvider router={router} />;
+}

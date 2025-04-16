@@ -1,10 +1,8 @@
 import { useFid } from '../../hooks/useFid';
 import { Step } from '../Step';
 import { useAccount } from 'wagmi';
-import {
-  type AccountAssociation,
-  useSignManifest,
-} from '../../hooks/useSignManifest';
+import { useSignManifest } from '../../hooks/useSignManifest';
+import { AccountAssociation } from '../../types';
 
 export type SignProps = {
   domain: string;

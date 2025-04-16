@@ -1,13 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSignMessage } from 'wagmi';
 import { toBase64Url } from '../utilities/base64';
-
-export type AccountAssociation = {
-  header: string;
-  payload: string;
-  signature: string;
-  domain: string;
-};
+import { AccountAssociation } from '../types';
 
 type SignManifestProps = {
   domain: string;

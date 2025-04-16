@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import type { AccountAssociation } from '../hooks/useSignManifest';
 import { Timer } from './Timer';
+import { AccountAssociation } from '../types';
 
 type SuccessProps = {
   accountAssocation: AccountAssociation | null;
