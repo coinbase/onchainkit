@@ -20,7 +20,7 @@ export function IdentityCardDemo() {
             Mainnet Identity
           </h2>
 
-          {address ? (g
+          {address ? (
             <IdentityCard address={address} chain={mainnet} />
           ) : (
             <ConnectWallet />
