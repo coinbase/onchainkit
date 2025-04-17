@@ -1,24 +1,36 @@
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { vi, describe, it, expect, beforeAll } from 'vitest';
+
+vi.unmock('./version');
 
 describe('version module', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     vi.resetModules();
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
+    vi.stubGlobal('__OCK_VERSION__', '0.0.1');
   });
 
   it('exposes the version from the module', async () => {
-    // Import the mocked version module
-    const versionModule = await import('./version');
-    expect(versionModule.version).toBeDefined();
-    expect(typeof versionModule.version).toBe('string');
+    vi.stubGlobal('__OCK_VERSION__', '0.0.1');
+    const { version } = await import('./version');
+    expect(version).toBeDefined();
+    expect(typeof version).toBe('string');
   });
 
   it('is imported correctly in other modules', async () => {
-    // Verify that version is imported properly in a file that uses it
+    vi.stubGlobal('__OCK_VERSION__', '0.0.2');
     const constants = await import('./core/network/constants');
     expect(constants.JSON_HEADERS).toHaveProperty('OnchainKit-Version');
+  });
+});
+
+describe('version module error case', () => {
+  beforeAll(() => {
+    vi.resetModules();
+    vi.unstubAllGlobals();
+  });
+
+  it('throws an error when __OCK_VERSION__ is undefined', async () => {
+    await expect(async () => {
+      await import('./version');
+    }).rejects.toThrow('__OCK_VERSION__ is not defined');
   });
 });
