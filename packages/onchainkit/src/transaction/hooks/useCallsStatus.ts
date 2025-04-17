@@ -1,5 +1,6 @@
 import { useCallsStatus as useCallsStatusWagmi } from 'wagmi/experimental';
 import type { UseCallsStatusParams } from '../types';
+import { normalizeStatus } from '@/internal/utils/normalizeWagmi';
 
 export function useCallsStatus({
   setLifecycleStatus,
@@ -11,7 +12,9 @@ export function useCallsStatus({
       id: transactionId,
       query: {
         refetchInterval: (query) => {
-          return query.state.data?.status === 'success' ? false : 1000;
+          return normalizeStatus(query.state.data?.status) === 'success'
+            ? false
+            : 1000;
         },
         enabled: !!transactionId,
       },
