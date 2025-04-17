@@ -77,6 +77,14 @@
     "vite-plugin-externalize-deps": "^0.9.0",
     "vitest": "^3.0.5"
   },
+  "overrides": {
+    "wagmi": {
+      "viem": "$viem"
+    },
+    "@wagmi/core": {
+      "viem": "$viem"
+    }
+  },
   "files": [
     "dist/**/*",
     "src/**/*"
