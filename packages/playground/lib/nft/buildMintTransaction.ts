@@ -4,7 +4,8 @@ import { ENVIRONMENT_VARIABLES } from '../constants';
 import { Hex } from 'viem';
 
 type BuildMintTransactionDataProps = Parameters<BuildMintTransaction>[0];
-export type Call = { to: Hex; data?: Hex; value?: bigint };
+
+type Call = { to: Hex; data?: Hex; value?: bigint };
 
 const ERROR_MAP = {
   'Unable to mint requested quantity (max mints per wallet possibly exceeded)':

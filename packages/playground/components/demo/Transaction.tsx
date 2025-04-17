@@ -21,7 +21,7 @@ import { useCallback, useContext, useEffect, useMemo } from 'react';
 import type { ContractFunctionParameters, Hex } from 'viem';
 import { AppContext } from '../AppProvider';
 
-export type Call = { to: Hex; data?: Hex; value?: bigint };
+type Call = { to: Hex; data?: Hex; value?: bigint };
 
 function TransactionDemo() {
   const { chainId, transactionType, isSponsored } = useContext(AppContext);
