@@ -3,7 +3,6 @@ import {
   clickContracts,
   heterogeneousClickCalls,
 } from '@/lib/transactions';
-import type { LifecycleStatus } from '@coinbase/onchainkit/checkout';
 import { TransactionTypes } from '@/types/onchainkit';
 import {
   Transaction,
@@ -16,6 +15,7 @@ import {
   TransactionToastAction,
   TransactionToastIcon,
   TransactionToastLabel,
+  LifecycleStatus,
 } from '@coinbase/onchainkit/transaction';
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 import type { ContractFunctionParameters, Hex } from 'viem';
