@@ -3,8 +3,7 @@ import {
   clickContracts,
   heterogeneousClickCalls,
 } from '@/lib/transactions';
-import type { Call } from '@/onchainkit/esm/transaction/types';
-import type { LifecycleStatus } from '@/onchainkit/src/transaction';
+import type { LifecycleStatus } from '@coinbase/onchainkit/checkout';
 import { TransactionTypes } from '@/types/onchainkit';
 import {
   Transaction,
@@ -19,8 +18,10 @@ import {
   TransactionToastLabel,
 } from '@coinbase/onchainkit/transaction';
 import { useCallback, useContext, useEffect, useMemo } from 'react';
-import type { ContractFunctionParameters } from 'viem';
+import type { ContractFunctionParameters, Hex } from 'viem';
 import { AppContext } from '../AppProvider';
+
+export type Call = { to: Hex; data?: Hex; value?: bigint };
 
 function TransactionDemo() {
   const { chainId, transactionType, isSponsored } = useContext(AppContext);
