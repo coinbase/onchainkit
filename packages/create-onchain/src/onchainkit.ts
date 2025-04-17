@@ -109,7 +109,7 @@ export async function createOnchainKitTemplate() {
   const envPath = path.join(root, '.env');
   await fs.promises.writeFile(
     envPath,
-    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=all`,
+    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}`,
   );
 
   spinner.succeed();
