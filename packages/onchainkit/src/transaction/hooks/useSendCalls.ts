@@ -2,6 +2,7 @@ import { useSendCalls as useSendCallsWagmi } from 'wagmi/experimental';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import type { UseSendCallsParams } from '../types';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
+import { normalizeTransactionId } from '@/internal/utils/normalizeWagmi';
 
 /**
  * useSendCalls: Experimental Wagmi hook for batching transactions with calldata.
@@ -29,7 +30,7 @@ export function useSendCalls({
         });
       },
       onSuccess: (data) => {
-        setTransactionId(data.id);
+        setTransactionId(normalizeTransactionId(data));
       },
     },
   });

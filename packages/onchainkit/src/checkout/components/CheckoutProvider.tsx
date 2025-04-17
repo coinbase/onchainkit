@@ -38,6 +38,10 @@ import type {
   LifecycleStatus,
 } from '../types';
 import { ONRAMP_POPUP_HEIGHT, ONRAMP_POPUP_WIDTH } from '@/fund/constants';
+import {
+  normalizeStatus,
+  normalizeTransactionId,
+} from '@/internal/utils/normalizeWagmi';
 
 const emptyContext = {} as CheckoutContextType;
 export const CheckoutContext = createContext<CheckoutContextType>(emptyContext);
@@ -141,7 +145,7 @@ export function CheckoutProvider({
     /* v8 ignore start */
     mutation: {
       onSuccess: (data) => {
-        setTransactionId(data.id);
+        setTransactionId(normalizeTransactionId(data));
       },
     },
     /* v8 ignore stop */
@@ -149,9 +153,11 @@ export function CheckoutProvider({
   const { data } = useCallsStatus({
     id: transactionId,
     query: {
-      /* v8 ignore next 3 */
+      /* v8 ignore next 5 */
       refetchInterval: (query) => {
-        return query.state.data?.status === 'success' ? false : 1000;
+        return normalizeStatus(query.state.data?.status) === 'success'
+          ? false
+          : 1000;
       },
       enabled: !!transactionId,
     },
