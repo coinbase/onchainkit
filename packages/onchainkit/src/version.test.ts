@@ -9,14 +9,12 @@ describe('version module', () => {
   });
 
   it('exposes the version from the module', async () => {
-    vi.stubGlobal('__OCK_VERSION__', '0.0.1');
     const { version } = await import('./version');
     expect(version).toBeDefined();
     expect(typeof version).toBe('string');
   });
 
   it('is imported correctly in other modules', async () => {
-    vi.stubGlobal('__OCK_VERSION__', '0.0.2');
     const constants = await import('./core/network/constants');
     expect(constants.JSON_HEADERS).toHaveProperty('OnchainKit-Version');
   });
