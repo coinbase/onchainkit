@@ -18,7 +18,7 @@ type UseSendCallsConfig = {
   mutation: {
     onSettled: () => void;
     onError: (error: TransactionExecutionError) => void;
-    onSuccess: (id: string) => void;
+    onSuccess: (data: { id: string }) => void;
   };
 };
 
@@ -118,8 +118,8 @@ describe('useSendCalls', () => {
   });
 
   it('should handle successful transaction', () => {
-    const transactionId = '0x123456';
-    let onSuccessCallback: ((id: string) => void) | undefined;
+    const transactionId = { id: '0x123456' };
+    let onSuccessCallback: ((data: { id: string }) => void) | undefined;
     (useSendCallsWagmi as ReturnType<typeof vi.fn>).mockImplementation(
       ({ mutation }: UseSendCallsConfig) => {
         onSuccessCallback = mutation.onSuccess;
@@ -138,6 +138,6 @@ describe('useSendCalls', () => {
     );
     expect(onSuccessCallback).toBeDefined();
     onSuccessCallback?.(transactionId);
-    expect(mockSetTransactionId).toHaveBeenCalledWith(transactionId);
+    expect(mockSetTransactionId).toHaveBeenCalledWith(transactionId.id);
   });
 });

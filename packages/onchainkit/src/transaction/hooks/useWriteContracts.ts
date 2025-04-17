@@ -35,8 +35,8 @@ export function useWriteContracts({
           },
         });
       },
-      onSuccess: (id) => {
-        setTransactionId(id);
+      onSuccess: (data) => {
+        setTransactionId(data.id);
       },
     },
   });

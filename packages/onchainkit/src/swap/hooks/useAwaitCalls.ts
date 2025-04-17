@@ -17,14 +17,14 @@ export function useAwaitCalls({
     id: callsId || '',
     query: {
       refetchInterval: (query) => {
-        return query.state.data?.status === 'CONFIRMED' ? false : 1000;
+        return query.state.data?.status === 'success' ? false : 1000;
       },
       enabled: callsId !== undefined,
     },
   });
 
   return useCallback(async () => {
-    if (data?.status === 'CONFIRMED' && data?.receipts) {
+    if (data?.status === 'success' && data?.receipts) {
       const transactionReceipt = await waitForTransactionReceipt(
         accountConfig,
         {

@@ -38,7 +38,7 @@
     "graphql-request": "^6.1.0",
     "qrcode": "^1.5.4",
     "tailwind-merge": "^2.3.0",
-    "viem": "^2.23.0",
+    "viem": "^2.27.2",
     "wagmi": "^2.14.11"
   },
   "devDependencies": {
@@ -55,10 +55,10 @@
     "autoprefixer": "^10.4.19",
     "babel-plugin-module-resolver": "^5.0.2",
     "concurrently": "^8.0.0",
+    "esbuild-fix-imports-plugin": "^1.0.19",
     "esbuild-plugin-babel": "^0.2.3",
     "glob": "^11.0.1",
     "globals": "^15.15.0",
-    "esbuild-fix-imports-plugin": "^1.0.19",
     "graphql": "^14",
     "graphql-request": "^6.1.0",
     "jsdom": "^24.1.0",
