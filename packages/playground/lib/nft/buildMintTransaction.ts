@@ -1,7 +1,11 @@
-import type { BuildMintTransactionDataProps } from '@/onchainkit/esm/nft/types';
-import type { Call } from '@/onchainkit/esm/transaction/types';
+import type { BuildMintTransaction } from '@coinbase/onchainkit/nft';
 import type { definitions } from '@reservoir0x/reservoir-sdk';
 import { ENVIRONMENT_VARIABLES } from '../constants';
+import { Hex } from 'viem';
+
+type BuildMintTransactionDataProps = Parameters<BuildMintTransaction>[0];
+
+type Call = { to: Hex; data?: Hex; value?: bigint };
 
 const ERROR_MAP = {
   'Unable to mint requested quantity (max mints per wallet possibly exceeded)':

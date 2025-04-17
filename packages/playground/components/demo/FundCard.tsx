@@ -1,5 +1,6 @@
 import { FundCard } from '@coinbase/onchainkit/fund';
-import type { PresetAmountInputs } from '../../onchainkit/esm/fund/types';
+
+type PresetAmountInputs = readonly [string, string, string];
 
 export default function FundCardDemo() {
   const presetAmountInputs: PresetAmountInputs = ['10', '20', '100'];
