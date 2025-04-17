@@ -40,9 +40,9 @@ describe('useAwaitCalls', () => {
     });
   });
 
-  it('should not call waitForTransactionReceipt when data status is not CONFIRMED', async () => {
+  it('should not call waitForTransactionReceipt when data status is not success', async () => {
     (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
-      data: { status: 'PENDING' },
+      data: { status: 'pending' },
     });
     const { result } = renderHook(() =>
       useAwaitCalls({
@@ -58,13 +58,13 @@ describe('useAwaitCalls', () => {
     expect(mockUpdateLifecycleStatus).not.toHaveBeenCalled();
   });
 
-  it('should call waitForTransactionReceipt and update lifecycle status when data status is CONFIRMED', async () => {
+  it('should call waitForTransactionReceipt and update lifecycle status when data status is success', async () => {
     const mockTransactionReceipt = { blockNumber: 123 };
     (waitForTransactionReceipt as Mock).mockResolvedValue(
       mockTransactionReceipt,
     );
     const mockData = {
-      status: 'CONFIRMED',
+      status: 'success',
       receipts: [{ transactionHash: '0x789' }],
     };
     (useCallsStatus as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -92,9 +92,9 @@ describe('useAwaitCalls', () => {
     });
   });
 
-  it('should use the appropriate refetch interval for CONFIRMED status', () => {
+  it('should use the appropriate refetch interval for success status', () => {
     const mockData = {
-      status: 'CONFIRMED',
+      status: 'success',
       receipts: [{}],
     };
     let refetchIntervalFn = vi.fn();
@@ -115,9 +115,9 @@ describe('useAwaitCalls', () => {
     expect(result).toBe(false);
   });
 
-  it('should use the appropriate refetch interval for non-CONFIRMED status', () => {
+  it('should use the appropriate refetch interval for non-success status', () => {
     const mockData = {
-      status: 'PENDING',
+      status: 'pending',
     };
     let refetchIntervalFn = vi.fn();
     (useCallsStatus as ReturnType<typeof vi.fn>).mockImplementation(

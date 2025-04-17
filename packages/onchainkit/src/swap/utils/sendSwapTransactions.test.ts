@@ -52,7 +52,7 @@ describe('sendSwapTransactions', () => {
       .mockResolvedValueOnce('txHash2')
       .mockResolvedValueOnce('txHash3');
 
-    sendCallsAsync = vi.fn().mockResolvedValue('callsId');
+    sendCallsAsync = vi.fn().mockResolvedValue({ id: 'callsId' });
   });
 
   it('should execute atomic batch transactions when supported', async () => {

@@ -11,7 +11,7 @@ export function useCallsStatus({
       id: transactionId,
       query: {
         refetchInterval: (query) => {
-          return query.state.data?.status === 'CONFIRMED' ? false : 1000;
+          return query.state.data?.status === 'success' ? false : 1000;
         },
         enabled: !!transactionId,
       },

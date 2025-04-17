@@ -17,7 +17,7 @@ export async function sendSwapTransactions({
     updateLifecycleStatus({
       statusName: 'transactionPending',
     });
-    const callsId = await sendCallsAsync({
+    const data = await sendCallsAsync({
       calls: transactions.map(({ transaction }) => transaction),
       capabilities: isSponsored
         ? {
@@ -30,7 +30,7 @@ export async function sendSwapTransactions({
     updateLifecycleStatus({
       statusName: 'transactionApproved',
       statusData: {
-        callsId,
+        callsId: data.id,
         transactionType: 'Batched',
       },
     });
