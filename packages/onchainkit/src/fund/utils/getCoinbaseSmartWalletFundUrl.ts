@@ -1,4 +1,4 @@
-import { version } from '../../version';
+import { version } from '@/version';
 
 const COINBASE_SMART_WALLET_FUND_URL = 'https://keys.coinbase.com/fund';
 

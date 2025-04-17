@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { version } from '../../version';
+import { version } from '@/version';
 import { getOnrampBuyUrl } from './getOnrampBuyUrl';
 
 describe('getOnrampBuyUrl', () => {
