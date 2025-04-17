@@ -60,7 +60,7 @@ export function SignatureProvider({
 
   useEffect(() => {
     if (lifecycleStatus.statusName === 'success' && resetAfter) {
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         resetSignMessage();
         resetSignTypedData();
         updateLifecycleStatus({
@@ -68,6 +68,8 @@ export function SignatureProvider({
           statusData: null,
         });
       }, resetAfter);
+
+      return () => clearTimeout(timeoutId);
     }
   }, [
     updateLifecycleStatus,
