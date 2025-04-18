@@ -1,11 +1,16 @@
-import path from "path";
-import prompts from "prompts";
+import path from 'path';
+import prompts from 'prompts';
 import pc from 'picocolors';
 import ora from 'ora';
 import fs from 'fs';
-import { isValidPackageName, toValidPackageName, createClickableLink, copyDir } from "./utils.js";
+import {
+  isValidPackageName,
+  toValidPackageName,
+  createClickableLink,
+  copyDir,
+} from './utils.js';
 import { fileURLToPath } from 'url';
-import { analyticsPrompt } from "./analytics.js";
+import { analyticsPrompt } from './analytics.js';
 
 export async function createOnchainKitTemplate() {
   console.log(
@@ -25,9 +30,7 @@ export async function createOnchainKitTemplate() {
 
   const defaultProjectName = 'my-onchainkit-app';
 
-  let result: prompts.Answers<
-    'projectName' | 'packageName' | 'clientKey' | 'smartWallet'
-  >;
+  let result: prompts.Answers<'projectName' | 'packageName' | 'clientKey'>;
 
   try {
     result = await prompts(
@@ -71,14 +74,6 @@ export async function createOnchainKitTemplate() {
             )} (optional)`,
           ),
         },
-        {
-          type: 'toggle',
-          name: 'smartWallet',
-          message: pc.reset('Use Coinbase Smart Wallet? (recommended)'),
-          initial: true,
-          active: 'yes',
-          inactive: 'no',
-        },
       ],
       {
         onCancel: () => {
@@ -92,7 +87,7 @@ export async function createOnchainKitTemplate() {
     process.exit(1);
   }
 
-  const { projectName, packageName, clientKey, smartWallet } = result;
+  const { projectName, packageName, clientKey } = result;
   const root = path.join(process.cwd(), projectName);
 
   await analyticsPrompt('onchainkit');
@@ -114,18 +109,13 @@ export async function createOnchainKitTemplate() {
   const envPath = path.join(root, '.env');
   await fs.promises.writeFile(
     envPath,
-    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=${
-      smartWallet ? 'smartWalletOnly' : 'all'
-    }`,
+    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}`,
   );
 
   spinner.succeed();
   console.log(`\n${pc.magenta(`Created new OnchainKit project in ${root}`)}`);
 
   console.log(`\nIntegrations:`);
-  if (smartWallet) {
-    console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Smart Wallet`)}`);
-  }
   console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Base`)}`);
   if (clientKey) {
     console.log(
