@@ -56,12 +56,10 @@ export async function validateMiniKitManifest() {
     ),
   );
 
-  const indexFile = path.resolve(fileURLToPath(import.meta.url), '../../manifest/index.html')
-
   // add catch-all for client-side routing
   app.get('*', (req, res, next) => {
     if (req.path.startsWith('/api/')) return next();
-    res.sendFile(indexFile);
+    res.sendFile(path.resolve(fileURLToPath(import.meta.url), '../../manifest/index.html'));
   });
 
   return new Promise(() => {

@@ -55,7 +55,7 @@ function Verify() {
             />
           </div>
           <button
-            className="!bg-blue-500 hover:!bg-blue-600 disabled:!bg-gray-400 text-white px-4 py-2 rounded-md h-10 self-center"
+            className="!bg-blue-500 hover:!bg-blue-600 disabled:!bg-gray-400 text-white px-4 py-2 rounded-md h-10 relative top-20"
             disabled={!domain}
             onClick={loadManifest}
           >
