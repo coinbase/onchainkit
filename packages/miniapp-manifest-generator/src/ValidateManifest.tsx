@@ -4,33 +4,50 @@ import { Domain } from './components/steps/Domain';
 import { ValidateAccountAssociation } from './components/ValidateAccountAssociation';
 import { Preview } from './components/Preview';
 import { ValidateFrame } from './components/ValidateFrame';
-import { FarcasterJson } from './types';
-import { FarcasterJsonRaw } from './components/FarcasterJsonRaw';
+import { FarcasterManifest, FrameMetadata } from './types';
+import { ShowJson } from './components/ShowJson';
 import { Step } from './components/Step';
 import { useWebsocket } from './hooks/useWebsocket';
+import { ValidateMetadata } from './components/ValidateMetadata';
 
 function Verify() {
   useWebsocket();
   const [domain, setDomain] = useState<string>('');
-  const [farcasterJson, setFarcasterJson] = useState<FarcasterJson>();
+  const [farcasterJson, setFarcasterJson] = useState<FarcasterManifest>();
+  const [frameMetadataJson, setFrameMetadataJson] = useState<FrameMetadata>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
 
   const loadManifest = useCallback(async () => {
     setIsLoading(true);
     setError(undefined);
-    const response = await fetch(
-      `/api/fetch-manifest?domain=${new URL(domain).hostname}`,
-    );
+    try {
+      const response = await fetch(
+        `/api/fetch-manifest?domain=${new URL(domain).hostname}`,
+      );
 
-    if (!response.ok) {
-      setError(response.statusText);
+      if (!response.ok) {
+        throw new Error(`Error fetching manifest: ${response.statusText}`);
+      }
+      const data = await response.json();
+      setFarcasterJson(data);
+
+      const metaResponse = await fetch(
+        `/api/fetch-frame-meta?domain=${domain}`,
+      );
+      if (!metaResponse.ok) {
+        throw new Error(
+          `Error fetching frame metadata: ${metaResponse.statusText}`,
+        );
+      }
+
+      const metaData = await metaResponse.json();
+      setFrameMetadataJson(metaData);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Failed to fetch data');
+    } finally {
       setIsLoading(false);
-      return;
     }
-    const data = await response.json();
-    setFarcasterJson(data);
-    setIsLoading(false);
   }, [domain]);
 
   useEffect(() => {
@@ -79,7 +96,7 @@ function Verify() {
 
         <Step
           number={4}
-          label="Verifying frame"
+          label="Verifying farcaster.json"
           description={
             <span>
               Validation according to{' '}
@@ -102,7 +119,7 @@ function Verify() {
             </div>
             <div>
               {farcasterJson && (
-                <FarcasterJsonRaw farcasterJson={farcasterJson} />
+                <ShowJson label="farcaster.json" json={farcasterJson} />
               )}
             </div>
           </div>
@@ -110,6 +127,39 @@ function Verify() {
 
         <Step
           number={5}
+          label="Verifying frame metadata"
+          description={
+            <span>
+              Validation according to{' '}
+              <a
+                href="https://miniapps.farcaster.xyz/docs/specification"
+                target="_blank"
+                rel="noreferrer"
+                className="!underline"
+              >
+                Mini-App specification
+              </a>
+              .
+            </span>
+          }
+          disabled={!frameMetadataJson}
+        >
+          <div>
+            <div className="w-fit">
+              {frameMetadataJson && (
+                <ValidateMetadata metadata={frameMetadataJson} />
+              )}
+            </div>
+            <div>
+              {frameMetadataJson && (
+                <ShowJson label="frame metadata" json={frameMetadataJson} />
+              )}
+            </div>
+          </div>
+        </Step>
+
+        <Step
+          number={6}
           label="Preview"
           description="This will preview your mini-app, but does not include the frames sdk."
           disabled={!farcasterJson}

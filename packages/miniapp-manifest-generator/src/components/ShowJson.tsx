@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { FarcasterJson } from '../types';
+import { FrameMetadata, FarcasterManifest } from '../types';
 
-type FarcasterJsonRawProps = {
-  farcasterJson: FarcasterJson;
+type ShowJsonProps = {
+  label: string;
+  json: FrameMetadata | FarcasterManifest;
 };
 
-export function FarcasterJsonRaw({ farcasterJson }: FarcasterJsonRawProps) {
+export function ShowJson({ label, json }: ShowJsonProps) {
   const [showRaw, setShowRaw] = useState(false);
 
   return (
@@ -16,7 +17,7 @@ export function FarcasterJsonRaw({ farcasterJson }: FarcasterJsonRawProps) {
         onClick={() => setShowRaw(!showRaw)}
       >
         <span className="text-gray-500">
-          {showRaw ? 'Hide' : 'Show'} raw farcaster.json
+          {showRaw ? 'Hide' : 'Show'} {label}
         </span>
         <svg
           className={`text-gray-400 w-4 h-4 transition-transform duration-200 ${showRaw ? 'rotate-180' : '-rotate-90'}`}
@@ -40,7 +41,7 @@ export function FarcasterJsonRaw({ farcasterJson }: FarcasterJsonRawProps) {
       >
         <div className="overflow-hidden">
           <pre className="text-black overflow-auto rounded p-4 border border-gray-300">
-            {JSON.stringify(farcasterJson, null, 2)}
+            {JSON.stringify(json, null, 2)}
           </pre>
         </div>
       </div>

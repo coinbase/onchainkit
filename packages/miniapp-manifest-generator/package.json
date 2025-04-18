@@ -16,11 +16,13 @@
   },
   "dependencies": {
     "@coinbase/onchainkit": "latest",
+    "@farcaster/frame-core": "^0.0.32",
     "buffer": "^6.0.3",
     "react": "^18",
     "react-dom": "^18",
     "viem": "^2.27.2",
-    "wagmi": "^2.14.12"
+    "wagmi": "^2.14.12",
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

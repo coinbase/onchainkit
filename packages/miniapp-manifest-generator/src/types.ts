@@ -1,23 +1,10 @@
-export type AccountAssociation = {
-  header: string;
-  payload: string;
-  signature: string;
-  domain: string;
-};
+import { domainManifestSchema, FrameEmbedNext } from '@farcaster/frame-core';
+import { z } from 'zod';
 
-export type Frame = {
-  buttonTitle?: string;
-  homeUrl?: string;
-  iconUrl?: string;
-  imageUrl?: string;
-  name?: string;
-  splashBackgroundColor?: string;
-  splashImageUrl?: string;
-  version?: string;
-  webhookUrl?: string;
-};
+export type AccountAssociation = FarcasterManifest['accountAssociation'];
 
-export type FarcasterJson = {
-  accountAssociation: AccountAssociation;
-  frame: Frame;
-};
+export type Frame = FarcasterManifest['frame'];
+
+export type FarcasterManifest = z.infer<typeof domainManifestSchema>;
+
+export type FrameMetadata = FrameEmbedNext;

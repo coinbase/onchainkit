@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { FarcasterJsonRaw } from './FarcasterJsonRaw';
+import { ShowJson } from './ShowJson';
 import { describe, expect, it } from 'vitest';
+import { FarcasterManifest } from '../types';
 
 const mockJson = {
   frame: {
@@ -13,16 +14,16 @@ const mockJson = {
     signature: '0x1234567890abcdef',
     domain: 'example.com',
   },
-};
+} as FarcasterManifest;
 
-describe('FarcasterJsonRaw', () => {
+describe('ShowJson', () => {
   it('should render', () => {
-    render(<FarcasterJsonRaw farcasterJson={mockJson} />);
+    render(<ShowJson label="farcaster.json" json={mockJson} />);
     expect(screen.getByText('Show raw farcaster.json')).toBeInTheDocument();
   });
 
   it('should toggle content visibility when clicking the button', () => {
-    render(<FarcasterJsonRaw farcasterJson={mockJson} />);
+    render(<ShowJson label="farcaster.json" json={mockJson} />);
     const button = screen.getByRole('button');
     const container = screen.getByTestId('jsonRawContainer');
 

@@ -50,6 +50,41 @@ export async function validateMiniKitManifest() {
     }
   });
 
+  app.get('/api/fetch-frame-meta', async (req, res) => {
+    const { domain } = req.query;
+    if (!domain) {
+      res.statusMessage = 'Missing domain parameter';
+      res.status(400).end();
+      return;
+    }
+
+    try {
+      const response = await fetch(domain as string);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const html = await response.text();
+
+      const metaRegex =
+        /<meta[^>]*name=["']fc:frame["'][^>]*content=["']([^"']+)["'][^>]*>/;
+      const match = html.match(metaRegex);
+
+      if (!match) {
+        res.statusMessage = 'No frame metadata found';
+        res.status(404).end();
+        return;
+      }
+
+      const content = match[1].replace(/&quot;/g, '"');
+      const frameMetadata = JSON.parse(content);
+
+      res.json(frameMetadata);
+    } catch {
+      res.statusMessage = 'Failed to fetch frame metadata';
+      res.status(500).end();
+    }
+  });
+
   app.use(
     express.static(
       path.resolve(fileURLToPath(import.meta.url), '../../manifest'),
@@ -299,8 +334,8 @@ REDIS_TOKEN=`,
           name: 'setUpFrame',
           message: pc.reset('Set up now?'),
           initial: true,
-          active: 'yes',
-          inactive: 'no',
+          active: 'no',
+          inactive: 'yes',
         },
       ],
       {

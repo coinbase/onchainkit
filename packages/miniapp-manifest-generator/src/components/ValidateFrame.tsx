@@ -70,7 +70,7 @@ export function ValidateFrame({ frame }: ValidateFrameProps) {
 
         return (
           <Fragment key={key}>
-            <div className="grid grid-cols-[4px_200px_1fr_30px] gap-2 text-gray-500">
+            <div className="grid grid-cols-[4px_280px_1fr_30px] gap-2 text-gray-500">
               <span>{isRequired && '*'}</span>
               <span className="font-bold">{key}:</span>
               <span>{value}</span>
