@@ -22,8 +22,9 @@ const VALIDATION = {
 
   'button.action.type': {
     isRequired: true,
-    isValid: (value: string) => value.length > 0 && value.length <= 32,
-    errorMsg: 'Action type is required and max length is 32 characters',
+    isValid: (value: string) =>
+      value === 'launch_frame' || value === 'view_token',
+    errorMsg: 'Action type must be "launch_frame" or "view_token"',
   },
 
   'button.action.url': {
@@ -81,11 +82,15 @@ export function ValidateMetadata({ metadata }: ValidateMetadataProps) {
             metadata as Record<string, unknown>,
             key,
           );
-          const valid =
-            !isRequired || (value !== undefined && isValid(value as string));
 
-          if (!valid) {
+          const valid = value !== undefined && isValid(value as string);
+
+          if (isRequired && !valid) {
             isAllValid = false;
+          }
+
+          if (!isRequired && !value) {
+            return null;
           }
 
           return (
@@ -93,7 +98,7 @@ export function ValidateMetadata({ metadata }: ValidateMetadataProps) {
               <div className="grid grid-cols-[4px_280px_1fr_30px] gap-2 text-gray-500">
                 <span>{isRequired && '*'}</span>
                 <span className="font-bold">{key}:</span>
-                <span>{value?.toString() || '(not set)'}</span>
+                <span>{value?.toString() || 'not set'}</span>
                 {Boolean(value) && <span>{valid ? '✅' : '❌'}</span>}
               </div>
               {!valid && (

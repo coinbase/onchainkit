@@ -96,9 +96,6 @@ importers:
       '@coinbase/onchainkit':
         specifier: latest
         version: 0.38.7(@tanstack/query-core@5.69.0)(@types/react@18.3.19)(bufferutil@4.0.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)(utf-8-validate@5.0.10)(zod@3.24.3)
-      '@farcaster/frame-core':
-        specifier: ^0.0.32
-        version: 0.0.32(typescript@5.7.3)
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -114,9 +111,6 @@ importers:
       wagmi:
         specifier: ^2.14.12
         version: 2.14.15(@tanstack/query-core@5.69.0)(@tanstack/react-query@5.69.0(react@18.3.1))(@types/react@18.3.19)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.7.3)(utf-8-validate@5.0.10)(viem@2.27.2(bufferutil@4.0.9)(typescript@5.7.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)
-      zod:
-        specifier: ^3.24.3
-        version: 3.24.3
     devDependencies:
       '@eslint/js':
         specifier: ^9.21.0
@@ -1631,9 +1625,6 @@ packages:
 
   '@farcaster/frame-core@0.0.26':
     resolution: {integrity: sha512-DqBsi+lz7WBlqcxJfYv8ZiU8+Th4Y49euq13kCxVOn6YU/rKR7Wq6E6N1bgeb625wyoIrlC3NnPRXf5SoRxNhA==}
-
-  '@farcaster/frame-core@0.0.32':
-    resolution: {integrity: sha512-WkOa3Eq2cVQpHuykUn538SJNea7DZul+MqjjGjIZGjo0ScjRR09Ql9QmxG1twsRQrsp0jokpBCIMBBHnhwoaxQ==}
 
   '@farcaster/frame-sdk@0.0.28':
     resolution: {integrity: sha512-raxJkwy9oNDTodyfcY8DNvQNkt/9wdWGIqGnXW70biBPfVxfdG9WAqy1Bm552KSynd0+hGzcrQVwkMNzvpSZBg==}
@@ -9538,13 +9529,6 @@ snapshots:
     dependencies:
       ox: 0.4.4(typescript@5.8.2)(zod@3.24.2)
       zod: 3.24.2
-    transitivePeerDependencies:
-      - typescript
-
-  '@farcaster/frame-core@0.0.32(typescript@5.7.3)':
-    dependencies:
-      ox: 0.4.4(typescript@5.7.3)(zod@3.24.3)
-      zod: 3.24.3
     transitivePeerDependencies:
       - typescript
 
@@ -17933,7 +17917,8 @@ snapshots:
 
   zod@3.24.2: {}
 
-  zod@3.24.3: {}
+  zod@3.24.3:
+    optional: true
 
   zustand@5.0.0(@types/react@18.3.19)(react@18.3.1)(use-sync-external-store@1.4.0(react@18.3.1)):
     optionalDependencies:

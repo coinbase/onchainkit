@@ -68,6 +68,10 @@ export function ValidateFrame({ frame }: ValidateFrameProps) {
           isAllValid = false;
         }
 
+        if (!isRequired && !value) {
+          return null;
+        }
+
         return (
           <Fragment key={key}>
             <div className="grid grid-cols-[4px_280px_1fr_30px] gap-2 text-gray-500">
