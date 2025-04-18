@@ -37,6 +37,9 @@ export function ActiveComponent() {
           <SelectItem value={OnchainKitComponent.IdentityCard}>
             IdentityCard
           </SelectItem>
+          <SelectItem value={OnchainKitComponent.BuilderScoreCard}>
+            BuilderScoreCard
+          </SelectItem>
           <SelectItem value={OnchainKitComponent.Checkout}>Checkout</SelectItem>
           <SelectItem value={OnchainKitComponent.Transaction}>
             Transaction

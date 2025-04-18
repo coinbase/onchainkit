@@ -347,6 +347,36 @@ export type UseAvatarsOptions = {
 
 /**
  * Note: exported as public Type
+ */
+export type BuilderScore = {
+  /** The builder score points */
+  points: number;
+  /** ISO timestamp of when the score was last calculated */
+  last_calculated_at: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type UseBuilderScoreOptions = {
+  /** The address for which the builder score is to be fetched */
+  address?: Address;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type BuilderScoreCardReact = {
+  /** Ethereum address to fetch the builder score for */
+  address?: Address;
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+  /** Optional className override for top div element */
+  className?: string;
+};
+
+/**
+ * Note: exported as public Type
  *
  * Extends Tanstack Query's UseQueryOptions type but omits 'queryKey' and 'queryFn'
  * properties which are handled internally.
