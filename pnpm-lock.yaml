@@ -96,6 +96,9 @@ importers:
       '@coinbase/onchainkit':
         specifier: latest
         version: 0.38.7(@tanstack/query-core@5.69.0)(@types/react@18.3.19)(bufferutil@4.0.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)(utf-8-validate@5.0.10)(zod@3.24.3)
+      '@farcaster/frame-core':
+        specifier: ^0.0.32
+        version: 0.0.32(typescript@5.7.3)
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -111,6 +114,9 @@ importers:
       wagmi:
         specifier: ^2.14.12
         version: 2.14.15(@tanstack/query-core@5.69.0)(@tanstack/react-query@5.69.0(react@18.3.1))(@types/react@18.3.19)(bufferutil@4.0.9)(react@18.3.1)(typescript@5.7.3)(utf-8-validate@5.0.10)(viem@2.27.2(bufferutil@4.0.9)(typescript@5.7.3)(utf-8-validate@5.0.10)(zod@3.24.3))(zod@3.24.3)
+      zod:
+        specifier: ^3.24.3
+        version: 3.24.3
     devDependencies:
       '@eslint/js':
         specifier: ^9.21.0
@@ -1625,6 +1631,9 @@ packages:
 
   '@farcaster/frame-core@0.0.26':
     resolution: {integrity: sha512-DqBsi+lz7WBlqcxJfYv8ZiU8+Th4Y49euq13kCxVOn6YU/rKR7Wq6E6N1bgeb625wyoIrlC3NnPRXf5SoRxNhA==}
+
+  '@farcaster/frame-core@0.0.32':
+    resolution: {integrity: sha512-WkOa3Eq2cVQpHuykUn538SJNea7DZul+MqjjGjIZGjo0ScjRR09Ql9QmxG1twsRQrsp0jokpBCIMBBHnhwoaxQ==}
 
   '@farcaster/frame-sdk@0.0.28':
     resolution: {integrity: sha512-raxJkwy9oNDTodyfcY8DNvQNkt/9wdWGIqGnXW70biBPfVxfdG9WAqy1Bm552KSynd0+hGzcrQVwkMNzvpSZBg==}
@@ -8023,9 +8032,6 @@ packages:
     resolution: {integrity: sha512-YnOmtSbv4MTf7RGJMK0FvZ+KD8OEe/J5BNnR0GHhD8J/XcG/Qvxgszm0Un6FTHWW4uHlTgP0IztiXQnGyIR45g==}
     engines: {node: '>=8'}
 
-  zod@3.24.2:
-    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
-
   zod@3.24.3:
     resolution: {integrity: sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==}
 
@@ -9520,15 +9526,22 @@ snapshots:
 
   '@farcaster/frame-core@0.0.26(typescript@5.7.3)':
     dependencies:
-      ox: 0.4.4(typescript@5.7.3)(zod@3.24.2)
-      zod: 3.24.2
+      ox: 0.4.4(typescript@5.7.3)(zod@3.24.3)
+      zod: 3.24.3
     transitivePeerDependencies:
       - typescript
 
   '@farcaster/frame-core@0.0.26(typescript@5.8.2)':
     dependencies:
-      ox: 0.4.4(typescript@5.8.2)(zod@3.24.2)
-      zod: 3.24.2
+      ox: 0.4.4(typescript@5.8.2)(zod@3.24.3)
+      zod: 3.24.3
+    transitivePeerDependencies:
+      - typescript
+
+  '@farcaster/frame-core@0.0.32(typescript@5.7.3)':
+    dependencies:
+      ox: 0.4.4(typescript@5.7.3)(zod@3.24.3)
+      zod: 3.24.3
     transitivePeerDependencies:
       - typescript
 
@@ -12201,20 +12214,10 @@ snapshots:
       '@walletconnect/window-getters': 1.0.1
       tslib: 1.14.1
 
-  abitype@1.0.8(typescript@5.7.3)(zod@3.24.2):
-    optionalDependencies:
-      typescript: 5.7.3
-      zod: 3.24.2
-
   abitype@1.0.8(typescript@5.7.3)(zod@3.24.3):
     optionalDependencies:
       typescript: 5.7.3
       zod: 3.24.3
-
-  abitype@1.0.8(typescript@5.8.2)(zod@3.24.2):
-    optionalDependencies:
-      typescript: 5.8.2
-      zod: 3.24.2
 
   abitype@1.0.8(typescript@5.8.2)(zod@3.24.3):
     optionalDependencies:
@@ -15686,20 +15689,6 @@ snapshots:
       object-keys: 1.1.1
       safe-push-apply: 1.0.0
 
-  ox@0.4.4(typescript@5.7.3)(zod@3.24.2):
-    dependencies:
-      '@adraffy/ens-normalize': 1.11.0
-      '@noble/curves': 1.8.1
-      '@noble/hashes': 1.7.1
-      '@scure/bip32': 1.6.2
-      '@scure/bip39': 1.5.4
-      abitype: 1.0.8(typescript@5.7.3)(zod@3.24.2)
-      eventemitter3: 5.0.1
-    optionalDependencies:
-      typescript: 5.7.3
-    transitivePeerDependencies:
-      - zod
-
   ox@0.4.4(typescript@5.7.3)(zod@3.24.3):
     dependencies:
       '@adraffy/ens-normalize': 1.11.0
@@ -15711,20 +15700,6 @@ snapshots:
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.7.3
-    transitivePeerDependencies:
-      - zod
-
-  ox@0.4.4(typescript@5.8.2)(zod@3.24.2):
-    dependencies:
-      '@adraffy/ens-normalize': 1.11.0
-      '@noble/curves': 1.8.1
-      '@noble/hashes': 1.7.1
-      '@scure/bip32': 1.6.2
-      '@scure/bip39': 1.5.4
-      abitype: 1.0.8(typescript@5.8.2)(zod@3.24.2)
-      eventemitter3: 5.0.1
-    optionalDependencies:
-      typescript: 5.8.2
     transitivePeerDependencies:
       - zod
 
@@ -17915,10 +17890,7 @@ snapshots:
     dependencies:
       '@types/yoga-layout': 1.9.2
 
-  zod@3.24.2: {}
-
-  zod@3.24.3:
-    optional: true
+  zod@3.24.3: {}
 
   zustand@5.0.0(@types/react@18.3.19)(react@18.3.1)(use-sync-external-store@1.4.0(react@18.3.1)):
     optionalDependencies:

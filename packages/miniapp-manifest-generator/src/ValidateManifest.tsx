@@ -3,12 +3,15 @@ import { Connect } from './components/steps/Connect';
 import { Domain } from './components/steps/Domain';
 import { ValidateAccountAssociation } from './components/ValidateAccountAssociation';
 import { Preview } from './components/Preview';
-import { ValidateFrame } from './components/ValidateFrame';
 import { FarcasterManifest, FrameMetadata } from './types';
 import { ShowJson } from './components/ShowJson';
 import { Step } from './components/Step';
 import { useWebsocket } from './hooks/useWebsocket';
-import { ValidateMetadata } from './components/ValidateMetadata';
+import { ValidateSchema } from './components/ValidateSchema';
+import {
+  domainFrameConfigSchema,
+  frameEmbedNextSchema,
+} from '@farcaster/frame-core';
 
 function Verify() {
   useWebsocket();
@@ -55,6 +58,32 @@ function Verify() {
       loadManifest();
     }
   }, [domain, loadManifest]);
+
+  const testFarcasterJson = {
+    version: '1',
+    homeUrl: 'https://onchainkit.xyz/playground/minikit',
+    iconUrl: 'https://onchainkit.xyz/playground/snake.png',
+    imageUrl: 'https://onchainkit.xyz/playground/snake.png',
+    buttonTitle: 'Launch MiniKit',
+    splashImageUrl: 'https://onchainkit.xyz/playground/snake.png',
+    splashBackgroundColor: '#FFFFFF',
+    webhookUrl: 'https://onchainkit.xyz/playground/api/webhook',
+  };
+
+  const testFrameData = {
+    version: '1',
+    imageUrl: 'https://onchainkit.xyz/playground/snake.png',
+    button: {
+      title: 'Launch MiniKit',
+      action: {
+        type: 'launch_framestuff',
+        name: 'MiniKit',
+        url: 'https://onchainkit.xyz/playground/minikit',
+        splashImageUrl: 'https://onchainkit.xyz/playground/snake.png',
+        splashBackgroundColor: '#FFFFFF',
+      },
+    },
+  };
 
   return (
     <main className="flex min-h-screen w-full flex-col gap-6 font-sans">
@@ -115,7 +144,13 @@ function Verify() {
         >
           <div>
             <div className="w-fit">
-              {farcasterJson && <ValidateFrame frame={farcasterJson.frame} />}
+              {/*farcasterJson.frame*/}
+              {farcasterJson && (
+                <ValidateSchema
+                  schema={domainFrameConfigSchema}
+                  schemaData={testFarcasterJson}
+                />
+              )}
             </div>
             <div>
               {farcasterJson && (
@@ -147,7 +182,10 @@ function Verify() {
           <div>
             <div className="w-fit">
               {frameMetadataJson && (
-                <ValidateMetadata metadata={frameMetadataJson} />
+                <ValidateSchema
+                  schema={frameEmbedNextSchema}
+                  schemaData={testFrameData}
+                />
               )}
             </div>
             <div>
