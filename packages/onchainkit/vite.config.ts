@@ -8,6 +8,10 @@ import { fileURLToPath } from 'node:url';
 import { glob } from 'glob';
 import path from 'node:path';
 import fs from 'fs';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
+import tailwindcssAnimate from 'tailwindcss-animate';
+import postcssPrefixClassnames from './plugins/postcss-prefix-classnames.js';
 import { babelPrefixReactClassNames } from './plugins/babel-prefix-react-classnames';
 
 const entryPoints = Object.fromEntries(
@@ -69,9 +73,44 @@ export default defineConfig({
     rollupOptions: {
       input: entryPoints,
       output: {
-        assetFileNames: 'assets/[name][extname]',
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.names?.[0] === 'style.css') {
+            return 'assets/styles.css';
+          }
+          return 'assets/[name][extname]';
+        },
         entryFileNames: '[name].js',
       },
+    },
+  },
+  css: {
+    postcss: {
+      plugins: [
+        tailwindcss({
+          content: ['./src/**/*.{ts,tsx}'],
+          darkMode: ['class'],
+          safelist: ['dark'],
+          theme: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            extend: {
+              spacing: {
+                88: '22rem',
+                120: '30rem',
+              },
+              fontFamily: {
+                display: 'DM Sans, sans-serif',
+              },
+            },
+          },
+          plugins: [tailwindcssAnimate],
+        }),
+        autoprefixer(),
+        postcssPrefixClassnames({
+          prefix: 'ock-',
+        }),
+      ],
     },
   },
 });

@@ -290,6 +290,9 @@ importers:
       postcss-import:
         specifier: ^16.1.0
         version: 16.1.0(postcss@8.5.3)
+      postcss-load-config:
+        specifier: ^6.0.1
+        version: 6.0.1(jiti@2.4.2)(postcss@8.5.3)(yaml@2.7.0)
       react:
         specifier: ^18
         version: 18.3.1

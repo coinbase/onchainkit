@@ -6,12 +6,8 @@
   "license": "MIT",
   "access": "public",
   "scripts": {
-    "build": "pnpm clean && pnpm bundle:prod && pnpm tailwind:prod",
-    "dev": "concurrently \"pnpm tailwind:dev\" \"pnpm bundle:dev\"",
-    "bundle:dev": "NODE_ENV=development vite build --watch",
-    "bundle:prod": "vite build",
-    "tailwind:dev": "tailwindcss --postcss ./postcss.config.js -i ./src/styles/index.css -o ./dist/styles.css --watch",
-    "tailwind:prod": "tailwindcss --postcss ./postcss.config.js -i ./src/styles/index.css -o ./dist/styles.css --minify",
+    "build": "pnpm clean && vite build",
+    "dev": "NODE_ENV=development vite build --watch",
     "clean": "rm -rf dist esm",
     "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
@@ -71,6 +67,7 @@
     "packemon": "3.3.1",
     "postcss": "^8",
     "postcss-import": "^16.1.0",
+    "postcss-load-config": "^6.0.1",
     "react": "^18",
     "react-dom": "^18",
     "rimraf": "^5.0.5",
@@ -102,8 +99,7 @@
   "module": "./dist/index.js",
   "exports": {
     "./package.json": "./package.json",
-    "./styles.css": "./dist/styles.css",
-    "./tailwind.css": "./dist/tailwind.css",
+    "./styles.css": "./dist/assets/styles.css",
     "./theme": "./dist/styles/theme.js",
     ".": {
       "types": "./dist/index.d.ts",

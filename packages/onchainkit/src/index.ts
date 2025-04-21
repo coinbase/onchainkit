@@ -17,5 +17,5 @@ export type {
   isBaseOptions,
   isEthereumOptions,
 } from './core/types';
-
 export type { OnchainKitProviderReact } from './types';
+import './styles/index.css';
