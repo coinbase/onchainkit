@@ -2,9 +2,12 @@ import { MiniKitContext, emptyContext } from '@/minikit/MiniKitProvider';
 import sdk from '@farcaster/frame-sdk';
 import { useContext, useState } from 'react';
 import type { MiniKitContextType } from '../types';
+import type { ReadyOptions } from '@farcaster/frame-sdk';
 
 type UseMiniKitReturn = {
-  setFrameReady: () => Promise<MiniKitContextType>;
+  setFrameReady: (
+    readyOptions?: Partial<ReadyOptions>,
+  ) => Promise<MiniKitContextType>;
   isFrameReady: boolean;
   context: MiniKitContextType['context'];
   updateClientContext: MiniKitContextType['updateClientContext'];
@@ -27,8 +30,8 @@ export const useMiniKit = (): UseMiniKitReturn => {
     throw new Error('useMiniKit must be used within a MiniKitProvider');
   }
 
-  const setFrameReady = async () => {
-    sdk.actions.ready({});
+  const setFrameReady = async (readyOptions: Partial<ReadyOptions> = {}) => {
+    sdk.actions.ready(readyOptions);
     setIsFrameReady(true);
     return context;
   };
