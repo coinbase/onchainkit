@@ -60,7 +60,7 @@ function Verify() {
   }, [domain, loadManifest]);
 
   const testFarcasterJson = {
-    version: '1',
+    version: '2',
     homeUrl: 'https://onchainkit.xyz/playground/minikit',
     iconUrl: 'https://onchainkit.xyz/playground/snake.png',
     imageUrl: 'https://onchainkit.xyz/playground/snake.png',
