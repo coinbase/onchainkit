@@ -1,0 +1,79 @@
+# Code Style & TypeScript
+- Use English for all code and documentation
+- Use JSDoc to document public classes and methods
+- Always declare types for variables, functions (parameters and return values)
+- Avoid using `any` type
+- Create necessary custom types for complex state
+- Use proper types for all OnchainKit components
+
+# Naming Conventions
+- PascalCase: classes
+- camelCase: variables, functions, methods
+- kebab-case: file and directory names
+- UPPERCASE: environment variables
+- Define constants instead of using magic numbers
+
+# Functions & Logic
+- Keep functions short and single-purpose (<20 lines)
+- Use early returns to avoid deep nesting
+- Extract complex logic into utility functions
+- Use higher-order functions (map, filter, reduce)
+- Use arrow functions for simple cases (<3 instructions), named functions otherwise
+- Use default parameter values instead of null/undefined checks
+- Follow RO-RO (Receive Object, Return Object) pattern for multiple parameters
+
+# Project Structure & Architecture
+- Follow Next.js patterns and use App Router
+- Use server vs. client components appropriately in Next.js
+- Use named exports for components
+- Follow component hierarchy and composition patterns
+
+# Styling & UI
+- Use Tailwind CSS for styling
+- Implement proper loading states and fallbacks
+- Handle edge cases gracefully
+
+# State Management
+- Use React Context for state management
+- Handle all wallet connection states properly
+- Manage full transaction lifecycle
+- Implement proper token selection and inputs
+- Handle price quotes and updates
+
+# OnchainKit Implementation
+- Wrap application with OnchainKitProvider at root level
+- Configure proper API keys and chain settings in .env files
+- Never expose API keys in client code
+
+# Component Usage
+## Identity Components
+- Use Avatar, Name, Badge components for user identity
+- Configure proper chain selection for ENS/Basename resolution
+- Follow Identity provider composition patterns
+
+## Wallet Components
+- Use ConnectWallet with proper configuration
+- Implement WalletDropdown for additional options
+- Configure wallet providers and chains
+
+## Transaction Components
+- Use Transaction component for onchain interactions
+- Handle errors and status updates
+- Configure gas estimation and sponsorship
+
+## Swap Components
+- Configure slippage and swap settings
+- Manage swap transaction states
+
+## Frame Components
+- Use FrameMetadata with proper configuration
+- Validate and handle frame messages
+- Follow frame security best practices
+
+# Error Handling & Security
+- Implement error boundaries around components
+- Handle API errors with user feedback
+- Validate all user input
+- Follow frame security guidelines
+- Use proper error handling patterns
+

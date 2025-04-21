@@ -19,6 +19,8 @@ vi.mock('./utils.js', () => ({
   createClickableLink: vi.fn(),
   isValidPackageName: vi.fn().mockReturnValue(true),
   toValidPackageName: vi.fn().mockImplementation((name) => name),
+  ensureDir: vi.fn().mockResolvedValue(undefined),
+  addToGitignore: vi.fn().mockResolvedValue(undefined),
 }));
 vi.mock('ora', () => ({
   default: vi.fn(),
@@ -187,5 +189,37 @@ describe('CLI', () => {
         'Directory already exists and is not empty. Please choose a different name.',
       ),
     );
+  });
+
+  describe('AI tool', () => {
+    it('creates a new OnchainKit project with cursor', async () => {
+      (prompts as unknown as Mock).mockResolvedValue({
+        projectName: 'test-project',
+        aiTool: 'cursor',
+      });
+
+      await createOnchainKitTemplate();
+      expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.stringContaining(".cursor/rules/onchainkit.mdc"), expect.any(String));
+    });
+
+    it('creates a new OnchainKit project with windsurf', async () => {
+      (prompts as unknown as Mock).mockResolvedValue({
+        projectName: 'test-project',
+        aiTool: 'windsurf',
+      });
+
+      await createOnchainKitTemplate();
+      expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.stringContaining(".windsurfrules"), expect.any(String));
+    });
+
+    it('creates a new OnchainKit project with copilot', async () => {
+      (prompts as unknown as Mock).mockResolvedValue({
+        projectName: 'test-project',
+        aiTool: 'copilot',
+      });
+
+      await createOnchainKitTemplate();
+      expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.stringContaining(".github/copilot-instructions.md"), expect.any(String));
+    });
   });
 });

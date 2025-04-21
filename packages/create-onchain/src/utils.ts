@@ -108,3 +108,29 @@ export function detectPackageManager(): string {
   }
   return 'npm'; // default to npm if unable to detect
 }
+
+export async function ensureDir(dirPath: string) {
+  try {
+    const stats = await fs.stat(dirPath);
+    if (!stats.isDirectory()) {
+      throw new Error(`Path exists but is not a directory: ${dirPath}`);
+    }
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      await fs.mkdir(dirPath, { recursive: true });
+    } else {
+      throw error;
+    }
+  }
+}
+
+export async function addToGitignore({
+  gitignorePath,
+  additionalPath,
+}: {
+  gitignorePath: string,
+  additionalPath: string
+}) {
+  const gitignoreContent = await fs.readFile(gitignorePath, 'utf-8');
+  await fs.writeFile(gitignorePath, `${gitignoreContent}\n${additionalPath}`);
+}
