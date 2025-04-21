@@ -36,19 +36,16 @@ describe('useMiniKit', () => {
   });
 
   it('allows users to pass through ready options', async () => {
-    const { result } = renderHook(
-      () => useMiniKit({ readyOptions: { disableNativeGestures: true } }),
-      {
-        wrapper: ({ children }) => (
-          <MiniKitContext.Provider value={mockContext}>
-            {children}
-          </MiniKitContext.Provider>
-        ),
-      },
-    );
+    const { result } = renderHook(() => useMiniKit(), {
+      wrapper: ({ children }) => (
+        <MiniKitContext.Provider value={mockContext}>
+          {children}
+        </MiniKitContext.Provider>
+      ),
+    });
 
     await act(async () => {
-      result.current.setFrameReady();
+      result.current.setFrameReady({ disableNativeGestures: true });
     });
 
     expect(result.current.isFrameReady).toBe(true);
