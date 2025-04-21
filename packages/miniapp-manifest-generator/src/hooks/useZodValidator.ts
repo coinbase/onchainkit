@@ -1,16 +1,22 @@
 import { z } from 'zod';
 
-function flattenData(
+function flattenObject(
   obj: Record<string, unknown>,
   prefix = '',
-): Array<{ path: string; value: unknown }> {
-  return Object.entries(obj).flatMap(([key, value]) => {
-    const path = prefix ? `${prefix}.${key}` : key;
-    if (value && typeof value === 'object') {
-      return flattenData(value as Record<string, unknown>, path);
-    }
-    return [{ path, value }];
-  });
+): Record<string, unknown> {
+  return Object.entries(obj).reduce(
+    (acc, [key, value]) => {
+      const path = prefix ? `${prefix}.${key}` : key;
+      if (value && typeof value === 'object') {
+        return {
+          ...acc,
+          ...flattenObject(value as Record<string, unknown>, path),
+        };
+      }
+      return { ...acc, [path]: value };
+    },
+    {} as Record<string, unknown>,
+  );
 }
 
 function flattenZErrors(
@@ -45,86 +51,62 @@ function isRequired(schema: z.ZodSchema, path: string): boolean {
   return !current.isOptional?.();
 }
 
-function getSchemaFields(
-  schema: z.ZodSchema,
-  prefix = '',
-): Array<{ path: string; value: unknown; isRequired: boolean }> {
-  const fields: Array<{ path: string; value: unknown; isRequired: boolean }> = [];
-
-  if (schema instanceof z.ZodObject) {
-    Object.entries(schema.shape).forEach(([key, value]) => {
-      const path = prefix ? `${prefix}.${key}` : key;
-
-      if (value instanceof z.ZodObject) {
-        fields.push(...getSchemaFields(value, path));
-      } else if (value instanceof z.ZodDiscriminatedUnion) {
-        value.options.forEach((option: z.ZodObject<z.ZodRawShape>) => {
-          fields.push(...getSchemaFields(option, path));
-        });
-      } else {
-        fields.push({
-          path,
-          value,
-          isRequired: !value.isOptional?.(),
-        });
-      }
-    });
-  }
-
-  return fields;
-}
-
 export function useZodValidator(
   schema: z.ZodSchema,
   data: Record<string, unknown>,
 ) {
-
-  const schemaFields = getSchemaFields(schema);
-  console.log('schemaFields', schemaFields);
-
-  // flatten nested data to path.path: value
-  const flattenedData = flattenData(data);
-
-  // create hash of required fields
-  const requiredFields = flattenedData.reduce<Record<string, boolean>>(
-    (acc, { path }) => {
-      acc[path] = isRequired(schema, path);
-      return acc;
-    },
-    {},
-  );
-
   // validate data against schema
   const zData = schema.safeParse(data);
   const zErrors = zData.error?.format();
-
-  console.log('zErrors', zErrors);
-  console.log('flattened zErrors', zData.error?.flatten());
 
   // flatten zod errors to path.path: error
   const flattenedZodErrors = flattenZErrors(
     zErrors ?? ({} as Record<string, unknown>),
   );
 
-  // get any missing fields
-  const missingFields = Object.keys(flattenedZodErrors).reduce(
-    (acc, key) => {
-      if (!flattenedData.some(({ path }) => path === key)) {
-        acc.push({
-          path: key,
-          value: data[key],
-        });
+  const flattenedDataObj = flattenObject(data);
+
+  const finalData = Array.from(
+    new Set([
+      ...Object.keys(flattenedDataObj),
+      ...Object.keys(flattenedZodErrors),
+    ]),
+  )
+    .map((field) => ({
+      path: field,
+      value: flattenedDataObj[field],
+      required: isRequired(schema, field),
+      errors: flattenedZodErrors?.[field],
+    }))
+    .sort((a, b) => {
+      // 1. Required items first
+      if (a.required && !b.required) return -1;
+      if (!a.required && b.required) return 1;
+
+      const aSegments = a.path.split('.');
+      const bSegments = b.path.split('.');
+
+      // 2. Sort by segment count first (shorter paths first)
+      if (aSegments.length !== bSegments.length) {
+        return aSegments.length - bSegments.length;
       }
-      return acc;
-    },
-    [] as Array<{ path: string; value: unknown }>,
-  );
+
+      // 3. Group segments with the same prefix together
+      // Compare each segment level by level
+      const minLength = Math.min(aSegments.length, bSegments.length);
+
+      for (let i = 0; i < minLength; i++) {
+        if (aSegments[i] !== bSegments[i]) {
+          return aSegments[i].localeCompare(bSegments[i]);
+        }
+      }
+
+      // 4. Alphabetize as final fallback
+      return a.path.localeCompare(b.path);
+    });
 
   return {
-    missingFields,
-    data: flattenedData,
-    errors: flattenedZodErrors,
+    data: finalData,
     valid: !zErrors,
-    requiredFields,
   };
 }
