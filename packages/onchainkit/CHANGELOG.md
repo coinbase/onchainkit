@@ -12,6 +12,8 @@
 - **fix**: Wallet modal UI fix. By @abcrane123 #2282
 - **feat**: Show recipient's ENS or Basename in send input. By @brendan-defi #2283
 - **chore**: Use Vite for package build. By @dgca #2227
+- **fix:**: add readyOptions pass through to sdk.actions.ready(). By @alessey #2300
+- **fix:**: update fid authentication against user.fid, allow optional. By @alessey #2299
 
 ## 0.38.7
 
