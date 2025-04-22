@@ -4,10 +4,14 @@
 
 ### Patch Changes
 
-- 7eb0e94: - **feat**: Add batch ENS / Basename resolution with useAddresses hook and getAddresses utility. By @cpcramer #2277
-- f41e838: - **chore**: Refactored getNames utility to leverage batch processing with getAddresses. By @cpcramer #2281
-- a17d3f7: Prevented video button clicks from propagating and small style fixes
-- b1c2361: - **chore**: Add bidirectional resolution validation when batching `Basenames` and `ENS` names. By @cpcramer #000
+- **feat**: Add batch ENS / Basename resolution with useAddresses hook and getAddresses utility. By @cpcramer #2277
+- **chore**: Refactored getNames utility to leverage batch processing with getAddresses. By @cpcramer #2281
+- **fix**: Prevented video button clicks from propagating and small style fixes. By @alessey #2273
+- **chore**: Add bidirectional resolution validation when batching `Basenames` and `ENS` names. By @cpcramer #2264
+- **chore**: Separate Wagmi and Query default providers. By @dgca #2280
+- **fix**: Wallet modal UI fix. By @abcrane123 #2282
+- **feat**: Show recipient's ENS or Basename in send input. By @brendan-defi #2283
+- **chore**: Use Vite for package build. By @dgca #2227
 
 ## 0.38.7
 
