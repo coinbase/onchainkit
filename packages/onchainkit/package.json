@@ -4,7 +4,9 @@
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
-  "access": "public",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "pnpm clean && pnpm bundle:prod && pnpm tailwind:prod",
     "dev": "concurrently \"pnpm tailwind:dev\" \"pnpm bundle:dev\"",
