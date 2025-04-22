@@ -1,6 +1,6 @@
 'use client';
 
-import { copyToClipboard } from '@/internal/utils/copyToClipboard';
+import { useCopyToClipboard } from '@/internal/hooks/useCopyToClipboard';
 import { useState } from 'react';
 import { border, cn, color, pressable, text } from '../../styles/theme';
 import type { AddressReact } from '../types';
@@ -14,6 +14,18 @@ export function Address({
   hasCopyAddressOnClick = true,
 }: AddressReact) {
   const [copyText, setCopyText] = useState('Copy');
+  const copyToClipboard = useCopyToClipboard({
+    onSuccess: () => {
+      setCopyText('Copied');
+    },
+    onError: (err: unknown) => {
+      console.error('Failed to copy address:', err);
+      setCopyText('Failed to copy');
+    },
+    onReset: () => {
+      setCopyText('Copy');
+    },
+  });
   const { address: contextAddress } = useIdentityContext();
   const accountAddress = address ?? contextAddress;
 
@@ -42,18 +54,7 @@ export function Address({
 
   // Interactive version with copy functionality
   const handleClick = async () => {
-    await copyToClipboard({
-      copyValue: accountAddress,
-      onSuccess: () => {
-        setCopyText('Copied');
-        setTimeout(() => setCopyText('Copy'), 2000);
-      },
-      onError: (err: unknown) => {
-        console.error('Failed to copy address:', err);
-        setCopyText('Failed to copy');
-        setTimeout(() => setCopyText('Copy'), 2000);
-      },
-    });
+    await copyToClipboard(accountAddress);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {

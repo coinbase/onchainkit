@@ -2,6 +2,7 @@
 
 import { Avatar, Name } from '@/identity';
 import { Spinner } from '@/internal/components/Spinner';
+import { useCopyToClipboard } from '@/internal/hooks/useCopyToClipboard';
 import { zIndex } from '@/styles/constants';
 import { border, cn, color, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
@@ -24,18 +25,21 @@ export function WalletAdvancedAddressDetails({
 }: WalletAdvancedAddressDetailsProps) {
   const { address, chain, animations } = useWalletContext();
   const [copyText, setCopyText] = useState('Copy');
-
-  const handleCopyAddress = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(String(address));
+  const copyToClipboard = useCopyToClipboard({
+    onSuccess: () => {
       setCopyText('Copied');
-      setTimeout(() => setCopyText('Copy'), 2000);
-    } catch (err) {
+    },
+    onError: (err: unknown) => {
       console.error('Failed to copy address:', err);
       setCopyText('Failed to copy');
-      setTimeout(() => setCopyText('Copy'), 2000);
-    }
-  }, [address]);
+    },
+    onReset: () => {
+      setCopyText('Copy');
+    },
+  });
+  const handleCopyAddress = useCallback(async () => {
+    await copyToClipboard(String(address));
+  }, [address, copyToClipboard]);
 
   if (!address || !chain) {
     return <div className="mt-1 h-28 w-10 px-4 py-3" />; // Prevent layout shift
