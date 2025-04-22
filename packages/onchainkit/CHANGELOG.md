@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.38.8
+
+### Patch Changes
+
+- 7eb0e94: - **feat**: Add batch ENS / Basename resolution with useAddresses hook and getAddresses utility. By @cpcramer #2277
+- f41e838: - **chore**: Refactored getNames utility to leverage batch processing with getAddresses. By @cpcramer #2281
+- a17d3f7: Prevented video button clicks from propagating and small style fixes
+- b1c2361: - **chore**: Add bidirectional resolution validation when batching `Basenames` and `ENS` names. By @cpcramer #000
+
 ## 0.38.7
 
 ### Patch Changes
