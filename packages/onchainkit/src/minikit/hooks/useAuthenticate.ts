@@ -110,10 +110,10 @@ type UseAuthenticateProps = Omit<SignInCore.SignInOptions, 'nonce'> & {
 /**
  * Authenticates the user's account.
  * @param domain [optional] - The domain of the frame to authenticate against, if not provided, the domain will not be validated
+ * @param skipValidation [optional] - Whether to skip validation of the nonce and fid, by default it will validate the nonce and fid
  * @returns `signIn` - A function that wraps the frames SDK signIn action and returns the result of the signIn action
- * by default validates the nonce and fid
  */
-export const useAuthenticate = (domain?: string) => {
+export const useAuthenticate = (domain?: string, skipValidation = false) => {
   const { context } = useMiniKit();
 
   const signIn = useCallback(
@@ -127,12 +127,14 @@ export const useAuthenticate = (domain?: string) => {
         const result = await sdk.actions.signIn(
           signInOptions as SignInCore.SignInOptions,
         );
-        validateSignInMessage({
-          message: result.message,
-          domain,
-          fid: context?.client.clientFid,
-          nonce: signInOptions.nonce,
-        });
+        if (!skipValidation) {
+          validateSignInMessage({
+            message: result.message,
+            domain,
+            fid: context?.user?.fid,
+            nonce: signInOptions.nonce,
+          });
+        }
 
         return result;
       } catch (error) {
@@ -140,7 +142,7 @@ export const useAuthenticate = (domain?: string) => {
         return false;
       }
     },
-    [domain, context?.client.clientFid],
+    [context?.user?.fid, domain, skipValidation],
   );
 
   return { signIn };
