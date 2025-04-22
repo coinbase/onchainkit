@@ -177,7 +177,7 @@ ${cursorRulesTemplate.trim()}`;
       await fs.promises.writeFile(path.join(rulesDir, 'onchainkit.mdc'), fileContent);
       await addToGitignore({
         gitignorePath: path.join(root, '.gitignore'),
-        additionalPath: '.cursor',
+        additionalPath: '.cursor/rules/onchainkit.mdc',
       });
     } else if (aiTool === 'windsurf') {
       const windsurfRulesTemplate = await fs.promises.readFile(
