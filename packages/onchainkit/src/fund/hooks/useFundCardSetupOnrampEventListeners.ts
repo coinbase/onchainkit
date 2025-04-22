@@ -9,6 +9,10 @@ export const useFundCardSetupOnrampEventListeners = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const scheduleFundButtonReset = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
     timeoutRef.current = setTimeout(() => {
       setSubmitButtonState('default');
     }, FUND_BUTTON_RESET_TIMEOUT);
