@@ -1,9 +1,11 @@
-name: Kit Build
+name: onchainkit build
 on:
   push:
     branches: ['main']
   pull_request:
     branches: ['main']
+permissions:
+  contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,16 +17,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+      - name: 'Setup'
+        uses: ./.github/actions/setup
 
-      - name: Kit Install dependencies
-        run: npm install
-
-      - name: Kit Test Build
-        # When fails, please check your build
+      - name: Build
         run: |
-          npm run build
+          pnpm f:ock build
+
+      - name: Validate build
+        run: |
+          pnpm f:ock validate-build

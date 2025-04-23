@@ -5,8 +5,6 @@ dist
 esm
 tmp
 /out-tsc
-site/docs/pages/src/
-site/vocs.config.tsx.timestamp*
 src/styles.css
 src/tailwind.css
 
@@ -28,7 +26,6 @@ node_modules
 # misc
 /.sass-cache
 /connect.lock
-/coverage
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
@@ -61,3 +58,6 @@ storybook-static/
 
 # Tarballs  
 *.tgz
+
+# cursor
+.cursorrules

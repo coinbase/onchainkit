@@ -8,36 +8,36 @@ documentation:
 
 'pkg: core':
 - changed-files:
-  - any-glob-to-any-file: src/core/**
+  - any-glob-to-any-file: packages/onchainkit/src/core/**
 
 'pkg: fund':
 - changed-files:
-  - any-glob-to-any-file: src/fund/**
+  - any-glob-to-any-file: packages/onchainkit/src/fund/**
 
 'pkg: identity':
 - changed-files:
-  - any-glob-to-any-file: src/identity/**
+  - any-glob-to-any-file: packages/onchainkit/src/identity/**
 
 'pkg: network':
 - changed-files:
-  - any-glob-to-any-file: src/network/**
+  - any-glob-to-any-file: packages/onchainkit/src/core/network/**
 
 'pkg: styles':
 - changed-files:
-  - any-glob-to-any-file: src/styles/**
+  - any-glob-to-any-file: packages/onchainkit/src/styles/**
 
 'pkg: swap':
 - changed-files:
-  - any-glob-to-any-file: src/swap/**
+  - any-glob-to-any-file: packages/onchainkit/src/swap/**
 
 'pkg: token':
 - changed-files:
-  - any-glob-to-any-file: src/token/**
+  - any-glob-to-any-file: packages/onchainkit/src/token/**
 
 'pkg: utils':
 - changed-files:
-  - any-glob-to-any-file: src/utils/**
+  - any-glob-to-any-file: packages/onchainkit/src/core/utils/**
 
 'pkg: wallet':
 - changed-files:
-  - any-glob-to-any-file: src/wallet/**
+  - any-glob-to-any-file: packages/onchainkit/src/wallet/**
