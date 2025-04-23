@@ -20,8 +20,11 @@ export default function postcssPrefixClassnames({
 
       return {
         Rule(rule) {
-          if (!file || !shouldProcessFile({ file, includeFiles, excludeFiles }))
+          if (
+            !shouldProcessFile({ file: file ?? '', includeFiles, excludeFiles })
+          ) {
             return;
+          }
 
           rule.selectors = rule.selectors.map((selector) => {
             return prefixClasses({ selector, prefix: rawPrefix });
@@ -39,7 +42,7 @@ function prefixClasses({
   selector: string;
   prefix: string;
 }) {
-  return selector.replace(/(?:^\.)|(?:[^\\]\.)/, (match, index, str) => {
+  return selector.replace(/(?:^\.)|(?:[^\\]\.)/g, (match, index, str) => {
     const nextPart = str.substring(index + match.length);
     if (nextPart.startsWith(prefix)) return match;
     return match + prefix;
@@ -57,6 +60,7 @@ function shouldProcessFile({
 }) {
   if (!includeFiles && !excludeFiles) return true;
   if (excludeFiles && isMatch({ file, matcher: excludeFiles })) return false;
+  if (!includeFiles) return true;
   if (includeFiles && isMatch({ file, matcher: includeFiles })) return true;
   return false;
 }
