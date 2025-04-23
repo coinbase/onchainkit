@@ -99,11 +99,18 @@ function Verify() {
           disabled={!farcasterJson}
         >
           <div>
-            {farcasterJson && (
-              <ValidateAccountAssociation
-                accountAssociation={farcasterJson.accountAssociation}
-              />
-            )}
+            <div className="w-fit">
+              {farcasterJson && (
+                <ValidateAccountAssociation
+                  accountAssociation={farcasterJson.accountAssociation}
+                />
+              )}
+            </div>
+            <div className={farcasterJson ? 'mt-4' : ''}>
+              {farcasterJson && (
+                <ShowJson label="farcaster.json" json={farcasterJson} />
+              )}
+            </div>
           </div>
         </Step>
 
