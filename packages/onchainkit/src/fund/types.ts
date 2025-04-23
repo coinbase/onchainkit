@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import React from 'react';
 
 /**
  * Props used to get an Onramp buy URL by directly providing a CDP project ID.
@@ -116,13 +117,9 @@ type GetOnrampBuyUrlOptionalProps = {
  */
 export type FundButtonReact = {
   className?: string; // An optional CSS class name for styling the button component
+  children?: ReactNode; // An optional React node to be displayed in the button component
   disabled?: boolean; // A optional prop to disable the fund button
-  text?: string; // An optional text to be displayed in the button component
-  successText?: string; // An optional text to be displayed in the button component when the transaction is successful
-  errorText?: string; // An optional text to be displayed in the button component when the transaction fails
   state?: FundButtonStateReact; // The state of the button component
-  hideText?: boolean; // An optional prop to hide the text in the button component
-  hideIcon?: boolean; // An optional prop to hide the icon in the button component
   fundingUrl?: string; // An optional prop to provide a custom funding URL
   openIn?: 'popup' | 'tab'; // Whether to open the funding flow in a tab or a popup window
   /**
@@ -130,11 +127,15 @@ export type FundButtonReact = {
    * a fixed popup size.
    */
   popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
-  rel?: string; // Specifies the relationship between the current document and the linked document
   target?: string; // Where to open the target if `openIn` is set to tab
   fiatCurrency?: string; // The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR.
   onPopupClose?: () => void; // A callback function that will be called when the popup window is closed
   onClick?: () => void; // A callback function that will be called when the button is clicked
+  render?: (props: {
+    state: FundButtonStateReact;
+    onClick: (e: React.MouseEvent) => void;
+    isDisabled: boolean;
+  }) => React.ReactNode;
 };
 
 export type FundButtonStateReact = 'default' | 'success' | 'error' | 'loading';

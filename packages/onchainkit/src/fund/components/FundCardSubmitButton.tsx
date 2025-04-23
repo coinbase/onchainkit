@@ -1,4 +1,5 @@
 'use client';
+import { Spinner } from '@/internal/components/Spinner';
 import { useCallback, useMemo } from 'react';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import { FundButton } from './FundButton';
@@ -10,7 +11,6 @@ export function FundCardSubmitButton() {
     fundAmountCrypto,
     submitButtonState,
     setSubmitButtonState,
-    buttonText,
     currency,
     updateLifecycleStatus,
   } = useFundContext();
@@ -34,17 +34,40 @@ export function FundCardSubmitButton() {
     [fundAmountCrypto, fundAmountFiat],
   );
 
+  const buttonTextContent = useMemo(() => {
+    switch (submitButtonState) {
+      case 'loading':
+        return '';
+      case 'success':
+        return 'Success';
+      case 'error':
+        return 'Something went wrong';
+      default:
+        return 'Buy';
+    }
+  }, [submitButtonState]);
+
+  const buttonContent = useMemo(() => {
+    if (submitButtonState === 'loading') {
+      return <Spinner />;
+    }
+
+    return (
+      <span data-testid="ockFundButtonTextContent">{buttonTextContent}</span>
+    );
+  }, [submitButtonState, buttonTextContent]);
+
   return (
     <FundButton
       disabled={isButtonDisabled}
-      hideIcon={submitButtonState === 'default'}
-      text={buttonText}
       className="w-full"
       fundingUrl={fundingUrl}
       state={submitButtonState}
       onClick={handleOnClick}
       onPopupClose={handleOnPopupClose}
       fiatCurrency={currency}
-    />
+    >
+      {buttonContent}
+    </FundButton>
   );
 }
