@@ -146,6 +146,16 @@
       "permanent": true
     },
     {
+      "source": "/fund/get-onramp-buy-url",
+      "destination": "https://docs.base.org/builderkits/onchainkit/fund/get-onramp-buy-url",
+      "permanent": true
+    },
+    {
+      "source": "/fund/fetch-onramp-config",
+      "destination": "https://docs.base.org/builderkits/onchainkit/fund/fetch-onramp-config",
+      "permanent": true
+    },
+    {
       "source": "/identity/identity",
       "destination": "https://docs.base.org/builderkits/onchainkit/identity/identity",
       "permanent": true
