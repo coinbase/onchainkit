@@ -41,6 +41,8 @@ describe('SignatureProvider', () => {
   let mockOnSuccess: Mock;
   let mockSignMessage: Mock;
   let mockSignTypedData: Mock;
+  let mockResetMessage: Mock;
+  let mockResetTypedData: Mock;
 
   beforeEach(() => {
     mockOnError = vi.fn();
@@ -48,14 +50,16 @@ describe('SignatureProvider', () => {
     mockOnSuccess = vi.fn();
     mockSignMessage = vi.fn();
     mockSignTypedData = vi.fn();
+    mockResetMessage = vi.fn();
+    mockResetTypedData = vi.fn();
 
     (useSignMessage as Mock).mockReturnValue({
       signMessageAsync: mockSignMessage,
-      reset: vi.fn(),
+      reset: mockResetMessage,
     });
     (useSignTypedData as Mock).mockReturnValue({
       signTypedDataAsync: mockSignTypedData,
-      reset: vi.fn(),
+      reset: mockResetTypedData,
     });
   });
 
@@ -161,8 +165,8 @@ describe('SignatureProvider', () => {
     });
 
     await waitFor(() => {
-      expect(useSignMessage().reset).toHaveBeenCalled();
-      expect(useSignTypedData().reset).toHaveBeenCalled();
+      expect(mockResetMessage).toHaveBeenCalled();
+      expect(mockResetTypedData).toHaveBeenCalled();
     });
   });
 
@@ -250,5 +254,38 @@ describe('SignatureProvider', () => {
         }),
       );
     });
+  });
+
+  it('should not reset after unmount', async () => {
+    vi.useFakeTimers();
+    mockSignMessage.mockResolvedValue('0x456');
+
+    const { unmount } = render(
+      <SignatureProvider
+        message="Test message"
+        onSuccess={mockOnSuccess}
+        resetAfter={1000}
+      >
+        <TestComponent />
+      </SignatureProvider>,
+    );
+
+    fireEvent.click(screen.getByText('sign'));
+
+    // RTL waitFor will never resolve with fake timers
+    await vi.waitFor(() => {
+      if (vi.getTimerCount() !== 1) {
+        throw new Error('setTimeout was not called');
+      }
+    });
+
+    unmount();
+
+    vi.advanceTimersByTime(1000);
+
+    expect(mockResetMessage).not.toHaveBeenCalled();
+    expect(mockResetTypedData).not.toHaveBeenCalled();
+
+    vi.useRealTimers();
   });
 });
