@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
-import { FrameMetadata } from '../types';
+import { FrameEmbed } from '../types';
 
 type PreviewProps = {
-  frameMetadata: FrameMetadata;
+  frameMetadata: FrameEmbed;
 };
 
 /* TODO: this should pull from the frame metatag instead of the farcaster.json which is not required */

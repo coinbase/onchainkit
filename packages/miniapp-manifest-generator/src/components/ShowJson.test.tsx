@@ -14,7 +14,7 @@ const mockJson = {
     signature: '0x1234567890abcdef',
     domain: 'example.com',
   },
-} as FarcasterManifest;
+} as unknown as FarcasterManifest;
 
 describe('ShowJson', () => {
   it('should render', () => {

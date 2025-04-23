@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { FrameMetadata, FarcasterManifest } from '../types';
+import { FarcasterManifest, FrameEmbed } from '../types';
 
 type ShowJsonProps = {
   label: string;
-  json: FrameMetadata | FarcasterManifest;
+  json: FarcasterManifest | FrameEmbed;
 };
 
 export function ShowJson({ label, json }: ShowJsonProps) {

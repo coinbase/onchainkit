@@ -2,22 +2,22 @@ import { useCallback, useEffect, useState } from 'react';
 import { Domain } from './components/steps/Domain';
 import { ValidateAccountAssociation } from './components/ValidateAccountAssociation';
 import { Preview } from './components/Preview';
-import { FarcasterManifest, FrameMetadata } from './types';
+import {
+  FarcasterManifest,
+  FrameEmbed,
+  frameEmbedSchema,
+  frameSchema,
+} from './types';
 import { ShowJson } from './components/ShowJson';
 import { Step } from './components/Step';
 import { useWebsocket } from './hooks/useWebsocket';
 import { ValidateSchema } from './components/ValidateSchema';
-import {
-  domainFrameConfigSchema,
-  frameEmbedNextSchema,
-} from '@farcaster/frame-core';
-import { z } from 'zod';
 
 function Verify() {
   useWebsocket();
   const [domain, setDomain] = useState<string>('');
   const [farcasterJson, setFarcasterJson] = useState<FarcasterManifest>();
-  const [frameMetadataJson, setFrameMetadataJson] = useState<FrameMetadata>();
+  const [frameMetadataJson, setFrameMetadataJson] = useState<FrameEmbed>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
 
@@ -58,17 +58,6 @@ function Verify() {
       loadManifest();
     }
   }, [domain, loadManifest]);
-
-  // fix the frameEmbedNextSchema to allow the same versions as the domainFrameConfigSchema
-  const frameEmbedSchema = z.object({
-    ...frameEmbedNextSchema.shape,
-    version: z.union([
-      z.literal('0.0.0'),
-      z.literal('0.0.1'),
-      z.literal('1'),
-      z.literal('next'),
-    ]),
-  });
 
   return (
     <main className="flex min-h-screen w-full flex-col gap-6 font-sans">
@@ -135,9 +124,9 @@ function Verify() {
         >
           <div>
             <div className="w-fit">
-              {farcasterJson && (
+              {farcasterJson?.frame && (
                 <ValidateSchema
-                  schema={domainFrameConfigSchema}
+                  schema={frameSchema}
                   schemaData={farcasterJson.frame}
                 />
               )}

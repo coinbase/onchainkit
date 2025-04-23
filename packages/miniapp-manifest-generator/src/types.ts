@@ -1,48 +1,28 @@
 import {
-  domainFrameConfigSchema,
   frameEmbedNextSchema,
+  domainManifestSchema,
 } from '@farcaster/frame-core';
 import { z } from 'zod';
 
-export type AccountAssociation = {
-  header: string;
-  payload: string;
-  signature: string;
-  domain: string;
-};
+// extend the frameEmbedNextSchema to add in the same version options as the domainManifestSchema
+export const frameEmbedSchema = z.object({
+  ...frameEmbedNextSchema.shape,
+  version: z.union([
+    z.literal('0.0.0'),
+    z.literal('0.0.1'),
+    z.literal('1'),
+    z.literal('next'),
+  ]),
+});
 
-export type Frame = z.infer<typeof domainFrameConfigSchema>;
+export const accountAssociationSchema =
+  domainManifestSchema.shape.accountAssociation;
 
-// export type Frame = {
-//   version: string;
-//   name: string;
-//   homeUrl: string;
-//   iconUrl: string;
-//   imageUrl?: string;
-//   buttonTitle?: string;
-//   splashImageUrl?: string;
-//   splashBackgroundColor?: string;
-//   webhookUrl?: string;
-// };
+// unwrap the frame schema to make it required
+export const frameSchema = domainManifestSchema.shape.frame.unwrap();
 
-export type FarcasterManifest = {
-  accountAssociation: AccountAssociation;
-  frame: Frame;
-};
-
-export type FrameMetadata = z.infer<typeof frameEmbedNextSchema>;
-
-// export type FrameMetadata = {
-//   version: string;
-//   imageUrl: string;
-//   button: {
-//     title: string;
-//     action: {
-//       type: 'launch_frame' | 'view_token';
-//       url?: string;
-//       name?: string;
-//       splashImageUrl?: string;
-//       splashBackgroundColor?: string;
-//     };
-//   };
-// };
+// export schema types
+export type FarcasterManifest = z.infer<typeof domainManifestSchema>;
+export type FrameEmbed = z.infer<typeof frameEmbedSchema>;
+export type AccountAssociation = z.infer<typeof accountAssociationSchema>;
+export type Frame = z.infer<typeof frameSchema>;

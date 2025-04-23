@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Preview } from './Preview';
 import { describe, expect, it } from 'vitest';
-import { FrameMetadata } from '../types';
+import { FrameEmbed } from '../types';
 
 const mockFrameMetadata = {
   version: 'next',
@@ -16,7 +16,7 @@ const mockFrameMetadata = {
       splashBackgroundColor: '#FFFFFF',
     },
   },
-} as FrameMetadata;
+} as FrameEmbed;
 
 describe('Preview', () => {
   it('should render', () => {
@@ -41,7 +41,7 @@ describe('Preview', () => {
           type: 'view_token' as const,
         },
       },
-    } as FrameMetadata;
+    } as FrameEmbed;
 
     render(<Preview frameMetadata={mockFrameMetadataWithViewToken} />);
 
