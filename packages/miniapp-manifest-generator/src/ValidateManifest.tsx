@@ -185,7 +185,9 @@ function Verify() {
           description="This will preview your mini-app, but does not include the frames sdk."
           disabled={!farcasterJson}
         >
-          <div>{farcasterJson && <Preview frame={farcasterJson.frame} />}</div>
+          <div>
+            {frameMetadataJson && <Preview frameMetadata={frameMetadataJson} />}
+          </div>
         </Step>
       </div>
     </main>

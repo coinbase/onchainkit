@@ -1,21 +1,26 @@
 import { useCallback, useState } from 'react';
-import { Frame } from '../types';
+import { FrameMetadata } from '../types';
 
 type PreviewProps = {
-  frame: Frame;
+  frameMetadata: FrameMetadata;
 };
 
 /* TODO: this should pull from the frame metatag instead of the farcaster.json which is not required */
-export function Preview({ frame }: PreviewProps) {
+export function Preview({ frameMetadata }: PreviewProps) {
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
   const handleOpenPreview = useCallback(() => {
     setShowPreview(true);
   }, []);
 
+  // TODO: implement view_token preview
+  if (frameMetadata?.button?.action?.type !== 'launch_frame') {
+    return null;
+  }
+
   return (
     <div>
-      {showPreview && frame && (
+      {showPreview && frameMetadata && (
         <div
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
           onClick={() => setShowPreview(false)}
@@ -47,12 +52,12 @@ export function Preview({ frame }: PreviewProps) {
                 </svg>
               </button>
               <h3 className="text-lg font-bold text-white flex-grow text-center">
-                {frame?.name}
+                {frameMetadata?.button?.action?.name}
               </h3>
             </div>
             <div>
               <iframe
-                src={frame?.homeUrl}
+                src={frameMetadata?.button?.action?.url}
                 className="w-full h-170"
                 title="Mini App Preview"
                 sandbox="allow-forms allow-scripts allow-same-origin allow-popups"
@@ -65,7 +70,7 @@ export function Preview({ frame }: PreviewProps) {
       <div className="flex flex-col items-center justify-center bg-white rounded-lg border border-gray-700 w-80">
         <img
           loading="lazy"
-          src={frame?.imageUrl}
+          src={frameMetadata?.imageUrl}
           alt="Launch basic"
           className="w-full opacity-100 aspect-[1.5/1] object-cover object-center rounded-t-lg"
         />
@@ -76,7 +81,7 @@ export function Preview({ frame }: PreviewProps) {
             className="!bg-gray-700 font-bold text-white px-6 py-2 rounded-b-lg w-full"
             onClick={handleOpenPreview}
           >
-            Launch {frame?.name}
+            {frameMetadata?.button?.title}
           </button>
         </div>
       </div>

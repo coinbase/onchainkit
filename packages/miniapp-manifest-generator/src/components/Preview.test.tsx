@@ -1,41 +1,72 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Preview } from './Preview';
 import { describe, expect, it } from 'vitest';
+import { FrameMetadata } from '../types';
 
-const mockFrame = {
+const mockFrameMetadata = {
   version: 'next',
-  name: 'Test Frame',
-  homeUrl: 'https://example.com',
-  iconUrl: 'https://example.com/icon.png',
-  imageUrl: 'https://example.com/image.png',
-  buttonTitle: 'Launch Test Frame',
-};
+  imageUrl: 'https://onchainkit.xyz/playground/snake.png',
+  button: {
+    title: 'Launch MiniKit',
+    action: {
+      type: 'launch_frame' as const,
+      name: 'MiniKit',
+      url: 'https://onchainkit.xyz/playground/minikit',
+      splashImageUrl: 'https://onchainkit.xyz/playground/snake.png',
+      splashBackgroundColor: '#FFFFFF',
+    },
+  },
+} as FrameMetadata;
 
 describe('Preview', () => {
   it('should render', () => {
-    render(<Preview frame={mockFrame} />);
+    render(<Preview frameMetadata={mockFrameMetadata} />);
 
-    expect(screen.getByRole('img')).toHaveAttribute('src', mockFrame.imageUrl);
+    expect(screen.getByRole('img')).toHaveAttribute(
+      'src',
+      mockFrameMetadata.imageUrl,
+    );
     expect(screen.getByRole('button')).toHaveTextContent(
-      `Launch ${mockFrame.name}`,
+      mockFrameMetadata.button.title,
     );
   });
 
+  it('should not render when button action type is not launch_frame', () => {
+    const mockFrameMetadataWithViewToken = {
+      ...mockFrameMetadata,
+      button: {
+        ...mockFrameMetadata.button,
+        action: {
+          ...mockFrameMetadata.button.action,
+          type: 'view_token' as const,
+        },
+      },
+    } as FrameMetadata;
+
+    render(<Preview frameMetadata={mockFrameMetadataWithViewToken} />);
+
+    expect(screen.queryByTitle('Mini App Preview')).not.toBeInTheDocument();
+  });
+
   it('should open preview modal on button click', () => {
-    render(<Preview frame={mockFrame} />);
+    render(<Preview frameMetadata={mockFrameMetadata} />);
 
     fireEvent.click(screen.getByRole('button'));
 
     expect(screen.getByTitle('Mini App Preview')).toBeInTheDocument();
-    expect(screen.getByText(mockFrame.name)).toBeInTheDocument();
-    expect(screen.getByTitle('Mini App Preview')).toHaveAttribute(
-      'src',
-      mockFrame.homeUrl,
-    );
+    if (mockFrameMetadata.button.action.type === 'launch_frame') {
+      expect(
+        screen.getByText(mockFrameMetadata.button.action.name),
+      ).toBeInTheDocument();
+      expect(screen.getByTitle('Mini App Preview')).toHaveAttribute(
+        'src',
+        mockFrameMetadata.button.action.url,
+      );
+    }
   });
 
   it('should close modal when clicking close button', () => {
-    render(<Preview frame={mockFrame} />);
+    render(<Preview frameMetadata={mockFrameMetadata} />);
 
     fireEvent.click(screen.getByRole('button'));
     expect(screen.getByTitle('Mini App Preview')).toBeInTheDocument();
@@ -45,7 +76,7 @@ describe('Preview', () => {
   });
 
   it('should close modal when clicking overlay', () => {
-    render(<Preview frame={mockFrame} />);
+    render(<Preview frameMetadata={mockFrameMetadata} />);
 
     fireEvent.click(screen.getByRole('button'));
     expect(screen.getByTitle('Mini App Preview')).toBeInTheDocument();
@@ -55,7 +86,7 @@ describe('Preview', () => {
   });
 
   it('should not close modal when clicking modal content', () => {
-    render(<Preview frame={mockFrame} />);
+    render(<Preview frameMetadata={mockFrameMetadata} />);
 
     fireEvent.click(screen.getByRole('button'));
     const modal = screen.getByTestId('previewModalContent');
