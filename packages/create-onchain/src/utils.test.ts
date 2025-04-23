@@ -7,7 +7,6 @@ import {
   toValidPackageName,
   detectPackageManager,
   getVersion,
-  ensureDir,
   addToGitignore,
 } from './utils';
 import { Stats } from 'node:fs';
@@ -106,29 +105,6 @@ describe('utils', () => {
     it('should default to npm for unknown package managers', () => {
       process.env.npm_config_user_agent = 'unknown/1.0.0';
       expect(detectPackageManager()).toBe('npm');
-    });
-  });
-
-  describe('ensureDir', () => {
-    beforeEach(() => {
-      vi.resetAllMocks();
-    });
-
-    it('should create a directory if it does not exist', async () => {
-      const error = new Error('ENOENT');
-      (error as NodeJS.ErrnoException).code = 'ENOENT';
-      vi.mocked(fs.stat).mockRejectedValue(error);
-
-      await ensureDir('test/foobar/directory');
-
-      expect(fs.mkdir).toHaveBeenCalledWith('test/foobar/directory', { recursive: true });
-    });
-
-    it('should not create a directory if it already exists', async () => {
-      vi.mocked(fs.stat).mockResolvedValue({ isDirectory: () => true } as unknown as Stats);
-
-      await ensureDir('test/foobar/directory');
-      expect(fs.mkdir).not.toHaveBeenCalled();
     });
   });
 

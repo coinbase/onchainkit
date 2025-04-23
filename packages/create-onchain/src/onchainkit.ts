@@ -8,7 +8,6 @@ import {
   toValidPackageName,
   createClickableLink,
   copyDir,
-  ensureDir,
   addToGitignore,
 } from './utils.js';
 import { fileURLToPath } from 'url';
@@ -154,16 +153,15 @@ export async function createOnchainKitTemplate() {
 
   if (aiTool !== 'none') {
     console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`${aiTool}`)}`);
+    const onchainkitRulesTemplate = await fs.promises.readFile(
+      path.resolve(
+        fileURLToPath(import.meta.url),
+        '../../../rules/onchainkit.txt',
+      ),
+      'utf-8',
+    );
 
     if (aiTool === 'cursor') {
-      const cursorRulesTemplate = await fs.promises.readFile(
-        path.resolve(
-          fileURLToPath(import.meta.url),
-          '../../../rules/onchainkit.cursor.txt',
-        ),
-        'utf-8',
-      );
-
       const rulesDir = path.join(root, '.cursor/rules');
 
       const fileContent = `---
@@ -171,8 +169,8 @@ description: OnchainKit Cursor Rules
 globs:
 alwaysApply: false
 ---
-${cursorRulesTemplate.trim()}`;
-      await ensureDir(rulesDir);
+${onchainkitRulesTemplate.trim()}`;
+      await fs.promises.mkdir(rulesDir, { recursive: true });
       // Write the file
       await fs.promises.writeFile(path.join(rulesDir, 'onchainkit.mdc'), fileContent);
       await addToGitignore({
@@ -180,34 +178,20 @@ ${cursorRulesTemplate.trim()}`;
         additionalPath: '.cursor/rules/onchainkit.mdc',
       });
     } else if (aiTool === 'windsurf') {
-      const windsurfRulesTemplate = await fs.promises.readFile(
-        path.resolve(
-          fileURLToPath(import.meta.url),
-          '../../../rules/onchainkit.windsurf.txt',
-        ),
-        'utf-8',
-      );
       await fs.promises.writeFile(
         path.join(root, '.windsurfrules'), 
-        windsurfRulesTemplate,
+        onchainkitRulesTemplate,
       );
       await addToGitignore({
         gitignorePath: path.join(root, '.gitignore'),
         additionalPath: '.windsurfrules',
       });
     } else if (aiTool === 'copilot') {
-      await ensureDir(path.join(root, '.github'));
+      await fs.promises.mkdir(path.join(root, '.github'), { recursive: true });
 
-      const copilotRulesTemplate = await fs.promises.readFile(
-        path.resolve(
-          fileURLToPath(import.meta.url),
-          '../../../rules/onchainkit.copilot.txt',
-        ),
-        'utf-8',
-      );
       await fs.promises.writeFile(
         path.join(root, '.github/copilot-instructions.md'),
-        copilotRulesTemplate,
+        onchainkitRulesTemplate,
       );
       await addToGitignore({
         gitignorePath: path.join(root, '.gitignore'),
