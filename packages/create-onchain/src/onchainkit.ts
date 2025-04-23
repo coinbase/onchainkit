@@ -8,7 +8,6 @@ import {
   toValidPackageName,
   createClickableLink,
   copyDir,
-  addToGitignore,
 } from './utils.js';
 import { fileURLToPath } from 'url';
 import { analyticsPrompt } from './analytics.js';
@@ -173,19 +172,12 @@ ${onchainkitRulesTemplate.trim()}`;
       await fs.promises.mkdir(rulesDir, { recursive: true });
       // Write the file
       await fs.promises.writeFile(path.join(rulesDir, 'onchainkit.mdc'), fileContent);
-      await addToGitignore({
-        gitignorePath: path.join(root, '.gitignore'),
-        additionalPath: '.cursor/rules/onchainkit.mdc',
-      });
     } else if (aiTool === 'windsurf') {
       await fs.promises.writeFile(
         path.join(root, '.windsurfrules'), 
         onchainkitRulesTemplate,
       );
-      await addToGitignore({
-        gitignorePath: path.join(root, '.gitignore'),
-        additionalPath: '.windsurfrules',
-      });
+     
     } else if (aiTool === 'copilot') {
       await fs.promises.mkdir(path.join(root, '.github'), { recursive: true });
 
@@ -193,10 +185,6 @@ ${onchainkitRulesTemplate.trim()}`;
         path.join(root, '.github/copilot-instructions.md'),
         onchainkitRulesTemplate,
       );
-      await addToGitignore({
-        gitignorePath: path.join(root, '.gitignore'),
-        additionalPath: '.github/copilot-instructions.md',
-      });
     }
   }
 

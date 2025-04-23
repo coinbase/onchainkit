@@ -108,14 +108,3 @@ export function detectPackageManager(): string {
   }
   return 'npm'; // default to npm if unable to detect
 }
-
-export async function addToGitignore({
-  gitignorePath,
-  additionalPath,
-}: {
-  gitignorePath: string,
-  additionalPath: string
-}) {
-  const gitignoreContent = await fs.readFile(gitignorePath, 'utf-8');
-  await fs.writeFile(gitignorePath, `${gitignoreContent}\n${additionalPath}`);
-}

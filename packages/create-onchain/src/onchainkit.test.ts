@@ -19,7 +19,6 @@ vi.mock('./utils.js', () => ({
   createClickableLink: vi.fn(),
   isValidPackageName: vi.fn().mockReturnValue(true),
   toValidPackageName: vi.fn().mockImplementation((name) => name),
-  addToGitignore: vi.fn().mockResolvedValue(undefined),
 }));
 vi.mock('ora', () => ({
   default: vi.fn(),

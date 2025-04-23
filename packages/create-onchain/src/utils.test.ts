@@ -7,7 +7,6 @@ import {
   toValidPackageName,
   detectPackageManager,
   getVersion,
-  addToGitignore,
 } from './utils';
 import { Stats } from 'node:fs';
 
@@ -105,20 +104,6 @@ describe('utils', () => {
     it('should default to npm for unknown package managers', () => {
       process.env.npm_config_user_agent = 'unknown/1.0.0';
       expect(detectPackageManager()).toBe('npm');
-    });
-  });
-
-  describe('addToGitignore', () => {
-    it('should add a path to the gitignore file', async () => {
-      vi.mocked(fs.readFile).mockResolvedValue('existing content');
-      vi.mocked(fs.writeFile).mockResolvedValue();
-
-      await addToGitignore({
-        gitignorePath: 'path/to/gitignore',
-        additionalPath: 'path/to/additional',
-      });
-
-      expect(fs.writeFile).toHaveBeenCalledWith('path/to/gitignore', 'existing content\npath/to/additional');
     });
   });
 });
