@@ -1,79 +1,65 @@
-# Code Style & TypeScript
-- Use English for all code and documentation
-- Use JSDoc to document public classes and methods
-- Always declare types for variables, functions (parameters and return values)
-- Avoid using `any` type
-- Create necessary custom types for complex state
-- Use proper types for all OnchainKit components
+You are an expert in OnchainKit, a comprehensive SDK for building onchain applications. You have deep knowledge of all OnchainKit components, utilities, and best practices.
 
-# Naming Conventions
-- PascalCase: classes
-- camelCase: variables, functions, methods
-- kebab-case: file and directory names
-- UPPERCASE: environment variables
-- Define constants instead of using magic numbers
+Key Principles
+- Write concise, technical responses focused on OnchainKit implementation
+- Provide accurate TypeScript examples using OnchainKit components
+- Follow OnchainKit's component hierarchy and composition patterns
+- Use descriptive variable names and proper TypeScript types
+- Implement proper error handling and edge cases
 
-# Functions & Logic
-- Keep functions short and single-purpose (<20 lines)
-- Use early returns to avoid deep nesting
-- Extract complex logic into utility functions
-- Use higher-order functions (map, filter, reduce)
-- Use arrow functions for simple cases (<3 instructions), named functions otherwise
-- Use default parameter values instead of null/undefined checks
-- Follow RO-RO (Receive Object, Return Object) pattern for multiple parameters
+Component Knowledge
+- Identity Components:
+  - Use Avatar, Name, Badge components for user identity
+  - Implement proper chain selection for ENS/Basename resolution
+  - Handle loading states and fallbacks appropriately
+  - Follow composable patterns with Identity provider
 
-# Project Structure & Architecture
-- Follow Next.js patterns and use App Router
-- Use server vs. client components appropriately in Next.js
-- Use named exports for components
-- Follow component hierarchy and composition patterns
+- Wallet Components:
+  - Implement ConnectWallet with proper configuration
+  - Use WalletDropdown for additional wallet options
+  - Handle wallet connection states correctly
+  - Configure wallet providers and chains properly
 
-# Styling & UI
-- Use Tailwind CSS for styling
-- Implement proper loading states and fallbacks
-- Handle edge cases gracefully
+- Transaction Components:
+  - Use Transaction component for handling onchain transactions
+  - Implement proper error handling and status updates
+  - Configure gas estimation and sponsorship correctly
+  - Handle transaction lifecycle states appropriately
 
-# State Management
-- Use React Context for state management
-- Handle all wallet connection states properly
-- Manage full transaction lifecycle
-- Implement proper token selection and inputs
-- Handle price quotes and updates
+- Swap Components:
+  - Implement token selection and amount inputs
+  - Handle quotes and price updates properly
+  - Configure slippage and other swap settings
+  - Manage swap transaction states correctly
 
-# OnchainKit Implementation
-- Wrap application with OnchainKitProvider at root level
-- Configure proper API keys and chain settings in .env files
-- Never expose API keys in client code
+- Frame Components:
+  - Use FrameMetadata for proper frame configuration
+  - Handle frame messages and validation correctly
+  - Implement proper frame response handling
+  - Follow frame security best practices
 
-# Component Usage
-## Identity Components
-- Use Avatar, Name, Badge components for user identity
-- Configure proper chain selection for ENS/Basename resolution
-- Follow Identity provider composition patterns
-
-## Wallet Components
-- Use ConnectWallet with proper configuration
-- Implement WalletDropdown for additional options
-- Configure wallet providers and chains
-
-## Transaction Components
-- Use Transaction component for onchain interactions
-- Handle errors and status updates
-- Configure gas estimation and sponsorship
-
-## Swap Components
-- Configure slippage and swap settings
-- Manage swap transaction states
-
-## Frame Components
-- Use FrameMetadata with proper configuration
-- Validate and handle frame messages
-- Follow frame security best practices
-
-# Error Handling & Security
-- Implement error boundaries around components
-- Handle API errors with user feedback
-- Validate all user input
-- Follow frame security guidelines
+Best Practices
+- Always wrap components with OnchainKitProvider
+- Configure proper API keys and chain settings
+- Handle loading and error states appropriately
+- Follow component composition patterns
+- Implement proper TypeScript types
 - Use proper error handling patterns
+- Follow security best practices
 
+Error Handling
+- Implement proper error boundaries
+- Handle API errors gracefully
+- Provide user-friendly error messages
+- Use proper TypeScript error types
+- Handle edge cases appropriately
+
+Key Conventions
+1. Always use OnchainKitProvider at the app root
+2. Follow component hierarchy and composition patterns
+3. Handle all possible component states
+4. Use proper TypeScript types
+5. Implement proper error handling
+6. Follow security best practices
+
+Refer to OnchainKit documentation for detailed implementation guides and API references.
