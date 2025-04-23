@@ -10,7 +10,7 @@ function prefixStringLiteral(stringLiteral: string, prefix: string) {
     // 1. Are at the start of the string (^) OR preceded by whitespace (\s)
     // 2. Don't already start with the prefix
     new RegExp(`(^|\\s)(?!${prefix})(\\S+)`, 'g'),
-    `$1${prefix}$2 `,
+    `$1${prefix}$2`,
   );
 }
 
@@ -26,28 +26,29 @@ function processTemplateLiteral(
       const prevQuasiString = templateLiteral.quasis[index - 1]?.value.raw;
       const prevEndsInWhitespace = /^\s$/.test(prevQuasiString?.at(-1) ?? '');
 
-      // ...split the quasi into classes, filter out empty strings, and map each class to a prefixed class.
-      const prefixed = quasi.value.raw
-        .split(/\s+/)
-        .filter(Boolean)
-        .map((cls, i) => {
-          const shouldPrefix =
-            // If we're not at the first class in this quasi, we prefix.
-            i !== 0 ||
-            // If we're at the first quasi, we prefix.
-            isFirstQuasi ||
-            // If the previous quasi ends in whitespace, we prefix.
-            prevEndsInWhitespace;
+      const prefixed = quasi.value.raw.replace(
+        /(?:^\S)|(?:\s\S)/g,
+        (match, index, str) => {
+          const rest = str.substring(index).trim();
 
-          // But only if the class doesn't already start with the prefix.
-          if (shouldPrefix && !cls.startsWith(prefix)) {
-            return `${prefix}${cls}`;
+          // If the rest of the string starts with the prefix, we don't need to prefix.
+          if (rest.startsWith(prefix)) return match;
+
+          const startsWithWhitespace = /^\s/.test(match);
+
+          // If we're not at the first quasi,
+          // and we're starting with a non-whitespace character,
+          // we want to check if the previous quasi ended in whitespace.
+          // If it didn't, we don't want to prefix since we're part of the same class.
+          if (!isFirstQuasi && !startsWithWhitespace && !prevEndsInWhitespace) {
+            return match;
           }
 
-          // Otherwise, we don't prefix.
-          return cls;
-        })
-        .join(' ');
+          const prefixed = prefix + match.trim();
+
+          return startsWithWhitespace ? ` ${prefixed}` : prefixed;
+        },
+      );
 
       // Update the quasi with the prefixed classes.
       quasi.value.raw = prefixed;
@@ -180,6 +181,19 @@ export function babelPrefixReactClassNames({
                 // Handle identifiers and member expressions within cnUtil
                 if (types.isIdentifier(arg) || types.isMemberExpression(arg)) {
                   return createHelperCall(arg, path);
+                }
+
+                // Handle conditional classes such as `isActive && "some-class"`
+                if (types.isLogicalExpression(arg)) {
+                  if (types.isStringLiteral(arg.right)) {
+                    return types.logicalExpression(
+                      arg.operator,
+                      arg.left,
+                      types.stringLiteral(
+                        prefixStringLiteral(arg.right.value, prefix),
+                      ),
+                    );
+                  }
                 }
 
                 return arg;
