@@ -1,9 +1,11 @@
-import type { ContractType } from '@/onchainkit/esm/nft/types';
 import { useMemo } from 'react';
 import { useCollection } from './useCollection';
 import { useOwners } from './useOwners';
 import { useToken } from './useToken';
 
+type ContractType = 'ERC721' | 'ERC1155';
+
+// eslint-disable-next-line complexity
 export function useReservoirMintData(
   contractAddress: string,
   tokenId?: string,
