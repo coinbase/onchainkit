@@ -39,7 +39,9 @@ function prefixClasses({
   selector: string;
   prefix: string;
 }) {
-  return selector.replace(/(^\.)|((?:[^\\])\.)/g, (match) => {
+  return selector.replace(/(?:^\.)|(?:[^\\]\.)/, (match, index, str) => {
+    const nextPart = str.substring(index + match.length);
+    if (nextPart.startsWith(prefix)) return match;
     return match + prefix;
   });
 }
