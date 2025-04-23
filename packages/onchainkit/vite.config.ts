@@ -73,12 +73,7 @@ export default defineConfig({
     rollupOptions: {
       input: entryPoints,
       output: {
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.names?.[0] === 'style.css') {
-            return 'assets/styles.css';
-          }
-          return 'assets/[name][extname]';
-        },
+        assetFileNames: 'assets/[name][extname]',
         entryFileNames: '[name].js',
       },
     },
