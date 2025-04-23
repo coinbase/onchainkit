@@ -3,8 +3,8 @@ import { Success } from './components/Success';
 import { Connect } from './components/steps/Connect';
 import { Domain } from './components/steps/Domain';
 import { Sign } from './components/steps/Sign';
+import { AccountAssociationWithDomain } from './hooks/useSignManifest';
 import { useWebsocket } from './hooks/useWebsocket';
-import { AccountAssociation } from './types';
 import { useAccount } from 'wagmi';
 
 function GenerateManifest() {
@@ -12,10 +12,10 @@ function GenerateManifest() {
   const { address } = useAccount();
   const [domain, setDomain] = useState<string>('');
   const [accountAssocation, setAccountAssocation] =
-    useState<AccountAssociation | null>(null);
+    useState<AccountAssociationWithDomain | null>(null);
 
   const handleSigned = useCallback(
-    (accountAssociation: AccountAssociation) => {
+    (accountAssociation: AccountAssociationWithDomain) => {
       wsRef?.send(JSON.stringify(accountAssociation));
       setAccountAssocation(accountAssociation);
     },

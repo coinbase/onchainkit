@@ -3,11 +3,15 @@ import { useSignMessage } from 'wagmi';
 import { toBase64Url } from '../utilities/base64';
 import { AccountAssociation } from '../types';
 
+export type AccountAssociationWithDomain = AccountAssociation & {
+  domain: string;
+};
+
 type SignManifestProps = {
   domain: string;
   fid: number | null;
   address: string | undefined;
-  onSigned: (accountAssociation: AccountAssociation) => void;
+  onSigned: (accountAssociation: AccountAssociationWithDomain) => void;
 };
 
 export function useSignManifest({

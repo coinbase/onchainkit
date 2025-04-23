@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ShowJson } from './ShowJson';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { FarcasterManifest } from '../types';
 
 const mockJson = {
@@ -12,9 +12,16 @@ const mockJson = {
     header: 'eyJmaWQiOjgxODAyNiwidHlwZSI6ImN1c3RvZHkifQ',
     payload: 'eyJkb21haW4iOiJvbmNoYWlua2l0Lnh5eiJ9',
     signature: '0x1234567890abcdef',
-    domain: 'example.com',
   },
-} as unknown as FarcasterManifest;
+} as FarcasterManifest;
+
+const mockClipboard = {
+  writeText: vi.fn(),
+};
+
+Object.assign(navigator, {
+  clipboard: mockClipboard,
+});
 
 describe('ShowJson', () => {
   it('should render', () => {
@@ -24,7 +31,7 @@ describe('ShowJson', () => {
 
   it('should toggle content visibility when clicking the button', () => {
     render(<ShowJson label="farcaster.json" json={mockJson} />);
-    const button = screen.getByRole('button');
+    const button = screen.getByText(/Show farcaster\.json/i);
     const container = screen.getByTestId('jsonRawContainer');
 
     expect(container).toHaveClass('grid-rows-[0fr]');
@@ -36,5 +43,17 @@ describe('ShowJson', () => {
     fireEvent.click(button);
     expect(container).toHaveClass('grid-rows-[0fr]');
     expect(screen.getByText(/Show farcaster.json/i)).toBeInTheDocument();
+  });
+
+  it('should copy the JSON to the clipboard when the copy button is clicked', () => {
+    render(<ShowJson label="farcaster.json" json={mockJson} />);
+    const button = screen.getByText(/Show farcaster\.json/i);
+
+    fireEvent.click(button);
+    fireEvent.click(screen.getByText(/Copy/i));
+
+    expect(mockClipboard.writeText).toHaveBeenCalledWith(
+      JSON.stringify(mockJson, null, 2),
+    );
   });
 });

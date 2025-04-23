@@ -5,7 +5,6 @@ type PreviewProps = {
   frameMetadata: FrameEmbed;
 };
 
-/* TODO: this should pull from the frame metatag instead of the farcaster.json which is not required */
 export function Preview({ frameMetadata }: PreviewProps) {
   const [showPreview, setShowPreview] = useState<boolean>(false);
 

@@ -39,7 +39,16 @@ export function ShowJson({ label, json }: ShowJsonProps) {
         }`}
         data-testid="jsonRawContainer"
       >
-        <div className="overflow-hidden">
+        <div className="overflow-hidden relative">
+          <button
+            type="button"
+            onClick={() =>
+              navigator.clipboard.writeText(JSON.stringify(json, null, 2))
+            }
+            className="rounded !bg-blue-800 px-2 py-1 text-sm text-white hover:!bg-blue-600 absolute top-2 right-2"
+          >
+            Copy
+          </button>
           <pre className="text-black overflow-auto rounded p-4 border border-gray-300">
             {JSON.stringify(json, null, 2)}
           </pre>

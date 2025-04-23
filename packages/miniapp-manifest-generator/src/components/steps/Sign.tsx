@@ -1,12 +1,14 @@
 import { useFid } from '../../hooks/useFid';
 import { Step } from '../Step';
 import { useAccount } from 'wagmi';
-import { useSignManifest } from '../../hooks/useSignManifest';
-import { AccountAssociation } from '../../types';
+import {
+  AccountAssociationWithDomain,
+  useSignManifest,
+} from '../../hooks/useSignManifest';
 
 export type SignProps = {
   domain: string;
-  handleSigned: (accountAssociation: AccountAssociation) => void;
+  handleSigned: (accountAssociation: AccountAssociationWithDomain) => void;
 };
 
 export function Sign({ domain, handleSigned }: SignProps) {

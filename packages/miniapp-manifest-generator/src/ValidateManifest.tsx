@@ -67,7 +67,7 @@ function Verify() {
             <Domain
               step={1}
               handleSetDomain={setDomain}
-              description="This will be used to fetch and verify your Mini-App farcaster.json."
+              description="This will be used to fetch and verify your Mini-App farcaster.json and frame metadata."
               requireValid={true}
               showHttpError={false}
               error={error}
@@ -84,7 +84,7 @@ function Verify() {
 
         <Step
           number={2}
-          label="Verifying account association"
+          label="Verifying farcaster.json account association"
           disabled={!farcasterJson}
         >
           <div>
@@ -105,7 +105,7 @@ function Verify() {
 
         <Step
           number={3}
-          label="Verifying farcaster.json"
+          label="Verifying farcaster.json frame data"
           description={
             <span>
               Validation according to{' '}
