@@ -1,5 +1,5 @@
 import postcss from 'postcss';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import postcssPrefixClassnames from '../postcss-prefix-classnames';
 
 // Helper function to process CSS through the plugin
@@ -225,5 +225,24 @@ describe('postcss-prefix-classnames', () => {
       postcssPrefixClassnames({ prefix: 'prefix-' }),
     ]).process(input);
     expect(result.css).toBe('.prefix-foo { color: red; }');
+  });
+
+  it('should handle unsupported matcher type gracefully', async () => {
+    // Mock console.warn to verify it's called when an invalid matcher is provided
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+    const input = '.foo { color: red; }';
+    const output = await run(input, {
+      prefix: 'prefix-',
+      // @ts-expect-error - Intentionally passing invalid type to test edge case
+      includeFiles: 42, // number is not a valid matcher type
+    });
+
+    // Since the matcher is invalid, it should return false in isMatch
+    // which means no files will be included, so no prefixing should happen
+    expect(output).toBe('.foo { color: red; }');
+
+    // Restore the spy
+    warnSpy.mockRestore();
   });
 });

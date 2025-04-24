@@ -50,6 +50,15 @@ describe('babel-prefix-react-classnames', () => {
     expect(result).toContain('className: `prefix-foo ${dynamic} prefix-bar`');
   });
 
+  it('should handle continuous class names in template literals with expressions', () => {
+    const code =
+      '<div className={`foo${isLarge ? "-large" : ""}-bar prefix-blah ${active && "active"}`}>Hello</div>';
+    const result = transform(code);
+    expect(result).toContain(
+      'className: `prefix-foo${isLarge ? "-large" : ""}-bar prefix-blah ${active && "active"}`',
+    );
+  });
+
   it('should handle identifiers by using the helper function', () => {
     const code = '<div className={classes}>Hello</div>';
     const result = transform(code);
@@ -74,6 +83,26 @@ describe('babel-prefix-react-classnames', () => {
     const result = transform(code);
     expect(result).toContain('cn(`prefix-foo ${dynamic}`');
     expect(result).toContain('"prefix-bar"');
+  });
+
+  it('should ensure helper function is only added once', () => {
+    const code = `
+      <div>
+        <div className={styles.container}>First</div>
+        <span className={otherStyles.text}>Second</span>
+        <button className={btnStyles.button}>Third</button>
+      </div>
+    `;
+    const result = transform(code);
+
+    // Helper function should be defined only once
+    const helperMatches = result.match(/function __prefixClassNames\(value\)/g);
+    expect(helperMatches).toHaveLength(1);
+
+    // All three elements should use the helper
+    expect(result).toContain('className: __prefixClassNames(styles.container)');
+    expect(result).toContain('className: __prefixClassNames(otherStyles.text)');
+    expect(result).toContain('className: __prefixClassNames(btnStyles.button)');
   });
 
   it('should handle cn utility function calls with variables', () => {
