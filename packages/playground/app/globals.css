@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @layer base {
   :root {
@@ -144,13 +142,4 @@ Usage:
   --ock-line-default: #374151;
   --ock-line-heavy: #4b5563;
   --ock-line-inverse: #e5e7eb;
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
 }

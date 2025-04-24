@@ -1,4 +1,4 @@
-@tailwind base;
+@import "tailwindcss";
 
 @layer base {
   :root,
@@ -313,8 +313,6 @@
   }
 }
 
-@tailwind utilities;
-
 @layer utilities {
   /* Chrome, Safari and Opera */
   .scrollbar-hidden::-webkit-scrollbar {
@@ -326,5 +324,3 @@
     -ms-overflow-style: none; /* IE and Edge */
   }
 }
-
-@tailwind components;
