@@ -112,16 +112,19 @@ type GetOnrampBuyUrlOptionalProps = {
   originComponentName?: string;
 };
 
-/**
- * Note: exported as public Type
- */
-export type FundButtonReact = {
-  className?: string; // An optional CSS class name for styling the button component
-  children?: ReactNode; // An optional React node to be displayed in the button component
-  disabled?: boolean; // A optional prop to disable the fund button
-  state?: FundButtonStateReact; // The state of the button component
-  fundingUrl?: string; // An optional prop to provide a custom funding URL
-  openIn?: 'popup' | 'tab'; // Whether to open the funding flow in a tab or a popup window
+type FundButtonBaseProps = {
+  /* An optional CSS class name for styling the button component */
+  className?: string;
+  /* An optional React node to be displayed in the button component */
+  children?: ReactNode;
+  /* A optional prop to disable the fund button */
+  disabled?: boolean;
+  /* The state of the button component */
+  state?: FundButtonStateReact;
+  /* An optional prop to provide a custom funding URL */
+  fundingUrl?: string;
+  /* Whether to open the funding flow in a tab or a popup window */
+  openIn?: 'popup' | 'tab';
   /**
    * Note: popupSize will be ignored when using a Coinbase Onramp URL (i.e. https://pay.coinbase.com/*) as it requires
    * a fixed popup size.
@@ -131,12 +134,41 @@ export type FundButtonReact = {
   fiatCurrency?: string; // The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR.
   onPopupClose?: () => void; // A callback function that will be called when the popup window is closed
   onClick?: () => void; // A callback function that will be called when the button is clicked
-  render?: (props: {
-    state: FundButtonStateReact;
-    onClick: (e: React.MouseEvent) => void;
-    isDisabled: boolean;
-  }) => React.ReactNode;
 };
+
+/**
+ * Note: exported as public Type
+ */
+export type FundButtonReact =
+  | (FundButtonBaseProps & {
+      render?: (props: {
+        state: FundButtonStateReact;
+        onClick: (e: React.MouseEvent) => void;
+        isDisabled: boolean;
+      }) => React.ReactNode;
+      children?: never; // An optional React node to be displayed in the button component
+    })
+  | (FundButtonBaseProps & {
+      render?: never;
+      children?: ReactNode; // An optional React node to be displayed in the button component
+    });
+
+/**
+ * Note: exported as public Type
+ */
+export type FundCardSubmitButtonProps =
+  | {
+      render?: (props: {
+        state: FundButtonStateReact;
+        onClick: (e: React.MouseEvent) => void;
+        isDisabled: boolean;
+      }) => React.ReactNode;
+      children?: never; // An optional React node to be displayed in the button component
+    }
+  | {
+      render?: never;
+      children?: ReactNode; // An optional React node to be displayed in the button component
+    };
 
 export type FundButtonStateReact = 'default' | 'success' | 'error' | 'loading';
 

@@ -2,10 +2,14 @@
 import { Spinner } from '@/internal/components/Spinner';
 import { useCallback, useMemo } from 'react';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
+import { FundCardSubmitButtonProps } from '../types';
 import { FundButton } from './FundButton';
 import { useFundContext } from './FundCardProvider';
 
-export function FundCardSubmitButton() {
+export function FundCardSubmitButton({
+  children,
+  render,
+}: FundCardSubmitButtonProps) {
   const {
     fundAmountFiat,
     fundAmountCrypto,
@@ -57,6 +61,22 @@ export function FundCardSubmitButton() {
     );
   }, [submitButtonState, buttonTextContent]);
 
+  // FundButton accepts render prop or children but not both
+  if (render) {
+    return (
+      <FundButton
+        disabled={isButtonDisabled}
+        className="w-full"
+        fundingUrl={fundingUrl}
+        state={submitButtonState}
+        onClick={handleOnClick}
+        onPopupClose={handleOnPopupClose}
+        fiatCurrency={currency}
+        render={render}
+      />
+    );
+  }
+
   return (
     <FundButton
       disabled={isButtonDisabled}
@@ -67,7 +87,7 @@ export function FundCardSubmitButton() {
       onPopupClose={handleOnPopupClose}
       fiatCurrency={currency}
     >
-      {buttonContent}
+      {children || buttonContent}
     </FundButton>
   );
 }
