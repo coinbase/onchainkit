@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FarcasterLogin } from '../../../../onchainkit/src/components/FarcasterLogin';
 import { ConnectWallet, ConnectWalletText } from '@coinbase/onchainkit/wallet';
+import { useAccount } from 'wagmi';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -8,6 +9,15 @@ interface LoginModalProps {
 }
 
 export function LoginModal({ isOpen, onClose }: LoginModalProps) {
+  const { isConnected } = useAccount();
+
+  // Close the modal when a connection is established
+  useEffect(() => {
+    if (isConnected && isOpen) {
+      onClose();
+    }
+  }, [isConnected, isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (

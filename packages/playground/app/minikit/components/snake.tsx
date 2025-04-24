@@ -318,21 +318,22 @@ function ControlButton({ children, onClick, className }: ControlButtonProps) {
 }
 
 function WalletControl() {
-
   const [isOpen, setIsOpen] = useState(false);
+  const { isConnected, address } = useAccount();
 
   return (
     <Wallet className="[&>div:nth-child(2)]:!opacity-20 md:[&>div:nth-child(2)]:!opacity-100">
       <div
-      onClick={() => {
-        setIsOpen(true);
-      }}
-      className="w-12 h-12 bg-[#0052FF] rounded-full hover:bg-[#0052FF] focus:bg-[#0052FF] cursor-pointer select-none transition-all duration-150 border-[1px] border-[#0052FF] min-w-12 [box-shadow:0_5px_0_0_#002299,0_8px_0_0_#0033cc33]"
-      >
-        <LoginModal isOpen={isOpen} onClose={() => {
-          setIsOpen(false);
-        }} />
-      </div>
+        onClick={() => {
+          if (isConnected) {
+            // If already connected, show the dropdown
+          } else {
+            // If not connected, show the login modal
+            setIsOpen(true);
+          }
+        }}
+        className="w-12 h-12 bg-[#0052FF] rounded-full hover:bg-[#0052FF] focus:bg-[#0052FF] cursor-pointer select-none transition-all duration-150 border-[1px] border-[#0052FF] min-w-12 [box-shadow:0_5px_0_0_#002299,0_8px_0_0_#0033cc33]"
+      />
       <WalletDropdown>
         <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
           <Avatar />
@@ -342,6 +343,9 @@ function WalletControl() {
         </Identity>
         <WalletDropdownDisconnect />
       </WalletDropdown>
+      <LoginModal isOpen={isOpen} onClose={() => {
+        setIsOpen(false);
+      }} />
     </Wallet>
   );
 }
