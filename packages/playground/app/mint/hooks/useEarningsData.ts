@@ -1,8 +1,10 @@
 import { useCollection } from '@/lib/nft/useCollection';
 import { useToken } from '@/lib/nft/useToken';
-import type { ContractType } from '@/onchainkit/esm/nft/types';
 import { useMemo } from 'react';
 
+type ContractType = 'ERC721' | 'ERC1155';
+
+// eslint-disable-next-line complexity
 export function useEarningsData(contractAddress: string, tokenId?: string) {
   const { data: collection } = useCollection(contractAddress);
 
