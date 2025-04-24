@@ -43,14 +43,14 @@ export function useZodValidator(
   const flattenedData = flattenData(data);
 
   function getSchemaFields(
-    schema: z.ZodSchema,
+    schemaNode: z.ZodSchema,
     prefix = '',
   ): Array<{ path: string; value: unknown; required: boolean }> {
     const fields: Array<{ path: string; value: unknown; required: boolean }> =
       [];
 
-    if (schema instanceof z.ZodObject) {
-      Object.entries(schema.shape).forEach(([key, value]) => {
+    if (schemaNode instanceof z.ZodObject) {
+      Object.entries(schemaNode.shape).forEach(([key, value]) => {
         const path = prefix ? `${prefix}.${key}` : key;
 
         if (value instanceof z.ZodObject) {
