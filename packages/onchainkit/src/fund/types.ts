@@ -126,14 +126,19 @@ type FundButtonBaseProps = {
   /* Whether to open the funding flow in a tab or a popup window */
   openIn?: 'popup' | 'tab';
   /**
+   * Size of the popup window if `openIn` is set to `popup`
    * Note: popupSize will be ignored when using a Coinbase Onramp URL (i.e. https://pay.coinbase.com/*) as it requires
    * a fixed popup size.
    */
-  popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
-  target?: string; // Where to open the target if `openIn` is set to tab
-  fiatCurrency?: string; // The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR.
-  onPopupClose?: () => void; // A callback function that will be called when the popup window is closed
-  onClick?: () => void; // A callback function that will be called when the button is clicked
+  popupSize?: 'sm' | 'md' | 'lg';
+  /* Where to open the target if `openIn` is set to tab */
+  target?: string;
+  /* The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR. */
+  fiatCurrency?: string;
+  /* A callback function that will be called when the popup window is closed */
+  onPopupClose?: () => void;
+  /* A callback function that will be called when the button is clicked */
+  onClick?: () => void;
 };
 
 export type FundButtonRenderParams = {
