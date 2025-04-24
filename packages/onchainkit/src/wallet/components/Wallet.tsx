@@ -26,6 +26,7 @@ export function Wallet({
   draggableStartingPosition,
 }: WalletReact) {
   const componentTheme = useTheme();
+
   const isMounted = useIsMounted();
 
   // prevents SSR hydration issue
