@@ -35,7 +35,7 @@ export const useFundCardSetupOnrampEventListeners = () => {
         scheduleFundButtonReset();
       }
     },
-    [updateLifecycleStatus, setSubmitButtonState],
+    [updateLifecycleStatus, setSubmitButtonState, scheduleFundButtonReset],
   );
 
   const handleOnrampSuccess = useCallback(
@@ -48,7 +48,7 @@ export const useFundCardSetupOnrampEventListeners = () => {
       setSubmitButtonState('success');
       scheduleFundButtonReset();
     },
-    [updateLifecycleStatus, setSubmitButtonState],
+    [updateLifecycleStatus, setSubmitButtonState, scheduleFundButtonReset],
   );
 
   const handleOnrampExit = useCallback(() => {
