@@ -143,3 +143,14 @@ Usage:
   --ock-line-heavy: #4b5563;
   --ock-line-inverse: #e5e7eb;
 }
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+}

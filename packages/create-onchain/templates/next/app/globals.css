@@ -18,7 +18,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@layer utilities {
+@utility text-balance {
   .text-balance {
     text-wrap: balance;
   }

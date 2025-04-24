@@ -99,7 +99,7 @@ body {
   font-style: normal;
 }
 
-@layer utilities {
+@utility text-balance {
   .text-balance {
     text-wrap: balance;
   }

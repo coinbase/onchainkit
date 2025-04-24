@@ -30,7 +30,7 @@ body {
   transform: translate(10px, 20px) !important;
 }
 
-@layer utilities {
+@utility text-balance {
   .text-balance {
     text-wrap: balance;
   }

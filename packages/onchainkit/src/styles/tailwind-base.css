@@ -300,6 +300,8 @@
 }
 
 @layer components {
+  @reference "tailwindcss.css";
+
   .animate-enterRight {
     @apply animate-in slide-in-from-right-8 fade-in duration-500;
   }
@@ -313,7 +315,7 @@
   }
 }
 
-@layer utilities {
+@utility scrollbars {
   /* Chrome, Safari and Opera */
   .scrollbar-hidden::-webkit-scrollbar {
     display: none;
