@@ -165,10 +165,6 @@ export type TransactionProviderReact = {
   chainId: number;
   /** The child components to be rendered within the provider component */
   children: ReactNode;
-  /**
-   * @deprecated Use `calls` instead.
-   */
-  contracts?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
   /** Whether the transactions are sponsored (default: false) */
   isSponsored?: boolean;
   /** An optional callback function that handles errors within the provider */
@@ -197,10 +193,6 @@ export type TransactionReact = {
   children?: ReactNode;
   /** An optional CSS class name for styling the component */
   className?: string;
-  /**
-   * @deprecated Use `calls` instead.
-   */
-  contracts?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
   /** Whether the transactions are sponsored (default: false) */
   isSponsored?: boolean;
   /** An optional callback function that handles transaction errors */

@@ -55,7 +55,6 @@ describe('TransactionDefault Component', () => {
 
   const defaultProps: TransactionDefaultReact = {
     calls: [],
-    contracts: [],
     disabled: false,
     onError: mockOnError,
     onStatus: mockOnStatus,
