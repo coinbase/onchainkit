@@ -6,7 +6,6 @@ import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { WalletEvent } from '../../core/analytics/types';
 import { useOnchainKit } from '../../useOnchainKit';
 import { ConnectWallet } from './ConnectWallet';
-import { ConnectWalletText } from './ConnectWalletText';
 import { useWalletContext } from './WalletProvider';
 import type { Connector } from 'wagmi';
 import type { UseAccountReturnType, UseConnectReturnType, Config } from 'wagmi';
@@ -136,7 +135,7 @@ describe('ConnectWallet', () => {
   });
 
   it('should render connect button when disconnected', () => {
-    render(<ConnectWallet text="Connect Wallet" />);
+    render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
     const button = screen.getByTestId('ockConnectButton');
     expect(button).toBeInTheDocument();
     expect(button).toHaveTextContent('Connect Wallet');
@@ -173,7 +172,7 @@ describe('ConnectWallet', () => {
       connector: undefined,
     } as unknown as UseAccountReturnType<Config>);
 
-    render(<ConnectWallet text="Connect Wallet" />);
+    render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
     const spinner = screen.getByTestId('ockSpinner');
     expect(spinner).toBeInTheDocument();
   });
@@ -196,7 +195,7 @@ describe('ConnectWallet', () => {
     } as unknown as UseAccountReturnType<Config>);
 
     render(
-      <ConnectWallet text="Connect Wallet">
+      <ConnectWallet disconnectedLabel="Connect Wallet">
         <div>Wallet Connected</div>
       </ConnectWallet>,
     );
@@ -229,7 +228,7 @@ describe('ConnectWallet', () => {
       sendAnalytics: mockSendAnalytics,
     });
 
-    render(<ConnectWallet text="Connect Wallet" />);
+    render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
 
     const button = screen.getByTestId('ockConnectButton');
     fireEvent.click(button);
@@ -307,7 +306,7 @@ describe('ConnectWallet', () => {
     } as unknown as WalletContextType);
 
     const { rerender } = render(
-      <ConnectWallet text="Connect Wallet">
+      <ConnectWallet disconnectedLabel="Connect Wallet">
         <div>Wallet Connected</div>
       </ConnectWallet>,
     );
@@ -329,7 +328,7 @@ describe('ConnectWallet', () => {
     } as unknown as WalletContextType);
 
     rerender(
-      <ConnectWallet text="Connect Wallet">
+      <ConnectWallet disconnectedLabel="Connect Wallet">
         <div>Wallet Connected</div>
       </ConnectWallet>,
     );
@@ -412,8 +411,7 @@ describe('ConnectWallet', () => {
     } as unknown as UseAccountReturnType<Config>);
 
     render(
-      <ConnectWallet>
-        <ConnectWalletText>Not Render</ConnectWalletText>
+      <ConnectWallet disconnectedLabel="Not Render">
         <div>Wallet Ciao</div>
       </ConnectWallet>,
     );
@@ -457,7 +455,12 @@ describe('ConnectWallet', () => {
       status: 'idle',
     } as unknown as UseConnectReturnType<Config, unknown>);
 
-    render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
+    render(
+      <ConnectWallet
+        disconnectedLabel="Connect Wallet"
+        onConnect={onConnectMock}
+      />,
+    );
 
     const button = screen.getByTestId('ockConnectButton');
     fireEvent.click(button);
@@ -480,7 +483,12 @@ describe('ConnectWallet', () => {
       } as unknown as Connector,
     } as unknown as UseAccountReturnType<Config>);
 
-    render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
+    render(
+      <ConnectWallet
+        disconnectedLabel="Connect Wallet"
+        onConnect={onConnectMock}
+      />,
+    );
 
     expect(onConnectMock).toHaveBeenCalledTimes(1);
   });
@@ -504,7 +512,12 @@ describe('ConnectWallet', () => {
     } as unknown as UseAccountReturnType<Config>);
 
     const onConnectMock = vi.fn();
-    render(<ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />);
+    render(
+      <ConnectWallet
+        disconnectedLabel="Connect Wallet"
+        onConnect={onConnectMock}
+      />,
+    );
 
     expect(onConnectMock).toHaveBeenCalledTimes(0);
   });
@@ -568,7 +581,7 @@ describe('ConnectWallet', () => {
         handleClose: vi.fn(),
       } as unknown as WalletContextType);
 
-      render(<ConnectWallet text="Connect Wallet" />);
+      render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
 
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
@@ -596,7 +609,7 @@ describe('ConnectWallet', () => {
         status: 'idle',
       } as unknown as UseConnectReturnType<Config, unknown>);
 
-      render(<ConnectWallet text="Connect Wallet" />);
+      render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
 
       const connectButton = screen.getByTestId('ockConnectButton');
       fireEvent.click(connectButton);
@@ -632,11 +645,7 @@ describe('ConnectWallet', () => {
         connector: undefined,
       } as unknown as UseAccountReturnType<Config>);
 
-      render(
-        <ConnectWallet>
-          <ConnectWalletText>Custom Connect Text</ConnectWalletText>
-        </ConnectWallet>,
-      );
+      render(<ConnectWallet disconnectedLabel="Custom Connect Text" />);
 
       const button = screen.getByTestId('ockConnectButton');
       expect(button).toHaveTextContent('Custom Connect Text');
@@ -689,7 +698,9 @@ describe('ConnectWallet', () => {
         handleClose: vi.fn(),
       } as unknown as WalletContextType);
 
-      render(<ConnectWallet text="Connect" onConnect={onConnectMock} />);
+      render(
+        <ConnectWallet disconnectedLabel="Connect" onConnect={onConnectMock} />,
+      );
 
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
@@ -758,7 +769,7 @@ describe('ConnectWallet', () => {
         handleClose: vi.fn(),
       } as unknown as WalletContextType);
 
-      render(<ConnectWallet text="Connect Wallet" />);
+      render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
 
       const connectButton = screen.getByTestId('ockConnectButton');
       fireEvent.click(connectButton);
@@ -807,7 +818,10 @@ describe('ConnectWallet', () => {
       } as unknown as UseConnectReturnType<Config, unknown>);
 
       const { rerender } = render(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+        <ConnectWallet
+          disconnectedLabel="Connect Wallet"
+          onConnect={onConnectMock}
+        />,
       );
 
       const button = screen.getByTestId('ockConnectButton');
@@ -833,13 +847,19 @@ describe('ConnectWallet', () => {
       } as unknown as UseAccountReturnType<Config>);
 
       rerender(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+        <ConnectWallet
+          disconnectedLabel="Connect Wallet"
+          onConnect={onConnectMock}
+        />,
       );
 
       expect(onConnectMock).toHaveBeenCalledTimes(1);
 
       rerender(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+        <ConnectWallet
+          disconnectedLabel="Connect Wallet"
+          onConnect={onConnectMock}
+        />,
       );
       expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
@@ -891,7 +911,9 @@ describe('ConnectWallet', () => {
         handleClose: vi.fn(),
       } as unknown as WalletContextType);
 
-      render(<ConnectWallet text="Connect" onConnect={onConnectMock} />);
+      render(
+        <ConnectWallet disconnectedLabel="Connect" onConnect={onConnectMock} />,
+      );
 
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
@@ -965,7 +987,7 @@ describe('ConnectWallet', () => {
       } as unknown as WalletContextType);
 
       const { rerender } = render(
-        <ConnectWallet text="Connect" onConnect={onConnectMock} />,
+        <ConnectWallet disconnectedLabel="Connect" onConnect={onConnectMock} />,
       );
 
       const button = screen.getByTestId('ockConnectButton');
@@ -990,7 +1012,10 @@ describe('ConnectWallet', () => {
       } as unknown as UseAccountReturnType<Config>);
 
       rerender(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+        <ConnectWallet
+          disconnectedLabel="Connect Wallet"
+          onConnect={onConnectMock}
+        />,
       );
 
       expect(onConnectMock).toHaveBeenCalledTimes(1);
@@ -1041,7 +1066,10 @@ describe('ConnectWallet', () => {
       } as unknown as UseAccountReturnType<Config>);
 
       const { rerender } = render(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+        <ConnectWallet
+          disconnectedLabel="Connect Wallet"
+          onConnect={onConnectMock}
+        />,
       );
 
       const button = screen.getByTestId('ockConnectButton');
@@ -1065,13 +1093,19 @@ describe('ConnectWallet', () => {
       } as unknown as UseAccountReturnType<Config>);
 
       rerender(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+        <ConnectWallet
+          disconnectedLabel="Connect Wallet"
+          onConnect={onConnectMock}
+        />,
       );
 
       expect(onConnectMock).toHaveBeenCalledTimes(1);
 
       rerender(
-        <ConnectWallet text="Connect Wallet" onConnect={onConnectMock} />,
+        <ConnectWallet
+          disconnectedLabel="Connect Wallet"
+          onConnect={onConnectMock}
+        />,
       );
       expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
@@ -1109,7 +1143,7 @@ describe('ConnectWallet', () => {
         status: 'idle',
       } as unknown as UseConnectReturnType<Config, unknown>);
 
-      render(<ConnectWallet text="Connect Wallet" />);
+      render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
 
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
@@ -1141,7 +1175,7 @@ describe('ConnectWallet', () => {
         status: 'idle',
       } as unknown as UseConnectReturnType<Config, unknown>);
 
-      render(<ConnectWallet text="Connect Wallet" />);
+      render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
 
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
@@ -1173,7 +1207,7 @@ describe('ConnectWallet', () => {
         status: 'idle',
       } as unknown as UseConnectReturnType<Config, unknown>);
 
-      render(<ConnectWallet text="Connect Wallet" />);
+      render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
 
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
@@ -1207,7 +1241,7 @@ describe('ConnectWallet', () => {
         status: 'idle',
       } as unknown as UseConnectReturnType<Config, unknown>);
 
-      render(<ConnectWallet text="Connect Wallet" />);
+      render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
 
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
@@ -1258,7 +1292,7 @@ describe('ConnectWallet', () => {
         } as unknown as Connector,
       } as unknown as UseAccountReturnType<Config>);
 
-      render(<ConnectWallet text="Connect Wallet" />);
+      render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
 
       expect(mockSendAnalytics).toHaveBeenCalledWith(
         WalletEvent.ConnectSuccess,
