@@ -1,5 +1,7 @@
 'use client';
 import { Spinner } from '@/internal/components/Spinner';
+import { ErrorSvg } from '@/internal/svg/errorSvg';
+import { SuccessSvg } from '@/internal/svg/successSvg';
 import { useCallback, useMemo } from 'react';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
 import { FundCardSubmitButtonProps } from '../types';
@@ -38,6 +40,19 @@ export function FundCardSubmitButton({
     [fundAmountCrypto, fundAmountFiat],
   );
 
+  const buttonIcon = useMemo(() => {
+    switch (submitButtonState) {
+      case 'loading':
+        return '';
+      case 'success':
+        return <SuccessSvg fill="#F9FAFB" />;
+      case 'error':
+        return <ErrorSvg fill="#F9FAFB" />;
+      default:
+        return null;
+    }
+  }, [submitButtonState]);
+
   const buttonTextContent = useMemo(() => {
     switch (submitButtonState) {
       case 'loading':
@@ -57,9 +72,19 @@ export function FundCardSubmitButton({
     }
 
     return (
-      <span data-testid="ockFundButtonTextContent">{buttonTextContent}</span>
+      <>
+        {buttonIcon && (
+          <span
+            data-testid="ockFundButtonIcon"
+            className="flex h-6 items-center"
+          >
+            {buttonIcon}
+          </span>
+        )}
+        <span data-testid="ockFundButtonTextContent">{buttonTextContent}</span>
+      </>
     );
-  }, [submitButtonState, buttonTextContent]);
+  }, [submitButtonState, buttonIcon, buttonTextContent]);
 
   // FundButton accepts render prop or children but not both
   if (render) {
