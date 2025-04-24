@@ -1,7 +1,7 @@
 <div align="center">
   <p>
     <a href="https://onchainkit.xyz">
-      <img src="./site/docs/public/logo/v0-33.png" width="100%" height="100%" alt="OnchainKit logo vibes"/>
+      <img src="./assets/read-me-banner.png" width="100%" height="100%" alt="OnchainKit logo vibes"/>
     </a>
   </p>
 
@@ -51,13 +51,72 @@
 
 ## 🚀 Quickstart
 
-Run `npm create onchain` to boostrap an example onchain app with all the batteries included.
+Run `npm create onchain` to bootstrap an example onchain app with all the batteries included.
 
 ## ✨ Documentation
 
 For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 
-<br />
+## 🛠️ Contributing
+
+### Overview
+
+This project is set up as a monorepo with pnpm workspaces.
+
+### Requirements
+
+- Node.js v18
+- pnpm v10
+
+### Getting Started
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/coinbase/onchainkit.git
+```
+
+2. Install dependencies
+
+```bash
+pnpm install
+```
+
+### Running packages
+
+To run a script in a single package, use the following command:
+
+```bash
+pnpm [-F | --filter] <package-name> <script-name>
+```
+
+To run a script in all packages, use the following command:
+
+```bash
+pnpm run <script-name>
+```
+
+### Shorthands
+
+We provide shorthands to filter by project in the root `package.json`.
+
+The following shorthands are available:
+
+- `pnpm f:ock`: `pnpm --filter @coinbase/onchainkit`
+- `pnpm f:play`: `pnpm --filter playground`
+- `pnpm f:create`: `pnpm --filter create-onchain`
+- `pnpm f:manifest`: `pnpm --filter miniapp-manifest-generator`
+
+### Development
+
+When working on components, you can build OnchainKit in watch mode and start the playground to view your components with the following command:
+
+```bash
+pnpm f:play dev:watch
+```
+
+Then, you can view the playground at [http://localhost:3000](http://localhost:3000).
+
 
 ## 🌁 Team and Community
 

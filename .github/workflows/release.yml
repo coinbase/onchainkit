@@ -19,28 +19,35 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: 'Setup'
         uses: ./.github/actions/setup
 
       - name: Build
         shell: bash
-        run: yarn build
+        run: pnpm f:ock build
+
+      - name: Get version
+        shell: bash
+        run: pnpm f:ock get-next-version
 
       - name: Set deployment token
         run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
 
-      # https://github.com/changesets/action#with-publishing
+      - name: Set Version
+        id: set_version
+        run: |
+          VERSION=$(cat packages/onchainkit/dist/version.txt)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      # https://pnpm.io/using-changesets
       - name: Handle Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          title: 'chore: version packages 🔖'
-          commit: 'chore: version packages 🔖'
-          publish: yarn release:publish
-          version: yarn release:version
+          title: 'chore: version packages v${{ steps.set_version.outputs.version }} 🌊'
+          commit: 'chore: version packages v${{ steps.set_version.outputs.version }} 🌊'
+          publish: pnpm release:publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

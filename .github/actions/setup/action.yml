@@ -1,12 +1,18 @@
 name: Setup
+permissions:
+  contents: read
 runs:
   using: composite
   steps:
+    - uses: pnpm/action-setup@v4
+      with:
+        run_install: false
+
     - uses: actions/setup-node@v4
       with:
         node-version-file: '.nvmrc'
         registry-url: https://registry.npmjs.org
-        cache: yarn
+        cache: pnpm
 
     # For provenance https://docs.npmjs.com/generating-provenance-statements#prerequisites
     - name: Install npm 9.5
@@ -14,5 +20,5 @@ runs:
       shell: bash
 
     - name: Install node modules
-      run: yarn install --frozen-lockfile
+      run: pnpm install --frozen-lockfile
       shell: bash

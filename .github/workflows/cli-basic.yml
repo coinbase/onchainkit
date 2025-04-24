@@ -1,0 +1,51 @@
+name: "cli: build & install minikit - basic"
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'packages/create-onchain/**'
+  push:
+    branches:
+      - changeset-release/main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 'Setup'
+        uses: ./.github/actions/setup
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: pnpm f:create install
+
+      - name: Build CLI
+        run: pnpm f:create build
+
+      - name: Make CLI executable
+        run: chmod +x ./packages/create-onchain/dist/esm/cli.js
+
+      - name: Create test project
+        run: |
+          mkdir test-project
+          cd test-project
+          (sleep 1; echo ""; sleep 1; echo ""; sleep 1; echo -e "\033[D\n"; sleep 1; echo -e "\033[D\n") | ../packages/create-onchain/dist/esm/cli.js --mini
+
+      - name: Install & Build test project
+        working-directory: ./test-project/my-minikit-app
+        run: |
+          npm install
+          npm run build
