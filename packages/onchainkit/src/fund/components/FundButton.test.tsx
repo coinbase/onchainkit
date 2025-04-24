@@ -16,6 +16,7 @@ import {
 import { useAccount } from 'wagmi';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import { quoteResponseDataMock } from '../mocks';
+import { FundButtonRenderParams } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundButton } from './FundButton';
 
@@ -49,6 +50,16 @@ vi.mock('wagmi', () => ({
 vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
   useAnalytics: vi.fn(),
 }));
+
+const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
+
+function customRender({ onClick, isDisabled }: FundButtonRenderParams) {
+  return (
+    <button onClick={onClick} disabled={isDisabled}>
+      click
+    </button>
+  );
+}
 
 global.fetch = vi.fn(() =>
   Promise.resolve({
@@ -113,16 +124,16 @@ describe('FundButton', () => {
     });
   });
 
-  it('renders the fund button as a link when the openIn prop is set to tab', () => {
+  it('renders calls window.open when the openIn prop is set to tab', () => {
     const fundingUrl = 'https://props.funding.url';
     const { height, width } = { height: 200, width: 100 };
     (getFundingPopupSize as Mock).mockReturnValue({ height, width });
 
     render(<FundButton fundingUrl={fundingUrl} openIn="tab" />);
+    const button = screen.getByTestId('ockFundButton');
+    fireEvent.click(button);
 
-    const linkElement = screen.getByRole('link');
-    expect(screen.getByText('Fund')).toBeInTheDocument();
-    expect(linkElement).toHaveAttribute('href', fundingUrl);
+    expect(openSpy).toHaveBeenCalledWith(fundingUrl, '_blank');
   });
 
   it('displays a spinner when in loading state', () => {
@@ -194,9 +205,9 @@ describe('FundButton', () => {
     });
   });
 
-  it('icon is not shown when hideIcon is passed', () => {
-    render(<FundButton hideIcon={true} />);
-    expect(screen.queryByTestId('ockFundButtonIcon')).not.toBeInTheDocument();
+  it('renders custom implementation when render prop is passed', () => {
+    render(<FundButton render={customRender} />);
+    expect(screen.getByText('click')).toBeInTheDocument();
   });
 
   it('shows ConnectWallet when no wallet is connected', () => {

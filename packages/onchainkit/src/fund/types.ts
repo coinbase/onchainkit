@@ -136,21 +136,28 @@ type FundButtonBaseProps = {
   onClick?: () => void; // A callback function that will be called when the button is clicked
 };
 
+export type FundButtonRenderParams = {
+  /* The state of the button component, only relevant when using FundCardSubmitButton */
+  state: FundButtonStateReact;
+  /* A callback function that will be called when the button is clicked */
+  onClick: (e: React.MouseEvent) => void;
+  /* Whether the button is disabled */
+  isDisabled: boolean;
+};
+
 /**
  * Note: exported as public Type
  */
 export type FundButtonReact =
   | (FundButtonBaseProps & {
-      render?: (props: {
-        state: FundButtonStateReact;
-        onClick: (e: React.MouseEvent) => void;
-        isDisabled: boolean;
-      }) => React.ReactNode;
-      children?: never; // An optional React node to be displayed in the button component
+      render?: (props: FundButtonRenderParams) => React.ReactNode;
+      /* An optional React node to be displayed in the button component */
+      children?: never;
     })
   | (FundButtonBaseProps & {
       render?: never;
-      children?: ReactNode; // An optional React node to be displayed in the button component
+      /* An optional React node to be displayed in the button component */
+      children?: ReactNode;
     });
 
 /**
@@ -158,16 +165,14 @@ export type FundButtonReact =
  */
 export type FundCardSubmitButtonProps =
   | {
-      render?: (props: {
-        state: FundButtonStateReact;
-        onClick: (e: React.MouseEvent) => void;
-        isDisabled: boolean;
-      }) => React.ReactNode;
-      children?: never; // An optional React node to be displayed in the button component
+      render?: (props: FundButtonRenderParams) => React.ReactNode;
+      /* An optional React node to be displayed in the button component */
+      children?: never;
     }
   | {
       render?: never;
-      children?: ReactNode; // An optional React node to be displayed in the button component
+      /* An optional React node to be displayed in the button component */
+      children?: ReactNode;
     };
 
 export type FundButtonStateReact = 'default' | 'success' | 'error' | 'loading';

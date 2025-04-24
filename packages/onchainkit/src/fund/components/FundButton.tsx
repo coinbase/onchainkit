@@ -140,6 +140,7 @@ export function FundButton({
         return <AddSvg />;
     }
   }, [buttonState]);
+
   const buttonTextContent = useMemo(() => {
     switch (buttonState) {
       case 'loading':
