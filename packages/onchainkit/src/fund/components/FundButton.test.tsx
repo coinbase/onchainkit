@@ -125,14 +125,18 @@ describe('FundButton', () => {
   });
 
   it('renders calls window.open when the openIn prop is set to tab', () => {
+    const onClickMock = vi.fn();
     const fundingUrl = 'https://props.funding.url';
     const { height, width } = { height: 200, width: 100 };
     (getFundingPopupSize as Mock).mockReturnValue({ height, width });
 
-    render(<FundButton fundingUrl={fundingUrl} openIn="tab" />);
+    render(
+      <FundButton fundingUrl={fundingUrl} openIn="tab" onClick={onClickMock} />,
+    );
     const button = screen.getByTestId('ockFundButton');
     fireEvent.click(button);
 
+    expect(onClickMock).toHaveBeenCalled();
     expect(openSpy).toHaveBeenCalledWith(fundingUrl, '_blank');
   });
 
