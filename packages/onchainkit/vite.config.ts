@@ -8,7 +8,6 @@ import { fileURLToPath } from 'node:url';
 import { glob } from 'glob';
 import path from 'node:path';
 import fs from 'fs';
-import tailwindcss from '@tailwindcss/vite';
 
 const entryPoints = Object.fromEntries(
   glob
@@ -43,7 +42,6 @@ export default defineConfig({
     externalizeDeps(),
     preserveUseClientDirective(),
     react(),
-    tailwindcss(),
     dts({
       tsconfigPath: './tsconfig.json',
       include: ['src'],

@@ -1,4 +1,24 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@source inline("dark");
+@source inline("font-sans");
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'DM Sans', sans-serif;
+  --spacing-88: 22rem;
+  --spacing-120: 30rem;
+}
+
+@layer utilities {
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hidden {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+}
 
 @layer base {
   :root,
@@ -299,9 +319,9 @@
   }
 }
 
-@layer components {
-  @reference "tailwindcss.css";
-
+@reference "./tailwind-animate-v4.css";
+@layer utilities {
+  
   .animate-enterRight {
     @apply animate-in slide-in-from-right-8 fade-in duration-500;
   }
@@ -312,17 +332,5 @@
 
   .animate-enterDown {
     @apply animate-in slide-in-from-top-8 fade-in duration-500;
-  }
-}
-
-@utility scrollbars {
-  /* Chrome, Safari and Opera */
-  .scrollbar-hidden::-webkit-scrollbar {
-    display: none;
-  }
-
-  .scrollbar-hidden {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
   }
 }
