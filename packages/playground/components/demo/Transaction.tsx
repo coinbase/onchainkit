@@ -20,13 +20,45 @@ import {
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 import type { ContractFunctionParameters, Hex } from 'viem';
 import { AppContext } from '../AppProvider';
+import { TransactionButtonRenderParams } from '../../../onchainkit/dist/transaction/types';
 
 type Call = { to: Hex; data?: Hex; value?: bigint };
+
+function customRender({
+  status,
+  onSubmit,
+  onSuccess,
+  isDisabled,
+}: TransactionButtonRenderParams) {
+  if (status === 'pending') {
+    return <div>Pending</div>;
+  }
+  if (status === 'success') {
+    return (
+      <button disabled={isDisabled} onClick={onSuccess}>
+        Yahooo success
+      </button>
+    );
+  }
+  if (status === 'error') {
+    return (
+      <button disabled={isDisabled} onClick={onSubmit}>
+        Oops there is an error
+      </button>
+    );
+  }
+  return (
+    <button disabled={isDisabled} onClick={onSubmit}>
+      Submit
+    </button>
+  );
+}
 
 function TransactionDemo() {
   const { chainId, transactionType, isSponsored } = useContext(AppContext);
   const contracts = clickContracts as ContractFunctionParameters[];
   const calls = clickCalls as Call[];
+
   const promiseCalls = new Promise((resolve) => {
     setTimeout(() => {
       resolve(calls);
@@ -37,6 +69,7 @@ function TransactionDemo() {
       resolve(contracts);
     }, 4000);
   }) as Promise<ContractFunctionParameters[]>;
+
   const callsCallback = useCallback(
     () =>
       new Promise((resolve) => {
@@ -123,6 +156,7 @@ function TransactionDemo() {
         <TransactionButton
           text="Click"
           disabled={!chainId && !transactionType}
+          render={customRender}
         />
         <TransactionSponsor />
         <TransactionStatus>

@@ -70,6 +70,19 @@ export type IsSpinnerDisplayedProps = {
   transactionId?: string;
 };
 
+type TransactionButtonState = 'default' | 'success' | 'error' | 'pending';
+
+export type TransactionButtonRenderParams = {
+  /** The current state of the button */
+  status: TransactionButtonState;
+  /** The function to be called when the button is clicked */
+  onSubmit: (e: React.MouseEvent) => void;
+  /** The function to be called when the button is clicked */
+  onSuccess: (e: React.MouseEvent) => void;
+  /** Whether the button is disabled */
+  isDisabled: boolean;
+};
+
 /**
  * Note: exported as public Type
  */
@@ -86,6 +99,8 @@ export type TransactionButtonReact = {
   successOverride?: TransactionButtonOverride;
   /** Optional overrides for text in pending state (default is loading spinner) */
   pendingOverride?: Pick<TransactionButtonOverride, 'text'>;
+  /** Optional render prop to customize the button content */
+  render?: (params: TransactionButtonRenderParams) => ReactNode;
 };
 
 export type TransactionContextType = {

@@ -10,10 +10,7 @@ import { useTransactionContext } from './TransactionProvider';
 export function TransactionButton({
   className,
   disabled = false,
-  text: idleText = 'Transact',
-  errorOverride,
-  successOverride,
-  pendingOverride,
+  render,
 }: TransactionButtonReact) {
   const {
     chainId,
@@ -58,15 +55,7 @@ export function TransactionButton({
     transactionId,
   });
 
-  const { errorText, successText, pendingContent } = useMemo(() => {
-    const successText = successOverride?.text ?? 'View transaction';
-    const errorText = errorOverride?.text ?? 'Try again';
-    const pendingContent = pendingOverride?.text ?? <Spinner />;
-
-    return { successText, errorText, pendingContent };
-  }, [errorOverride, pendingOverride, successOverride]);
-
-  const defaultSuccessHandler = useCallback(() => {
+  const successHandler = useCallback(() => {
     // SW will have txn id so open in wallet
     if (receipt && transactionId && transactionHash && chainId && address) {
       const url = new URL('https://wallet.coinbase.com/assets/transactions');
@@ -91,52 +80,49 @@ export function TransactionButton({
     accountChainId,
   ]);
 
-  const successHandler = useCallback(() => {
-    if (successOverride?.onClick && receipt) {
-      return successOverride?.onClick?.(receipt);
-    }
-    defaultSuccessHandler();
-  }, [defaultSuccessHandler, successOverride, receipt]);
-
-  const errorHandler = useCallback(() => {
-    if (errorOverride?.onClick) {
-      return errorOverride?.onClick?.();
-    }
-    // if no custom logic, retry submit
-    return onSubmit();
-  }, [errorOverride, onSubmit]);
-
   const buttonContent = useMemo(() => {
     // txn successful
     if (receipt) {
-      return successText;
+      return 'View transaction';
     }
     if (errorMessage) {
-      return errorText;
+      return 'Try again';
     }
     if (displayPendingState) {
-      return pendingContent;
+      return <Spinner />;
     }
-    return idleText;
-  }, [
-    displayPendingState,
-    errorMessage,
-    errorText,
-    idleText,
-    pendingContent,
-    receipt,
-    successText,
-  ]);
+    return 'Transact';
+  }, [displayPendingState, errorMessage, receipt]);
 
   const handleSubmit = useCallback(() => {
     if (receipt) {
       successHandler();
-    } else if (errorMessage) {
-      errorHandler();
     } else {
       onSubmit();
     }
-  }, [errorMessage, errorHandler, onSubmit, receipt, successHandler]);
+  }, [onSubmit, receipt, successHandler]);
+
+  const status = useMemo(() => {
+    if (receipt) {
+      return 'success';
+    }
+    if (errorMessage) {
+      return 'error';
+    }
+    if (displayPendingState) {
+      return 'pending';
+    }
+    return 'default';
+  }, [displayPendingState, errorMessage, receipt]);
+
+  if (render) {
+    return render({
+      status,
+      onSubmit: handleSubmit,
+      onSuccess: successHandler,
+      isDisabled,
+    });
+  }
 
   return (
     <button
