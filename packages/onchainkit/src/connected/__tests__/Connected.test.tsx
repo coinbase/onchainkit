@@ -3,12 +3,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Connected } from '../components/Connected';
 import { useAccount } from 'wagmi';
 
-// Mock the wagmi hook
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
 }));
 
-// Mock the ConnectWallet component
 vi.mock('@/wallet', () => ({
   ConnectWallet: () => <div data-testid="connect-wallet">Connect Wallet</div>,
 }));
