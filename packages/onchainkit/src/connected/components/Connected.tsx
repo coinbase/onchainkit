@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { ConnectWallet } from '@/wallet';
 import { useAccount } from 'wagmi';
 
-type ConnectedProps = {
+export type ConnectedProps = {
   /** The component to render when the user is connected. */
   children: ReactNode;
   /** The component to render when the user is not connected. Defaults to <ConnectWallet />. */

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { Connected } from './Connected';
+import { Connected } from '../components/Connected';
 import { useAccount } from 'wagmi';
 
 // Mock the wagmi hook
