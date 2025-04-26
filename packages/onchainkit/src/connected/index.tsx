@@ -1,1 +1,1 @@
-export { Connected, ConnectedProps } from './components/Connected';
+export { Connected, type ConnectedProps } from './components/Connected';
