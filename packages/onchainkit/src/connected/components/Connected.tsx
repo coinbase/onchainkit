@@ -17,9 +17,9 @@ export function Connected({
   children,
   fallback = <ConnectWallet />,
 }: ConnectedProps) {
-  const account = useAccount();
+  const { isConnected } = useAccount();
 
-  if (!account.isConnected) {
+  if (!isConnected) {
     return fallback;
   }
 
