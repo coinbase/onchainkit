@@ -17,6 +17,7 @@ import {
 import ArrowSvg from './svg/ArrowSvg';
 import ImageSvg from './svg/Image';
 import OnchainkitSvg from './svg/OnchainKit';
+import { useState } from 'react';
 
 const components = [
   {
@@ -31,16 +32,32 @@ const components = [
 
 const templates = [
   { name: 'NFT', url: 'https://github.com/coinbase/onchain-app-template' },
-  { name: 'Commerce', url: 'https://github.com/coinbase/onchain-commerce-template'},
+  {
+    name: 'Commerce',
+    url: 'https://github.com/coinbase/onchain-commerce-template',
+  },
   { name: 'Fund', url: 'https://github.com/fakepixels/fund-component' },
 ];
 
 export default function App() {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
   return (
     <div className="flex flex-col min-h-screen">
       <header className="pt-4 pr-4">
-        <div className="flex justify-end">
-          <div className="wallet-container">
+        <div className="flex justify-end items-center gap-2">
+          <div>
+            <button
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3 border"
+              onClick={() => {
+                setTheme(theme === 'light' ? 'dark' : 'light');
+                document.documentElement.classList.toggle('dark');
+              }}
+            >
+              {theme === 'light' ? 'Light mode' : 'Dark mode'}
+            </button>
+          </div>
+          <div>
             <Wallet>
               <ConnectWallet>
                 <Avatar className="h-6 w-6" />
@@ -75,12 +92,14 @@ export default function App() {
           </div>
           <div className="flex justify-center mb-6">
             <a target="_blank" rel="_template" href="https://onchainkit.xyz">
-              <OnchainkitSvg/>
+              <OnchainkitSvg />
             </a>
           </div>
           <p className="text-center mb-6">
             Get started by editing
-            <code className="p-1 ml-1 rounded dark:bg-gray-800 bg-gray-200">app/page.tsx</code>
+            <code className="p-1 ml-1 rounded dark:bg-gray-800 bg-gray-200">
+              app/page.tsx
+            </code>
           </p>
           <div className="flex flex-col items-center">
             <div className="max-w-2xl w-full">
@@ -119,7 +138,7 @@ export default function App() {
                           rel="noopener noreferrer"
                         >
                           {template.name}
-                          <ArrowSvg/>
+                          <ArrowSvg />
                         </a>
                       </li>
                     ))}
