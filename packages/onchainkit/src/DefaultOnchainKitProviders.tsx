@@ -59,6 +59,10 @@ function WagmiProviderWithDefault({
     });
   });
 
+  if (providedWagmiConfig) {
+    return children;
+  }
+
   return <WagmiProvider config={config}>{children}</WagmiProvider>;
 }
 
