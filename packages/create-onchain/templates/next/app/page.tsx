@@ -37,7 +37,7 @@ const templates = [
 
 export default function App() {
   return (
-    <div className="flex flex-col min-h-screen font-sans dark:bg-background dark:text-white bg-white text-black">
+    <div className="flex flex-col min-h-screen">
       <header className="pt-4 pr-4">
         <div className="flex justify-end">
           <div className="wallet-container">
@@ -75,12 +75,12 @@ export default function App() {
           </div>
           <div className="flex justify-center mb-6">
             <a target="_blank" rel="_template" href="https://onchainkit.xyz">
-              <OnchainkitSvg className="dark:text-white text-black" />
+              <OnchainkitSvg/>
             </a>
           </div>
           <p className="text-center mb-6">
             Get started by editing
-            <code className="p-1 ml-1 rounded dark:bg-gray-800 bg-gray-200">app/page.tsx</code>.
+            <code className="p-1 ml-1 rounded dark:bg-gray-800 bg-gray-200">app/page.tsx</code>
           </p>
           <div className="flex flex-col items-center">
             <div className="max-w-2xl w-full">
@@ -94,7 +94,7 @@ export default function App() {
                       <li key={index}>
                         <a
                           href={component.url}
-                          className="hover:underline inline-flex items-center dark:text-white text-black"
+                          className="hover:underline inline-flex items-center"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -114,7 +114,7 @@ export default function App() {
                       <li key={index}>
                         <a
                           href={template.url}
-                          className="hover:underline inline-flex items-center dark:text-white text-black"
+                          className="hover:underline inline-flex items-center"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
