@@ -1,3 +1,10 @@
+// Secure fallback using crypto.getRandomValues
+const getRandomValues = (size: number) => {
+  const array = new Uint8Array(size);
+  crypto.getRandomValues(array);
+  return array;
+};
+
 /**
  * Generates a UUID using the crypto API if available, otherwise falls back to a
  * more insecure method. Only use this for non-critical purposes.
@@ -11,13 +18,6 @@ export const generateUUIDWithInsecureFallback = () => {
   ) {
     return crypto.randomUUID();
   }
-
-  // Secure fallback using crypto.getRandomValues
-  const getRandomValues = (size: number) => {
-    const array = new Uint8Array(size);
-    crypto.getRandomValues(array);
-    return array;
-  };
 
   const bytes = getRandomValues(16);
   // Format the random bytes into a UUID string
