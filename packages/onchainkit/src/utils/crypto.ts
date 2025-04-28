@@ -2,7 +2,7 @@
  * Generates a UUID using the crypto API if available, otherwise falls back to a
  * more insecure method. Only use this for non-critical purposes.
  *
- * @returns string - A UUID string that may not be cryptographically secure
+ * @returns A UUID string that may not be cryptographically secure
  */
 export const generateUUIDWithInsecureFallback = () => {
   if (
