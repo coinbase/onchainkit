@@ -22,7 +22,7 @@ export function ActiveComponent() {
           value ? setActiveComponent?.(value as OnchainKitComponent) : value
         }
       >
-        <SelectTrigger>
+        <SelectTrigger className="w-full">
           <SelectValue placeholder="Select component" />
         </SelectTrigger>
         <SelectContent>
