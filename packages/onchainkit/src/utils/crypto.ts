@@ -12,9 +12,35 @@ export const generateUUIDWithInsecureFallback = () => {
     return crypto.randomUUID();
   }
 
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = (Math.random() * 16) | 0;
-    const v = c === 'x' ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+  // Secure fallback using crypto.getRandomValues
+  const getRandomValues = (size: number) => {
+    const array = new Uint8Array(size);
+    crypto.getRandomValues(array);
+    return array;
+  };
+
+  const bytes = getRandomValues(16);
+  // Format the random bytes into a UUID string
+  return (
+    bytes[0].toString(16).padStart(2, '0') +
+    bytes[1].toString(16).padStart(2, '0') +
+    bytes[2].toString(16).padStart(2, '0') +
+    bytes[3].toString(16).padStart(2, '0') +
+    '-' +
+    bytes[4].toString(16).padStart(2, '0') +
+    bytes[5].toString(16).padStart(2, '0') +
+    '-' +
+    ((bytes[6] & 0x0f) | 0x40).toString(16).padStart(2, '0') + // UUID version 4
+    bytes[7].toString(16).padStart(2, '0') +
+    '-' +
+    ((bytes[8] & 0x3f) | 0x80).toString(16).padStart(2, '0') + // UUID variant
+    bytes[9].toString(16).padStart(2, '0') +
+    '-' +
+    bytes[10].toString(16).padStart(2, '0') +
+    bytes[11].toString(16).padStart(2, '0') +
+    bytes[12].toString(16).padStart(2, '0') +
+    bytes[13].toString(16).padStart(2, '0') +
+    bytes[14].toString(16).padStart(2, '0') +
+    bytes[15].toString(16).padStart(2, '0')
+  );
 };
