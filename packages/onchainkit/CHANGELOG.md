@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.9
+
+### Patch Changes
+
+- e9cd45d: fix: update release process
+
 ## 0.38.8
 
 ### Patch Changes
