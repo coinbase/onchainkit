@@ -55,7 +55,7 @@ export function TransactionButton({
     transactionId,
   });
 
-  const successHandler = useCallback(() => {
+  const handleSuccess = useCallback(() => {
     // SW will have txn id so open in wallet
     if (receipt && transactionId && transactionHash && chainId && address) {
       const url = new URL('https://wallet.coinbase.com/assets/transactions');
@@ -96,11 +96,11 @@ export function TransactionButton({
 
   const handleSubmit = useCallback(() => {
     if (receipt) {
-      successHandler();
+      handleSuccess();
     } else {
       onSubmit();
     }
-  }, [onSubmit, receipt, successHandler]);
+  }, [onSubmit, receipt, handleSuccess]);
 
   const status = useMemo(() => {
     if (receipt) {
@@ -119,7 +119,7 @@ export function TransactionButton({
     return render({
       status,
       onSubmit: handleSubmit,
-      onSuccess: successHandler,
+      onSuccess: handleSuccess,
       isDisabled,
     });
   }
