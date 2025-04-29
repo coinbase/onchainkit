@@ -143,7 +143,7 @@ type FundButtonBaseProps = {
 
 export type FundButtonRenderParams = {
   /* The state of the button component, only relevant when using FundCardSubmitButton */
-  state: FundButtonStateReact;
+  status: FundButtonStateReact;
   /* A callback function that will be called when the button is clicked */
   onClick: (e: React.MouseEvent) => void;
   /* Whether the button is disabled */

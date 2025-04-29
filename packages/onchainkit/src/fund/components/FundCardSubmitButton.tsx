@@ -91,7 +91,6 @@ export function FundCardSubmitButton({
     return (
       <FundButton
         disabled={isButtonDisabled}
-        className="w-full"
         fundingUrl={fundingUrl}
         state={submitButtonState}
         onClick={handleOnClick}

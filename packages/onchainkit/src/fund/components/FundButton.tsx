@@ -180,7 +180,7 @@ export function FundButton({
 
   if (render) {
     return render({
-      state: buttonState,
+      status: buttonState,
       onClick: handleClick,
       isDisabled,
     });
