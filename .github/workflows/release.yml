@@ -27,7 +27,7 @@ jobs:
 
       - name: Build packages
         shell: bash
-        run: pnpm build --filter='./packages/*'
+        run: pnpm -r build --filter='./packages/*'
 
       - name: Set deployment token
         run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
