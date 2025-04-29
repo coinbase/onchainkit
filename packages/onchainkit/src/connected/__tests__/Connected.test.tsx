@@ -16,6 +16,7 @@ describe('Connected', () => {
     beforeEach(() => {
       (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
         isConnected: true,
+        isConnecting: false,
         address: '0x123',
       });
     });
@@ -36,6 +37,7 @@ describe('Connected', () => {
     beforeEach(() => {
       (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
         isConnected: false,
+        isConnecting: false,
         address: undefined,
       });
     });
@@ -63,6 +65,52 @@ describe('Connected', () => {
       expect(screen.queryByTestId('connected-content')).not.toBeInTheDocument();
       expect(screen.getByTestId('custom-fallback')).toBeInTheDocument();
       expect(screen.queryByTestId('connect-wallet')).not.toBeInTheDocument();
+    });
+
+    it('renders nothing when fallback is null', () => {
+      render(
+        <Connected fallback={null}>
+          <div data-testid="connected-content">Connected Content</div>
+        </Connected>,
+      );
+
+      expect(screen.queryByTestId('connected-content')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('connect-wallet')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('when user is connecting', () => {
+    beforeEach(() => {
+      (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
+        isConnected: false,
+        isConnecting: true,
+        address: undefined,
+      });
+    });
+
+    it('renders default fallback when connecting prop is not provided', () => {
+      render(
+        <Connected>
+          <div data-testid="connected-content">Connected Content</div>
+        </Connected>,
+      );
+
+      expect(screen.queryByTestId('connected-content')).not.toBeInTheDocument();
+      expect(screen.getByTestId('connect-wallet')).toBeInTheDocument();
+    });
+
+    it('renders connecting element when connecting prop is provided', () => {
+      render(
+        <Connected
+          connecting={<div data-testid="connecting-state">Connecting...</div>}
+        >
+          <div data-testid="connected-content">Connected Content</div>
+        </Connected>,
+      );
+
+      expect(screen.queryByTestId('connected-content')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('connect-wallet')).not.toBeInTheDocument();
+      expect(screen.getByTestId('connecting-state')).toBeInTheDocument();
     });
   });
 });
