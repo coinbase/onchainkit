@@ -1,5 +1,3 @@
-import { icon } from '../../styles/theme';
-
 export const defaultAvatarSVG = (
   <svg
     data-testid="ock-defaultAvatarSVG"

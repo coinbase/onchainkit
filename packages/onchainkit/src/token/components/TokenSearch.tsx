@@ -5,7 +5,7 @@ import { TextInput } from '../../internal/components/TextInput';
 import { useTheme } from '../../internal/hooks/useTheme';
 import { CloseSvg } from '../../internal/svg/closeSvg';
 import { searchIconSvg } from '../../internal/svg/searchIconSvg';
-import { cn, color, pressable } from '../../styles/theme';
+import { cn, pressable } from '../../styles/theme';
 import type { TokenSearchReact } from '../types';
 
 export function TokenSearch({

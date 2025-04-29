@@ -1,5 +1,5 @@
 import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
-import { border, cn, color, text } from '@/styles/theme';
+import { border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';

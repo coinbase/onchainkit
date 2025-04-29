@@ -2,14 +2,7 @@
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { SwapEvent } from '@/core/analytics/types';
 import { useCallback, useState } from 'react';
-import {
-  background,
-  border,
-  cn,
-  color,
-  pressable,
-  text,
-} from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { SwapSettingsSlippageInputReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 

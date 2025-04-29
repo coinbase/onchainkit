@@ -1,7 +1,7 @@
 'use client';
 
 import { useTheme } from '../../internal/hooks/useTheme';
-import { background, cn, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { TokenChipReact } from '../types';
 import { TokenImage } from './TokenImage';
 

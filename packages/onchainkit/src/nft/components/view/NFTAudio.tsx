@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { background, cn } from '../../../styles/theme';
+import { cn } from '../../../styles/theme';
 
 type NFTAudioReact = {
   className?: string;

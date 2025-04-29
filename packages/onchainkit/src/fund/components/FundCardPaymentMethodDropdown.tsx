@@ -6,7 +6,7 @@ import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
-import { background, border, cn } from '../../styles/theme';
+import { border, cn } from '../../styles/theme';
 import type {
   FundCardPaymentMethodDropdownProps,
   PaymentMethod,

@@ -1,4 +1,4 @@
-import { background, border, cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import type { EarnBalanceReact } from '../types';
 
 export function EarnBalance({

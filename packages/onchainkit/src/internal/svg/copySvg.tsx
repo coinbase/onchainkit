@@ -1,5 +1,3 @@
-import { icon } from '../../styles/theme';
-
 export const copySvg = (
   <svg
     width="12"

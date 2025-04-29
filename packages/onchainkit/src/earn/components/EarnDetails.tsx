@@ -2,7 +2,7 @@
 import { useEarnContext } from '@/earn/components/EarnProvider';
 import { VaultDetails } from '@/earn/components/VaultDetails';
 import { YieldDetails } from '@/earn/components/YieldDetails';
-import { border, cn, color } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import type { EarnDetailsReact } from '../types';
 
 export function EarnDetails({ className }: EarnDetailsReact) {

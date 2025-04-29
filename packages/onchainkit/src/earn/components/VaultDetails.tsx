@@ -4,7 +4,7 @@ import { Popover } from '@/internal/components/Popover';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { etherscanSvg } from '@/internal/svg/etherscanSvg';
 import { infoSvg } from '@/internal/svg/infoSvg';
-import { background, border, cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { TokenImage } from '@/token';
 import { useRef } from 'react';
 import { useState } from 'react';

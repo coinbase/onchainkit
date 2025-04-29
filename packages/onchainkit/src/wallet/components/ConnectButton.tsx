@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  border,
-  cn,
-  color,
-  text as dsText,
-  pressable,
-} from '../../styles/theme';
+import { cn, text as dsText, pressable } from '../../styles/theme';
 import type { ConnectButtonReact } from '../types';
 
 export function ConnectButton({

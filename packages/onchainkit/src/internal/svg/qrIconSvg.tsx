@@ -1,5 +1,3 @@
-import { background } from '../../styles/theme';
-
 export const qrIconSvg = (
   <svg
     width="100%"

@@ -1,6 +1,5 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { color } from '../../styles/theme';
 import { useCheckoutContext } from '../components/CheckoutProvider';
 import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import { useGetCheckoutStatus } from './useGetCheckoutStatus';

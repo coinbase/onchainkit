@@ -1,5 +1,3 @@
-import { cn, icon } from '../../styles/theme';
-
 export const coinbaseLogoSvg = (
   <svg
     width="24"

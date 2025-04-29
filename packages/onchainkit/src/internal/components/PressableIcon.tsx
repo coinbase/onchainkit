@@ -1,4 +1,4 @@
-import { border, cn, pressable } from '@/styles/theme';
+import { cn, pressable } from '@/styles/theme';
 import type { ReactNode } from 'react';
 
 type PressableIconProps = {

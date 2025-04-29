@@ -1,7 +1,7 @@
 'use client';
 
 import { Address, Avatar, EthBalance, Identity, Name } from '@/identity';
-import { cn, color } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import type { WalletDropdownReact } from '../types';
 import { WalletDropdownContent } from './WalletDropdownContent';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';

@@ -6,7 +6,7 @@ import { QrCodeSvg } from '@/internal/components/QrCode/QrCodeSvg';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
 import { copySvg } from '@/internal/svg/copySvg';
 import { zIndex } from '@/styles/constants';
-import { border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
 import type { WalletAdvancedQrReceiveProps } from '../types';
 import { useWalletContext } from './WalletProvider';

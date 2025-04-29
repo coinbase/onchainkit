@@ -1,4 +1,4 @@
-import { background, cn } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import type { EarnCardReact } from '../types';
 
 export function EarnCard({ children, className }: EarnCardReact) {

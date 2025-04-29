@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { useTheme } from '../../internal/hooks/useTheme';
-import { background, border, cn, color, text } from '../../styles/theme';
+import { border, cn, text } from '../../styles/theme';
 import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
 import type { FundCardProps } from '../types';
 import FundCardAmountInput from './FundCardAmountInput';

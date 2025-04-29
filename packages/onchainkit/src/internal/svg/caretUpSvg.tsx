@@ -1,5 +1,3 @@
-import { icon } from '../../styles/theme';
-
 export const caretUpSvg = (
   <svg
     data-testid="ock-caretUpSvg"

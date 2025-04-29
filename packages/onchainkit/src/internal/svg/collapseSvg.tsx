@@ -1,5 +1,3 @@
-import { background } from '../../styles/theme';
-
 export const collapseSvg = (
   <svg
     width="28"

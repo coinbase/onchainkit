@@ -3,15 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
 import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
 import { CloseSvg } from '../../internal/svg/closeSvg';
-import {
-  background,
-  border,
-  cn,
-  color,
-  icon,
-  pressable,
-  text,
-} from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import { ConnectWallet } from '../../wallet';
 import { useBuyContext } from './BuyProvider';
 

@@ -1,20 +1,17 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTheme } from '../../internal/hooks/useTheme';
-import { cn, color, pressable, text } from '../../styles/theme';
-
-import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
-import { ErrorSvg } from '@/internal/svg/errorSvg';
-import { openPopup } from '@/internal/utils/openPopup';
-import { useMemo } from 'react';
+import { cn, pressable, text } from '../../styles/theme';
 import { useAccount } from 'wagmi';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
+import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
+import { ErrorSvg } from '@/internal/svg/errorSvg';
+import { openPopup } from '@/internal/utils/openPopup';
 import { Spinner } from '../../internal/components/Spinner';
 import { AddSvg } from '../../internal/svg/addSvg';
 import { SuccessSvg } from '../../internal/svg/successSvg';
-import { background } from '../../styles/theme';
 import { ConnectWallet } from '../../wallet/components/ConnectWallet';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonProps } from '../types';
