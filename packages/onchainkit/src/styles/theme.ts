@@ -6,15 +6,15 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const text = {
-  base: 'ock-font-family',
-  body: 'ock-font-family font-normal text-base',
-  caption: 'ock-font-family font-semibold text-xs',
-  headline: 'ock-font-family font-semibold',
-  label1: 'ock-font-family font-semibold text-sm',
-  label2: 'ock-font-family text-sm',
-  legal: 'ock-font-family text-xs',
-  title1: 'ock-font-family font-semibold text-2xl',
-  title3: 'ock-font-family font-semibold text-xl',
+  base: 'font-ock',
+  body: 'font-ock font-normal text-base',
+  caption: 'font-ock font-semibold text-xs',
+  headline: 'font-ock font-semibold',
+  label1: 'font-ock font-semibold text-sm',
+  label2: 'font-ock text-sm',
+  legal: 'font-ock text-xs',
+  title1: 'font-ock font-semibold text-2xl',
+  title3: 'font-ock font-semibold text-xl',
 } as const;
 
 export const pressable = {
@@ -66,18 +66,10 @@ export const fill = {
 } as const;
 
 export const border = {
-  default: 'ock-border-default',
-  defaultActive: 'ock-border-default-active',
-  linePrimary: 'ock-border-line-primary border',
-  lineDefault: 'ock-border-line-default border',
-  lineHeavy: 'ock-border-line-heavy border',
-  lineInverse: 'ock-border-line-inverse border',
-  radius: 'ock-border-radius',
-  radiusInner: 'ock-border-radius-inner',
-} as const;
-
-export const placeholder = {
-  default: 'ock-placeholder-default',
+  linePrimary: 'border-ock-line-primary border',
+  lineDefault: 'border-ock-line-default border',
+  lineHeavy: 'border-ock-line-heavy border',
+  lineInverse: 'border-ock-line-inverse border',
 } as const;
 
 export const icon = {

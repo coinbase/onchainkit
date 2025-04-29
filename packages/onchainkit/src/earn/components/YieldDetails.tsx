@@ -14,7 +14,7 @@ function YieldInfo() {
     <div
       className={cn(
         color.foregroundMuted,
-        border.defaultActive,
+        'border-ock-bg-default-active',
         background.default,
         'fade-in flex min-w-52 animate-in flex-col gap-2 rounded-lg border p-3 text-sm duration-200',
       )}

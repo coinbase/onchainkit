@@ -44,8 +44,8 @@ export function NFTTotalCost({
       <div
         className={cn(
           background.default,
-          border.radius,
-          border.defaultActive,
+          'rounded-ock-default',
+          'border-ock-bg-default-active',
           'absolute z-10 w-full border',
         )}
       >

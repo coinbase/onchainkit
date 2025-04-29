@@ -20,7 +20,7 @@ export const AppchainBridgeNetwork = ({
     <div
       className={cn(
         background.secondary,
-        border.radius,
+        'rounded-ock-default',
         'box-border flex h-[80px] w-full flex-col items-start justify-center p-4',
       )}
       data-testid="ockAppchainBridgeNetwork_Container"
@@ -29,7 +29,7 @@ export const AppchainBridgeNetwork = ({
         <div
           className={cn(
             'flex-col items-center gap-2 p-3',
-            border.radius,
+            'rounded-ock-default',
             'w-full',
             {
               'items-start': type === 'from',

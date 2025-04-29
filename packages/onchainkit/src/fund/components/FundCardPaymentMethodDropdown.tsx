@@ -151,9 +151,8 @@ export function FundCardPaymentMethodDropdown({
           ref={dropdownRef}
           data-testid="ockFundCardPaymentMethodDropdown"
           className={cn(
-            border.radius,
             border.lineDefault,
-            'ock-scrollbar absolute z-10 mt-2 flex w-full flex-col overflow-y-hidden',
+            'rounded-ock-default ock-scrollbar absolute z-10 mt-2 flex w-full flex-col overflow-y-hidden',
           )}
         >
           <div className={cn(background.default, 'overflow-y-auto p-2')}>

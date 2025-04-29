@@ -36,7 +36,7 @@ export const AppchainBridgeResumeTransaction = () => {
         <div
           className={cn(
             background.secondary,
-            border.radius,
+            'rounded-ock-default',
             'box-border flex h-20 w-full flex-col items-start justify-center gap-2 p-4',
             'mt-4',
           )}

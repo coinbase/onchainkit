@@ -52,7 +52,7 @@ export function AppchainBridgeInput({
     <div
       className={cn(
         background.secondary,
-        border.radius,
+        'rounded-ock-default',
         'box-border flex h-[148px] w-full flex-col items-start p-4',
         className,
       )}

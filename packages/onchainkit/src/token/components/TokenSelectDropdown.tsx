@@ -40,7 +40,7 @@ export function TokenSelectDropdown({
         <div
           data-testid="ockTokenSelectDropdown_List"
           className={cn(
-            border.radius,
+            'rounded-ock-default',
             color.foreground,
             'flex max-h-80 w-[200px] flex-col overflow-y-hidden',
             'ock-scrollbar',

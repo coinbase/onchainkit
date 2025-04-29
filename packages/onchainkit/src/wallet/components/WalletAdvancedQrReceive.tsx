@@ -66,7 +66,7 @@ export function WalletAdvancedQrReceive({
     <div
       data-testid="ockWalletAdvancedQrReceive"
       className={cn(
-        border.radius,
+        'rounded-ock-default',
         color.foreground,
         text.headline,
         'flex flex-col items-center justify-between',
@@ -96,8 +96,8 @@ export function WalletAdvancedQrReceive({
             onError={handleCopyIconError}
             className={cn(
               pressable.default,
-              border.radiusInner,
-              border.default,
+              'rounded-ock-inner',
+              'border-ock-bg-default',
               'flex items-center justify-center p-2',
             )}
             aria-label="Copy your address by clicking the icon"
@@ -111,8 +111,8 @@ export function WalletAdvancedQrReceive({
               pressable.alternate,
               text.legal,
               color.foreground,
-              border.default,
-              border.radius,
+              'border-ock-bg-default',
+              'rounded-ock-default',
               zIndex.dropdown,
               'absolute top-full right-0 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
             )}
@@ -125,7 +125,7 @@ export function WalletAdvancedQrReceive({
         copyValue={address ?? ''}
         label={copyButtonText}
         className={cn(
-          border.radius,
+          'rounded-ock-default',
           pressable.alternate,
           'w-full p-3',
           classNames?.copyButton,

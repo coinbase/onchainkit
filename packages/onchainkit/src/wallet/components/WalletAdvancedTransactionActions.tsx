@@ -139,7 +139,7 @@ function WalletAdvancedTransactionAction({
       className={cn(
         'flex flex-col items-center justify-center gap-2 pt-2.5 pb-2',
         'h-16 flex-1',
-        border.radius,
+        'rounded-ock-default',
         pressable.alternate,
         classNames?.container,
       )}

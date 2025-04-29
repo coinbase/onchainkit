@@ -46,8 +46,8 @@ export function GetSocialPlatformDetails({
       rel="noopener noreferrer"
       className={cn(
         pressable.default,
-        border.radius,
-        border.default,
+        'rounded-ock-default',
+        'border-ock-bg-default',
         'flex items-center justify-center p-2',
       )}
       data-testid={`ockSocials_${

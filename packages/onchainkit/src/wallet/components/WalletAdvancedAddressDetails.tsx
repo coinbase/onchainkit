@@ -79,8 +79,8 @@ export function WalletAdvancedAddressDetails({
             pressable.alternate,
             text.legal,
             color.foreground,
-            border.default,
-            border.radius,
+            'border-ock-bg-default',
+            'rounded-ock-default',
             zIndex.tooltip,
             'absolute top-full right-0 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
           )}

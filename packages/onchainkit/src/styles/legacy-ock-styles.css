@@ -1,41 +1,3 @@
-/* Font */
-.ock-font-family {
-  font-family: var(--ock-font-family);
-}
-
-/* Border */
-.ock-border-default {
-  border-color: var(--ock-bg-default);
-}
-
-.ock-border-default-active {
-  border-color: var(--ock-bg-default-active);
-}
-
-.ock-border-line-primary {
-  border-color: var(--ock-line-primary);
-}
-
-.ock-border-line-default {
-  border-color: var(--ock-line-default);
-}
-
-.ock-border-line-heavy {
-  border-color: var(--ock-line-heavy);
-}
-
-.ock-border-line-inverse {
-  border-color: var(--ock-line-inverse);
-}
-
-.ock-border-radius {
-  border-radius: var(--ock-border-radius);
-}
-
-.ock-border-radius-inner {
-  border-radius: var(--ock-border-radius-inner);
-}
-
 /* Fill */
 .ock-fill-default {
   fill: var(--ock-bg-default);
@@ -49,10 +11,6 @@
   fill: var(--ock-bg-alternate);
 }
 
-/* Icon */
-.ock-icon-color-primary {
-  fill: var(--ock-icon-color-primary);
-}
 .ock-icon-color-foreground {
   fill: var(--ock-icon-color-foreground);
 }

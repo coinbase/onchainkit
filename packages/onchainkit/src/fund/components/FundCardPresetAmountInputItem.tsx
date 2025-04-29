@@ -53,7 +53,7 @@ export function FundCardPresetAmountInputItem({
       className={cn(
         text.body,
         color.foreground,
-        border.radius,
+        'rounded-ock-default',
         border.lineDefault,
         'flex-1',
         'p-1',

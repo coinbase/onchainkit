@@ -72,7 +72,7 @@ export function QuantitySelector({
 
   const classNames = cn(
     'h-11 w-11 rounded-lg border',
-    border.defaultActive,
+    'border-ock-bg-default-active',
     color.foreground,
     background.default,
     disabled && pressable.disabled,

@@ -9,7 +9,7 @@ export function SwapSettingsSlippageLayoutBottomSheet({
     <div
       className={cn(
         background.default,
-        border.default,
+        'border-ock-bg-default',
         pressable.shadow,
         'right-0 z-10 h-full w-full rounded-t-lg px-3 pt-2 pb-3',
         className,

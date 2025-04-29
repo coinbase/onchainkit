@@ -21,7 +21,7 @@ export function Send({
         data-testid="ockSend"
         className={cn(
           background.default,
-          border.radius,
+          'rounded-ock-default',
           border.lineDefault,
           color.foreground,
           'h-120 w-88',

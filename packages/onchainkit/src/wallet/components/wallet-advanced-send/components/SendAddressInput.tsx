@@ -18,7 +18,7 @@ export function SendAddressInput({ classNames }: SendAddressInputProps) {
       data-testid="ockSendAddressInput"
       className={cn(
         border.lineDefault,
-        border.radius,
+        'rounded-ock-default',
         'w-full',
         'flex items-center gap-2',
         'px-4 py-3',

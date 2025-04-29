@@ -12,7 +12,7 @@ export function SwapToggleButton({ className }: SwapToggleButtonReact) {
       type="button"
       className={cn(
         pressable.alternate,
-        border.default,
+        'border-ock-bg-default',
         '-my-6 relative mx-auto',
         'flex h-12 w-12 items-center justify-center',
         'rounded-lg border-4 border-solid',

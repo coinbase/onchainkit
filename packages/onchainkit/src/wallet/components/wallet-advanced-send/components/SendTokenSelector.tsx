@@ -51,7 +51,7 @@ export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
               classNames={{
                 container: cn(
                   pressable.default,
-                  border.radius,
+                  'rounded-ock-default',
                   classNames?.container,
                 ),
                 ...classNames,
@@ -84,7 +84,7 @@ export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
       classNames={{
         container: cn(
           pressable.alternate,
-          border.radius,
+          'rounded-ock-default',
           classNames?.container,
         ),
         ...classNames,

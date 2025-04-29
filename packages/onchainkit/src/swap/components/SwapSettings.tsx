@@ -102,7 +102,7 @@ export function SwapSettings({
           >
             <div
               className={cn(
-                border.radius,
+                'rounded-ock-default',
                 background.default,
                 pressable.shadow,
                 'absolute right-0 z-10 mt-1 w-[21.75rem] rounded-lg',

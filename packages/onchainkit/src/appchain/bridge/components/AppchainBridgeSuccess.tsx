@@ -47,7 +47,7 @@ export const AppchainBridgeSuccess = ({
                 key={label}
                 className={cn(
                   pressable[variant as keyof typeof pressable],
-                  border.radius,
+                  'rounded-ock-default',
                   'w-full rounded-xl',
                   'px-4 py-3 text-base text-white leading-6',
                   text.label1,

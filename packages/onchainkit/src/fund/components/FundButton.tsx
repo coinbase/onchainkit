@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react';
 import { useTheme } from '../../internal/hooks/useTheme';
-import { border, cn, color, pressable, text } from '../../styles/theme';
+import { cn, color, pressable, text } from '../../styles/theme';
 
 import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
 import { ErrorSvg } from '@/internal/svg/errorSvg';
@@ -118,12 +118,11 @@ export function FundButton({
   const classNames = cn(
     componentTheme,
     buttonColorClass,
-    'px-4 py-3 inline-flex items-center justify-center space-x-2',
+    'rounded-ock-defaultpx-4 py-3 inline-flex items-center justify-center space-x-2',
     {
       [pressable.disabled]: isDisabled,
     },
     text.headline,
-    border.radius,
     color.inverse,
     className,
   );

@@ -204,7 +204,7 @@ export function ConnectWallet({
           data-testid="ockConnectWallet_Connected"
           className={cn(
             pressable.secondary,
-            border.radius,
+            'rounded-ock-default',
             color.foreground,
             'px-4 py-3',
             isSubComponentOpen &&

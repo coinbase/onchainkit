@@ -97,8 +97,8 @@ export function SwapSettingsSlippageInput({
     <section
       className={cn(
         background.default,
-        border.defaultActive,
-        border.radius,
+        'border-ock-bg-default-active',
+        'rounded-ock-default',
         'flex items-center gap-2 flex-grow max-sm:pt-4',
         className,
       )}
@@ -106,8 +106,8 @@ export function SwapSettingsSlippageInput({
       <fieldset
         className={cn(
           background.default,
-          border.defaultActive,
-          border.radius,
+          'border-ock-bg-default-active',
+          'rounded-ock-default',
           'flex h-9 flex-1 rounded-xl border p-1',
         )}
       >
@@ -120,7 +120,7 @@ export function SwapSettingsSlippageInput({
               pressable.default,
               color.foreground,
               text.label1,
-              border.radiusInner,
+              'rounded-ock-inner',
               'flex-1 px-3 py-1 transition-colors',
               // Highlight the button if it is selected
               slippageSetting === setting
@@ -136,8 +136,8 @@ export function SwapSettingsSlippageInput({
       <div
         className={cn(
           background.default,
-          border.defaultActive,
-          border.radius,
+          'border-ock-bg-default-active',
+          'rounded-ock-default',
           'flex h-9 w-24 items-center justify-between border px-2 py-1',
           slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'opacity-50',
         )}

@@ -9,7 +9,7 @@ import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
 const buttonStyles = cn(
   pressable.primary,
-  border.radius,
+  'rounded-ock-default',
   'w-full rounded-xl',
   'px-4 py-3 font-medium text-base text-white leading-6',
   text.headline,

@@ -72,8 +72,8 @@ export function NFTMintCard({
               componentTheme,
               color.foreground,
               background.default,
-              border.defaultActive,
-              border.radius,
+              'border-ock-bg-default-active',
+              'rounded-ock-default',
               'flex w-full max-w-[500px] flex-col gap-2 border p-4',
               className,
             )}

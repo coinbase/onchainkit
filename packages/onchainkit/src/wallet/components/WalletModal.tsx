@@ -233,7 +233,7 @@ export function WalletModal({
         data-testid="ockModalOverlay"
         className={cn(
           border.lineDefault,
-          border.radius,
+          'rounded-ock-default',
           background.default,
           'w-[22rem] p-6 pb-4',
           'relative flex flex-col items-center gap-4',
@@ -245,8 +245,8 @@ export function WalletModal({
           onClick={onClose}
           className={cn(
             pressable.default,
-            border.radius,
-            border.default,
+            'rounded-ock-default',
+            'border-ock-bg-default',
             'absolute top-4 right-4',
             'flex items-center justify-center p-1',
             'transition-colors duration-200',
@@ -261,7 +261,7 @@ export function WalletModal({
         {(appLogo || appName) && (
           <div className="flex w-full flex-col items-center gap-2 py-3">
             {appLogo && (
-              <div className={cn(border.radius, 'h-14 w-14 overflow-hidden')}>
+              <div className={cn('rounded-ock-default', 'h-14 w-14 overflow-hidden')}>
                 <img
                   src={appLogo}
                   alt={`${appName || 'App'} icon`}
@@ -284,7 +284,7 @@ export function WalletModal({
             type="button"
             onClick={handleCoinbaseWalletConnection}
             className={cn(
-              border.radius,
+              'rounded-ock-default',
               text.body,
               pressable.alternate,
               color.foreground,
@@ -321,7 +321,7 @@ export function WalletModal({
               type="button"
               onClick={wallet.connector}
               className={cn(
-                border.radius,
+                'rounded-ock-default',
                 background.default,
                 text.body,
                 pressable.alternate,

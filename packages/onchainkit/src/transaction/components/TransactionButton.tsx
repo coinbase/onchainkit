@@ -142,7 +142,7 @@ export function TransactionButton({
     <button
       className={cn(
         pressable.primary,
-        border.radius,
+        'rounded-ock-default',
         'w-full rounded-xl',
         'px-4 py-3 font-medium leading-6',
         isDisabled && pressable.disabled,

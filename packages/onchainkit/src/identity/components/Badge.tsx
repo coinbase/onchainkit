@@ -52,8 +52,8 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
       <span
         className={cn(
           background.primary,
-          border.default,
-          border.radius,
+          'border-ock-bg-default',
+          'rounded-ock-default',
           tooltip && 'cursor-pointer',
           className,
         )}
@@ -74,8 +74,8 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
       {showTooltip && tooltip && (
         <div
           className={cn(
-            border.radius,
-            border.default,
+            'rounded-ock-default',
+            'border-ock-bg-default',
             pressable.alternate,
             text.legal,
             color.foreground,

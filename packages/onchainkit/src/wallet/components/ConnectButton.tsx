@@ -20,7 +20,7 @@ export function ConnectButton({
       data-testid="ockConnectButton"
       className={cn(
         pressable.primary,
-        border.radius,
+        'rounded-ock-default',
         dsText.headline,
         color.inverse,
         'inline-flex min-w-[153px] items-center justify-center px-4 py-3',

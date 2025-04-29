@@ -87,7 +87,7 @@ export function BuyButton() {
       type="button"
       className={cn(
         background.primary,
-        border.radius,
+        'rounded-ock-default',
         'flex rounded-xl',
         'h-12 w-24 items-center justify-center px-4 py-3',
         isDisabled && pressable.disabled,

@@ -12,8 +12,7 @@ export function EarnBalance({
     <div
       className={cn(
         background.alternate,
-        border.radius,
-        'flex items-center justify-between gap-4 p-3 px-4',
+        'rounded-ock-default flex items-center justify-between gap-4 p-3 px-4',
         className,
       )}
       data-testid="ockEarnBalance"

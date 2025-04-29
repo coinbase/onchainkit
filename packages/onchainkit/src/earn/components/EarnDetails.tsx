@@ -21,8 +21,7 @@ export function EarnDetails({ className }: EarnDetailsReact) {
     <div
       data-testid="ockEarnDetails"
       className={cn(
-        border.radius,
-        'flex w-full items-center justify-between gap-4',
+        'rounded-ock-default flex w-full items-center justify-between gap-4',
         className,
       )}
     >

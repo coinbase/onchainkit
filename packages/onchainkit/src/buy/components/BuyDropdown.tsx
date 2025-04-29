@@ -93,7 +93,7 @@ export function BuyDropdown() {
         background.default,
         'absolute right-0 bottom-0 flex translate-y-[102%] flex-col gap-2',
         'z-10 min-w-80 rounded border p-2',
-        border.radius,
+        'rounded-ock-default',
       )}
     >
       <div className={cn(text.headline, 'px-2 pt-2')}>Buy with</div>

@@ -45,7 +45,7 @@ export function SwapButton({
       type="button"
       className={cn(
         background.primary,
-        border.radius,
+        'rounded-ock-default',
         'w-full rounded-xl',
         'mt-4 px-4 py-3',
         isDisabled && pressable.disabled,

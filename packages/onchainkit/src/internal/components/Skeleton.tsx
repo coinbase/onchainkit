@@ -13,7 +13,7 @@ export function Skeleton({ className }: SkeletonReact) {
       className={cn(
         'animate-pulse bg-opacity-50',
         background.alternate,
-        border.radius,
+        'rounded-ock-default',
         className,
       )}
       data-testid="ockSkeleton"

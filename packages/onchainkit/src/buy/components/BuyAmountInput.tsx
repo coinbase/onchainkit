@@ -18,7 +18,7 @@ export function BuyAmountInput() {
       className={cn(
         'flex h-12 items-center border px-2 pl-4',
         background.default,
-        border.radius,
+        'rounded-ock-default',
         border.lineDefault,
       )}
     >

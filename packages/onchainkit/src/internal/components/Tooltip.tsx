@@ -33,7 +33,7 @@ export function Tooltip({ children = infoSvg, content }: TooltipReact) {
           className={cn(
             'absolute top-0 right-0 flex translate-x-[100%] translate-y-[-100%]',
             'whitespace-nowrap p-2',
-            border.radius,
+            'rounded-ock-default',
             background.inverse,
             text.legal,
             border.lineDefault,

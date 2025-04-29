@@ -47,9 +47,8 @@ export function FundCard({
           componentTheme,
           background.default,
           color.foreground,
-          'flex w-full flex-col p-6',
+          'rounded-ock-default flex w-full flex-col p-6',
           text.headline,
-          border.radius,
           border.lineDefault,
           className,
         )}

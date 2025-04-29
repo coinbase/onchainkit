@@ -51,7 +51,7 @@ export function Socials({ address, chain, className }: SocialsReact) {
   }
 
   return (
-    <div className={cn(border.default, 'mt-2 w-full pl-1', className)}>
+    <div className={cn('border-ock-bg-default', 'mt-2 w-full pl-1', className)}>
       <div className={'left-4 flex space-x-2'}>
         {Object.entries(socials).map(
           ([platform, value]) =>

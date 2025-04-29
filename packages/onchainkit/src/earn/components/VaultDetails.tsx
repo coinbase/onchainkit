@@ -71,7 +71,7 @@ export function VaultDetails() {
           className={cn(
             background.default,
             color.foreground,
-            border.defaultActive,
+            'border-ock-bg-default-active',
             background.default,
             'flex min-w-40 flex-col gap-3 rounded-lg border p-3 text-sm',
             'fade-in animate-in duration-200',
