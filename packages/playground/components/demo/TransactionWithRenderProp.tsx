@@ -19,11 +19,54 @@ import {
 } from '@coinbase/onchainkit/transaction';
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 import type { ContractFunctionParameters, Hex } from 'viem';
+import { TransactionButtonRenderParams } from '../../../onchainkit/dist/transaction/types';
 import { AppContext } from '../AppProvider';
+import { cn } from '@/lib/utils';
+import { text, pressable, border, color } from '@coinbase/onchainkit/theme';
 
 type Call = { to: Hex; data?: Hex; value?: bigint };
 
-function TransactionDemo() {
+function customRender({
+  status,
+  onSubmit,
+  onSuccess,
+  isDisabled,
+}: TransactionButtonRenderParams) {
+  const className = cn(
+    pressable.primary,
+    border.radius,
+    'w-full rounded-xl',
+    'px-4 py-3 font-medium leading-6',
+    isDisabled && pressable.disabled,
+    text.headline,
+    color.inverse,
+  );
+
+  if (status === 'pending') {
+    return <div className={className}>Transaction in progress</div>;
+  }
+  if (status === 'success') {
+    return (
+      <button disabled={isDisabled} onClick={onSuccess} className={className}>
+        Transaction successful
+      </button>
+    );
+  }
+  if (status === 'error') {
+    return (
+      <button disabled={isDisabled} onClick={onSubmit} className={className}>
+        Oops there is an error
+      </button>
+    );
+  }
+  return (
+    <button disabled={isDisabled} onClick={onSubmit} className={className}>
+      Submit
+    </button>
+  );
+}
+
+function TransactionWithRenderPropDemo() {
   const { chainId, transactionType, isSponsored } = useContext(AppContext);
   const contracts = clickContracts as ContractFunctionParameters[];
   const calls = clickCalls as Call[];
@@ -125,6 +168,7 @@ function TransactionDemo() {
         <TransactionButton
           text="Click"
           disabled={!chainId && !transactionType}
+          render={customRender}
         />
         <TransactionSponsor />
         <TransactionStatus>
@@ -141,4 +185,4 @@ function TransactionDemo() {
   );
 }
 
-export default TransactionDemo;
+export default TransactionWithRenderPropDemo;
