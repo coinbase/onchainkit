@@ -76,9 +76,9 @@ export type TransactionButtonRenderParams = {
   /** The current state of the button */
   status: TransactionButtonState;
   /** The function to be called when the button is clicked */
-  onSubmit: (e: React.MouseEvent) => void;
+  onSubmit: () => void;
   /** The function to be called when the button is clicked */
-  onSuccess: (e: React.MouseEvent) => void;
+  onSuccess: () => void;
   /** Whether the button is disabled */
   isDisabled: boolean;
 };
