@@ -20,7 +20,7 @@ export function Send({
       <div
         data-testid="ockSend"
         className={cn(
-          background.default,
+          'bg-ock-bg-default',
           'rounded-ock-default',
           border.lineDefault,
           'text-ock-text-foreground',

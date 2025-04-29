@@ -74,7 +74,7 @@ export function QuantitySelector({
     'h-11 w-11 rounded-lg border',
     'border-ock-bg-default-active',
     'text-ock-text-foreground',
-    background.default,
+    'bg-ock-bg-default',
     disabled && pressable.disabled,
   );
 

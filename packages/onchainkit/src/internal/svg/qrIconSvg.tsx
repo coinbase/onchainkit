@@ -9,7 +9,7 @@ export const qrIconSvg = (
     xmlns="http://www.w3.org/2000/svg"
   >
     <title>QR Code</title>
-    <rect width="28" height="28" rx="8" className={background.default} />
+    <rect width="28" height="28" rx="8" className={'bg-ock-bg-default'} />
     <path
       d="M10 10H11.5V11.5H10V10Z"
       className="fill-ock-icon-color-foreground"

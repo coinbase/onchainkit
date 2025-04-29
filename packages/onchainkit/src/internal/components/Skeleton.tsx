@@ -12,7 +12,7 @@ export function Skeleton({ className }: SkeletonReact) {
     <div
       className={cn(
         'animate-pulse bg-opacity-50',
-        background.alternate,
+        'bg-ock-bg-alternate',
         'rounded-ock-default',
         className,
       )}

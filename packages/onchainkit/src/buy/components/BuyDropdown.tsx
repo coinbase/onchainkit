@@ -90,7 +90,7 @@ export function BuyDropdown() {
     <div
       className={cn(
         'text-ock-text-foreground',
-        background.default,
+        'bg-ock-bg-default',
         'absolute right-0 bottom-0 flex translate-y-[102%] flex-col gap-2',
         'z-10 min-w-80 rounded border p-2',
         'rounded-ock-default',

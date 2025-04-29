@@ -37,7 +37,7 @@ export function SendAddressInput({ classNames }: SendAddressInputProps) {
         onFocus={deselectRecipient}
         aria-label="Input Receiver Address"
         className={cn(
-          background.default,
+          'bg-ock-bg-default',
           'w-full outline-none',
           classNames?.input,
         )}

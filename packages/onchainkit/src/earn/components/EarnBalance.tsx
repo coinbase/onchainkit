@@ -11,7 +11,7 @@ export function EarnBalance({
   return (
     <div
       className={cn(
-        background.alternate,
+        'bg-ock-bg-alternate',
         'rounded-ock-default flex items-center justify-between gap-4 p-3 px-4',
         className,
       )}

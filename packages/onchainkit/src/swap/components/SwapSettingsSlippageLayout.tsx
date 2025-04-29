@@ -8,7 +8,7 @@ export function SwapSettingsSlippageLayout({
   return (
     <div
       className={cn(
-        background.default,
+        'bg-ock-bg-default',
         'rounded-ock-default',
         border.lineDefault,
         'right-0 z-10 w-[21.75rem] px-3 py-3',

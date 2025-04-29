@@ -44,7 +44,7 @@ export function SwapButton({
     <button
       type="button"
       className={cn(
-        background.primary,
+        'bg-ock-bg-primary',
         'rounded-ock-default',
         'w-full rounded-xl',
         'mt-4 px-4 py-3',

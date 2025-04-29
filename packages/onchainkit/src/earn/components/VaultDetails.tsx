@@ -36,7 +36,7 @@ export function VaultDetails() {
       className={cn(
         text.label1,
         'text-ock-text-foreground-muted',
-        background.alternate,
+        'bg-ock-bg-alternate',
         'flex items-center justify-center gap-2 rounded-full p-1 px-3',
       )}
       data-testid="ock-vaultDetails"
@@ -69,10 +69,10 @@ export function VaultDetails() {
       >
         <div
           className={cn(
-            background.default,
+            'bg-ock-bg-default',
             'text-ock-text-foreground',
             'border-ock-bg-default-active',
-            background.default,
+            'bg-ock-bg-default',
             'flex min-w-40 flex-col gap-3 rounded-lg border p-3 text-sm',
             'fade-in animate-in duration-200',
           )}

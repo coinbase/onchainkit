@@ -86,7 +86,7 @@ export function BuyButton() {
     <button
       type="button"
       className={cn(
-        background.primary,
+        'bg-ock-bg-primary',
         'rounded-ock-default',
         'flex rounded-xl',
         'h-12 w-24 items-center justify-center px-4 py-3',

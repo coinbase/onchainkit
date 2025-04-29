@@ -49,7 +49,7 @@ export function TokenSelectDropdown({
           <div className="overflow-y-auto">
             {options.map((token) => (
               <TokenRow
-                className={cn(background.inverse, 'px-4 py-2')}
+                className={cn('bg-ock-bg-inverse', 'px-4 py-2')}
                 key={token.name + token.address}
                 token={token}
                 onClick={() => {

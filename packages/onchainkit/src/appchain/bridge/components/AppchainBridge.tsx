@@ -143,7 +143,7 @@ export function AppchainBridge({
       <div
         className={cn(
           componentTheme,
-          background.default,
+          'bg-ock-bg-default',
           'rounded-ock-default',
           'text-ock-text-foreground',
           'ock-border-line-default flex w-full flex-col border px-6 pt-6 pb-4',

@@ -80,7 +80,7 @@ function TokenSelectModalInner({
       <div
         ref={modalRef}
         className={cn(
-          background.default,
+          'bg-ock-bg-default',
           'flex w-[475px] flex-col gap-3 rounded-3xl p-6',
         )}
       >

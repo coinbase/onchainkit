@@ -17,25 +17,12 @@ export const text = {
   title3: 'font-ock font-semibold text-xl',
 } as const;
 
-export const background = {
-  default:
-    'bg-ock-bg-default hover:bg-ock-bg-default-hover active:bg-ock-bg-default-active',
-  alternate:
-    'bg-ock-bg-alternate hover:bg-ock-bg-alternate-hover active:bg-ock-bg-alternate-active',
-  inverse:
-    'bg-ock-bg-inverse hover:bg-ock-bg-inverse-hover active:bg-ock-bg-inverse-active',
-  primary:
-    'bg-ock-bg-primary hover:bg-ock-bg-primary-hover active:bg-ock-bg-primary-active',
-  secondary:
-    'bg-ock-bg-secondary hover:bg-ock-bg-secondary-hover active:bg-ock-bg-secondary-active',
-} as const;
-
 export const pressable = {
-  default: `cursor-pointer ${background.default}`,
-  alternate: `cursor-pointer ${background.alternate}`,
-  inverse: `cursor-pointer ${background.inverse}`,
-  primary: `cursor-pointer ${background.primary}`,
-  secondary: `cursor-pointer ${background.secondary}`,
+  default: `cursor-pointer bg-ock-bg-default hover:bg-ock-bg-default-hover active:bg-ock-bg-default-active`,
+  alternate: `cursor-pointer bg-ock-bg-alternate hover:bg-ock-bg-alternate-hover active:bg-ock-bg-alternate-active`,
+  inverse: `cursor-pointer bg-ock-bg-inverse hover:bg-ock-bg-inverse-hover active:bg-ock-bg-inverse-active`,
+  primary: `cursor-pointer bg-ock-bg-primary hover:bg-ock-bg-primary-hover active:bg-ock-bg-primary-active`,
+  secondary: `cursor-pointer bg-ock-bg-secondary hover:bg-ock-bg-secondary-hover active:bg-ock-bg-secondary-active`,
   coinbaseBranding: 'cursor-pointer bg-[#0052FF] hover:bg-[#0045D8]',
   disabled: 'opacity-[0.38] pointer-events-none',
 } as const;

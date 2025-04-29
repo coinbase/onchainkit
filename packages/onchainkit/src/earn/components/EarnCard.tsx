@@ -8,7 +8,7 @@ export function EarnCard({ children, className }: EarnCardReact) {
       className={cn(
         'border-ock-bg-default',
         'flex flex-col gap-8 border-t p-4',
-        background.default,
+        'bg-ock-bg-default',
         className,
       )}
     >

@@ -46,7 +46,7 @@ export function IdentityLayout({
     <div
       className={cn(
         componentTheme,
-        background.default,
+        'bg-ock-bg-default',
         'flex flex-col px-4 py-1',
         className,
       )}

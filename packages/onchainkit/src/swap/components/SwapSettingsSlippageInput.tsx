@@ -96,7 +96,7 @@ export function SwapSettingsSlippageInput({
   return (
     <section
       className={cn(
-        background.default,
+        'bg-ock-bg-default',
         'border-ock-bg-default-active',
         'rounded-ock-default',
         'flex items-center gap-2 flex-grow max-sm:pt-4',
@@ -105,7 +105,7 @@ export function SwapSettingsSlippageInput({
     >
       <fieldset
         className={cn(
-          background.default,
+          'bg-ock-bg-default',
           'border-ock-bg-default-active',
           'rounded-ock-default',
           'flex h-9 flex-1 rounded-xl border p-1',
@@ -125,7 +125,7 @@ export function SwapSettingsSlippageInput({
               // Highlight the button if it is selected
               slippageSetting === setting
                 ? cn(
-                    background.inverse,
+                    'bg-ock-bg-inverse',
                     'text-ock-text-primary',
                     'shadow-ock-default',
                   )
@@ -139,7 +139,7 @@ export function SwapSettingsSlippageInput({
       </fieldset>
       <div
         className={cn(
-          background.default,
+          'bg-ock-bg-default',
           'border-ock-bg-default-active',
           'rounded-ock-default',
           'flex h-9 w-24 items-center justify-between border px-2 py-1',
@@ -164,7 +164,7 @@ export function SwapSettingsSlippageInput({
         />
         <span
           className={cn(
-            background.default,
+            'bg-ock-bg-default',
             'text-ock-text-foreground',
             text.label2,
             'ml-1 flex-shrink-0 font-normal leading-6',

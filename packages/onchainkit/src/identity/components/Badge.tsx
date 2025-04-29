@@ -51,7 +51,7 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
     <div className="relative inline-flex" data-testid="ockBadgeContainer">
       <span
         className={cn(
-          background.primary,
+          'bg-ock-bg-primary',
           'border-ock-bg-default',
           'rounded-ock-default',
           tooltip && 'cursor-pointer',

@@ -15,7 +15,7 @@ function YieldInfo() {
       className={cn(
         'text-ock-text-foreground-muted',
         'border-ock-bg-default-active',
-        background.default,
+        'bg-ock-bg-default',
         'fade-in flex min-w-52 animate-in flex-col gap-2 rounded-lg border p-3 text-sm duration-200',
       )}
     >
@@ -75,7 +75,7 @@ export function YieldDetails() {
       className={cn(
         text.label1,
         'text-ock-text-foreground-muted',
-        background.alternate,
+        'bg-ock-bg-alternate',
         'flex items-center justify-center gap-1 rounded-full p-1 px-3',
       )}
       data-testid="ock-yieldDetails"

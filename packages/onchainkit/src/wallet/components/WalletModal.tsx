@@ -234,7 +234,7 @@ export function WalletModal({
         className={cn(
           border.lineDefault,
           'rounded-ock-default',
-          background.default,
+          'bg-ock-bg-default',
           'w-[22rem] p-6 pb-4',
           'relative flex flex-col items-center gap-4',
           className,
@@ -313,7 +313,7 @@ export function WalletModal({
             <div className="relative flex justify-center">
               <span
                 className={cn(
-                  background.default,
+                  'bg-ock-bg-default',
                   'text-ock-text-foreground-muted',
                   text.legal,
                   'px-2',
@@ -331,7 +331,7 @@ export function WalletModal({
               onClick={wallet.connector}
               className={cn(
                 'rounded-ock-default',
-                background.default,
+                'bg-ock-bg-default',
                 text.body,
                 pressable.alternate,
                 'text-ock-text-foreground',

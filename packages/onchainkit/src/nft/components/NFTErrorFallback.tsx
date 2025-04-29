@@ -9,7 +9,7 @@ export function NFTErrorFallback({ error }: { error: Error }) {
       className={cn(
         componentTheme,
         'text-ock-text-foreground',
-        background.default,
+        'bg-ock-bg-default',
         'border-ock-bg-default-active',
         'rounded-ock-default',
         'flex w-full max-w-[500px] flex-col items-center justify-center border px-6 py-4',

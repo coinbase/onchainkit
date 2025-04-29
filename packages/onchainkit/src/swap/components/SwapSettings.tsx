@@ -76,7 +76,7 @@ export function SwapSettings({
             >
               <div
                 className={cn(
-                  background.inverse,
+                  'bg-ock-bg-inverse',
                   'shadow-ock-default',
                   'fixed inset-x-0 z-50 transition-[bottom] duration-300 ease-in-out',
                   isOpen ? 'bottom-0' : '-bottom-[12.875rem]',
@@ -103,7 +103,7 @@ export function SwapSettings({
             <div
               className={cn(
                 'rounded-ock-default',
-                background.default,
+                'bg-ock-bg-default',
                 'shadow-ock-default',
                 'absolute right-0 z-10 mt-1 w-[21.75rem] rounded-lg',
               )}
