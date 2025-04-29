@@ -12,6 +12,7 @@ import type { OnchainKitContextType } from './core/types';
 import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitProviderReact } from './types';
+import { generateUUIDWithInsecureFallback } from './utils/crypto';
 
 export const OnchainKitContext =
   createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);
@@ -34,7 +35,7 @@ export function OnchainKitProvider({
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
 
-  const sessionId = useMemo(() => crypto.randomUUID(), []);
+  const sessionId = useMemo(() => generateUUIDWithInsecureFallback(), []);
 
   // eslint-disable-next-line complexity
   const value = useMemo(() => {
