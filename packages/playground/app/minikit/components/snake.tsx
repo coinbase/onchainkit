@@ -1081,14 +1081,14 @@ const Sammy = () => {
           id="map"
           width={500}
           height={500}
-          className="absolute top-0 left-0 z-3"
+          className="absolute top-0 left-0 z-2"
         />
         <canvas
           ref={sammyCanvasRef}
           id="sammy"
           width={500}
           height={500}
-          className="absolute top-0 left-0 z-2"
+          className="absolute top-0 left-0 z-3"
         />
         <canvas
           ref={scoreCanvasRef}
