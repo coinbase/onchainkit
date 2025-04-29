@@ -4,4 +4,4 @@
 
 ### Patch Changes
 
-- e9cd45d: fix: update release process
+- **fix**: Updated release process

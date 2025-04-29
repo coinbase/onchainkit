@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- e9cd45d: fix: update release process
+- **fix**: Cached default wagmi config to prevent accounts disconnecting when OnchainKit rerenders. By @brendan-defi #2319
 
 ## 0.38.8
 
