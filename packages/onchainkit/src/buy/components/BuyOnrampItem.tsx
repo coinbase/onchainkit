@@ -66,7 +66,7 @@ export function BuyOnrampItem({
         'flex items-center gap-2 rounded-lg p-2',
         text.label2,
         !isDisabled && pressable.default,
-        isDisabled && color.foregroundMuted,
+        isDisabled && 'text-ock-text-foreground-muted',
       )}
       onClick={handleClick}
       type="button"
@@ -80,7 +80,9 @@ export function BuyOnrampItem({
         <div className="relative flex items-center gap-1">
           <div>{name}</div>
         </div>
-        <div className={cn('text-xs', color.foregroundMuted)}>{message}</div>
+        <div className={cn('text-xs', 'text-ock-text-foreground-muted')}>
+          {message}
+        </div>
       </div>
     </button>
   );

@@ -19,7 +19,7 @@ export function EarnAmountInput({
       <TextInput
         className={cn(
           text.base,
-          color.foreground,
+          'text-ock-text-foreground',
           'w-full border-none bg-transparent text-5xl',
           'leading-none outline-none',
         )}

@@ -15,7 +15,7 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
       data-testid="ockTokenSelectButton_Button"
       className={cn(
         pressable.default,
-        pressable.shadow,
+        'shadow-ock-default',
         'rounded-ock-default',
         border.lineDefault,
         'flex w-fit items-center gap-2 px-3 py-1',
@@ -30,7 +30,7 @@ export const TokenSelectButton = forwardRef(function TokenSelectButton(
             <TokenImage token={token} size={16} />
           </div>
           <span
-            className={cn(text.headline, color.foreground)}
+            className={cn(text.headline, 'text-ock-text-foreground')}
             data-testid="ockTokenSelectButton_Symbol"
           >
             {token.symbol}

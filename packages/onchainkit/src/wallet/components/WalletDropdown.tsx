@@ -13,7 +13,7 @@ const defaultWalletDropdownChildren = (
     <Identity className="px-4 pt-3 pb-2" key="wallet-dd-identity">
       <Avatar />
       <Name />
-      <Address className={color.foregroundMuted} />
+      <Address className={'text-ock-text-foreground-muted'} />
       <EthBalance />
     </Identity>
     <WalletDropdownLink

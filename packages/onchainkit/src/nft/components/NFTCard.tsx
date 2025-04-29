@@ -74,7 +74,7 @@ export function NFTCard({
             type="button"
             className={cn(
               componentTheme,
-              color.foreground,
+              'text-ock-text-foreground',
               pressable.default,
               'rounded-ock-default',
               'flex w-full max-w-[500px] flex-col items-stretch gap-1.5 border p-4 text-left',

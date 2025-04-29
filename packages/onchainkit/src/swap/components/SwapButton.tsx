@@ -59,7 +59,9 @@ export function SwapButton({
       {isLoading ? (
         <Spinner />
       ) : (
-        <span className={cn(text.headline, color.inverse)}>{label}</span>
+        <span className={cn(text.headline, 'text-ock-text-inverse')}>
+          {label}
+        </span>
       )}
     </button>
   );

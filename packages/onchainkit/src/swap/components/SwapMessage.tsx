@@ -19,7 +19,7 @@ export function SwapMessage({ className }: SwapMessageReact) {
       className={cn(
         'flex h-7 pt-2',
         text.label2,
-        color.foregroundMuted,
+        'text-ock-text-foreground-muted',
         className,
       )}
       data-testid="ockSwapMessage_Message"

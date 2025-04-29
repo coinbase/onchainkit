@@ -17,14 +17,16 @@ export function EarnBalance({
       )}
       data-testid="ockEarnBalance"
     >
-      <div className={cn('flex flex-col', color.foreground)}>
+      <div className={cn('flex flex-col', 'text-ock-text-foreground')}>
         <div className={text.headline}>{title}</div>
-        <div className={cn(text.label2, color.foregroundMuted)}>{subtitle}</div>
+        <div className={cn(text.label2, 'text-ock-text-foreground-muted')}>
+          {subtitle}
+        </div>
       </div>
       {showAction && (
         <button
           onClick={onActionPress}
-          className={cn(text.label2, color.primary)}
+          className={cn(text.label2, 'text-ock-text-primary')}
           type="button"
           aria-label="Use max"
         >

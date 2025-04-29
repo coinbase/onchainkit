@@ -80,7 +80,7 @@ export function Swap({
           componentTheme,
           background.default,
           'rounded-ock-default',
-          color.foreground,
+          'text-ock-text-foreground',
           'relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
           className,
         )}

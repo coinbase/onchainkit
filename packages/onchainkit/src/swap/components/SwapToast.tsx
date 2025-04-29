@@ -45,7 +45,7 @@ export function SwapToast({
         <SuccessSvg />
       </div>
       <div className={cn(text.label1, 'text-nowrap')}>
-        <p className={color.foreground}>Successful</p>
+        <p className={'text-ock-text-foreground'}>Successful</p>
       </div>
       <div className={cn(text.label1, 'text-nowrap')}>
         <a
@@ -53,7 +53,7 @@ export function SwapToast({
           target="_blank"
           rel="noreferrer"
         >
-          <span className={cn(text.label1, color.primary)}>
+          <span className={cn(text.label1, 'text-ock-text-primary')}>
             View transaction
           </span>
         </a>

@@ -11,7 +11,11 @@ type SendAmountInputTypeSwitchProps = {
 const defaultErrorDisplay = (
   <div
     data-testid="ockSendAmountInputTypeSwitch_ErrorDisplay"
-    className={cn(text.caption, color.foregroundMuted, 'h-[1.625rem]')}
+    className={cn(
+      text.caption,
+      'text-ock-text-foreground-muted',
+      'h-[1.625rem]',
+    )}
   >
     Exchange rate unavailable
   </div>

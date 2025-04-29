@@ -46,13 +46,17 @@ export const AppchainBridgeTransactionButton = () => {
         disabled={isDisabled}
       >
         <div
-          className={cn(text.headline, color.inverse, 'flex justify-center')}
+          className={cn(
+            text.headline,
+            'text-ock-text-inverse',
+            'flex justify-center',
+          )}
         >
           {buttonContent}
         </div>
       </button>
       {isRejected && (
-        <div className={cn(text.label2, color.error, 'mt-2')}>
+        <div className={cn(text.label2, 'text-ock-text-error', 'mt-2')}>
           Transaction denied
         </div>
       )}

@@ -75,7 +75,7 @@ export function NFTAudio({
       <button
         type="button"
         className={cn(
-          background.reverse,
+          'bg-ock-bg-default-reverse',
           'ml-6 inline-flex h-[42px] w-[42px] cursor-pointer items-center justify-center rounded-full',
         )}
         onClick={handlePlayPause}

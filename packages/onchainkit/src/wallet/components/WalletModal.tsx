@@ -261,7 +261,12 @@ export function WalletModal({
         {(appLogo || appName) && (
           <div className="flex w-full flex-col items-center gap-2 py-3">
             {appLogo && (
-              <div className={cn('rounded-ock-default', 'h-14 w-14 overflow-hidden')}>
+              <div
+                className={cn(
+                  'rounded-ock-default',
+                  'h-14 w-14 overflow-hidden',
+                )}
+              >
                 <img
                   src={appLogo}
                   alt={`${appName || 'App'} icon`}
@@ -271,7 +276,11 @@ export function WalletModal({
             )}
             {appName && (
               <h2
-                className={cn(text.headline, color.foreground, 'text-center')}
+                className={cn(
+                  text.headline,
+                  'text-ock-text-foreground',
+                  'text-center',
+                )}
               >
                 {appName}
               </h2>
@@ -287,7 +296,7 @@ export function WalletModal({
               'rounded-ock-default',
               text.body,
               pressable.alternate,
-              color.foreground,
+              'text-ock-text-foreground',
               'flex items-center justify-between px-4 py-3 text-left',
             )}
           >
@@ -305,7 +314,7 @@ export function WalletModal({
               <span
                 className={cn(
                   background.default,
-                  color.foregroundMuted,
+                  'text-ock-text-foreground-muted',
                   text.legal,
                   'px-2',
                 )}
@@ -325,7 +334,7 @@ export function WalletModal({
                 background.default,
                 text.body,
                 pressable.alternate,
-                color.foreground,
+                'text-ock-text-foreground',
                 'flex items-center justify-between px-4 py-3 text-left',
               )}
             >
@@ -339,7 +348,7 @@ export function WalletModal({
 
         <div
           className={cn(
-            color.foregroundMuted,
+            'text-ock-text-foreground-muted',
             text.legal,
             'flex flex-col items-center justify-center gap-1 px-4',
             'mt-4 text-center',
@@ -352,7 +361,7 @@ export function WalletModal({
             {termsOfServiceUrl && (
               <a
                 href={termsOfServiceUrl}
-                className={cn(color.primary, 'hover:underline')}
+                className={cn('text-ock-text-primary', 'hover:underline')}
                 target="_blank"
                 rel="noopener noreferrer"
                 tabIndex={0}
@@ -364,7 +373,7 @@ export function WalletModal({
             {privacyPolicyUrl && (
               <a
                 href={privacyPolicyUrl}
-                className={cn(color.primary, 'hover:underline')}
+                className={cn('text-ock-text-primary', 'hover:underline')}
                 target="_blank"
                 rel="noopener noreferrer"
                 tabIndex={0}

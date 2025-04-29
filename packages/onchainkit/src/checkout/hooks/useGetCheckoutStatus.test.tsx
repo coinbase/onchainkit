@@ -23,7 +23,7 @@ describe('useGetCheckoutStatus', () => {
     const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment in progress...',
-      labelClassName: color.foregroundMuted,
+      labelClassName: 'text-ock-text-foreground-muted',
     });
   });
 
@@ -44,7 +44,7 @@ describe('useGetCheckoutStatus', () => {
     const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment successful!',
-      labelClassName: color.success,
+      labelClassName: 'text-ock-text-success',
     });
   });
 
@@ -65,7 +65,7 @@ describe('useGetCheckoutStatus', () => {
     const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment failed',
-      labelClassName: color.error,
+      labelClassName: 'text-ock-text-error',
     });
   });
 });

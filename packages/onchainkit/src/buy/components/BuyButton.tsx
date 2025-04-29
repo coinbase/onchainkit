@@ -71,7 +71,7 @@ export function BuyButton() {
       return checkmarkSvg;
     }
     if (isDropdownOpen) {
-      return <CloseSvg className={icon.inverse} />;
+      return <CloseSvg className="fill-ock-icon-color-inverse" />;
     }
     return 'Buy';
   }, [statusName, isDropdownOpen]);
@@ -100,7 +100,7 @@ export function BuyButton() {
       {isLoading ? (
         <Spinner />
       ) : (
-        <span className={cn(text.headline, color.inverse)}>
+        <span className={cn(text.headline, 'text-ock-text-inverse')}>
           {buttonContent}
         </span>
       )}

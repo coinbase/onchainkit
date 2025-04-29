@@ -147,7 +147,7 @@ export function TransactionButton({
         'px-4 py-3 font-medium leading-6',
         isDisabled && pressable.disabled,
         text.headline,
-        color.inverse,
+        'text-ock-text-inverse',
         className,
       )}
       onClick={handleSubmit}

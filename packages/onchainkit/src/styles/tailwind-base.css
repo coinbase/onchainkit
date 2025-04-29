@@ -53,6 +53,7 @@
     --ock-line-default: theme(colors.gray.300);
     --ock-line-heavy: theme(colors.gray.500);
     --ock-line-inverse: theme(colors.gray.700);
+    --ock-shadow-default: 0px 8px 12px 0px #5b616e1f;
   }
 
   .dark,
@@ -192,7 +193,7 @@
   }
 }
 
-@theme {
+@theme inline {
   --font-sans: 'Inter', sans-serif;
   --font-display: 'DM Sans', sans-serif;
   --spacing-88: 22rem;
@@ -231,7 +232,9 @@
   --color-ock-bg-default-reverse: var(--ock-bg-default-reverse);
   --color-ock-icon-color-primary: var(--ock-icon-color-primary);
   --color-ock-icon-color-foreground: var(--ock-icon-color-foreground);
-  --color-ock-icon-color-foreground-muted: var(--ock-icon-color-foreground-muted);
+  --color-ock-icon-color-foreground-muted: var(
+    --ock-icon-color-foreground-muted
+  );
   --color-ock-icon-color-inverse: var(--ock-icon-color-inverse);
   --color-ock-icon-color-error: var(--ock-icon-color-error);
   --color-ock-icon-color-success: var(--ock-icon-color-success);
@@ -240,6 +243,7 @@
   --color-ock-line-default: var(--ock-line-default);
   --color-ock-line-heavy: var(--ock-line-heavy);
   --color-ock-line-inverse: var(--ock-line-inverse);
+  --shadow-ock-default: var(--ock-shadow-default);
 }
 
 @layer utilities {
@@ -250,6 +254,11 @@
   .scrollbar-hidden {
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  .ock-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db #ffffff;
   }
 }
 
@@ -265,5 +274,9 @@
 
   .animate-enterDown {
     @apply animate-in slide-in-from-top-8 fade-in duration-500;
+  }
+
+  .placeholder-ock-default::placeholder {
+    color: var(--ock-text-foreground-muted);
   }
 }

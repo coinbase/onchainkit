@@ -33,7 +33,7 @@ export function NFTNetwork({ className, label = 'Network' }: NFTNetworkReact) {
         className,
       )}
     >
-      <div className={cn(color.foregroundMuted)}>{label}</div>
+      <div className={cn('text-ock-text-foreground-muted')}>{label}</div>
       <div className="flex items-center gap-1">
         <div className="h-4 w-4 object-cover">{icon}</div>
         <div>{chain.name}</div>

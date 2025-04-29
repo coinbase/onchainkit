@@ -35,7 +35,7 @@ export function VaultDetails() {
       ref={anchorRef}
       className={cn(
         text.label1,
-        color.foregroundMuted,
+        'text-ock-text-foreground-muted',
         background.alternate,
         'flex items-center justify-center gap-2 rounded-full p-1 px-3',
       )}
@@ -70,7 +70,7 @@ export function VaultDetails() {
         <div
           className={cn(
             background.default,
-            color.foreground,
+            'text-ock-text-foreground',
             'border-ock-bg-default-active',
             background.default,
             'flex min-w-40 flex-col gap-3 rounded-lg border p-3 text-sm',
@@ -110,7 +110,7 @@ export function VaultDetails() {
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
-              color.primary,
+              'text-ock-text-primary',
               'flex max-w-fit items-center gap-1 hover:opacity-80',
             )}
             data-testid="ock-vaultDetailsBaseScanLink"

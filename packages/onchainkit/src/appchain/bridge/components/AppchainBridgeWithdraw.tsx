@@ -54,7 +54,7 @@ export const AppchainBridgeWithdraw = () => {
         {isPending && <LoadingContent />}
         {shouldShowClaim && <ClaimContent />}
         {withdrawStatus === 'claimRejected' && (
-          <div className={cn(text.label2, color.error, 'mt-2')}>
+          <div className={cn(text.label2, 'text-ock-text-error', 'mt-2')}>
             Transaction denied
           </div>
         )}
@@ -92,7 +92,11 @@ function ErrorContent({ onBack }: { onBack: () => void }) {
         </span>
         <button onClick={onBack} className={buttonStyles} type="button">
           <div
-            className={cn(text.headline, color.inverse, 'flex justify-center')}
+            className={cn(
+              text.headline,
+              'text-ock-text-inverse',
+              'flex justify-center',
+            )}
           >
             Back to bridge
           </div>
@@ -123,7 +127,11 @@ function ClaimContent() {
         type="button"
       >
         <div
-          className={cn(text.headline, color.inverse, 'flex justify-center')}
+          className={cn(
+            text.headline,
+            'text-ock-text-inverse',
+            'flex justify-center',
+          )}
         >
           {buttonContent}
         </div>

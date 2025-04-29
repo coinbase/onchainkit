@@ -34,7 +34,11 @@ export function SendFundWallet({
       data-testid="ockSendFundWallet"
     >
       <div
-        className={cn(text.label2, color.foregroundMuted, classNames?.subtitle)}
+        className={cn(
+          text.label2,
+          'text-ock-text-foreground-muted',
+          classNames?.subtitle,
+        )}
       >
         Insufficient ETH balance to send transaction. Fund your wallet to
         continue.

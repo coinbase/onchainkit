@@ -88,7 +88,7 @@ export function CheckoutButton({
             <span
               className={cn(
                 styleText.headline,
-                coinbaseBranded ? 'text-gray-50' : color.inverse,
+                coinbaseBranded ? 'text-gray-50' : 'text-ock-text-inverse',
               )}
             >
               {buttonText}

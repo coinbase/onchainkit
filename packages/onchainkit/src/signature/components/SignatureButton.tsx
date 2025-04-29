@@ -66,7 +66,7 @@ export function SignatureButton({
         'px-4 py-3 font-medium leading-6',
         disabled && pressable.disabled,
         text.headline,
-        color.inverse,
+        'text-ock-text-inverse',
         className,
       )}
       type="button"

@@ -34,7 +34,11 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
           />
         </div>
         <span
-          className={cn(text.headline, color.foreground, 'flex w-full')}
+          className={cn(
+            text.headline,
+            'text-ock-text-foreground',
+            'flex w-full',
+          )}
           data-testid="ockFundCardPaymentMethodSelectorToggle__paymentMethodName"
         >
           {paymentMethod.name}

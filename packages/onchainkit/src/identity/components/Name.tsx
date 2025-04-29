@@ -49,7 +49,7 @@ export function Name({
     <div className="flex items-center gap-1">
       <span
         data-testid="ockIdentity_Text"
-        className={cn(text.headline, color.foreground, className)}
+        className={cn(text.headline, 'text-ock-text-foreground', className)}
         {...props}
       >
         {name || getSlicedAddress(accountAddress)}

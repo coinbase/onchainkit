@@ -70,7 +70,7 @@ export function NFTMintCard({
           <div
             className={cn(
               componentTheme,
-              color.foreground,
+              'text-ock-text-foreground',
               background.default,
               'border-ock-bg-default-active',
               'rounded-ock-default',

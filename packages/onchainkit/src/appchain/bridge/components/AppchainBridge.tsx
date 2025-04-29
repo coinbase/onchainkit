@@ -88,7 +88,7 @@ const AppchainBridgeDefaultContent = ({ title }: { title: string }) => {
           <span
             className={cn(
               text.label2,
-              color.foregroundMuted,
+              'text-ock-text-foreground-muted',
               'absolute right-0',
             )}
           >
@@ -145,7 +145,7 @@ export function AppchainBridge({
           componentTheme,
           background.default,
           'rounded-ock-default',
-          color.foreground,
+          'text-ock-text-foreground',
           'ock-border-line-default flex w-full flex-col border px-6 pt-6 pb-4',
           className,
         )}

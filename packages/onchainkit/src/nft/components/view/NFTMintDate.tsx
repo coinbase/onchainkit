@@ -39,7 +39,7 @@ export function NFTMintDate({
         className,
       )}
     >
-      <div className={cn(color.foregroundMuted)}>{label}</div>
+      <div className={cn('text-ock-text-foreground-muted')}>{label}</div>
       <div>{formattedDate}</div>
     </div>
   );

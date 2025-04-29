@@ -38,7 +38,13 @@ export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
   if (!selectedToken) {
     return (
       <div className="mt-4 flex max-h-80 flex-col gap-2">
-        <span className={cn(text.caption, color.foregroundMuted, 'uppercase')}>
+        <span
+          className={cn(
+            text.caption,
+            'text-ock-text-foreground-muted',
+            'uppercase',
+          )}
+        >
           Select a token
         </span>
         <div className="scrollbar-hidden overflow-y-auto">

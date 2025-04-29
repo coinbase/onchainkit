@@ -31,7 +31,7 @@ export function TokenSearch({
         className={cn(
           componentTheme,
           pressable.alternate,
-          color.foreground,
+          'text-ock-text-foreground',
           'w-full rounded-xl py-2 pr-5 pl-12 outline-none',
           className,
         )}

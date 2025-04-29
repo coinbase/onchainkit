@@ -1,5 +1,3 @@
-import { icon } from '../../styles/theme';
-
 export const baseScanSvg = (
   <svg
     width="100%"
@@ -7,7 +5,7 @@ export const baseScanSvg = (
     viewBox="0 0 155 155"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className={icon.foreground}
+    className="fill-ock-icon-color-foreground"
   >
     <title>BaseScan</title>
     <g clipPath="url(#clip0_13027_2497)">

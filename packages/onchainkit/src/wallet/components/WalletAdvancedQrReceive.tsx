@@ -67,7 +67,7 @@ export function WalletAdvancedQrReceive({
       data-testid="ockWalletAdvancedQrReceive"
       className={cn(
         'rounded-ock-default',
-        color.foreground,
+        'text-ock-text-foreground',
         text.headline,
         'flex flex-col items-center justify-between',
         'h-120 w-88 px-4 pt-3 pb-4',
@@ -110,7 +110,7 @@ export function WalletAdvancedQrReceive({
             className={cn(
               pressable.alternate,
               text.legal,
-              color.foreground,
+              'text-ock-text-foreground',
               'border-ock-bg-default',
               'rounded-ock-default',
               zIndex.dropdown,

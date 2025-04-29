@@ -34,13 +34,13 @@ export const AppchainBridgeSuccess = ({
                 label: primaryButtonLabel,
                 action: handleOpenExplorer,
                 variant: 'primary',
-                textColor: color.inverse,
+                textColor: 'text-ock-text-inverse',
               },
               {
                 label: secondaryButtonLabel,
                 action: handleResetState,
                 variant: 'secondary',
-                textColor: color.foreground,
+                textColor: 'text-ock-text-foreground',
               },
             ].map(({ label, action, variant, textColor }) => (
               <button

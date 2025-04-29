@@ -41,7 +41,7 @@ export function TokenSelectDropdown({
           data-testid="ockTokenSelectDropdown_List"
           className={cn(
             'rounded-ock-default',
-            color.foreground,
+            'text-ock-text-foreground',
             'flex max-h-80 w-[200px] flex-col overflow-y-hidden',
             'ock-scrollbar',
           )}

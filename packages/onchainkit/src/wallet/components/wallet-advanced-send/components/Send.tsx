@@ -23,7 +23,7 @@ export function Send({
           background.default,
           'rounded-ock-default',
           border.lineDefault,
-          color.foreground,
+          'text-ock-text-foreground',
           'h-120 w-88',
           'flex flex-col',
           'p-4',

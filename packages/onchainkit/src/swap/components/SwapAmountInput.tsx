@@ -108,7 +108,7 @@ export function SwapAmountInput({
       <div
         className={cn(
           text.label2,
-          color.foregroundMuted,
+          'text-ock-text-foreground-muted',
           'flex w-full items-center justify-between',
         )}
       >
@@ -119,7 +119,9 @@ export function SwapAmountInput({
           className={cn(
             'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
             'leading-none outline-none',
-            hasInsufficientBalance && address ? color.error : color.foreground,
+            hasInsufficientBalance && address
+              ? 'text-ock-text-error'
+              : 'text-ock-text-foreground',
           )}
           placeholder="0.0"
           delayMs={delayMs}
@@ -142,13 +144,13 @@ export function SwapAmountInput({
         )}
       </div>
       <div className="mt-4 flex w-full items-center justify-between">
-        <div className={cn(text.label2, color.foregroundMuted)}>
+        <div className={cn(text.label2, 'text-ock-text-foreground-muted')}>
           {formatUSD(amountUSD)}
         </div>
         <div
           className={cn(
             text.label2,
-            color.foregroundMuted,
+            'text-ock-text-foreground-muted',
             'flex grow items-center justify-end',
           )}
         >
@@ -158,7 +160,7 @@ export function SwapAmountInput({
               type="button"
               className={cn(
                 text.label1,
-                color.primary,
+                'text-ock-text-primary',
                 'flex cursor-pointer items-center justify-center px-2 py-1',
               )}
               data-testid="ockSwapAmountInput_MaxButton"

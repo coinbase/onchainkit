@@ -62,7 +62,7 @@ export function AppchainBridgeInput({
         <span
           className={cn(
             text.label2,
-            color.foregroundMuted,
+            'text-ock-text-foreground-muted',
             'flex items-center gap-1',
           )}
         >
@@ -95,8 +95,8 @@ export function AppchainBridgeInput({
           className={cn(
             'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
             'leading-none outline-none',
-            color.foreground,
-            insufficientBalance && color.error,
+            'text-ock-text-foreground',
+            insufficientBalance && 'text-ock-text-error',
           )}
           placeholder="0.00"
           delayMs={delayMs}
@@ -127,8 +127,8 @@ export function AppchainBridgeInput({
           <span
             className={cn(
               text.label2,
-              color.foregroundMuted,
-              insufficientBalance && color.error,
+              'text-ock-text-foreground-muted',
+              insufficientBalance && 'text-ock-text-error',
             )}
           >
             {label}
@@ -137,7 +137,7 @@ export function AppchainBridgeInput({
         {address && (
           <div className="flex items-center">
             <span
-              className={cn(text.label2, color.foregroundMuted)}
+              className={cn(text.label2, 'text-ock-text-foreground-muted')}
             >{`Balance: ${Number(balance).toLocaleString(undefined, {
               maximumFractionDigits: 5,
               minimumFractionDigits: 0,
@@ -153,7 +153,9 @@ export function AppchainBridgeInput({
                 });
               }}
             >
-              <span className={cn(text.label1, color.primary)}>Max</span>
+              <span className={cn(text.label1, 'text-ock-text-primary')}>
+                Max
+              </span>
             </button>
           </div>
         )}

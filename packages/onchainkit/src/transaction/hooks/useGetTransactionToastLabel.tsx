@@ -21,7 +21,7 @@ export function useGetTransactionToastLabel() {
 
   return useMemo(() => {
     let label = '';
-    let labelClassName: string = color.foregroundMuted;
+    let labelClassName: string = 'text-ock-text-foreground-muted';
 
     if (isBuildingTransaction) {
       label = 'Building transaction';
@@ -37,7 +37,7 @@ export function useGetTransactionToastLabel() {
 
     if (errorMessage) {
       label = 'Something went wrong';
-      labelClassName = color.error;
+      labelClassName = 'text-ock-text-error';
     }
 
     return { label, labelClassName };

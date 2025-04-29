@@ -1,4 +1,4 @@
-import { cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { forwardRef } from 'react';
 
 type CurrencyLabelProps = {
@@ -13,7 +13,7 @@ export const CurrencyLabel = forwardRef<HTMLSpanElement, CurrencyLabelProps>(
         ref={ref}
         className={cn(
           text.body,
-          color.disabled,
+          'text-ock-text-disabled',
           'flex items-center justify-center bg-transparent',
           'text-6xl leading-none outline-none',
           className,

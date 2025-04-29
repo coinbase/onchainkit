@@ -26,7 +26,7 @@ export function TokenChip({
       className={cn(
         componentTheme,
         isPressable
-          ? [pressable.secondary, pressable.shadow]
+          ? [pressable.secondary, 'shadow-ock-default']
           : [background.secondary, 'cursor-default'],
         'flex w-fit shrink-0 items-center gap-2 rounded-lg py-1 pr-3 pl-1 ',
         className,

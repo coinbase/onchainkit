@@ -23,7 +23,7 @@ export function useGetTransactionStatusLabel() {
 
   return useMemo(() => {
     let label = '';
-    let labelClassName: string = color.foregroundMuted;
+    let labelClassName: string = 'text-ock-text-foreground-muted';
 
     if (isBuildingTransaction) {
       label = 'Building transaction...';
@@ -43,7 +43,7 @@ export function useGetTransactionStatusLabel() {
 
     if (errorMessage) {
       label = errorMessage;
-      labelClassName = color.error;
+      labelClassName = 'text-ock-text-error';
     }
 
     return { label, labelClassName };

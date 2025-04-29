@@ -44,7 +44,7 @@ export const AppchainBridgeResumeTransaction = () => {
           <span
             className={cn(
               text.label2,
-              color.foregroundMuted,
+              'text-ock-text-foreground-muted',
               'flex items-center gap-1',
             )}
           >
@@ -53,7 +53,7 @@ export const AppchainBridgeResumeTransaction = () => {
           <TextInput
             className={cn(
               text.label2,
-              color.foregroundMuted,
+              'text-ock-text-foreground-muted',
               background.secondary,
               'w-full border-none',
               'focus:border-none focus:outline-none focus:ring-0',
@@ -93,7 +93,11 @@ export const AppchainBridgeResumeTransaction = () => {
           }}
         >
           <div
-            className={cn(text.headline, color.inverse, 'flex justify-center')}
+            className={cn(
+              text.headline,
+              'text-ock-text-inverse',
+              'flex justify-center',
+            )}
           >
             Resume Transaction
           </div>

@@ -21,7 +21,7 @@ export function WalletDropdownDisconnect({
       type="button"
       className={cn(
         pressable.default,
-        color.foreground,
+        'text-ock-text-foreground',
         'relative flex w-full items-center px-4 pt-3 pb-4',
         className,
       )}

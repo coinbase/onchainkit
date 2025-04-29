@@ -183,7 +183,7 @@ export function ConnectWallet({
           className={cn(
             pressable.primary,
             dsText.headline,
-            color.inverse,
+            'text-ock-text-inverse',
             'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
             pressable.disabled,
             className,
@@ -205,7 +205,7 @@ export function ConnectWallet({
           className={cn(
             pressable.secondary,
             'rounded-ock-default',
-            color.foreground,
+            'text-ock-text-foreground',
             'px-4 py-3',
             isSubComponentOpen &&
               'ock-bg-secondary-active hover:ock-bg-secondary-active',

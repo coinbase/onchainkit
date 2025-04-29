@@ -118,14 +118,18 @@ export function SwapSettingsSlippageInput({
             type="button"
             className={cn(
               pressable.default,
-              color.foreground,
+              'text-ock-text-foreground',
               text.label1,
               'rounded-ock-inner',
               'flex-1 px-3 py-1 transition-colors',
               // Highlight the button if it is selected
               slippageSetting === setting
-                ? cn(background.inverse, color.primary, pressable.shadow)
-                : color.foregroundMuted,
+                ? cn(
+                    background.inverse,
+                    'text-ock-text-primary',
+                    'shadow-ock-default',
+                  )
+                : 'text-ock-text-foreground-muted',
             )}
             onClick={() => handleSlippageSettingChange(setting)}
           >
@@ -152,7 +156,7 @@ export function SwapSettingsSlippageInput({
           onChange={handleSlippageChange}
           disabled={slippageSetting === SLIPPAGE_SETTINGS.AUTO}
           className={cn(
-            color.foreground,
+            'text-ock-text-foreground',
             text.label2,
             'w-full flex-grow bg-transparent pl-1 font-normal leading-6 focus:outline-none',
             slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'cursor-not-allowed',
@@ -161,7 +165,7 @@ export function SwapSettingsSlippageInput({
         <span
           className={cn(
             background.default,
-            color.foreground,
+            'text-ock-text-foreground',
             text.label2,
             'ml-1 flex-shrink-0 font-normal leading-6',
           )}
