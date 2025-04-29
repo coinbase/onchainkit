@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.9
+
+### Patch Changes
+
+- **fix**: Cached default wagmi config to prevent accounts disconnecting when OnchainKit rerenders. By @brendan-defi #2319
+
 ## 0.38.8
 
 ### Patch Changes
