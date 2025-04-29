@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useSignatureContext } from './SignatureProvider';
-import { SignatureStatus } from './SignatureStatus';
+import { useSignatureContext } from '../components/SignatureProvider';
+import { SignatureStatus } from '../components/SignatureStatus';
 
 vi.mock('./SignatureProvider', () => ({
   useSignatureContext: vi.fn(),

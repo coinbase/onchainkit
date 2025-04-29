@@ -1,24 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { MessageType } from '../types';
-import { SignatureIcon } from './SignatureIcon';
-import { useSignatureContext } from './SignatureProvider';
+import { SignatureLabel } from '../components/SignatureLabel';
+import { useSignatureContext } from '../components/SignatureProvider';
 
 vi.mock('./SignatureProvider', () => ({
   useSignatureContext: vi.fn(),
 }));
-vi.mock('../../internal/svg/errorSvg', () => ({
-  ErrorSvg: vi.fn(() => <div>ErrorSvg</div>),
-}));
-vi.mock('../../internal/svg/successSvg', () => ({
-  SuccessSvg: vi.fn(() => <div>SuccessSvg</div>),
-}));
-vi.mock('../../internal/components/Spinner', () => ({
-  Spinner: vi.fn(() => <div>Spinner</div>),
-}));
 
-describe('SignatureIcon', () => {
-  it('should render success icon', () => {
+describe('SignatureLabel', () => {
+  it('should render success message', () => {
     (useSignatureContext as Mock).mockReturnValue({
       lifecycleStatus: {
         statusName: 'success',
@@ -29,36 +20,36 @@ describe('SignatureIcon', () => {
       },
     });
 
-    render(<SignatureIcon />);
-    expect(screen.getByText('SuccessSvg')).toBeInTheDocument();
+    render(<SignatureLabel />);
+    expect(screen.getByText('Success')).toBeInTheDocument();
   });
 
-  it('should render error icon', () => {
+  it('should render error message', () => {
     (useSignatureContext as Mock).mockReturnValue({
       lifecycleStatus: {
         statusName: 'error',
         statusData: {
-          signature: '0x123',
+          code: 'TEST01',
+          message: 'Test error message',
           type: MessageType.TYPED_DATA,
         },
       },
     });
-    render(<SignatureIcon />);
-    expect(screen.getByText('ErrorSvg')).toBeInTheDocument();
+    render(<SignatureLabel />);
+    expect(screen.getByText('Test error message')).toBeInTheDocument();
   });
 
-  it('should render spinner icon', () => {
+  it('should render pending message', () => {
     (useSignatureContext as Mock).mockReturnValue({
       lifecycleStatus: {
         statusName: 'pending',
         statusData: {
-          signature: '0x123',
           type: MessageType.TYPED_DATA,
         },
       },
     });
-    render(<SignatureIcon />);
-    expect(screen.getByText('Spinner')).toBeInTheDocument();
+    render(<SignatureLabel />);
+    expect(screen.getByText('Confirm in wallet')).toBeInTheDocument();
   });
 
   it('should apply custom className', () => {
@@ -72,13 +63,11 @@ describe('SignatureIcon', () => {
       },
     });
 
-    render(<SignatureIcon className="custom-class" />);
-    expect(screen.getByText('SuccessSvg').parentElement).toHaveClass(
-      'custom-class',
-    );
+    render(<SignatureLabel className="custom-class" />);
+    expect(screen.getByText('Success')).toHaveClass('custom-class');
   });
 
-  it('should not render if no icon', () => {
+  it('should not render if no label', () => {
     (useSignatureContext as Mock).mockReturnValue({
       lifecycleStatus: {
         statusName: 'init',
@@ -86,7 +75,7 @@ describe('SignatureIcon', () => {
       },
     });
 
-    render(<SignatureIcon />);
-    expect(screen.queryByTestId('ockSignatureIcon')).not.toBeInTheDocument();
+    render(<SignatureLabel />);
+    expect(screen.queryByTestId('ockSignatureLabel')).not.toBeInTheDocument();
   });
 });

@@ -9,7 +9,10 @@ import {
   vi,
 } from 'vitest';
 import { useSignMessage, useSignTypedData } from 'wagmi';
-import { SignatureProvider, useSignatureContext } from './SignatureProvider';
+import {
+  SignatureProvider,
+  useSignatureContext,
+} from '../components/SignatureProvider';
 
 vi.mock('wagmi', () => ({
   useSignMessage: vi.fn(),

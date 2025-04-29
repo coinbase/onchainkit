@@ -2,15 +2,9 @@ import type {
   SignMessageParameters,
   SignTypedDataParameters,
 } from 'wagmi/actions';
-import {
-  type MessageData,
-  MessageType,
-  type ValidateMessageResult,
-} from '../types';
+import { type MessageData, MessageType } from '../types';
 
-export function isTypedData(
-  params: MessageData,
-): params is SignTypedDataParameters {
+function isTypedData(params: MessageData): params is SignTypedDataParameters {
   return !!(
     params?.types &&
     params?.primaryType &&
@@ -18,7 +12,7 @@ export function isTypedData(
   );
 }
 
-export function isSignableMessage(
+function isSignableMessage(
   params: MessageData,
 ): params is SignMessageParameters {
   return (
@@ -29,6 +23,11 @@ export function isSignableMessage(
         params.message.raw instanceof Uint8Array))
   );
 }
+
+type ValidateMessageResult =
+  | { type: MessageType.TYPED_DATA; data: SignTypedDataParameters }
+  | { type: MessageType.SIGNABLE_MESSAGE; data: SignMessageParameters }
+  | { type: MessageType.INVALID; data: null };
 
 export function validateMessage(
   messageData: MessageData,

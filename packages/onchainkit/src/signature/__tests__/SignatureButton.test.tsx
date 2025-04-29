@@ -9,8 +9,8 @@ import {
   vi,
 } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
-import { SignatureButton } from './SignatureButton';
-import { useSignatureContext } from './SignatureProvider';
+import { SignatureButton } from '../components/SignatureButton';
+import { useSignatureContext } from '../components/SignatureProvider';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),

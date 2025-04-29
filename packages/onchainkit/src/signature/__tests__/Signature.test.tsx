@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { encodeAbiParameters } from 'viem';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Signature } from './Signature';
+import { Signature } from '../components/Signature';
 
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
