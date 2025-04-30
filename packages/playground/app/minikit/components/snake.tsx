@@ -78,7 +78,12 @@ export type Score = {
 };
 
 const LevelMaps: {
-  [key: number]: { x1: number; y1: number; width: number; height: number }[];
+  [key: number]: Array<{
+    x1: number;
+    y1: number;
+    width: number;
+    height: number;
+  }>;
 } = {
   1: [
     { x1: 0, y1: 0, width: 10, height: 500 },
@@ -946,16 +951,14 @@ const Sammy = () => {
           total: prev.total + prev.points,
         }));
         setTarget((prev) => ({ ...prev, exists: false }));
+      } else if (level === NumberOfMaps) {
+        setGameState(GameState.WON);
       } else {
-        if (level === NumberOfMaps) {
-          setGameState(GameState.WON);
-        } else {
-          setScore((prev) => ({
-            points: getStartingScore(levelRef.current + 1, true),
-            total: prev.total + prev.points,
-          }));
-          setGameState(GameState.AWAITINGNEXTLEVEL);
-        }
+        setScore((prev) => ({
+          points: getStartingScore(levelRef.current + 1, true),
+          total: prev.total + prev.points,
+        }));
+        setGameState(GameState.AWAITINGNEXTLEVEL);
       }
     }
   }, [
