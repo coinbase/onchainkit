@@ -3,7 +3,7 @@
 import { Avatar, Name } from '@/identity';
 import { Spinner } from '@/internal/components/Spinner';
 import { zIndex } from '@/styles/constants';
-import { border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
 import { useWalletContext } from './WalletProvider';
 import { usePortfolio } from '../hooks/usePortfolio';
@@ -67,7 +67,7 @@ export function WalletAdvancedAddressDetails({
             address={address}
             chain={chain}
             className={cn(
-              'hover:text-[var(--ock-text-foreground-muted)] active:text-[var(--ock-text-primary)]',
+              'hover:text-ock-text-foreground-muted active:text-ock-text-primary',
               classNames?.nameButton,
             )}
           />

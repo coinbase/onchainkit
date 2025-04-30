@@ -2,7 +2,7 @@
 import { Spinner } from '@/internal/components/Spinner';
 import { ErrorSvg } from '@/internal/svg/fullWidthErrorSvg';
 import { SuccessSvg } from '@/internal/svg/fullWidthSuccessSvg';
-import { border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { useEffect } from 'react';
 import { useWithdrawButton } from '../hooks/useWithdrawButton';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
@@ -66,7 +66,7 @@ export const AppchainBridgeWithdraw = () => {
 function LoadingContent() {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-16">
-      <Spinner className="!border-t-[var(--ock-bg-primary)] h-24 w-24" />
+      <Spinner className="border-t-ock-bg-primary h-24 w-24" />
       <span className="px-4 text-center font-medium text-base">
         Waiting for claim to be ready...
         <br />
@@ -81,7 +81,7 @@ function ErrorContent({ onBack }: { onBack: () => void }) {
     <div className="flex flex-col items-center gap-16">
       <div className="flex justify-center">
         <div className="h-20 w-20">
-          <ErrorSvg fill="var(--ock-bg-error)" />
+          <ErrorSvg className="fill-ock-bg-error" />
         </div>
       </div>
       <div className="flex flex-col items-center gap-4">
@@ -118,7 +118,7 @@ function ClaimContent() {
     <div className="flex flex-col items-center gap-16">
       <div className="flex justify-center">
         <div className="h-20 w-20">
-          <SuccessSvg fill="var(--ock-bg-primary)" />
+          <SuccessSvg className="fill-ock-bg-primary" />
         </div>
       </div>
       <button

@@ -5,7 +5,7 @@ import { Popover } from '@/internal/components/Popover';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { infoSvg } from '@/internal/svg/infoSvg';
 import { formatPercent } from '@/internal/utils/formatPercent';
-import { background, border, cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { useRef, useState } from 'react';
 
 function YieldInfo() {
@@ -86,8 +86,8 @@ export function YieldDetails() {
         type="button"
         data-testid="ock-apyInfoButton"
         className={cn(
-          'size-3 [&_path]:fill-[var(--ock-icon-color-foreground-muted)] [&_path]:transition-colors [&_path]:ease-in-out [&_path]:hover:fill-[var(--ock-icon-color-foreground)]',
-          isOpen && '[&_path]:fill-[var(--ock-icon-color-foreground)]',
+          'size-3 [&_path]:fill-ock-icon-color-foreground-muted [&_path]:transition-colors [&_path]:ease-in-out [&_path]:hover:fill-ock-icon-color-foreground',
+          isOpen && '[&_path]:fill-ock-icon-color-foreground',
         )}
         onClick={() => setIsOpen(!isOpen)}
       >

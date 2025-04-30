@@ -36,16 +36,13 @@ export function DepositBalance({ className }: DepositBalanceReact) {
     }
     // Fetching vault token, but user is connected
     if (!vaultToken) {
-      return (
-        <Skeleton
-          className={cn('!bg-[var(--ock-bg-alternate-active)] h-6 w-24')}
-        />
-      );
+      return <Skeleton className="bg-ock-bg-alternate-active h-6 w-24" />;
     }
+
     if (status === 'pending') {
       return (
         <div className="flex gap-1">
-          <Skeleton className="!bg-[var(--ock-bg-alternate-active)] h-6 w-12" />
+          <Skeleton className="bg-ock-bg-alternate-active h-6 w-12" />
           <span>{vaultToken?.symbol}</span>
         </div>
       );

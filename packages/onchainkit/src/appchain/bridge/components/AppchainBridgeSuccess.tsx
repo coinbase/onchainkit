@@ -1,6 +1,6 @@
 'use client';
 import { SuccessSvg } from '@/internal/svg/fullWidthSuccessSvg';
-import { border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import type { AppchainBridgeSuccessReact } from '../types';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
@@ -21,7 +21,7 @@ export const AppchainBridgeSuccess = ({
           <div className="mb-6 flex flex-col items-center gap-4">
             <div className="flex justify-center">
               <div className="h-12 w-12">
-                <SuccessSvg fill="var(--ock-bg-primary)" />
+                <SuccessSvg className="fill-ock-bg-primary" />
               </div>
             </div>
             <div className="ock-text-foreground flex-1 text-center font-medium text-sm">

@@ -83,7 +83,7 @@ export function NFTAudio({
         <div
           className={cn(
             'ml-px box-border h-[18px] transition-all ease-[100ms] will-change-[border-width]',
-            'border-[var(--ock-bg-default-reverse)] border-l-[var(--ock-bg-default)]',
+            'border-ock-bg-default-reverse border-l-ock-bg-default',
             {
               'border-[length:0_0_0_16px] border-double': isPlaying,
               '-mr-px border-[length:9px_0_9px_16px] border-solid': !isPlaying,

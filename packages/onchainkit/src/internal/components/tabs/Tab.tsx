@@ -1,4 +1,4 @@
-import { background, cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { useCallback } from 'react';
 import { useTabsContext } from './Tabs';
 
@@ -34,7 +34,7 @@ export function Tab({
         isSelected ? 'bg-ock-bg-primary' : 'bg-ock-bg-default',
         'w-1/2 text-center',
         'cursor-pointer px-3 py-2',
-        'focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ock-text-foreground)] focus-visible:ring-inset',
+        'focus:outline-none focus-visible:ring-2 focus-visible:ring-ock-text-foreground focus-visible:ring-inset',
         className,
       )}
       onClick={handleClick}

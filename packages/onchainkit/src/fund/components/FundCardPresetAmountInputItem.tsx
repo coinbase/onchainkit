@@ -60,7 +60,7 @@ export function FundCardPresetAmountInputItem({
         'overflow-hidden',
         'whitespace-nowrap',
         'text-ellipsis',
-        'hover:bg-[var(--ock-bg-default-hover)]',
+        'hover:bg-ock-bg-default-hover',
         'focus:outline-none focus:ring-2',
       )}
       title={presetAmountInputText}

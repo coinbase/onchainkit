@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { TextInput } from '../../internal/components/TextInput';
-import { background, border, cn, color, pressable } from '../../styles/theme';
+import { cn, pressable } from '../../styles/theme';
 
 export const DELAY_MS = 200;
 
@@ -99,7 +99,7 @@ export function QuantitySelector({
         aria-label="quantity"
         className={cn(
           classNames,
-          'w-full text-center hover:bg-[var(--ock-bg-default-hover)] focus:bg-transparent',
+          'w-full text-center hover:bg-ock-bg-default-hover focus:bg-transparent',
         )}
         delayMs={DELAY_MS}
         disabled={disabled}

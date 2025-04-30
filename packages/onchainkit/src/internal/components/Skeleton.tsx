@@ -1,4 +1,4 @@
-import { background, border, cn } from '../../styles/theme';
+import { cn } from '../../styles/theme';
 
 type SkeletonReact = {
   className?: string;
