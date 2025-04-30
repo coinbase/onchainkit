@@ -5,7 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { applePaySvg } from '../../internal/svg/applePaySvg';
 import { cardSvg } from '../../internal/svg/cardSvg';
 import { coinbaseLogoSvg } from '../../internal/svg/coinbaseLogoSvg';
-import { cn, color, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import { useBuyContext } from './BuyProvider';
 
 type OnrampItemReact = {

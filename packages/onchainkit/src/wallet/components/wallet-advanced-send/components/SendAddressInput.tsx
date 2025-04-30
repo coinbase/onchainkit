@@ -1,7 +1,7 @@
 'use client';
 
 import { TextInput } from '@/internal/components/TextInput';
-import { background, border, cn, color } from '@/styles/theme';
+import { border, cn } from '@/styles/theme';
 import type { SendAddressInputProps } from '../types';
 import { useSendContext } from './SendProvider';
 

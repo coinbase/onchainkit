@@ -1,7 +1,7 @@
 'use client';
 
 import { Identity } from '@/identity/components/Identity';
-import { background, cn } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import {
   Children,
   cloneElement,

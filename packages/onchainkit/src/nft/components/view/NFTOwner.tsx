@@ -3,7 +3,7 @@ import { useOnchainKit } from '@/useOnchainKit';
 import type { ReactNode } from 'react';
 
 import { Avatar, Badge, Identity, Name } from '@/identity';
-import { cn, color, text } from '../../../styles/theme';
+import { cn, text } from '../../../styles/theme';
 
 type NFTOwnerReact = {
   className?: string;

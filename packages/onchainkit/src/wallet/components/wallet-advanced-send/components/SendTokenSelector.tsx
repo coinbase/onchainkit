@@ -1,6 +1,6 @@
 'use client';
 
-import { border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { TokenBalance } from '@/token';
 import { formatUnits } from 'viem';
 import { useSendContext } from './SendProvider';

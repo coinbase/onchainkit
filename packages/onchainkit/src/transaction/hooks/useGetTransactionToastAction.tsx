@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { useChainId } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
-import { cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import { useTransactionContext } from '../components/TransactionProvider';
 
 export function useGetTransactionToastAction() {

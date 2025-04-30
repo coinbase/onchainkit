@@ -3,7 +3,7 @@ import { useAttestations } from '@/identity/hooks/useAttestations';
 import type { BadgeReact } from '@/identity/types';
 import { badgeSvg } from '@/internal/svg/badgeSvg';
 import { zIndex } from '@/styles/constants';
-import { background, border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { useMemo, useState } from 'react';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIdentityContext } from './IdentityProvider';

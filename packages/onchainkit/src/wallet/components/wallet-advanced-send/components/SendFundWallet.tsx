@@ -6,7 +6,7 @@ import {
   FundCardPresetAmountInputList,
   FundCardSubmitButton,
 } from '@/fund';
-import { cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 
 type SendFundWalletProps = {
   onError?: () => void;

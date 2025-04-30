@@ -1,7 +1,7 @@
 import { ConnectWallet } from '@/wallet/components/ConnectWallet';
 import { type ReactNode, useMemo } from 'react';
 import { useAccount } from 'wagmi';
-import { border, cn, color, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import { useSignatureContext } from './SignatureProvider';
 
 type SignatureButtonProps = {

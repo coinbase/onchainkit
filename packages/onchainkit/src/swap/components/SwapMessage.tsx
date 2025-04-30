@@ -1,5 +1,5 @@
 'use client';
-import { cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import type { SwapMessageReact } from '../types';
 import { getSwapMessage } from '../utils/getSwapMessage';
 import { useSwapContext } from './SwapProvider';

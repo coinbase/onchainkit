@@ -6,14 +6,7 @@ import { TextInput } from '../../internal/components/TextInput';
 import { useValue } from '../../internal/hooks/useValue';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { isValidAmount } from '../../internal/utils/isValidAmount';
-import {
-  background,
-  border,
-  cn,
-  color,
-  pressable,
-  text,
-} from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { Token } from '../../token';
 import { TokenChip, TokenSelectDropdown } from '../../token';
 import type { SwapAmountInputReact } from '../types';

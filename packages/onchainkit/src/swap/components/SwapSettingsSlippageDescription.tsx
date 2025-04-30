@@ -1,4 +1,4 @@
-import { cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import type { SwapSettingsSlippageDescriptionReact } from '../types';
 
 export function SwapSettingsSlippageDescription({

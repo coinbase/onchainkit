@@ -5,7 +5,7 @@ import type { NameReact } from '@/identity/types';
 import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
 import { findComponent } from '@/internal/utils/findComponent';
 import { Children, useMemo } from 'react';
-import { cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import { Badge } from './Badge';
 import { DisplayBadge } from './DisplayBadge';
 

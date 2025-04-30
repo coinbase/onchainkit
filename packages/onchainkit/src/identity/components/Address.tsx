@@ -2,7 +2,7 @@
 
 import { copyToClipboard } from '@/internal/utils/copyToClipboard';
 import { useState } from 'react';
-import { border, cn, color, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { AddressReact } from '../types';
 import { getSlicedAddress } from '../utils/getSlicedAddress';
 import { useIdentityContext } from './IdentityProvider';

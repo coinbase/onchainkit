@@ -1,7 +1,7 @@
 'use client';
 import { TextInput } from '../../internal/components/TextInput';
 import { isValidAmount } from '../../internal/utils/isValidAmount';
-import { background, border, cn, color } from '../../styles/theme';
+import { border, cn } from '../../styles/theme';
 import { formatAmount } from '../../swap/utils/formatAmount';
 import { TokenChip } from '../../token';
 import { useBuyContext } from './BuyProvider';

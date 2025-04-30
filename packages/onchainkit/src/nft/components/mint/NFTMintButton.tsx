@@ -2,7 +2,7 @@ import { Spinner } from '@/internal/components/Spinner';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { useMintAnalytics } from '@/nft/hooks/useMintAnalytics';
-import { cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import {
   Transaction,
   TransactionButton,

@@ -2,7 +2,7 @@ import { githubSvg } from '../../internal/svg/githubSvg';
 import { twitterSvg } from '../../internal/svg/twitterSvg';
 import { warpcastSvg } from '../../internal/svg/warpcastSvg';
 import { websiteSvg } from '../../internal/svg/websiteSvg';
-import { border, cn, pressable } from '../../styles/theme';
+import { cn, pressable } from '../../styles/theme';
 
 export type SocialPlatform = 'twitter' | 'github' | 'farcaster' | 'website';
 

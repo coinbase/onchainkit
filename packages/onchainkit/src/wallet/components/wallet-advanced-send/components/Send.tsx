@@ -1,5 +1,5 @@
 import { Skeleton } from '@/internal/components/Skeleton';
-import { background, border, cn, color } from '@/styles/theme';
+import { border, cn } from '@/styles/theme';
 import { ETH_REQUIRED_FOR_SEND } from '../constants';
 import type { SendReact } from '../types';
 import { SendAmountInput } from './SendAmountInput';

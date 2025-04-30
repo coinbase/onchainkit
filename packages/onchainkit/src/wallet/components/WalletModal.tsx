@@ -9,7 +9,7 @@ import { metamaskSvg } from '@/internal/svg/metamaskSvg';
 import { phantomSvg } from '@/internal/svg/phantomSvg';
 import { rabbySvg } from '@/internal/svg/rabbySvg';
 import { trustWalletSvg } from '@/internal/svg/trustWalletSvg';
-import { background, border, cn, color, pressable, text } from '@/styles/theme';
+import { border, cn, pressable, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
 import { useConnect } from 'wagmi';

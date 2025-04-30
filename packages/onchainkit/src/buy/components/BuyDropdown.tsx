@@ -8,7 +8,7 @@ import { useAccount } from 'wagmi';
 import { ONRAMP_BUY_URL } from '../../fund/constants';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
-import { background, border, cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import { ONRAMP_PAYMENT_METHODS } from '../constants';
 import { isApplePaySupported } from '../utils/isApplePaySupported';
 import { BuyOnrampItem } from './BuyOnrampItem';

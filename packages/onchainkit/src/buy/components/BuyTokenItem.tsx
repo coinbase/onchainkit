@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useMemo } from 'react';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
-import { cn, color, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { SwapUnit } from '../../swap/types';
 import { TokenImage } from '../../token';
 import { useBuyContext } from './BuyProvider';

@@ -1,7 +1,7 @@
 'use client';
 import { useIsMounted } from '../../internal/hooks/useIsMounted';
 import { useTheme } from '../../internal/hooks/useTheme';
-import { background, border, cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import type { SwapReact } from '../types';
 import { SwapAmountInput } from './SwapAmountInput';

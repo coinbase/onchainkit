@@ -7,7 +7,7 @@ import { Identity } from './Identity';
 import { Name } from './Name';
 import { Socials } from './Socials';
 
-import { background, border, cn } from '../../styles/theme';
+import { border, cn } from '../../styles/theme';
 
 type IdentityCardReact = {
   address?: Address;

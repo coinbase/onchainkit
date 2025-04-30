@@ -1,6 +1,6 @@
 'use client';
 import { useCallback } from 'react';
-import { cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 
 import { useAccount } from 'wagmi';
 import { getChainExplorer } from '../../core/network/getChainExplorer';

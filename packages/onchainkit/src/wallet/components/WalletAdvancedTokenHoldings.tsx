@@ -1,6 +1,6 @@
 'use client';
 
-import { cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { type Token, TokenImage } from '@/token';
 import { formatUnits } from 'viem';
 import { useWalletContext } from './WalletProvider';

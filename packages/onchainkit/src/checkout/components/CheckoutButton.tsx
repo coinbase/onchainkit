@@ -5,13 +5,7 @@ import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { CheckoutEvent } from '../../core/analytics/types';
 import { Spinner } from '../../internal/components/Spinner';
 import { useIcon } from '../../internal/hooks/useIcon';
-import {
-  border,
-  cn,
-  color,
-  pressable,
-  text as styleText,
-} from '../../styles/theme';
+import { cn, pressable, text as styleText } from '../../styles/theme';
 import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import type { CheckoutButtonReact } from '../types';
 import { useCheckoutContext } from './CheckoutProvider';

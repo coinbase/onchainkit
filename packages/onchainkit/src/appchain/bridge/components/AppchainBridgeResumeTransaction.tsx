@@ -2,7 +2,7 @@
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { TextInput } from '@/internal/components/TextInput';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
-import { background, border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { useState } from 'react';
 import type { Hex } from 'viem';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';

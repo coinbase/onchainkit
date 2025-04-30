@@ -7,7 +7,7 @@ import { useNFTData as defaultUseNFTData } from '@/nft/hooks/useNFTData';
 import { LifecycleType, type NFTCardReact } from '@/nft/types';
 import { useCallback } from 'react';
 import { useAccount } from 'wagmi';
-import { border, cn, color, pressable } from '../../styles/theme';
+import { cn, pressable } from '../../styles/theme';
 import NFTErrorBoundary from './NFTErrorBoundary';
 import { NFTErrorFallback } from './NFTErrorFallback';
 import {

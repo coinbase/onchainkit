@@ -5,7 +5,7 @@ import { useGetFundingUrl } from '../../fund/hooks/useGetFundingUrl';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
 import { useIcon } from '../../internal/hooks/useIcon';
 import { openPopup } from '../../internal/utils/openPopup';
-import { cn, color, pressable, text as themeText } from '../../styles/theme';
+import { cn, pressable, text as themeText } from '../../styles/theme';
 import type { WalletDropdownFundLinkReact } from '../types';
 
 export function WalletDropdownFundLink({

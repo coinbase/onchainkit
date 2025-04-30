@@ -1,6 +1,6 @@
 import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
-import { border, cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { TokenImage } from '@/token/components/TokenImage';
 import { useMemo } from 'react';
 import { formatUnits } from 'viem';

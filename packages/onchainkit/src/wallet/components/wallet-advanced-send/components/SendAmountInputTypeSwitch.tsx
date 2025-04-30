@@ -1,6 +1,6 @@
 import { Skeleton } from '@/internal/components/Skeleton';
 import { AmountInputTypeSwitch } from '@/internal/components/amount-input/AmountInputTypeSwitch';
-import { cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { useSendContext } from './SendProvider';
 
 type SendAmountInputTypeSwitchProps = {

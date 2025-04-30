@@ -1,4 +1,4 @@
-import { cn, color } from '../../styles/theme';
+import { cn } from '../../styles/theme';
 import { SignatureLabel } from './SignatureLabel';
 import { useSignatureContext } from './SignatureProvider';
 

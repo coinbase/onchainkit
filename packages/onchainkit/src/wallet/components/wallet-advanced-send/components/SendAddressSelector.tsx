@@ -1,7 +1,7 @@
 'use client';
 
 import { Address, Avatar, Name } from '@/identity';
-import { background, border, cn, pressable } from '@/styles/theme';
+import { cn, pressable } from '@/styles/theme';
 import { useCallback } from 'react';
 import type { Address as AddressType } from 'viem';
 import { useWalletContext } from '../../WalletProvider';

@@ -1,6 +1,6 @@
 'use client';
 import { toggleSvg } from '../../internal/svg/toggleSvg';
-import { border, cn, pressable } from '../../styles/theme';
+import { cn, pressable } from '../../styles/theme';
 import type { SwapToggleButtonReact } from '../types';
 import { useSwapContext } from './SwapProvider';
 

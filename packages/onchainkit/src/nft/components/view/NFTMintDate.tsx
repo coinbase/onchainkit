@@ -1,6 +1,6 @@
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { type ReactNode, useMemo } from 'react';
-import { cn, color, text } from '../../../styles/theme';
+import { cn, text } from '../../../styles/theme';
 
 const DATE_OPTIONS = {
   year: 'numeric',

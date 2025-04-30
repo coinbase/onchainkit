@@ -2,7 +2,7 @@
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useName } from '@/identity/hooks/useName';
 import { useSocials } from '@/identity/hooks/useSocials';
-import { border, cn } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import type { Address, Chain } from 'viem';
 import { GetSocialPlatformDetails } from './getSocialPlatformDetails';
 import type { SocialPlatform } from './getSocialPlatformDetails';

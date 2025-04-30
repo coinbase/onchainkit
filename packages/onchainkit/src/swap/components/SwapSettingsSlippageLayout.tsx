@@ -1,4 +1,4 @@
-import { background, border, cn } from '../../styles/theme';
+import { border, cn } from '../../styles/theme';
 import type { SwapSettingsSlippageLayoutReact } from '../types';
 
 export function SwapSettingsSlippageLayout({

@@ -1,6 +1,6 @@
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import type { ReactNode } from 'react';
-import { cn, color, text } from '../../../styles/theme';
+import { cn, text } from '../../../styles/theme';
 import { formatAmount as formatSN } from '../../../swap/utils/formatAmount';
 import { formatAmount } from '../../../token/utils/formatAmount';
 
