@@ -146,8 +146,6 @@ export type GetAddress = {
 export type GetAddresses = {
   /** Array of names to resolve addresses for */
   names: Array<string | Basename>;
-  /** Optional chain for domain resolution */
-  chain?: Chain;
 };
 
 /**

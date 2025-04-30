@@ -44,7 +44,6 @@ export const getName = async ({
         try {
           const resolvedAddress = await getAddress({
             name: basename,
-            chain: base,
           });
 
           if (

@@ -70,7 +70,6 @@ export const getNames = async ({
           );
           const resolvedAddresses = await getAddresses({
             names: basenames,
-            chain: base,
           });
 
           // Update results with validated basenames
@@ -150,7 +149,6 @@ export const getNames = async ({
           const ensNames = ensNamesWithIndices.map(({ ensName }) => ensName);
           const resolvedAddresses = await getAddresses({
             names: ensNames,
-            chain: mainnet,
           });
 
           // Update results with validated ENS names

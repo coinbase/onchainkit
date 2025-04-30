@@ -21,7 +21,7 @@ export const useAddresses = (
 
   return useQuery<GetAddressReturnType[]>({
     queryKey,
-    queryFn: () => getAddresses({ names, chain }),
+    queryFn: () => getAddresses({ names }),
     enabled: !!names.length,
     ...DEFAULT_QUERY_OPTIONS,
     // Use cacheTime as gcTime for backward compatibility
