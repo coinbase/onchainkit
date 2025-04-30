@@ -1,7 +1,6 @@
 'use client';
 import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
 import { Skeleton } from '@/internal/components/Skeleton';
-import { cn } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import type { DepositBalanceReact } from '../types';
