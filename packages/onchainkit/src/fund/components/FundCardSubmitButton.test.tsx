@@ -144,13 +144,13 @@ describe('FundCardSubmitButton', () => {
     render(
       <FundCardProvider asset="ETH" country="US">
         <FundCardSubmitButton
-          render={({ onClick, isDisabled, state }) => (
+          render={({ onClick, isDisabled, status }) => (
             <button
               data-testid="custom-render-button"
               onClick={onClick}
               disabled={isDisabled}
             >
-              Custom Render - {state}
+              Custom Render - {status}
             </button>
           )}
         />
