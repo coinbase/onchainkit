@@ -3,6 +3,9 @@
   "description": "Instantly create onchain applications with OnchainKit.",
   "version": "0.0.19",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "pnpm run clean && pnpm run build:esm+types && pnpm run build:manifest",
     "build:manifest": "pnpm --filter miniapp-manifest-generator build:copy --out $(pwd)/dist/manifest",
