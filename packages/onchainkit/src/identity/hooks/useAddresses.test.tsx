@@ -1,7 +1,6 @@
 import { publicClient } from '@/core/network/client';
 import { renderHook, waitFor } from '@testing-library/react';
 import type { Address } from 'viem';
-import { base, baseSepolia, mainnet, optimism } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getAddresses } from '../utils/getAddresses';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
@@ -70,18 +69,16 @@ describe('useAddresses', () => {
 
     expect(getAddresses).toHaveBeenCalledWith({
       names: testNames,
-      chain: mainnet,
     });
   });
 
-  it('returns the correct addresses for custom chain', async () => {
+  it('returns the correct addresses for different name inputs', async () => {
     vi.mocked(getAddresses).mockResolvedValue(testAddresses);
 
     const { result } = renderHook(
       () =>
         useAddresses({
           names: testNames,
-          chain: base,
         }),
       {
         wrapper: getNewReactQueryTestProvider(),
@@ -95,20 +92,17 @@ describe('useAddresses', () => {
 
     expect(getAddresses).toHaveBeenCalledWith({
       names: testNames,
-      chain: base,
     });
   });
 
-  it('returns error for unsupported chain', async () => {
-    const errorMessage =
-      'ChainId not supported, name resolution is only supported on Ethereum and Base.';
+  it('returns error when name resolution fails', async () => {
+    const errorMessage = 'Error resolving names';
     vi.mocked(getAddresses).mockRejectedValue(errorMessage);
 
     const { result } = renderHook(
       () =>
         useAddresses({
           names: testNames,
-          chain: optimism,
         }),
       {
         wrapper: getNewReactQueryTestProvider(),
@@ -151,11 +145,7 @@ describe('useAddresses', () => {
 
     const options = mockUseQuery.mock.calls[0][0];
     expect(options).toHaveProperty('queryKey');
-    expect(options.queryKey).toEqual([
-      'useAddresses',
-      testNames.join(','),
-      mainnet.id,
-    ]);
+    expect(options.queryKey).toEqual(['useAddresses', testNames.join(',')]);
   });
 
   it('merges custom queryOptions with default options', async () => {
@@ -213,7 +203,7 @@ describe('useAddresses', () => {
     expect(optionsWithBoth).toHaveProperty('gcTime', mockGcTime);
   });
 
-  it('creates a stable query key based on names and chain', async () => {
+  it('creates a stable query key based on names', async () => {
     vi.mocked(getAddresses).mockResolvedValue(testAddresses);
 
     const { result, rerender } = renderHook(
@@ -251,7 +241,6 @@ describe('useAddresses', () => {
 
     expect(getAddresses).toHaveBeenCalledWith({
       names: testNames,
-      chain: mainnet,
     });
   });
 
@@ -291,32 +280,6 @@ describe('useAddresses', () => {
 
     expect(getAddresses).toHaveBeenCalledWith({
       names: testNames,
-      chain: mainnet,
-    });
-  });
-
-  it('supports Base Sepolia chain', async () => {
-    vi.mocked(getAddresses).mockResolvedValue(testAddresses);
-
-    const { result } = renderHook(
-      () =>
-        useAddresses({
-          names: testNames,
-          chain: baseSepolia,
-        }),
-      {
-        wrapper: getNewReactQueryTestProvider(),
-      },
-    );
-
-    await waitFor(() => {
-      expect(result.current.data).toEqual(testAddresses);
-      expect(result.current.isPending).toBe(false);
-    });
-
-    expect(getAddresses).toHaveBeenCalledWith({
-      names: testNames,
-      chain: baseSepolia,
     });
   });
 
