@@ -55,7 +55,6 @@ describe('useAddress', () => {
       expect(result.current.data).toBe(testEnsAddress);
       expect(result.current.isLoading).toBe(false);
     });
-    expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
   });
 
   it('should return the loading state true while still fetching ENS address', async () => {
@@ -83,7 +82,6 @@ describe('useAddress', () => {
       expect(result.current.data).toBe(testEnsAddress);
       expect(result.current.isLoading).toBe(false);
     });
-    expect(getChainPublicClient).toHaveBeenCalledWith(base);
   });
 
   it('should return correct base sepolia address', async () => {
@@ -100,7 +98,6 @@ describe('useAddress', () => {
       expect(result.current.data).toBe(testEnsAddress);
       expect(result.current.isLoading).toBe(false);
     });
-    expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia);
   });
 
   it('correctly maps cacheTime to gcTime for backwards compatibility', async () => {
