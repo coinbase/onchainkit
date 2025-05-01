@@ -1,7 +1,6 @@
 import { publicClient } from '@/core/network/client';
-import { getChainPublicClient } from '@/core/network/getChainPublicClient';
 import { renderHook, waitFor } from '@testing-library/react';
-import { base, baseSepolia, mainnet } from 'viem/chains';
+import { base, baseSepolia } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 import { useAddress } from './useAddress';
