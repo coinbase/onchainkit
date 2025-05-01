@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.10
+
+### Patch Changes
+
+- 9b557ef: fix: Basename resolution
+
 ## 0.38.9
 
 ### Patch Changes
