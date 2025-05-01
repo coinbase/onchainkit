@@ -1,5 +1,5 @@
 import type { Basename, GetNameReturnType, GetNames } from '@/identity/types';
-import { base, mainnet } from 'viem/chains';
+import { mainnet } from 'viem/chains';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { isBase } from '../../core/utils/isBase';
 import { isEthereum } from '../../core/utils/isEthereum';
