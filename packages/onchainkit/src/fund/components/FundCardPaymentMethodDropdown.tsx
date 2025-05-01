@@ -8,7 +8,7 @@ import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
 import { background, border, cn } from '../../styles/theme';
 import type {
-  FundCardPaymentMethodDropdownPropsReact,
+  FundCardPaymentMethodDropdownProps,
   PaymentMethod,
 } from '../types';
 import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow';
@@ -17,7 +17,7 @@ import { useFundContext } from './FundCardProvider';
 
 export function FundCardPaymentMethodDropdown({
   className,
-}: FundCardPaymentMethodDropdownPropsReact) {
+}: FundCardPaymentMethodDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const {

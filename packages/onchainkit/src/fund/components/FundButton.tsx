@@ -17,7 +17,7 @@ import { SuccessSvg } from '../../internal/svg/successSvg';
 import { background } from '../../styles/theme';
 import { ConnectWallet } from '../../wallet/components/ConnectWallet';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
-import type { FundButtonReact } from '../types';
+import type { FundButtonProps } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 
 export function FundButton({
@@ -33,7 +33,7 @@ export function FundButton({
   onPopupClose,
   onClick,
   render,
-}: FundButtonReact) {
+}: FundButtonProps) {
   const componentTheme = useTheme();
   // If the fundingUrl prop is undefined, fallback to our recommended funding URL based on the wallet type
   const fallbackFundingUrl = useGetFundingUrl({

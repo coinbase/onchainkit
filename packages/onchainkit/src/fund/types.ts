@@ -120,7 +120,7 @@ type FundButtonBaseProps = {
   /* A optional prop to disable the fund button */
   disabled?: boolean;
   /* The state of the button component */
-  state?: FundButtonStateReact;
+  state?: FundButtonState;
   /* An optional prop to provide a custom funding URL */
   fundingUrl?: string;
   /* Whether to open the funding flow in a tab or a popup window */
@@ -143,7 +143,7 @@ type FundButtonBaseProps = {
 
 export type FundButtonRenderParams = {
   /* The state of the button component, only relevant when using FundCardSubmitButton */
-  status: FundButtonStateReact;
+  status: FundButtonState;
   /* A callback function that will be called when the button is clicked */
   onClick: (e: React.MouseEvent) => void;
   /* Whether the button is disabled */
@@ -153,7 +153,7 @@ export type FundButtonRenderParams = {
 /**
  * Note: exported as public Type
  */
-export type FundButtonReact =
+export type FundButtonProps =
   | (FundButtonBaseProps & {
       render?: (props: FundButtonRenderParams) => React.ReactNode;
       /* An optional React node to be displayed in the button component */
@@ -180,7 +180,7 @@ export type FundCardSubmitButtonProps =
       children?: ReactNode;
     };
 
-export type FundButtonStateReact = 'default' | 'success' | 'error' | 'loading';
+export type FundButtonState = 'default' | 'success' | 'error' | 'loading';
 
 /**
  * Matches a JSON object.
@@ -363,19 +363,19 @@ export type OnrampPaymentCurrency = {
   iconUrl: string;
 };
 
-export type FundCardAmountInputPropsReact = {
+export type FundCardAmountInputProps = {
   className?: string;
 };
 
-export type FundCardAmountInputTypeSwitchPropsReact = {
+export type FundCardAmountInputTypeSwitchProps = {
   className?: string;
 };
 
-export type FundCardHeaderPropsReact = {
+export type FundCardHeaderProps = {
   className?: string;
 };
 
-export type FundCardPaymentMethodImagePropsReact = {
+export type FundCardPaymentMethodImageProps = {
   className?: string;
   size?: number;
   paymentMethod: PaymentMethod;
@@ -390,18 +390,14 @@ export type PaymentMethod = {
   maxAmount?: number;
 };
 
-export type FundCardPaymentMethodDropdownPropsReact = {
+export type FundCardPaymentMethodDropdownProps = {
   className?: string;
-};
-
-export type FundCardCurrencyLabelPropsReact = {
-  label: string;
 };
 
 /**
  * Note: exported as public Type
  */
-export type FundCardPropsReact = {
+export type FundCardProps = {
   children?: ReactNode;
   assetSymbol: string;
   placeholder?: string | React.ReactNode;
@@ -414,18 +410,18 @@ export type FundCardPropsReact = {
   presetAmountInputs?: PresetAmountInputs;
 } & LifecycleEvents;
 
-export type FundCardContentPropsReact = {
+export type FundCardContentProps = {
   children?: ReactNode;
 };
 
-export type FundCardPaymentMethodSelectorTogglePropsReact = {
+export type FundCardPaymentMethodSelectorToggleProps = {
   className?: string;
   isOpen: boolean; // Determines carot icon direction
   onClick: () => void; // Button on click handler
   paymentMethod: PaymentMethod;
 };
 
-export type FundCardPaymentMethodSelectRowPropsReact = {
+export type FundCardPaymentMethodSelectRowProps = {
   paymentMethod: PaymentMethod;
   onClick?: (paymentMethod: PaymentMethod) => void;
   hideImage?: boolean;
@@ -435,7 +431,7 @@ export type FundCardPaymentMethodSelectRowPropsReact = {
   testId?: string;
 };
 
-export type FundCardProviderReact = {
+export type FundCardProviderProps = {
   children: ReactNode;
   asset: string;
   /**
@@ -481,7 +477,7 @@ export type LifecycleStatus =
       statusData: null;
     };
 
-export type PresetAmountInputItemPropsReact = {
+export type PresetAmountInputItemProps = {
   presetAmountInput: string;
   currency: string;
   onClick: (presetAmountInput: string) => void;

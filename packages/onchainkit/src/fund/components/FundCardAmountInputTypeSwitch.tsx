@@ -1,11 +1,11 @@
 'use client';
 import { AmountInputTypeSwitch } from '@/internal/components/amount-input/AmountInputTypeSwitch';
-import type { FundCardAmountInputTypeSwitchPropsReact } from '../types';
+import type { FundCardAmountInputTypeSwitchProps } from '../types';
 import { useFundContext } from './FundCardProvider';
 
 export const FundCardAmountInputTypeSwitch = ({
   className,
-}: FundCardAmountInputTypeSwitchPropsReact) => {
+}: FundCardAmountInputTypeSwitchProps) => {
   const {
     selectedInputType,
     setSelectedInputType,

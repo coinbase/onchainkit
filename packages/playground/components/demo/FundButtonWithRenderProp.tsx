@@ -10,7 +10,7 @@ import {
 } from '@coinbase/onchainkit/fund';
 import { border, color, pressable, text } from '@coinbase/onchainkit/theme';
 import {
-  FundButtonStateReact,
+  FundButtonState,
   PresetAmountInputs,
 } from '../../../onchainkit/dist/fund/types';
 
@@ -31,11 +31,11 @@ function Spinner() {
 }
 
 function customRender({
-  state,
+  status,
   onClick,
   isDisabled,
 }: {
-  state: FundButtonStateReact;
+  status: FundButtonState;
   onClick: (e: React.MouseEvent) => void;
   isDisabled: boolean;
 }) {
@@ -53,15 +53,15 @@ function customRender({
 
   let buttonContent = <span>Click to fund</span>;
 
-  if (state === 'loading') {
+  if (status === 'loading') {
     buttonContent = <Spinner />;
   }
 
-  if (state === 'success') {
+  if (status === 'success') {
     buttonContent = <span>Success</span>;
   }
 
-  if (state === 'error') {
+  if (status === 'error') {
     buttonContent = <span>Something went wrong</span>;
   }
 
