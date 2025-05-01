@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.10
+
+### Patch Changes
+
+- **fix**: Fixed Basenames resolution. By @dgca #2329
+
 ## 0.38.9
 
 ### Patch Changes
