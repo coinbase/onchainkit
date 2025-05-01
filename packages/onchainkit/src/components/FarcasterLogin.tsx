@@ -1,8 +1,9 @@
-import { AuthKitProvider, SignInButton, type AuthClientError } from '@farcaster/auth-kit';
+import {
+  AuthKitProvider,
+  SignInButton,
+  useProfile,
+} from '@farcaster/auth-kit';
 import '@farcaster/auth-kit/styles.css';
-import { useConnect } from 'wagmi';
-import { useCallback } from 'react';
-import { createFarcasterConnector } from '../wallet/connectors/farcaster';
 
 const config = {
   relay: 'https://relay.farcaster.xyz',
@@ -12,41 +13,40 @@ const config = {
 };
 
 export function FarcasterLogin() {
-  const { connect } = useConnect();
-
-  const handleSuccess = useCallback((response: any) => {
-    console.log('Login successful:', response);
-    
-    try {
-      // Create and connect to the Farcaster connector
-      const farcasterConnector = createFarcasterConnector({
-        options: {
-          domain: config.domain,
-          siweUri: config.siweUri,
-          relay: config.relay,
-          rpcUrl: config.rpcUrl,
-        }
-      });
-      
-      // Connect with wagmi
-      connect({ connector: farcasterConnector });
-    } catch (error) {
-      console.error('Farcaster connector error:', error);
-    }
-  }, [connect]);
-
-  const handleError = (error?: AuthClientError) => {
-    console.error('Login failed:', error);
-  };
-
   return (
     <AuthKitProvider config={config}>
-      <div style={{ padding: '20px' }}>
-        <SignInButton
-          onSuccess={handleSuccess}
-          onError={handleError}
-        />
+      <div>
+        <SignInButton />
       </div>
+      <Profile />
     </AuthKitProvider>
+  );
+}
+
+function Profile() {
+  const profile = useProfile();
+  const {
+    isAuthenticated,
+    profile: { fid, displayName, bio, pfpUrl },
+  } = profile;
+
+  return (
+    <div style={{ textAlign: 'center' }}>
+      {isAuthenticated ? (
+        <div>
+          <img
+            src={pfpUrl}
+            alt={displayName}
+            style={{ width: '48px', height: '48px', borderRadius: '50%' }}
+          />
+          <p>
+            Hello, {displayName}! Your FID is {fid}.
+          </p>
+          <p>{bio}</p>
+        </div>
+      ) : (
+        <></>
+      )}
+    </div>
   );
 } 
