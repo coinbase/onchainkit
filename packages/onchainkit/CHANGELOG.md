@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 9b557ef: fix: Basename resolution
+- **fix**: Fixed Basenames resolution. By @dgca #2329
 
 ## 0.38.9
 

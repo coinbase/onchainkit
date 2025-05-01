@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 16c90fb: feat: Skip manifest generation when creating a new minikit app
+- **chore**: Removed manifest prompt during create-onchain process. By @dgca #2326
 
 ## 0.0.19
 
