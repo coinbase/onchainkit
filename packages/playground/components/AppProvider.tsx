@@ -185,7 +185,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
           paymaster: paymasters?.[chainId || 8453]?.url,
           wallet: {
             display: 'modal',
-            signUpEnabled: false,
             termsUrl: 'https://www.coinbase.com/legal/cookie',
             privacyUrl: 'https://www.coinbase.com/legal/privacy',
             supportedWallets: {

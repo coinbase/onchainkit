@@ -191,8 +191,6 @@ describe('OnchainKitProvider', () => {
             paymaster: paymasterUrl,
             wallet: {
               display: 'classic',
-              preference: 'all',
-              signUpEnabled: true,
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
               supportedWallets: {
@@ -238,8 +236,6 @@ describe('OnchainKitProvider', () => {
             paymaster: null,
             wallet: {
               display: 'classic',
-              preference: 'all',
-              signUpEnabled: true,
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
               supportedWallets: {
@@ -324,8 +320,6 @@ describe('OnchainKitProvider', () => {
             paymaster: 'https://example.com',
             wallet: {
               display: 'classic',
-              preference: 'all',
-              signUpEnabled: true,
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
               supportedWallets: {
@@ -495,8 +489,6 @@ describe('OnchainKitProvider', () => {
           config: expect.objectContaining({
             wallet: {
               display: 'modal',
-              preference: 'all',
-              signUpEnabled: true,
               termsUrl: 'https://example.com/terms',
               privacyUrl: 'https://example.com/privacy',
               supportedWallets: {
@@ -505,120 +497,6 @@ describe('OnchainKitProvider', () => {
                 frame: true,
               },
             },
-          }),
-        }),
-      );
-    });
-  });
-
-  it('should use custom preference value when provided', async () => {
-    const customConfig: AppConfig = {
-      wallet: {
-        preference: 'eoaOnly',
-      },
-    };
-
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider
-            chain={base}
-            schemaId={schemaId}
-            config={customConfig}
-          >
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      expect(setOnchainKitConfig).toHaveBeenCalledWith(
-        expect.objectContaining({
-          config: expect.objectContaining({
-            wallet: expect.objectContaining({
-              preference: 'eoaOnly',
-            }),
-          }),
-        }),
-      );
-    });
-  });
-
-  it('should use custom signUpEnabled value when provided', async () => {
-    const customConfig: AppConfig = {
-      wallet: {
-        signUpEnabled: false,
-      },
-    };
-
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider
-            chain={base}
-            schemaId={schemaId}
-            config={customConfig}
-          >
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      expect(setOnchainKitConfig).toHaveBeenCalledWith(
-        expect.objectContaining({
-          config: expect.objectContaining({
-            wallet: expect.objectContaining({
-              signUpEnabled: false,
-            }),
-          }),
-        }),
-      );
-    });
-  });
-
-  it('should use combined wallet configuration when multiple properties are provided', async () => {
-    const customConfig: AppConfig = {
-      wallet: {
-        display: 'modal',
-        preference: 'smartWalletOnly',
-        signUpEnabled: false,
-        termsUrl: 'https://example.com/terms',
-      },
-    };
-
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider
-            chain={base}
-            schemaId={schemaId}
-            config={customConfig}
-          >
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      expect(setOnchainKitConfig).toHaveBeenCalledWith(
-        expect.objectContaining({
-          config: expect.objectContaining({
-            wallet: expect.objectContaining({
-              display: 'modal',
-              preference: 'smartWalletOnly',
-              signUpEnabled: false,
-              termsUrl: 'https://example.com/terms',
-              privacyUrl: 'https://base.org/privacy-policy',
-              supportedWallets: {
-                rabby: false,
-                trust: false,
-                frame: false,
-              },
-            }),
           }),
         }),
       );
