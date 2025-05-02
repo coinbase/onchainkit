@@ -3,13 +3,13 @@ import { border, cn, color, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
-import type { PresetAmountInputItemPropsReact } from '../types';
+import type { PresetAmountInputItemProps } from '../types';
 
 export function FundCardPresetAmountInputItem({
   presetAmountInput,
   currency,
   onClick,
-}: PresetAmountInputItemPropsReact) {
+}: PresetAmountInputItemProps) {
   const { sendAnalytics } = useAnalytics();
 
   const presetAmountInputText = useMemo(() => {

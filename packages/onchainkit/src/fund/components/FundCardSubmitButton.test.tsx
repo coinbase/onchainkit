@@ -8,6 +8,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
+import React from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
@@ -139,9 +140,87 @@ describe('FundCardSubmitButton', () => {
     );
   };
 
+  it('renders custom content when `render` prop is provided', () => {
+    render(
+      <FundCardProvider asset="ETH" country="US">
+        <FundCardSubmitButton
+          render={({ onClick, isDisabled, status }) => (
+            <button
+              data-testid="custom-render-button"
+              onClick={onClick}
+              disabled={isDisabled}
+            >
+              Custom Render - {status}
+            </button>
+          )}
+        />
+      </FundCardProvider>,
+    );
+
+    const customButton = screen.getByTestId('custom-render-button');
+    expect(customButton).toBeInTheDocument();
+    expect(customButton).toHaveTextContent('Custom Render - default');
+  });
+
   it('renders disabled by default when no amount is set', () => {
     renderComponent();
     expect(screen.getByTestId('ockFundButton')).toBeDisabled();
+  });
+
+  it('displays "Success" text when in success state', async () => {
+    const SuccessStateWrapper = () => {
+      const { setSubmitButtonState } = useFundContext();
+
+      React.useEffect(() => {
+        setSubmitButtonState('success');
+      }, [setSubmitButtonState]);
+
+      return <FundCardSubmitButton />;
+    };
+
+    render(
+      <FundCardProvider asset="ETH" country="US">
+        <TestHelperComponent />
+        <SuccessStateWrapper />
+      </FundCardProvider>,
+    );
+
+    const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
+    fireEvent.click(setFiatAmountButton);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('ockFundButtonTextContent')).toHaveTextContent(
+        'Success',
+      );
+    });
+  });
+
+  it('displays "Something went wrong" text when in error state', async () => {
+    const ErrorStateWrapper = () => {
+      const { setSubmitButtonState } = useFundContext();
+
+      React.useEffect(() => {
+        setSubmitButtonState('error');
+      }, [setSubmitButtonState]);
+
+      return <FundCardSubmitButton />;
+    };
+
+    render(
+      <FundCardProvider asset="ETH" country="US">
+        <TestHelperComponent />
+        <ErrorStateWrapper />
+      </FundCardProvider>,
+    );
+
+    const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
+    fireEvent.click(setFiatAmountButton);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('ockFundButtonTextContent')).toHaveTextContent(
+        'Something went wrong',
+      );
+    });
   });
 
   it('enables when fiat amount is set', async () => {

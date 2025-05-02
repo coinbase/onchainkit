@@ -1,7 +1,7 @@
 import { type ForwardedRef, forwardRef } from 'react';
 import { caretUpSvg } from '../../internal/svg/caretUpSvg';
 import { border, cn, color, pressable, text } from '../../styles/theme';
-import type { FundCardPaymentMethodSelectorTogglePropsReact } from '../types';
+import type { FundCardPaymentMethodSelectorToggleProps } from '../types';
 import { FundCardPaymentMethodImage } from './FundCardPaymentMethodImage';
 
 export const FundCardPaymentMethodSelectorToggle = forwardRef(
@@ -11,7 +11,7 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
       paymentMethod,
       isOpen,
       className,
-    }: FundCardPaymentMethodSelectorTogglePropsReact,
+    }: FundCardPaymentMethodSelectorToggleProps,
     ref: ForwardedRef<HTMLButtonElement>,
   ) => {
     return (
