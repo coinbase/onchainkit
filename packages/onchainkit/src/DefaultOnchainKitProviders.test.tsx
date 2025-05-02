@@ -236,4 +236,51 @@ describe('DefaultOnchainKitProviders', () => {
       }),
     );
   });
+
+  it('should handle undefined appearance values', () => {
+    // Mock useOnchainKit to return undefined appearance values
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: null,
+      config: {
+        wallet: {
+          preference: 'all',
+        },
+      },
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // Verify coinbaseWallet was called with undefined app name and logo
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+      expect.objectContaining({
+        appName: undefined,
+        appLogoUrl: undefined,
+      }),
+    );
+  });
+
+  it('should handle missing config entirely', () => {
+    // Mock useOnchainKit to return no config
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: 'test-api-key',
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    expect(screen.getByText('Test Child')).toBeInTheDocument();
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+      expect.objectContaining({
+        appName: undefined,
+        appLogoUrl: undefined,
+      }),
+    );
+  });
 });
