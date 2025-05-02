@@ -2,7 +2,7 @@ import { isBase } from '@/core/utils/isBase';
 import { isEthereum } from '@/core/utils/isEthereum';
 import { http } from 'viem';
 import { createPublicClient } from 'viem';
-import { base, mainnet, sepolia } from 'viem/chains';
+import { base, mainnet } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { getSocials } from './getSocials';
