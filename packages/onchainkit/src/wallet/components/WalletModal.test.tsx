@@ -1215,7 +1215,7 @@ describe('WalletModal', () => {
     expect(dividers.length).toBe(0);
   });
 
-  it.only('includes divider line when signUpEnabled is true', () => {
+  it('includes divider line when signUpEnabled is true', () => {
     (useOnchainKit as Mock).mockReturnValue({
       config: {
         appearance: {},
