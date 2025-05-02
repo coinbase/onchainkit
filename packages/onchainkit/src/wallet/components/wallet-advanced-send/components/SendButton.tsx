@@ -8,10 +8,7 @@ import { useTransactionContext } from '@/transaction/components/TransactionProvi
 import { TransactionStatus } from '@/transaction/components/TransactionStatus';
 import { TransactionStatusAction } from '@/transaction/components/TransactionStatusAction';
 import { TransactionStatusLabel } from '@/transaction/components/TransactionStatusLabel';
-import type {
-  LifecycleStatus,
-  TransactionButtonReact,
-} from '@/transaction/types';
+import type { LifecycleStatus } from '@/transaction/types';
 import { useCallback } from 'react';
 import { parseUnits } from 'viem';
 import { type Chain, base } from 'viem/chains';
@@ -22,23 +19,10 @@ import { getSendCalldata } from '../utils/getSendCalldata';
 import { useSendContext } from './SendProvider';
 
 type SendButtonProps = {
-  label?: string;
   isSponsored?: boolean;
-  className?: string;
-} & Pick<
-  TransactionButtonReact,
-  'disabled' | 'pendingOverride' | 'successOverride' | 'errorOverride'
->;
+};
 
-export function SendButton({
-  label,
-  isSponsored = false,
-  className,
-  disabled,
-  pendingOverride,
-  successOverride,
-  errorOverride,
-}: SendButtonProps) {
+export function SendButton({ isSponsored = false }: SendButtonProps) {
   const { chain: senderChain } = useWalletContext();
   const {
     recipientState,
@@ -54,7 +38,6 @@ export function SendButton({
   });
 
   const disableSendButton =
-    disabled ||
     Boolean(error) ||
     !validateAmountInput({
       inputAmount: inputAmount ?? '',
@@ -62,8 +45,7 @@ export function SendButton({
       selectedToken: selectedToken ?? undefined,
     });
 
-  const buttonLabel =
-    label ?? getDefaultSendButtonLabel(inputAmount, selectedToken);
+  const buttonLabel = getDefaultSendButtonLabel(inputAmount, selectedToken);
 
   const handleStatus = useCallback(
     (status: LifecycleStatus) => {
@@ -96,11 +78,7 @@ export function SendButton({
       <SendTransactionButton
         label={buttonLabel}
         senderChain={senderChain}
-        pendingOverride={pendingOverride}
-        errorOverride={errorOverride}
-        successOverride={successOverride}
         disabled={disableSendButton}
-        className={className}
       />
       <TransactionStatus>
         <TransactionStatusLabel />
@@ -119,18 +97,10 @@ function SendTransactionButton({
   label,
   senderChain,
   disabled,
-  pendingOverride,
-  successOverride,
-  errorOverride,
-  className,
 }: {
   label: string;
   senderChain?: Chain | null;
   disabled?: boolean;
-  pendingOverride?: TransactionButtonReact['pendingOverride'];
-  successOverride?: TransactionButtonReact['successOverride'];
-  errorOverride?: TransactionButtonReact['errorOverride'];
-  className?: string;
 }) {
   const { address, setActiveFeature } = useWalletContext();
   const { transactionHash, transactionId } = useTransactionContext();
@@ -151,11 +121,8 @@ function SendTransactionButton({
 
   return (
     <TransactionButton
-      className={className}
       text={label}
-      pendingOverride={pendingOverride}
-      successOverride={successOverride ?? defaultSuccessOverride}
-      errorOverride={errorOverride}
+      successOverride={defaultSuccessOverride}
       disabled={disabled}
     />
   );

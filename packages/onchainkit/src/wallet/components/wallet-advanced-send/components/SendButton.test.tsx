@@ -164,34 +164,12 @@ describe('SendButton', () => {
     ).toBeInTheDocument();
   });
 
-  it('passes custom label to TransactionButton', () => {
-    render(<SendButton label="Custom Send" />);
-
-    expect(TransactionButton).toHaveBeenCalledWith(
-      expect.objectContaining({
-        text: 'Custom Send',
-      }),
-      {},
-    );
-  });
-
   it('passes isSponsored prop to Transaction', () => {
     render(<SendButton isSponsored={true} />);
 
     expect(Transaction).toHaveBeenCalledWith(
       expect.objectContaining({
         isSponsored: true,
-      }),
-      {},
-    );
-  });
-
-  it('passes className to TransactionButton', () => {
-    render(<SendButton className="custom-button-class" />);
-
-    expect(TransactionButton).toHaveBeenCalledWith(
-      expect.objectContaining({
-        className: 'custom-button-class',
       }),
       {},
     );
@@ -204,17 +182,6 @@ describe('SendButton', () => {
     });
 
     render(<SendButton />);
-
-    expect(TransactionButton).toHaveBeenCalledWith(
-      expect.objectContaining({
-        disabled: true,
-      }),
-      {},
-    );
-  });
-
-  it('disables button when disabled prop is true', () => {
-    render(<SendButton disabled={true} />);
 
     expect(TransactionButton).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -347,29 +314,6 @@ describe('SendButton', () => {
     expect(mockSendContext.updateLifecycleStatus).not.toHaveBeenCalled();
   });
 
-  it('passes custom overrides to TransactionButton', () => {
-    const pendingOverride = { text: 'Sending...' };
-    const successOverride = { text: 'Sent!' };
-    const errorOverride = { text: 'Failed!' };
-
-    render(
-      <SendButton
-        pendingOverride={pendingOverride}
-        successOverride={successOverride}
-        errorOverride={errorOverride}
-      />,
-    );
-
-    expect(TransactionButton).toHaveBeenCalledWith(
-      expect.objectContaining({
-        pendingOverride,
-        successOverride,
-        errorOverride,
-      }),
-      {},
-    );
-  });
-
   it('handles null wallet address correctly', () => {
     mockUseWalletContext.mockReturnValue({
       ...mockWalletContext,
@@ -404,7 +348,7 @@ describe('SendButton', () => {
       setActiveFeature,
     });
 
-    render(<SendButton label="Send" />);
+    render(<SendButton />);
 
     const { onComplete } = mockDefaultSendTxSuccessHandler.mock.calls[0][0];
 
