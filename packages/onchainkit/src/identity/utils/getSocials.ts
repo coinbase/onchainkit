@@ -1,8 +1,11 @@
 import { getChainPublicClient } from '@/core/network/getChainPublicClient';
+import { isBase } from '@/core/utils/isBase';
+import { isEthereum } from '@/core/utils/isEthereum';
 import type { GetSocialsReturnType } from '@/identity/types';
 import type { Chain } from 'viem';
 import { mainnet } from 'viem/chains';
 import { normalize } from 'viem/ens';
+import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 
 export type GetSocials = {
   ensName: string;
@@ -11,8 +14,19 @@ export type GetSocials = {
 
 export const getSocials = async ({
   ensName,
+  chain = mainnet,
 }: GetSocials): Promise<GetSocialsReturnType> => {
-  const client = getChainPublicClient(mainnet);
+  const chainIsBase = isBase({ chainId: chain.id });
+  const chainIsEthereum = isEthereum({ chainId: chain.id });
+  const chainSupportsUniversalResolver = chainIsEthereum || chainIsBase;
+
+  if (!chainSupportsUniversalResolver) {
+    return Promise.reject(
+      'ChainId not supported, socials resolution is only supported on Ethereum and Base.',
+    );
+  }
+
+  const client = getChainPublicClient(chain);
   const normalizedName = normalize(ensName);
 
   const fetchTextRecord = async (key: string) => {
@@ -20,6 +34,7 @@ export const getSocials = async ({
       const result = await client.getEnsText({
         name: normalizedName,
         key,
+        universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id],
       });
       return result || null;
     } catch (error) {
