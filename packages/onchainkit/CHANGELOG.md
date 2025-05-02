@@ -204,7 +204,7 @@
 
   To fully disable telemetry collection, set the `analytics` flag to `false` in your OnchainKit Provider:
 
-  Learn more at https://onchainkit.xyz/guides/telemetry
+  Learn more at https://docs.base.org/builderkits/onchainkit/guides/telemetry
 
 ## 0.36.11
 
