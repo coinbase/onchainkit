@@ -2,7 +2,7 @@
 
 import { memo } from 'react';
 import { useTheme } from '../../internal/hooks/useTheme';
-import { cn, color, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { TokenRowReact } from '../types';
 import { formatAmount } from '../utils/formatAmount';
 import { TokenImage } from './TokenImage';
@@ -41,7 +41,7 @@ export const TokenRow = memo(function TokenRow({
             {token.name.trim()}
           </span>
           {!hideSymbol && (
-            <span className={cn(text.body, color.foregroundMuted)}>
+            <span className={cn(text.body, 'text-ock-text-foreground-muted')}>
               {token.symbol}
             </span>
           )}
@@ -49,7 +49,7 @@ export const TokenRow = memo(function TokenRow({
       </span>
       <span
         data-testid="ockTokenRow_Amount"
-        className={cn(text.body, color.foregroundMuted)}
+        className={cn(text.body, 'text-ock-text-foreground-muted')}
       >
         {formatAmount(amount, {
           minimumFractionDigits: 2,

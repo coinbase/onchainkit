@@ -5,5 +5,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap');
 @import './tailwind-base.css';
-@import './legacy-ock-styles.css';
 @import './tailwind-animate-v4.css';

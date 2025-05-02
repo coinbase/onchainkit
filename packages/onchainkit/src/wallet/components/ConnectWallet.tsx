@@ -8,13 +8,7 @@ import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { WalletEvent } from '../../core/analytics/types';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
-import {
-  border,
-  cn,
-  color,
-  text as dsText,
-  pressable,
-} from '../../styles/theme';
+import { cn, text as dsText, pressable } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
 import type { ConnectWalletReact } from '../types';
 import { ConnectButton } from './ConnectButton';
@@ -183,7 +177,7 @@ export function ConnectWallet({
           className={cn(
             pressable.primary,
             dsText.headline,
-            color.inverse,
+            'text-ock-text-inverse',
             'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
             pressable.disabled,
             className,
@@ -204,8 +198,8 @@ export function ConnectWallet({
           data-testid="ockConnectWallet_Connected"
           className={cn(
             pressable.secondary,
-            border.radius,
-            color.foreground,
+            'rounded-ock-default',
+            'text-ock-text-foreground',
             'px-4 py-3',
             isSubComponentOpen &&
               'ock-bg-secondary-active hover:ock-bg-secondary-active',

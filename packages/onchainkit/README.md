@@ -117,7 +117,6 @@ pnpm f:play dev:watch
 
 Then, you can view the playground at [http://localhost:3000](http://localhost:3000).
 
-
 ## 🌁 Team and Community
 
 - **OnchainKit** ([X](https://x.com/Onchainkit), [Warpcast](https://warpcast.com/onchainkit))

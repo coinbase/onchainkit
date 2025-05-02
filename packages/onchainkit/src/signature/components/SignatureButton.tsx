@@ -1,7 +1,7 @@
 import { ConnectWallet } from '@/wallet/components/ConnectWallet';
 import { type ReactNode, useMemo } from 'react';
 import { useAccount } from 'wagmi';
-import { border, cn, color, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import { useSignatureContext } from './SignatureProvider';
 
 type SignatureButtonProps = {
@@ -61,12 +61,12 @@ export function SignatureButton({
     <button
       className={cn(
         pressable.primary,
-        border.radius,
+        'rounded-ock-default',
         'w-full rounded-xl',
         'px-4 py-3 font-medium leading-6',
         disabled && pressable.disabled,
         text.headline,
-        color.inverse,
+        'text-ock-text-inverse',
         className,
       )}
       type="button"

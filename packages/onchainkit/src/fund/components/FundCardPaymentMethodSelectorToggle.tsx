@@ -1,6 +1,6 @@
 import { type ForwardedRef, forwardRef } from 'react';
 import { caretUpSvg } from '../../internal/svg/caretUpSvg';
-import { border, cn, color, pressable, text } from '../../styles/theme';
+import { border, cn, pressable, text } from '../../styles/theme';
 import type { FundCardPaymentMethodSelectorToggleProps } from '../types';
 import { FundCardPaymentMethodImage } from './FundCardPaymentMethodImage';
 
@@ -19,9 +19,8 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
         type="button"
         className={cn(
           pressable.default,
-          border.radius,
           border.lineDefault,
-          'flex h-12 w-full items-center gap-2 px-3 py-1',
+          'rounded-ock-default flex h-12 w-full items-center gap-2 px-3 py-1',
           className,
         )}
         onClick={onClick}
@@ -35,7 +34,11 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
           />
         </div>
         <span
-          className={cn(text.headline, color.foreground, 'flex w-full')}
+          className={cn(
+            text.headline,
+            'text-ock-text-foreground',
+            'flex w-full',
+          )}
           data-testid="ockFundCardPaymentMethodSelectorToggle__paymentMethodName"
         >
           {paymentMethod.name}

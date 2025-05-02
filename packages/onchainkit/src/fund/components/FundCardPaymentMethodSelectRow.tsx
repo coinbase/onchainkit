@@ -1,14 +1,7 @@
 import { memo, useCallback } from 'react';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
-import {
-  background,
-  border,
-  cn,
-  color,
-  pressable,
-  text,
-} from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { FundCardPaymentMethodSelectRowProps } from '../types';
 import { FundCardPaymentMethodImage } from './FundCardPaymentMethodImage';
 
@@ -39,9 +32,7 @@ export const FundCardPaymentMethodSelectRow = memo(
         type="button"
         className={cn(
           pressable.default,
-          border.radius,
-          background.default,
-          'flex w-full items-center justify-between px-4 py-2',
+          'bg-ock-bg-default rounded-ock-default flex w-full items-center justify-between px-4 py-2',
           {
             [pressable.disabled]: disabled,
           },
@@ -65,7 +56,7 @@ export const FundCardPaymentMethodSelectRow = memo(
               <span
                 className={cn(
                   text.label2,
-                  color.foregroundMuted,
+                  'text-ock-text-foreground-muted',
                   'font-normal',
                 )}
               >

@@ -1,4 +1,4 @@
-import { background, border, cn } from '../../styles/theme';
+import { cn } from '../../styles/theme';
 
 type SkeletonReact = {
   className?: string;
@@ -12,8 +12,8 @@ export function Skeleton({ className }: SkeletonReact) {
     <div
       className={cn(
         'animate-pulse bg-opacity-50',
-        background.alternate,
-        border.radius,
+        'bg-ock-bg-alternate',
+        'rounded-ock-default',
         className,
       )}
       data-testid="ockSkeleton"

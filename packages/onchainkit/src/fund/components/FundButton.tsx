@@ -1,20 +1,17 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTheme } from '../../internal/hooks/useTheme';
-import { border, cn, color, pressable, text } from '../../styles/theme';
-
-import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
-import { ErrorSvg } from '@/internal/svg/errorSvg';
-import { openPopup } from '@/internal/utils/openPopup';
-import { useMemo } from 'react';
+import { cn, pressable, text } from '../../styles/theme';
 import { useAccount } from 'wagmi';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
+import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
+import { ErrorSvg } from '@/internal/svg/errorSvg';
+import { openPopup } from '@/internal/utils/openPopup';
 import { Spinner } from '../../internal/components/Spinner';
 import { AddSvg } from '../../internal/svg/addSvg';
 import { SuccessSvg } from '../../internal/svg/successSvg';
-import { background } from '../../styles/theme';
 import { ConnectWallet } from '../../wallet/components/ConnectWallet';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonProps } from '../types';
@@ -110,7 +107,7 @@ export function FundButton({
 
   const buttonColorClass = useMemo(() => {
     if (buttonState === 'error') {
-      return background.error;
+      return 'bg-ock-bg-error';
     }
     return pressable.primary;
   }, [buttonState]);
@@ -118,13 +115,12 @@ export function FundButton({
   const classNames = cn(
     componentTheme,
     buttonColorClass,
-    'px-4 py-3 inline-flex items-center justify-center space-x-2',
+    'rounded-ock-defaultpx-4 py-3 inline-flex items-center justify-center space-x-2',
     {
       [pressable.disabled]: isDisabled,
     },
     text.headline,
-    border.radius,
-    color.inverse,
+    'text-ock-text-inverse',
     className,
   );
 
@@ -133,9 +129,9 @@ export function FundButton({
       case 'loading':
         return '';
       case 'success':
-        return <SuccessSvg fill="#F9FAFB" />;
+        return <SuccessSvg className="fill-[#F9FAFB]" />;
       case 'error':
-        return <ErrorSvg fill="#F9FAFB" />;
+        return <ErrorSvg className="fill-[#F9FAFB]" />;
       default:
         return <AddSvg />;
     }

@@ -88,8 +88,8 @@ function SwapComponent() {
           <div className="mx-auto w-2/3 rounded-md bg-muted p-6 text-sm">
             Swap Demo is only available on Base.
             <br />
-            You're connected to a different network. Switch to Base to continue
-            using the app.
+            You&apos;re connected to a different network. Switch to Base to
+            continue using the app.
           </div>
         </div>
       ) : (

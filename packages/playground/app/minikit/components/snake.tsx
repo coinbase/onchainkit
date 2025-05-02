@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, {
   useEffect,
@@ -9,8 +9,8 @@ import React, {
   useCallback,
   createContext,
   useContext,
-} from "react";
-import { useOpenUrl, useNotification } from "@coinbase/onchainkit/minikit";
+} from 'react';
+import { useOpenUrl, useNotification } from '@coinbase/onchainkit/minikit';
 import {
   Transaction,
   TransactionButton,
@@ -19,40 +19,39 @@ import {
   TransactionToastIcon,
   TransactionToastLabel,
   TransactionError,
-} from "@coinbase/onchainkit/transaction";
+} from '@coinbase/onchainkit/transaction';
 import {
   ConnectWallet,
-  ConnectWalletText,
   Wallet,
   WalletDropdown,
   WalletDropdownDisconnect,
-} from "@coinbase/onchainkit/wallet";
+} from '@coinbase/onchainkit/wallet';
 import {
   Name,
   Identity,
   EthBalance,
   Address,
   Avatar,
-} from "@coinbase/onchainkit/identity";
-import { useAccount } from "wagmi";
-import { encodeAbiParameters, type Address as AddressType } from "viem";
-import ArrowSvg from "../svg/ArrowSvg";
-import SnakeLogo from "../svg/SnakeLogo";
+} from '@coinbase/onchainkit/identity';
+import { useAccount } from 'wagmi';
+import { encodeAbiParameters, type Address as AddressType } from 'viem';
+import ArrowSvg from '../svg/ArrowSvg';
+import SnakeLogo from '../svg/SnakeLogo';
 
 const MAX_SCORES = 8;
 const FPS = 60;
 const MS_PER_FRAME = 1000 / FPS;
 const COLORS = {
-  blue: "#0052FF",
-  white: "#FFFFFF",
-  black: "#000000",
+  blue: '#0052FF',
+  white: '#FFFFFF',
+  black: '#000000',
   random: () =>
     `#${Math.floor(Math.random() * 12582912)
       .toString(16)
-      .padStart(6, "0")}`,
+      .padStart(6, '0')}`,
 };
 const NUM_TARGETS_PER_LEVEL = 10;
-const EAS_GRAPHQL_URL = "https://base.easscan.org/graphql";
+const EAS_GRAPHQL_URL = 'https://base.easscan.org/graphql';
 
 const GameState = {
   INTRO: 0,
@@ -79,7 +78,12 @@ export type Score = {
 };
 
 const LevelMaps: {
-  [key: number]: { x1: number; y1: number; width: number; height: number }[];
+  [key: number]: Array<{
+    x1: number;
+    y1: number;
+    width: number;
+    height: number;
+  }>;
 } = {
   1: [
     { x1: 0, y1: 0, width: 10, height: 500 },
@@ -156,15 +160,15 @@ async function fetchLastAttestations() {
   `;
 
   const response = await fetch(EAS_GRAPHQL_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query }),
   });
 
   const { data } = await response.json();
   return (data?.attestations ?? [])
     .reduce((acc: Score[], attestation: Attestation) => {
-      const parsedData = JSON.parse(attestation?.decodedDataJson ?? "[]");
+      const parsedData = JSON.parse(attestation?.decodedDataJson ?? '[]');
       const pattern = /(0x[a-fA-F0-9]{40}) scored (\d+) on minikit/;
       const match = parsedData[0].value?.value?.match(pattern);
       if (match) {
@@ -203,9 +207,9 @@ function useKonami(gameState: number) {
       if (newSequence.length > CODE.length) {
         newSequence.shift();
       }
-      if (newSequence.join(",") === CODE.join(",")) {
+      if (newSequence.join(',') === CODE.join(',')) {
         setKonami(true);
-        console.log("Slow motion activated!");
+        console.log('Slow motion activated!');
       } else {
         setSequence(newSequence);
       }
@@ -230,7 +234,7 @@ export function useHighScores() {
   const context = useContext(HighScoresContext);
   if (context === emptyHighScoresContext) {
     throw new Error(
-      "useHighScores must be used within an HighScoresProvider component",
+      'useHighScores must be used within an HighScoresProvider component',
     );
   }
   return context;
@@ -303,8 +307,8 @@ function ControlButton({ children, onClick, className }: ControlButtonProps) {
         transition-all duration-150 border-[1px] border-[#0052FF] ${className}
         ${
           isPressed
-            ? "translate-y-1 [box-shadow:0_0px_0_0_#002299,0_0px_0_0_#0033cc33] border-b-[0px]"
-            : "[box-shadow:0_5px_0_0_#002299,0_8px_0_0_#0033cc33]"
+            ? 'translate-y-1 [box-shadow:0_0px_0_0_#002299,0_0px_0_0_#0033cc33] border-b-[0px]'
+            : '[box-shadow:0_5px_0_0_#002299,0_8px_0_0_#0033cc33]'
         }`}
       onPointerDown={() => setIsPressed(true)}
       onPointerUp={() => setIsPressed(false)}
@@ -319,9 +323,7 @@ function ControlButton({ children, onClick, className }: ControlButtonProps) {
 function WalletControl() {
   return (
     <Wallet className="[&>div:nth-child(2)]:!opacity-20 md:[&>div:nth-child(2)]:!opacity-100">
-      <ConnectWallet className="w-12 h-12 bg-[#0052FF] rounded-full hover:bg-[#0052FF] focus:bg-[#0052FF] cursor-pointer select-none transition-all duration-150 border-[1px] border-[#0052FF] min-w-12 [box-shadow:0_5px_0_0_#002299,0_8px_0_0_#0033cc33]">
-        <ConnectWalletText>{""}</ConnectWalletText>
-      </ConnectWallet>
+      <ConnectWallet className="w-12 h-12 bg-[#0052FF] rounded-full hover:bg-[#0052FF] focus:bg-[#0052FF] cursor-pointer select-none transition-all duration-150 border-[1px] border-[#0052FF] min-w-12 [box-shadow:0_5px_0_0_#002299,0_8px_0_0_#0033cc33]"></ConnectWallet>
       <WalletDropdown>
         <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
           <Avatar />
@@ -351,13 +353,13 @@ function ControlButtons({
       <div className="absolute left-8 top-16 w-24">
         <ControlButton className="block" onClick={handleMobileGameState} />
         <div className="ml-6 w-16 text-center -rotate-45 leading-[1.2]">
-          {gameState === GameState.RUNNING ? "PAUSE" : "PLAY"}
+          {gameState === GameState.RUNNING ? 'PAUSE' : 'PLAY'}
         </div>
       </div>
       <div className="absolute right-0 top-4 w-24">
         <WalletControl />
         <div className="ml-4 w-20 text-center -rotate-45 leading-[1.2]">
-          {address ? "LOGOUT" : "LOGIN"}
+          {address ? 'LOGOUT' : 'LOGIN'}
         </div>
       </div>
     </>
@@ -445,35 +447,35 @@ function AwaitingNextLevel({ score, level }: AwaitingNextLevelProps) {
 }
 
 export const SCHEMA_UID =
-  "0xdc3cf7f28b4b5255ce732cbf99fe906a5bc13fbd764e2463ba6034b4e1881835";
-const EAS_CONTRACT = "0x4200000000000000000000000000000000000021";
+  '0xdc3cf7f28b4b5255ce732cbf99fe906a5bc13fbd764e2463ba6034b4e1881835';
+const EAS_CONTRACT = '0x4200000000000000000000000000000000000021';
 const easABI = [
   {
-    name: "attest",
-    type: "function" as const,
-    stateMutability: "payable" as const,
+    name: 'attest',
+    type: 'function' as const,
+    stateMutability: 'payable' as const,
     inputs: [
       {
-        name: "request",
-        type: "tuple",
+        name: 'request',
+        type: 'tuple',
         components: [
-          { name: "schema", type: "bytes32" },
+          { name: 'schema', type: 'bytes32' },
           {
-            name: "data",
-            type: "tuple",
+            name: 'data',
+            type: 'tuple',
             components: [
-              { name: "recipient", type: "address" },
-              { name: "expirationTime", type: "uint64" },
-              { name: "revocable", type: "bool" },
-              { name: "refUID", type: "bytes32" },
-              { name: "data", type: "bytes" },
-              { name: "value", type: "uint256" },
+              { name: 'recipient', type: 'address' },
+              { name: 'expirationTime', type: 'uint64' },
+              { name: 'revocable', type: 'bool' },
+              { name: 'refUID', type: 'bytes32' },
+              { name: 'data', type: 'bytes' },
+              { name: 'value', type: 'uint256' },
             ],
           },
         ],
       },
     ],
-    outputs: [{ name: "", type: "bytes32" }],
+    outputs: [{ name: '', type: 'bytes32' }],
   },
 ];
 
@@ -496,7 +498,7 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
     }
 
     await sendNotification({
-      title: "Congratulations!",
+      title: 'Congratulations!',
       body: `You scored a new high score of ${score} on minikit!`,
     });
 
@@ -507,9 +509,7 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
     if (!address) {
       return (
         <Wallet>
-          <ConnectWallet>
-            <ConnectWalletText>Login to save your high score</ConnectWalletText>
-          </ConnectWallet>
+          <ConnectWallet>Login to save your high score</ConnectWallet>
         </Wallet>
       );
     }
@@ -520,7 +520,7 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
           {
             address: EAS_CONTRACT,
             abi: easABI,
-            functionName: "attest",
+            functionName: 'attest',
             args: [
               {
                 schema: SCHEMA_UID,
@@ -529,9 +529,9 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
                   expirationTime: BigInt(0),
                   revocable: false,
                   refUID:
-                    "0x0000000000000000000000000000000000000000000000000000000000000000",
+                    '0x0000000000000000000000000000000000000000000000000000000000000000',
                   data: encodeAbiParameters(
-                    [{ type: "string" }],
+                    [{ type: 'string' }],
                     [`${address} scored ${score} on minikit`],
                   ),
                   value: BigInt(0),
@@ -542,14 +542,14 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
         ]}
         onSuccess={handleAttestationSuccess}
         onError={(error: TransactionError) =>
-          console.error("Attestation failed:", error)
+          console.error('Attestation failed:', error)
         }
       >
         <TransactionButton
           text="Submit to save high score"
           className="mx-auto w-[60%]"
           successOverride={{
-            text: "View High Scores",
+            text: 'View High Scores',
             onClick: onGoToIntro,
           }}
         />
@@ -564,14 +564,14 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
 
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/70 z-20 m-[10px] mb-[30px]">
-      <h1 className="text-6xl mb-4">{isWin ? "YOU WON!" : "GAME OVER"}</h1>
+      <h1 className="text-6xl mb-4">{isWin ? 'YOU WON!' : 'GAME OVER'}</h1>
       {isHighScore && <p className="text-2xl mb-4">You got a high score!</p>}
       <Stats score={score} level={level} width={250} />
       {isHighScore && address && (
         <fieldset className="border-2 border-gray-300 rounded-md mb-4">
           <legend className="text-sm">Attestation</legend>
           <div className="text-gray-800 px-2 py-1 italic">
-            <Address className="text-inherit" address={address} /> scored{" "}
+            <Address className="text-inherit" address={address} /> scored{' '}
             {score} on minikit
           </div>
         </fieldset>
@@ -731,7 +731,7 @@ const Sammy = () => {
             segments: [],
           });
           setScore({ points: getStartingScore(1), total: 0 });
-          setTarget({ exists: false, num: 0, x: 0, y: 0, color: "" });
+          setTarget({ exists: false, num: 0, x: 0, y: 0, color: '' });
           setLevel(1);
           return GameState.RUNNING;
         case GameState.AWAITINGNEXTLEVEL:
@@ -747,7 +747,7 @@ const Sammy = () => {
             ...prevScore,
             points: getStartingScore(levelRef.current + 1),
           }));
-          setTarget({ exists: false, num: 0, x: 0, y: 0, color: "" });
+          setTarget({ exists: false, num: 0, x: 0, y: 0, color: '' });
           setLevel(levelRef.current + 1);
           return GameState.RUNNING;
         default:
@@ -767,8 +767,8 @@ const Sammy = () => {
       );
     };
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
@@ -778,9 +778,9 @@ const Sammy = () => {
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       const newDirection = DIRECTION_MAP[e.code];
-      if (newDirection || e.code === "Space") {
+      if (newDirection || e.code === 'Space') {
         e.preventDefault();
-        if (e.code === "Space") {
+        if (e.code === 'Space') {
           updateGameState();
         } else {
           setSammy((prev) => ({
@@ -792,12 +792,12 @@ const Sammy = () => {
       }
     };
 
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
   }, [konami, updateGameState, updateSequence]);
 
   const drawMap = useCallback(() => {
-    const ctx = mapCanvasRef.current?.getContext("2d");
+    const ctx = mapCanvasRef.current?.getContext('2d');
     if (ctx) {
       ctx.clearRect(0, 0, 500, 520);
       ctx.fillStyle = COLORS.white;
@@ -852,7 +852,7 @@ const Sammy = () => {
         });
       }
 
-      const ctx = sammyCanvasRef.current?.getContext("2d");
+      const ctx = sammyCanvasRef.current?.getContext('2d');
       if (ctx) {
         ctx.fillStyle = newTarget.color;
         ctx.fillRect(newTarget.x, newTarget.y, 10, 10);
@@ -951,16 +951,14 @@ const Sammy = () => {
           total: prev.total + prev.points,
         }));
         setTarget((prev) => ({ ...prev, exists: false }));
+      } else if (level === NumberOfMaps) {
+        setGameState(GameState.WON);
       } else {
-        if (level === NumberOfMaps) {
-          setGameState(GameState.WON);
-        } else {
-          setScore((prev) => ({
-            points: getStartingScore(levelRef.current + 1, true),
-            total: prev.total + prev.points,
-          }));
-          setGameState(GameState.AWAITINGNEXTLEVEL);
-        }
+        setScore((prev) => ({
+          points: getStartingScore(levelRef.current + 1, true),
+          total: prev.total + prev.points,
+        }));
+        setGameState(GameState.AWAITINGNEXTLEVEL);
       }
     }
   }, [
@@ -974,10 +972,10 @@ const Sammy = () => {
   ]);
 
   const updateScore = useCallback(() => {
-    const scoreCtx = scoreCanvasRef.current?.getContext("2d");
+    const scoreCtx = scoreCanvasRef.current?.getContext('2d');
     if (scoreCtx) {
       scoreCtx.clearRect(0, 0, 500, 530);
-      scoreCtx.font = "20px Pixelify Sans";
+      scoreCtx.font = '20px Pixelify Sans';
       scoreCtx.fillStyle = COLORS.black;
       scoreCtx.fillText(`Score: ${score.total}`, 10, 520);
       scoreCtx.fillText(`Points: ${score.points}`, 200, 520);
@@ -990,7 +988,7 @@ const Sammy = () => {
       return;
     }
 
-    const ctx = sammyCanvasRef.current?.getContext("2d");
+    const ctx = sammyCanvasRef.current?.getContext('2d');
     if (ctx) {
       ctx.clearRect(0, 0, 500, 520);
 

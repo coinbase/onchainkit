@@ -158,7 +158,7 @@ describe('TokenBalance', () => {
       );
 
       const nameElement = screen.getByText('', {
-        selector: 'span.ock-font-family.font-semibold',
+        selector: 'span.font-ock.font-semibold',
       });
       expect(nameElement).toBeInTheDocument();
     });
