@@ -1,6 +1,7 @@
 import type { EASSchemaUid } from '@/identity/types';
 import type { Address, Chain } from 'viem';
 import type { CreateConnectorFn } from 'wagmi';
+import { type CoinbaseWalletParameters } from 'wagmi/connectors';
 
 /**
  * Note: exported as public Type
@@ -25,6 +26,10 @@ export type AppConfig = {
   wallet?: {
     /** Determines the display style of the wallet modal */
     display?: ConnectWalletDisplay | null;
+    /** Preference for the type of wallet to display for the Coinbase connector. Defaults to 'all' */
+    preference?: Extract<CoinbaseWalletParameters<'4'>['preference'], string>;
+    /** Enable/disable sign up in the wallet modal. Defaults to true*/
+    signUpEnabled?: boolean;
     /** URL to the terms of service for the wallet modal */
     termsUrl?: string | null;
     /** URL to the privacy policy for the wallet modal */

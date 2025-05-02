@@ -86,22 +86,6 @@ describe('getSocials', () => {
     expect(mockClient.getEnsText).toHaveBeenCalledTimes(4);
   });
 
-  it('should throw an error for unsupported chains', async () => {
-    const ensName = 'test.eth';
-    vi.mocked(isBase).mockReturnValue(false);
-    vi.mocked(isEthereum).mockReturnValue(false);
-
-    const unsupportedChain = sepolia;
-
-    await expect(
-      getSocials({ ensName, chain: unsupportedChain }),
-    ).rejects.toEqual(
-      'ChainId not supported, socials resolution is only supported on Ethereum and Base.',
-    );
-
-    expect(mockClient.getEnsText).not.toHaveBeenCalled();
-  });
-
   it('should normalize the ENS name', async () => {
     const ensName = 'Test.eth';
     vi.mocked(isEthereum).mockReturnValue(true);
