@@ -5,7 +5,7 @@ import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { quoteResponseDataMock } from '../mocks';
-import type { FundCardProviderReact } from '../types';
+import type { FundCardProviderProps } from '../types';
 import { FundCardAmountInput } from './FundCardAmountInput';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
 
@@ -55,7 +55,7 @@ describe('FundCardAmountInput', () => {
   };
 
   const renderWithProvider = (
-    initialProps: Partial<FundCardProviderReact> = {},
+    initialProps: Partial<FundCardProviderProps> = {},
   ) => {
     return render(
       <FundCardProvider asset="ETH" country="US" {...initialProps}>

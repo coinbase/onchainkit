@@ -1,16 +1,22 @@
 'use client';
+import { Spinner } from '@/internal/components/Spinner';
+import { ErrorSvg } from '@/internal/svg/errorSvg';
+import { SuccessSvg } from '@/internal/svg/successSvg';
 import { useCallback, useMemo } from 'react';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
+import { FundCardSubmitButtonProps } from '../types';
 import { FundButton } from './FundButton';
 import { useFundContext } from './FundCardProvider';
 
-export function FundCardSubmitButton() {
+export function FundCardSubmitButton({
+  children,
+  render,
+}: FundCardSubmitButtonProps) {
   const {
     fundAmountFiat,
     fundAmountCrypto,
     submitButtonState,
     setSubmitButtonState,
-    buttonText,
     currency,
     updateLifecycleStatus,
   } = useFundContext();
@@ -34,17 +40,78 @@ export function FundCardSubmitButton() {
     [fundAmountCrypto, fundAmountFiat],
   );
 
+  const buttonIcon = useMemo(() => {
+    switch (submitButtonState) {
+      case 'loading':
+        return '';
+      case 'success':
+        return <SuccessSvg fill="#F9FAFB" />;
+      case 'error':
+        return <ErrorSvg fill="#F9FAFB" />;
+      default:
+        return null;
+    }
+  }, [submitButtonState]);
+
+  const buttonTextContent = useMemo(() => {
+    switch (submitButtonState) {
+      case 'loading':
+        return '';
+      case 'success':
+        return 'Success';
+      case 'error':
+        return 'Something went wrong';
+      default:
+        return 'Buy';
+    }
+  }, [submitButtonState]);
+
+  const buttonContent = useMemo(() => {
+    if (submitButtonState === 'loading') {
+      return <Spinner />;
+    }
+
+    return (
+      <>
+        {buttonIcon && (
+          <span
+            data-testid="ockFundButtonIcon"
+            className="flex h-6 items-center"
+          >
+            {buttonIcon}
+          </span>
+        )}
+        <span data-testid="ockFundButtonTextContent">{buttonTextContent}</span>
+      </>
+    );
+  }, [submitButtonState, buttonIcon, buttonTextContent]);
+
+  // FundButton accepts render prop or children but not both
+  if (render) {
+    return (
+      <FundButton
+        disabled={isButtonDisabled}
+        fundingUrl={fundingUrl}
+        state={submitButtonState}
+        onClick={handleOnClick}
+        onPopupClose={handleOnPopupClose}
+        fiatCurrency={currency}
+        render={render}
+      />
+    );
+  }
+
   return (
     <FundButton
       disabled={isButtonDisabled}
-      hideIcon={submitButtonState === 'default'}
-      text={buttonText}
       className="w-full"
       fundingUrl={fundingUrl}
       state={submitButtonState}
       onClick={handleOnClick}
       onPopupClose={handleOnPopupClose}
       fiatCurrency={currency}
-    />
+    >
+      {children || buttonContent}
+    </FundButton>
   );
 }

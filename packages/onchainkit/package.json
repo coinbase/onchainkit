@@ -12,8 +12,8 @@
     "dev": "concurrently \"pnpm tailwind:dev\" \"pnpm bundle:dev\"",
     "bundle:dev": "NODE_ENV=development vite build --watch",
     "bundle:prod": "vite build",
-    "tailwind:dev": "tailwind -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --watch",
-    "tailwind:prod": "tailwindcss -i ./src/styles/index.css -o ./dist/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --minify",
+    "tailwind:dev": "tailwindcss -i ./src/styles/index.css -o ./dist/styles.css --watch",
+    "tailwind:prod": "tailwindcss -i ./src/styles/index.css -o ./dist/styles.css --minify",
     "clean": "rm -rf dist esm",
     "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
@@ -44,6 +44,7 @@
     "wagmi": "^2.14.11"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "^4.1.4",
     "@testing-library/jest-dom": "6.4.7",
     "@testing-library/react": "^14.2.0",
     "@testing-library/user-event": "^14.6.1",
@@ -70,7 +71,7 @@
     "rimraf": "^5.0.5",
     "rollup-plugin-preserve-use-client": "^3.0.1",
     "storybook": "^8.2.9",
-    "tailwindcss": "^3.4.3",
+    "tailwindcss": "^4.1.4",
     "tailwindcss-animate": "^1.0.7",
     "tscpaths": "^0.0.9",
     "tsup": "^8.3.5",
@@ -97,7 +98,6 @@
   "exports": {
     "./package.json": "./package.json",
     "./styles.css": "./dist/styles.css",
-    "./tailwind.css": "./dist/tailwind.css",
     "./theme": "./dist/styles/theme.js",
     ".": {
       "types": "./dist/index.d.ts",

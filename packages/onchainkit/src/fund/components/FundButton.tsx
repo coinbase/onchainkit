@@ -17,27 +17,23 @@ import { SuccessSvg } from '../../internal/svg/successSvg';
 import { background } from '../../styles/theme';
 import { ConnectWallet } from '../../wallet/components/ConnectWallet';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
-import type { FundButtonReact } from '../types';
+import type { FundButtonProps } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 
 export function FundButton({
   className,
+  children,
   disabled = false,
   fundingUrl,
-  hideIcon = false,
-  hideText = false,
   openIn = 'popup',
   popupSize = 'md',
-  rel,
   target,
-  text: buttonText = 'Fund',
-  successText: buttonSuccessText = 'Success',
-  errorText: buttonErrorText = 'Something went wrong',
   state: buttonState = 'default',
   fiatCurrency = 'USD',
   onPopupClose,
   onClick,
-}: FundButtonReact) {
+  render,
+}: FundButtonProps) {
   const componentTheme = useTheme();
   // If the fundingUrl prop is undefined, fallback to our recommended funding URL based on the wallet type
   const fallbackFundingUrl = useGetFundingUrl({
@@ -72,6 +68,13 @@ export function FundButton({
     (e: React.MouseEvent) => {
       e.preventDefault();
 
+      if (fundingUrlToRender && openIn === 'tab') {
+        handleAnalyticsInitiated();
+        onClick?.();
+        window.open(fundingUrlToRender, '_blank');
+        return;
+      }
+
       if (fundingUrlToRender) {
         handleAnalyticsInitiated();
         onClick?.();
@@ -95,11 +98,12 @@ export function FundButton({
     },
     [
       fundingUrlToRender,
+      openIn,
+      handleAnalyticsInitiated,
+      onClick,
       popupSize,
       target,
-      onClick,
       startPopupMonitor,
-      handleAnalyticsInitiated,
       handleAnalyticsFailure,
     ],
   );
@@ -125,9 +129,6 @@ export function FundButton({
   );
 
   const buttonIcon = useMemo(() => {
-    if (hideIcon) {
-      return null;
-    }
     switch (buttonState) {
       case 'loading':
         return '';
@@ -138,20 +139,20 @@ export function FundButton({
       default:
         return <AddSvg />;
     }
-  }, [buttonState, hideIcon]);
+  }, [buttonState]);
 
   const buttonTextContent = useMemo(() => {
     switch (buttonState) {
       case 'loading':
         return '';
       case 'success':
-        return buttonSuccessText;
+        return 'Success';
       case 'error':
-        return buttonErrorText;
+        return 'Something went wrong';
       default:
-        return buttonText;
+        return 'Fund';
     }
-  }, [buttonState, buttonSuccessText, buttonErrorText, buttonText]);
+  }, [buttonState]);
 
   const buttonContent = useMemo(() => {
     if (buttonState === 'loading') {
@@ -168,31 +169,21 @@ export function FundButton({
             {buttonIcon}
           </span>
         )}
-        {hideText || (
-          <span data-testid="ockFundButtonTextContent">
-            {buttonTextContent}
-          </span>
-        )}
+        <span data-testid="ockFundButtonTextContent">{buttonTextContent}</span>
       </>
     );
-  }, [buttonState, buttonIcon, buttonTextContent, hideText]);
-
-  if (openIn === 'tab') {
-    return (
-      <a
-        className={classNames}
-        href={fundingUrlToRender}
-        // If openIn is 'tab', default target to _blank so we don't accidentally navigate in the current tab
-        target={target ?? '_blank'}
-        rel={rel}
-      >
-        {buttonContent}
-      </a>
-    );
-  }
+  }, [buttonState, buttonIcon, buttonTextContent]);
 
   if (shouldShowConnectWallet) {
     return <ConnectWallet className={cn('w-full', className)} />;
+  }
+
+  if (render) {
+    return render({
+      status: buttonState,
+      onClick: handleClick,
+      isDisabled,
+    });
   }
 
   return (
@@ -203,7 +194,7 @@ export function FundButton({
       disabled={isDisabled}
       data-testid="ockFundButton"
     >
-      {buttonContent}
+      {children ?? buttonContent}
     </button>
   );
 }

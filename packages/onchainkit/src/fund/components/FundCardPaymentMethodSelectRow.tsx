@@ -9,7 +9,7 @@ import {
   pressable,
   text,
 } from '../../styles/theme';
-import type { FundCardPaymentMethodSelectRowPropsReact } from '../types';
+import type { FundCardPaymentMethodSelectRowProps } from '../types';
 import { FundCardPaymentMethodImage } from './FundCardPaymentMethodImage';
 
 export const FundCardPaymentMethodSelectRow = memo(
@@ -21,7 +21,7 @@ export const FundCardPaymentMethodSelectRow = memo(
     disabled,
     disabledReason,
     testId,
-  }: FundCardPaymentMethodSelectRowPropsReact) => {
+  }: FundCardPaymentMethodSelectRowProps) => {
     const { sendAnalytics } = useAnalytics();
 
     const handleOnClick = useCallback(() => {
