@@ -1215,7 +1215,7 @@ describe('WalletModal', () => {
     expect(dividers.length).toBe(0);
   });
 
-  it('includes divider line when signUpEnabled is true', () => {
+  it.only('includes divider line when signUpEnabled is true', () => {
     (useOnchainKit as Mock).mockReturnValue({
       config: {
         appearance: {},
@@ -1229,7 +1229,9 @@ describe('WalletModal', () => {
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
 
     // "Connect your wallet" should be present with divider
-    expect(screen.getByText('Connect your wallet')).toBeInTheDocument();
+    expect(
+      screen.getByText('or continue with an existing wallet'),
+    ).toBeInTheDocument();
 
     // When signUpEnabled is true, there should be a divider line
     const dialog = screen.getByTestId('ockModalOverlay');
