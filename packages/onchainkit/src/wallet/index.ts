@@ -1,7 +1,6 @@
 // 🌲☀🌲
 // Components
 export { Wallet } from './components/Wallet';
-export { WalletDefault } from './components/WalletDefault';
 export { ConnectWallet } from './components/ConnectWallet';
 export { WalletIsland } from './components/WalletIsland';
 export { WalletDropdown } from './components/WalletDropdown';
