@@ -18,12 +18,8 @@ import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandle
 import { getSendCalldata } from '../utils/getSendCalldata';
 import { useSendContext } from './SendProvider';
 
-type SendButtonProps = {
-  isSponsored?: boolean;
-};
-
-export function SendButton({ isSponsored = false }: SendButtonProps) {
-  const { chain: senderChain } = useWalletContext();
+export function SendButton() {
+  const { chain: senderChain, isSponsored } = useWalletContext();
   const {
     recipientState,
     cryptoAmount: inputAmount,
