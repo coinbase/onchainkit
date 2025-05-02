@@ -135,6 +135,7 @@ describe('SendButton', () => {
     mockUseWalletContext.mockReturnValue({
       ...mockWalletContext,
       ...mockWalletAdvancedContext,
+      isSponsored: false,
     });
     mockUseSendContext.mockReturnValue(mockSendContext);
     mockUseTransactionContext.mockReturnValue(mockTransactionContext);
@@ -162,17 +163,6 @@ describe('SendButton', () => {
     expect(
       screen.getByTestId('mock-transaction-status-action'),
     ).toBeInTheDocument();
-  });
-
-  it('passes isSponsored prop to Transaction', () => {
-    render(<SendButton isSponsored={true} />);
-
-    expect(Transaction).toHaveBeenCalledWith(
-      expect.objectContaining({
-        isSponsored: true,
-      }),
-      {},
-    );
   });
 
   it('disables button when input amount is invalid', () => {
