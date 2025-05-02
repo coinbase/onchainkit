@@ -315,7 +315,9 @@ export function WalletModal({
                   'px-2',
                 )}
               >
-                Connect your wallet
+                {isSignUpEnabled
+                  ? 'or continue with an existing wallet'
+                  : 'Connect your wallet'}
               </span>
             </div>
           </div>
