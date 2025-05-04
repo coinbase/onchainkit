@@ -23,6 +23,7 @@ const COMPONENT_CONFIG: Partial<
   Record<OnchainKitComponent, (() => React.JSX.Element)[]>
 > = {
   [OnchainKitComponent.Buy]: [Chain, PaymasterUrl, IsSponsored, SwapConfig],
+  [OnchainKitComponent.WalletIsland]: [PaymasterUrl, IsSponsored],
   [OnchainKitComponent.Checkout]: [
     Chain,
     PaymasterUrl,
