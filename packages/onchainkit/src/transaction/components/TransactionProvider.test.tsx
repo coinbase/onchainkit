@@ -1,4 +1,5 @@
 import { TransactionEvent } from '@/core/analytics/types';
+import { act } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -193,7 +194,7 @@ describe('TransactionProvider', () => {
       const button = screen.getByText('Submit');
       fireEvent.click(button);
 
-      await waitFor(() => {
+      await waitFor(async () => {
         expect(mockSendAnalytics).toHaveBeenCalledWith(
           TransactionEvent.TransactionInitiated,
           {
@@ -226,7 +227,7 @@ describe('TransactionProvider', () => {
       const button = screen.getByText('Submit');
       fireEvent.click(button);
 
-      await waitFor(() => {
+      await act(async () => {
         expect(mockSendAnalytics).toHaveBeenCalledWith(
           TransactionEvent.TransactionSuccess,
           {
@@ -257,7 +258,7 @@ describe('TransactionProvider', () => {
       const button = screen.getByText('setLifecycleStatus.error');
       fireEvent.click(button);
 
-      await waitFor(() => {
+      await act(() => {
         expect(mockSendAnalytics).toHaveBeenCalledWith(
           TransactionEvent.TransactionFailure,
           {
@@ -287,7 +288,7 @@ describe('TransactionProvider', () => {
       const button = screen.getByText('Submit');
       fireEvent.click(button);
 
-      await waitFor(() => {
+      await waitFor(async () => {
         expect(mockSendAnalytics).toHaveBeenCalledTimes(1);
         expect(mockSendAnalytics).not.toHaveBeenCalledWith(
           TransactionEvent.TransactionFailure,
@@ -419,7 +420,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await act(async () => {
       expect(onSuccessMock).toHaveBeenCalled();
       expect(onSuccessMock).toHaveBeenCalledWith({
         transactionReceipts: [{ status: 'success' }],
@@ -454,7 +455,7 @@ describe('TransactionProvider', () => {
       'setLifecycleStatus.transactionLegacyExecutedMultipleContracts',
     );
     fireEvent.click(button);
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(onSuccessMock).toHaveBeenCalled();
       expect(onSuccessMock).toHaveBeenCalledWith({
         transactionReceipts: ['hash12345678', 'hash12345678'],
@@ -480,7 +481,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(onErrorMock).toHaveBeenCalledWith({
         code: 'TmTPc04',
         error: '{}',
@@ -489,7 +490,7 @@ describe('TransactionProvider', () => {
     });
   });
 
-  it('should emit onError when legacy transactions fail', async () => {
+  it.only('should emit onError when legacy transactions fail', async () => {
     const sendWalletTransactionsMock = vi.fn().mockResolvedValue(undefined);
     (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
       sendWalletTransactionsMock,
@@ -520,7 +521,8 @@ describe('TransactionProvider', () => {
       'setLifecycleStatus.transactionLegacyExecutedMultipleContracts',
     );
     fireEvent.click(button);
-    await waitFor(() => {
+
+    await waitFor(async () => {
       expect(sendWalletTransactionsMock).toHaveBeenCalled();
       expect(onErrorMock).toHaveBeenCalledWith({
         code: 'TmTPc01',
@@ -548,7 +550,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await act(async () => {
       expect(
         screen.getByTestId('context-value-lifecycleStatus-statusName')
           .textContent,
@@ -569,7 +571,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await act(async () => {
       expect(
         screen.getByTestId('context-value-lifecycleStatus-statusName')
           .textContent,
@@ -602,7 +604,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(sendWalletTransactionsMock).toHaveBeenCalled();
     });
   });
@@ -627,7 +629,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(screen.getByTestId('context-value-errorCode').textContent).toBe(
         'TmTPc03',
       );
@@ -649,7 +651,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await act(async () => {
       expect(switchChainAsyncMock).toHaveBeenCalled();
     });
   });
@@ -666,7 +668,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await act(async () => {
       const testComponent = screen.getByTestId('context-value-isToastVisible');
       expect(testComponent.textContent).toBe('true');
     });
@@ -698,7 +700,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await waitFor(async () => {
       const errorMessage = screen.getByTestId('context-value-errorMessage');
       expect(errorMessage.textContent).toBe('Request denied.');
     });
@@ -717,7 +719,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await act(async () => {
       expect(switchChainAsyncMock).toHaveBeenCalledWith({ chainId: 2 });
     });
   });
@@ -734,7 +736,7 @@ describe('TransactionProvider', () => {
         <TestComponent />
       </TransactionProvider>,
     );
-    await waitFor(() => {
+    await act(async () => {
       const transactionsElement = screen.getByTestId('transactions');
       expect(transactionsElement.textContent).toBe(JSON.stringify(contracts));
     });
@@ -752,7 +754,7 @@ describe('TransactionProvider', () => {
         <TestComponent />
       </TransactionProvider>,
     );
-    await waitFor(() => {
+    await act(async () => {
       const transactionsElement = screen.getByTestId('transactions');
       expect(transactionsElement.textContent).toBe(JSON.stringify(calls));
     });

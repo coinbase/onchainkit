@@ -250,6 +250,7 @@ export function TransactionProvider({
             message: GENERIC_ERROR_MESSAGE,
           },
         });
+        return;
       }
     }
     setLifecycleStatus({
