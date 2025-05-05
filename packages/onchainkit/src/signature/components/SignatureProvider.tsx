@@ -7,7 +7,7 @@ import { isUserRejectedRequestError } from '@/transaction/utils/isUserRejectedRe
 import { useSignData } from '../hooks/useSignData';
 import { type LifecycleStatus, type MessageData } from '../types';
 
-type SignatureContextType = {
+export type SignatureContextType = {
   lifecycleStatus: LifecycleStatus;
   handleSign: () => Promise<void>;
 };

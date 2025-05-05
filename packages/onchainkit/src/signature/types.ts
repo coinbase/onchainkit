@@ -3,6 +3,7 @@ import type {
   SignTypedDataParameters,
 } from 'wagmi/actions';
 import type { APIError } from '@/api/types';
+import { ReactNode } from 'react';
 
 export type { SignatureProps } from './components/Signature';
 export type { SignatureProviderProps } from './components/SignatureProvider';
@@ -52,3 +53,23 @@ export type LifecycleStatus =
       statusName: 'reset';
       statusData: null;
     };
+
+export type WithRenderProps<
+  TProps extends {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    render?: (arg: any) => ReactNode;
+  },
+  TExclude extends string = 'className' | 'children',
+> = Omit<TProps, TExclude | 'render'> &
+  (
+    | ({
+        render?: TProps['render'];
+      } & {
+        [K in TExclude]?: undefined;
+      })
+    | ({
+        render?: never;
+      } & {
+        [K in TExclude]?: K extends keyof TProps ? TProps[K] : never;
+      })
+  );

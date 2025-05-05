@@ -1,24 +1,33 @@
 import { type ReactNode, useMemo } from 'react';
-import { useSignatureContext } from './SignatureProvider';
-import { Button } from '@/ui/Button';
 import { useAccount } from 'wagmi';
+import { Button } from '@/ui/Button';
 import { ConnectWallet } from '@/wallet';
+import {
+  type SignatureContextType,
+  useSignatureContext,
+} from './SignatureProvider';
+import { WithRenderProps } from '../types';
 
-type SignatureButtonProps = {
-  className?: string;
-  disabled?: boolean;
-  label?: ReactNode;
-  errorLabel?: ReactNode;
-  successLabel?: ReactNode;
-  pendingLabel?: ReactNode;
-  render?: ({
-    label,
-    onClick,
-  }: {
-    label: ReactNode;
-    onClick: () => void;
-  }) => ReactNode;
-};
+type SignatureButtonProps = WithRenderProps<
+  {
+    className?: string;
+    disabled?: boolean;
+    label?: ReactNode;
+    errorLabel?: ReactNode;
+    successLabel?: ReactNode;
+    pendingLabel?: ReactNode;
+    render?: ({
+      label,
+      onClick,
+      context,
+    }: {
+      label: ReactNode;
+      onClick: () => void;
+      context: SignatureContextType;
+    }) => ReactNode;
+  },
+  'className' | 'children' | 'label'
+>;
 
 export function SignatureButton({
   className,
@@ -31,10 +40,12 @@ export function SignatureButton({
 }: SignatureButtonProps) {
   const { address } = useAccount();
 
+  const context = useSignatureContext();
+
   const {
     handleSign,
     lifecycleStatus: { statusName },
-  } = useSignatureContext();
+  } = context;
 
   const buttonLabel = useMemo(() => {
     if (statusName === 'pending') return pendingLabel;
@@ -49,6 +60,7 @@ export function SignatureButton({
     return render({
       label: buttonLabel,
       onClick: handleSign,
+      context,
     });
   }
 

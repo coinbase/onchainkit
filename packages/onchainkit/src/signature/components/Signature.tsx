@@ -21,9 +21,9 @@ export type SignatureProps = {
   resetAfter?: number;
 } & (
   | {
+      message: SignTypedDataParameters['message'];
       domain?: SignTypedDataParameters['domain'];
       types: SignTypedDataParameters['types'];
-      message: SignTypedDataParameters['message'];
       primaryType: SignTypedDataParameters['primaryType'];
     }
   | {
@@ -67,7 +67,7 @@ export function Signature({
   primaryType,
   children,
   label,
-  disabled = false,
+  disabled,
   onSuccess,
   onStatus,
   onError,
