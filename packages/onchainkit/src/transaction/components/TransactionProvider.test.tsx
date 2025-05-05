@@ -490,7 +490,7 @@ describe('TransactionProvider', () => {
     });
   });
 
-  it.only('should emit onError when legacy transactions fail', async () => {
+  it('should emit onError when legacy transactions fail', async () => {
     const sendWalletTransactionsMock = vi.fn().mockResolvedValue(undefined);
     (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
       sendWalletTransactionsMock,
