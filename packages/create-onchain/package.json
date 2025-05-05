@@ -1,7 +1,7 @@
 {
   "name": "create-onchain",
   "description": "Instantly create onchain applications with OnchainKit.",
-  "version": "0.0.17-alpha.6",
+  "version": "0.0.18",
   "license": "MIT",
   "scripts": {
     "build": "pnpm run clean && pnpm run build:esm+types && pnpm run build:manifest",

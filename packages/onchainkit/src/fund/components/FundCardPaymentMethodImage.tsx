@@ -1,11 +1,11 @@
 import { useIcon } from '../../internal/hooks/useIcon';
 import { cn } from '../../styles/theme';
-import type { FundCardPaymentMethodImagePropsReact } from '../types';
+import type { FundCardPaymentMethodImageProps } from '../types';
 
 export function FundCardPaymentMethodImage({
   className,
   paymentMethod,
-}: FundCardPaymentMethodImagePropsReact) {
+}: FundCardPaymentMethodImageProps) {
   const { icon } = paymentMethod;
 
   const iconSvg = useIcon({ icon });

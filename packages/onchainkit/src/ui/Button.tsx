@@ -1,4 +1,4 @@
-import { border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { type ButtonHTMLAttributes } from 'react';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
@@ -17,9 +17,9 @@ export function Button({
       className={cn(
         pressable.primary,
         disabled && pressable.disabled,
-        border.radius,
+        'rounded-ock-default',
         text.headline,
-        color.inverse,
+        'text-ock-text-inverse',
         'items-center justify-center px-4 py-3',
         className,
       )}

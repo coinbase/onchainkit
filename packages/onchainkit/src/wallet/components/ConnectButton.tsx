@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  border,
-  cn,
-  color,
-  text as dsText,
-  pressable,
-} from '../../styles/theme';
+import { cn, text as dsText, pressable } from '../../styles/theme';
 import type { ConnectButtonReact } from '../types';
 
 export function ConnectButton({
@@ -20,9 +14,9 @@ export function ConnectButton({
       data-testid="ockConnectButton"
       className={cn(
         pressable.primary,
-        border.radius,
+        'rounded-ock-default',
         dsText.headline,
-        color.inverse,
+        'text-ock-text-inverse',
         'inline-flex min-w-[153px] items-center justify-center px-4 py-3',
         className,
       )}

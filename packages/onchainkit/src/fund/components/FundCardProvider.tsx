@@ -15,8 +15,8 @@ import { useOnrampExchangeRate } from '../hooks/useOnrampExchangeRate';
 import { usePaymentMethods } from '../hooks/usePaymentMethods';
 import type {
   AmountInputType,
-  FundButtonStateReact,
-  FundCardProviderReact,
+  FundButtonState,
+  FundCardProviderProps,
   LifecycleStatus,
   OnrampError,
   PaymentMethod,
@@ -38,8 +38,8 @@ type FundCardContextType = {
   setExchangeRate: (exchangeRate: number) => void;
   exchangeRateLoading: boolean;
   setExchangeRateLoading: (loading: boolean) => void;
-  submitButtonState: FundButtonStateReact;
-  setSubmitButtonState: (state: FundButtonStateReact) => void;
+  submitButtonState: FundButtonState;
+  setSubmitButtonState: (state: FundButtonState) => void;
   paymentMethods: PaymentMethod[];
   setPaymentMethods: (paymentMethods: PaymentMethod[]) => void;
   isPaymentMethodsLoading: boolean;
@@ -73,7 +73,7 @@ export function FundCardProvider({
   onStatus,
   onSuccess,
   presetAmountInputs,
-}: FundCardProviderReact) {
+}: FundCardProviderProps) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
     PaymentMethod | undefined
   >();
@@ -86,7 +86,7 @@ export function FundCardProvider({
   const [exchangeRateLoading, setExchangeRateLoading] = useState<boolean>(true);
 
   const [submitButtonState, setSubmitButtonState] =
-    useState<FundButtonStateReact>('default');
+    useState<FundButtonState>('default');
 
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [isPaymentMethodsLoading, setIsPaymentMethodsLoading] =

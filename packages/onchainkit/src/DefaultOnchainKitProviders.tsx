@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { type PropsWithChildren, useMemo } from 'react';
+import { type PropsWithChildren, useMemo, useState } from 'react';
 import { Config, WagmiProvider } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { createWagmiConfig } from './core/createWagmiConfig';
@@ -48,14 +48,20 @@ function WagmiProviderWithDefault({
 }: PropsWithChildren<CreateWagmiConfigParams> & {
   providedWagmiConfig: Config | null;
 }) {
-  if (providedWagmiConfig) return children;
+  const [config] = useState(() => {
+    if (providedWagmiConfig) return providedWagmiConfig;
 
-  const config = createWagmiConfig({
-    apiKey,
-    appName,
-    appLogoUrl,
-    connectors,
+    return createWagmiConfig({
+      apiKey,
+      appName,
+      appLogoUrl,
+      connectors,
+    });
   });
+
+  if (providedWagmiConfig) {
+    return children;
+  }
 
   return <WagmiProvider config={config}>{children}</WagmiProvider>;
 }

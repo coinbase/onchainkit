@@ -2,7 +2,7 @@ import { Spinner } from '@/internal/components/Spinner';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { useMintAnalytics } from '@/nft/hooks/useMintAnalytics';
-import { cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import {
   Transaction,
   TransactionButton,
@@ -168,7 +168,9 @@ export function NFTMintButton({
         </TransactionStatus>
       </Transaction>
       {mintError && (
-        <div className={cn(text.label2, color.foregroundMuted, 'pb-2')}>
+        <div
+          className={cn(text.label2, 'text-ock-text-foreground-muted', 'pb-2')}
+        >
           {mintError}
         </div>
       )}

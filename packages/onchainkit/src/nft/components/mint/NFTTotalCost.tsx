@@ -1,7 +1,7 @@
 import { infoSvg } from '@/internal/svg/infoSvg';
 import { multiplyFloats } from '@/internal/utils/multiplyFloats';
 import { useNFTContext } from '@/nft/components/NFTProvider';
-import { background, border, cn, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { formatAmount } from '@/token/utils/formatAmount';
 import { type ReactNode, useCallback, useMemo, useState } from 'react';
 
@@ -43,9 +43,9 @@ export function NFTTotalCost({
     return (
       <div
         className={cn(
-          background.default,
-          border.radius,
-          border.defaultActive,
+          'bg-ock-bg-default',
+          'rounded-ock-default',
+          'border-ock-bg-default-active',
           'absolute z-10 w-full border',
         )}
       >
