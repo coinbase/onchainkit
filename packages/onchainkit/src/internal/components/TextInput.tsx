@@ -1,7 +1,7 @@
 import {
   type ChangeEvent,
   type InputHTMLAttributes,
-  forwardRef,
+  type Ref,
   useCallback,
 } from 'react';
 import { useDebounce } from '../hooks/useDebounce';
@@ -20,65 +20,62 @@ type TextInputReact = {
   setValue?: (s: string) => void;
   value: string;
   inputValidator?: (s: string) => boolean;
+  ref?: Ref<HTMLInputElement>;
 };
 
-export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
-  (
-    {
-      'aria-label': ariaLabel,
-      className,
-      delayMs = 0,
-      disabled = false,
-      onBlur,
-      onChange,
-      onFocus,
-      placeholder,
-      setValue,
-      inputMode,
-      value,
-      inputValidator = () => true,
-    },
-    ref,
-  ) => {
-    const handleDebounce = useDebounce((value) => {
-      onChange(value);
-    }, delayMs);
+export const TextInput = ({
+  'aria-label': ariaLabel,
+  className,
+  delayMs = 0,
+  disabled = false,
+  onBlur,
+  onChange,
+  onFocus,
+  placeholder,
+  setValue,
+  inputMode,
+  value,
+  inputValidator = () => true,
+  ref,
+}: TextInputReact) => {
+  const handleDebounce = useDebounce((value) => {
+    onChange(value);
+  }, delayMs);
 
-    const handleChange = useCallback(
-      (evt: ChangeEvent<HTMLInputElement>) => {
-        const value = evt.target.value;
+  const handleChange = useCallback(
+    (evt: ChangeEvent<HTMLInputElement>) => {
+      const value = evt.target.value;
 
-        if (inputValidator(value)) {
-          setValue?.(value);
-          if (delayMs > 0) {
-            handleDebounce(value);
-          } else {
-            onChange(value);
-          }
+      if (inputValidator(value)) {
+        setValue?.(value);
+        if (delayMs > 0) {
+          handleDebounce(value);
+        } else {
+          onChange(value);
         }
-      },
-      [onChange, handleDebounce, delayMs, setValue, inputValidator],
-    );
+      }
+    },
+    [onChange, handleDebounce, delayMs, setValue, inputValidator],
+  );
 
-    return (
-      <input
-        aria-label={ariaLabel}
-        data-testid="ockTextInput_Input"
-        ref={ref}
-        type="text"
-        className={className}
-        inputMode={inputMode}
-        placeholder={placeholder}
-        value={value}
-        onBlur={onBlur}
-        onChange={handleChange}
-        onFocus={onFocus}
-        disabled={disabled}
-        autoComplete="off" // autocomplete attribute handles browser autocomplete
-        data-1p-ignore={true} // data-1p-ignore attribute handles password manager autocomplete
-      />
-    );
-  },
-);
+  return (
+    <input
+      aria-label={ariaLabel}
+      data-testid="ockTextInput_Input"
+      ref={ref}
+      type="text"
+      className={className}
+      inputMode={inputMode}
+      placeholder={placeholder}
+      value={value}
+      onBlur={onBlur}
+      onChange={handleChange}
+      onFocus={onFocus}
+      disabled={disabled}
+      autoComplete="off" // autocomplete attribute handles browser autocomplete
+      data-1p-ignore={true} // data-1p-ignore attribute handles password manager autocomplete
+    />
+  );
+};
 
 TextInput.displayName = 'TextInput';

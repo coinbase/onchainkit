@@ -96,7 +96,7 @@ export type WalletContextType = {
   isSubComponentClosing: boolean;
   setIsSubComponentClosing: Dispatch<SetStateAction<boolean>>;
   handleClose: () => void;
-  connectRef: React.RefObject<HTMLDivElement>;
+  connectRef: React.RefObject<HTMLDivElement | null>;
   showSubComponentAbove: boolean;
   alignSubComponentRight: boolean;
 

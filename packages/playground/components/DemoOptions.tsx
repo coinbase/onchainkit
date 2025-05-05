@@ -20,7 +20,7 @@ const COMMON_OPTIONS = [
 ];
 
 const COMPONENT_CONFIG: Partial<
-  Record<OnchainKitComponent, (() => React.JSX.Element)[]>
+  Record<OnchainKitComponent, Array<() => React.JSX.Element>>
 > = {
   [OnchainKitComponent.Buy]: [Chain, PaymasterUrl, IsSponsored, SwapConfig],
   [OnchainKitComponent.Checkout]: [

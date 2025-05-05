@@ -1,5 +1,5 @@
 type GetBoundedPositionParams = {
-  draggableRef: React.RefObject<HTMLDivElement>;
+  draggableRef: React.RefObject<HTMLDivElement | null>;
   position: { x: number; y: number };
   minGapToEdge?: number;
 };

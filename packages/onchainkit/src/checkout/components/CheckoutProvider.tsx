@@ -83,7 +83,7 @@ export function CheckoutProvider({
   const fetchedDataUseEffect = useRef<boolean>(false);
   const fetchedDataHandleSubmit = useRef<boolean>(false);
   const userRejectedRef = useRef<boolean>(false);
-  const contractsRef = useRef<ContractFunctionParameters[] | null>();
+  const contractsRef = useRef<ContractFunctionParameters[] | null>(null);
   const insufficientBalanceRef = useRef<boolean>(false);
   const priceInUSDCRef = useRef<string | undefined>('');
 

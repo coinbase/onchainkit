@@ -5,6 +5,7 @@ import { useShowCallsStatus } from 'wagmi/experimental';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
 import { useTransactionContext } from '../components/TransactionProvider';
 import { useGetTransactionToastAction } from './useGetTransactionToastAction';
+import React from 'react';
 
 vi.mock('../components/TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
@@ -66,7 +67,7 @@ describe('useGetTransactionToastAction', () => {
 
     const { result } = renderHook(() => useGetTransactionToastAction());
 
-    const button = result.current.actionElement as JSX.Element;
+    const button = result.current.actionElement as React.JSX.Element;
     expect(button.props.onClick).toBeDefined();
     expect(button).not.toBeNull();
   });
@@ -103,7 +104,7 @@ describe('useGetTransactionToastAction', () => {
 
     const { result } = renderHook(() => useGetTransactionToastAction());
 
-    const button = result.current.actionElement as JSX.Element;
+    const button = result.current.actionElement as React.JSX.Element;
     expect(button.props.onClick).toBe(onSubmitMock);
   });
 
@@ -127,7 +128,7 @@ describe('useGetTransactionToastAction', () => {
 
     const { result } = renderHook(() => useGetTransactionToastAction());
 
-    const button = result.current.actionElement as JSX.Element;
+    const button = result.current.actionElement as React.JSX.Element;
     expect(button.props.onClick).toBeDefined();
     expect(button).not.toBeNull();
   });
@@ -164,7 +165,7 @@ describe('useGetTransactionToastAction', () => {
 
     const { result } = renderHook(() => useGetTransactionToastAction());
 
-    const button = result.current.actionElement as JSX.Element;
+    const button = result.current.actionElement as React.JSX.Element;
     button.props.onClick();
 
     expect(showCallsStatus).toHaveBeenCalledWith({ id: 'ab123' });

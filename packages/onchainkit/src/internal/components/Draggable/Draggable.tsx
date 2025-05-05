@@ -25,7 +25,7 @@ export function Draggable({
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [dragStartPosition, setDragStartPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const draggableRef = useRef<HTMLDivElement>(null);
+  const draggableRef = useRef<HTMLDivElement | null>(null);
 
   const calculateSnapToGrid = useCallback(
     (positionValue: number) => {

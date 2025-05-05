@@ -19,7 +19,7 @@ type DropdownMenuProps = {
   /** Callback for when the dropdown should close */
   onClose?: () => void;
   /** The element that triggers the dropdown menu */
-  trigger: React.RefObject<HTMLElement>;
+  trigger: React.RefObject<HTMLElement | null>;
   'aria-label'?: string;
 };
 
