@@ -8,7 +8,7 @@ import {
   FundCardPresetAmountInputList,
   FundCardSubmitButton,
 } from '@coinbase/onchainkit/fund';
-import { border, pressable, text } from '@coinbase/onchainkit/theme';
+import { pressable, text } from '@coinbase/onchainkit/theme';
 import {
   FundButtonState,
   PresetAmountInputs,
@@ -47,7 +47,6 @@ function customRender({
       [pressable.disabled]: isDisabled,
     },
     text.headline,
-    border.lineDefault,
   );
 
   let buttonContent = <span>Click to fund</span>;
