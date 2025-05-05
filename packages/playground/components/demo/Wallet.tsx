@@ -6,7 +6,7 @@ import {
   Name,
   Socials,
 } from '@coinbase/onchainkit/identity';
-import { cn, color } from '@coinbase/onchainkit/theme';
+import { cn } from '@coinbase/onchainkit/theme';
 import {
   ConnectWallet,
   Wallet,
