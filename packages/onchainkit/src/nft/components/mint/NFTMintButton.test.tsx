@@ -1,3 +1,4 @@
+import { act } from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
@@ -330,11 +331,13 @@ describe('NFTMintButton', () => {
       quantity: 1,
     });
 
-    await render(
-      <TestProviders>
-        <NFTMintButton />
-      </TestProviders>,
-    );
+    await act(async () => {
+      render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+    });
 
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
