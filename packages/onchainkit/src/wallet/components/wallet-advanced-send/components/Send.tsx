@@ -1,5 +1,5 @@
 import { Skeleton } from '@/internal/components/Skeleton';
-import { background, border, cn, color } from '@/styles/theme';
+import { border, cn } from '@/styles/theme';
 import { ETH_REQUIRED_FOR_SEND } from '../constants';
 import type { SendReact } from '../types';
 import { SendAmountInput } from './SendAmountInput';
@@ -20,10 +20,10 @@ export function Send({
       <div
         data-testid="ockSend"
         className={cn(
-          background.default,
-          border.radius,
+          'bg-ock-bg-default',
+          'rounded-ock-default',
           border.lineDefault,
-          color.foreground,
+          'text-ock-text-foreground',
           'h-120 w-88',
           'flex flex-col',
           'p-4',

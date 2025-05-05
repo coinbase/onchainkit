@@ -2,7 +2,7 @@ import { githubSvg } from '../../internal/svg/githubSvg';
 import { twitterSvg } from '../../internal/svg/twitterSvg';
 import { warpcastSvg } from '../../internal/svg/warpcastSvg';
 import { websiteSvg } from '../../internal/svg/websiteSvg';
-import { border, cn, pressable } from '../../styles/theme';
+import { cn, pressable } from '../../styles/theme';
 
 export type SocialPlatform = 'twitter' | 'github' | 'farcaster' | 'website';
 
@@ -46,8 +46,8 @@ export function GetSocialPlatformDetails({
       rel="noopener noreferrer"
       className={cn(
         pressable.default,
-        border.radius,
-        border.default,
+        'rounded-ock-default',
+        'border-ock-bg-default',
         'flex items-center justify-center p-2',
       )}
       data-testid={`ockSocials_${
