@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "dev:watch": "concurrently \"pnpm -F @coinbase/onchainkit dev\" \"pnpm -F playground dev\"",
     "lint": "next lint",
     "start": "next start"
