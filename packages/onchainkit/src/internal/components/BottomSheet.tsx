@@ -9,7 +9,7 @@ type BottomSheetProps = {
   children: React.ReactNode;
   isOpen: boolean;
   onClose: () => void;
-  triggerRef?: React.RefObject<HTMLElement>;
+  triggerRef?: React.RefObject<HTMLElement | null>;
   className?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;

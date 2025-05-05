@@ -55,7 +55,7 @@ const buildUSPaymentMethods = (
   ];
 
   return paymentMethodConfigs.map((config) => {
-    const limit = paymentCurrency.limits.find(
+    const limit = paymentCurrency.limits?.find(
       (limit) => limit.id === config.id,
     );
 
@@ -73,7 +73,7 @@ export const buildPaymentMethods = (
   currency: string,
   country: string,
 ) => {
-  const paymentCurrency = paymentOptions.paymentCurrencies.find(
+  const paymentCurrency = paymentOptions.paymentCurrencies?.find(
     (paymentCurrency) => paymentCurrency.id === currency,
   );
 

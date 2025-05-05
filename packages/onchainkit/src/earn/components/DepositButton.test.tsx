@@ -157,7 +157,7 @@ describe('DepositButton Component', () => {
     expect(container).toHaveTextContent('Deposit');
   });
 
-  it('surfaces Transaction lifecycle statuses', () => {
+  it('surfaces Transaction lifecycle statuses', async () => {
     const mockUpdateLifecycleStatus = vi.fn();
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
@@ -168,17 +168,23 @@ describe('DepositButton Component', () => {
     render(<DepositButton />);
 
     // Simulate different transaction states using the mock buttons
-    screen.getByText('TransactionPending').click();
+    await act(async () => {
+      screen.getByText('TransactionPending').click();
+    });
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionPending',
     });
 
-    screen.getByText('Success').click();
+    await act(async () => {
+      screen.getByText('Success').click();
+    });
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'success',
     });
 
-    screen.getByText('Error').click();
+    await act(async () => {
+      screen.getByText('Error').click();
+    });
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
     });

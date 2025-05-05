@@ -10,7 +10,7 @@ vi.mock('@/internal/hooks/useIcon', () => ({
 
 describe('FundCardPaymentMethodImage', () => {
   it('renders the icon when iconSvg is available', () => {
-    (useIcon as Mock).mockReturnValue(() => <svg data-testid="icon-svg" />);
+    (useIcon as Mock).mockImplementation(() => <svg data-testid="icon-svg" />);
     render(
       <FundCardPaymentMethodImage
         paymentMethod={{
@@ -27,7 +27,7 @@ describe('FundCardPaymentMethodImage', () => {
   });
 
   it('applies primary color when the icon is coinbasePay', () => {
-    (useIcon as Mock).mockReturnValue(() => <svg data-testid="icon-svg" />);
+    (useIcon as Mock).mockImplementation(() => <svg data-testid="icon-svg" />);
 
     render(
       <FundCardPaymentMethodImage
@@ -39,13 +39,14 @@ describe('FundCardPaymentMethodImage', () => {
         }}
       />,
     );
+
     expect(
       screen.getByTestId('ockFundCardPaymentMethodImage__iconContainer'),
     ).toBeInTheDocument();
   });
 
   it('renders with custom className and size', () => {
-    (useIcon as Mock).mockReturnValue(() => <svg data-testid="icon-svg" />);
+    (useIcon as Mock).mockImplementation(() => <svg data-testid="icon-svg" />);
     render(
       <FundCardPaymentMethodImage
         className="custom-class"
@@ -65,7 +66,7 @@ describe('FundCardPaymentMethodImage', () => {
   });
 
   it('does not apply primary color for non-coinbasePay icons', () => {
-    (useIcon as Mock).mockReturnValue(() => <svg data-testid="icon-svg" />);
+    (useIcon as Mock).mockImplementation(() => <svg data-testid="icon-svg" />);
     render(
       <FundCardPaymentMethodImage
         paymentMethod={{

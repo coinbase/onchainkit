@@ -1,5 +1,6 @@
 import type { UseQueryOptions as TanstackUseQueryOptions } from '@tanstack/react-query';
 import type { HTMLAttributes, ImgHTMLAttributes, ReactNode } from 'react';
+import React from 'react';
 import type { Address, Chain } from 'viem';
 
 /**
@@ -54,9 +55,9 @@ export type AvatarReact = {
   /** Optional className override for top div element. */
   className?: string;
   /** Optional custom component to display while the avatar data is loading. */
-  loadingComponent?: JSX.Element;
+  loadingComponent?: React.JSX.Element;
   /** Optional custom component to display when no ENS name or avatar is available. */
-  defaultComponent?: JSX.Element;
+  defaultComponent?: React.JSX.Element;
   /** Optional attestation by passing Badge component as its children */
   children?: ReactNode;
 } & ImgHTMLAttributes<HTMLImageElement>; /** Optional additional image attributes to apply to the avatar. */

@@ -151,7 +151,7 @@ describe('SendButton', () => {
         chainId: mockChain.id,
         calls: [mockTransactionData.calldata],
       }),
-      {},
+      undefined,
     );
 
     expect(screen.getByTestId('mock-transaction')).toBeInTheDocument();
@@ -177,7 +177,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         disabled: true,
       }),
-      {},
+      undefined,
     );
   });
 
@@ -193,7 +193,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         chainId: base.id,
       }),
-      {},
+      undefined,
     );
   });
 
@@ -209,7 +209,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         calls: [],
       }),
-      {},
+      undefined,
     );
   });
 
@@ -225,7 +225,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         text: 'Input amount',
       }),
-      {},
+      undefined,
     );
   });
 
@@ -241,7 +241,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         text: 'Select token',
       }),
-      {},
+      undefined,
     );
   });
 
@@ -261,7 +261,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         text: 'Insufficient balance',
       }),
-      {},
+      undefined,
     );
   });
 
@@ -276,7 +276,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         text: 'Continue',
       }),
-      {},
+      undefined,
     );
   });
 
@@ -304,6 +304,32 @@ describe('SendButton', () => {
     expect(mockSendContext.updateLifecycleStatus).not.toHaveBeenCalled();
   });
 
+<<<<<<< HEAD
+=======
+  it('passes custom overrides to TransactionButton', () => {
+    const pendingOverride = { text: 'Sending...' };
+    const successOverride = { text: 'Sent!' };
+    const errorOverride = { text: 'Failed!' };
+
+    render(
+      <SendButton
+        pendingOverride={pendingOverride}
+        successOverride={successOverride}
+        errorOverride={errorOverride}
+      />,
+    );
+
+    expect(TransactionButton).toHaveBeenCalledWith(
+      expect.objectContaining({
+        pendingOverride,
+        successOverride,
+        errorOverride,
+      }),
+      undefined,
+    );
+  });
+
+>>>>>>> be47625f (Feat: react 19 upgrade)
   it('handles null wallet address correctly', () => {
     mockUseWalletContext.mockReturnValue({
       ...mockWalletContext,

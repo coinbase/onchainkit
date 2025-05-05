@@ -15,7 +15,7 @@ import { BuyProvider, useBuyContext } from './BuyProvider';
 function BuyContent({ className }: { className?: string }) {
   const componentTheme = useTheme();
   const { isDropdownOpen, setIsDropdownOpen } = useBuyContext();
-  const buyContainerRef = useRef<HTMLDivElement>(null);
+  const buyContainerRef = useRef<HTMLDivElement | null>(null);
 
   useOutsideClick(buyContainerRef, () => {
     if (isDropdownOpen) {

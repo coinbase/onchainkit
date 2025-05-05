@@ -13,7 +13,7 @@ export function TokenSelectDropdown({
   token,
 }: TokenSelectDropdownReact) {
   const [isOpen, setIsOpen] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   const closeDropdown = useCallback(() => {
     setIsOpen(false);
