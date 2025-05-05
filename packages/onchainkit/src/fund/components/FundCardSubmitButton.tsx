@@ -45,9 +45,9 @@ export function FundCardSubmitButton({
       case 'loading':
         return '';
       case 'success':
-        return <SuccessSvg fill="#F9FAFB" />;
+        return <SuccessSvg className="fill-[#F9FAFB]" />;
       case 'error':
-        return <ErrorSvg fill="#F9FAFB" />;
+        return <ErrorSvg className="fill-[#F9FAFB]" />;
       default:
         return null;
     }
