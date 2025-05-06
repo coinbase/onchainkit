@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@import 'tw-animate-css';
 @custom-variant dark (&:where(.dark, .dark *));
 @source inline("dark");
 @source inline("font-sans");
@@ -197,11 +196,11 @@
 @theme inline {
   --font-sans: 'Inter', sans-serif;
   --font-display: 'DM Sans', sans-serif;
+  --font-ock: var(--ock-font-family);
   --spacing-88: 22rem;
   --spacing-120: 30rem;
   --radius-ock-default: var(--ock-radius-default);
   --radius-ock-inner: var(--ock-radius-inner);
-  --font-ock: var(--ock-font-family);
   --color-ock-text-inverse: var(--ock-text-inverse);
   --color-ock-text-foreground: var(--ock-text-foreground);
   --color-ock-text-foreground-muted: var(--ock-text-foreground-muted);

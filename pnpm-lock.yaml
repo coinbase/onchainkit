@@ -200,8 +200,8 @@ importers:
         specifier: ^1.5.4
         version: 1.5.4
       tailwind-merge:
-        specifier: ^2.3.0
-        version: 2.6.0
+        specifier: ^3.2.0
+        version: 3.2.0
       viem:
         specifier: ^2.27.2
         version: 2.27.2(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.24.2)
@@ -218,9 +218,9 @@ importers:
       '@babel/types':
         specifier: ^7.27.0
         version: 7.27.0
-      '@tailwindcss/vite':
+      '@tailwindcss/postcss':
         specifier: ^4.1.4
-        version: 4.1.4(vite@5.4.14(@types/node@22.13.10)(lightningcss@1.29.2))
+        version: 4.1.4
       '@testing-library/jest-dom':
         specifier: 6.4.7
         version: 6.4.7(@jest/globals@29.7.0)(jest@29.7.0(@types/node@22.13.10))(vitest@3.0.9)
@@ -314,9 +314,6 @@ importers:
       tsup:
         specifier: ^8.3.5
         version: 8.4.0(@microsoft/api-extractor@7.52.3(@types/node@22.13.10))(@swc/core@1.11.11(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(typescript@5.8.2)(yaml@2.7.0)
-      tw-animate-css:
-        specifier: ^1.2.8
-        version: 1.2.8
       vite:
         specifier: ^5.3.3
         version: 5.4.14(@types/node@22.13.10)(lightningcss@1.29.2)
@@ -399,8 +396,8 @@ importers:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
       tailwind-merge:
-        specifier: ^2.6.0
-        version: 2.6.0
+        specifier: ^3.2.0
+        version: 3.2.0
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@4.1.4)
@@ -2357,11 +2354,6 @@ packages:
 
   '@tailwindcss/vite@4.0.17':
     resolution: {integrity: sha512-HJbBYDlDVg5cvYZzECb6xwc1IDCEM3uJi3hEZp3BjZGCNGJcTsnCpan+z+VMW0zo6gR0U6O6ElqU1OoZ74Dhww==}
-    peerDependencies:
-      vite: ^5.2.0 || ^6
-
-  '@tailwindcss/vite@4.1.4':
-    resolution: {integrity: sha512-4UQeMrONbvrsXKXXp/uxmdEN5JIJ9RkH7YVzs6AMxC/KC1+Np7WZBaNIco7TEjlkthqxZbt8pU/ipD+hKjm80A==}
     peerDependencies:
       vite: ^5.2.0 || ^6
 
@@ -6423,6 +6415,9 @@ packages:
   tailwind-merge@2.6.0:
     resolution: {integrity: sha512-P+Vu1qXfzediirmHOC3xKGAYeZtPcV9g76X+xg2FD4tYgR71ewMA35Y3sCz3zhiN/dwefRpJX0yBcgwi1fXNQA==}
 
+  tailwind-merge@3.2.0:
+    resolution: {integrity: sha512-FQT/OVqCD+7edmmJpsgCsY820RTD5AkBryuG5IUqR5YQZSdj5xlH5nLgH7YPths7WsLPSpSBNneJdM8aS8aeFA==}
+
   tailwindcss-animate@1.0.7:
     resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
     peerDependencies:
@@ -9357,13 +9352,6 @@ snapshots:
       lightningcss: 1.29.2
       tailwindcss: 4.0.17
       vite: 6.2.3(@types/node@22.13.10)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.0)
-
-  '@tailwindcss/vite@4.1.4(vite@5.4.14(@types/node@22.13.10)(lightningcss@1.29.2))':
-    dependencies:
-      '@tailwindcss/node': 4.1.4
-      '@tailwindcss/oxide': 4.1.4
-      tailwindcss: 4.1.4
-      vite: 5.4.14(@types/node@22.13.10)(lightningcss@1.29.2)
 
   '@tanstack/query-core@5.69.0': {}
 
@@ -14945,6 +14933,8 @@ snapshots:
       tslib: 2.8.1
 
   tailwind-merge@2.6.0: {}
+
+  tailwind-merge@3.2.0: {}
 
   tailwindcss-animate@1.0.7(tailwindcss@4.1.4):
     dependencies:

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { glob } from 'glob';
 import path from 'node:path';
 import fs from 'fs';
-import tailwindcss from '@tailwindcss/vite';
+import tailwindcss from '@tailwindcss/postcss';
 import autoprefixer from 'autoprefixer';
 import postcssPrefixClassnames from './plugins/postcss-prefix-classnames.js';
 import { babelPrefixReactClassNames } from './plugins/babel-prefix-react-classnames';
@@ -43,14 +43,13 @@ export default defineConfig({
     __OCK_VERSION__: JSON.stringify(ockVersion),
   },
   plugins: [
-    tailwindcss(),
     externalizeDeps(),
     preserveUseClientDirective(),
     react({
       babel: {
         plugins: [
           babelPrefixReactClassNames({
-            prefix: 'ock-',
+            prefix: 'ock:',
             cnUtil: 'cn',
           }),
         ],
@@ -81,9 +80,13 @@ export default defineConfig({
   css: {
     postcss: {
       plugins: [
+        tailwindcss({
+          base: './src',
+          // optimize: false,
+        }),
         autoprefixer(),
         postcssPrefixClassnames({
-          prefix: 'ock-',
+          prefix: `ock\\:`,
         }),
       ],
     },
