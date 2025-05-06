@@ -1,7 +1,7 @@
 'use client';
 
 import { Address, Avatar, Name } from '@/identity';
-import { background, border, cn, pressable } from '@/styles/theme';
+import { cn, pressable } from '@/styles/theme';
 import { useCallback } from 'react';
 import type { Address as AddressType } from 'viem';
 import { useWalletContext } from '../../WalletProvider';
@@ -40,8 +40,8 @@ export function SendAddressSelector({ classNames }: SendAddressSelectorProps) {
       <div
         data-testid="ockSendAddressSelector_container"
         className={cn(
-          background.default,
-          border.radius,
+          'bg-ock-bg-default',
+          'rounded-ock-default',
           pressable.default,
           'items-left flex min-w-[300px]',
           'mt-2 p-2',

@@ -1,7 +1,7 @@
 'use client';
 
 import { useIcon } from '../../internal/hooks/useIcon';
-import { cn, color, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { WalletDropdownLinkReact } from '../types';
 
 export function WalletDropdownLink({
@@ -18,7 +18,7 @@ export function WalletDropdownLink({
     <a
       className={cn(
         pressable.default,
-        color.foreground,
+        'text-ock-text-foreground',
         'relative flex items-center px-4 py-3',
         className,
       )}

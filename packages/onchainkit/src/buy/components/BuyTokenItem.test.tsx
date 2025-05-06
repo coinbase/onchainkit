@@ -66,7 +66,7 @@ describe('BuyTokenItem', () => {
 
     const button = screen.getByRole('button');
     expect(button).toBeDisabled();
-    expect(button).not.toHaveClass('hover:bg-[var(--ock-bg-inverse)]', {
+    expect(button).not.toHaveClass('hover:bg-ock-bg-inverse', {
       exact: false,
     });
     expect(screen.getByText('Insufficient balance: 5')).toHaveClass('text-xs');

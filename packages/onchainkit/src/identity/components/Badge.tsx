@@ -3,7 +3,7 @@ import { useAttestations } from '@/identity/hooks/useAttestations';
 import type { BadgeReact } from '@/identity/types';
 import { badgeSvg } from '@/internal/svg/badgeSvg';
 import { zIndex } from '@/styles/constants';
-import { background, border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { useMemo, useState } from 'react';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIdentityContext } from './IdentityProvider';
@@ -51,9 +51,9 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
     <div className="relative inline-flex" data-testid="ockBadgeContainer">
       <span
         className={cn(
-          background.primary,
-          border.default,
-          border.radius,
+          'bg-ock-bg-primary',
+          'border-ock-bg-default',
+          'rounded-ock-default',
           tooltip && 'cursor-pointer',
           className,
         )}
@@ -74,11 +74,11 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
       {showTooltip && tooltip && (
         <div
           className={cn(
-            border.radius,
-            border.default,
+            'rounded-ock-default',
+            'border-ock-bg-default',
             pressable.alternate,
             text.legal,
-            color.foreground,
+            'text-ock-text-foreground',
             zIndex.tooltip,
             '-translate-x-1/2 absolute bottom-full left-1/2 mb-1 transform',
             'whitespace-nowrap px-1.5 py-0.5',

@@ -5,13 +5,7 @@ import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { CheckoutEvent } from '../../core/analytics/types';
 import { Spinner } from '../../internal/components/Spinner';
 import { useIcon } from '../../internal/hooks/useIcon';
-import {
-  border,
-  cn,
-  color,
-  pressable,
-  text as styleText,
-} from '../../styles/theme';
+import { cn, pressable, text as styleText } from '../../styles/theme';
 import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import type { CheckoutButtonReact } from '../types';
 import { useCheckoutContext } from './CheckoutProvider';
@@ -65,7 +59,7 @@ export function CheckoutButton({
     <button
       className={cn(
         coinbaseBranded ? pressable.coinbaseBranding : pressable.primary,
-        border.radius,
+        'rounded-ock-default',
         isDisabled && pressable.disabled,
         styleText.headline,
         'mt-4 w-full px-4 py-3',
@@ -88,7 +82,7 @@ export function CheckoutButton({
             <span
               className={cn(
                 styleText.headline,
-                coinbaseBranded ? 'text-gray-50' : color.inverse,
+                coinbaseBranded ? 'text-gray-50' : 'text-ock-text-inverse',
               )}
             >
               {buttonText}

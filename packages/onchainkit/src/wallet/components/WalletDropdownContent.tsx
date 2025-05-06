@@ -1,6 +1,6 @@
 import { BottomSheet } from '@/internal/components/BottomSheet';
 import { zIndex } from '@/styles/constants';
-import { background, border, cn, text } from '@/styles/theme';
+import { border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
 import type { WalletAdvancedReact } from '../types';
@@ -113,8 +113,8 @@ export function WalletDropdownContent({
     <div
       data-testid="ockWalletDropdownContent"
       className={cn(
-        background.default,
-        border.radius,
+        'bg-ock-bg-default',
+        'rounded-ock-default',
         border.lineDefault,
         zIndex.dropdown,
         'my-1.5 h-auto w-full',

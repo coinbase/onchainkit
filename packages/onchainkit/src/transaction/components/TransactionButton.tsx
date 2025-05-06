@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
 import { Spinner } from '../../internal/components/Spinner';
-import { border, cn, color, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { TransactionButtonReact } from '../types';
 import { isSpinnerDisplayed } from '../utils/isSpinnerDisplayed';
 import { useTransactionContext } from './TransactionProvider';
@@ -142,12 +142,12 @@ export function TransactionButton({
     <button
       className={cn(
         pressable.primary,
-        border.radius,
+        'rounded-ock-default',
         'w-full rounded-xl',
         'px-4 py-3 font-medium leading-6',
         isDisabled && pressable.disabled,
         text.headline,
-        color.inverse,
+        'text-ock-text-inverse',
         className,
       )}
       onClick={handleSubmit}

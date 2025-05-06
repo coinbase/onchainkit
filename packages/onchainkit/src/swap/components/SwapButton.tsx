@@ -1,6 +1,6 @@
 'use client';
 import { Spinner } from '@/internal/components/Spinner';
-import { background, border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { ConnectWallet } from '@/wallet/components/ConnectWallet';
 import type { SwapButtonReact } from '../types';
 import { useSwapContext } from './SwapProvider';
@@ -44,8 +44,8 @@ export function SwapButton({
     <button
       type="button"
       className={cn(
-        background.primary,
-        border.radius,
+        'bg-ock-bg-primary',
+        'rounded-ock-default',
         'w-full rounded-xl',
         'mt-4 px-4 py-3',
         isDisabled && pressable.disabled,
@@ -59,7 +59,9 @@ export function SwapButton({
       {isLoading ? (
         <Spinner />
       ) : (
-        <span className={cn(text.headline, color.inverse)}>{label}</span>
+        <span className={cn(text.headline, 'text-ock-text-inverse')}>
+          {label}
+        </span>
       )}
     </button>
   );

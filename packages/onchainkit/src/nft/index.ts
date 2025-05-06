@@ -1,9 +1,7 @@
 // 🌲☀🌲
 // Components
 export { NFTMintCard } from './components/NFTMintCard';
-export { NFTMintCardDefault } from './components/NFTMintCardDefault';
 export { NFTCard } from './components/NFTCard';
-export { NFTCardDefault } from './components/NFTCardDefault';
 
 // Types
 export type {

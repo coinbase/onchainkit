@@ -1,7 +1,7 @@
 'use client';
 
 import { Identity } from '@/identity/components/Identity';
-import { background, cn } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import {
   Children,
   cloneElement,
@@ -59,7 +59,7 @@ export function WalletBottomSheet({
       )}
       <div
         className={cn(
-          background.default,
+          'bg-ock-bg-default',
           'fixed right-0 bottom-0 left-0 z-50',
           'transform rounded-[20px_20px_0_0] p-4 transition-transform',
           `${isSubComponentOpen ? 'translate-y-0' : 'translate-y-full'}`,

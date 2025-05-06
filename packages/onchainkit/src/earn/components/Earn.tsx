@@ -72,7 +72,7 @@ export function Earn({
         className={cn(
           componentTheme,
           'flex w-[375px] flex-col overflow-hidden',
-          border.radius,
+          'rounded-ock-default',
           border.lineDefault,
           className,
         )}

@@ -1,16 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #e5e5e5;
+  --background: #ffffff;
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #e5e5e5;
-    --foreground: #171717;
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
   }
 }
 
@@ -18,21 +30,11 @@
   touch-action: manipulation;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-
-  font-family: "Pixelify Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}
-
 .high-score-badge + div {
   transform: translate(10px, 20px) !important;
 }
 
-@layer utilities {
+@utility text-balance {
   .text-balance {
     text-wrap: balance;
   }

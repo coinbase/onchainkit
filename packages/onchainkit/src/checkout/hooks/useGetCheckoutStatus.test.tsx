@@ -1,6 +1,5 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { color } from '../../styles/theme';
 import { useCheckoutContext } from '../components/CheckoutProvider';
 import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import { useGetCheckoutStatus } from './useGetCheckoutStatus';
@@ -23,7 +22,7 @@ describe('useGetCheckoutStatus', () => {
     const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment in progress...',
-      labelClassName: color.foregroundMuted,
+      labelClassName: 'text-ock-text-foreground-muted',
     });
   });
 
@@ -44,7 +43,7 @@ describe('useGetCheckoutStatus', () => {
     const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment successful!',
-      labelClassName: color.success,
+      labelClassName: 'text-ock-text-success',
     });
   });
 
@@ -65,7 +64,7 @@ describe('useGetCheckoutStatus', () => {
     const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment failed',
-      labelClassName: color.error,
+      labelClassName: 'text-ock-text-error',
     });
   });
 });

@@ -2,7 +2,7 @@ import { DismissableLayer } from '@/internal/components/DismissableLayer';
 import { FocusTrap } from '@/internal/components/FocusTrap';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { zIndex } from '@/styles/constants';
-import { background, cn } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import { createPortal } from 'react-dom';
 
 type BottomSheetProps = {
@@ -48,7 +48,7 @@ export function BottomSheet({
             role="dialog"
             className={cn(
               componentTheme,
-              background.default,
+              'bg-ock-bg-default',
               zIndex.modal,
               'fixed right-0 bottom-0 left-0',
               'transform rounded-t-3xl p-2 transition-transform',

@@ -4,19 +4,11 @@ import { Draggable } from '@/internal/components/Draggable/Draggable';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { useTheme } from '@/internal/hooks/useTheme';
-import { findComponent } from '@/internal/utils/findComponent';
 import { cn } from '@/styles/theme';
-import {
-  Children,
-  type ReactNode,
-  isValidElement,
-  useMemo,
-  useRef,
-} from 'react';
+import { useRef } from 'react';
 import type { WalletReact } from '../types';
 import { getWalletDraggableProps } from '../utils/getWalletDraggableProps';
 import { ConnectWallet } from './ConnectWallet';
-import { WalletAdvanced } from './WalletAdvanced';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
 
@@ -34,6 +26,7 @@ export function Wallet({
   draggableStartingPosition,
 }: WalletReact) {
   const componentTheme = useTheme();
+
   const isMounted = useIsMounted();
 
   // prevents SSR hydration issue
@@ -70,34 +63,6 @@ function WalletContent({
 
   useOutsideClick(walletContainerRef, handleClose);
 
-  // Note: this can be removed after deprecating WalletAdvanced
-  const { dropdown, advanced } = useMemo(() => {
-    const childrenArray = Children.toArray(children);
-    return {
-      dropdown: childrenArray.find(findComponent(WalletDropdown)),
-      advanced: childrenArray.find(findComponent(WalletAdvanced)),
-    };
-  }, [children]);
-
-  // Note: this can be removed after deprecating WalletAdvanced
-  // cannot use advanced and dropdown,
-  // default to dropdown
-  const childrenToRender = useMemo(() => {
-    return Children.map(children, (child: ReactNode) => {
-      if (isValidElement(child) && child.type === WalletAdvanced && dropdown) {
-        return null;
-      }
-      return child;
-    });
-  }, [dropdown, children]);
-
-  // Note: this can be removed after deprecating WalletAdvanced
-  if (dropdown && advanced) {
-    console.error(
-      'Defaulted to WalletDropdown. Wallet cannot have both WalletDropdown and WalletAdvanced as children.',
-    );
-  }
-
   // dragging should be disabled when the connect wallet modal is open
   // or when the subcomponent is open on mobile (because then we use bottom sheet)
   const disableDraggable =
@@ -115,7 +80,7 @@ function WalletContent({
         >
           <div ref={connectRef}>
             {/* Note: update childrenToRender to children after deprecating WalletAdvanced */}
-            {childrenToRender || defaultWalletChildren}
+            {children || defaultWalletChildren}
           </div>
         </Draggable>
       </div>
@@ -128,7 +93,7 @@ function WalletContent({
       className={cn('relative w-fit shrink-0', className)}
     >
       {/* Note: update childrenToRender to children after deprecating WalletAdvanced */}
-      <div ref={connectRef}>{childrenToRender || defaultWalletChildren}</div>
+      <div ref={connectRef}>{children || defaultWalletChildren}</div>
     </div>
   );
 }

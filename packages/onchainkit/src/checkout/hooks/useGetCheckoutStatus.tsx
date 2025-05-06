@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { color } from '../../styles/theme';
 import { useCheckoutContext } from '../components/CheckoutProvider';
 import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 
@@ -12,7 +11,7 @@ export function useGetCheckoutStatus() {
 
   return useMemo(() => {
     let label = '';
-    let labelClassName: string = color.foregroundMuted;
+    let labelClassName: string = 'text-ock-text-foreground-muted';
 
     if (isPending) {
       label = 'Payment in progress...';
@@ -20,12 +19,12 @@ export function useGetCheckoutStatus() {
 
     if (isSuccess) {
       label = 'Payment successful!';
-      labelClassName = color.success;
+      labelClassName = 'text-ock-text-success';
     }
 
     if (errorMessage) {
       label = errorMessage;
-      labelClassName = color.error;
+      labelClassName = 'text-ock-text-error';
     }
 
     return { label, labelClassName };

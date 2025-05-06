@@ -22,16 +22,17 @@ export function ActiveComponent() {
           value ? setActiveComponent?.(value as OnchainKitComponent) : value
         }
       >
-        <SelectTrigger>
+        <SelectTrigger className="w-full">
           <SelectValue placeholder="Select component" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value={OnchainKitComponent.FundButton}>
-            Fund Button
+            FundButton
           </SelectItem>
-          <SelectItem value={OnchainKitComponent.FundCard}>
-            Fund Card
+          <SelectItem value={OnchainKitComponent.FundButtonWithRenderProp}>
+            FundButtonWithRenderProp
           </SelectItem>
+          <SelectItem value={OnchainKitComponent.FundCard}>FundCard</SelectItem>
           <SelectItem value={OnchainKitComponent.Buy}>Buy</SelectItem>
           <SelectItem value={OnchainKitComponent.Identity}>Identity</SelectItem>
           <SelectItem value={OnchainKitComponent.IdentityCard}>

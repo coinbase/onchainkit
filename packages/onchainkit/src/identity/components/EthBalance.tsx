@@ -2,7 +2,7 @@
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import type { EthBalanceReact } from '@/identity/types';
 import { getRoundedAmount } from '@/internal/utils/getRoundedAmount';
-import { cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
 
 export function EthBalance({ address, className }: EthBalanceReact) {
@@ -26,7 +26,7 @@ export function EthBalance({ address, className }: EthBalanceReact) {
   return (
     <span
       data-testid="ockEthBalance"
-      className={cn(text.label2, color.foregroundMuted, className)}
+      className={cn(text.label2, 'text-ock-text-foreground-muted', className)}
     >
       {getRoundedAmount(balance, 4)} ETH
     </span>

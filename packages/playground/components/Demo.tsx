@@ -9,6 +9,7 @@ import DemoOptions from './DemoOptions';
 import BuyDemo from './demo/Buy';
 import CheckoutDemo from './demo/Checkout';
 import FundButtonDemo from './demo/FundButton';
+import FundButtonWithRenderPropDemo from './demo/FundButtonWithRenderProp';
 import FundCardDemo from './demo/FundCard';
 import IdentityDemo from './demo/Identity';
 import { IdentityCardDemo } from './demo/IdentityCard';
@@ -28,6 +29,7 @@ import WalletIslandDemo from './demo/WalletIsland';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.FundButton]: FundButtonDemo,
+  [OnchainKitComponent.FundButtonWithRenderProp]: FundButtonWithRenderPropDemo,
   [OnchainKitComponent.FundCard]: FundCardDemo,
   [OnchainKitComponent.Buy]: BuyDemo,
   [OnchainKitComponent.Identity]: IdentityDemo,

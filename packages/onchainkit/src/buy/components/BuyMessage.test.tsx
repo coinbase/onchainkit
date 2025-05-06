@@ -36,7 +36,7 @@ describe('BuyMessage', () => {
     ).toHaveClass('text-sm');
     expect(
       screen.getByText('Something went wrong. Please try again.'),
-    ).toHaveClass('ock-text-error');
+    ).toHaveClass('text-ock-text-error');
   });
 
   it('renders missing required fields message', () => {
@@ -60,7 +60,7 @@ describe('BuyMessage', () => {
       'text-sm',
     );
     expect(screen.getByText('Complete the field to continue')).toHaveClass(
-      'ock-text-foreground-muted',
+      'text-ock-text-foreground-muted',
     );
   });
 });

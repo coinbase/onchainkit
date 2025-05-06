@@ -1,6 +1,6 @@
 import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
-import { border, cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { TokenImage } from '@/token/components/TokenImage';
 import { useMemo } from 'react';
 import { formatUnits } from 'viem';
@@ -105,7 +105,7 @@ function TokenBalanceContent({
         <span
           className={cn(
             text.headline,
-            color.foreground,
+            'text-ock-text-foreground',
             'overflow-hidden text-ellipsis whitespace-nowrap',
             classNames?.tokenName,
           )}
@@ -115,7 +115,7 @@ function TokenBalanceContent({
         <span
           className={cn(
             text.label2,
-            color.foregroundMuted,
+            'text-ock-text-foreground-muted',
             classNames?.tokenValue,
           )}
         >
@@ -127,7 +127,7 @@ function TokenBalanceContent({
           <span
             className={cn(
               text.label2,
-              color.foregroundMuted,
+              'text-ock-text-foreground-muted',
               'whitespace-nowrap',
               classNames?.fiatValue,
             )}
@@ -155,8 +155,8 @@ function ActionButton({
       onClick={onActionPress}
       className={cn(
         text.label2,
-        color.primary,
-        border.radius,
+        'text-ock-text-primary',
+        'rounded-ock-default',
         'cursor-pointer p-0.5 font-bold',
         'border border-transparent hover:border-[--ock-line-primary]',
         '-translate-y-1/2 absolute top-1/2 right-2',

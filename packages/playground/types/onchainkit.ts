@@ -1,5 +1,6 @@
 export enum OnchainKitComponent {
   FundButton = 'fund-button',
+  FundButtonWithRenderProp = 'fund-button-with-render-prop',
   FundCard = 'fund-card',
   Buy = 'buy',
   Identity = 'identity',

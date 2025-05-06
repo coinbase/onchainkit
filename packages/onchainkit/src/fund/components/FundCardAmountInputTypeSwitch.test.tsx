@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { quoteResponseDataMock } from '../mocks';
-import type { FundCardProviderReact } from '../types';
+import type { FundCardProviderProps } from '../types';
 import { FundCardAmountInputTypeSwitch } from './FundCardAmountInputTypeSwitch';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
 
@@ -13,7 +13,7 @@ global.fetch = vi.fn(() =>
   }),
 ) as Mock;
 
-const mockContext: FundCardProviderReact = {
+const mockContext: FundCardProviderProps = {
   asset: 'ETH',
   country: 'US',
   inputType: 'fiat',

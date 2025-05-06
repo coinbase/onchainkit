@@ -5,7 +5,7 @@ import { Spinner } from '@/internal/components/Spinner';
 import { basenameSvg } from '@/internal/svg/basenameSvg';
 import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
-import { cn, color, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { WalletDropdownBasenameReact } from '../types';
 
 export function WalletDropdownBasename({
@@ -33,7 +33,7 @@ export function WalletDropdownBasename({
     <a
       className={cn(
         pressable.default,
-        color.foreground,
+        'text-ock-text-foreground',
         'relative flex items-center px-4 py-3',
         className,
       )}

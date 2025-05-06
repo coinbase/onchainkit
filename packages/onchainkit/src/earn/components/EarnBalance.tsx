@@ -1,4 +1,4 @@
-import { background, border, cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import type { EarnBalanceReact } from '../types';
 
 export function EarnBalance({
@@ -11,21 +11,22 @@ export function EarnBalance({
   return (
     <div
       className={cn(
-        background.alternate,
-        border.radius,
-        'flex items-center justify-between gap-4 p-3 px-4',
+        'bg-ock-bg-alternate',
+        'rounded-ock-default flex items-center justify-between gap-4 p-3 px-4',
         className,
       )}
       data-testid="ockEarnBalance"
     >
-      <div className={cn('flex flex-col', color.foreground)}>
+      <div className={cn('flex flex-col', 'text-ock-text-foreground')}>
         <div className={text.headline}>{title}</div>
-        <div className={cn(text.label2, color.foregroundMuted)}>{subtitle}</div>
+        <div className={cn(text.label2, 'text-ock-text-foreground-muted')}>
+          {subtitle}
+        </div>
       </div>
       {showAction && (
         <button
           onClick={onActionPress}
-          className={cn(text.label2, color.primary)}
+          className={cn(text.label2, 'text-ock-text-primary')}
           type="button"
           aria-label="Use max"
         >

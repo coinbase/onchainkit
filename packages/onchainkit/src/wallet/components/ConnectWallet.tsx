@@ -1,26 +1,17 @@
 'use client';
 
 import { Avatar, Name } from '@/identity';
-import { Children, isValidElement, useCallback, useMemo } from 'react';
-import type { ReactNode } from 'react';
+import { useCallback } from 'react';
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { WalletEvent } from '../../core/analytics/types';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
-import { findComponent } from '../../internal/utils/findComponent';
-import {
-  border,
-  cn,
-  color,
-  text as dsText,
-  pressable,
-} from '../../styles/theme';
+import { cn, text as dsText, pressable } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
 import type { ConnectWalletReact } from '../types';
 import { ConnectButton } from './ConnectButton';
-import { ConnectWalletText } from './ConnectWalletText';
 import { WalletModal } from './WalletModal';
 import { useWalletContext } from './WalletProvider';
 
@@ -34,11 +25,8 @@ const connectWalletDefaultChildren = (
 export function ConnectWallet({
   children,
   className,
-  // In a few version we will officially deprecate this prop,
-  // but for now we will keep it for backward compatibility.
-  text = 'Connect Wallet',
   onConnect,
-  disconnectedLabel,
+  disconnectedLabel = 'Connect Wallet',
 }: ConnectWalletReact) {
   const { config = { wallet: { display: undefined } } } = useOnchainKit();
 
@@ -60,26 +48,6 @@ export function ConnectWallet({
   // State
   const [hasClickedConnect, setHasClickedConnect] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // duplicate modal state because ConnectWallet not always within WalletProvider
-
-  // TODO: remove lines 57-74 after deprecating ConnectWalletText
-  // Get connectWalletText from children when present,
-  // this is used to customize the connect wallet button text
-  const { connectWalletText } = useMemo(() => {
-    const childrenArray = Children.toArray(children);
-    return {
-      connectWalletText: childrenArray.find(findComponent(ConnectWalletText)),
-    };
-  }, [children]);
-
-  // Remove connectWalletText from children if present
-  const childrenWithoutConnectWalletText = useMemo(() => {
-    return Children.map(children, (child: ReactNode) => {
-      if (isValidElement(child) && child.type === ConnectWalletText) {
-        return null;
-      }
-      return child;
-    });
-  }, [children]);
 
   // Wallet connect status
   const connector = accountConnector || connectors[0];
@@ -190,9 +158,8 @@ export function ConnectWallet({
       <div className="flex" data-testid="ockConnectWallet_Container">
         <ConnectButton
           className={className}
-          connectWalletText={connectWalletText || disconnectedLabel}
+          connectWalletText={disconnectedLabel}
           onClick={handleConnectClick}
-          text={text}
         />
         {config?.wallet?.display === 'modal' && (
           <WalletModal isOpen={isModalOpen} onClose={handleCloseConnectModal} />
@@ -210,7 +177,7 @@ export function ConnectWallet({
           className={cn(
             pressable.primary,
             dsText.headline,
-            color.inverse,
+            'text-ock-text-inverse',
             'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
             pressable.disabled,
             className,
@@ -231,8 +198,8 @@ export function ConnectWallet({
           data-testid="ockConnectWallet_Connected"
           className={cn(
             pressable.secondary,
-            border.radius,
-            color.foreground,
+            'rounded-ock-default',
+            'text-ock-text-foreground',
             'px-4 py-3',
             isSubComponentOpen &&
               'ock-bg-secondary-active hover:ock-bg-secondary-active',
@@ -241,7 +208,7 @@ export function ConnectWallet({
           onClick={handleToggle}
         >
           <div className="flex items-center justify-center gap-2">
-            {childrenWithoutConnectWalletText || connectWalletDefaultChildren}
+            {children || connectWalletDefaultChildren}
           </div>
         </button>
       </div>

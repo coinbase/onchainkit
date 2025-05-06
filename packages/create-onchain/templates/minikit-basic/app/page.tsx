@@ -104,7 +104,7 @@ export default function App() {
           <Button
             variant="ghost"
             size="sm"
-            className="text-[var(--ock-text-foreground-muted)] text-xs"
+            className="text-ock-text-foreground-muted text-xs"
             onClick={() => openUrl("https://base.org/builders/minikit")}
           >
             Built on Base with MiniKit

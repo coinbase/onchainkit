@@ -1,7 +1,7 @@
 'use client';
 import { useIsMounted } from '../../internal/hooks/useIsMounted';
 import { useTheme } from '../../internal/hooks/useTheme';
-import { background, border, cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import type { SwapReact } from '../types';
 import { SwapAmountInput } from './SwapAmountInput';
@@ -78,9 +78,9 @@ export function Swap({
       <div
         className={cn(
           componentTheme,
-          background.default,
-          border.radius,
-          color.foreground,
+          'bg-ock-bg-default',
+          'rounded-ock-default',
+          'text-ock-text-foreground',
           'relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
           className,
         )}

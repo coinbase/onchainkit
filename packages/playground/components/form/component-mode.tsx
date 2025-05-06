@@ -28,7 +28,7 @@ export function ComponentMode() {
           return setComponentMode(value);
         }}
       >
-        <SelectTrigger id="mode">
+        <SelectTrigger id="mode" className="w-full">
           <SelectValue placeholder="Select mode" />
         </SelectTrigger>
         <SelectContent>

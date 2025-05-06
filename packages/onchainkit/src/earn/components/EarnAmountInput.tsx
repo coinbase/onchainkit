@@ -1,6 +1,6 @@
 import { TextInput } from '@/internal/components/TextInput';
 import { isValidAmount } from '@/internal/utils/isValidAmount';
-import { cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { formatAmount } from '@/swap/utils/formatAmount';
 import type { EarnAmountInputReact } from '../types';
 
@@ -19,7 +19,7 @@ export function EarnAmountInput({
       <TextInput
         className={cn(
           text.base,
-          color.foreground,
+          'text-ock-text-foreground',
           'w-full border-none bg-transparent text-5xl',
           'leading-none outline-none',
         )}

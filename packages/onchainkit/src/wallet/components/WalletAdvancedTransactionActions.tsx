@@ -6,7 +6,7 @@ import { Skeleton } from '@/internal/components/Skeleton';
 import { addSvgForeground } from '@/internal/svg/addForegroundSvg';
 import { arrowUpRightSvg } from '@/internal/svg/arrowUpRightSvg';
 import { toggleSvg } from '@/internal/svg/toggleSvg';
-import { border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
 import { useWalletContext } from './WalletProvider';
@@ -139,7 +139,7 @@ function WalletAdvancedTransactionAction({
       className={cn(
         'flex flex-col items-center justify-center gap-2 pt-2.5 pb-2',
         'h-16 flex-1',
-        border.radius,
+        'rounded-ock-default',
         pressable.alternate,
         classNames?.container,
       )}
@@ -157,7 +157,7 @@ function WalletAdvancedTransactionAction({
       <span
         className={cn(
           text.label2,
-          color.foreground,
+          'text-ock-text-foreground',
           'flex flex-col justify-center',
           classNames?.label,
         )}

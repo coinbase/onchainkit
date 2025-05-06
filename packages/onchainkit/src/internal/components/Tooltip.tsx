@@ -1,5 +1,5 @@
 import { infoSvg } from '@/internal/svg/infoSvg';
-import { background, border, cn, text } from '@/styles/theme';
+import { border, cn, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
 
 type TooltipReact = {
@@ -33,8 +33,8 @@ export function Tooltip({ children = infoSvg, content }: TooltipReact) {
           className={cn(
             'absolute top-0 right-0 flex translate-x-[100%] translate-y-[-100%]',
             'whitespace-nowrap p-2',
-            border.radius,
-            background.inverse,
+            'rounded-ock-default',
+            'bg-ock-bg-inverse',
             text.legal,
             border.lineDefault,
           )}

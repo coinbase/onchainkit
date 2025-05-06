@@ -1,5 +1,3 @@
-import { icon } from '@/styles/theme';
-
 export const portfolioSvg = (
   <svg
     width="100%"
@@ -7,7 +5,7 @@ export const portfolioSvg = (
     viewBox="0 0 18 18"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className={icon.foreground}
+    className="fill-ock-icon-color-foreground"
   >
     <title>Portfolio</title>
     <path

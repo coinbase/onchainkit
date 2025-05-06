@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
-import { WalletAdvanced } from './WalletAdvanced';
 import { WalletDropdown } from './WalletDropdown';
 import { type WalletProviderReact, useWalletContext } from './WalletProvider';
 
@@ -169,57 +168,6 @@ describe('Wallet Component', () => {
     expect(mockHandleClose).not.toHaveBeenCalled();
   });
 
-  it('should log error and default to WalletDropdown when both WalletDropdown and WalletAdvanced are provided', () => {
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isSubComponentOpen: true,
-      handleClose: mockHandleClose,
-      containerRef: { current: document.createElement('div') },
-      address: '0x123',
-      breakpoint: 'md',
-    });
-
-    render(
-      <Wallet>
-        <ConnectWallet />
-        <WalletDropdown>
-          <div>Wallet Dropdown</div>
-        </WalletDropdown>
-        <WalletAdvanced>
-          <div>Wallet Advanced</div>
-        </WalletAdvanced>
-      </Wallet>,
-    );
-
-    expect(consoleSpy).toHaveBeenCalledWith(
-      'Defaulted to WalletDropdown. Wallet cannot have both WalletDropdown and WalletAdvanced as children.',
-    );
-    expect(screen.getByTestId('ockWalletDropdown')).toBeDefined();
-    expect(screen.queryByTestId('wallet-advanced')).toBeNull();
-
-    consoleSpy.mockRestore();
-  });
-
-  it('should render WalletAdvanced when WalletAdvanced is provided', () => {
-    (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
-      isSubComponentOpen: true,
-      handleClose: mockHandleClose,
-      containerRef: { current: document.createElement('div') },
-    });
-
-    render(
-      <Wallet>
-        <ConnectWallet />
-        <WalletAdvanced>
-          <div>Wallet Advanced</div>
-        </WalletAdvanced>
-      </Wallet>,
-    );
-
-    expect(screen.getByTestId('wallet-advanced')).toBeDefined();
-    expect(screen.queryByTestId('wallet-dropdown')).toBeNull();
-  });
-
   it('should render Draggable when draggable prop is true', () => {
     (useWalletContext as ReturnType<typeof vi.fn>).mockReturnValue({
       isSubComponentOpen: true,
@@ -230,9 +178,9 @@ describe('Wallet Component', () => {
     render(
       <Wallet draggable={true}>
         <ConnectWallet />
-        <WalletAdvanced>
+        <WalletDropdown>
           <div>Wallet Advanced</div>
-        </WalletAdvanced>
+        </WalletDropdown>
       </Wallet>,
     );
 
@@ -250,9 +198,9 @@ describe('Wallet Component', () => {
     render(
       <Wallet draggable={true}>
         <ConnectWallet />
-        <WalletAdvanced>
+        <WalletDropdown>
           <div>Wallet Advanced</div>
-        </WalletAdvanced>
+        </WalletDropdown>
       </Wallet>,
     );
 

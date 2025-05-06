@@ -3,7 +3,7 @@
 import { Avatar, Name } from '@/identity';
 import { Spinner } from '@/internal/components/Spinner';
 import { zIndex } from '@/styles/constants';
-import { border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
 import { useWalletContext } from './WalletProvider';
 import { usePortfolio } from '../hooks/usePortfolio';
@@ -46,7 +46,7 @@ export function WalletAdvancedAddressDetails({
       data-testid="ockWalletAdvanced_AddressDetails"
       className={cn(
         'mt-2 flex w-88 flex-col items-center justify-center px-4 py-3',
-        color.foreground,
+        'text-ock-text-foreground',
         text.body,
         animations.content,
         classNames?.container,
@@ -67,7 +67,7 @@ export function WalletAdvancedAddressDetails({
             address={address}
             chain={chain}
             className={cn(
-              'hover:text-[var(--ock-text-foreground-muted)] active:text-[var(--ock-text-primary)]',
+              'hover:text-ock-text-foreground-muted active:text-ock-text-primary',
               classNames?.nameButton,
             )}
           />
@@ -78,9 +78,9 @@ export function WalletAdvancedAddressDetails({
           className={cn(
             pressable.alternate,
             text.legal,
-            color.foreground,
-            border.default,
-            border.radius,
+            'text-ock-text-foreground',
+            'border-ock-bg-default',
+            'rounded-ock-default',
             zIndex.tooltip,
             'absolute top-full right-0 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
           )}

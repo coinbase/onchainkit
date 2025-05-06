@@ -1,4 +1,4 @@
-import { background, border, cn, color, pressable } from '../../styles/theme';
+import { cn } from '../../styles/theme';
 import type { SwapSettingsSlippageLayoutReact } from '../types';
 
 export function SwapSettingsSlippageLayoutBottomSheet({
@@ -8,9 +8,9 @@ export function SwapSettingsSlippageLayoutBottomSheet({
   return (
     <div
       className={cn(
-        background.default,
-        border.default,
-        pressable.shadow,
+        'bg-ock-bg-default',
+        'border-ock-bg-default',
+        'shadow-ock-default',
         'right-0 z-10 h-full w-full rounded-t-lg px-3 pt-2 pb-3',
         className,
       )}
@@ -18,19 +18,21 @@ export function SwapSettingsSlippageLayoutBottomSheet({
     >
       <div
         className={cn(
-          background.alternate,
+          'bg-ock-bg-alternate',
           'mx-auto mb-2 h-1 w-4 rounded-[6.25rem]',
         )}
       />
       <div className="mb-4 flex items-center justify-center">
-        <h2 className={cn(color.foreground, 'font-bold text-sm')}>Settings</h2>
+        <h2 className={cn('text-ock-text-foreground', 'font-bold text-sm')}>
+          Settings
+        </h2>
       </div>
 
       <div className="flex flex-col">{children}</div>
       <div className="mt-4 flex justify-center">
         <div
           className={cn(
-            background.inverse,
+            'bg-ock-bg-inverse',
             'h-1 w-28 shrink-0 rounded-[0.43931rem]',
           )}
         />

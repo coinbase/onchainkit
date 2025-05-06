@@ -2,9 +2,9 @@
 
 import type { ReactNode } from 'react';
 import { useTheme } from '../../internal/hooks/useTheme';
-import { background, border, cn, color, text } from '../../styles/theme';
+import { border, cn, text } from '../../styles/theme';
 import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
-import type { FundCardPropsReact } from '../types';
+import type { FundCardProps } from '../types';
 import FundCardAmountInput from './FundCardAmountInput';
 import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
 import { FundCardHeader } from './FundCardHeader';
@@ -26,7 +26,7 @@ export function FundCard({
   onError,
   onStatus,
   onSuccess,
-}: FundCardPropsReact) {
+}: FundCardProps) {
   const componentTheme = useTheme();
 
   return (
@@ -45,11 +45,10 @@ export function FundCard({
       <div
         className={cn(
           componentTheme,
-          background.default,
-          color.foreground,
-          'flex w-full flex-col p-6',
+          'bg-ock-bg-default',
+          'text-ock-text-foreground',
+          'rounded-ock-default flex w-full flex-col p-6',
           text.headline,
-          border.radius,
           border.lineDefault,
           className,
         )}

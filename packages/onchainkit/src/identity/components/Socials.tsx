@@ -2,7 +2,7 @@
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useName } from '@/identity/hooks/useName';
 import { useSocials } from '@/identity/hooks/useSocials';
-import { border, cn } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import type { Address, Chain } from 'viem';
 import { GetSocialPlatformDetails } from './getSocialPlatformDetails';
 import type { SocialPlatform } from './getSocialPlatformDetails';
@@ -51,7 +51,7 @@ export function Socials({ address, chain, className }: SocialsReact) {
   }
 
   return (
-    <div className={cn(border.default, 'mt-2 w-full pl-1', className)}>
+    <div className={cn('border-ock-bg-default', 'mt-2 w-full pl-1', className)}>
       <div className={'left-4 flex space-x-2'}>
         {Object.entries(socials).map(
           ([platform, value]) =>

@@ -1,5 +1,5 @@
 'use client';
-import { cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import { isSwapError } from '../../swap/utils/isSwapError';
 import { useBuyContext } from './BuyProvider';
 
@@ -14,8 +14,8 @@ export function BuyMessage() {
     // on missing required fields, show muted text
     const textColor =
       lifecycleStatus?.statusData?.code === 'TmBPc05'
-        ? color.foregroundMuted
-        : color.error;
+        ? 'text-ock-text-foreground-muted'
+        : 'text-ock-text-error';
 
     return <div className={cn(textColor, text.label2)}>{message}</div>;
   }

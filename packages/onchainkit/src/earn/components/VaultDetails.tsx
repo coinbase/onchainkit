@@ -4,7 +4,7 @@ import { Popover } from '@/internal/components/Popover';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { etherscanSvg } from '@/internal/svg/etherscanSvg';
 import { infoSvg } from '@/internal/svg/infoSvg';
-import { background, border, cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { TokenImage } from '@/token';
 import { useRef } from 'react';
 import { useState } from 'react';
@@ -35,8 +35,8 @@ export function VaultDetails() {
       ref={anchorRef}
       className={cn(
         text.label1,
-        color.foregroundMuted,
-        background.alternate,
+        'text-ock-text-foreground-muted',
+        'bg-ock-bg-alternate',
         'flex items-center justify-center gap-2 rounded-full p-1 px-3',
       )}
       data-testid="ock-vaultDetails"
@@ -50,8 +50,8 @@ export function VaultDetails() {
         type="button"
         data-testid="ock-vaultDetailsButton"
         className={cn(
-          'size-3 [&_path]:fill-[var(--ock-icon-color-foreground-muted)] [&_path]:transition-colors [&_path]:ease-in-out [&_path]:hover:fill-[var(--ock-icon-color-foreground)]',
-          isOpen && '[&_path]:fill-[var(--ock-icon-color-foreground)]',
+          'size-3 [&_path]:fill-ock-icon-color-foreground-muted [&_path]:transition-colors [&_path]:ease-in-out [&_path]:hover:fill-ock-icon-color-foreground',
+          isOpen && '[&_path]:fill-ock-icon-color-foreground',
         )}
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -69,10 +69,10 @@ export function VaultDetails() {
       >
         <div
           className={cn(
-            background.default,
-            color.foreground,
-            border.defaultActive,
-            background.default,
+            'bg-ock-bg-default',
+            'text-ock-text-foreground',
+            'border-ock-bg-default-active',
+            'bg-ock-bg-default',
             'flex min-w-40 flex-col gap-3 rounded-lg border p-3 text-sm',
             'fade-in animate-in duration-200',
           )}
@@ -110,7 +110,7 @@ export function VaultDetails() {
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
-              color.primary,
+              'text-ock-text-primary',
               'flex max-w-fit items-center gap-1 hover:opacity-80',
             )}
             data-testid="ock-vaultDetailsBaseScanLink"

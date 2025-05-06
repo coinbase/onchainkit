@@ -1,7 +1,7 @@
 'use client';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { useTheme } from '@/internal/hooks/useTheme';
-import { background, border, cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import type { AppchainBridgeReact } from '../types';
 import { AppchainBridgeAddressInput } from './AppchainBridgeAddressInput';
 import { AppchainBridgeInput } from './AppchainBridgeInput';
@@ -88,7 +88,7 @@ const AppchainBridgeDefaultContent = ({ title }: { title: string }) => {
           <span
             className={cn(
               text.label2,
-              color.foregroundMuted,
+              'text-ock-text-foreground-muted',
               'absolute right-0',
             )}
           >
@@ -143,9 +143,9 @@ export function AppchainBridge({
       <div
         className={cn(
           componentTheme,
-          background.default,
-          border.radius,
-          color.foreground,
+          'bg-ock-bg-default',
+          'rounded-ock-default',
+          'text-ock-text-foreground',
           'ock-border-line-default flex w-full flex-col border px-6 pt-6 pb-4',
           className,
         )}

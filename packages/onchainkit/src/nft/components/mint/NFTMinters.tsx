@@ -1,6 +1,6 @@
 import { Avatar, Identity, Name } from '@/identity';
 import { useNFTContext } from '@/nft/components/NFTProvider';
-import { cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 
 type NFTMintersReact = {
@@ -19,7 +19,7 @@ export function NFTMinters({ className }: NFTMintersReact) {
     <div
       className={cn(
         text.body,
-        color.foregroundMuted,
+        'text-ock-text-foreground-muted',
         '-my-1 flex items-center',
         className,
       )}

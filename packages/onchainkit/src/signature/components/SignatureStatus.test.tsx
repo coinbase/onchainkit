@@ -41,7 +41,7 @@ describe('SignatureStatus', () => {
     });
     render(<SignatureStatus />);
     expect(screen.getByText('SignatureLabel').parentElement).toHaveClass(
-      'ock-text-error',
+      'text-ock-text-error',
     );
   });
 

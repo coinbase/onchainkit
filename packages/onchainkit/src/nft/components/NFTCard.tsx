@@ -7,7 +7,7 @@ import { useNFTData as defaultUseNFTData } from '@/nft/hooks/useNFTData';
 import { LifecycleType, type NFTCardReact } from '@/nft/types';
 import { useCallback } from 'react';
 import { useAccount } from 'wagmi';
-import { border, cn, color, pressable } from '../../styles/theme';
+import { cn, pressable } from '../../styles/theme';
 import NFTErrorBoundary from './NFTErrorBoundary';
 import { NFTErrorFallback } from './NFTErrorFallback';
 import {
@@ -74,11 +74,11 @@ export function NFTCard({
             type="button"
             className={cn(
               componentTheme,
-              color.foreground,
+              'text-ock-text-foreground',
               pressable.default,
-              border.radius,
+              'rounded-ock-default',
               'flex w-full max-w-[500px] flex-col items-stretch gap-1.5 border p-4 text-left',
-              `hover:border-[${border.defaultActive}]`,
+              `hover:border-[${'border-ock-bg-default-active'}]`,
               className,
             )}
             data-testid="ockNFTCard_Container"

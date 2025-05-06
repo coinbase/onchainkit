@@ -1,6 +1,6 @@
 import { useTheme } from '@/internal/hooks/useTheme';
 import { findComponent } from '@/internal/utils/findComponent';
-import { background, cn, color } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import { Children, cloneElement, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { Address } from './Address';
@@ -46,7 +46,7 @@ export function IdentityLayout({
     <div
       className={cn(
         componentTheme,
-        background.default,
+        'bg-ock-bg-default',
         'flex flex-col px-4 py-1',
         className,
       )}
@@ -61,7 +61,7 @@ export function IdentityLayout({
           {addressComponent && ethBalance && (
             <div className="flex items-center gap-1">
               {addressComponent}
-              <span className={color.foregroundMuted}>·</span>
+              <span className={'text-ock-text-foreground-muted'}>·</span>
               {ethBalance}
             </div>
           )}
