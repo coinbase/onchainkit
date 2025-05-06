@@ -116,7 +116,7 @@ describe('useRecipientState', () => {
     });
   });
 
-  it.only('should select recipient and fallback to sliced address when ENS fails', async () => {
+  it('should select recipient and fallback to sliced address when ENS fails', async () => {
     vi.mocked(getName).mockRejectedValue(new Error('ENS error'));
     vi.mocked(getSlicedAddress).mockReturnValue(mockSlicedAddress);
 
