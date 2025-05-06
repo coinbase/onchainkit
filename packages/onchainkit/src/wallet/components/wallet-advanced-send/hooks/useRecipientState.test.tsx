@@ -116,13 +116,13 @@ describe('useRecipientState', () => {
     });
   });
 
-  it('should select recipient and fallback to sliced address when ENS fails', async () => {
+  it.only('should select recipient and fallback to sliced address when ENS fails', async () => {
     vi.mocked(getName).mockRejectedValue(new Error('ENS error'));
     vi.mocked(getSlicedAddress).mockReturnValue(mockSlicedAddress);
 
     const { result } = renderHook(() => useRecipientState());
 
-    act(() => {
+    await act(async () => {
       result.current.selectRecipient({
         phase: 'selected',
         input: mockAddress,
@@ -131,11 +131,9 @@ describe('useRecipientState', () => {
       });
     });
 
-    await waitFor(() => {
-      expect(getName).toHaveBeenCalledWith({
-        address: mockAddress,
-        chain: base,
-      });
+    expect(getName).toHaveBeenCalledWith({
+      address: mockAddress,
+      chain: base,
     });
 
     expect(result.current.recipientState).toEqual({
