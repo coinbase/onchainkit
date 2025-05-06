@@ -50,6 +50,7 @@ export function WalletModal({
     trust: false,
     frame: false,
   };
+  const isSignUpEnabled = config?.wallet?.signUpEnabled ?? true;
 
   const handleCoinbaseWalletConnection = useCallback(() => {
     try {
@@ -280,27 +281,31 @@ export function WalletModal({
         )}
 
         <div className="flex w-full flex-col gap-3">
-          <button
-            type="button"
-            onClick={handleCoinbaseWalletConnection}
-            className={cn(
-              border.radius,
-              text.body,
-              pressable.alternate,
-              color.foreground,
-              'flex items-center justify-between px-4 py-3 text-left',
-            )}
-          >
-            Sign up
-            <div className="h-4 w-4">{defaultAvatarSVG}</div>
-          </button>
+          {isSignUpEnabled && (
+            <button
+              type="button"
+              onClick={handleCoinbaseWalletConnection}
+              className={cn(
+                border.radius,
+                text.body,
+                pressable.alternate,
+                color.foreground,
+                'flex items-center justify-between px-4 py-3 text-left',
+              )}
+            >
+              Sign up
+              <div className="h-4 w-4">{defaultAvatarSVG}</div>
+            </button>
+          )}
 
           <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div
-                className={cn(border.lineDefault, 'w-full border-[0.5px]')}
-              />
-            </div>
+            {isSignUpEnabled && (
+              <div className="absolute inset-0 flex items-center">
+                <div
+                  className={cn(border.lineDefault, 'w-full border-[0.5px]')}
+                />
+              </div>
+            )}
             <div className="relative flex justify-center">
               <span
                 className={cn(
@@ -310,7 +315,9 @@ export function WalletModal({
                   'px-2',
                 )}
               >
-                or continue with an existing wallet
+                {isSignUpEnabled
+                  ? 'or continue with an existing wallet'
+                  : 'Connect your wallet'}
               </span>
             </div>
           </div>

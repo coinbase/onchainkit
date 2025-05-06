@@ -1,21 +1,14 @@
 'use client';
-
-import {
-  ONCHAIN_KIT_CONFIG,
-  setOnchainKitConfig,
-} from '@/core/OnchainKitConfig';
-import { createContext, useMemo } from 'react';
+import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
+import { useMemo } from 'react';
 import { DefaultOnchainKitProviders } from './DefaultOnchainKitProviders';
 import OnchainKitProviderBoundary from './OnchainKitProviderBoundary';
 import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from './core/constants';
-import type { OnchainKitContextType } from './core/types';
 import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
 import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitProviderReact } from './types';
 import { generateUUIDWithInsecureFallback } from './utils/crypto';
-
-export const OnchainKitContext =
-  createContext<OnchainKitContextType>(ONCHAIN_KIT_CONFIG);
+import { OnchainKitContext } from './useOnchainKit';
 
 /**
  * Provides the OnchainKit React Context to the app.
@@ -60,6 +53,8 @@ export function OnchainKitProvider({
         paymaster: config?.paymaster || defaultPaymasterUrl,
         wallet: {
           display: config?.wallet?.display ?? 'classic',
+          preference: config?.wallet?.preference ?? 'all',
+          signUpEnabled: config?.wallet?.signUpEnabled ?? true,
           termsUrl: config?.wallet?.termsUrl || DEFAULT_TERMS_URL,
           privacyUrl: config?.wallet?.privacyUrl || DEFAULT_PRIVACY_URL,
           supportedWallets: {
@@ -89,14 +84,10 @@ export function OnchainKitProvider({
   ]);
 
   return (
-    <DefaultOnchainKitProviders
-      apiKey={apiKey}
-      appName={value.config.appearance.name}
-      appLogoUrl={value.config.appearance.logo}
-    >
-      <OnchainKitContext.Provider value={value}>
+    <OnchainKitContext.Provider value={value}>
+      <DefaultOnchainKitProviders>
         <OnchainKitProviderBoundary>{children}</OnchainKitProviderBoundary>
-      </OnchainKitContext.Provider>
-    </DefaultOnchainKitProviders>
+      </DefaultOnchainKitProviders>
+    </OnchainKitContext.Provider>
   );
 }
