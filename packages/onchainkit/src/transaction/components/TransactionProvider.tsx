@@ -242,6 +242,8 @@ export function TransactionProvider({
         });
         receipts.push(txnReceipt);
       } catch (err) {
+        console.error(err);
+
         setLifecycleStatus({
           statusName: 'error',
           statusData: {
@@ -302,6 +304,7 @@ export function TransactionProvider({
       setTransactionCount(resolvedTransactions?.length);
       return resolvedTransactions;
     } catch (err) {
+      console.error(err);
       handleAnalytics(TransactionEvent.TransactionFailure, {
         error: (err as Error).message,
         metadata: {
