@@ -150,7 +150,7 @@ describe('useRecipientState', () => {
 
     const { result } = renderHook(() => useRecipientState());
 
-    act(() => {
+    await act(async () => {
       result.current.selectRecipient({
         phase: 'selected',
         input: mockAddress,
@@ -159,11 +159,9 @@ describe('useRecipientState', () => {
       });
     });
 
-    await waitFor(() => {
-      expect(getName).toHaveBeenCalledWith({
-        address: mockAddress,
-        chain: base,
-      });
+    expect(getName).toHaveBeenCalledWith({
+      address: mockAddress,
+      chain: base,
     });
 
     expect(result.current.recipientState).toEqual({
@@ -174,10 +172,10 @@ describe('useRecipientState', () => {
     });
   });
 
-  it('should deselect recipient from selected phase', () => {
+  it('should deselect recipient from selected phase', async () => {
     const { result } = renderHook(() => useRecipientState());
 
-    act(() => {
+    await act(async () => {
       result.current.selectRecipient({
         phase: 'selected',
         input: mockAddress,
@@ -198,10 +196,10 @@ describe('useRecipientState', () => {
     });
   });
 
-  it('should deselect recipient from non-selected phase', () => {
+  it('should deselect recipient from non-selected phase', async () => {
     const { result } = renderHook(() => useRecipientState());
 
-    act(() => {
+    await act(async () => {
       result.current.validateRecipientInput(mockAddress);
     });
 
