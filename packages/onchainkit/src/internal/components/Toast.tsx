@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { background, cn } from '../../styles/theme';
+import { cn } from '../../styles/theme';
 import { CloseSvg } from '../svg/closeSvg';
 import { getToastPosition } from '../utils/getToastPosition';
 
@@ -61,7 +61,7 @@ export function Toast({
     >
       <div
         className={cn(
-          background.default,
+          'bg-ock-bg-default',
           'flex items-center justify-between rounded-lg',
           'p-2 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.12)]',
           animationClass,

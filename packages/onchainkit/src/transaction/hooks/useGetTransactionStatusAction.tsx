@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { useChainId } from 'wagmi';
 import { useShowCallsStatus } from 'wagmi/experimental';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
-import { cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import { useTransactionContext } from '../components/TransactionProvider';
 
 export function useGetTransactionStatusAction() {
@@ -27,7 +27,7 @@ export function useGetTransactionStatusAction() {
           target="_blank"
           rel="noreferrer"
         >
-          <span className={cn(text.label1, color.primary)}>
+          <span className={cn(text.label1, 'text-ock-text-primary')}>
             View transaction
           </span>
         </a>
@@ -41,7 +41,7 @@ export function useGetTransactionStatusAction() {
           onClick={() => showCallsStatus({ id: transactionId })}
           type="button"
         >
-          <span className={cn(text.label1, color.primary)}>
+          <span className={cn(text.label1, 'text-ock-text-primary')}>
             View transaction
           </span>
         </button>

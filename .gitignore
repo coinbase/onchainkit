@@ -6,7 +6,6 @@ esm
 tmp
 /out-tsc
 src/styles.css
-src/tailwind.css
 
 # dependencies
 node_modules

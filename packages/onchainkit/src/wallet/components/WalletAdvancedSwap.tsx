@@ -57,7 +57,7 @@ export function WalletAdvancedSwap({
     <div
       className={cn(
         'h-full',
-        border.radius,
+        'rounded-ock-default',
         isActiveFeatureClosing
           ? 'fade-out slide-out-to-right-5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-right-5 linear animate-in duration-150',

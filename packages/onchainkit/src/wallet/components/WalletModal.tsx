@@ -9,7 +9,7 @@ import { metamaskSvg } from '@/internal/svg/metamaskSvg';
 import { phantomSvg } from '@/internal/svg/phantomSvg';
 import { rabbySvg } from '@/internal/svg/rabbySvg';
 import { trustWalletSvg } from '@/internal/svg/trustWalletSvg';
-import { background, border, cn, color, pressable, text } from '@/styles/theme';
+import { border, cn, pressable, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
 import { useConnect } from 'wagmi';
@@ -233,8 +233,8 @@ export function WalletModal({
         data-testid="ockModalOverlay"
         className={cn(
           border.lineDefault,
-          border.radius,
-          background.default,
+          'rounded-ock-default',
+          'bg-ock-bg-default',
           'w-[22rem] p-6 pb-4',
           'relative flex flex-col items-center gap-4',
           className,
@@ -245,8 +245,8 @@ export function WalletModal({
           onClick={onClose}
           className={cn(
             pressable.default,
-            border.radius,
-            border.default,
+            'rounded-ock-default',
+            'border-ock-bg-default',
             'absolute top-4 right-4',
             'flex items-center justify-center p-1',
             'transition-colors duration-200',
@@ -261,7 +261,12 @@ export function WalletModal({
         {(appLogo || appName) && (
           <div className="flex w-full flex-col items-center gap-2 py-3">
             {appLogo && (
-              <div className={cn(border.radius, 'h-14 w-14 overflow-hidden')}>
+              <div
+                className={cn(
+                  'rounded-ock-default',
+                  'h-14 w-14 overflow-hidden',
+                )}
+              >
                 <img
                   src={appLogo}
                   alt={`${appName || 'App'} icon`}
@@ -271,7 +276,11 @@ export function WalletModal({
             )}
             {appName && (
               <h2
-                className={cn(text.headline, color.foreground, 'text-center')}
+                className={cn(
+                  text.headline,
+                  'text-ock-text-foreground',
+                  'text-center',
+                )}
               >
                 {appName}
               </h2>
@@ -284,10 +293,10 @@ export function WalletModal({
             type="button"
             onClick={handleCoinbaseWalletConnection}
             className={cn(
-              border.radius,
+              'rounded-ock-default',
               text.body,
               pressable.alternate,
-              color.foreground,
+              'text-ock-text-foreground',
               'flex items-center justify-between px-4 py-3 text-left',
             )}
           >
@@ -304,8 +313,8 @@ export function WalletModal({
             <div className="relative flex justify-center">
               <span
                 className={cn(
-                  background.default,
-                  color.foregroundMuted,
+                  'bg-ock-bg-default',
+                  'text-ock-text-foreground-muted',
                   text.legal,
                   'px-2',
                 )}
@@ -321,11 +330,11 @@ export function WalletModal({
               type="button"
               onClick={wallet.connector}
               className={cn(
-                border.radius,
-                background.default,
+                'rounded-ock-default',
+                'bg-ock-bg-default',
                 text.body,
                 pressable.alternate,
-                color.foreground,
+                'text-ock-text-foreground',
                 'flex items-center justify-between px-4 py-3 text-left',
               )}
             >
@@ -339,7 +348,7 @@ export function WalletModal({
 
         <div
           className={cn(
-            color.foregroundMuted,
+            'text-ock-text-foreground-muted',
             text.legal,
             'flex flex-col items-center justify-center gap-1 px-4',
             'mt-4 text-center',
@@ -352,7 +361,7 @@ export function WalletModal({
             {termsOfServiceUrl && (
               <a
                 href={termsOfServiceUrl}
-                className={cn(color.primary, 'hover:underline')}
+                className={cn('text-ock-text-primary', 'hover:underline')}
                 target="_blank"
                 rel="noopener noreferrer"
                 tabIndex={0}
@@ -364,7 +373,7 @@ export function WalletModal({
             {privacyPolicyUrl && (
               <a
                 href={privacyPolicyUrl}
-                className={cn(color.primary, 'hover:underline')}
+                className={cn('text-ock-text-primary', 'hover:underline')}
                 target="_blank"
                 rel="noopener noreferrer"
                 tabIndex={0}

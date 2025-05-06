@@ -1,7 +1,7 @@
 'use client';
 
 import { Address, Avatar, EthBalance, Identity, Name } from '@/identity';
-import { cn, color } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import type { WalletDropdownReact } from '../types';
 import { WalletDropdownContent } from './WalletDropdownContent';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
@@ -13,7 +13,7 @@ const defaultWalletDropdownChildren = (
     <Identity className="px-4 pt-3 pb-2" key="wallet-dd-identity">
       <Avatar />
       <Name />
-      <Address className={color.foregroundMuted} />
+      <Address className={'text-ock-text-foreground-muted'} />
       <EthBalance />
     </Identity>
     <WalletDropdownLink

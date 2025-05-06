@@ -3,7 +3,7 @@ import { FocusTrap } from '@/internal/components/FocusTrap';
 import { Popover } from '@/internal/components/Popover';
 import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import { useIcon } from '@/internal/hooks/useIcon';
-import { background, border, cn, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { useCallback, useRef, useState } from 'react';
 import type { SwapSettingsReact } from '../types';
 import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
@@ -76,8 +76,8 @@ export function SwapSettings({
             >
               <div
                 className={cn(
-                  background.inverse,
-                  pressable.shadow,
+                  'bg-ock-bg-inverse',
+                  'shadow-ock-default',
                   'fixed inset-x-0 z-50 transition-[bottom] duration-300 ease-in-out',
                   isOpen ? 'bottom-0' : '-bottom-[12.875rem]',
                   'h-[12.875rem] rounded-t-lg',
@@ -102,9 +102,9 @@ export function SwapSettings({
           >
             <div
               className={cn(
-                border.radius,
-                background.default,
-                pressable.shadow,
+                'rounded-ock-default',
+                'bg-ock-bg-default',
+                'shadow-ock-default',
                 'absolute right-0 z-10 mt-1 w-[21.75rem] rounded-lg',
               )}
               data-testid="ockSwapSettingsDropdown"

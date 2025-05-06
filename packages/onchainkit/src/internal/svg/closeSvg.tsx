@@ -1,10 +1,10 @@
-import { icon } from '../../styles/theme';
-
 type CloseSvgProps = {
   className?: string;
 };
 
-export function CloseSvg({ className = icon.foreground }: CloseSvgProps) {
+export function CloseSvg({
+  className = 'fill-ock-icon-color-foreground',
+}: CloseSvgProps) {
   return (
     <svg
       aria-label="ock-closeSvg"

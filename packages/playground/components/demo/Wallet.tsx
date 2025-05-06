@@ -25,7 +25,7 @@ function WalletComponent() {
     <div className="flex justify-end">
       <Wallet>
         <ConnectWallet
-          disconnectedLabel={<span className={cn(color.inverse)}>Connect</span>}
+          disconnectedLabel={<span className={cn('text-ock-text-inverse')}>Connect</span>}
         >
           <Avatar address={address} className="h-6 w-6" />
           <Name />
@@ -34,7 +34,7 @@ function WalletComponent() {
           <Identity className="px-4 pt-3 pb-2">
             <Avatar />
             <Name />
-            <Address className={color.foregroundMuted} />
+            <Address className={'text-ock-text-foreground-muted'} />
             <EthBalance />
             <Socials />
           </Identity>

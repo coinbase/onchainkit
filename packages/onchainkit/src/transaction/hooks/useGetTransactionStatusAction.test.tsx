@@ -41,18 +41,18 @@ describe('useGetTransactionStatusAction', () => {
     const { result } = renderHook(() => useGetTransactionStatusAction());
 
     expect(result.current.actionElement).toMatchInlineSnapshot(`
-        <a
-          href="https://etherscan.io/tx/0x123"
-          rel="noreferrer"
-          target="_blank"
+      <a
+        href="https://etherscan.io/tx/0x123"
+        rel="noreferrer"
+        target="_blank"
+      >
+        <span
+          className="font-ock font-semibold text-sm text-ock-text-primary"
         >
-          <span
-            className="ock-font-family font-semibold text-sm ock-text-primary"
-          >
-            View transaction
-          </span>
-        </a>
-      `);
+          View transaction
+        </span>
+      </a>
+    `);
   });
 
   it('should return actionElement when transaction id exists', () => {

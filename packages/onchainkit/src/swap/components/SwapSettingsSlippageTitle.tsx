@@ -1,5 +1,5 @@
 'use client';
-import { cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import type { SwapSettingsSlippageTitleReact } from '../types';
 
 export function SwapSettingsSlippageTitle({
@@ -10,7 +10,7 @@ export function SwapSettingsSlippageTitle({
     <h3
       className={cn(
         text.headline,
-        color.foreground,
+        'text-ock-text-foreground',
         'mb-2 text-base',
         className,
       )}

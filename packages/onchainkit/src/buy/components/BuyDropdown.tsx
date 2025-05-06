@@ -8,7 +8,7 @@ import { useAccount } from 'wagmi';
 import { ONRAMP_BUY_URL } from '../../fund/constants';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
-import { background, border, cn, color, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import { ONRAMP_PAYMENT_METHODS } from '../constants';
 import { isApplePaySupported } from '../utils/isApplePaySupported';
 import { BuyOnrampItem } from './BuyOnrampItem';
@@ -89,11 +89,11 @@ export function BuyDropdown() {
   return (
     <div
       className={cn(
-        color.foreground,
-        background.default,
+        'text-ock-text-foreground',
+        'bg-ock-bg-default',
         'absolute right-0 bottom-0 flex translate-y-[102%] flex-col gap-2',
         'z-10 min-w-80 rounded border p-2',
-        border.radius,
+        'rounded-ock-default',
       )}
     >
       <div className={cn(text.headline, 'px-2 pt-2')}>Buy with</div>
@@ -119,7 +119,11 @@ export function BuyDropdown() {
 
       {!!formattedAmountUSD && (
         <div
-          className={cn('flex justify-end', text.legal, color.foregroundMuted)}
+          className={cn(
+            'flex justify-end',
+            text.legal,
+            'text-ock-text-foreground-muted',
+          )}
         >{`${to?.amount} ${to?.token?.name} ≈ ${formattedAmountUSD}`}</div>
       )}
     </div>

@@ -8,9 +8,8 @@ import { fileURLToPath } from 'node:url';
 import { glob } from 'glob';
 import path from 'node:path';
 import fs from 'fs';
-import tailwindcss from 'tailwindcss';
+import tailwindcss from '@tailwindcss/vite';
 import autoprefixer from 'autoprefixer';
-import tailwindcssAnimate from 'tailwindcss-animate';
 import postcssPrefixClassnames from './plugins/postcss-prefix-classnames.js';
 import { babelPrefixReactClassNames } from './plugins/babel-prefix-react-classnames';
 
@@ -44,6 +43,7 @@ export default defineConfig({
     __OCK_VERSION__: JSON.stringify(ockVersion),
   },
   plugins: [
+    tailwindcss(),
     externalizeDeps(),
     preserveUseClientDirective(),
     react({
@@ -81,26 +81,6 @@ export default defineConfig({
   css: {
     postcss: {
       plugins: [
-        tailwindcss({
-          content: ['./src/**/*.{ts,tsx}'],
-          darkMode: ['class'],
-          safelist: ['dark'],
-          theme: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
-            extend: {
-              spacing: {
-                88: '22rem',
-                120: '30rem',
-              },
-              fontFamily: {
-                display: 'DM Sans, sans-serif',
-              },
-            },
-          },
-          plugins: [tailwindcssAnimate],
-        }),
         autoprefixer(),
         postcssPrefixClassnames({
           prefix: 'ock-',

@@ -41,18 +41,18 @@ describe('useGetTransactionToastAction', () => {
     const { result } = renderHook(() => useGetTransactionToastAction());
 
     expect(result.current.actionElement).toMatchInlineSnapshot(`
-        <a
-          href="https://etherscan.io/tx/0x123"
-          rel="noreferrer"
-          target="_blank"
+      <a
+        href="https://etherscan.io/tx/0x123"
+        rel="noreferrer"
+        target="_blank"
+      >
+        <span
+          className="font-ock font-semibold text-sm text-ock-text-primary"
         >
-          <span
-            className="ock-font-family font-semibold text-sm ock-text-primary"
-          >
-            View transaction
-          </span>
-        </a>
-      `);
+          View transaction
+        </span>
+      </a>
+    `);
   });
 
   it('should return actionElement when transaction id exists', () => {
@@ -80,18 +80,18 @@ describe('useGetTransactionToastAction', () => {
     const { result } = renderHook(() => useGetTransactionToastAction());
 
     expect(result.current.actionElement).toMatchInlineSnapshot(`
-        <a
-          href="https://etherscan.io/tx/0x123"
-          rel="noreferrer"
-          target="_blank"
+      <a
+        href="https://etherscan.io/tx/0x123"
+        rel="noreferrer"
+        target="_blank"
+      >
+        <span
+          className="font-ock font-semibold text-sm text-ock-text-primary"
         >
-          <span
-            className="ock-font-family font-semibold text-sm ock-text-primary"
-          >
-            View transaction
-          </span>
-        </a>
-      `);
+          View transaction
+        </span>
+      </a>
+    `);
   });
 
   it('should return actionElement when error occurs', () => {
@@ -147,7 +147,7 @@ describe('useGetTransactionToastAction', () => {
         target="_blank"
       >
         <span
-          className="ock-font-family font-semibold text-sm ock-text-primary"
+          className="font-ock font-semibold text-sm text-ock-text-primary"
         >
           View transaction
         </span>

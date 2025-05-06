@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { background, cn, text } from '../../styles/theme';
+import { cn, text } from '../../styles/theme';
 import type { Token, TokenSelectModalReact } from '../types';
 import { TokenChip } from './TokenChip';
 import { TokenRow } from './TokenRow';
@@ -80,7 +80,7 @@ function TokenSelectModalInner({
       <div
         ref={modalRef}
         className={cn(
-          background.default,
+          'bg-ock-bg-default',
           'flex w-[475px] flex-col gap-3 rounded-3xl p-6',
         )}
       >
