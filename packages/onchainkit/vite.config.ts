@@ -82,7 +82,7 @@ export default defineConfig({
       plugins: [
         tailwindcss({
           base: './src',
-          // optimize: false,
+          optimize: process.env.NODE_ENV !== 'development',
         }),
         autoprefixer(),
         postcssPrefixClassnames({
