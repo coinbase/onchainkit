@@ -1,6 +1,7 @@
+import { act } from 'react';
 import { getName } from '@/identity';
 import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
-import { renderHook, act, waitFor } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { validateAddressInput } from '../utils/validateAddressInput';
