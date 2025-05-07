@@ -8,12 +8,7 @@ import { quoteResponseDataMock } from '../mocks';
 import type { FundCardProviderProps } from '../types';
 import { FundCardAmountInput } from './FundCardAmountInput';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
-
-global.fetch = vi.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve(quoteResponseDataMock),
-  }),
-) as Mock;
+import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
 
 class ResizeObserverMock {
   observe() {}
@@ -25,6 +20,10 @@ vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
   useAnalytics: vi.fn(() => ({
     sendAnalytics: vi.fn(),
   })),
+}));
+
+vi.mock('../utils/fetchOnrampQuote', () => ({
+  fetchOnrampQuote: vi.fn().mockResolvedValue(quoteResponseDataMock),
 }));
 
 describe('FundCardAmountInput', () => {
@@ -54,48 +53,59 @@ describe('FundCardAmountInput', () => {
     );
   };
 
-  const renderWithProvider = (
+  const renderWithProvider = async (
     initialProps: Partial<FundCardProviderProps> = {},
   ) => {
-    return render(
-      <FundCardProvider asset="ETH" country="US" {...initialProps}>
-        <FundCardAmountInput />
-        <TestComponent />
-      </FundCardProvider>,
-    );
+    return await act(async () => {
+      return render(
+        <FundCardProvider asset="ETH" country="US" {...initialProps}>
+          <FundCardAmountInput />
+          <TestComponent />
+        </FundCardProvider>,
+      );
+    });
   };
 
-  it('renders correctly with fiat input type', () => {
-    renderWithProvider();
+  it('renders correctly with fiat input type', async () => {
+    await renderWithProvider();
     expect(screen.getByTestId('ockTextInput_Input')).toBeInTheDocument();
     expect(screen.getByTestId('ockCurrencySpan')).toHaveTextContent('USD');
   });
 
-  it('renders correctly with crypto input type', () => {
-    renderWithProvider({ inputType: 'crypto' });
+  it('renders correctly with crypto input type', async () => {
+    await renderWithProvider({ inputType: 'crypto' });
     expect(screen.getByTestId('ockCurrencySpan')).toHaveTextContent('ETH');
   });
 
   it('handles fiat input change', async () => {
-    act(() => {
-      renderWithProvider({ inputType: 'fiat' });
+    await renderWithProvider({ inputType: 'fiat' });
+    const input = screen.getByTestId('ockTextInput_Input');
+    const testFiatValue = 10;
+
+    await act(async () => {
+      fireEvent.change(input, { target: { value: testFiatValue } });
     });
 
     await waitFor(() => {
-      const input = screen.getByTestId('ockTextInput_Input');
-
-      fireEvent.change(input, { target: { value: '10' } });
       const valueFiat = screen.getByTestId('test-value-fiat');
       const valueCrypto = screen.getByTestId('test-value-crypto');
-      expect(valueFiat.textContent).toBe('10');
-      expect(valueCrypto.textContent).toBe('');
+      expect(valueFiat.textContent).toBe(String(testFiatValue));
+      expect(valueCrypto.textContent).toBe(
+        truncateDecimalPlaces(
+          String(
+            (testFiatValue *
+              Number(quoteResponseDataMock.purchaseAmount.value)) /
+              Number(quoteResponseDataMock.paymentSubtotal.value),
+          ),
+          8,
+        ),
+      );
     });
   });
 
   it('handles crypto input change', async () => {
-    act(() => {
-      renderWithProvider({ inputType: 'crypto' });
-    });
+    await renderWithProvider({ inputType: 'crypto' });
+
     await waitFor(() => {
       const input = screen.getByTestId('ockTextInput_Input');
 
@@ -107,9 +117,7 @@ describe('FundCardAmountInput', () => {
   });
 
   it('does not allow non-numeric input', async () => {
-    act(() => {
-      renderWithProvider();
-    });
+    await renderWithProvider();
 
     await waitFor(() => {
       const input = screen.getByTestId('ockTextInput_Input');
@@ -121,8 +129,8 @@ describe('FundCardAmountInput', () => {
     });
   });
 
-  it('applies custom className', () => {
-    act(() => {
+  it('applies custom className', async () => {
+    await act(async () => {
       render(
         <FundCardProvider asset="ETH" country="US">
           <FundCardAmountInput className="custom-class" />
@@ -135,9 +143,7 @@ describe('FundCardAmountInput', () => {
   });
 
   it('handles truncation of crypto decimals', async () => {
-    act(() => {
-      renderWithProvider({ inputType: 'crypto' });
-    });
+    await renderWithProvider({ inputType: 'crypto' });
 
     await waitFor(() => {
       const input = screen.getByTestId('ockTextInput_Input');
@@ -150,13 +156,17 @@ describe('FundCardAmountInput', () => {
   });
 
   it('handles truncation of fiat decimals', async () => {
-    act(() => {
+    await act(async () => {
       renderWithProvider({ inputType: 'fiat' });
     });
 
-    await waitFor(() => {
-      const input = screen.getByTestId('ockTextInput_Input');
+    const input = screen.getByTestId('ockTextInput_Input');
+
+    await act(async () => {
       fireEvent.change(input, { target: { value: '1000.123456789' } });
+    });
+
+    await waitFor(() => {
       const valueFiat = screen.getByTestId('test-value-fiat');
       expect(valueFiat.textContent).toBe('1000.12');
     });
@@ -288,7 +298,7 @@ describe('FundCardAmountInput', () => {
       sendAnalytics: mockSendAnalytics,
     }));
 
-    renderWithProvider({ inputType: 'fiat' });
+    await renderWithProvider({ inputType: 'fiat' });
 
     const input = screen.getByTestId('ockTextInput_Input');
     await act(async () => {
@@ -307,7 +317,7 @@ describe('FundCardAmountInput', () => {
       sendAnalytics: mockSendAnalytics,
     }));
 
-    renderWithProvider({ inputType: 'fiat' });
+    await renderWithProvider({ inputType: 'fiat' });
 
     const input = screen.getByTestId('ockTextInput_Input');
     await act(async () => {
@@ -323,7 +333,7 @@ describe('FundCardAmountInput', () => {
       sendAnalytics: mockSendAnalytics,
     }));
 
-    renderWithProvider({ inputType: 'fiat' });
+    await renderWithProvider({ inputType: 'fiat' });
 
     const input = screen.getByTestId('ockTextInput_Input');
 
@@ -346,7 +356,7 @@ describe('FundCardAmountInput', () => {
       sendAnalytics: mockSendAnalytics,
     }));
 
-    renderWithProvider({
+    await renderWithProvider({
       inputType: 'fiat',
       currency: 'EUR',
     });
