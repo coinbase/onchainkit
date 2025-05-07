@@ -70,7 +70,8 @@ export async function createMiniKitManifest(envPath?: string) {
   try {
     const webpageData = await getWebpageData();
     // get existing next public url to re-update on subsequent runs
-    const domain = existingEnv.match(/NEXT_PUBLIC_URL=(.*)/)?.[1] || '$NEXT_PUBLIC_URL';
+    const domain =
+      existingEnv.match(/NEXT_PUBLIC_URL=(.*)/)?.[1] || '$NEXT_PUBLIC_URL';
     const envContent = `FARCASTER_HEADER=${webpageData.header}\nFARCASTER_PAYLOAD=${webpageData.payload}\nFARCASTER_SIGNATURE=${webpageData.signature}\nNEXT_PUBLIC_URL=${webpageData.domain}`;
     const updatedEnv = existingEnv
       .split('\n')
@@ -214,53 +215,6 @@ REDIS_TOKEN=`,
 
   console.log(`\n\n${pc.magenta(`Created new MiniKit project in ${root}`)}\n`);
 
-  console.log(
-    pc.blue(
-      'Mini-Apps require an account manifest based on your domain host to authenticate and allow users to add your Mini-App.',
-    ),
-  );
-  console.log(
-    `\n${pc.reset('Do you want to set up your Mini-App Account Manifest now?')}`,
-  );
-  console.log(
-    pc.blue(
-      '* You can set this up later by running `npx create-onchain --manifest` in your project directory.',
-    ),
-  );
-  console.log(
-    pc.blue('* Note: this process will open in a new browser window.'),
-  );
-
-  let setUpFrameResult: prompts.Answers<'setUpFrame'>;
-  try {
-    setUpFrameResult = await prompts(
-      [
-        {
-          type: 'toggle',
-          name: 'setUpFrame',
-          message: pc.reset('Set up now?'),
-          initial: true,
-          active: 'yes',
-          inactive: 'no',
-        },
-      ],
-      {
-        onCancel: () => {
-          console.log('\nSetup Mini-App cancelled.');
-          return false;
-        },
-      },
-    );
-  } catch (cancelled: any) {
-    console.log(cancelled.message);
-    return false;
-  }
-
-  const { setUpFrame } = setUpFrameResult;
-  if (setUpFrame) {
-    await createMiniKitManifest(envPath);
-  }
-
   logMiniKitSetupSummary(projectName, root, clientKey);
 }
 
@@ -291,20 +245,24 @@ function logMiniKitSetupSummary(
   console.log(`${pc.cyan('- ESLint')}`);
   console.log(`${pc.cyan('- Upstash Redis')}`);
 
-  console.log(
-    `\nTo get started with ${pc.green(
-      projectName,
-    )}, run the following commands:\n`,
-  );
-  if (root !== process.cwd()) {
-    console.log(` - cd ${path.relative(process.cwd(), root)}`);
-  }
-  console.log(' - npm install');
-  console.log(' - npm run dev');
+  const codeColor = (str: string) => pc.bgBlack(pc.green(str));
 
-  console.log(
-    pc.blue(
-      "\n* Don't forget to update the environment variables for your project in the `.env` file. Add Upstash Redis credentials to enable background notifications and webhooks.",
-    ),
-  );
+  [
+    `\nTo get started with ${pc.green(projectName)}, run the following commands:\n`,
+    root !== process.cwd()
+      ? `- ${codeColor(`cd ${path.relative(process.cwd(), root)}`)}`
+      : '',
+    `- ${codeColor('npm install')}`,
+    `- ${codeColor('npm run dev')}`,
+    '\nBefore launching your app:',
+    '\n- Set up account manifest',
+    '  - Required for app discovery, notifications, and client integration',
+    `  - Run ${codeColor('npx create-onchain --manifest')} from project root`,
+    '- Support webhooks and background notifications (optional)',
+    `  - Set ${codeColor('REDIS_URL')} and ${codeColor('REDIS_TOKEN')} environment variables`,
+  ]
+    .filter(Boolean)
+    .forEach((line) => {
+      console.log(line);
+    });
 }

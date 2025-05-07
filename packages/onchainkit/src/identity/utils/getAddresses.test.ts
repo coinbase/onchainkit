@@ -1,23 +1,13 @@
 import { publicClient } from '@/core/network/client';
-import { isBase } from '@/core/utils/isBase';
-import { isEthereum } from '@/core/utils/isEthereum';
 import { isBasename } from '@/identity/utils/isBasename';
 import type { Address } from 'viem';
-import { base, mainnet, optimism } from 'viem/chains';
+import { mainnet } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { getAddresses } from './getAddresses';
 
 vi.mock('@/core/network/client');
-
-vi.mock('@/core/utils/isBase', () => ({
-  isBase: vi.fn(),
-}));
-
-vi.mock('@/core/utils/isEthereum', () => ({
-  isEthereum: vi.fn(),
-}));
 
 vi.mock('@/identity/utils/isBasename', () => ({
   isBasename: vi.fn(),
@@ -39,10 +29,6 @@ describe('getAddresses', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(isBase).mockImplementation(({ chainId }) => chainId === base.id);
-    vi.mocked(isEthereum).mockImplementation(
-      ({ chainId }) => chainId === mainnet.id,
-    );
     vi.mocked(isBasename).mockImplementation(
       (name) => name.includes('.base.eth') || name.includes('.basetest.eth'),
     );
@@ -53,7 +39,7 @@ describe('getAddresses', () => {
     expect(addresses).toEqual([]);
   });
 
-  it('fetches addresses for multiple ENS names on mainnet', async () => {
+  it('fetches addresses for multiple ENS names', async () => {
     mockGetEnsAddress.mockImplementation((params) => {
       if (params.name === testNames[0])
         return Promise.resolve(testAddresses[0]);
@@ -77,45 +63,6 @@ describe('getAddresses', () => {
           : undefined,
       });
     });
-  });
-
-  it('fetches addresses for multiple names on Base chain', async () => {
-    mockGetEnsAddress.mockImplementation((params) => {
-      if (params.name === testNames[0])
-        return Promise.resolve(testAddresses[0]);
-      if (params.name === testNames[1])
-        return Promise.resolve(testAddresses[1]);
-      if (params.name === testNames[2])
-        return Promise.resolve(testAddresses[2]);
-      return Promise.resolve(null);
-    });
-
-    const addresses = await getAddresses({ names: testNames, chain: base });
-
-    expect(addresses).toEqual(testAddresses);
-    expect(mockGetEnsAddress).toHaveBeenCalledTimes(3);
-    testNames.forEach((name, index) => {
-      const isBasenameName = isBasename(name);
-      expect(mockGetEnsAddress).toHaveBeenNthCalledWith(index + 1, {
-        name,
-        universalResolverAddress: isBasenameName
-          ? RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id]
-          : undefined,
-      });
-    });
-  });
-
-  it('rejects for unsupported chains', async () => {
-    await expect(
-      getAddresses({
-        names: testNames,
-        chain: optimism,
-      }),
-    ).rejects.toBe(
-      'ChainId not supported, name resolution is only supported on Ethereum and Base.',
-    );
-
-    expect(mockGetEnsAddress).not.toHaveBeenCalled();
   });
 
   it('handles partial failures in address resolution', async () => {

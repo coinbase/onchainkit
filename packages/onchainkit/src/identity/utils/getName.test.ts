@@ -43,7 +43,6 @@ describe('getName', () => {
     expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: expectedEnsName,
-      chain: mainnet,
     });
   });
 
@@ -60,7 +59,6 @@ describe('getName', () => {
     expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: ensName,
-      chain: mainnet,
     });
   });
 
@@ -75,7 +73,6 @@ describe('getName', () => {
     expect(name).toBeNull();
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: ensName,
-      chain: mainnet,
     });
   });
 
@@ -91,7 +88,6 @@ describe('getName', () => {
     expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: ensName,
-      chain: mainnet,
     });
   });
 
@@ -107,7 +103,6 @@ describe('getName', () => {
     expect(mockReadContract).toHaveBeenCalled();
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: expectedBaseName,
-      chain: base,
     });
 
     expect(mockGetEnsName).not.toHaveBeenCalled();
