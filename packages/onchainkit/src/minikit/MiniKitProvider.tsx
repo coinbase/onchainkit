@@ -125,12 +125,7 @@ export function MiniKitProvider({
 
   return (
     <MiniKitContext.Provider value={value}>
-      <DefaultOnchainKitProviders
-        apiKey={onchainKitProps.apiKey}
-        appName={onchainKitProps.config?.appearance?.name ?? undefined}
-        appLogoUrl={onchainKitProps.config?.appearance?.logo ?? undefined}
-        connectors={connectors}
-      >
+      <DefaultOnchainKitProviders connectors={connectors}>
         <OnchainKitProvider {...onchainKitProps}>
           <div
             style={{
