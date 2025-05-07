@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.13
+
+### Patch Changes
+
+- **fix**: Update wagmi config if connectors change. By @dgca #2350
+
 ## 0.38.12
 
 ### Patch Changes
