@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.13
+
+### Patch Changes
+
+- a2336bb: fix: Update wagmi config if connectors change
+
 ## 0.38.12
 
 ### Patch Changes
