@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.12
+
+### Patch Changes
+
+- **fix**: MiniKit frames connector. By @dgca #2347
+
 ## 0.38.11
 
 ### Patch Changes
