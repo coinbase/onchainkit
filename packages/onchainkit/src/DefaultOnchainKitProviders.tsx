@@ -1,5 +1,12 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { type PropsWithChildren, useMemo, useState } from 'react';
+import {
+  type PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Config, WagmiProvider } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { createWagmiConfig } from './core/createWagmiConfig';
@@ -36,8 +43,10 @@ function WagmiProviderWithDefault({
   connectors?: CreateWagmiConfigParams['connectors'];
 }>) {
   const onchainKitConfig = useOnchainKit();
+  const prevConnectorsRef =
+    useRef<CreateWagmiConfigParams['connectors']>(connectors);
 
-  const [config] = useState(() => {
+  const getWagmiConfig = useCallback(() => {
     if (providedWagmiConfig) return providedWagmiConfig;
 
     const appName = onchainKitConfig.config?.appearance?.name ?? undefined;
@@ -55,7 +64,23 @@ function WagmiProviderWithDefault({
         }),
       ],
     });
+  }, [
+    onchainKitConfig.apiKey,
+    onchainKitConfig.config,
+    connectors,
+    providedWagmiConfig,
+  ]);
+
+  const [config, setConfig] = useState(() => {
+    return getWagmiConfig();
   });
+
+  useEffect(() => {
+    if (prevConnectorsRef.current !== connectors) {
+      setConfig(getWagmiConfig());
+      prevConnectorsRef.current = connectors;
+    }
+  }, [connectors, getWagmiConfig]);
 
   if (providedWagmiConfig) {
     return children;
