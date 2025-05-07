@@ -19,7 +19,6 @@ const defaultWalletChildren = (
   </>
 );
 
-
 export function Wallet({
   children,
   className,
