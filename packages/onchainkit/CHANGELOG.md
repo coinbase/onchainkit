@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.12
+
+### Patch Changes
+
+- e099e59: fix: MiniKit frames connector
+
 ## 0.38.11
 
 ### Patch Changes
