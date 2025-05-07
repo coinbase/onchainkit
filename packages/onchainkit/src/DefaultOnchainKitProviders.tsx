@@ -5,14 +5,21 @@ import { coinbaseWallet } from 'wagmi/connectors';
 import { createWagmiConfig } from './core/createWagmiConfig';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
 import { useOnchainKit } from './useOnchainKit';
+import type { CreateWagmiConfigParams } from './core/types';
 
-export function DefaultOnchainKitProviders({ children }: PropsWithChildren) {
+export function DefaultOnchainKitProviders({
+  children,
+  connectors,
+}: PropsWithChildren<{ connectors?: CreateWagmiConfigParams['connectors'] }>) {
   // Check the React context for WagmiProvider and QueryClientProvider
   const { providedWagmiConfig, providedQueryClient } =
     useProviderDependencies();
 
   return (
-    <WagmiProviderWithDefault providedWagmiConfig={providedWagmiConfig}>
+    <WagmiProviderWithDefault
+      providedWagmiConfig={providedWagmiConfig}
+      connectors={connectors}
+    >
       <QueryClientProviderWithDefault providedQueryClient={providedQueryClient}>
         {children}
       </QueryClientProviderWithDefault>
@@ -23,8 +30,10 @@ export function DefaultOnchainKitProviders({ children }: PropsWithChildren) {
 function WagmiProviderWithDefault({
   children,
   providedWagmiConfig,
+  connectors,
 }: PropsWithChildren<{
   providedWagmiConfig: Config | null;
+  connectors?: CreateWagmiConfigParams['connectors'];
 }>) {
   const onchainKitConfig = useOnchainKit();
 
@@ -38,7 +47,7 @@ function WagmiProviderWithDefault({
       apiKey: onchainKitConfig.apiKey ?? undefined,
       appName,
       appLogoUrl,
-      connectors: [
+      connectors: connectors ?? [
         coinbaseWallet({
           appName,
           appLogoUrl,
