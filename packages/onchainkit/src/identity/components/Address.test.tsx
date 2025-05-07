@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { act } from 'react';
 import '@testing-library/jest-dom';
 import { getSlicedAddress } from '../utils/getSlicedAddress';
 import { useIdentityContext } from './IdentityProvider';
@@ -53,7 +54,7 @@ describe('Address component', () => {
     });
   });
 
-  it('should console.error and return null when no address is provided', () => {
+  it('should console.error and return null when no address is provided', async () => {
     useIdentityContextMock.mockReturnValue({
       address: undefined,
       ensName: undefined,
@@ -64,7 +65,7 @@ describe('Address component', () => {
     const consoleErrorSpy = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
-    const { container } = render(<Address />);
+    const { container } = await act(async () => render(<Address />));
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Address: an Ethereum address must be provided to the Identity or Address component.',
@@ -185,7 +186,9 @@ describe('Address component', () => {
       render(<Address address={testAddress} />);
 
       const element = screen.getByTestId('ockAddress');
-      await fireEvent.click(element);
+      await act(async () => {
+        fireEvent.click(element);
+      });
 
       await waitFor(() => {
         const tooltip = element.querySelector('button');
@@ -202,7 +205,9 @@ describe('Address component', () => {
 
       const element = screen.getByTestId('ockAddress');
 
-      await fireEvent.keyDown(element, { key: 'Enter' });
+      await act(async () => {
+        fireEvent.keyDown(element, { key: 'Enter' });
+      });
 
       await waitFor(() => {
         const tooltip = element.querySelector('button');
@@ -222,7 +227,9 @@ describe('Address component', () => {
 
       const element = screen.getByTestId('ockAddress');
 
-      await fireEvent.click(element);
+      await act(async () => {
+        fireEvent.click(element);
+      });
 
       await waitFor(
         () => {
@@ -241,7 +248,9 @@ describe('Address component', () => {
 
       const element = screen.getByTestId('ockAddress');
 
-      await fireEvent.keyDown(element, { key: ' ' });
+      await act(async () => {
+        fireEvent.keyDown(element, { key: ' ' });
+      });
 
       await waitFor(() => {
         const tooltip = element.querySelector('button');

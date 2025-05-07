@@ -118,7 +118,7 @@ describe('fetchMorphoApy', () => {
         }),
     });
 
-    expect(
+    await expect(
       fetchMorphoApy('0x1234567890123456789012345678901234567890'),
     ).rejects.toThrow(
       'Error fetching Morpho vault data. Please try again later.',
