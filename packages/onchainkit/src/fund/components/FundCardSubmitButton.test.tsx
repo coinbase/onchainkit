@@ -1,13 +1,8 @@
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { openPopup } from '@/internal/utils/openPopup';
 import '@testing-library/jest-dom';
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { act } from 'react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
@@ -131,30 +126,34 @@ describe('FundCardSubmitButton', () => {
     });
   });
 
-  const renderComponent = () => {
-    return render(
-      <FundCardProvider asset="ETH" country="US">
-        <TestHelperComponent />
-        <FundCardSubmitButton />
-      </FundCardProvider>,
+  const renderComponent = async () => {
+    return await act(async () =>
+      render(
+        <FundCardProvider asset="ETH" country="US">
+          <TestHelperComponent />
+          <FundCardSubmitButton />
+        </FundCardProvider>,
+      ),
     );
   };
 
-  it('renders custom content when `render` prop is provided', () => {
-    render(
-      <FundCardProvider asset="ETH" country="US">
-        <FundCardSubmitButton
-          render={({ onClick, isDisabled, status }) => (
-            <button
-              data-testid="custom-render-button"
-              onClick={onClick}
-              disabled={isDisabled}
-            >
-              Custom Render - {status}
-            </button>
-          )}
-        />
-      </FundCardProvider>,
+  it('renders custom content when `render` prop is provided', async () => {
+    await act(async () =>
+      render(
+        <FundCardProvider asset="ETH" country="US">
+          <FundCardSubmitButton
+            render={({ onClick, isDisabled, status }) => (
+              <button
+                data-testid="custom-render-button"
+                onClick={onClick}
+                disabled={isDisabled}
+              >
+                Custom Render - {status}
+              </button>
+            )}
+          />
+        </FundCardProvider>,
+      ),
     );
 
     const customButton = screen.getByTestId('custom-render-button');
@@ -162,8 +161,8 @@ describe('FundCardSubmitButton', () => {
     expect(customButton).toHaveTextContent('Custom Render - default');
   });
 
-  it('renders disabled by default when no amount is set', () => {
-    renderComponent();
+  it('renders disabled by default when no amount is set', async () => {
+    await renderComponent();
     expect(screen.getByTestId('ockFundButton')).toBeDisabled();
   });
 
@@ -224,7 +223,7 @@ describe('FundCardSubmitButton', () => {
   });
 
   it('enables when fiat amount is set', async () => {
-    renderComponent();
+    await renderComponent();
     const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
     fireEvent.click(setFiatAmountButton);
 
@@ -237,7 +236,7 @@ describe('FundCardSubmitButton', () => {
   });
 
   it('disables when fiat amount is set to zero', async () => {
-    renderComponent();
+    await renderComponent();
 
     const button = screen.getByTestId('set-fiat-amount-zero');
     fireEvent.click(button);
@@ -248,7 +247,7 @@ describe('FundCardSubmitButton', () => {
   });
 
   it('disables when crypto amount is set to zero', async () => {
-    renderComponent();
+    await renderComponent();
 
     const setCryptoAmountButton = screen.getByTestId('set-crypto-amount-zero');
     fireEvent.click(setCryptoAmountButton);
@@ -259,7 +258,7 @@ describe('FundCardSubmitButton', () => {
   });
 
   it('shows loading state when clicked', async () => {
-    renderComponent();
+    await renderComponent();
 
     const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
     fireEvent.click(setFiatAmountButton);
@@ -273,9 +272,9 @@ describe('FundCardSubmitButton', () => {
     expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
   });
 
-  it('shows ConnectWallet when no wallet is connected', () => {
+  it('shows ConnectWallet when no wallet is connected', async () => {
     (useAccount as Mock).mockReturnValue({ address: undefined });
-    renderComponent();
+    await renderComponent();
 
     expect(
       screen.queryByTestId('ockConnectWallet_Container'),
@@ -283,26 +282,32 @@ describe('FundCardSubmitButton', () => {
     expect(screen.queryByTestId('ockFundButton')).not.toBeInTheDocument();
   });
 
-  it('sets submit button state to default on popup close', () => {
+  it('sets submit button state to default on popup close', async () => {
     vi.useFakeTimers();
 
     (openPopup as Mock).mockImplementation(() => ({ closed: true }));
-    renderComponent();
+    await renderComponent();
     const button = screen.getByTestId('ockFundButton');
 
     // Simulate entering a valid amount
     const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
-    fireEvent.click(setFiatAmountButton);
+    await act(async () => {
+      fireEvent.click(setFiatAmountButton);
+    });
 
     const setCryptoAmountButton = screen.getByTestId('set-crypto-amount');
-    fireEvent.click(setCryptoAmountButton);
+    await act(async () => {
+      fireEvent.click(setCryptoAmountButton);
+    });
 
     // Click the submit button to trigger loading state
-    act(() => {
+    await act(async () => {
       fireEvent.click(button);
     });
 
-    vi.runOnlyPendingTimers();
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+    });
 
     const submitButton = screen.getByTestId('ockFundButton');
 

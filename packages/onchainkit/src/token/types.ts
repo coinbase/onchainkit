@@ -1,6 +1,7 @@
 // 🌲☀🌲
 import type { Address } from 'viem';
 import type { PortfolioTokenWithFiatValue } from '../api/types';
+import { Ref } from 'react';
 
 /**
  * Note: exported as public Type
@@ -96,6 +97,7 @@ export type TokenSelectButtonReact = {
   onClick: () => void;
   /** Selected token */
   token?: Token;
+  ref?: Ref<HTMLButtonElement>;
 };
 
 /**

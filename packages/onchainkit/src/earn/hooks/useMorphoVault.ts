@@ -111,22 +111,22 @@ export function useMorphoVault({
     : 0;
 
   const formattedBalance =
-    balance && vaultData?.asset.decimals
+    balance && vaultData?.asset?.decimals
       ? formatUnits(balance, vaultData?.asset.decimals)
       : undefined;
 
   const formattedDeposits =
-    vaultData?.state.totalAssets && vaultData.asset.decimals
+    vaultData?.state?.totalAssets && vaultData?.asset?.decimals
       ? formatUnits(
-          BigInt(vaultData?.state.totalAssets),
+          BigInt(vaultData.state.totalAssets),
           vaultData.asset.decimals,
         )
       : undefined;
 
   const formattedLiquidity =
-    vaultData?.liquidity.underlying && vaultData.asset.decimals
+    vaultData?.liquidity?.underlying && vaultData?.asset?.decimals
       ? formatUnits(
-          BigInt(vaultData?.liquidity.underlying),
+          BigInt(vaultData.liquidity.underlying),
           vaultData.asset.decimals,
         )
       : undefined;

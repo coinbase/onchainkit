@@ -9,7 +9,7 @@ import { fetchOnrampOptions } from '../utils/fetchOnrampOptions';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
-
+import { act } from 'react';
 vi.mock('../utils/fetchOnrampQuote');
 vi.mock('../utils/fetchOnrampOptions');
 
@@ -72,16 +72,18 @@ describe('FundCardPaymentMethodDropdown', () => {
     });
   });
 
-  const renderWithProvider = ({ amount = '5' }: { amount?: string }) => {
-    return render(
-      <FundCardProvider asset="ETH" country="US">
-        <TestComponent amount={amount} />
-      </FundCardProvider>,
-    );
+  const renderWithProvider = async ({ amount = '5' }: { amount?: string }) => {
+    await act(async () => {
+      render(
+        <FundCardProvider asset="ETH" country="US">
+          <TestComponent amount={amount} />
+        </FundCardProvider>,
+      );
+    });
   };
 
   it('disables card payment methods when amount is less than minimum', async () => {
-    renderWithProvider({ amount: '1' });
+    await renderWithProvider({ amount: '1' });
     fireEvent.click(screen.getByTestId('setAmount1'));
 
     await waitFor(() => {
@@ -115,7 +117,7 @@ describe('FundCardPaymentMethodDropdown', () => {
   });
 
   it('disables card payment methods when amount is more than maximum', async () => {
-    renderWithProvider({ amount: '1000000' });
+    await renderWithProvider({ amount: '1000000' });
     fireEvent.click(screen.getByTestId('setAmount'));
 
     await waitFor(() => {
@@ -149,7 +151,7 @@ describe('FundCardPaymentMethodDropdown', () => {
   });
 
   it('enables card payment methods when amount meets minimum', async () => {
-    renderWithProvider({ amount: '5' });
+    await renderWithProvider({ amount: '5' });
 
     fireEvent.click(screen.getByTestId('setAmount'));
 
@@ -175,7 +177,7 @@ describe('FundCardPaymentMethodDropdown', () => {
   });
 
   it('switches to Coinbase when selected method becomes disabled', async () => {
-    renderWithProvider({ amount: '5' });
+    await renderWithProvider({ amount: '5' });
 
     fireEvent.click(screen.getByTestId('setAmount'));
 
@@ -209,7 +211,7 @@ describe('FundCardPaymentMethodDropdown', () => {
   });
 
   it('shows disabled reason when payment method is disabled', async () => {
-    renderWithProvider({ amount: '1' });
+    await renderWithProvider({ amount: '1' });
 
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('setAmount'));
@@ -231,7 +233,7 @@ describe('FundCardPaymentMethodDropdown', () => {
   });
 
   it('shows original description when payment method is not disabled', async () => {
-    renderWithProvider({ amount: '5' });
+    await renderWithProvider({ amount: '5' });
 
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('setAmount'));
@@ -251,7 +253,7 @@ describe('FundCardPaymentMethodDropdown', () => {
   });
 
   it('closes dropdown when clicking outside', async () => {
-    renderWithProvider({ amount: '5' });
+    await renderWithProvider({ amount: '5' });
 
     fireEvent.click(screen.getByTestId('setAmount'));
 
@@ -273,7 +275,7 @@ describe('FundCardPaymentMethodDropdown', () => {
   });
 
   it('closes dropdown when pressing Escape key', async () => {
-    renderWithProvider({ amount: '5' });
+    await renderWithProvider({ amount: '5' });
 
     fireEvent.click(screen.getByTestId('setAmount'));
 
@@ -298,7 +300,7 @@ describe('FundCardPaymentMethodDropdown', () => {
   });
 
   it('toggles dropdown visibility when clicking the toggle button', async () => {
-    renderWithProvider({ amount: '5' });
+    await renderWithProvider({ amount: '5' });
 
     fireEvent.click(screen.getByTestId('setAmount'));
 
@@ -324,7 +326,7 @@ describe('FundCardPaymentMethodDropdown', () => {
   });
 
   it('ignores non-Escape key presses', async () => {
-    renderWithProvider({ amount: '5' });
+    await renderWithProvider({ amount: '5' });
 
     fireEvent.click(screen.getByTestId('setAmount'));
 
@@ -350,7 +352,7 @@ describe('FundCardPaymentMethodDropdown', () => {
 
   it('hides Apple Pay option when not supported', async () => {
     (isApplePaySupported as Mock).mockReturnValue(false);
-    renderWithProvider({ amount: '5' });
+    await renderWithProvider({ amount: '5' });
 
     fireEvent.click(screen.getByTestId('setAmount'));
 
@@ -374,7 +376,7 @@ describe('FundCardPaymentMethodDropdown', () => {
 
   it('shows Apple Pay option when supported', async () => {
     (isApplePaySupported as Mock).mockResolvedValue(true);
-    renderWithProvider({ amount: '5' });
+    await renderWithProvider({ amount: '5' });
 
     await waitFor(() => {
       fireEvent.click(
@@ -392,14 +394,14 @@ describe('FundCardPaymentMethodDropdown', () => {
       paymentCurrencies: [],
       purchaseCurrencies: [],
     });
-    renderWithProvider({ amount: '5' });
+    await renderWithProvider({ amount: '5' });
 
     expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
   });
 
   describe('Analytics', () => {
     it('sends analytics when payment method is selected', async () => {
-      renderWithProvider({ amount: '5' });
+      await renderWithProvider({ amount: '5' });
 
       fireEvent.click(screen.getByTestId('setAmount'));
 
@@ -422,7 +424,7 @@ describe('FundCardPaymentMethodDropdown', () => {
     });
 
     it('does not send analytics when selecting disabled payment method', async () => {
-      renderWithProvider({ amount: '1' });
+      await renderWithProvider({ amount: '1' });
 
       fireEvent.click(screen.getByTestId('setAmount1'));
 
@@ -442,7 +444,7 @@ describe('FundCardPaymentMethodDropdown', () => {
     });
 
     it('sends analytics with correct option when selecting Coinbase', async () => {
-      renderWithProvider({ amount: '5' });
+      await renderWithProvider({ amount: '5' });
 
       fireEvent.click(screen.getByTestId('setAmount'));
 
@@ -465,7 +467,7 @@ describe('FundCardPaymentMethodDropdown', () => {
     });
 
     it('sends analytics with correct option when selecting debit card', async () => {
-      renderWithProvider({ amount: '5' });
+      await renderWithProvider({ amount: '5' });
 
       fireEvent.click(screen.getByTestId('setAmount'));
 
@@ -488,7 +490,7 @@ describe('FundCardPaymentMethodDropdown', () => {
     });
 
     it('sends analytics when automatically switching to Coinbase due to disabled method', async () => {
-      renderWithProvider({ amount: '5' });
+      await renderWithProvider({ amount: '5' });
 
       fireEvent.click(screen.getByTestId('setAmount'));
 

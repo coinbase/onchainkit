@@ -1,4 +1,5 @@
 import { TransactionEvent } from '@/core/analytics/types';
+import { act } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -60,6 +61,16 @@ vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
     sendAnalytics: vi.fn(),
   })),
 }));
+
+const restoreUseSendWalletTransactions = async () => {
+  const mockOriginalModule = await vi.importActual<
+    typeof import('../hooks/useSendWalletTransactions')
+  >('../hooks/useSendWalletTransactions');
+
+  (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockImplementation(
+    (props) => mockOriginalModule.useSendWalletTransactions(props),
+  );
+};
 
 const silenceError = () => {
   const consoleErrorMock = vi
@@ -176,6 +187,10 @@ describe('TransactionProvider', () => {
 
   describe('analytics', () => {
     it('tracks transaction initiation', async () => {
+      (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+        vi.fn(),
+      );
+
       const mockTransactions = [
         {
           to: '0x1234567890123456789012345678901234567890' as `0x${string}`,
@@ -193,7 +208,7 @@ describe('TransactionProvider', () => {
       const button = screen.getByText('Submit');
       fireEvent.click(button);
 
-      await waitFor(() => {
+      await waitFor(async () => {
         expect(mockSendAnalytics).toHaveBeenCalledWith(
           TransactionEvent.TransactionInitiated,
           {
@@ -204,6 +219,9 @@ describe('TransactionProvider', () => {
     });
 
     it('tracks transaction success', async () => {
+      (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+        vi.fn(),
+      );
       (
         useWaitForTransactionReceipt as ReturnType<typeof vi.fn>
       ).mockReturnValue({
@@ -226,7 +244,7 @@ describe('TransactionProvider', () => {
       const button = screen.getByText('Submit');
       fireEvent.click(button);
 
-      await waitFor(() => {
+      await act(async () => {
         expect(mockSendAnalytics).toHaveBeenCalledWith(
           TransactionEvent.TransactionSuccess,
           {
@@ -257,7 +275,7 @@ describe('TransactionProvider', () => {
       const button = screen.getByText('setLifecycleStatus.error');
       fireEvent.click(button);
 
-      await waitFor(() => {
+      await act(() => {
         expect(mockSendAnalytics).toHaveBeenCalledWith(
           TransactionEvent.TransactionFailure,
           {
@@ -287,7 +305,7 @@ describe('TransactionProvider', () => {
       const button = screen.getByText('Submit');
       fireEvent.click(button);
 
-      await waitFor(() => {
+      await waitFor(async () => {
         expect(mockSendAnalytics).toHaveBeenCalledTimes(1);
         expect(mockSendAnalytics).not.toHaveBeenCalledWith(
           TransactionEvent.TransactionFailure,
@@ -308,20 +326,27 @@ describe('TransactionProvider', () => {
       reset: vi.fn(),
     });
 
-    render(
-      <TransactionProvider chainId={base.id} calls={[]} resetAfter={resetAfter}>
-        <TestComponent />
-      </TransactionProvider>,
-    );
-
-    fireEvent.click(screen.getByText('Submit'));
+    await act(async () => {
+      render(
+        <TransactionProvider
+          chainId={base.id}
+          calls={[]}
+          resetAfter={resetAfter}
+        >
+          <TestComponent />
+        </TransactionProvider>,
+      );
+    });
 
     expect(
       screen.getByTestId('context-value-lifecycleStatus-statusName')
         .textContent,
     ).toBe('success');
 
-    vi.advanceTimersByTime(resetAfter + 100);
+    await act(async () => {
+      vi.advanceTimersByTime(resetAfter + 100);
+    });
+
     const mockSendCall = useSendCall as ReturnType<typeof vi.fn>;
     expect(mockSendCall().reset).toHaveBeenCalled();
 
@@ -330,6 +355,9 @@ describe('TransactionProvider', () => {
   });
 
   it('should cleanup resetAfter timeout on unmount', async () => {
+    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      vi.fn(),
+    );
     vi.useFakeTimers();
     const resetAfter = 1000;
 
@@ -396,6 +424,9 @@ describe('TransactionProvider', () => {
   });
 
   it('should emit onSuccess when one receipt exist', async () => {
+    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      vi.fn(),
+    );
     const onSuccessMock = vi.fn();
     (useWaitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue({
       data: { status: 'success' },
@@ -419,7 +450,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await act(async () => {
       expect(onSuccessMock).toHaveBeenCalled();
       expect(onSuccessMock).toHaveBeenCalledWith({
         transactionReceipts: [{ status: 'success' }],
@@ -428,6 +459,9 @@ describe('TransactionProvider', () => {
   });
 
   it('should emit onSuccess for multiple contracts using legacy transactions', async () => {
+    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      vi.fn(),
+    );
     const onSuccessMock = vi.fn();
     (waitForTransactionReceipt as ReturnType<typeof vi.fn>).mockReturnValue(
       'hash12345678',
@@ -454,7 +488,7 @@ describe('TransactionProvider', () => {
       'setLifecycleStatus.transactionLegacyExecutedMultipleContracts',
     );
     fireEvent.click(button);
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(onSuccessMock).toHaveBeenCalled();
       expect(onSuccessMock).toHaveBeenCalledWith({
         transactionReceipts: ['hash12345678', 'hash12345678'],
@@ -480,7 +514,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(onErrorMock).toHaveBeenCalledWith({
         code: 'TmTPc04',
         error: '{}',
@@ -520,7 +554,8 @@ describe('TransactionProvider', () => {
       'setLifecycleStatus.transactionLegacyExecutedMultipleContracts',
     );
     fireEvent.click(button);
-    await waitFor(() => {
+
+    await waitFor(async () => {
       expect(sendWalletTransactionsMock).toHaveBeenCalled();
       expect(onErrorMock).toHaveBeenCalledWith({
         code: 'TmTPc01',
@@ -531,6 +566,11 @@ describe('TransactionProvider', () => {
   });
 
   it('should set setLifecycleStatus to transactionPending when writeContractsAsync is pending', async () => {
+    await restoreUseSendWalletTransactions();
+    const sendWalletTransactionsMock = vi.fn();
+    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      sendWalletTransactionsMock,
+    );
     const writeContractsAsyncMock = vi.fn();
     (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'pending',
@@ -548,7 +588,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await act(async () => {
       expect(
         screen.getByTestId('context-value-lifecycleStatus-statusName')
           .textContent,
@@ -557,6 +597,7 @@ describe('TransactionProvider', () => {
   });
 
   it('should set setLifecycleStatus to transactionPending when writeContractAsync is pending', async () => {
+    await restoreUseSendWalletTransactions();
     const writeContractsAsyncMock = vi.fn();
     (useSendCall as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'pending',
@@ -569,7 +610,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await act(async () => {
       expect(
         screen.getByTestId('context-value-lifecycleStatus-statusName')
           .textContent,
@@ -602,18 +643,20 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(sendWalletTransactionsMock).toHaveBeenCalled();
     });
   });
 
   it('should handle errors during submission', async () => {
-    const writeContractsAsyncMock = vi
+    await restoreUseSendWalletTransactions();
+
+    const sendCallsAsyncMock = vi
       .fn()
       .mockRejectedValue(new Error('Test error'));
     (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
-      writeContractsAsync: writeContractsAsyncMock,
+      sendCallsAsync: sendCallsAsyncMock,
     });
     (useCapabilitiesSafe as ReturnType<typeof vi.fn>).mockReturnValue({
       atomicBatch: { supported: true },
@@ -627,7 +670,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(screen.getByTestId('context-value-errorCode').textContent).toBe(
         'TmTPc03',
       );
@@ -638,6 +681,9 @@ describe('TransactionProvider', () => {
   });
 
   it('should switch chains when required', async () => {
+    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      vi.fn(),
+    );
     const switchChainAsyncMock = vi.fn();
     (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
       switchChainAsync: switchChainAsyncMock,
@@ -649,12 +695,15 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await act(async () => {
       expect(switchChainAsyncMock).toHaveBeenCalled();
     });
   });
 
   it('should display toast on error', async () => {
+    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      vi.fn(),
+    );
     (useSendCalls as ReturnType<typeof vi.fn>).mockReturnValue({
       status: 'idle',
       writeContractsAsync: vi.fn().mockRejectedValue(new Error('Test error')),
@@ -666,7 +715,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await act(async () => {
       const testComponent = screen.getByTestId('context-value-isToastVisible');
       expect(testComponent.textContent).toBe('true');
     });
@@ -698,13 +747,16 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await waitFor(async () => {
       const errorMessage = screen.getByTestId('context-value-errorMessage');
       expect(errorMessage.textContent).toBe('Request denied.');
     });
   });
 
   it('should handle chain switching', async () => {
+    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      vi.fn(),
+    );
     const switchChainAsyncMock = vi.fn();
     (useSwitchChain as ReturnType<typeof vi.fn>).mockReturnValue({
       switchChainAsync: switchChainAsyncMock,
@@ -717,7 +769,7 @@ describe('TransactionProvider', () => {
     );
     const button = screen.getByText('Submit');
     fireEvent.click(button);
-    await waitFor(() => {
+    await act(async () => {
       expect(switchChainAsyncMock).toHaveBeenCalledWith({ chainId: 2 });
     });
   });
@@ -734,7 +786,7 @@ describe('TransactionProvider', () => {
         <TestComponent />
       </TransactionProvider>,
     );
-    await waitFor(() => {
+    await act(async () => {
       const transactionsElement = screen.getByTestId('transactions');
       expect(transactionsElement.textContent).toBe(JSON.stringify(contracts));
     });
@@ -752,7 +804,7 @@ describe('TransactionProvider', () => {
         <TestComponent />
       </TransactionProvider>,
     );
-    await waitFor(() => {
+    await act(async () => {
       const transactionsElement = screen.getByTestId('transactions');
       expect(transactionsElement.textContent).toBe(JSON.stringify(calls));
     });
@@ -787,6 +839,9 @@ describe('TransactionProvider', () => {
   });
 
   it('should handle sponsored contract calls', async () => {
+    (useSendWalletTransactions as ReturnType<typeof vi.fn>).mockReturnValue(
+      vi.fn(),
+    );
     const contracts = [
       { to: '0alissa' as `0x${string}`, data: '0x' as `0x${string}` },
     ];
@@ -806,16 +861,22 @@ describe('TransactionProvider', () => {
       status: 'success',
       writeContractsAsync: mockWriteContractsAsync,
     });
-    render(
-      <TransactionProvider
-        chainId={base.id}
-        isSponsored={true}
-        calls={contracts}
-      >
-        <TestComponent />
-      </TransactionProvider>,
-    );
-    fireEvent.click(screen.getByText('Submit'));
+    await act(async () => {
+      render(
+        <TransactionProvider
+          chainId={base.id}
+          isSponsored={true}
+          calls={contracts}
+        >
+          <TestComponent />
+        </TransactionProvider>,
+      );
+    });
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Submit'));
+    });
+
     expect(useSendWalletTransactions).toHaveBeenLastCalledWith(
       expect.objectContaining({
         capabilities: mockCapabilities,

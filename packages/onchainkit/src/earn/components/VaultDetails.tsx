@@ -21,8 +21,8 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
 
 export function VaultDetails() {
   const [isOpen, setIsOpen] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const anchorRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const anchorRef = useRef<HTMLDivElement | null>(null);
   const { vaultToken, vaultName, deposits, liquidity, vaultAddress } =
     useEarnContext();
 

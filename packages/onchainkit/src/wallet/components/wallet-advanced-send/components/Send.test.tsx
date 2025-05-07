@@ -120,7 +120,7 @@ describe('Send', () => {
 
       expect(Skeleton).toHaveBeenCalledWith(
         expect.objectContaining({ className: 'h-full w-full' }),
-        {},
+        undefined,
       );
     });
 

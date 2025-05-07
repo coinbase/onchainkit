@@ -10,7 +10,7 @@ type DismissableLayerProps = {
    * Reference to the trigger element (e.g., button) that opens this layer.
    * Prevents the layer from being dismissed when the trigger is clicked, enabling proper toggle behavior.
    */
-  triggerRef?: React.RefObject<HTMLElement>;
+  triggerRef?: React.RefObject<HTMLElement | null>;
   /**
    * When `true`, prevents trigger click events from bubbling up.
    * Useful for bottom sheets to prevent unwanted side effects.

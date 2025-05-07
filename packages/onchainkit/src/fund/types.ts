@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 import React from 'react';
 
 /**
@@ -419,6 +419,7 @@ export type FundCardPaymentMethodSelectorToggleProps = {
   isOpen: boolean; // Determines carot icon direction
   onClick: () => void; // Button on click handler
   paymentMethod: PaymentMethod;
+  ref?: Ref<HTMLButtonElement>;
 };
 
 export type FundCardPaymentMethodSelectRowProps = {

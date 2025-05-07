@@ -89,7 +89,7 @@ describe('SendAmountInputTypeSwitch', () => {
         setSelectedInputType: defaultContext.setSelectedInputType,
         className: 'test-class',
       },
-      {},
+      undefined,
     );
   });
 
@@ -120,7 +120,7 @@ describe('SendAmountInputTypeSwitch', () => {
         setSelectedInputType: mockSetSelectedInputType,
         className: undefined,
       },
-      {},
+      undefined,
     );
   });
 });

@@ -12,11 +12,11 @@ const defaultConfig: InputResizeConfig = {
 };
 
 export function useInputResize(
-  containerRef: RefObject<HTMLDivElement>,
-  wrapperRef: RefObject<HTMLDivElement>,
-  inputRef: RefObject<HTMLInputElement>,
-  measureRef: RefObject<HTMLSpanElement>,
-  labelRef: RefObject<HTMLSpanElement>,
+  containerRef: RefObject<HTMLDivElement | null>,
+  wrapperRef: RefObject<HTMLDivElement | null>,
+  inputRef: RefObject<HTMLInputElement | null>,
+  measureRef: RefObject<HTMLSpanElement | null>,
+  labelRef: RefObject<HTMLSpanElement | null>,
   config: Partial<InputResizeConfig> = {},
 ) {
   const { baseFontSize, minScale } = {
