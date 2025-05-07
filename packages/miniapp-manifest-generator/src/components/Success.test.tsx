@@ -3,10 +3,6 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Success } from './Success';
 
-vi.mock('./Timer', () => ({
-  Timer: () => <div data-testid="mock-timer">5s</div>,
-}));
-
 const mockClipboard = {
   writeText: vi.fn(),
 };
@@ -44,7 +40,6 @@ describe('Success', () => {
     expect(screen.getByText(/test-header/)).toBeInTheDocument();
     expect(screen.getByText(/test-payload/)).toBeInTheDocument();
     expect(screen.getByText(/test-signature/)).toBeInTheDocument();
-    expect(screen.getByTestId('mock-timer')).toBeInTheDocument();
   });
 
   it('should not render when accountAssociation is null', () => {
@@ -86,26 +81,8 @@ describe('Success', () => {
       />,
     );
 
-    fireEvent.click(
-      screen.getByText(/This window will close automatically in/),
-    );
+    fireEvent.click(screen.getByText(/Close window and return to CLI/));
 
     expect(mockHandleClose).toHaveBeenCalled();
-  });
-
-  it('should show cancel close button and update text when cancel is clicked', () => {
-    render(
-      <Success
-        accountAssocation={mockAccountAssociation}
-        handleClose={mockHandleClose}
-      />,
-    );
-
-    fireEvent.click(screen.getByText('Cancel close'));
-
-    expect(
-      screen.getByText('Close window and return to CLI'),
-    ).toBeInTheDocument();
-    expect(screen.queryByText('Cancel close')).not.toBeInTheDocument();
   });
 });

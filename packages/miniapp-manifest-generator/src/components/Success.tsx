@@ -1,6 +1,4 @@
-import { useState } from 'react';
 import type { AccountAssociation } from '../hooks/useSignManifest';
-import { Timer } from './Timer';
 
 type SuccessProps = {
   accountAssocation: AccountAssociation | null;
@@ -8,8 +6,6 @@ type SuccessProps = {
 };
 
 export function Success({ accountAssocation, handleClose }: SuccessProps) {
-  const [cancelClose, setCancelClose] = useState(false);
-
   if (!accountAssocation) {
     return null;
   }
@@ -56,24 +52,8 @@ export function Success({ accountAssocation, handleClose }: SuccessProps) {
           className="flex-grow rounded !bg-blue-800 px-2 py-2 text-white hover:!bg-blue-600"
           onClick={handleClose}
         >
-          {cancelClose ? (
-            'Close window and return to CLI'
-          ) : (
-            <>
-              This window will close automatically in{' '}
-              <Timer startMs={5000} callback={handleClose} />
-            </>
-          )}
+          Close window and return to CLI
         </button>
-        {!cancelClose && (
-          <button
-            type="button"
-            onClick={() => setCancelClose(true)}
-            className="rounded !bg-red-800 px-2 py-2 text-white hover:!bg-red-600"
-          >
-            Cancel close
-          </button>
-        )}
       </div>
     </div>
   );

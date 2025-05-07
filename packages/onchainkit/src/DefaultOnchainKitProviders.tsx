@@ -3,34 +3,16 @@ import { type PropsWithChildren, useMemo, useState } from 'react';
 import { Config, WagmiProvider } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { createWagmiConfig } from './core/createWagmiConfig';
-import type { CreateWagmiConfigParams } from './core/types';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
+import { useOnchainKit } from './useOnchainKit';
 
-export function DefaultOnchainKitProviders({
-  apiKey,
-  appName,
-  appLogoUrl,
-  connectors = [
-    coinbaseWallet({
-      appName,
-      appLogoUrl,
-      preference: 'all',
-    }),
-  ],
-  children,
-}: PropsWithChildren<CreateWagmiConfigParams>) {
+export function DefaultOnchainKitProviders({ children }: PropsWithChildren) {
   // Check the React context for WagmiProvider and QueryClientProvider
   const { providedWagmiConfig, providedQueryClient } =
     useProviderDependencies();
 
   return (
-    <WagmiProviderWithDefault
-      apiKey={apiKey}
-      appName={appName}
-      appLogoUrl={appLogoUrl}
-      connectors={connectors}
-      providedWagmiConfig={providedWagmiConfig}
-    >
+    <WagmiProviderWithDefault providedWagmiConfig={providedWagmiConfig}>
       <QueryClientProviderWithDefault providedQueryClient={providedQueryClient}>
         {children}
       </QueryClientProviderWithDefault>
@@ -39,23 +21,30 @@ export function DefaultOnchainKitProviders({
 }
 
 function WagmiProviderWithDefault({
-  apiKey,
-  appName,
-  appLogoUrl,
-  connectors,
   children,
   providedWagmiConfig,
-}: PropsWithChildren<CreateWagmiConfigParams> & {
+}: PropsWithChildren<{
   providedWagmiConfig: Config | null;
-}) {
+}>) {
+  const onchainKitConfig = useOnchainKit();
+
   const [config] = useState(() => {
     if (providedWagmiConfig) return providedWagmiConfig;
 
+    const appName = onchainKitConfig.config?.appearance?.name ?? undefined;
+    const appLogoUrl = onchainKitConfig.config?.appearance?.logo ?? undefined;
+
     return createWagmiConfig({
-      apiKey,
+      apiKey: onchainKitConfig.apiKey ?? undefined,
       appName,
       appLogoUrl,
-      connectors,
+      connectors: [
+        coinbaseWallet({
+          appName,
+          appLogoUrl,
+          preference: onchainKitConfig.config?.wallet?.preference,
+        }),
+      ],
     });
   });
 
