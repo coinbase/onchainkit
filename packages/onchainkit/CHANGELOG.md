@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- e099e59: fix: MiniKit frames connector
+- **fix**: MiniKit frames connector. By @dgca #2347
 
 ## 0.38.11
 
