@@ -10,6 +10,7 @@ import { useTransactionContext } from './TransactionProvider';
 export function TransactionButton({
   className,
   disabled = false,
+  text: idleText = 'Transact',
   render,
 }: TransactionButtonReact) {
   const {
@@ -91,8 +92,8 @@ export function TransactionButton({
     if (displayPendingState) {
       return <Spinner />;
     }
-    return 'Transact';
-  }, [displayPendingState, errorMessage, receipt]);
+    return idleText;
+  }, [displayPendingState, errorMessage, receipt, idleText]);
 
   const handleSubmit = useCallback(() => {
     if (receipt) {
@@ -118,6 +119,14 @@ export function TransactionButton({
   if (render) {
     return render({
       status,
+      context: {
+        lifecycleStatus,
+        transactionCount,
+        receipt,
+        isLoading: displayPendingState,
+        transactions,
+        errorMessage,
+      },
       onSubmit: handleSubmit,
       onSuccess: handleSuccess,
       isDisabled,

@@ -1,12 +1,14 @@
 'use client';
 import { useWithdrawAnalytics } from '@/earn/hooks/useWithdrawAnalytics';
-import { cn } from '@/styles/theme';
+import { Spinner } from '@/internal/components/Spinner';
+import { cn, pressable, text } from '@/styles/theme';
 import {
   type LifecycleStatus,
   Transaction,
   TransactionButton,
   type TransactionResponse,
 } from '@/transaction';
+import { TransactionButtonRenderParams } from '@/transaction/types';
 import { ConnectWallet } from '@/wallet';
 import { useCallback, useState } from 'react';
 import type { WithdrawButtonReact } from '../types';
@@ -61,6 +63,61 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     [setWithdrawAmount, refetchDepositedBalance, withdrawAmount],
   );
 
+  const customRender = useCallback(
+    ({
+      context,
+      onSubmit,
+      onSuccess,
+      isDisabled,
+    }: TransactionButtonRenderParams) => {
+      const classNames = cn(
+        pressable.primary,
+        'rounded-ock-default',
+        'w-full rounded-xl',
+        'px-4 py-3 font-medium leading-6',
+        isDisabled && pressable.disabled,
+        text.headline,
+        'text-ock-text-inverse',
+      );
+
+      if (context.receipt) {
+        return (
+          <button
+            className={classNames}
+            onClick={onSuccess}
+            disabled={isDisabled}
+          >
+            {`Withdrew ${withdrawnAmount} ${vaultToken?.symbol}`}
+          </button>
+        );
+      }
+      if (context.errorMessage) {
+        return (
+          <button
+            className={classNames}
+            onClick={onSubmit}
+            disabled={isDisabled}
+          >
+            {withdrawAmountError ?? 'Try again'}
+          </button>
+        );
+      }
+      if (context.isLoading) {
+        return (
+          <button className={classNames} disabled={isDisabled}>
+            <Spinner />
+          </button>
+        );
+      }
+      return (
+        <button className={classNames} disabled={isDisabled} onClick={onSubmit}>
+          Withdraw
+        </button>
+      );
+    },
+    [vaultToken?.symbol, withdrawAmountError, withdrawnAmount],
+  );
+
   if (!address) {
     return (
       <ConnectWallet
@@ -80,10 +137,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
       resetAfter={3_000}
     >
       <TransactionButton
-        text={withdrawAmountError ?? 'Withdraw'}
-        successOverride={{
-          text: `Withdrew ${withdrawnAmount} ${vaultToken?.symbol}`,
-        }}
+        render={customRender}
         disabled={!!withdrawAmountError || !withdrawAmount}
       />
     </Transaction>

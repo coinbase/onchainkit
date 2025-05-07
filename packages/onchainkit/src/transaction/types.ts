@@ -81,6 +81,16 @@ export type TransactionButtonRenderParams = {
   onSuccess: () => void;
   /** Whether the button is disabled */
   isDisabled: boolean;
+  /** The context of the transaction */
+  context: Pick<
+    TransactionContextType,
+    | 'receipt'
+    | 'transactionCount'
+    | 'lifecycleStatus'
+    | 'isLoading'
+    | 'transactions'
+    | 'errorMessage'
+  >;
 };
 
 /**

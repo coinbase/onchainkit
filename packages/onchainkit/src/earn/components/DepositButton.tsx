@@ -1,12 +1,14 @@
 'use client';
 import { useDepositAnalytics } from '@/earn/hooks/useDepositAnalytics';
-import { cn } from '@/styles/theme';
+import { Spinner } from '@/internal/components/Spinner';
+import { cn, pressable, text } from '@/styles/theme';
 import {
   type LifecycleStatus,
   Transaction,
   TransactionButton,
   type TransactionResponse,
 } from '@/transaction';
+import { TransactionButtonRenderParams } from '@/transaction/types';
 import { ConnectWallet } from '@/wallet';
 import { useCallback, useState } from 'react';
 import type { DepositButtonReact } from '../types';
@@ -63,6 +65,61 @@ export function DepositButton({ className }: DepositButtonReact) {
     [depositAmount, setDepositAmount, refetchWalletBalance],
   );
 
+  const customRender = useCallback(
+    ({
+      context,
+      onSubmit,
+      onSuccess,
+      isDisabled,
+    }: TransactionButtonRenderParams) => {
+      const classNames = cn(
+        pressable.primary,
+        'rounded-ock-default',
+        'w-full rounded-xl',
+        'px-4 py-3 font-medium leading-6',
+        isDisabled && pressable.disabled,
+        text.headline,
+        'text-ock-text-inverse',
+      );
+
+      if (context.receipt) {
+        return (
+          <button
+            className={classNames}
+            onClick={onSuccess}
+            disabled={isDisabled}
+          >
+            {`Deposited ${depositedAmount} ${vaultToken?.symbol}`}
+          </button>
+        );
+      }
+      if (context.errorMessage) {
+        return (
+          <button
+            className={classNames}
+            onClick={onSubmit}
+            disabled={isDisabled}
+          >
+            {depositAmountError ?? 'Try again'}
+          </button>
+        );
+      }
+      if (context.isLoading) {
+        return (
+          <button className={classNames} disabled={isDisabled}>
+            <Spinner />
+          </button>
+        );
+      }
+      return (
+        <button className={classNames} disabled={isDisabled} onClick={onSubmit}>
+          Deposit
+        </button>
+      );
+    },
+    [depositAmountError, depositedAmount, vaultToken?.symbol],
+  );
+
   if (!address) {
     return (
       <ConnectWallet
@@ -82,10 +139,7 @@ export function DepositButton({ className }: DepositButtonReact) {
       resetAfter={3_000}
     >
       <TransactionButton
-        text={depositAmountError ?? 'Deposit'}
-        successOverride={{
-          text: `Deposited ${depositedAmount} ${vaultToken?.symbol}`,
-        }}
+        render={customRender}
         disabled={!!depositAmountError || !depositAmount}
       />
     </Transaction>

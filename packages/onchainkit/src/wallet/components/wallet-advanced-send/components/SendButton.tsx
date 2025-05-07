@@ -8,7 +8,10 @@ import { useTransactionContext } from '@/transaction/components/TransactionProvi
 import { TransactionStatus } from '@/transaction/components/TransactionStatus';
 import { TransactionStatusAction } from '@/transaction/components/TransactionStatusAction';
 import { TransactionStatusLabel } from '@/transaction/components/TransactionStatusLabel';
-import type { LifecycleStatus } from '@/transaction/types';
+import type {
+  LifecycleStatus,
+  TransactionButtonRenderParams,
+} from '@/transaction/types';
 import { useCallback } from 'react';
 import { parseUnits } from 'viem';
 import { type Chain, base } from 'viem/chains';
@@ -17,6 +20,8 @@ import type { SendLifecycleStatus } from '../types';
 import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
 import { getSendCalldata } from '../utils/getSendCalldata';
 import { useSendContext } from './SendProvider';
+import { cn, pressable, text } from '@/styles/theme';
+import { Spinner } from '@/internal/components/Spinner';
 
 export function SendButton() {
   const { chain: senderChain, isSponsored } = useWalletContext();
@@ -105,22 +110,69 @@ function SendTransactionButton({
     setActiveFeature(null);
   }, [setActiveFeature]);
 
-  const defaultSuccessOverride = {
-    onClick: defaultSendTxSuccessHandler({
-      transactionId,
+  const customRender = useCallback(
+    ({ context, onSubmit }: TransactionButtonRenderParams) => {
+      const classNames = cn(
+        pressable.primary,
+        'rounded-ock-default',
+        'w-full rounded-xl',
+        'px-4 py-3 font-medium leading-6',
+        disabled && pressable.disabled,
+        text.headline,
+        'text-ock-text-foreground',
+      );
+      if (context.receipt) {
+        return (
+          <button
+            className={classNames}
+            onClick={() =>
+              defaultSendTxSuccessHandler({
+                transactionId,
+                transactionHash,
+                senderChain: senderChain ?? undefined,
+                address: address ?? undefined,
+                onComplete: completionHandler,
+              })(context.receipt)
+            }
+            disabled={disabled}
+          >
+            View transaction
+          </button>
+        );
+      }
+      if (context.errorMessage) {
+        return (
+          <button className={classNames} onClick={onSubmit} disabled={disabled}>
+            Try again
+          </button>
+        );
+      }
+      if (context.isLoading) {
+        return (
+          <button className={classNames} disabled={disabled}>
+            <Spinner />
+          </button>
+        );
+      }
+      return (
+        <button className={classNames} disabled={disabled} onClick={onSubmit}>
+          {label}
+        </button>
+      );
+    },
+    [
+      address,
+      completionHandler,
+      disabled,
+      label,
+      senderChain,
       transactionHash,
-      senderChain: senderChain ?? undefined,
-      address: address ?? undefined,
-      onComplete: completionHandler,
-    }),
-  };
+      transactionId,
+    ],
+  );
 
   return (
-    <TransactionButton
-      text={label}
-      successOverride={defaultSuccessOverride}
-      disabled={disabled}
-    />
+    <TransactionButton text={label} render={customRender} disabled={disabled} />
   );
 }
 
