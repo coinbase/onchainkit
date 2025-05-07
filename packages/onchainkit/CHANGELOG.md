@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- a2336bb: fix: Update wagmi config if connectors change
+- **fix**: Update wagmi config if connectors change. By @dgca #2350
 
 ## 0.38.12
 
