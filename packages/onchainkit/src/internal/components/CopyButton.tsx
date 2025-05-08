@@ -1,6 +1,6 @@
 'use client';
 
-import { copyToClipboard } from '@/internal/utils/copyToClipboard';
+import { useCopyToClipboard } from '@/internal/hooks/useCopyToClipboard';
 import { type ReactNode, useCallback } from 'react';
 
 type CopyButtonProps = {
@@ -8,6 +8,7 @@ type CopyButtonProps = {
   copyValue: string;
   onSuccess?: () => void;
   onError?: (error: unknown) => void;
+  onReset?: () => void;
   className?: string;
   'aria-label'?: string;
 };
@@ -17,12 +18,19 @@ export function CopyButton({
   copyValue,
   onSuccess,
   onError,
+  onReset,
   className,
   'aria-label': ariaLabel,
 }: CopyButtonProps) {
+  const copyToClipboard = useCopyToClipboard({
+    onSuccess,
+    onError,
+    onReset,
+  });
+
   const handleCopy = useCallback(
-    () => copyToClipboard({ copyValue, onSuccess, onError }),
-    [copyValue, onSuccess, onError],
+    () => copyToClipboard(copyValue),
+    [copyToClipboard, copyValue],
   );
 
   return (
