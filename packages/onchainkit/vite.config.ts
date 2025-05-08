@@ -8,6 +8,10 @@ import { fileURLToPath } from 'node:url';
 import { glob } from 'glob';
 import path from 'node:path';
 import fs from 'fs';
+import tailwindcss from '@tailwindcss/postcss';
+import autoprefixer from 'autoprefixer';
+import postcssPrefixClassnames from './plugins/postcss-prefix-classnames.js';
+import { babelPrefixReactClassNames } from './plugins/babel-prefix-react-classnames';
 
 const entryPoints = Object.fromEntries(
   glob
@@ -41,7 +45,16 @@ export default defineConfig({
   plugins: [
     externalizeDeps(),
     preserveUseClientDirective(),
-    react(),
+    react({
+      babel: {
+        plugins: [
+          babelPrefixReactClassNames({
+            prefix: 'ock:',
+            cnUtil: 'cn',
+          }),
+        ],
+      },
+    }),
     dts({
       tsconfigPath: './tsconfig.json',
       include: ['src'],
@@ -62,6 +75,20 @@ export default defineConfig({
         assetFileNames: 'assets/[name][extname]',
         entryFileNames: '[name].js',
       },
+    },
+  },
+  css: {
+    postcss: {
+      plugins: [
+        tailwindcss({
+          base: './src',
+          optimize: process.env.NODE_ENV !== 'development',
+        }),
+        autoprefixer(),
+        postcssPrefixClassnames({
+          prefix: `ock\\:`,
+        }),
+      ],
     },
   },
 });
