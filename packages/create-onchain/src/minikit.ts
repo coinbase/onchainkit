@@ -221,7 +221,8 @@ NEXT_PUBLIC_APP_OG_IMAGE=$NEXT_PUBLIC_URL/hero.png
 
 # Redis config
 REDIS_URL=
-REDIS_TOKEN=`,
+REDIS_TOKEN=
+`,
   );
 
   spinner.succeed();

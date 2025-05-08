@@ -31,20 +31,27 @@ The environment variables enable the following features:
 - Redis API keys - Enable Webhooks and background notifications for your application by storing users notification details
 
 ```bash
-# Required for Frame metadata
-NEXT_PUBLIC_URL=
-NEXT_PUBLIC_VERSION=
-NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=
+# Shared/OnchainKit variables
+NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME= # required
+NEXT_PUBLIC_URL= # required
 NEXT_PUBLIC_ICON_URL=
-NEXT_PUBLIC_SPLASH_IMAGE_URL=
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=
+
+# Frame metadata
+NEXT_PUBLIC_APP_VERSION= # required
+NEXT_PUBLIC_APP_ICON= # required
+NEXT_PUBLIC_APP_SUBTITLE=
+NEXT_PUBLIC_APP_DESCRIPTION=
+NEXT_PUBLIC_APP_SPLASH_IMAGE=
 NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=
+NEXT_PUBLIC_APP_PRIMARY_CATEGORY=
+NEXT_PUBLIC_APP_HERO_IMAGE=
+NEXT_PUBLIC_APP_TAGLINE=
+NEXT_PUBLIC_APP_OG_TITLE=
+NEXT_PUBLIC_APP_OG_DESCRIPTION=
+NEXT_PUBLIC_APP_OG_IMAGE=
 
-# Required to allow users to add your frame
-FARCASTER_HEADER=
-FARCASTER_PAYLOAD=
-FARCASTER_SIGNATURE=
-
-# Required for webhooks and background notifications
+# Redis config
 REDIS_URL=
 REDIS_TOKEN=
 ```

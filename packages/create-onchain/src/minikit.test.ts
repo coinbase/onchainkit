@@ -98,6 +98,34 @@ vi.spyOn(process, 'exit').mockImplementation((code) => {
 
 const logSpy = vi.spyOn(console, 'log');
 
+const getExpectedEnv = (
+  projectName: string,
+  clientKey: string,
+) => `# Shared/OnchainKit variables
+NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName} # required
+NEXT_PUBLIC_URL="" # required
+NEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/logo.png
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}
+
+# Frame metadata
+NEXT_PUBLIC_APP_VERSION=1 # required
+NEXT_PUBLIC_APP_ICON=$NEXT_PUBLIC_URL/icon.png # required
+NEXT_PUBLIC_APP_SUBTITLE=
+NEXT_PUBLIC_APP_DESCRIPTION=
+NEXT_PUBLIC_APP_SPLASH_IMAGE=$NEXT_PUBLIC_URL/splash.png
+NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=#000000
+NEXT_PUBLIC_APP_PRIMARY_CATEGORY=
+NEXT_PUBLIC_APP_HERO_IMAGE=$NEXT_PUBLIC_URL/hero.png
+NEXT_PUBLIC_APP_TAGLINE=
+NEXT_PUBLIC_APP_OG_TITLE=${projectName}
+NEXT_PUBLIC_APP_OG_DESCRIPTION=
+NEXT_PUBLIC_APP_OG_IMAGE=$NEXT_PUBLIC_URL/hero.png
+
+# Redis config
+REDIS_URL=
+REDIS_TOKEN=
+`;
+
 describe('MiniKit', () => {
   const originalGetArgs = process.argv;
 
@@ -146,9 +174,7 @@ describe('MiniKit', () => {
 
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
       expect.any(String),
-      expect.stringContaining(
-        'NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key\nNEXT_PUBLIC_URL=\nNEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/logo.png\nNEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=FFFFFF\nNEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/logo.png\nNEXT_PUBLIC_VERSION=next\nREDIS_URL=\nREDIS_TOKEN=',
-      ),
+      expect.stringContaining(getExpectedEnv('test-project', 'test-key')),
     );
     expect(logSpy).toHaveBeenCalledWith(
       expect.stringContaining('Created new MiniKit project in'),
@@ -172,9 +198,7 @@ describe('MiniKit', () => {
 
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
       expect.any(String),
-      expect.stringContaining(
-        'NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key\nNEXT_PUBLIC_URL=\nNEXT_PUBLIC_SPLASH_IMAGE_URL=$NEXT_PUBLIC_URL/logo.png\nNEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=FFFFFF\nNEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/logo.png\nNEXT_PUBLIC_VERSION=next\nREDIS_URL=\nREDIS_TOKEN=',
-      ),
+      expect.stringContaining(getExpectedEnv('test-project', 'test-key')),
     );
     expect(logSpy).toHaveBeenCalledWith(
       expect.stringContaining('Created new MiniKit project in'),
