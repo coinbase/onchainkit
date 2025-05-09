@@ -19,6 +19,7 @@ import {
   TransactionToastIcon,
   TransactionToastLabel,
   TransactionError,
+  type TransactionButtonRenderParams,
 } from '@coinbase/onchainkit/transaction';
 import {
   ConnectWallet,
@@ -33,6 +34,7 @@ import {
   Address,
   Avatar,
 } from '@coinbase/onchainkit/identity';
+import { cn, pressable, text } from '@coinbase/onchainkit/theme';
 import { useAccount } from 'wagmi';
 import { encodeAbiParameters, type Address as AddressType } from 'viem';
 import ArrowSvg from '../svg/ArrowSvg';
@@ -52,6 +54,27 @@ const COLORS = {
 };
 const NUM_TARGETS_PER_LEVEL = 10;
 const EAS_GRAPHQL_URL = 'https://base.easscan.org/graphql';
+
+type SpinnerReact = {
+  className?: string;
+};
+
+function Spinner({ className }: SpinnerReact) {
+  return (
+    <div
+      className="flex h-full items-center justify-center"
+      data-testid="ockSpinner"
+    >
+      <div
+        className={cn(
+          'animate-spin border-2 border-gray-200 border-t-3',
+          'rounded-full border-t-gray-400 px-2.5 py-2.5',
+          className,
+        )}
+      />
+    </div>
+  );
+}
 
 const GameState = {
   INTRO: 0,
@@ -505,6 +528,57 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
     invalidateHighScores();
   }, [address, invalidateHighScores, score, sendNotification]);
 
+  const customRender = useCallback(
+    ({ context, isDisabled, onSubmit }: TransactionButtonRenderParams) => {
+      const classNames = cn(
+        pressable.primary,
+        'rounded-ock-default',
+        'w-full rounded-xl',
+        'px-4 py-3 font-medium leading-6',
+        isDisabled && pressable.disabled,
+        text.headline,
+        'text-ock-text-inverse',
+        'mx-auto w-[60%]',
+      );
+
+      if (context.receipt) {
+        return (
+          <button
+            className={classNames}
+            onClick={onGoToIntro}
+            disabled={isDisabled}
+          >
+            View High Scores
+          </button>
+        );
+      }
+      if (context.errorMessage) {
+        return (
+          <button
+            className={classNames}
+            onClick={onSubmit}
+            disabled={isDisabled}
+          >
+            Try again
+          </button>
+        );
+      }
+      if (context.isLoading) {
+        return (
+          <button className={classNames} disabled={isDisabled}>
+            <Spinner />
+          </button>
+        );
+      }
+      return (
+        <button className={classNames} disabled={isDisabled} onClick={onSubmit}>
+          Submit to save high score
+        </button>
+      );
+    },
+    [onGoToIntro],
+  );
+
   const transactionButton = useMemo(() => {
     if (!address) {
       return (
@@ -545,14 +619,7 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
           console.error('Attestation failed:', error)
         }
       >
-        <TransactionButton
-          text="Submit to save high score"
-          className="mx-auto w-[60%]"
-          successOverride={{
-            text: 'View High Scores',
-            onClick: onGoToIntro,
-          }}
-        />
+        <TransactionButton render={customRender} />
         <TransactionToast className="mb-4">
           <TransactionToastIcon />
           <TransactionToastLabel />
@@ -560,7 +627,7 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
         </TransactionToast>
       </Transaction>
     );
-  }, [address, handleAttestationSuccess, onGoToIntro, score]);
+  }, [address, customRender, handleAttestationSuccess, score]);
 
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/70 z-20 m-[10px] mb-[30px]">

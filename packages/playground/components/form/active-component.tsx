@@ -42,6 +42,9 @@ export function ActiveComponent() {
           <SelectItem value={OnchainKitComponent.Transaction}>
             Transaction
           </SelectItem>
+          <SelectItem value={OnchainKitComponent.TransactionWithRenderProp}>
+            TransactionWithRenderProp
+          </SelectItem>
           <SelectItem value={OnchainKitComponent.TransactionDefault}>
             TransactionDefault
           </SelectItem>

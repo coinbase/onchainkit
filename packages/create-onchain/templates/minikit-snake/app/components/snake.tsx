@@ -43,6 +43,7 @@ import {
   TransactionToastIcon,
   TransactionToastLabel,
   type TransactionError,
+  type TransactionButtonRenderParams,
 } from "@coinbase/onchainkit/transaction";
 import {
   ConnectWallet,
@@ -57,6 +58,7 @@ import {
   Address,
   Avatar,
 } from "@coinbase/onchainkit/identity";
+import { cn, pressable, text } from "@coinbase/onchainkit/theme";
 import { useAccount } from "wagmi";
 import { encodeAbiParameters, type Address as AddressType } from "viem";
 import ArrowSvg from "../svg/ArrowSvg";
@@ -76,6 +78,27 @@ const COLORS = {
 };
 const NUM_TARGETS_PER_LEVEL = 10;
 const EAS_GRAPHQL_URL = "https://base.easscan.org/graphql";
+
+type SpinnerReact = {
+  className?: string;
+};
+
+function Spinner({ className }: SpinnerReact) {
+  return (
+    <div
+      className="flex h-full items-center justify-center"
+      data-testid="ockSpinner"
+    >
+      <div
+        className={cn(
+          "animate-spin border-2 border-gray-200 border-t-3",
+          "rounded-full border-t-gray-400 px-2.5 py-2.5",
+          className,
+        )}
+      />
+    </div>
+  );
+}
 
 const GameState = {
   INTRO: 0,
@@ -205,7 +228,6 @@ async function fetchLastAttestations() {
     .sort((a: Score, b: Score) => b.score - a.score)
     .slice(0, MAX_SCORES);
 }
-
 
 function useKonami(gameState: number) {
   const CODE = [
@@ -345,8 +367,9 @@ function WalletControl() {
     <Wallet className="[&>div:nth-child(2)]:!opacity-20 md:[&>div:nth-child(2)]:!opacity-100">
       <ConnectWallet
         className="w-12 h-12 bg-[#0052FF] rounded-full hover:bg-[#0052FF] focus:bg-[#0052FF] cursor-pointer select-none transition-all duration-150 border-[1px] border-[#0052FF] min-w-12 [box-shadow:0_5px_0_0_#002299,0_8px_0_0_#0033cc33]"
-        disconnectedLabel={' '}
-      >{' '}
+        disconnectedLabel={" "}
+      >
+        {" "}
       </ConnectWallet>
       <WalletDropdown>
         <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
@@ -516,6 +539,7 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
   const { address } = useAccount();
   const isHighScore = checkIsHighScore(score);
 
+  console.log("DEEEADD");
   const handleAttestationSuccess = useCallback(async () => {
     if (!address) {
       return null;
@@ -529,10 +553,61 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
     invalidateHighScores();
   }, [address, invalidateHighScores, score, sendNotification]);
 
+  const customRender = useCallback(
+    ({ context, isDisabled, onSubmit }: TransactionButtonRenderParams) => {
+      const classNames = cn(
+        pressable.primary,
+        "rounded-ock-default",
+        "w-full rounded-xl",
+        "px-4 py-3 font-medium leading-6",
+        isDisabled && pressable.disabled,
+        text.headline,
+        "text-ock-text-inverse",
+        "mx-auto w-[60%]",
+      );
+
+      if (context.receipt) {
+        return (
+          <button
+            className={classNames}
+            onClick={onGoToIntro}
+            disabled={isDisabled}
+          >
+            View High Scores
+          </button>
+        );
+      }
+      if (context.errorMessage) {
+        return (
+          <button
+            className={classNames}
+            onClick={onSubmit}
+            disabled={isDisabled}
+          >
+            Try again
+          </button>
+        );
+      }
+      if (context.isLoading) {
+        return (
+          <button className={classNames} disabled={isDisabled}>
+            <Spinner />
+          </button>
+        );
+      }
+      return (
+        <button className={classNames} disabled={isDisabled} onClick={onSubmit}>
+          Submit to save high score
+        </button>
+      );
+    },
+    [onGoToIntro],
+  );
+
   const transactionButton = useMemo(() => {
     if (!address) {
       return (
-        <ConnectWallet disconnectedLabel="Login to save your high score"/>
+        <ConnectWallet disconnectedLabel="Login to save your high score" />
       );
     }
 
@@ -567,14 +642,7 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
           console.error("Attestation failed:", error)
         }
       >
-        <TransactionButton
-          text="Submit to save high score"
-          className="mx-auto w-[60%]"
-          successOverride={{
-            text: "View High Scores",
-            onClick: onGoToIntro,
-          }}
-        />
+        <TransactionButton render={customRender} />
         <TransactionToast className="mb-4">
           <TransactionToastIcon />
           <TransactionToastLabel />
@@ -582,7 +650,7 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
         </TransactionToast>
       </Transaction>
     );
-  }, [address, handleAttestationSuccess, onGoToIntro, score]);
+  }, [address, customRender, handleAttestationSuccess, score]);
 
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/70 z-20 m-[10px] mb-[30px]">
@@ -827,7 +895,7 @@ const Sammy = () => {
       for (const wall of LevelMaps[level]) {
         ctx.fillStyle = COLORS.blue;
         ctx.fillRect(wall.x1, wall.y1, wall.width, wall.height);
-      };
+      }
     }
   }, [level]);
 
@@ -985,12 +1053,7 @@ const Sammy = () => {
         }
       }
     }
-  }, [
-    level,
-    sammy,
-    getStartingScore,
-    target,
-  ]);
+  }, [level, sammy, getStartingScore, target]);
 
   const updateScore = useCallback(() => {
     const scoreCtx = scoreCanvasRef.current?.getContext("2d");

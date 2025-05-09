@@ -22,6 +22,7 @@ import SwapDemo from './demo/Swap';
 import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
+import TransactionWithRenderPropDemo from './demo/TransactionWithRenderProp';
 import WalletDemo from './demo/Wallet';
 import WalletAdvancedDefaultDemo from './demo/WalletAdvancedDefault';
 import WalletDefaultDemo from './demo/WalletDefault';
@@ -34,6 +35,8 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.Buy]: BuyDemo,
   [OnchainKitComponent.Identity]: IdentityDemo,
   [OnchainKitComponent.Transaction]: TransactionDemo,
+  [OnchainKitComponent.TransactionWithRenderProp]:
+    TransactionWithRenderPropDemo,
   [OnchainKitComponent.Checkout]: CheckoutDemo,
   [OnchainKitComponent.Swap]: SwapDemo,
   [OnchainKitComponent.SwapDefault]: SwapDefaultDemo,

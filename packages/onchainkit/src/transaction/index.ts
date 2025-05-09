@@ -23,6 +23,7 @@ export type {
   TransactionToastActionReact,
   TransactionToastIconReact,
   TransactionToastLabelReact,
+  TransactionButtonRenderParams,
   WalletCapabilities,
 } from './types';
 export type { TransactionError } from '@/api/types';

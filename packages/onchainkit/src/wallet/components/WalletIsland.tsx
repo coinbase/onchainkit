@@ -13,11 +13,17 @@ import { WalletDropdown } from './WalletDropdown';
 
 export function WalletIsland({
   startingPosition = getDefaultDraggableStartingPosition(),
+  isSponsored,
 }: {
   startingPosition?: { x: number; y: number };
+  isSponsored?: boolean;
 }) {
   return (
-    <Wallet draggable={true} draggableStartingPosition={startingPosition}>
+    <Wallet
+      draggable={true}
+      draggableStartingPosition={startingPosition}
+      isSponsored={isSponsored}
+    >
       <ConnectWallet
         className="!rounded-full m-0 flex h-14 w-14 min-w-14 flex-col items-center justify-center p-0"
         disconnectedLabel={<div className="h-5 w-5">{portfolioSvg}</div>}

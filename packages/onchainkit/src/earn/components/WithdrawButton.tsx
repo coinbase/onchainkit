@@ -7,10 +7,12 @@ import {
   TransactionButton,
   type TransactionResponse,
 } from '@/transaction';
+import { TransactionButtonRenderParams } from '@/transaction/types';
 import { ConnectWallet } from '@/wallet';
 import { useCallback, useState } from 'react';
 import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
+import { RenderWithdrawButton } from './RenderWithdrawButton';
 
 export function WithdrawButton({ className }: WithdrawButtonReact) {
   const {
@@ -80,9 +82,15 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
       resetAfter={3_000}
     >
       <TransactionButton
-        text={withdrawAmountError ?? 'Withdraw'}
-        successOverride={{
-          text: `Withdrew ${withdrawnAmount} ${vaultToken?.symbol}`,
+        render={(params: TransactionButtonRenderParams) => {
+          return (
+            <RenderWithdrawButton
+              withdrawAmountError={withdrawAmountError}
+              withdrawnAmount={withdrawAmount}
+              vaultToken={vaultToken}
+              {...params}
+            />
+          );
         }}
         disabled={!!withdrawAmountError || !withdrawAmount}
       />

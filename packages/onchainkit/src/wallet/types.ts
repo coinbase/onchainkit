@@ -108,6 +108,8 @@ export type WalletContextType = {
     container: string;
     content: string;
   };
+  /** Whether to sponsor transactions for Send feature of advanced wallet implementation */
+  isSponsored?: boolean;
 };
 
 /**
@@ -115,6 +117,8 @@ export type WalletContextType = {
  */
 export type WalletReact = {
   children?: React.ReactNode;
+  /** Whether to sponsor transactions for Send feature of advanced wallet implementation */
+  isSponsored?: boolean;
   className?: string;
 } & (
   | { draggable?: true; draggableStartingPosition?: { x: number; y: number } }
