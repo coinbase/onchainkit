@@ -102,18 +102,24 @@ const getExpectedEnv = (
   projectName: string,
   clientKey: string,
 ) => `# Shared/OnchainKit variables
-NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName} # required
-NEXT_PUBLIC_URL="" # required
+
+NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}
+NEXT_PUBLIC_URL=
 NEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/logo.png
 NEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}
 
 # Frame metadata
-NEXT_PUBLIC_APP_VERSION=1 # required
-NEXT_PUBLIC_APP_ICON=$NEXT_PUBLIC_URL/icon.png # required
+
+FARCASTER_HEADER=
+FARCASTER_PAYLOAD=
+FARCASTER_SIGNATURE=
+NEXT_PUBLIC_APP_VERSION=1
+NEXT_PUBLIC_APP_ICON=$NEXT_PUBLIC_URL/icon.png
+# Optional Frame metadata items below
 NEXT_PUBLIC_APP_SUBTITLE=
 NEXT_PUBLIC_APP_DESCRIPTION=
 NEXT_PUBLIC_APP_SPLASH_IMAGE=$NEXT_PUBLIC_URL/splash.png
-NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=#000000
+NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR="#000000"
 NEXT_PUBLIC_APP_PRIMARY_CATEGORY=
 NEXT_PUBLIC_APP_HERO_IMAGE=$NEXT_PUBLIC_URL/hero.png
 NEXT_PUBLIC_APP_TAGLINE=
@@ -122,6 +128,7 @@ NEXT_PUBLIC_APP_OG_DESCRIPTION=
 NEXT_PUBLIC_APP_OG_IMAGE=$NEXT_PUBLIC_URL/hero.png
 
 # Redis config
+
 REDIS_URL=
 REDIS_TOKEN=
 `;
@@ -262,9 +269,19 @@ describe('MiniKit', () => {
     expect(open).toHaveBeenCalledWith('http://localhost:3333');
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
       expect.any(String),
-      expect.stringContaining(
-        'FARCASTER_HEADER=test-header\nFARCASTER_PAYLOAD=test-payload\nFARCASTER_SIGNATURE=test-signature\nNEXT_PUBLIC_URL=test-domain',
-      ),
+      expect.stringContaining('FARCASTER_HEADER=test-header'),
+    );
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.stringContaining('FARCASTER_PAYLOAD=test-payload'),
+    );
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.stringContaining('FARCASTER_SIGNATURE=test-signature'),
+    );
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.stringContaining('NEXT_PUBLIC_URL=test-domain'),
     );
     expect(logSpy).toHaveBeenCalledWith(
       expect.stringContaining(

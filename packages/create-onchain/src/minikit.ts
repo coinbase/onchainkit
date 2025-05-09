@@ -69,20 +69,52 @@ export async function createMiniKitManifest(envPath?: string) {
 
   try {
     const webpageData = await getWebpageData();
+
     // get existing next public url to re-update on subsequent runs
-    const domain =
-      existingEnv.match(/NEXT_PUBLIC_URL=(.*)/)?.[1] || '$NEXT_PUBLIC_URL';
-    const envContent = `FARCASTER_HEADER=${webpageData.header}\nFARCASTER_PAYLOAD=${webpageData.payload}\nFARCASTER_SIGNATURE=${webpageData.signature}\nNEXT_PUBLIC_URL=${webpageData.domain}`;
+    let domain =
+      existingEnv.match(/NEXT_PUBLIC_URL=(.*)/)?.[1]?.trim() ||
+      '$NEXT_PUBLIC_URL';
+
+    const envKeys = {
+      FARCASTER_HEADER: {
+        value: webpageData.header,
+        added: false,
+      },
+      FARCASTER_PAYLOAD: {
+        value: webpageData.payload,
+        added: false,
+      },
+      FARCASTER_SIGNATURE: {
+        value: webpageData.signature,
+        added: false,
+      },
+      NEXT_PUBLIC_URL: {
+        value: webpageData.domain,
+        added: false,
+      },
+    };
+
     const updatedEnv = existingEnv
+      .replaceAll(domain, webpageData.domain)
       .split('\n')
-      .map((line) => line.replace(domain, webpageData.domain))
-      .filter(
-        (line) =>
-          !line.startsWith('FARCASTER_') && !line.startsWith('NEXT_PUBLIC_URL'),
-      )
-      .concat(envContent)
-      .join('\n');
-    await fs.promises.writeFile(envPath, updatedEnv);
+      .map((line) => {
+        const [key] = line.split('=');
+
+        if (key in envKeys) {
+          envKeys[key as keyof typeof envKeys].added = true;
+          return `${key}=${envKeys[key as keyof typeof envKeys].value}`;
+        }
+
+        return line;
+      });
+
+    Object.entries(envKeys).forEach(([key, { added }]) => {
+      if (!added) {
+        updatedEnv.push(`${key}=${envKeys[key as keyof typeof envKeys].value}`);
+      }
+    });
+
+    await fs.promises.writeFile(envPath, updatedEnv.join('\n'));
 
     console.log(
       pc.blue(
@@ -200,18 +232,24 @@ export async function createMiniKitTemplate(
   await fs.promises.writeFile(
     envPath,
     `# Shared/OnchainKit variables
-NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName} # required
-NEXT_PUBLIC_URL="" # required
+
+NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}
+NEXT_PUBLIC_URL=
 NEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/logo.png
 NEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}
 
 # Frame metadata
-NEXT_PUBLIC_APP_VERSION=1 # required
-NEXT_PUBLIC_APP_ICON=$NEXT_PUBLIC_URL/icon.png # required
+
+FARCASTER_HEADER=
+FARCASTER_PAYLOAD=
+FARCASTER_SIGNATURE=
+NEXT_PUBLIC_APP_VERSION=1
+NEXT_PUBLIC_APP_ICON=$NEXT_PUBLIC_URL/icon.png
+# Optional Frame metadata items below
 NEXT_PUBLIC_APP_SUBTITLE=
 NEXT_PUBLIC_APP_DESCRIPTION=
 NEXT_PUBLIC_APP_SPLASH_IMAGE=$NEXT_PUBLIC_URL/splash.png
-NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR=#000000
+NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR="#000000"
 NEXT_PUBLIC_APP_PRIMARY_CATEGORY=
 NEXT_PUBLIC_APP_HERO_IMAGE=$NEXT_PUBLIC_URL/hero.png
 NEXT_PUBLIC_APP_TAGLINE=
@@ -220,6 +258,7 @@ NEXT_PUBLIC_APP_OG_DESCRIPTION=
 NEXT_PUBLIC_APP_OG_IMAGE=$NEXT_PUBLIC_URL/hero.png
 
 # Redis config
+
 REDIS_URL=
 REDIS_TOKEN=
 `,
