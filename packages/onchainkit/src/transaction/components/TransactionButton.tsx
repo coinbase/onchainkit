@@ -4,7 +4,6 @@ import { getChainExplorer } from '../../core/network/getChainExplorer';
 import { Spinner } from '../../internal/components/Spinner';
 import { cn, pressable, text } from '../../styles/theme';
 import type { TransactionButtonReact } from '../types';
-import { isSpinnerDisplayed } from '../utils/isSpinnerDisplayed';
 import { useTransactionContext } from './TransactionProvider';
 
 export function TransactionButton({
@@ -30,31 +29,12 @@ export function TransactionButton({
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const accountChainId = chainId ?? useChainId();
 
-  const isLegacyTransactionInProgress =
-    lifecycleStatus.statusName === 'transactionLegacyExecuted' &&
-    transactionCount !==
-      lifecycleStatus?.statusData?.transactionHashList?.length;
-
-  const isInProgress =
-    lifecycleStatus.statusName === 'buildingTransaction' ||
-    lifecycleStatus.statusName === 'transactionPending' ||
-    isLegacyTransactionInProgress ||
-    isLoading;
-
   const isMissingProps = !transactions || !address;
   const isWaitingForReceipt = !!transactionId || !!transactionHash;
 
   const isDisabled =
     !receipt &&
-    (isInProgress || isMissingProps || isWaitingForReceipt || disabled);
-
-  const displayPendingState = isSpinnerDisplayed({
-    errorMessage,
-    hasReceipt: !!receipt,
-    isInProgress,
-    transactionHash,
-    transactionId,
-  });
+    (isLoading || isMissingProps || isWaitingForReceipt || disabled);
 
   const handleSuccess = useCallback(() => {
     // SW will have txn id so open in wallet
@@ -89,11 +69,11 @@ export function TransactionButton({
     if (errorMessage) {
       return 'Try again';
     }
-    if (displayPendingState) {
+    if (isLoading) {
       return <Spinner />;
     }
     return idleText;
-  }, [displayPendingState, errorMessage, receipt, idleText]);
+  }, [isLoading, errorMessage, receipt, idleText]);
 
   const handleSubmit = useCallback(() => {
     if (receipt) {
@@ -110,11 +90,11 @@ export function TransactionButton({
     if (errorMessage) {
       return 'error';
     }
-    if (displayPendingState) {
+    if (isLoading) {
       return 'pending';
     }
     return 'default';
-  }, [displayPendingState, errorMessage, receipt]);
+  }, [isLoading, errorMessage, receipt]);
 
   if (render) {
     return render({
@@ -123,7 +103,7 @@ export function TransactionButton({
         lifecycleStatus,
         transactionCount,
         receipt,
-        isLoading: displayPendingState,
+        isLoading,
         transactions,
         errorMessage,
       },

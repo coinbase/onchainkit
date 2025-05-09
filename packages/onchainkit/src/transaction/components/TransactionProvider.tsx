@@ -342,11 +342,19 @@ export function TransactionProvider({
     }
   }, [buildTransaction, chainId, sendWalletTransactions, switchChain]);
 
+  const isLoading =
+    callStatus === 'PENDING' ||
+    lifecycleStatus.statusName === 'buildingTransaction' ||
+    lifecycleStatus.statusName === 'transactionPending' ||
+    (lifecycleStatus.statusName === 'transactionLegacyExecuted' &&
+      transactionCount !==
+        lifecycleStatus?.statusData?.transactionHashList?.length);
+
   const value = useValue({
     chainId,
     errorCode,
     errorMessage,
-    isLoading: callStatus === 'PENDING',
+    isLoading,
     isToastVisible,
     lifecycleStatus,
     onSubmit: handleSubmit,
