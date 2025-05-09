@@ -12,18 +12,17 @@ export function TransactionButton({
   text: idleText = 'Transact',
   render,
 }: TransactionButtonReact) {
+  const context = useTransactionContext();
   const {
     chainId,
     errorMessage,
     isLoading,
-    lifecycleStatus,
     onSubmit,
     receipt,
     transactions,
-    transactionCount,
     transactionHash,
     transactionId,
-  } = useTransactionContext();
+  } = context;
 
   const { address } = useAccount();
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -99,14 +98,7 @@ export function TransactionButton({
   if (render) {
     return render({
       status,
-      context: {
-        lifecycleStatus,
-        transactionCount,
-        receipt,
-        isLoading,
-        transactions,
-        errorMessage,
-      },
+      context,
       onSubmit: handleSubmit,
       onSuccess: handleSuccess,
       isDisabled,
