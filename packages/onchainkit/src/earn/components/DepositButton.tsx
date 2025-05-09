@@ -65,18 +65,6 @@ export function DepositButton({ className }: DepositButtonReact) {
     [depositAmount, setDepositAmount, refetchWalletBalance],
   );
 
-  const customRender = useCallback(
-    (params: TransactionButtonRenderParams) => {
-      return RenderDepositButton({
-        ...params,
-        depositAmountError,
-        depositedAmount,
-        vaultToken,
-      });
-    },
-    [depositAmountError, depositedAmount, vaultToken],
-  );
-
   if (!address) {
     return (
       <ConnectWallet
@@ -96,7 +84,16 @@ export function DepositButton({ className }: DepositButtonReact) {
       resetAfter={3_000}
     >
       <TransactionButton
-        render={customRender}
+        render={(params: TransactionButtonRenderParams) => {
+          return (
+            <RenderDepositButton
+              {...params}
+              depositAmountError={depositAmountError}
+              depositedAmount={depositedAmount}
+              vaultToken={vaultToken}
+            />
+          );
+        }}
         disabled={!!depositAmountError || !depositAmount}
       />
     </Transaction>

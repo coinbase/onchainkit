@@ -63,18 +63,6 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     [setWithdrawAmount, refetchDepositedBalance, withdrawAmount],
   );
 
-  const customRender = useCallback(
-    (params: TransactionButtonRenderParams) => {
-      return RenderWithdrawButton({
-        ...params,
-        withdrawAmountError,
-        withdrawnAmount,
-        vaultToken,
-      });
-    },
-    [withdrawAmountError, withdrawnAmount, vaultToken],
-  );
-
   if (!address) {
     return (
       <ConnectWallet
@@ -94,7 +82,16 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
       resetAfter={3_000}
     >
       <TransactionButton
-        render={customRender}
+        render={(params: TransactionButtonRenderParams) => {
+          return (
+            <RenderWithdrawButton
+              withdrawAmountError={withdrawAmountError}
+              withdrawnAmount={withdrawAmount}
+              vaultToken={vaultToken}
+              {...params}
+            />
+          );
+        }}
         disabled={!!withdrawAmountError || !withdrawAmount}
       />
     </Transaction>
