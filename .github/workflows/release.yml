@@ -34,11 +34,12 @@ jobs:
 
       - name: Handle Release Pull Request or Publish to npm
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v1.5.0
         with:
           title: 'chore: version packages 🚀'
           commit: 'chore: version packages 🚀'
           publish: pnpm release:publish
+          commitMode: github-api
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
