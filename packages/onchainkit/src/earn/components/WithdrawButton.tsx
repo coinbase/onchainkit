@@ -1,7 +1,6 @@
 'use client';
 import { useWithdrawAnalytics } from '@/earn/hooks/useWithdrawAnalytics';
-import { Spinner } from '@/internal/components/Spinner';
-import { cn, pressable, text } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import {
   type LifecycleStatus,
   Transaction,
@@ -13,6 +12,7 @@ import { ConnectWallet } from '@/wallet';
 import { useCallback, useState } from 'react';
 import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
+import { RenderWithdrawButton } from './RenderWithdrawButton';
 
 export function WithdrawButton({ className }: WithdrawButtonReact) {
   const {
@@ -64,58 +64,15 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
   );
 
   const customRender = useCallback(
-    ({
-      context,
-      onSubmit,
-      onSuccess,
-      isDisabled,
-    }: TransactionButtonRenderParams) => {
-      const classNames = cn(
-        pressable.primary,
-        'rounded-ock-default',
-        'w-full rounded-xl',
-        'px-4 py-3 font-medium leading-6',
-        isDisabled && pressable.disabled,
-        text.headline,
-        'text-ock-text-inverse',
-      );
-
-      if (context.receipt) {
-        return (
-          <button
-            className={classNames}
-            onClick={onSuccess}
-            disabled={isDisabled}
-          >
-            {`Withdrew ${withdrawnAmount} ${vaultToken?.symbol}`}
-          </button>
-        );
-      }
-      if (context.errorMessage) {
-        return (
-          <button
-            className={classNames}
-            onClick={onSubmit}
-            disabled={isDisabled}
-          >
-            {withdrawAmountError ?? 'Try again'}
-          </button>
-        );
-      }
-      if (context.isLoading) {
-        return (
-          <button className={classNames} disabled={isDisabled}>
-            <Spinner />
-          </button>
-        );
-      }
-      return (
-        <button className={classNames} disabled={isDisabled} onClick={onSubmit}>
-          Withdraw
-        </button>
-      );
+    (params: TransactionButtonRenderParams) => {
+      return RenderWithdrawButton({
+        ...params,
+        withdrawAmountError,
+        withdrawnAmount,
+        vaultToken,
+      });
     },
-    [vaultToken?.symbol, withdrawAmountError, withdrawnAmount],
+    [withdrawAmountError, withdrawnAmount, vaultToken],
   );
 
   if (!address) {
