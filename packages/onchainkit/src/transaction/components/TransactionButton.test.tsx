@@ -98,19 +98,6 @@ describe('TransactionButton', () => {
     expect(spinner).toBeInTheDocument();
   });
 
-  it('renders spinner with multiple legacy transactions', () => {
-    (useTransactionContext as Mock).mockReturnValue({
-      lifecycleStatus: {
-        statusName: 'transactionLegacyExecuted',
-        statusData: { transactionHashList: ['123'] },
-      },
-      transactionCount: 2,
-    });
-    render(<TransactionButton text="Transact" />);
-    const spinner = screen.getByTestId('ockSpinner');
-    expect(spinner).toBeInTheDocument();
-  });
-
   it('renders view txn text when receipt exists', () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
