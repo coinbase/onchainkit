@@ -348,7 +348,9 @@ export function TransactionProvider({
     lifecycleStatus.statusName === 'transactionPending' ||
     (lifecycleStatus.statusName === 'transactionLegacyExecuted' &&
       transactionCount !==
-        lifecycleStatus?.statusData?.transactionHashList?.length);
+        lifecycleStatus?.statusData?.transactionHashList?.length) ||
+    ((!!transactionId || !!singleTransactionHash || !!batchedTransactionHash) &&
+      !receipt);
 
   const value = useValue({
     chainId,
