@@ -7,13 +7,18 @@ import {
 import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
 import { useWalletContext } from '../../WalletProvider';
 
+export type RenderSendButtonProps = TransactionButtonRenderParams & {
+  label?: string;
+};
+
 export function RenderSendButton({
   onSubmit,
   isDisabled,
   label,
-}: TransactionButtonRenderParams & { label?: string }) {
+}: RenderSendButtonProps) {
   const context = useTransactionContext();
   const { address, chain: senderChain, setActiveFeature } = useWalletContext();
+
   const classNames = cn(
     pressable.primary,
     'rounded-ock-default',
