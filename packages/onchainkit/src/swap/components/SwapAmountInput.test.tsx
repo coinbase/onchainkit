@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { SwapEvent } from '../../core/analytics/types';
@@ -51,6 +57,7 @@ const mockContextValue = {
   to: {
     amount: '20',
     amountUSD: '2000',
+    symbol: 'USDC',
     setAmount: vi.fn(),
     setLoading: vi.fn(),
     setToken: vi.fn(),
@@ -385,6 +392,49 @@ describe('SwapAmountInput', () => {
       render(<SwapAmountInput label="To" token={USDC_TOKEN} type="to" />);
 
       expect(mockSendAnalytics).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('custom render prop', () => {
+    it('should render the custom render prop', async () => {
+      const mockSendAnalytics = vi.fn();
+      (useAnalytics as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+        sendAnalytics: mockSendAnalytics,
+      });
+      useSwapContextMock.mockReturnValue(mockContextValue);
+      render(
+        <SwapAmountInput
+          label="From"
+          token={ETH_TOKEN}
+          type="from"
+          swappableTokens={mockSwappableTokens}
+          render={({ handleMaxButtonClick, handleSetToken }) => {
+            return (
+              <div>
+                <div>Custom Render</div>
+                <button onClick={handleMaxButtonClick}>Max</button>
+                <button
+                  onClick={() => {
+                    handleSetToken(mockSwappableTokens[1]);
+                  }}
+                >
+                  Set Token
+                </button>
+              </div>
+            );
+          }}
+        />,
+      );
+
+      await act(async () => {
+        fireEvent.click(screen.getByText('Set Token'));
+      });
+
+      expect(mockSendAnalytics).toHaveBeenCalledWith(SwapEvent.TokenSelected, {
+        token: 'USDC',
+      });
+
+      expect(screen.getByText('Custom Render')).toBeDefined();
     });
   });
 });

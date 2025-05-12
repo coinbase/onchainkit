@@ -1,9 +1,9 @@
 'use client';
-import { useIsMounted } from '../../internal/hooks/useIsMounted';
-import { useTheme } from '../../internal/hooks/useTheme';
-import { cn, text } from '../../styles/theme';
+import { useIsMounted } from '@/internal/hooks/useIsMounted';
+import { useTheme } from '@/internal/hooks/useTheme';
+import { cn, text } from '@/styles/theme';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
-import type { SwapReact } from '../types';
+import type { SwapProps } from '../types';
 import { SwapAmountInput } from './SwapAmountInput';
 import { SwapButton } from './SwapButton';
 import { SwapMessage } from './SwapMessage';
@@ -16,7 +16,7 @@ function SwapDefaultContent({
   to,
   from,
   disabled,
-}: Pick<SwapReact, 'to' | 'from' | 'disabled'>) {
+}: Pick<SwapProps, 'to' | 'from' | 'disabled'>) {
   return (
     <>
       <SwapSettings />
@@ -56,7 +56,7 @@ export function Swap({
   onSuccess,
   title = 'Swap',
   headerLeftContent,
-}: SwapReact) {
+}: SwapProps) {
   const componentTheme = useTheme();
 
   const isMounted = useIsMounted();
@@ -78,10 +78,7 @@ export function Swap({
       <div
         className={cn(
           componentTheme,
-          'bg-ock-bg-default',
-          'rounded-ock-default',
-          'text-ock-text-foreground',
-          'relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
+          'bg-ock-bg-default rounded-ock-default text-ock-text-foreground relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
           className,
         )}
         data-testid="ockSwap_Container"

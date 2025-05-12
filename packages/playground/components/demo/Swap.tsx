@@ -15,7 +15,7 @@ import {
 import type { SwapError } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
 import { useCallback, useContext } from 'react';
-import type { TransactionReceipt } from 'viem';
+import { parseUnits, type TransactionReceipt } from 'viem';
 import { base } from 'viem/chains';
 import { AppContext } from '../AppProvider';
 
@@ -23,6 +23,8 @@ const FALLBACK_DEFAULT_MAX_SLIPPAGE = 3;
 
 function SwapComponent() {
   const { chainId, isSponsored, defaultMaxSlippage } = useContext(AppContext);
+
+  console.log(parseUnits('1.111', 18));
 
   const degenToken: Token = {
     name: 'DEGEN',

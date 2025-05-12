@@ -3,7 +3,7 @@ import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import { useIcon } from '@/internal/hooks/useIcon';
 import { cn, pressable, text } from '@/styles/theme';
 import { useCallback, useRef, useState } from 'react';
-import type { SwapSettingsReact } from '../types';
+import type { SwapSettingsProps } from '../types';
 import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
 import { SwapSettingsSlippageLayout } from './SwapSettingsSlippageLayout';
@@ -27,7 +27,7 @@ export function SwapSettings({
   className,
   icon = 'swapSettings',
   text: buttonText = '',
-}: SwapSettingsReact) {
+}: SwapSettingsProps) {
   const breakpoint = useBreakpoints();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);

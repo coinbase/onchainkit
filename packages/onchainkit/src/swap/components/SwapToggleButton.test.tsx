@@ -24,4 +24,24 @@ describe('SwapToggleButton', () => {
     const button = screen.getByTestId('SwapTokensButton');
     expect(button).toHaveClass('custom-class');
   });
+
+  it('should render with custom render prop', () => {
+    const handleToggleMock = vi.fn();
+    (useSwapContext as Mock).mockReturnValue({
+      handleToggle: handleToggleMock,
+    });
+    const screen = render(
+      <SwapToggleButton
+        render={({ handleToggle }) => (
+          <div>
+            <div>Custom Render</div>
+            <button onClick={handleToggle}>Toggle</button>
+          </div>
+        )}
+      />,
+    );
+    expect(screen.getByText('Custom Render')).toBeDefined();
+    fireEvent.click(screen.getByText('Toggle'));
+    expect(handleToggleMock).toHaveBeenCalled();
+  });
 });
