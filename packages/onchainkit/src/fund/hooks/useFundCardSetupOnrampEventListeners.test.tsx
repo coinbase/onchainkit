@@ -209,7 +209,6 @@ describe('useFundCardSetupOnrampEventListeners', () => {
   });
 
   it('clears fund button reset timeout on unmount', () => {
-    vi.useFakeTimers();
     let eventHandler: (event: EventMetadata) => void = () => {};
 
     (setupOnrampEventListeners as Mock).mockImplementation(({ onEvent }) => {
@@ -229,7 +228,7 @@ describe('useFundCardSetupOnrampEventListeners', () => {
         <>
           <button role="button" onClick={() => setIsUnmounted(true)} />
           {!isUnmounted && <Child />}
-          <span data-status={submitButtonState}>{submitButtonState}</span>
+          <span data-testid="submitButtonState">{submitButtonState}</span>
         </>
       );
     };
@@ -254,9 +253,94 @@ describe('useFundCardSetupOnrampEventListeners', () => {
     });
 
     // The submitButtonState should not reset because the component is unmounted
-    expect(screen.queryByText('default')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('submitButtonState')).toHaveTextContent(
+      'error',
+    );
+  });
 
-    vi.useRealTimers();
+  it('clears previous timeout when scheduleFundButtonReset is called again', () => {
+    let eventHandler: (event: EventMetadata) => void = () => {};
+
+    (setupOnrampEventListeners as Mock).mockImplementation(({ onEvent }) => {
+      eventHandler = onEvent;
+      return () => {};
+    });
+
+    const Child = () => {
+      useFundCardSetupOnrampEventListeners();
+      return null;
+    };
+
+    const Component = () => {
+      const { submitButtonState } = useFundContext();
+      return (
+        <>
+          <Child />
+          <span data-testid="submitButtonState">{submitButtonState}</span>
+        </>
+      );
+    };
+
+    renderComponentWithProvider({ Component });
+
+    act(() => {
+      eventHandler({
+        eventName: 'error',
+        error: {
+          errorType: 'network_error',
+          code: 'ERROR_CODE',
+          debugMessage: 'Error message',
+        },
+      });
+    });
+
+    act(() => {
+      eventHandler({
+        eventName: 'error',
+        error: {
+          errorType: 'network_error',
+          code: 'ERROR_CODE',
+          debugMessage: 'Error message',
+        },
+      });
+    });
+
+    // Advance timer partially
+    act(() => {
+      vi.advanceTimersByTime(FUND_BUTTON_RESET_TIMEOUT / 2);
+    });
+
+    // Trigger second error which should clear first timeout
+    act(() => {
+      eventHandler({
+        eventName: 'error',
+        error: {
+          errorType: 'network_error',
+          code: 'ERROR_CODE',
+          debugMessage: 'Another error',
+        },
+      });
+    });
+
+    // Advance timer to what would have been the first timeout
+    act(() => {
+      vi.advanceTimersByTime(FUND_BUTTON_RESET_TIMEOUT / 2);
+    });
+
+    // submitButtonState should still be in error state because first timeout was cleared
+    expect(screen.queryByTestId('submitButtonState')).toHaveTextContent(
+      'error',
+    );
+
+    // Advance timer to complete second timeout
+    act(() => {
+      vi.advanceTimersByTime(FUND_BUTTON_RESET_TIMEOUT);
+    });
+
+    // Now submitButtonState should be back to default
+    expect(screen.queryByTestId('submitButtonState')).toHaveTextContent(
+      'default',
+    );
   });
 
   it('handles transition_view event correctly', () => {
