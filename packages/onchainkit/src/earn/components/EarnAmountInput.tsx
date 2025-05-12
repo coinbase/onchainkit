@@ -1,7 +1,7 @@
 import { TextInput } from '@/internal/components/TextInput';
 import { isValidAmount } from '@/internal/utils/isValidAmount';
 import { cn, text } from '@/styles/theme';
-import { formatAmount } from '@/swap/utils/formatAmount';
+import { formatMaybeScientificNotationToDecimal } from '@/utils/formatter';
 import type { EarnAmountInputReact } from '../types';
 
 export function EarnAmountInput({
@@ -24,7 +24,7 @@ export function EarnAmountInput({
           'leading-none outline-none',
         )}
         placeholder="0.0"
-        value={formatAmount(value)}
+        value={formatMaybeScientificNotationToDecimal(value)}
         onChange={onChange}
         inputValidator={isValidAmount}
         disabled={disabled}

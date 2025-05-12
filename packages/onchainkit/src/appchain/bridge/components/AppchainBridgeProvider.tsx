@@ -5,7 +5,6 @@ import { getChainExplorer } from '@/core/network/getChainExplorer';
 import { useValue } from '@/internal/hooks/useValue';
 import { baseSvg } from '@/internal/svg/baseSvg';
 import { coinbaseLogoSvg } from '@/internal/svg/coinbaseLogoSvg';
-import { toReadableAmount } from '@/swap/utils/toReadableAmount';
 import type { Token } from '@/token';
 import {
   createContext,
@@ -14,7 +13,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { type Address, type Hex, erc20Abi } from 'viem';
+import { type Address, type Hex, erc20Abi, formatUnits } from 'viem';
 import { useAccount, useConfig } from 'wagmi';
 import { getBalance, readContract } from 'wagmi/actions';
 import { DEFAULT_BRIDGEABLE_TOKENS } from '../constants';
@@ -144,10 +143,7 @@ export const AppchainBridgeProvider = ({
         address,
         chainId: from.id,
       });
-      _balance = toReadableAmount(
-        ethBalance.value.toString(),
-        ethBalance.decimals,
-      );
+      _balance = formatUnits(ethBalance.value, ethBalance.decimals);
     } else {
       const erc20Balance = await readContract(wagmiConfig, {
         abi: erc20Abi,
@@ -156,10 +152,7 @@ export const AppchainBridgeProvider = ({
         address: tokenAddress as Address,
         chainId: from.id,
       });
-      _balance = toReadableAmount(
-        erc20Balance.toString(),
-        bridgeParams.token.decimals,
-      );
+      _balance = formatUnits(erc20Balance, bridgeParams.token.decimals);
     }
 
     setBalance(_balance);

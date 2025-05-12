@@ -29,6 +29,14 @@ export const SwapMessage = {
 } as const;
 export type SwapMessageType = (typeof SwapMessage)[keyof typeof SwapMessage];
 
+export const SLIPPAGE_SETTINGS = {
+  AUTO: 'Auto',
+  CUSTOM: 'Custom',
+} as const;
+
+export type SlippageSettingsType =
+  (typeof SLIPPAGE_SETTINGS)[keyof typeof SLIPPAGE_SETTINGS];
+
 export const ONRAMP_PAYMENT_METHODS = [
   {
     id: 'CRYPTO_ACCOUNT',

@@ -10,18 +10,18 @@ import { base } from 'viem/chains';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
-import { buildSwapTransaction } from '../../api/buildSwapTransaction';
-import { getSwapQuote } from '../../api/getSwapQuote';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
-import { SwapEvent } from '../../core/analytics/types';
-import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
-import { useLifecycleStatus } from '../../internal/hooks/useLifecycleStatus';
-import { useValue } from '../../internal/hooks/useValue';
-import { formatTokenAmount } from '../../internal/utils/formatTokenAmount';
-import type { Token } from '../../token';
-import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
-import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
-import { useOnchainKit } from '../../useOnchainKit';
+import { buildSwapTransaction } from '@/api/buildSwapTransaction';
+import { getSwapQuote } from '@/api/getSwapQuote';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { SwapEvent } from '@/core/analytics/types';
+import { useCapabilitiesSafe } from '@/internal/hooks/useCapabilitiesSafe';
+import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
+import { useValue } from '@/internal/hooks/useValue';
+import { formatTokenAmount } from '@/internal/utils/formatTokenAmount';
+import type { Token } from '@/token';
+import { GENERIC_ERROR_MESSAGE } from '@/transaction/constants';
+import { isUserRejectedRequestError } from '@/transaction/utils/isUserRejectedRequestError';
+import { useOnchainKit } from '@/useOnchainKit';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useAwaitCalls } from '../hooks/useAwaitCalls';
 import { useFromTo } from '../hooks/useFromTo';
@@ -29,7 +29,7 @@ import { useResetInputs } from '../hooks/useResetInputs';
 import type {
   LifecycleStatus,
   SwapContextType,
-  SwapProviderReact,
+  SwapProviderProps,
 } from '../types';
 import { isSwapError } from '../utils/isSwapError';
 import { processSwapTransaction } from '../utils/processSwapTransaction';
@@ -56,7 +56,7 @@ export function SwapProvider({
   onError,
   onStatus,
   onSuccess,
-}: SwapProviderReact) {
+}: SwapProviderProps) {
   const { config: { paymaster } = { paymaster: undefined } } = useOnchainKit();
   const { address, chainId } = useAccount();
   const { switchChainAsync } = useSwitchChain();

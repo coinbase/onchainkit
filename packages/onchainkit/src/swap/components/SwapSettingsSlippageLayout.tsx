@@ -1,10 +1,10 @@
-import { border, cn } from '../../styles/theme';
-import type { SwapSettingsSlippageLayoutReact } from '../types';
+import { border, cn } from '@/styles/theme';
+import type { SwapSettingsSlippageLayoutProps } from '../types';
 
 export function SwapSettingsSlippageLayout({
   children,
   className,
-}: SwapSettingsSlippageLayoutReact) {
+}: SwapSettingsSlippageLayoutProps) {
   return (
     <div
       className={cn(
