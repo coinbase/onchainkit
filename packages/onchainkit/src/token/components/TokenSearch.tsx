@@ -6,13 +6,13 @@ import { useTheme } from '../../internal/hooks/useTheme';
 import { CloseSvg } from '../../internal/svg/closeSvg';
 import { searchIconSvg } from '../../internal/svg/searchIconSvg';
 import { cn, color, placeholder, pressable } from '../../styles/theme';
-import type { TokenSearchReact } from '../types';
+import type { TokenSearchProps } from '../types';
 
 export function TokenSearch({
   className,
   onChange,
   delayMs = 200,
-}: TokenSearchReact) {
+}: TokenSearchProps) {
   const componentTheme = useTheme();
 
   const [value, setValue] = useState('');

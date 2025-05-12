@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { background, cn, text } from '../../styles/theme';
-import type { Token, TokenSelectModalReact } from '../types';
+import type { Token, TokenSelectModalProps } from '../types';
 import { TokenChip } from './TokenChip';
 import { TokenRow } from './TokenRow';
 import { TokenSearch } from './TokenSearch';
@@ -154,7 +154,7 @@ export function TokenSelectModal({
   options,
   setToken,
   token,
-}: TokenSelectModalReact) {
+}: TokenSelectModalProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = useCallback(() => {
