@@ -5,6 +5,7 @@ import { useShowCallsStatus } from 'wagmi/experimental';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
 import { useTransactionContext } from '../components/TransactionProvider';
 import { useGetTransactionStatusAction } from './useGetTransactionStatusAction';
+import { ReactNode } from 'react';
 
 vi.mock('../components/TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
@@ -66,7 +67,7 @@ describe('useGetTransactionStatusAction', () => {
 
     const { result } = renderHook(() => useGetTransactionStatusAction());
 
-    const button = result.current.actionElement as JSX.Element;
+    const button = result.current.actionElement as ReactNode;
     expect(button.props.onClick).toBeDefined();
     expect(button).not.toBeNull();
   });
@@ -111,7 +112,7 @@ describe('useGetTransactionStatusAction', () => {
 
     const { result } = renderHook(() => useGetTransactionStatusAction());
 
-    const button = result.current.actionElement as JSX.Element;
+    const button = result.current.actionElement as ReactNode;
     button.props.onClick();
 
     expect(showCallsStatus).toHaveBeenCalledWith({ id: 'ab123' });

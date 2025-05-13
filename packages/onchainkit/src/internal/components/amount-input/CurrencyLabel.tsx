@@ -1,13 +1,16 @@
 import { cn, text } from '@/styles/theme';
-import { forwardRef } from 'react';
+import { ForwardedRef, forwardRef } from 'react';
 
 type CurrencyLabelProps = {
   label: string;
   className?: string;
 };
 
-export const CurrencyLabel = forwardRef<HTMLSpanElement, CurrencyLabelProps>(
-  ({ label, className }, ref) => {
+export const CurrencyLabel = forwardRef(
+  (
+    { label, className }: CurrencyLabelProps,
+    ref: ForwardedRef<HTMLSpanElement>,
+  ) => {
     return (
       <span
         ref={ref}

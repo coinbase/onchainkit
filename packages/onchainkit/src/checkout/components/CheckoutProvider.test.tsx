@@ -1,5 +1,6 @@
 import { openPopup } from '@/internal/utils/openPopup';
 import { useOnchainKit } from '@/useOnchainKit';
+import { act } from 'react';
 import { useIsWalletACoinbaseSmartWallet } from '@/wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import {
@@ -110,12 +111,14 @@ describe('CheckoutProvider', () => {
     windowOpenMock.mockReset();
   });
 
-  it('should render children', () => {
-    render(
-      <CheckoutProvider>
-        <TestComponent />
-      </CheckoutProvider>,
-    );
+  it('should render children', async () => {
+    await act(async () => {
+      render(
+        <CheckoutProvider>
+          <TestComponent />
+        </CheckoutProvider>,
+      );
+    });
     expect(screen.getByTestId('test-component')).toBeTruthy();
   });
 

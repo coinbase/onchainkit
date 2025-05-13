@@ -89,7 +89,7 @@ describe('NFTView', () => {
         contractAddress: '0x123',
         tokenId: '1',
       }),
-      {},
+      undefined,
     );
   });
 

@@ -129,7 +129,7 @@ describe('IdentityLayout', () => {
     );
     expect(Address).toHaveBeenCalledWith(
       expect.objectContaining({ hasCopyAddressOnClick: true }),
-      expect.anything(),
+      undefined,
     );
   });
 
@@ -143,7 +143,7 @@ describe('IdentityLayout', () => {
     );
     expect(Address).toHaveBeenCalledWith(
       expect.objectContaining({ hasCopyAddressOnClick: undefined }),
-      expect.anything(),
+      undefined,
     );
   });
 });
