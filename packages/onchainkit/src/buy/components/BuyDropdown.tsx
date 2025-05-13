@@ -1,6 +1,6 @@
 'use client';
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { BuyEvent, type BuyOption } from '@/core/analytics/types';
+import { BuyEvent, type BuyOptionType } from '@/core/analytics/types';
 import { openPopup } from '@/internal/utils/openPopup';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -27,7 +27,7 @@ export function BuyDropdown() {
     (paymentMethodId: string) => {
       return () => {
         sendAnalytics(BuyEvent.BuyOptionSelected, {
-          option: paymentMethodId as BuyOption,
+          option: paymentMethodId as BuyOptionType,
         });
 
         const assetSymbol = to?.token?.symbol;
