@@ -1,7 +1,7 @@
 'use client';
 
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { WalletEvent, WalletOption } from '@/core/analytics/types';
+import { WalletEvent, WalletOptionType } from '@/core/analytics/types';
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { baseScanSvg } from '@/internal/svg/baseScanSvg';
 import { disconnectSvg } from '@/internal/svg/disconnectSvg';
@@ -12,7 +12,6 @@ import { useCallback } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
 import { useWalletContext } from './WalletProvider';
 import { usePortfolio } from '../hooks/usePortfolio';
-import { RequestContext } from '@/core/network/constants';
 
 type WalletAdvancedWalletActionsProps = {
   classNames?: {
@@ -32,13 +31,10 @@ export function WalletAdvancedWalletActions({
   const { disconnect, connectors } = useDisconnect();
   const { sendAnalytics } = useAnalytics();
 
-  const { refetch: refetchPortfolioData } = usePortfolio(
-    { address },
-    RequestContext.Wallet,
-  );
+  const { refetch: refetchPortfolioData } = usePortfolio({ address }, 'wallet');
 
   const handleAnalyticsOptionSelected = useCallback(
-    (option: WalletOption) => {
+    (option: WalletOptionType) => {
       sendAnalytics(WalletEvent.OptionSelected, {
         option,
       });
@@ -57,7 +53,7 @@ export function WalletAdvancedWalletActions({
   );
 
   const handleTransactions = useCallback(() => {
-    handleAnalyticsOptionSelected(WalletOption.Explorer);
+    handleAnalyticsOptionSelected('explorer');
     window.open(`https://basescan.org/address/${address}`, '_blank');
   }, [address, handleAnalyticsOptionSelected]);
 
@@ -72,12 +68,12 @@ export function WalletAdvancedWalletActions({
   }, [disconnect, connectors, handleClose, handleAnalyticsDisconnect]);
 
   const handleQr = useCallback(() => {
-    handleAnalyticsOptionSelected(WalletOption.QR);
+    handleAnalyticsOptionSelected('qr');
     setActiveFeature('qr');
   }, [setActiveFeature, handleAnalyticsOptionSelected]);
 
   const handleRefreshPortfolioData = useCallback(async () => {
-    handleAnalyticsOptionSelected(WalletOption.Refresh);
+    handleAnalyticsOptionSelected('refresh');
     await refetchPortfolioData();
   }, [refetchPortfolioData, handleAnalyticsOptionSelected]);
 
