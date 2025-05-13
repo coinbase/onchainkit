@@ -1,7 +1,7 @@
 import { type Dispatch, useCallback, useEffect } from 'react';
 
 export function useRespositionOnWindowResize(
-  draggableRef: React.RefObject<HTMLDivElement>,
+  draggableRef: React.RefObject<HTMLDivElement | null>,
   position: { x: number; y: number },
   resetPosition: Dispatch<
     React.SetStateAction<{

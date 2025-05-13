@@ -33,11 +33,11 @@ export function AmountInput({
   className,
   textClassName,
 }: AmountInputProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const measureRef = useRef<HTMLSpanElement>(null);
-  const labelRef = useRef<HTMLSpanElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const measureRef = useRef<HTMLSpanElement | null>(null);
+  const labelRef = useRef<HTMLSpanElement | null>(null);
 
   const currencyOrAsset = selectedInputType === 'fiat' ? currency : asset;
   const value = selectedInputType === 'fiat' ? fiatAmount : cryptoAmount;

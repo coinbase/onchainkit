@@ -1,8 +1,9 @@
 import {
   type ChangeEvent,
   type InputHTMLAttributes,
-  forwardRef,
+  type ForwardedRef,
   useCallback,
+  forwardRef,
 } from 'react';
 import { useDebounce } from '../hooks/useDebounce';
 
@@ -22,7 +23,7 @@ type TextInputReact = {
   inputValidator?: (s: string) => boolean;
 };
 
-export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
+export const TextInput = forwardRef(
   (
     {
       'aria-label': ariaLabel,
@@ -37,8 +38,8 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
       inputMode,
       value,
       inputValidator = () => true,
-    },
-    ref,
+    }: TextInputReact,
+    ref: ForwardedRef<HTMLInputElement>,
   ) => {
     const handleDebounce = useDebounce((value) => {
       onChange(value);

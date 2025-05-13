@@ -4,6 +4,7 @@ import type { MakeRequired } from '@/internal/types';
 import type { Call, TransactionButtonRenderParams } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
+import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
 import { useEarnContext } from './EarnProvider';
@@ -180,7 +181,7 @@ describe('WithdrawButton Component', () => {
     expect(transactionElement).toBeInTheDocument();
   });
 
-  it('surfaces Transaction lifecycle statuses', () => {
+  it('surfaces Transaction lifecycle statuses', async () => {
     const mockUpdateLifecycleStatus = vi.fn();
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
@@ -191,17 +192,26 @@ describe('WithdrawButton Component', () => {
     render(<WithdrawButton />);
 
     // Simulate different transaction states using the mock buttons
-    screen.getByText('TransactionPending').click();
+    await act(async () => {
+      screen.getByText('TransactionPending').click();
+    });
+
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionPending',
     });
 
-    screen.getByText('Success').click();
+    await act(async () => {
+      screen.getByText('Success').click();
+    });
+
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'success',
     });
 
-    screen.getByText('Error').click();
+    await act(async () => {
+      screen.getByText('Error').click();
+    });
+
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
     });
@@ -216,7 +226,10 @@ describe('WithdrawButton Component', () => {
 
     render(<WithdrawButton />);
 
-    screen.getByText('Success').click();
+    await act(async () => {
+      screen.getByText('Success').click();
+    });
+
     expect(mockSetWithdrawAmount).toHaveBeenCalledWith('');
   });
 

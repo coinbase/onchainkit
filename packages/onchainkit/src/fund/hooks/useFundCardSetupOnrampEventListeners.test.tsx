@@ -1,5 +1,5 @@
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
-import { act, renderHook } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import {
   type Mock,
   afterEach,
@@ -9,6 +9,7 @@ import {
   it,
   vi,
 } from 'vitest';
+import { act } from 'react';
 import { FundCardProvider } from '../components/FundCardProvider';
 import { FUND_BUTTON_RESET_TIMEOUT } from '../constants';
 import type { EventMetadata, OnrampError } from '../types';
@@ -53,27 +54,29 @@ describe('useFundCardSetupOnrampEventListeners', () => {
     error: mockError,
   };
 
-  const renderHookWithProvider = ({
+  const renderHookWithProvider = async ({
     onError = vi.fn(),
     onStatus = vi.fn(),
     onSuccess = vi.fn(),
   } = {}) => {
-    return renderHook(() => useFundCardSetupOnrampEventListeners(), {
-      wrapper: ({ children }) => (
-        <FundCardProvider
-          asset="ETH"
-          country="US"
-          onError={onError}
-          onStatus={onStatus}
-          onSuccess={onSuccess}
-        >
-          {children}
-        </FundCardProvider>
-      ),
+    return await act(async () => {
+      return renderHook(() => useFundCardSetupOnrampEventListeners(), {
+        wrapper: ({ children }) => (
+          <FundCardProvider
+            asset="ETH"
+            country="US"
+            onError={onError}
+            onStatus={onStatus}
+            onSuccess={onSuccess}
+          >
+            {children}
+          </FundCardProvider>
+        ),
+      });
     });
   };
 
-  it('calls onStatus when exit event occurs', () => {
+  it('calls onStatus when exit event occurs', async () => {
     let exitHandler: (event: EventMetadata) => void = () => {};
 
     (setupOnrampEventListeners as Mock).mockImplementation(({ onExit }) => {
@@ -82,20 +85,21 @@ describe('useFundCardSetupOnrampEventListeners', () => {
     });
 
     const onStatus = vi.fn();
-    renderHookWithProvider({ onStatus });
+    await renderHookWithProvider({ onStatus });
 
-    act(() => {
+    await act(async () => {
       exitHandler({
         eventName: 'exit',
       });
     });
+
     expect(onStatus.mock.calls[1][0]).toEqual({
       statusName: 'exit',
       statusData: {},
     });
   });
 
-  it('calls onStatus when event occurs', () => {
+  it('calls onStatus when event occurs', async () => {
     let eventHandler: (event: EventMetadata) => void = () => {};
 
     (setupOnrampEventListeners as Mock).mockImplementation(({ onEvent }) => {
@@ -104,9 +108,9 @@ describe('useFundCardSetupOnrampEventListeners', () => {
     });
 
     const onStatus = vi.fn();
-    renderHookWithProvider({ onStatus });
+    await renderHookWithProvider({ onStatus });
 
-    act(() => {
+    await act(async () => {
       eventHandler({
         eventName: 'transition_view',
         pageRoute: '/some-route',
@@ -118,7 +122,7 @@ describe('useFundCardSetupOnrampEventListeners', () => {
     });
   });
 
-  it('calls onSuccess when success event occurs', () => {
+  it('calls onSuccess when success event occurs', async () => {
     let successHandler: () => void = () => {};
 
     (setupOnrampEventListeners as Mock).mockImplementation(({ onSuccess }) => {
@@ -127,15 +131,15 @@ describe('useFundCardSetupOnrampEventListeners', () => {
     });
 
     const onSuccess = vi.fn();
-    renderHookWithProvider({ onSuccess });
+    await renderHookWithProvider({ onSuccess });
 
-    act(() => {
+    await act(async () => {
       successHandler();
     });
     expect(onSuccess).toHaveBeenCalled();
   });
 
-  it('sets button state to error and resets after timeout when error event occurs', () => {
+  it('sets button state to error and resets after timeout when error event occurs', async () => {
     let eventHandler: (event: EventMetadata) => void = () => {};
 
     (setupOnrampEventListeners as Mock).mockImplementation(({ onEvent }) => {
@@ -143,15 +147,20 @@ describe('useFundCardSetupOnrampEventListeners', () => {
       return () => {};
     });
 
-    const { result } = renderHookWithProvider();
+    const { result } = await renderHookWithProvider();
 
-    eventHandler(mockEvent);
+    await act(async () => {
+      eventHandler(mockEvent);
+    });
+
     expect(result.current).toBe(undefined); // Hook doesn't return anything
 
-    vi.advanceTimersByTime(FUND_BUTTON_RESET_TIMEOUT);
+    await act(async () => {
+      vi.advanceTimersByTime(FUND_BUTTON_RESET_TIMEOUT);
+    });
   });
 
-  it('sets button state to success and resets after timeout when success occurs', () => {
+  it('sets button state to success and resets after timeout when success occurs', async () => {
     let successHandler: () => void = () => {};
 
     (setupOnrampEventListeners as Mock).mockImplementation(({ onSuccess }) => {
@@ -159,25 +168,31 @@ describe('useFundCardSetupOnrampEventListeners', () => {
       return () => {};
     });
 
-    const { result } = renderHookWithProvider();
+    const { result } = await renderHookWithProvider();
 
-    successHandler();
+    await act(async () => {
+      successHandler();
+    });
     expect(result.current).toBe(undefined); // Hook doesn't return anything
 
-    vi.advanceTimersByTime(FUND_BUTTON_RESET_TIMEOUT);
+    await act(async () => {
+      vi.advanceTimersByTime(FUND_BUTTON_RESET_TIMEOUT);
+    });
   });
 
-  it('cleans up event listeners on unmount', () => {
+  it('cleans up event listeners on unmount', async () => {
     const unsubscribe = vi.fn();
     (setupOnrampEventListeners as Mock).mockReturnValue(unsubscribe);
 
-    const { unmount } = renderHookWithProvider();
-    unmount();
+    const { unmount } = await renderHookWithProvider();
+    await act(async () => {
+      unmount();
+    });
 
     expect(unsubscribe).toHaveBeenCalled();
   });
 
-  it('handles transition_view event correctly', () => {
+  it('handles transition_view event correctly', async () => {
     let eventHandler: (event: EventMetadata) => void = () => {};
 
     (setupOnrampEventListeners as Mock).mockImplementation(({ onEvent }) => {
@@ -186,7 +201,7 @@ describe('useFundCardSetupOnrampEventListeners', () => {
     });
 
     const onStatus = vi.fn();
-    renderHookWithProvider({ onStatus });
+    await renderHookWithProvider({ onStatus });
 
     expect(onStatus).toHaveBeenCalledWith({
       statusName: 'init',
@@ -194,7 +209,7 @@ describe('useFundCardSetupOnrampEventListeners', () => {
     });
 
     // First transition_view event should update status
-    act(() => {
+    await act(async () => {
       eventHandler({
         eventName: 'transition_view',
         pageRoute: '/some-route',
@@ -207,7 +222,7 @@ describe('useFundCardSetupOnrampEventListeners', () => {
     });
 
     // Second transition_view event while already pending should not update status
-    act(() => {
+    await act(async () => {
       eventHandler({
         eventName: 'transition_view',
         pageRoute: '/another-route',
@@ -221,7 +236,7 @@ describe('useFundCardSetupOnrampEventListeners', () => {
     });
   });
 
-  it('preserves existing status data when handling events', () => {
+  it('preserves existing status data when handling events', async () => {
     let eventHandler: (event: EventMetadata) => void = () => {};
 
     (setupOnrampEventListeners as Mock).mockImplementation(({ onEvent }) => {
@@ -230,10 +245,10 @@ describe('useFundCardSetupOnrampEventListeners', () => {
     });
 
     const onStatus = vi.fn();
-    renderHookWithProvider({ onStatus });
+    await renderHookWithProvider({ onStatus });
 
     // Set initial state with some data
-    act(() => {
+    await act(async () => {
       eventHandler({
         eventName: 'transition_view',
         pageRoute: '/some-route',
@@ -244,7 +259,7 @@ describe('useFundCardSetupOnrampEventListeners', () => {
     onStatus.mockClear();
 
     // Trigger error event
-    act(() => {
+    await act(async () => {
       eventHandler({
         eventName: 'error',
         error: {

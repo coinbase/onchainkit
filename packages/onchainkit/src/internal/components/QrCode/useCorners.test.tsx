@@ -30,12 +30,12 @@ describe('useCorners', () => {
     expect(children).toHaveLength(6);
 
     const rects = children.filter(
-      (child: JSX.Element) => child.type === 'rect',
+      (child: React.JSX.Element) => child.type === 'rect',
     );
     expect(rects).toHaveLength(3);
 
     const circles = children.filter(
-      (child: JSX.Element) => child.type === 'circle',
+      (child: React.JSX.Element) => child.type === 'circle',
     );
     expect(circles).toHaveLength(3);
   });

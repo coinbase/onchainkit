@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* Customize existing Theme */
@@ -11,11 +11,11 @@
   .cyberpunk,
   .hacker {
     /* Override specific variables as needed */
-    /* --ock-font-family: 'your-custom-value';
+/* --ock-font-family: 'your-custom-value';
     --ock-border-radius: 'your-custom-value';
     --ock-text-primary: 'your-custom-value'; */
-  /* }
-}  */ 
+/* }
+}  */
 
 /* Create your own custom Theme*/
 /* 

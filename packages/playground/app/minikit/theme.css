@@ -1,5 +1,5 @@
 @reference "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
 
 :root {
   --snake-background: #e5e5e5;
@@ -7,7 +7,7 @@
 
 .snake-light,
 .snake-dark {
-  --ock-font-family: "Pixelify Sans", sans-serif;
+  --ock-font-family: 'Pixelify Sans', sans-serif;
   --ock-border-radius: 0.5rem;
   --ock-border-radius-inner: 0.25rem;
   --ock-text-inverse: theme(colors.gray.50);

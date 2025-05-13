@@ -23,7 +23,7 @@ type PopoverProps = {
   position?: Position;
   isOpen?: boolean;
   /** Reference to the element that triggered the popover (e.g., a button that opened it). */
-  trigger?: React.RefObject<HTMLElement>;
+  trigger?: React.RefObject<HTMLElement | null>;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-describedby'?: string;

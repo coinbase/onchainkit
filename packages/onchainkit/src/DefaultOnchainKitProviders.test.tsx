@@ -2,12 +2,23 @@ import { QueryClient } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, createConfig } from 'wagmi';
+import type { CreateConnectorFn } from 'wagmi';
 import { DefaultOnchainKitProviders } from './DefaultOnchainKitProviders';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
 import { useOnchainKit } from './useOnchainKit';
+import type { CreateWagmiConfigParams } from './core/types';
 
 // Mock the coinbase wallet connector
 const mockCoinbaseWallet = vi.fn();
+
+// Mock for the createWagmiConfig
+const mockCreateWagmiConfig = vi.fn();
+vi.mock('./core/createWagmiConfig', () => ({
+  createWagmiConfig: (params: CreateWagmiConfigParams) => {
+    mockCreateWagmiConfig(params);
+    return { mock: 'config', params };
+  },
+}));
 
 const queryClient = new QueryClient();
 const wagmiConfig = createConfig({
@@ -27,8 +38,10 @@ vi.mock('wagmi', async (importOriginal) => {
   const actual = await importOriginal<typeof import('wagmi')>();
   return {
     ...actual,
-    WagmiProvider: vi.fn(({ children }) => (
-      <div data-testid="wagmi-provider">{children}</div>
+    WagmiProvider: vi.fn(({ children, config }) => (
+      <div data-testid="wagmi-provider" data-config={JSON.stringify(config)}>
+        {children}
+      </div>
     )),
   };
 });
@@ -65,6 +78,30 @@ vi.mock('./useOnchainKit', () => ({
   })),
 }));
 
+// Create mock connector function that satisfies the CreateConnectorFn interface
+const createMockConnector = (id: string): CreateConnectorFn => {
+  return () => ({
+    id,
+    name: `Mock ${id}`,
+    type: 'mock',
+    icon: undefined,
+    rdns: undefined,
+    supportsSimulation: false,
+    connect: async () => ({
+      accounts: [],
+      chainId: 1,
+    }),
+    disconnect: async () => {},
+    getAccounts: async () => [],
+    getChainId: async () => 1,
+    getProvider: async () => ({}),
+    isAuthorized: async () => false,
+    onAccountsChanged: () => {},
+    onChainChanged: () => {},
+    onDisconnect: () => {},
+  });
+};
+
 // Mock wagmi/connectors
 vi.mock('wagmi/connectors', () => {
   return {
@@ -74,8 +111,8 @@ vi.mock('wagmi/connectors', () => {
       appLogoUrl?: string;
     }) => {
       mockCoinbaseWallet(params);
-      // Return a connector function that Wagmi expects
-      return () => ({ id: 'coinbaseWalletSDK' });
+      // Return a connector function that satisfies the CreateConnectorFn interface
+      return createMockConnector('coinbaseWalletSDK');
     },
   };
 });
@@ -282,5 +319,67 @@ describe('DefaultOnchainKitProviders', () => {
         appLogoUrl: undefined,
       }),
     );
+  });
+
+  it('should update the Wagmi config when connectors change', async () => {
+    const { rerender } = render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // Initial config creation
+    expect(mockCreateWagmiConfig).toHaveBeenCalledTimes(1);
+
+    // First call parameters
+    const firstCallParams = mockCreateWagmiConfig.mock.calls[0][0];
+    expect(firstCallParams.connectors).toBeDefined();
+
+    // Clear mocks to check rerender behavior
+    mockCreateWagmiConfig.mockClear();
+
+    // Create a different connector
+    const newConnector = createMockConnector('newConnector');
+
+    // Re-render with new connectors
+    rerender(
+      <DefaultOnchainKitProviders connectors={[newConnector]}>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // Should create a new config with the new connectors
+    expect(mockCreateWagmiConfig).toHaveBeenCalledTimes(1);
+
+    // Second call parameters
+    const secondCallParams = mockCreateWagmiConfig.mock.calls[0][0];
+    expect(secondCallParams.connectors).toEqual([newConnector]);
+  });
+
+  it('should not update the Wagmi config when the same connectors are passed', async () => {
+    // Create an initial connector
+    const initialConnectors = [createMockConnector('initialConnector')];
+
+    const { rerender } = render(
+      <DefaultOnchainKitProviders connectors={initialConnectors}>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // Initial config creation
+    expect(mockCreateWagmiConfig).toHaveBeenCalledTimes(1);
+
+    // Clear mocks to check rerender behavior
+    mockCreateWagmiConfig.mockClear();
+
+    // Re-render with the same connectors
+    rerender(
+      <DefaultOnchainKitProviders connectors={initialConnectors}>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // Should not create a new config
+    expect(mockCreateWagmiConfig).not.toHaveBeenCalled();
   });
 });

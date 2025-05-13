@@ -121,7 +121,7 @@ describe('SendAddressSelector', () => {
         chain: mockWalletContext.chain,
         className: 'custom-avatar',
       }),
-      {},
+      undefined,
     );
 
     expect(Name).toHaveBeenCalledWith(
@@ -130,7 +130,7 @@ describe('SendAddressSelector', () => {
         chain: mockWalletContext.chain,
         className: 'custom-name',
       }),
-      {},
+      undefined,
     );
 
     expect(Address).toHaveBeenCalledWith(
@@ -139,7 +139,7 @@ describe('SendAddressSelector', () => {
         hasCopyAddressOnClick: false,
         className: 'custom-address',
       }),
-      {},
+      undefined,
     );
   });
 

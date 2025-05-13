@@ -53,7 +53,7 @@ describe('SendAmountInput', () => {
       />,
     );
     expect(AmountInput).toHaveBeenCalledWith(
-      {
+      expect.objectContaining({
         fiatAmount: defaultContext.fiatAmount,
         cryptoAmount: defaultContext.cryptoAmount,
         asset: defaultContext.selectedToken.symbol,
@@ -64,8 +64,8 @@ describe('SendAmountInput', () => {
         exchangeRate: '2000',
         className: 'test-class',
         textClassName: 'test-text-class',
-      },
-      {},
+      }),
+      undefined,
     );
   });
 
@@ -84,7 +84,7 @@ describe('SendAmountInput', () => {
       />,
     );
     expect(AmountInput).toHaveBeenCalledWith(
-      {
+      expect.objectContaining({
         fiatAmount: '',
         cryptoAmount: '',
         asset: '',
@@ -95,8 +95,8 @@ describe('SendAmountInput', () => {
         exchangeRate: '2000',
         className: 'test-class',
         textClassName: 'test-text-class',
-      },
-      {},
+      }),
+      undefined,
     );
   });
 });

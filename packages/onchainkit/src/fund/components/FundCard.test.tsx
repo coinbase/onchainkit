@@ -1,13 +1,8 @@
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { openPopup } from '@/internal/utils/openPopup';
 import '@testing-library/jest-dom';
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { act } from 'react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
@@ -108,21 +103,24 @@ const TestComponent = () => {
   );
 };
 
-const renderComponent = (presetAmountInputs?: PresetAmountInputs) =>
-  render(
-    <FundCardProvider
-      asset="BTC"
-      country="US"
-      presetAmountInputs={presetAmountInputs}
-    >
-      <FundCard
-        assetSymbol="BTC"
+const renderComponent = async (presetAmountInputs?: PresetAmountInputs) => {
+  await act(async () => {
+    render(
+      <FundCardProvider
+        asset="BTC"
         country="US"
         presetAmountInputs={presetAmountInputs}
-      />
-      <TestComponent />
-    </FundCardProvider>,
-  );
+      >
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          presetAmountInputs={presetAmountInputs}
+        />
+        <TestComponent />
+      </FundCardProvider>,
+    );
+  });
+};
 
 describe('FundCard', () => {
   beforeEach(() => {
@@ -141,32 +139,32 @@ describe('FundCard', () => {
     });
   });
 
-  it('renders without crashing', () => {
-    renderComponent();
+  it('renders without crashing', async () => {
+    await renderComponent();
     expect(screen.getByTestId('ockFundCardHeader')).toBeInTheDocument();
     expect(screen.getByTestId('ockFundButtonTextContent')).toBeInTheDocument();
   });
 
-  it('displays the correct header text', () => {
-    renderComponent();
+  it('displays the correct header text', async () => {
+    await renderComponent();
     expect(screen.getByTestId('ockFundCardHeader')).toHaveTextContent(
       'Buy BTC',
     );
   });
 
-  it('displays the correct button text', () => {
-    renderComponent();
+  it('displays the correct button text', async () => {
+    await renderComponent();
     expect(screen.getByTestId('ockFundButtonTextContent')).toHaveTextContent(
       'Buy',
     );
   });
 
-  it('handles input changes for fiat amount', () => {
-    renderComponent();
+  it('handles input changes for fiat amount', async () => {
+    await renderComponent();
 
     const input = screen.getByTestId('ockTextInput_Input') as HTMLInputElement;
 
-    act(() => {
+    await act(async () => {
       fireEvent.change(input, { target: { value: '100' } });
     });
 
@@ -174,7 +172,7 @@ describe('FundCard', () => {
   });
 
   it('switches input type from fiat to crypto', async () => {
-    renderComponent();
+    await renderComponent();
 
     await waitFor(() => {
       const switchButton = screen.getByTestId('ockAmountTypeSwitch');
@@ -184,8 +182,8 @@ describe('FundCard', () => {
     expect(screen.getByTestId('ockCurrencySpan')).toHaveTextContent('BTC');
   });
 
-  it('disables the submit button when fund amount is zero and type is fiat', () => {
-    renderComponent();
+  it('disables the submit button when fund amount is zero and type is fiat', async () => {
+    await renderComponent();
     const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
     fireEvent.click(setFiatAmountButton);
 
@@ -193,8 +191,8 @@ describe('FundCard', () => {
     expect(button).toBeDisabled();
   });
 
-  it('disables the submit button when fund amount is zero and input type is crypto', () => {
-    renderComponent();
+  it('disables the submit button when fund amount is zero and input type is crypto', async () => {
+    await renderComponent();
     const setCryptoInputTypeButton = screen.getByTestId(
       'set-crypto-input-type',
     );
@@ -205,7 +203,7 @@ describe('FundCard', () => {
   });
 
   it('enables the submit button when fund amount is greater than zero and type is fiat', async () => {
-    renderComponent();
+    await renderComponent();
     const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
     fireEvent.click(setFiatAmountButton);
 
@@ -222,7 +220,7 @@ describe('FundCard', () => {
   });
 
   it('enables the submit button when fund amount is greater than zero and type is crypto', async () => {
-    renderComponent();
+    await renderComponent();
     const setCryptoInputTypeButton = screen.getByTestId(
       'set-crypto-input-type',
     );
@@ -241,7 +239,7 @@ describe('FundCard', () => {
   });
 
   it('shows loading state when submitting', async () => {
-    renderComponent();
+    await renderComponent();
 
     await waitFor(() => {
       expect(screen.getByTestId('loading-state').textContent).toBe(
@@ -265,7 +263,7 @@ describe('FundCard', () => {
   it('sets submit button state to default on popup close', async () => {
     (openPopup as Mock).mockImplementation(() => ({ closed: true }));
 
-    renderComponent();
+    await renderComponent();
 
     const button = screen.getByTestId('ockFundButton');
 
@@ -290,12 +288,14 @@ describe('FundCard', () => {
     });
   });
 
-  it('renders custom children instead of default children', () => {
-    render(
-      <FundCard assetSymbol="ETH" country="US">
-        <div data-testid="custom-child">Custom Content</div>
-      </FundCard>,
-    );
+  it('renders custom children instead of default children', async () => {
+    await act(async () => {
+      render(
+        <FundCard assetSymbol="ETH" country="US">
+          <div data-testid="custom-child">Custom Content</div>
+        </FundCard>,
+      );
+    });
 
     expect(screen.getByTestId('custom-child')).toBeInTheDocument();
     expect(screen.queryByTestId('ockFundCardHeader')).not.toBeInTheDocument();
@@ -304,7 +304,7 @@ describe('FundCard', () => {
   it('handles preset amount input click correctly', async () => {
     const presetAmountInputs: PresetAmountInputs = ['12345', '20', '30'];
 
-    renderComponent(presetAmountInputs);
+    await renderComponent(presetAmountInputs);
 
     await waitFor(() => {
       expect(screen.getByTestId('loading-state').textContent).toBe(

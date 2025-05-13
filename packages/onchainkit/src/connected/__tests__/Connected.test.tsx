@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { Connected } from '../components/Connected';
+import { Connected } from '../';
 import { useAccount } from 'wagmi';
 
 vi.mock('wagmi', () => ({

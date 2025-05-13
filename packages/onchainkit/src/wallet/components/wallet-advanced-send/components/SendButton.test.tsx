@@ -156,7 +156,7 @@ describe('SendButton', () => {
         chainId: mockChain.id,
         calls: [mockTransactionData.calldata],
       }),
-      {},
+      undefined,
     );
 
     expect(screen.getByTestId('mock-transaction')).toBeInTheDocument();
@@ -182,7 +182,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         disabled: true,
       }),
-      {},
+      undefined,
     );
   });
 
@@ -198,7 +198,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         chainId: base.id,
       }),
-      {},
+      undefined,
     );
   });
 
@@ -214,7 +214,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         calls: [],
       }),
-      {},
+      undefined,
     );
   });
 
@@ -230,7 +230,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         text: 'Input amount',
       }),
-      {},
+      undefined,
     );
   });
 
@@ -246,7 +246,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         text: 'Select token',
       }),
-      {},
+      undefined,
     );
   });
 
@@ -266,7 +266,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         text: 'Insufficient balance',
       }),
-      {},
+      undefined,
     );
   });
 
@@ -281,7 +281,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         text: 'Continue',
       }),
-      {},
+      undefined,
     );
   });
 
