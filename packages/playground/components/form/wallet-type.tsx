@@ -6,13 +6,15 @@ import { useEffect, useState } from 'react';
 import { useAccount, useConnect, useConnectors, useDisconnect } from 'wagmi';
 import type { GetConnectorsReturnType } from 'wagmi/actions';
 
-export enum WalletPreference {
-  SMART_WALLET = 'smartWalletOnly',
-  EOA = 'eoaOnly',
-}
+export const WalletPreference = {
+  SMART_WALLET: 'smartWalletOnly',
+  EOA: 'eoaOnly',
+} as const;
+export type WalletPreferenceType =
+  (typeof WalletPreference)[keyof typeof WalletPreference];
 
 const getConnector = (
-  walletType: WalletPreference,
+  walletType: WalletPreferenceType,
   connectors: GetConnectorsReturnType,
 ) => {
   if (walletType === WalletPreference.SMART_WALLET) {
@@ -27,20 +29,20 @@ export function WalletType() {
   const account = useAccount();
   const { connect } = useConnect();
 
-  const [walletType, setWalletType] = useState<WalletPreference>();
+  const [walletType, setWalletType] = useState<WalletPreferenceType>();
 
   useEffect(() => {
     const storedWalletType = localStorage.getItem(getStorageKey('walletType'));
     if (storedWalletType) {
-      setWalletType(storedWalletType as WalletPreference);
+      setWalletType(storedWalletType as WalletPreferenceType);
     }
   }, []);
 
-  async function handleConnect(value: WalletPreference) {
+  async function handleConnect(value: WalletPreferenceType) {
     setWalletType(value);
     connect(
       {
-        connector: getConnector(value as WalletPreference, connectors),
+        connector: getConnector(value, connectors),
       },
       {
         // Set localStorage ONLY when user has connected
