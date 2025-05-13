@@ -338,9 +338,9 @@ describe('SendButton', () => {
       expect.objectContaining({
         onSubmit: mockTransactionParams.onSubmit,
         isDisabled: mockTransactionParams.isDisabled,
-        label: expect.any(String),
+        label: 'Continue',
       }),
-      expect.anything(),
+      undefined,
     );
   });
 });
