@@ -304,32 +304,6 @@ describe('SendButton', () => {
     expect(mockSendContext.updateLifecycleStatus).not.toHaveBeenCalled();
   });
 
-<<<<<<< HEAD
-=======
-  it('passes custom overrides to TransactionButton', () => {
-    const pendingOverride = { text: 'Sending...' };
-    const successOverride = { text: 'Sent!' };
-    const errorOverride = { text: 'Failed!' };
-
-    render(
-      <SendButton
-        pendingOverride={pendingOverride}
-        successOverride={successOverride}
-        errorOverride={errorOverride}
-      />,
-    );
-
-    expect(TransactionButton).toHaveBeenCalledWith(
-      expect.objectContaining({
-        pendingOverride,
-        successOverride,
-        errorOverride,
-      }),
-      undefined,
-    );
-  });
-
->>>>>>> be47625f (Feat: react 19 upgrade)
   it('handles null wallet address correctly', () => {
     mockUseWalletContext.mockReturnValue({
       ...mockWalletContext,
