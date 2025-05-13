@@ -4,16 +4,17 @@ import type {
 } from 'wagmi/actions';
 import type { APIError } from '../api/types';
 
-export enum MessageType {
-  SIGNABLE_MESSAGE = 'signable_message',
-  TYPED_DATA = 'typed_data',
-  INVALID = 'invalid',
-}
+export const Message = {
+  SIGNABLE_MESSAGE: 'signable_message',
+  TYPED_DATA: 'typed_data',
+  INVALID: 'invalid',
+} as const;
+export type MessageType = (typeof Message)[keyof typeof Message];
 
 export type ValidateMessageResult =
-  | { type: MessageType.TYPED_DATA; data: SignTypedDataParameters }
-  | { type: MessageType.SIGNABLE_MESSAGE; data: SignMessageParameters }
-  | { type: MessageType.INVALID; data: null };
+  | { type: typeof Message.TYPED_DATA; data: SignTypedDataParameters }
+  | { type: typeof Message.SIGNABLE_MESSAGE; data: SignMessageParameters }
+  | { type: typeof Message.INVALID; data: null };
 
 export type MessageData = {
   domain?: SignTypedDataParameters['domain'];

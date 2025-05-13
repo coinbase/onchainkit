@@ -1,4 +1,4 @@
-import { RequestContext } from '@/core/network/constants';
+import { RequestContext, RequestContextType } from '@/core/network/constants';
 import {
   CDP_CREATE_PRODUCT_CHARGE,
   CDP_HYDRATE_CHARGE,
@@ -14,7 +14,7 @@ import { getPayErrorMessage } from './utils/getPayErrorMessage';
 
 export async function buildPayTransaction(
   params: BuildPayTransactionParams,
-  _context: RequestContext = RequestContext.API,
+  _context: RequestContextType = RequestContext.API,
 ): Promise<BuildPayTransactionResponse> {
   const { address, chargeId, productId } = params;
 

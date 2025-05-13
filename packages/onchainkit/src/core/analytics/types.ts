@@ -8,164 +8,178 @@ import type { Hex } from 'viem';
  * Wallet component events - Tracks all possible wallet interaction states
  * Used to monitor wallet connection flow and user interactions
  */
-export enum WalletEvent {
+export const WalletEvent = {
   /** Wallet connection fails */
-  ConnectError = 'walletConnectError',
+  ConnectError: 'walletConnectError',
   /** User clicks connect wallet button */
-  ConnectInitiated = 'walletConnectInitiated',
+  ConnectInitiated: 'walletConnectInitiated',
   /** Wallet successfully connected */
-  ConnectSuccess = 'walletConnectSuccess',
+  ConnectSuccess: 'walletConnectSuccess',
   /** User disconnects wallet */
-  Disconnect = 'walletDisconnect',
+  Disconnect: 'walletDisconnect',
   /** User selects a wallet option */
-  OptionSelected = 'walletOptionSelected',
+  OptionSelected: 'walletOptionSelected',
   /** User cancels wallet connection */
-  ConnectCanceled = 'walletConnectCanceled',
-}
+  ConnectCanceled: 'walletConnectCanceled',
+} as const;
+
+export type WalletEventType = (typeof WalletEvent)[keyof typeof WalletEvent];
 
 /**
  * Wallet option - Available actions in the wallet interface
  * Used to track which wallet features users interact with
  */
-export enum WalletOption {
-  Buy = 'buy',
-  Explorer = 'explorer',
-  QR = 'qr',
-  Refresh = 'refresh',
-  Send = 'send',
-  Swap = 'swap',
-}
+export const WalletOption = {
+  Buy: 'buy',
+  Explorer: 'explorer',
+  QR: 'qr',
+  Refresh: 'refresh',
+  Send: 'send',
+  Swap: 'swap',
+} as const;
+export type WalletOptionType = (typeof WalletOption)[keyof typeof WalletOption];
 
 /**
  * Swap component events
  */
-export enum SwapEvent {
-  SlippageChanged = 'swapSlippageChanged',
-  TokenSelected = 'swapTokenSelected',
-  SwapSuccess = 'swapSuccess',
-  SwapInitiated = 'swapInitiated',
-  SwapFailure = 'swapFailure',
-  SwapCanceled = 'swapCanceled',
-}
+export const SwapEvent = {
+  SlippageChanged: 'swapSlippageChanged',
+  TokenSelected: 'swapTokenSelected',
+  SwapSuccess: 'swapSuccess',
+  SwapInitiated: 'swapInitiated',
+  SwapFailure: 'swapFailure',
+  SwapCanceled: 'swapCanceled',
+} as const;
+export type SwapEventType = (typeof SwapEvent)[keyof typeof SwapEvent];
 
 /**
  * Buy option - Available payment methods for buying
  * Used to track which payment method users select
  */
-export enum BuyOption {
-  APPLE_PAY = 'apple_pay',
-  COINBASE = 'coinbase_account',
-  DEBIT_CARD = 'debit_card',
-  ETH = 'eth',
-  USDC = 'usdc',
-}
-
+export const BuyOption = {
+  APPLE_PAY: 'apple_pay',
+  COINBASE: 'coinbase_account',
+  DEBIT_CARD: 'debit_card',
+  ETH: 'eth',
+  USDC: 'usdc',
+} as const;
+export type BuyOptionType = (typeof BuyOption)[keyof typeof BuyOption];
 /**
  * Buy component events
  */
-export enum BuyEvent {
-  BuyFailure = 'buyFailure',
-  BuyInitiated = 'buyInitiated',
-  BuyOptionSelected = 'buyOptionSelected',
-  BuySuccess = 'buySuccess',
-  BuyCanceled = 'buyCanceled',
-}
-
+export const BuyEvent = {
+  BuyFailure: 'buyFailure',
+  BuyInitiated: 'buyInitiated',
+  BuyOptionSelected: 'buyOptionSelected',
+  BuySuccess: 'buySuccess',
+  BuyCanceled: 'buyCanceled',
+} as const;
+export type BuyEventType = (typeof BuyEvent)[keyof typeof BuyEvent];
 /**
  * Checkout component events
  */
-export enum CheckoutEvent {
-  CheckoutFailure = 'checkoutFailure',
-  CheckoutInitiated = 'checkoutInitiated',
-  CheckoutSuccess = 'checkoutSuccess',
-  CheckoutCanceled = 'checkoutCanceled',
-}
+export const CheckoutEvent = {
+  CheckoutFailure: 'checkoutFailure',
+  CheckoutInitiated: 'checkoutInitiated',
+  CheckoutSuccess: 'checkoutSuccess',
+  CheckoutCanceled: 'checkoutCanceled',
+} as const;
+export type CheckoutEventType =
+  (typeof CheckoutEvent)[keyof typeof CheckoutEvent];
 
 /**
  * Mint component events
  */
-export enum MintEvent {
-  MintFailure = 'mintFailure',
-  MintInitiated = 'mintInitiated',
-  MintQuantityChanged = 'mintQuantityChanged',
-  MintSuccess = 'mintSuccess',
-  MintCanceled = 'mintCanceled',
-}
+export const MintEvent = {
+  MintFailure: 'mintFailure',
+  MintInitiated: 'mintInitiated',
+  MintQuantityChanged: 'mintQuantityChanged',
+  MintSuccess: 'mintSuccess',
+  MintCanceled: 'mintCanceled',
+} as const;
+export type MintEventType = (typeof MintEvent)[keyof typeof MintEvent];
 
 /**
  * Transaction component events
  */
-export enum TransactionEvent {
-  TransactionFailure = 'transactionFailure',
-  TransactionInitiated = 'transactionInitiated',
-  TransactionSuccess = 'transactionSuccess',
-  TransactionCanceled = 'transactionCanceled',
-}
+export const TransactionEvent = {
+  TransactionFailure: 'transactionFailure',
+  TransactionInitiated: 'transactionInitiated',
+  TransactionSuccess: 'transactionSuccess',
+  TransactionCanceled: 'transactionCanceled',
+} as const;
+export type TransactionEventType =
+  (typeof TransactionEvent)[keyof typeof TransactionEvent];
 
 /**
  * Fund component events
  */
-export enum FundEvent {
-  FundAmountChanged = 'fundAmountChanged',
-  FundFailure = 'fundFailure',
-  FundInitiated = 'fundInitiated',
-  FundOptionSelected = 'fundOptionSelected',
-  FundSuccess = 'fundSuccess',
-  FundCanceled = 'fundCanceled',
-}
+export const FundEvent = {
+  FundAmountChanged: 'fundAmountChanged',
+  FundFailure: 'fundFailure',
+  FundInitiated: 'fundInitiated',
+  FundOptionSelected: 'fundOptionSelected',
+  FundSuccess: 'fundSuccess',
+  FundCanceled: 'fundCanceled',
+} as const;
+export type FundEventType = (typeof FundEvent)[keyof typeof FundEvent];
 
 /**
  * Earn component events
  */
-export enum EarnEvent {
-  EarnDepositInitiated = 'earnDepositInitiated',
-  EarnDepositSuccess = 'earnDepositSuccess',
-  EarnDepositFailure = 'earnDepositFailure',
-  EarnDepositCanceled = 'earnDepositCanceled',
-  EarnWithdrawInitiated = 'earnWithdrawInitiated',
-  EarnWithdrawSuccess = 'earnWithdrawSuccess',
-  EarnWithdrawFailure = 'earnWithdrawFailure',
-  EarnWithdrawCanceled = 'earnWithdrawCanceled',
-}
+export const EarnEvent = {
+  EarnDepositInitiated: 'earnDepositInitiated',
+  EarnDepositSuccess: 'earnDepositSuccess',
+  EarnDepositFailure: 'earnDepositFailure',
+  EarnDepositCanceled: 'earnDepositCanceled',
+  EarnWithdrawInitiated: 'earnWithdrawInitiated',
+  EarnWithdrawSuccess: 'earnWithdrawSuccess',
+  EarnWithdrawFailure: 'earnWithdrawFailure',
+  EarnWithdrawCanceled: 'earnWithdrawCanceled',
+} as const;
+export type EarnEventType = (typeof EarnEvent)[keyof typeof EarnEvent];
 
 /**
  * Appchain component events
  */
-export enum AppchainEvent {
-  AppchainBridgeDepositInitiated = 'appchainBridgeDepositInitiated',
-  AppchainBridgeDepositSuccess = 'appchainBridgeDepositSuccess',
-  AppchainBridgeDepositFailure = 'appchainBridgeDepositFailure',
-  AppchainBridgeWithdrawInitiated = 'appchainBridgeWithdrawInitiated',
-  AppchainBridgeWithdrawSuccess = 'appchainBridgeWithdrawSuccess',
-  AppchainBridgeWithdrawFailure = 'appchainBridgeWithdrawFailure',
-  AppchainBridgeWaitForClaimFailure = 'appchainBridgeWaitForClaimFailure',
-  AppchainBridgeClaimSuccess = 'appchainBridgeClaimSuccess',
-  AppchainBridgeClaimFailure = 'appchainBridgeClaimFailure',
-}
+export const AppchainEvent = {
+  AppchainBridgeDepositInitiated: 'appchainBridgeDepositInitiated',
+  AppchainBridgeDepositSuccess: 'appchainBridgeDepositSuccess',
+  AppchainBridgeDepositFailure: 'appchainBridgeDepositFailure',
+  AppchainBridgeWithdrawInitiated: 'appchainBridgeWithdrawInitiated',
+  AppchainBridgeWithdrawSuccess: 'appchainBridgeWithdrawSuccess',
+  AppchainBridgeWithdrawFailure: 'appchainBridgeWithdrawFailure',
+  AppchainBridgeWaitForClaimFailure: 'appchainBridgeWaitForClaimFailure',
+  AppchainBridgeClaimSuccess: 'appchainBridgeClaimSuccess',
+  AppchainBridgeClaimFailure: 'appchainBridgeClaimFailure',
+} as const;
+export type AppchainEventType =
+  (typeof AppchainEvent)[keyof typeof AppchainEvent];
 
 /**
  * Generic error events across components
  * Used for error tracking and monitoring
  */
-export enum ErrorEvent {
-  ComponentError = 'componentError',
-}
+export const ErrorEvent = {
+  ComponentError: 'componentError',
+} as const;
+export type ErrorEventType = (typeof ErrorEvent)[keyof typeof ErrorEvent];
 
 /**
  * Analytics event types
  * Combines all possible event types
  */
 export type AnalyticsEvent =
-  | AppchainEvent
-  | WalletEvent
-  | SwapEvent
-  | BuyEvent
-  | CheckoutEvent
-  | MintEvent
-  | TransactionEvent
-  | FundEvent
-  | EarnEvent
-  | ErrorEvent;
+  | AppchainEventType
+  | WalletEventType
+  | SwapEventType
+  | BuyEventType
+  | CheckoutEventType
+  | MintEventType
+  | TransactionEventType
+  | FundEventType
+  | EarnEventType
+  | ErrorEventType;
 
 /**
  * Common analytics data included in all events
@@ -235,7 +249,7 @@ export type WalletEventData = {
     walletProvider: string;
   };
   [WalletEvent.OptionSelected]: CommonAnalyticsData & {
-    option: WalletOption;
+    option: WalletOptionType;
   };
   [WalletEvent.ConnectCanceled]: CommonAnalyticsData;
 };
@@ -276,7 +290,7 @@ export type BuyEventData = {
     token: string | undefined;
   };
   [BuyEvent.BuyOptionSelected]: CommonAnalyticsData & {
-    option: BuyOption | undefined;
+    option: BuyOptionType | undefined;
   };
   [BuyEvent.BuySuccess]: CommonAnalyticsData & {
     address: string | undefined;
@@ -428,77 +442,75 @@ export type EarnEventData = {
 // Update main AnalyticsEventData type to include all component events
 export type AnalyticsEventData = {
   // Appchain events
-  [AppchainEvent.AppchainBridgeDepositInitiated]: AppchainEventData[AppchainEvent.AppchainBridgeDepositInitiated];
-  [AppchainEvent.AppchainBridgeDepositSuccess]: AppchainEventData[AppchainEvent.AppchainBridgeDepositSuccess];
-  [AppchainEvent.AppchainBridgeDepositFailure]: AppchainEventData[AppchainEvent.AppchainBridgeDepositFailure];
-  [AppchainEvent.AppchainBridgeWithdrawInitiated]: AppchainEventData[AppchainEvent.AppchainBridgeWithdrawInitiated];
-  [AppchainEvent.AppchainBridgeWithdrawSuccess]: AppchainEventData[AppchainEvent.AppchainBridgeWithdrawSuccess];
-  [AppchainEvent.AppchainBridgeWithdrawFailure]: AppchainEventData[AppchainEvent.AppchainBridgeWithdrawFailure];
-  [AppchainEvent.AppchainBridgeWaitForClaimFailure]: AppchainEventData[AppchainEvent.AppchainBridgeWaitForClaimFailure];
-  [AppchainEvent.AppchainBridgeClaimSuccess]: AppchainEventData[AppchainEvent.AppchainBridgeClaimSuccess];
-  [AppchainEvent.AppchainBridgeClaimFailure]: AppchainEventData[AppchainEvent.AppchainBridgeClaimFailure];
+  [AppchainEvent.AppchainBridgeDepositInitiated]: AppchainEventData[typeof AppchainEvent.AppchainBridgeDepositInitiated];
+  [AppchainEvent.AppchainBridgeDepositSuccess]: AppchainEventData[typeof AppchainEvent.AppchainBridgeDepositSuccess];
+  [AppchainEvent.AppchainBridgeDepositFailure]: AppchainEventData[typeof AppchainEvent.AppchainBridgeDepositFailure];
+  [AppchainEvent.AppchainBridgeWithdrawInitiated]: AppchainEventData[typeof AppchainEvent.AppchainBridgeWithdrawInitiated];
+  [AppchainEvent.AppchainBridgeWithdrawSuccess]: AppchainEventData[typeof AppchainEvent.AppchainBridgeWithdrawSuccess];
+  [AppchainEvent.AppchainBridgeWithdrawFailure]: AppchainEventData[typeof AppchainEvent.AppchainBridgeWithdrawFailure];
+  [AppchainEvent.AppchainBridgeWaitForClaimFailure]: AppchainEventData[typeof AppchainEvent.AppchainBridgeWaitForClaimFailure];
+  [AppchainEvent.AppchainBridgeClaimSuccess]: AppchainEventData[typeof AppchainEvent.AppchainBridgeClaimSuccess];
+  [AppchainEvent.AppchainBridgeClaimFailure]: AppchainEventData[typeof AppchainEvent.AppchainBridgeClaimFailure];
 
   // Wallet events
-  [WalletEvent.ConnectError]: WalletEventData[WalletEvent.ConnectError];
-  [WalletEvent.ConnectInitiated]: WalletEventData[WalletEvent.ConnectInitiated];
-  [WalletEvent.ConnectSuccess]: WalletEventData[WalletEvent.ConnectSuccess];
-  [WalletEvent.Disconnect]: WalletEventData[WalletEvent.Disconnect];
-  [WalletEvent.OptionSelected]: CommonAnalyticsData & {
-    option: WalletOption;
-  };
-  [WalletEvent.ConnectCanceled]: WalletEventData[WalletEvent.ConnectCanceled];
+  [WalletEvent.ConnectError]: WalletEventData[typeof WalletEvent.ConnectError];
+  [WalletEvent.ConnectInitiated]: WalletEventData[typeof WalletEvent.ConnectInitiated];
+  [WalletEvent.ConnectSuccess]: WalletEventData[typeof WalletEvent.ConnectSuccess];
+  [WalletEvent.Disconnect]: WalletEventData[typeof WalletEvent.Disconnect];
+  [WalletEvent.OptionSelected]: WalletEventData[typeof WalletEvent.OptionSelected];
+  [WalletEvent.ConnectCanceled]: WalletEventData[typeof WalletEvent.ConnectCanceled];
 
   // Swap events
-  [SwapEvent.SlippageChanged]: SwapEventData[SwapEvent.SlippageChanged];
-  [SwapEvent.TokenSelected]: SwapEventData[SwapEvent.TokenSelected];
-  [SwapEvent.SwapSuccess]: SwapEventData[SwapEvent.SwapSuccess];
-  [SwapEvent.SwapFailure]: SwapEventData[SwapEvent.SwapFailure];
-  [SwapEvent.SwapInitiated]: SwapEventData[SwapEvent.SwapInitiated];
-  [SwapEvent.SwapCanceled]: SwapEventData[SwapEvent.SwapCanceled];
+  [SwapEvent.SlippageChanged]: SwapEventData[typeof SwapEvent.SlippageChanged];
+  [SwapEvent.TokenSelected]: SwapEventData[typeof SwapEvent.TokenSelected];
+  [SwapEvent.SwapSuccess]: SwapEventData[typeof SwapEvent.SwapSuccess];
+  [SwapEvent.SwapFailure]: SwapEventData[typeof SwapEvent.SwapFailure];
+  [SwapEvent.SwapInitiated]: SwapEventData[typeof SwapEvent.SwapInitiated];
+  [SwapEvent.SwapCanceled]: SwapEventData[typeof SwapEvent.SwapCanceled];
 
   // Buy events
-  [BuyEvent.BuyFailure]: BuyEventData[BuyEvent.BuyFailure];
-  [BuyEvent.BuyInitiated]: BuyEventData[BuyEvent.BuyInitiated];
-  [BuyEvent.BuyOptionSelected]: BuyEventData[BuyEvent.BuyOptionSelected];
-  [BuyEvent.BuySuccess]: BuyEventData[BuyEvent.BuySuccess];
-  [BuyEvent.BuyCanceled]: BuyEventData[BuyEvent.BuyCanceled];
+  [BuyEvent.BuyFailure]: BuyEventData[typeof BuyEvent.BuyFailure];
+  [BuyEvent.BuyInitiated]: BuyEventData[typeof BuyEvent.BuyInitiated];
+  [BuyEvent.BuyOptionSelected]: BuyEventData[typeof BuyEvent.BuyOptionSelected];
+  [BuyEvent.BuySuccess]: BuyEventData[typeof BuyEvent.BuySuccess];
+  [BuyEvent.BuyCanceled]: BuyEventData[typeof BuyEvent.BuyCanceled];
 
   // Checkout events
-  [CheckoutEvent.CheckoutFailure]: CheckoutEventData[CheckoutEvent.CheckoutFailure];
-  [CheckoutEvent.CheckoutInitiated]: CheckoutEventData[CheckoutEvent.CheckoutInitiated];
-  [CheckoutEvent.CheckoutSuccess]: CheckoutEventData[CheckoutEvent.CheckoutSuccess];
-  [CheckoutEvent.CheckoutCanceled]: CheckoutEventData[CheckoutEvent.CheckoutCanceled];
+  [CheckoutEvent.CheckoutFailure]: CheckoutEventData[typeof CheckoutEvent.CheckoutFailure];
+  [CheckoutEvent.CheckoutInitiated]: CheckoutEventData[typeof CheckoutEvent.CheckoutInitiated];
+  [CheckoutEvent.CheckoutSuccess]: CheckoutEventData[typeof CheckoutEvent.CheckoutSuccess];
+  [CheckoutEvent.CheckoutCanceled]: CheckoutEventData[typeof CheckoutEvent.CheckoutCanceled];
 
   // Mint events
-  [MintEvent.MintFailure]: MintEventData[MintEvent.MintFailure];
-  [MintEvent.MintInitiated]: MintEventData[MintEvent.MintInitiated];
-  [MintEvent.MintQuantityChanged]: MintEventData[MintEvent.MintQuantityChanged];
-  [MintEvent.MintSuccess]: MintEventData[MintEvent.MintSuccess];
-  [MintEvent.MintCanceled]: MintEventData[MintEvent.MintCanceled];
+  [MintEvent.MintFailure]: MintEventData[typeof MintEvent.MintFailure];
+  [MintEvent.MintInitiated]: MintEventData[typeof MintEvent.MintInitiated];
+  [MintEvent.MintQuantityChanged]: MintEventData[typeof MintEvent.MintQuantityChanged];
+  [MintEvent.MintSuccess]: MintEventData[typeof MintEvent.MintSuccess];
+  [MintEvent.MintCanceled]: MintEventData[typeof MintEvent.MintCanceled];
 
   // Transaction events
-  [TransactionEvent.TransactionFailure]: TransactionEventData[TransactionEvent.TransactionFailure];
-  [TransactionEvent.TransactionInitiated]: TransactionEventData[TransactionEvent.TransactionInitiated];
-  [TransactionEvent.TransactionSuccess]: TransactionEventData[TransactionEvent.TransactionSuccess];
-  [TransactionEvent.TransactionCanceled]: TransactionEventData[TransactionEvent.TransactionCanceled];
+  [TransactionEvent.TransactionFailure]: TransactionEventData[typeof TransactionEvent.TransactionFailure];
+  [TransactionEvent.TransactionInitiated]: TransactionEventData[typeof TransactionEvent.TransactionInitiated];
+  [TransactionEvent.TransactionSuccess]: TransactionEventData[typeof TransactionEvent.TransactionSuccess];
+  [TransactionEvent.TransactionCanceled]: TransactionEventData[typeof TransactionEvent.TransactionCanceled];
 
   // Fund events
-  [FundEvent.FundAmountChanged]: FundEventData[FundEvent.FundAmountChanged];
-  [FundEvent.FundFailure]: FundEventData[FundEvent.FundFailure];
-  [FundEvent.FundInitiated]: FundEventData[FundEvent.FundInitiated];
-  [FundEvent.FundOptionSelected]: FundEventData[FundEvent.FundOptionSelected];
-  [FundEvent.FundSuccess]: FundEventData[FundEvent.FundSuccess];
-  [FundEvent.FundCanceled]: FundEventData[FundEvent.FundCanceled];
+  [FundEvent.FundAmountChanged]: FundEventData[typeof FundEvent.FundAmountChanged];
+  [FundEvent.FundFailure]: FundEventData[typeof FundEvent.FundFailure];
+  [FundEvent.FundInitiated]: FundEventData[typeof FundEvent.FundInitiated];
+  [FundEvent.FundOptionSelected]: FundEventData[typeof FundEvent.FundOptionSelected];
+  [FundEvent.FundSuccess]: FundEventData[typeof FundEvent.FundSuccess];
+  [FundEvent.FundCanceled]: FundEventData[typeof FundEvent.FundCanceled];
 
   // Earn events
-  [EarnEvent.EarnDepositInitiated]: EarnEventData[EarnEvent.EarnDepositInitiated];
-  [EarnEvent.EarnDepositSuccess]: EarnEventData[EarnEvent.EarnDepositSuccess];
-  [EarnEvent.EarnDepositFailure]: EarnEventData[EarnEvent.EarnDepositFailure];
-  [EarnEvent.EarnDepositCanceled]: EarnEventData[EarnEvent.EarnDepositCanceled];
-  [EarnEvent.EarnWithdrawInitiated]: EarnEventData[EarnEvent.EarnWithdrawInitiated];
-  [EarnEvent.EarnWithdrawSuccess]: EarnEventData[EarnEvent.EarnWithdrawSuccess];
-  [EarnEvent.EarnWithdrawFailure]: EarnEventData[EarnEvent.EarnWithdrawFailure];
-  [EarnEvent.EarnWithdrawCanceled]: EarnEventData[EarnEvent.EarnWithdrawCanceled];
+  [EarnEvent.EarnDepositInitiated]: EarnEventData[typeof EarnEvent.EarnDepositInitiated];
+  [EarnEvent.EarnDepositSuccess]: EarnEventData[typeof EarnEvent.EarnDepositSuccess];
+  [EarnEvent.EarnDepositFailure]: EarnEventData[typeof EarnEvent.EarnDepositFailure];
+  [EarnEvent.EarnDepositCanceled]: EarnEventData[typeof EarnEvent.EarnDepositCanceled];
+  [EarnEvent.EarnWithdrawInitiated]: EarnEventData[typeof EarnEvent.EarnWithdrawInitiated];
+  [EarnEvent.EarnWithdrawSuccess]: EarnEventData[typeof EarnEvent.EarnWithdrawSuccess];
+  [EarnEvent.EarnWithdrawFailure]: EarnEventData[typeof EarnEvent.EarnWithdrawFailure];
+  [EarnEvent.EarnWithdrawCanceled]: EarnEventData[typeof EarnEvent.EarnWithdrawCanceled];
 
   // Error events
   [ErrorEvent.ComponentError]: CommonAnalyticsData & {

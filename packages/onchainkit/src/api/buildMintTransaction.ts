@@ -1,4 +1,4 @@
-import { RequestContext } from '@/core/network/constants';
+import { RequestContext, RequestContextType } from '@/core/network/constants';
 import { CDP_MINT_TOKEN } from '../core/network/definitions/nft';
 import { sendRequest } from '../core/network/request';
 import type {
@@ -11,7 +11,7 @@ import type {
  */
 export async function buildMintTransaction(
   params: BuildMintTransactionParams,
-  context: RequestContext = RequestContext.API,
+  context: RequestContextType = RequestContext.API,
 ): Promise<BuildMintTransactionResponse> {
   const { mintAddress, tokenId, network = '', quantity, takerAddress } = params;
 

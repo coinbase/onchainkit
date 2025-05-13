@@ -6,7 +6,6 @@ import { CheckoutEvent } from '../../core/analytics/types';
 import { Spinner } from '../../internal/components/Spinner';
 import { useIcon } from '../../internal/hooks/useIcon';
 import { cn, pressable, text as styleText } from '../../styles/theme';
-import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import type { CheckoutButtonReact } from '../types';
 import { useCheckoutContext } from './CheckoutProvider';
 
@@ -25,13 +24,11 @@ export function CheckoutButton({
   const iconSvg = useIcon({ icon });
   const { sendAnalytics } = useAnalytics();
 
-  const isLoading =
-    lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.PENDING;
-  const isFetchingData =
-    lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.FETCHING_DATA;
+  const isLoading = lifecycleStatus?.statusName === 'pending';
+  const isFetchingData = lifecycleStatus?.statusName === 'fetchingData';
   const isDisabled = disabled || isLoading || isFetchingData;
   const buttonText = useMemo(() => {
-    if (lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.SUCCESS) {
+    if (lifecycleStatus?.statusName === 'success') {
       return 'View payment details';
     }
     return text;
@@ -40,7 +37,7 @@ export function CheckoutButton({
 
   useEffect(() => {
     if (
-      lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.SUCCESS &&
+      lifecycleStatus?.statusName === 'success' &&
       lifecycleStatus.statusData
     ) {
       const { transactionReceipts, chargeId } = lifecycleStatus.statusData;
