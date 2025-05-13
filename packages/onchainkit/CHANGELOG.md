@@ -851,7 +851,7 @@ type TransactionResponse = {
 Breaking Changes
 The `delayMs` prop for the `<TransactionToast>` component has been renamed to `durationMs`. Thischange clarifies that `delay` refers to when something starts, while `duration` specifies how longit lasts.
 
-Learn more about this component type at https://onchainkit.xyz/transactiontypes#transactiontoastreact
+Learn more about this component type at https://onchainkit.xyz/transaction/types#transactiontoastreact
 
 ## 0.26.16
 
