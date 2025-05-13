@@ -2,29 +2,20 @@ import {
   type ChangeEvent,
   type InputHTMLAttributes,
   type ForwardedRef,
+  type ComponentProps,
   useCallback,
   forwardRef,
-  HTMLProps,
 } from 'react';
 import { useDebounce } from '../hooks/useDebounce';
 import { cn } from '@/styles/theme';
 
-type TextInputProps = Omit<
-  HTMLProps<HTMLInputElement>,
-  'aria-label' | 'className' | 'onChange' | 'onBlur' | 'onFocus'
-> & {
-  'aria-label'?: string;
-  className: string;
+type TextInputProps = Omit<ComponentProps<'input'>, 'onChange'> & {
   delayMs?: number;
-  disabled?: boolean;
   /** specify 'decimal' to trigger numeric keyboards on mobile devices */
   inputMode?: InputHTMLAttributes<HTMLInputElement>['inputMode'];
-  onBlur?: () => void;
   onChange: (s: string) => void;
-  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   placeholder: string;
   setValue?: (s: string) => void;
-  value: string;
   inputValidator?: (s: string) => boolean;
   /** specify 'message' to show error state (change in color), message is used for a11y purposes, not actually rendered currently */
   errorMessage?: string;
