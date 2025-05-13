@@ -179,7 +179,7 @@ export type AnalyticsEvent =
   | TransactionEventType
   | FundEventType
   | EarnEventType
-  | ErrorEvent;
+  | ErrorEventType;
 
 /**
  * Common analytics data included in all events
