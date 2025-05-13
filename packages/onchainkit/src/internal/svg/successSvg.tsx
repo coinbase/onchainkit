@@ -2,7 +2,9 @@ type SuccessSvgProps = {
   className?: string;
 };
 
-export const SuccessSvg = ({ className }: SuccessSvgProps) => (
+export const SuccessSvg = ({
+  className = 'fill-[#65A30D]',
+}: SuccessSvgProps) => (
   <svg
     aria-label="ock-successSvg"
     width="16"

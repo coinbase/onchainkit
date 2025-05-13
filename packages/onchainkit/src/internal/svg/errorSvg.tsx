@@ -2,7 +2,7 @@ type ErrorSvgProps = {
   className?: string;
 };
 
-export const ErrorSvg = ({ className }: ErrorSvgProps) => (
+export const ErrorSvg = ({ className = 'fill-[#E11D48]' }: ErrorSvgProps) => (
   <svg
     aria-label="ock-errorSvg"
     width="16"

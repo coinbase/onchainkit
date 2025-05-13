@@ -2,7 +2,7 @@
 
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
-import { border, cn } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import { Swap } from '@/swap/components/Swap';
 import { SwapAmountInput } from '@/swap/components/SwapAmountInput';
 import { SwapButton } from '@/swap/components/SwapButton';

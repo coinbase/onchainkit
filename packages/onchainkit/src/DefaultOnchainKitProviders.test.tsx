@@ -4,6 +4,10 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, createConfig } from 'wagmi';
 import { DefaultOnchainKitProviders } from './DefaultOnchainKitProviders';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
+import { useOnchainKit } from './useOnchainKit';
+
+// Mock the coinbase wallet connector
+const mockCoinbaseWallet = vi.fn();
 
 const queryClient = new QueryClient();
 const wagmiConfig = createConfig({
@@ -46,12 +50,43 @@ vi.mock('./internal/hooks/useProviderDependencies', () => ({
   })),
 }));
 
+vi.mock('./useOnchainKit', () => ({
+  useOnchainKit: vi.fn(() => ({
+    apiKey: 'mock-api-key',
+    config: {
+      appearance: {
+        name: 'Mock App',
+        logo: 'https://example.com/logo.png',
+      },
+      wallet: {
+        preference: 'all',
+      },
+    },
+  })),
+}));
+
+// Mock wagmi/connectors
+vi.mock('wagmi/connectors', () => {
+  return {
+    coinbaseWallet: (params: {
+      preference?: string;
+      appName?: string;
+      appLogoUrl?: string;
+    }) => {
+      mockCoinbaseWallet(params);
+      // Return a connector function that Wagmi expects
+      return () => ({ id: 'coinbaseWalletSDK' });
+    },
+  };
+});
+
 describe('DefaultOnchainKitProviders', () => {
   beforeEach(() => {
     (useProviderDependencies as Mock).mockReturnValue({
       providedWagmiConfig: null,
       providedQueryClient: null,
     });
+    vi.clearAllMocks();
   });
 
   it('should wrap children in default providers', () => {
@@ -115,5 +150,137 @@ describe('DefaultOnchainKitProviders', () => {
     expect(screen.getByText('Test Child')).toBeInTheDocument();
     expect(screen.queryAllByTestId('wagmi-provider')).toHaveLength(0);
     expect(screen.queryAllByTestId('query-client-provider')).toHaveLength(0);
+  });
+
+  it('should pass the wallet preference to the coinbaseWallet connector', () => {
+    // Mock useOnchainKit to return smartWalletOnly preference
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: 'mock-api-key',
+      config: {
+        appearance: {
+          name: 'Mock App',
+          logo: 'https://example.com/logo.png',
+        },
+        wallet: {
+          preference: 'smartWalletOnly',
+        },
+      },
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // Verify coinbaseWallet was called with the correct preference
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+      expect.objectContaining({
+        preference: 'smartWalletOnly',
+      }),
+    );
+  });
+
+  it('should pass the default preference "all" when no preference is specified', () => {
+    // Mock useOnchainKit to return config without preference
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: 'mock-api-key',
+      config: {
+        appearance: {
+          name: 'Mock App',
+          logo: 'https://example.com/logo.png',
+        },
+        wallet: {},
+      },
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // Verify coinbaseWallet was called with the default preference
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+      expect.objectContaining({
+        preference: undefined,
+      }),
+    );
+  });
+
+  it('should pass eoaOnly preference to the coinbaseWallet connector', () => {
+    // Mock useOnchainKit to return eoaOnly preference
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: 'mock-api-key',
+      config: {
+        appearance: {
+          name: 'Mock App',
+          logo: 'https://example.com/logo.png',
+        },
+        wallet: {
+          preference: 'eoaOnly',
+        },
+      },
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // Verify coinbaseWallet was called with eoaOnly preference
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+      expect.objectContaining({
+        preference: 'eoaOnly',
+      }),
+    );
+  });
+
+  it('should handle undefined appearance values', () => {
+    // Mock useOnchainKit to return undefined appearance values
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: null,
+      config: {
+        wallet: {
+          preference: 'all',
+        },
+      },
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // Verify coinbaseWallet was called with undefined app name and logo
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+      expect.objectContaining({
+        appName: undefined,
+        appLogoUrl: undefined,
+      }),
+    );
+  });
+
+  it('should handle missing config entirely', () => {
+    // Mock useOnchainKit to return no config
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: 'test-api-key',
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    expect(screen.getByText('Test Child')).toBeInTheDocument();
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+      expect.objectContaining({
+        appName: undefined,
+        appLogoUrl: undefined,
+      }),
+    );
   });
 });
