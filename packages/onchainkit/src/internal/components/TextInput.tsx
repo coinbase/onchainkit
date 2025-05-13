@@ -2,25 +2,23 @@ import {
   type ChangeEvent,
   type InputHTMLAttributes,
   type ForwardedRef,
+  type ComponentProps,
   useCallback,
   forwardRef,
 } from 'react';
 import { useDebounce } from '../hooks/useDebounce';
+import { cn } from '@/styles/theme';
 
-type TextInputReact = {
-  'aria-label'?: string;
-  className: string;
+type TextInputProps = Omit<ComponentProps<'input'>, 'onChange'> & {
   delayMs?: number;
-  disabled?: boolean;
   /** specify 'decimal' to trigger numeric keyboards on mobile devices */
   inputMode?: InputHTMLAttributes<HTMLInputElement>['inputMode'];
-  onBlur?: () => void;
   onChange: (s: string) => void;
-  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   placeholder: string;
   setValue?: (s: string) => void;
-  value: string;
   inputValidator?: (s: string) => boolean;
+  /** specify 'message' to show error state (change in color), message is used for a11y purposes, not actually rendered currently */
+  errorMessage?: string;
 };
 
 export const TextInput = forwardRef(
@@ -38,7 +36,9 @@ export const TextInput = forwardRef(
       inputMode,
       value,
       inputValidator = () => true,
-    }: TextInputReact,
+      errorMessage,
+      ...rest
+    }: TextInputProps,
     ref: ForwardedRef<HTMLInputElement>,
   ) => {
     const handleDebounce = useDebounce((value) => {
@@ -63,11 +63,14 @@ export const TextInput = forwardRef(
 
     return (
       <input
+        aria-disabled={disabled}
+        aria-errormessage={errorMessage}
+        aria-invalid={!!errorMessage}
         aria-label={ariaLabel}
         data-testid="ockTextInput_Input"
         ref={ref}
         type="text"
-        className={className}
+        className={cn(className, !!errorMessage && 'text-ock-text-error')}
         inputMode={inputMode}
         placeholder={placeholder}
         value={value}
@@ -77,6 +80,7 @@ export const TextInput = forwardRef(
         disabled={disabled}
         autoComplete="off" // autocomplete attribute handles browser autocomplete
         data-1p-ignore={true} // data-1p-ignore attribute handles password manager autocomplete
+        {...rest}
       />
     );
   },
