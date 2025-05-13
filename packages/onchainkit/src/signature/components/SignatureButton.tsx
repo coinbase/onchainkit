@@ -6,7 +6,7 @@ import {
   type SignatureContextType,
   useSignatureContext,
 } from './SignatureProvider';
-import { WithRenderProps } from '../types';
+import { WithRenderProps } from '@/internal/types';
 
 type SignatureButtonProps = WithRenderProps<
   {

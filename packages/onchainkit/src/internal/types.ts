@@ -1,4 +1,5 @@
 import type { APIError } from '@/api/types';
+import { ReactNode } from 'react';
 
 type ErrorStatus = {
   statusName: 'error';
@@ -10,7 +11,7 @@ type GenericStatus<T> = {
   statusData: T;
 };
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AbstractLifecycleStatus = ErrorStatus | GenericStatus<any>;
 
 export type UseLifecycleStatusReturn<T extends AbstractLifecycleStatus> = [
@@ -66,3 +67,30 @@ export type LifecycleStatusUpdate<T extends AbstractLifecycleStatus> =
  */
 export type MakeRequired<T, K extends keyof T> = Omit<T, K> &
   Required<Pick<T, K>>;
+
+/**
+ * Utility for typing component props that support the render prop pattern.
+ * Returns a type where props that would conflict with the render prop are separated as a discriminated union.
+ *
+ * By default, it assumes the potentially clashing props are `className` and `children`.
+ * This can be overridden by passing a second argument to the generic.
+ */
+export type WithRenderProps<
+  TProps extends {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    render?: (arg: any) => ReactNode;
+  },
+  TExclude extends string = 'className' | 'children',
+> = Omit<TProps, TExclude | 'render'> &
+  (
+    | ({
+        render?: TProps['render'];
+      } & {
+        [K in TExclude]?: undefined;
+      })
+    | ({
+        render?: never;
+      } & {
+        [K in TExclude]?: K extends keyof TProps ? TProps[K] : never;
+      })
+  );
