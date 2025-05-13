@@ -17,6 +17,7 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import {
   TransactionEvent,
+  TransactionEventType,
   type TransactionEventData,
 } from '../../core/analytics/types';
 import { Capabilities } from '../../core/constants';
@@ -158,7 +159,10 @@ export function TransactionProvider({
   const { sendAnalytics } = useAnalytics();
 
   const handleAnalytics = useCallback(
-    (event: TransactionEvent, data: TransactionEventData[TransactionEvent]) => {
+    (
+      event: TransactionEventType,
+      data: TransactionEventData[TransactionEventType],
+    ) => {
       sendAnalytics(event, data);
     },
     [sendAnalytics],
