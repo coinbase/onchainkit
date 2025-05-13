@@ -59,8 +59,8 @@ describe('SignatureButton', () => {
       status: 'disconnected',
     });
 
-    render(<SignatureButton />);
-    expect(screen.getByText('Connect Wallet')).toBeInTheDocument();
+    render(<SignatureButton disconnectedLabel="Disconnected Label" />);
+    expect(screen.getByText('Disconnected Label')).toBeInTheDocument();
   });
 
   it('should render sign button when address is connected', () => {

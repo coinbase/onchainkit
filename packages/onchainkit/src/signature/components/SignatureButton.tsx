@@ -16,6 +16,7 @@ type SignatureButtonProps = WithRenderProps<
     errorLabel?: ReactNode;
     successLabel?: ReactNode;
     pendingLabel?: ReactNode;
+    disconnectedLabel?: ReactNode;
     render?: ({
       label,
       onClick,
@@ -26,7 +27,13 @@ type SignatureButtonProps = WithRenderProps<
       context: SignatureContextType;
     }) => ReactNode;
   },
-  'className' | 'children' | 'label'
+  | 'className'
+  | 'children'
+  | 'label'
+  | 'errorLabel'
+  | 'successLabel'
+  | 'pendingLabel'
+  | 'disconnectedLabel'
 >;
 
 export function SignatureButton({
@@ -36,6 +43,7 @@ export function SignatureButton({
   errorLabel = 'Try again',
   successLabel = 'Signed',
   pendingLabel = 'Signing...',
+  disconnectedLabel,
   render,
 }: SignatureButtonProps) {
   const { address } = useAccount();
@@ -54,7 +62,7 @@ export function SignatureButton({
     return label;
   }, [statusName, label, errorLabel, successLabel, pendingLabel]);
 
-  if (!address) return <ConnectWallet />;
+  if (!address) return <ConnectWallet disconnectedLabel={disconnectedLabel} />;
 
   if (render) {
     return render({
