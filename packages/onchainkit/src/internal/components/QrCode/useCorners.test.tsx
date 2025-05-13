@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { useCorners } from './useCorners';
 import { CORNER_SIZE } from './useDotsPath';
-import React from 'react';
+import { ReactNode } from 'react';
 
 describe('useCorners', () => {
   const defaultProps = {
@@ -31,12 +31,12 @@ describe('useCorners', () => {
     expect(children).toHaveLength(6);
 
     const rects = children.filter(
-      (child: React.JSX.Element) => child.type === 'rect',
+      (child: ReactNode) => child.type === 'rect',
     );
     expect(rects).toHaveLength(3);
 
     const circles = children.filter(
-      (child: React.JSX.Element) => child.type === 'circle',
+      (child: ReactNode) => child.type === 'circle',
     );
     expect(circles).toHaveLength(3);
   });
