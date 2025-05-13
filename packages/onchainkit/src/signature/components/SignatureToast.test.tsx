@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { MessageType } from '../types';
+import { Message } from '../types';
 import { useSignatureContext } from './SignatureProvider';
 import { SignatureToast } from './SignatureToast';
 
@@ -22,7 +22,7 @@ describe('SignatureToast', () => {
         statusName: 'success',
         statusData: {
           signature: '0x123',
-          type: MessageType.TYPED_DATA,
+          type: Message.TYPED_DATA,
         },
       },
     });
@@ -49,7 +49,7 @@ describe('SignatureToast', () => {
         statusName: 'success',
         statusData: {
           signature: '0x123',
-          type: MessageType.TYPED_DATA,
+          type: Message.TYPED_DATA,
         },
       },
     });
@@ -64,7 +64,7 @@ describe('SignatureToast', () => {
         statusName: 'success',
         statusData: {
           signature: '0x123',
-          type: MessageType.TYPED_DATA,
+          type: Message.TYPED_DATA,
         },
       },
     });
