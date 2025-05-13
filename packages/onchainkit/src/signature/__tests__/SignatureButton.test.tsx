@@ -172,4 +172,84 @@ describe('SignatureButton', () => {
     render(<SignatureButton />);
     expect(screen.getByText('Sign')).toBeInTheDocument();
   });
+
+  it('should use custom render function when provided', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+    const mockContext = {
+      lifecycleStatus: {
+        statusName: 'init',
+      },
+      handleSign: mockHandleSign,
+    };
+    (useSignatureContext as Mock).mockReturnValue(mockContext);
+
+    const customRender = vi.fn(({ label, onClick, context }) => {
+      expect(context).toBe(mockContext);
+      return (
+        <button data-testid="custom-button" onClick={onClick}>
+          Custom: {label}
+        </button>
+      );
+    });
+
+    render(<SignatureButton label="Sign Message" render={customRender} />);
+
+    expect(customRender).toHaveBeenCalledWith({
+      label: 'Sign Message',
+      onClick: mockHandleSign,
+      context: mockContext,
+    });
+    expect(screen.getByTestId('custom-button')).toBeInTheDocument();
+    expect(screen.getByText('Custom: Sign Message')).toBeInTheDocument();
+  });
+
+  it('should trigger handleSign when custom rendered button is clicked', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+    (useSignatureContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: 'init',
+      },
+      handleSign: mockHandleSign,
+    });
+
+    render(
+      <SignatureButton
+        label="Sign Message"
+        render={({ label, onClick }) => (
+          <button data-testid="custom-button" onClick={onClick}>
+            {label}
+          </button>
+        )}
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId('custom-button'));
+    expect(mockHandleSign).toHaveBeenCalled();
+  });
+
+  it('should pass updated label to render function based on lifecycle status', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+    (useSignatureContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: 'success',
+      },
+      handleSign: mockHandleSign,
+    });
+
+    const customRender = vi.fn(({ label }) => (
+      <div data-testid="rendered-label">{label}</div>
+    ));
+
+    render(
+      <SignatureButton
+        label="Sign Message"
+        successLabel="Successfully Signed"
+        render={customRender}
+      />,
+    );
+
+    expect(screen.getByTestId('rendered-label')).toHaveTextContent(
+      'Successfully Signed',
+    );
+  });
 });
