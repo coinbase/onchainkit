@@ -4,7 +4,7 @@ import { useTheme } from '@/internal/hooks/useTheme';
 import { NFTLifecycleProvider } from '@/nft/components/NFTLifecycleProvider';
 import { NFTProvider } from '@/nft/components/NFTProvider';
 import { useNFTData as defaultUseNFTData } from '@/nft/hooks/useNFTData';
-import { LifecycleType, type NFTCardReact } from '@/nft/types';
+import { type NFTCardReact } from '@/nft/types';
 import { useCallback } from 'react';
 import { useAccount } from 'wagmi';
 import { cn, pressable } from '../../styles/theme';
@@ -60,7 +60,7 @@ export function NFTCard({
   return (
     <NFTErrorBoundary fallback={NFTErrorFallback}>
       <NFTLifecycleProvider
-        type={LifecycleType.VIEW}
+        type="view"
         onStatus={onStatus}
         onError={onError}
         onSuccess={onSuccess}
