@@ -1,5 +1,5 @@
-import { cn, pressable, text } from '@/styles/theme';
 import { type ButtonHTMLAttributes } from 'react';
+import { cn, pressable, text } from '@/styles/theme';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 

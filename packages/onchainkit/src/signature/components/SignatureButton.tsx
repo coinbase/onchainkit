@@ -10,13 +10,21 @@ import { WithRenderProps } from '@/internal/types';
 
 type SignatureButtonProps = WithRenderProps<
   {
+    /** CSS class to apply to the button */
     className?: string;
+    /** Whether the button is disabled */
     disabled?: boolean;
+    /** Text displayed on the button in pending state */
     label?: ReactNode;
+    /** Text displayed when signature fails */
     errorLabel?: ReactNode;
+    /** Text displayed after successful signature */
     successLabel?: ReactNode;
+    /** Text displayed while waiting for signature */
     pendingLabel?: ReactNode;
+    /** Text displayed when wallet is disconnected */
     disconnectedLabel?: ReactNode;
+    /** Custom render function for complete control of button rendering */
     render?: ({
       label,
       onClick,

@@ -1,8 +1,0 @@
-# Signature
-
-## Overview
-
-## Anatomy
-
-## Usage
-
