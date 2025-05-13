@@ -2,15 +2,13 @@ import { cn } from '../../styles/theme';
 import { SignatureLabel } from './SignatureLabel';
 import { useSignatureContext } from './SignatureProvider';
 
-const DEFAULT_CHILDREN = <SignatureLabel />;
-
 type SignatureStatusProps = {
   children?: React.ReactNode;
   className?: string;
 };
 
 export function SignatureStatus({
-  children = DEFAULT_CHILDREN,
+  children = <SignatureLabel />,
   className,
 }: SignatureStatusProps) {
   const { lifecycleStatus } = useSignatureContext();

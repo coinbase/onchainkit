@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { MessageType } from '../types';
-import { validateMessage } from './validateMessage';
+import { validateMessage } from '../utils/validateMessage';
 
 describe('validateMessage', () => {
   it('should validate typed data message', () => {

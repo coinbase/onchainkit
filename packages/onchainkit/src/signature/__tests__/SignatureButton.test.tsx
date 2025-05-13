@@ -9,8 +9,8 @@ import {
   vi,
 } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
-import { SignatureButton } from './SignatureButton';
-import { useSignatureContext } from './SignatureProvider';
+import { SignatureButton } from '../components/SignatureButton';
+import { useSignatureContext } from '../components/SignatureProvider';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -18,7 +18,7 @@ vi.mock('wagmi', () => ({
   useConnectors: vi.fn(() => ({ connectors: [{ id: 'mockConnector' }] })),
 }));
 
-vi.mock('./SignatureProvider', () => ({
+vi.mock('../components/SignatureProvider', () => ({
   useSignatureContext: vi.fn(),
 }));
 
@@ -59,8 +59,8 @@ describe('SignatureButton', () => {
       status: 'disconnected',
     });
 
-    render(<SignatureButton connectLabel="Sign in please" />);
-    expect(screen.getByText('Sign in please')).toBeInTheDocument();
+    render(<SignatureButton disconnectedLabel="Disconnected Label" />);
+    expect(screen.getByText('Disconnected Label')).toBeInTheDocument();
   });
 
   it('should render sign button when address is connected', () => {
