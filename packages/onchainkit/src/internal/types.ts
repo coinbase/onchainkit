@@ -70,9 +70,10 @@ export type MakeRequired<T, K extends keyof T> = Omit<T, K> &
 
 /**
  * Utility for typing component props that support the render prop pattern.
- * Returns a type where props that would conflict with the render prop are separated as a discriminated union.
+ * Returns a type where the render prop and the props it may clash with
+ * are separated as a discriminated union.
  *
- * By default, it assumes the potentially clashing props are `className` and `children`.
+ * It defaults the clashing props to `className` and `children`.
  * This can be overridden by passing a second argument to the generic.
  */
 export type WithRenderProps<
