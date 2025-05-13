@@ -539,7 +539,6 @@ export function Dead({ score, level, onGoToIntro, isWin }: DeadProps) {
   const { address } = useAccount();
   const isHighScore = checkIsHighScore(score);
 
-  console.log("DEEEADD");
   const handleAttestationSuccess = useCallback(async () => {
     if (!address) {
       return null;
