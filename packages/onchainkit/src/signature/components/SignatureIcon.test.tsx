@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { MessageType } from '../types';
+import { Message } from '../types';
 import { SignatureIcon } from './SignatureIcon';
 import { useSignatureContext } from './SignatureProvider';
 
@@ -24,7 +24,7 @@ describe('SignatureIcon', () => {
         statusName: 'success',
         statusData: {
           signature: '0x123',
-          type: MessageType.TYPED_DATA,
+          type: Message.TYPED_DATA,
         },
       },
     });
@@ -39,7 +39,7 @@ describe('SignatureIcon', () => {
         statusName: 'error',
         statusData: {
           signature: '0x123',
-          type: MessageType.TYPED_DATA,
+          type: Message.TYPED_DATA,
         },
       },
     });
@@ -53,7 +53,7 @@ describe('SignatureIcon', () => {
         statusName: 'pending',
         statusData: {
           signature: '0x123',
-          type: MessageType.TYPED_DATA,
+          type: Message.TYPED_DATA,
         },
       },
     });
@@ -67,7 +67,7 @@ describe('SignatureIcon', () => {
         statusName: 'success',
         statusData: {
           signature: '0x123',
-          type: MessageType.TYPED_DATA,
+          type: Message.TYPED_DATA,
         },
       },
     });
