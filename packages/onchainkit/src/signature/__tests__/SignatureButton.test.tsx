@@ -18,7 +18,7 @@ vi.mock('wagmi', () => ({
   useConnectors: vi.fn(() => ({ connectors: [{ id: 'mockConnector' }] })),
 }));
 
-vi.mock('./SignatureProvider', () => ({
+vi.mock('../components/SignatureProvider', () => ({
   useSignatureContext: vi.fn(),
 }));
 
@@ -59,8 +59,8 @@ describe('SignatureButton', () => {
       status: 'disconnected',
     });
 
-    render(<SignatureButton connectLabel="Sign in please" />);
-    expect(screen.getByText('Sign in please')).toBeInTheDocument();
+    render(<SignatureButton />);
+    expect(screen.getByText('Connect Wallet')).toBeInTheDocument();
   });
 
   it('should render sign button when address is connected', () => {

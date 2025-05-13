@@ -4,7 +4,7 @@ import { MessageType } from '../types';
 import { SignatureIcon } from '../components/SignatureIcon';
 import { useSignatureContext } from '../components/SignatureProvider';
 
-vi.mock('./SignatureProvider', () => ({
+vi.mock('../components/SignatureProvider', () => ({
   useSignatureContext: vi.fn(),
 }));
 vi.mock('../../internal/svg/errorSvg', () => ({
