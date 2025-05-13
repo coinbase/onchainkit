@@ -15,6 +15,7 @@ type RenderTestProps = {
   value?: string;
   disabled?: boolean;
   inputMode?: React.InputHTMLAttributes<HTMLInputElement>['inputMode'];
+  errorMessage?: string;
 };
 
 const RenderTest = ({
@@ -24,6 +25,7 @@ const RenderTest = ({
   placeholder = 'Enter text',
   setValue = vi.fn(),
   value = 'test',
+  errorMessage = '',
   ...props
 }: RenderTestProps) => (
   <TextInput
@@ -33,6 +35,7 @@ const RenderTest = ({
     placeholder={placeholder}
     setValue={setValue}
     value={value}
+    errorMessage={errorMessage}
     {...props}
   />
 );
@@ -87,6 +90,13 @@ describe('TextInput', () => {
     expect(getByTestId('ockTextInput_Input')).toHaveAttribute(
       'inputMode',
       'decimal',
+    );
+  });
+
+  it('handles errorMessage', () => {
+    render(<RenderTest errorMessage="Error message" />);
+    expect(screen.getByTestId('ockTextInput_Input')).toHaveClass(
+      'text-ock-text-error',
     );
   });
 });
