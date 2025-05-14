@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 5656374: feat: Align farcaster.json manifest to reflect latest spec
+- **feat**: Align farcaster.json manifest to reflect latest spec
 
 ## 0.0.20
 
