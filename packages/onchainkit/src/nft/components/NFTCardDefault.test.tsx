@@ -26,10 +26,6 @@ describe('NFTCardDefault', () => {
       <NFTCardDefault contractAddress="0x123" tokenId="1" />,
     );
 
-    expect(getByTestId('nft-media')).toBeInTheDocument();
-    expect(getByTestId('nft-title')).toBeInTheDocument();
-    expect(getByTestId('nft-owner')).toBeInTheDocument();
-    expect(getByTestId('nft-last-sold-price')).toBeInTheDocument();
-    expect(getByTestId('nft-network')).toBeInTheDocument();
+    expect(getByTestId('nft-card')).toBeInTheDocument();
   });
 });

@@ -1,13 +1,6 @@
 'use client';
 import type { NFTCardDefaultReact } from '@/nft/types';
 import { NFTCard } from './NFTCard';
-import {
-  NFTLastSoldPrice,
-  NFTMedia,
-  NFTNetwork,
-  NFTOwner,
-  NFTTitle,
-} from './view';
 
 /**
  * @deprecated Use the `NFTCard` component instead with no 'children' props.
@@ -28,12 +21,6 @@ export function NFTCardDefault({
       onStatus={onStatus}
       onSuccess={onSuccess}
       onError={onError}
-    >
-      <NFTMedia />
-      <NFTTitle />
-      <NFTOwner />
-      <NFTLastSoldPrice />
-      <NFTNetwork />
-    </NFTCard>
+    />
   );
 }

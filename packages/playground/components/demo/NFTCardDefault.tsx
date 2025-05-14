@@ -1,6 +1,6 @@
 import {
   type LifecycleStatus,
-  NFTCardDefault,
+  NFTCard,
   type NFTError,
 } from '@coinbase/onchainkit/nft';
 import { useCallback, useContext } from 'react';
@@ -30,7 +30,7 @@ function NFTCardDefaultDemo() {
   }, []);
 
   return (
-    <NFTCardDefault
+    <NFTCard
       contractAddress={contractAddress}
       tokenId={tokenId}
       onStatus={handleOnStatus}

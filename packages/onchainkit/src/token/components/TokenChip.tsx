@@ -2,7 +2,7 @@
 
 import { useTheme } from '../../internal/hooks/useTheme';
 import { background, cn, pressable, text } from '../../styles/theme';
-import type { TokenChipReact } from '../types';
+import type { TokenChipProps } from '../types';
 import { TokenImage } from './TokenImage';
 
 /**
@@ -16,7 +16,7 @@ export function TokenChip({
   onClick,
   className,
   isPressable = true,
-}: TokenChipReact) {
+}: TokenChipProps) {
   const componentTheme = useTheme();
 
   return (
