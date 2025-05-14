@@ -1,5 +1,11 @@
 # create-onchain
 
+## 0.0.21
+
+### Patch Changes
+
+- **feat**: Align farcaster.json manifest to reflect latest spec
+
 ## 0.0.20
 
 ### Patch Changes
