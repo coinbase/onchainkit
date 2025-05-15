@@ -3,7 +3,6 @@ import { FarcasterLogin } from '../../../../onchainkit/src/components/FarcasterL
 import { ConnectWallet, ConnectWalletText } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
 
-// Constant for local storage key
 const FARCASTER_AUTH_SESSION_KEY = 'farcaster-auth-session';
 
 interface LoginModalProps {
@@ -13,34 +12,27 @@ interface LoginModalProps {
 
 export function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const { isConnected } = useAccount();
-  // State to track Farcaster connection
   const [isFarcasterConnected, setIsFarcasterConnected] = useState(false);
-  // State to store Farcaster user info
   const [farcasterUser, setFarcasterUser] = useState<{ fid?: number, displayName?: string }>({});
-  // Track initial auth state to know when a new login happens
   const initialFarcasterConnectedRef = useRef<boolean | null>(null);
   const initialWalletConnectedRef = useRef<boolean | null>(null);
 
-  // Check if user has a saved Farcaster session
   useEffect(() => {
     const checkFarcasterSession = () => {
       const sessionData = localStorage.getItem(FARCASTER_AUTH_SESSION_KEY);
       if (sessionData) {
         try {
           const parsedData = JSON.parse(sessionData);
-          // Check if session is not expired (24 hours)
           const isSessionValid = parsedData.timestamp && 
             (Date.now() - parsedData.timestamp) < 24 * 60 * 60 * 1000;
           
           if (isSessionValid && parsedData.isAuthenticated) {
             setIsFarcasterConnected(true);
-            // Store user data
             setFarcasterUser({
               fid: parsedData.profile?.fid,
               displayName: parsedData.profile?.displayName
             });
           } else {
-            // Clear invalid session
             localStorage.removeItem(FARCASTER_AUTH_SESSION_KEY);
             setIsFarcasterConnected(false);
             setFarcasterUser({});
@@ -59,7 +51,6 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
     checkFarcasterSession();
     
-    // Set up event listener for Farcaster login events
     const handleFarcasterAuth = (event: StorageEvent) => {
       if (event.key === FARCASTER_AUTH_SESSION_KEY) {
         checkFarcasterSession();
@@ -68,10 +59,8 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
     
     window.addEventListener('storage', handleFarcasterAuth);
     
-    // Custom event for same-window communication
     const handleFarcasterAuthLocal = (event: Event) => {
       checkFarcasterSession();
-      // If we have details in the event, update user data directly
       const customEvent = event as CustomEvent;
       if (customEvent.detail) {
         if (customEvent.detail.isAuthenticated) {
@@ -95,16 +84,13 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
     };
   }, []);
 
-  // Store initial auth state when modal opens
   useEffect(() => {
     if (isOpen) {
-      // Only set the initial refs if they haven't been set yet or modal was closed and reopened
       initialFarcasterConnectedRef.current = isFarcasterConnected;
       initialWalletConnectedRef.current = isConnected;
     }
   }, [isOpen, isFarcasterConnected, isConnected]);
 
-  // Close the modal ONLY when a NEW connection is established
   useEffect(() => {
     const isNewFarcasterConnection = initialFarcasterConnectedRef.current === false && isFarcasterConnected === true;
     const isNewWalletConnection = initialWalletConnectedRef.current === false && isConnected === true;
@@ -117,13 +103,16 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
   // Handle Farcaster sign out
   const handleFarcasterSignOut = () => {
     localStorage.removeItem(FARCASTER_AUTH_SESSION_KEY);
+    
     setIsFarcasterConnected(false);
     setFarcasterUser({});
-    // Dispatch event to notify other components
+    
     const authEvent = new CustomEvent('farcaster-auth-changed', {
       detail: { isAuthenticated: false }
     });
     window.dispatchEvent(authEvent);
+    
+    onClose();
   };
 
   if (!isOpen) return null;
