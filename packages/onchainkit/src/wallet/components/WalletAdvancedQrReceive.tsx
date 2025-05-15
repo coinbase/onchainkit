@@ -36,31 +36,25 @@ export function WalletAdvancedQrReceive({
   }, [isActiveFeatureClosing, setActiveFeature, setIsActiveFeatureClosing]);
 
   const resetAffordanceText = useCallback(() => {
-    setTimeout(() => {
-      setCopyText('Copy');
-      setCopyButtonText('Copy address');
-    }, 2000);
+    setCopyText('Copy');
+    setCopyButtonText('Copy address');
   }, []);
 
   const handleCopyButtonSuccess = useCallback(() => {
     setCopyButtonText('Address copied');
-    resetAffordanceText();
-  }, [resetAffordanceText]);
+  }, []);
 
   const handleCopyButtonError = useCallback(() => {
     setCopyButtonText('Failed to copy address');
-    resetAffordanceText();
-  }, [resetAffordanceText]);
+  }, []);
 
   const handleCopyIconSuccess = useCallback(() => {
     setCopyText('Copied');
-    resetAffordanceText();
-  }, [resetAffordanceText]);
+  }, []);
 
   const handleCopyIconError = useCallback(() => {
     setCopyText('Failed to copy');
-    resetAffordanceText();
-  }, [resetAffordanceText]);
+  }, []);
 
   return (
     <div
@@ -94,6 +88,7 @@ export function WalletAdvancedQrReceive({
             copyValue={address ?? ''}
             onSuccess={handleCopyIconSuccess}
             onError={handleCopyIconError}
+            onReset={resetAffordanceText}
             className={cn(
               pressable.default,
               border.radiusInner,
@@ -107,6 +102,7 @@ export function WalletAdvancedQrReceive({
             copyValue={address ?? ''}
             onSuccess={handleCopyIconSuccess}
             onError={handleCopyIconError}
+            onReset={resetAffordanceText}
             className={cn(
               pressable.alternate,
               text.legal,
@@ -132,6 +128,7 @@ export function WalletAdvancedQrReceive({
         )}
         onSuccess={handleCopyButtonSuccess}
         onError={handleCopyButtonError}
+        onReset={resetAffordanceText}
         aria-label="Copy your address by clicking the button"
       />
     </div>

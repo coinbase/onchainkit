@@ -106,6 +106,8 @@ describe('WalletAdvancedAddressDetails', () => {
   });
 
   it('copies address to clipboard and shows tooltip when Name group is clicked', async () => {
+    vi.useFakeTimers();
+
     mockUseWalletContext.mockReturnValue({
       animations: {
         content: '',
@@ -124,12 +126,21 @@ describe('WalletAdvancedAddressDetails', () => {
 
     fireEvent.click(nameButton);
 
-    await waitFor(() => {
+    // RTL waitFor will never resolve with fake timers
+    await vi.waitFor(() => {
       expect(tooltip?.textContent).toBe('Copied');
     });
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('0x1234567890');
-    expect(screen.getByText('Copied')).toBeInTheDocument();
+
+    vi.advanceTimersByTime(2000);
+
+    // RTL waitFor will never resolve with fake timers
+    await vi.waitFor(() => {
+      expect(tooltip?.textContent).toBe('Copy');
+    });
+
+    vi.useRealTimers();
   });
 
   it('shows error state when clipboard fails', async () => {

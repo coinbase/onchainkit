@@ -180,19 +180,30 @@ describe('Address component', () => {
     });
 
     it('should copy to clipboard and show tooltip when clicked', async () => {
+      vi.useFakeTimers();
+
       mockClipboard.writeText.mockResolvedValueOnce(undefined);
 
       render(<Address address={testAddress} />);
 
       const element = screen.getByTestId('ockAddress');
-      await fireEvent.click(element);
+      const tooltip = element.querySelector('button');
+      fireEvent.click(element);
 
-      await waitFor(() => {
-        const tooltip = element.querySelector('button');
+      // RTL waitFor will never resolve with fake timers
+      await vi.waitFor(() => {
         expect(tooltip?.textContent).toBe('Copied');
       });
 
       expect(mockClipboard.writeText).toHaveBeenCalledWith(testAddress);
+
+      vi.advanceTimersByTime(2000);
+      // RTL waitFor will never resolve with fake timers
+      await vi.waitFor(() => {
+        expect(tooltip?.textContent).toBe('Copy');
+      });
+
+      vi.useRealTimers();
     });
 
     it('should handle keyboard interactions', async () => {
