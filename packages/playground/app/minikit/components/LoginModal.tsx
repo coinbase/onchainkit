@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FarcasterLogin } from '../../../../onchainkit/src/components/FarcasterLogin';
 import { ConnectWallet, ConnectWalletText } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
+
+// Constant for local storage key
+const FARCASTER_AUTH_SESSION_KEY = 'farcaster-auth-session';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -10,13 +13,118 @@ interface LoginModalProps {
 
 export function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const { isConnected } = useAccount();
+  // State to track Farcaster connection
+  const [isFarcasterConnected, setIsFarcasterConnected] = useState(false);
+  // State to store Farcaster user info
+  const [farcasterUser, setFarcasterUser] = useState<{ fid?: number, displayName?: string }>({});
+  // Track initial auth state to know when a new login happens
+  const initialFarcasterConnectedRef = useRef<boolean | null>(null);
+  const initialWalletConnectedRef = useRef<boolean | null>(null);
 
-  // Close the modal when a connection is established
+  // Check if user has a saved Farcaster session
   useEffect(() => {
-    if (isConnected && isOpen) {
+    const checkFarcasterSession = () => {
+      const sessionData = localStorage.getItem(FARCASTER_AUTH_SESSION_KEY);
+      if (sessionData) {
+        try {
+          const parsedData = JSON.parse(sessionData);
+          // Check if session is not expired (24 hours)
+          const isSessionValid = parsedData.timestamp && 
+            (Date.now() - parsedData.timestamp) < 24 * 60 * 60 * 1000;
+          
+          if (isSessionValid && parsedData.isAuthenticated) {
+            setIsFarcasterConnected(true);
+            // Store user data
+            setFarcasterUser({
+              fid: parsedData.profile?.fid,
+              displayName: parsedData.profile?.displayName
+            });
+          } else {
+            // Clear invalid session
+            localStorage.removeItem(FARCASTER_AUTH_SESSION_KEY);
+            setIsFarcasterConnected(false);
+            setFarcasterUser({});
+          }
+        } catch (e) {
+          console.error('Failed to parse Farcaster session data', e);
+          localStorage.removeItem(FARCASTER_AUTH_SESSION_KEY);
+          setIsFarcasterConnected(false);
+          setFarcasterUser({});
+        }
+      } else {
+        setIsFarcasterConnected(false);
+        setFarcasterUser({});
+      }
+    };
+
+    checkFarcasterSession();
+    
+    // Set up event listener for Farcaster login events
+    const handleFarcasterAuth = (event: StorageEvent) => {
+      if (event.key === FARCASTER_AUTH_SESSION_KEY) {
+        checkFarcasterSession();
+      }
+    };
+    
+    window.addEventListener('storage', handleFarcasterAuth);
+    
+    // Custom event for same-window communication
+    const handleFarcasterAuthLocal = (event: Event) => {
+      checkFarcasterSession();
+      // If we have details in the event, update user data directly
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail) {
+        if (customEvent.detail.isAuthenticated) {
+          setIsFarcasterConnected(true);
+          setFarcasterUser({
+            fid: customEvent.detail.fid,
+            displayName: customEvent.detail.displayName
+          });
+        } else {
+          setIsFarcasterConnected(false);
+          setFarcasterUser({});
+        }
+      }
+    };
+    
+    window.addEventListener('farcaster-auth-changed', handleFarcasterAuthLocal);
+    
+    return () => {
+      window.removeEventListener('storage', handleFarcasterAuth);
+      window.removeEventListener('farcaster-auth-changed', handleFarcasterAuthLocal);
+    };
+  }, []);
+
+  // Store initial auth state when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      // Only set the initial refs if they haven't been set yet or modal was closed and reopened
+      initialFarcasterConnectedRef.current = isFarcasterConnected;
+      initialWalletConnectedRef.current = isConnected;
+    }
+  }, [isOpen, isFarcasterConnected, isConnected]);
+
+  // Close the modal ONLY when a NEW connection is established
+  useEffect(() => {
+    const isNewFarcasterConnection = initialFarcasterConnectedRef.current === false && isFarcasterConnected === true;
+    const isNewWalletConnection = initialWalletConnectedRef.current === false && isConnected === true;
+    
+    if ((isNewFarcasterConnection || isNewWalletConnection) && isOpen) {
       onClose();
     }
-  }, [isConnected, isOpen, onClose]);
+  }, [isConnected, isFarcasterConnected, isOpen, onClose]);
+
+  // Handle Farcaster sign out
+  const handleFarcasterSignOut = () => {
+    localStorage.removeItem(FARCASTER_AUTH_SESSION_KEY);
+    setIsFarcasterConnected(false);
+    setFarcasterUser({});
+    // Dispatch event to notify other components
+    const authEvent = new CustomEvent('farcaster-auth-changed', {
+      detail: { isAuthenticated: false }
+    });
+    window.dispatchEvent(authEvent);
+  };
 
   if (!isOpen) return null;
 
@@ -40,10 +148,29 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
             <ConnectWalletText>Coinbase Wallet</ConnectWalletText>
           </ConnectWallet>
           <div className="border-t border-gray-200 my-2" />
-          <p className="text-center text-sm text-gray-500">
-            Or login with Farcaster
-          </p>
-          <FarcasterLogin />
+          {!isFarcasterConnected ? (
+            <p className="text-center text-sm text-gray-500">
+              Or login with Farcaster
+            </p>
+          ):<></>}
+          {isFarcasterConnected ? (
+            <div className="w-full text-center">
+              <p className="mb-2">
+                Logged in as <strong>{farcasterUser.displayName}</strong>
+              </p>
+              <p>
+                FID: {farcasterUser.fid}
+              </p>
+              <button 
+                onClick={handleFarcasterSignOut}
+                className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded"
+              >
+                Sign out of Farcaster
+              </button>
+            </div>
+          ) : (
+            <FarcasterLogin />
+          )}
         </div>
         <button
           onClick={onClose}

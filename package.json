@@ -33,6 +33,7 @@
   "dependencies": {
     "@farcaster/auth-client": "^0.3.0",
     "@farcaster/auth-kit": "^0.6.0",
+    "qr-code-styling": "^1.9.2",
     "viem": "^2.26.3"
   }
 }

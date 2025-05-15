@@ -3,6 +3,9 @@ import { type Chain } from 'viem';
 import { getAddress } from 'viem';
 import { createAppClient, viemConnector } from '@farcaster/auth-client';
 
+// Storage key for Farcaster auth data within Wagmi storage
+const FARCASTER_STORAGE_KEY = 'farcaster-connector-data';
+
 export interface FarcasterConnectorOptions {
   chains?: Chain[];
   options: {
@@ -36,6 +39,21 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
     
     async connect({ chainId } = {}) {
       try {
+        // Check if we have stored connection data
+        const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY);
+        
+        if (storedData && storedData.address) {
+          // We have stored data, try to resume the connection
+          provider = storedData.provider;
+          
+          // Return the connection data
+          return {
+            accounts: [storedData.address as `0x${string}`],
+            chainId: storedData.chainId || config.chains?.[0]?.id || 1
+          };
+        }
+        
+        // If we don't have stored data, proceed with a new connection
         const client = initAuthClient();
         
         // Create a channel for authentication
@@ -65,6 +83,15 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
         provider = status.provider;
 
         const targetChainId = chainId ?? config.chains?.[0]?.id ?? 1;
+        
+        // Save the connection data to storage
+        await config.storage?.setItem(FARCASTER_STORAGE_KEY, {
+          address,
+          chainId: targetChainId,
+          provider: status.provider,
+          fid: status.fid,
+          username: status.username,
+        });
 
         return { 
           accounts: [address as `0x${string}`],
@@ -76,18 +103,30 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
     },
 
     async disconnect() {
+      // Clear stored data on disconnect
+      await config.storage?.removeItem(FARCASTER_STORAGE_KEY);
       provider = undefined;
       authClient = undefined;
     },
 
     async getAccounts() {
-      if (!provider) {
+      const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY);
+      if (storedData && storedData.address) {
+        return [storedData.address as `0x${string}`];
+      }
+      
+      if (!provider || !provider.address) {
         throw new Error('Provider not initialized');
       }
       return [provider.address as `0x${string}`];
     },
 
     async getChainId() {
+      const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY);
+      if (storedData && storedData.chainId) {
+        return storedData.chainId;
+      }
+      
       if (!provider) {
         throw new Error('Provider not initialized');
       }
@@ -95,11 +134,23 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
     },
 
     async getProvider() {
+      const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY);
+      if (storedData && storedData.provider) {
+        return storedData.provider;
+      }
       return provider;
     },
 
     async isAuthorized() {
       try {
+        // Check if we have stored connection data
+        const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY);
+        
+        if (storedData && storedData.address) {
+          // We have stored data, the user is authorized
+          return true;
+        }
+        
         if (!provider) return false;
         return !!provider.address;
       } catch {
@@ -107,16 +158,20 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
       }
     },
 
-    onAccountsChanged(accounts: string[]) {
+    onAccountsChanged(accounts) {
+      // Handle accounts change if needed
     },
 
-    onChainChanged(chainId: string | number) {
+    onChainChanged(chainId) {
+      // Handle chain change if needed
     },
 
     onDisconnect() {
+      // Clear stored data on disconnect
+      config.storage?.removeItem(FARCASTER_STORAGE_KEY);
       provider = undefined;
       authClient = undefined;
-    },
+    }
   }));
 }
 
