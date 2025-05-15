@@ -6,6 +6,15 @@ import { createAppClient, viemConnector } from '@farcaster/auth-client';
 // Storage key for Farcaster auth data within Wagmi storage
 const FARCASTER_STORAGE_KEY = 'farcaster-connector-data';
 
+// Define the type for stored connector data
+interface FarcasterStorageData {
+  address: `0x${string}`;
+  chainId: number;
+  provider: any;
+  fid?: number;
+  username?: string;
+}
+
 export interface FarcasterConnectorOptions {
   chains?: Chain[];
   options: {
@@ -40,7 +49,7 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
     async connect({ chainId } = {}) {
       try {
         // Check if we have stored connection data
-        const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY);
+        const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY) as FarcasterStorageData | undefined;
         
         if (storedData && storedData.address) {
           // We have stored data, try to resume the connection
@@ -48,7 +57,7 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
           
           // Return the connection data
           return {
-            accounts: [storedData.address as `0x${string}`],
+            accounts: [storedData.address],
             chainId: storedData.chainId || config.chains?.[0]?.id || 1
           };
         }
@@ -79,22 +88,24 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
           throw new Error('Failed to verify signature');
         }
 
-        const address = getAddress(status.address);
+        const address = getAddress(status.address) as `0x${string}`;
         provider = status.provider;
 
         const targetChainId = chainId ?? config.chains?.[0]?.id ?? 1;
         
         // Save the connection data to storage
-        await config.storage?.setItem(FARCASTER_STORAGE_KEY, {
+        const storageData: FarcasterStorageData = {
           address,
           chainId: targetChainId,
           provider: status.provider,
           fid: status.fid,
           username: status.username,
-        });
+        };
+        
+        await config.storage?.setItem(FARCASTER_STORAGE_KEY, storageData);
 
         return { 
-          accounts: [address as `0x${string}`],
+          accounts: [address],
           chainId: targetChainId
         };
       } catch (error) {
@@ -110,9 +121,9 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
     },
 
     async getAccounts() {
-      const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY);
+      const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY) as FarcasterStorageData | undefined;
       if (storedData && storedData.address) {
-        return [storedData.address as `0x${string}`];
+        return [storedData.address];
       }
       
       if (!provider || !provider.address) {
@@ -122,7 +133,7 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
     },
 
     async getChainId() {
-      const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY);
+      const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY) as FarcasterStorageData | undefined;
       if (storedData && storedData.chainId) {
         return storedData.chainId;
       }
@@ -134,7 +145,7 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
     },
 
     async getProvider() {
-      const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY);
+      const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY) as FarcasterStorageData | undefined;
       if (storedData && storedData.provider) {
         return storedData.provider;
       }
@@ -144,7 +155,7 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
     async isAuthorized() {
       try {
         // Check if we have stored connection data
-        const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY);
+        const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY) as FarcasterStorageData | undefined;
         
         if (storedData && storedData.address) {
           // We have stored data, the user is authorized
@@ -159,11 +170,64 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
     },
 
     onAccountsChanged(accounts) {
-      // Handle accounts change if needed
+      // When accounts change, update the stored provider with the new address
+      if (accounts.length > 0) {
+        const updateStoredData = async () => {
+          const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY) as FarcasterStorageData | undefined;
+          if (storedData) {
+            // Update the stored data with the new address
+            const updatedData: FarcasterStorageData = {
+              ...storedData,
+              address: accounts[0] as `0x${string}`,
+            };
+            await config.storage?.setItem(FARCASTER_STORAGE_KEY, updatedData);
+          }
+        };
+        
+        // Update stored data without blocking
+        updateStoredData().catch(console.error);
+        
+        // Get the chain ID from storage or fallback to default
+        const getChainId = async () => {
+          const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY) as FarcasterStorageData | undefined;
+          return storedData?.chainId || config.chains?.[0]?.id || 1;
+        };
+        
+        // Emit account change event with the chainId
+        getChainId().then(chainId => {
+          config.emitter.emit('connect', { 
+            accounts: accounts.map(account => account as `0x${string}`),
+            chainId
+          });
+        }).catch(console.error);
+      } else {
+        // If no accounts, handle as disconnection
+        this.onDisconnect();
+      }
     },
 
     onChainChanged(chainId) {
-      // Handle chain change if needed
+      // Normalize the chain ID
+      const normalizedChainId = normalizeChainId(chainId);
+      
+      // Update the stored chain ID
+      const updateStoredData = async () => {
+        const storedData = await config.storage?.getItem(FARCASTER_STORAGE_KEY) as FarcasterStorageData | undefined;
+        if (storedData) {
+          // Update the stored data with the new chain ID
+          const updatedData: FarcasterStorageData = {
+            ...storedData,
+            chainId: normalizedChainId,
+          };
+          await config.storage?.setItem(FARCASTER_STORAGE_KEY, updatedData);
+        }
+      };
+      
+      // Update stored data without blocking
+      updateStoredData().catch(console.error);
+      
+      // Emit chain change event
+      config.emitter.emit('change', { chainId: normalizedChainId });
     },
 
     onDisconnect() {
@@ -171,6 +235,9 @@ export function createFarcasterConnector({ chains = [], options }: FarcasterConn
       config.storage?.removeItem(FARCASTER_STORAGE_KEY);
       provider = undefined;
       authClient = undefined;
+      
+      // Emit disconnect event
+      config.emitter.emit('disconnect');
     }
   }));
 }
