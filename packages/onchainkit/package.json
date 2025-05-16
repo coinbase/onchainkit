@@ -24,7 +24,9 @@
     "test:ui": "vitest --ui",
     "get-next-version": "node ./scripts/get-next-version.js",
     "publish-alpha": "node ./scripts/publish-alpha.js",
-    "validate-build": "node ./scripts/validate-build.js"
+    "validate-build": "node ./scripts/validate-build.js",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "peerDependencies": {
     "react": "^18 || ^19",
@@ -44,6 +46,13 @@
     "wagmi": "^2.14.11"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-interactions": "^8.6.14",
+    "@storybook/addon-onboarding": "^8.6.14",
+    "@storybook/blocks": "^8.6.14",
+    "@storybook/react": "^8.6.14",
+    "@storybook/react-vite": "^8.6.14",
+    "@storybook/test": "^8.6.14",
     "@testing-library/jest-dom": "6.4.7",
     "@testing-library/react": "^14.2.0",
     "@testing-library/user-event": "^14.6.1",
@@ -56,6 +65,7 @@
     "@vitest/ui": "^3.0.5",
     "autoprefixer": "^10.4.19",
     "babel-plugin-module-resolver": "^5.0.2",
+    "chromatic": "^11.28.2",
     "concurrently": "^8.0.0",
     "esbuild-fix-imports-plugin": "^1.0.19",
     "esbuild-plugin-babel": "^0.2.3",
