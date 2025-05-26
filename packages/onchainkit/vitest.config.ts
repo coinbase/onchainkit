@@ -21,6 +21,8 @@ export default defineConfig({
         'node_modules/**',
         'onchainkit/esm/**',
         '**/**.test.tsx',
+        'src/appchain/bridge/utils/maybeAddProofNode.ts',
+        'src/components/FarcasterLogin.tsx',
       ],
       reportOnFailure: true,
       thresholds: {

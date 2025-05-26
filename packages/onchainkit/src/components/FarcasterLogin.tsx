@@ -1,8 +1,4 @@
-import {
-  AuthKitProvider,
-  SignInButton,
-  useProfile,
-} from '@farcaster/auth-kit';
+import { AuthKitProvider, SignInButton, useProfile } from '@farcaster/auth-kit';
 import '@farcaster/auth-kit/styles.css';
 import { useEffect, useState } from 'react';
 
@@ -14,9 +10,9 @@ const config = {
   relay: 'https://relay.farcaster.xyz',
   rpcUrl: 'https://mainnet.optimism.io',
   domain: typeof window !== 'undefined' ? window.location.host : '',
-  siweUri: typeof window !== 'undefined' ? `${window.location.origin}/login` : '',
-  // Enable session persistence
-  persist: true, // This enables the built-in persistence in auth-kit
+  siweUri:
+    typeof window !== 'undefined' ? `${window.location.origin}/login` : '',
+  persist: true,
 };
 
 export function FarcasterLogin() {
@@ -54,21 +50,21 @@ function Profile() {
             isAuthenticated,
             profile: { fid, displayName },
             timestamp: Date.now(),
-          })
+          }),
         );
 
         // Dispatch a custom event to notify other components
         const authEvent = new CustomEvent('farcaster-auth-changed', {
-          detail: { isAuthenticated: true, fid, displayName }
+          detail: { isAuthenticated: true, fid, displayName },
         });
         window.dispatchEvent(authEvent);
       } else if (!isAuthenticated && prevAuthState) {
         // User has signed out
         localStorage.removeItem(FARCASTER_AUTH_STORAGE_KEY);
-        
+
         // Dispatch a custom event to notify other components
         const authEvent = new CustomEvent('farcaster-auth-changed', {
-          detail: { isAuthenticated: false }
+          detail: { isAuthenticated: false },
         });
         window.dispatchEvent(authEvent);
       }
@@ -79,9 +75,7 @@ function Profile() {
     <div style={{ textAlign: 'center' }}>
       {isAuthenticated ? (
         <div>
-          <p>
-            Hello, {displayName}!
-          </p>
+          <p>Hello, {displayName}!</p>
           <p>Your FID is {fid}.</p>
         </div>
       ) : (
@@ -89,4 +83,4 @@ function Profile() {
       )}
     </div>
   );
-} 
+}

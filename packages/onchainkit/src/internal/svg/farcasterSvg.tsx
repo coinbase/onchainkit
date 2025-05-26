@@ -11,4 +11,4 @@ export const farcasterSvg = (
       fill="currentColor"
     />
   </svg>
-); 
+);
