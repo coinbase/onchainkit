@@ -4,7 +4,6 @@ import { Dialog } from '@/internal/components/Dialog';
 import { CloseSvg } from '@/internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '@/internal/svg/coinbaseWalletSvg';
 import { defaultAvatarSVG } from '@/internal/svg/defaultAvatarSVG';
-import { farcasterSvg } from '@/internal/svg/farcasterSvg';
 import { frameWalletSvg } from '@/internal/svg/frameWalletSvg';
 import { metamaskSvg } from '@/internal/svg/metamaskSvg';
 import { phantomSvg } from '@/internal/svg/phantomSvg';
@@ -15,7 +14,6 @@ import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
-import { createFarcasterConnector } from '../connectors/farcaster';
 import { checkWalletAndRedirect } from '../utils/checkWalletAndRedirect';
 
 type WalletProviderOption = {
@@ -184,33 +182,7 @@ export function WalletModal({
     }
   }, [connect, onClose, onError]);
 
-  const handleFarcasterConnection = useCallback(() => {
-    try {
-      const farcasterConnector = createFarcasterConnector({
-        options: {
-          appName,
-          appIconUrl: appLogo,
-          siweUri: window.location.origin,
-        }
-      });
-      connect({ connector: farcasterConnector });
-      onClose();
-    } catch (error) {
-      console.error('Farcaster connection error:', error);
-      onError?.(
-        error instanceof Error ? error : new Error('Failed to connect wallet'),
-      );
-    }
-  }, [connect, onClose, onError, appName, appLogo]);
-
   const availableWallets: WalletProviderOption[] = [
-    {
-      id: 'farcaster',
-      name: 'Farcaster',
-      icon: farcasterSvg,
-      connector: handleFarcasterConnection,
-      enabled: true,
-    },
     {
       id: 'coinbase',
       name: 'Coinbase Wallet',

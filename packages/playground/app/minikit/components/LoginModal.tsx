@@ -1,9 +1,99 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { FarcasterLogin } from '../../../../onchainkit/src/components/FarcasterLogin';
 import { ConnectWallet, ConnectWalletText } from '@coinbase/onchainkit/wallet';
 import { useAccount } from 'wagmi';
 
-const FARCASTER_AUTH_SESSION_KEY = 'farcaster-auth-session';
+// --- Start of Shared Farcaster Auth Logic ---
+export const FARCASTER_AUTH_SESSION_KEY = 'farcaster-auth-session';
+
+export interface FarcasterUser {
+  fid?: number;
+  displayName?: string;
+}
+
+export function useFarcasterAuth() {
+  const [isFarcasterConnected, setIsFarcasterConnected] = useState(false);
+  const [farcasterUser, setFarcasterUser] = useState<FarcasterUser>({});
+
+  const checkFarcasterSession = useCallback(() => {
+    const sessionData = localStorage.getItem(FARCASTER_AUTH_SESSION_KEY);
+    if (sessionData) {
+      try {
+        const parsedData = JSON.parse(sessionData);
+        const isSessionValid = parsedData.timestamp &&
+          (Date.now() - parsedData.timestamp) < 24 * 60 * 60 * 1000;
+
+        if (isSessionValid && parsedData.isAuthenticated) {
+          setIsFarcasterConnected(true);
+          setFarcasterUser({
+            fid: parsedData.profile?.fid,
+            displayName: parsedData.profile?.displayName,
+          });
+        } else {
+          localStorage.removeItem(FARCASTER_AUTH_SESSION_KEY);
+          setIsFarcasterConnected(false);
+          setFarcasterUser({});
+        }
+      } catch (e) {
+        console.error('Failed to parse Farcaster session data', e);
+        localStorage.removeItem(FARCASTER_AUTH_SESSION_KEY);
+        setIsFarcasterConnected(false);
+        setFarcasterUser({});
+      }
+    } else {
+      setIsFarcasterConnected(false);
+      setFarcasterUser({});
+    }
+  }, []);
+
+  useEffect(() => {
+    checkFarcasterSession();
+
+    const handleStorageEvent = (event: StorageEvent) => {
+      if (event.key === FARCASTER_AUTH_SESSION_KEY) {
+        checkFarcasterSession();
+      }
+    };
+    window.addEventListener('storage', handleStorageEvent);
+
+    const handleFarcasterAuthChangedEvent = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail && typeof customEvent.detail.isAuthenticated === 'boolean') {
+        if (customEvent.detail.isAuthenticated) {
+          setIsFarcasterConnected(true);
+          setFarcasterUser({
+            fid: customEvent.detail.fid,
+            displayName: customEvent.detail.displayName,
+          });
+        } else {
+          setIsFarcasterConnected(false);
+          setFarcasterUser({});
+        }
+      } else {
+        checkFarcasterSession();
+      }
+    };
+    window.addEventListener('farcaster-auth-changed', handleFarcasterAuthChangedEvent);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageEvent);
+      window.removeEventListener('farcaster-auth-changed', handleFarcasterAuthChangedEvent);
+    };
+  }, [checkFarcasterSession]);
+
+  const signOutFarcaster = useCallback(() => {
+    localStorage.removeItem(FARCASTER_AUTH_SESSION_KEY);
+    setIsFarcasterConnected(false);
+    setFarcasterUser({});
+    const authEvent = new CustomEvent('farcaster-auth-changed', {
+      detail: { isAuthenticated: false }
+    });
+    window.dispatchEvent(authEvent);
+  }, []);
+
+  return { isFarcasterConnected, farcasterUser, signOutFarcaster };
+}
+// --- End of Shared Farcaster Auth Logic ---
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -12,77 +102,13 @@ interface LoginModalProps {
 
 export function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const { isConnected } = useAccount();
-  const [isFarcasterConnected, setIsFarcasterConnected] = useState(false);
-  const [farcasterUser, setFarcasterUser] = useState<{ fid?: number, displayName?: string }>({});
+  const { 
+    isFarcasterConnected, 
+    farcasterUser, 
+    signOutFarcaster: hookSignOutFarcaster 
+  } = useFarcasterAuth();
   const initialFarcasterConnectedRef = useRef<boolean | null>(null);
   const initialWalletConnectedRef = useRef<boolean | null>(null);
-
-  useEffect(() => {
-    const checkFarcasterSession = () => {
-      const sessionData = localStorage.getItem(FARCASTER_AUTH_SESSION_KEY);
-      if (sessionData) {
-        try {
-          const parsedData = JSON.parse(sessionData);
-          const isSessionValid = parsedData.timestamp && 
-            (Date.now() - parsedData.timestamp) < 24 * 60 * 60 * 1000;
-          
-          if (isSessionValid && parsedData.isAuthenticated) {
-            setIsFarcasterConnected(true);
-            setFarcasterUser({
-              fid: parsedData.profile?.fid,
-              displayName: parsedData.profile?.displayName
-            });
-          } else {
-            localStorage.removeItem(FARCASTER_AUTH_SESSION_KEY);
-            setIsFarcasterConnected(false);
-            setFarcasterUser({});
-          }
-        } catch (e) {
-          console.error('Failed to parse Farcaster session data', e);
-          localStorage.removeItem(FARCASTER_AUTH_SESSION_KEY);
-          setIsFarcasterConnected(false);
-          setFarcasterUser({});
-        }
-      } else {
-        setIsFarcasterConnected(false);
-        setFarcasterUser({});
-      }
-    };
-
-    checkFarcasterSession();
-    
-    const handleFarcasterAuth = (event: StorageEvent) => {
-      if (event.key === FARCASTER_AUTH_SESSION_KEY) {
-        checkFarcasterSession();
-      }
-    };
-    
-    window.addEventListener('storage', handleFarcasterAuth);
-    
-    const handleFarcasterAuthLocal = (event: Event) => {
-      checkFarcasterSession();
-      const customEvent = event as CustomEvent;
-      if (customEvent.detail) {
-        if (customEvent.detail.isAuthenticated) {
-          setIsFarcasterConnected(true);
-          setFarcasterUser({
-            fid: customEvent.detail.fid,
-            displayName: customEvent.detail.displayName
-          });
-        } else {
-          setIsFarcasterConnected(false);
-          setFarcasterUser({});
-        }
-      }
-    };
-    
-    window.addEventListener('farcaster-auth-changed', handleFarcasterAuthLocal);
-    
-    return () => {
-      window.removeEventListener('storage', handleFarcasterAuth);
-      window.removeEventListener('farcaster-auth-changed', handleFarcasterAuthLocal);
-    };
-  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -102,16 +128,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
   // Handle Farcaster sign out
   const handleFarcasterSignOut = () => {
-    localStorage.removeItem(FARCASTER_AUTH_SESSION_KEY);
-    
-    setIsFarcasterConnected(false);
-    setFarcasterUser({});
-    
-    const authEvent = new CustomEvent('farcaster-auth-changed', {
-      detail: { isAuthenticated: false }
-    });
-    window.dispatchEvent(authEvent);
-    
+    hookSignOutFarcaster();
     onClose();
   };
 

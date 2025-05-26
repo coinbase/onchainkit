@@ -10,79 +10,16 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import Snake, { SCHEMA_UID } from './components/snake';
 import { useAccount } from 'wagmi';
 import Check from './svg/Check';
-
-const FARCASTER_AUTH_SESSION_KEY = 'farcaster-auth-session';
+import { useFarcasterAuth } from './components/LoginModal';
 
 export default function App() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
   const [frameAdded, setFrameAdded] = useState(false);
-  const [isFarcasterConnected, setIsFarcasterConnected] = useState(false);
-  const [farcasterUser, setFarcasterUser] = useState<{ fid?: number, displayName?: string }>({});
+  const { isFarcasterConnected, farcasterUser } = useFarcasterAuth();
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
   const { address } = useAccount();
-
-  useEffect(() => {
-    const checkFarcasterSession = () => {
-      const sessionData = localStorage.getItem(FARCASTER_AUTH_SESSION_KEY);
-      if (sessionData) {
-        try {
-          const parsedData = JSON.parse(sessionData);
-          const isSessionValid = parsedData.timestamp && 
-            (Date.now() - parsedData.timestamp) < 24 * 60 * 60 * 1000;
-          
-          if (isSessionValid && parsedData.isAuthenticated) {
-            setIsFarcasterConnected(true);
-            setFarcasterUser({
-              fid: parsedData.profile?.fid,
-              displayName: parsedData.profile?.displayName
-            });
-          } else {
-            setIsFarcasterConnected(false);
-            setFarcasterUser({});
-          }
-        } catch (e) {
-          setIsFarcasterConnected(false);
-          setFarcasterUser({});
-        }
-      } else {
-        setIsFarcasterConnected(false);
-        setFarcasterUser({});
-      }
-    };
-
-    checkFarcasterSession();
-    
-    const handleFarcasterAuth = (event: Event) => {
-      const customEvent = event as CustomEvent;
-      if (customEvent.detail) {
-        if (customEvent.detail.isAuthenticated) {
-          setIsFarcasterConnected(true);
-          setFarcasterUser({
-            fid: customEvent.detail.fid,
-            displayName: customEvent.detail.displayName
-          });
-        } else {
-          setIsFarcasterConnected(false);
-          setFarcasterUser({});
-        }
-      } else {
-        checkFarcasterSession();
-      }
-    };
-    
-    window.addEventListener('storage', (e) => {
-      if (e.key === FARCASTER_AUTH_SESSION_KEY) {
-        handleFarcasterAuth(e);
-      }
-    });
-    window.addEventListener('farcaster-auth-changed', handleFarcasterAuth);
-    
-    return () => {
-      window.removeEventListener('farcaster-auth-changed', handleFarcasterAuth);
-    };
-  }, []);
 
   useEffect(() => {
     if (!isFrameReady) {
