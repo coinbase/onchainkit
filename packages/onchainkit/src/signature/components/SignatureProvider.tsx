@@ -9,7 +9,11 @@ import type {
   SignMessageParameters,
   SignTypedDataParameters,
 } from 'wagmi/actions';
-import { type LifecycleStatus, type SignatureProviderProps } from '../types';
+import {
+  Message,
+  type LifecycleStatus,
+  type SignatureProviderProps,
+} from '../types';
 import { validateMessage } from '../utils/validateMessage';
 
 type SignatureContextType = {
@@ -134,11 +138,11 @@ export function SignatureProvider({
         message,
         primaryType,
       });
-      if (validatedMessage.type === 'typed_data') {
+      if (validatedMessage.type === Message.TYPED_DATA) {
         await handleSignTypedData(validatedMessage.data);
-      } else if (validatedMessage.type === 'signable_message') {
+      } else if (validatedMessage.type === Message.SIGNABLE_MESSAGE) {
         await handleSignMessage(validatedMessage.data);
-      } else if (validatedMessage.type === 'invalid') {
+      } else if (validatedMessage.type === Message.INVALID) {
         throw new Error('Invalid message data');
       }
     } catch (err) {

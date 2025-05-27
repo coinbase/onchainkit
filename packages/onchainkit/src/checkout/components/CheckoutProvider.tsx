@@ -26,6 +26,7 @@ import { isUserRejectedRequestError } from '../../transaction/utils/isUserReject
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import {
+  CHECKOUT_LIFECYCLE_STATUS,
   GENERIC_ERROR_MESSAGE,
   NO_CONNECTED_ADDRESS_ERROR,
   NO_CONTRACTS_ERROR,
@@ -91,7 +92,7 @@ export function CheckoutProvider({
   // Component lifecycle
   const [lifecycleStatus, updateLifecycleStatus] =
     useLifecycleStatus<LifecycleStatus>({
-      statusName: 'init',
+      statusName: CHECKOUT_LIFECYCLE_STATUS.INIT,
       statusData: {},
     });
 
@@ -105,7 +106,7 @@ export function CheckoutProvider({
   const fetchData = useCallback(
     async (address: Address) => {
       updateLifecycleStatus({
-        statusName: 'fetchingData',
+        statusName: CHECKOUT_LIFECYCLE_STATUS.FETCHING_DATA,
         statusData: {},
       });
       const {
@@ -118,7 +119,7 @@ export function CheckoutProvider({
       if (error) {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
-          statusName: 'error',
+          statusName: CHECKOUT_LIFECYCLE_STATUS.ERROR,
           statusData: {
             code: CheckoutErrorCode.UNEXPECTED_ERROR,
             error: (error as Error).name,
@@ -132,7 +133,7 @@ export function CheckoutProvider({
       insufficientBalanceRef.current = insufficientBalance;
       priceInUSDCRef.current = priceInUSDC;
       updateLifecycleStatus({
-        statusName: 'ready',
+        statusName: CHECKOUT_LIFECYCLE_STATUS.READY,
         statusData: {
           chargeId,
           contracts: contractsRef.current || [],
@@ -156,7 +157,7 @@ export function CheckoutProvider({
     query: {
       /* v8 ignore next 5 */
       refetchInterval: (query) => {
-        return normalizeStatus(query.state.data?.status) === 'success'
+        return normalizeStatus(query.state.data?.status) === CHECKOUT_LIFECYCLE_STATUS.SUCCESS
           ? false
           : 1000;
       },
@@ -180,9 +181,9 @@ export function CheckoutProvider({
 
   // Set transaction pending status when writeContracts is pending
   useEffect(() => {
-    if (status === 'pending') {
+    if (status === CHECKOUT_LIFECYCLE_STATUS.PENDING) {
       updateLifecycleStatus({
-        statusName: 'pending',
+        statusName: CHECKOUT_LIFECYCLE_STATUS.PENDING,
         statusData: {},
       });
     }
@@ -194,7 +195,7 @@ export function CheckoutProvider({
       return;
     }
     updateLifecycleStatus({
-      statusName: 'success',
+      statusName: CHECKOUT_LIFECYCLE_STATUS.SUCCESS,
       statusData: {
         transactionReceipts: [receipt],
         chargeId: chargeId,
@@ -206,7 +207,7 @@ export function CheckoutProvider({
   // We need to pre-load transaction data in `useEffect` when the wallet is already connected due to a Smart Wallet popup blocking issue in Safari iOS
   useEffect(() => {
     if (
-      lifecycleStatus.statusName === 'init' &&
+      lifecycleStatus.statusName === CHECKOUT_LIFECYCLE_STATUS.INIT &&
       address &&
       !fetchedDataHandleSubmit.current
     ) {
@@ -232,7 +233,7 @@ export function CheckoutProvider({
       });
 
       // Open Coinbase Commerce receipt
-      if (lifecycleStatus.statusName === 'success') {
+      if (lifecycleStatus.statusName === CHECKOUT_LIFECYCLE_STATUS.SUCCESS) {
         window.open(
           `https://commerce.coinbase.com/pay/${chargeId}/receipt`,
           '_blank',
@@ -268,7 +269,7 @@ export function CheckoutProvider({
       if (!connectedAddress) {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
-          statusName: 'error',
+          statusName: CHECKOUT_LIFECYCLE_STATUS.ERROR,
           statusData: {
             code: CheckoutErrorCode.UNEXPECTED_ERROR,
             error: NO_CONNECTED_ADDRESS_ERROR,
@@ -310,7 +311,7 @@ export function CheckoutProvider({
       if (!contractsRef.current || contractsRef.current.length === 0) {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
-          statusName: 'error',
+          statusName: CHECKOUT_LIFECYCLE_STATUS.ERROR,
           statusData: {
             code: CheckoutErrorCode.UNEXPECTED_ERROR,
             error: NO_CONTRACTS_ERROR,
@@ -353,7 +354,7 @@ export function CheckoutProvider({
 
       setErrorMessage(errorMessage);
       updateLifecycleStatus({
-        statusName: 'error',
+        statusName: CHECKOUT_LIFECYCLE_STATUS.ERROR,
         statusData: {
           code: errorCode,
           error: JSON.stringify(error),

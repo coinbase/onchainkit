@@ -11,7 +11,7 @@ import {
   NFTQuantitySelector,
 } from '@/nft/components/mint';
 import { useMintData as defaultUseMintData } from '@/nft/hooks/useMintData';
-import { type NFTMintCardReact } from '@/nft/types';
+import { Lifecycle, type NFTMintCardReact } from '@/nft/types';
 import { buildMintTransactionData as defaultBuildMintTransaction } from '@/nft/utils/buildMintTransactionData';
 import { cn } from '../../styles/theme';
 import NFTErrorBoundary from './NFTErrorBoundary';
@@ -55,7 +55,7 @@ export function NFTMintCard({
   return (
     <NFTErrorBoundary fallback={NFTErrorFallback}>
       <NFTLifecycleProvider
-        type="mint"
+        type={Lifecycle.MINT}
         onStatus={onStatus}
         onError={onError}
         onSuccess={onSuccess}

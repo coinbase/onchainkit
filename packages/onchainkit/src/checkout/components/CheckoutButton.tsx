@@ -8,6 +8,7 @@ import { useIcon } from '../../internal/hooks/useIcon';
 import { cn, pressable, text as styleText } from '../../styles/theme';
 import type { CheckoutButtonReact } from '../types';
 import { useCheckoutContext } from './CheckoutProvider';
+import { CHECKOUT_LIFECYCLE_STATUS } from '../constants';
 
 export function CheckoutButton({
   className,
@@ -28,7 +29,7 @@ export function CheckoutButton({
   const isFetchingData = lifecycleStatus?.statusName === 'fetchingData';
   const isDisabled = disabled || isLoading || isFetchingData;
   const buttonText = useMemo(() => {
-    if (lifecycleStatus?.statusName === 'success') {
+    if (lifecycleStatus?.statusName === CHECKOUT_LIFECYCLE_STATUS.SUCCESS) {
       return 'View payment details';
     }
     return text;
@@ -37,7 +38,7 @@ export function CheckoutButton({
 
   useEffect(() => {
     if (
-      lifecycleStatus?.statusName === 'success' &&
+      lifecycleStatus?.statusName === CHECKOUT_LIFECYCLE_STATUS.SUCCESS &&
       lifecycleStatus.statusData
     ) {
       const { transactionReceipts, chargeId } = lifecycleStatus.statusData;

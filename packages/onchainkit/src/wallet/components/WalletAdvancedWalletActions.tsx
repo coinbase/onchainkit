@@ -1,7 +1,11 @@
 'use client';
 
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { WalletEvent, WalletOptionType } from '@/core/analytics/types';
+import {
+  WalletEvent,
+  WalletOption,
+  WalletOptionType,
+} from '@/core/analytics/types';
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { baseScanSvg } from '@/internal/svg/baseScanSvg';
 import { disconnectSvg } from '@/internal/svg/disconnectSvg';
@@ -53,7 +57,7 @@ export function WalletAdvancedWalletActions({
   );
 
   const handleTransactions = useCallback(() => {
-    handleAnalyticsOptionSelected('explorer');
+    handleAnalyticsOptionSelected(WalletOption.Explorer);
     window.open(`https://basescan.org/address/${address}`, '_blank');
   }, [address, handleAnalyticsOptionSelected]);
 
@@ -68,12 +72,12 @@ export function WalletAdvancedWalletActions({
   }, [disconnect, connectors, handleClose, handleAnalyticsDisconnect]);
 
   const handleQr = useCallback(() => {
-    handleAnalyticsOptionSelected('qr');
+    handleAnalyticsOptionSelected(WalletOption.QR);
     setActiveFeature('qr');
   }, [setActiveFeature, handleAnalyticsOptionSelected]);
 
   const handleRefreshPortfolioData = useCallback(async () => {
-    handleAnalyticsOptionSelected('refresh');
+    handleAnalyticsOptionSelected(WalletOption.Refresh);
     await refetchPortfolioData();
   }, [refetchPortfolioData, handleAnalyticsOptionSelected]);
 

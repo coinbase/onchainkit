@@ -2,7 +2,11 @@ import type {
   SignMessageParameters,
   SignTypedDataParameters,
 } from 'wagmi/actions';
-import { type MessageData, type ValidateMessageResult } from '../types';
+import {
+  Message,
+  type MessageData,
+  type ValidateMessageResult,
+} from '../types';
 
 export function isTypedData(
   params: MessageData,
@@ -31,20 +35,20 @@ export function validateMessage(
 ): ValidateMessageResult {
   if (isTypedData(messageData)) {
     return {
-      type: 'typed_data',
+      type: Message.TYPED_DATA,
       data: messageData,
     };
   }
 
   if (isSignableMessage(messageData)) {
     return {
-      type: 'signable_message',
+      type: Message.SIGNABLE_MESSAGE,
       data: messageData,
     };
   }
 
   return {
-    type: 'invalid',
+    type: Message.INVALID,
     data: null,
   };
 }
