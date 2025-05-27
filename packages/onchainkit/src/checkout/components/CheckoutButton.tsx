@@ -25,8 +25,10 @@ export function CheckoutButton({
   const iconSvg = useIcon({ icon });
   const { sendAnalytics } = useAnalytics();
 
-  const isLoading = lifecycleStatus?.statusName === 'pending';
-  const isFetchingData = lifecycleStatus?.statusName === 'fetchingData';
+  const isLoading =
+    lifecycleStatus?.statusName === CHECKOUT_LIFECYCLE_STATUS.PENDING;
+  const isFetchingData =
+    lifecycleStatus?.statusName === CHECKOUT_LIFECYCLE_STATUS.FETCHING_DATA;
   const isDisabled = disabled || isLoading || isFetchingData;
   const buttonText = useMemo(() => {
     if (lifecycleStatus?.statusName === CHECKOUT_LIFECYCLE_STATUS.SUCCESS) {

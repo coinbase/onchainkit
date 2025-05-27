@@ -157,7 +157,7 @@ export function CheckoutProvider({
     query: {
       /* v8 ignore next 5 */
       refetchInterval: (query) => {
-        return normalizeStatus(query.state.data?.status) === CHECKOUT_LIFECYCLE_STATUS.SUCCESS
+        return normalizeStatus(query.state.data?.status) === 'success'
           ? false
           : 1000;
       },
@@ -181,7 +181,7 @@ export function CheckoutProvider({
 
   // Set transaction pending status when writeContracts is pending
   useEffect(() => {
-    if (status === CHECKOUT_LIFECYCLE_STATUS.PENDING) {
+    if (status === 'pending') {
       updateLifecycleStatus({
         statusName: CHECKOUT_LIFECYCLE_STATUS.PENDING,
         statusData: {},
