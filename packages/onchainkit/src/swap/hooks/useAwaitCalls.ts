@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useCallsStatus } from 'wagmi/experimental';
 import type { UseAwaitCallsParams } from '../types';
+import { normalizeStatus } from '@/internal/utils/normalizeWagmi';
 
 export function useAwaitCalls({
   accountConfig,
@@ -17,14 +18,16 @@ export function useAwaitCalls({
     id: callsId || '',
     query: {
       refetchInterval: (query) => {
-        return query.state.data?.status === 'CONFIRMED' ? false : 1000;
+        return normalizeStatus(query.state.data?.status) === 'success'
+          ? false
+          : 1000;
       },
       enabled: callsId !== undefined,
     },
   });
 
   return useCallback(async () => {
-    if (data?.status === 'CONFIRMED' && data?.receipts) {
+    if (normalizeStatus(data?.status) === 'success' && data?.receipts) {
       const transactionReceipt = await waitForTransactionReceipt(
         accountConfig,
         {

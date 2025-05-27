@@ -12,7 +12,7 @@ describe('useCallsStatus', () => {
 
   it('should return status and transactionHash when data is successfully fetched', () => {
     const mockData = {
-      status: 'CONFIRMED',
+      status: 'success',
       receipts: [{ transactionHash: '0x123' }],
     };
     (useCallsStatusWagmi as ReturnType<typeof vi.fn>).mockReturnValue({
@@ -24,7 +24,7 @@ describe('useCallsStatus', () => {
         transactionId,
       }),
     );
-    expect(result.current.status).toBe('CONFIRMED');
+    expect(result.current.status).toBe('success');
     expect(result.current.transactionHash).toBe('0x123');
   });
 
@@ -52,9 +52,9 @@ describe('useCallsStatus', () => {
     });
   });
 
-  it('should set refetchInterval to 1000 ms when status is not CONFIRMED', () => {
+  it('should set refetchInterval to 1000 ms when status is not success', () => {
     const mockData = {
-      status: 'PENDING',
+      status: 'pending',
     };
 
     // Mocking useCallsStatusWagmi to return the specific data and simulate refetchInterval logic
@@ -76,9 +76,9 @@ describe('useCallsStatus', () => {
     );
   });
 
-  it('should set refetchInterval to false when status is CONFIRMED', () => {
+  it('should set refetchInterval to false when status is success', () => {
     const mockData = {
-      status: 'CONFIRMED',
+      status: 'success',
     };
 
     // Mocking useCallsStatusWagmi to return the specific data and simulate refetchInterval logic

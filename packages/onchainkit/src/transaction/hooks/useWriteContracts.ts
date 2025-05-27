@@ -5,6 +5,7 @@ import {
 } from '../constants';
 import type { UseWriteContractsParams } from '../types';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
+import { normalizeTransactionId } from '@/internal/utils/normalizeWagmi';
 
 /**
  * useWriteContracts: Experimental Wagmi hook for batching transactions.
@@ -35,8 +36,8 @@ export function useWriteContracts({
           },
         });
       },
-      onSuccess: (id) => {
-        setTransactionId(id);
+      onSuccess: (data) => {
+        setTransactionId(normalizeTransactionId(data));
       },
     },
   });

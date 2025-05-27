@@ -1,59 +1,105 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { type PropsWithChildren, useMemo } from 'react';
-import { WagmiProvider } from 'wagmi';
+import {
+  type PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { Config, WagmiProvider } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { createWagmiConfig } from './core/createWagmiConfig';
-import type { CreateWagmiConfigParams } from './core/types';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
+import { useOnchainKit } from './useOnchainKit';
+import type { CreateWagmiConfigParams } from './core/types';
 
 export function DefaultOnchainKitProviders({
-  apiKey,
-  appName,
-  appLogoUrl,
-  connectors = [
-    coinbaseWallet({
-      appName,
-      appLogoUrl,
-      preference: 'all',
-    }),
-  ],
   children,
-}: PropsWithChildren<CreateWagmiConfigParams>) {
+  connectors,
+}: PropsWithChildren<{ connectors?: CreateWagmiConfigParams['connectors'] }>) {
   // Check the React context for WagmiProvider and QueryClientProvider
   const { providedWagmiConfig, providedQueryClient } =
     useProviderDependencies();
 
-  const defaultConfig = useMemo(() => {
-    // IMPORTANT: Don't create a new Wagmi configuration if one already exists
-    // This prevents the user-provided WagmiConfig from being overridden
-    return (
-      providedWagmiConfig ||
-      createWagmiConfig({
-        apiKey,
-        appName,
-        appLogoUrl,
-        connectors,
-      })
-    );
-  }, [apiKey, appName, appLogoUrl, connectors, providedWagmiConfig]);
+  return (
+    <WagmiProviderWithDefault
+      providedWagmiConfig={providedWagmiConfig}
+      connectors={connectors}
+    >
+      <QueryClientProviderWithDefault providedQueryClient={providedQueryClient}>
+        {children}
+      </QueryClientProviderWithDefault>
+    </WagmiProviderWithDefault>
+  );
+}
 
-  const defaultQueryClient = useMemo(() => {
-    // IMPORTANT: Don't create a new QueryClient if one already exists
-    // This prevents the user-provided QueryClient from being overridden
+function WagmiProviderWithDefault({
+  children,
+  providedWagmiConfig,
+  connectors,
+}: PropsWithChildren<{
+  providedWagmiConfig: Config | null;
+  connectors?: CreateWagmiConfigParams['connectors'];
+}>) {
+  const onchainKitConfig = useOnchainKit();
+  const prevConnectorsRef =
+    useRef<CreateWagmiConfigParams['connectors']>(connectors);
+
+  const getWagmiConfig = useCallback(() => {
+    if (providedWagmiConfig) return providedWagmiConfig;
+
+    const appName = onchainKitConfig.config?.appearance?.name ?? undefined;
+    const appLogoUrl = onchainKitConfig.config?.appearance?.logo ?? undefined;
+
+    return createWagmiConfig({
+      apiKey: onchainKitConfig.apiKey ?? undefined,
+      appName,
+      appLogoUrl,
+      connectors: connectors ?? [
+        coinbaseWallet({
+          appName,
+          appLogoUrl,
+          preference: onchainKitConfig.config?.wallet?.preference,
+        }),
+      ],
+    });
+  }, [
+    onchainKitConfig.apiKey,
+    onchainKitConfig.config,
+    connectors,
+    providedWagmiConfig,
+  ]);
+
+  const [config, setConfig] = useState(() => {
+    return getWagmiConfig();
+  });
+
+  useEffect(() => {
+    if (prevConnectorsRef.current !== connectors) {
+      setConfig(getWagmiConfig());
+      prevConnectorsRef.current = connectors;
+    }
+  }, [connectors, getWagmiConfig]);
+
+  if (providedWagmiConfig) {
+    return children;
+  }
+
+  return <WagmiProvider config={config}>{children}</WagmiProvider>;
+}
+
+function QueryClientProviderWithDefault({
+  children,
+  providedQueryClient,
+}: PropsWithChildren<{ providedQueryClient: QueryClient | null }>) {
+  const queryClient = useMemo(() => {
     return providedQueryClient || new QueryClient();
   }, [providedQueryClient]);
 
-  // If both dependencies are missing, return a context with default parent providers
-  // If only one dependency is provided, expect the user to also provide the missing one
-  if (!providedWagmiConfig && !providedQueryClient) {
-    return (
-      <WagmiProvider config={defaultConfig}>
-        <QueryClientProvider client={defaultQueryClient}>
-          {children}
-        </QueryClientProvider>
-      </WagmiProvider>
-    );
-  }
+  if (providedQueryClient) return children;
 
-  return children;
+  return (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
 }

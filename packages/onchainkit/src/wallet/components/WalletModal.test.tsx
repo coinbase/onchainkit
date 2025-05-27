@@ -1143,4 +1143,99 @@ describe('WalletModal', () => {
     window.ethereum = originalEthereum;
     window.open = originalWindowOpen;
   });
+
+  it('does not show Sign Up button when signUpEnabled is set to false', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          signUpEnabled: false,
+          supportedWallets: { rabby: false },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    expect(screen.queryByText('Sign up')).not.toBeInTheDocument();
+    expect(screen.queryByText('Connect your wallet')).toBeInTheDocument();
+  });
+
+  it('shows Sign Up button when signUpEnabled is true', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          signUpEnabled: true,
+          supportedWallets: { rabby: false },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    expect(screen.getByText('Sign up')).toBeInTheDocument();
+  });
+
+  it('shows Sign Up button by default when signUpEnabled is not specified', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          supportedWallets: { rabby: false },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    expect(screen.getByText('Sign up')).toBeInTheDocument();
+  });
+
+  it('changes layout when signUpEnabled is false', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          signUpEnabled: false,
+          supportedWallets: { rabby: false },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    // "Connect your wallet" should be present
+    const connectText = screen.getByText('Connect your wallet');
+    expect(connectText).toBeInTheDocument();
+
+    // When signUpEnabled is false, there should be no divider line
+    const dialog = screen.getByTestId('ockModalOverlay');
+    const dividers = dialog.querySelectorAll('.border-\\[0\\.5px\\]');
+    expect(dividers.length).toBe(0);
+  });
+
+  it('includes divider line when signUpEnabled is true', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          signUpEnabled: true,
+          supportedWallets: { rabby: false },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    // "Connect your wallet" should be present with divider
+    expect(
+      screen.getByText('or continue with an existing wallet'),
+    ).toBeInTheDocument();
+
+    // When signUpEnabled is true, there should be a divider line
+    const dialog = screen.getByTestId('ockModalOverlay');
+    const dividers = dialog.querySelectorAll('.border-\\[0\\.5px\\]');
+    expect(dividers.length).toBe(1);
+  });
 });

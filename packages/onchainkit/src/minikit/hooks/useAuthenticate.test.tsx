@@ -93,11 +93,11 @@ describe('useAuthenticate', () => {
     expect(errorSpy).toHaveBeenCalledWith(new Error('Nonce mismatch'));
   });
 
-  it('should throw an error if the fid of the message does not match the clientFid', async () => {
+  it('should throw an error if the fid of the message does not match the users fid', async () => {
     (useMiniKit as Mock).mockReturnValue({
       context: {
-        client: {
-          clientFid: 123,
+        user: {
+          fid: 123,
         },
       },
     });
@@ -109,6 +109,26 @@ describe('useAuthenticate', () => {
 
     expect(response).toBe(false);
     expect(errorSpy).toHaveBeenCalledWith(new Error('Fid mismatch'));
+  });
+
+  it('should skip validation if skipValidation is true', async () => {
+    (useMiniKit as Mock).mockReturnValue({
+      context: {
+        user: {
+          fid: 123,
+        },
+      },
+    });
+
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
+
+    const { result } = renderHook(() => useAuthenticate(undefined, true));
+    const response = await result.current.signIn({
+      nonce: 'z72pa2nz',
+    });
+
+    expect(response).toBe(signInMock);
+    expect(errorSpy).not.toHaveBeenCalled();
   });
 
   it('should parse the message correctly', () => {

@@ -25,13 +25,13 @@
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
     "lucide-react": "^0.416.0",
-    "next": "^14.2.5",
+    "next": "^14.2.26",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "viem": "^2.21.33",
-    "wagmi": "^2.12.24"
+    "viem": "^2.27.2",
+    "wagmi": "^2.14.15"
   },
   "devDependencies": {
     "@types/node": "^20",

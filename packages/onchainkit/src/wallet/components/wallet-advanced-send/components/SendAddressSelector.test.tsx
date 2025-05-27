@@ -1,13 +1,23 @@
 import { Address, Avatar, Name } from '@/identity';
 import { fireEvent, render, screen } from '@testing-library/react';
-import type { Address as AddressType, Chain } from 'viem';
+import type { Chain } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useWalletContext } from '../../WalletProvider';
 import { SendAddressSelector } from './SendAddressSelector';
+import { useSendContext } from './SendProvider';
 
 vi.mock('@/identity', () => ({
   Address: vi.fn(() => <div data-testid="mock-address">Address Component</div>),
   Avatar: vi.fn(() => <div data-testid="mock-avatar">Avatar Component</div>),
   Name: vi.fn(() => <div data-testid="mock-name">Name Component</div>),
+}));
+
+vi.mock('../../WalletProvider', () => ({
+  useWalletContext: vi.fn(),
+}));
+
+vi.mock('./SendProvider', () => ({
+  useSendContext: vi.fn(),
 }));
 
 const mockChain = {
@@ -20,25 +30,38 @@ const mockChain = {
   },
 } as Chain;
 
+const mockWalletContext = {
+  chain: mockChain,
+};
+
+const mockSendContext = {
+  recipientState: {
+    phase: 'input',
+    input: '',
+    address: null,
+    displayValue: null,
+  },
+  selectRecipient: vi.fn(),
+};
+
 describe('SendAddressSelector', () => {
-  const mockProps = {
-    address: '0x1234567890123456789012345678901234567890' as AddressType,
-    senderChain: mockChain,
-    onClick: vi.fn(),
-    classNames: {
-      container: 'custom-container',
-      avatar: 'custom-avatar',
-      name: 'custom-name',
-      address: 'custom-address',
-    },
+  const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
+  const mockUseSendContext = useSendContext as ReturnType<typeof vi.fn>;
+  const mockClassNames = {
+    container: 'custom-container',
+    avatar: 'custom-avatar',
+    name: 'custom-name',
+    address: 'custom-address',
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseSendContext.mockReturnValue(mockSendContext);
+    mockUseWalletContext.mockReturnValue(mockWalletContext);
   });
 
-  it('returns null when address is not provided', () => {
-    render(<SendAddressSelector {...mockProps} address={null} />);
+  it('returns null when recipientState.address is null', () => {
+    render(<SendAddressSelector classNames={mockClassNames} />);
 
     const container = screen.queryByTestId('ockSendAddressSelector_container');
 
@@ -46,7 +69,11 @@ describe('SendAddressSelector', () => {
   });
 
   it('returns null when senderChain is not provided', () => {
-    render(<SendAddressSelector {...mockProps} senderChain={undefined} />);
+    mockUseWalletContext.mockReturnValue({
+      ...mockWalletContext,
+      chain: null,
+    });
+    render(<SendAddressSelector classNames={mockClassNames} />);
 
     const container = screen.queryByTestId('ockSendAddressSelector_container');
 
@@ -54,7 +81,15 @@ describe('SendAddressSelector', () => {
   });
 
   it('renders with correct structure and classes', () => {
-    render(<SendAddressSelector {...mockProps} />);
+    mockUseSendContext.mockReturnValue({
+      ...mockSendContext,
+      recipientState: {
+        ...mockSendContext.recipientState,
+        address: '0x1234567890123456789012345678901234567890',
+        displayValue: 'test.base.eth',
+      },
+    });
+    render(<SendAddressSelector classNames={mockClassNames} />);
 
     const button = screen.getByTestId('ockSendAddressSelector_button');
     expect(button).toHaveAttribute('type', 'button');
@@ -70,12 +105,20 @@ describe('SendAddressSelector', () => {
   });
 
   it('passes correct props to identity components', () => {
-    render(<SendAddressSelector {...mockProps} />);
+    mockUseSendContext.mockReturnValue({
+      ...mockSendContext,
+      recipientState: {
+        ...mockSendContext.recipientState,
+        address: '0x1234567890123456789012345678901234567890',
+        displayValue: 'test.base.eth',
+      },
+    });
+    render(<SendAddressSelector classNames={mockClassNames} />);
 
     expect(Avatar).toHaveBeenCalledWith(
       expect.objectContaining({
-        address: mockProps.address,
-        chain: mockProps.senderChain,
+        address: '0x1234567890123456789012345678901234567890',
+        chain: mockWalletContext.chain,
         className: 'custom-avatar',
       }),
       {},
@@ -83,8 +126,8 @@ describe('SendAddressSelector', () => {
 
     expect(Name).toHaveBeenCalledWith(
       expect.objectContaining({
-        address: mockProps.address,
-        chain: mockProps.senderChain,
+        address: '0x1234567890123456789012345678901234567890',
+        chain: mockWalletContext.chain,
         className: 'custom-name',
       }),
       {},
@@ -92,7 +135,7 @@ describe('SendAddressSelector', () => {
 
     expect(Address).toHaveBeenCalledWith(
       expect.objectContaining({
-        address: mockProps.address,
+        address: '0x1234567890123456789012345678901234567890',
         hasCopyAddressOnClick: false,
         className: 'custom-address',
       }),
@@ -100,12 +143,20 @@ describe('SendAddressSelector', () => {
     );
   });
 
-  it('calls onClick when button is clicked', () => {
-    render(<SendAddressSelector {...mockProps} />);
+  it('calls onClick when button is clicked and recipientState.address is not null', () => {
+    mockUseSendContext.mockReturnValue({
+      ...mockSendContext,
+      recipientState: {
+        ...mockSendContext.recipientState,
+        address: '0x1234567890123456789012345678901234567890',
+        displayValue: 'test.base.eth',
+      },
+    });
+    render(<SendAddressSelector classNames={mockClassNames} />);
 
     const button = screen.getByTestId('ockSendAddressSelector_button');
     fireEvent.click(button);
 
-    expect(mockProps.onClick).toHaveBeenCalledTimes(1);
+    expect(mockSendContext.selectRecipient).toHaveBeenCalledTimes(1);
   });
 });

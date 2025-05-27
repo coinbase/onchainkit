@@ -14,14 +14,14 @@ import {
   useState,
 } from 'react';
 import { formatUnits } from 'viem';
+import { useAccount } from 'wagmi';
+import { usePortfolio } from '../../../hooks/usePortfolio';
 import type {
-  Recipient,
   SendContextType,
   SendLifecycleStatus,
   SendProviderReact,
 } from '../types';
-import { usePortfolio } from '@/wallet/hooks/usePortfolio';
-import { useAccount } from 'wagmi';
+import { useRecipientState } from '../hooks/useRecipientState';
 
 const emptyContext = {} as SendContextType;
 
@@ -36,12 +36,6 @@ export function useSendContext() {
 }
 
 export function SendProvider({ children }: SendProviderReact) {
-  // state for recipient address selection
-  const [selectedRecipient, setSelectedRecipient] = useState<Recipient>({
-    displayValue: '',
-    address: null,
-  });
-
   // state for token selection
   const [selectedToken, setSelectedToken] =
     useState<PortfolioTokenWithFiatValue | null>(null);
@@ -50,6 +44,14 @@ export function SendProvider({ children }: SendProviderReact) {
   );
   const [fiatAmount, setFiatAmount] = useState<string | null>(null);
   const [cryptoAmount, setCryptoAmount] = useState<string | null>(null);
+
+  const {
+    recipientState,
+    updateRecipientInput,
+    validateRecipientInput,
+    selectRecipient,
+    deselectRecipient,
+  } = useRecipientState();
 
   // lifecycle status
   const [lifecycleStatus, updateLifecycleStatus] =
@@ -133,33 +135,6 @@ export function SendProvider({ children }: SendProviderReact) {
     return 1 / Number(exchangeRateData.priceQuotes[0].price);
   }, [exchangeRateData]);
 
-  // handlers
-  const handleRecipientInputChange = useCallback(() => {
-    setSelectedRecipient({
-      displayValue: '',
-      address: null,
-    });
-    updateLifecycleStatus({
-      statusName: 'selectingAddress',
-      statusData: {
-        isMissingRequiredField: true,
-      },
-    });
-  }, [updateLifecycleStatus]);
-
-  const handleAddressSelection = useCallback(
-    async (selection: Recipient) => {
-      setSelectedRecipient(selection);
-      updateLifecycleStatus({
-        statusName: 'selectingToken',
-        statusData: {
-          isMissingRequiredField: true,
-        },
-      });
-    },
-    [updateLifecycleStatus],
-  );
-
   const handleTokenSelection = useCallback(
     (token: PortfolioTokenWithFiatValue) => {
       setSelectedToken(token);
@@ -220,10 +195,12 @@ export function SendProvider({ children }: SendProviderReact) {
     lifecycleStatus,
     updateLifecycleStatus,
     ethBalance,
-    selectedRecipient,
-    handleRecipientSelection: handleAddressSelection,
+    recipientState,
+    updateRecipientInput,
+    validateRecipientInput,
+    selectRecipient,
+    deselectRecipient,
     selectedToken,
-    handleRecipientInputChange,
     handleTokenSelection,
     handleResetTokenSelection,
     fiatAmount,

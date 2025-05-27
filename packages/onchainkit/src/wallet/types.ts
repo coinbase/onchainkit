@@ -4,8 +4,7 @@ import type { SwapDefaultReact } from '@/swap/types';
 import type { Token } from '@/token';
 import type { QueryObserverResult } from '@tanstack/react-query';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import type { Address, Chain, PublicClient } from 'viem';
-import type { UserOperation } from 'viem/_types/account-abstraction';
+import type { RpcUserOperation, Address, Chain, PublicClient } from 'viem';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
 
 export type ConnectButtonReact = {
@@ -57,7 +56,7 @@ export type IsValidAAEntrypointOptions = {
  */
 export type IsWalletACoinbaseSmartWalletOptions = {
   client: PublicClient;
-  userOp: UserOperation<'0.6'>;
+  userOp: RpcUserOperation<'0.6'>;
 };
 
 /**
@@ -113,6 +112,8 @@ export type WalletContextType = {
     container: string;
     content: string;
   };
+  /** Whether to sponsor transactions for Send feature of advanced wallet implementation */
+  isSponsored?: boolean;
 };
 
 /**
@@ -120,6 +121,8 @@ export type WalletContextType = {
  */
 export type WalletReact = {
   children?: React.ReactNode;
+  /** Whether to sponsor transactions for Send feature of advanced wallet implementation */
+  isSponsored?: boolean;
   className?: string;
 } & (
   | { draggable?: true; draggableStartingPosition?: { x: number; y: number } }

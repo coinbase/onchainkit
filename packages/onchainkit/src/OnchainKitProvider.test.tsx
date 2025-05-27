@@ -191,6 +191,8 @@ describe('OnchainKitProvider', () => {
             paymaster: paymasterUrl,
             wallet: {
               display: 'classic',
+              preference: 'all',
+              signUpEnabled: true,
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
               supportedWallets: {
@@ -236,6 +238,8 @@ describe('OnchainKitProvider', () => {
             paymaster: null,
             wallet: {
               display: 'classic',
+              preference: 'all',
+              signUpEnabled: true,
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
               supportedWallets: {
@@ -320,6 +324,8 @@ describe('OnchainKitProvider', () => {
             paymaster: 'https://example.com',
             wallet: {
               display: 'classic',
+              preference: 'all',
+              signUpEnabled: true,
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
               supportedWallets: {
@@ -459,6 +465,8 @@ describe('OnchainKitProvider', () => {
     const customConfig: AppConfig = {
       wallet: {
         display: 'modal',
+        preference: 'eoaOnly',
+        signUpEnabled: false,
         termsUrl: 'https://example.com/terms',
         privacyUrl: 'https://example.com/privacy',
         supportedWallets: {
@@ -489,6 +497,8 @@ describe('OnchainKitProvider', () => {
           config: expect.objectContaining({
             wallet: {
               display: 'modal',
+              preference: 'eoaOnly',
+              signUpEnabled: false,
               termsUrl: 'https://example.com/terms',
               privacyUrl: 'https://example.com/privacy',
               supportedWallets: {

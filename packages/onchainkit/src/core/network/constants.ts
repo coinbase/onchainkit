@@ -1,4 +1,4 @@
-import { version } from '../../version';
+import { version } from '@/version';
 
 export const POST_METHOD = 'POST';
 export const JSON_HEADERS = {

@@ -1,5 +1,53 @@
 # Changelog
 
+## 0.38.13
+
+### Patch Changes
+
+- **fix**: Update wagmi config if connectors change. By @dgca #2350
+
+## 0.38.12
+
+### Patch Changes
+
+- **fix**: MiniKit frames connector. By @dgca #2347
+
+## 0.38.11
+
+### Patch Changes
+
+- **feat**: Make "Sign Up" button optional in `<WalletModal/>`. By @dgca #2332
+- **fix**: Use mainnet to resolve ENS social media accounts. By @dgca #2333
+- **feat**: Configure Coinbase wallet preference via `<OnchainKitProvider/>`. By @dgca #2332
+- **fix**: Broken link in CHANGELOG. By @GarmashAlex #2331
+
+## 0.38.10
+
+### Patch Changes
+
+- **fix**: Fixed Basenames resolution. By @dgca #2329
+
+## 0.38.9
+
+### Patch Changes
+
+- **fix**: Cached default wagmi config to prevent accounts disconnecting when OnchainKit rerenders. By @brendan-defi #2319
+
+## 0.38.8
+
+### Patch Changes
+
+- **feat**: Add batch ENS / Basename resolution with useAddresses hook and getAddresses utility. By @cpcramer #2277
+- **chore**: Refactored getNames utility to leverage batch processing with getAddresses. By @cpcramer #2281
+- **fix**: Prevented video button clicks from propagating and small style fixes. By @alessey #2273
+- **chore**: Add bidirectional resolution validation when batching `Basenames` and `ENS` names. By @cpcramer #2264
+- **chore**: Separate Wagmi and Query default providers. By @dgca #2280
+- **fix**: Wallet modal UI fix. By @abcrane123 #2282
+- **feat**: Show recipient's ENS or Basename in send input. By @brendan-defi #2283
+- **chore**: Use Vite for package build. By @dgca #2227
+- **fix:**: add readyOptions pass through to sdk.actions.ready(). By @alessey #2300
+- **fix:**: update fid authentication against user.fid, allow optional. By @alessey #2299
+
 ## 0.38.7
 
 ### Patch Changes
@@ -177,7 +225,7 @@
 
   To fully disable telemetry collection, set the `analytics` flag to `false` in your OnchainKit Provider:
 
-  Learn more at https://onchainkit.xyz/guides/telemetry
+  Learn more at https://docs.base.org/builderkits/onchainkit/guides/telemetry
 
 ## 0.36.11
 

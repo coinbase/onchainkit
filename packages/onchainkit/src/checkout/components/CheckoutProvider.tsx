@@ -1,5 +1,4 @@
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
-import { getWindowDimensions } from '@/internal/utils/getWindowDimensions';
 import { openPopup } from '@/internal/utils/openPopup';
 import {
   createContext,
@@ -38,6 +37,11 @@ import type {
   CheckoutProviderReact,
   LifecycleStatus,
 } from '../types';
+import { ONRAMP_POPUP_HEIGHT, ONRAMP_POPUP_WIDTH } from '@/fund/constants';
+import {
+  normalizeStatus,
+  normalizeTransactionId,
+} from '@/internal/utils/normalizeWagmi';
 
 const emptyContext = {} as CheckoutContextType;
 export const CheckoutContext = createContext<CheckoutContextType>(emptyContext);
@@ -140,8 +144,8 @@ export function CheckoutProvider({
   const { status, writeContractsAsync } = useWriteContracts({
     /* v8 ignore start */
     mutation: {
-      onSuccess: (id) => {
-        setTransactionId(id);
+      onSuccess: (data) => {
+        setTransactionId(normalizeTransactionId(data));
       },
     },
     /* v8 ignore stop */
@@ -149,9 +153,11 @@ export function CheckoutProvider({
   const { data } = useCallsStatus({
     id: transactionId,
     query: {
-      /* v8 ignore next 3 */
+      /* v8 ignore next 5 */
       refetchInterval: (query) => {
-        return query.state.data?.status === 'CONFIRMED' ? false : 1000;
+        return normalizeStatus(query.state.data?.status) === 'success'
+          ? false
+          : 1000;
       },
       enabled: !!transactionId,
     },
@@ -286,12 +292,11 @@ export function CheckoutProvider({
 
       // Check for sufficient balance
       if (insufficientBalanceRef.current && priceInUSDCRef.current) {
-        const { height, width } = getWindowDimensions('md');
         openPopup({
           url: `https://keys.coinbase.com/fund?asset=USDC&chainId=8453&presetCryptoAmount=${priceInUSDCRef.current}`,
           target: '_blank',
-          height,
-          width,
+          height: ONRAMP_POPUP_HEIGHT,
+          width: ONRAMP_POPUP_WIDTH,
         });
         // Reset state
         insufficientBalanceRef.current = false;

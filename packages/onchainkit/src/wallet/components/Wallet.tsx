@@ -32,6 +32,7 @@ export function Wallet({
   className,
   draggable,
   draggableStartingPosition,
+  isSponsored,
 }: WalletReact) {
   const componentTheme = useTheme();
   const isMounted = useIsMounted();
@@ -42,7 +43,7 @@ export function Wallet({
   }
 
   return (
-    <WalletProvider>
+    <WalletProvider isSponsored={isSponsored}>
       <WalletContent
         className={cn(componentTheme, className)}
         {...getWalletDraggableProps({ draggable, draggableStartingPosition })}

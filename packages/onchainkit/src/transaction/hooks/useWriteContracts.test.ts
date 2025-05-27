@@ -12,7 +12,7 @@ interface UseWriteContractsConfig {
   mutation: {
     /* eslint-disable @typescript-eslint/no-explicit-any */
     onError?: (error: any) => void;
-    onSuccess?: (id: string) => void;
+    onSuccess?: (data: { id: string }) => void;
   };
 }
 
@@ -131,8 +131,8 @@ describe('useWriteContracts', () => {
   });
 
   it('should handle successful transaction', () => {
-    const transactionId = '0x123';
-    let onSuccessCallback: ((id: string) => void) | undefined;
+    const transactionId = { id: '0x123' };
+    let onSuccessCallback: ((data: { id: string }) => void) | undefined;
     (useWriteContractsWagmi as ReturnType<typeof vi.fn>).mockImplementation(
       ({ mutation }: UseWriteContractsConfig) => {
         onSuccessCallback = mutation.onSuccess;
@@ -150,6 +150,6 @@ describe('useWriteContracts', () => {
     );
     expect(onSuccessCallback).toBeDefined();
     onSuccessCallback?.(transactionId);
-    expect(mockSetTransactionId).toHaveBeenCalledWith(transactionId);
+    expect(mockSetTransactionId).toHaveBeenCalledWith(transactionId.id);
   });
 });

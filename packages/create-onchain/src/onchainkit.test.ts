@@ -1,4 +1,12 @@
-import { describe, it, expect, beforeEach, afterEach, vi, type Mock } from 'vitest';
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  vi,
+  type Mock,
+} from 'vitest';
 import fs from 'fs';
 import path from 'path';
 import prompts from 'prompts';
@@ -13,19 +21,19 @@ vi.mock('./utils.js', () => ({
   toValidPackageName: vi.fn().mockImplementation((name) => name),
 }));
 vi.mock('ora', () => ({
-  default: vi.fn()
+  default: vi.fn(),
 }));
 vi.mock('http', () => ({
   default: {
     createServer: vi.fn(() => ({
       listen: vi.fn().mockImplementation((_, callback) => callback()),
-      close: vi.fn()
-    }))
-  }
+      close: vi.fn(),
+    })),
+  },
 }));
 vi.mock('open', () => ({ default: vi.fn() }));
 vi.mock('prompts', () => ({
-  default: vi.fn()
+  default: vi.fn(),
 }));
 vi.mock('fs', async () => {
   const actual = await vi.importActual<typeof import('fs')>('fs');
@@ -43,8 +51,8 @@ vi.mock('fs', async () => {
         mkdir: vi.fn().mockResolvedValue(undefined),
         readdir: vi.fn().mockResolvedValue([]),
         readFile: vi.fn().mockResolvedValue('{}'),
-      }
-    }
+      },
+    },
   };
 });
 vi.mock('path', async () => {
@@ -53,18 +61,22 @@ vi.mock('path', async () => {
     default: {
       ...actual,
       resolve: vi.fn((...args) => {
-        if (args.some(arg => typeof arg === 'string' && arg.includes('templates'))) {
+        if (
+          args.some(
+            (arg) => typeof arg === 'string' && arg.includes('templates'),
+          )
+        ) {
           return actual.resolve(__dirname, '..', 'templates', 'minikit');
         }
         return actual.resolve(...args);
-      })
-    }
+      }),
+    },
   };
 });
 vi.mock('url', () => ({
   default: {
-    fileURLToPath: () => path.join(__dirname, '..', 'src', 'cli.ts')
-  }
+    fileURLToPath: () => path.join(__dirname, '..', 'src', 'cli.ts'),
+  },
 }));
 
 vi.spyOn(process, 'exit').mockImplementation((code) => {
@@ -81,11 +93,13 @@ describe('CLI', () => {
 
     (fs.promises.mkdir as Mock).mockResolvedValue(true);
     (fs.promises.readdir as Mock)
-      .mockResolvedValueOnce(
-        [{ name: 'test-file', isDirectory: vi.fn().mockReturnValue(true) }]
-      ).mockResolvedValueOnce(
-        [{ name: 'test-file-2', isDirectory: vi.fn().mockReturnValue(false) }]
-      ).mockResolvedValue([]);
+      .mockResolvedValueOnce([
+        { name: 'test-file', isDirectory: vi.fn().mockReturnValue(true) },
+      ])
+      .mockResolvedValueOnce([
+        { name: 'test-file-2', isDirectory: vi.fn().mockReturnValue(false) },
+      ])
+      .mockResolvedValue([]);
     (fs.promises.copyFile as Mock).mockResolvedValue(undefined);
     (fs.promises.readFile as Mock).mockResolvedValue(JSON.stringify({}));
     (fs.existsSync as Mock).mockResolvedValue(false);
@@ -102,7 +116,7 @@ describe('CLI', () => {
     process.argv = originalGetArgs;
     vi.resetAllMocks();
     vi.resetModules();
-  })
+  });
 
   it('creates a new OnchainKit project with smart wallet enabled', async () => {
     (prompts as unknown as Mock).mockResolvedValue({
@@ -113,23 +127,39 @@ describe('CLI', () => {
 
     await createOnchainKitTemplate();
 
-    expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.any(String), expect.stringContaining('NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=smartWalletOnly'));
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Created new OnchainKit project in'));
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.stringContaining(
+        'NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key',
+      ),
+    );
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Created new OnchainKit project in'),
+    );
   });
 
   it('creates a new OnchainKit project with analytics', async () => {
-    (prompts as unknown as Mock).mockResolvedValueOnce({
-      projectName: 'test-project',
-      clientKey: 'test-key',
-      smartWallet: true,
-    }).mockResolvedValueOnce({
-      analytics: true,
-    });
+    (prompts as unknown as Mock)
+      .mockResolvedValueOnce({
+        projectName: 'test-project',
+        clientKey: 'test-key',
+        smartWallet: true,
+      })
+      .mockResolvedValueOnce({
+        analytics: true,
+      });
 
     await createOnchainKitTemplate();
 
-    expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.any(String), expect.stringContaining('NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=smartWalletOnly'));
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Created new OnchainKit project in'));
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.stringContaining(
+        'NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key',
+      ),
+    );
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Created new OnchainKit project in'),
+    );
   });
 
   it('validates the directory', async () => {
@@ -153,20 +183,9 @@ describe('CLI', () => {
     await expect(createOnchainKitTemplate()).rejects.toThrow('1');
 
     expect(logSpy).toHaveBeenCalledWith(
-      expect.stringContaining('Directory already exists and is not empty. Please choose a different name.')
+      expect.stringContaining(
+        'Directory already exists and is not empty. Please choose a different name.',
+      ),
     );
-  });
-
-  it('creates a new OnchainKit project with smart wallet not enabled', async () => {
-    (prompts as unknown as Mock).mockResolvedValue({
-      projectName: 'test-project',
-      clientKey: 'test-key',
-      smartWallet: false,
-    });
-
-    await createOnchainKitTemplate();
-
-    expect(fs.promises.writeFile).toHaveBeenCalledWith(expect.any(String), expect.stringContaining('NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key\nNEXT_PUBLIC_ONCHAINKIT_WALLET_CONFIG=all'));
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Created new OnchainKit project in'));
   });
 });

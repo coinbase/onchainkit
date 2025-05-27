@@ -1,4 +1,4 @@
-import { version } from '../../version';
+import { version } from '@/version';
 import { ONRAMP_BUY_URL } from '../constants';
 import type {
   GetOnrampUrlWithProjectIdParams,

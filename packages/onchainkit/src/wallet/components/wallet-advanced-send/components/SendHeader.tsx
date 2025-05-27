@@ -22,23 +22,23 @@ export function SendHeader({ label = 'Send', classNames }: SendHeaderProps) {
   const { setActiveFeature } = useWalletContext();
 
   const {
-    selectedRecipient,
+    recipientState,
     selectedToken,
     handleResetTokenSelection,
-    handleRecipientInputChange,
+    deselectRecipient,
   } = useSendContext();
 
   const handleBack = useCallback(() => {
     if (selectedToken) {
       handleResetTokenSelection();
-    } else if (selectedRecipient.address) {
-      handleRecipientInputChange();
+    } else if (recipientState.address) {
+      deselectRecipient();
     }
   }, [
-    selectedRecipient,
+    recipientState.address,
     selectedToken,
     handleResetTokenSelection,
-    handleRecipientInputChange,
+    deselectRecipient,
   ]);
 
   const handleClose = useCallback(() => {
@@ -54,7 +54,7 @@ export function SendHeader({ label = 'Send', classNames }: SendHeaderProps) {
       )}
     >
       <div data-testid="ockSendHeader_back" className="justify-self-start">
-        {selectedRecipient.address && (
+        {recipientState.phase === 'selected' && (
           <PressableIcon
             onClick={handleBack}
             className={cn('h-7 w-7 scale-110 p-2', classNames?.back)}

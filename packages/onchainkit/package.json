@@ -1,41 +1,32 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.38.7",
+  "version": "0.38.13",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "pnpm clean && pnpm bundle:prod && pnpm tailwind:prod",
     "dev": "concurrently \"pnpm tailwind:dev\" \"pnpm bundle:dev\"",
-    "bundle:dev": "tsup -- --watch",
-    "bundle:dev:no-watch": "tsup",
-    "bundle:prod": "packemon build --addEngines --addFiles --loadConfigs --declaration && tscpaths -p tsconfig.json -s ./src -o ./esm && npx packemon validate --no-license --no-people --no-repo",
+    "bundle:dev": "NODE_ENV=development vite build --watch",
+    "bundle:prod": "vite build",
     "tailwind:dev": "tailwind -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --watch",
     "tailwind:prod": "tailwindcss -i ./src/styles/index.css -o ./dist/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --minify",
     "clean": "rm -rf dist esm",
-    "check": "eslint . --ext .ts,.tsx && prettier --check .",
-    "check:unsafe": "eslint . --ext .ts,.tsx --fix && prettier --write .",
-    "ci:check": "eslint . --ext .ts,.tsx --max-warnings=0",
-    "ci:format": "prettier --check .",
-    "ci:lint": "eslint . --ext .ts,.tsx --max-warnings=0",
+    "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --write .",
-    "lint": "eslint . --ext .ts,.tsx --fix",
-    "lint:unsafe": "eslint . --ext .ts,.tsx --fix --max-warnings=0",
-    "storybook:dev": "storybook dev -p 6006",
-    "storybook:build": "storybook build",
-    "storybook:test": "test-storybook",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "watch": "tailwind -i ./src/styles/index-with-tailwind.css -o ./src/styles.css --watch",
-    "watch:tailwind": "tailwind -i ./src/styles/index.css -o ./src/tailwind.css --watch",
     "get-next-version": "node ./scripts/get-next-version.js",
     "publish-alpha": "node ./scripts/publish-alpha.js",
     "validate-build": "node ./scripts/validate-build.js"
   },
   "peerDependencies": {
-    "@types/react": "^18 || ^19",
     "react": "^18 || ^19",
     "react-dom": "^18 || ^19"
   },
@@ -49,20 +40,10 @@
     "graphql-request": "^6.1.0",
     "qrcode": "^1.5.4",
     "tailwind-merge": "^2.3.0",
-    "viem": "^2.23.0",
+    "viem": "^2.27.2",
     "wagmi": "^2.14.11"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^1.7.0",
-    "@storybook/addon-a11y": "^8.2.9",
-    "@storybook/addon-essentials": "^8.2.9",
-    "@storybook/addon-interactions": "^8.2.9",
-    "@storybook/addon-links": "^8.2.9",
-    "@storybook/blocks": "^8.2.9",
-    "@storybook/react": "^8.2.9",
-    "@storybook/react-vite": "^8.2.9",
-    "@storybook/test": "^8.2.9",
-    "@storybook/test-runner": "^0.19.1",
     "@testing-library/jest-dom": "6.4.7",
     "@testing-library/react": "^14.2.0",
     "@testing-library/user-event": "^14.6.1",
@@ -70,12 +51,16 @@
     "@types/qrcode": "^1",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vitejs/plugin-react": "^4.3.4",
     "@vitest/coverage-v8": "^3.0.5",
     "@vitest/ui": "^3.0.5",
     "autoprefixer": "^10.4.19",
     "babel-plugin-module-resolver": "^5.0.2",
     "concurrently": "^8.0.0",
     "esbuild-fix-imports-plugin": "^1.0.19",
+    "esbuild-plugin-babel": "^0.2.3",
+    "glob": "^11.0.1",
+    "globals": "^15.15.0",
     "graphql": "^14",
     "graphql-request": "^6.1.0",
     "jsdom": "^24.1.0",
@@ -83,140 +68,138 @@
     "react": "^18",
     "react-dom": "^18",
     "rimraf": "^5.0.5",
+    "rollup-plugin-preserve-use-client": "^3.0.1",
     "storybook": "^8.2.9",
     "tailwindcss": "^3.4.3",
     "tailwindcss-animate": "^1.0.7",
     "tscpaths": "^0.0.9",
     "tsup": "^8.3.5",
-    "vite": "^5.3.3",
+    "vite": "^5.4.19",
+    "vite-plugin-dts": "^4.5.3",
+    "vite-plugin-externalize-deps": "^0.9.0",
     "vitest": "^3.0.5"
   },
-  "packemon": [
-    {
-      "bundle": false,
-      "platform": [
-        "browser"
-      ]
+  "overrides": {
+    "wagmi": {
+      "viem": "$viem"
+    },
+    "@wagmi/core": {
+      "viem": "$viem"
     }
-  ],
-  "publishConfig": {
-    "access": "public"
   },
   "files": [
     "dist/**/*",
-    "esm/**/*",
-    "src/",
     "src/**/*"
   ],
-  "main": "./esm/index.js",
-  "types": "./esm/index.d.ts",
-  "module": "./esm/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
   "exports": {
     "./package.json": "./package.json",
     "./styles.css": "./dist/styles.css",
     "./tailwind.css": "./dist/tailwind.css",
-    "./theme": "./esm/styles/theme.js",
+    "./theme": "./dist/styles/theme.js",
     ".": {
-      "types": "./esm/index.d.ts",
-      "module": "./esm/index.js",
-      "import": "./esm/index.js",
-      "default": "./esm/index.js"
+      "types": "./dist/index.d.ts",
+      "module": "./dist/index.js",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./api": {
-      "types": "./esm/api/index.d.ts",
-      "module": "./esm/api/index.js",
-      "import": "./esm/api/index.js",
-      "default": "./esm/api/index.js"
+      "types": "./dist/api/index.d.ts",
+      "module": "./dist/api/index.js",
+      "import": "./dist/api/index.js",
+      "default": "./dist/api/index.js"
     },
     "./appchain": {
-      "types": "./esm/appchain/index.d.ts",
-      "module": "./esm/appchain/index.js",
-      "import": "./esm/appchain/index.js",
-      "default": "./esm/appchain/index.js"
+      "types": "./dist/appchain/index.d.ts",
+      "module": "./dist/appchain/index.js",
+      "import": "./dist/appchain/index.js",
+      "default": "./dist/appchain/index.js"
     },
     "./buy": {
-      "types": "./esm/buy/index.d.ts",
-      "module": "./esm/buy/index.js",
-      "import": "./esm/buy/index.js",
-      "default": "./esm/buy/index.js"
+      "types": "./dist/buy/index.d.ts",
+      "module": "./dist/buy/index.js",
+      "import": "./dist/buy/index.js",
+      "default": "./dist/buy/index.js"
     },
     "./checkout": {
-      "types": "./esm/checkout/index.d.ts",
-      "module": "./esm/checkout/index.js",
-      "import": "./esm/checkout/index.js",
-      "default": "./esm/checkout/index.js"
+      "types": "./dist/checkout/index.d.ts",
+      "module": "./dist/checkout/index.js",
+      "import": "./dist/checkout/index.js",
+      "default": "./dist/checkout/index.js"
     },
     "./earn": {
-      "types": "./esm/earn/index.d.ts",
-      "module": "./esm/earn/index.js",
-      "import": "./esm/earn/index.js",
-      "default": "./esm/earn/index.js"
+      "types": "./dist/earn/index.d.ts",
+      "module": "./dist/earn/index.js",
+      "import": "./dist/earn/index.js",
+      "default": "./dist/earn/index.js"
     },
     "./fund": {
-      "types": "./esm/fund/index.d.ts",
-      "module": "./esm/fund/index.js",
-      "import": "./esm/fund/index.js",
-      "default": "./esm/fund/index.js"
+      "types": "./dist/fund/index.d.ts",
+      "module": "./dist/fund/index.js",
+      "import": "./dist/fund/index.js",
+      "default": "./dist/fund/index.js"
     },
     "./identity": {
-      "types": "./esm/identity/index.d.ts",
-      "module": "./esm/identity/index.js",
-      "import": "./esm/identity/index.js",
-      "default": "./esm/identity/index.js"
+      "types": "./dist/identity/index.d.ts",
+      "module": "./dist/identity/index.js",
+      "import": "./dist/identity/index.js",
+      "default": "./dist/identity/index.js"
     },
     "./minikit": {
-      "types": "./esm/minikit/index.d.ts",
-      "module": "./esm/minikit/index.js",
-      "import": "./esm/minikit/index.js",
-      "default": "./esm/minikit/index.js"
+      "types": "./dist/minikit/index.d.ts",
+      "module": "./dist/minikit/index.js",
+      "import": "./dist/minikit/index.js",
+      "default": "./dist/minikit/index.js"
     },
     "./nft": {
-      "types": "./esm/nft/index.d.ts",
-      "module": "./esm/nft/index.js",
-      "import": "./esm/nft/index.js",
-      "default": "./esm/nft/index.js"
+      "types": "./dist/nft/index.d.ts",
+      "module": "./dist/nft/index.js",
+      "import": "./dist/nft/index.js",
+      "default": "./dist/nft/index.js"
     },
     "./nft/view": {
-      "types": "./esm/nft/components/view/index.d.ts",
-      "module": "./esm/nft/components/view/index.js",
-      "import": "./esm/nft/components/view/index.js",
-      "default": "./esm/nft/components/view/index.js"
+      "types": "./dist/nft/components/view/index.d.ts",
+      "module": "./dist/nft/components/view/index.js",
+      "import": "./dist/nft/components/view/index.js",
+      "default": "./dist/nft/components/view/index.js"
     },
     "./nft/mint": {
-      "types": "./esm/nft/components/mint/index.d.ts",
-      "module": "./esm/nft/components/mint/index.js",
-      "import": "./esm/nft/components/mint/index.js",
-      "default": "./esm/nft/components/mint/index.js"
+      "types": "./dist/nft/components/mint/index.d.ts",
+      "module": "./dist/nft/components/mint/index.js",
+      "import": "./dist/nft/components/mint/index.js",
+      "default": "./dist/nft/components/mint/index.js"
     },
     "./signature": {
-      "types": "./esm/signature/index.d.ts",
-      "module": "./esm/signature/index.js",
-      "import": "./esm/signature/index.js",
-      "default": "./esm/signature/index.js"
+      "types": "./dist/signature/index.d.ts",
+      "module": "./dist/signature/index.js",
+      "import": "./dist/signature/index.js",
+      "default": "./dist/signature/index.js"
     },
     "./swap": {
-      "types": "./esm/swap/index.d.ts",
-      "module": "./esm/swap/index.js",
-      "import": "./esm/swap/index.js",
-      "default": "./esm/swap/index.js"
+      "types": "./dist/swap/index.d.ts",
+      "module": "./dist/swap/index.js",
+      "import": "./dist/swap/index.js",
+      "default": "./dist/swap/index.js"
     },
     "./token": {
-      "types": "./esm/token/index.d.ts",
-      "module": "./esm/token/index.js",
-      "import": "./esm/token/index.js",
-      "default": "./esm/token/index.js"
+      "types": "./dist/token/index.d.ts",
+      "module": "./dist/token/index.js",
+      "import": "./dist/token/index.js",
+      "default": "./dist/token/index.js"
     },
     "./transaction": {
-      "types": "./esm/transaction/index.d.ts",
-      "module": "./esm/transaction/index.js",
-      "import": "./esm/transaction/index.js",
-      "default": "./esm/transaction/index.js"
+      "types": "./dist/transaction/index.d.ts",
+      "module": "./dist/transaction/index.js",
+      "import": "./dist/transaction/index.js",
+      "default": "./dist/transaction/index.js"
     },
     "./wallet": {
-      "types": "./esm/wallet/index.d.ts",
-      "module": "./esm/wallet/index.js",
-      "import": "./esm/wallet/index.js",
-      "default": "./esm/wallet/index.js"
+      "types": "./dist/wallet/index.d.ts",
+      "module": "./dist/wallet/index.js",
+      "import": "./dist/wallet/index.js",
+      "default": "./dist/wallet/index.js"
     }
   },
   "packageManager": "pnpm@10.6.3"

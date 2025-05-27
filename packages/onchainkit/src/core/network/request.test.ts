@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { version } from '../../version';
+import { version } from '@/version';
 import { setOnchainKitConfig } from '../OnchainKitConfig';
 import { RequestContext } from './constants';
 import { buildRequestBody, sendRequest } from './request';

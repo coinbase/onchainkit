@@ -1,5 +1,4 @@
-import type { PublicClient } from 'viem';
-import type { UserOperation } from 'viem/_types/account-abstraction';
+import type { PublicClient, RpcUserOperation } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import {
   CB_SW_PROXY_BYTECODE,
@@ -16,7 +15,7 @@ describe('isWalletACoinbaseSmartWallet', () => {
   it('should return false for an undeployed account that does not use the Smart Wallet factory', async () => {
     const userOp = {
       initCode: 'other-factory',
-    } as unknown as UserOperation<'0.6'>;
+    } as unknown as RpcUserOperation<'0.6'>;
 
     (client.getBytecode as Mock).mockReturnValue(undefined);
 
@@ -31,7 +30,7 @@ describe('isWalletACoinbaseSmartWallet', () => {
   it('should return true for an undeployed account that does use the Smart Wallet factory', async () => {
     const userOp = {
       initCode: '0x0BA5ED0c6AA8c49038F819E587E2633c4A9F428a1234',
-    } as unknown as UserOperation<'0.6'>;
+    } as unknown as RpcUserOperation<'0.6'>;
 
     (client.getBytecode as Mock).mockReturnValue(undefined);
 
@@ -44,7 +43,7 @@ describe('isWalletACoinbaseSmartWallet', () => {
   it('should return false for an invalid sender proxy address', async () => {
     const userOp = {
       sender: 'invalid-proxy-address',
-    } as unknown as UserOperation<'0.6'>;
+    } as unknown as RpcUserOperation<'0.6'>;
 
     (client.getBytecode as Mock).mockReturnValue('invalid bytecode');
     (client.request as Mock).mockResolvedValue(
@@ -62,7 +61,7 @@ describe('isWalletACoinbaseSmartWallet', () => {
   it('should return false when the implementation address does not match COINBASE_SMART_WALLET_V1_IMPLEMENTATION', async () => {
     const userOp = {
       sender: 'valid-proxy-address',
-    } as unknown as UserOperation<'0.6'>;
+    } as unknown as RpcUserOperation<'0.6'>;
 
     (client.getBytecode as Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
     const differentImplementationAddress =
@@ -86,7 +85,7 @@ describe('isWalletACoinbaseSmartWallet', () => {
 
     const userOp = {
       sender: 'valid-proxy-address',
-    } as unknown as UserOperation<'0.6'>;
+    } as unknown as RpcUserOperation<'0.6'>;
 
     (client.getBytecode as Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
     (client.request as Mock).mockResolvedValue(
@@ -100,7 +99,7 @@ describe('isWalletACoinbaseSmartWallet', () => {
   it('should return false when there is an error retrieving bytecode', async () => {
     const userOp = {
       sender: 'error-address',
-    } as unknown as UserOperation<'0.6'>;
+    } as unknown as RpcUserOperation<'0.6'>;
 
     (client.getBytecode as Mock).mockRejectedValue(
       new Error('Failed to fetch bytecode'),
@@ -120,7 +119,7 @@ describe('isWalletACoinbaseSmartWallet', () => {
   it('should return false when there is an error retrieving implementation address', async () => {
     const userOp = {
       sender: 'valid-proxy-address',
-    } as unknown as UserOperation<'0.6'>;
+    } as unknown as RpcUserOperation<'0.6'>;
 
     (client.getBytecode as Mock).mockResolvedValue(CB_SW_PROXY_BYTECODE);
     (client.request as Mock).mockRejectedValue(

@@ -1,4 +1,4 @@
-import { MOCK_EARN_CONTEXT } from '@/earn/mocks';
+import { MOCK_EARN_CONTEXT } from '@/earn/mocks/mocks.test';
 import type { EarnContextType } from '@/earn/types';
 import { usdcToken } from '@/token/constants';
 import { fireEvent, render, screen } from '@testing-library/react';

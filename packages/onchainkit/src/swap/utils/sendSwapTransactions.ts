@@ -1,3 +1,4 @@
+import { normalizeTransactionId } from '@/internal/utils/normalizeWagmi';
 import { Capabilities } from '../../core/constants';
 import type { SendSwapTransactionParams } from '../types';
 import { sendSingleTransactions } from './sendSingleTransactions';
@@ -17,7 +18,7 @@ export async function sendSwapTransactions({
     updateLifecycleStatus({
       statusName: 'transactionPending',
     });
-    const callsId = await sendCallsAsync({
+    const data = await sendCallsAsync({
       calls: transactions.map(({ transaction }) => transaction),
       capabilities: isSponsored
         ? {
@@ -30,7 +31,7 @@ export async function sendSwapTransactions({
     updateLifecycleStatus({
       statusName: 'transactionApproved',
       statusData: {
-        callsId,
+        callsId: normalizeTransactionId(data) as `0x${string}`,
         transactionType: 'Batched',
       },
     });
