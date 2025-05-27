@@ -16,7 +16,7 @@ type UsePriceQuoteParams<T> = {
 
 export function usePriceQuote(
   params: UsePriceQuoteParams<GetPriceQuoteResponse>,
-  _context: RequestContextType = RequestContext.Hook, 
+  _context: RequestContextType = RequestContext.Hook,
 ): UseQueryResult<GetPriceQuoteResponse> {
   const { token, queryOptions } = params;
 
