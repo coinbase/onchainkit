@@ -42,6 +42,7 @@
   "devDependencies": {
     "@babel/core": "^7.26.10",
     "@babel/helper-plugin-utils": "^7.26.5",
+    "@babel/preset-react": "^7.27.1",
     "@babel/types": "^7.27.0",
     "@tailwindcss/postcss": "^4.1.4",
     "@testing-library/jest-dom": "6.4.7",
