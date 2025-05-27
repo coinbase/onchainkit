@@ -16,6 +16,7 @@ import { useCallback } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
 import { useWalletContext } from './WalletProvider';
 import { usePortfolio } from '../hooks/usePortfolio';
+import { RequestContext } from '@/core/network/constants';
 
 type WalletAdvancedWalletActionsProps = {
   classNames?: {
@@ -35,7 +36,10 @@ export function WalletAdvancedWalletActions({
   const { disconnect, connectors } = useDisconnect();
   const { sendAnalytics } = useAnalytics();
 
-  const { refetch: refetchPortfolioData } = usePortfolio({ address }, 'wallet');
+  const { refetch: refetchPortfolioData } = usePortfolio(
+    { address },
+    RequestContext.Wallet,
+  );
 
   const handleAnalyticsOptionSelected = useCallback(
     (option: WalletOptionType) => {
