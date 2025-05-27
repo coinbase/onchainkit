@@ -1,13 +1,16 @@
 import { MOCK_EARN_CONTEXT } from '@/earn/mocks/mocks.test';
 import type { EarnContextType } from '@/earn/types';
 import type { MakeRequired } from '@/internal/types';
-import type { Call } from '@/transaction/types';
+import type { Call, TransactionButtonRenderParams } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
-import { type Mock, describe, expect, it, vi } from 'vitest';
+import { act } from 'react';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
 import { useEarnContext } from './EarnProvider';
 import { WithdrawButton } from './WithdrawButton';
+import React, { useCallback } from 'react';
+import { Token } from '@/token';
 
 // Address required to avoid connect wallet prompt
 const baseContext: MakeRequired<EarnContextType, 'recipientAddress'> = {
@@ -26,21 +29,45 @@ vi.mock('wagmi', () => ({
   useCapabilities: vi.fn(),
 }));
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let capturedRenderFunction:
+  | ((params: TransactionButtonRenderParams) => JSX.Element)
+  | null = null;
+
+let currentContext = {
+  receipt: null,
+  errorMessage: '',
+  isLoading: false,
+};
+
+vi.mock('@/internal/components/Spinner', () => ({
+  Spinner: () => <div data-testid="spinner">Loading...</div>,
+}));
+
 vi.mock('@/transaction', async (importOriginal) => {
   return {
     ...(await importOriginal<typeof import('@/transaction')>()),
     TransactionLifecycleStatus: vi.fn(),
     TransactionButton: ({
-      text,
+      render,
       disabled,
     }: {
-      text: string;
+      render: (params: TransactionButtonRenderParams) => JSX.Element;
       disabled: boolean;
-    }) => (
-      <button type="button" disabled={disabled} data-testid="transactionButton">
-        {text}
-      </button>
-    ),
+    }) => {
+      // Store the render function for later use in tests
+      capturedRenderFunction = render;
+
+      const params = {
+        context: currentContext,
+        onSubmit: vi.fn(),
+        onSuccess: vi.fn(),
+        isDisabled: disabled,
+      } as unknown as TransactionButtonRenderParams;
+
+      // Return the rendered component
+      return render(params);
+    },
     Transaction: ({
       onStatus,
       onSuccess,
@@ -107,6 +134,15 @@ vi.mock('@/internal/hooks/useTheme', () => ({
 }));
 
 describe('WithdrawButton Component', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    capturedRenderFunction = null;
+    currentContext = {
+      receipt: null,
+      errorMessage: '',
+      isLoading: false,
+    };
+  });
   it('renders ConnectWallet if no account is connected', () => {
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
@@ -132,7 +168,7 @@ describe('WithdrawButton Component', () => {
     expect(connectWalletButton).toBeInTheDocument();
   });
 
-  it('renders Transaction with depositCalls from EarnProvider', () => {
+  it('renders Transaction with withdrawCalls from EarnProvider', () => {
     const mockWithdrawCalls = [{ to: '0x123', data: '0x456' }] as Call[];
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
@@ -145,19 +181,7 @@ describe('WithdrawButton Component', () => {
     expect(transactionElement).toBeInTheDocument();
   });
 
-  it('renders TransactionButton with the correct text', () => {
-    vi.mocked(useEarnContext).mockReturnValue({
-      ...baseContext,
-      withdrawAmount: '',
-      withdrawCalls: [],
-    });
-
-    const { container } = render(<WithdrawButton />);
-
-    expect(container).toHaveTextContent('Withdraw');
-  });
-
-  it('surfaces Transaction lifecycle statuses', () => {
+  it('surfaces Transaction lifecycle statuses', async () => {
     const mockUpdateLifecycleStatus = vi.fn();
     vi.mocked(useEarnContext).mockReturnValue({
       ...baseContext,
@@ -168,17 +192,26 @@ describe('WithdrawButton Component', () => {
     render(<WithdrawButton />);
 
     // Simulate different transaction states using the mock buttons
-    screen.getByText('TransactionPending').click();
+    await act(async () => {
+      screen.getByText('TransactionPending').click();
+    });
+
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionPending',
     });
 
-    screen.getByText('Success').click();
+    await act(async () => {
+      screen.getByText('Success').click();
+    });
+
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'success',
     });
 
-    screen.getByText('Error').click();
+    await act(async () => {
+      screen.getByText('Error').click();
+    });
+
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
     });
@@ -193,20 +226,144 @@ describe('WithdrawButton Component', () => {
 
     render(<WithdrawButton />);
 
-    screen.getByText('Success').click();
+    await act(async () => {
+      screen.getByText('Success').click();
+    });
+
     expect(mockSetWithdrawAmount).toHaveBeenCalledWith('');
   });
 
-  it('disables the button and shows an error message when there is an error', () => {
-    vi.mocked(useEarnContext).mockReturnValue({
-      ...baseContext,
-      withdrawAmountError: 'Error',
+  describe('customRender function', () => {
+    it('renders default withdraw button when no special state', () => {
+      vi.mocked(useEarnContext).mockReturnValue({
+        ...baseContext,
+        withdrawCalls: [{ to: '0x123', data: '0x456' }],
+      });
+
+      render(<WithdrawButton />);
+
+      const button = screen.getByText('Withdraw');
+      expect(button).toBeInTheDocument();
+      expect(button.tagName).toBe('BUTTON');
     });
 
-    render(<WithdrawButton />);
+    it('renders loading state with spinner', () => {
+      vi.mocked(useEarnContext).mockReturnValue({
+        ...baseContext,
+        withdrawCalls: [{ to: '0x123', data: '0x456' }],
+      });
 
-    const transactionButton = screen.getByTestId('transactionButton');
-    expect(transactionButton).toBeDisabled();
-    expect(transactionButton).toHaveTextContent('Error');
+      const { rerender } = render(<WithdrawButton />);
+
+      currentContext = {
+        ...currentContext,
+        isLoading: true,
+      };
+
+      rerender(<WithdrawButton />);
+
+      const spinner = screen.getByTestId('spinner');
+      expect(spinner).toBeInTheDocument();
+    });
+
+    it('renders error state with error message', () => {
+      const withdrawAmountError = 'Invalid deposit amount';
+
+      vi.mocked(useEarnContext).mockReturnValue({
+        ...baseContext,
+        withdrawCalls: [{ to: '0x123', data: '0x456' }],
+        withdrawAmountError,
+      });
+
+      const { rerender } = render(<WithdrawButton />);
+
+      currentContext = {
+        ...currentContext,
+        errorMessage: 'Some error occurred',
+      };
+
+      rerender(<WithdrawButton />);
+
+      const errorButton = screen.getByText(withdrawAmountError);
+      expect(errorButton).toBeInTheDocument();
+    });
+
+    it('renders receipt state with deposited amount', () => {
+      const depositedAmount = '100';
+      const vaultTokenSymbol = 'ETH';
+
+      vi.mocked(useEarnContext).mockReturnValue({
+        ...baseContext,
+        withdrawCalls: [{ to: '0x123', data: '0x456' }],
+        vaultToken: { symbol: vaultTokenSymbol } as Token,
+      });
+
+      const CustomRenderTest = () => {
+        const [depositedAmt] = React.useState(depositedAmount);
+
+        const params: TransactionButtonRenderParams = {
+          context: {
+            receipt: { hash: '0x789' }, // Receipt state
+            errorMessage: '',
+            isLoading: false,
+          },
+          onSubmit: vi.fn(),
+          onSuccess: vi.fn(),
+          isDisabled: false,
+        } as unknown as TransactionButtonRenderParams;
+
+        const customRender = useCallback(
+          ({ context }: TransactionButtonRenderParams) => {
+            const classNames = 'mock-class-names';
+
+            if (context.receipt) {
+              return (
+                <button className={classNames}>
+                  {`Deposited ${depositedAmt} ${vaultTokenSymbol}`}
+                </button>
+              );
+            }
+
+            return <button>Placeholder</button>;
+          },
+          [depositedAmt],
+        );
+
+        return customRender(params);
+      };
+
+      render(<CustomRenderTest />);
+
+      const successMessage = `Deposited ${depositedAmount} ${vaultTokenSymbol}`;
+      const receiptButton = screen.getByText(successMessage);
+      expect(receiptButton).toBeInTheDocument();
+    });
+
+    it('disables button when withdrawAmountError exists', () => {
+      vi.mocked(useEarnContext).mockReturnValue({
+        ...baseContext,
+        withdrawCalls: [{ to: '0x123', data: '0x456' }],
+        withdrawAmountError: 'invalid amount',
+        withdrawAmount: '100',
+      });
+
+      render(<WithdrawButton />);
+
+      const transactionButton = screen.getByText('Withdraw');
+      expect(transactionButton).toHaveAttribute('disabled');
+    });
+
+    it('disables button when withdrawAmount is empty', () => {
+      vi.mocked(useEarnContext).mockReturnValue({
+        ...baseContext,
+        withdrawCalls: [{ to: '0x123', data: '0x456' }],
+        withdrawAmount: '',
+      });
+
+      render(<WithdrawButton />);
+
+      const transactionButton = screen.getByText('Withdraw');
+      expect(transactionButton).toHaveAttribute('disabled');
+    });
   });
 });

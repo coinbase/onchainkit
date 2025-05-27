@@ -1,5 +1,6 @@
 export enum OnchainKitComponent {
   FundButton = 'fund-button',
+  FundButtonWithRenderProp = 'fund-button-with-render-prop',
   FundCard = 'fund-card',
   Buy = 'buy',
   Identity = 'identity',
@@ -8,6 +9,7 @@ export enum OnchainKitComponent {
   Swap = 'swap',
   SwapDefault = 'swap-default',
   Transaction = 'transaction',
+  TransactionWithRenderProp = 'transaction-with-render-prop',
   TransactionDefault = 'transaction-default',
   Wallet = 'wallet',
   WalletDefault = 'wallet-default',

@@ -4,8 +4,8 @@ import { useContext, useEffect, useState } from 'react';
 
 export function usePaymaster() {
   const { chainId, paymasters } = useContext(AppContext);
-  const paymasterUrl = chainId ? paymasters?.[chainId]?.url ?? '' : '';
-  const enabled = chainId ? paymasters?.[chainId]?.enabled ?? false : false;
+  const paymasterUrl = chainId ? (paymasters?.[chainId]?.url ?? '') : '';
+  const enabled = chainId ? (paymasters?.[chainId]?.enabled ?? false) : false;
 
   return {
     paymasterUrl,

@@ -65,7 +65,7 @@ describe('SendFundWallet', () => {
           expect.any(Object), // FundCardSubmitButton
         ],
       },
-      {},
+      undefined,
     );
   });
 

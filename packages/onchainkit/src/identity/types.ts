@@ -54,9 +54,9 @@ export type AvatarReact = {
   /** Optional className override for top div element. */
   className?: string;
   /** Optional custom component to display while the avatar data is loading. */
-  loadingComponent?: JSX.Element;
+  loadingComponent?: ReactNode;
   /** Optional custom component to display when no ENS name or avatar is available. */
-  defaultComponent?: JSX.Element;
+  defaultComponent?: ReactNode;
   /** Optional attestation by passing Badge component as its children */
   children?: ReactNode;
 } & ImgHTMLAttributes<HTMLImageElement>; /** Optional additional image attributes to apply to the avatar. */
@@ -146,8 +146,6 @@ export type GetAddress = {
 export type GetAddresses = {
   /** Array of names to resolve addresses for */
   names: Array<string | Basename>;
-  /** Optional chain for domain resolution */
-  chain?: Chain;
 };
 
 /**
@@ -301,8 +299,6 @@ export type UseAddressOptions = {
 export type UseAddressesOptions = {
   /** Array of ENS or Basenames to resolve addresses for */
   names: Array<string | Basename>;
-  /** Optional chain for domain resolution */
-  chain?: Chain;
 };
 
 /**

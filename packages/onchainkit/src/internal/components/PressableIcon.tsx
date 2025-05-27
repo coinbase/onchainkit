@@ -1,4 +1,4 @@
-import { border, cn, pressable } from '@/styles/theme';
+import { cn, pressable } from '@/styles/theme';
 import type { ReactNode } from 'react';
 
 type PressableIconProps = {
@@ -22,8 +22,8 @@ export function PressableIcon({
       aria-label={ariaLabel}
       className={cn(
         pressable.default,
-        border.radiusInner,
-        border.default,
+        'rounded-ock-inner',
+        'border-ock-bg-default',
         'flex items-center justify-center',
         className,
       )}

@@ -6,9 +6,9 @@ import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
-import { background, border, cn } from '../../styles/theme';
+import { border, cn } from '../../styles/theme';
 import type {
-  FundCardPaymentMethodDropdownPropsReact,
+  FundCardPaymentMethodDropdownProps,
   PaymentMethod,
 } from '../types';
 import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow';
@@ -17,7 +17,7 @@ import { useFundContext } from './FundCardProvider';
 
 export function FundCardPaymentMethodDropdown({
   className,
-}: FundCardPaymentMethodDropdownPropsReact) {
+}: FundCardPaymentMethodDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const {
@@ -108,9 +108,9 @@ export function FundCardPaymentMethodDropdown({
     setIsOpen(!isOpen);
   }, [isOpen]);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const dropdownContainerRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const dropdownContainerRef = useRef<HTMLDivElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   useOutsideClick(dropdownContainerRef, () => {
     if (isOpen) {
@@ -151,12 +151,11 @@ export function FundCardPaymentMethodDropdown({
           ref={dropdownRef}
           data-testid="ockFundCardPaymentMethodDropdown"
           className={cn(
-            border.radius,
             border.lineDefault,
-            'ock-scrollbar absolute z-10 mt-2 flex w-full flex-col overflow-y-hidden',
+            'rounded-ock-default ock-scrollbar absolute z-10 mt-2 flex w-full flex-col overflow-y-hidden',
           )}
         >
-          <div className={cn(background.default, 'overflow-y-auto p-2')}>
+          <div className={cn('bg-ock-bg-default', 'overflow-y-auto p-2')}>
             {filteredPaymentMethods.map((paymentMethod) => {
               const isDisabled = isPaymentMethodDisabled(paymentMethod);
               return (

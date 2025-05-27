@@ -3,15 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
 import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
 import { CloseSvg } from '../../internal/svg/closeSvg';
-import {
-  background,
-  border,
-  cn,
-  color,
-  icon,
-  pressable,
-  text,
-} from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import { ConnectWallet } from '../../wallet';
 import { useBuyContext } from './BuyProvider';
 
@@ -71,7 +63,7 @@ export function BuyButton() {
       return checkmarkSvg;
     }
     if (isDropdownOpen) {
-      return <CloseSvg className={icon.inverse} />;
+      return <CloseSvg className="fill-ock-icon-color-inverse" />;
     }
     return 'Buy';
   }, [statusName, isDropdownOpen]);
@@ -86,8 +78,8 @@ export function BuyButton() {
     <button
       type="button"
       className={cn(
-        background.primary,
-        border.radius,
+        'bg-ock-bg-primary',
+        'rounded-ock-default',
         'flex rounded-xl',
         'h-12 w-24 items-center justify-center px-4 py-3',
         isDisabled && pressable.disabled,
@@ -100,7 +92,7 @@ export function BuyButton() {
       {isLoading ? (
         <Spinner />
       ) : (
-        <span className={cn(text.headline, color.inverse)}>
+        <span className={cn(text.headline, 'text-ock-text-inverse')}>
           {buttonContent}
         </span>
       )}

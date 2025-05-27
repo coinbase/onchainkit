@@ -1,10 +1,10 @@
-import { cn, icon } from '../../styles/theme';
-
 type AddSvgProps = {
   className?: string;
 };
 
-export const AddSvg = ({ className = cn(icon.inverse) }: AddSvgProps) => (
+export const AddSvg = ({
+  className = 'fill-ock-icon-color-inverse',
+}: AddSvgProps) => (
   <svg
     data-testid="ock-addSvg"
     role="img"

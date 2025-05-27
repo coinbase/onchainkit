@@ -2,7 +2,7 @@
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { TextInput } from '@/internal/components/TextInput';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
-import { background, border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { useState } from 'react';
 import type { Hex } from 'viem';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
@@ -35,8 +35,8 @@ export const AppchainBridgeResumeTransaction = () => {
         </div>
         <div
           className={cn(
-            background.secondary,
-            border.radius,
+            'bg-ock-bg-secondary',
+            'rounded-ock-default',
             'box-border flex h-20 w-full flex-col items-start justify-center gap-2 p-4',
             'mt-4',
           )}
@@ -44,7 +44,7 @@ export const AppchainBridgeResumeTransaction = () => {
           <span
             className={cn(
               text.label2,
-              color.foregroundMuted,
+              'text-ock-text-foreground-muted',
               'flex items-center gap-1',
             )}
           >
@@ -53,8 +53,8 @@ export const AppchainBridgeResumeTransaction = () => {
           <TextInput
             className={cn(
               text.label2,
-              color.foregroundMuted,
-              background.secondary,
+              'text-ock-text-foreground-muted',
+              'bg-ock-bg-secondary',
               'w-full border-none',
               'focus:border-none focus:outline-none focus:ring-0',
             )}
@@ -93,7 +93,11 @@ export const AppchainBridgeResumeTransaction = () => {
           }}
         >
           <div
-            className={cn(text.headline, color.inverse, 'flex justify-center')}
+            className={cn(
+              text.headline,
+              'text-ock-text-inverse',
+              'flex justify-center',
+            )}
           >
             Resume Transaction
           </div>

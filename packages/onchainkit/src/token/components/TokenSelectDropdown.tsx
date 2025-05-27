@@ -2,7 +2,7 @@
 
 import { useCallback, useRef, useState } from 'react';
 import { DropdownMenu } from '../../internal/components/DropdownMenu';
-import { background, border, cn, color } from '../../styles/theme';
+import { cn } from '../../styles/theme';
 import type { TokenSelectDropdownProps } from '../types';
 import { TokenRow } from './TokenRow';
 import { TokenSelectButton } from './TokenSelectButton';
@@ -13,7 +13,7 @@ export function TokenSelectDropdown({
   token,
 }: TokenSelectDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   const closeDropdown = useCallback(() => {
     setIsOpen(false);
@@ -41,8 +41,8 @@ export function TokenSelectDropdown({
         <div
           data-testid="ockTokenSelectDropdown_List"
           className={cn(
-            border.radius,
-            color.foreground,
+            'rounded-ock-default',
+            'text-ock-text-foreground',
             'flex max-h-80 w-[200px] flex-col overflow-y-hidden',
             'ock-scrollbar',
           )}
@@ -50,7 +50,7 @@ export function TokenSelectDropdown({
           <div className="overflow-y-auto">
             {options.map((token) => (
               <TokenRow
-                className={cn(background.inverse, 'px-4 py-2')}
+                className={cn('bg-ock-bg-inverse', 'px-4 py-2')}
                 key={token.name + token.address}
                 token={token}
                 onClick={() => {

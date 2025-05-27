@@ -1,7 +1,6 @@
 // 🌲☀🌲
 export { Transaction } from './components/Transaction';
 export { TransactionButton } from './components/TransactionButton';
-export { TransactionDefault } from './components/TransactionDefault';
 export { TransactionSponsor } from './components/TransactionSponsor';
 export { TransactionStatus } from './components/TransactionStatus';
 export { TransactionStatusAction } from './components/TransactionStatusAction';
@@ -24,6 +23,7 @@ export type {
   TransactionToastActionReact,
   TransactionToastIconReact,
   TransactionToastLabelReact,
+  TransactionButtonRenderParams,
   WalletCapabilities,
 } from './types';
 export type { TransactionError } from '@/api/types';

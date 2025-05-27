@@ -1,7 +1,7 @@
 'use client';
 
 import { useTheme } from '../../internal/hooks/useTheme';
-import { background, cn, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { TokenChipProps } from '../types';
 import { TokenImage } from './TokenImage';
 
@@ -26,8 +26,8 @@ export function TokenChip({
       className={cn(
         componentTheme,
         isPressable
-          ? [pressable.secondary, pressable.shadow]
-          : [background.secondary, 'cursor-default'],
+          ? [pressable.secondary, 'shadow-ock-default']
+          : ['bg-ock-bg-secondary', 'cursor-default'],
         'flex w-fit shrink-0 items-center gap-2 rounded-lg py-1 pr-3 pl-1 ',
         className,
       )}

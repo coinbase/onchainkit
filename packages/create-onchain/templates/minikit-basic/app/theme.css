@@ -1,8 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   --app-background: #ffffff;
@@ -101,7 +99,7 @@ body {
   font-style: normal;
 }
 
-@layer utilities {
+@utility text-balance {
   .text-balance {
     text-wrap: balance;
   }

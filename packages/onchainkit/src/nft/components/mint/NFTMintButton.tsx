@@ -2,7 +2,7 @@ import { Spinner } from '@/internal/components/Spinner';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { useMintAnalytics } from '@/nft/hooks/useMintAnalytics';
-import { cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import {
   Transaction,
   TransactionButton,
@@ -21,18 +21,12 @@ import { useAccount, useChainId } from 'wagmi';
 type NFTMintButtonReact = {
   className?: string;
   label?: string;
-} & Pick<
-  TransactionButtonReact,
-  'disabled' | 'pendingOverride' | 'successOverride' | 'errorOverride'
->;
+} & Pick<TransactionButtonReact, 'disabled'>;
 
 export function NFTMintButton({
   className,
   label = 'Mint',
   disabled,
-  pendingOverride,
-  successOverride,
-  errorOverride,
 }: NFTMintButtonReact) {
   const chainId = useChainId();
   const { address } = useAccount();
@@ -156,9 +150,6 @@ export function NFTMintButton({
         <TransactionButton
           className={className}
           text={transactionButtonLabel}
-          pendingOverride={pendingOverride}
-          successOverride={successOverride}
-          errorOverride={errorOverride}
           disabled={disabled || transactionButtonLabel !== label}
         />
         {!mintError && <TransactionSponsor />}
@@ -168,7 +159,9 @@ export function NFTMintButton({
         </TransactionStatus>
       </Transaction>
       {mintError && (
-        <div className={cn(text.label2, color.foregroundMuted, 'pb-2')}>
+        <div
+          className={cn(text.label2, 'text-ock-text-foreground-muted', 'pb-2')}
+        >
           {mintError}
         </div>
       )}

@@ -1,10 +1,8 @@
 import { getChainPublicClient } from '@/core/network/getChainPublicClient';
-import { isBase } from '@/core/utils/isBase';
-import { isEthereum } from '@/core/utils/isEthereum';
-import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '@/identity/constants';
 import type { GetAddressReturnType, GetAddresses } from '@/identity/types';
-import { isBasename } from '@/identity/utils/isBasename';
 import { mainnet } from 'viem/chains';
+
+const mainnetClient = getChainPublicClient(mainnet);
 
 /**
  * An asynchronous function to fetch multiple Ethereum addresses from ENS names or Basenames
@@ -12,23 +10,11 @@ import { mainnet } from 'viem/chains';
  */
 export const getAddresses = async ({
   names,
-  chain = mainnet,
 }: GetAddresses): Promise<GetAddressReturnType[]> => {
   if (!names || names.length === 0) {
     return [];
   }
 
-  const chainIsBase = isBase({ chainId: chain.id });
-  const chainIsEthereum = isEthereum({ chainId: chain.id });
-  const chainSupportsUniversalResolver = chainIsEthereum || chainIsBase;
-
-  if (!chainSupportsUniversalResolver) {
-    return Promise.reject(
-      'ChainId not supported, name resolution is only supported on Ethereum and Base.',
-    );
-  }
-
-  const client = getChainPublicClient(chain);
   const results: GetAddressReturnType[] = Array(names.length).fill(null);
 
   try {
@@ -42,12 +28,9 @@ export const getAddresses = async ({
     }
 
     const addressPromises = validItems.map(({ name, index }) =>
-      client
+      mainnetClient
         .getEnsAddress({
           name,
-          universalResolverAddress: isBasename(name)
-            ? RESOLVER_ADDRESSES_BY_CHAIN_ID[chain.id]
-            : undefined,
         })
         .then((address) => {
           return { index, address };

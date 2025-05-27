@@ -1,35 +1,31 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { type PropsWithChildren, useMemo } from 'react';
+import {
+  type PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Config, WagmiProvider } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { createWagmiConfig } from './core/createWagmiConfig';
-import type { CreateWagmiConfigParams } from './core/types';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
+import { useOnchainKit } from './useOnchainKit';
+import type { CreateWagmiConfigParams } from './core/types';
 
 export function DefaultOnchainKitProviders({
-  apiKey,
-  appName,
-  appLogoUrl,
-  connectors = [
-    coinbaseWallet({
-      appName,
-      appLogoUrl,
-      preference: 'all',
-    }),
-  ],
   children,
-}: PropsWithChildren<CreateWagmiConfigParams>) {
+  connectors,
+}: PropsWithChildren<{ connectors?: CreateWagmiConfigParams['connectors'] }>) {
   // Check the React context for WagmiProvider and QueryClientProvider
   const { providedWagmiConfig, providedQueryClient } =
     useProviderDependencies();
 
   return (
     <WagmiProviderWithDefault
-      apiKey={apiKey}
-      appName={appName}
-      appLogoUrl={appLogoUrl}
-      connectors={connectors}
       providedWagmiConfig={providedWagmiConfig}
+      connectors={connectors}
     >
       <QueryClientProviderWithDefault providedQueryClient={providedQueryClient}>
         {children}
@@ -39,23 +35,56 @@ export function DefaultOnchainKitProviders({
 }
 
 function WagmiProviderWithDefault({
-  apiKey,
-  appName,
-  appLogoUrl,
-  connectors,
   children,
   providedWagmiConfig,
-}: PropsWithChildren<CreateWagmiConfigParams> & {
+  connectors,
+}: PropsWithChildren<{
   providedWagmiConfig: Config | null;
-}) {
-  if (providedWagmiConfig) return children;
+  connectors?: CreateWagmiConfigParams['connectors'];
+}>) {
+  const onchainKitConfig = useOnchainKit();
+  const prevConnectorsRef =
+    useRef<CreateWagmiConfigParams['connectors']>(connectors);
 
-  const config = createWagmiConfig({
-    apiKey,
-    appName,
-    appLogoUrl,
+  const getWagmiConfig = useCallback(() => {
+    if (providedWagmiConfig) return providedWagmiConfig;
+
+    const appName = onchainKitConfig.config?.appearance?.name ?? undefined;
+    const appLogoUrl = onchainKitConfig.config?.appearance?.logo ?? undefined;
+
+    return createWagmiConfig({
+      apiKey: onchainKitConfig.apiKey ?? undefined,
+      appName,
+      appLogoUrl,
+      connectors: connectors ?? [
+        coinbaseWallet({
+          appName,
+          appLogoUrl,
+          preference: onchainKitConfig.config?.wallet?.preference,
+        }),
+      ],
+    });
+  }, [
+    onchainKitConfig.apiKey,
+    onchainKitConfig.config,
     connectors,
+    providedWagmiConfig,
+  ]);
+
+  const [config, setConfig] = useState(() => {
+    return getWagmiConfig();
   });
+
+  useEffect(() => {
+    if (prevConnectorsRef.current !== connectors) {
+      setConfig(getWagmiConfig());
+      prevConnectorsRef.current = connectors;
+    }
+  }, [connectors, getWagmiConfig]);
+
+  if (providedWagmiConfig) {
+    return children;
+  }
 
   return <WagmiProvider config={config}>{children}</WagmiProvider>;
 }

@@ -5,6 +5,7 @@ import { useShowCallsStatus } from 'wagmi/experimental';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
 import { useTransactionContext } from '../components/TransactionProvider';
 import { useGetTransactionStatusAction } from './useGetTransactionStatusAction';
+import { ReactNode } from 'react';
 
 vi.mock('../components/TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
@@ -41,18 +42,18 @@ describe('useGetTransactionStatusAction', () => {
     const { result } = renderHook(() => useGetTransactionStatusAction());
 
     expect(result.current.actionElement).toMatchInlineSnapshot(`
-        <a
-          href="https://etherscan.io/tx/0x123"
-          rel="noreferrer"
-          target="_blank"
+      <a
+        href="https://etherscan.io/tx/0x123"
+        rel="noreferrer"
+        target="_blank"
+      >
+        <span
+          className="font-ock font-semibold text-sm text-ock-text-primary"
         >
-          <span
-            className="ock-font-family font-semibold text-sm ock-text-primary"
-          >
-            View transaction
-          </span>
-        </a>
-      `);
+          View transaction
+        </span>
+      </a>
+    `);
   });
 
   it('should return actionElement when transaction id exists', () => {
@@ -66,7 +67,7 @@ describe('useGetTransactionStatusAction', () => {
 
     const { result } = renderHook(() => useGetTransactionStatusAction());
 
-    const button = result.current.actionElement as JSX.Element;
+    const button = result.current.actionElement as ReactNode;
     expect(button.props.onClick).toBeDefined();
     expect(button).not.toBeNull();
   });
@@ -111,7 +112,7 @@ describe('useGetTransactionStatusAction', () => {
 
     const { result } = renderHook(() => useGetTransactionStatusAction());
 
-    const button = result.current.actionElement as JSX.Element;
+    const button = result.current.actionElement as ReactNode;
     button.props.onClick();
 
     expect(showCallsStatus).toHaveBeenCalledWith({ id: 'ab123' });

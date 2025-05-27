@@ -2,7 +2,7 @@
 
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
-import { border, cn } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import { Swap } from '@/swap/components/Swap';
 import { SwapAmountInput } from '@/swap/components/SwapAmountInput';
 import { SwapButton } from '@/swap/components/SwapButton';
@@ -57,7 +57,7 @@ export function WalletAdvancedSwap({
     <div
       className={cn(
         'h-full',
-        border.radius,
+        'rounded-ock-default',
         isActiveFeatureClosing
           ? 'fade-out slide-out-to-right-5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-right-5 linear animate-in duration-150',

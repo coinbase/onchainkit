@@ -7,10 +7,12 @@ import {
   TransactionButton,
   type TransactionResponse,
 } from '@/transaction';
+import { TransactionButtonRenderParams } from '@/transaction/types';
 import { ConnectWallet } from '@/wallet';
 import { useCallback, useState } from 'react';
 import type { DepositButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
+import { RenderDepositButton } from './RenderDepositButton';
 
 export function DepositButton({ className }: DepositButtonReact) {
   const {
@@ -82,9 +84,15 @@ export function DepositButton({ className }: DepositButtonReact) {
       resetAfter={3_000}
     >
       <TransactionButton
-        text={depositAmountError ?? 'Deposit'}
-        successOverride={{
-          text: `Deposited ${depositedAmount} ${vaultToken?.symbol}`,
+        render={(params: TransactionButtonRenderParams) => {
+          return (
+            <RenderDepositButton
+              {...params}
+              depositAmountError={depositAmountError}
+              depositedAmount={depositedAmount}
+              vaultToken={vaultToken}
+            />
+          );
         }}
         disabled={!!depositAmountError || !depositAmount}
       />
