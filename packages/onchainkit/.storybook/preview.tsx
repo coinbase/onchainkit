@@ -2,7 +2,7 @@ import React from 'react';
 import type { Preview } from '@storybook/react';
 import { OnchainKitProvider } from '../src/OnchainKitProvider';
 import { base } from 'wagmi/chains';
-import '../src/styles/index-with-tailwind.css';
+import '../src/styles/index.css';
 
 function getApiKey() {
   try {
