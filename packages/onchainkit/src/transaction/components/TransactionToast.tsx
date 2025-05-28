@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { Toast } from '../../internal/components/Toast';
-import type { TransactionToastReact } from '../types';
+import type { TransactionToastProps } from '../types';
 import { useTransactionContext } from './TransactionProvider';
 import { TransactionToastAction } from './TransactionToastAction';
 import { TransactionToastIcon } from './TransactionToastIcon';
@@ -11,7 +11,7 @@ export function TransactionToast({
   className,
   durationMs = 5000,
   position = 'bottom-center',
-}: TransactionToastReact) {
+}: TransactionToastProps) {
   const {
     errorMessage,
     isLoading,

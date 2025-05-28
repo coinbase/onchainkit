@@ -31,7 +31,7 @@ import { useSendWalletTransactions } from '../hooks/useSendWalletTransactions';
 import type {
   LifecycleStatus,
   TransactionContextType,
-  TransactionProviderReact,
+  TransactionProviderProps,
 } from '../types';
 import { getPaymasterUrl } from '../utils/getPaymasterUrl';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
@@ -60,7 +60,7 @@ export function TransactionProvider({
   onStatus,
   onSuccess,
   resetAfter,
-}: TransactionProviderReact) {
+}: TransactionProviderProps) {
   // Core Hooks
   const account = useAccount();
   const config = useConfig();

@@ -3,7 +3,7 @@ import { useAccount, useChainId } from 'wagmi';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
 import { Spinner } from '../../internal/components/Spinner';
 import { cn, pressable, text } from '../../styles/theme';
-import type { TransactionButtonReact } from '../types';
+import type { TransactionButtonProps } from '../types';
 import { useTransactionContext } from './TransactionProvider';
 
 export function TransactionButton({
@@ -11,7 +11,7 @@ export function TransactionButton({
   disabled = false,
   text: idleText = 'Transact',
   render,
-}: TransactionButtonReact) {
+}: TransactionButtonProps) {
   const context = useTransactionContext();
   const {
     chainId,

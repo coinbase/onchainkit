@@ -88,7 +88,7 @@ export type TransactionButtonRenderParams = {
 /**
  * Note: exported as public Type
  */
-export type TransactionButtonReact = {
+export type TransactionButtonProps = {
   /** An optional CSS class name for styling the button component */
   className?: string;
   /** A optional prop to disable the submit button */
@@ -157,21 +157,13 @@ export type SendSingleTransactionParams = {
   transactions: Array<Call | ContractFunctionParameters>;
 };
 
-/**
- * Note: exported as public Type
- */
-
-export type TransactionDefaultReact = {
-  disabled?: boolean;
-} & Omit<TransactionReact, 'children'>;
-
 export type Calls = Call[] | Promise<Call[]> | (() => Promise<Call[]>);
 export type Contracts =
   | ContractFunctionParameters[]
   | Promise<ContractFunctionParameters[]>
   | (() => Promise<ContractFunctionParameters[]>);
 
-export type TransactionProviderReact = {
+export type TransactionProviderProps = {
   /** An array of calls to be made in the transaction */
   calls?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
   /**
@@ -189,7 +181,7 @@ export type TransactionProviderReact = {
   /** An optional callback function that exposes the component lifecycle state */
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   /** An optional callback function that exposes the transaction receipts */
-  onSuccess?: (response: TransactionResponse) => void;
+  onSuccess?: (response: TransactionResponseType) => void;
   /** An optional time (in ms) after which to reset the component */
   resetAfter?: number;
 };
@@ -197,7 +189,7 @@ export type TransactionProviderReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionReact = {
+export type TransactionProps = {
   /** An array of calls to be made in the transaction */
   calls?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
   /**
@@ -217,7 +209,7 @@ export type TransactionReact = {
   /** An optional callback function that exposes the component lifecycle state */
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   /** An optional callback function that exposes the transaction receipts */
-  onSuccess?: (response: TransactionResponse) => void;
+  onSuccess?: (response: TransactionResponseType) => void;
   /** An optional time (in ms) after which to reset the component */
   resetAfter?: number;
 } & (
@@ -236,14 +228,14 @@ export type TransactionReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionResponse = {
+export type TransactionResponseType = {
   transactionReceipts: TransactionReceipt[];
 };
 
 /**
  * Note: exported as public Type
  */
-export type TransactionSponsorReact = {
+export type TransactionSponsorProps = {
   /** An optional CSS class name for styling the sponsor component */
   className?: string;
 };
@@ -251,7 +243,7 @@ export type TransactionSponsorReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionStatusReact = {
+export type TransactionStatusProps = {
   /** The child components to be rendered within the status component */
   children?: ReactNode;
   /** An optional CSS class name for styling the status component */
@@ -261,7 +253,7 @@ export type TransactionStatusReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionStatusActionReact = {
+export type TransactionStatusActionProps = {
   /** An optional CSS class name for styling */
   className?: string;
 };
@@ -269,7 +261,7 @@ export type TransactionStatusActionReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionStatusLabelReact = {
+export type TransactionStatusLabelProps = {
   /** An optional CSS class name for styling */
   className?: string;
 };
@@ -277,7 +269,7 @@ export type TransactionStatusLabelReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionToastReact = {
+export type TransactionToastProps = {
   /** The child components to be rendered within the toast component */
   children?: ReactNode;
   /** An optional CSS class name for styling the toast component */
@@ -291,7 +283,7 @@ export type TransactionToastReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionToastActionReact = {
+export type TransactionToastActionProps = {
   /** An optional CSS class name for styling */
   className?: string;
 };
@@ -299,7 +291,7 @@ export type TransactionToastActionReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionToastIconReact = {
+export type TransactionToastIconProps = {
   /** An optional CSS class name for styling */
   className?: string;
 };
@@ -307,7 +299,7 @@ export type TransactionToastIconReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionToastLabelReact = {
+export type TransactionToastLabelProps = {
   /** An optional CSS class name for styling */
   className?: string;
 };

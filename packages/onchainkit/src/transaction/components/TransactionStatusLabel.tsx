@@ -1,10 +1,10 @@
 import { cn, text } from '../../styles/theme';
 import { useGetTransactionStatusLabel } from '../hooks/useGetTransactionStatusLabel';
-import type { TransactionStatusLabelReact } from '../types';
+import type { TransactionStatusLabelProps } from '../types';
 
 export function TransactionStatusLabel({
   className,
-}: TransactionStatusLabelReact) {
+}: TransactionStatusLabelProps) {
   const { label, labelClassName } = useGetTransactionStatusLabel();
 
   return (
