@@ -4,12 +4,13 @@ import { BuyEvent, type BuyOption } from '@/core/analytics/types';
 import { openPopup } from '@/internal/utils/openPopup';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback, useEffect, useMemo } from 'react';
+import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
-import { ONRAMP_BUY_URL } from '../../fund/constants';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { cn, text } from '../../styles/theme';
 import { ONRAMP_PAYMENT_METHODS } from '../constants';
+import { getBuyFundingUrl } from '../utils/getBuyFundingUrl';
 import { isApplePaySupported } from '../utils/isApplePaySupported';
 import { BuyOnrampItem } from './BuyOnrampItem';
 import { useBuyContext } from './BuyProvider';
@@ -30,13 +31,18 @@ export function BuyDropdown() {
           option: paymentMethodId as BuyOption,
         });
 
-        const assetSymbol = to?.token?.symbol;
-        let fundAmount = to?.amount;
-        // funding url requires a leading zero if the amount is less than 1
-        if (fundAmount?.[0] === '.') {
-          fundAmount = `0${fundAmount}`;
+        const fundingUrl = getBuyFundingUrl({
+          to,
+          projectId,
+          paymentMethodId,
+          address,
+          chain: base,
+        });
+
+        if (!fundingUrl) {
+          return;
         }
-        const fundingUrl = `${ONRAMP_BUY_URL}/one-click?appId=${projectId}&addresses={"${address}":["base"]}&assets=["${assetSymbol}"]&presetCryptoAmount=${fundAmount}&defaultPaymentMethod=${paymentMethodId}`;
+
         const { height, width } = getFundingPopupSize('md', fundingUrl);
         const popupWindow = openPopup({
           url: fundingUrl,
