@@ -5,6 +5,7 @@ import { degenToken, ethToken, usdcToken } from '@/token/constants';
 import { useOnchainKit } from '@/useOnchainKit';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { getBuyFundingUrl } from '../utils/getBuyFundingUrl';
 import { BuyDropdown } from './BuyDropdown';
 import { useBuyContext } from './BuyProvider';
 
@@ -22,6 +23,10 @@ vi.mock('@/internal/utils/getRoundedAmount', () => ({
 
 vi.mock('@/fund/utils/getFundingPopupSize', () => ({
   getFundingPopupSize: vi.fn(() => ({ height: 600, width: 400 })),
+}));
+
+vi.mock('../utils/getBuyFundingUrl', () => ({
+  getBuyFundingUrl: vi.fn(() => 'valid-funding-url'),
 }));
 
 vi.mock('wagmi', async () => {
@@ -135,5 +140,20 @@ describe('BuyDropdown', () => {
     expect(mockSendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyOptionSelected, {
       option: 'CRYPTO_ACCOUNT',
     });
+  });
+
+  it('triggers handleOnrampClick on payment method click', () => {
+    (openPopup as Mock).mockReturnValue('popup');
+
+    (getBuyFundingUrl as Mock).mockReturnValue(undefined);
+    render(<BuyDropdown />);
+
+    const onrampButton = screen.getByTestId('ock-coinbasePayOnrampItem');
+
+    act(() => {
+      fireEvent.click(onrampButton);
+    });
+
+    expect(mockStartPopupMonitor).not.toHaveBeenCalled();
   });
 });
