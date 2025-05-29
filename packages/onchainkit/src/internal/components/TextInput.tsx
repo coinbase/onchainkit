@@ -17,7 +17,7 @@ type TextInputProps = Omit<ComponentProps<'input'>, 'onChange'> & {
   placeholder: string;
   setValue?: (s: string) => void;
   inputValidator?: (s: string) => boolean;
-  /** specify 'message' to show error state (change in color), message is used for a11y purposes, not actually rendered currently */
+  /** specify 'message' to show error state (change in color), field is used for a11y purposes, not actually rendered currently */
   errorMessage?: string;
 };
 
@@ -63,8 +63,6 @@ export const TextInput = forwardRef(
 
     return (
       <input
-        aria-disabled={disabled}
-        aria-errormessage={errorMessage}
         aria-invalid={!!errorMessage}
         aria-label={ariaLabel}
         data-testid="ockTextInput_Input"
