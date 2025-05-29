@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useSignMessage, useSignTypedData } from 'wagmi';
-import { MessageData, MessageType } from '../types';
+import { MessageData, Message } from '../types';
 import { validateMessage } from '../utils/validateMessage';
 
 export function useSignData() {
@@ -16,12 +16,12 @@ export function useSignData() {
         primaryType,
       });
 
-      if (type === MessageType.INVALID) {
+      if (type === Message.INVALID) {
         throw new Error('Invalid message data');
       }
 
       const signature =
-        type === MessageType.TYPED_DATA
+        type === Message.TYPED_DATA
           ? await signTypedDataAsync(data)
           : await signMessageAsync(data);
 

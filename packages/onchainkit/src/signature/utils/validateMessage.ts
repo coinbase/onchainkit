@@ -25,9 +25,9 @@ function isSignableMessage(
 }
 
 type ValidateMessageResult =
-  | { type: MessageType.TYPED_DATA; data: SignTypedDataParameters }
-  | { type: MessageType.SIGNABLE_MESSAGE; data: SignMessageParameters }
-  | { type: MessageType.INVALID; data: null };
+  | { type: typeof Message.TYPED_DATA; data: SignTypedDataParameters }
+  | { type: typeof Message.SIGNABLE_MESSAGE; data: SignMessageParameters }
+  | { type: typeof Message.INVALID; data: null };
 
 export function validateMessage(
   messageData: MessageData,
