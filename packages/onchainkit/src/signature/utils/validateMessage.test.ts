@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { MessageType } from '../types';
+import { Message } from '../types';
 import { validateMessage } from './validateMessage';
 
 describe('validateMessage', () => {
@@ -13,7 +13,7 @@ describe('validateMessage', () => {
 
     const result = validateMessage(typedData);
     expect(result).toEqual({
-      type: MessageType.TYPED_DATA,
+      type: Message.TYPED_DATA,
       data: typedData,
     });
   });
@@ -25,7 +25,7 @@ describe('validateMessage', () => {
 
     const result = validateMessage(messageData);
     expect(result).toEqual({
-      type: MessageType.SIGNABLE_MESSAGE,
+      type: Message.SIGNABLE_MESSAGE,
       data: messageData,
     });
   });
@@ -33,7 +33,7 @@ describe('validateMessage', () => {
   it('should validate string message', () => {
     const result = validateMessage({ message: 'Test message' });
     expect(result).toEqual({
-      type: MessageType.SIGNABLE_MESSAGE,
+      type: Message.SIGNABLE_MESSAGE,
       data: { message: 'Test message' },
     });
   });
@@ -43,7 +43,7 @@ describe('validateMessage', () => {
       message: { raw: '0x1234' },
     });
     expect(result).toEqual({
-      type: MessageType.SIGNABLE_MESSAGE,
+      type: Message.SIGNABLE_MESSAGE,
       data: { message: { raw: '0x1234' } },
     });
   });
@@ -53,7 +53,7 @@ describe('validateMessage', () => {
       message: { raw: new Uint8Array([1, 2, 3, 4]) },
     });
     expect(result).toEqual({
-      type: MessageType.SIGNABLE_MESSAGE,
+      type: Message.SIGNABLE_MESSAGE,
       data: { message: { raw: new Uint8Array([1, 2, 3, 4]) } },
     });
   });
@@ -68,7 +68,7 @@ describe('validateMessage', () => {
     // @ts-expect-error testing invalid input
     const result = validateMessage(invalidTypedData);
     expect(result).toEqual({
-      type: MessageType.INVALID,
+      type: Message.INVALID,
       data: null,
     });
   });
@@ -77,7 +77,7 @@ describe('validateMessage', () => {
     // @ts-expect-error testing invalid input
     const result = validateMessage({});
     expect(result).toEqual({
-      type: MessageType.INVALID,
+      type: Message.INVALID,
       data: null,
     });
   });
@@ -86,7 +86,7 @@ describe('validateMessage', () => {
     // @ts-expect-error testing invalid input
     const result = validateMessage(null);
     expect(result).toEqual({
-      type: MessageType.INVALID,
+      type: Message.INVALID,
       data: null,
     });
   });

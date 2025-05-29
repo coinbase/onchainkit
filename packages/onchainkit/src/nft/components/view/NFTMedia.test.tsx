@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
-import { LifecycleType } from '@/nft/types';
 import { fireEvent, render } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { NFTMedia } from './NFTMedia';
+import { Lifecycle } from '@/nft/types';
 
 vi.mock('@/nft/components/NFTProvider', () => ({
   useNFTContext: vi.fn(),
@@ -54,7 +54,7 @@ describe('NFTMedia', () => {
     mockUpdateLifecycleStatus = vi.fn();
     (useNFTContext as Mock).mockReturnValue({ mimeType: 'image/png' });
     (useNFTLifecycleContext as Mock).mockReturnValue({
-      type: LifecycleType.VIEW,
+      type: Lifecycle.VIEW,
       updateLifecycleStatus: mockUpdateLifecycleStatus,
     });
   });
@@ -105,7 +105,7 @@ describe('NFTMedia', () => {
 
   it('should call updateLifecycleStatus with mediaLoaded when media is loaded for type Mint', () => {
     (useNFTLifecycleContext as Mock).mockReturnValue({
-      type: LifecycleType.MINT,
+      type: Lifecycle.MINT,
       updateLifecycleStatus: mockUpdateLifecycleStatus,
     });
 

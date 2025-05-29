@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 import { useCheckoutContext } from '../components/CheckoutProvider';
-import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
+import { CHECKOUT_LIFECYCLE_STATUS } from '../constants';
 
 export function useGetCheckoutStatus() {
   const { errorMessage, lifecycleStatus } = useCheckoutContext();
   const isPending =
-    lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.PENDING;
+    lifecycleStatus?.statusName === CHECKOUT_LIFECYCLE_STATUS.PENDING;
   const isSuccess =
-    lifecycleStatus?.statusName === CHECKOUT_LIFECYCLESTATUS.SUCCESS;
+    lifecycleStatus?.statusName === CHECKOUT_LIFECYCLE_STATUS.SUCCESS;
 
   return useMemo(() => {
     let label = '';

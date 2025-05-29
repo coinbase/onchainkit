@@ -1,6 +1,6 @@
 import { getPriceQuote } from '@/api';
 import type { GetPriceQuoteResponse, PriceQuoteToken } from '@/api/types';
-import { RequestContext } from '@/core/network/constants';
+import { RequestContext, RequestContextType } from '@/core/network/constants';
 import { DEFAULT_QUERY_OPTIONS } from '@/internal/constants';
 import { isApiError } from '@/internal/utils/isApiResponseError';
 import {
@@ -16,7 +16,7 @@ type UsePriceQuoteParams<T> = {
 
 export function usePriceQuote(
   params: UsePriceQuoteParams<GetPriceQuoteResponse>,
-  _context: RequestContext = RequestContext.Hook,
+  _context: RequestContextType = RequestContext.Hook,
 ): UseQueryResult<GetPriceQuoteResponse> {
   const { token, queryOptions } = params;
 
