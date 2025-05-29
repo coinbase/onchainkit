@@ -409,7 +409,7 @@ function TransactionCard() {
 
       await sendNotification({
         title: "Congratulations!",
-        body: `You sent your a transaction, ${transactionHash}!`,
+        body: `You sent your transaction, ${transactionHash}!`,
       });
     },
     [sendNotification],
