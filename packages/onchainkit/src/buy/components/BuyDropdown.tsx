@@ -101,8 +101,16 @@ export function BuyDropdown() {
         'z-10 min-w-80 rounded border p-2',
         'rounded-ock-default',
       )}
+      role="menu"
+      aria-label="Buy options"
     >
-      <div className={cn(text.headline, 'px-2 pt-2')}>Buy with</div>
+      <div
+        className={cn(text.headline, 'px-2 pt-2')}
+        role="heading"
+        aria-level={2}
+      >
+        Buy with
+      </div>
       {!isToETH && <BuyTokenItem swapUnit={fromETH} />}
       {!isToUSDC && <BuyTokenItem swapUnit={fromUSDC} />}
       {showFromToken && <BuyTokenItem swapUnit={from} />}
