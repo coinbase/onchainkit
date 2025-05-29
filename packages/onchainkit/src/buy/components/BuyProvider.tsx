@@ -29,7 +29,7 @@ import { useBuyTokens } from '../hooks/useBuyTokens';
 import { useOnrampEventListeners } from '../hooks/useOnrampEventListeners';
 import { usePopupMonitor } from '../hooks/usePopupMonitor';
 import { useResetBuyInputs } from '../hooks/useResetBuyInputs';
-import type { BuyContextType, BuyProviderReact } from '../types';
+import type { BuyContextType, BuyProviderProps } from '../types';
 import { getBuyQuote } from '../utils/getBuyQuote';
 import { validateQuote } from '../utils/validateQuote';
 
@@ -58,7 +58,7 @@ export function BuyProvider({
   onSuccess,
   toToken,
   fromToken,
-}: BuyProviderReact) {
+}: BuyProviderProps) {
   const { config: { paymaster } = { paymaster: undefined }, projectId } =
     useOnchainKit();
   const { address, chainId } = useAccount();
