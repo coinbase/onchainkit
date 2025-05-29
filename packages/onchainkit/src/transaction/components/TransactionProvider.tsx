@@ -17,6 +17,7 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import {
   TransactionEvent,
+  TransactionEventType,
   type TransactionEventData,
 } from '../../core/analytics/types';
 import { Capabilities } from '../../core/constants';
@@ -158,7 +159,10 @@ export function TransactionProvider({
   const { sendAnalytics } = useAnalytics();
 
   const handleAnalytics = useCallback(
-    (event: TransactionEvent, data: TransactionEventData[TransactionEvent]) => {
+    (
+      event: TransactionEventType,
+      data: TransactionEventData[TransactionEventType],
+    ) => {
       sendAnalytics(event, data);
     },
     [sendAnalytics],
@@ -242,6 +246,8 @@ export function TransactionProvider({
         });
         receipts.push(txnReceipt);
       } catch (err) {
+        console.error(err);
+
         setLifecycleStatus({
           statusName: 'error',
           statusData: {
@@ -250,6 +256,7 @@ export function TransactionProvider({
             message: GENERIC_ERROR_MESSAGE,
           },
         });
+        return;
       }
     }
     setLifecycleStatus({
@@ -301,6 +308,7 @@ export function TransactionProvider({
       setTransactionCount(resolvedTransactions?.length);
       return resolvedTransactions;
     } catch (err) {
+      console.error(err);
       handleAnalytics(TransactionEvent.TransactionFailure, {
         error: (err as Error).message,
         metadata: {
@@ -342,11 +350,21 @@ export function TransactionProvider({
     }
   }, [buildTransaction, chainId, sendWalletTransactions, switchChain]);
 
+  const isLoading =
+    callStatus === 'PENDING' ||
+    lifecycleStatus.statusName === 'buildingTransaction' ||
+    lifecycleStatus.statusName === 'transactionPending' ||
+    (lifecycleStatus.statusName === 'transactionLegacyExecuted' &&
+      transactionCount !==
+        lifecycleStatus?.statusData?.transactionHashList?.length) ||
+    ((!!transactionId || !!singleTransactionHash || !!batchedTransactionHash) &&
+      !receipt);
+
   const value = useValue({
     chainId,
     errorCode,
     errorMessage,
-    isLoading: callStatus === 'PENDING',
+    isLoading,
     isToastVisible,
     lifecycleStatus,
     onSubmit: handleSubmit,

@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act } from 'react';
 import {
   type Mock,
   afterEach,
@@ -273,7 +274,9 @@ describe('SignatureProvider', () => {
       </SignatureProvider>,
     );
 
-    fireEvent.click(screen.getByText('sign'));
+    await act(async () => {
+      fireEvent.click(screen.getByText('sign'));
+    });
 
     // RTL waitFor will never resolve with fake timers
     await vi.waitFor(() => {

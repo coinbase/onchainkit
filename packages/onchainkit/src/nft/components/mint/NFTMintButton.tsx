@@ -21,18 +21,12 @@ import { useAccount, useChainId } from 'wagmi';
 type NFTMintButtonReact = {
   className?: string;
   label?: string;
-} & Pick<
-  TransactionButtonReact,
-  'disabled' | 'pendingOverride' | 'successOverride' | 'errorOverride'
->;
+} & Pick<TransactionButtonReact, 'disabled'>;
 
 export function NFTMintButton({
   className,
   label = 'Mint',
   disabled,
-  pendingOverride,
-  successOverride,
-  errorOverride,
 }: NFTMintButtonReact) {
   const chainId = useChainId();
   const { address } = useAccount();
@@ -156,9 +150,6 @@ export function NFTMintButton({
         <TransactionButton
           className={className}
           text={transactionButtonLabel}
-          pendingOverride={pendingOverride}
-          successOverride={successOverride}
-          errorOverride={errorOverride}
           disabled={disabled || transactionButtonLabel !== label}
         />
         {!mintError && <TransactionSponsor />}

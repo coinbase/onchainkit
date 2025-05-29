@@ -1,4 +1,4 @@
-import { type ForwardedRef, forwardRef } from 'react';
+import { ForwardedRef, forwardRef } from 'react';
 import { caretUpSvg } from '../../internal/svg/caretUpSvg';
 import { border, cn, pressable, text } from '../../styles/theme';
 import type { FundCardPaymentMethodSelectorToggleProps } from '../types';

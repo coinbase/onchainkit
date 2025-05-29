@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
-import { MessageType } from '../types';
+import { Message } from '../types';
 import { SignatureLabel } from '../components/SignatureLabel';
 import { useSignatureContext } from '../components/SignatureProvider';
 
@@ -15,7 +15,7 @@ describe('SignatureLabel', () => {
         statusName: 'success',
         statusData: {
           signature: '0x123',
-          type: MessageType.TYPED_DATA,
+          type: Message.TYPED_DATA,
         },
       },
     });
@@ -31,7 +31,7 @@ describe('SignatureLabel', () => {
         statusData: {
           code: 'TEST01',
           message: 'Test error message',
-          type: MessageType.TYPED_DATA,
+          type: Message.TYPED_DATA,
         },
       },
     });
@@ -44,7 +44,7 @@ describe('SignatureLabel', () => {
       lifecycleStatus: {
         statusName: 'pending',
         statusData: {
-          type: MessageType.TYPED_DATA,
+          type: Message.TYPED_DATA,
         },
       },
     });
@@ -58,7 +58,7 @@ describe('SignatureLabel', () => {
         statusName: 'success',
         statusData: {
           signature: '0x123',
-          type: MessageType.TYPED_DATA,
+          type: Message.TYPED_DATA,
         },
       },
     });

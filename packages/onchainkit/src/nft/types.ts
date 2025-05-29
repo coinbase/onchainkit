@@ -11,20 +11,22 @@ import type {
 import type { LifecycleStatusUpdate } from '../internal/types';
 import type { Call } from '../transaction/types';
 
-export enum MediaType {
-  Image = 'image',
-  Video = 'video',
-  Audio = 'audio',
-  Unknown = 'unknown',
-}
+export const MediaType = {
+  Image: 'image',
+  Video: 'video',
+  Audio: 'audio',
+  Unknown: 'unknown',
+} as const;
+export type MediaType = (typeof MediaType)[keyof typeof MediaType];
 
 /**
  * Lifecycle Provider
  */
-export enum LifecycleType {
-  VIEW = 'view',
-  MINT = 'mint',
-}
+export const Lifecycle = {
+  VIEW: 'view',
+  MINT: 'mint',
+} as const;
+export type LifecycleType = (typeof Lifecycle)[keyof typeof Lifecycle];
 
 export type NFTLifecycleProviderReact = {
   type: LifecycleType;

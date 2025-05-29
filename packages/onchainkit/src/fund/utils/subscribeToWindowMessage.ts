@@ -1,14 +1,15 @@
 import { DEFAULT_ONRAMP_URL } from '../constants';
 import type { JsonObject } from '../types';
 
-export enum MessageCodes {
-  AppParams = 'app_params',
-  PaymentLinkSuccess = 'payment_link_success',
-  PaymentLinkClosed = 'payment_link_closed',
-  GuestCheckoutRedirectSuccess = 'guest_checkout_redirect_success',
-  Success = 'success',
-  Event = 'event',
-}
+export const MessageCodes = {
+  AppParams: 'app_params',
+  PaymentLinkSuccess: 'payment_link_success',
+  PaymentLinkClosed: 'payment_link_closed',
+  GuestCheckoutRedirectSuccess: 'guest_checkout_redirect_success',
+  Success: 'success',
+  Event: 'event',
+} as const;
+export type MessageCodesType = (typeof MessageCodes)[keyof typeof MessageCodes];
 
 type MessageData = JsonObject;
 

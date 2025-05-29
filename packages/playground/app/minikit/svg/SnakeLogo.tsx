@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
 const SnakeLogo = ({
   width = 164,
   height = 34,
-  color = "#0052FF",
+  color = '#0052FF',
   animate = false,
 }: {
   width?: number | string;
@@ -114,7 +114,7 @@ const SnakeLogo = ({
                 height={height}
                 rx={2.34}
                 ry={2.34}
-                fill={animate ? "currentColor" : color}
+                fill={animate ? 'currentColor' : color}
               >
                 {animate && (
                   <animate
