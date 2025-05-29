@@ -8,6 +8,8 @@ import { fileURLToPath } from 'node:url';
 import { glob } from 'glob';
 import path from 'node:path';
 import fs from 'fs';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
 
 const entryPoints = Object.fromEntries(
   glob
@@ -62,6 +64,11 @@ export default defineConfig({
         assetFileNames: 'assets/[name][extname]',
         entryFileNames: '[name].js',
       },
+    },
+  },
+  css: {
+    postcss: {
+      plugins: [tailwindcss(), autoprefixer()],
     },
   },
 });
