@@ -110,10 +110,10 @@ export function MiniKitProvider({
         : coinbaseWallet({
             appName: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
             appLogoUrl: process.env.NEXT_PUBLIC_ICON_URL,
-            preference: 'all',
+            preference: onchainKitProps.config?.wallet?.preference,
           }),
     ];
-  }, [context]);
+  }, [context, onchainKitProps.config?.wallet?.preference]);
 
   const value = useMemo(() => {
     return {

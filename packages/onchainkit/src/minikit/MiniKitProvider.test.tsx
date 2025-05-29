@@ -7,6 +7,7 @@ import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { MiniKitContext, MiniKitProvider } from './MiniKitProvider';
 import type { MiniKitContextType } from './types';
+import { coinbaseWallet } from 'wagmi/connectors';
 
 vi.mock('@farcaster/frame-sdk', () => {
   let listeners: Record<string, (data: object) => void> = {};
@@ -31,6 +32,10 @@ vi.mock('@farcaster/frame-sdk', () => {
 
 vi.mock('@farcaster/frame-wagmi-connector', () => ({
   farcasterFrame: vi.fn(),
+}));
+
+vi.mock('wagmi/connectors', () => ({
+  coinbaseWallet: vi.fn(),
 }));
 
 const mockConfig = {
@@ -330,5 +335,37 @@ describe('MiniKitProvider', () => {
     expect(contextValue?.context).toBeNull();
 
     consoleSpy.mockRestore();
+  });
+
+  it('should pass wallet preference from config to coinbaseWallet connector', async () => {
+    const mockPreference = 'smartWalletOnly';
+
+    // Reject the context promise to ensure we use coinbaseWallet
+    vi.mocked(sdk).context = Promise.reject(new Error('No context'));
+
+    render(
+      <WagmiProvider config={createConfig(mockConfig)}>
+        <QueryClientProvider client={queryClient}>
+          <MiniKitProvider
+            chain={mockConfig.chains[0]}
+            config={{
+              wallet: {
+                preference: mockPreference,
+              },
+            }}
+          >
+            <div>Test Child</div>
+          </MiniKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await act(() => Promise.resolve());
+
+    expect(coinbaseWallet).toHaveBeenCalledWith(
+      expect.objectContaining({
+        preference: mockPreference,
+      }),
+    );
   });
 });
