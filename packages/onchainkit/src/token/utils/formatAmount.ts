@@ -1,7 +1,8 @@
 import type { FormatAmountOptions, FormatAmountResponse } from '../types';
 
 /**
- * Retrieves a list of tokens on Base.
+ * Formats a numeric string into a localized string representation with optional
+ * control over the number of decimal places.
  */
 export function formatAmount(
   amount: string | undefined,

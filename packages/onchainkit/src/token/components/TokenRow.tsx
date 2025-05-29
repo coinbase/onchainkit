@@ -3,7 +3,7 @@
 import { memo } from 'react';
 import { useTheme } from '../../internal/hooks/useTheme';
 import { cn, pressable, text } from '../../styles/theme';
-import type { TokenRowReact } from '../types';
+import type { TokenRowProps } from '../types';
 import { formatAmount } from '../utils/formatAmount';
 import { TokenImage } from './TokenImage';
 
@@ -14,9 +14,8 @@ export const TokenRow = memo(function TokenRow({
   onClick,
   hideImage,
   hideSymbol,
-}: TokenRowReact) {
+}: TokenRowProps) {
   const componentTheme = useTheme();
-
   return (
     <button
       data-testid="ockTokenRow_Container"
