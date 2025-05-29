@@ -1,7 +1,11 @@
 'use client';
 
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { WalletEvent, WalletOption } from '@/core/analytics/types';
+import {
+  WalletEvent,
+  WalletOption,
+  WalletOptionType,
+} from '@/core/analytics/types';
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { baseScanSvg } from '@/internal/svg/baseScanSvg';
 import { disconnectSvg } from '@/internal/svg/disconnectSvg';
@@ -38,7 +42,7 @@ export function WalletAdvancedWalletActions({
   );
 
   const handleAnalyticsOptionSelected = useCallback(
-    (option: WalletOption) => {
+    (option: WalletOptionType) => {
       sendAnalytics(WalletEvent.OptionSelected, {
         option,
       });

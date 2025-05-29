@@ -1,7 +1,7 @@
 import type { NFTError } from '@/api/types';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
-import { LifecycleType, MediaType } from '@/nft/types';
+import { MediaType, Lifecycle } from '@/nft/types';
 import { useCallback, useMemo } from 'react';
 import { cn } from '../../../styles/theme';
 import { NFTAudio } from './NFTAudio';
@@ -46,7 +46,7 @@ export function NFTMedia({ className, square }: NFTMediaReact) {
   const handleLoaded = useCallback(() => {
     // for Views, this is the success state
     updateLifecycleStatus({
-      statusName: type === LifecycleType.MINT ? 'mediaLoaded' : 'success',
+      statusName: type === Lifecycle.MINT ? 'mediaLoaded' : 'success',
     });
   }, [type, updateLifecycleStatus]);
 

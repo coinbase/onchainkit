@@ -1,4 +1,4 @@
-import { RequestContext } from '@/core/network/constants';
+import { RequestContext, RequestContextType } from '@/core/network/constants';
 import { CDP_GET_PRICE_QUOTE } from '@/core/network/definitions/wallet';
 import { sendRequest } from '@/core/network/request';
 
@@ -14,7 +14,7 @@ import type { GetPriceQuoteParams, GetPriceQuoteResponse } from './types';
  */
 export async function getPriceQuote(
   params: GetPriceQuoteParams,
-  _context: RequestContext = RequestContext.API,
+  _context: RequestContextType = RequestContext.API,
 ): Promise<GetPriceQuoteResponse> {
   const apiParams = validateGetPriceQuoteParams(params);
   if ('error' in apiParams) {

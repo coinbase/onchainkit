@@ -40,7 +40,7 @@ export type Token = {
 /**
  * Note: exported as public Type
  */
-export type TokenChipReact = {
+export type TokenChipProps = {
   /** Rendered token */
   token: Token;
   onClick?: (token: Token) => void;
@@ -51,7 +51,7 @@ export type TokenChipReact = {
 /**
  * Note: exported as public Type
  */
-export type TokenImageReact = {
+export type TokenImageProps = {
   /** Optional additional CSS class to apply to the component */
   className?: string;
   /** size of the image in px (default: 24) */
@@ -62,7 +62,7 @@ export type TokenImageReact = {
 /**
  * Note: exported as public Type
  */
-export type TokenRowReact = {
+export type TokenRowProps = {
   /** Token amount */
   amount?: string;
   className?: string;
@@ -77,7 +77,7 @@ export type TokenRowReact = {
 /**
  * Note: exported as public Type
  */
-export type TokenSearchReact = {
+export type TokenSearchProps = {
   className?: string;
   /** Debounce delay in milliseconds */
   delayMs?: number;
@@ -88,7 +88,7 @@ export type TokenSearchReact = {
 /**
  * Note: exported as public Type
  */
-export type TokenSelectButtonReact = {
+export type TokenSelectButtonProps = {
   className?: string;
   /** Determines carot icon direction */
   isOpen: boolean;
@@ -101,7 +101,7 @@ export type TokenSelectButtonReact = {
 /**
  * Note: exported as public Type
  */
-export type TokenSelectDropdownReact = {
+export type TokenSelectDropdownProps = {
   /** List of tokens */
   options: Token[];
   /** Token setter */
@@ -113,7 +113,7 @@ export type TokenSelectDropdownReact = {
 /**
  * Note: exported as public Type
  */
-export type TokenSelectModalReact = {
+export type TokenSelectModalProps = {
   /** List of tokens */
   options: Token[];
   /** Token setter */

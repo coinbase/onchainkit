@@ -3,7 +3,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { DropdownMenu } from '../../internal/components/DropdownMenu';
 import { cn } from '../../styles/theme';
-import type { TokenSelectDropdownReact } from '../types';
+import type { TokenSelectDropdownProps } from '../types';
 import { TokenRow } from './TokenRow';
 import { TokenSelectButton } from './TokenSelectButton';
 
@@ -11,7 +11,7 @@ export function TokenSelectDropdown({
   options,
   setToken,
   token,
-}: TokenSelectDropdownReact) {
+}: TokenSelectDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -36,6 +36,7 @@ export function TokenSelectDropdown({
         isOpen={isOpen}
         onClose={closeDropdown}
         align="end"
+        aria-label="Select token"
       >
         <div
           data-testid="ockTokenSelectDropdown_List"

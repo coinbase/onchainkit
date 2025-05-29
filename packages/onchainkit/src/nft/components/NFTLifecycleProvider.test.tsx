@@ -3,7 +3,7 @@ import type { NFTError } from '@/api/types';
 import { fireEvent, render } from '@testing-library/react';
 import type { TransactionReceipt } from 'viem';
 import { describe, expect, it, vi } from 'vitest';
-import { type LifecycleStatus, LifecycleType, MediaType } from '../types';
+import { type LifecycleStatus, Lifecycle, MediaType } from '../types';
 import {
   NFTLifecycleProvider,
   useNFTLifecycleContext,
@@ -84,7 +84,7 @@ const renderWithProviders = ({
 }) => {
   return render(
     <NFTLifecycleProvider
-      type={LifecycleType.MINT}
+      type={Lifecycle.MINT}
       onError={onError}
       onStatus={onStatus}
       onSuccess={onSuccess}
