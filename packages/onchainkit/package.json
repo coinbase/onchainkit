@@ -12,8 +12,6 @@
     "dev": "pnpm bundle:dev",
     "bundle:dev": "NODE_ENV=development vite build --watch",
     "bundle:prod": "vite build",
-    "tailwind:dev": "tailwind -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --watch",
-    "tailwind:prod": "tailwindcss -i ./src/styles/index.css -o ./dist/tailwind.css --minify && tailwindcss -i ./src/styles/index-with-tailwind.css -o ./dist/styles.css --minify",
     "clean": "rm -rf dist esm",
     "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
