@@ -1,6 +1,7 @@
 'use client';
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { BuyEvent, type BuyOption } from '@/core/analytics/types';
+import { type PaymentMethod } from '@/fund/types';
 import { openPopup } from '@/internal/utils/openPopup';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -92,6 +93,15 @@ export function BuyDropdown() {
 
   const isApplePayEnabled = isApplePaySupported();
 
+  const availablePaymentMethods = useMemo(() => {
+    return ONRAMP_PAYMENT_METHODS.filter((method: PaymentMethod) => {
+      if (method.id === 'APPLE_PAY') {
+        return isApplePayEnabled;
+      }
+      return true;
+    });
+  }, [isApplePayEnabled]);
+
   return (
     <div
       className={cn(
@@ -115,10 +125,7 @@ export function BuyDropdown() {
       {!isToUSDC && <BuyTokenItem swapUnit={fromUSDC} />}
       {showFromToken && <BuyTokenItem swapUnit={from} />}
 
-      {ONRAMP_PAYMENT_METHODS.map((method) => {
-        if (method.id === 'APPLE_PAY' && !isApplePayEnabled) {
-          return null;
-        }
+      {availablePaymentMethods.map((method) => {
         return (
           <BuyOnrampItem
             key={method.id}
