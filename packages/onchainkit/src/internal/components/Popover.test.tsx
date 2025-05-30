@@ -91,7 +91,13 @@ describe('Popover', () => {
   describe('accessibility', () => {
     it('should have correct ARIA attributes', () => {
       render(
-        <Popover trigger={<button type="button">Trigger</button>} open={true}>
+        <Popover
+          trigger={<button type="button">Trigger</button>}
+          open={true}
+          ariaLabel="Test Label"
+          ariaLabelledby="labelId"
+          ariaDescribedby="describeId"
+        >
           Popover Content
         </Popover>,
       );
