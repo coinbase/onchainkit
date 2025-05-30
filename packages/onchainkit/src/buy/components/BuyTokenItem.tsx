@@ -6,35 +6,32 @@ import type { SwapUnit } from '../../swap/types';
 import { TokenImage } from '../../token';
 import { useBuyContext } from './BuyProvider';
 
-export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
+export function BuyTokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
   const { handleSubmit, setIsDropdownOpen } = useBuyContext();
 
-  if (!swapUnit || !swapUnit.token) {
-    return null;
-  }
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const handleClick = useCallback(() => {
     setIsDropdownOpen(false);
     handleSubmit(swapUnit);
   }, [handleSubmit, swapUnit, setIsDropdownOpen]);
 
   const hasInsufficientBalance =
-    !swapUnit.balance ||
+    !swapUnit?.balance ||
     Number.parseFloat(swapUnit.balance) < Number.parseFloat(swapUnit.amount);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const roundedAmount = useMemo(() => {
-    if (!swapUnit.amount) {
+    if (!swapUnit?.amount) {
       return '';
     }
     return getRoundedAmount(swapUnit.amount, 10);
-  }, [swapUnit.amount]);
+  }, [swapUnit?.amount]);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const roundedBalance = useMemo(() => {
-    return getRoundedAmount(swapUnit.balance || '0', 3);
-  }, [swapUnit.balance]);
+    return getRoundedAmount(swapUnit?.balance || '0', 3);
+  }, [swapUnit?.balance]);
+
+  if (!swapUnit.token) {
+    return null;
+  }
 
   return (
     <button

@@ -24,6 +24,17 @@ const ethSwapUnit = {
   setLoading: vi.fn(),
 };
 
+const emptySwapUnit = {
+  token: undefined,
+  amount: '10.5',
+  balance: '20',
+  amountUSD: '10.5',
+  loading: false,
+  setAmount: vi.fn(),
+  setAmountUSD: vi.fn(),
+  setLoading: vi.fn(),
+};
+
 describe('BuyTokenItem', () => {
   const mockHandleSubmit = vi.fn();
   const mockSetIsDropdownOpen = vi.fn();
@@ -36,8 +47,8 @@ describe('BuyTokenItem', () => {
     });
   });
 
-  it('renders null when swapUnit is undefined or has no token', () => {
-    const { container } = render(<BuyTokenItem swapUnit={undefined} />);
+  it('renders null when swapUnit has no token', () => {
+    const { container } = render(<BuyTokenItem swapUnit={emptySwapUnit} />);
     expect(container.firstChild).toBeNull();
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
