@@ -26,6 +26,7 @@ vi.mock('@farcaster/frame-sdk', () => {
         listeners = {};
       }),
       context: vi.fn(),
+      isInMiniApp: vi.fn(),
     },
   };
 });
@@ -55,6 +56,7 @@ describe('MiniKitProvider', () => {
         safeAreaInsets: { top: 0, bottom: 0, left: 0, right: 0 },
       },
     }) as unknown as Promise<Context.FrameContext>;
+    vi.mocked(sdk.isInMiniApp).mockResolvedValue(false);
   });
 
   afterEach(() => {
@@ -367,5 +369,40 @@ describe('MiniKitProvider', () => {
         preference: mockPreference,
       }),
     );
+  });
+
+  it('should not render AutoConnect when autoConnect is false', async () => {
+    const { container } = render(
+      <WagmiProvider config={createConfig(mockConfig)}>
+        <QueryClientProvider client={queryClient}>
+          <MiniKitProvider chain={mockConfig.chains[0]} autoConnect={false}>
+            <div>Test Child</div>
+          </MiniKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await act(() => Promise.resolve());
+
+    // Should only have the test child div, no AutoConnect wrapper
+    expect(container.children.length).toBe(1);
+    expect(container.textContent).toBe('Test Child');
+  });
+
+  it('should render AutoConnect when autoConnect is true', async () => {
+    const { container } = render(
+      <WagmiProvider config={createConfig(mockConfig)}>
+        <QueryClientProvider client={queryClient}>
+          <MiniKitProvider chain={mockConfig.chains[0]} autoConnect={true}>
+            <div>Test Child</div>
+          </MiniKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await act(() => Promise.resolve());
+
+    // Should have the test child div wrapped in AutoConnect
+    expect(container.textContent).toBe('Test Child');
   });
 });

@@ -7,7 +7,10 @@ import { useConnect, useAccount } from 'wagmi';
 /**
  * Automatically connects to the Farcaster connector if the user is in a Mini App
  */
-export function AutoConnect({ children }: PropsWithChildren) {
+export function AutoConnect({
+  children,
+  enabled = true,
+}: PropsWithChildren<{ enabled?: boolean }>) {
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
   const hasAttemptedConnection = useRef(false);
@@ -15,6 +18,7 @@ export function AutoConnect({ children }: PropsWithChildren) {
 
   useEffect(() => {
     if (
+      !enabled ||
       hasAttemptedConnection.current ||
       connector?.type !== farcasterFrame.type
     ) {
@@ -32,7 +36,7 @@ export function AutoConnect({ children }: PropsWithChildren) {
     }
 
     handleAutoConnect();
-  }, [connectors, connect, isConnected, isConnecting, connector]);
+  }, [connectors, connect, isConnected, isConnecting, connector, enabled]);
 
   return <>{children}</>;
 }

@@ -30,6 +30,7 @@ export const MiniKitContext = createContext<MiniKitContextType>(emptyContext);
 export function MiniKitProvider({
   children,
   notificationProxyUrl = '/api/notify',
+  autoConnect = true,
   ...onchainKitProps
 }: MiniKitProviderReact & OnchainKitProviderReact) {
   const [context, setContext] = useState<Context.FrameContext | null>(null);
@@ -128,7 +129,7 @@ export function MiniKitProvider({
     <MiniKitContext.Provider value={value}>
       <DefaultOnchainKitProviders connectors={connectors}>
         <OnchainKitProvider {...onchainKitProps}>
-          <AutoConnect>
+          <AutoConnect enabled={autoConnect}>
             <div
               style={{
                 paddingTop: context?.client.safeAreaInsets?.top ?? 0,

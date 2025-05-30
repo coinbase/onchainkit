@@ -88,13 +88,31 @@ describe('AutoConnect', () => {
     expect(container.textContent).toBe('Test Child');
   });
 
-  it('should attempt connection when in Mini App and not connected', async () => {
+  it('should not attempt connection when disabled', async () => {
     vi.mocked(sdk.isInMiniApp).mockResolvedValue(true);
 
     const { container } = render(
       <QueryClientProvider client={queryClient}>
         <WagmiProvider config={createConfig({ ...mockConfig, connectors: [] })}>
-          <AutoConnect>
+          <AutoConnect enabled={false}>
+            <div>Test Child</div>
+          </AutoConnect>
+        </WagmiProvider>
+      </QueryClientProvider>,
+    );
+
+    await act(() => Promise.resolve());
+
+    expect(container.textContent).toBe('Test Child');
+  });
+
+  it('should attempt connection when in Mini App, not connected, and enabled', async () => {
+    vi.mocked(sdk.isInMiniApp).mockResolvedValue(true);
+
+    const { container } = render(
+      <QueryClientProvider client={queryClient}>
+        <WagmiProvider config={createConfig({ ...mockConfig, connectors: [] })}>
+          <AutoConnect enabled={true}>
             <div>Test Child</div>
           </AutoConnect>
         </WagmiProvider>
@@ -112,7 +130,7 @@ describe('AutoConnect', () => {
     const { container, rerender } = render(
       <QueryClientProvider client={queryClient}>
         <WagmiProvider config={createConfig({ ...mockConfig, connectors: [] })}>
-          <AutoConnect>
+          <AutoConnect enabled={true}>
             <div>Test Child</div>
           </AutoConnect>
         </WagmiProvider>
@@ -125,7 +143,7 @@ describe('AutoConnect', () => {
     rerender(
       <QueryClientProvider client={queryClient}>
         <WagmiProvider config={createConfig({ ...mockConfig, connectors: [] })}>
-          <AutoConnect>
+          <AutoConnect enabled={true}>
             <div>Test Child</div>
           </AutoConnect>
         </WagmiProvider>
