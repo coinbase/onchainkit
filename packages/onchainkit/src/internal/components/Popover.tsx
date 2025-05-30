@@ -11,11 +11,11 @@ type PopoverProps = {
   /** The content of the popover. */
   children?: React.ReactNode;
   /** The label of the popover. */
-  ariaLabel?: string;
+  'aria-label'?: string;
   /** Reference to the element that labels the popover. */
-  ariaLabelledby?: string;
+  'aria-labelledby'?: string;
   /** Reference to the element that describes the popover. */
-  ariaDescribedby?: string;
+  'aria-describedby'?: string;
 } & Pick<ComponentProps<typeof RadixPopover>, 'open' | 'onOpenChange'> &
   Pick<
     ComponentProps<typeof RadixPopoverContent>,
@@ -47,9 +47,9 @@ export function Popover({
   side,
   align,
   anchor,
-  ariaLabel,
-  ariaLabelledby,
-  ariaDescribedby,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
 }: PopoverProps) {
   return (
     <RadixPopover open={open} onOpenChange={onOpenChange}>

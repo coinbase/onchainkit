@@ -94,9 +94,9 @@ describe('Popover', () => {
         <Popover
           trigger={<button type="button">Trigger</button>}
           open={true}
-          ariaLabel="Test Label"
-          ariaLabelledby="labelId"
-          ariaDescribedby="describeId"
+          aria-label="Test Label"
+          aria-labelledby="labelId"
+          aria-describedby="describeId"
         >
           Popover Content
         </Popover>,
