@@ -8,7 +8,6 @@ import { SwapSettings } from './SwapSettings';
 import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
 import { SwapSettingsSlippageTitle } from './SwapSettingsSlippageTitle';
-import { DismissableLayer } from '@/internal/components/DismissableLayer';
 
 vi.mock('@/internal/hooks/useIcon', () => ({
   useIcon: vi.fn(() => <svg data-testid="mock-icon" />),
