@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { Message } from '../types';
-import { SignatureIcon } from './SignatureIcon';
-import { useSignatureContext } from './SignatureProvider';
+import { SignatureIcon } from '../components/SignatureIcon';
+import { useSignatureContext } from '../components/SignatureProvider';
 
-vi.mock('./SignatureProvider', () => ({
+vi.mock('../components/SignatureProvider', () => ({
   useSignatureContext: vi.fn(),
 }));
 vi.mock('../../internal/svg/errorSvg', () => ({

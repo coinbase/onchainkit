@@ -1,17 +1,16 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { Message } from '../types';
-import { useSignatureContext } from './SignatureProvider';
-import { SignatureToast } from './SignatureToast';
+import { useSignatureContext } from '../components/SignatureProvider';
+import { SignatureToast } from '../components/SignatureToast';
 
-vi.mock('./SignatureProvider', () => ({
+vi.mock('../components/SignatureProvider', () => ({
   useSignatureContext: vi.fn(),
 }));
-
-vi.mock('./SignatureIcon', () => ({
+vi.mock('../components/SignatureIcon', () => ({
   SignatureIcon: vi.fn(() => <div>SignatureIcon</div>),
 }));
-vi.mock('./SignatureLabel', () => ({
+vi.mock('../components/SignatureLabel', () => ({
   SignatureLabel: vi.fn(() => <div>SignatureLabel</div>),
 }));
 
