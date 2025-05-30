@@ -5,7 +5,7 @@ import {
   type LifecycleStatus,
   Transaction,
   TransactionButton,
-  type TransactionResponse,
+  type TransactionResponseType,
 } from '@/transaction';
 import { TransactionButtonRenderParams } from '@/transaction/types';
 import { ConnectWallet } from '@/wallet';
@@ -49,7 +49,7 @@ export function DepositButton({ className }: DepositButtonReact) {
   );
 
   const handleOnSuccess = useCallback(
-    (res: TransactionResponse) => {
+    (res: TransactionResponseType) => {
       if (
         res.transactionReceipts[0] &&
         res.transactionReceipts[0].status === 'success'

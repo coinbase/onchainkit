@@ -1,8 +1,8 @@
 import { cn, text } from '../../styles/theme';
-import type { TransactionSponsorReact } from '../types';
+import type { TransactionSponsorProps } from '../types';
 import { useTransactionContext } from './TransactionProvider';
 
-export function TransactionSponsor({ className }: TransactionSponsorReact) {
+export function TransactionSponsor({ className }: TransactionSponsorProps) {
   const {
     errorMessage,
     lifecycleStatus,

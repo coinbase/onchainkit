@@ -6,7 +6,7 @@ import { cn, text } from '@/styles/theme';
 import {
   Transaction,
   TransactionButton,
-  type TransactionButtonReact,
+  type TransactionButtonProps,
   type LifecycleStatus as TransactionLifecycleStatus,
   TransactionSponsor,
   TransactionStatus,
@@ -21,7 +21,7 @@ import { useAccount, useChainId } from 'wagmi';
 type NFTMintButtonReact = {
   className?: string;
   label?: string;
-} & Pick<TransactionButtonReact, 'disabled'>;
+} & Pick<TransactionButtonProps, 'disabled'>;
 
 export function NFTMintButton({
   className,
