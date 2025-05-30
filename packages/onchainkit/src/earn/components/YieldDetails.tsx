@@ -6,7 +6,8 @@ import { Skeleton } from '@/internal/components/Skeleton';
 import { infoSvg } from '@/internal/svg/infoSvg';
 import { formatPercent } from '@/internal/utils/formatPercent';
 import { cn, text } from '@/styles/theme';
-import { useRef, useState } from 'react';
+import { PopoverTrigger } from '@radix-ui/react-popover';
+import { useState } from 'react';
 
 function YieldInfo() {
   const { rewards, nativeApy, vaultToken, vaultFee } = useEarnContext();
@@ -60,8 +61,6 @@ function YieldInfo() {
 
 export function YieldDetails() {
   const [isOpen, setIsOpen] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const anchorRef = useRef<HTMLDivElement>(null);
 
   const { apy } = useEarnContext();
 
@@ -70,41 +69,40 @@ export function YieldDetails() {
   }
 
   return (
-    <div
-      ref={anchorRef}
-      className={cn(
-        text.label1,
-        'text-ock-text-foreground-muted',
-        'bg-ock-bg-alternate',
-        'flex items-center justify-center gap-1 rounded-full p-1 px-3',
-      )}
-      data-testid="ock-yieldDetails"
+    <Popover
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      side="bottom"
+      align="end"
+      sideOffset={4}
+      anchor={
+        <div
+          className={cn(
+            text.label1,
+            'text-ock-text-foreground-muted',
+            'bg-ock-bg-alternate',
+            'flex items-center justify-center gap-1 rounded-full p-1 px-3',
+          )}
+          data-testid="ock-yieldDetails"
+        >
+          {`APY ${formatPercent(Number(getTruncatedAmount(apy.toString(), 4)))}`}
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              data-testid="ock-apyInfoButton"
+              className={cn(
+                'size-3 [&_path]:fill-ock-icon-color-foreground-muted [&_path]:transition-colors [&_path]:ease-in-out [&_path]:hover:fill-ock-icon-color-foreground',
+                isOpen && '[&_path]:fill-ock-icon-color-foreground',
+              )}
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {infoSvg}
+            </button>
+          </PopoverTrigger>
+        </div>
+      }
     >
-      {`APY ${formatPercent(Number(getTruncatedAmount(apy.toString(), 4)))}`}
-      <button
-        ref={triggerRef}
-        type="button"
-        data-testid="ock-apyInfoButton"
-        className={cn(
-          'size-3 [&_path]:fill-ock-icon-color-foreground-muted [&_path]:transition-colors [&_path]:ease-in-out [&_path]:hover:fill-ock-icon-color-foreground',
-          isOpen && '[&_path]:fill-ock-icon-color-foreground',
-        )}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {infoSvg}
-      </button>
-
-      <Popover
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        position="bottom"
-        align="end"
-        trigger={triggerRef}
-        anchor={anchorRef.current}
-        offset={4}
-      >
-        <YieldInfo />
-      </Popover>
-    </div>
+      <YieldInfo />
+    </Popover>
   );
 }
