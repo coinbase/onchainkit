@@ -47,7 +47,12 @@ export function Popover({
       {anchor && <RadixPopoverAnchor asChild>{anchor}</RadixPopoverAnchor>}
       {trigger && <RadixPopoverTrigger asChild>{trigger}</RadixPopoverTrigger>}
       <RadixPopoverPortal>
-        <RadixPopoverContent sideOffset={sideOffset} side={side} align={align}>
+        <RadixPopoverContent
+          sideOffset={sideOffset}
+          side={side}
+          align={align}
+          data-testid="ockPopover"
+        >
           {children}
         </RadixPopoverContent>
       </RadixPopoverPortal>
