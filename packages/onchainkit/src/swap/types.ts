@@ -331,7 +331,11 @@ export type SwapProps = {
 } & (
   | {
       /** When render is provided, swappableTokens, toToken, and fromToken are not required */
-      render: () => ReactNode;
+      render: ({
+        componentThemeClassName,
+      }: {
+        componentThemeClassName: string;
+      }) => ReactNode;
       /** To token */
       to?: never;
       /** From token */

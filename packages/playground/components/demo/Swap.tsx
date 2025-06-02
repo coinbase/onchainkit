@@ -15,16 +15,16 @@ import {
 import type { SwapError } from '@coinbase/onchainkit/swap';
 import type { Token } from '@coinbase/onchainkit/token';
 import { useCallback, useContext } from 'react';
-import { parseUnits, type TransactionReceipt } from 'viem';
+import { type TransactionReceipt } from 'viem';
 import { base } from 'viem/chains';
 import { AppContext } from '../AppProvider';
+import { cn } from '@/lib/utils';
+import { text } from '@coinbase/onchainkit/theme';
 
 const FALLBACK_DEFAULT_MAX_SLIPPAGE = 3;
 
 function SwapComponent() {
   const { chainId, isSponsored, defaultMaxSlippage } = useContext(AppContext);
-
-  console.log(parseUnits('1.111', 18));
 
   const degenToken: Token = {
     name: 'DEGEN',
@@ -106,7 +106,7 @@ function SwapComponent() {
       ) : null}
 
       <Swap
-        className="w-full border sm:w-[500px]"
+        className=""
         onStatus={handleOnStatus}
         onSuccess={handleOnSuccess}
         onError={handleOnError}
@@ -114,36 +114,55 @@ function SwapComponent() {
           maxSlippage: defaultMaxSlippage || FALLBACK_DEFAULT_MAX_SLIPPAGE,
         }}
         isSponsored={isSponsored}
-      >
-        <SwapSettings>
-          <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
-          <SwapSettingsSlippageDescription>
-            Your swap will revert if the prices change by more than the selected
-            percentage.
-          </SwapSettingsSlippageDescription>
-          <SwapSettingsSlippageInput />
-        </SwapSettings>
-        <SwapAmountInput
-          label="Sell"
-          swappableTokens={swappableTokens}
-          token={ethToken}
-          type="from"
-        />
-        <SwapToggleButton />
-        <SwapAmountInput
-          label="Buy"
-          swappableTokens={swappableTokens}
-          token={usdcToken}
-          type="to"
-        />
-        <SwapButton
-          disabled={
-            ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
-          }
-        />
-        <SwapMessage />
-        <SwapToast />
-      </Swap>
+        render={({ componentThemeClassName }) => (
+          <div
+            className={cn(
+              componentThemeClassName,
+              'bg-ock-bg-default rounded-ock-default text-ock-text-foreground relative flex max-w-[500px] flex-col px-6 pt-6 pb-4 w-full border sm:w-[500px]',
+            )}
+            data-testid="ockSwap_Container"
+          >
+            <div className="absolute flex w-1/2 items-center justify-between">
+              <h3
+                className={cn(text.title3, 'text-center')}
+                data-testid="ockSwap_Title"
+              >
+                Swap
+              </h3>
+            </div>
+            <SwapSettings>
+              <SwapSettingsSlippageTitle>
+                Max. slippage
+              </SwapSettingsSlippageTitle>
+              <SwapSettingsSlippageDescription>
+                Your swap will revert if the prices change by more than the
+                selected percentage.
+              </SwapSettingsSlippageDescription>
+              <SwapSettingsSlippageInput />
+            </SwapSettings>
+            <SwapAmountInput
+              label="Sell"
+              swappableTokens={swappableTokens}
+              token={ethToken}
+              type="from"
+            />
+            <SwapToggleButton />
+            <SwapAmountInput
+              label="Buy"
+              swappableTokens={swappableTokens}
+              token={usdcToken}
+              type="to"
+            />
+            <SwapButton
+              disabled={
+                ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
+              }
+            />
+            <SwapMessage />
+            <SwapToast />
+          </div>
+        )}
+      />
     </div>
   );
 }

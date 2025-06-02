@@ -76,7 +76,7 @@ export function Swap({
       onSuccess={onSuccess}
     >
       {render ? (
-        render?.()
+        render?.({ componentThemeClassName: componentTheme })
       ) : (
         <div
           className={cn(

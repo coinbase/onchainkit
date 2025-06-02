@@ -93,6 +93,8 @@ export function SwapAmountInput({
     });
   }
 
+  console.log('sourceTokenOptions', sourceTokenOptions);
+
   return (
     <div
       className={cn(
@@ -112,7 +114,7 @@ export function SwapAmountInput({
       <div className="flex w-full items-center justify-between">
         <TextInput
           className={cn(
-            'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem] truncate leading-none outline-none',
+            'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem] leading-none outline-none truncate',
           )}
           aria-label={type === 'from' ? 'From amount' : 'To amount'}
           error={!!(hasInsufficientBalance && address)}
