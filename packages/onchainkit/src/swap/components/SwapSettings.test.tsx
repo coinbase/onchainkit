@@ -65,26 +65,6 @@ vi.mock('../../internal/components/DismissableLayer', () => ({
   )),
 }));
 
-vi.mock('../../internal/components/Popover', () => ({
-  Popover: vi.fn(({ children, isOpen, onClose }) =>
-    isOpen ? (
-      <div
-        data-testid="mock-popover"
-        onClick={onClose}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            onClose();
-          }
-        }}
-        role="button"
-        tabIndex={0}
-      >
-        {children}
-      </div>
-    ) : null,
-  ),
-}));
-
 const useBreakpointsMock = useBreakpoints as Mock;
 
 const renderComponent = (props = {}) => {
@@ -170,7 +150,9 @@ describe('SwapSettings', () => {
       expect(screen.getByTestId('ockSwapSettingsDropdown')).toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByTestId('mock-popover'));
+    fireEvent.click(
+      screen.getByRole('button', { name: /toggle swap settings/i }),
+    );
 
     await waitFor(() => {
       expect(
@@ -276,13 +258,19 @@ describe('SwapSettings', () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(screen.getByTestId('mock-popover')).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: /toggle swap settings/i }),
+      ).toBeInTheDocument();
       expect(screen.getByTestId('ockSwapSettingsDropdown')).toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByTestId('mock-popover'));
+    fireEvent.click(
+      screen.getByRole('button', { name: /toggle swap settings/i }),
+    );
     await waitFor(() => {
-      expect(screen.queryByTestId('mock-popover')).not.toBeInTheDocument();
+      expect(
+        screen.queryByTestId('ockSwapSettingsDropdown'),
+      ).not.toBeInTheDocument();
     });
   });
 });

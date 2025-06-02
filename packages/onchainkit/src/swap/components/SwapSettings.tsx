@@ -45,6 +45,21 @@ export function SwapSettings({
 
   const iconSvg = useIcon({ icon });
 
+  const trigger = (
+    <button
+      ref={triggerRef}
+      type="button"
+      aria-label="Toggle swap settings"
+      className={cn(
+        pressable.default,
+        'rounded-full p-2 opacity-50 transition-opacity hover:opacity-100',
+      )}
+      onClick={handleToggle}
+    >
+      <div className="h-[1.125rem] w-[1.125rem]">{iconSvg}</div>
+    </button>
+  );
+
   return (
     <div
       className={cn(
@@ -55,50 +70,40 @@ export function SwapSettings({
     >
       {buttonText && <span className={cn(text.body)}>{buttonText}</span>}
       <div className={cn('relative', isOpen && 'group')} ref={dropdownRef}>
-        <button
-          ref={triggerRef}
-          type="button"
-          aria-label="Toggle swap settings"
-          className={cn(
-            pressable.default,
-            'rounded-full p-2 opacity-50 transition-opacity hover:opacity-100',
-          )}
-          onClick={handleToggle}
-        >
-          <div className="h-[1.125rem] w-[1.125rem]">{iconSvg}</div>
-        </button>
         {breakpoint === 'sm' ? (
-          <FocusTrap active={isOpen}>
-            <DismissableLayer
-              onDismiss={handleClose}
-              triggerRef={triggerRef}
-              preventTriggerEvents={true}
-            >
-              <div
-                className={cn(
-                  'bg-ock-bg-inverse',
-                  'shadow-ock-default',
-                  'fixed inset-x-0 z-50 transition-[bottom] duration-300 ease-in-out',
-                  isOpen ? 'bottom-0' : '-bottom-[12.875rem]',
-                  'h-[12.875rem] rounded-t-lg',
-                  className,
-                )}
-                data-testid="ockSwapSettingsSlippageLayoutBottomSheet_container"
+          <>
+            {trigger}
+            <FocusTrap active={isOpen}>
+              <DismissableLayer
+                onDismiss={handleClose}
+                triggerRef={triggerRef}
+                preventTriggerEvents={true}
               >
-                <SwapSettingsSlippageLayoutBottomSheet className={className}>
-                  {children}
-                </SwapSettingsSlippageLayoutBottomSheet>
-              </div>
-            </DismissableLayer>
-          </FocusTrap>
+                <div
+                  className={cn(
+                    'bg-ock-bg-inverse',
+                    'shadow-ock-default',
+                    'fixed inset-x-0 z-50 transition-[bottom] duration-300 ease-in-out',
+                    isOpen ? 'bottom-0' : '-bottom-[12.875rem]',
+                    'h-[12.875rem] rounded-t-lg',
+                    className,
+                  )}
+                  data-testid="ockSwapSettingsSlippageLayoutBottomSheet_container"
+                >
+                  <SwapSettingsSlippageLayoutBottomSheet className={className}>
+                    {children}
+                  </SwapSettingsSlippageLayoutBottomSheet>
+                </div>
+              </DismissableLayer>
+            </FocusTrap>
+          </>
         ) : (
           <Popover
-            isOpen={isOpen}
-            onClose={handleClose}
-            anchor={dropdownRef.current}
-            position="bottom"
+            open={isOpen}
+            onOpenChange={setIsOpen}
+            side="bottom"
             align="end"
-            trigger={triggerRef}
+            trigger={trigger}
           >
             <div
               className={cn(
