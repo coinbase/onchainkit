@@ -1,20 +1,20 @@
 'use client';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { border, cn, text } from '@/styles/theme';
+import * as TabsPrimitive from '@radix-ui/react-tabs';
 import type { EarnProps } from '../types';
 import { EarnDeposit } from './EarnDeposit';
 import { EarnProvider } from './EarnProvider';
 import { useEarnContext } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
-import * as Tabs from '@radix-ui/react-tabs';
 
 function EarnDefaultContent() {
   const { refetchWalletBalance, refetchDepositedBalance } = useEarnContext();
 
   return (
-    <Tabs.Root defaultValue="deposit">
-      <Tabs.List>
-        <Tabs.Trigger
+    <TabsPrimitive.Root defaultValue="deposit">
+      <TabsPrimitive.List>
+        <TabsPrimitive.Trigger
           value="deposit"
           onClick={refetchWalletBalance}
           className={cn(
@@ -27,8 +27,8 @@ function EarnDefaultContent() {
           )}
         >
           Deposit
-        </Tabs.Trigger>
-        <Tabs.Trigger
+        </TabsPrimitive.Trigger>
+        <TabsPrimitive.Trigger
           value="withdraw"
           onClick={refetchDepositedBalance}
           className={cn(
@@ -41,9 +41,9 @@ function EarnDefaultContent() {
           )}
         >
           Withdraw
-        </Tabs.Trigger>
-      </Tabs.List>
-      <Tabs.Content
+        </TabsPrimitive.Trigger>
+      </TabsPrimitive.List>
+      <TabsPrimitive.Content
         value="deposit"
         className={cn(
           border.lineDefault,
@@ -51,8 +51,8 @@ function EarnDefaultContent() {
         )}
       >
         <EarnDeposit />
-      </Tabs.Content>
-      <Tabs.Content
+      </TabsPrimitive.Content>
+      <TabsPrimitive.Content
         value="withdraw"
         className={cn(
           border.lineDefault,
@@ -60,8 +60,8 @@ function EarnDefaultContent() {
         )}
       >
         <EarnWithdraw />
-      </Tabs.Content>
-    </Tabs.Root>
+      </TabsPrimitive.Content>
+    </TabsPrimitive.Root>
   );
 }
 
