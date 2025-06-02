@@ -1,34 +1,49 @@
 'use client';
-import { Tab, TabContent, Tabs, TabsList } from '@/internal';
 import { useTheme } from '@/internal/hooks/useTheme';
-import { border, cn } from '@/styles/theme';
+import { border, cn, text } from '@/styles/theme';
 import type { EarnProps } from '../types';
 import { EarnDeposit } from './EarnDeposit';
 import { EarnProvider } from './EarnProvider';
 import { useEarnContext } from './EarnProvider';
 import { EarnWithdraw } from './EarnWithdraw';
+import * as Tabs from '@radix-ui/react-tabs';
 
 function EarnDefaultContent() {
   const { refetchWalletBalance, refetchDepositedBalance } = useEarnContext();
+
   return (
-    <Tabs defaultValue="deposit">
-      <TabsList>
-        <Tab
+    <Tabs.Root defaultValue="deposit">
+      <Tabs.List>
+        <Tabs.Trigger
           value="deposit"
           onClick={refetchWalletBalance}
-          className="rounded-tl-[calc(var(--ock-border-radius)_-_1px)]"
+          className={cn(
+            text.headline,
+            'bg-ock-bg-default data-[state=active]:bg-ock-bg-primary',
+            'text-ock-text-foreground data-[state=active]:text-ock-text-inverse',
+            'w-1/2 text-center',
+            'cursor-pointer px-3 py-2',
+            'focus:outline-none focus-visible:ring-2 focus-visible:ring-ock-text-foreground focus-visible:ring-inset',
+          )}
         >
           Deposit
-        </Tab>
-        <Tab
+        </Tabs.Trigger>
+        <Tabs.Trigger
           value="withdraw"
           onClick={refetchDepositedBalance}
-          className="rounded-tr-[calc(var(--ock-border-radius)_-_1px)]"
+          className={cn(
+            text.headline,
+            'bg-ock-bg-default data-[state=active]:bg-ock-bg-primary',
+            'text-ock-text-foreground data-[state=active]:text-ock-text-inverse',
+            'w-1/2 text-center',
+            'cursor-pointer px-3 py-2',
+            'focus:outline-none focus-visible:ring-2 focus-visible:ring-ock-text-foreground focus-visible:ring-inset',
+          )}
         >
           Withdraw
-        </Tab>
-      </TabsList>
-      <TabContent
+        </Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content
         value="deposit"
         className={cn(
           border.lineDefault,
@@ -36,8 +51,8 @@ function EarnDefaultContent() {
         )}
       >
         <EarnDeposit />
-      </TabContent>
-      <TabContent
+      </Tabs.Content>
+      <Tabs.Content
         value="withdraw"
         className={cn(
           border.lineDefault,
@@ -45,8 +60,8 @@ function EarnDefaultContent() {
         )}
       >
         <EarnWithdraw />
-      </TabContent>
-    </Tabs>
+      </Tabs.Content>
+    </Tabs.Root>
   );
 }
 
