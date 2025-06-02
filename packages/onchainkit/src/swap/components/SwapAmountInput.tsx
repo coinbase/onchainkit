@@ -93,8 +93,6 @@ export function SwapAmountInput({
     });
   }
 
-  console.log('sourceTokenOptions', sourceTokenOptions);
-
   return (
     <div
       className={cn(
