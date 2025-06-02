@@ -2,7 +2,6 @@
 import { useBuildDepositToMorphoTx } from '@/earn/hooks/useBuildDepositToMorphoTx';
 import { getToken } from '@/earn/utils/getToken';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
-import { useValue } from '@/internal/hooks/useValue';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import {
   createContext,
@@ -156,40 +155,44 @@ export function EarnProvider({
     return null;
   }, [withdrawAmount, depositedBalance]);
 
-  const value = useValue<EarnContextType>({
-    error,
-    recipientAddress: address,
-    vaultAddress,
-    vaultToken,
-    vaultName,
-    deposits,
-    liquidity,
-    depositedBalance,
-    depositedBalanceStatus,
-    refetchDepositedBalance,
-    depositAmount,
-    setDepositAmount: handleDepositAmount,
-    depositAmountError,
-    withdrawAmount,
-    setWithdrawAmount: handleWithdrawAmount,
-    withdrawAmountError,
-    walletBalance,
-    walletBalanceStatus,
-    refetchWalletBalance,
-    apy: totalApy,
-    nativeApy,
-    vaultFee,
-    rewards,
-    // TODO: update when we have logic to fetch interest
-    interestEarned: '',
-    withdrawCalls,
-    depositCalls,
-    lifecycleStatus,
-    updateLifecycleStatus,
-    isSponsored,
-  });
-
-  return <EarnContext.Provider value={value}>{children}</EarnContext.Provider>;
+  return (
+    <EarnContext.Provider
+      value={{
+        error,
+        recipientAddress: address,
+        vaultAddress,
+        vaultToken,
+        vaultName,
+        deposits,
+        liquidity,
+        depositedBalance,
+        depositedBalanceStatus,
+        refetchDepositedBalance,
+        depositAmount,
+        setDepositAmount: handleDepositAmount,
+        depositAmountError,
+        withdrawAmount,
+        setWithdrawAmount: handleWithdrawAmount,
+        withdrawAmountError,
+        walletBalance,
+        walletBalanceStatus,
+        refetchWalletBalance,
+        apy: totalApy,
+        nativeApy,
+        vaultFee,
+        rewards,
+        // TODO: update when we have logic to fetch interest
+        interestEarned: '',
+        withdrawCalls,
+        depositCalls,
+        lifecycleStatus,
+        updateLifecycleStatus,
+        isSponsored,
+      }}
+    >
+      {children}
+    </EarnContext.Provider>
+  );
 }
 
 export function useEarnContext() {
