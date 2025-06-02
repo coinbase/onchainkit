@@ -75,25 +75,23 @@ vi.mock('@/styles/theme', async (importOriginal) => {
 
 describe('Swap Component', () => {
   it('should render the title correctly', () => {
-    render(<Swap title="Test Swap">Test Swap</Swap>);
+    render(<Swap title="Test Swap" render={() => <div>Test Swap</div>} />);
 
     const title = screen.getByTestId('ockSwap_Title');
     expect(title).toHaveTextContent('Test Swap');
   });
 
   it('should pass className to container div', () => {
-    render(<Swap className="custom-class">Test Swap</Swap>);
+    render(
+      <Swap className="custom-class" render={() => <div>Test Swap</div>} />,
+    );
 
     const container = screen.getByTestId('ockSwap_Container');
     expect(container).toHaveClass('custom-class');
   });
 
-  it('should render children', () => {
-    render(
-      <Swap>
-        <div>Test Child</div>
-      </Swap>,
-    );
+  it('should render render prop', () => {
+    render(<Swap render={() => <div>Test Child</div>} />);
 
     expect(screen.getByText('Test Child')).toBeInTheDocument();
   });
