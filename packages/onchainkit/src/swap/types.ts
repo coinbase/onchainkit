@@ -328,10 +328,6 @@ export type SwapProps = {
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   /** An optional callback function that exposes the transaction receipt */
   onSuccess?: (transactionReceipt: TransactionReceipt) => void;
-  /** Title for the Swap component. (default: "Swap") */
-  title?: ReactNode;
-  /** Header left content for the Swap component (eg. back button) */
-  headerLeftContent?: ReactNode;
 } & (
   | {
       /** When render is provided, swappableTokens, toToken, and fromToken are not required */
@@ -342,6 +338,10 @@ export type SwapProps = {
       from?: never;
       /** Disables swap button */
       disabled?: never;
+      /** Title for the Swap component. (default: "Swap") */
+      title?: never;
+      /** Header left content for the Swap component (eg. back button) */
+      headerLeftContent?: never;
     }
   | {
       /** When render is undefined, swappableTokens, toToken, and fromToken are required */
@@ -352,6 +352,10 @@ export type SwapProps = {
       from: Token[];
       /** Disables swap button */
       disabled?: boolean;
+      /** Title for the Swap component. (default: "Swap") */
+      title?: ReactNode;
+      /** Header left content for the Swap component (eg. back button) */
+      headerLeftContent?: ReactNode;
     }
 );
 
