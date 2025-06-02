@@ -112,12 +112,10 @@ export function SwapAmountInput({
       <div className="flex w-full items-center justify-between">
         <TextInput
           className={cn(
-            'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem] truncate',
-            'leading-none outline-none',
-            hasInsufficientBalance && address
-              ? 'text-ock-text-error'
-              : 'text-ock-text-foreground',
+            'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem] truncate leading-none outline-none',
           )}
+          aria-label={type === 'from' ? 'From amount' : 'To amount'}
+          error={!!(hasInsufficientBalance && address)}
           placeholder="0.0"
           delayMs={delayMs}
           value={formatMaybeScientificNotationToDecimal(amount)}
