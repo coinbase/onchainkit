@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.14
+
+### Patch Changes
+
+- 6279529: feat: Automatically connect wallet in MiniKit contexts
+
 ## 0.38.13
 
 ### Patch Changes
