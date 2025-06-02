@@ -14,26 +14,20 @@ export { useSwapContext } from './components/SwapProvider';
 
 // Types
 export type {
-  /** @deprecated Prefer import from `api` module */
-  BuildSwapTransaction,
-  /** @deprecated Prefer import from `api` module */
-  BuildSwapTransactionResponse,
-} from '../api/types';
-export type {
   Fee,
   LifecycleStatus,
   QuoteWarning,
-  SwapAmountInputReact,
-  SwapButtonReact,
+  SwapAmountInputProps,
+  SwapButtonProps,
   SwapError,
-  SwapMessageReact,
-  SwapQuote,
-  SwapReact,
-  SwapSettingsReact,
-  SwapSettingsSlippageDescriptionReact,
-  SwapSettingsSlippageInputReact,
-  SwapSettingsSlippageTitleReact,
-  SwapToggleButtonReact,
+  SwapMessageProps,
+  SwapQuoteParams,
+  SwapProps,
+  SwapSettingsProps,
+  SwapSettingsSlippageDescriptionProps,
+  SwapSettingsSlippageInputProps,
+  SwapSettingsSlippageTitleProps,
+  SwapToggleButtonProps,
   SwapTransactionType,
-  Transaction,
+  TransactionParams,
 } from './types';

@@ -334,11 +334,8 @@ export type SwapProps = {
   headerLeftContent?: ReactNode;
 } & (
   | {
-      /** When React children are provided
-       * swappableTokens, toToken, and fromToken should be passed to the SwapAmountInput component
-       * disabled should be passed to the SwapButton component
-       **/
-      children: ReactNode;
+      /** When render is provided, swappableTokens, toToken, and fromToken are not required */
+      render: () => ReactNode;
       /** To token */
       to?: never;
       /** From token */
@@ -347,8 +344,8 @@ export type SwapProps = {
       disabled?: never;
     }
   | {
-      /** When React Children are undefined, swappableTokens, toToken, and fromToken are required */
-      children?: never;
+      /** When render is undefined, swappableTokens, toToken, and fromToken are required */
+      render?: never;
       /** To token */
       to: Token[];
       /** From token */

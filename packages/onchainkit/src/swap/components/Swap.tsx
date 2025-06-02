@@ -41,7 +41,7 @@ function SwapDefaultContent({
 }
 
 export function Swap({
-  children,
+  render,
   config = {
     maxSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
   },
@@ -75,27 +75,29 @@ export function Swap({
       onStatus={onStatus}
       onSuccess={onSuccess}
     >
-      <div
-        className={cn(
-          componentTheme,
-          'bg-ock-bg-default rounded-ock-default text-ock-text-foreground relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
-          className,
-        )}
-        data-testid="ockSwap_Container"
-      >
-        <div className="absolute flex w-1/2 items-center justify-between">
-          {headerLeftContent}
-          <h3
-            className={cn(text.title3, 'text-center')}
-            data-testid="ockSwap_Title"
-          >
-            {title}
-          </h3>
-        </div>
-        {children ?? (
+      {render ? (
+        render?.()
+      ) : (
+        <div
+          className={cn(
+            componentTheme,
+            'bg-ock-bg-default rounded-ock-default text-ock-text-foreground relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
+            className,
+          )}
+          data-testid="ockSwap_Container"
+        >
+          <div className="absolute flex w-1/2 items-center justify-between">
+            {headerLeftContent}
+            <h3
+              className={cn(text.title3, 'text-center')}
+              data-testid="ockSwap_Title"
+            >
+              {title}
+            </h3>
+          </div>
           <SwapDefaultContent to={to} from={from} disabled={disabled} />
-        )}
-      </div>
+        </div>
+      )}
     </SwapProvider>
   );
 }
