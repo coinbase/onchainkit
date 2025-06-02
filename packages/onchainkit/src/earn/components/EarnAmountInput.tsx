@@ -12,24 +12,21 @@ export function EarnAmountInput({
   'aria-label': ariaLabel,
 }: EarnAmountInputProps) {
   return (
-    <div
-      data-testid="ockEarnAmountInput"
-      className={cn('flex flex-col', className)}
-    >
-      <TextInput
-        className={cn(
-          text.base,
-          'text-ock-text-foreground',
-          'w-full border-none bg-transparent text-5xl',
-          'leading-none outline-none',
-        )}
-        placeholder="0.0"
-        value={formatAmount(value)}
-        onChange={onChange}
-        inputValidator={isValidAmount}
-        disabled={disabled}
-        aria-label={ariaLabel}
-      />
-    </div>
+    <TextInput
+      testID="ockEarnAmountInput_Input"
+      className={cn(
+        text.base,
+        'text-ock-text-foreground',
+        'w-full border-none bg-transparent text-5xl',
+        'leading-none outline-none',
+        className,
+      )}
+      placeholder="0.0"
+      value={formatAmount(value)}
+      onChange={onChange}
+      inputValidator={isValidAmount}
+      disabled={disabled}
+      aria-label={ariaLabel}
+    />
   );
 }
