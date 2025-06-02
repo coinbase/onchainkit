@@ -2,7 +2,7 @@ import { TextInput } from '@/internal/components/TextInput';
 import { isValidAmount } from '@/internal/utils/isValidAmount';
 import { cn, text } from '@/styles/theme';
 import { formatAmount } from '@/swap/utils/formatAmount';
-import type { EarnAmountInputReact } from '../types';
+import type { EarnAmountInputProps } from '../types';
 
 export function EarnAmountInput({
   className,
@@ -10,7 +10,7 @@ export function EarnAmountInput({
   value,
   onChange,
   'aria-label': ariaLabel,
-}: EarnAmountInputReact) {
+}: EarnAmountInputProps) {
   return (
     <div
       data-testid="ockEarnAmountInput"

@@ -2,7 +2,7 @@
 import { Tab, TabContent, Tabs, TabsList } from '@/internal';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { border, cn } from '@/styles/theme';
-import type { EarnReact } from '../types';
+import type { EarnProps } from '../types';
 import { EarnDeposit } from './EarnDeposit';
 import { EarnProvider } from './EarnProvider';
 import { useEarnContext } from './EarnProvider';
@@ -58,7 +58,7 @@ export function Earn({
   onError,
   onStatus,
   onSuccess,
-}: EarnReact) {
+}: EarnProps) {
   const componentTheme = useTheme();
   return (
     <EarnProvider
