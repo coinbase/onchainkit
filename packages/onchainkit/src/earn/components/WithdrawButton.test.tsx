@@ -343,13 +343,13 @@ describe('WithdrawButton Component', () => {
       vi.mocked(useEarnContext).mockReturnValue({
         ...baseContext,
         withdrawCalls: [{ to: '0x123', data: '0x456' }],
-        withdrawAmountError: 'invalid amount',
+        withdrawAmountError: 'Invalid amount',
         withdrawAmount: '100',
       });
 
       render(<WithdrawButton />);
 
-      const transactionButton = screen.getByText('Withdraw');
+      const transactionButton = screen.getByText('Invalid amount');
       expect(transactionButton).toHaveAttribute('disabled');
     });
 

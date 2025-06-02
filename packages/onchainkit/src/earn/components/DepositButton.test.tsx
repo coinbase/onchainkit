@@ -357,7 +357,7 @@ describe('DepositButton Component', () => {
 
       render(<DepositButton />);
 
-      const transactionButton = screen.getByText('Deposit');
+      const transactionButton = screen.getByText('Invalid amount');
       expect(transactionButton).toHaveAttribute('disabled');
     });
 
