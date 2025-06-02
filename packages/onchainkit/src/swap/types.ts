@@ -351,9 +351,9 @@ export type SwapProps = {
       /** When render is undefined, swappableTokens, toToken, and fromToken are required */
       render?: never;
       /** To token */
-      to: Token[];
+      to?: Token[];
       /** From token */
-      from: Token[];
+      from?: Token[];
       /** Disables swap button */
       disabled?: boolean;
       /** Title for the Swap component. (default: "Swap") */
