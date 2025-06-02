@@ -38,7 +38,7 @@ export const TextInput = forwardRef(
       value,
       inputValidator = () => true,
       error,
-      testID,
+      testID = 'ockTextInput_Input',
       ...rest
     }: TextInputProps,
     ref: ForwardedRef<HTMLInputElement>,
