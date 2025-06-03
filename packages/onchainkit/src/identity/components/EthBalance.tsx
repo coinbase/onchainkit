@@ -1,11 +1,11 @@
 'use client';
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
-import type { EthBalanceReact } from '@/identity/types';
+import type { EthBalanceProps } from '@/identity/types';
 import { getRoundedAmount } from '@/internal/utils/getRoundedAmount';
 import { cn, text } from '../../styles/theme';
 import { useGetETHBalance } from '../../wallet/hooks/useGetETHBalance';
 
-export function EthBalance({ address, className }: EthBalanceReact) {
+export function EthBalance({ address, className }: EthBalanceProps) {
   const { address: contextAddress } = useIdentityContext();
   if (!contextAddress && !address) {
     console.error(

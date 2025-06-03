@@ -1,7 +1,7 @@
 'use client';
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useName } from '@/identity/hooks/useName';
-import type { NameReact } from '@/identity/types';
+import type { NameProps } from '@/identity/types';
 import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
 import { findComponent } from '@/internal/utils/findComponent';
 import { Children, useMemo } from 'react';
@@ -18,7 +18,7 @@ export function Name({
   children,
   chain,
   ...props
-}: NameReact) {
+}: NameProps) {
   const { address: contextAddress, chain: contextChain } = useIdentityContext();
   if (!contextAddress && !address) {
     console.error(

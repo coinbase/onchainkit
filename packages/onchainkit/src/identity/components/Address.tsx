@@ -3,7 +3,7 @@
 import { copyToClipboard } from '@/internal/utils/copyToClipboard';
 import { useState } from 'react';
 import { cn, pressable, text } from '../../styles/theme';
-import type { AddressReact } from '../types';
+import type { AddressProps } from '../types';
 import { getSlicedAddress } from '../utils/getSlicedAddress';
 import { useIdentityContext } from './IdentityProvider';
 
@@ -12,7 +12,7 @@ export function Address({
   className,
   isSliced = true,
   hasCopyAddressOnClick = true,
-}: AddressReact) {
+}: AddressProps) {
   const [copyText, setCopyText] = useState('Copy');
   const { address: contextAddress } = useIdentityContext();
   const accountAddress = address ?? contextAddress;

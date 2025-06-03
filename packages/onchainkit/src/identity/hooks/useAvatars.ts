@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { mainnet } from 'viem/chains';
 import type {
   GetAvatarReturnType,
-  UseAvatarsOptions,
+  UseAvatarsOptionsParams,
   UseQueryOptions,
 } from '../types';
 
@@ -13,7 +13,7 @@ import type {
  * multiple Basenames or ENS avatars in a single batch request.
  */
 export const useAvatars = (
-  { ensNames, chain = mainnet }: UseAvatarsOptions,
+  { ensNames, chain = mainnet }: UseAvatarsOptionsParams,
   queryOptions?: UseQueryOptions<GetAvatarReturnType[]>,
 ) => {
   const namesKey = ensNames.join(',');

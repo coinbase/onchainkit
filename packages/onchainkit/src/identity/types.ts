@@ -5,7 +5,7 @@ import type { Address, Chain } from 'viem';
 /**
  * Note: exported as public Type
  */
-export type AddressReact = {
+export type AddressProps = {
   /** The Ethereum address to render. */
   address?: Address | null;
   /** Optional className override for top span element. */
@@ -46,7 +46,7 @@ export type Attestation = {
 /**
  * Note: exported as public Type
  */
-export type AvatarReact = {
+export type AvatarProps = {
   /** The Ethereum address to fetch the avatar for. */
   address?: Address | null;
   /** Optional chain for domain resolution */
@@ -64,7 +64,7 @@ export type AvatarReact = {
 /**
  * Note: exported as public Type
  */
-export type BadgeReact = {
+export type BadgeProps = {
   /** Optional className override for top span element. */
   className?: string;
   /** Controls whether the badge shows a tooltip on hover. When true, the tooltip displays the attestation's name. When a string is provided, that text overrides the default display. Defaults to false. */
@@ -123,7 +123,7 @@ export type EASChainDefinition = {
 /**
  * Note: exported as public Type
  */
-export type EthBalanceReact = {
+export type EthBalanceProps = {
   /** Ethereum address */
   address?: Address;
   /** Optional className override */
@@ -133,7 +133,7 @@ export type EthBalanceReact = {
 /**
  * Note: exported as public Type
  */
-export type GetAddress = {
+export type GetAddressParams = {
   /** Name to resolve */
   name: string | Basename;
   /** Optional chain for domain resolution */
@@ -143,7 +143,7 @@ export type GetAddress = {
 /**
  * Note: exported as public Type
  */
-export type GetAddresses = {
+export type GetAddressesParams = {
   /** Array of names to resolve addresses for */
   names: Array<string | Basename>;
 };
@@ -156,7 +156,7 @@ export type GetAddressReturnType = Address | null;
 /**
  * Note: exported as public Type
  */
-export type GetAttestationsOptions = {
+export type GetAttestationsOptionsParams = {
   /** Array of schema UIDs to filter by */
   schemas?: EASSchemaUid[];
   /** Filter by revocation status */
@@ -170,7 +170,7 @@ export type GetAttestationsOptions = {
 /**
  * Note: exported as public Type
  */
-export type GetAvatar = {
+export type GetAvatarParams = {
   /** The ENS or Basename to fetch the avatar for. */
   ensName: string;
   /** Optional chain for domain resolution */
@@ -185,7 +185,7 @@ export type GetAvatarReturnType = string | null;
 /**
  * Note: exported as public Type
  */
-export type GetAvatars = {
+export type GetAvatarsParams = {
   /** Array of ENS or Basenames to resolve avatars for */
   ensNames: string[];
   /** Optional chain for domain resolution */
@@ -195,7 +195,7 @@ export type GetAvatars = {
 /**
  * Note: exported as public Type
  */
-export type GetName = {
+export type GetNameParams = {
   /** Ethereum address to resolve */
   address: Address;
   /** Optional chain for domain resolution */
@@ -210,7 +210,7 @@ export type GetNameReturnType = string | Basename | null;
 /**
  * Note: exported as public Type
  */
-export type GetNames = {
+export type GetNamesParams = {
   /** Array of Ethereum addresses to resolve names for */
   addresses: Address[];
   /** Optional chain for domain resolution */
@@ -229,7 +229,7 @@ export type IdentityContextType = {
   schemaId?: Address | null;
 };
 
-export type IdentityProviderReact = {
+export type IdentityProviderProps = {
   /** Ethereum address */
   address?: Address;
   /** Child components */
@@ -243,7 +243,7 @@ export type IdentityProviderReact = {
 /**
  * Note: exported as public Type
  */
-export type IdentityReact = {
+export type IdentityProps = {
   /** The Ethereum address to fetch the avatar and name for. */
   address?: Address;
   /** Optional chain for domain resolution */
@@ -261,7 +261,7 @@ export type IdentityReact = {
 /**
  * Note: exported as public Type
  */
-export type NameReact = {
+export type NameProps = {
   /** Ethereum address to be displayed. */
   address?: Address | null;
   /** Optional attestation by passing Badge component as its children */
@@ -274,7 +274,7 @@ export type NameReact = {
 
 export type ResolverAddressesByChainIdMap = Record<number, Address>;
 
-export type UseAttestations = {
+export type UseAttestationsParams = {
   /** Ethereum address */
   address: Address;
   /** Chain for resolution */
@@ -286,7 +286,7 @@ export type UseAttestations = {
 /**
  * Note: exported as public Type
  */
-export type UseAddressOptions = {
+export type UseAddressOptionsParams = {
   /** The ENS or Basename for which the Ethereum address is to be fetched */
   name: string | Basename;
   /** Optional chain for domain resolution */
@@ -296,7 +296,7 @@ export type UseAddressOptions = {
 /**
  * Note: exported as public Type
  */
-export type UseAddressesOptions = {
+export type UseAddressesOptionsParams = {
   /** Array of ENS or Basenames to resolve addresses for */
   names: Array<string | Basename>;
 };
@@ -304,7 +304,7 @@ export type UseAddressesOptions = {
 /**
  * Note: exported as public Type
  */
-export type UseAvatarOptions = {
+export type UseAvatarOptionsParams = {
   /** ENS name to resolve */
   ensName: string;
   /** Optional chain for domain resolution */
@@ -314,7 +314,7 @@ export type UseAvatarOptions = {
 /**
  * Note: exported as public Type
  */
-export type UseNameOptions = {
+export type UseNameOptionsParams = {
   /** The address for which the ENS or Basename is to be fetched. */
   address: Address;
   /** Optional chain for domain resolution */
@@ -324,7 +324,7 @@ export type UseNameOptions = {
 /**
  * Note: exported as public Type
  */
-export type UseNamesOptions = {
+export type UseNamesOptionsParams = {
   /** Array of addresses to resolve ENS or Basenames for */
   addresses: Address[];
   /** Optional chain for domain resolution */
@@ -334,7 +334,7 @@ export type UseNamesOptions = {
 /**
  * Note: exported as public Type
  */
-export type UseAvatarsOptions = {
+export type UseAvatarsOptionsParams = {
   /** Array of ENS names to resolve avatars for */
   ensNames: string[];
   /** Optional chain for domain resolution */
