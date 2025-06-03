@@ -49,7 +49,6 @@ export function SocialPlatformDetails({
   platform: SocialPlatform;
   value: string;
 }) {
-  console.log({ platform, value });
   const config = PLATFORM_CONFIG[platform];
   const ariaLabel = config.label(value);
   return (
