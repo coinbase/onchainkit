@@ -20,26 +20,32 @@ export function Name({
   ...props
 }: NameProps) {
   const { address: contextAddress, chain: contextChain } = useIdentityContext();
+
+  const accountAddress = address ?? contextAddress;
+  const accountChain = chain ?? contextChain;
+
+  const { data: name, isLoading } = useName({
+    address: accountAddress,
+    chain: accountChain,
+  });
+
+  const badge = useMemo(() => {
+    return Children.toArray(children).find(findComponent(Badge));
+  }, [children]);
+
+  const ariaLabel = useMemo(() => {
+    if (name) {
+      return `User identity: ${name}, verified name`;
+    }
+    return `User identity: ${accountAddress}, Ethereum address`;
+  }, [accountAddress, name]);
+
   if (!contextAddress && !address) {
     console.error(
       'Name: an Ethereum address must be provided to the Identity or Name component.',
     );
     return null;
   }
-
-  const accountAddress = address ?? contextAddress;
-  const accountChain = chain ?? contextChain;
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { data: name, isLoading } = useName({
-    address: accountAddress,
-    chain: accountChain,
-  });
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const badge = useMemo(() => {
-    return Children.toArray(children).find(findComponent(Badge));
-  }, [children]);
 
   if (isLoading) {
     return <span className={className} />;
@@ -51,6 +57,7 @@ export function Name({
         data-testid="ockIdentity_Text"
         className={cn(text.headline, 'text-ock-text-foreground', className)}
         {...props}
+        aria-label={ariaLabel}
       >
         {name || getSlicedAddress(accountAddress)}
       </span>

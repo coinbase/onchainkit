@@ -23,12 +23,15 @@ export function EthBalance({ address, className }: EthBalanceProps) {
     return null;
   }
 
+  const roundedBalance = getRoundedAmount(balance, 4);
+
   return (
     <span
       data-testid="ockEthBalance"
       className={cn(text.label2, 'text-ock-text-foreground-muted', className)}
+      aria-label={`ETH balance: ${roundedBalance} Ethereum`}
     >
-      {getRoundedAmount(balance, 4)} ETH
+      {roundedBalance} ETH
     </span>
   );
 }

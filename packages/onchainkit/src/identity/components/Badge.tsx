@@ -45,6 +45,13 @@ export function Badge({ className, tooltip = false }: BadgeProps) {
       : extractAttestationName(attestations[0]);
   }, [tooltip, attestations]);
 
+  const ariaLabel = useMemo(() => {
+    if (displayText) {
+      return `Verification badge: ${displayText}`;
+    }
+    return 'Verification badge';
+  }, [displayText]);
+
   const badgeSize = '12px';
 
   return (
@@ -63,6 +70,7 @@ export function Badge({ className, tooltip = false }: BadgeProps) {
           maxHeight: badgeSize,
           maxWidth: badgeSize,
         }}
+        aria-label={ariaLabel}
         data-testid="ockBadge"
         {...(tooltip && {
           onMouseEnter: () => setShowTooltip(true),
