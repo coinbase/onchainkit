@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import {
-  GetSocialPlatformDetails,
+  SocialPlatformDetails,
   PLATFORM_CONFIG,
   type SocialPlatform,
-} from './getSocialPlatformDetails';
+} from './SocialPlatformDetails';
 
 describe('PLATFORM_CONFIG', () => {
   it('should generate correct Twitter URL', () => {
@@ -40,7 +40,7 @@ describe('PLATFORM_CONFIG', () => {
   });
 });
 
-describe('GetSocialPlatformDetails', () => {
+describe('SocialPlatformDetails', () => {
   const platforms: SocialPlatform[] = [
     'twitter',
     'github',
@@ -51,7 +51,7 @@ describe('GetSocialPlatformDetails', () => {
   for (const platform of platforms) {
     it(`should render ${platform} link correctly`, () => {
       const value = platform === 'website' ? 'https://example.com' : 'username';
-      render(<GetSocialPlatformDetails platform={platform} value={value} />);
+      render(<SocialPlatformDetails platform={platform} value={value} />);
 
       const link = screen.getByRole('link');
       expect(link).toHaveAttribute(
@@ -72,7 +72,7 @@ describe('GetSocialPlatformDetails', () => {
   }
 
   it('should apply correct CSS classes', () => {
-    render(<GetSocialPlatformDetails platform="twitter" value="username" />);
+    render(<SocialPlatformDetails platform="twitter" value="username" />);
     const link = screen.getByRole('link');
 
     expect(link.className).toContain('flex items-center justify-center p-2');

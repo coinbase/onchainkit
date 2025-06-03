@@ -4,8 +4,7 @@ import { useName } from '@/identity/hooks/useName';
 import { useSocials } from '@/identity/hooks/useSocials';
 import { cn } from '@/styles/theme';
 import type { Address, Chain } from 'viem';
-import { GetSocialPlatformDetails } from './getSocialPlatformDetails';
-import type { SocialPlatform } from './getSocialPlatformDetails';
+import { SocialPlatformDetails, SocialPlatform } from './SocialPlatformDetails';
 
 type SocialsReact = {
   address?: Address | null;
@@ -20,20 +19,11 @@ export function Socials({ address, chain, className }: SocialsReact) {
   const accountAddress = address ?? contextAddress;
   const accountChain = chain ?? contextChain;
 
-  if (!accountAddress) {
-    console.error(
-      'Socials: an Ethereum address must be provided to the Socials component.',
-    );
-    return null;
-  }
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: name, isLoading: isLoadingName } = useName({
     address: accountAddress,
     chain: accountChain,
   });
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: socials, isLoading: isLoadingSocials } = useSocials(
     {
       ensName: name ?? '',
@@ -41,6 +31,13 @@ export function Socials({ address, chain, className }: SocialsReact) {
     },
     { enabled: !!name },
   );
+
+  if (!accountAddress) {
+    console.error(
+      'Socials: an Ethereum address must be provided to the Socials component.',
+    );
+    return null;
+  }
 
   if (isLoadingName || isLoadingSocials) {
     return <span className={className} />;
@@ -56,7 +53,7 @@ export function Socials({ address, chain, className }: SocialsReact) {
         {Object.entries(socials).map(
           ([platform, value]) =>
             value && (
-              <GetSocialPlatformDetails
+              <SocialPlatformDetails
                 key={platform}
                 platform={platform as SocialPlatform}
                 value={value}

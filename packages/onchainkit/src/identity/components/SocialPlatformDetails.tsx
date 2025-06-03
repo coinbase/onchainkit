@@ -31,7 +31,7 @@ export const PLATFORM_CONFIG: Record<
   },
 };
 
-export function GetSocialPlatformDetails({
+export function SocialPlatformDetails({
   platform,
   value,
 }: {
