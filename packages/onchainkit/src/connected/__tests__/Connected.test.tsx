@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Connected } from '../';
 import { useAccount } from 'wagmi';
+import { ReactNode } from 'react';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -9,6 +10,7 @@ vi.mock('wagmi', () => ({
 
 vi.mock('@/wallet', () => ({
   ConnectWallet: () => <div data-testid="connect-wallet">Connect Wallet</div>,
+  Wallet: ({ children }: { children: ReactNode }) => <div>{children}</div>,
 }));
 
 describe('Connected', () => {

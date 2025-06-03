@@ -6,9 +6,8 @@ import { CloseSvg } from '../../internal/svg/closeSvg';
 import { cn, pressable, text } from '../../styles/theme';
 import { ConnectWallet, Wallet } from '../../wallet';
 import { useBuyContext } from './BuyProvider';
-import { Connected } from '@/connected';
 
-function BuyButtonContent() {
+export function BuyButton() {
   const {
     address,
     disabled,

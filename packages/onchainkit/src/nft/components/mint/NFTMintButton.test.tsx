@@ -1,4 +1,4 @@
-import { act } from 'react';
+import { act, ReactNode } from 'react';
 import { render, RenderResult, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
@@ -95,6 +95,7 @@ vi.mock('@/transaction', async (importOriginal) => {
 });
 vi.mock('@/wallet', () => ({
   ConnectWallet: () => <div>ConnectWallet</div>,
+  Wallet: ({ children }: { children: ReactNode }) => <div>{children}</div>,
 }));
 
 const queryClient = new QueryClient();
