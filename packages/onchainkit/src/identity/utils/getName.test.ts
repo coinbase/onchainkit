@@ -76,6 +76,17 @@ describe('getName', () => {
     });
   });
 
+  it('should return null when address is not provided', async () => {
+    const ensName = 'nonexistent.eth';
+    mockGetEnsName.mockResolvedValue(ensName);
+
+    mockGetAddress.mockResolvedValue(null);
+
+    const name = await getName({ address: undefined });
+
+    expect(name).toBeNull();
+  });
+
   it('should handle forward resolution validation errors gracefully', async () => {
     const ensName = 'error.eth';
     mockGetEnsName.mockResolvedValue(ensName);
