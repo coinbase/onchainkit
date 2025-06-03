@@ -1,32 +1,34 @@
-import { useLayoutEffect, useMemo, useRef } from 'react';
+import { useLayoutEffect, useRef, useCallback, useEffect } from 'react';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export const useDebounce = (
-  callback: (...args: any[]) => void,
+export const useDebounce = <T extends (...args: never[]) => void>(
+  callback: T,
   delay: number,
 ) => {
   const callbackRef = useRef(callback);
+  const timeoutRef = useRef<NodeJS.Timeout>();
 
   useLayoutEffect(() => {
     callbackRef.current = callback;
   });
 
-  return useMemo(() => {
-    let timer: number | NodeJS.Timeout;
-
-    const debounce = (
-      func: (...args: any[]) => void,
-      delayMs: number,
-      ...args: any[]
-    ) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        func(...args);
-      }, delayMs);
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
     };
+  }, []);
 
-    return (...args: any) => {
-      return debounce(callbackRef.current, delay, ...args);
-    };
-  }, [delay]);
+  return useCallback(
+    (...args: Parameters<T>) => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      timeoutRef.current = setTimeout(() => {
+        callbackRef.current(...args);
+      }, delay);
+    },
+    [delay],
+  );
 };
