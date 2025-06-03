@@ -1,6 +1,17 @@
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+import {
+  beforeAll,
+  afterAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  Mock,
+  vi,
+} from 'vitest';
+import { useAccount } from 'wagmi';
+import { useOnchainKit } from '@/useOnchainKit';
 import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
 import { useWalletContext } from './WalletProvider';
 import { usePortfolio } from '../hooks/usePortfolio';
@@ -11,30 +22,18 @@ vi.mock('wagmi', () => ({
   }),
 }));
 
-vi.mock('../hooks/usePortfolio', () => ({
-  usePortfolio: vi.fn(),
-}));
-
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
-vi.mock('@/identity/components/IdentityProvider', () => ({
-  useIdentityContext: vi.fn().mockReturnValue({
-    schemaId: '1',
+vi.mock('@/useOnchainKit', () => ({
+  useOnchainKit: vi.fn().mockReturnValue({
+    chain: { id: 8453 },
   }),
 }));
 
-vi.mock('@/identity/hooks/useAttestations', () => ({
-  useAttestations: () => [{ testAttestation: 'Test Attestation' }],
+vi.mock('@/identity/components/IdentityProvider', () => ({
+  useIdentityContext: vi.fn(),
 }));
 
-vi.mock('@/identity/hooks/useAvatar', () => ({
-  useAvatar: () => ({ data: null, isLoading: false }),
-}));
-
-vi.mock('@/identity/hooks/useName', () => ({
-  useName: () => ({ data: null, isLoading: false }),
+vi.mock('../hooks/usePortfolio', () => ({
+  usePortfolio: vi.fn(),
 }));
 
 vi.mock('./WalletProvider', () => ({
@@ -44,13 +43,26 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
+const originalClipboard = navigator.clipboard;
+
+// Mock clipboard
+beforeAll(() => {
+  Object.assign(navigator, {
+    clipboard: {
+      writeText: vi.fn(),
+    },
+  });
+});
+
+afterAll(() => {
+  Object.assign(navigator, { clipboard: originalClipboard });
+});
+
 describe('WalletAdvancedAddressDetails', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
   const mockUseIdentityContext = useIdentityContext as ReturnType<typeof vi.fn>;
-  const mockClipboard = {
-    writeText: vi.fn(),
-  };
-  Object.assign(navigator, { clipboard: mockClipboard });
+  const mockUseAccount = useAccount as ReturnType<typeof vi.fn>;
+  const mockUseOnchainKit = useOnchainKit as ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -58,8 +70,12 @@ describe('WalletAdvancedAddressDetails', () => {
       animations: {
         content: '',
       },
-      chain: { id: 8453 },
+    });
+    mockUseAccount.mockReturnValue({
       address: '0x1234567890',
+    });
+    mockUseOnchainKit.mockReturnValue({
+      chain: { id: 8453 },
     });
     (usePortfolio as Mock).mockReturnValue({
       data: {
@@ -70,28 +86,17 @@ describe('WalletAdvancedAddressDetails', () => {
   });
 
   it('renders null when address or chain is null', () => {
-    mockUseWalletContext.mockReturnValue({ address: null, chain: 8453 });
+    mockUseAccount.mockReturnValue({ address: null });
     const { rerender } = render(<WalletAdvancedAddressDetails />);
     expect(screen.queryByTestId('address-details')).toBeNull();
 
-    mockUseWalletContext.mockReturnValue({
-      address: '0x1234567890',
-      chain: null,
-    });
+    mockUseAccount.mockReturnValue({ address: '0x1234567890' });
+    mockUseOnchainKit.mockReturnValue({ chain: null });
     rerender(<WalletAdvancedAddressDetails />);
     expect(screen.queryByTestId('address-details')).toBeNull();
   });
 
-  it('renders Avatar, Name, and AddressBalance when isClosing is false', () => {
-    mockUseWalletContext.mockReturnValue({
-      isClosing: false,
-      address: '0x1234567890',
-      chain: { id: 8453 },
-      animations: {
-        content: '',
-      },
-    });
-
+  it('renders Avatar, Name, and AddressBalance when address and chain are available', () => {
     mockUseIdentityContext.mockReturnValue({
       schemaId: '1',
     });
@@ -106,15 +111,6 @@ describe('WalletAdvancedAddressDetails', () => {
   });
 
   it('copies address to clipboard and shows tooltip when Name group is clicked', async () => {
-    mockUseWalletContext.mockReturnValue({
-      animations: {
-        content: '',
-      },
-      isClosing: false,
-      address: '0x1234567890',
-      chain: { id: 8453 },
-    });
-
     render(<WalletAdvancedAddressDetails />);
 
     const nameButton = screen.getByTestId('ockWalletAdvanced_NameButton');
@@ -133,15 +129,6 @@ describe('WalletAdvancedAddressDetails', () => {
   });
 
   it('shows error state when clipboard fails', async () => {
-    mockUseWalletContext.mockReturnValue({
-      animations: {
-        content: '',
-      },
-      isClosing: false,
-      address: '0x1234567890',
-      chain: { id: 8453 },
-    });
-
     const mockClipboard = {
       writeText: vi.fn().mockRejectedValue(new Error('Clipboard failed')),
     };
@@ -165,14 +152,6 @@ describe('WalletAdvancedAddressDetails', () => {
         portfolioBalanceInUsd: null,
       },
       isFetching: true,
-    });
-
-    mockUseWalletContext.mockReturnValue({
-      address: '0x123',
-      chain: 'base',
-      animations: {
-        content: '',
-      },
     });
 
     render(<WalletAdvancedAddressDetails />);
@@ -206,14 +185,6 @@ describe('WalletAdvancedAddressDetails', () => {
         isFetching: false,
       });
 
-    mockUseWalletContext.mockReturnValue({
-      address: '0x123',
-      chain: 'base',
-      animations: {
-        content: '',
-      },
-    });
-
     const { rerender } = render(<WalletAdvancedAddressDetails />);
 
     expect(screen.queryByTestId('ockWalletAdvanced_AddressBalance')).toBeNull();
@@ -226,15 +197,6 @@ describe('WalletAdvancedAddressDetails', () => {
   });
 
   it('applies custom classNames to components', () => {
-    mockUseWalletContext.mockReturnValue({
-      isClosing: false,
-      address: '0x1234567890',
-      chain: { id: 8453 },
-      animations: {
-        content: '',
-      },
-    });
-
     const customClassNames = {
       container: 'custom-container',
       avatar: 'custom-avatar',

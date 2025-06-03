@@ -1,7 +1,7 @@
 'use client';
 
 import { IdentityCard } from '@coinbase/onchainkit/identity';
-import { ConnectWallet } from '@coinbase/onchainkit/wallet';
+import { ConnectWallet, Wallet } from '@coinbase/onchainkit/wallet';
 import { base, mainnet } from 'viem/chains';
 import { useAccount } from 'wagmi';
 
@@ -29,7 +29,9 @@ export function IdentityCardDemo() {
           <div className="mb-5 italic">
             Connect wallet to view identity cards
           </div>
-          <ConnectWallet />
+          <Wallet>
+            <ConnectWallet />
+          </Wallet>
         </div>
       )}
     </div>

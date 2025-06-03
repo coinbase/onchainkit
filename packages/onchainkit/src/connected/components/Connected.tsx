@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { ConnectWallet } from '@/wallet';
 import { useAccount } from 'wagmi';
+import { ConnectWallet, Wallet } from '@/wallet';
 
 export type ConnectedProps = {
   /**
@@ -35,7 +35,13 @@ export function Connected({
   }
 
   if (!address) {
-    return fallback === undefined ? <ConnectWallet /> : fallback;
+    return fallback === undefined ? (
+      <Wallet>
+        <ConnectWallet />
+      </Wallet>
+    ) : (
+      fallback
+    );
   }
 
   return <>{children}</>;

@@ -14,7 +14,7 @@ import {
   TransactionStatusLabel,
 } from '@/transaction';
 import type { Call } from '@/transaction/types';
-import { ConnectWallet } from '@/wallet';
+import { ConnectWallet, Wallet } from '@/wallet';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 
@@ -136,7 +136,11 @@ export function NFTMintButton({
   }
 
   if (!address) {
-    return <ConnectWallet className={cn('w-full', className)} />;
+    return (
+      <Wallet>
+        <ConnectWallet className={cn('w-full', className)} />
+      </Wallet>
+    );
   }
 
   return (

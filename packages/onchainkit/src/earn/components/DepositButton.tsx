@@ -8,7 +8,7 @@ import {
   type TransactionResponseType,
 } from '@/transaction';
 import { TransactionButtonRenderParams } from '@/transaction/types';
-import { ConnectWallet } from '@/wallet';
+import { ConnectWallet, Wallet } from '@/wallet';
 import { useCallback, useState } from 'react';
 import type { DepositButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
@@ -67,10 +67,12 @@ export function DepositButton({ className }: DepositButtonReact) {
 
   if (!address) {
     return (
-      <ConnectWallet
-        className={cn('w-full', className)}
-        disconnectedLabel="Connect to deposit"
-      />
+      <Wallet>
+        <ConnectWallet
+          className={cn('w-full', className)}
+          disconnectedLabel="Connect to deposit"
+        />
+      </Wallet>
     );
   }
 

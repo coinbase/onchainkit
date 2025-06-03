@@ -16,6 +16,7 @@ import { useCallback } from 'react';
 import { useWalletContext } from './WalletProvider';
 import { RequestContext } from '@/core/network/constants';
 import { usePortfolio } from '../hooks/usePortfolio';
+import { useAccount } from 'wagmi';
 
 type WalletAdvancedTransactionActionProps = {
   icon: React.ReactNode;
@@ -29,6 +30,7 @@ type WalletAdvancedTransactionActionProps = {
 };
 
 type WalletAdvancedTransactionActionsProps = {
+  className?: string;
   classNames?: {
     container?: string;
     leftAction?: WalletAdvancedTransactionActionProps['classNames'];
@@ -38,9 +40,12 @@ type WalletAdvancedTransactionActionsProps = {
 };
 
 export function WalletAdvancedTransactionActions({
+  className,
   classNames,
 }: WalletAdvancedTransactionActionsProps) {
-  const { address, chain, setActiveFeature, animations } = useWalletContext();
+  const { setActiveFeature, animations } = useWalletContext();
+  const { address } = useAccount();
+  const { chain } = useOnchainKit();
   const { projectId } = useOnchainKit();
   const { sendAnalytics } = useAnalytics();
 
@@ -106,6 +111,7 @@ export function WalletAdvancedTransactionActions({
       className={cn(
         'my-3 flex w-88 flex-row justify-between gap-2 px-4 py-3',
         animations.content,
+        className,
         classNames?.container,
       )}
     >

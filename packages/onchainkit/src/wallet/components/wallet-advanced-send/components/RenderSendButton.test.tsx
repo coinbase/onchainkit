@@ -4,6 +4,8 @@ import { TransactionContextType } from '@/transaction/types';
 import { TransactionReceipt } from 'viem';
 import { base } from 'viem/chains';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useAccount } from 'wagmi';
+import { useOnchainKit } from '@/useOnchainKit';
 import type { WalletContextType } from '../../../types';
 import { useWalletContext } from '../../WalletProvider';
 import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
@@ -11,6 +13,14 @@ import {
   RenderSendButton,
   type RenderSendButtonProps,
 } from './RenderSendButton';
+
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+}));
+
+vi.mock('@/useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
+}));
 
 vi.mock('@/internal/components/Spinner', () => ({
   Spinner: () => <div data-testid="spinner">Loading...</div>,
@@ -31,8 +41,6 @@ vi.mock('../utils/defaultSendTxSuccessHandler', () => ({
 const mockSetActiveFeature = vi.fn();
 
 const baseWalletContext = {
-  address: '0x123',
-  chain: base,
   setActiveFeature: mockSetActiveFeature,
 } as unknown as WalletContextType;
 
@@ -62,6 +70,29 @@ describe('RenderSendButton', () => {
   });
 
   beforeEach(() => {
+    vi.mocked(useAccount).mockReturnValue({
+      address: '0x123' as `0x${string}`,
+      addresses: ['0x123' as `0x${string}`],
+      chainId: 8453,
+      connector: {} as unknown as any,
+      isConnected: true,
+      isConnecting: false,
+      isDisconnected: false,
+      isReconnecting: false,
+      status: 'connected',
+      chain: base,
+    });
+    vi.mocked(useOnchainKit).mockReturnValue({
+      chain: base,
+      address: '0x123' as `0x${string}`,
+      apiKey: '',
+      rpcUrl: '0x123' as `0x${string}`,
+      schemaId: '',
+      isDebugMode: false,
+      bundlerUrl: '0x123' as `0x${string}`,
+      paymasterUrl: '0x123' as `0x${string}`,
+      projectId: '',
+    });
     vi.mocked(useWalletContext).mockReturnValue(baseWalletContext);
     vi.mocked(useTransactionContext).mockReturnValue(baseTransactionContext);
   });
@@ -157,8 +188,8 @@ describe('RenderSendButton', () => {
     expect(defaultSendTxSuccessHandler).toHaveBeenCalledWith({
       transactionId: mockTransactionId,
       transactionHash: mockTransactionHash,
-      senderChain: baseWalletContext.chain,
-      address: baseWalletContext.address,
+      senderChain: base,
+      address: '0x123',
       onComplete: expect.any(Function),
     });
 
@@ -185,12 +216,30 @@ describe('RenderSendButton', () => {
       transactionHash: mockTransactionHash,
     });
 
-    vi.mocked(useWalletContext).mockReturnValue({
-      ...baseWalletContext,
-      address: null,
-      chain: null,
-      setActiveFeature: mockSetActiveFeature,
-    } as unknown as WalletContextType);
+    vi.mocked(useAccount).mockReturnValue({
+      address: undefined,
+      addresses: undefined,
+      chainId: undefined,
+      connector: undefined,
+      isConnected: false,
+      isConnecting: false,
+      isDisconnected: true,
+      isReconnecting: false,
+      status: 'disconnected',
+      chain: undefined,
+    });
+
+    vi.mocked(useOnchainKit).mockReturnValue({
+      chain: undefined,
+      address: '0x123' as `0x${string}`,
+      apiKey: '',
+      rpcUrl: '0x123' as `0x${string}`,
+      schemaId: '',
+      isDebugMode: false,
+      bundlerUrl: '0x123' as `0x${string}`,
+      paymasterUrl: '0x123' as `0x${string}`,
+      projectId: '',
+    });
 
     render(<RenderSendButton {...defaultProps} label="Send" />);
 

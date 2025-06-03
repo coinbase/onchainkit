@@ -4,10 +4,11 @@ import { Spinner } from '../../internal/components/Spinner';
 import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
 import { CloseSvg } from '../../internal/svg/closeSvg';
 import { cn, pressable, text } from '../../styles/theme';
-import { ConnectWallet } from '../../wallet';
+import { ConnectWallet, Wallet } from '../../wallet';
 import { useBuyContext } from './BuyProvider';
+import { Connected } from '@/connected';
 
-export function BuyButton() {
+function BuyButtonContent() {
   const {
     address,
     disabled,
@@ -70,7 +71,9 @@ export function BuyButton() {
 
   if (!isDisabled && !address) {
     return (
-      <ConnectWallet disconnectedLabel="Buy" className="h-12 w-24 min-w-24" />
+      <Wallet>
+        <ConnectWallet disconnectedLabel="Buy" className="h-12 w-24 min-w-24" />
+      </Wallet>
     );
   }
 

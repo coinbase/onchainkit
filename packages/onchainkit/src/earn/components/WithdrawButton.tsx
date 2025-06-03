@@ -8,7 +8,7 @@ import {
   type TransactionResponseType,
 } from '@/transaction';
 import { TransactionButtonRenderParams } from '@/transaction/types';
-import { ConnectWallet } from '@/wallet';
+import { ConnectWallet, Wallet } from '@/wallet';
 import { useCallback, useState } from 'react';
 import type { WithdrawButtonReact } from '../types';
 import { useEarnContext } from './EarnProvider';
@@ -65,10 +65,12 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
 
   if (!address) {
     return (
-      <ConnectWallet
-        className={cn('w-full', className)}
-        disconnectedLabel="Connect to withdraw"
-      />
+      <Wallet>
+        <ConnectWallet
+          className={cn('w-full', className)}
+          disconnectedLabel="Connect to withdraw"
+        />
+      </Wallet>
     );
   }
 
