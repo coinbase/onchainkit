@@ -197,7 +197,7 @@ export type GetAvatarsParams = {
  */
 export type GetNameParams = {
   /** Ethereum address to resolve */
-  address: Address;
+  address?: Address;
   /** Optional chain for domain resolution */
   chain?: Chain;
 };
@@ -316,7 +316,7 @@ export type UseAvatarOptionsParams = {
  */
 export type UseNameOptionsParams = {
   /** The address for which the ENS or Basename is to be fetched. */
-  address: Address;
+  address?: Address;
   /** Optional chain for domain resolution */
   chain?: Chain;
 };

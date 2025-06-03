@@ -31,6 +31,10 @@ export const getName = async ({
     );
   }
 
+  if (!address) {
+    return null;
+  }
+
   const client = getChainPublicClient(chain);
 
   if (chainIsBase) {
