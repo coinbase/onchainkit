@@ -6,14 +6,14 @@ import { cn } from '@/styles/theme';
 import type { Address, Chain } from 'viem';
 import { SocialPlatformDetails, SocialPlatform } from './SocialPlatformDetails';
 
-type SocialsReact = {
+type SocialsProps = {
   address?: Address | null;
   ensName?: string;
   chain?: Chain;
   className?: string;
 };
 
-export function Socials({ address, chain, className }: SocialsReact) {
+export function Socials({ address, chain, className }: SocialsProps) {
   const { address: contextAddress, chain: contextChain } = useIdentityContext();
 
   const accountAddress = address ?? contextAddress;
