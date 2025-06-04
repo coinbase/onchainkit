@@ -51,5 +51,5 @@ export type {
   UseAvatarParams,
   UseNamesParams,
   UseQueryOptions,
-  UseNameOptionsParams,
+  UseNameParams,
 } from './types';

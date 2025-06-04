@@ -314,7 +314,7 @@ export type UseAvatarParams = {
 /**
  * Note: exported as public Type
  */
-export type UseNameOptionsParams = {
+export type UseNameParams = {
   /** The address for which the ENS or Basename is to be fetched. */
   address?: Address;
   /** Optional chain for domain resolution */

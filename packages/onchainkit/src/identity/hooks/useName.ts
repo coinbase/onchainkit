@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { mainnet } from 'viem/chains';
 import type {
   GetNameReturnType,
-  UseNameOptionsParams,
+  UseNameParams,
   UseQueryOptions,
 } from '../types';
 
@@ -15,7 +15,7 @@ import type {
  *  - `{UseQueryResult}`: The rest of useQuery return values. including isLoading, isError, error, isFetching, refetch, etc.
  */
 export const useName = (
-  { address, chain = mainnet }: UseNameOptionsParams,
+  { address, chain = mainnet }: UseNameParams,
   queryOptions?: UseQueryOptions<GetNameReturnType>,
 ) => {
   const queryKey = ['useName', address, chain.id];
