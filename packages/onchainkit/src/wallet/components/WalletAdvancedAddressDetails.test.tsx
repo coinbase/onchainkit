@@ -1,4 +1,5 @@
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
+import { OnchainKitProvider } from '@/OnchainKitProvider';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import {
   beforeAll,
@@ -11,25 +12,38 @@ import {
   vi,
 } from 'vitest';
 import { useAccount } from 'wagmi';
+import { base } from 'viem/chains';
 import { useOnchainKit } from '@/useOnchainKit';
 import { WalletAdvancedAddressDetails } from './WalletAdvancedAddressDetails';
 import { useWalletContext } from './WalletProvider';
 import { usePortfolio } from '../hooks/usePortfolio';
 
-vi.mock('wagmi', () => ({
-  useAccount: vi.fn().mockReturnValue({
-    address: '0x1234567890',
-  }),
-}));
+vi.mock('wagmi', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('wagmi')>();
+  return {
+    ...actual,
+    useAccount: vi.fn().mockReturnValue({
+      address: '0x1234567890',
+    }),
+  };
+});
 
-vi.mock('@/useOnchainKit', () => ({
-  useOnchainKit: vi.fn().mockReturnValue({
-    chain: { id: 8453 },
-  }),
-}));
+vi.mock('@/useOnchainKit', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/useOnchainKit')>();
+  return {
+    ...actual,
+    useOnchainKit: vi.fn().mockReturnValue({
+      chain: { id: 8453 },
+    }),
+  };
+});
 
 vi.mock('@/identity/components/IdentityProvider', () => ({
   useIdentityContext: vi.fn(),
+}));
+
+vi.mock('@/identity/hooks/useName', () => ({
+  useName: () => ({ data: null, isLoading: false }),
 }));
 
 vi.mock('../hooks/usePortfolio', () => ({
@@ -57,6 +71,13 @@ beforeAll(() => {
 afterAll(() => {
   Object.assign(navigator, { clipboard: originalClipboard });
 });
+
+// Helper to wrap components with OnchainKitProvider
+const TestWrapper = ({ children }: { children: React.ReactNode }) => (
+  <OnchainKitProvider chain={base} apiKey="test-api-key">
+    {children}
+  </OnchainKitProvider>
+);
 
 describe('WalletAdvancedAddressDetails', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
@@ -87,12 +108,20 @@ describe('WalletAdvancedAddressDetails', () => {
 
   it('renders null when address or chain is null', () => {
     mockUseAccount.mockReturnValue({ address: null });
-    const { rerender } = render(<WalletAdvancedAddressDetails />);
+    const { rerender } = render(
+      <TestWrapper>
+        <WalletAdvancedAddressDetails />
+      </TestWrapper>,
+    );
     expect(screen.queryByTestId('address-details')).toBeNull();
 
     mockUseAccount.mockReturnValue({ address: '0x1234567890' });
     mockUseOnchainKit.mockReturnValue({ chain: null });
-    rerender(<WalletAdvancedAddressDetails />);
+    rerender(
+      <TestWrapper>
+        <WalletAdvancedAddressDetails />
+      </TestWrapper>,
+    );
     expect(screen.queryByTestId('address-details')).toBeNull();
   });
 
@@ -101,7 +130,11 @@ describe('WalletAdvancedAddressDetails', () => {
       schemaId: '1',
     });
 
-    render(<WalletAdvancedAddressDetails />);
+    render(
+      <TestWrapper>
+        <WalletAdvancedAddressDetails />
+      </TestWrapper>,
+    );
 
     expect(screen.getByTestId('ockAvatar_ImageContainer')).toBeDefined();
     expect(screen.getByTestId('ockIdentity_Text')).toBeDefined();
@@ -111,7 +144,11 @@ describe('WalletAdvancedAddressDetails', () => {
   });
 
   it('copies address to clipboard and shows tooltip when Name group is clicked', async () => {
-    render(<WalletAdvancedAddressDetails />);
+    render(
+      <TestWrapper>
+        <WalletAdvancedAddressDetails />
+      </TestWrapper>,
+    );
 
     const nameButton = screen.getByTestId('ockWalletAdvanced_NameButton');
     const tooltip = screen.getByTestId('ockWalletAdvanced_NameTooltip');
@@ -134,7 +171,11 @@ describe('WalletAdvancedAddressDetails', () => {
     };
     Object.assign(navigator, { clipboard: mockClipboard });
 
-    render(<WalletAdvancedAddressDetails />);
+    render(
+      <TestWrapper>
+        <WalletAdvancedAddressDetails />
+      </TestWrapper>,
+    );
 
     const nameButton = screen.getByTestId('ockWalletAdvanced_NameButton');
     const tooltip = screen.getByTestId('ockWalletAdvanced_NameTooltip');
@@ -154,7 +195,11 @@ describe('WalletAdvancedAddressDetails', () => {
       isFetching: true,
     });
 
-    render(<WalletAdvancedAddressDetails />);
+    render(
+      <TestWrapper>
+        <WalletAdvancedAddressDetails />
+      </TestWrapper>,
+    );
 
     expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
   });
@@ -165,7 +210,11 @@ describe('WalletAdvancedAddressDetails', () => {
       isFetching: false,
     });
 
-    render(<WalletAdvancedAddressDetails />);
+    render(
+      <TestWrapper>
+        <WalletAdvancedAddressDetails />
+      </TestWrapper>,
+    );
 
     expect(screen.queryByTestId('ockWalletAdvanced_AddressBalance')).toBeNull();
   });
@@ -185,11 +234,19 @@ describe('WalletAdvancedAddressDetails', () => {
         isFetching: false,
       });
 
-    const { rerender } = render(<WalletAdvancedAddressDetails />);
+    const { rerender } = render(
+      <TestWrapper>
+        <WalletAdvancedAddressDetails />
+      </TestWrapper>,
+    );
 
     expect(screen.queryByTestId('ockWalletAdvanced_AddressBalance')).toBeNull();
 
-    rerender(<WalletAdvancedAddressDetails />);
+    rerender(
+      <TestWrapper>
+        <WalletAdvancedAddressDetails />
+      </TestWrapper>,
+    );
 
     expect(
       screen.getByTestId('ockWalletAdvanced_AddressBalance'),
@@ -204,7 +261,11 @@ describe('WalletAdvancedAddressDetails', () => {
       fiatBalance: 'custom-balance',
     };
 
-    render(<WalletAdvancedAddressDetails classNames={customClassNames} />);
+    render(
+      <TestWrapper>
+        <WalletAdvancedAddressDetails classNames={customClassNames} />
+      </TestWrapper>,
+    );
 
     expect(screen.getByTestId('ockWalletAdvanced_AddressDetails')).toHaveClass(
       'custom-container',
