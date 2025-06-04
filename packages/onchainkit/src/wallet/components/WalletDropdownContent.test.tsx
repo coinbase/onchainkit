@@ -215,6 +215,27 @@ describe('WalletDropdownContent', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('closes WalletDropdownContent when mobile tray is closed', () => {
+    const setIsSubComponentOpen = vi.fn();
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
+      setIsSubComponentOpen,
+      breakpoint: 'sm',
+    });
+
+    render(
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
+    );
+
+    fireEvent.keyDown(document, {
+      key: 'Escape',
+    });
+
+    expect(setIsSubComponentOpen).toHaveBeenCalledWith(false);
+  });
+
   it('handles animation end when closing', () => {
     const setIsSubComponentOpen = vi.fn();
     const setIsSubComponentClosing = vi.fn();
@@ -453,7 +474,7 @@ describe('WalletDropdownContent', () => {
       </WalletDropdownContent>,
     );
 
-    expect(screen.getByTestId('ockSheet')).toBeDefined();
+    expect(screen.getByTestId('ockBottomSheet')).toBeDefined();
   });
 
   it('applies custom classNames to BottomSheet when breakpoint is sm', () => {
