@@ -1,8 +1,5 @@
 import { getAttestationsByFilter } from '@/core/network/attestations';
-import type {
-  Attestation,
-  GetAttestationsOptionsParams,
-} from '@/identity/types';
+import type { Attestation, GetAttestationsParams } from '@/identity/types';
 import type { Address, Chain } from 'viem';
 import { isChainSupported } from './easSupportedChains';
 
@@ -13,7 +10,7 @@ import { isChainSupported } from './easSupportedChains';
 export async function getAttestations(
   address: Address,
   chain: Chain,
-  options?: GetAttestationsOptionsParams,
+  options?: GetAttestationsParams,
 ): Promise<Attestation[]> {
   if (!address) {
     console.log('Error in getAttestation: Address is not provided');

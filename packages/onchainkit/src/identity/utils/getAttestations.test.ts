@@ -5,14 +5,14 @@ import { getAttestationsByFilter } from '@/core/network/attestations';
 import { base, opBNBTestnet } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import type { GetAttestationsOptionsParams } from '../types';
+import type { GetAttestationsParams } from '../types';
 import { getAttestations } from './getAttestations';
 
 vi.mock('@/core/network/attestations');
 
 describe('getAttestations', () => {
   const mockAddress = '0x1234567890abcdef1234567890abcdef12345678';
-  const mockOptions: GetAttestationsOptionsParams = { schemas: ['0x12345'] };
+  const mockOptions: GetAttestationsParams = { schemas: ['0x12345'] };
   const mockAttestations = [
     {
       attester: '0x357458739F90461b99789350868CD7CF330Dd7EE',
@@ -96,7 +96,7 @@ describe('getAttestations', () => {
       revoked: true,
       expirationTime: 1234567890,
       limit: 5,
-    } as GetAttestationsOptionsParams;
+    } as GetAttestationsParams;
 
     // Call the function with custom options
     await getAttestations(mockAddress, base, customOptions);

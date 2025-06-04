@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { mainnet } from 'viem/chains';
 import type {
   GetAvatarReturnType,
-  UseAvatarOptionsParams,
+  UseAvatarParams,
   UseQueryOptions,
 } from '../types';
 
@@ -12,7 +12,7 @@ import type {
  * Gets an ensName and resolves the Avatar
  */
 export const useAvatar = (
-  { ensName, chain = mainnet }: UseAvatarOptionsParams,
+  { ensName, chain = mainnet }: UseAvatarParams,
   queryOptions?: UseQueryOptions<GetAvatarReturnType>,
 ) => {
   const queryKey = ['useAvatar', ensName, chain.id];

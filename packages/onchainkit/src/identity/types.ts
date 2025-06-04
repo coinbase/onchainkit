@@ -156,7 +156,7 @@ export type GetAddressReturnType = Address | null;
 /**
  * Note: exported as public Type
  */
-export type GetAttestationsOptionsParams = {
+export type GetAttestationsParams = {
   /** Array of schema UIDs to filter by */
   schemas?: EASSchemaUid[];
   /** Filter by revocation status */
@@ -286,7 +286,7 @@ export type UseAttestationsParams = {
 /**
  * Note: exported as public Type
  */
-export type UseAddressOptionsParams = {
+export type UseAddressParams = {
   /** The ENS or Basename for which the Ethereum address is to be fetched */
   name: string | Basename;
   /** Optional chain for domain resolution */
@@ -296,7 +296,7 @@ export type UseAddressOptionsParams = {
 /**
  * Note: exported as public Type
  */
-export type UseAddressesOptionsParams = {
+export type UseAddressesParams = {
   /** Array of ENS or Basenames to resolve addresses for */
   names: Array<string | Basename>;
 };
@@ -304,7 +304,7 @@ export type UseAddressesOptionsParams = {
 /**
  * Note: exported as public Type
  */
-export type UseAvatarOptionsParams = {
+export type UseAvatarParams = {
   /** ENS name to resolve */
   ensName: string;
   /** Optional chain for domain resolution */
@@ -324,7 +324,7 @@ export type UseNameOptionsParams = {
 /**
  * Note: exported as public Type
  */
-export type UseNamesOptionsParams = {
+export type UseNamesParams = {
   /** Array of addresses to resolve ENS or Basenames for */
   addresses: Address[];
   /** Optional chain for domain resolution */
@@ -334,7 +334,7 @@ export type UseNamesOptionsParams = {
 /**
  * Note: exported as public Type
  */
-export type UseAvatarsOptionsParams = {
+export type UseAvatarsParams = {
   /** Array of ENS names to resolve avatars for */
   ensNames: string[];
   /** Optional chain for domain resolution */

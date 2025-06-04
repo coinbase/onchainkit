@@ -11,18 +11,18 @@ export const PLATFORM_CONFIG: Record<
   {
     href: (value: string) => string;
     icon: React.ReactNode;
-    label: (value: string) => string;
+    ariaLabel: (value: string) => string;
   }
 > = {
   twitter: {
     href: (value) => `https://x.com/${value}`,
     icon: twitterSvg,
-    label: (value) => `Visit ${value} on X (formerly Twitter)`,
+    ariaLabel: (value) => `Visit ${value} on X (formerly Twitter)`,
   },
   github: {
     href: (value) => `https://github.com/${value}`,
     icon: githubSvg,
-    label: (value) => `Visit ${value} on GitHub`,
+    ariaLabel: (value) => `Visit ${value} on GitHub`,
   },
   farcaster: {
     href: (value) => {
@@ -30,7 +30,7 @@ export const PLATFORM_CONFIG: Record<
       return `https://warpcast.com/${username}`;
     },
     icon: warpcastSvg,
-    label: (value) => {
+    ariaLabel: (value) => {
       const username = value.split('/').pop();
       return `Visit ${username} on Farcaster (Warpcast)`;
     },
@@ -38,7 +38,7 @@ export const PLATFORM_CONFIG: Record<
   website: {
     href: (value) => value,
     icon: websiteSvg,
-    label: (value) => `Visit ${value}`,
+    ariaLabel: (value) => `Visit ${value}`,
   },
 };
 
@@ -50,7 +50,7 @@ export function SocialPlatformDetails({
   value: string;
 }) {
   const config = PLATFORM_CONFIG[platform];
-  const ariaLabel = config.label(value);
+  const ariaLabel = config.ariaLabel(value);
   return (
     <a
       href={config.href(value)}

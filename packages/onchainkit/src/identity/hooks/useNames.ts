@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { mainnet } from 'viem/chains';
 import type {
   GetNameReturnType,
-  UseNamesOptionsParams,
+  UseNamesParams,
   UseQueryOptions,
 } from '../types';
 
@@ -13,7 +13,7 @@ import type {
  * multiple Basenames or ENS names in a single batch request.
  */
 export const useNames = (
-  { addresses, chain = mainnet }: UseNamesOptionsParams,
+  { addresses, chain = mainnet }: UseNamesParams,
   queryOptions?: UseQueryOptions<GetNameReturnType[]>,
 ) => {
   const addressesKey = addresses.join(',');
