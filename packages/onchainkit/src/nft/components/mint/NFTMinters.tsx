@@ -3,11 +3,11 @@ import { useNFTContext } from '@/nft/components/NFTProvider';
 import { cn, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 
-type NFTMintersReact = {
+type NFTMintersProps = {
   className?: string;
 };
 
-export function NFTMinters({ className }: NFTMintersReact) {
+export function NFTMinters({ className }: NFTMintersProps) {
   const { schemaId } = useOnchainKit();
   const { totalOwners, recentOwners } = useNFTContext();
 

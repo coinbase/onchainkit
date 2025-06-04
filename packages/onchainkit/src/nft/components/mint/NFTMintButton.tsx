@@ -18,7 +18,7 @@ import { ConnectWallet } from '@/wallet';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 
-type NFTMintButtonReact = {
+type NFTMintButtonProps = {
   className?: string;
   label?: string;
 } & Pick<TransactionButtonProps, 'disabled'>;
@@ -27,7 +27,7 @@ export function NFTMintButton({
   className,
   label = 'Mint',
   disabled,
-}: NFTMintButtonReact) {
+}: NFTMintButtonProps) {
   const chainId = useChainId();
   const { address } = useAccount();
   const {

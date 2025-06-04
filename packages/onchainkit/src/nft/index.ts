@@ -7,11 +7,9 @@ export { NFTCard } from './components/NFTCard';
 export type {
   BuildMintTransaction,
   LifecycleStatus,
-  NFTCardReact,
-  NFTCardDefaultReact,
+  NFTCardProps,
   NFTData,
-  NFTMintCardReact,
-  NFTMintCardDefaultReact,
+  NFTMintCardProps,
   UseNFTData,
 } from './types';
 export type { NFTError } from '../api/types';

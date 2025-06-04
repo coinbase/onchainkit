@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useState } from 'react';
 import { useValue } from '../../internal/hooks/useValue';
-import type { NFTContextType, NFTProviderReact } from '../types';
+import type { NFTContextType, NFTProviderProps } from '../types';
 
 const emptyContext = {} as NFTContextType;
 
@@ -23,7 +23,7 @@ export function NFTProvider({
   isSponsored,
   useNFTData,
   buildMintTransaction,
-}: NFTProviderReact) {
+}: NFTProviderProps) {
   const [quantity, setQuantity] = useState(1);
 
   const nftData = useNFTData(contractAddress, tokenId);
