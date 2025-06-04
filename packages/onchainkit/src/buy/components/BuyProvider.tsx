@@ -16,7 +16,6 @@ import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { BuyEvent } from '../../core/analytics/types';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
-import { useValue } from '../../internal/hooks/useValue';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
 import { useAwaitCalls } from '../../swap/hooks/useAwaitCalls';
 import type { LifecycleStatus, SwapUnit } from '../../swap/types';
@@ -29,7 +28,7 @@ import { useBuyTokens } from '../hooks/useBuyTokens';
 import { useOnrampEventListeners } from '../hooks/useOnrampEventListeners';
 import { usePopupMonitor } from '../hooks/usePopupMonitor';
 import { useResetBuyInputs } from '../hooks/useResetBuyInputs';
-import type { BuyContextType, BuyProviderReact } from '../types';
+import type { BuyContextType, BuyProviderProps } from '../types';
 import { getBuyQuote } from '../utils/getBuyQuote';
 import { validateQuote } from '../utils/validateQuote';
 
@@ -58,7 +57,7 @@ export function BuyProvider({
   onSuccess,
   toToken,
   fromToken,
-}: BuyProviderReact) {
+}: BuyProviderProps) {
   const { config: { paymaster } = { paymaster: undefined }, projectId } =
     useOnchainKit();
   const { address, chainId } = useAccount();
@@ -450,26 +449,30 @@ export function BuyProvider({
     ],
   );
 
-  const value = useValue({
-    address,
-    config,
-    disabled,
-    from,
-    fromETH,
-    fromUSDC,
-    handleAmountChange,
-    handleSubmit,
-    lifecycleStatus,
-    updateLifecycleStatus,
-    to,
-    setTransactionHash,
-    transactionHash,
-    isDropdownOpen,
-    setIsDropdownOpen,
-    toToken,
-    fromToken,
-    startPopupMonitor,
-  });
-
-  return <BuyContext.Provider value={value}>{children}</BuyContext.Provider>;
+  return (
+    <BuyContext.Provider
+      value={{
+        address,
+        config,
+        disabled,
+        from,
+        fromETH,
+        fromUSDC,
+        handleAmountChange,
+        handleSubmit,
+        lifecycleStatus,
+        updateLifecycleStatus,
+        to,
+        setTransactionHash,
+        transactionHash,
+        isDropdownOpen,
+        setIsDropdownOpen,
+        toToken,
+        fromToken,
+        startPopupMonitor,
+      }}
+    >
+      {children}
+    </BuyContext.Provider>
+  );
 }
