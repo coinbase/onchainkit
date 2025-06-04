@@ -13,7 +13,7 @@ export function EarnAmountInput({
 }: EarnAmountInputProps) {
   return (
     <TextInput
-      testID="ockEarnAmountInput"
+      data-testid="ockEarnAmountInput"
       className={cn(
         text.base,
         'text-ock-text-foreground',

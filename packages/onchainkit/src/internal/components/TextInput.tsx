@@ -19,7 +19,6 @@ type TextInputProps = Omit<ComponentProps<'input'>, 'onChange'> & {
   inputValidator?: (s: string) => boolean;
   /** specify 'error' to show error state (change in color), field is used for a11y purposes, not actually rendered currently, can be either boolean flag or string error message */
   error?: string | boolean;
-  testID?: string;
 };
 
 export const TextInput = forwardRef(
@@ -38,7 +37,6 @@ export const TextInput = forwardRef(
       value,
       inputValidator = () => true,
       error,
-      testID = 'ockTextInput_Input',
       ...rest
     }: TextInputProps,
     ref: ForwardedRef<HTMLInputElement>,
@@ -65,7 +63,7 @@ export const TextInput = forwardRef(
 
     return (
       <input
-        data-testid={testID}
+        data-testid="ockTextInput_Input"
         aria-invalid={!!error}
         aria-label={ariaLabel}
         ref={ref}
