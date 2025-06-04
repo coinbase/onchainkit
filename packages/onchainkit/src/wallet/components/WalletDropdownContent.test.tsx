@@ -453,7 +453,7 @@ describe('WalletDropdownContent', () => {
       </WalletDropdownContent>,
     );
 
-    expect(screen.getByTestId('ockBottomSheet')).toBeDefined();
+    expect(screen.getByTestId('ockSheet')).toBeDefined();
   });
 
   it('applies custom classNames to BottomSheet when breakpoint is sm', () => {
@@ -474,8 +474,6 @@ describe('WalletDropdownContent', () => {
       </WalletDropdownContent>,
     );
 
-    expect(screen.getByTestId('ockBottomSheet')).toHaveClass(
-      'custom-container',
-    );
+    expect(screen.getByTestId('ockSheet')).toHaveClass('custom-container');
   });
 });
