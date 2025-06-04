@@ -23,6 +23,7 @@ const SheetOverlay = React.forwardRef<
     )}
     {...props}
     ref={ref}
+    data-testid="ockSheetOverlay"
   />
 ));
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
@@ -68,7 +69,14 @@ export const Sheet = ({
   );
 
   return (
-    <SheetRoot open={isOpen} onOpenChange={onClose}>
+    <SheetRoot
+      open={isOpen}
+      onOpenChange={(flag) => {
+        if (!flag) {
+          onClose();
+        }
+      }}
+    >
       <SheetPortal>
         <SheetOverlay />
         <SheetTitle className="sr-only">{title}</SheetTitle>
@@ -76,7 +84,7 @@ export const Sheet = ({
         <SheetPrimitive.Content
           className={sheetContentClassName}
           {...rest}
-          data-testid="ockBottomSheet"
+          data-testid="ockSheet"
         >
           {children}
         </SheetPrimitive.Content>

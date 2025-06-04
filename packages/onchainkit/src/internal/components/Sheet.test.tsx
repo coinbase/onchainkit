@@ -39,7 +39,7 @@ describe('Sheet', () => {
 
   it('applies custom className when provided', () => {
     render(<Sheet {...defaultProps} className="custom-class" />);
-    expect(screen.getByTestId('ockBottomSheet')).toHaveClass('custom-class');
+    expect(screen.getByTestId('ockSheet')).toHaveClass('custom-class');
   });
 
   it('sets all ARIA attributes correctly', () => {
@@ -54,7 +54,7 @@ describe('Sheet', () => {
       </Sheet>,
     );
 
-    const sheet = screen.getByTestId('ockBottomSheet');
+    const sheet = screen.getByTestId('ockSheet');
     expect(sheet).toHaveAttribute('role', 'dialog');
     expect(sheet).toHaveAttribute('aria-label', 'Test Dialog');
     expect(sheet).toHaveAttribute('aria-describedby', 'desc');

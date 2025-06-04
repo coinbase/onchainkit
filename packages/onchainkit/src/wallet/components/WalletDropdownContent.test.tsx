@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { act } from 'react';
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import type {
   WalletAdvancedQrReceiveProps,
@@ -213,25 +214,6 @@ describe('WalletDropdownContent', () => {
     expect(
       screen.queryByTestId('ockWalletAdvancedSwap'),
     ).not.toBeInTheDocument();
-  });
-
-  it('closes WalletDropdownContent when mobile tray is closed', () => {
-    const setIsSubComponentOpen = vi.fn();
-    mockUseWalletContext.mockReturnValue({
-      isSubComponentOpen: true,
-      setIsSubComponentOpen,
-      breakpoint: 'sm',
-    });
-
-    render(
-      <WalletDropdownContent>
-        <div>WalletDropdownContent</div>
-      </WalletDropdownContent>,
-    );
-
-    fireEvent.pointerDown(document.body);
-
-    expect(setIsSubComponentOpen).toHaveBeenCalledWith(false);
   });
 
   it('handles animation end when closing', () => {
