@@ -36,7 +36,7 @@ import { CheckoutErrorCode } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import type {
   CheckoutContextType,
-  CheckoutProviderReact,
+  CheckoutProviderProps,
   LifecycleStatus,
 } from '../types';
 import { ONRAMP_POPUP_HEIGHT, ONRAMP_POPUP_WIDTH } from '@/fund/constants';
@@ -64,7 +64,7 @@ export function CheckoutProvider({
   isSponsored,
   onStatus,
   productId,
-}: CheckoutProviderReact) {
+}: CheckoutProviderProps) {
   // Core hooks
   const {
     config: { appearance, paymaster } = {
