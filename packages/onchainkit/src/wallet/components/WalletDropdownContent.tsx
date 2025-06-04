@@ -1,4 +1,4 @@
-import { BottomSheet } from '@/internal/components/BottomSheet';
+import { Sheet } from '@/internal/components/Sheet';
 import { zIndex } from '@/styles/constants';
 import { border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
@@ -22,7 +22,6 @@ export function WalletDropdownContent({
     setIsSubComponentOpen,
     isSubComponentClosing,
     setIsSubComponentClosing,
-    connectRef,
     breakpoint,
     activeFeature,
     animations,
@@ -96,16 +95,18 @@ export function WalletDropdownContent({
 
   if (breakpoint === 'sm') {
     return (
-      <BottomSheet
+      <Sheet
         isOpen={isSubComponentOpen}
-        triggerRef={connectRef}
         onClose={handleBottomSheetClose}
         className={classNames?.container}
+        side="bottom"
+        title="Wallet"
+        description="Wallet menu"
       >
         <div className="flex h-full w-full flex-col items-center justify-center">
           {content}
         </div>
-      </BottomSheet>
+      </Sheet>
     );
   }
 

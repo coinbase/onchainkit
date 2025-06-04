@@ -5,14 +5,14 @@ type PressableIconProps = {
   children: ReactNode;
   className?: string;
   onClick?: () => void;
-  ariaLabel?: string;
+  'aria-label'?: string;
 };
 
 export function PressableIcon({
   children,
   className,
   onClick,
-  ariaLabel,
+  'aria-label': ariaLabel,
 }: PressableIconProps) {
   return (
     <button

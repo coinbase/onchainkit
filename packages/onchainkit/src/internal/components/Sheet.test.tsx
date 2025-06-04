@@ -1,16 +1,18 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { BottomSheet } from './BottomSheet';
+import { Sheet } from './Sheet';
 
 vi.mock('../../internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
-describe('BottomSheet', () => {
+describe('Sheet', () => {
   const defaultProps = {
     isOpen: true,
     onClose: vi.fn(),
     children: <div>Test Content</div>,
+    title: 'Test Title',
+    description: 'Test Description',
   };
 
   beforeEach(() => {
@@ -18,38 +20,38 @@ describe('BottomSheet', () => {
   });
 
   it('renders children when open', () => {
-    render(<BottomSheet {...defaultProps} />);
+    render(<Sheet {...defaultProps} />);
     expect(screen.getByText('Test Content')).toBeInTheDocument();
   });
 
   it('does not render children when closed', () => {
-    render(<BottomSheet {...defaultProps} isOpen={false} />);
+    render(<Sheet {...defaultProps} isOpen={false} />);
     expect(screen.queryByText('Test Content')).not.toBeInTheDocument();
   });
 
   it('calls onClose when Escape key is pressed on overlay', () => {
-    render(<BottomSheet {...defaultProps} />);
-    fireEvent.keyDown(screen.getByTestId('ockDismissableLayer'), {
+    render(<Sheet {...defaultProps} />);
+    fireEvent.keyDown(document, {
       key: 'Escape',
     });
     expect(defaultProps.onClose).toHaveBeenCalled();
   });
 
   it('applies custom className when provided', () => {
-    render(<BottomSheet {...defaultProps} className="custom-class" />);
+    render(<Sheet {...defaultProps} className="custom-class" />);
     expect(screen.getByTestId('ockBottomSheet')).toHaveClass('custom-class');
   });
 
   it('sets all ARIA attributes correctly', () => {
     render(
-      <BottomSheet
+      <Sheet
         {...defaultProps}
         aria-label="Test Dialog"
         aria-describedby="desc"
         aria-labelledby="title"
       >
         <div>Content</div>
-      </BottomSheet>,
+      </Sheet>,
     );
 
     const sheet = screen.getByTestId('ockBottomSheet');
