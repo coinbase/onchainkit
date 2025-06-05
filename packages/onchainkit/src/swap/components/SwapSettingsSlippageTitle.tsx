@@ -1,11 +1,11 @@
 'use client';
-import { cn, text } from '../../styles/theme';
-import type { SwapSettingsSlippageTitleReact } from '../types';
+import { cn, text } from '@/styles/theme';
+import type { SwapSettingsSlippageTitleProps } from '../types';
 
 export function SwapSettingsSlippageTitle({
   children,
   className,
-}: SwapSettingsSlippageTitleReact) {
+}: SwapSettingsSlippageTitleProps) {
   return (
     <h3
       className={cn(
