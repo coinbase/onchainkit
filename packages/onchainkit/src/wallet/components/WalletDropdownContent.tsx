@@ -110,6 +110,10 @@ export function WalletDropdownContent({
     );
   }
 
+  if (!isSubComponentOpen) {
+    return null;
+  }
+
   return (
     <div
       data-testid="ockWalletDropdownContent"
