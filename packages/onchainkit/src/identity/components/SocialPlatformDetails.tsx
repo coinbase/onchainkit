@@ -8,15 +8,21 @@ export type SocialPlatform = 'twitter' | 'github' | 'farcaster' | 'website';
 
 export const PLATFORM_CONFIG: Record<
   SocialPlatform,
-  { href: (value: string) => string; icon: React.ReactNode }
+  {
+    href: (value: string) => string;
+    icon: React.ReactNode;
+    ariaLabel: (value: string) => string;
+  }
 > = {
   twitter: {
     href: (value) => `https://x.com/${value}`,
     icon: twitterSvg,
+    ariaLabel: (value) => `Visit ${value} on X (formerly Twitter)`,
   },
   github: {
     href: (value) => `https://github.com/${value}`,
     icon: githubSvg,
+    ariaLabel: (value) => `Visit ${value} on GitHub`,
   },
   farcaster: {
     href: (value) => {
@@ -24,14 +30,19 @@ export const PLATFORM_CONFIG: Record<
       return `https://warpcast.com/${username}`;
     },
     icon: warpcastSvg,
+    ariaLabel: (value) => {
+      const username = value.split('/').pop();
+      return `Visit ${username} on Farcaster (Warpcast)`;
+    },
   },
   website: {
     href: (value) => value,
     icon: websiteSvg,
+    ariaLabel: (value) => `Visit ${value}`,
   },
 };
 
-export function GetSocialPlatformDetails({
+export function SocialPlatformDetails({
   platform,
   value,
 }: {
@@ -39,6 +50,7 @@ export function GetSocialPlatformDetails({
   value: string;
 }) {
   const config = PLATFORM_CONFIG[platform];
+  const ariaLabel = config.ariaLabel(value);
   return (
     <a
       href={config.href(value)}
@@ -53,6 +65,7 @@ export function GetSocialPlatformDetails({
       data-testid={`ockSocials_${
         platform.charAt(0).toUpperCase() + platform.slice(1)
       }`}
+      aria-label={ariaLabel}
     >
       <span className="sr-only">{platform}</span>
       <div className={cn('flex h-4 w-4 items-center justify-center')}>
