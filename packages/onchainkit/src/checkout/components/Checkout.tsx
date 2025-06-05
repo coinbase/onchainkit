@@ -3,7 +3,7 @@
 import { useIsMounted } from '../../internal/hooks/useIsMounted';
 import { useTheme } from '../../internal/hooks/useTheme';
 import { cn } from '../../styles/theme';
-import type { CheckoutReact } from '../types';
+import type { CheckoutProps } from '../types';
 import { CheckoutProvider } from './CheckoutProvider';
 
 export function Checkout({
@@ -13,7 +13,7 @@ export function Checkout({
   isSponsored,
   onStatus,
   productId,
-}: CheckoutReact) {
+}: CheckoutProps) {
   const isMounted = useIsMounted();
   const componentTheme = useTheme();
   // prevents SSR hydration issue

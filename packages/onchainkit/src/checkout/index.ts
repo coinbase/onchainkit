@@ -3,8 +3,8 @@ export { CheckoutButton } from './components/CheckoutButton';
 export { CheckoutStatus } from './components/CheckoutStatus';
 export type {
   LifecycleStatus,
-  CheckoutButtonReact,
-  CheckoutReact,
-  CheckoutStatusReact,
+  CheckoutButtonProps,
+  CheckoutProps,
+  CheckoutStatusProps,
 } from './types';
 export { useCheckoutContext } from './components/CheckoutProvider';

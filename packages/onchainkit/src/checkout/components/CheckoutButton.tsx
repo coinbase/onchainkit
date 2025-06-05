@@ -6,7 +6,7 @@ import { CheckoutEvent } from '../../core/analytics/types';
 import { Spinner } from '../../internal/components/Spinner';
 import { useIcon } from '../../internal/hooks/useIcon';
 import { cn, pressable, text as styleText } from '../../styles/theme';
-import type { CheckoutButtonReact } from '../types';
+import type { CheckoutButtonProps } from '../types';
 import { useCheckoutContext } from './CheckoutProvider';
 import { CHECKOUT_LIFECYCLE_STATUS } from '../constants';
 
@@ -16,7 +16,7 @@ export function CheckoutButton({
   disabled,
   icon,
   text = 'Pay',
-}: CheckoutButtonReact) {
+}: CheckoutButtonProps) {
   if (coinbaseBranded) {
     icon = 'coinbasePay';
     text = 'Pay';
@@ -30,12 +30,14 @@ export function CheckoutButton({
   const isFetchingData =
     lifecycleStatus?.statusName === CHECKOUT_LIFECYCLE_STATUS.FETCHING_DATA;
   const isDisabled = disabled || isLoading || isFetchingData;
+
   const buttonText = useMemo(() => {
     if (lifecycleStatus?.statusName === CHECKOUT_LIFECYCLE_STATUS.SUCCESS) {
       return 'View payment details';
     }
     return text;
   }, [lifecycleStatus?.statusName, text]);
+
   const shouldRenderIcon = buttonText === text && iconSvg;
 
   useEffect(() => {
@@ -68,6 +70,7 @@ export function CheckoutButton({
       onClick={onSubmit}
       type="button"
       disabled={isDisabled}
+      aria-label={isLoading ? 'Transaction in progress' : buttonText}
     >
       <div className="flex items-center justify-center whitespace-nowrap">
         {isLoading ? (
