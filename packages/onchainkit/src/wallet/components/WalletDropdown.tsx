@@ -7,6 +7,7 @@ import { WalletDropdownContent } from './WalletDropdownContent';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 import { WalletDropdownLink } from './WalletDropdownLink';
 import { useWalletContext } from './WalletProvider';
+import { useAccount } from 'wagmi';
 
 const defaultWalletDropdownChildren = (
   <>
@@ -35,22 +36,14 @@ export function WalletDropdown({
   swappableTokens,
 }: WalletDropdownReact) {
   const {
-    address,
     breakpoint,
     isSubComponentOpen,
     showSubComponentAbove,
     alignSubComponentRight,
   } = useWalletContext();
+  const { address } = useAccount();
 
-  if (!address) {
-    return null;
-  }
-
-  if (!breakpoint) {
-    return null;
-  }
-
-  if (!isSubComponentOpen) {
+  if (!address || !breakpoint || !isSubComponentOpen) {
     return null;
   }
 

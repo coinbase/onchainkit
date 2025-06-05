@@ -16,6 +16,7 @@ import { ConnectWallet } from '../../wallet/components/ConnectWallet';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonProps } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
+import { Wallet } from '@/wallet';
 
 export function FundButton({
   className,
@@ -40,7 +41,6 @@ export function FundButton({
   const { address } = useAccount();
   const fundingUrlToRender = fundingUrl ?? fallbackFundingUrl;
   const isDisabled = disabled || !fundingUrlToRender;
-  const shouldShowConnectWallet = !address;
 
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
   const { sendAnalytics } = useAnalytics();
@@ -170,8 +170,12 @@ export function FundButton({
     );
   }, [buttonState, buttonIcon, buttonTextContent]);
 
-  if (shouldShowConnectWallet) {
-    return <ConnectWallet className={cn('w-full', className)} />;
+  if (!address) {
+    return (
+      <Wallet>
+        <ConnectWallet className={cn('w-full', className)} />
+      </Wallet>
+    );
   }
 
   if (render) {

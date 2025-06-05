@@ -1,4 +1,3 @@
-// 🌲☀🌲
 // Components
 export { Wallet } from './components/Wallet';
 export { ConnectWallet } from './components/ConnectWallet';
@@ -28,7 +27,7 @@ export { usePortfolio } from './hooks/usePortfolio';
 
 // Types
 export type {
-  ConnectWalletReact,
+  ConnectWalletProps,
   ConnectWalletTextReact,
   IsValidAAEntrypointOptions,
   IsWalletACoinbaseSmartWalletOptions,
@@ -39,5 +38,5 @@ export type {
   WalletDropdownFundLinkReact,
   WalletDropdownLinkReact,
   WalletDropdownReact,
-  WalletReact,
+  WalletProps,
 } from './types';

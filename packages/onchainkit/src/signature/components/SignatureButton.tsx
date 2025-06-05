@@ -3,6 +3,7 @@ import { type ReactNode, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { cn, pressable, text } from '../../styles/theme';
 import { useSignatureContext } from './SignatureProvider';
+import { Wallet } from '@/wallet';
 
 type SignatureButtonProps = {
   className?: string;
@@ -50,10 +51,12 @@ export function SignatureButton({
 
   if (!address) {
     return (
-      <ConnectWallet
-        className={cn('w-full', className)}
-        disconnectedLabel={connectLabel}
-      />
+      <Wallet>
+        <ConnectWallet
+          className={cn('w-full', className)}
+          disconnectedLabel={connectLabel}
+        />
+      </Wallet>
     );
   }
 

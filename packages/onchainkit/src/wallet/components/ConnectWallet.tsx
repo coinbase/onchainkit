@@ -1,17 +1,15 @@
 'use client';
-
 import { Avatar, Name } from '@/identity';
 import { useCallback } from 'react';
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
-import { WalletEvent } from '../../core/analytics/types';
-import { IdentityProvider } from '../../identity/components/IdentityProvider';
-import { Spinner } from '../../internal/components/Spinner';
-import { cn, text as dsText, pressable } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
-import type { ConnectWalletReact } from '../types';
-import { ConnectButton } from './ConnectButton';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { WalletEvent } from '@/core/analytics/types';
+import { IdentityProvider } from '@/identity/components/IdentityProvider';
+import { Spinner } from '@/internal/components/Spinner';
+import { cn, text as dsText, pressable } from '@/styles/theme';
+import { useOnchainKit } from '@/useOnchainKit';
+import type { ConnectWalletProps } from '../types';
 import { WalletModal } from './WalletModal';
 import { useWalletContext } from './WalletProvider';
 
@@ -27,11 +25,10 @@ export function ConnectWallet({
   className,
   onConnect,
   disconnectedLabel = 'Connect Wallet',
-}: ConnectWalletReact) {
+}: ConnectWalletProps) {
   const { config = { wallet: { display: undefined } } } = useOnchainKit();
-
-  // Core Hooks
   const {
+    isConnectModalOpen,
     setIsConnectModalOpen,
     isSubComponentOpen,
     setIsSubComponentOpen,
@@ -45,53 +42,36 @@ export function ConnectWallet({
   const { connectors, connect, status: connectStatus } = useConnect();
   const { sendAnalytics } = useAnalytics();
 
-  // State
   const [hasClickedConnect, setHasClickedConnect] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // duplicate modal state because ConnectWallet not always within WalletProvider
 
-  // Wallet connect status
   const connector = accountConnector || connectors[0];
   const isLoading = connectStatus === 'pending' || status === 'connecting';
 
-  // Handles
   const handleToggle = useCallback(() => {
     if (isSubComponentOpen) {
-      handleClose?.(); // optional because ConnectWallet not always within WalletProvider
+      handleClose();
     } else {
       setIsSubComponentOpen(true);
     }
   }, [isSubComponentOpen, handleClose, setIsSubComponentOpen]);
 
   const handleCloseConnectModal = useCallback(() => {
-    setIsModalOpen(false); // duplicate state because ConnectWallet not always within WalletProvider
-    setIsConnectModalOpen?.(false); // optional because ConnectWallet not always within WalletProvider
+    setIsConnectModalOpen(false);
   }, [setIsConnectModalOpen]);
 
   const handleOpenConnectModal = useCallback(() => {
-    setIsModalOpen(true); // duplicate state because ConnectWallet not always within WalletProvider
-    setIsConnectModalOpen?.(true); // optional because ConnectWallet not always within WalletProvider
+    setIsConnectModalOpen(true);
     setHasClickedConnect(true);
   }, [setIsConnectModalOpen]);
 
-  const handleAnalyticsInitiated = useCallback(
-    (component: string) => {
-      sendAnalytics(WalletEvent.ConnectInitiated, {
-        component,
-      });
-    },
-    [sendAnalytics],
-  );
+  const handleAnalyticsSuccess = useCallback(() => {
+    if (!accountAddress || !connector) return;
 
-  const handleAnalyticsSuccess = useCallback(
-    (walletAddress: string | undefined) => {
-      const walletProvider = connector?.name;
-      sendAnalytics(WalletEvent.ConnectSuccess, {
-        address: walletAddress ?? '',
-        walletProvider,
-      });
-    },
-    [sendAnalytics, connector],
-  );
+    sendAnalytics(WalletEvent.ConnectSuccess, {
+      address: accountAddress,
+      walletProvider: connector?.name,
+    });
+  }, [sendAnalytics, connector, accountAddress]);
 
   const handleAnalyticsError = useCallback(
     (errorMessage: string, component: string) => {
@@ -107,34 +87,43 @@ export function ConnectWallet({
     [sendAnalytics, connector],
   );
 
-  // Effects
   useEffect(() => {
-    if (hasClickedConnect && status === 'connected' && onConnect) {
+    if (status !== 'connected') return;
+
+    if (hasClickedConnect && onConnect) {
       onConnect();
       setHasClickedConnect(false);
     }
-  }, [status, hasClickedConnect, onConnect]);
 
-  useEffect(() => {
-    if (status === 'connected' && accountAddress && connector) {
-      handleAnalyticsSuccess(accountAddress);
-    }
-  }, [status, accountAddress, connector, handleAnalyticsSuccess]);
+    handleAnalyticsSuccess();
+  }, [
+    status,
+    hasClickedConnect,
+    onConnect,
+    accountAddress,
+    connector,
+    handleAnalyticsSuccess,
+  ]);
 
   const handleConnectClick = useCallback(() => {
     if (config?.wallet?.display === 'modal') {
       handleOpenConnectModal();
       setHasClickedConnect(true);
-      handleAnalyticsInitiated('WalletModal');
+      sendAnalytics(WalletEvent.ConnectInitiated, {
+        component: 'WalletModal',
+      });
       return;
     }
-    handleAnalyticsInitiated('ConnectWallet');
+
+    sendAnalytics(WalletEvent.ConnectInitiated, {
+      component: 'ConnectWallet',
+    });
     connect(
       { connector },
       {
         onSuccess: () => {
           onConnect?.();
-          handleAnalyticsSuccess(accountAddress);
+          handleAnalyticsSuccess();
         },
         onError: (error) => {
           handleAnalyticsError(error.message, 'ConnectWallet');
@@ -143,26 +132,38 @@ export function ConnectWallet({
     );
   }, [
     config?.wallet?.display,
-    accountAddress,
     connect,
     connector,
     handleAnalyticsError,
-    handleAnalyticsInitiated,
     handleAnalyticsSuccess,
     handleOpenConnectModal,
     onConnect,
+    sendAnalytics,
   ]);
 
   if (status === 'disconnected') {
     return (
       <div className="flex" data-testid="ockConnectWallet_Container">
-        <ConnectButton
-          className={className}
-          connectWalletText={disconnectedLabel}
+        <button
+          type="button"
+          data-testid="ockConnectButton"
+          className={cn(
+            pressable.primary,
+            'rounded-ock-default',
+            dsText.headline,
+            'text-ock-text-inverse',
+            'inline-flex min-w-[153px] items-center justify-center px-4 py-3',
+            className,
+          )}
           onClick={handleConnectClick}
-        />
+        >
+          {disconnectedLabel}
+        </button>
         {config?.wallet?.display === 'modal' && (
-          <WalletModal isOpen={isModalOpen} onClose={handleCloseConnectModal} />
+          <WalletModal
+            isOpen={isConnectModalOpen}
+            onClose={handleCloseConnectModal}
+          />
         )}
       </div>
     );

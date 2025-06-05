@@ -57,7 +57,6 @@ describe('useWalletContext', () => {
       ),
     });
     expect(result.current.isSubComponentOpen).toEqual(false);
-    expect(result.current.address).toEqual(null);
     expect(result.current.isSubComponentClosing).toEqual(false);
   });
 

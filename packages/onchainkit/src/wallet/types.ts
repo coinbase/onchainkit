@@ -4,22 +4,13 @@ import type { SwapDefaultReact } from '@/swap/types';
 import type { Token } from '@/token';
 import type { QueryObserverResult } from '@tanstack/react-query';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
-import type { RpcUserOperation, Address, Chain, PublicClient } from 'viem';
+import type { RpcUserOperation, PublicClient } from 'viem';
 import type { UseBalanceReturnType, UseReadContractReturnType } from 'wagmi';
-
-export type ConnectButtonReact = {
-  /** Optional className override for button element */
-  className?: string;
-  /** Optional text override for button */
-  connectWalletText: ReactNode | null;
-  /** Function to call when the button is clicked */
-  onClick: () => void;
-};
 
 /**
  * Note: exported as public Type
  */
-export type ConnectWalletReact = {
+export type ConnectWalletProps = {
   /** Children can be utilized to display customized content when the wallet is connected. */
   children?: React.ReactNode;
   /** Optional className override for button element */
@@ -82,10 +73,6 @@ export type UseGetTokenBalanceResponse = {
  * Note: exported as public Type
  */
 export type WalletContextType = {
-  /** The Ethereum address to fetch the avatar and name for. */
-  address?: Address | null;
-  /** Optional chain for domain resolution */
-  chain?: Chain;
   /** The breakpoint of the current device */
   breakpoint: string | undefined;
   /** Whether the connect modal is open */
@@ -115,7 +102,7 @@ export type WalletContextType = {
 /**
  * Note: exported as public Type
  */
-export type WalletReact = {
+export type WalletProps = {
   children?: React.ReactNode;
   /** Whether to sponsor transactions for Send feature of advanced wallet implementation */
   isSponsored?: boolean;

@@ -1,7 +1,6 @@
 'use client';
 
 import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
-import { useOnchainKit } from '@/useOnchainKit';
 import {
   createContext,
   useCallback,
@@ -12,14 +11,32 @@ import {
   useState,
 } from 'react';
 import type { ReactNode } from 'react';
-import { useAccount } from 'wagmi';
 import type { WalletAdvancedFeature, WalletContextType } from '../types';
 import { getAnimations } from '../utils/getAnimations';
 import { calculateSubComponentPosition } from '../utils/getWalletSubComponentPosition';
 
-const emptyContext = {} as WalletContextType;
-
-const WalletContext = createContext<WalletContextType>(emptyContext);
+const WalletContext = createContext<WalletContextType>({
+  breakpoint: undefined,
+  isConnectModalOpen: false,
+  setIsConnectModalOpen: () => {},
+  isSubComponentOpen: false,
+  setIsSubComponentOpen: () => {},
+  isSubComponentClosing: false,
+  setIsSubComponentClosing: () => {},
+  handleClose: () => {},
+  connectRef: { current: null },
+  showSubComponentAbove: false,
+  alignSubComponentRight: false,
+  activeFeature: null,
+  setActiveFeature: () => {},
+  isActiveFeatureClosing: false,
+  setIsActiveFeatureClosing: () => {},
+  animations: {
+    container: '',
+    content: '',
+  },
+  isSponsored: undefined,
+});
 
 export type WalletProviderReact = {
   children: ReactNode;
@@ -28,7 +45,6 @@ export type WalletProviderReact = {
 };
 
 export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
-  const { chain } = useOnchainKit();
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [isSubComponentOpen, setIsSubComponentOpen] = useState(false);
   const [isSubComponentClosing, setIsSubComponentClosing] = useState(false);
@@ -36,7 +52,6 @@ export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
   const [alignSubComponentRight, setAlignSubComponentRight] = useState(false);
 
   const connectRef = useRef<HTMLDivElement | null>(null);
-  const { address } = useAccount();
   const breakpoint = useBreakpoints();
 
   const [activeFeature, setActiveFeature] =
@@ -65,8 +80,6 @@ export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
 
   const value = useMemo(() => {
     return {
-      address,
-      chain,
       breakpoint,
       isConnectModalOpen,
       setIsConnectModalOpen,
@@ -86,8 +99,6 @@ export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
       isSponsored,
     };
   }, [
-    address,
-    chain,
     breakpoint,
     isConnectModalOpen,
     isSubComponentOpen,

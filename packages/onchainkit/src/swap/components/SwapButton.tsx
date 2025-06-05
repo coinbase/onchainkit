@@ -4,6 +4,7 @@ import { cn, pressable, text } from '@/styles/theme';
 import { ConnectWallet } from '@/wallet/components/ConnectWallet';
 import type { SwapButtonReact } from '../types';
 import { useSwapContext } from './SwapProvider';
+import { Wallet } from '@/wallet';
 
 export function SwapButton({
   className,
@@ -37,7 +38,11 @@ export function SwapButton({
 
   // prompt user to connect wallet
   if (!isDisabled && !address) {
-    return <ConnectWallet className={cn('mt-4 w-full', className)} />;
+    return (
+      <Wallet>
+        <ConnectWallet className={cn('mt-4 w-full', className)} />
+      </Wallet>
+    );
   }
 
   return (

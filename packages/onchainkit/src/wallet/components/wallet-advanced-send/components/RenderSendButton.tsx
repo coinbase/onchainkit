@@ -6,6 +6,8 @@ import {
 } from '@/transaction';
 import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
 import { useWalletContext } from '../../WalletProvider';
+import { useAccount } from 'wagmi';
+import { useOnchainKit } from '@/useOnchainKit';
 
 export type RenderSendButtonProps = TransactionButtonRenderParams & {
   label?: string;
@@ -17,7 +19,9 @@ export function RenderSendButton({
   label,
 }: RenderSendButtonProps) {
   const context = useTransactionContext();
-  const { address, chain: senderChain, setActiveFeature } = useWalletContext();
+  const { setActiveFeature } = useWalletContext();
+  const { address } = useAccount();
+  const { chain: senderChain } = useOnchainKit();
 
   const classNames = cn(
     pressable.primary,
