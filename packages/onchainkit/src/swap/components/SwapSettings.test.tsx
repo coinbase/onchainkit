@@ -47,24 +47,6 @@ vi.mock('../../internal/components/FocusTrap', () => ({
   )),
 }));
 
-vi.mock('../../internal/components/DismissableLayer', () => ({
-  DismissableLayer: vi.fn(({ children, onDismiss }) => (
-    <div
-      data-testid="mock-dismissable-layer"
-      onClick={onDismiss}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          onDismiss();
-        }
-      }}
-      role="button"
-      tabIndex={0}
-    >
-      {children}
-    </div>
-  )),
-}));
-
 const useBreakpointsMock = useBreakpoints as Mock;
 
 const renderComponent = (props = {}) => {
@@ -181,50 +163,7 @@ describe('SwapSettings', () => {
     });
   });
 
-  it('renders SwapSettingsSlippageLayoutBottomSheet when breakpoint is "sm"', async () => {
-    useBreakpointsMock.mockReturnValue('sm');
-    renderComponent();
-    const button = screen.getByRole('button', {
-      name: /toggle swap settings/i,
-    });
-
-    const initialBottomSheet = screen.getByTestId(
-      'ockSwapSettingsSlippageLayoutBottomSheet_container',
-    );
-    expect(initialBottomSheet).toHaveClass('transition-[bottom]');
-    expect(initialBottomSheet).toHaveClass('duration-300');
-    expect(initialBottomSheet).toHaveClass('-bottom-[12.875rem]');
-
-    fireEvent.click(button);
-
-    await waitFor(() => {
-      const parentDiv = screen
-        .getByTestId('ockSwapSettings_Settings')
-        .querySelector('div');
-      expect(parentDiv).toHaveClass('group');
-
-      const openBottomSheet = screen.getByTestId(
-        'ockSwapSettingsSlippageLayoutBottomSheet_container',
-      );
-      expect(openBottomSheet).toHaveClass('bottom-0');
-    });
-
-    fireEvent.click(button);
-
-    await waitFor(() => {
-      const parentDiv = screen
-        .getByTestId('ockSwapSettings_Settings')
-        .querySelector('div');
-      expect(parentDiv).not.toHaveClass('group');
-
-      const closedBottomSheet = screen.getByTestId(
-        'ockSwapSettingsSlippageLayoutBottomSheet_container',
-      );
-      expect(closedBottomSheet).toHaveClass('-bottom-[12.875rem]');
-    });
-  });
-
-  it('renders mobile view with FocusTrap and DismissableLayer when breakpoint is "sm"', async () => {
+  it('renders mobile view with Sheet when breakpoint is "sm"', async () => {
     useBreakpointsMock.mockReturnValue('sm');
     renderComponent();
 
@@ -234,17 +173,7 @@ describe('SwapSettings', () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(screen.getByTestId('mock-focus-trap')).toBeInTheDocument();
-      expect(screen.getByTestId('mock-dismissable-layer')).toBeInTheDocument();
-      expect(screen.getByTestId('mock-bottom-sheet')).toBeInTheDocument();
-    });
-
-    fireEvent.click(screen.getByTestId('mock-dismissable-layer'));
-    await waitFor(() => {
-      const bottomSheet = screen.getByTestId(
-        'ockSwapSettingsSlippageLayoutBottomSheet_container',
-      );
-      expect(bottomSheet).toHaveClass('-bottom-[12.875rem]');
+      expect(screen.getByTestId('ockSheet')).toBeInTheDocument();
     });
   });
 

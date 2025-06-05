@@ -229,7 +229,13 @@ export function WalletModal({
   ].filter((wallet) => wallet.enabled);
 
   return (
-    <Dialog isOpen={isOpen} onClose={onClose} aria-label="Connect Wallet">
+    <Dialog
+      isOpen={isOpen}
+      onClose={onClose}
+      aria-label="Connect Wallet"
+      title="Connect Wallet"
+      description="Connect wallet"
+    >
       <div
         data-testid="ockModalOverlay"
         className={cn(
