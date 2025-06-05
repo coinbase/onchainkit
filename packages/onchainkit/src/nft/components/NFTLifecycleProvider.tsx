@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect } from 'react';
 import type {
   LifecycleStatus,
   NFTLifecycleContextType,
-  NFTLifecycleProviderReact,
+  NFTLifecycleProviderProps,
 } from '../types';
 
 const emptyContext = {} as NFTLifecycleContextType;
@@ -28,7 +28,7 @@ export function NFTLifecycleProvider({
   onError,
   onSuccess,
   children,
-}: NFTLifecycleProviderReact) {
+}: NFTLifecycleProviderProps) {
   const [lifecycleStatus, updateLifecycleStatus] =
     useLifecycleStatus<LifecycleStatus>({
       statusName: 'init',

@@ -8,12 +8,12 @@ import { NFTAudio } from './NFTAudio';
 import { NFTImage } from './NFTImage';
 import { NFTVideo } from './NFTVideo';
 
-type NFTMediaReact = {
+type NFTMediaProps = {
   className?: string;
   square?: boolean;
 };
 
-export function NFTMedia({ className, square }: NFTMediaReact) {
+export function NFTMedia({ className, square }: NFTMediaProps) {
   const { mimeType } = useNFTContext();
   const { type, updateLifecycleStatus } = useNFTLifecycleContext();
 

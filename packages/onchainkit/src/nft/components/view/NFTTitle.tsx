@@ -1,11 +1,11 @@
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { cn, text } from '../../../styles/theme';
 
-type NFTTitleReact = {
+type NFTTitleProps = {
   className?: string;
 };
 
-export function NFTTitle({ className }: NFTTitleReact) {
+export function NFTTitle({ className }: NFTTitleProps) {
   const { name } = useNFTContext();
 
   if (!name) {

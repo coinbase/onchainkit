@@ -28,7 +28,7 @@ export const Lifecycle = {
 } as const;
 export type LifecycleType = (typeof Lifecycle)[keyof typeof Lifecycle];
 
-export type NFTLifecycleProviderReact = {
+export type NFTLifecycleProviderProps = {
   type: LifecycleType;
   onError?: (error: NFTError) => void;
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
@@ -57,7 +57,7 @@ export type NFTContextType = {
   buildMintTransaction?: BuildMintTransaction;
 } & NFTData;
 
-export type NFTProviderReact = {
+export type NFTProviderProps = {
   children: ReactNode;
   contractAddress: `0x${string}`;
   tokenId?: string;
@@ -127,10 +127,10 @@ export type NFTData = {
  * Note: exported as public Type
  */
 export type BuildMintTransaction = (
-  props: BuildMintTransactionDataProps,
+  props: BuildMintTransactionDataParams,
 ) => Promise<Call[]>;
 
-export type BuildMintTransactionDataProps = {
+export type BuildMintTransactionDataParams = {
   /** Contract address of the NFT */
   contractAddress: Hex;
   /** Address of the taker */
@@ -157,15 +157,10 @@ export type UseMintDetailsParams<T> = GetMintDetailsParams & {
   queryOptions?: Omit<UseQueryOptions<T>, 'queryKey' | 'queryFn'>;
 };
 
-export type NFTReact = {
-  children: ReactNode;
-  className?: string;
-};
-
 /**
  * Note: exported as public Type
  */
-export type NFTCardReact = {
+export type NFTCardProps = {
   children?: React.ReactNode;
   /** Optional className override for top div element. */
   className?: string;
@@ -185,14 +180,9 @@ export type NFTCardReact = {
 
 /**
  * Note: exported as public Type
- */
-export type NFTCardDefaultReact = Omit<NFTCardReact, 'children'>;
-
-/**
- * Note: exported as public Type
  * NFTMint must be used if the NFTMintButton is included
  */
-export type NFTMintCardReact = {
+export type NFTMintCardProps = {
   children?: ReactNode;
   /** Optional className override for top div element. */
   className?: string;
@@ -213,11 +203,6 @@ export type NFTMintCardReact = {
   /** mint will pass transactionReceipt */
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 };
-
-/**
- * Note: exported as public Type
- */
-export type NFTMintCardDefaultReact = Omit<NFTMintCardReact, 'children'>;
 
 export type LifecycleStatus =
   | {
