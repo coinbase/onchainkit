@@ -72,6 +72,7 @@ export type TokenRowProps = {
   onClick?: (token: Token) => void;
   /** Rendered token */
   token: Token;
+  as?: React.ElementType;
 };
 
 /**
