@@ -27,19 +27,19 @@ export { buildWithdrawFromMorphoTx } from './utils/buildWithdrawFromMorphoTx';
 
 // Types
 export type {
-  EarnReact,
+  EarnProps,
   EarnContextType,
-  EarnAmountInputReact,
-  WithdrawAmountInputReact,
-  DepositAmountInputReact,
-  EarnBalanceReact,
-  DepositBalanceReact,
-  WithdrawBalanceReact,
-  EarnDepositReact,
-  EarnWithdrawReact,
-  EarnDetailsReact,
-  DepositButtonReact,
-  WithdrawButtonReact,
+  EarnAmountInputProps,
+  WithdrawAmountInputProps,
+  DepositAmountInputProps,
+  EarnBalanceProps,
+  DepositBalanceProps,
+  WithdrawBalanceProps,
+  EarnDepositProps,
+  EarnWithdrawProps,
+  EarnDetailsProps,
+  DepositButtonProps,
+  WithdrawButtonProps,
   LifecycleStatus,
 } from './types';
 export type { DepositToMorphoParams } from './utils/buildDepositToMorphoTx';

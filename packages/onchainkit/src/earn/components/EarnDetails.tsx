@@ -3,9 +3,9 @@ import { useEarnContext } from '@/earn/components/EarnProvider';
 import { VaultDetails } from '@/earn/components/VaultDetails';
 import { YieldDetails } from '@/earn/components/YieldDetails';
 import { cn } from '@/styles/theme';
-import type { EarnDetailsReact } from '../types';
+import type { EarnDetailsProps } from '../types';
 
-export function EarnDetails({ className }: EarnDetailsReact) {
+export function EarnDetails({ className }: EarnDetailsProps) {
   const { error } = useEarnContext();
 
   if (error) {

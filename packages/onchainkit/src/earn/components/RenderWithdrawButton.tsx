@@ -34,7 +34,7 @@ export function RenderWithdrawButton({
       </button>
     );
   }
-  if (context.errorMessage) {
+  if (context.errorMessage || withdrawAmountError) {
     return (
       <button className={classNames} onClick={onSubmit} disabled={isDisabled}>
         {withdrawAmountError ?? 'Try again'}

@@ -3,11 +3,11 @@ import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { useCallback, useMemo } from 'react';
 import { useAccount } from 'wagmi';
-import type { WithdrawBalanceReact } from '../types';
+import type { WithdrawBalanceProps } from '../types';
 import { EarnBalance } from './EarnBalance';
 import { useEarnContext } from './EarnProvider';
 
-export function WithdrawBalance({ className }: WithdrawBalanceReact) {
+export function WithdrawBalance({ className }: WithdrawBalanceProps) {
   const {
     depositedBalance,
     depositedBalanceStatus: status,

@@ -65,7 +65,7 @@ describe('EarnAmountInput Component', () => {
       />,
     );
 
-    const container = screen.getByPlaceholderText('0.0').parentElement;
+    const container = screen.getByPlaceholderText('0.0');
     expect(container).toHaveClass('custom-class');
   });
 });

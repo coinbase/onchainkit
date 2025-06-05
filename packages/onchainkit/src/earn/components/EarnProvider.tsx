@@ -2,7 +2,6 @@
 import { useBuildDepositToMorphoTx } from '@/earn/hooks/useBuildDepositToMorphoTx';
 import { getToken } from '@/earn/utils/getToken';
 import { useLifecycleStatus } from '@/internal/hooks/useLifecycleStatus';
-import { useValue } from '@/internal/hooks/useValue';
 import { useGetTokenBalance } from '@/wallet/hooks/useGetTokenBalance';
 import {
   createContext,
@@ -17,7 +16,7 @@ import { useBuildWithdrawFromMorphoTx } from '../hooks/useBuildWithdrawFromMorph
 import { useMorphoVault } from '../hooks/useMorphoVault';
 import type {
   EarnContextType,
-  EarnProviderReact,
+  EarnProviderProps,
   LifecycleStatus,
 } from '../types';
 
@@ -30,7 +29,7 @@ export function EarnProvider({
   onError,
   onStatus,
   onSuccess,
-}: EarnProviderReact) {
+}: EarnProviderProps) {
   if (!vaultAddress) {
     throw new Error(
       'vaultAddress is required. For a list of vaults, see: https://app.morpho.org/base/earn',
@@ -156,40 +155,44 @@ export function EarnProvider({
     return null;
   }, [withdrawAmount, depositedBalance]);
 
-  const value = useValue<EarnContextType>({
-    error,
-    recipientAddress: address,
-    vaultAddress,
-    vaultToken,
-    vaultName,
-    deposits,
-    liquidity,
-    depositedBalance,
-    depositedBalanceStatus,
-    refetchDepositedBalance,
-    depositAmount,
-    setDepositAmount: handleDepositAmount,
-    depositAmountError,
-    withdrawAmount,
-    setWithdrawAmount: handleWithdrawAmount,
-    withdrawAmountError,
-    walletBalance,
-    walletBalanceStatus,
-    refetchWalletBalance,
-    apy: totalApy,
-    nativeApy,
-    vaultFee,
-    rewards,
-    // TODO: update when we have logic to fetch interest
-    interestEarned: '',
-    withdrawCalls,
-    depositCalls,
-    lifecycleStatus,
-    updateLifecycleStatus,
-    isSponsored,
-  });
-
-  return <EarnContext.Provider value={value}>{children}</EarnContext.Provider>;
+  return (
+    <EarnContext.Provider
+      value={{
+        error,
+        recipientAddress: address,
+        vaultAddress,
+        vaultToken,
+        vaultName,
+        deposits,
+        liquidity,
+        depositedBalance,
+        depositedBalanceStatus,
+        refetchDepositedBalance,
+        depositAmount,
+        setDepositAmount: handleDepositAmount,
+        depositAmountError,
+        withdrawAmount,
+        setWithdrawAmount: handleWithdrawAmount,
+        withdrawAmountError,
+        walletBalance,
+        walletBalanceStatus,
+        refetchWalletBalance,
+        apy: totalApy,
+        nativeApy,
+        vaultFee,
+        rewards,
+        // TODO: update when we have logic to fetch interest
+        interestEarned: '',
+        withdrawCalls,
+        depositCalls,
+        lifecycleStatus,
+        updateLifecycleStatus,
+        isSponsored,
+      }}
+    >
+      {children}
+    </EarnContext.Provider>
+  );
 }
 
 export function useEarnContext() {

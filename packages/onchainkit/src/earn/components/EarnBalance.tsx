@@ -1,5 +1,5 @@
 import { cn, text } from '@/styles/theme';
-import type { EarnBalanceReact } from '../types';
+import type { EarnBalanceProps } from '../types';
 
 export function EarnBalance({
   className,
@@ -7,7 +7,7 @@ export function EarnBalance({
   title,
   subtitle,
   showAction = false,
-}: EarnBalanceReact) {
+}: EarnBalanceProps) {
   return (
     <div
       className={cn(

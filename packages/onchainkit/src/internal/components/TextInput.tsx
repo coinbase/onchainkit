@@ -63,9 +63,9 @@ export const TextInput = forwardRef(
 
     return (
       <input
+        data-testid="ockTextInput_Input"
         aria-invalid={!!error}
         aria-label={ariaLabel}
-        data-testid="ockTextInput_Input"
         ref={ref}
         type="text"
         className={cn(className, !!error && 'text-ock-text-error')}
