@@ -11,10 +11,10 @@ const SheetPortal = SheetPrimitive.Portal;
 const SheetTitle = SheetPrimitive.Title;
 const SheetDescription = SheetPrimitive.Description;
 
-const SheetOverlay = React.forwardRef<
-  React.ElementRef<typeof SheetPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
->(({ className, ...props }, ref) => (
+const SheetOverlay = ({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>) => (
   <SheetPrimitive.Overlay
     className={cn(
       zIndex.modal,
@@ -22,11 +22,9 @@ const SheetOverlay = React.forwardRef<
       className,
     )}
     {...props}
-    ref={ref}
     data-testid="ockSheetOverlay"
   />
-));
-SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
+);
 
 type SheetProps = {
   children: React.ReactNode;
