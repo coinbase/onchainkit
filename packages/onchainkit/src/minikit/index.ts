@@ -8,3 +8,6 @@ export { useAddFrame } from './hooks/useAddFrame';
 export { usePrimaryButton } from './hooks/usePrimaryButton';
 export { useNotification } from './hooks/useNotification';
 export { useClose } from './hooks/useClose';
+export { useComposeCast } from './hooks/useComposeCast';
+export { useViewCast } from './hooks/useViewCast';
+export { useIsInMiniApp } from './hooks/useIsInMiniApp';

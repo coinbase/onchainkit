@@ -65,7 +65,7 @@ This project is set up as a monorepo with pnpm workspaces.
 
 ### Requirements
 
-- Node.js v18
+- Node.js v20
 - pnpm v10
 
 ### Getting Started
