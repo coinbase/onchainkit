@@ -8,3 +8,17 @@ export { useAddFrame } from './hooks/useAddFrame';
 export { usePrimaryButton } from './hooks/usePrimaryButton';
 export { useNotification } from './hooks/useNotification';
 export { useClose } from './hooks/useClose';
+export { useComposeCast } from './hooks/useComposeCast';
+export { useViewCast } from './hooks/useViewCast';
+export { useIsInMiniApp } from './hooks/useIsInMiniApp';
+
+// [x] composeCast - Create/compose a cast
+// [x] viewCast - View a specific cast
+// [?] back - Go back to the previous page
+// [?] quickAuth - Quick authentication (might be different from signIn)
+
+// TBA specific below
+
+// [?] swapToken - Token swapping functionality
+// [?] sendToken - Send tokens
+// [ ] viewToken - View token information
