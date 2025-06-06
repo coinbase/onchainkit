@@ -93,6 +93,23 @@ describe('WalletDropdownContent', () => {
     });
   });
 
+  it('renders null when isSubComponentOpen is false', () => {
+    mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: false,
+      ...defaultMockUseWalletAdvancedContext,
+    });
+
+    render(
+      <WalletDropdownContent>
+        <div>WalletDropdownContent</div>
+      </WalletDropdownContent>,
+    );
+
+    expect(
+      screen.queryByTestId('ockWalletDropdownContent'),
+    ).not.toBeInTheDocument();
+  });
+
   it('renders WalletDropdownContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is false', () => {
     mockUseWalletContext.mockReturnValue({
       isSubComponentOpen: true,
