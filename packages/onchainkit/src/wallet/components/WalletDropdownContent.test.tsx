@@ -95,6 +95,7 @@ describe('WalletDropdownContent', () => {
 
   it('renders WalletDropdownContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is false', () => {
     mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
       isSubComponentClosing: false,
       showSubComponentAbove: false,
       ...defaultMockUseWalletAdvancedContext,
@@ -126,6 +127,7 @@ describe('WalletDropdownContent', () => {
 
   it('renders WalletDropdownContent with correct animations when isSubComponentClosing is false and showSubComponentAbove is true', () => {
     mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
       isSubComponentClosing: false,
       showSubComponentAbove: true,
       ...defaultMockUseWalletAdvancedContext,
@@ -262,6 +264,7 @@ describe('WalletDropdownContent', () => {
 
   it('renders WalletAdvancedQrReceive when activeFeature is qr', () => {
     mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'qr',
     });
@@ -286,6 +289,7 @@ describe('WalletDropdownContent', () => {
 
   it('renders WalletAdvancedSwap when activeFeature is swap', () => {
     mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'swap',
     });
@@ -308,6 +312,7 @@ describe('WalletDropdownContent', () => {
 
   it('renders WalletAdvancedSend when activeFeature is send', () => {
     mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'send',
     });
@@ -336,6 +341,7 @@ describe('WalletDropdownContent', () => {
     });
 
     mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'swap',
       isSubComponentClosing: false,
@@ -382,6 +388,7 @@ describe('WalletDropdownContent', () => {
     });
 
     mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'swap',
       isSubComponentClosing: false,
@@ -412,6 +419,7 @@ describe('WalletDropdownContent', () => {
 
   it('applies custom classNames to components', () => {
     mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
       isSubComponentClosing: false,
       showSubComponentAbove: false,
       ...defaultMockUseWalletAdvancedContext,
@@ -444,6 +452,7 @@ describe('WalletDropdownContent', () => {
     expect(qrComponent).toHaveProperty('className', 'custom-qr-container');
 
     mockUseWalletContext.mockReturnValue({
+      isSubComponentOpen: true,
       isSubComponentClosing: false,
       showSubComponentAbove: false,
       ...defaultMockUseWalletAdvancedContext,
@@ -480,6 +489,7 @@ describe('WalletDropdownContent', () => {
   it('applies custom classNames to BottomSheet when breakpoint is sm', () => {
     mockUseWalletContext.mockReturnValue({
       isSubComponentOpen: true,
+      isSubComponentClosing: false,
       breakpoint: 'sm',
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'qr',

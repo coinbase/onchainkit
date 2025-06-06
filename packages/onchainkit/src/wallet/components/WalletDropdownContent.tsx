@@ -110,7 +110,7 @@ export function WalletDropdownContent({
     );
   }
 
-  if (!isSubComponentOpen) {
+  if (!isSubComponentOpen && !isSubComponentClosing) {
     return null;
   }
 
