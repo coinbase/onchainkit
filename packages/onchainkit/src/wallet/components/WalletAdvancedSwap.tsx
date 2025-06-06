@@ -48,7 +48,7 @@ export function WalletAdvancedSwap({
   }, [isActiveFeatureClosing, setActiveFeature, setIsActiveFeatureClosing]);
 
   const backButton = (
-    <PressableIcon ariaLabel="Back button" onClick={handleCloseSwap}>
+    <PressableIcon aria-label="Back button" onClick={handleCloseSwap}>
       <div className="p-2">{backArrowSvg}</div>
     </PressableIcon>
   );

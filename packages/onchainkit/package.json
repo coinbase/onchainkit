@@ -33,6 +33,7 @@
   "dependencies": {
     "@farcaster/frame-sdk": "^0.0.28",
     "@farcaster/frame-wagmi-connector": "^0.0.16",
+    "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-popover": "^1.1.14",
     "@tanstack/react-query": "^5",
     "@wagmi/core": "^2.16.7",

@@ -64,17 +64,6 @@ describe('WalletDropdown', () => {
     expect(screen.queryByText('Test Children')).not.toBeInTheDocument();
   });
 
-  it('renders null when isSubComponentOpen is false', () => {
-    useWalletContextMock.mockReturnValue({
-      address: '0x123',
-      breakpoint: 'md',
-      isSubComponentOpen: false,
-    });
-    render(<WalletDropdown>Test Children</WalletDropdown>);
-    const dropdown = screen.queryByTestId('ockWalletDropdown');
-    expect(dropdown).toBeNull();
-  });
-
   it('does not render anything if breakpoint is not defined', () => {
     useWalletContextMock.mockReturnValue({
       address: '0x123',

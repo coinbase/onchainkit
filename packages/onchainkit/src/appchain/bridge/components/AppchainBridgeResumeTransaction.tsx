@@ -15,7 +15,7 @@ export const AppchainBridgeResumeTransaction = () => {
 
   const backButton = (
     <PressableIcon
-      ariaLabel="Back button"
+      aria-label="Back button"
       onClick={() => {
         setIsResumeTransactionModalOpen(false);
       }}

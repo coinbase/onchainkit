@@ -1,10 +1,9 @@
 import { useInputResize } from '@/internal/hooks/useInputResize';
 import { cn, text } from '@/styles/theme';
 import { useCallback, useEffect, useRef } from 'react';
-import { useAmountInput } from '../../hooks/useAmountInput';
-import { isValidAmount } from '../../utils/isValidAmount';
+import { useAmountInput } from '@/internal/hooks/useAmountInput';
+import { isValidAmount } from '@/internal/utils/isValidAmount';
 import { TextInput } from '../TextInput';
-import { CurrencyLabel } from './CurrencyLabel';
 
 type AmountInputProps = {
   asset: string;
@@ -119,11 +118,18 @@ export function AmountInput({
               placeholder="0"
             />
             <div className="ml-1">
-              <CurrencyLabel
-                ref={labelRef}
-                label={currencyOrAsset}
-                className={textClassName}
-              />
+              <span
+                className={cn(
+                  text.body,
+                  'text-ock-text-disabled',
+                  'flex items-center justify-center bg-transparent',
+                  'text-6xl leading-none outline-none',
+                  textClassName,
+                )}
+                data-testid="ockCurrencySpan"
+              >
+                {currencyOrAsset}
+              </span>
             </div>
           </div>
         </div>

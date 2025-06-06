@@ -181,6 +181,9 @@ importers:
       '@farcaster/frame-wagmi-connector':
         specifier: ^0.0.16
         version: 0.0.16(@farcaster/frame-sdk@0.0.28(typescript@5.8.2)(zod@3.24.2))(@wagmi/core@2.16.7(@tanstack/query-core@5.69.0)(@types/react@19.1.2)(react@19.1.0)(typescript@5.8.2)(use-sync-external-store@1.4.0(react@19.1.0))(viem@2.27.2(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.24.2)))(viem@2.27.2(bufferutil@4.0.9)(typescript@5.8.2)(utf-8-validate@5.0.10)(zod@3.24.2))
+      '@radix-ui/react-dialog':
+        specifier: ^1.1.14
+        version: 1.1.14(@types/react-dom@19.1.3(@types/react@19.1.2))(@types/react@19.1.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-popover':
         specifier: ^1.1.14
         version: 1.1.14(@types/react-dom@19.1.3(@types/react@19.1.2))(@types/react@19.1.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -2542,6 +2545,19 @@ packages:
       react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     peerDependenciesMeta:
       '@types/react':
+        optional: true
+
+  '@radix-ui/react-dialog@1.1.14':
+    resolution: {integrity: sha512-+CpweKjqpzTmwRwcYECQcNYbI8V9VSQt0SNFKeEBLgfucbsLssU6Ppq7wUdNXEGb573bMjFhVjKVll8rmV6zMw==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
         optional: true
 
   '@radix-ui/react-direction@1.1.0':
@@ -8823,7 +8839,7 @@ snapshots:
       '@babel/traverse': 7.26.10
       '@babel/types': 7.26.10
       convert-source-map: 2.0.0
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -8843,7 +8859,7 @@ snapshots:
       '@babel/traverse': 7.27.1
       '@babel/types': 7.27.1
       convert-source-map: 2.0.0
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -8914,7 +8930,7 @@ snapshots:
       '@babel/core': 7.26.10
       '@babel/helper-compilation-targets': 7.26.5
       '@babel/helper-plugin-utils': 7.26.5
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       lodash.debounce: 4.0.8
       resolve: 1.22.10
     transitivePeerDependencies:
@@ -9757,7 +9773,7 @@ snapshots:
       '@babel/parser': 7.26.10
       '@babel/template': 7.26.9
       '@babel/types': 7.26.10
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -9769,7 +9785,7 @@ snapshots:
       '@babel/parser': 7.27.1
       '@babel/template': 7.27.1
       '@babel/types': 7.27.1
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -9848,7 +9864,7 @@ snapshots:
       '@boost/common': 4.1.0(typescript@5.8.2)
       '@boost/internal': 4.0.1
       '@types/debug': 4.1.12
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       execa: 5.1.1
       fast-glob: 3.3.3
     transitivePeerDependencies:
@@ -9865,7 +9881,7 @@ snapshots:
 
   '@boost/internal@4.0.1':
     dependencies:
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -10642,7 +10658,7 @@ snapshots:
   '@jest/console@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       chalk: 4.1.2
       jest-message-util: 29.7.0
       jest-util: 29.7.0
@@ -10656,14 +10672,14 @@ snapshots:
       '@jest/test-result': 29.7.0
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       ci-info: 3.9.0
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.7.0
-      jest-config: 29.7.0(@types/node@20.17.24)
+      jest-config: 29.7.0(@types/node@22.13.10)
       jest-haste-map: 29.7.0
       jest-message-util: 29.7.0
       jest-regex-util: 29.6.3
@@ -10689,7 +10705,7 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       jest-mock: 29.7.0
     optional: true
 
@@ -10710,7 +10726,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -10734,7 +10750,7 @@ snapshots:
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
       '@jridgewell/trace-mapping': 0.3.25
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       chalk: 4.1.2
       collect-v8-coverage: 1.0.2
       exit: 0.1.2
@@ -10810,7 +10826,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       '@types/yargs': 17.0.33
       chalk: 4.1.2
     optional: true
@@ -10929,7 +10945,7 @@ snapshots:
       bufferutil: 4.0.9
       cross-fetch: 4.1.0
       date-fns: 2.30.0
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       eciesjs: 0.4.14
       eventemitter2: 6.4.9
       readable-stream: 3.6.2
@@ -10953,7 +10969,7 @@ snapshots:
       '@paulmillr/qr': 0.2.1
       bowser: 2.11.0
       cross-fetch: 4.1.0
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       eciesjs: 0.4.14
       eth-rpc-errors: 4.0.3
       eventemitter2: 6.4.9
@@ -10976,7 +10992,7 @@ snapshots:
     dependencies:
       '@ethereumjs/tx': 4.2.0
       '@types/debug': 4.1.12
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       semver: 7.7.1
       superstruct: 1.0.4
     transitivePeerDependencies:
@@ -10989,7 +11005,7 @@ snapshots:
       '@noble/hashes': 1.7.1
       '@scure/base': 1.2.4
       '@types/debug': 4.1.12
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       pony-cause: 2.1.11
       semver: 7.7.1
       uuid: 9.0.1
@@ -11003,7 +11019,7 @@ snapshots:
       '@noble/hashes': 1.7.1
       '@scure/base': 1.2.4
       '@types/debug': 4.1.12
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       pony-cause: 2.1.11
       semver: 7.7.1
       uuid: 9.0.1
@@ -11296,6 +11312,28 @@ snapshots:
       react: 19.1.0
     optionalDependencies:
       '@types/react': 19.1.2
+
+  '@radix-ui/react-dialog@1.1.14(@types/react-dom@19.1.3(@types/react@19.1.2))(@types/react@19.1.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@radix-ui/primitive': 1.1.2
+      '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.1.2)(react@19.1.0)
+      '@radix-ui/react-context': 1.1.2(@types/react@19.1.2)(react@19.1.0)
+      '@radix-ui/react-dismissable-layer': 1.1.10(@types/react-dom@19.1.3(@types/react@19.1.2))(@types/react@19.1.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-focus-guards': 1.1.2(@types/react@19.1.2)(react@19.1.0)
+      '@radix-ui/react-focus-scope': 1.1.7(@types/react-dom@19.1.3(@types/react@19.1.2))(@types/react@19.1.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-id': 1.1.1(@types/react@19.1.2)(react@19.1.0)
+      '@radix-ui/react-portal': 1.1.9(@types/react-dom@19.1.3(@types/react@19.1.2))(@types/react@19.1.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-presence': 1.1.4(@types/react-dom@19.1.3(@types/react@19.1.2))(@types/react@19.1.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-primitive': 2.1.3(@types/react-dom@19.1.3(@types/react@19.1.2))(@types/react@19.1.2)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-slot': 1.2.3(@types/react@19.1.2)(react@19.1.0)
+      '@radix-ui/react-use-controllable-state': 1.2.2(@types/react@19.1.2)(react@19.1.0)
+      aria-hidden: 1.2.4
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+      react-remove-scroll: 2.6.3(@types/react@19.1.2)(react@19.1.0)
+    optionalDependencies:
+      '@types/react': 19.1.2
+      '@types/react-dom': 19.1.3(@types/react@19.1.2)
 
   '@radix-ui/react-direction@1.1.0(@types/react@19.1.2)(react@19.1.0)':
     dependencies:
@@ -12407,7 +12445,7 @@ snapshots:
 
   '@types/graceful-fs@4.1.9':
     dependencies:
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
     optional: true
 
   '@types/http-errors@2.0.4': {}
@@ -12755,7 +12793,7 @@ snapshots:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 1.0.2
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       istanbul-lib-coverage: 3.2.2
       istanbul-lib-report: 3.0.1
       istanbul-lib-source-maps: 5.0.6
@@ -14361,6 +14399,10 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
+  debug@4.4.0:
+    dependencies:
+      ms: 2.1.3
+
   debug@4.4.0(supports-color@5.5.0):
     dependencies:
       ms: 2.1.3
@@ -14665,7 +14707,7 @@ snapshots:
 
   esbuild-register@3.6.0(esbuild@0.25.3):
     dependencies:
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       esbuild: 0.25.3
     transitivePeerDependencies:
       - supports-color
@@ -15573,14 +15615,14 @@ snapshots:
   http-proxy-agent@7.0.2:
     dependencies:
       agent-base: 7.1.3
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
 
   https-proxy-agent@7.0.6:
     dependencies:
       agent-base: 7.1.3
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -15952,7 +15994,7 @@ snapshots:
 
   istanbul-lib-source-maps@4.0.1:
     dependencies:
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       istanbul-lib-coverage: 3.2.2
       source-map: 0.6.1
     transitivePeerDependencies:
@@ -15962,7 +16004,7 @@ snapshots:
   istanbul-lib-source-maps@5.0.6:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       istanbul-lib-coverage: 3.2.2
     transitivePeerDependencies:
       - supports-color
@@ -16004,7 +16046,7 @@ snapshots:
       '@jest/expect': 29.7.0
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       chalk: 4.1.2
       co: 4.6.0
       dedent: 1.6.0
@@ -16043,37 +16085,6 @@ snapshots:
       - babel-plugin-macros
       - supports-color
       - ts-node
-    optional: true
-
-  jest-config@29.7.0(@types/node@20.17.24):
-    dependencies:
-      '@babel/core': 7.27.1
-      '@jest/test-sequencer': 29.7.0
-      '@jest/types': 29.6.3
-      babel-jest: 29.7.0(@babel/core@7.27.1)
-      chalk: 4.1.2
-      ci-info: 3.9.0
-      deepmerge: 4.3.1
-      glob: 7.2.3
-      graceful-fs: 4.2.11
-      jest-circus: 29.7.0
-      jest-environment-node: 29.7.0
-      jest-get-type: 29.6.3
-      jest-regex-util: 29.6.3
-      jest-resolve: 29.7.0
-      jest-runner: 29.7.0
-      jest-util: 29.7.0
-      jest-validate: 29.7.0
-      micromatch: 4.0.8
-      parse-json: 5.2.0
-      pretty-format: 29.7.0
-      slash: 3.0.0
-      strip-json-comments: 3.1.1
-    optionalDependencies:
-      '@types/node': 20.17.24
-    transitivePeerDependencies:
-      - babel-plugin-macros
-      - supports-color
     optional: true
 
   jest-config@29.7.0(@types/node@22.13.10):
@@ -16134,7 +16145,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       jest-mock: 29.7.0
       jest-util: 29.7.0
     optional: true
@@ -16146,7 +16157,7 @@ snapshots:
     dependencies:
       '@jest/types': 29.6.3
       '@types/graceful-fs': 4.1.9
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -16189,7 +16200,7 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       jest-util: 29.7.0
     optional: true
 
@@ -16229,7 +16240,7 @@ snapshots:
       '@jest/test-result': 29.7.0
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       chalk: 4.1.2
       emittery: 0.13.1
       graceful-fs: 4.2.11
@@ -16258,7 +16269,7 @@ snapshots:
       '@jest/test-result': 29.7.0
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       chalk: 4.1.2
       cjs-module-lexer: 1.4.3
       collect-v8-coverage: 1.0.2
@@ -16306,7 +16317,7 @@ snapshots:
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -16327,7 +16338,7 @@ snapshots:
     dependencies:
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.13.1
@@ -16337,7 +16348,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 20.17.24
+      '@types/node': 22.13.10
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -17170,7 +17181,7 @@ snapshots:
       babel-plugin-env-constants: 3.0.1(@babel/core@7.26.10)
       babel-preset-solid: 1.9.5(@babel/core@7.26.10)
       browserslist: 4.24.4
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       execa: 5.1.1
       fast-glob: 3.3.3
       filesize: 10.1.6
@@ -18424,7 +18435,7 @@ snapshots:
       cac: 6.7.14
       chokidar: 4.0.3
       consola: 3.4.2
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       esbuild: 0.25.1
       joycon: 3.1.1
       picocolors: 1.1.1
@@ -18766,7 +18777,7 @@ snapshots:
   vite-node@3.0.9(@types/node@22.13.10)(lightningcss@1.29.2):
     dependencies:
       cac: 6.7.14
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       es-module-lexer: 1.6.0
       pathe: 2.0.3
       vite: 5.4.19(@types/node@22.13.10)(lightningcss@1.29.2)
@@ -18788,7 +18799,7 @@ snapshots:
       '@volar/typescript': 2.4.12
       '@vue/language-core': 2.2.0(typescript@5.8.2)
       compare-versions: 6.1.1
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       kolorist: 1.8.0
       local-pkg: 1.1.1
       magic-string: 0.30.17
@@ -18892,7 +18903,7 @@ snapshots:
       '@vitest/spy': 3.0.9
       '@vitest/utils': 3.0.9
       chai: 5.2.0
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       expect-type: 1.2.0
       magic-string: 0.30.17
       pathe: 2.0.3
