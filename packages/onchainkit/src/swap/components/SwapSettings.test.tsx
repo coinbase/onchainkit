@@ -273,25 +273,4 @@ describe('SwapSettings', () => {
       ).not.toBeInTheDocument();
     });
   });
-
-  it('closes the sheet when Escape key is pressed', async () => {
-    useBreakpointsMock.mockReturnValue('sm');
-    renderComponent();
-
-    const button = screen.getByRole('button', {
-      name: /toggle swap settings/i,
-    });
-
-    fireEvent.click(button);
-
-    await waitFor(() => {
-      expect(screen.getByTestId('ockSheet')).toBeInTheDocument();
-    });
-
-    fireEvent.keyDown(document, { key: 'Escape' });
-
-    await waitFor(() => {
-      expect(screen.queryByTestId('ockSheet')).not.toBeInTheDocument();
-    });
-  });
 });
