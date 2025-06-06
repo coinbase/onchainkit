@@ -14,10 +14,13 @@ export const TokenRow = memo(function TokenRow({
   onClick,
   hideImage,
   hideSymbol,
+  as,
 }: TokenRowProps) {
   const componentTheme = useTheme();
+  const Component = as ?? 'button';
+
   return (
-    <button
+    <Component
       data-testid="ockTokenRow_Container"
       type="button"
       className={cn(
@@ -55,6 +58,6 @@ export const TokenRow = memo(function TokenRow({
           maximumFractionDigits: Number(amount) < 1 ? 5 : 2,
         })}
       </span>
-    </button>
+    </Component>
   );
 });
