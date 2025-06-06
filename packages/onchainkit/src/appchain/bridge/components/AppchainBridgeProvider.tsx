@@ -24,7 +24,7 @@ import { useWithdraw } from '../hooks/useWithdraw';
 import type { ChainWithIcon } from '../types';
 import type { BridgeParams } from '../types';
 import type { AppchainBridgeContextType } from '../types';
-import type { AppchainBridgeProviderReact } from '../types';
+import type { AppchainBridgeProviderProps } from '../types';
 import { defaultPriceFetcher } from '../utils/defaultPriceFetcher';
 
 const AppchainBridgeContext = createContext<
@@ -37,7 +37,7 @@ export const AppchainBridgeProvider = ({
   appchain,
   bridgeableTokens = DEFAULT_BRIDGEABLE_TOKENS,
   handleFetchPrice = defaultPriceFetcher,
-}: AppchainBridgeProviderReact) => {
+}: AppchainBridgeProviderProps) => {
   // Source network
   const [from, setFrom] = useState<ChainWithIcon>({
     ...chain,

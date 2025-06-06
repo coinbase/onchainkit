@@ -10,6 +10,7 @@ import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 export const AppchainBridgeAddressInput = () => {
   const { setIsAddressModalOpen, handleAddressSelect } =
     useAppchainBridgeContext();
+
   const [address, setAddress] = useState<Address | null>(null);
   const [isValidAddress, setIsValidAddress] = useState(false);
 

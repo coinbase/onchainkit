@@ -14,7 +14,7 @@ export type Appchain = {
 /**
  * Note: exported as public Type
  */
-export type AppchainBridgeReact = {
+export type AppchainBridgeProps = {
   /** The source chain to bridge from. This should be Base or Base Sepolia. */
   chain: Chain;
   /** The appchain to bridge to. */
@@ -34,7 +34,7 @@ export type AppchainBridgeReact = {
 /**
  * Note: exported as public Type
  */
-export type AppchainBridgeProviderReact = {
+export type AppchainBridgeProviderProps = {
   children: ReactNode;
   chain: Chain;
   appchain: Appchain;
@@ -123,7 +123,7 @@ export type AppchainConfig = {
 /**
  * Note: exported as public Type
  */
-export type AppchainBridgeSuccessReact = {
+export type AppchainBridgeSuccessProps = {
   title?: string;
   primaryButtonLabel?: string;
   secondaryButtonLabel?: string;

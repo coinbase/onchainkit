@@ -2,7 +2,7 @@
 import { cn, text } from '@/styles/theme';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
-interface AppchainBridgeNetworkReact {
+interface AppchainBridgeNetworkProps {
   type: 'from' | 'to';
   label: string;
 }
@@ -10,7 +10,7 @@ interface AppchainBridgeNetworkReact {
 export const AppchainBridgeNetwork = ({
   type,
   label,
-}: AppchainBridgeNetworkReact) => {
+}: AppchainBridgeNetworkProps) => {
   const { from, to } = useAppchainBridgeContext();
 
   const displayNetwork = type === 'from' ? from.name : to.name;
