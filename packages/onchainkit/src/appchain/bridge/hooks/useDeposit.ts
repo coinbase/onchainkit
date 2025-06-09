@@ -1,5 +1,4 @@
 'use client';
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { AppchainEvent } from '@/core/analytics/types';
 import { useCallback, useState } from 'react';
 import { parseEther, parseUnits } from 'viem';
@@ -10,6 +9,7 @@ import { ERC20ABI, OptimismPortalABI, StandardBridgeABI } from '../abi';
 import { EXTRA_DATA, MIN_GAS_LIMIT } from '../constants';
 import type { UseDepositParams } from '../types';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 export function useDeposit() {
   const { writeContractAsync, data } = useWriteContract();
@@ -19,7 +19,6 @@ export function useDeposit() {
   const [status, setStatus] = useState<
     'depositPending' | 'depositSuccess' | 'error' | 'idle' | 'depositRejected'
   >('idle');
-  const { sendAnalytics } = useAnalytics();
 
   const resetDepositStatus = useCallback(() => {
     setStatus('idle');
@@ -34,7 +33,7 @@ export function useDeposit() {
       await switchChainAsync({ chainId: from.id });
     }
 
-    sendAnalytics(AppchainEvent.AppchainBridgeDepositInitiated, {
+    sendOCKAnalyticsEvent(AppchainEvent.AppchainBridgeDepositInitiated, {
       amount: bridgeParams.amount,
       tokenAddress: bridgeParams.token.address,
       recipient: bridgeParams.recipient,
@@ -128,7 +127,7 @@ export function useDeposit() {
         });
       }
 
-      sendAnalytics(AppchainEvent.AppchainBridgeDepositSuccess, {
+      sendOCKAnalyticsEvent(AppchainEvent.AppchainBridgeDepositSuccess, {
         amount: bridgeParams.amount,
         tokenAddress: bridgeParams.token.address,
         recipient: bridgeParams.recipient,
@@ -141,7 +140,7 @@ export function useDeposit() {
         setStatus('depositRejected');
       } else {
         setStatus('error');
-        sendAnalytics(AppchainEvent.AppchainBridgeDepositFailure, {
+        sendOCKAnalyticsEvent(AppchainEvent.AppchainBridgeDepositFailure, {
           error: error instanceof Error ? error.message : 'Unknown error',
         });
       }

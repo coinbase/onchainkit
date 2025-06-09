@@ -1,17 +1,15 @@
 import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
 import type { PresetAmountInputItemProps } from '../types';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 export function FundCardPresetAmountInputItem({
   presetAmountInput,
   currency,
   onClick,
 }: PresetAmountInputItemProps) {
-  const { sendAnalytics } = useAnalytics();
-
   const presetAmountInputText = useMemo(() => {
     return formatFiatAmount({
       amount: presetAmountInput,
@@ -21,25 +19,25 @@ export function FundCardPresetAmountInputItem({
   }, [presetAmountInput, currency]);
 
   const handleClick = useCallback(() => {
-    sendAnalytics(FundEvent.FundAmountChanged, {
+    sendOCKAnalyticsEvent(FundEvent.FundAmountChanged, {
       amount: Number(presetAmountInput),
       currency,
     });
     onClick(presetAmountInput);
-  }, [presetAmountInput, currency, onClick, sendAnalytics]);
+  }, [presetAmountInput, currency, onClick]);
 
   const handleKeyPress = useCallback(
     (event: React.KeyboardEvent) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        sendAnalytics(FundEvent.FundAmountChanged, {
+        sendOCKAnalyticsEvent(FundEvent.FundAmountChanged, {
           amount: Number(presetAmountInput),
           currency,
         });
         onClick(presetAmountInput);
       }
     },
-    [presetAmountInput, currency, onClick, sendAnalytics],
+    [presetAmountInput, currency, onClick],
   );
 
   if (!presetAmountInput) {

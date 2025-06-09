@@ -1,5 +1,5 @@
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { EarnEvent } from '@/core/analytics/types';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 import { useEarnContext } from '@/earn/components/EarnProvider';
 import type { LifecycleStatus } from '@/transaction/types';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -11,7 +11,6 @@ export const useDepositAnalytics = (depositedAmount: string) => {
   // Undesirable, but required because Transaction emits multiple success and error events
   const successSent = useRef(false);
   const errorSent = useRef(false);
-  const { sendAnalytics } = useAnalytics();
   const { vaultAddress, vaultToken, recipientAddress, depositAmount } =
     useEarnContext();
 
@@ -34,19 +33,19 @@ export const useDepositAnalytics = (depositedAmount: string) => {
   useEffect(() => {
     if (transactionState === 'buildingTransaction') {
       successSent.current = false; // in case user does a second deposit
-      sendAnalytics(EarnEvent.EarnDepositInitiated, analyticsData);
+      sendOCKAnalyticsEvent(EarnEvent.EarnDepositInitiated, analyticsData);
     }
 
     if (transactionState === 'success' && !successSent.current) {
       successSent.current = true;
-      sendAnalytics(EarnEvent.EarnDepositSuccess, analyticsData);
+      sendOCKAnalyticsEvent(EarnEvent.EarnDepositSuccess, analyticsData);
     }
 
     if (transactionState === 'error' && !errorSent.current) {
       errorSent.current = true;
-      sendAnalytics(EarnEvent.EarnDepositFailure, analyticsData);
+      sendOCKAnalyticsEvent(EarnEvent.EarnDepositFailure, analyticsData);
     }
-  }, [transactionState, analyticsData, sendAnalytics]);
+  }, [transactionState, analyticsData]);
 
   return {
     setTransactionState,

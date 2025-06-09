@@ -2,11 +2,11 @@
 import { AmountInput } from '@/internal/components/amount-input/AmountInput';
 import { useThrottle } from '@/internal/hooks/useThrottle';
 import { useCallback } from 'react';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
 import { useOnrampExchangeRate } from '../hooks/useOnrampExchangeRate';
 import type { FundCardAmountInputProps } from '../types';
 import { useFundContext } from './FundCardProvider';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 const THROTTLE_DELAY_MS = 5000;
 
@@ -42,8 +42,6 @@ export const FundCardAmountInput = ({
     THROTTLE_DELAY_MS,
   );
 
-  const { sendAnalytics } = useAnalytics();
-
   /**
    * Handle amount changes with throttled updates
    *
@@ -54,12 +52,12 @@ export const FundCardAmountInput = ({
       setFundAmountFiat(amount);
       throttledFetchExchangeRate();
 
-      sendAnalytics(FundEvent.FundAmountChanged, {
+      sendOCKAnalyticsEvent(FundEvent.FundAmountChanged, {
         amount: Number(amount),
         currency,
       });
     },
-    [currency, sendAnalytics, setFundAmountFiat, throttledFetchExchangeRate],
+    [currency, setFundAmountFiat, throttledFetchExchangeRate],
   );
 
   return (

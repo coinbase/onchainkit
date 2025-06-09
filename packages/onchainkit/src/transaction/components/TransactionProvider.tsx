@@ -14,7 +14,6 @@ import {
   useWaitForTransactionReceipt,
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import {
   TransactionEvent,
   TransactionEventType,
@@ -23,6 +22,7 @@ import {
 import { Capabilities } from '../../core/constants';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useValue } from '../../internal/hooks/useValue';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 import { useOnchainKit } from '../../useOnchainKit';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCallsStatus } from '../hooks/useCallsStatus';
@@ -156,16 +156,14 @@ export function TransactionProvider({
     hash: singleTransactionHash || batchedTransactionHash,
   });
 
-  const { sendAnalytics } = useAnalytics();
-
   const handleAnalytics = useCallback(
     (
       event: TransactionEventType,
       data: TransactionEventData[TransactionEventType],
     ) => {
-      sendAnalytics(event, data);
+      sendOCKAnalyticsEvent(event, data);
     },
-    [sendAnalytics],
+    [],
   );
 
   // Component lifecycle emitters

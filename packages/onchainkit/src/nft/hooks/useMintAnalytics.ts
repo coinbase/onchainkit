@@ -1,5 +1,5 @@
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { MintEvent } from '@/core/analytics/types';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import type { LifecycleStatus } from '@/transaction/types';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -11,7 +11,6 @@ export const useMintAnalytics = () => {
   >(null);
   const successSent = useRef(false);
   const errorSent = useRef(false);
-  const { sendAnalytics } = useAnalytics();
   const { address } = useAccount();
 
   const { contractAddress, tokenId, quantity, isSponsored } = useNFTContext();
@@ -38,12 +37,12 @@ export const useMintAnalytics = () => {
     if (transactionState === 'buildingTransaction') {
       successSent.current = false;
       errorSent.current = false;
-      sendAnalytics(MintEvent.MintInitiated, analyticsData);
+      sendOCKAnalyticsEvent(MintEvent.MintInitiated, analyticsData);
     }
 
     if (transactionState === 'success' && !successSent.current) {
       successSent.current = true;
-      sendAnalytics(MintEvent.MintSuccess, {
+      sendOCKAnalyticsEvent(MintEvent.MintSuccess, {
         ...analyticsData,
         amountMinted: quantity,
       });
@@ -51,15 +50,15 @@ export const useMintAnalytics = () => {
 
     if (transactionState === 'error' && !errorSent.current) {
       errorSent.current = true;
-      sendAnalytics(MintEvent.MintFailure, {
+      sendOCKAnalyticsEvent(MintEvent.MintFailure, {
         error: 'Transaction failed',
         metadata: analyticsData,
       });
     }
-  }, [transactionState, quantity, analyticsData, sendAnalytics]);
+  }, [transactionState, quantity, analyticsData]);
 
   const handleQuantityChange = (newQuantity: number) => {
-    sendAnalytics(MintEvent.MintQuantityChanged, {
+    sendOCKAnalyticsEvent(MintEvent.MintQuantityChanged, {
       quantity: newQuantity,
     });
   };

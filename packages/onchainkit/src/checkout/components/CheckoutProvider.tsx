@@ -15,7 +15,6 @@ import { useWaitForTransactionReceipt } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { useWriteContracts } from 'wagmi/experimental';
 import { useCallsStatus } from 'wagmi/experimental';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import {
   type AnalyticsEventData,
   CheckoutEvent,
@@ -44,6 +43,7 @@ import {
   normalizeStatus,
   normalizeTransactionId,
 } from '@/internal/utils/normalizeWagmi';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 const emptyContext = {} as CheckoutContextType;
 export const CheckoutContext = createContext<CheckoutContextType>(emptyContext);
@@ -79,7 +79,6 @@ export function CheckoutProvider({
   const [transactionId, setTransactionId] = useState('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const isSmartWallet = useIsWalletACoinbaseSmartWallet();
-  const { sendAnalytics } = useAnalytics();
 
   // Refs
   const fetchedDataUseEffect = useRef<boolean>(false);
@@ -218,9 +217,9 @@ export function CheckoutProvider({
 
   const handleAnalytics = useCallback(
     (event: CheckoutEventType, data: AnalyticsEventData[CheckoutEventType]) => {
-      sendAnalytics(event, data);
+      sendOCKAnalyticsEvent(event, data);
     },
-    [sendAnalytics],
+    [],
   );
 
   // eslint-disable-next-line complexity

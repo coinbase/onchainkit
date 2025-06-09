@@ -1,5 +1,5 @@
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { EarnEvent } from '@/core/analytics/types';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 import { useEarnContext } from '@/earn/components/EarnProvider';
 import type { LifecycleStatus } from '@/transaction/types';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -10,7 +10,6 @@ export const useWithdrawAnalytics = (withdrawnAmount: string) => {
   >(null);
   const successSent = useRef(false);
   const errorSent = useRef(false);
-  const { sendAnalytics } = useAnalytics();
 
   const { vaultAddress, vaultToken, recipientAddress, withdrawAmount } =
     useEarnContext();
@@ -34,19 +33,19 @@ export const useWithdrawAnalytics = (withdrawnAmount: string) => {
   useEffect(() => {
     if (transactionState === 'buildingTransaction') {
       successSent.current = false;
-      sendAnalytics(EarnEvent.EarnWithdrawInitiated, analyticsData);
+      sendOCKAnalyticsEvent(EarnEvent.EarnWithdrawInitiated, analyticsData);
     }
 
     if (transactionState === 'success' && !successSent.current) {
       successSent.current = true;
-      sendAnalytics(EarnEvent.EarnWithdrawSuccess, analyticsData);
+      sendOCKAnalyticsEvent(EarnEvent.EarnWithdrawSuccess, analyticsData);
     }
 
     if (transactionState === 'error' && !errorSent.current) {
       errorSent.current = true;
-      sendAnalytics(EarnEvent.EarnWithdrawFailure, analyticsData);
+      sendOCKAnalyticsEvent(EarnEvent.EarnWithdrawFailure, analyticsData);
     }
-  }, [transactionState, analyticsData, sendAnalytics]);
+  }, [transactionState, analyticsData]);
 
   return {
     setTransactionState,

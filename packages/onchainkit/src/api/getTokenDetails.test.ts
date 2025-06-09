@@ -4,6 +4,7 @@ import { sendRequest } from '@/core/network/request';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { getTokenDetails } from './getTokenDetails';
 import type { GetTokenDetailsParams } from './types';
+import { ApiErrorCode } from './constants';
 
 vi.mock('@/core/network/request', () => ({
   sendRequest: vi.fn(),
@@ -77,7 +78,7 @@ describe('getTokenDetails', () => {
     const result = await getTokenDetails(params);
 
     expect(result).toEqual({
-      code: 'uncaught-nft',
+      code: ApiErrorCode.uncaughtNft,
       error: 'Something went wrong',
       message: 'Error fetching token details',
     });

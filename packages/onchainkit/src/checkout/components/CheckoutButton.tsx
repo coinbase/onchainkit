@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo } from 'react';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { CheckoutEvent } from '../../core/analytics/types';
 import { Spinner } from '../../internal/components/Spinner';
 import { useIcon } from '../../internal/hooks/useIcon';
@@ -9,6 +8,7 @@ import { cn, pressable, text as styleText } from '../../styles/theme';
 import type { CheckoutButtonReact } from '../types';
 import { useCheckoutContext } from './CheckoutProvider';
 import { CHECKOUT_LIFECYCLE_STATUS } from '../constants';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 export function CheckoutButton({
   className,
@@ -23,7 +23,6 @@ export function CheckoutButton({
   }
   const { lifecycleStatus, onSubmit } = useCheckoutContext();
   const iconSvg = useIcon({ icon });
-  const { sendAnalytics } = useAnalytics();
 
   const isLoading =
     lifecycleStatus?.statusName === CHECKOUT_LIFECYCLE_STATUS.PENDING;
@@ -47,13 +46,13 @@ export function CheckoutButton({
       const transactionHash = transactionReceipts?.[0]?.transactionHash;
 
       if (transactionHash && chargeId) {
-        sendAnalytics(CheckoutEvent.CheckoutSuccess, {
+        sendOCKAnalyticsEvent(CheckoutEvent.CheckoutSuccess, {
           chargeHandlerId: chargeId,
           transactionHash,
         });
       }
     }
-  }, [lifecycleStatus, sendAnalytics]);
+  }, [lifecycleStatus]);
 
   return (
     <button

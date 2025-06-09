@@ -1,6 +1,5 @@
 'use client';
 import { useCallback, useEffect, useMemo } from 'react';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { SwapEvent } from '../../core/analytics/types';
 import { TextInput } from '../../internal/components/TextInput';
 import { useValue } from '../../internal/hooks/useValue';
@@ -12,6 +11,7 @@ import { TokenChip, TokenSelectDropdown } from '../../token';
 import type { SwapAmountInputReact } from '../types';
 import { formatAmount } from '../utils/formatAmount';
 import { useSwapContext } from './SwapProvider';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 export function SwapAmountInput({
   className,
@@ -22,7 +22,6 @@ export function SwapAmountInput({
   swappableTokens,
 }: SwapAmountInputReact) {
   const { address, to, from, handleAmountChange } = useSwapContext();
-  const { sendAnalytics } = useAnalytics();
 
   const source = useValue(type === 'from' ? from : to);
   const destination = useValue(type === 'from' ? to : from);
@@ -49,14 +48,11 @@ export function SwapAmountInput({
     [handleAmountChange, type],
   );
 
-  const handleAnalyticsTokenSelected = useCallback(
-    (token: Token) => {
-      sendAnalytics(SwapEvent.TokenSelected, {
-        token: token.symbol,
-      });
-    },
-    [sendAnalytics],
-  );
+  const handleAnalyticsTokenSelected = useCallback((token: Token) => {
+    sendOCKAnalyticsEvent(SwapEvent.TokenSelected, {
+      token: token.symbol,
+    });
+  }, []);
 
   const handleSetToken = useCallback(
     (token: Token) => {
