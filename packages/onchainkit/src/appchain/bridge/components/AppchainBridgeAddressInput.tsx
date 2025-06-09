@@ -19,7 +19,7 @@ export const AppchainBridgeAddressInput = () => {
 
   const backButton = (
     <PressableIcon
-      ariaLabel="Back button"
+      aria-label="Back button"
       onClick={() => {
         setIsAddressModalOpen(false);
       }}

@@ -34,23 +34,14 @@ export function WalletDropdown({
   classNames,
   swappableTokens,
 }: WalletDropdownReact) {
-  const {
-    address,
-    breakpoint,
-    isSubComponentOpen,
-    showSubComponentAbove,
-    alignSubComponentRight,
-  } = useWalletContext();
+  const { address, breakpoint, showSubComponentAbove, alignSubComponentRight } =
+    useWalletContext();
 
   if (!address) {
     return null;
   }
 
   if (!breakpoint) {
-    return null;
-  }
-
-  if (!isSubComponentOpen) {
     return null;
   }
 
