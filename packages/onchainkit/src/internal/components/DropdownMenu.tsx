@@ -4,6 +4,7 @@ import { cn } from '@/styles/theme';
 import type React from 'react';
 import * as DropdownMenuPrimitives from '@radix-ui/react-dropdown-menu';
 import { ComponentProps, ReactNode } from 'react';
+import { useLayerConfigContext } from './LayerConfigProvider';
 
 const DropdownMenuRoot = DropdownMenuPrimitives.Root;
 const DropdownMenuTrigger = DropdownMenuPrimitives.Trigger;
@@ -34,6 +35,7 @@ export const DropdownMenu = ({
   className,
 }: DropdownMenuProps) => {
   const componentTheme = useTheme();
+  const { forceDropdownModal } = useLayerConfigContext();
 
   return (
     <DropdownMenuRoot
@@ -43,6 +45,7 @@ export const DropdownMenu = ({
           onClose?.();
         }
       }}
+      modal={forceDropdownModal}
     >
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
       <DropdownMenuContent
