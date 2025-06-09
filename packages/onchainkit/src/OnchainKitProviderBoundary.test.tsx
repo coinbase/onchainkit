@@ -5,7 +5,7 @@ import OnchainKitProviderBoundary from './OnchainKitProviderBoundary';
 import { sendAnalyticsPayload } from '@/core/analytics/utils/analyticsService';
 import { ErrorEvent as AnalyticsErrorEvent } from './core/analytics/types';
 
-vi.mock('./core/analytics/hooks/useAnalytics', () => {
+vi.mock('@/core/analytics/utils/analyticsService', () => {
   return {
     sendAnalyticsPayload: vi.fn(),
   };

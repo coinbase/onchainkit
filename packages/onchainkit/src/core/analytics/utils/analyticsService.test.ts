@@ -299,18 +299,18 @@ describe('AnalyticsService', () => {
     });
   });
 
-  describe('exported singleton and bound method', () => {
+  describe('exported singleton and passthrough function', () => {
     it('should export analyticsService singleton', () => {
       expect(typeof analyticsService).toBe('object');
       expect(analyticsService).toBeDefined();
     });
 
-    it('should export sendAnalyticsPayload as bound method', () => {
+    it('should export sendAnalyticsPayload as passthrough function', () => {
       expect(typeof sendAnalyticsPayload).toBe('function');
-      expect(sendAnalyticsPayload.name).toBe('bound sendAnalytics');
+      expect(sendAnalyticsPayload.name).toBe('sendAnalyticsPayload');
     });
 
-    it('should maintain context when using bound method', async () => {
+    it('should maintain context when using passthrough function', async () => {
       const meta: ClientMeta = {
         mode: 'minikit',
         clientFid: 789,

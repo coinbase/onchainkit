@@ -66,5 +66,7 @@ class AnalyticsService {
 
 export const analyticsService = new AnalyticsService();
 
-export const sendAnalyticsPayload =
-  analyticsService.sendAnalytics.bind(analyticsService);
+export const sendAnalyticsPayload = <T extends AnalyticsEvent>(
+  event: T,
+  data: AnalyticsEventData[T],
+) => analyticsService.sendAnalytics(event, data);
