@@ -1,5 +1,3 @@
-import { DismissableLayer } from '@/internal/components/DismissableLayer';
-import { FocusTrap } from '@/internal/components/FocusTrap';
 import { Popover } from '@/internal/components/Popover';
 import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import { useIcon } from '@/internal/hooks/useIcon';
@@ -11,6 +9,7 @@ import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
 import { SwapSettingsSlippageLayout } from './SwapSettingsSlippageLayout';
 import { SwapSettingsSlippageLayoutBottomSheet } from './SwapSettingsSlippageLayoutBottomSheet';
 import { SwapSettingsSlippageTitle } from './SwapSettingsSlippageTitle';
+import { Sheet } from '@/internal/components/Sheet';
 
 const DEFAULT_CHILDREN = (
   <>
@@ -73,29 +72,29 @@ export function SwapSettings({
         {breakpoint === 'sm' ? (
           <>
             {trigger}
-            <FocusTrap active={isOpen}>
-              <DismissableLayer
-                onDismiss={handleClose}
-                triggerRef={triggerRef}
-                preventTriggerEvents={true}
+            <Sheet
+              isOpen={isOpen}
+              onClose={handleClose}
+              side="bottom"
+              title="Swap settings"
+              description="Swap settings"
+            >
+              <div
+                className={cn(
+                  'bg-ock-bg-inverse',
+                  'shadow-ock-default',
+                  'fixed inset-x-0 z-50 transition-[bottom] duration-300 ease-in-out',
+                  isOpen ? 'bottom-0' : '-bottom-[12.875rem]',
+                  'h-[12.875rem] rounded-t-lg',
+                  className,
+                )}
+                data-testid="ockSwapSettingsSlippageLayoutBottomSheet_container"
               >
-                <div
-                  className={cn(
-                    'bg-ock-bg-inverse',
-                    'shadow-ock-default',
-                    'fixed inset-x-0 z-50 transition-[bottom] duration-300 ease-in-out',
-                    isOpen ? 'bottom-0' : '-bottom-[12.875rem]',
-                    'h-[12.875rem] rounded-t-lg',
-                    className,
-                  )}
-                  data-testid="ockSwapSettingsSlippageLayoutBottomSheet_container"
-                >
-                  <SwapSettingsSlippageLayoutBottomSheet className={className}>
-                    {children}
-                  </SwapSettingsSlippageLayoutBottomSheet>
-                </div>
-              </DismissableLayer>
-            </FocusTrap>
+                <SwapSettingsSlippageLayoutBottomSheet className={className}>
+                  {children}
+                </SwapSettingsSlippageLayoutBottomSheet>
+              </div>
+            </Sheet>
           </>
         ) : (
           <Popover
