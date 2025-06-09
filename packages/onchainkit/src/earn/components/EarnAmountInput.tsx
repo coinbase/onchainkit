@@ -2,7 +2,7 @@ import { TextInput } from '@/internal/components/TextInput';
 import { isValidAmount } from '@/internal/utils/isValidAmount';
 import { cn, text } from '@/styles/theme';
 import { formatAmount } from '@/swap/utils/formatAmount';
-import type { EarnAmountInputReact } from '../types';
+import type { EarnAmountInputProps } from '../types';
 
 export function EarnAmountInput({
   className,
@@ -10,26 +10,23 @@ export function EarnAmountInput({
   value,
   onChange,
   'aria-label': ariaLabel,
-}: EarnAmountInputReact) {
+}: EarnAmountInputProps) {
   return (
-    <div
+    <TextInput
       data-testid="ockEarnAmountInput"
-      className={cn('flex flex-col', className)}
-    >
-      <TextInput
-        className={cn(
-          text.base,
-          'text-ock-text-foreground',
-          'w-full border-none bg-transparent text-5xl',
-          'leading-none outline-none',
-        )}
-        placeholder="0.0"
-        value={formatAmount(value)}
-        onChange={onChange}
-        inputValidator={isValidAmount}
-        disabled={disabled}
-        aria-label={ariaLabel}
-      />
-    </div>
+      className={cn(
+        text.base,
+        'text-ock-text-foreground',
+        'w-full border-none bg-transparent text-5xl',
+        'leading-none outline-none',
+        className,
+      )}
+      placeholder="0.0"
+      value={formatAmount(value)}
+      onChange={onChange}
+      inputValidator={isValidAmount}
+      disabled={disabled}
+      aria-label={ariaLabel}
+    />
   );
 }

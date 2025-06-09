@@ -1,7 +1,7 @@
 import { cn } from '@/styles/theme';
-import type { EarnCardReact } from '../types';
+import type { EarnCardProps } from '../types';
 
-export function EarnCard({ children, className }: EarnCardReact) {
+export function EarnCard({ children, className }: EarnCardProps) {
   return (
     <div
       data-testid="ockEarnCard"

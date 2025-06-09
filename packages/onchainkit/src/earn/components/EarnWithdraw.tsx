@@ -1,6 +1,6 @@
 'use client';
 import { EarnDetails } from '@/earn/components/EarnDetails';
-import type { EarnWithdrawReact } from '../types';
+import type { EarnWithdrawProps } from '../types';
 import { EarnCard } from './EarnCard';
 import { WithdrawAmountInput } from './WithdrawAmountInput';
 import { WithdrawBalance } from './WithdrawBalance';
@@ -20,6 +20,6 @@ function EarnWithdrawDefaultContent() {
 export function EarnWithdraw({
   children = <EarnWithdrawDefaultContent />,
   className,
-}: EarnWithdrawReact) {
+}: EarnWithdrawProps) {
   return <EarnCard className={className}>{children}</EarnCard>;
 }

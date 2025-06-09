@@ -10,11 +10,11 @@ import {
 import { TransactionButtonRenderParams } from '@/transaction/types';
 import { ConnectWallet } from '@/wallet';
 import { useCallback, useState } from 'react';
-import type { WithdrawButtonReact } from '../types';
+import type { WithdrawButtonProps } from '../types';
 import { useEarnContext } from './EarnProvider';
 import { RenderWithdrawButton } from './RenderWithdrawButton';
 
-export function WithdrawButton({ className }: WithdrawButtonReact) {
+export function WithdrawButton({ className }: WithdrawButtonProps) {
   const {
     recipientAddress: address,
     withdrawCalls,

@@ -10,7 +10,7 @@ import type { Address, TransactionReceipt } from 'viem';
 /**
  * Note: exported as public Type
  */
-export type EarnReact = {
+export type EarnProps = {
   children?: React.ReactNode;
   className?: string;
   vaultAddress: Address;
@@ -26,7 +26,7 @@ export type EarnReact = {
 /**
  * Note: exported as public Type
  */
-export type EarnProviderReact = {
+export type EarnProviderProps = {
   children: React.ReactNode;
   vaultAddress: Address;
   isSponsored?: boolean;
@@ -91,7 +91,7 @@ export type EarnContextType = {
 /**
  * Note: exported as public Type
  */
-export type EarnAmountInputReact = {
+export type EarnAmountInputProps = {
   className?: string;
   onChange: (value: string) => void;
   value: string;
@@ -102,21 +102,21 @@ export type EarnAmountInputReact = {
 /**
  * Note: exported as public Type
  */
-export type WithdrawAmountInputReact = {
+export type WithdrawAmountInputProps = {
   className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
-export type DepositAmountInputReact = {
+export type DepositAmountInputProps = {
   className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
-export type EarnBalanceReact = {
+export type EarnBalanceProps = {
   className?: string;
   onActionPress: () => void;
   title: React.ReactNode;
@@ -127,18 +127,18 @@ export type EarnBalanceReact = {
 /**
  * Note: exported as public Type
  */
-export type DepositBalanceReact = {
+export type DepositBalanceProps = {
   className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
-export type WithdrawBalanceReact = {
+export type WithdrawBalanceProps = {
   className?: string;
 };
 
-export type EarnCardReact = {
+export type EarnCardProps = {
   children: React.ReactNode;
   className?: string;
 };
@@ -146,7 +146,7 @@ export type EarnCardReact = {
 /**
  * Note: exported as public Type
  */
-export type EarnDepositReact = {
+export type EarnDepositProps = {
   children?: React.ReactNode;
   className?: string;
 };
@@ -154,7 +154,7 @@ export type EarnDepositReact = {
 /**
  * Note: exported as public Type
  */
-export type EarnWithdrawReact = {
+export type EarnWithdrawProps = {
   children?: React.ReactNode;
   className?: string;
 };
@@ -162,21 +162,21 @@ export type EarnWithdrawReact = {
 /**
  * Note: exported as public Type
  */
-export type EarnDetailsReact = {
+export type EarnDetailsProps = {
   className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
-export type DepositButtonReact = {
+export type DepositButtonProps = {
   className?: string;
 };
 
 /**
  * Note: exported as public Type
  */
-export type WithdrawButtonReact = {
+export type WithdrawButtonProps = {
   className?: string;
 };
 

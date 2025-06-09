@@ -34,7 +34,7 @@ export function RenderDepositButton({
       </button>
     );
   }
-  if (context.errorMessage) {
+  if (context.errorMessage || depositAmountError) {
     return (
       <button className={classNames} onClick={onSubmit} disabled={isDisabled}>
         {depositAmountError ?? 'Try again'}
