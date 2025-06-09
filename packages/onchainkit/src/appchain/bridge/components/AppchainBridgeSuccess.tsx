@@ -1,14 +1,14 @@
 'use client';
 import { SuccessSvg } from '@/internal/svg/fullWidthSuccessSvg';
 import { cn, pressable, text } from '@/styles/theme';
-import type { AppchainBridgeSuccessReact } from '../types';
+import type { AppchainBridgeSuccessProps } from '../types';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
 export const AppchainBridgeSuccess = ({
   title = 'Success!',
   primaryButtonLabel = 'View Transaction',
   secondaryButtonLabel = 'Back to bridge',
-}: AppchainBridgeSuccessReact) => {
+}: AppchainBridgeSuccessProps) => {
   const { handleOpenExplorer, handleResetState } = useAppchainBridgeContext();
 
   return (

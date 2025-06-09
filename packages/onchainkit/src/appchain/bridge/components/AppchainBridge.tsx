@@ -2,7 +2,7 @@
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { cn, text } from '@/styles/theme';
-import type { AppchainBridgeReact } from '../types';
+import type { AppchainBridgeProps } from '../types';
 import { AppchainBridgeAddressInput } from './AppchainBridgeAddressInput';
 import { AppchainBridgeInput } from './AppchainBridgeInput';
 import { AppchainBridgeNetwork } from './AppchainBridgeNetwork';
@@ -125,7 +125,7 @@ export function AppchainBridge({
   children = <AppchainBridgeDefaultContent title={title} />,
   className,
   handleFetchPrice,
-}: AppchainBridgeReact) {
+}: AppchainBridgeProps) {
   const isMounted = useIsMounted();
   const componentTheme = useTheme();
 
