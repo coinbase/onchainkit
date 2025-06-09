@@ -57,9 +57,9 @@ class AnalyticsService {
       sessionId: getOnchainKitConfig('sessionId') ?? 'undefined',
       timestamp: Date.now(),
       eventType: event,
-      data: data || {},
+      data,
       origin: window.location.origin,
-      meta: this.clientMeta,
+      metadata: this.clientMeta,
     };
   }
 }
