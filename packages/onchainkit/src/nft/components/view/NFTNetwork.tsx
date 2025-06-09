@@ -4,7 +4,7 @@ import { useChainId } from 'wagmi';
 import { baseSvg } from '../../../internal/svg/baseSvg';
 import { cn, text } from '../../../styles/theme';
 
-type NFTNetworkReact = {
+type NFTNetworkProps = {
   className?: string;
   label?: ReactNode;
 };
@@ -16,7 +16,7 @@ const networkMap = {
   },
 } as Record<number, { chain: Chain; icon: ReactNode }>;
 
-export function NFTNetwork({ className, label = 'Network' }: NFTNetworkReact) {
+export function NFTNetwork({ className, label = 'Network' }: NFTNetworkProps) {
   const chainId = useChainId();
 
   if (!chainId || !networkMap[chainId]) {

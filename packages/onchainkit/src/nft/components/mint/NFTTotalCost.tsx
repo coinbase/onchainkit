@@ -5,7 +5,7 @@ import { cn, text } from '@/styles/theme';
 import { formatAmount } from '@/token/utils/formatAmount';
 import { type ReactNode, useCallback, useMemo, useState } from 'react';
 
-type NFTTotalCostReact = {
+type NFTTotalCostProps = {
   className?: string;
   label?: ReactNode;
 };
@@ -13,7 +13,7 @@ type NFTTotalCostReact = {
 export function NFTTotalCost({
   className,
   label = 'Total cost',
-}: NFTTotalCostReact) {
+}: NFTTotalCostProps) {
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const { price, mintFee, quantity } = useNFTContext();
 

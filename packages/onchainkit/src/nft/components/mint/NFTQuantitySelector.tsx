@@ -3,11 +3,11 @@ import { useNFTContext } from '@/nft/components/NFTProvider';
 import { useMintAnalytics } from '@/nft/hooks/useMintAnalytics';
 import { cn } from '@/styles/theme';
 
-type NFTQuantitySelectorReact = {
+type NFTQuantitySelectorProps = {
   className?: string;
 };
 
-export function NFTQuantitySelector({ className }: NFTQuantitySelectorReact) {
+export function NFTQuantitySelector({ className }: NFTQuantitySelectorProps) {
   const { maxMintsPerWallet, setQuantity } = useNFTContext();
   const { handleQuantityChange } = useMintAnalytics();
 

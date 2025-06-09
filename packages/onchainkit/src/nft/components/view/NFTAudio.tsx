@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { cn } from '../../../styles/theme';
 
-type NFTAudioReact = {
+type NFTAudioProps = {
   className?: string;
   onLoading?: (mediaUrl: string) => void;
   onLoaded?: () => void;
@@ -21,7 +21,7 @@ export function NFTAudio({
   onLoading,
   onLoaded,
   onError,
-}: NFTAudioReact) {
+}: NFTAudioProps) {
   const { animationUrl } = useNFTContext();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
