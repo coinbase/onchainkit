@@ -4,7 +4,7 @@ import {
   analyticsService,
 } from '@/core/analytics/utils/analyticsService';
 import { MiniKitContext } from '@/minikit/MiniKitProvider';
-import { sdk } from '@farcaster/frame-sdk';
+import sdk from '@farcaster/frame-sdk';
 import { version } from '@/version';
 import { AnalyticsEvent, AnalyticsEventData } from '../types';
 
