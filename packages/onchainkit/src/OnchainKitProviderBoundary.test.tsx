@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import OnchainKitProviderBoundary from './OnchainKitProviderBoundary';
-import { sendAnalyticsPayload } from './core/analytics/hooks/useAnalytics';
+import { sendAnalyticsPayload } from '@/core/analytics/utils/analyticsService';
 import { ErrorEvent as AnalyticsErrorEvent } from './core/analytics/types';
 
 vi.mock('./core/analytics/hooks/useAnalytics', () => {

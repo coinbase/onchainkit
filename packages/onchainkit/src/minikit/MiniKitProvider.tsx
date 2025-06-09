@@ -122,6 +122,7 @@ export function MiniKitProvider({
       context,
       updateClientContext,
       notificationProxyUrl,
+      __isMiniKit: true,
     };
   }, [updateClientContext, notificationProxyUrl, context]);
 

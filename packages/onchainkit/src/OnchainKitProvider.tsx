@@ -9,6 +9,7 @@ import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitProviderReact } from './types';
 import { generateUUIDWithInsecureFallback } from './utils/crypto';
 import { OnchainKitContext } from './useOnchainKit';
+import { AnalyticsProvider } from './core/analytics/components/AnalyticsProvider';
 
 /**
  * Provides the OnchainKit React Context to the app.
@@ -86,7 +87,9 @@ export function OnchainKitProvider({
   return (
     <OnchainKitContext.Provider value={value}>
       <DefaultOnchainKitProviders>
-        <OnchainKitProviderBoundary>{children}</OnchainKitProviderBoundary>
+        <OnchainKitProviderBoundary>
+          <AnalyticsProvider>{children}</AnalyticsProvider>
+        </OnchainKitProviderBoundary>
       </DefaultOnchainKitProviders>
     </OnchainKitContext.Provider>
   );
