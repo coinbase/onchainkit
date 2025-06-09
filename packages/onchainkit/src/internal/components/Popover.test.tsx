@@ -2,10 +2,9 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Popover } from './Popover';
+import { LayerConfigProvider } from './LayerConfigProvider';
 
 describe('Popover', () => {
-  let anchor: HTMLElement;
-
   beforeEach(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -20,10 +19,6 @@ describe('Popover', () => {
         dispatchEvent: vi.fn(),
       })),
     });
-
-    anchor = document.createElement('button');
-    anchor.setAttribute('data-testid', 'anchor');
-    document.body.appendChild(anchor);
   });
 
   afterEach(() => {
@@ -129,6 +124,56 @@ describe('Popover', () => {
 
       await user.tab();
       expect(document.activeElement).toBe(firstButton);
+    });
+  });
+
+  describe('skipPopoverPortal', () => {
+    it('should not render the popover portal when skipPopoverPortal is true', () => {
+      const popover = render(
+        <LayerConfigProvider skipPopoverPortal={true}>
+          <div data-testid="popover-container">
+            <Popover
+              trigger={
+                <button type="button" data-testid="trigger">
+                  Trigger
+                </button>
+              }
+              open={true}
+            >
+              Popover Content
+            </Popover>
+          </div>
+        </LayerConfigProvider>,
+      );
+
+      const popoverContent = popover.getByTestId('ockPopover');
+      const popoverContainer = popover.getByTestId('popover-container');
+      expect(popoverContent).toBeInTheDocument();
+      expect(popoverContainer.contains(popoverContent)).toBe(true);
+    });
+
+    it('should render the popover portal when skipPopoverPortal is false', () => {
+      const popover = render(
+        <LayerConfigProvider skipPopoverPortal={false}>
+          <div data-testid="popover-container">
+            <Popover
+              trigger={
+                <button type="button" data-testid="trigger">
+                  Trigger
+                </button>
+              }
+              open={true}
+            >
+              Popover Content
+            </Popover>
+          </div>
+        </LayerConfigProvider>,
+      );
+
+      const popoverContent = popover.getByTestId('ockPopover');
+      const popoverContainer = popover.getByTestId('popover-container');
+      expect(popoverContent).toBeInTheDocument();
+      expect(popoverContainer.contains(popoverContent)).toBe(false);
     });
   });
 });
