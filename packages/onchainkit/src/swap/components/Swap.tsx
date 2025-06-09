@@ -41,7 +41,7 @@ function SwapDefaultContent({
 }
 
 export function Swap({
-  render,
+  children,
   config = {
     maxSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
   },
@@ -75,8 +75,8 @@ export function Swap({
       onStatus={onStatus}
       onSuccess={onSuccess}
     >
-      {render ? (
-        render?.({ componentThemeClassName: componentTheme })
+      {children ? (
+        children?.({ componentThemeClassName: componentTheme })
       ) : (
         <div
           className={cn(

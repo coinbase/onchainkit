@@ -132,7 +132,7 @@ export const AppchainBridgeProvider = ({
         ? bridgeParams.token.address
         : bridgeParams.token.remoteToken;
 
-    let _balance: string;
+    let newBalance: string;
 
     if (
       !tokenAddress ||
@@ -143,7 +143,7 @@ export const AppchainBridgeProvider = ({
         address,
         chainId: from.id,
       });
-      _balance = formatUnits(ethBalance.value, ethBalance.decimals);
+      newBalance = formatUnits(ethBalance.value, ethBalance.decimals);
     } else {
       const erc20Balance = await readContract(wagmiConfig, {
         abi: erc20Abi,
@@ -152,10 +152,10 @@ export const AppchainBridgeProvider = ({
         address: tokenAddress as Address,
         chainId: from.id,
       });
-      _balance = formatUnits(erc20Balance, bridgeParams.token.decimals);
+      newBalance = formatUnits(erc20Balance, bridgeParams.token.decimals);
     }
 
-    setBalance(_balance);
+    setBalance(newBalance);
   }, [address, direction, bridgeParams.token, from.id, wagmiConfig]);
 
   // Fetch balance when bridge params change

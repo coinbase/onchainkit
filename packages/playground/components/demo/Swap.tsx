@@ -106,7 +106,6 @@ function SwapComponent() {
       ) : null}
 
       <Swap
-        className=""
         onStatus={handleOnStatus}
         onSuccess={handleOnSuccess}
         onError={handleOnError}
@@ -114,7 +113,8 @@ function SwapComponent() {
           maxSlippage: defaultMaxSlippage || FALLBACK_DEFAULT_MAX_SLIPPAGE,
         }}
         isSponsored={isSponsored}
-        render={({ componentThemeClassName }) => (
+      >
+        {({ componentThemeClassName }) => (
           <div
             className={cn(
               componentThemeClassName,
@@ -162,7 +162,7 @@ function SwapComponent() {
             <SwapToast />
           </div>
         )}
-      />
+      </Swap>
     </div>
   );
 }

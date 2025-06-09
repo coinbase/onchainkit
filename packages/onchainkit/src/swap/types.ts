@@ -330,8 +330,8 @@ export type SwapProps = {
   onSuccess?: (transactionReceipt: TransactionReceipt) => void;
 } & (
   | {
-      /** When render is provided, swappableTokens, toToken, and fromToken are not required */
-      render: ({
+      /** When children is provided, swappableTokens, toToken, and fromToken are not required */
+      children: ({
         componentThemeClassName,
       }: {
         componentThemeClassName: string;
@@ -348,8 +348,8 @@ export type SwapProps = {
       headerLeftContent?: never;
     }
   | {
-      /** When render is undefined, swappableTokens, toToken, and fromToken are required */
-      render?: never;
+      /** When children is undefined, swappableTokens, toToken, and fromToken are required */
+      children?: never;
       /** To token */
       to?: Token[];
       /** From token */

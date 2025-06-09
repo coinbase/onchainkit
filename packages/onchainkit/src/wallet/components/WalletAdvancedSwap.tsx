@@ -78,7 +78,8 @@ export function WalletAdvancedSwap({
         config={config}
         isSponsored={isSponsored}
         experimental={experimental}
-        render={() => (
+      >
+        {() => (
           <>
             <div
               className={cn(
@@ -137,7 +138,7 @@ export function WalletAdvancedSwap({
             </div>
           </>
         )}
-      />
+      </Swap>
     </div>
   );
 }
