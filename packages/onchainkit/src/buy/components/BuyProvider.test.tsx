@@ -31,7 +31,6 @@ import { mock } from 'wagmi/connectors';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import type { GetSwapQuoteResponse } from '../../api/types';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { BuyEvent } from '../../core/analytics/types';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import type { LifecycleStatus, SwapError, SwapUnit } from '../../swap/types';
@@ -47,6 +46,7 @@ import { useBuyTokens } from '../hooks/useBuyTokens';
 import { getBuyQuote } from '../utils/getBuyQuote';
 import { validateQuote } from '../utils/validateQuote';
 import { BuyProvider, useBuyContext } from './BuyProvider';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 const mockResetFunction = vi.fn();
 vi.mock('../hooks/useResetBuyInputs', () => ({
@@ -110,10 +110,8 @@ vi.mock('../path/to/maxSlippageModule', () => ({
   getMaxSlippage: vi.fn().mockReturnValue(10),
 }));
 
-vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(() => ({
-    sendAnalytics: vi.fn(),
-  })),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 const queryClient = new QueryClient();
@@ -420,9 +418,6 @@ describe('BuyProvider', () => {
       fromETH: mockFromEth,
       fromUSDC: mockFromUsdc,
     });
-    (useAnalytics as Mock).mockImplementation(() => ({
-      sendAnalytics: vi.fn(),
-    }));
   });
 
   it('should call validateQuote with responses', async () => {
@@ -951,14 +946,7 @@ describe('BuyProvider', () => {
   });
 
   describe('analytics', () => {
-    let sendAnalytics: Mock;
-
     beforeEach(() => {
-      sendAnalytics = vi.fn();
-      (useAnalytics as Mock).mockImplementation(() => ({
-        sendAnalytics,
-      }));
-
       (useAccount as ReturnType<typeof vi.fn>).mockReturnValue({
         address: '0x123',
       });
@@ -991,7 +979,7 @@ describe('BuyProvider', () => {
         } as unknown as LifecycleStatus);
       });
 
-      expect(sendAnalytics).toHaveBeenCalledWith(BuyEvent.BuySuccess, {
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(BuyEvent.BuySuccess, {
         address: '0x123',
         amount: 0,
         from: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
@@ -1008,10 +996,13 @@ describe('BuyProvider', () => {
         result.current.handleAmountChange('10');
       });
 
-      expect(sendAnalytics).not.toHaveBeenCalledWith(BuyEvent.BuyInitiated, {
-        amount: 10,
-        token: degenToken.symbol,
-      });
+      expect(sendOCKAnalyticsEvent).not.toHaveBeenCalledWith(
+        BuyEvent.BuyInitiated,
+        {
+          amount: 10,
+          token: degenToken.symbol,
+        },
+      );
     });
 
     it('should track BuyInitiated event when submitting swap', async () => {
@@ -1021,10 +1012,13 @@ describe('BuyProvider', () => {
         fireEvent.click(screen.getByText('Swap'));
       });
 
-      expect(sendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyInitiated, {
-        amount: Number(mockFromEth.amount),
-        token: mockFromEth.token?.symbol,
-      });
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        BuyEvent.BuyInitiated,
+        {
+          amount: Number(mockFromEth.amount),
+          token: mockFromEth.token?.symbol,
+        },
+      );
     });
 
     it('should track BuyFailure event when swap fails', async () => {
@@ -1038,13 +1032,16 @@ describe('BuyProvider', () => {
       });
 
       await waitFor(() => {
-        expect(sendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyFailure, {
-          error: mockError.message,
-          metadata: {
-            token: ethToken.symbol,
-            amount: '50',
+        expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+          BuyEvent.BuyFailure,
+          {
+            error: mockError.message,
+            metadata: {
+              token: ethToken.symbol,
+              amount: '50',
+            },
           },
-        });
+        );
       });
     });
 
@@ -1058,7 +1055,7 @@ describe('BuyProvider', () => {
         result.current.handleAmountChange('10');
       });
 
-      expect(sendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyFailure, {
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(BuyEvent.BuyFailure, {
         error: mockError.message,
         metadata: { amount: '10' },
       });
@@ -1087,7 +1084,7 @@ describe('BuyProvider', () => {
         } as unknown as LifecycleStatus);
       });
 
-      expect(sendAnalytics).toHaveBeenCalledWith(BuyEvent.BuySuccess, {
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(BuyEvent.BuySuccess, {
         address: '0x123',
         amount: 0,
         from: undefined,
@@ -1111,10 +1108,13 @@ describe('BuyProvider', () => {
         fireEvent.click(screen.getByText('Swap'));
       });
 
-      expect(sendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyInitiated, {
-        amount: Number(mockFromEth.amount),
-        token: 'ETH',
-      });
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        BuyEvent.BuyInitiated,
+        {
+          amount: Number(mockFromEth.amount),
+          token: 'ETH',
+        },
+      );
     });
 
     it('should track BuyFailure event with empty metadata when not provided', async () => {
@@ -1127,7 +1127,7 @@ describe('BuyProvider', () => {
         result.current.handleAmountChange('10');
       });
 
-      expect(sendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyFailure, {
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(BuyEvent.BuyFailure, {
         error: mockError.message,
         metadata: { amount: '10' },
       });
@@ -1143,7 +1143,7 @@ describe('BuyProvider', () => {
         result.current.handleAmountChange('10');
       });
 
-      expect(sendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyFailure, {
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(BuyEvent.BuyFailure, {
         error: String(nonErrorObject),
         metadata: { amount: '10' },
       });
@@ -1159,7 +1159,7 @@ describe('BuyProvider', () => {
         result.current.handleAmountChange('10');
       });
 
-      expect(sendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyFailure, {
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(BuyEvent.BuyFailure, {
         error: stringError,
         metadata: { amount: '10' },
       });
@@ -1175,7 +1175,7 @@ describe('BuyProvider', () => {
         result.current.handleAmountChange('10');
       });
 
-      expect(sendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyFailure, {
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(BuyEvent.BuyFailure, {
         error: errorObject.message,
         metadata: { amount: '10' },
       });

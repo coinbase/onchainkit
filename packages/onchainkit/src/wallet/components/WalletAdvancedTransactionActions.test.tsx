@@ -1,4 +1,3 @@
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { WalletEvent, WalletOption } from '@/core/analytics/types';
 import { useOnchainKit } from '@/useOnchainKit';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -6,6 +5,7 @@ import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';
 import { useWalletContext } from './WalletProvider';
 import { usePortfolio } from '../hooks/usePortfolio';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
@@ -19,10 +19,8 @@ vi.mock('../hooks/usePortfolio', () => ({
   usePortfolio: vi.fn(),
 }));
 
-vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(() => ({
-    sendAnalytics: vi.fn(),
-  })),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 describe('WalletAdvancedTransactionActons', () => {
@@ -41,8 +39,6 @@ describe('WalletAdvancedTransactionActons', () => {
   const mockAddress = '0x123';
   const mockChain = { name: 'Base' };
 
-  const mockSendAnalytics = vi.fn();
-
   beforeEach(() => {
     vi.clearAllMocks();
     vi.spyOn(window, 'open').mockImplementation(() => null);
@@ -54,10 +50,6 @@ describe('WalletAdvancedTransactionActons', () => {
       address: mockAddress,
       chain: mockChain,
       ...defaultMockUseWalletAdvancedContext,
-    });
-
-    (useAnalytics as ReturnType<typeof vi.fn>).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
     });
 
     (usePortfolio as Mock).mockReturnValue({
@@ -252,7 +244,7 @@ describe('WalletAdvancedTransactionActons', () => {
       const buyButton = screen.getByRole('button', { name: 'Buy' });
       fireEvent.click(buyButton);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         WalletEvent.OptionSelected,
         {
           option: WalletOption.Buy,
@@ -266,7 +258,7 @@ describe('WalletAdvancedTransactionActons', () => {
       const sendButton = screen.getByRole('button', { name: 'Send' });
       fireEvent.click(sendButton);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         WalletEvent.OptionSelected,
         {
           option: WalletOption.Send,
@@ -280,7 +272,7 @@ describe('WalletAdvancedTransactionActons', () => {
       const swapButton = screen.getByRole('button', { name: 'Swap' });
       fireEvent.click(swapButton);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         WalletEvent.OptionSelected,
         {
           option: WalletOption.Swap,
@@ -297,7 +289,7 @@ describe('WalletAdvancedTransactionActons', () => {
       const buyButton = screen.getByRole('button', { name: 'Buy' });
 
       fireEvent.click(buyButton);
-      expect(mockSendAnalytics).toHaveBeenCalledTimes(1);
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledTimes(1);
       expect(window.open).not.toHaveBeenCalled();
 
       mockUseOnchainKit.mockReturnValue({
@@ -312,7 +304,7 @@ describe('WalletAdvancedTransactionActons', () => {
       rerender(<WalletAdvancedTransactionActions />);
       fireEvent.click(buyButton);
 
-      expect(mockSendAnalytics).toHaveBeenCalledTimes(2);
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledTimes(2);
       expect(window.open).toHaveBeenCalled();
     });
 
@@ -331,33 +323,33 @@ describe('WalletAdvancedTransactionActons', () => {
       fireEvent.click(swapButton);
       fireEvent.click(swapButton);
 
-      expect(mockSendAnalytics).toHaveBeenCalledTimes(6);
-      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledTimes(6);
+      expect(sendOCKAnalyticsEvent).toHaveBeenNthCalledWith(
         1,
         WalletEvent.OptionSelected,
         { option: WalletOption.Buy },
       );
-      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenNthCalledWith(
         2,
         WalletEvent.OptionSelected,
         { option: WalletOption.Buy },
       );
-      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenNthCalledWith(
         3,
         WalletEvent.OptionSelected,
         { option: WalletOption.Send },
       );
-      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenNthCalledWith(
         4,
         WalletEvent.OptionSelected,
         { option: WalletOption.Send },
       );
-      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenNthCalledWith(
         5,
         WalletEvent.OptionSelected,
         { option: WalletOption.Swap },
       );
-      expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenNthCalledWith(
         6,
         WalletEvent.OptionSelected,
         { option: WalletOption.Swap },

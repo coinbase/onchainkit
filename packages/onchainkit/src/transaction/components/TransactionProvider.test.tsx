@@ -19,6 +19,7 @@ import {
   TransactionProvider,
   useTransactionContext,
 } from './TransactionProvider';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -56,10 +57,8 @@ vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
-vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(() => ({
-    sendAnalytics: vi.fn(),
-  })),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 const restoreUseSendWalletTransactions = async () => {
@@ -143,14 +142,6 @@ const TestComponent = () => {
   );
 };
 
-let mockSendAnalytics: Mock;
-
-vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: () => ({
-    sendAnalytics: mockSendAnalytics,
-  }),
-}));
-
 describe('TransactionProvider', () => {
   beforeEach(() => {
     vi.resetAllMocks();
@@ -182,7 +173,6 @@ describe('TransactionProvider', () => {
     (useOnchainKit as Mock).mockReturnValue({
       config: { paymaster: null },
     });
-    mockSendAnalytics = vi.fn();
   });
 
   describe('analytics', () => {
@@ -209,7 +199,7 @@ describe('TransactionProvider', () => {
       fireEvent.click(button);
 
       await waitFor(async () => {
-        expect(mockSendAnalytics).toHaveBeenCalledWith(
+        expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
           TransactionEvent.TransactionInitiated,
           {
             address: '0xUserAddress',
@@ -245,7 +235,7 @@ describe('TransactionProvider', () => {
       fireEvent.click(button);
 
       await act(async () => {
-        expect(mockSendAnalytics).toHaveBeenCalledWith(
+        expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
           TransactionEvent.TransactionSuccess,
           {
             paymaster: true,
@@ -276,7 +266,7 @@ describe('TransactionProvider', () => {
       fireEvent.click(button);
 
       await act(() => {
-        expect(mockSendAnalytics).toHaveBeenCalledWith(
+        expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
           TransactionEvent.TransactionFailure,
           {
             error: 'Transaction failed',
@@ -306,8 +296,8 @@ describe('TransactionProvider', () => {
       fireEvent.click(button);
 
       await waitFor(async () => {
-        expect(mockSendAnalytics).toHaveBeenCalledTimes(1);
-        expect(mockSendAnalytics).not.toHaveBeenCalledWith(
+        expect(sendOCKAnalyticsEvent).toHaveBeenCalledTimes(1);
+        expect(sendOCKAnalyticsEvent).not.toHaveBeenCalledWith(
           TransactionEvent.TransactionFailure,
           expect.any(Object),
         );

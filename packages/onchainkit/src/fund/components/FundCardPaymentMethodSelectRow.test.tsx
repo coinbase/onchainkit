@@ -1,13 +1,13 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
 import type { PaymentMethod } from '../types';
 import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
-vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 describe('FundCardPaymentMethodSelectRow', () => {
@@ -20,9 +20,6 @@ describe('FundCardPaymentMethodSelectRow', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (useAnalytics as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
-      sendAnalytics: vi.fn(),
-    });
   });
 
   it('renders disabled state correctly', () => {
@@ -74,10 +71,6 @@ describe('FundCardPaymentMethodSelectRow', () => {
 
   it('sends analytics event when clicked', () => {
     const onClick = vi.fn();
-    const mockSendAnalytics = vi.fn();
-    (useAnalytics as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
-    });
 
     render(
       <FundCardPaymentMethodSelectRow
@@ -89,7 +82,7 @@ describe('FundCardPaymentMethodSelectRow', () => {
 
     fireEvent.click(screen.getByTestId('ockFundCardPaymentMethodSelectRow'));
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
       FundEvent.FundOptionSelected,
       {
         option: mockPaymentMethod.id,
@@ -100,10 +93,6 @@ describe('FundCardPaymentMethodSelectRow', () => {
 
   it('does not send analytics event when disabled', () => {
     const onClick = vi.fn();
-    const mockSendAnalytics = vi.fn();
-    (useAnalytics as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
-    });
 
     render(
       <FundCardPaymentMethodSelectRow
@@ -116,16 +105,12 @@ describe('FundCardPaymentMethodSelectRow', () => {
 
     fireEvent.click(screen.getByTestId('ockFundCardPaymentMethodSelectRow'));
 
-    expect(mockSendAnalytics).not.toHaveBeenCalled();
+    expect(sendOCKAnalyticsEvent).not.toHaveBeenCalled();
     expect(onClick).not.toHaveBeenCalled();
   });
 
   it('executes onClick when not disabled', () => {
     const onClick = vi.fn();
-    const mockSendAnalytics = vi.fn();
-    (useAnalytics as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
-    });
 
     render(
       <FundCardPaymentMethodSelectRow
@@ -138,7 +123,7 @@ describe('FundCardPaymentMethodSelectRow', () => {
 
     fireEvent.click(screen.getByTestId('ockFundCardPaymentMethodSelectRow'));
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
       FundEvent.FundOptionSelected,
       {
         option: mockPaymentMethod.id,

@@ -3,12 +3,12 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { quoteResponseDataMock } from '../mocks';
 import type { FundCardProviderProps } from '../types';
 import { FundCardAmountInput } from './FundCardAmountInput';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
 import { truncateDecimalPlaces } from '@/internal/utils/truncateDecimalPlaces';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 class ResizeObserverMock {
   observe() {}
@@ -16,10 +16,8 @@ class ResizeObserverMock {
   disconnect() {}
 }
 
-vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(() => ({
-    sendAnalytics: vi.fn(),
-  })),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 vi.mock('../utils/fetchOnrampQuote', () => ({
@@ -293,11 +291,6 @@ describe('FundCardAmountInput', () => {
   });
 
   it('sends analytics event when fiat amount changes', async () => {
-    const mockSendAnalytics = vi.fn();
-    vi.mocked(useAnalytics).mockImplementation(() => ({
-      sendAnalytics: mockSendAnalytics,
-    }));
-
     await renderWithProvider({ inputType: 'fiat' });
 
     const input = screen.getByTestId('ockTextInput_Input');
@@ -305,18 +298,13 @@ describe('FundCardAmountInput', () => {
       fireEvent.change(input, { target: { value: '100' } });
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith('fundAmountChanged', {
       amount: 100,
       currency: 'USD',
     });
   });
 
   it('does not send analytics event for invalid input', async () => {
-    const mockSendAnalytics = vi.fn();
-    vi.mocked(useAnalytics).mockImplementation(() => ({
-      sendAnalytics: mockSendAnalytics,
-    }));
-
     await renderWithProvider({ inputType: 'fiat' });
 
     const input = screen.getByTestId('ockTextInput_Input');
@@ -324,38 +312,28 @@ describe('FundCardAmountInput', () => {
       fireEvent.change(input, { target: { value: 'abc' } });
     });
 
-    expect(mockSendAnalytics).not.toHaveBeenCalled();
+    expect(sendOCKAnalyticsEvent).not.toHaveBeenCalled();
   });
 
   it('sends analytics event when amount changes to zero', async () => {
-    const mockSendAnalytics = vi.fn();
-    vi.mocked(useAnalytics).mockImplementation(() => ({
-      sendAnalytics: mockSendAnalytics,
-    }));
-
     await renderWithProvider({ inputType: 'fiat' });
 
     const input = screen.getByTestId('ockTextInput_Input');
 
     await act(async () => {
       fireEvent.change(input, { target: { value: '100' } });
-      expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith('fundAmountChanged', {
         amount: 100,
         currency: 'USD',
       });
       fireEvent.change(input, { target: { value: '0' } });
-      expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith('fundAmountChanged', {
         amount: 0,
         currency: 'USD',
       });
     });
   });
   it('sends analytics event with correct currency', async () => {
-    const mockSendAnalytics = vi.fn();
-    vi.mocked(useAnalytics).mockImplementation(() => ({
-      sendAnalytics: mockSendAnalytics,
-    }));
-
     await renderWithProvider({
       inputType: 'fiat',
       currency: 'EUR',
@@ -366,7 +344,7 @@ describe('FundCardAmountInput', () => {
       fireEvent.change(input, { target: { value: '50' } });
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith('fundAmountChanged', {
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith('fundAmountChanged', {
       amount: 50,
       currency: 'EUR',
     });

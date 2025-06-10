@@ -1,4 +1,3 @@
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { BuyEvent } from '@/core/analytics/types';
 import { openPopup } from '@/internal/utils/openPopup';
 import { degenToken, ethToken, usdcToken } from '@/token/constants';
@@ -8,6 +7,7 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getBuyFundingUrl } from '../utils/getBuyFundingUrl';
 import { BuyDropdown } from './BuyDropdown';
 import { useBuyContext } from './BuyProvider';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 vi.mock('./BuyProvider', () => ({
   useBuyContext: vi.fn(),
@@ -41,8 +41,8 @@ vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
-vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 const mockStartPopupMonitor = vi.fn();
@@ -71,9 +71,6 @@ describe('BuyDropdown', () => {
     });
     (useOnchainKit as Mock).mockReturnValue({
       projectId: 'mock-project-id',
-    });
-    (useAnalytics as Mock).mockReturnValue({
-      sendAnalytics: vi.fn(),
     });
   });
 
@@ -123,10 +120,6 @@ describe('BuyDropdown', () => {
   });
 
   it('sends analytics when a payment method is selected', () => {
-    const mockSendAnalytics = vi.fn();
-    (useAnalytics as Mock).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
-    });
     (openPopup as Mock).mockReturnValue('popup');
 
     render(<BuyDropdown />);
@@ -137,9 +130,12 @@ describe('BuyDropdown', () => {
       fireEvent.click(onrampButton);
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith(BuyEvent.BuyOptionSelected, {
-      option: 'CRYPTO_ACCOUNT',
-    });
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+      BuyEvent.BuyOptionSelected,
+      {
+        option: 'CRYPTO_ACCOUNT',
+      },
+    );
   });
 
   it('triggers handleOnrampClick on payment method click', () => {

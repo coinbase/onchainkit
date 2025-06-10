@@ -1,22 +1,18 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
 import { FundCardPresetAmountInputItem } from './FundCardPresetAmountInputItem';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
-vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 describe('FundCardPresetAmountInputItem', () => {
   const mockPresetAmountInput = '100';
-  const mockSendAnalytics = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (useAnalytics as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
-    });
   });
 
   it('renders fiat preset amount input correctly', () => {
@@ -153,7 +149,7 @@ describe('FundCardPresetAmountInputItem', () => {
 
       fireEvent.click(screen.getByTestId('ockPresetAmountInput'));
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         FundEvent.FundAmountChanged,
         {
           amount: 100,
@@ -175,7 +171,7 @@ describe('FundCardPresetAmountInputItem', () => {
       const button = screen.getByTestId('ockPresetAmountInput');
       fireEvent.keyDown(button, { key: 'Enter' });
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         FundEvent.FundAmountChanged,
         {
           amount: 100,
@@ -193,7 +189,7 @@ describe('FundCardPresetAmountInputItem', () => {
         />,
       );
 
-      expect(mockSendAnalytics).not.toHaveBeenCalled();
+      expect(sendOCKAnalyticsEvent).not.toHaveBeenCalled();
     });
 
     it('sends correct analytics data with different currency', () => {
@@ -208,7 +204,7 @@ describe('FundCardPresetAmountInputItem', () => {
 
       fireEvent.click(screen.getByTestId('ockPresetAmountInput'));
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         FundEvent.FundAmountChanged,
         {
           amount: 50,

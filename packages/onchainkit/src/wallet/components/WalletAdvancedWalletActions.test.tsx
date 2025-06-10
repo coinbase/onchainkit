@@ -1,4 +1,3 @@
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { WalletEvent, WalletOption } from '@/core/analytics/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -6,6 +5,7 @@ import { useDisconnect } from 'wagmi';
 import { WalletAdvancedWalletActions } from './WalletAdvancedWalletActions';
 import { useWalletContext } from './WalletProvider';
 import { usePortfolio } from '../hooks/usePortfolio';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 vi.mock('wagmi', () => ({
   useDisconnect: vi.fn(),
@@ -29,15 +29,12 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
-vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(() => ({
-    sendAnalytics: vi.fn(),
-  })),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 describe('WalletAdvancedWalletActions', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
-  const mockSendAnalytics = vi.fn();
   const refetchPortfolioDataMock = vi.fn();
 
   const defaultMockUseWalletAdvancedContext = {
@@ -50,10 +47,6 @@ describe('WalletAdvancedWalletActions', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseWalletContext.mockReturnValue(defaultMockUseWalletAdvancedContext);
-
-    (useAnalytics as Mock).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
-    });
 
     (usePortfolio as Mock).mockReturnValue({
       refetch: refetchPortfolioDataMock,
@@ -227,7 +220,7 @@ describe('WalletAdvancedWalletActions', () => {
       );
       fireEvent.click(transactionsButton);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         WalletEvent.OptionSelected,
         {
           option: WalletOption.Explorer,
@@ -247,7 +240,7 @@ describe('WalletAdvancedWalletActions', () => {
       const qrButton = screen.getByTestId('ockWalletAdvanced_QrButton');
       fireEvent.click(qrButton);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         WalletEvent.OptionSelected,
         {
           option: WalletOption.QR,
@@ -267,7 +260,7 @@ describe('WalletAdvancedWalletActions', () => {
       );
       fireEvent.click(refreshButton);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         WalletEvent.OptionSelected,
         {
           option: WalletOption.Refresh,
@@ -296,10 +289,13 @@ describe('WalletAdvancedWalletActions', () => {
       );
       fireEvent.click(disconnectButton);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.Disconnect, {
-        component: 'WalletAdvanced',
-        walletProvider: mockWalletProvider,
-      });
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        WalletEvent.Disconnect,
+        {
+          component: 'WalletAdvanced',
+          walletProvider: mockWalletProvider,
+        },
+      );
     });
 
     it('sends analytics with unknown wallet provider when disconnecting without connector name', () => {
@@ -322,10 +318,13 @@ describe('WalletAdvancedWalletActions', () => {
       );
       fireEvent.click(disconnectButton);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.Disconnect, {
-        component: 'WalletAdvanced',
-        walletProvider: 'unknown',
-      });
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        WalletEvent.Disconnect,
+        {
+          component: 'WalletAdvanced',
+          walletProvider: 'unknown',
+        },
+      );
     });
   });
 });

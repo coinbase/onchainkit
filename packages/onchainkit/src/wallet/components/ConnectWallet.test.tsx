@@ -2,7 +2,6 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { WalletEvent } from '../../core/analytics/types';
 import { useOnchainKit } from '../../useOnchainKit';
 import { ConnectWallet } from './ConnectWallet';
@@ -10,6 +9,7 @@ import { useWalletContext } from './WalletProvider';
 import type { Connector } from 'wagmi';
 import type { UseAccountReturnType, UseConnectReturnType, Config } from 'wagmi';
 import type { WalletContextType } from '../types';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 const openConnectModalMock = vi.fn();
 
@@ -51,14 +51,14 @@ vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
-vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 describe('ConnectWallet', () => {
-  const mockSendAnalytics = vi.fn();
-
   beforeEach(() => {
+    vi.resetAllMocks();
+
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: vi.fn().mockImplementation((query) => ({
@@ -128,10 +128,6 @@ describe('ConnectWallet', () => {
         appMetadata: { name: 'Test App' },
       },
     } as unknown as ReturnType<typeof useOnchainKit>);
-
-    vi.mocked(useAnalytics).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
-    });
   });
 
   it('should render connect button when disconnected', () => {
@@ -205,7 +201,6 @@ describe('ConnectWallet', () => {
 
   it('should call connect function when connect button is clicked', () => {
     const connectMock = vi.fn();
-    const mockSendAnalytics = vi.fn();
 
     vi.mocked(useConnect).mockReturnValue({
       connectors: [
@@ -224,16 +219,12 @@ describe('ConnectWallet', () => {
       status: 'idle',
     } as unknown as UseConnectReturnType<Config, unknown>);
 
-    vi.mocked(useAnalytics).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
-    });
-
     render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
 
     const button = screen.getByTestId('ockConnectButton');
     fireEvent.click(button);
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
       WalletEvent.ConnectInitiated,
       {
         component: 'ConnectWallet',
@@ -254,7 +245,7 @@ describe('ConnectWallet', () => {
     );
 
     connectMock.mock.calls[0][1].onSuccess();
-    expect(mockSendAnalytics).toHaveBeenCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
       WalletEvent.ConnectSuccess,
       expect.objectContaining({
         walletProvider: 'TestConnector',
@@ -263,13 +254,16 @@ describe('ConnectWallet', () => {
 
     const error = new Error('Test error');
     connectMock.mock.calls[0][1].onError(error);
-    expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.ConnectError, {
-      error: 'Test error',
-      metadata: {
-        connector: 'TestConnector',
-        component: 'ConnectWallet',
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+      WalletEvent.ConnectError,
+      {
+        error: 'Test error',
+        metadata: expect.objectContaining({
+          connector: 'TestConnector',
+          component: 'ConnectWallet',
+        }),
       },
-    });
+    );
   });
 
   it('should toggle wallet modal on button click when connected', () => {
@@ -1148,7 +1142,7 @@ describe('ConnectWallet', () => {
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         WalletEvent.ConnectInitiated,
         {
           component: 'WalletModal',
@@ -1180,7 +1174,7 @@ describe('ConnectWallet', () => {
       const button = screen.getByTestId('ockConnectButton');
       fireEvent.click(button);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         WalletEvent.ConnectInitiated,
         {
           component: 'ConnectWallet',
@@ -1214,7 +1208,7 @@ describe('ConnectWallet', () => {
 
       connectMock.mock.calls[0][1].onSuccess();
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         WalletEvent.ConnectSuccess,
         expect.objectContaining({
           walletProvider: 'TestConnector',
@@ -1248,13 +1242,16 @@ describe('ConnectWallet', () => {
 
       connectMock.mock.calls[0][1].onError(new Error('Test error'));
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.ConnectError, {
-        error: 'Test error',
-        metadata: {
-          connector: 'TestConnector',
-          component: 'ConnectWallet',
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        WalletEvent.ConnectError,
+        {
+          error: 'Test error',
+          metadata: {
+            connector: 'TestConnector',
+            component: 'ConnectWallet',
+          },
         },
-      });
+      );
     });
 
     it('should send analytics when account is connected with address', () => {
@@ -1294,7 +1291,7 @@ describe('ConnectWallet', () => {
 
       render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         WalletEvent.ConnectSuccess,
         {
           address: '0x123',

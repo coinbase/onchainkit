@@ -6,6 +6,7 @@ import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { quoteResponseDataMock } from '../mocks';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 global.fetch = vi.fn(() =>
   Promise.resolve({
@@ -13,12 +14,8 @@ global.fetch = vi.fn(() =>
   }),
 ) as Mock;
 
-let mockSendAnalytics: Mock;
-
-vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: () => ({
-    sendAnalytics: mockSendAnalytics,
-  }),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 const TestComponent = () => {
@@ -41,10 +38,6 @@ describe('FundCardProvider', () => {
   });
 
   describe('analytics', () => {
-    beforeEach(() => {
-      mockSendAnalytics = vi.fn();
-    });
-
     it('tracks fund amount changes for fiat', async () => {
       const { result } = await act(async () =>
         renderHook(() => useFundContext(), {
@@ -60,7 +53,7 @@ describe('FundCardProvider', () => {
         result.current.setFundAmountFiat('100.00');
       });
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         FundEvent.FundAmountChanged,
         {
           amount: 100,
@@ -84,7 +77,7 @@ describe('FundCardProvider', () => {
         result.current.setFundAmountFiat('invalid');
       });
 
-      expect(mockSendAnalytics).not.toHaveBeenCalled();
+      expect(sendOCKAnalyticsEvent).not.toHaveBeenCalled();
     });
 
     it('tracks payment method selection', async () => {
@@ -110,7 +103,7 @@ describe('FundCardProvider', () => {
         result.current.setSelectedPaymentMethod(mockPaymentMethod);
       });
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         FundEvent.FundOptionSelected,
         {
           option: 'debit_card',
@@ -133,7 +126,7 @@ describe('FundCardProvider', () => {
         result.current.setFundAmountFiat('50.00');
       });
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         FundEvent.FundAmountChanged,
         {
           amount: 50,

@@ -1,6 +1,5 @@
 import { isApplePaySupported } from '@/buy/utils/isApplePaySupported';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { FundEvent } from '@/core/analytics/types';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -10,6 +9,7 @@ import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
 import { act } from 'react';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 vi.mock('../utils/fetchOnrampQuote');
 vi.mock('../utils/fetchOnrampOptions');
 
@@ -31,8 +31,8 @@ vi.mock('@/buy/utils/isApplePaySupported', () => ({
   isApplePaySupported: vi.fn(),
 }));
 
-vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 const TestComponent = ({ amount = '5' }: { amount?: string }) => {
@@ -59,17 +59,12 @@ const TestComponent = ({ amount = '5' }: { amount?: string }) => {
 };
 
 describe('FundCardPaymentMethodDropdown', () => {
-  const mockSendAnalytics = vi.fn();
-
   beforeEach(() => {
     vi.resetAllMocks();
     setOnchainKitConfig({ apiKey: 'mock-api-key' });
     (isApplePaySupported as Mock).mockResolvedValue(true);
     (fetchOnrampQuote as Mock).mockResolvedValue(quoteResponseDataMock);
     (fetchOnrampOptions as Mock).mockResolvedValue(optionsResponseDataMock);
-    (useAnalytics as Mock).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
-    });
   });
 
   const renderWithProvider = async ({ amount = '5' }: { amount?: string }) => {
@@ -415,7 +410,7 @@ describe('FundCardPaymentMethodDropdown', () => {
         screen.getByTestId('ockFundCardPaymentMethodSelectRow__APPLE_PAY'),
       );
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         FundEvent.FundOptionSelected,
         {
           option: 'APPLE_PAY',
@@ -428,8 +423,6 @@ describe('FundCardPaymentMethodDropdown', () => {
 
       fireEvent.click(screen.getByTestId('setAmount1'));
 
-      mockSendAnalytics.mockReset();
-
       await waitFor(() => {
         fireEvent.click(
           screen.getByTestId('ockFundCardPaymentMethodSelectorToggle'),
@@ -440,7 +433,9 @@ describe('FundCardPaymentMethodDropdown', () => {
         screen.getByTestId('ockFundCardPaymentMethodSelectRow__APPLE_PAY'),
       );
 
-      expect(mockSendAnalytics).not.toHaveBeenCalled();
+      expect(sendOCKAnalyticsEvent).not.toHaveBeenCalledWith(
+        FundEvent.FundOptionSelected,
+      );
     });
 
     it('sends analytics with correct option when selecting Coinbase', async () => {
@@ -458,7 +453,7 @@ describe('FundCardPaymentMethodDropdown', () => {
         screen.getByTestId('ockFundCardPaymentMethodSelectRow__'),
       );
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         FundEvent.FundOptionSelected,
         {
           option: '',
@@ -481,7 +476,7 @@ describe('FundCardPaymentMethodDropdown', () => {
         screen.getByTestId('ockFundCardPaymentMethodSelectRow__CARD'),
       );
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         FundEvent.FundOptionSelected,
         {
           option: 'CARD',
@@ -504,12 +499,10 @@ describe('FundCardPaymentMethodDropdown', () => {
         screen.getByTestId('ockFundCardPaymentMethodSelectRow__APPLE_PAY'),
       );
 
-      mockSendAnalytics.mockReset();
-
       fireEvent.click(screen.getByTestId('setAmount1'));
 
       await waitFor(() => {
-        expect(mockSendAnalytics).toHaveBeenCalledWith(
+        expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
           FundEvent.FundOptionSelected,
           {
             option: '',

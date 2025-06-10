@@ -34,13 +34,13 @@ import { mock } from 'wagmi/connectors';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { SwapEvent } from '../../core/analytics/types';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { DEGEN_TOKEN, ETH_TOKEN } from '../mocks';
 import type { LifecycleStatus, SwapError } from '../types';
 import { getSwapErrorCode } from '../utils/getSwapErrorCode';
 import { SwapProvider, useSwapContext } from './SwapProvider';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 const mockResetFunction = vi.fn();
 vi.mock('../hooks/useResetInputs', () => ({
@@ -95,10 +95,8 @@ vi.mock('../path/to/maxSlippageModule', () => ({
   getMaxSlippage: vi.fn().mockReturnValue(10),
 }));
 
-vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(() => ({
-    sendAnalytics: vi.fn(),
-  })),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 const queryClient = new QueryClient();
@@ -897,14 +895,8 @@ describe('SwapProvider', () => {
 });
 
 describe('SwapProvider Analytics', () => {
-  let sendAnalytics: Mock;
-
   beforeEach(() => {
-    sendAnalytics = vi.fn();
-    (useAnalytics as Mock).mockImplementation(() => ({
-      sendAnalytics,
-    }));
-
+    vi.resetAllMocks();
     (useAccount as Mock).mockReturnValue({
       address: '0x123',
       chainId: 1,
@@ -965,9 +957,12 @@ describe('SwapProvider Analytics', () => {
       await result.current.handleSubmit();
     });
 
-    expect(sendAnalytics).toHaveBeenCalledWith(SwapEvent.SwapInitiated, {
-      amount: 10,
-    });
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+      SwapEvent.SwapInitiated,
+      {
+        amount: 10,
+      },
+    );
   });
 
   it('should track swap success with undefined address', async () => {
@@ -996,7 +991,7 @@ describe('SwapProvider Analytics', () => {
       } as unknown as LifecycleStatus);
     });
 
-    expect(sendAnalytics).toHaveBeenCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
       SwapEvent.SwapSuccess,
       expect.objectContaining({
         transactionHash: '0x123',
@@ -1028,7 +1023,7 @@ describe('SwapProvider Analytics', () => {
       } as unknown as LifecycleStatus);
     });
 
-    expect(sendAnalytics).toHaveBeenCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
       SwapEvent.SwapSuccess,
       expect.objectContaining({
         transactionHash: '0x123',
@@ -1052,7 +1047,7 @@ describe('SwapProvider Analytics', () => {
       } as unknown as LifecycleStatus);
     });
 
-    expect(sendAnalytics).toHaveBeenCalledWith(SwapEvent.SwapFailure, {
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(SwapEvent.SwapFailure, {
       error: 'Test error',
       metadata: expect.any(Object),
     });

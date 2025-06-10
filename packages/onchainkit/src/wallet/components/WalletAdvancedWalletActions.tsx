@@ -1,6 +1,5 @@
 'use client';
 
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import {
   WalletEvent,
   WalletOption,
