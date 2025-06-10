@@ -1,7 +1,7 @@
 {
   "name": "create-onchain",
   "description": "Instantly create onchain applications with OnchainKit.",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
