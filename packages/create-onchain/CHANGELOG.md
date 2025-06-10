@@ -1,5 +1,11 @@
 # create-onchain
 
+## 0.0.22
+
+### Patch Changes
+
+- 87d91b6: Update Farcaster Frames SDK and add missing methods
+
 ## 0.0.21
 
 ### Patch Changes
