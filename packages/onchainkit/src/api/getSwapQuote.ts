@@ -11,6 +11,7 @@ import type {
   SwapAPIParams,
 } from './types';
 import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
+import { buildErrorStruct } from './utils/buildErrorStruct';
 
 /**
  * Retrieves a quote for a swap from Token A to Token B.
@@ -67,18 +68,18 @@ export async function getSwapQuote(
       _context,
     );
     if (res.error) {
-      return {
+      return buildErrorStruct({
         code: getSwapErrorCode('quote', res.error?.code),
         error: res.error.message,
         message: '',
-      };
+      });
     }
     return res.result;
   } catch {
-    return {
+    return buildErrorStruct({
       code: getSwapErrorCode('uncaught-quote'),
       error: 'Something went wrong',
       message: '',
-    };
+    });
   }
 }

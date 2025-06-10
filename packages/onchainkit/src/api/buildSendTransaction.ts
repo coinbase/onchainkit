@@ -3,6 +3,8 @@ import type {
   BuildSendTransactionParams,
   BuildSendTransactionResponse,
 } from './types';
+import { ApiErrorCode } from './constants';
+import { buildErrorStruct } from './utils/buildErrorStruct';
 
 export function buildSendTransaction({
   recipientAddress,
@@ -31,10 +33,10 @@ export function buildSendTransaction({
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    return {
-      code: 'AmBSeTx01', // Api Module Build Send Transaction Error 01
+    return buildErrorStruct({
+      code: ApiErrorCode.AmBSeTx01,
       error: message,
       message: 'Could not build transfer transaction',
-    };
+    });
   }
 }

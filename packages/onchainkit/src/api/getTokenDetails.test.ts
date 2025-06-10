@@ -78,7 +78,7 @@ describe('getTokenDetails', () => {
     const result = await getTokenDetails(params);
 
     expect(result).toEqual({
-      code: ApiErrorCode.uncaughtNft,
+      code: ApiErrorCode.UncaughtNft,
       error: 'Something went wrong',
       message: 'Error fetching token details',
     });

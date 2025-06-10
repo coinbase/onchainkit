@@ -39,7 +39,7 @@ export async function getTokenDetails(
     return res.result;
   } catch {
     return buildErrorStruct({
-      code: ApiErrorCode.uncaughtNft,
+      code: ApiErrorCode.UncaughtNft,
       error: 'Something went wrong',
       message: 'Error fetching token details',
     });

@@ -1,14 +1,6 @@
-import { ApiErrorCode } from '../constants';
+import { APIError } from '../types';
 
-export const buildErrorStruct = ({
-  code,
-  error,
-  message,
-}: {
-  code: ApiErrorCode | string;
-  error?: string;
-  message?: string;
-}) => {
+export const buildErrorStruct = ({ code, error, message }: APIError) => {
   return {
     code,
     error: error ?? 'Something went wrong',

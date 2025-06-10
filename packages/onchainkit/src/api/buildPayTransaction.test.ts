@@ -28,6 +28,7 @@ import type {
   CreateProductChargeParams,
   HydrateChargeAPIParams,
 } from './types';
+import { ApiErrorCode } from './constants';
 
 vi.mock('@/core/network/request');
 
@@ -88,7 +89,7 @@ describe('buildPayTransaction', () => {
     };
     const error = await buildPayTransaction(mockParams);
     expect(error).toEqual({
-      code: 'AmBPTa01',
+      code: ApiErrorCode.AmBPTa01,
       error: 'No chargeId or productId provided',
       message: UNCAUGHT_CHECKOUT_ERROR_MESSAGE,
     });
@@ -106,7 +107,7 @@ describe('buildPayTransaction', () => {
     (sendRequest as Mock).mockRejectedValue(mockError);
     const error = await buildPayTransaction(mockParams);
     expect(error).toEqual({
-      code: 'AmBPTa03',
+      code: ApiErrorCode.AmBPTa03,
       error: 'Something went wrong',
       message: UNCAUGHT_CHECKOUT_ERROR_MESSAGE,
     });
@@ -126,7 +127,7 @@ describe('buildPayTransaction', () => {
     );
     const error = await buildPayTransaction(mockParams);
     expect(error).toEqual({
-      code: 'AmBPTa02',
+      code: ApiErrorCode.AmBPTa02,
       error: 'method not found - Not found',
       message: CHECKOUT_INVALID_CHARGE_ERROR_MESSAGE,
     });
