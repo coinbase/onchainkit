@@ -4,7 +4,8 @@
 
 ### Patch Changes
 
-- 6279529: feat: Automatically connect wallet in MiniKit contexts
+- **chore**: Update Next.js to version 15. By @dgca #2390
+- **feat**: Update Node to version 20. By @dgca #2390
 
 ## 0.38.13
 

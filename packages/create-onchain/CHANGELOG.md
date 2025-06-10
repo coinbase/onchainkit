@@ -4,7 +4,9 @@
 
 ### Patch Changes
 
-- 87d91b6: Update Farcaster Frames SDK and add missing methods
+- **feat**: Automatically connect to wallet in mini app contexts. By @dgca #2376
+- **feat**: Add `useComposeCast`, `useViewCast`, and `useIsInMiniApp` hooks. By @dgca #2390
+- **chore**: Update Farcaster Frames SDK to v60. By @dgca #2390
 
 ## 0.0.21
 
