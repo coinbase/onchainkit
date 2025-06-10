@@ -39,7 +39,7 @@ export async function getPriceQuote(
     return res.result;
   } catch (error) {
     return buildErrorStruct({
-      code: ApiErrorCode.uncaughtPriceQuoteError,
+      code: ApiErrorCode.UncaughtPriceQuoteError,
       error: 'Something went wrong',
       message: `Error fetching price quote: ${error}`,
     });
