@@ -4,7 +4,11 @@ import type { MockInstance } from 'vitest';
 import { baseSepolia } from 'wagmi/chains';
 import { ANALYTICS_API_URL } from '../../analytics/constants';
 import { JSON_HEADERS } from '../../network/constants';
-import { type AnalyticsRequestParams, sendAnalytics } from './sendAnalytics';
+import {
+  type AnalyticsRequestParams,
+  sendAnalytics,
+  sendOCKAnalyticsEvent,
+} from './sendAnalytics';
 
 vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(() => ({
@@ -233,5 +237,41 @@ describe('sendAnalytics', () => {
         body: expect.stringContaining('"origin":"custom-origin"'),
       }),
     );
+  });
+
+  describe('sendOCKAnalyticsEvent', () => {
+    it('does nothing if config.analytics is false', () => {
+      vi.mock('@/core/OnchainKitConfig', () => ({
+        getOnchainKitConfig: vi.fn((key) => {
+          if (key === 'config') {
+            return {
+              analytics: false,
+              analyticsUrl: null,
+              appearance: {
+                name: null,
+                logo: null,
+                mode: null,
+                theme: null,
+              },
+              paymaster: null,
+              wallet: {
+                display: null,
+                termsUrl: null,
+                privacyUrl: null,
+              },
+            };
+          }
+          return null;
+        }),
+      }));
+
+      sendOCKAnalyticsEvent('componentError', {
+        component: 'test-component',
+        metadata: {},
+        error: 'test-error',
+      });
+
+      expect(mockFetch).not.toHaveBeenCalled();
+    });
   });
 });
