@@ -70,7 +70,7 @@ describe('ConnectWallet', () => {
   beforeEach(() => {
     // Set default behavior for useContext mock - return null by default
     // This simulates the normal behavior when ConnectWallet is used outside WalletProvider
-    (useContext as any).mockReturnValue(null);
+    (useContext as Mock).mockReturnValue(null);
 
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
