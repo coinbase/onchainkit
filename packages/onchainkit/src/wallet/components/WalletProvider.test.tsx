@@ -5,7 +5,11 @@ import { act, render, renderHook } from '@testing-library/react';
 import { useEffect } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type Config, WagmiProvider } from 'wagmi';
-import { WalletProvider, useWalletContext } from './WalletProvider';
+import {
+  WalletProvider,
+  useWalletContext,
+  useHasWalletContext,
+} from './WalletProvider';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn().mockReturnValue({ address: null }),
@@ -21,6 +25,26 @@ vi.mock('@/internal/hooks/useBreakpoints', () => ({
 vi.mock('@/wallet/hooks/usePortfolio', () => ({
   usePortfolio: vi.fn(),
 }));
+
+describe('useHasWalletContext', () => {
+  it('should return true when used within WalletProvider', () => {
+    const { result } = renderHook(() => useHasWalletContext(), {
+      wrapper: ({ children }) => (
+        <WagmiProvider config={{} as Config}>
+          <WalletProvider>{children}</WalletProvider>
+        </WagmiProvider>
+      ),
+    });
+
+    expect(result.current).toBe(true);
+  });
+
+  it('should return false when used outside WalletProvider', () => {
+    const { result } = renderHook(() => useHasWalletContext());
+
+    expect(result.current).toBe(false);
+  });
+});
 
 describe('useWalletContext', () => {
   const mockUseBreakpoints = useBreakpoints as Mock;
@@ -38,6 +62,12 @@ describe('useWalletContext', () => {
       isFetching: false,
       dataUpdatedAt: new Date(),
     });
+  });
+
+  it('should throw error when used outside WalletProvider', () => {
+    expect(() => {
+      renderHook(() => useWalletContext());
+    }).toThrow('useWalletContext must be used within a WalletProvider');
   });
 
   it('should return default context', () => {

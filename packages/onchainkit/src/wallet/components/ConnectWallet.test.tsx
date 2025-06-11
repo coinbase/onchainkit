@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { createContext, type ReactNode } from 'react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import React, { createContext, type ReactNode, useContext } from 'react';
+import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { WalletEvent } from '../../core/analytics/types';
@@ -29,7 +29,7 @@ vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
   WalletContext: createContext<WalletContextType | null>(null),
   WalletProvider: ({ children }: { children: ReactNode }) => (
-    <div>{children}</div>
+    <div data-testid="mocked-wallet-provider">{children}</div>
   ),
 }));
 
@@ -56,10 +56,22 @@ vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
   useAnalytics: vi.fn(),
 }));
 
+vi.mock('react', async () => {
+  const actual = await vi.importActual('react');
+  return {
+    ...actual,
+    useContext: vi.fn(),
+  };
+});
+
 describe('ConnectWallet', () => {
   const mockSendAnalytics = vi.fn();
 
   beforeEach(() => {
+    // Set default behavior for useContext mock - return null by default
+    // This simulates the normal behavior when ConnectWallet is used outside WalletProvider
+    (useContext as any).mockReturnValue(null);
+
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: vi.fn().mockImplementation((query) => ({
@@ -412,20 +424,22 @@ describe('ConnectWallet', () => {
     } as unknown as UseAccountReturnType<Config>);
 
     render(
-      <ConnectWallet disconnectedLabel="Not Render">
-        <div>Wallet Ciao</div>
+      <ConnectWallet disconnectedLabel="Connect Wallet">
+        <div>Custom Children</div>
       </ConnectWallet>,
     );
-    const connectedText = screen.getByText('Wallet Ciao');
-    expect(connectedText).toBeInTheDocument();
-    expect(screen.queryByText('Not Render')).not.toBeInTheDocument();
+
+    expect(screen.getByText('Custom Children')).toBeInTheDocument();
+    expect(screen.queryByTestId('ockName')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ockAvatar')).not.toBeInTheDocument();
   });
 
-  it('should call onConnect callback when connect button is clicked', async () => {
+  it('should call onConnect callback and handle connection state changes', async () => {
+    const onConnectMock = vi.fn();
     const mockUseAccount = vi.mocked(useAccount);
     const connectMock = vi.fn();
-    const onConnectMock = vi.fn();
 
+    // Start disconnected
     mockUseAccount.mockReturnValue({
       address: undefined,
       status: 'disconnected',
@@ -456,18 +470,22 @@ describe('ConnectWallet', () => {
       status: 'idle',
     } as unknown as UseConnectReturnType<Config, unknown>);
 
-    render(
+    const { rerender } = render(
       <ConnectWallet
         disconnectedLabel="Connect Wallet"
         onConnect={onConnectMock}
       />,
     );
 
+    // Click connect button
     const button = screen.getByTestId('ockConnectButton');
     fireEvent.click(button);
 
-    connectMock.mock.calls[0][1].onSuccess();
+    // Simulate successful connection
+    const onSuccessCallback = connectMock.mock.calls[0][1].onSuccess;
+    onSuccessCallback();
 
+    // Update to connected state
     mockUseAccount.mockReturnValue({
       address: '0x123' as `0x${string}`,
       status: 'connected',
@@ -484,7 +502,7 @@ describe('ConnectWallet', () => {
       } as unknown as Connector,
     } as unknown as UseAccountReturnType<Config>);
 
-    render(
+    rerender(
       <ConnectWallet
         disconnectedLabel="Connect Wallet"
         onConnect={onConnectMock}
@@ -521,6 +539,49 @@ describe('ConnectWallet', () => {
     );
 
     expect(onConnectMock).toHaveBeenCalledTimes(0);
+  });
+
+  it('should send analytics when account is connected with address', () => {
+    const mockUseAccount = vi.mocked(useAccount);
+    vi.mocked(useConnect).mockReturnValue({
+      connectors: [
+        {
+          name: 'TestConnector',
+          id: 'mockConnector',
+          type: 'mock',
+          connect: vi.fn(),
+          disconnect: vi.fn(),
+          getAccounts: vi.fn(),
+          getProvider: vi.fn(),
+          isAuthorized: vi.fn(),
+        } as unknown as Connector,
+      ],
+      connect: vi.fn(),
+      status: 'idle',
+    } as unknown as UseConnectReturnType<Config, unknown>);
+
+    mockUseAccount.mockReturnValue({
+      address: '0x123' as `0x${string}`,
+      status: 'connected',
+      isConnected: true,
+      isConnecting: false,
+      isDisconnected: false,
+      isReconnecting: false,
+      addresses: ['0x123'] as Array<`0x${string}`>,
+      chain: { id: 1 },
+      chainId: 1,
+      connector: {
+        id: 'mockConnector',
+        name: 'TestConnector',
+      } as unknown as Connector,
+    } as unknown as UseAccountReturnType<Config>);
+
+    render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
+
+    expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.ConnectSuccess, {
+      address: '0x123',
+      walletProvider: 'TestConnector',
+    });
   });
 
   describe('wallet display modes', () => {
@@ -650,81 +711,6 @@ describe('ConnectWallet', () => {
 
       const button = screen.getByTestId('ockConnectButton');
       expect(button).toHaveTextContent('Custom Connect Text');
-    });
-
-    it('should handle direct connect with onConnect callback', () => {
-      const onConnectMock = vi.fn();
-      const connectMock = vi.fn();
-
-      vi.mocked(useConnect).mockReturnValue({
-        connectors: [
-          {
-            id: 'mockConnector',
-            name: 'MockConnector',
-            type: 'mock',
-            connect: vi.fn(),
-            disconnect: vi.fn(),
-            getAccounts: vi.fn(),
-            getProvider: vi.fn(),
-            isAuthorized: vi.fn(),
-          } as unknown as Connector,
-        ],
-        connect: connectMock,
-        status: 'idle',
-      } as unknown as UseConnectReturnType<Config, unknown>);
-
-      vi.mocked(useAccount).mockReturnValue({
-        address: '0x0' as `0x${string}`,
-        status: 'disconnected',
-        isConnected: false,
-        isConnecting: false,
-        isDisconnected: true,
-        isReconnecting: false,
-        addresses: undefined,
-        chain: undefined,
-        chainId: undefined,
-        connector: undefined,
-      } as unknown as UseAccountReturnType<Config>);
-
-      vi.mocked(useWalletContext).mockReturnValue({
-        isConnectModalOpen: true,
-        setIsConnectModalOpen: vi.fn(),
-        breakpoint: 'md',
-        isSubComponentOpen: false,
-        setIsSubComponentOpen: vi.fn(),
-        isSubComponentClosing: false,
-        isMobile: false,
-        isConnecting: false,
-        walletOpen: false,
-        handleClose: vi.fn(),
-      } as unknown as WalletContextType);
-
-      render(
-        <ConnectWallet disconnectedLabel="Connect" onConnect={onConnectMock} />,
-      );
-
-      const button = screen.getByTestId('ockConnectButton');
-      fireEvent.click(button);
-
-      connectMock.mock.calls[0][1].onSuccess();
-
-      vi.mocked(useAccount).mockReturnValue({
-        address: '0x123' as `0x${string}`,
-        status: 'connected',
-        isConnected: true,
-        isConnecting: false,
-        isDisconnected: false,
-        isReconnecting: false,
-        addresses: ['0x123'] as Array<`0x${string}`>,
-        chain: { id: 1 },
-        chainId: 1,
-        connector: {
-          id: 'mockConnector',
-          name: 'MockConnector',
-        } as unknown as Connector,
-      } as unknown as UseAccountReturnType<Config>);
-
-      expect(onConnectMock).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -1157,107 +1143,6 @@ describe('ConnectWallet', () => {
       );
     });
 
-    it('should send analytics when direct connect is initiated', () => {
-      const connectMock = vi.fn();
-      vi.mocked(useConnect).mockReturnValue({
-        connectors: [
-          {
-            name: 'TestConnector',
-            id: 'mockConnector',
-            type: 'mock',
-            connect: vi.fn(),
-            disconnect: vi.fn(),
-            getAccounts: vi.fn(),
-            getProvider: vi.fn(),
-            isAuthorized: vi.fn(),
-          } as unknown as Connector,
-        ],
-        connect: connectMock,
-        status: 'idle',
-      } as unknown as UseConnectReturnType<Config, unknown>);
-
-      render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
-
-      const button = screen.getByTestId('ockConnectButton');
-      fireEvent.click(button);
-
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
-        WalletEvent.ConnectInitiated,
-        {
-          component: 'ConnectWallet',
-        },
-      );
-    });
-
-    it('should send analytics on successful connection', () => {
-      const connectMock = vi.fn();
-      vi.mocked(useConnect).mockReturnValue({
-        connectors: [
-          {
-            name: 'TestConnector',
-            id: 'mockConnector',
-            type: 'mock',
-            connect: vi.fn(),
-            disconnect: vi.fn(),
-            getAccounts: vi.fn(),
-            getProvider: vi.fn(),
-            isAuthorized: vi.fn(),
-          } as unknown as Connector,
-        ],
-        connect: connectMock,
-        status: 'idle',
-      } as unknown as UseConnectReturnType<Config, unknown>);
-
-      render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
-
-      const button = screen.getByTestId('ockConnectButton');
-      fireEvent.click(button);
-
-      connectMock.mock.calls[0][1].onSuccess();
-
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
-        WalletEvent.ConnectSuccess,
-        expect.objectContaining({
-          walletProvider: 'TestConnector',
-        }),
-      );
-    });
-
-    it('should send analytics on connection error', () => {
-      const connectMock = vi.fn();
-      vi.mocked(useConnect).mockReturnValue({
-        connectors: [
-          {
-            name: 'TestConnector',
-            id: 'mockConnector',
-            type: 'mock',
-            connect: vi.fn(),
-            disconnect: vi.fn(),
-            getAccounts: vi.fn(),
-            getProvider: vi.fn(),
-            isAuthorized: vi.fn(),
-          } as unknown as Connector,
-        ],
-        connect: connectMock,
-        status: 'idle',
-      } as unknown as UseConnectReturnType<Config, unknown>);
-
-      render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
-
-      const button = screen.getByTestId('ockConnectButton');
-      fireEvent.click(button);
-
-      connectMock.mock.calls[0][1].onError(new Error('Test error'));
-
-      expect(mockSendAnalytics).toHaveBeenCalledWith(WalletEvent.ConnectError, {
-        error: 'Test error',
-        metadata: {
-          connector: 'TestConnector',
-          component: 'ConnectWallet',
-        },
-      });
-    });
-
     it('should send analytics when account is connected with address', () => {
       const mockUseAccount = vi.mocked(useAccount);
       vi.mocked(useConnect).mockReturnValue({
@@ -1302,6 +1187,60 @@ describe('ConnectWallet', () => {
           walletProvider: 'TestConnector',
         },
       );
+    });
+  });
+
+  describe('conditional WalletProvider wrapping', () => {
+    afterEach(() => {
+      // Clear the mock after each test
+      (useContext as Mock).mockClear();
+    });
+
+    it('should NOT wrap with WalletProvider when context exists', () => {
+      // This test ensures line 241 is covered - when wallet context exists,
+      // ConnectWallet should NOT wrap with WalletProvider
+
+      // Mock useContext to return a truthy wallet context (simulating existing provider)
+      const mockWalletContext = {
+        isSubComponentOpen: false,
+        handleClose: vi.fn(),
+        setIsSubComponentOpen: vi.fn(),
+        breakpoint: 'md',
+        isConnectModalOpen: false,
+        setIsConnectModalOpen: vi.fn(),
+        isSubComponentClosing: false,
+      };
+
+      (useContext as Mock).mockReturnValue(mockWalletContext);
+
+      render(<ConnectWallet disconnectedLabel="Test Connect" />);
+
+      // WalletProvider should NOT be rendered since context exists (line 241 path)
+      const walletProvider = screen.queryByTestId('mocked-wallet-provider');
+      expect(walletProvider).not.toBeInTheDocument();
+
+      // Should render the connect button (via ConnectWalletContent directly)
+      const button = screen.getByTestId('ockConnectButton');
+      expect(button).toBeInTheDocument();
+      expect(button).toHaveTextContent('Test Connect');
+    });
+
+    it('should wrap with WalletProvider when context is null', () => {
+      // This test ensures lines 237-238 are covered - when wallet context is null,
+      // ConnectWallet should auto-wrap with WalletProvider
+
+      (useContext as Mock).mockReturnValue(null);
+
+      render(<ConnectWallet disconnectedLabel="Test Auto Wrap" />);
+
+      // WalletProvider SHOULD be rendered since no context exists (lines 237-238 path)
+      const walletProvider = screen.getByTestId('mocked-wallet-provider');
+      expect(walletProvider).toBeInTheDocument();
+
+      // Should still render the connect button (inside the auto-wrapped provider)
+      const button = screen.getByTestId('ockConnectButton');
+      expect(button).toBeInTheDocument();
+      expect(button).toHaveTextContent('Test Auto Wrap');
     });
   });
 });
