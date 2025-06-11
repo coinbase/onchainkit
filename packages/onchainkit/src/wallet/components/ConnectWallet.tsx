@@ -1,6 +1,6 @@
 'use client';
 import { Avatar, Name } from '@/identity';
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
@@ -11,7 +11,11 @@ import { cn, text as dsText, pressable } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import type { ConnectWalletProps } from '../types';
 import { WalletModal } from './WalletModal';
-import { useWalletContext } from './WalletProvider';
+import {
+  useWalletContext,
+  WalletContext,
+  WalletProvider,
+} from './WalletProvider';
 
 const connectWalletDefaultChildren = (
   <>
@@ -20,7 +24,7 @@ const connectWalletDefaultChildren = (
   </>
 );
 
-export function ConnectWallet({
+function ConnectWalletContent({
   children,
   className,
   onConnect,
@@ -215,4 +219,20 @@ export function ConnectWallet({
       </div>
     </IdentityProvider>
   );
+}
+
+export function ConnectWallet(props: ConnectWalletProps) {
+  // Using `useContext` because `useWalletContext` will throw if there is no
+  // Provider up the tree.
+  const walletContext = useContext(WalletContext);
+
+  if (!walletContext) {
+    return (
+      <WalletProvider>
+        <ConnectWalletContent {...props} />
+      </WalletProvider>
+    );
+  }
+
+  return <ConnectWalletContent {...props} />;
 }

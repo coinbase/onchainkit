@@ -1,11 +1,11 @@
 'use client';
 import { cn, pressable, text } from '@/styles/theme';
-import { ConnectWallet, Wallet } from '@/wallet';
+import { ConnectWallet } from '@/wallet';
 import { useAccount } from 'wagmi';
 import { useDepositButton } from '../hooks/useDepositButton';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
-export const AppchainBridgeTransactionButton = () => {
+export function AppchainBridgeTransactionButton() {
   const {
     handleDeposit,
     depositStatus,
@@ -26,11 +26,7 @@ export const AppchainBridgeTransactionButton = () => {
     direction === 'deposit' ? handleDeposit : handleWithdraw;
 
   if (!isConnected) {
-    return (
-      <Wallet>
-        <ConnectWallet className="w-full" />
-      </Wallet>
-    );
+    return <ConnectWallet className="w-full" />;
   }
 
   return (
@@ -65,4 +61,4 @@ export const AppchainBridgeTransactionButton = () => {
       )}
     </div>
   );
-};
+}

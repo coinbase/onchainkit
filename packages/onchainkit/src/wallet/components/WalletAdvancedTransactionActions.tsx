@@ -30,7 +30,6 @@ type WalletAdvancedTransactionActionProps = {
 };
 
 type WalletAdvancedTransactionActionsProps = {
-  className?: string;
   classNames?: {
     container?: string;
     leftAction?: WalletAdvancedTransactionActionProps['classNames'];
@@ -40,7 +39,6 @@ type WalletAdvancedTransactionActionsProps = {
 };
 
 export function WalletAdvancedTransactionActions({
-  className,
   classNames,
 }: WalletAdvancedTransactionActionsProps) {
   const { setActiveFeature, animations } = useWalletContext();
@@ -111,7 +109,6 @@ export function WalletAdvancedTransactionActions({
       className={cn(
         'my-3 flex w-88 flex-row justify-between gap-2 px-4 py-3',
         animations.content,
-        className,
         classNames?.container,
       )}
     >

@@ -51,12 +51,10 @@ export function SignatureButton({
 
   if (!address) {
     return (
-      <Wallet>
-        <ConnectWallet
-          className={cn('w-full', className)}
-          disconnectedLabel={connectLabel}
-        />
-      </Wallet>
+      <ConnectWallet
+        className={cn('w-full', className)}
+        disconnectedLabel={connectLabel}
+      />
     );
   }
 

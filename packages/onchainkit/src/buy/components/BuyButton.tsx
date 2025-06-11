@@ -4,7 +4,7 @@ import { Spinner } from '../../internal/components/Spinner';
 import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
 import { CloseSvg } from '../../internal/svg/closeSvg';
 import { cn, pressable, text } from '../../styles/theme';
-import { ConnectWallet, Wallet } from '../../wallet';
+import { ConnectWallet } from '../../wallet';
 import { useBuyContext } from './BuyProvider';
 
 export function BuyButton() {
@@ -70,9 +70,7 @@ export function BuyButton() {
 
   if (!isDisabled && !address) {
     return (
-      <Wallet>
-        <ConnectWallet disconnectedLabel="Buy" className="h-12 w-24 min-w-24" />
-      </Wallet>
+      <ConnectWallet disconnectedLabel="Buy" className="h-12 w-24 min-w-24" />
     );
   }
 

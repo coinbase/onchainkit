@@ -15,28 +15,7 @@ import type { WalletAdvancedFeature, WalletContextType } from '../types';
 import { getAnimations } from '../utils/getAnimations';
 import { calculateSubComponentPosition } from '../utils/getWalletSubComponentPosition';
 
-const WalletContext = createContext<WalletContextType>({
-  breakpoint: undefined,
-  isConnectModalOpen: false,
-  setIsConnectModalOpen: () => {},
-  isSubComponentOpen: false,
-  setIsSubComponentOpen: () => {},
-  isSubComponentClosing: false,
-  setIsSubComponentClosing: () => {},
-  handleClose: () => {},
-  connectRef: { current: null },
-  showSubComponentAbove: false,
-  alignSubComponentRight: false,
-  activeFeature: null,
-  setActiveFeature: () => {},
-  isActiveFeatureClosing: false,
-  setIsActiveFeatureClosing: () => {},
-  animations: {
-    container: '',
-    content: '',
-  },
-  isSponsored: undefined,
-});
+export const WalletContext = createContext<WalletContextType | null>(null);
 
 export type WalletProviderReact = {
   children: ReactNode;
@@ -97,6 +76,7 @@ export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
       setIsActiveFeatureClosing,
       animations,
       isSponsored,
+      __hasContext: true,
     };
   }, [
     breakpoint,
@@ -117,6 +97,17 @@ export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
   );
 }
 
+export function useHasWalletContext() {
+  const context = useContext(WalletContext);
+  return context !== null;
+}
+
 export function useWalletContext() {
-  return useContext(WalletContext);
+  const context = useContext(WalletContext);
+
+  if (!context) {
+    throw new Error('useWalletContext must be used within a WalletProvider');
+  }
+
+  return context;
 }
