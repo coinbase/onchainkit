@@ -1,113 +1,64 @@
 import { useTheme } from '@/internal/hooks/useTheme';
-import { getHorizontalPosition } from '@/internal/utils/getHorizontalPosition';
 import { zIndex } from '@/styles/constants';
 import { cn } from '@/styles/theme';
 import type React from 'react';
-import { useCallback, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
-import { DismissableLayer } from './DismissableLayer';
-import { FocusTrap } from './FocusTrap';
+import * as DropdownMenuPrimitives from '@radix-ui/react-dropdown-menu';
+import { ComponentProps, ReactNode } from 'react';
+import { useLayerConfigContext } from './LayerConfigProvider';
+
+const DropdownMenuRoot = DropdownMenuPrimitives.Root;
+const DropdownMenuTrigger = DropdownMenuPrimitives.Trigger;
+const DropdownMenuContent = DropdownMenuPrimitives.Content;
+export const DropdownMenuItem = DropdownMenuPrimitives.Item;
 
 type DropdownMenuProps = {
-  /** Determines how the menu aligns with the trigger element */
-  align?: 'start' | 'center' | 'end';
   /** Content of the dropdown menu */
   children: React.ReactNode;
   isOpen?: boolean;
-  /** Space between the trigger and menu in pixels */
-  offset?: number;
   /** Callback for when the dropdown should close */
   onClose?: () => void;
   /** The element that triggers the dropdown menu */
-  trigger: React.RefObject<HTMLElement | null>;
+  trigger: ReactNode;
   'aria-label'?: string;
-};
+  className?: string;
+} & ComponentProps<typeof DropdownMenuPrimitives.Content>;
 
-/**
- * DropdownMenu primitive that handles:
- * - Menu positioning relative to trigger
- * - Focus management
- * - Click outside and escape key dismissal
- * - Keyboard navigation
- * - Proper ARIA attributes for accessibility
- */
-export function DropdownMenu({
-  align = 'start',
-  children,
+export const DropdownMenu = ({
   isOpen,
-  offset = 8,
   onClose,
   trigger,
+  sideOffset = 8,
+  side = 'bottom',
+  children,
+  align = 'start',
   'aria-label': ariaLabel,
-}: DropdownMenuProps) {
+  className,
+}: DropdownMenuProps) => {
   const componentTheme = useTheme();
-  const contentRef = useRef<HTMLDivElement>(null);
+  const { forceDropdownModal } = useLayerConfigContext();
 
-  const updatePosition = useCallback(() => {
-    if (!trigger?.current || !contentRef.current) {
-      return;
-    }
-
-    const triggerRect = trigger.current.getBoundingClientRect();
-    const menuRect = contentRef.current.getBoundingClientRect();
-
-    if (!triggerRect || !menuRect) {
-      return;
-    }
-
-    const left = getHorizontalPosition({
-      triggerRect,
-      contentRect: menuRect,
-      align,
-    });
-
-    contentRef.current.style.top = `${triggerRect.bottom + offset}px`;
-    contentRef.current.style.left = `${left}px`;
-  }, [trigger, offset, align]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
-    updatePosition();
-    window.addEventListener('resize', updatePosition);
-    window.addEventListener('scroll', updatePosition);
-
-    return () => {
-      window.removeEventListener('resize', updatePosition);
-      window.removeEventListener('scroll', updatePosition);
-    };
-  }, [isOpen, updatePosition]);
-
-  if (!isOpen) {
-    return null;
-  }
-
-  const dropdownMenu = (
-    <div
-      className={cn(
-        componentTheme,
-        zIndex.dropdown,
-        'pointer-events-none fixed',
-      )}
-      data-portal-origin="true"
+  return (
+    <DropdownMenuRoot
+      open={isOpen}
+      onOpenChange={(flag) => {
+        if (!flag) {
+          onClose?.();
+        }
+      }}
+      modal={forceDropdownModal}
     >
-      <FocusTrap active={isOpen}>
-        <DismissableLayer onDismiss={onClose} triggerRef={trigger}>
-          <div
-            ref={contentRef}
-            className={cn('pointer-events-auto fixed')}
-            role="listbox"
-            data-testid="ockDropdownMenu"
-            aria-label={ariaLabel}
-          >
-            {children}
-          </div>
-        </DismissableLayer>
-      </FocusTrap>
-    </div>
+      <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
+      <DropdownMenuContent
+        sideOffset={sideOffset}
+        side={side}
+        aria-label={ariaLabel}
+        align={align}
+        className={cn(componentTheme, zIndex.dropdown, className)}
+        data-testid="ockDropdownMenu"
+        role="listbox"
+      >
+        {children}
+      </DropdownMenuContent>
+    </DropdownMenuRoot>
   );
-
-  return createPortal(dropdownMenu, document.body);
-}
+};

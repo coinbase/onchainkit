@@ -2,13 +2,13 @@
 import { toggleSvg } from '@/internal/svg/toggleSvg';
 import { cn, pressable } from '@/styles/theme';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
-interface AppchainNetworkToggleButtonReact {
+interface AppchainNetworkToggleButtonProps {
   className?: string;
 }
 
 export function AppchainNetworkToggleButton({
   className,
-}: AppchainNetworkToggleButtonReact) {
+}: AppchainNetworkToggleButtonProps) {
   const { handleToggle } = useAppchainBridgeContext();
 
   return (

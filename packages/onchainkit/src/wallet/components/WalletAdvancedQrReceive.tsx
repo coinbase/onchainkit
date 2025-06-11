@@ -84,7 +84,7 @@ export function WalletAdvancedQrReceive({
           classNames?.header,
         )}
       >
-        <PressableIcon ariaLabel="Back button" onClick={handleCloseQr}>
+        <PressableIcon aria-label="Back button" onClick={handleCloseQr}>
           <div className="p-2">{backArrowSvg}</div>
         </PressableIcon>
         <span>Scan to receive</span>

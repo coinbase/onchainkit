@@ -4,7 +4,7 @@ import { cn, text } from '../../../styles/theme';
 import { formatAmount as formatSN } from '../../../swap/utils/formatAmount';
 import { formatAmount } from '../../../token/utils/formatAmount';
 
-type NFTLastSoldPriceReact = {
+type NFTLastSoldPriceProps = {
   className?: string;
   label?: ReactNode;
 };
@@ -12,7 +12,7 @@ type NFTLastSoldPriceReact = {
 export function NFTLastSoldPrice({
   className,
   label = 'Last sale price',
-}: NFTLastSoldPriceReact) {
+}: NFTLastSoldPriceProps) {
   const { lastSoldPrice } = useNFTContext();
 
   if (

@@ -6,6 +6,7 @@ import {
   PopoverAnchor as RadixPopoverAnchor,
 } from '@radix-ui/react-popover';
 import { ComponentProps, ReactNode } from 'react';
+import { useLayerConfigContext } from './LayerConfigProvider';
 
 type PopoverProps = {
   /** The content of the popover. */
@@ -51,23 +52,30 @@ export function Popover({
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
 }: PopoverProps) {
+  const { skipPopoverPortal } = useLayerConfigContext();
+  const content = (
+    <RadixPopoverContent
+      sideOffset={sideOffset}
+      side={side}
+      align={align}
+      data-testid="ockPopover"
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledby}
+      aria-describedby={ariaDescribedby}
+    >
+      {children}
+    </RadixPopoverContent>
+  );
+
   return (
     <RadixPopover open={open} onOpenChange={onOpenChange}>
       {anchor && <RadixPopoverAnchor asChild>{anchor}</RadixPopoverAnchor>}
       {trigger && <RadixPopoverTrigger asChild>{trigger}</RadixPopoverTrigger>}
-      <RadixPopoverPortal>
-        <RadixPopoverContent
-          sideOffset={sideOffset}
-          side={side}
-          align={align}
-          data-testid="ockPopover"
-          aria-label={ariaLabel}
-          aria-labelledby={ariaLabelledby}
-          aria-describedby={ariaDescribedby}
-        >
-          {children}
-        </RadixPopoverContent>
-      </RadixPopoverPortal>
+      {skipPopoverPortal ? (
+        content
+      ) : (
+        <RadixPopoverPortal>{content}</RadixPopoverPortal>
+      )}
     </RadixPopover>
   );
 }

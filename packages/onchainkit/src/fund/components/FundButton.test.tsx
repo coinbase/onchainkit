@@ -36,6 +36,12 @@ vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
 }));
 
+vi.mock('../../wallet/components/ConnectWallet', () => ({
+  ConnectWallet: () => (
+    <div data-testid="ockConnectWallet_Container">Connect</div>
+  ),
+}));
+
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
   useConnect: () => ({
@@ -225,9 +231,6 @@ describe('FundButton', () => {
       screen.queryByTestId('ockConnectWallet_Container'),
     ).toBeInTheDocument();
     expect(screen.queryByTestId('ockFundButton')).not.toBeInTheDocument();
-    expect(screen.getByTestId('ockConnectWallet_Container')).toHaveClass(
-      'flex gap-4',
-    );
   });
 
   it('shows Fund button when wallet is connected', () => {

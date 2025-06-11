@@ -104,9 +104,6 @@ describe('Earn Component', () => {
   it('renders default tabs and their contents when children are not provided', () => {
     const { container } = render(<Earn vaultAddress="0x123" />, { wrapper });
 
-    const tabs = screen.getByTestId('ockTabs');
-    expect(tabs).toBeInTheDocument();
-
     expect(container).toHaveTextContent('Deposit');
     expect(container).toHaveTextContent('Withdraw');
   });

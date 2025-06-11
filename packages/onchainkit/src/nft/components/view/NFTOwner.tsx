@@ -5,12 +5,12 @@ import type { ReactNode } from 'react';
 import { Avatar, Badge, Identity, Name } from '@/identity';
 import { cn, text } from '../../../styles/theme';
 
-type NFTOwnerReact = {
+type NFTOwnerProps = {
   className?: string;
   label?: ReactNode;
 };
 
-export function NFTOwner({ className, label = 'Owned by' }: NFTOwnerReact) {
+export function NFTOwner({ className, label = 'Owned by' }: NFTOwnerProps) {
   const { schemaId } = useOnchainKit();
   const { ownerAddress } = useNFTContext();
 

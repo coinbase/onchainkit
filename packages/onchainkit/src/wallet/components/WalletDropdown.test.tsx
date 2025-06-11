@@ -5,6 +5,7 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useDisconnect, useAccount } from 'wagmi';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
+import { useName } from '@/identity';
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
@@ -25,6 +26,10 @@ vi.mock('wagmi', () => ({
   WagmiProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
+}));
+
+vi.mock('@/identity/hooks/useName', () => ({
+  useName: vi.fn(),
 }));
 
 vi.mock('./WalletDropdownContent', () => ({
@@ -93,6 +98,7 @@ describe('WalletDropdown', () => {
       breakpoint: 'md',
       isSubComponentOpen: true,
     });
+    (useName as ReturnType<typeof vi.fn>).mockReturnValue({ data: '0x123' });
 
     render(<WalletDropdown />);
 

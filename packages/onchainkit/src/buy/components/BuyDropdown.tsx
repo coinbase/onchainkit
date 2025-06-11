@@ -1,15 +1,17 @@
 'use client';
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { BuyEvent, type BuyOptionType } from '@/core/analytics/types';
+import { type PaymentMethod } from '@/fund/types';
 import { openPopup } from '@/internal/utils/openPopup';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback, useEffect, useMemo } from 'react';
+import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
-import { ONRAMP_BUY_URL } from '../../fund/constants';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { cn, text } from '../../styles/theme';
 import { ONRAMP_PAYMENT_METHODS } from '../constants';
+import { getBuyFundingUrl } from '../utils/getBuyFundingUrl';
 import { isApplePaySupported } from '../utils/isApplePaySupported';
 import { BuyOnrampItem } from './BuyOnrampItem';
 import { useBuyContext } from './BuyProvider';
@@ -30,13 +32,18 @@ export function BuyDropdown() {
           option: paymentMethodId as BuyOptionType,
         });
 
-        const assetSymbol = to?.token?.symbol;
-        let fundAmount = to?.amount;
-        // funding url requires a leading zero if the amount is less than 1
-        if (fundAmount?.[0] === '.') {
-          fundAmount = `0${fundAmount}`;
+        const fundingUrl = getBuyFundingUrl({
+          to,
+          projectId,
+          paymentMethodId,
+          address,
+          chain: base,
+        });
+
+        if (!fundingUrl) {
+          return;
         }
-        const fundingUrl = `${ONRAMP_BUY_URL}/one-click?appId=${projectId}&addresses={"${address}":["base"]}&assets=["${assetSymbol}"]&presetCryptoAmount=${fundAmount}&defaultPaymentMethod=${paymentMethodId}`;
+
         const { height, width } = getFundingPopupSize('md', fundingUrl);
         const popupWindow = openPopup({
           url: fundingUrl,
@@ -86,6 +93,15 @@ export function BuyDropdown() {
 
   const isApplePayEnabled = isApplePaySupported();
 
+  const availablePaymentMethods = useMemo(() => {
+    return ONRAMP_PAYMENT_METHODS.filter((method: PaymentMethod) => {
+      if (method.id === 'APPLE_PAY') {
+        return isApplePayEnabled;
+      }
+      return true;
+    });
+  }, [isApplePayEnabled]);
+
   return (
     <div
       className={cn(
@@ -95,16 +111,21 @@ export function BuyDropdown() {
         'z-10 min-w-80 rounded border p-2',
         'rounded-ock-default',
       )}
+      role="menu"
+      aria-label="Buy options"
     >
-      <div className={cn(text.headline, 'px-2 pt-2')}>Buy with</div>
+      <div
+        className={cn(text.headline, 'px-2 pt-2')}
+        role="heading"
+        aria-level={2}
+      >
+        Buy with
+      </div>
       {!isToETH && <BuyTokenItem swapUnit={fromETH} />}
       {!isToUSDC && <BuyTokenItem swapUnit={fromUSDC} />}
       {showFromToken && <BuyTokenItem swapUnit={from} />}
 
-      {ONRAMP_PAYMENT_METHODS.map((method) => {
-        if (method.id === 'APPLE_PAY' && !isApplePayEnabled) {
-          return null;
-        }
+      {availablePaymentMethods.map((method) => {
         return (
           <BuyOnrampItem
             key={method.id}

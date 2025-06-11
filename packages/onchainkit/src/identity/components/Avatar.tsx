@@ -2,7 +2,7 @@
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useAvatar } from '@/identity/hooks/useAvatar';
 import { useName } from '@/identity/hooks/useName';
-import type { AvatarReact } from '@/identity/types';
+import type { AvatarProps } from '@/identity/types';
 import { findComponent } from '@/internal/utils/findComponent';
 import { Children, useMemo } from 'react';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
@@ -23,7 +23,7 @@ export function Avatar({
   loadingComponent,
   children,
   ...props
-}: AvatarReact) {
+}: AvatarProps) {
   const { address: contextAddress, chain: contextChain } = useIdentityContext();
 
   const accountAddress = address ?? contextAddress;
