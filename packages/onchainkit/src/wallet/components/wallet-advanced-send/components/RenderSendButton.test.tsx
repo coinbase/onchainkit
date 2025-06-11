@@ -74,6 +74,7 @@ describe('RenderSendButton', () => {
       address: '0x123' as `0x${string}`,
       addresses: ['0x123' as `0x${string}`],
       chainId: 8453,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       connector: {} as unknown as any,
       isConnected: true,
       isConnecting: false,
@@ -87,11 +88,9 @@ describe('RenderSendButton', () => {
       address: '0x123' as `0x${string}`,
       apiKey: '',
       rpcUrl: '0x123' as `0x${string}`,
-      schemaId: '',
-      isDebugMode: false,
-      bundlerUrl: '0x123' as `0x${string}`,
-      paymasterUrl: '0x123' as `0x${string}`,
+      schemaId: '0x123',
       projectId: '',
+      sessionId: '0x123',
     });
     vi.mocked(useWalletContext).mockReturnValue(baseWalletContext);
     vi.mocked(useTransactionContext).mockReturnValue(baseTransactionContext);
@@ -230,15 +229,8 @@ describe('RenderSendButton', () => {
     });
 
     vi.mocked(useOnchainKit).mockReturnValue({
+      // @ts-expect-error - we want to test the case where the chain is undefined
       chain: undefined,
-      address: '0x123' as `0x${string}`,
-      apiKey: '',
-      rpcUrl: '0x123' as `0x${string}`,
-      schemaId: '',
-      isDebugMode: false,
-      bundlerUrl: '0x123' as `0x${string}`,
-      paymasterUrl: '0x123' as `0x${string}`,
-      projectId: '',
     });
 
     render(<RenderSendButton {...defaultProps} label="Send" />);

@@ -3,7 +3,6 @@ import { type ReactNode, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 import { cn, pressable, text } from '../../styles/theme';
 import { useSignatureContext } from './SignatureProvider';
-import { Wallet } from '@/wallet';
 
 type SignatureButtonProps = {
   className?: string;
