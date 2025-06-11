@@ -1,4 +1,4 @@
-import { act, ReactNode } from 'react';
+import { act } from 'react';
 import { render, RenderResult, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
