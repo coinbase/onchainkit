@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import type { ReactNode } from 'react';
+import { createContext, type ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
@@ -27,6 +27,7 @@ vi.mock('../../identity/components/IdentityProvider', () => ({
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
+  WalletContext: createContext<WalletContextType | null>(null),
   WalletProvider: ({ children }: { children: ReactNode }) => (
     <div>{children}</div>
   ),
