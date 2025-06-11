@@ -28,15 +28,15 @@ export { usePortfolio } from './hooks/usePortfolio';
 // Types
 export type {
   ConnectWalletProps,
-  ConnectWalletTextReact,
+  ConnectWalletTextProps,
   IsValidAAEntrypointOptions,
   IsWalletACoinbaseSmartWalletOptions,
   IsWalletACoinbaseSmartWalletResponse,
   WalletContextType,
-  WalletDropdownBasenameReact,
-  WalletDropdownDisconnectReact,
-  WalletDropdownFundLinkReact,
-  WalletDropdownLinkReact,
-  WalletDropdownReact,
+  WalletDropdownBasenameProps,
+  WalletDropdownDisconnectProps,
+  WalletDropdownFundLinkProps,
+  WalletDropdownLinkProps,
+  WalletDropdownProps,
   WalletProps,
 } from './types';

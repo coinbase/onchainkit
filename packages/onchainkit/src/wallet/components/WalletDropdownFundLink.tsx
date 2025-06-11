@@ -6,7 +6,7 @@ import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
 import { useIcon } from '../../internal/hooks/useIcon';
 import { openPopup } from '../../internal/utils/openPopup';
 import { cn, pressable, text as themeText } from '../../styles/theme';
-import type { WalletDropdownFundLinkReact } from '../types';
+import type { WalletDropdownFundLinkProps } from '../types';
 
 export function WalletDropdownFundLink({
   className,
@@ -17,7 +17,7 @@ export function WalletDropdownFundLink({
   rel,
   target,
   text = 'Fund wallet',
-}: WalletDropdownFundLinkReact) {
+}: WalletDropdownFundLinkProps) {
   // If we can't get a funding URL, this component will be a no-op and render a disabled link
   const fundingUrlToRender =
     fundingUrl ??

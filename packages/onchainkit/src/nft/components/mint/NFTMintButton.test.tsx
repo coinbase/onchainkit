@@ -95,7 +95,6 @@ vi.mock('@/transaction', async (importOriginal) => {
 });
 vi.mock('@/wallet', () => ({
   ConnectWallet: () => <div>ConnectWallet</div>,
-  Wallet: ({ children }: { children: ReactNode }) => <div>{children}</div>,
 }));
 
 const queryClient = new QueryClient();

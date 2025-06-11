@@ -97,11 +97,6 @@ export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
   );
 }
 
-export function useHasWalletContext() {
-  const context = useContext(WalletContext);
-  return context !== null;
-}
-
 export function useWalletContext() {
   const context = useContext(WalletContext);
 

@@ -2,7 +2,7 @@
 
 import { useIcon } from '../../internal/hooks/useIcon';
 import { cn, pressable, text } from '../../styles/theme';
-import type { WalletDropdownLinkReact } from '../types';
+import type { WalletDropdownLinkProps } from '../types';
 
 export function WalletDropdownLink({
   children,
@@ -11,7 +11,7 @@ export function WalletDropdownLink({
   href,
   rel,
   target,
-}: WalletDropdownLinkReact) {
+}: WalletDropdownLinkProps) {
   const iconSvg = useIcon({ icon });
 
   return (

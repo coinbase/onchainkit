@@ -24,7 +24,7 @@ export type ConnectWalletProps = {
 /**
  * Note: exported as public Type
  */
-export type ConnectWalletTextReact = {
+export type ConnectWalletTextProps = {
   /** The text to display */
   children: React.ReactNode;
   /** Optional className override for the element */
@@ -115,7 +115,7 @@ export type WalletProps = {
 /**
  * Note: exported as public Type
  */
-export type WalletBottomSheetReact = {
+export type WalletBottomSheetProps = {
   children: React.ReactNode;
   /** Optional className override for top div element */
   className?: string;
@@ -124,7 +124,7 @@ export type WalletBottomSheetReact = {
 /**
  * Note: exported as public Type
  */
-export type WalletDropdownBasenameReact = {
+export type WalletDropdownBasenameProps = {
   /** Optional className override for the element */
   className?: string;
 };
@@ -132,7 +132,7 @@ export type WalletDropdownBasenameReact = {
 /**
  * Note: exported as public Type
  */
-export type WalletDropdownReact = {
+export type WalletDropdownProps = {
   children?: React.ReactNode;
   /** Optional className override for top div element */
   className?: string;
@@ -147,7 +147,7 @@ export type WalletDropdownReact = {
 /**
  * Note: exported as public Type
  */
-export type WalletDropdownDisconnectReact = {
+export type WalletDropdownDisconnectProps = {
   /** Optional className override for the element */
   className?: string;
   /** Optional text override for the button */
@@ -157,7 +157,7 @@ export type WalletDropdownDisconnectReact = {
 /**
  * Note: exported as public Type
  */
-export type WalletDropdownFundLinkReact = {
+export type WalletDropdownFundLinkProps = {
   /** Optional className override for the element */
   className?: string;
   /** Optional icon override */
@@ -183,7 +183,7 @@ export type WalletDropdownFundLinkReact = {
 /**
  * Note: exported as public Type
  */
-export type WalletDropdownLinkReact = {
+export type WalletDropdownLinkProps = {
   children: string;
   /** Optional className override for the element */
   className?: string;
@@ -196,7 +196,7 @@ export type WalletDropdownLinkReact = {
 /**
  * Note: exported as public Type
  */
-export type WalletAdvancedReact = {
+export type WalletAdvancedProps = {
   children?: React.ReactNode;
   swappableTokens?: Token[];
   classNames?: {

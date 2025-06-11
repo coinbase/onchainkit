@@ -2,7 +2,7 @@
 
 import { Address, Avatar, EthBalance, Identity, Name } from '@/identity';
 import { cn } from '@/styles/theme';
-import type { WalletDropdownReact } from '../types';
+import type { WalletDropdownProps } from '../types';
 import { WalletDropdownContent } from './WalletDropdownContent';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 import { WalletDropdownLink } from './WalletDropdownLink';
@@ -35,7 +35,7 @@ export function WalletDropdown({
   className,
   classNames,
   swappableTokens,
-}: WalletDropdownReact) {
+}: WalletDropdownProps) {
   const {
     breakpoint,
     isSubComponentOpen,

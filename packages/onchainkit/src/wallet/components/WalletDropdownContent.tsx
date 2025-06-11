@@ -3,7 +3,7 @@ import { zIndex } from '@/styles/constants';
 import { border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
-import type { WalletAdvancedReact } from '../types';
+import type { WalletAdvancedProps } from '../types';
 import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
 import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
@@ -16,7 +16,7 @@ export function WalletDropdownContent({
   children,
   swappableTokens,
   classNames,
-}: WalletAdvancedReact) {
+}: WalletAdvancedProps) {
   const {
     isSubComponentOpen,
     setIsSubComponentOpen,

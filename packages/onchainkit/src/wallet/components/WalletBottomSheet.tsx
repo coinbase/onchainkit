@@ -9,13 +9,13 @@ import {
   useCallback,
   useMemo,
 } from 'react';
-import type { WalletBottomSheetReact } from '../types';
+import type { WalletBottomSheetProps } from '../types';
 import { useWalletContext } from './WalletProvider';
 
 export function WalletBottomSheet({
   children,
   className,
-}: WalletBottomSheetReact) {
+}: WalletBottomSheetProps) {
   const { address, isSubComponentOpen, setIsSubComponentOpen } =
     useWalletContext();
 

@@ -136,11 +136,7 @@ export function NFTMintButton({
   }
 
   if (!address) {
-    return (
-      <Wallet>
-        <ConnectWallet className={cn('w-full', className)} />
-      </Wallet>
-    );
+    return <ConnectWallet className={cn('w-full', className)} />;
   }
 
   return (
