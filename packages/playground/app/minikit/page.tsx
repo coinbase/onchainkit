@@ -15,7 +15,7 @@ export default function App() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
   const [frameAdded, setFrameAdded] = useState(false);
 
-  const addFrame = useAddFrame();
+  const { addFrame } = useAddFrame();
   const openUrl = useOpenUrl();
   const { address } = useAccount();
 

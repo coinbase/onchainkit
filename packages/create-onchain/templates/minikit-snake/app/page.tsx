@@ -13,8 +13,20 @@ import {
   useAddFrame,
   useOpenUrl,
 } from "@coinbase/onchainkit/minikit";
-import { Name, Identity, Badge, Avatar, Address, EthBalance } from "@coinbase/onchainkit/identity";
-import { WalletDropdownDisconnect, WalletDropdown, ConnectWallet, Wallet } from "@coinbase/onchainkit/wallet";
+import {
+  Name,
+  Identity,
+  Badge,
+  Avatar,
+  Address,
+  EthBalance,
+} from "@coinbase/onchainkit/identity";
+import {
+  WalletDropdownDisconnect,
+  WalletDropdown,
+  ConnectWallet,
+  Wallet,
+} from "@coinbase/onchainkit/wallet";
 import Snake, { SCHEMA_UID } from "./components/snake";
 import Check from "./svg/Check";
 
@@ -22,7 +34,7 @@ export default function App() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
   const [frameAdded, setFrameAdded] = useState(false);
 
-  const addFrame = useAddFrame();
+  const { addFrame } = useAddFrame();
   const openUrl = useOpenUrl();
 
   useEffect(() => {

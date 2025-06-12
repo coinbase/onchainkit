@@ -29,7 +29,7 @@ export default function App() {
   const [frameAdded, setFrameAdded] = useState(false);
   const [activeTab, setActiveTab] = useState("home");
 
-  const addFrame = useAddFrame();
+  const { addFrame } = useAddFrame();
   const openUrl = useOpenUrl();
 
   useEffect(() => {

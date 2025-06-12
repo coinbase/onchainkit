@@ -33,7 +33,29 @@ export function MiniKitProvider({
 }: MiniKitProviderReact & OnchainKitProviderReact) {
   const [context, setContext] = useState<Context.FrameContext | null>(null);
 
+  const updateClientContext = useCallback(
+    ({ details, frameAdded }: UpdateClientContextParams) => {
+      setContext((prevContext) => {
+        if (!prevContext) return null;
+
+        return {
+          ...prevContext,
+          client: {
+            ...prevContext.client,
+            notificationDetails: details ?? undefined,
+            added: frameAdded ?? prevContext.client.added,
+          },
+        };
+      });
+    },
+    [],
+  );
+
   useEffect(() => {
+    sdk.on('frameAdded', (event) => {
+      console.log(event);
+    });
+
     sdk.on('frameAdded', ({ notificationDetails }) => {
       if (notificationDetails) {
         updateClientContext({
@@ -83,25 +105,6 @@ export function MiniKitProvider({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const updateClientContext = useCallback(
-    ({ details, frameAdded }: UpdateClientContextParams) => {
-      setContext((prevContext) => {
-        if (!prevContext) {
-          return null;
-        }
-        return {
-          ...prevContext,
-          client: {
-            ...prevContext.client,
-            notificationDetails: details ?? undefined,
-            added: frameAdded ?? prevContext.client.added,
-          },
-        };
-      });
-    },
-    [],
-  );
 
   const connectors = useMemo(() => {
     return [

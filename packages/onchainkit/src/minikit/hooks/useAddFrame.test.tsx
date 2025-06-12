@@ -35,14 +35,14 @@ describe('useAddFrame', () => {
 
   it('should return a function', () => {
     const { result } = renderHook(() => useAddFrame());
-    expect(typeof result.current).toBe('function');
+    expect(typeof result.current.addFrame).toBe('function');
   });
 
   it('should call sdk.addFrame when executed', async () => {
     const { result } = renderHook(() => useAddFrame());
 
     await act(async () => {
-      await result.current();
+      await result.current.addFrame();
     });
 
     expect(sdk.actions.addFrame).toHaveBeenCalled();
@@ -52,7 +52,7 @@ describe('useAddFrame', () => {
     const { result } = renderHook(() => useAddFrame());
 
     await act(async () => {
-      await result.current();
+      await result.current.addFrame();
     });
 
     expect(mockUpdateClientContext).toHaveBeenCalledWith({
@@ -69,7 +69,7 @@ describe('useAddFrame', () => {
 
     const { result } = renderHook(() => useAddFrame());
 
-    const response = await result.current();
+    const response = await result.current.addFrame();
 
     expect(response).toBeNull();
   });
