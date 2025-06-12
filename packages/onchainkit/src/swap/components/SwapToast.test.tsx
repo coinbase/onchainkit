@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type Config, type UseAccountReturnType, useAccount } from 'wagmi';
 import { useSwapContext } from './SwapProvider';
@@ -68,9 +69,9 @@ describe('SwapToast', () => {
       transactionId: 'test-id',
     });
 
-    const { container } = render(<SwapToast position="bottom-right" />);
+    render(<SwapToast position="bottom-right" />);
 
-    const toastElement = container.firstChild as HTMLElement;
+    const toastElement = screen.getByTestId('ockToastViewport');
     expect(toastElement).toHaveClass('bottom-5 left-3/4');
   });
 
@@ -84,9 +85,9 @@ describe('SwapToast', () => {
       transactionId: 'test-id',
     });
 
-    const { container } = render(<SwapToast position="top-right" />);
+    render(<SwapToast position="top-right" />);
 
-    const toastElement = container.firstChild as HTMLElement;
+    const toastElement = screen.getByTestId('ockToastViewport');
     expect(toastElement).toHaveClass('top-[100px] left-3/4');
   });
 
@@ -100,9 +101,9 @@ describe('SwapToast', () => {
       transactionId: 'test-id',
     });
 
-    const { container } = render(<SwapToast position="top-center" />);
+    render(<SwapToast position="top-center" />);
 
-    const toastElement = container.firstChild as HTMLElement;
+    const toastElement = screen.getByTestId('ockToastViewport');
     expect(toastElement).toHaveClass('top-[100px] left-2/4');
   });
 
@@ -116,13 +117,13 @@ describe('SwapToast', () => {
       transactionId: 'test-id',
     });
 
-    const { container } = render(<SwapToast />);
+    render(<SwapToast />);
 
-    const toastElement = container.firstChild as HTMLElement;
+    const toastElement = screen.getByTestId('ockToastViewport');
     expect(toastElement).toHaveClass('bottom-5 left-2/4');
   });
 
-  it('hides toast after specified duration', () => {
+  it('hides toast after specified duration', async () => {
     vi.useFakeTimers();
     const setIsToastVisible = vi.fn();
     const setTransactionHash = vi.fn();
@@ -133,15 +134,17 @@ describe('SwapToast', () => {
       setTransactionHash,
     });
 
-    render(<SwapToast durationMs={2000} />);
+    render(<SwapToast duration={2000} />);
 
-    vi.advanceTimersByTime(2000);
+    await act(async () => {
+      vi.advanceTimersByTime(2000);
+    });
     expect(setIsToastVisible).toHaveBeenCalledWith(false);
     expect(setTransactionHash).toHaveBeenCalledWith('');
     vi.useRealTimers();
   });
 
-  it('resets transactionhash after specified duration', () => {
+  it('resets transactionhash after specified duration', async () => {
     vi.useFakeTimers();
     const setIsToastVisible = vi.fn();
     const setTransactionHash = vi.fn();
@@ -152,15 +155,17 @@ describe('SwapToast', () => {
       setTransactionHash,
     });
 
-    render(<SwapToast durationMs={2000} />);
+    render(<SwapToast duration={2000} />);
 
-    vi.advanceTimersByTime(2000);
+    await act(async () => {
+      vi.advanceTimersByTime(2000);
+    });
     expect(setIsToastVisible).toHaveBeenCalledWith(false);
     expect(setTransactionHash).toHaveBeenCalledWith('');
     vi.useRealTimers();
   });
 
-  it('hides toast after specified duration when error message is present', () => {
+  it('hides toast after specified duration when error message is present', async () => {
     vi.useFakeTimers();
     const setIsToastVisible = vi.fn();
     const setTransactionHash = vi.fn();
@@ -171,9 +176,11 @@ describe('SwapToast', () => {
       setTransactionHash,
     });
 
-    render(<SwapToast durationMs={2000} />);
+    render(<SwapToast duration={2000} />);
 
-    vi.advanceTimersByTime(2000);
+    await act(async () => {
+      vi.advanceTimersByTime(2000);
+    });
     expect(setIsToastVisible).toHaveBeenCalledWith(false);
     expect(setTransactionHash).toHaveBeenCalledWith('');
     vi.useRealTimers();

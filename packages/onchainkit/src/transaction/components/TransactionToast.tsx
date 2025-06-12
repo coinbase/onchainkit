@@ -9,7 +9,7 @@ import { TransactionToastLabel } from './TransactionToastLabel';
 export function TransactionToast({
   children,
   className,
-  durationMs = 5000,
+  duration = 5000,
   position = 'bottom-center',
 }: TransactionToastProps) {
   const {
@@ -41,10 +41,9 @@ export function TransactionToast({
     <Toast
       position={position}
       className={className}
-      durationMs={durationMs}
-      isVisible={isToastVisible}
+      duration={duration}
+      open={isToastVisible}
       onClose={closeToast}
-      startTimeout={!!receipt || !!errorMessage}
     >
       {children ?? (
         <>

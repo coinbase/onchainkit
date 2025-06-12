@@ -11,7 +11,7 @@ import { useSwapContext } from './SwapProvider';
 
 export function SwapToast({
   className,
-  durationMs = 5000,
+  duration = 5000,
   position = 'bottom-center',
 }: SwapToastReact) {
   const {
@@ -37,8 +37,8 @@ export function SwapToast({
     <Toast
       position={position}
       className={className}
-      durationMs={durationMs}
-      isVisible={isToastVisible}
+      duration={duration}
+      open={isToastVisible}
       onClose={resetToastState}
     >
       <div className={cn(text.label2)}>
