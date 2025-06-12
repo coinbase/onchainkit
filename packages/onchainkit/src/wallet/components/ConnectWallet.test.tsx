@@ -1230,6 +1230,67 @@ describe('ConnectWallet', () => {
 
       expect(setIsConnectModalOpenMock).toHaveBeenCalledWith(false);
     });
+
+    it('should call setIsConnectModalOpen(false) when render prop modal is closed', () => {
+      const setIsConnectModalOpenMock = vi.fn();
+
+      vi.mocked(useOnchainKit).mockReturnValue({
+        config: {
+          wallet: { display: 'modal' },
+          apiKey: 'test-api-key',
+          address: '0x0' as `0x${string}`,
+          chain: { id: 1 },
+          rpcUrl: 'https://test.com',
+          chains: [],
+          projectId: '1',
+          appMetadata: { name: 'Test App' },
+        },
+      } as unknown as ReturnType<typeof useOnchainKit>);
+
+      vi.mocked(useAccount).mockReturnValue({
+        address: undefined,
+        status: 'disconnected',
+        isConnected: false,
+        isConnecting: false,
+        isDisconnected: true,
+        isReconnecting: false,
+        addresses: undefined,
+        chain: undefined,
+        chainId: undefined,
+        connector: undefined,
+      } as unknown as UseAccountReturnType<Config>);
+
+      vi.mocked(useWalletContext).mockReturnValue({
+        isConnectModalOpen: true,
+        setIsConnectModalOpen: setIsConnectModalOpenMock,
+        breakpoint: 'md',
+        isSubComponentOpen: false,
+        setIsSubComponentOpen: vi.fn(),
+        isSubComponentClosing: false,
+        isMobile: false,
+        isConnecting: false,
+        walletOpen: false,
+        handleClose: vi.fn(),
+      } as unknown as WalletContextType);
+
+      render(
+        <ConnectWallet
+          disconnectedLabel="Connect Wallet"
+          render={({ label, onClick }) => (
+            <button data-testid="render-prop-button" onClick={onClick}>
+              {label}
+            </button>
+          )}
+        />,
+      );
+
+      // This should render the WalletModal within ConnectWalletRenderHandler
+      // Get the modal and trigger the close function
+      const closeButton = screen.getByLabelText('Close modal');
+      fireEvent.click(closeButton);
+
+      expect(setIsConnectModalOpenMock).toHaveBeenCalledWith(false);
+    });
   });
 
   describe('conditional WalletProvider wrapping', () => {
