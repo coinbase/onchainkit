@@ -4,11 +4,11 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import {
-  getNextAlphaVersionNumber,
-  publishAlphaRelease,
+  getNextCanaryVersionNumber,
+  publishCanaryRelease,
   main,
-  ALPHA_TAG,
-} from './publish-alpha.js';
+  CANARY_TAG,
+} from './publish-canary.js';
 
 // Mock the modules
 vi.mock('child_process');
@@ -21,11 +21,11 @@ const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
 interface VersionParams {
-  alpha: string;
+  canary: string;
   latest: string;
 }
 
-describe('publish-alpha-release script', () => {
+describe('publish-canary-release script', () => {
   let mockConsoleLog: ReturnType<typeof vi.spyOn>;
   let mockConsoleError: ReturnType<typeof vi.spyOn>;
 
@@ -51,57 +51,57 @@ describe('publish-alpha-release script', () => {
     vi.restoreAllMocks();
   });
 
-  describe('getNextAlphaVersionNumber', () => {
-    it('should increment alpha count when base version matches next patch version', () => {
+  describe('getNextCanaryVersionNumber', () => {
+    it('should increment canary count when base version matches next patch version', () => {
       const params: VersionParams = {
-        alpha: `1.2.1-${ALPHA_TAG}.0`,
+        canary: `1.2.1-${CANARY_TAG}.0`,
         latest: '1.2.0',
       };
-      const result = getNextAlphaVersionNumber(params);
-      expect(result).toBe(`1.2.1-${ALPHA_TAG}.1`);
+      const result = getNextCanaryVersionNumber(params);
+      expect(result).toBe(`1.2.1-${CANARY_TAG}.1`);
     });
 
-    it('should start next patch version at alpha.0 when no alpha version exists', () => {
+    it('should start next patch version at canary.0 when no canary version exists', () => {
       const params: VersionParams = {
-        alpha: null as unknown as string,
+        canary: null as unknown as string,
         latest: '1.2.0',
       };
-      const result = getNextAlphaVersionNumber(params);
-      expect(result).toBe(`1.2.1-${ALPHA_TAG}.0`);
+      const result = getNextCanaryVersionNumber(params);
+      expect(result).toBe(`1.2.1-${CANARY_TAG}.0`);
     });
 
-    it('should reset to next patch version alpha.0 when alpha base version is different from next patch version', () => {
+    it('should reset to next patch version canary.0 when canary base version is different from next patch version', () => {
       const params: VersionParams = {
-        alpha: `1.2.0-${ALPHA_TAG}.5`,
+        canary: `1.2.0-${CANARY_TAG}.5`,
         latest: '1.2.0',
       };
-      const result = getNextAlphaVersionNumber(params);
-      expect(result).toBe(`1.2.1-${ALPHA_TAG}.0`);
+      const result = getNextCanaryVersionNumber(params);
+      expect(result).toBe(`1.2.1-${CANARY_TAG}.0`);
     });
 
-    it('should handle alpha version without a count', () => {
+    it('should handle canary version without a count', () => {
       const params: VersionParams = {
-        alpha: `1.2.1`,
+        canary: `1.2.1`,
         latest: '1.2.0',
       };
-      const result = getNextAlphaVersionNumber(params);
-      expect(result).toBe(`1.2.1-${ALPHA_TAG}.0`);
+      const result = getNextCanaryVersionNumber(params);
+      expect(result).toBe(`1.2.1-${CANARY_TAG}.0`);
     });
 
     it('should throw error for invalid version format', () => {
       const params: VersionParams = {
-        alpha: `1.2-${ALPHA_TAG}.0`,
+        canary: `1.2-${CANARY_TAG}.0`,
         latest: '1.2.3.4',
       };
-      expect(() => getNextAlphaVersionNumber(params)).toThrow(
+      expect(() => getNextCanaryVersionNumber(params)).toThrow(
         'Invalid version format',
       );
     });
   });
 
-  describe('publishAlphaRelease', () => {
-    it('should update package.json and publish with alpha tag', () => {
-      const nextAlphaVersion = `1.2.1-${ALPHA_TAG}.0`;
+  describe('publishCanaryRelease', () => {
+    it('should update package.json and publish with canary tag', () => {
+      const nextCanaryVersion = `1.2.1-${CANARY_TAG}.0`;
       const mockPackageJson = { version: '1.1.0' };
 
       // Mock fs.readFileSync for package.json
@@ -109,13 +109,13 @@ describe('publish-alpha-release script', () => {
         JSON.stringify(mockPackageJson),
       );
 
-      publishAlphaRelease(nextAlphaVersion);
+      publishCanaryRelease(nextCanaryVersion);
 
       // Verify package.json was updated
       expect(fs.writeFileSync).toHaveBeenCalledWith(
         '/mocked/package.json',
         JSON.stringify(
-          { ...mockPackageJson, version: nextAlphaVersion },
+          { ...mockPackageJson, version: nextCanaryVersion },
           null,
           2,
         ) + '\n',
@@ -123,19 +123,19 @@ describe('publish-alpha-release script', () => {
 
       // Verify publish command was executed
       expect(execSync).toHaveBeenCalledWith(
-        `pnpm publish --tag ${ALPHA_TAG} --no-git-checks`,
+        `pnpm publish --tag ${CANARY_TAG} --no-git-checks`,
       );
     });
   });
 
   describe('main function', () => {
-    it('should successfully publish alpha release', async () => {
+    it('should successfully publish canary release', async () => {
       // Mock fetch response for dist tags
       mockFetch.mockResolvedValueOnce({
         json: () =>
           Promise.resolve({
             latest: '1.2.0',
-            alpha: `1.2.1-${ALPHA_TAG}.0`,
+            canary: `1.2.1-${CANARY_TAG}.0`,
           }),
       });
 
@@ -149,18 +149,18 @@ describe('publish-alpha-release script', () => {
 
       // Verify console logs
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        `Found tags:\nlatest: 1.2.0\nalpha: 1.2.1-${ALPHA_TAG}.0`,
+        `Found tags:\nlatest: 1.2.0\ncanary: 1.2.1-${CANARY_TAG}.0`,
       );
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        `Next alpha version: 1.2.1-${ALPHA_TAG}.1`,
+        `Next canary version: 1.2.1-${CANARY_TAG}.1`,
       );
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        `Alpha release published: 1.2.1-${ALPHA_TAG}.1`,
+        `Canary release published: 1.2.1-${CANARY_TAG}.1`,
       );
 
-      // Verify the next alpha version was calculated and published
+      // Verify the next canary version was calculated and published
       expect(execSync).toHaveBeenCalledWith(
-        `pnpm publish --tag ${ALPHA_TAG} --no-git-checks`,
+        `pnpm publish --tag ${CANARY_TAG} --no-git-checks`,
       );
     });
 
@@ -183,7 +183,7 @@ describe('publish-alpha-release script', () => {
 
       // Verify error handling
       expect(mockConsoleError).toHaveBeenCalledWith(
-        'Error determining next alpha version:\n',
+        'Error determining next canary version:\n',
         'Network error',
       );
       expect(mockExit).toHaveBeenCalledWith(1);
@@ -195,7 +195,7 @@ describe('publish-alpha-release script', () => {
         json: () =>
           Promise.resolve({
             latest: '1.2.0',
-            alpha: `1.2.1-${ALPHA_TAG}.0`,
+            canary: `1.2.1-${CANARY_TAG}.0`,
           }),
       });
 
@@ -219,7 +219,7 @@ describe('publish-alpha-release script', () => {
 
       // Verify error handling
       expect(mockConsoleError).toHaveBeenCalledWith(
-        'Error publishing alpha release:\n',
+        'Error publishing canary release:\n',
         'Publish failed',
       );
       expect(mockExit).toHaveBeenCalledWith(1);
