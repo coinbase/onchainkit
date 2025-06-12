@@ -88,8 +88,8 @@ export function SwapAmountInput({
     return render({
       token: source,
       hasInsufficientBalance,
-      handleMaxButtonClick,
-      handleSetToken,
+      setAmountToMax: handleMaxButtonClick,
+      onSetToken: handleSetToken,
     });
   }
 

@@ -76,7 +76,7 @@ export function Swap({
       onSuccess={onSuccess}
     >
       {children ? (
-        children?.({ componentThemeClassName: componentTheme })
+        <div className={componentTheme}>{children}</div>
       ) : (
         <div
           className={cn(

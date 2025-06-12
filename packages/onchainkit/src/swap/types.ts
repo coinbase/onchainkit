@@ -173,9 +173,9 @@ export type SwapAmountInputProps = {
   type: 'to' | 'from';
   render?: (props: {
     token: SwapUnit;
+    setAmountToMax: () => void;
+    onSetToken: (token: Token) => void;
     hasInsufficientBalance: boolean;
-    handleMaxButtonClick: () => void;
-    handleSetToken: (token: Token) => void;
   }) => ReactNode;
 };
 
@@ -198,7 +198,7 @@ export type SwapButtonProps = {
   /** Label for the swap button */
   label?: ReactNode;
   render?: (props: {
-    handleSubmit: () => void;
+    onSubmit: () => void;
     isLoading: boolean;
     lifecycleStatus: LifecycleStatus;
     isDisabled: boolean;
@@ -331,11 +331,7 @@ export type SwapProps = {
 } & (
   | {
       /** When children is provided, swappableTokens, toToken, and fromToken are not required */
-      children: ({
-        componentThemeClassName,
-      }: {
-        componentThemeClassName: string;
-      }) => ReactNode;
+      children: ReactNode;
       /** To token */
       to?: never;
       /** From token */
@@ -406,7 +402,7 @@ export type SwapSettingsSlippageInputProps = {
   render?: (props: {
     slippageSetting: SlippageSettingsType;
     setSlippageSetting: (slippageSetting: SlippageSettingsType) => void;
-    setSlippageCustom: (number: number) => void;
+    setSlippageValue: (number: number) => void;
   }) => ReactNode;
 };
 
@@ -431,7 +427,7 @@ export type SwapSettingsSlippageTitleProps = {
 export type SwapToggleButtonProps = {
   /** Optional className override for top div element */
   className?: string;
-  render?: (props: { handleToggle: () => void }) => ReactNode;
+  render?: (props: { onToggle: () => void }) => ReactNode;
 };
 
 /**

@@ -114,54 +114,49 @@ function SwapComponent() {
         }}
         isSponsored={isSponsored}
       >
-        {({ componentThemeClassName }) => (
-          <div
-            className={cn(
-              componentThemeClassName,
-              'bg-ock-bg-default rounded-ock-default text-ock-text-foreground relative flex max-w-[500px] flex-col px-6 pt-6 pb-4 w-full border sm:w-[500px]',
-            )}
-            data-testid="ockSwap_Container"
-          >
-            <div className="absolute flex w-1/2 items-center justify-between">
-              <h3
-                className={cn(text.title3, 'text-center')}
-                data-testid="ockSwap_Title"
-              >
-                Swap
-              </h3>
-            </div>
-            <SwapSettings>
-              <SwapSettingsSlippageTitle>
-                Max. slippage
-              </SwapSettingsSlippageTitle>
-              <SwapSettingsSlippageDescription>
-                Your swap will revert if the prices change by more than the
-                selected percentage.
-              </SwapSettingsSlippageDescription>
-              <SwapSettingsSlippageInput />
-            </SwapSettings>
-            <SwapAmountInput
-              label="Sell"
-              swappableTokens={swappableTokens}
-              token={ethToken}
-              type="from"
-            />
-            <SwapToggleButton />
-            <SwapAmountInput
-              label="Buy"
-              swappableTokens={swappableTokens}
-              token={usdcToken}
-              type="to"
-            />
-            <SwapButton
-              disabled={
-                ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
-              }
-            />
-            <SwapMessage />
-            <SwapToast />
+        <div
+          className={cn(
+            'bg-ock-bg-default rounded-ock-default text-ock-text-foreground relative flex max-w-[500px] flex-col px-6 pt-6 pb-4 w-full border sm:w-[500px]',
+          )}
+          data-testid="ockSwap_Container"
+        >
+          <div className="absolute flex w-1/2 items-center justify-between">
+            <h3
+              className={cn(text.title3, 'text-center')}
+              data-testid="ockSwap_Title"
+            >
+              Swap
+            </h3>
           </div>
-        )}
+          <SwapSettings>
+            <SwapSettingsSlippageTitle>Max. slippage</SwapSettingsSlippageTitle>
+            <SwapSettingsSlippageDescription>
+              Your swap will revert if the prices change by more than the
+              selected percentage.
+            </SwapSettingsSlippageDescription>
+            <SwapSettingsSlippageInput />
+          </SwapSettings>
+          <SwapAmountInput
+            label="Sell"
+            swappableTokens={swappableTokens}
+            token={ethToken}
+            type="from"
+          />
+          <SwapToggleButton />
+          <SwapAmountInput
+            label="Buy"
+            swappableTokens={swappableTokens}
+            token={usdcToken}
+            type="to"
+          />
+          <SwapButton
+            disabled={
+              ENVIRONMENT_VARIABLES[ENVIRONMENT.ENVIRONMENT] === 'production'
+            }
+          />
+          <SwapMessage />
+          <SwapToast />
+        </div>
       </Swap>
     </div>
   );

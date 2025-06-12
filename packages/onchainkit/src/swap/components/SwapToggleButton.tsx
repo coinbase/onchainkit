@@ -8,7 +8,7 @@ export function SwapToggleButton({ className, render }: SwapToggleButtonProps) {
   const { handleToggle } = useSwapContext();
 
   if (render) {
-    return render({ handleToggle });
+    return render({ onToggle: handleToggle });
   }
 
   return (

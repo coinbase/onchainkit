@@ -165,9 +165,9 @@ describe('SwapButton', () => {
 
     const swapButton = render(
       <SwapButton
-        render={({ handleSubmit }) => (
+        render={({ onSubmit }) => (
           <div>
-            Custom Render<button onClick={handleSubmit}>Click me</button>
+            Custom Render<button onClick={onSubmit}>Click me</button>
           </div>
         )}
       />,

@@ -43,6 +43,10 @@ export function SwapSettingsSlippageInput({
       if (newSlippage !== currentSlippage) {
         handleAnalyticsSlippageChange(currentSlippage, newSlippage);
 
+        if (slippageSetting === SLIPPAGE_SETTINGS.AUTO) {
+          setSlippageSetting(SLIPPAGE_SETTINGS.CUSTOM);
+        }
+
         updateLifecycleStatus({
           statusName: 'slippageChange',
           statusData: {
@@ -55,6 +59,7 @@ export function SwapSettingsSlippageInput({
       lifecycleStatus.statusData.maxSlippage,
       updateLifecycleStatus,
       handleAnalyticsSlippageChange,
+      slippageSetting,
     ],
   );
 
@@ -89,8 +94,8 @@ export function SwapSettingsSlippageInput({
   if (render) {
     return render({
       slippageSetting,
-      setSlippageSetting,
-      setSlippageCustom: updateSlippage,
+      setSlippageSetting: handleSlippageSettingChange,
+      setSlippageValue: updateSlippage,
     });
   }
 

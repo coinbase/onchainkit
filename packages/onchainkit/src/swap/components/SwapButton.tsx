@@ -34,7 +34,7 @@ export function SwapButton({
 
   if (render) {
     return render({
-      handleSubmit,
+      onSubmit: handleSubmit,
       isLoading,
       lifecycleStatus,
       isDisabled,

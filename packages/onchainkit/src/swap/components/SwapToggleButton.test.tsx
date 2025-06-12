@@ -32,10 +32,10 @@ describe('SwapToggleButton', () => {
     });
     const screen = render(
       <SwapToggleButton
-        render={({ handleToggle }) => (
+        render={({ onToggle }) => (
           <div>
             <div>Custom Render</div>
-            <button onClick={handleToggle}>Toggle</button>
+            <button onClick={onToggle}>Toggle</button>
           </div>
         )}
       />,

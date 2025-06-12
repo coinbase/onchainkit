@@ -89,7 +89,11 @@ describe('Swap Component', () => {
   });
 
   it('should custom render prop', () => {
-    render(<Swap>{() => <div>Test Child</div>}</Swap>);
+    render(
+      <Swap>
+        <div>Test Child</div>
+      </Swap>,
+    );
 
     expect(screen.getByText('Test Child')).toBeInTheDocument();
   });

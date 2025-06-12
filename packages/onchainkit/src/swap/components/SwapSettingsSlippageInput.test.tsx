@@ -242,17 +242,13 @@ describe('SwapSettingsSlippageInput', () => {
   it('can handle custom render prop', async () => {
     render(
       <SwapSettingsSlippageInput
-        render={({
-          slippageSetting,
-          setSlippageSetting,
-          setSlippageCustom,
-        }) => (
+        render={({ slippageSetting, setSlippageSetting, setSlippageValue }) => (
           <div>
             <div>{slippageSetting}</div>
             <button onClick={() => setSlippageSetting('Custom')}>
               Custom Render
             </button>
-            <button onClick={() => setSlippageCustom(1)}>Set 1</button>
+            <button onClick={() => setSlippageValue(1)}>Set 1</button>
           </div>
         )}
       />,
