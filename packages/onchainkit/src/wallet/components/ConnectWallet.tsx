@@ -1,6 +1,6 @@
 'use client';
 import { Avatar, Name } from '@/identity';
-import { useCallback, useContext } from 'react';
+import { ReactNode, useCallback, useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
@@ -9,35 +9,61 @@ import { IdentityProvider } from '@/identity/components/IdentityProvider';
 import { Spinner } from '@/internal/components/Spinner';
 import { cn, text as dsText, pressable } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
-import type { ConnectWalletProps } from '../types';
 import { WalletModal } from './WalletModal';
 import {
   useWalletContext,
   WalletContext,
   WalletProvider,
+  type WalletContextType,
 } from './WalletProvider';
+import { WithRenderProps } from '@/internal/types';
 
-const connectWalletDefaultChildren = (
-  <>
-    <Avatar className="h-6 w-6" />
-    <Name />
-  </>
-);
+export type ConnectWalletProps = WithRenderProps<{
+  /** Children can be utilized to display customized content when the wallet is connected. */
+  children?: ReactNode;
+  /** Optional className override for button element */
+  className?: string;
+  /** Optional callback function to execute when the wallet is connected. */
+  onConnect?: () => void;
+  /** Optional disconnected display override */
+  disconnectedLabel?: ReactNode;
+  /** Custom render function for complete control of button rendering */
+  render?: ({
+    label,
+    onClick,
+    context,
+    status,
+    isLoading,
+  }: {
+    label: ReactNode;
+    onClick: () => void;
+    context: WalletContextType;
+    status: 'disconnected' | 'connecting' | 'connected';
+    isLoading: boolean;
+  }) => ReactNode;
+}>;
 
 function ConnectWalletContent({
-  children,
+  children = (
+    <>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </>
+  ),
   className,
   onConnect,
   disconnectedLabel = 'Connect Wallet',
+  render,
 }: ConnectWalletProps) {
   const { config = { wallet: { display: undefined } } } = useOnchainKit();
+  const walletContext = useWalletContext();
   const {
     isConnectModalOpen,
     setIsConnectModalOpen,
     isSubComponentOpen,
     setIsSubComponentOpen,
     handleClose,
-  } = useWalletContext();
+  } = walletContext;
   const {
     address: accountAddress,
     status,
@@ -145,6 +171,17 @@ function ConnectWalletContent({
     sendAnalytics,
   ]);
 
+  if (render) {
+    return (
+      <ConnectWalletRenderHandler
+        label={disconnectedLabel}
+        onClick={handleConnectClick}
+        isLoading={isLoading}
+        render={render}
+      />
+    );
+  }
+
   if (status === 'disconnected') {
     return (
       <div className="flex" data-testid="ockConnectWallet_Container">
@@ -213,10 +250,69 @@ function ConnectWalletContent({
           onClick={handleToggle}
         >
           <div className="flex items-center justify-center gap-2">
-            {children || connectWalletDefaultChildren}
+            {children}
           </div>
         </button>
       </div>
+    </IdentityProvider>
+  );
+}
+
+function ConnectWalletRenderHandler({
+  label,
+  onClick,
+  isLoading,
+  render,
+}: {
+  label: ReactNode;
+  onClick: () => void;
+  isLoading: boolean;
+  render: NonNullable<ConnectWalletProps['render']>;
+}) {
+  const { config = { wallet: { display: undefined } } } = useOnchainKit();
+  const walletContext = useWalletContext();
+  const { isConnectModalOpen, setIsConnectModalOpen } = walletContext;
+  const { status, address } = useAccount();
+
+  if (status === 'disconnected') {
+    return (
+      <>
+        {render({
+          label,
+          onClick,
+          context: walletContext,
+          status: 'disconnected',
+          isLoading,
+        })}
+        {config?.wallet?.display === 'modal' && (
+          <WalletModal
+            isOpen={isConnectModalOpen}
+            onClose={() => setIsConnectModalOpen(false)}
+          />
+        )}
+      </>
+    );
+  }
+
+  if (isLoading) {
+    return render({
+      label: <Spinner />,
+      onClick,
+      context: walletContext,
+      status: 'connecting',
+      isLoading,
+    });
+  }
+
+  return (
+    <IdentityProvider address={address}>
+      {render({
+        label,
+        onClick,
+        context: walletContext,
+        status: 'connected',
+        isLoading,
+      })}
     </IdentityProvider>
   );
 }

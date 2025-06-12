@@ -7,7 +7,15 @@ import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import type { SwapError } from '../../swap';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import type { Token } from '../../token';
-import type { UseGetTokenBalanceResponse } from '../types';
+
+export type UseGetTokenBalanceResponse = {
+  error?: SwapError;
+  response?: UseReadContractReturnType;
+  convertedBalance?: string;
+  roundedBalance?: string;
+  status: UseReadContractReturnType['status'];
+  refetch: UseReadContractReturnType['refetch'];
+};
 
 export function useGetTokenBalance(
   address?: Address,

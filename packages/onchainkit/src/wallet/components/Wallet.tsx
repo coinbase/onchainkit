@@ -5,11 +5,20 @@ import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { useTheme } from '@/internal/hooks/useTheme';
 import { cn } from '@/styles/theme';
 import { useRef } from 'react';
-import type { WalletProps } from '../types';
 import { getWalletDraggableProps } from '../utils/getWalletDraggableProps';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
+
+export type WalletProps = {
+  children?: React.ReactNode;
+  /** Whether to sponsor transactions for Send feature of advanced wallet implementation */
+  isSponsored?: boolean;
+  className?: string;
+} & (
+  | { draggable?: true; draggableStartingPosition?: { x: number; y: number } }
+  | { draggable?: false; draggableStartingPosition?: never }
+);
 
 function WalletContent({
   children,
@@ -56,15 +65,13 @@ function WalletContent({
   );
 }
 
-const defaultWalletChildren = (
-  <>
-    <ConnectWallet />
-    <WalletDropdown />
-  </>
-);
-
 export function Wallet({
-  children = defaultWalletChildren,
+  children = (
+    <>
+      <ConnectWallet />
+      <WalletDropdown />
+    </>
+  ),
   className,
   draggable,
   draggableStartingPosition,

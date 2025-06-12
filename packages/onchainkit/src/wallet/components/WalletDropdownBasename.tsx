@@ -6,7 +6,11 @@ import { basenameSvg } from '@/internal/svg/basenameSvg';
 import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
 import { cn, pressable, text } from '../../styles/theme';
-import type { WalletDropdownBasenameProps } from '../types';
+
+export type WalletDropdownBasenameProps = {
+  /** Optional className override for the element */
+  className?: string;
+};
 
 export function WalletDropdownBasename({
   className,

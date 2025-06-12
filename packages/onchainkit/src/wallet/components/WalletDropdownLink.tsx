@@ -1,8 +1,17 @@
 'use client';
-
+import { ReactNode } from 'react';
 import { useIcon } from '../../internal/hooks/useIcon';
 import { cn, pressable, text } from '../../styles/theme';
-import type { WalletDropdownLinkProps } from '../types';
+
+export type WalletDropdownLinkProps = {
+  children: string;
+  /** Optional className override for the element */
+  className?: string;
+  href: string;
+  icon?: 'wallet' | ReactNode;
+  rel?: string;
+  target?: string;
+};
 
 export function WalletDropdownLink({
   children,

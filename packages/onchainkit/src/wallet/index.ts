@@ -28,7 +28,6 @@ export { usePortfolio } from './hooks/usePortfolio';
 // Types
 export type {
   ConnectWalletProps,
-  ConnectWalletTextProps,
   IsValidAAEntrypointOptions,
   IsWalletACoinbaseSmartWalletOptions,
   IsWalletACoinbaseSmartWalletResponse,

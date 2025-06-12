@@ -10,20 +10,47 @@ import {
   useRef,
   useState,
 } from 'react';
-import type { ReactNode } from 'react';
-import type { WalletAdvancedFeature, WalletContextType } from '../types';
+import type { ReactNode, Dispatch, SetStateAction } from 'react';
+import type { WalletAdvancedFeature } from '../types';
 import { getAnimations } from '../utils/getAnimations';
 import { calculateSubComponentPosition } from '../utils/getWalletSubComponentPosition';
 
+export type WalletContextType = {
+  /** The breakpoint of the current device */
+  breakpoint: string | undefined;
+  /** Whether the connect modal is open */
+  isConnectModalOpen: boolean;
+  setIsConnectModalOpen: Dispatch<SetStateAction<boolean>>;
+  isSubComponentOpen: boolean;
+  setIsSubComponentOpen: Dispatch<SetStateAction<boolean>>;
+  isSubComponentClosing: boolean;
+  setIsSubComponentClosing: Dispatch<SetStateAction<boolean>>;
+  handleClose: () => void;
+  connectRef: React.RefObject<HTMLDivElement | null>;
+  showSubComponentAbove: boolean;
+  alignSubComponentRight: boolean;
+
+  activeFeature: WalletAdvancedFeature | null;
+  setActiveFeature: Dispatch<SetStateAction<WalletAdvancedFeature | null>>;
+  isActiveFeatureClosing: boolean;
+  setIsActiveFeatureClosing: Dispatch<SetStateAction<boolean>>;
+  animations: {
+    container: string;
+    content: string;
+  };
+  /** Whether to sponsor transactions for Send feature of advanced wallet implementation */
+  isSponsored?: boolean;
+};
+
 export const WalletContext = createContext<WalletContextType | null>(null);
 
-export type WalletProviderReact = {
+type WalletProviderProps = {
   children: ReactNode;
   /** Whether to sponsor transactions for Send feature of advanced wallet implementation */
   isSponsored?: boolean;
 };
 
-export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
+export function WalletProvider({ children, isSponsored }: WalletProviderProps) {
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [isSubComponentOpen, setIsSubComponentOpen] = useState(false);
   const [isSubComponentClosing, setIsSubComponentClosing] = useState(false);

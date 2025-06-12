@@ -4,7 +4,13 @@ import { useCallback } from 'react';
 import { useDisconnect } from 'wagmi';
 import { disconnectSvg } from '../../internal/svg/disconnectSvg';
 import { cn, text as dsText, pressable } from '../../styles/theme';
-import type { WalletDropdownDisconnectProps } from '../types';
+
+export type WalletDropdownDisconnectProps = {
+  /** Optional className override for the element */
+  className?: string;
+  /** Optional text override for the button */
+  text?: string;
+};
 
 export function WalletDropdownDisconnect({
   className,

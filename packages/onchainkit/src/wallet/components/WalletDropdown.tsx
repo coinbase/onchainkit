@@ -2,13 +2,29 @@
 
 import { Address, Avatar, EthBalance, Identity, Name } from '@/identity';
 import { cn } from '@/styles/theme';
-import type { WalletDropdownProps } from '../types';
+import type {
+  WalletAdvancedQrReceiveProps,
+  WalletAdvancedSwapProps,
+} from '../types';
 import { WalletDropdownContent } from './WalletDropdownContent';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 import { WalletDropdownLink } from './WalletDropdownLink';
 import { useWalletContext } from './WalletProvider';
 import { useAccount } from 'wagmi';
 import { LayerConfigProvider } from '@/internal/components/LayerConfigProvider';
+import { Token } from '@/token';
+
+export type WalletDropdownProps = {
+  children?: React.ReactNode;
+  /** Optional className override for top div element */
+  className?: string;
+  classNames?: {
+    container?: string;
+    qr?: WalletAdvancedQrReceiveProps['classNames'];
+    swap?: WalletAdvancedSwapProps['classNames'];
+  };
+  swappableTokens?: Token[];
+};
 
 const defaultWalletDropdownChildren = (
   <>

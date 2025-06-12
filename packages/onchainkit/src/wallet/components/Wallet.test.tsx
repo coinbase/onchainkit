@@ -4,7 +4,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ConnectWallet } from './ConnectWallet';
 import { Wallet } from './Wallet';
 import { WalletDropdown } from './WalletDropdown';
-import { type WalletProviderReact, useWalletContext } from './WalletProvider';
+import { useWalletContext } from './WalletProvider';
+import { PropsWithChildren } from 'react';
 
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
@@ -32,7 +33,7 @@ vi.mock('./WalletDropdown', () => ({
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
-  WalletProvider: ({ children }: WalletProviderReact) => <>{children}</>,
+  WalletProvider: ({ children }: PropsWithChildren) => <>{children}</>,
 }));
 
 describe('Wallet Component', () => {

@@ -7,9 +7,15 @@ import { DEFAULT_QUERY_OPTIONS } from '../../internal/constants';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import type { SwapError } from '../../swap';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
-import type { UseGetETHBalanceResponse } from '../types';
 
 const ETH_DECIMALS = 18;
+
+export type UseGetETHBalanceResponse = {
+  error?: SwapError;
+  response?: UseBalanceReturnType;
+  convertedBalance?: string;
+  roundedBalance?: string;
+};
 
 export function useGetETHBalance(address?: Address): UseGetETHBalanceResponse {
   const ethBalanceResponse: UseBalanceReturnType = useBalance({
