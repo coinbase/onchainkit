@@ -3,24 +3,24 @@ import { render, screen } from '@testing-library/react';
 import { encodeAbiParameters } from 'viem';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Signature } from './Signature';
+import { Signature } from '../components/Signature';
 
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
 }));
 vi.mock('@/internal/hooks/useIsMounted');
-vi.mock('./SignatureProvider', () => ({
+vi.mock('../components/SignatureProvider', () => ({
   SignatureProvider: vi.fn(({ children }) => (
     <div data-testid="SignatureProvider">{children}</div>
   )),
 }));
-vi.mock('./SignatureStatus', () => ({
+vi.mock('../components/SignatureStatus', () => ({
   SignatureStatus: vi.fn(() => <div>SignatureStatus</div>),
 }));
-vi.mock('./SignatureToast', () => ({
+vi.mock('../components/SignatureToast', () => ({
   SignatureToast: vi.fn(() => <div>SignatureToast</div>),
 }));
-vi.mock('./SignatureButton', () => ({
+vi.mock('../components/SignatureButton', () => ({
   SignatureButton: vi.fn(({ label, disabled }) => (
     <button type="button" disabled={disabled}>
       {label}
