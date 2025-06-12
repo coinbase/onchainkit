@@ -408,14 +408,14 @@ describe('SwapAmountInput', () => {
           token={ETH_TOKEN}
           type="from"
           swappableTokens={mockSwappableTokens}
-          render={({ handleMaxButtonClick, handleSetToken }) => {
+          render={({ onSetToken, setAmountToMax }) => {
             return (
               <div>
                 <div>Custom Render</div>
-                <button onClick={handleMaxButtonClick}>Max</button>
+                <button onClick={setAmountToMax}>Max</button>
                 <button
                   onClick={() => {
-                    handleSetToken(mockSwappableTokens[1]);
+                    onSetToken(mockSwappableTokens[1]);
                   }}
                 >
                   Set Token
