@@ -1,8 +1,14 @@
 import { useTheme } from '@/internal/hooks/useTheme';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useAccount } from 'wagmi';
 import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
 import { useWalletContext } from './WalletProvider';
+import type { UseAccountReturnType, Config } from 'wagmi';
+
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+}));
 
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(),
@@ -48,6 +54,7 @@ const defaultWalletContext = {
 describe('WalletAdvancedQrReceive', () => {
   const mockUseTheme = useTheme as ReturnType<typeof vi.fn>;
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
+  const mockUseAccount = vi.mocked(useAccount);
 
   const defaultMockUseWalletAdvancedContext = {
     activeFeature: null,
@@ -65,6 +72,9 @@ describe('WalletAdvancedQrReceive', () => {
       ...defaultWalletContext,
       ...defaultMockUseWalletAdvancedContext,
     });
+    mockUseAccount.mockReturnValue({
+      address: '0x1234567890123456789012345678901234567890' as `0x${string}`,
+    } as unknown as UseAccountReturnType<Config>);
     mockSetCopyText.mockClear();
     mockSetCopyButtonText.mockClear();
     mockClipboard.writeText.mockReset();
@@ -134,7 +144,6 @@ describe('WalletAdvancedQrReceive', () => {
     mockClipboard.writeText.mockResolvedValueOnce(undefined);
 
     mockUseWalletContext.mockReturnValue({
-      address: '0x1234567890',
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'qr',
     });
@@ -151,7 +160,9 @@ describe('WalletAdvancedQrReceive', () => {
       await vi.runAllTimersAsync();
     });
 
-    expect(mockClipboard.writeText).toHaveBeenCalledWith('0x1234567890');
+    expect(mockClipboard.writeText).toHaveBeenCalledWith(
+      '0x1234567890123456789012345678901234567890',
+    );
     expect(mockSetCopyText).toHaveBeenCalledWith('Copied');
 
     const tooltip = screen.getByRole('button', {
@@ -173,7 +184,6 @@ describe('WalletAdvancedQrReceive', () => {
     mockClipboard.writeText.mockResolvedValueOnce(undefined);
 
     mockUseWalletContext.mockReturnValue({
-      address: '0x1234567890',
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'qr',
     });
@@ -190,7 +200,9 @@ describe('WalletAdvancedQrReceive', () => {
       await vi.runAllTimersAsync();
     });
 
-    expect(mockClipboard.writeText).toHaveBeenCalledWith('0x1234567890');
+    expect(mockClipboard.writeText).toHaveBeenCalledWith(
+      '0x1234567890123456789012345678901234567890',
+    );
     expect(mockSetCopyText).toHaveBeenCalledWith('Copied');
 
     const tooltip = screen.getByRole('button', {
@@ -212,7 +224,6 @@ describe('WalletAdvancedQrReceive', () => {
     mockClipboard.writeText.mockResolvedValueOnce(undefined);
 
     mockUseWalletContext.mockReturnValue({
-      address: '0x1234567890',
       ...defaultMockUseWalletAdvancedContext,
       activeFeature: 'qr',
     });
@@ -229,7 +240,9 @@ describe('WalletAdvancedQrReceive', () => {
       await vi.runAllTimersAsync();
     });
 
-    expect(mockClipboard.writeText).toHaveBeenCalledWith('0x1234567890');
+    expect(mockClipboard.writeText).toHaveBeenCalledWith(
+      '0x1234567890123456789012345678901234567890',
+    );
     expect(mockSetCopyButtonText).toHaveBeenCalledWith('Address copied');
 
     vi.advanceTimersByTime(2000);
@@ -246,7 +259,7 @@ describe('WalletAdvancedQrReceive', () => {
     mockClipboard.writeText.mockRejectedValue(new Error('Clipboard error'));
 
     mockUseWalletContext.mockReturnValue({
-      address: '0x1234567890',
+      ...defaultMockUseWalletAdvancedContext,
     });
 
     render(<WalletAdvancedQrReceive />);
@@ -284,8 +297,22 @@ describe('WalletAdvancedQrReceive', () => {
 
   it('should copy empty string when address is empty', () => {
     mockUseWalletContext.mockReturnValue({
-      address: undefined,
+      ...defaultMockUseWalletAdvancedContext,
     });
+
+    // Override just the address property to be undefined
+    mockUseAccount.mockReturnValue({
+      address: undefined,
+      status: 'disconnected',
+      isConnected: false,
+      isConnecting: false,
+      isDisconnected: true,
+      isReconnecting: false,
+      addresses: undefined,
+      chain: undefined,
+      chainId: undefined,
+      connector: undefined,
+    } as unknown as UseAccountReturnType<Config>);
 
     render(<WalletAdvancedQrReceive />);
 
@@ -299,8 +326,8 @@ describe('WalletAdvancedQrReceive', () => {
 
   it('applies custom classNames to components', () => {
     mockUseWalletContext.mockReturnValue({
-      isSubComponentClosing: false,
-      address: '0x1234567890',
+      ...defaultMockUseWalletAdvancedContext,
+      isActiveFeatureClosing: false,
     });
 
     const customClassNames = {
