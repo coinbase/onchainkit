@@ -34,11 +34,13 @@ export async function sendFrameNotification({
     return { state: "no_token" };
   }
 
-  // Temporary placeholder since we need to deploy to Vercel so we can get a valid URL
-  const allowedDomains = ["coinbase.com"];
+  // Define a strict allowlist of full hostnames
+  const allowedHostnames = ["api.coinbase.com"];
   const url = new URL(notificationDetails.url);
-  if (!allowedDomains.some(domain => url.hostname.endsWith(domain))) {
-    return { state: "error", error: "Invalid notification URL" };
+  
+  // Validate the URL scheme and hostname
+  if (url.protocol !== "https:" || !allowedHostnames.includes(url.hostname)) {
+    return { state: "error", error: "Invalid or unsafe notification URL" };
   }
 
   const response = await fetch(notificationDetails.url, {
