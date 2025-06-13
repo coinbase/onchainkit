@@ -1,7 +1,6 @@
 import { useName } from '@/identity/hooks/useName';
 import type { UseQueryResult } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
-import type { GetAccountReturnType } from '@wagmi/core';
 import { base, mainnet } from 'viem/chains';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
@@ -19,6 +18,8 @@ vi.mock('@/identity/hooks/useName', () => ({
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
 }));
+
+type GetAccountReturnType = ReturnType<typeof useAccount>;
 
 describe('WalletDropdownBasename', () => {
   it('should render "Claim Basename" when no basename', () => {
