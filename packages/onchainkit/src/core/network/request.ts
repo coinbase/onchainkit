@@ -103,3 +103,32 @@ export async function sendRequest<T, V>(
     throw error;
   }
 }
+
+/**
+ * Sends a JSON-RPC batch request to the configured RPC URL.
+ * Each entry in the array must follow the standard JSON-RPC 2.0 request shape.
+ *
+ * @param requests - The array of JSON-RPC requests to execute in a single HTTP call.
+ * @param _context - Tracks the context where the request originated.
+ * @returns A promise that resolves to an array of JSON-RPC responses.
+ */
+export async function sendBatchRequest<T>(
+  requests: T[],
+  _context?: RequestContext,
+): Promise<unknown[]> {
+  try {
+    const url = getRPCUrl();
+    const response = await fetch(url, {
+      body: JSON.stringify(requests),
+      headers: buildRequestHeaders(_context),
+      method: POST_METHOD,
+    });
+    const data = await response.json();
+    return data as unknown[];
+  } catch (error) {
+    console.log(
+      `sendBatchRequest: error sending request: ${(error as Error).message}`,
+    );
+    throw error;
+  }
+}
