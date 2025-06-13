@@ -743,7 +743,7 @@ export type LifeCycleStatus =
 
 ### Patch Changes
 
-- **chore**: Update all cases of BaseName to Basename. Update `WalletDropdownBaseName` to `WalletDropdownBasename`. Update the identity type `BaseName` to `Basename` and `WalletDropdownBasenameReact` to `WalletDropdownBasenameReact`. By @cpcramer #1110 3d47932
+- **chore**: Update all cases of BaseName to Basename. Update `WalletDropdownBaseName` to `WalletDropdownBasename`. Update the identity type `BaseName` to `Basename` and `WalletDropdownBaseNameReact` to `WalletDropdownBasenameReact`. By @cpcramer #1110 3d47932
 
 ## 0.29.2
 
