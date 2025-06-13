@@ -22,7 +22,6 @@ global.fetch = mockFetch;
 
 interface VersionParams {
   currentTagVersion: string;
-  latest: string;
   packageJsonVersion: string;
   tag: string;
 }
@@ -64,8 +63,7 @@ describe('publish-prerelease script', () => {
     it('should increment tag count when base version matches next patch version', () => {
       const params: VersionParams = {
         currentTagVersion: '1.2.1-canary.0',
-        latest: '1.2.0',
-        packageJsonVersion: '1.1.0',
+        packageJsonVersion: '1.2.1',
         tag: 'canary',
       };
       const result = getNextVersionNumber(params);
@@ -75,41 +73,17 @@ describe('publish-prerelease script', () => {
     it('should start next patch version at tag.0 when no current tag version exists', () => {
       const params: VersionParams = {
         currentTagVersion: null as unknown as string,
-        latest: '1.2.0',
-        packageJsonVersion: '1.1.0',
+        packageJsonVersion: '1.2.1',
         tag: 'canary',
       };
       const result = getNextVersionNumber(params);
       expect(result).toBe('1.2.1-canary.0');
     });
 
-    it('should reset to next patch version tag.0 when current tag base version is different from next patch version', () => {
-      const params: VersionParams = {
-        currentTagVersion: '1.2.0-canary.5',
-        latest: '1.2.0',
-        packageJsonVersion: '1.1.0',
-        tag: 'canary',
-      };
-      const result = getNextVersionNumber(params);
-      expect(result).toBe('1.2.1-canary.0');
-    });
-
-    it('should handle tag version without a count', () => {
-      const params: VersionParams = {
-        currentTagVersion: '1.2.1',
-        latest: '1.2.0',
-        packageJsonVersion: '1.1.0',
-        tag: 'canary',
-      };
-      const result = getNextVersionNumber(params);
-      expect(result).toBe('1.2.1-canary.0');
-    });
-
-    it('should work with different tag names', () => {
+    it('should increment tag count for existing versions', () => {
       const params: VersionParams = {
         currentTagVersion: '1.2.1-alpha.2',
-        latest: '1.2.0',
-        packageJsonVersion: '1.1.0',
+        packageJsonVersion: '1.2.1',
         tag: 'alpha',
       };
       const result = getNextVersionNumber(params);
@@ -119,8 +93,7 @@ describe('publish-prerelease script', () => {
     it('should throw error for invalid version format', () => {
       const params: VersionParams = {
         currentTagVersion: '1.2-canary.0',
-        latest: '1.2.3.4',
-        packageJsonVersion: '1.1.0',
+        packageJsonVersion: '1.2.3.4',
         tag: 'canary',
       };
       expect(() => getNextVersionNumber(params)).toThrow(
@@ -128,10 +101,9 @@ describe('publish-prerelease script', () => {
       );
     });
 
-    it('should use package.json version as base when it is higher than latest', () => {
+    it('should use package.json version as base for new prerelease', () => {
       const params: VersionParams = {
         currentTagVersion: null as unknown as string,
-        latest: '0.38.14',
         packageJsonVersion: '1.0.0',
         tag: 'alpha',
       };
@@ -139,37 +111,24 @@ describe('publish-prerelease script', () => {
       expect(result).toBe('1.0.0-alpha.0');
     });
 
-    it('should increment package.json version tag when current tag matches', () => {
+    it('should start new version series when package.json version changes', () => {
+      const params: VersionParams = {
+        currentTagVersion: '0.38.14-alpha.5',
+        packageJsonVersion: '1.0.0',
+        tag: 'alpha',
+      };
+      const result = getNextVersionNumber(params);
+      expect(result).toBe('1.0.0-alpha.0');
+    });
+
+    it('should increment tag count when package.json version matches current tag base', () => {
       const params: VersionParams = {
         currentTagVersion: '1.0.0-alpha.0',
-        latest: '0.38.14',
         packageJsonVersion: '1.0.0',
         tag: 'alpha',
       };
       const result = getNextVersionNumber(params);
       expect(result).toBe('1.0.0-alpha.1');
-    });
-
-    it('should use incremented latest version when package.json version is not higher', () => {
-      const params: VersionParams = {
-        currentTagVersion: null as unknown as string,
-        latest: '1.2.0',
-        packageJsonVersion: '1.1.0',
-        tag: 'canary',
-      };
-      const result = getNextVersionNumber(params);
-      expect(result).toBe('1.2.1-canary.0');
-    });
-
-    it('should use incremented latest version when package.json version equals latest', () => {
-      const params: VersionParams = {
-        currentTagVersion: null as unknown as string,
-        latest: '1.1.0',
-        packageJsonVersion: '1.1.0',
-        tag: 'canary',
-      };
-      const result = getNextVersionNumber(params);
-      expect(result).toBe('1.1.1-canary.0');
     });
   });
 
@@ -239,13 +198,13 @@ describe('publish-prerelease script', () => {
 
       // Verify console logs
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        'Found versions:\nlatest: 1.2.0\npackage.json: 1.1.0\ncanary: 1.2.1-canary.0',
+        'Found versions:\npackage.json: 1.1.0\ncanary: 1.2.1-canary.0',
       );
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        'Next canary version: 1.2.1-canary.1',
+        'Next canary version: 1.1.0-canary.0',
       );
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        'canary release published: 1.2.1-canary.1',
+        'canary release published: 1.1.0-canary.0',
       );
 
       // Verify the next version was calculated and published
@@ -277,13 +236,13 @@ describe('publish-prerelease script', () => {
 
       // Verify console logs
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        'Found versions:\nlatest: 1.2.0\npackage.json: 1.1.0\nalpha: 1.2.1-alpha.2',
+        'Found versions:\npackage.json: 1.1.0\nalpha: 1.2.1-alpha.2',
       );
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        'Next alpha version: 1.2.1-alpha.3',
+        'Next alpha version: 1.1.0-alpha.0',
       );
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        'alpha release published: 1.2.1-alpha.3',
+        'alpha release published: 1.1.0-alpha.0',
       );
 
       // Verify the next version was calculated and published
@@ -435,7 +394,7 @@ describe('publish-prerelease script', () => {
       // Verify that publishPrerelease was called (should see console logs)
       expect(consoleSpy).toHaveBeenCalled();
       expect(consoleSpy).toHaveBeenCalledWith(
-        'Found versions:\nlatest: 1.2.0\npackage.json: 1.1.0\ncanary: 1.2.1-canary.0',
+        'Found versions:\npackage.json: 1.1.0\ncanary: 1.2.1-canary.0',
       );
 
       consoleSpy.mockRestore();

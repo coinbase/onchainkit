@@ -7,6 +7,15 @@ import { fileURLToPath } from 'url';
 const DIST_TAGS_URL =
   'https://registry.npmjs.org/-/package/@coinbase//onchainkit/dist-tags';
 
+/**
+ * Manages the publishing of a prerelease version of OnchainKit.
+ * Uses the current version from package.json as the base version.
+ *
+ * @example
+ * ```bash
+ * pnpm f:ock publish-prerelease --tag alpha
+ * ```
+ */
 export async function publishPrerelease() {
   const { tag } = parseArgs();
   let nextVersion = '';
@@ -14,7 +23,6 @@ export async function publishPrerelease() {
   try {
     const distTagsResponse = await fetch(DIST_TAGS_URL);
     const distTags = await distTagsResponse.json();
-    const { latest } = distTags;
     const currentTagVersion = distTags[tag];
 
     // Read the current version from package.json
@@ -25,12 +33,11 @@ export async function publishPrerelease() {
     const packageJsonVersion = packageJson.version;
 
     console.log(
-      `Found versions:\nlatest: ${latest}\npackage.json: ${packageJsonVersion}\n${tag}: ${currentTagVersion}`,
+      `Found versions:\npackage.json: ${packageJsonVersion}\n${tag}: ${currentTagVersion}`,
     );
 
     nextVersion = getNextVersionNumber({
       currentTagVersion,
-      latest,
       packageJsonVersion,
       tag,
     });
@@ -75,48 +82,27 @@ function parseArgs() {
  * Get the next version number for the specified tag
  * @param {Object} params - The version parameters
  * @param {string} params.currentTagVersion - The current version for the specified tag
- * @param {string} params.latest - The latest version
  * @param {string} params.packageJsonVersion - The current version from package.json
  * @param {string} params.tag - The tag name (e.g., 'canary', 'alpha')
  * @returns {string} The next version for the specified tag
  */
 export function getNextVersionNumber({
   currentTagVersion,
-  latest,
   packageJsonVersion,
   tag,
 }) {
-  // Compare package.json version with latest to determine base version
+  // Validate package.json version format
   const packageJsonSplit = packageJsonVersion.split('.').map(Number);
-  const latestSplit = latest.split('.').map(Number);
-
-  if (packageJsonSplit.length !== 3 || latestSplit.length !== 3) {
+  if (packageJsonSplit.length !== 3) {
     throw new Error('Invalid version format');
   }
 
-  // Use package.json version if it's higher than latest, otherwise use latest
-  let baseVersion = latest;
-  const isPackageJsonHigher =
-    packageJsonSplit[0] > latestSplit[0] ||
-    (packageJsonSplit[0] === latestSplit[0] &&
-      packageJsonSplit[1] > latestSplit[1]) ||
-    (packageJsonSplit[0] === latestSplit[0] &&
-      packageJsonSplit[1] === latestSplit[1] &&
-      packageJsonSplit[2] > latestSplit[2]);
-
-  if (isPackageJsonHigher) {
-    baseVersion = packageJsonVersion;
-  } else {
-    // Increment patch version of latest
-    baseVersion = [latestSplit[0], latestSplit[1], latestSplit[2] + 1].join(
-      '.',
-    );
-  }
-
-  const nextPatchAtTagZero = `${baseVersion}-${tag}.0`;
+  // Always use package.json version as the base
+  const baseVersion = packageJsonVersion;
+  const nextVersionAtTagZero = `${baseVersion}-${tag}.0`;
 
   if (!currentTagVersion) {
-    return nextPatchAtTagZero;
+    return nextVersionAtTagZero;
   }
 
   const [tagBase, tagCount] = currentTagVersion.split(new RegExp(`-${tag}\\.`));
@@ -128,7 +114,7 @@ export function getNextVersionNumber({
     return `${baseVersion}-${tag}.${nextCount}`;
   }
 
-  return nextPatchAtTagZero;
+  return nextVersionAtTagZero;
 }
 
 /**
@@ -156,7 +142,6 @@ export function submitToRegistry(nextVersion, tag) {
 }
 
 export async function main() {
-  // Don't run if in test environment
   if (globalThis.__IS_TEST_ENV === true) {
     return;
   }
