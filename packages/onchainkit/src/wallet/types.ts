@@ -15,5 +15,6 @@ export type { WalletDropdownFundLinkProps } from './components/WalletDropdownFun
 export type { WalletDropdownLinkProps } from './components/WalletDropdownLink';
 export type { WalletDropdownContentProps } from './components/WalletDropdownContent';
 export type { WalletAdvancedQrReceiveProps } from './components/WalletAdvancedQrReceive';
+export type { WalletAdvancedSwapProps } from './components/WalletAdvancedSwap';
 
 export type WalletAdvancedFeature = 'qr' | 'swap' | 'send';
