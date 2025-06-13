@@ -3,6 +3,7 @@ import { GENERIC_ERROR_MESSAGE } from '../constants';
 import type { UseSendCallsParams } from '../types';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 import { normalizeTransactionId } from '@/internal/utils/normalizeWagmi';
+import type { UseSendCallsReturnType } from 'wagmi/experimental';
 
 /**
  * useSendCalls: Experimental Wagmi hook for batching transactions with calldata.
@@ -13,8 +14,8 @@ import { normalizeTransactionId } from '@/internal/utils/normalizeWagmi';
 export function useSendCalls({
   setLifecycleStatus,
   setTransactionId,
-}: UseSendCallsParams) {
-  const { status, sendCallsAsync, data, reset } = useSendCallsWagmi({
+}: UseSendCallsParams): UseSendCallsReturnType {
+  return useSendCallsWagmi({
     mutation: {
       onError: (e) => {
         const errorMessage = isUserRejectedRequestError(e)
@@ -34,5 +35,4 @@ export function useSendCalls({
       },
     },
   });
-  return { status, sendCallsAsync, data, reset };
 }

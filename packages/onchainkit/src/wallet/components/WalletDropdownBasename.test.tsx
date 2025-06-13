@@ -1,7 +1,6 @@
 import { useName } from '@/identity/hooks/useName';
 import type { UseQueryResult } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
-import type { GetAccountReturnType } from '@wagmi/core';
 import { base, mainnet } from 'viem/chains';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
@@ -20,9 +19,11 @@ vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
 }));
 
+type UseAccountReturn = ReturnType<typeof useAccount>;
+
 describe('WalletDropdownBasename', () => {
   it('should render "Claim Basename" when no basename', () => {
-    (useAccount as Mock<() => Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<() => Partial<UseAccountReturn>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
     });
@@ -44,7 +45,7 @@ describe('WalletDropdownBasename', () => {
   });
 
   it('should render "Profile" when basename exists', () => {
-    (useAccount as Mock<() => Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<() => Partial<UseAccountReturn>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
     });
@@ -66,7 +67,7 @@ describe('WalletDropdownBasename', () => {
   });
 
   it('should render Spinner when loading', () => {
-    (useAccount as Mock<() => Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<() => Partial<UseAccountReturn>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
     });
@@ -90,7 +91,7 @@ describe('WalletDropdownBasename', () => {
   });
 
   it('should return null if there is no address', () => {
-    (useAccount as Mock<() => Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<() => Partial<UseAccountReturn>>).mockReturnValue({
       address: undefined,
       isConnected: false,
     });
@@ -103,7 +104,7 @@ describe('WalletDropdownBasename', () => {
   });
 
   it('should render "Claim Basename" regardless of chain', () => {
-    (useAccount as Mock<() => Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<() => Partial<UseAccountReturn>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
     });
@@ -125,7 +126,7 @@ describe('WalletDropdownBasename', () => {
   });
 
   it('should render "Profile" when basename exists', () => {
-    (useAccount as Mock<() => Partial<GetAccountReturnType>>).mockReturnValue({
+    (useAccount as Mock<() => Partial<UseAccountReturn>>).mockReturnValue({
       address: '0x1234' as `0x${string}`,
       isConnected: true,
     });
