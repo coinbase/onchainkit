@@ -127,7 +127,7 @@
 
 - **feat:**: Enhanced `Identity` hooks with full TanStack Query options support. By @cpcramer #2116
   - **feat:**: Added MiniKit Provider and Hooks. By @alessey #2082, #2101, #2112
-  - **fix:**: Fixed WalletDropdownLinkProps type to allow ReactNode in icon property. By @gmolki #2058
+  - **fix:**: Fixed WalletDropdownLinkReact type to allow ReactNode in icon property. By @gmolki #2058
   - **feat**: Added event handlers to `Earn` components. @abcrane123 #2106
 
 ## 0.37.7
@@ -743,7 +743,7 @@ export type LifeCycleStatus =
 
 ### Patch Changes
 
-- **chore**: Update all cases of BaseName to Basename. Update `WalletDropdownBaseName` to `WalletDropdownBasename`. Update the identity type `BaseName` to `Basename` and `WalletDropdownBasenameProps` to `WalletDropdownBasenameProps`. By @cpcramer #1110 3d47932
+- **chore**: Update all cases of BaseName to Basename. Update `WalletDropdownBaseName` to `WalletDropdownBasename`. Update the identity type `BaseName` to `Basename` and `WalletDropdownBasenameReact` to `WalletDropdownBasenameReact`. By @cpcramer #1110 3d47932
 
 ## 0.29.2
 
@@ -1066,7 +1066,7 @@ Removed the `onSubmit` functionality from the `SwapButton` component and adds an
 
 ### Patch Changes
 
-- **feat**: exported `SwapToggleButtonReact`, `WalletDropdownDisconnectProps` and `WalletDropdownLinkProps` types. Added more custom option to `WalletDropdownLink` component. By @zizzamia #754 5959b49
+- **feat**: exported `SwapToggleButtonReact`, `WalletDropdownDisconnectReact` and `WalletDropdownLinkReact` types. Added more custom option to `WalletDropdownLink` component. By @zizzamia #754 5959b49
 
 ## 0.24.0
 
