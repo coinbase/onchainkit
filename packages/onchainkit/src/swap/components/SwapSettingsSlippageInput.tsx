@@ -1,19 +1,17 @@
 'use client';
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { SwapEvent } from '@/core/analytics/types';
-import { useCallback, useState } from 'react';
-import { cn, pressable, text } from '../../styles/theme';
-import type { SwapSettingsSlippageInputReact } from '../types';
+import { ComponentProps, useCallback, useId, useState } from 'react';
+import { cn, pressable, text } from '@/styles/theme';
+import type { SwapSettingsSlippageInputProps } from '../types';
 import { useSwapContext } from './SwapProvider';
-
-const SLIPPAGE_SETTINGS = {
-  AUTO: 'Auto',
-  CUSTOM: 'Custom',
-};
+import { TextInput } from '@/internal/components/TextInput';
+import { SLIPPAGE_SETTINGS, SlippageSettingsType } from '../constants';
 
 export function SwapSettingsSlippageInput({
   className,
-}: SwapSettingsSlippageInputReact) {
+  render,
+}: SwapSettingsSlippageInputProps) {
   const { sendAnalytics } = useAnalytics();
   const {
     config: { maxSlippage: defaultMaxSlippage },
@@ -23,7 +21,7 @@ export function SwapSettingsSlippageInput({
 
   // Set initial slippage values to match previous selection or default,
   // ensuring consistency when dropdown is reopened
-  const [slippageSetting, setSlippageSetting] = useState(
+  const [slippageSetting, setSlippageSetting] = useState<SlippageSettingsType>(
     lifecycleStatus.statusData.maxSlippage === defaultMaxSlippage
       ? SLIPPAGE_SETTINGS.AUTO
       : SLIPPAGE_SETTINGS.CUSTOM,
@@ -45,6 +43,10 @@ export function SwapSettingsSlippageInput({
       if (newSlippage !== currentSlippage) {
         handleAnalyticsSlippageChange(currentSlippage, newSlippage);
 
+        if (slippageSetting === SLIPPAGE_SETTINGS.AUTO) {
+          setSlippageSetting(SLIPPAGE_SETTINGS.CUSTOM);
+        }
+
         updateLifecycleStatus({
           statusName: 'slippageChange',
           statusData: {
@@ -57,34 +59,45 @@ export function SwapSettingsSlippageInput({
       lifecycleStatus.statusData.maxSlippage,
       updateLifecycleStatus,
       handleAnalyticsSlippageChange,
+      slippageSetting,
     ],
   );
 
   // Handles user input for custom slippage.
   // Parses the input and updates slippage state.
-  const handleSlippageChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newSlippage = e.target.value;
-      const parsedSlippage = Number.parseFloat(newSlippage);
-      const isValidNumber = !Number.isNaN(parsedSlippage);
+  const handleSlippageChange: ComponentProps<typeof TextInput>['onChange'] =
+    useCallback(
+      (newSlippage: string) => {
+        const parsedSlippage = Number.parseFloat(newSlippage);
+        const isValidNumber = !Number.isNaN(parsedSlippage);
 
-      // Update slippage to parsed value if valid, otherwise set to 0
-      updateSlippage(isValidNumber ? parsedSlippage : 0);
-    },
-    [updateSlippage],
-  );
+        // Update slippage to parsed value if valid, otherwise set to 0
+        updateSlippage(isValidNumber ? parsedSlippage : 0);
+      },
+      [updateSlippage],
+    );
 
   // Toggles between auto and custom slippage settings
   // Resets to default slippage when auto is selected
   const handleSlippageSettingChange = useCallback(
     (setting: string) => {
-      setSlippageSetting(setting);
+      setSlippageSetting(setting as SlippageSettingsType);
       if (setting === SLIPPAGE_SETTINGS.AUTO) {
         updateSlippage(defaultMaxSlippage);
       }
     },
     [defaultMaxSlippage, updateSlippage],
   );
+
+  const slippageInputId = useId();
+
+  if (render) {
+    return render({
+      slippageSetting,
+      setSlippageSetting: handleSlippageSettingChange,
+      setSlippageValue: updateSlippage,
+    });
+  }
 
   return (
     <section
@@ -109,6 +122,7 @@ export function SwapSettingsSlippageInput({
           <button
             key={setting}
             type="button"
+            aria-current={slippageSetting === setting ? 'true' : undefined}
             className={cn(
               pressable.default,
               'text-ock-text-foreground',
@@ -139,17 +153,18 @@ export function SwapSettingsSlippageInput({
           slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'opacity-50',
         )}
       >
-        <label htmlFor="slippage-input" className="sr-only">
+        <label htmlFor={slippageInputId} className="sr-only">
           Slippage Percentage
         </label>
-        <input
-          id="slippage-input"
+        <TextInput
+          id={slippageInputId}
           type="text"
-          value={lifecycleStatus.statusData.maxSlippage}
+          value={String(lifecycleStatus.statusData.maxSlippage)}
           onChange={handleSlippageChange}
+          placeholder="0"
           disabled={slippageSetting === SLIPPAGE_SETTINGS.AUTO}
           className={cn(
-            'text-ock-text-foreground',
+            'text-ock-text-foreground truncate',
             text.label2,
             'w-full flex-grow bg-transparent pl-1 font-normal leading-6 focus:outline-none',
             slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'cursor-not-allowed',

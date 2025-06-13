@@ -3,7 +3,7 @@ import { SwapMessage } from '@/swap/constants';
 import { UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE } from '@/swap/constants';
 import { CDP_GET_SWAP_QUOTE } from '../core/network/definitions/swap';
 import { sendRequest } from '../core/network/request';
-import type { SwapQuote } from '../swap/types';
+import type { SwapQuoteParams } from '../swap/types';
 import { getSwapErrorCode } from '../swap/utils/getSwapErrorCode';
 import type {
   GetSwapQuoteParams,
@@ -61,7 +61,7 @@ export async function getSwapQuote(
   }
 
   try {
-    const res = await sendRequest<SwapAPIParams, SwapQuote>(
+    const res = await sendRequest<SwapAPIParams, SwapQuoteParams>(
       CDP_GET_SWAP_QUOTE,
       [apiParams],
       _context,

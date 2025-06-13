@@ -1,4 +1,14 @@
-export function formatAmount(num: string): string {
+import { getRoundedAmount } from '@/internal/utils/getRoundedAmount';
+
+export const formatUSD = (amount: string) => {
+  if (!amount || amount === '0') {
+    return null;
+  }
+  const roundedAmount = Number(getRoundedAmount(amount, 2));
+  return roundedAmount.toFixed(2);
+};
+
+export const formatToDecimalString = (num: string) => {
   // If the number is not in scientific notation return it as it is
   if (!/\d+\.?\d*e[+-]*\d+/i.test(num)) {
     return num;
@@ -29,4 +39,4 @@ export function formatAmount(num: string): string {
 
   // Otherwise, we insert the decimal point at the new position
   return `${fullNumber.slice(0, newPosition)}.${fullNumber.slice(newPosition)}`;
-}
+};

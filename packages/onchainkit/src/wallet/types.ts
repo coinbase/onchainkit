@@ -1,6 +1,6 @@
 import type { Portfolio, PortfolioTokenWithFiatValue } from '@/api/types';
 import type { SwapError } from '@/swap';
-import type { SwapDefaultReact } from '@/swap/types';
+import type { SwapDefaultProps } from '@/swap/types';
 import type { Token } from '@/token';
 import type { QueryObserverResult } from '@tanstack/react-query';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
@@ -276,4 +276,4 @@ export type WalletAdvancedSwapProps = {
     /** Optional className override for the swap toast */
     toast?: string;
   };
-} & Omit<SwapDefaultReact, 'children' | 'className' | 'headerLeftContent'>;
+} & Omit<SwapDefaultProps, 'children' | 'className' | 'headerLeftContent'>;
