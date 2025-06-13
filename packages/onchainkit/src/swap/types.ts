@@ -18,11 +18,8 @@ import type {
 import type { BuildSwapTransaction, RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
 import type { Call } from '../transaction/types';
-<<<<<<< HEAD
 import type { ToastProps } from '@/internal/components/Toast';
-=======
 import type { SlippageSettingsType } from './constants';
->>>>>>> 23a12f0b ([feat] swap audit)
 
 export type SendSwapTransactionParams = {
   config: Config;
