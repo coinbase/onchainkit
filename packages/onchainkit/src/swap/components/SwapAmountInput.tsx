@@ -10,10 +10,7 @@ import { cn, pressable, text } from '@/styles/theme';
 import type { Token } from '@/token';
 import { TokenChip, TokenSelectDropdown } from '@/token';
 import type { SwapAmountInputProps } from '../types';
-import {
-  formatMaybeScientificNotationToDecimal,
-  formatUSD,
-} from '@/utils/formatter';
+import { formatToDecimalString, formatUSD } from '@/utils/formatter';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapAmountInput({
@@ -118,7 +115,7 @@ export function SwapAmountInput({
           error={!!(hasInsufficientBalance && address)}
           placeholder="0.0"
           delayMs={delayMs}
-          value={formatMaybeScientificNotationToDecimal(amount)}
+          value={formatToDecimalString(amount)}
           setValue={setAmount}
           disabled={source.loading}
           onChange={handleChange}
@@ -138,7 +135,7 @@ export function SwapAmountInput({
       </div>
       <div className="mt-4 flex w-full items-center justify-between">
         <div className={cn(text.label2, 'text-ock-text-foreground-muted')}>
-          {formatUSD(amountUSD)}
+          ~{formatUSD(amountUSD)}
         </div>
         <div
           className={cn(

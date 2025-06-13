@@ -1,7 +1,7 @@
 import { TextInput } from '@/internal/components/TextInput';
 import { isValidAmount } from '@/internal/utils/isValidAmount';
 import { cn, text } from '@/styles/theme';
-import { formatMaybeScientificNotationToDecimal } from '@/utils/formatter';
+import { formatToDecimalString } from '@/utils/formatter';
 import type { EarnAmountInputProps } from '../types';
 
 export function EarnAmountInput({
@@ -22,7 +22,7 @@ export function EarnAmountInput({
         className,
       )}
       placeholder="0.0"
-      value={formatMaybeScientificNotationToDecimal(value)}
+      value={formatToDecimalString(value)}
       onChange={onChange}
       inputValidator={isValidAmount}
       disabled={disabled}

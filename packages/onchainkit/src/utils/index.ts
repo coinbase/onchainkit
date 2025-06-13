@@ -1,2 +1,2 @@
 export { generateUUIDWithInsecureFallback } from './crypto';
-export { formatUSD, formatMaybeScientificNotationToDecimal } from './formatter';
+export { formatUSD, formatToDecimalString } from './formatter';

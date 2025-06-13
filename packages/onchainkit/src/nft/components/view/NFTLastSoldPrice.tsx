@@ -1,7 +1,7 @@
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import type { ReactNode } from 'react';
 import { cn, text } from '../../../styles/theme';
-import { formatMaybeScientificNotationToDecimal } from '@/utils/formatter';
+import { formatToDecimalString } from '@/utils/formatter';
 import { formatAmount } from '../../../token/utils/formatAmount';
 
 type NFTLastSoldPriceProps = {
@@ -30,7 +30,7 @@ export function NFTLastSoldPrice({
       <div className={cn('text-ock-text-foreground-muted')}>{label}</div>
       <div className="flex">
         <div className={text.label1}>
-          {formatMaybeScientificNotationToDecimal(amount)} {currency}
+          {formatToDecimalString(amount)} {currency}
         </div>
         <div className="px-2">~</div>
         <div>

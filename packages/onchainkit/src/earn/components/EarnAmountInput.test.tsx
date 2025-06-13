@@ -1,11 +1,11 @@
 import { isValidAmount } from '@/internal/utils/isValidAmount';
-import { formatMaybeScientificNotationToDecimal } from '@/utils/formatter';
+import { formatToDecimalString } from '@/utils/formatter';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { EarnAmountInput } from './EarnAmountInput';
 
 vi.mock('@/utils/formatter', () => ({
-  formatMaybeScientificNotationToDecimal: vi.fn((value) => value),
+  formatToDecimalString: vi.fn((value) => value),
 }));
 
 vi.mock('@/internal/utils/isValidAmount', () => ({
@@ -21,13 +21,11 @@ describe('EarnAmountInput Component', () => {
     expect(input).toHaveValue('0');
   });
 
-  it('formats the value using formatMaybeScientificNotationToDecimal', () => {
+  it('formats the value using formatToDecimalString', () => {
     render(<EarnAmountInput value="1234.56" onChange={() => {}} />);
 
     const input = screen.getByPlaceholderText('0.0');
-    expect(formatMaybeScientificNotationToDecimal).toHaveBeenCalledWith(
-      '1234.56',
-    );
+    expect(formatToDecimalString).toHaveBeenCalledWith('1234.56');
     expect(input).toHaveValue('1234.56');
   });
 

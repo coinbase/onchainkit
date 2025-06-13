@@ -5,10 +5,10 @@ export const formatUSD = (amount: string) => {
     return null;
   }
   const roundedAmount = Number(getRoundedAmount(amount, 2));
-  return `~$${roundedAmount.toFixed(2)}`;
+  return roundedAmount.toFixed(2);
 };
 
-export const formatMaybeScientificNotationToDecimal = (num: string) => {
+export const formatToDecimalString = (num: string) => {
   // If the number is not in scientific notation return it as it is
   if (!/\d+\.?\d*e[+-]*\d+/i.test(num)) {
     return num;
