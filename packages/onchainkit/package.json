@@ -21,7 +21,7 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "get-next-version": "node ./scripts/get-next-version.js",
-    "publish-alpha": "node ./scripts/publish-alpha.js",
+    "publish-canary": "node ./scripts/publish-canary.js",
     "validate-build": "node ./scripts/validate-build.js",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
