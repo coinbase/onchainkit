@@ -2,6 +2,7 @@ import type { Address } from 'viem';
 import type { Fee, QuoteWarning, SwapQuote, Transaction } from '../swap/types';
 import type { Token } from '../token/types';
 import type { Call } from '../transaction/types';
+import type { SwapAPIResponse } from '../swap/types';
 
 export type AddressOrETH = Address | 'ETH';
 
@@ -417,3 +418,44 @@ export type GetPriceQuoteResponse =
       priceQuotes: PriceQuote[];
     }
   | APIError;
+
+/**
+ * Note: exported as public Type
+ */
+export type BatchRequest = {
+  /** JSON-RPC version */
+  jsonrpc: '2.0';
+  /** The ID of the request */
+  id: number;
+  /** The JSON-RPC method */
+  method: string;
+  /** The parameters for the JSON-RPC method */
+  params: SwapAPIParams[];
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type BatchResponse = {
+  /** JSON-RPC version */
+  jsonrpc: '2.0';
+  /** The ID corresponding to the request */
+  id: number;
+  /** The result of the request if successful */
+  result?: SwapAPIResponse;
+  /** The error returned by the request (if any) */
+  error?: {
+    code: number;
+    message: string;
+  };
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type BuildBatchSwapTransactionParams = BuildSwapTransactionParams[];
+
+/**
+ * Note: exported as public Type
+ */
+export type BuildBatchSwapTransactionResponse = BuildSwapTransactionResponse[];
