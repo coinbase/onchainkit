@@ -1,193 +1,136 @@
-import {
-  type ONCHAIN_KIT_CONFIG,
-  getOnchainKitConfig,
-} from '@/core/OnchainKitConfig';
-import { ANALYTICS_API_URL } from '@/core/analytics/constants';
-import { WalletEvent } from '@/core/analytics/types';
-import { sendAnalytics } from '@/core/analytics/utils/sendAnalytics';
-import { cleanup, renderHook } from '@testing-library/react';
-import {
-  type Mock,
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest';
+import '@testing-library/jest-dom';
+import { renderHook } from '@testing-library/react';
+import { useContext } from 'react';
+import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
+import { AnalyticsContext } from '../components/AnalyticsProvider';
 import { useAnalytics } from './useAnalytics';
 
-vi.mock('@/core/OnchainKitConfig', () => ({
-  getOnchainKitConfig: vi.fn(),
+// Mock React's useContext
+vi.mock('react', async (importOriginal) => {
+  const actual = (await importOriginal()) as typeof import('react');
+  return {
+    ...actual,
+    useContext: vi.fn(),
+  };
+});
+
+// Mock the AnalyticsProvider
+vi.mock('../components/AnalyticsProvider', () => ({
+  AnalyticsContext: {
+    Provider: ({ children }: { children: React.ReactNode }) => children,
+  },
 }));
 
-vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
-  sendAnalytics: vi.fn(),
-}));
+const mockUseContext = useContext as Mock;
 
 describe('useAnalytics', () => {
-  const mockApiKey = 'test-api-key';
-  const mockSessionId = 'test-session-id';
-  const mockAnalyticsUrl = 'https://custom-analytics.example.com';
-  const mockOrigin = 'https://example.com';
-
   beforeEach(() => {
     vi.clearAllMocks();
-
-    Object.defineProperty(window, 'location', {
-      configurable: true,
-      value: {
-        ...window.location,
-        origin: mockOrigin,
-      },
-    });
-
-    (getOnchainKitConfig as Mock).mockImplementation(
-      (key: keyof typeof ONCHAIN_KIT_CONFIG) => {
-        const config = {
-          apiKey: mockApiKey,
-          sessionId: mockSessionId,
-          config: {
-            analytics: true,
-            analyticsUrl: mockAnalyticsUrl,
-          },
-        };
-        return config[key as keyof typeof config];
-      },
-    );
   });
 
-  afterEach(() => {
-    cleanup();
-    vi.restoreAllMocks();
-  });
-
-  it('should return sendAnalytics function', () => {
-    const { result } = renderHook(() => useAnalytics());
-    expect(result.current.sendAnalytics).toBeDefined();
-  });
-
-  it('should call sendAnalytics with correct payload structure', () => {
-    const mockTitle = 'Test App';
-    Object.defineProperty(global.document, 'title', {
-      value: mockTitle,
-      writable: true,
-    });
-
-    const { result } = renderHook(() => useAnalytics());
-    const event = WalletEvent.ConnectInitiated;
-    const data = {
-      component: 'ConnectWallet',
-      walletProvider: 'TestProvider',
+  it('should return the analytics context value', () => {
+    const mockAnalyticsContext = {
+      sendAnalytics: vi.fn(),
     };
 
-    result.current.sendAnalytics(event, data);
-
-    expect(sendAnalytics).toHaveBeenCalledWith({
-      url: mockAnalyticsUrl,
-      headers: {
-        'OnchainKit-App-Name': mockTitle,
-      },
-      body: {
-        apiKey: mockApiKey,
-        sessionId: mockSessionId,
-        timestamp: expect.any(Number),
-        eventType: event,
-        data,
-        origin: mockOrigin,
-      },
-    });
-  });
-
-  it('should not send analytics when disabled in config', () => {
-    (getOnchainKitConfig as Mock).mockImplementation(
-      (key: keyof typeof ONCHAIN_KIT_CONFIG) => {
-        const config = {
-          apiKey: mockApiKey,
-          sessionId: mockSessionId,
-          config: {
-            analytics: false,
-          },
-        };
-        return config[key as keyof typeof config];
-      },
-    );
+    mockUseContext.mockReturnValue(mockAnalyticsContext);
 
     const { result } = renderHook(() => useAnalytics());
-    const event = WalletEvent.ConnectSuccess;
-    const data = {
-      address: '0x0000000000000000000000000000000000000000',
-      component: 'ConnectWallet',
-      walletProvider: 'TestProvider',
-    };
 
-    result.current.sendAnalytics(event, data);
-
-    expect(sendAnalytics).not.toHaveBeenCalled();
+    expect(mockUseContext).toHaveBeenCalledWith(AnalyticsContext);
+    expect(result.current).toBe(mockAnalyticsContext);
   });
 
-  it('should use default analytics URL when not provided in config', () => {
-    (getOnchainKitConfig as Mock).mockImplementation(
-      (key: keyof typeof ONCHAIN_KIT_CONFIG) => {
-        const config = {
-          apiKey: mockApiKey,
-          sessionId: mockSessionId,
-          config: {
-            analytics: true,
-          },
-        };
-        return config[key as keyof typeof config];
-      },
-    );
-
-    const { result } = renderHook(() => useAnalytics());
-    const event = WalletEvent.ConnectError;
-    const data = {
-      error: 'Test error message',
-      metadata: {
-        connector: 'TestProvider',
-      },
+  it('should return context with sendAnalytics function', () => {
+    const mockSendAnalytics = vi.fn();
+    const mockAnalyticsContext = {
+      sendAnalytics: mockSendAnalytics,
     };
 
-    result.current.sendAnalytics(event, data);
+    mockUseContext.mockReturnValue(mockAnalyticsContext);
 
-    expect(sendAnalytics).toHaveBeenCalledWith(
-      expect.objectContaining({
-        url: ANALYTICS_API_URL,
-      }),
-    );
+    const { result } = renderHook(() => useAnalytics());
+
+    expect(result.current.sendAnalytics).toBe(mockSendAnalytics);
+    expect(typeof result.current.sendAnalytics).toBe('function');
   });
 
-  it('should handle undefined apiKey and sessionId', () => {
-    (getOnchainKitConfig as Mock).mockImplementation(
-      (key: keyof typeof ONCHAIN_KIT_CONFIG) => {
-        const config = {
-          apiKey: undefined,
-          sessionId: undefined,
-          config: {
-            analytics: true,
-          },
-        };
-        return config[key as keyof typeof config];
-      },
-    );
-
-    const { result } = renderHook(() => useAnalytics());
-    const event = WalletEvent.ConnectInitiated;
-    const data = {
-      component: 'ConnectWallet',
-      walletProvider: 'TestProvider',
+  it('should return default context when no provider is present', () => {
+    const defaultContext = {
+      sendAnalytics: () => {},
     };
 
-    result.current.sendAnalytics(event, data);
+    mockUseContext.mockReturnValue(defaultContext);
 
-    expect(sendAnalytics).toHaveBeenCalledWith(
-      expect.objectContaining({
-        body: expect.objectContaining({
-          apiKey: 'undefined',
-          sessionId: 'undefined',
-        }),
-      }),
-    );
+    const { result } = renderHook(() => useAnalytics());
+
+    expect(result.current).toBe(defaultContext);
+    expect(typeof result.current.sendAnalytics).toBe('function');
+  });
+
+  it('should handle undefined context', () => {
+    mockUseContext.mockReturnValue(undefined);
+
+    const { result } = renderHook(() => useAnalytics());
+
+    expect(result.current).toBeUndefined();
+  });
+
+  it('should handle null context', () => {
+    mockUseContext.mockReturnValue(null);
+
+    const { result } = renderHook(() => useAnalytics());
+
+    expect(result.current).toBeNull();
+  });
+
+  it('should call useContext with AnalyticsContext every time', () => {
+    const mockAnalyticsContext = {
+      sendAnalytics: vi.fn(),
+    };
+
+    mockUseContext.mockReturnValue(mockAnalyticsContext);
+
+    // Render the hook multiple times
+    const { result: result1 } = renderHook(() => useAnalytics());
+    const { result: result2 } = renderHook(() => useAnalytics());
+
+    expect(mockUseContext).toHaveBeenCalledTimes(2);
+    expect(mockUseContext).toHaveBeenNthCalledWith(1, AnalyticsContext);
+    expect(mockUseContext).toHaveBeenNthCalledWith(2, AnalyticsContext);
+    expect(result1.current).toBe(mockAnalyticsContext);
+    expect(result2.current).toBe(mockAnalyticsContext);
+  });
+
+  it('should work with different context values', () => {
+    const context1 = { sendAnalytics: vi.fn() };
+    const context2 = { sendAnalytics: vi.fn() };
+
+    // Test with first context
+    mockUseContext.mockReturnValue(context1);
+    const { result: result1 } = renderHook(() => useAnalytics());
+    expect(result1.current).toBe(context1);
+
+    // Test with second context
+    mockUseContext.mockReturnValue(context2);
+    const { result: result2 } = renderHook(() => useAnalytics());
+    expect(result2.current).toBe(context2);
+
+    expect(result1.current).not.toBe(result2.current);
+  });
+
+  it('should preserve function reference when context is stable', () => {
+    const stableSendAnalytics = vi.fn();
+    const stableContext = { sendAnalytics: stableSendAnalytics };
+
+    mockUseContext.mockReturnValue(stableContext);
+
+    const { result: result1 } = renderHook(() => useAnalytics());
+    const { result: result2 } = renderHook(() => useAnalytics());
+
+    expect(result1.current.sendAnalytics).toBe(stableSendAnalytics);
+    expect(result2.current.sendAnalytics).toBe(stableSendAnalytics);
+    expect(result1.current).toBe(stableContext);
+    expect(result2.current).toBe(stableContext);
   });
 });
