@@ -130,6 +130,16 @@ describe('publish-prerelease script', () => {
       const result = getNextVersionNumber(params);
       expect(result).toBe('1.0.0-alpha.1');
     });
+
+    it('should handle tag count when tag count is undefined', () => {
+      const params: VersionParams = {
+        currentTagVersion: '1.0.0-alpha.',
+        packageJsonVersion: '1.0.0',
+        tag: 'alpha',
+      };
+      const result = getNextVersionNumber(params);
+      expect(result).toBe('1.0.0-alpha.0');
+    });
   });
 
   describe('submitToRegistry', () => {
