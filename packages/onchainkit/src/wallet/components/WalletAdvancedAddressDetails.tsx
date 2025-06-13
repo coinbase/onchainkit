@@ -9,6 +9,7 @@ import { useWalletContext } from './WalletProvider';
 import { usePortfolio } from '../hooks/usePortfolio';
 import { RequestContext } from '@/core/network/constants';
 import { useAccount } from 'wagmi';
+import { useOnchainKit } from '@/useOnchainKit';
 
 type WalletAdvancedAddressDetailsProps = {
   classNames?: {
@@ -22,7 +23,9 @@ type WalletAdvancedAddressDetailsProps = {
 export function WalletAdvancedAddressDetails({
   classNames,
 }: WalletAdvancedAddressDetailsProps) {
-  const { address, chain, animations } = useWalletContext();
+  const { animations } = useWalletContext();
+  const { address } = useAccount();
+  const { chain } = useOnchainKit();
   const [copyText, setCopyText] = useState('Copy');
 
   const handleCopyAddress = useCallback(async () => {

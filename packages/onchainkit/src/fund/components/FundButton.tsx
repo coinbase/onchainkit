@@ -40,7 +40,6 @@ export function FundButton({
   const { address } = useAccount();
   const fundingUrlToRender = fundingUrl ?? fallbackFundingUrl;
   const isDisabled = disabled || !fundingUrlToRender;
-  const shouldShowConnectWallet = !address;
 
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
   const { sendAnalytics } = useAnalytics();
@@ -170,7 +169,7 @@ export function FundButton({
     );
   }, [buttonState, buttonIcon, buttonTextContent]);
 
-  if (shouldShowConnectWallet) {
+  if (!address) {
     return <ConnectWallet className={cn('w-full', className)} />;
   }
 

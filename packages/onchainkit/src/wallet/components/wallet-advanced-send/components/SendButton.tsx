@@ -15,13 +15,15 @@ import { useCallback } from 'react';
 import { parseUnits } from 'viem';
 import { base } from 'viem/chains';
 import { useWalletContext } from '../../WalletProvider';
+import { useOnchainKit } from '@/useOnchainKit';
 import type { SendLifecycleStatus } from '../types';
 import { getSendCalldata } from '../utils/getSendCalldata';
 import { useSendContext } from './SendProvider';
 import { RenderSendButton } from './RenderSendButton';
 
 export function SendButton() {
-  const { chain: senderChain, isSponsored } = useWalletContext();
+  const { chain: senderChain } = useOnchainKit();
+  const { isSponsored } = useWalletContext();
   const {
     recipientState,
     cryptoAmount: inputAmount,

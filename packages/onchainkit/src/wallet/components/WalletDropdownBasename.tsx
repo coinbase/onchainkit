@@ -6,11 +6,15 @@ import { basenameSvg } from '@/internal/svg/basenameSvg';
 import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
 import { cn, pressable, text } from '../../styles/theme';
-import type { WalletDropdownBasenameReact } from '../types';
+
+export type WalletDropdownBasenameProps = {
+  /** Optional className override for the element */
+  className?: string;
+};
 
 export function WalletDropdownBasename({
   className,
-}: WalletDropdownBasenameReact) {
+}: WalletDropdownBasenameProps) {
   const { address } = useAccount();
 
   if (!address) {

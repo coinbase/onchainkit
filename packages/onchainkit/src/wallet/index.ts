@@ -1,4 +1,3 @@
-// 🌲☀🌲
 // Components
 export { Wallet } from './components/Wallet';
 export { ConnectWallet } from './components/ConnectWallet';
@@ -31,16 +30,15 @@ export { useIsWalletACoinbaseSmartWallet } from './hooks/useIsWalletACoinbaseSma
 
 // Types
 export type {
-  ConnectWalletReact,
-  ConnectWalletTextReact,
+  ConnectWalletProps,
   IsValidAAEntrypointOptions,
   IsWalletACoinbaseSmartWalletOptions,
   IsWalletACoinbaseSmartWalletResponse,
   WalletContextType,
-  WalletDropdownBasenameReact,
-  WalletDropdownDisconnectReact,
-  WalletDropdownFundLinkReact,
-  WalletDropdownLinkReact,
-  WalletDropdownReact,
-  WalletReact,
+  WalletDropdownBasenameProps,
+  WalletDropdownDisconnectProps,
+  WalletDropdownFundLinkProps,
+  WalletDropdownLinkProps,
+  WalletDropdownProps,
+  WalletProps,
 } from './types';

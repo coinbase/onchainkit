@@ -14,8 +14,38 @@ import { SwapSettingsSlippageTitle } from '@/swap/components/SwapSettingsSlippag
 import { SwapToast } from '@/swap/components/SwapToast';
 import { SwapToggleButton } from '@/swap/components/SwapToggleButton';
 import { useCallback } from 'react';
-import type { WalletAdvancedSwapProps } from '../types';
 import { useWalletContext } from './WalletProvider';
+import { SwapDefaultReact } from '@/swap/types';
+
+export type WalletAdvancedSwapProps = {
+  classNames?: {
+    /** Optional className override for the swap container */
+    container?: string;
+    /** Optional className override for the swap settings component */
+    settings?: {
+      /** Optional className override for the swap settings container */
+      container?: string;
+      /** Optional className override for the swap settings title */
+      slippageTitle?: string;
+      /** Optional className override for the swap settings description */
+      slippageDescription?: string;
+      /** Optional className override for the swap settings input */
+      slippageInput?: string;
+    };
+    /** Optional className override for the swap to amount input */
+    toAmountInput?: string;
+    /** Optional className override for the swap from amount input */
+    fromAmountInput?: string;
+    /** Optional className override for the swap toggle button */
+    toggleButton?: string;
+    /** Optional className override for the swap button */
+    swapButton?: string;
+    /** Optional className override for the swap message */
+    message?: string;
+    /** Optional className override for the swap toast */
+    toast?: string;
+  };
+} & Omit<SwapDefaultReact, 'children' | 'className' | 'headerLeftContent'>;
 
 export function WalletAdvancedSwap({
   config,
