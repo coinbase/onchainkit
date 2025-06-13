@@ -8,12 +8,12 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { CheckoutEvent } from '../../core/analytics/types';
 import { useIcon } from '../../internal/hooks/useIcon';
 import { CHECKOUT_LIFECYCLE_STATUS } from '../constants';
 import { CheckoutButton } from './CheckoutButton';
 import { useCheckoutContext } from './CheckoutProvider';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 vi.mock('./CheckoutProvider', () => ({
   useCheckoutContext: vi.fn(),
@@ -23,8 +23,8 @@ vi.mock('../../internal/hooks/useIcon', () => ({
   useIcon: vi.fn(),
 }));
 
-vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 describe('CheckoutButton', () => {
@@ -41,10 +41,6 @@ describe('CheckoutButton', () => {
     });
 
     (useIcon as Mock).mockReturnValue('<svg>Icon</svg>');
-
-    (useAnalytics as Mock).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
-    });
   });
 
   afterEach(() => {
@@ -138,7 +134,7 @@ describe('CheckoutButton', () => {
     render(<CheckoutButton />);
 
     await waitFor(() => {
-      expect(mockSendAnalytics).toHaveBeenCalledWith(
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
         CheckoutEvent.CheckoutSuccess,
         {
           chargeHandlerId: chargeId,

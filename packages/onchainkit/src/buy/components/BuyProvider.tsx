@@ -13,8 +13,8 @@ import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { BuyEvent } from '../../core/analytics/types';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../../swap/constants';
 import { useAwaitCalls } from '../../swap/hooks/useAwaitCalls';
@@ -108,9 +108,6 @@ export function BuyProvider({
   // used to detect when the popup is closed in order to stop loading state
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
 
-  // Analytics
-  const { sendAnalytics } = useAnalytics();
-
   // Component lifecycle emitters
   useEffect(() => {
     // Error
@@ -125,7 +122,7 @@ export function BuyProvider({
       setTransactionHash(txHash);
       setHasHandledSuccess(true);
 
-      sendAnalytics(BuyEvent.BuySuccess, {
+      sendOCKAnalyticsEvent(BuyEvent.BuySuccess, {
         address,
         amount: Number(from?.amount),
         from: from?.token?.address,
@@ -147,7 +144,6 @@ export function BuyProvider({
     to,
     address,
     paymaster,
-    sendAnalytics,
   ]);
 
   useEffect(() => {
@@ -331,7 +327,7 @@ export function BuyProvider({
           },
         });
       } catch (err) {
-        sendAnalytics(BuyEvent.BuyFailure, {
+        sendOCKAnalyticsEvent(BuyEvent.BuyFailure, {
           error: err instanceof Error ? err.message : String(err),
           metadata: { amount },
         });
@@ -358,7 +354,6 @@ export function BuyProvider({
       useAggregator,
       updateLifecycleStatus,
       lifecycleStatus.statusData.maxSlippage,
-      sendAnalytics,
     ],
   );
 
@@ -369,7 +364,7 @@ export function BuyProvider({
       }
 
       try {
-        sendAnalytics(BuyEvent.BuyInitiated, {
+        sendOCKAnalyticsEvent(BuyEvent.BuyInitiated, {
           amount: Number(from.amount),
           token: from.token.symbol,
         });
@@ -411,7 +406,7 @@ export function BuyProvider({
           walletCapabilities,
         });
       } catch (err) {
-        sendAnalytics(BuyEvent.BuyFailure, {
+        sendOCKAnalyticsEvent(BuyEvent.BuyFailure, {
           error: err instanceof Error ? err.message : String(err),
           metadata: {
             token: from.token.symbol,
@@ -445,7 +440,6 @@ export function BuyProvider({
       updateLifecycleStatus,
       useAggregator,
       walletCapabilities,
-      sendAnalytics,
     ],
   );
 

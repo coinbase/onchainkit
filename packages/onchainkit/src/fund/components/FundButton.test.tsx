@@ -1,7 +1,6 @@
 import { openPopup } from '@/internal/utils/openPopup';
 import { pressable } from '@/styles/theme';
 import '@testing-library/jest-dom';
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { FundEvent } from '@/core/analytics/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import {
@@ -19,6 +18,7 @@ import { quoteResponseDataMock } from '../mocks';
 import { FundButtonRenderParams } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundButton } from './FundButton';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 vi.mock('@/fund/hooks/useGetFundingUrl', () => ({
   useGetFundingUrl: vi.fn(),
@@ -42,6 +42,10 @@ vi.mock('../../wallet/components/ConnectWallet', () => ({
   ),
 }));
 
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
+}));
+
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
   useConnect: () => ({
@@ -51,10 +55,6 @@ vi.mock('wagmi', () => ({
     isLoading: false,
     error: null,
   }),
-}));
-
-vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(),
 }));
 
 const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
@@ -74,14 +74,9 @@ global.fetch = vi.fn(() =>
 ) as Mock;
 
 describe('FundButton', () => {
-  const mockSendAnalytics = vi.fn();
-
   beforeEach(() => {
     (useAccount as Mock).mockReturnValue({
       address: '0x123',
-    });
-    (useAnalytics as Mock).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
     });
   });
 
@@ -254,9 +249,12 @@ describe('FundButton', () => {
       const buttonElement = screen.getByRole('button');
       fireEvent.click(buttonElement);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(FundEvent.FundInitiated, {
-        currency: 'EUR',
-      });
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        FundEvent.FundInitiated,
+        {
+          currency: 'EUR',
+        },
+      );
     });
 
     it('sends FundFailure analytics when popup fails to open', () => {
@@ -270,10 +268,13 @@ describe('FundButton', () => {
       const buttonElement = screen.getByRole('button');
       fireEvent.click(buttonElement);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(FundEvent.FundFailure, {
-        error: 'Failed to open funding popup',
-        metadata: { currency: 'USD' },
-      });
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        FundEvent.FundFailure,
+        {
+          error: 'Failed to open funding popup',
+          metadata: { currency: 'USD' },
+        },
+      );
     });
 
     it('uses USD as default fiatCurrency for analytics', () => {
@@ -287,9 +288,12 @@ describe('FundButton', () => {
       const buttonElement = screen.getByRole('button');
       fireEvent.click(buttonElement);
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(FundEvent.FundInitiated, {
-        currency: 'USD',
-      });
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        FundEvent.FundInitiated,
+        {
+          currency: 'USD',
+        },
+      );
     });
 
     it('does not send analytics when button is disabled', () => {
@@ -298,7 +302,7 @@ describe('FundButton', () => {
       const buttonElement = screen.getByRole('button');
       fireEvent.click(buttonElement);
 
-      expect(mockSendAnalytics).not.toHaveBeenCalled();
+      expect(sendOCKAnalyticsEvent).not.toHaveBeenCalled();
     });
 
     it('does not send analytics when no funding URL is available', () => {
@@ -309,7 +313,7 @@ describe('FundButton', () => {
       const buttonElement = screen.getByRole('button');
       fireEvent.click(buttonElement);
 
-      expect(mockSendAnalytics).not.toHaveBeenCalled();
+      expect(sendOCKAnalyticsEvent).not.toHaveBeenCalled();
     });
 
     it('sends analytics with empty string when address is undefined', () => {
@@ -325,14 +329,16 @@ describe('FundButton', () => {
 
       render(<FundButton fundingUrl={fundingUrl} />);
 
-      const { sendAnalytics } = useAnalytics();
-      sendAnalytics(FundEvent.FundInitiated, {
+      sendOCKAnalyticsEvent(FundEvent.FundInitiated, {
         currency: 'USD',
       });
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith(FundEvent.FundInitiated, {
-        currency: 'USD',
-      });
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        FundEvent.FundInitiated,
+        {
+          currency: 'USD',
+        },
+      );
     });
   });
 });

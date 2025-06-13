@@ -1,6 +1,5 @@
 'use client';
 
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import {
   WalletEvent,
   WalletOption,
@@ -17,6 +16,7 @@ import { useAccount, useDisconnect } from 'wagmi';
 import { useWalletContext } from './WalletProvider';
 import { usePortfolio } from '../hooks/usePortfolio';
 import { RequestContext } from '@/core/network/constants';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 type WalletAdvancedWalletActionsProps = {
   classNames?: {
@@ -34,7 +34,6 @@ export function WalletAdvancedWalletActions({
   const { address } = useAccount();
   const { handleClose, setActiveFeature, animations } = useWalletContext();
   const { disconnect, connectors } = useDisconnect();
-  const { sendAnalytics } = useAnalytics();
 
   const { refetch: refetchPortfolioData } = usePortfolio(
     { address },
@@ -43,22 +42,19 @@ export function WalletAdvancedWalletActions({
 
   const handleAnalyticsOptionSelected = useCallback(
     (option: WalletOptionType) => {
-      sendAnalytics(WalletEvent.OptionSelected, {
+      sendOCKAnalyticsEvent(WalletEvent.OptionSelected, {
         option,
       });
     },
-    [sendAnalytics],
+    [],
   );
 
-  const handleAnalyticsDisconnect = useCallback(
-    (walletProvider: string) => {
-      sendAnalytics(WalletEvent.Disconnect, {
-        component: 'WalletAdvanced',
-        walletProvider,
-      });
-    },
-    [sendAnalytics],
-  );
+  const handleAnalyticsDisconnect = useCallback((walletProvider: string) => {
+    sendOCKAnalyticsEvent(WalletEvent.Disconnect, {
+      component: 'WalletAdvanced',
+      walletProvider,
+    });
+  }, []);
 
   const handleTransactions = useCallback(() => {
     handleAnalyticsOptionSelected(WalletOption.Explorer);

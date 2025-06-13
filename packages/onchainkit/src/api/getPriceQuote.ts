@@ -3,6 +3,8 @@ import { CDP_GET_PRICE_QUOTE } from '@/core/network/definitions/wallet';
 import { sendRequest } from '@/core/network/request';
 
 import type { GetPriceQuoteParams, GetPriceQuoteResponse } from './types';
+import { buildErrorStruct } from './utils/buildErrorStruct';
+import { ApiErrorCode } from './constants';
 
 /**
  * Retrieves a price quote for a token
@@ -28,19 +30,19 @@ export async function getPriceQuote(
       _context,
     );
     if (res.error) {
-      return {
+      return buildErrorStruct({
         code: String(res.error.code),
         error: 'Error fetching price quote',
         message: res.error.message,
-      };
+      });
     }
     return res.result;
   } catch (error) {
-    return {
-      code: 'UNCAUGHT_PRICE_QUOTE_ERROR',
+    return buildErrorStruct({
+      code: ApiErrorCode.UncaughtPriceQuoteError,
       error: 'Something went wrong',
       message: `Error fetching price quote: ${error}`,
-    };
+    });
   }
 }
 
@@ -48,11 +50,11 @@ function validateGetPriceQuoteParams(params: GetPriceQuoteParams) {
   const { tokens } = params;
 
   if (!tokens || tokens.length === 0) {
-    return {
-      code: 'INVALID_INPUT',
+    return buildErrorStruct({
+      code: ApiErrorCode.InvalidInput,
       error: 'Invalid input: tokens must be an array of at least one token',
       message: 'Tokens must be an array of at least one token',
-    };
+    });
   }
 
   return params;

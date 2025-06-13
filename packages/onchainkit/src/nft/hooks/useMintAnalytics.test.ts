@@ -1,4 +1,3 @@
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { MintEvent } from '@/core/analytics/types';
 import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
@@ -11,8 +10,12 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, createConfig, useAccount } from 'wagmi';
 import { WagmiProvider } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
-vi.mock('@/core/analytics/hooks/useAnalytics');
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
+}));
+
 vi.mock('@/nft/components/NFTProvider');
 vi.mock('wagmi', async () => {
   const actual = await vi.importActual('wagmi');
@@ -39,7 +42,6 @@ const Wrapper = ({ children }: PropsWithChildren) => {
 };
 
 describe('useMintAnalytics', () => {
-  let mockSendAnalytics: Mock;
   const mockNFTContext = {
     contractAddress: '0x123',
     tokenId: '1',
@@ -49,10 +51,7 @@ describe('useMintAnalytics', () => {
   const mockAddress = '0xabc' as `0x${string}`;
 
   beforeEach(() => {
-    mockSendAnalytics = vi.fn();
-    (useAnalytics as Mock).mockReturnValue({
-      sendAnalytics: mockSendAnalytics,
-    });
+    vi.clearAllMocks();
     (useNFTContext as Mock).mockReturnValue(mockNFTContext);
     (useAccount as Mock).mockReturnValue({ address: mockAddress });
   });
@@ -66,13 +65,16 @@ describe('useMintAnalytics', () => {
       result.current.setTransactionState('buildingTransaction');
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintInitiated, {
-      address: mockAddress,
-      contractAddress: mockNFTContext.contractAddress,
-      tokenId: mockNFTContext.tokenId,
-      quantity: mockNFTContext.quantity,
-      isSponsored: mockNFTContext.isSponsored,
-    });
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+      MintEvent.MintInitiated,
+      {
+        address: mockAddress,
+        contractAddress: mockNFTContext.contractAddress,
+        tokenId: mockNFTContext.tokenId,
+        quantity: mockNFTContext.quantity,
+        isSponsored: mockNFTContext.isSponsored,
+      },
+    );
   });
 
   it('should send MintSuccess analytics when transaction succeeds', () => {
@@ -84,7 +86,7 @@ describe('useMintAnalytics', () => {
       result.current.setTransactionState('success');
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintSuccess, {
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(MintEvent.MintSuccess, {
       address: mockAddress,
       contractAddress: mockNFTContext.contractAddress,
       tokenId: mockNFTContext.tokenId,
@@ -103,7 +105,7 @@ describe('useMintAnalytics', () => {
       result.current.setTransactionState('error');
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith(MintEvent.MintFailure, {
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(MintEvent.MintFailure, {
       error: 'Transaction failed',
       metadata: {
         address: mockAddress,
@@ -125,7 +127,7 @@ describe('useMintAnalytics', () => {
       result.current.handleQuantityChange(newQuantity);
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
       MintEvent.MintQuantityChanged,
       {
         quantity: newQuantity,
@@ -143,7 +145,7 @@ describe('useMintAnalytics', () => {
       result.current.setTransactionState('success');
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledTimes(1);
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledTimes(1);
   });
 
   it('should only send error analytics once for multiple error states', () => {
@@ -156,7 +158,7 @@ describe('useMintAnalytics', () => {
       result.current.setTransactionState('error');
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledTimes(1);
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledTimes(1);
   });
 
   it('should reset success flag when building new transaction', async () => {
@@ -179,10 +181,10 @@ describe('useMintAnalytics', () => {
       result.current.setTransactionState('success');
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledTimes(3);
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledTimes(3);
 
     // Verify the sequence of calls
-    expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenNthCalledWith(
       1,
       MintEvent.MintSuccess,
       {
@@ -195,7 +197,7 @@ describe('useMintAnalytics', () => {
       },
     );
 
-    expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenNthCalledWith(
       2,
       MintEvent.MintInitiated,
       {
@@ -207,7 +209,7 @@ describe('useMintAnalytics', () => {
       },
     );
 
-    expect(mockSendAnalytics).toHaveBeenNthCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenNthCalledWith(
       3,
       MintEvent.MintSuccess,
       {

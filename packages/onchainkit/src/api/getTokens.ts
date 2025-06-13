@@ -3,6 +3,8 @@ import { CDP_LIST_SWAP_ASSETS } from '../core/network/definitions/swap';
 import { sendRequest } from '../core/network/request';
 import type { Token } from '../token/types';
 import type { GetTokensOptions, GetTokensResponse } from './types';
+import { ApiErrorCode } from './constants';
+import { buildErrorStruct } from './utils/buildErrorStruct';
 
 /**
  * Retrieves a list of tokens on Base.
@@ -25,18 +27,18 @@ export async function getTokens(
       _context,
     );
     if (res.error) {
-      return {
-        code: 'AmGTa01',
+      return buildErrorStruct({
+        code: ApiErrorCode.AMGTa01,
         error: res.error.code.toString(),
         message: res.error.message,
-      };
+      });
     }
     return res.result;
   } catch (error) {
-    return {
-      code: 'AmGTa02', // Api module Get Tokens api Error O2
+    return buildErrorStruct({
+      code: ApiErrorCode.AMGTa02,
       error: JSON.stringify(error),
       message: 'Request failed',
-    };
+    });
   }
 }

@@ -16,11 +16,11 @@ import { useAccount, useConnect, useSwitchChain } from 'wagmi';
 import { useWaitForTransactionReceipt } from 'wagmi';
 import { useCallsStatus } from 'wagmi/experimental';
 import { useWriteContracts } from 'wagmi/experimental';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { CheckoutEvent } from '../../core/analytics/types';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import { CheckoutProvider, useCheckoutContext } from './CheckoutProvider';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
@@ -50,10 +50,8 @@ vi.mock('@/internal/utils/openPopup', () => ({
   openPopup: vi.fn(),
 }));
 
-vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(() => ({
-    sendAnalytics: vi.fn(),
-  })),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 const windowOpenMock = vi.fn();
@@ -550,13 +548,7 @@ describe('CheckoutProvider', () => {
   });
 
   describe('analytics', () => {
-    let sendAnalytics: Mock;
-
     beforeEach(() => {
-      sendAnalytics = vi.fn();
-      (useAnalytics as Mock).mockImplementation(() => ({
-        sendAnalytics,
-      }));
       (useCommerceContracts as Mock).mockReturnValue(() =>
         Promise.resolve({
           insufficientBalance: false,
@@ -582,7 +574,7 @@ describe('CheckoutProvider', () => {
       fireEvent.click(screen.getByText('Submit'));
 
       await waitFor(() => {
-        expect(sendAnalytics).toHaveBeenCalledWith(
+        expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
           CheckoutEvent.CheckoutInitiated,
           {
             address: '0x123',
@@ -609,7 +601,7 @@ describe('CheckoutProvider', () => {
       fireEvent.click(screen.getByText('Submit'));
 
       await waitFor(() => {
-        expect(sendAnalytics).toHaveBeenCalledWith(
+        expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
           CheckoutEvent.CheckoutFailure,
           {
             error: 'Test error',
@@ -634,8 +626,8 @@ describe('CheckoutProvider', () => {
       fireEvent.click(screen.getByText('Submit'));
 
       await waitFor(() => {
-        expect(sendAnalytics).toHaveBeenCalledTimes(2);
-        expect(sendAnalytics).toHaveBeenNthCalledWith(
+        expect(sendOCKAnalyticsEvent).toHaveBeenCalledTimes(2);
+        expect(sendOCKAnalyticsEvent).toHaveBeenNthCalledWith(
           1,
           CheckoutEvent.CheckoutInitiated,
           {
@@ -644,7 +636,7 @@ describe('CheckoutProvider', () => {
             productId: 'test-product',
           },
         );
-        expect(sendAnalytics).toHaveBeenNthCalledWith(
+        expect(sendOCKAnalyticsEvent).toHaveBeenNthCalledWith(
           2,
           CheckoutEvent.CheckoutFailure,
           {

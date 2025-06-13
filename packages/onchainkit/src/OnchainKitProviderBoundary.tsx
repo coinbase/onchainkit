@@ -4,8 +4,9 @@ import {
   type ErrorInfo,
   type ReactNode,
 } from 'react';
-import { sendAnalyticsPayload } from './core/analytics/hooks/useAnalytics';
-import { ErrorEvent } from './core/analytics/types';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
+import { ErrorEvent } from '@/core/analytics/types';
+
 type Props = {
   fallback?: ComponentType<{ error: Error }>;
   children: ReactNode;
@@ -27,7 +28,7 @@ class OnchainKitProviderBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Uncaught error:', error, errorInfo);
 
-    sendAnalyticsPayload(ErrorEvent.ComponentError, {
+    sendOCKAnalyticsEvent(ErrorEvent.ComponentError, {
       component: 'OnchainKitProviderBoundary',
       error: error.message,
       metadata: {

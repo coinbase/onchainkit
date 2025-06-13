@@ -4,7 +4,6 @@ import { Skeleton } from '@/internal/components/Skeleton';
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
 import { border, cn } from '../../styles/theme';
 import type {
@@ -14,6 +13,7 @@ import type {
 import { FundCardPaymentMethodSelectRow } from './FundCardPaymentMethodSelectRow';
 import { FundCardPaymentMethodSelectorToggle } from './FundCardPaymentMethodSelectorToggle';
 import { useFundContext } from './FundCardProvider';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 export function FundCardPaymentMethodDropdown({
   className,
@@ -28,8 +28,6 @@ export function FundCardPaymentMethodDropdown({
     isPaymentMethodsLoading,
     currency,
   } = useFundContext();
-
-  const { sendAnalytics } = useAnalytics();
 
   const filteredPaymentMethods = useMemo(() => {
     return paymentMethods.filter(
@@ -94,14 +92,14 @@ export function FundCardPaymentMethodDropdown({
   const handlePaymentMethodSelect = useCallback(
     (paymentMethod: PaymentMethod) => {
       if (!isPaymentMethodDisabled(paymentMethod)) {
-        sendAnalytics(FundEvent.FundOptionSelected, {
+        sendOCKAnalyticsEvent(FundEvent.FundOptionSelected, {
           option: paymentMethod.id,
         });
         setSelectedPaymentMethod(paymentMethod);
         setIsOpen(false);
       }
     },
-    [setSelectedPaymentMethod, isPaymentMethodDisabled, sendAnalytics],
+    [setSelectedPaymentMethod, isPaymentMethodDisabled],
   );
 
   const handleToggle = useCallback(() => {

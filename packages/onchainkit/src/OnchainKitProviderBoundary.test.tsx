@@ -2,12 +2,12 @@ import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import OnchainKitProviderBoundary from './OnchainKitProviderBoundary';
-import { sendAnalyticsPayload } from './core/analytics/hooks/useAnalytics';
 import { ErrorEvent as AnalyticsErrorEvent } from './core/analytics/types';
+import { sendOCKAnalyticsEvent } from './core/analytics/utils/sendAnalytics';
 
-vi.mock('./core/analytics/hooks/useAnalytics', () => {
+vi.mock('./core/analytics/utils/sendAnalytics', () => {
   return {
-    sendAnalyticsPayload: vi.fn(),
+    sendOCKAnalyticsEvent: vi.fn(),
   };
 });
 
@@ -50,7 +50,7 @@ describe('OnchainKitProviderBoundary', () => {
       </OnchainKitProviderBoundary>,
     );
 
-    expect(sendAnalyticsPayload).toHaveBeenCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
       AnalyticsErrorEvent.ComponentError,
       {
         component: 'OnchainKitProviderBoundary',

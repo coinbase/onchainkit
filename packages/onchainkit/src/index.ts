@@ -11,8 +11,8 @@ export {
 } from './core/OnchainKitConfig';
 export type {
   AppConfig,
-  IsBaseOptions,
-  IsEthereumOptions,
+  IsBaseParams,
+  IsEthereumParams,
   OnchainKitConfig,
   OnchainKitContextType,
 } from './core/types';

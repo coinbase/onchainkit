@@ -1,6 +1,5 @@
 'use client';
 
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import {
   WalletEvent,
   WalletOption,
@@ -16,6 +15,7 @@ import { useCallback } from 'react';
 import { useWalletContext } from './WalletProvider';
 import { RequestContext } from '@/core/network/constants';
 import { usePortfolio } from '../hooks/usePortfolio';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 type WalletAdvancedTransactionActionProps = {
   icon: React.ReactNode;
@@ -42,7 +42,6 @@ export function WalletAdvancedTransactionActions({
 }: WalletAdvancedTransactionActionsProps) {
   const { address, chain, setActiveFeature, animations } = useWalletContext();
   const { projectId } = useOnchainKit();
-  const { sendAnalytics } = useAnalytics();
 
   const { isFetching: isFetchingPortfolioData } = usePortfolio(
     { address },
@@ -51,11 +50,11 @@ export function WalletAdvancedTransactionActions({
 
   const handleAnalyticsOptionSelected = useCallback(
     (option: WalletOptionType) => {
-      sendAnalytics(WalletEvent.OptionSelected, {
+      sendOCKAnalyticsEvent(WalletEvent.OptionSelected, {
         option,
       });
     },
-    [sendAnalytics],
+    [],
   );
 
   const handleBuy = useCallback(() => {

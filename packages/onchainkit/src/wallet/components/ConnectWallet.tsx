@@ -4,7 +4,6 @@ import { Avatar, Name } from '@/identity';
 import { useCallback } from 'react';
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { WalletEvent } from '../../core/analytics/types';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
@@ -14,6 +13,7 @@ import type { ConnectWalletReact } from '../types';
 import { ConnectButton } from './ConnectButton';
 import { WalletModal } from './WalletModal';
 import { useWalletContext } from './WalletProvider';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 const connectWalletDefaultChildren = (
   <>
@@ -43,7 +43,6 @@ export function ConnectWallet({
     connector: accountConnector,
   } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
-  const { sendAnalytics } = useAnalytics();
 
   // State
   const [hasClickedConnect, setHasClickedConnect] = useState(false);
@@ -73,30 +72,27 @@ export function ConnectWallet({
     setHasClickedConnect(true);
   }, [setIsConnectModalOpen]);
 
-  const handleAnalyticsInitiated = useCallback(
-    (component: string) => {
-      sendAnalytics(WalletEvent.ConnectInitiated, {
-        component,
-      });
-    },
-    [sendAnalytics],
-  );
+  const handleAnalyticsInitiated = useCallback((component: string) => {
+    sendOCKAnalyticsEvent(WalletEvent.ConnectInitiated, {
+      component,
+    });
+  }, []);
 
   const handleAnalyticsSuccess = useCallback(
     (walletAddress: string | undefined) => {
       const walletProvider = connector?.name;
-      sendAnalytics(WalletEvent.ConnectSuccess, {
+      sendOCKAnalyticsEvent(WalletEvent.ConnectSuccess, {
         address: walletAddress ?? '',
         walletProvider,
       });
     },
-    [sendAnalytics, connector],
+    [connector],
   );
 
   const handleAnalyticsError = useCallback(
     (errorMessage: string, component: string) => {
       const walletProvider = connector?.name;
-      sendAnalytics(WalletEvent.ConnectError, {
+      sendOCKAnalyticsEvent(WalletEvent.ConnectError, {
         error: errorMessage,
         metadata: {
           connector: walletProvider,
@@ -104,7 +100,7 @@ export function ConnectWallet({
         },
       });
     },
-    [sendAnalytics, connector],
+    [connector],
   );
 
   // Effects

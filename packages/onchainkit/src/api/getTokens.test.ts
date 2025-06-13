@@ -6,6 +6,7 @@ import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
  * @vitest-environment node
  */
 import { getTokens } from './getTokens';
+import { ApiErrorCode } from './constants';
 
 vi.mock('@/core/network/request');
 
@@ -109,7 +110,7 @@ describe('getTokens', () => {
     });
     const error = await getTokens();
     expect(error).toEqual({
-      code: 'AmGTa01',
+      code: ApiErrorCode.AMGTa01,
       error: '-1',
       message: 'Request failed',
     });
@@ -128,7 +129,7 @@ describe('getTokens', () => {
     (sendRequest as Mock).mockRejectedValue(mockError);
     const error = await getTokens();
     expect(error).toEqual({
-      code: 'AmGTa02',
+      code: ApiErrorCode.AMGTa02,
       error: JSON.stringify(mockError),
       message: 'Request failed',
     });

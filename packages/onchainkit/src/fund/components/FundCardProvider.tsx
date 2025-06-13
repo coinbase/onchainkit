@@ -7,7 +7,6 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
 import { useEmitLifecycleStatus } from '../hooks/useEmitLifecycleStatus';
 import { useOnrampExchangeRate } from '../hooks/useOnrampExchangeRate';
@@ -21,6 +20,7 @@ import type {
   PaymentMethod,
   PresetAmountInputs,
 } from '../types';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 type FundCardContextType = {
   asset: string;
@@ -105,26 +105,21 @@ export function FundCardProvider({
     onError,
   });
 
-  const { sendAnalytics } = useAnalytics();
-
   const handleAnalyticsAmountChanged = useCallback(
     (amount: number, currency: string) => {
-      sendAnalytics(FundEvent.FundAmountChanged, {
+      sendOCKAnalyticsEvent(FundEvent.FundAmountChanged, {
         amount,
         currency,
       });
     },
-    [sendAnalytics],
+    [],
   );
 
-  const handleAnalyticsOptionSelected = useCallback(
-    (option: string) => {
-      sendAnalytics(FundEvent.FundOptionSelected, {
-        option,
-      });
-    },
-    [sendAnalytics],
-  );
+  const handleAnalyticsOptionSelected = useCallback((option: string) => {
+    sendOCKAnalyticsEvent(FundEvent.FundOptionSelected, {
+      option,
+    });
+  }, []);
 
   const handleSetFundAmountFiat = useCallback(
     (amount: string) => {

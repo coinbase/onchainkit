@@ -12,6 +12,7 @@ import type {
 } from './types';
 import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
 import { getSwapTransaction } from './utils/getSwapTransaction';
+import { buildErrorStruct } from './utils/buildErrorStruct';
 
 /**
  * Retrieves an unsigned transaction for a swap from Token A to Token B.
@@ -69,11 +70,11 @@ export async function buildSwapTransaction(
       _context,
     );
     if (res.error) {
-      return {
+      return buildErrorStruct({
         code: getSwapErrorCode('swap', res.error?.code),
         error: res.error.message,
         message: '',
-      };
+      });
     }
 
     const trade = res.result;
@@ -87,10 +88,10 @@ export async function buildSwapTransaction(
       warning: trade.quote.warning,
     };
   } catch {
-    return {
+    return buildErrorStruct({
       code: getSwapErrorCode('uncaught-swap'),
       error: 'Something went wrong',
       message: '',
-    };
+    });
   }
 }

@@ -12,8 +12,8 @@ import { useSwitchChain } from 'wagmi';
 import { useSendCalls } from 'wagmi/experimental';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { SwapEvent } from '../../core/analytics/types';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
 import { useLifecycleStatus } from '../../internal/hooks/useLifecycleStatus';
 import { useValue } from '../../internal/hooks/useValue';
@@ -93,14 +93,12 @@ export function SwapProvider({
     updateLifecycleStatus,
   });
 
-  const { sendAnalytics } = useAnalytics();
-
   // Component lifecycle emitters
   useEffect(() => {
     // Error
     if (lifecycleStatus.statusName === 'error') {
       onError?.(lifecycleStatus.statusData);
-      sendAnalytics(SwapEvent.SwapFailure, {
+      sendOCKAnalyticsEvent(SwapEvent.SwapFailure, {
         error: lifecycleStatus.statusData.error,
         metadata: lifecycleStatus.statusData,
       });
@@ -113,7 +111,7 @@ export function SwapProvider({
       );
       setHasHandledSuccess(true);
       setIsToastVisible(true);
-      sendAnalytics(SwapEvent.SwapSuccess, {
+      sendOCKAnalyticsEvent(SwapEvent.SwapSuccess, {
         paymaster: !!paymaster,
         transactionHash:
           lifecycleStatus.statusData.transactionReceipt?.transactionHash,
@@ -132,7 +130,6 @@ export function SwapProvider({
     lifecycleStatus,
     lifecycleStatus.statusData, // Keep statusData, so that the effect runs when it changes
     lifecycleStatus.statusName, // Keep statusName, so that the effect runs when it changes
-    sendAnalytics,
     paymaster,
     from.amount,
     from.token?.symbol,
@@ -326,7 +323,7 @@ export function SwapProvider({
     }
 
     try {
-      sendAnalytics(SwapEvent.SwapInitiated, {
+      sendOCKAnalyticsEvent(SwapEvent.SwapInitiated, {
         amount: Number(from.amount),
       });
 
@@ -395,7 +392,6 @@ export function SwapProvider({
     updateLifecycleStatus,
     useAggregator,
     walletCapabilities,
-    sendAnalytics,
   ]);
 
   const value = useValue({

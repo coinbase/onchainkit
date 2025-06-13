@@ -2,9 +2,9 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 const mockSetLifecycleStatus = vi.fn();
-const mockSendAnalytics = vi.fn();
 let mockLifecycleStatus = {
   statusName: 'init',
   statusData: {
@@ -25,16 +25,14 @@ vi.mock('../styles/theme', () => ({
   cn: (...args: string[]) => args.join(' '),
 }));
 
-vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: () => ({
-    sendAnalytics: mockSendAnalytics,
-  }),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 describe('SwapSettingsSlippageInput', () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     mockSetLifecycleStatus.mockClear();
-    mockSendAnalytics.mockClear();
     mockLifecycleStatus = {
       statusName: 'init',
       statusData: {
@@ -247,10 +245,13 @@ describe('SwapSettingsSlippageInput', () => {
         target: { value: '2.5' },
       });
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith('swapSlippageChanged', {
-        previousSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
-        slippage: 2.5,
-      });
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        'swapSlippageChanged',
+        {
+          previousSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
+          slippage: 2.5,
+        },
+      );
     });
 
     it('sends analytics when switching from Custom to Auto mode with different values', () => {
@@ -263,14 +264,16 @@ describe('SwapSettingsSlippageInput', () => {
       };
 
       render(<SwapSettingsSlippageInput />);
-      mockSendAnalytics.mockClear();
 
       fireEvent.click(screen.getByRole('button', { name: 'Auto' }));
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith('swapSlippageChanged', {
-        previousSlippage: 2.5,
-        slippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
-      });
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        'swapSlippageChanged',
+        {
+          previousSlippage: 2.5,
+          slippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
+        },
+      );
     });
 
     it('sends analytics when handling invalid input', () => {
@@ -280,10 +283,13 @@ describe('SwapSettingsSlippageInput', () => {
         target: { value: 'abc' },
       });
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith('swapSlippageChanged', {
-        previousSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
-        slippage: 0,
-      });
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        'swapSlippageChanged',
+        {
+          previousSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
+          slippage: 0,
+        },
+      );
     });
 
     it('sends analytics when handling empty input', () => {
@@ -291,10 +297,13 @@ describe('SwapSettingsSlippageInput', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
       fireEvent.change(screen.getByRole('textbox'), { target: { value: '' } });
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith('swapSlippageChanged', {
-        previousSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
-        slippage: 0,
-      });
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        'swapSlippageChanged',
+        {
+          previousSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
+          slippage: 0,
+        },
+      );
     });
 
     it('sends analytics when handling decimal input', () => {
@@ -304,10 +313,13 @@ describe('SwapSettingsSlippageInput', () => {
         target: { value: '2.75' },
       });
 
-      expect(mockSendAnalytics).toHaveBeenCalledWith('swapSlippageChanged', {
-        previousSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
-        slippage: 2.75,
-      });
+      expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
+        'swapSlippageChanged',
+        {
+          previousSlippage: FALLBACK_DEFAULT_MAX_SLIPPAGE,
+          slippage: 2.75,
+        },
+      );
     });
 
     it('does not send analytics when slippage value does not change', () => {
@@ -317,7 +329,7 @@ describe('SwapSettingsSlippageInput', () => {
         target: { value: FALLBACK_DEFAULT_MAX_SLIPPAGE.toString() },
       });
 
-      expect(mockSendAnalytics).not.toHaveBeenCalled();
+      expect(sendOCKAnalyticsEvent).not.toHaveBeenCalled();
     });
   });
 });

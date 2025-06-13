@@ -4,7 +4,6 @@ import { useCallback, useMemo } from 'react';
 import { useTheme } from '../../internal/hooks/useTheme';
 import { cn, pressable, text } from '../../styles/theme';
 import { useAccount } from 'wagmi';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
 import { usePopupMonitor } from '@/buy/hooks/usePopupMonitor';
 import { ErrorSvg } from '@/internal/svg/errorSvg';
@@ -16,6 +15,7 @@ import { ConnectWallet } from '../../wallet/components/ConnectWallet';
 import { useGetFundingUrl } from '../hooks/useGetFundingUrl';
 import type { FundButtonProps } from '../types';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 export function FundButton({
   className,
@@ -43,22 +43,21 @@ export function FundButton({
   const shouldShowConnectWallet = !address;
 
   const { startPopupMonitor } = usePopupMonitor(onPopupClose);
-  const { sendAnalytics } = useAnalytics();
 
   const handleAnalyticsInitiated = useCallback(() => {
-    sendAnalytics(FundEvent.FundInitiated, {
+    sendOCKAnalyticsEvent(FundEvent.FundInitiated, {
       currency: fiatCurrency,
     });
-  }, [sendAnalytics, fiatCurrency]);
+  }, [fiatCurrency]);
 
   const handleAnalyticsFailure = useCallback(
     (error: string) => {
-      sendAnalytics(FundEvent.FundFailure, {
+      sendOCKAnalyticsEvent(FundEvent.FundFailure, {
         error,
         metadata: { currency: fiatCurrency },
       });
     },
-    [sendAnalytics, fiatCurrency],
+    [fiatCurrency],
   );
 
   const handleClick = useCallback(

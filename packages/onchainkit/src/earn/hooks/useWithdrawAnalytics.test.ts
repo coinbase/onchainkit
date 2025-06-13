@@ -1,14 +1,12 @@
 import { EarnEvent } from '@/core/analytics/types';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 import { useEarnContext } from '@/earn/components/EarnProvider';
 import { useWithdrawAnalytics } from '@/earn/hooks/useWithdrawAnalytics';
 import { act, renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
-const mockSendAnalytics = vi.fn();
-vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
-  useAnalytics: vi.fn(() => ({
-    sendAnalytics: mockSendAnalytics,
-  })),
+vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
+  sendOCKAnalyticsEvent: vi.fn(),
 }));
 
 vi.mock('@/earn/components/EarnProvider', () => ({
@@ -38,7 +36,7 @@ describe('useWithdrawAnalytics', () => {
       result.current.setTransactionState('buildingTransaction');
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
       EarnEvent.EarnWithdrawInitiated,
       {
         amount: 100,
@@ -57,8 +55,8 @@ describe('useWithdrawAnalytics', () => {
       result.current.setTransactionState('success');
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledTimes(1);
-    expect(mockSendAnalytics).toHaveBeenCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledTimes(1);
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
       EarnEvent.EarnWithdrawSuccess,
       {
         amount: 100,
@@ -77,8 +75,8 @@ describe('useWithdrawAnalytics', () => {
       result.current.setTransactionState('error');
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledTimes(1);
-    expect(mockSendAnalytics).toHaveBeenCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledTimes(1);
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
       EarnEvent.EarnWithdrawFailure,
       {
         amount: 100,
@@ -101,7 +99,7 @@ describe('useWithdrawAnalytics', () => {
       result.current.setTransactionState('buildingTransaction');
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
       expect.any(String),
       expect.objectContaining({
         amount: 50,
@@ -123,7 +121,7 @@ describe('useWithdrawAnalytics', () => {
       result.current.setTransactionState('buildingTransaction');
     });
 
-    expect(mockSendAnalytics).toHaveBeenCalledWith(
+    expect(sendOCKAnalyticsEvent).toHaveBeenCalledWith(
       EarnEvent.EarnWithdrawInitiated,
       {
         amount: 100,

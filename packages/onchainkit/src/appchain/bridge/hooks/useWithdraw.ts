@@ -1,5 +1,4 @@
 'use client';
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { AppchainEvent } from '@/core/analytics/types';
 import { useCallback, useState } from 'react';
 import { type Hex, erc20Abi, keccak256, parseEther, parseUnits } from 'viem';
@@ -28,6 +27,7 @@ import type { UseWithdrawParams } from '../types';
 import { getOutput } from '../utils/getOutput';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
 import { maybeAddProofNode } from '../utils/maybeAddProofNode';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 export const useWithdraw = ({
   config,
@@ -55,7 +55,6 @@ export const useWithdraw = ({
   const [finalizedWithdrawalTxHash, setFinalizedWithdrawalTxHash] = useState<
     Hex | undefined
   >(undefined);
-  const { sendAnalytics } = useAnalytics();
 
   const resetWithdrawStatus = useCallback(() => {
     setWithdrawStatus('idle');
@@ -67,7 +66,7 @@ export const useWithdraw = ({
       throw new Error('Recipient is required');
     }
 
-    sendAnalytics(AppchainEvent.AppchainBridgeWithdrawInitiated, {
+    sendOCKAnalyticsEvent(AppchainEvent.AppchainBridgeWithdrawInitiated, {
       amount: bridgeParams.amount,
       tokenAddress: bridgeParams.token.address,
       recipient: bridgeParams.recipient,
@@ -141,7 +140,7 @@ export const useWithdraw = ({
         });
       }
 
-      sendAnalytics(AppchainEvent.AppchainBridgeWithdrawSuccess, {
+      sendOCKAnalyticsEvent(AppchainEvent.AppchainBridgeWithdrawSuccess, {
         amount: bridgeParams.amount,
         tokenAddress: bridgeParams.token.address,
         recipient: bridgeParams.recipient,
@@ -157,7 +156,7 @@ export const useWithdraw = ({
         console.error('Error', error);
         setWithdrawStatus('error');
         /* v8 ignore next 3 */
-        sendAnalytics(AppchainEvent.AppchainBridgeWithdrawFailure, {
+        sendOCKAnalyticsEvent(AppchainEvent.AppchainBridgeWithdrawFailure, {
           error: error instanceof Error ? error.message : 'Unknown error',
         });
       }
@@ -200,7 +199,7 @@ export const useWithdraw = ({
       attempts++;
       /* v8 ignore start */
     }
-    sendAnalytics(AppchainEvent.AppchainBridgeWaitForClaimFailure, {
+    sendOCKAnalyticsEvent(AppchainEvent.AppchainBridgeWaitForClaimFailure, {
       transactionHash: txHash || data || '0x',
     });
     /* v8 ignore stop */
@@ -278,7 +277,7 @@ export const useWithdraw = ({
 
       setFinalizedWithdrawalTxHash(_finalizedWithdrawalTxHash);
       setWithdrawStatus('claimSuccess');
-      sendAnalytics(AppchainEvent.AppchainBridgeClaimSuccess, {
+      sendOCKAnalyticsEvent(AppchainEvent.AppchainBridgeClaimSuccess, {
         amount: bridgeParams.amount,
         tokenAddress: bridgeParams.token.address,
       });
@@ -288,7 +287,7 @@ export const useWithdraw = ({
         setWithdrawStatus('claimRejected');
       } else {
         setWithdrawStatus('error');
-        sendAnalytics(AppchainEvent.AppchainBridgeClaimFailure, {
+        sendOCKAnalyticsEvent(AppchainEvent.AppchainBridgeClaimFailure, {
           error: error instanceof Error ? error.message : 'Unknown error',
         });
       }

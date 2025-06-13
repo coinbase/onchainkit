@@ -1,10 +1,10 @@
 'use client';
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { SwapEvent } from '@/core/analytics/types';
 import { useCallback, useState } from 'react';
 import { cn, pressable, text } from '../../styles/theme';
 import type { SwapSettingsSlippageInputReact } from '../types';
 import { useSwapContext } from './SwapProvider';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 const SLIPPAGE_SETTINGS = {
   AUTO: 'Auto',
@@ -14,7 +14,6 @@ const SLIPPAGE_SETTINGS = {
 export function SwapSettingsSlippageInput({
   className,
 }: SwapSettingsSlippageInputReact) {
-  const { sendAnalytics } = useAnalytics();
   const {
     config: { maxSlippage: defaultMaxSlippage },
     updateLifecycleStatus,
@@ -31,12 +30,12 @@ export function SwapSettingsSlippageInput({
 
   const handleAnalyticsSlippageChange = useCallback(
     (previousSlippage: number, newSlippage: number) => {
-      sendAnalytics(SwapEvent.SlippageChanged, {
+      sendOCKAnalyticsEvent(SwapEvent.SlippageChanged, {
         previousSlippage,
         slippage: newSlippage,
       });
     },
-    [sendAnalytics],
+    [],
   );
 
   const updateSlippage = useCallback(

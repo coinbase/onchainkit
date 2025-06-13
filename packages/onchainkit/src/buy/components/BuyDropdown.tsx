@@ -1,5 +1,4 @@
 'use client';
-import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { BuyEvent, type BuyOptionType } from '@/core/analytics/types';
 import { type PaymentMethod } from '@/fund/types';
 import { openPopup } from '@/internal/utils/openPopup';
@@ -16,6 +15,7 @@ import { isApplePaySupported } from '../utils/isApplePaySupported';
 import { BuyOnrampItem } from './BuyOnrampItem';
 import { useBuyContext } from './BuyProvider';
 import { BuyTokenItem } from './BuyTokenItem';
+import { sendOCKAnalyticsEvent } from '@/core/analytics/utils/sendAnalytics';
 
 // eslint-disable-next-line complexity
 export function BuyDropdown() {
@@ -23,12 +23,11 @@ export function BuyDropdown() {
   const { to, fromETH, fromUSDC, from, startPopupMonitor, setIsDropdownOpen } =
     useBuyContext();
   const { address } = useAccount();
-  const { sendAnalytics } = useAnalytics();
 
   const handleOnrampClick = useCallback(
     (paymentMethodId: string) => {
       return () => {
-        sendAnalytics(BuyEvent.BuyOptionSelected, {
+        sendOCKAnalyticsEvent(BuyEvent.BuyOptionSelected, {
           option: paymentMethodId as BuyOptionType,
         });
 
@@ -59,7 +58,7 @@ export function BuyDropdown() {
         }
       };
     },
-    [address, to, projectId, startPopupMonitor, sendAnalytics],
+    [address, to, projectId, startPopupMonitor],
   );
 
   const formattedAmountUSD = useMemo(() => {
