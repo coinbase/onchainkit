@@ -9,7 +9,7 @@ import { EthBalance } from './EthBalance';
 import { Name } from './Name';
 import { Socials } from './Socials';
 
-type IdentityLayoutReact = {
+type IdentityLayoutProps = {
   children: ReactNode;
   className?: string;
   hasCopyAddressOnClick?: boolean;
@@ -19,7 +19,7 @@ export function IdentityLayout({
   children,
   className,
   hasCopyAddressOnClick,
-}: IdentityLayoutReact) {
+}: IdentityLayoutProps) {
   const componentTheme = useTheme();
 
   const {
