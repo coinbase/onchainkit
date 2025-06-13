@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:watch": "concurrently \"pnpm -F @coinbase/onchainkit dev\" \"pnpm -F minikit-example dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

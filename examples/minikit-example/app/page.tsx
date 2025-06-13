@@ -1,10 +1,5 @@
 "use client";
-
-import {
-  useMiniKit,
-  useAddFrame,
-  useOpenUrl,
-} from "@coinbase/onchainkit/minikit";
+import { useMiniKit, useOpenUrl } from "@coinbase/onchainkit/minikit";
 import {
   Name,
   Identity,
@@ -18,18 +13,16 @@ import {
   WalletDropdown,
   WalletDropdownDisconnect,
 } from "@coinbase/onchainkit/wallet";
-import { useEffect, useMemo, useState, useCallback } from "react";
-import { Button } from "./components/DemoComponents";
-import { Icon } from "./components/DemoComponents";
-import { Home } from "./components/DemoComponents";
-import { Features } from "./components/DemoComponents";
+import { useEffect } from "react";
+import { Button } from "./ui/Button";
+import { IsInMiniApp } from "./actions/IsInMiniApp";
+import { AddFrame } from "./actions/AddFrame";
+import { ComposeCast } from "./actions/ComposeCast";
+import { ViewCast } from "./actions/ViewCast";
+import { CloseFrame } from "./actions/CloseFrame";
 
 export default function App() {
-  const { setFrameReady, isFrameReady, context } = useMiniKit();
-  const [frameAdded, setFrameAdded] = useState(false);
-  const [activeTab, setActiveTab] = useState("home");
-
-  const addFrame = useAddFrame();
+  const { setFrameReady, isFrameReady } = useMiniKit();
   const openUrl = useOpenUrl();
 
   useEffect(() => {
@@ -38,41 +31,9 @@ export default function App() {
     }
   }, [setFrameReady, isFrameReady]);
 
-  const handleAddFrame = useCallback(async () => {
-    const frameAdded = await addFrame();
-    setFrameAdded(Boolean(frameAdded));
-  }, [addFrame]);
-
-  const saveFrameButton = useMemo(() => {
-    if (context && !context.client.added) {
-      return (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleAddFrame}
-          className="text-[var(--app-accent)] p-4"
-          icon={<Icon name="plus" size="sm" />}
-        >
-          Save Frame
-        </Button>
-      );
-    }
-
-    if (frameAdded) {
-      return (
-        <div className="flex items-center space-x-1 text-sm font-medium text-[#0052FF] animate-fade-out">
-          <Icon name="check" size="sm" className="text-[#0052FF]" />
-          <span>Saved</span>
-        </div>
-      );
-    }
-
-    return null;
-  }, [context, frameAdded, handleAddFrame]);
-
   return (
-    <div className="flex flex-col min-h-screen font-sans text-[var(--app-foreground)] mini-app-theme from-[var(--app-background)] to-[var(--app-gray)]">
-      <div className="w-full max-w-md mx-auto px-4 py-3">
+    <div className="flex flex-col min-h-screen font-sans text-[var(--app-foreground)] from-[var(--app-background)] to-[var(--app-gray)]">
+      <div className="w-full max-w-4xl mx-auto px-4 py-3">
         <header className="flex justify-between items-center mb-3 h-11">
           <div>
             <div className="flex items-center space-x-2">
@@ -92,12 +53,27 @@ export default function App() {
               </Wallet>
             </div>
           </div>
-          <div>{saveFrameButton}</div>
         </header>
 
         <main className="flex-1">
-          {activeTab === "home" && <Home setActiveTab={setActiveTab} />}
-          {activeTab === "features" && <Features setActiveTab={setActiveTab} />}
+          <div className="space-y-6">
+            <h1 className="text-3xl font-bold text-center text-[var(--app-foreground)]">
+              MiniKit Examples
+            </h1>
+
+            <p className="text-center text-sm text-[var(--app-foreground-muted)]">
+              This mini app is meant to show how you can use the actions
+              available in MiniKit.
+            </p>
+
+            <div className="flex flex-col gap-3 justify-center items-stretch max-w-md mx-auto">
+              <IsInMiniApp />
+              <AddFrame />
+              <ComposeCast />
+              <ViewCast />
+              <CloseFrame />
+            </div>
+          </div>
         </main>
 
         <footer className="mt-2 pt-4 flex justify-center">

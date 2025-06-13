@@ -64,7 +64,6 @@
     "autoprefixer": "^10.4.19",
     "babel-plugin-module-resolver": "^5.0.2",
     "chromatic": "^11.28.2",
-    "concurrently": "^8.0.0",
     "esbuild-fix-imports-plugin": "^1.0.19",
     "esbuild-plugin-babel": "^0.2.3",
     "glob": "^11.0.1",
