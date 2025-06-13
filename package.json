@@ -10,6 +10,7 @@
     "f:play": "pnpm --filter playground",
     "f:create": "pnpm --filter create-onchain",
     "f:manifest": "pnpm --filter miniapp-manifest-generator",
+    "f:minikit-example": "pnpm --filter minikit-example",
     "changeset": "changeset",
     "release:check": "changeset status --verbose --since=origin/main",
     "release:publish": "changeset publish"
