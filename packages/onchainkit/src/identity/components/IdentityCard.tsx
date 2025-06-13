@@ -9,7 +9,7 @@ import { Socials } from './Socials';
 
 import { border, cn } from '../../styles/theme';
 
-type IdentityCardReact = {
+type IdentityCardProps = {
   address?: Address;
   chain?: Chain;
   className?: string;
@@ -24,7 +24,7 @@ export function IdentityCard({
   className = '',
   schemaId,
   badgeTooltip,
-}: IdentityCardReact) {
+}: IdentityCardProps) {
   return (
     <Identity
       address={address}

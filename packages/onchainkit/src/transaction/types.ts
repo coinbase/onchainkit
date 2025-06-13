@@ -10,6 +10,7 @@ import type { Config } from 'wagmi';
 import type { SendTransactionMutateAsync } from 'wagmi/query';
 // 🌲☀🌲
 import type { TransactionError } from '../api/types';
+import type { ToastProps } from '@/internal/components/Toast';
 
 export type Call = { to: Hex; data?: Hex; value?: bigint };
 
@@ -269,15 +270,12 @@ export type TransactionStatusLabelProps = {
 /**
  * Note: exported as public Type
  */
-export type TransactionToastProps = {
+export type TransactionToastProps = Pick<
+  ToastProps,
+  'duration' | 'position' | 'className'
+> & {
   /** The child components to be rendered within the toast component */
   children?: ReactNode;
-  /** An optional CSS class name for styling the toast component */
-  className?: string;
-  /** An optional value to customize time until toast disappears */
-  durationMs?: number;
-  /** An optional position property to specify the toast's position on the screen */
-  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
 };
 
 /**

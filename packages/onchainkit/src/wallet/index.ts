@@ -24,6 +24,9 @@ export { isWalletACoinbaseSmartWallet } from './utils/isWalletACoinbaseSmartWall
 // Hooks
 export { useWalletContext } from './components/WalletProvider';
 export { usePortfolio } from './hooks/usePortfolio';
+export { useGetTokenBalance } from './hooks/useGetTokenBalance';
+export { useGetETHBalance } from './hooks/useGetETHBalance';
+export { useIsWalletACoinbaseSmartWallet } from './hooks/useIsWalletACoinbaseSmartWallet';
 
 // Types
 export type {

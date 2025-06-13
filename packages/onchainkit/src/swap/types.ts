@@ -18,6 +18,7 @@ import type {
 import type { BuildSwapTransaction, RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
 import type { Call } from '../transaction/types';
+import type { ToastProps } from '@/internal/components/Toast';
 
 export type SendSwapTransactionParams = {
   config: Config;
@@ -446,14 +447,10 @@ export type Transaction = {
   value: bigint;
 };
 
-export type SwapToastReact = {
-  /** An optional CSS class name for styling the toast component */
-  className?: string;
-  /** An optional value to customize time until toast disappears */
-  durationMs?: number;
-  /** An optional position property to specify the toast's position on the screen */
-  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
-};
+export type SwapToastReact = Pick<
+  ToastProps,
+  'duration' | 'position' | 'className'
+>;
 
 export type SwapTransaction = {
   transaction: Call;

@@ -8,7 +8,7 @@ import { coinbaseLogoSvg } from '../../internal/svg/coinbaseLogoSvg';
 import { cn, pressable, text } from '../../styles/theme';
 import { useBuyContext } from './BuyProvider';
 
-type OnrampItemReact = {
+type OnrampItemProps = {
   name: string;
   description: string;
   onClick: () => void;
@@ -29,7 +29,7 @@ export function BuyOnrampItem({
   onClick,
   icon,
   to,
-}: OnrampItemReact) {
+}: OnrampItemProps) {
   const { setIsDropdownOpen } = useBuyContext();
 
   const handleClick = useCallback(() => {
