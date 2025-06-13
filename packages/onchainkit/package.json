@@ -28,20 +28,19 @@
   },
   "peerDependencies": {
     "react": "^18 || ^19",
-    "react-dom": "^18 || ^19"
+    "react-dom": "^18 || ^19",
+    "viem": "^2.31",
+    "wagmi": "^2.15"
   },
   "dependencies": {
     "@farcaster/frame-sdk": "^0.0.60",
     "@farcaster/frame-wagmi-connector": "^0.0.42",
     "@tanstack/react-query": "^5",
-    "@wagmi/core": "^2.16.7",
     "clsx": "^2.1.1",
     "graphql": "^14 || ^15 || ^16",
     "graphql-request": "^6.1.0",
     "qrcode": "^1.5.4",
-    "tailwind-merge": "^2.3.0",
-    "viem": "^2.27.2",
-    "wagmi": "^2.14.11"
+    "tailwind-merge": "^2.3.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.6.14",
@@ -69,32 +68,26 @@
     "esbuild-plugin-babel": "^0.2.3",
     "glob": "^11.0.1",
     "globals": "^15.15.0",
-    "graphql": "^14",
     "graphql-request": "^6.1.0",
+    "graphql": "^14",
     "jsdom": "^24.1.0",
     "packemon": "3.3.1",
     "postcss": "^8",
-    "react": "^18",
     "react-dom": "^18",
+    "react": "^18",
     "rimraf": "^5.0.5",
     "rollup-plugin-preserve-use-client": "^3.0.1",
     "storybook": "^8.2.9",
-    "tailwindcss": "^3.4.3",
     "tailwindcss-animate": "^1.0.7",
+    "tailwindcss": "^3.4.3",
     "tscpaths": "^0.0.9",
     "tsup": "^8.3.5",
-    "vite": "^5.4.19",
+    "viem": "^2.31.1",
     "vite-plugin-dts": "^4.5.3",
     "vite-plugin-externalize-deps": "^0.9.0",
-    "vitest": "^3.0.5"
-  },
-  "overrides": {
-    "wagmi": {
-      "viem": "$viem"
-    },
-    "@wagmi/core": {
-      "viem": "$viem"
-    }
+    "vite": "^5.4.19",
+    "vitest": "^3.0.5",
+    "wagmi": "^2.15.6"
   },
   "files": [
     "dist/**/*",

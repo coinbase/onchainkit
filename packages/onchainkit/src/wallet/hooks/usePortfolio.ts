@@ -34,8 +34,8 @@ export function usePortfolio(
 
       if (response.portfolios.length === 0) {
         return {
-          address,
-          portfolioBalanceUsd: 0,
+          address: address as Address,
+          portfolioBalanceInUsd: 0,
           tokenBalances: [],
         };
       }

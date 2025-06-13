@@ -17,7 +17,7 @@ export function useWriteContracts({
   setLifecycleStatus,
   setTransactionId,
 }: UseWriteContractsParams) {
-  const { status, writeContractsAsync } = useWriteContractsWagmi({
+  return useWriteContractsWagmi({
     mutation: {
       onError: (e) => {
         // Ignore EOA-specific error to fallback to writeContract
@@ -41,5 +41,4 @@ export function useWriteContracts({
       },
     },
   });
-  return { status, writeContractsAsync };
 }

@@ -5,11 +5,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "pnpm -r run build",
-    "clean:node_modules": "rm -rf node_modules packages/*/node_modules",
+    "clean:node_modules": "rm -rf node_modules packages/*/node_modules examples/*/node_modules",
     "f:ock": "pnpm --filter @coinbase/onchainkit",
     "f:play": "pnpm --filter playground",
     "f:create": "pnpm --filter create-onchain",
     "f:manifest": "pnpm --filter miniapp-manifest-generator",
+    "f:minikit-example-app": "pnpm --filter minikit-example-app",
     "changeset": "changeset",
     "release:check": "changeset status --verbose --since=origin/main",
     "release:publish": "changeset publish"
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@changesets/cli": "^2.27.10",
     "@eslint/js": "^9.22.0",
+    "concurrently": "^8.0.0",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.3",
@@ -27,8 +29,13 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "globals": "^16.0.0",
     "prettier": "^3.5.3",
-    "typescript": "~5.4.0",
+    "typescript": "~5.8.2",
     "typescript-eslint": "^8.26.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "typescript": "~5.8.2"
+    }
   },
   "packageManager": "pnpm@10.6.3"
 }

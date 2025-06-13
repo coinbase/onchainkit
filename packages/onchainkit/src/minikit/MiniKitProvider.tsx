@@ -1,5 +1,4 @@
 'use client';
-
 import { DefaultOnchainKitProviders } from '@/DefaultOnchainKitProviders';
 import { OnchainKitProvider } from '@/OnchainKitProvider';
 import type { OnchainKitProviderReact } from '@/types';
