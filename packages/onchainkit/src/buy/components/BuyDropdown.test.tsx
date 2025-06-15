@@ -2,7 +2,7 @@ import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { BuyEvent } from '@/core/analytics/types';
 import { openPopup } from '@/internal/utils/openPopup';
 import { degenToken, ethToken, usdcToken } from '@/token/constants';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { getBuyFundingUrl } from '../utils/getBuyFundingUrl';

@@ -18,8 +18,8 @@ import { http, WagmiProvider, createConfig } from 'wagmi';
 import { useConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { OnchainKitProvider } from './OnchainKitProvider';
-import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
-import { useOnchainKit } from './useOnchainKit';
+import { useProviderDependencies } from '../../internal/hooks/useProviderDependencies';
+import { useOnchainKit } from '../hooks/useOnchainKit';
 
 vi.mock('wagmi', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import('wagmi');

@@ -5,7 +5,7 @@ import { badgeSvg } from '@/internal/svg/badgeSvg';
 import { zIndex } from '@/styles/constants';
 import { cn, pressable, text } from '@/styles/theme';
 import { useMemo, useState } from 'react';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../onchainkit/hooks/useOnchainKit';
 import { useIdentityContext } from './IdentityProvider';
 
 type ExtractAttestationNameParams = {

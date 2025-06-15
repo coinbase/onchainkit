@@ -6,7 +6,7 @@ import type React from 'react';
 import { goerli, baseSepolia as sepolia } from 'viem/chains';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
-import { OnchainKitProvider } from '../../OnchainKitProvider';
+import { OnchainKitProvider } from '../../onchainkit/components/OnchainKitProvider';
 import { IdentityCard } from './IdentityCard';
 
 function mock<T>(func: T) {

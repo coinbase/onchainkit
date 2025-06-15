@@ -1,4 +1,4 @@
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { render, screen } from '@testing-library/react';
 import { base, baseSepolia } from 'viem/chains';
 import {

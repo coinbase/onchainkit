@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAccount } from 'wagmi';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../onchainkit/hooks/useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { getCoinbaseSmartWalletFundUrl } from '../utils/getCoinbaseSmartWalletFundUrl';
 import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';

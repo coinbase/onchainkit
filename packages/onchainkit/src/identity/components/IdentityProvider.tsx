@@ -3,7 +3,7 @@ import type {
   IdentityProviderProps,
 } from '@/identity/types';
 import { useValue } from '@/internal/hooks/useValue';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { createContext, useContext } from 'react';
 import type { Address } from 'viem';
 

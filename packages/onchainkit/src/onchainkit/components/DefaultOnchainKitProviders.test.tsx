@@ -4,9 +4,9 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, createConfig } from 'wagmi';
 import type { CreateConnectorFn } from 'wagmi';
 import { DefaultOnchainKitProviders } from './DefaultOnchainKitProviders';
-import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
-import { useOnchainKit } from './useOnchainKit';
-import type { CreateWagmiConfigParams } from './core/types';
+import { useProviderDependencies } from '../../internal/hooks/useProviderDependencies';
+import { useOnchainKit } from '../hooks/useOnchainKit';
+import type { CreateWagmiConfigParams } from '../../core/types';
 
 // Mock the coinbase wallet connector
 const mockCoinbaseWallet = vi.fn();

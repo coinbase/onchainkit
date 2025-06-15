@@ -1,5 +1,5 @@
 import { useCapabilitiesSafe } from '@/internal/hooks/useCapabilitiesSafe';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { renderHook } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';

@@ -4,8 +4,8 @@ import {
   type ErrorInfo,
   type ReactNode,
 } from 'react';
-import { sendAnalyticsPayload } from './core/analytics/hooks/useAnalytics';
-import { ErrorEvent } from './core/analytics/types';
+import { sendAnalyticsPayload } from '../../core/analytics/hooks/useAnalytics';
+import { ErrorEvent } from '../../core/analytics/types';
 type Props = {
   fallback?: ComponentType<{ error: Error }>;
   children: ReactNode;
