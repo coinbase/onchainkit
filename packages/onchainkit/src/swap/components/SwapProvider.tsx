@@ -21,7 +21,7 @@ import { formatTokenAmount } from '@/internal/utils/formatTokenAmount';
 import type { Token } from '@/token';
 import { GENERIC_ERROR_MESSAGE } from '@/transaction/constants';
 import { isUserRejectedRequestError } from '@/transaction/utils/isUserRejectedRequestError';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { useAwaitCalls } from '../hooks/useAwaitCalls';
 import { useFromTo } from '../hooks/useFromTo';

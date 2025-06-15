@@ -1,7 +1,7 @@
 'use client';
 
 import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import {
   createContext,
   useCallback,

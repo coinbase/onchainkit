@@ -1,6 +1,6 @@
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { degenToken } from '@/token/constants';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import {

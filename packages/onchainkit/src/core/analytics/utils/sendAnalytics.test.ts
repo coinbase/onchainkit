@@ -12,7 +12,7 @@ vi.mock('@/useOnchainKit', () => ({
   })),
 }));
 
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 
 describe('sendAnalytics', () => {
   const mockFetch = vi.fn();

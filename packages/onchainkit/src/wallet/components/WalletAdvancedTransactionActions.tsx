@@ -11,7 +11,7 @@ import { addSvgForeground } from '@/internal/svg/addForegroundSvg';
 import { arrowUpRightSvg } from '@/internal/svg/arrowUpRightSvg';
 import { toggleSvg } from '@/internal/svg/toggleSvg';
 import { cn, pressable, text } from '@/styles/theme';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { useCallback } from 'react';
 import { useWalletContext } from './WalletProvider';
 import { RequestContext } from '@/core/network/constants';

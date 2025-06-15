@@ -5,7 +5,7 @@ import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useAttestations } from '@/identity/hooks/useAttestations';
 import { useAvatar } from '@/identity/hooks/useAvatar';
 import { useName } from '@/identity/hooks/useName';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { render, screen, waitFor } from '@testing-library/react';
 import { Avatar } from './Avatar';
 import { Badge } from './Badge';

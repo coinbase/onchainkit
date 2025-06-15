@@ -3,7 +3,7 @@ import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { BuyEvent, type BuyOptionType } from '@/core/analytics/types';
 import { type PaymentMethod } from '@/fund/types';
 import { openPopup } from '@/internal/utils/openPopup';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { useCallback, useEffect, useMemo } from 'react';
 import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';

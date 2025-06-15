@@ -1,10 +1,5 @@
 'use client';
-
-import { DefaultOnchainKitProviders } from '@/DefaultOnchainKitProviders';
-import { OnchainKitProvider } from '@/OnchainKitProvider';
-import type { OnchainKitProviderReact } from '@/types';
 import sdk, { type Context } from '@farcaster/frame-sdk';
-import { farcasterFrame } from '@farcaster/frame-wagmi-connector';
 import {
   createContext,
   useCallback,
@@ -12,26 +7,43 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { coinbaseWallet } from 'wagmi/connectors';
 import type {
   MiniKitContextType,
   MiniKitProviderReact,
   UpdateClientContextParams,
 } from './types';
 
-export const emptyContext = {} as MiniKitContextType;
+export const MiniKitContext = createContext<MiniKitContextType>({
+  enabled: false,
+  context: null,
+  updateClientContext: () => {},
+  notificationProxyUrl: '',
+});
 
-export const MiniKitContext = createContext<MiniKitContextType>(emptyContext);
-
-/**
- * Provides the MiniKit React Context to the app.
- */
-export function MiniKitProvider({
+function MiniKitProviderContent({
   children,
   notificationProxyUrl = '/api/notify',
-  ...onchainKitProps
-}: MiniKitProviderReact & OnchainKitProviderReact) {
+}: MiniKitProviderReact) {
   const [context, setContext] = useState<Context.FrameContext | null>(null);
+
+  const updateClientContext = useCallback(
+    ({ details, frameAdded }: UpdateClientContextParams) => {
+      setContext((prevContext) => {
+        if (!prevContext) {
+          return null;
+        }
+        return {
+          ...prevContext,
+          client: {
+            ...prevContext.client,
+            notificationDetails: details ?? undefined,
+            added: frameAdded ?? prevContext.client.added,
+          },
+        };
+      });
+    },
+    [],
+  );
 
   useEffect(() => {
     sdk.on('frameAdded', ({ notificationDetails }) => {
@@ -81,42 +93,11 @@ export function MiniKitProvider({
     return () => {
       sdk.removeAllListeners();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const updateClientContext = useCallback(
-    ({ details, frameAdded }: UpdateClientContextParams) => {
-      setContext((prevContext) => {
-        if (!prevContext) {
-          return null;
-        }
-        return {
-          ...prevContext,
-          client: {
-            ...prevContext.client,
-            notificationDetails: details ?? undefined,
-            added: frameAdded ?? prevContext.client.added,
-          },
-        };
-      });
-    },
-    [],
-  );
-
-  const connectors = useMemo(() => {
-    return [
-      context // if context is set, the app is running in a frame, use farcasterFrame connector
-        ? farcasterFrame()
-        : coinbaseWallet({
-            appName: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
-            appLogoUrl: process.env.NEXT_PUBLIC_ICON_URL,
-            preference: 'all',
-          }),
-    ];
-  }, [context]);
+  }, [updateClientContext]);
 
   const value = useMemo(() => {
     return {
+      enabled: true,
       context,
       updateClientContext,
       notificationProxyUrl,
@@ -125,20 +106,32 @@ export function MiniKitProvider({
 
   return (
     <MiniKitContext.Provider value={value}>
-      <DefaultOnchainKitProviders connectors={connectors}>
-        <OnchainKitProvider {...onchainKitProps}>
-          <div
-            style={{
-              paddingTop: context?.client.safeAreaInsets?.top ?? 0,
-              paddingBottom: context?.client.safeAreaInsets?.bottom ?? 0,
-              paddingLeft: context?.client.safeAreaInsets?.left ?? 0,
-              paddingRight: context?.client.safeAreaInsets?.right ?? 0,
-            }}
-          >
-            {children}
-          </div>
-        </OnchainKitProvider>
-      </DefaultOnchainKitProviders>
+      <div
+        style={{
+          paddingTop: context?.client.safeAreaInsets?.top ?? 0,
+          paddingBottom: context?.client.safeAreaInsets?.bottom ?? 0,
+          paddingLeft: context?.client.safeAreaInsets?.left ?? 0,
+          paddingRight: context?.client.safeAreaInsets?.right ?? 0,
+        }}
+      >
+        {children}
+      </div>
     </MiniKitContext.Provider>
+  );
+}
+
+export function MiniKitProvider({
+  children,
+  notificationProxyUrl,
+  enabled,
+}: MiniKitProviderReact) {
+  if (!enabled) {
+    return children;
+  }
+
+  return (
+    <MiniKitProviderContent notificationProxyUrl={notificationProxyUrl}>
+      {children}
+    </MiniKitProviderContent>
   );
 }

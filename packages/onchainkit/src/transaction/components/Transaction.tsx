@@ -1,7 +1,7 @@
 import { useIsMounted } from '../../internal/hooks/useIsMounted';
 import { useTheme } from '../../internal/hooks/useTheme';
 import { cn } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../onchainkit/hooks/useOnchainKit';
 import type { TransactionProps } from '../types';
 import { TransactionButton } from './TransactionButton';
 import { TransactionProvider } from './TransactionProvider';

@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { useAttestations } from '@/identity/hooks/useAttestations';
 import { base } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../onchainkit/hooks/useOnchainKit';
 import { Badge } from './Badge';
 import { useIdentityContext } from './IdentityProvider';
 

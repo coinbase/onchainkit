@@ -1,6 +1,6 @@
 import { useAccount } from 'wagmi';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../onchainkit/hooks/useOnchainKit';
 
 // From https://github.com/wevm/wagmi/blob/472993b3c0d5941e524e67a0f51b32af5bb9e48f/packages/connectors/src/coinbaseWallet.ts#L90
 const COINBASE_WALLET_SDK_CONNECTOR_ID = 'coinbaseWalletSDK';

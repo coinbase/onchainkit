@@ -1,7 +1,7 @@
 'use client';
 
 import { Avatar, Name } from '@/identity';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
@@ -9,11 +9,12 @@ import { WalletEvent } from '../../core/analytics/types';
 import { IdentityProvider } from '../../identity/components/IdentityProvider';
 import { Spinner } from '../../internal/components/Spinner';
 import { cn, text as dsText, pressable } from '../../styles/theme';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../onchainkit/hooks/useOnchainKit';
 import type { ConnectWalletReact } from '../types';
 import { ConnectButton } from './ConnectButton';
 import { WalletModal } from './WalletModal';
 import { useWalletContext } from './WalletProvider';
+import { useMiniKit } from '@/minikit';
 
 const connectWalletDefaultChildren = (
   <>
@@ -44,6 +45,7 @@ export function ConnectWallet({
   } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
   const { sendAnalytics } = useAnalytics();
+  const miniKit = useMiniKit();
 
   // State
   const [hasClickedConnect, setHasClickedConnect] = useState(false);
@@ -153,6 +155,10 @@ export function ConnectWallet({
     onConnect,
   ]);
 
+  const isWalletModalEnabled = useMemo(() => {
+    return config?.wallet?.display === 'modal' && !miniKit.context;
+  }, [config?.wallet?.display, miniKit.context]);
+
   if (status === 'disconnected') {
     return (
       <div className="flex" data-testid="ockConnectWallet_Container">
@@ -161,7 +167,7 @@ export function ConnectWallet({
           connectWalletText={disconnectedLabel}
           onClick={handleConnectClick}
         />
-        {config?.wallet?.display === 'modal' && (
+        {isWalletModalEnabled && (
           <WalletModal isOpen={isModalOpen} onClose={handleCloseConnectModal} />
         )}
       </div>

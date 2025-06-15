@@ -1,6 +1,6 @@
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { WalletEvent, WalletOption } from '@/core/analytics/types';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';

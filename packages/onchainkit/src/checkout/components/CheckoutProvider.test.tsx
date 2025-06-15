@@ -1,5 +1,5 @@
 import { openPopup } from '@/internal/utils/openPopup';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { act } from 'react';
 import { useIsWalletACoinbaseSmartWallet } from '@/wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';

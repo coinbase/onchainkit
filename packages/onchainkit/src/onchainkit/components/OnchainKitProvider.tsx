@@ -1,20 +1,37 @@
 'use client';
+import { useMemo, type ReactNode } from 'react';
+import { useSessionStorage } from 'usehooks-ts';
+import type { Chain } from 'wagmi/chains';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
-import { useMemo } from 'react';
-import { DefaultOnchainKitProviders } from './DefaultOnchainKitProviders';
+import type { EASSchemaUid } from '@/identity/types';
 import OnchainKitProviderBoundary from './OnchainKitProviderBoundary';
-import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from './core/constants';
-import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
-import { checkHashLength } from './internal/utils/checkHashLength';
-import type { OnchainKitProviderReact } from './types';
-import { generateUUIDWithInsecureFallback } from './utils/crypto';
-import { OnchainKitContext } from './useOnchainKit';
+import type { AppConfig } from '../../core/types';
+import { checkHashLength } from '../../internal/utils/checkHashLength';
+import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from '../../identity/constants';
+import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from '../../core/constants';
+import { DefaultOnchainKitProviders } from './DefaultOnchainKitProviders';
+import { generateUUIDWithInsecureFallback } from '../../utils/crypto';
+import { OnchainKitContext } from '../hooks/useOnchainKit';
+import type { MiniKitOptions } from '../../minikit/types';
+import { MiniKitProvider } from '@/minikit/MiniKitProvider';
+
+export type OnchainKitProviderReact = {
+  analytics?: boolean;
+  apiKey?: string;
+  chain: Chain;
+  children: ReactNode;
+  config?: AppConfig;
+  sessionId?: string;
+  projectId?: string;
+  rpcUrl?: string;
+  schemaId?: EASSchemaUid;
+  miniKit?: MiniKitOptions;
+};
 
 /**
  * Provides the OnchainKit React Context to the app.
  */
 export function OnchainKitProvider({
-  address,
   analytics,
   apiKey,
   chain,
@@ -23,12 +40,18 @@ export function OnchainKitProvider({
   projectId,
   rpcUrl,
   schemaId,
+  miniKit = {
+    enabled: false,
+  },
 }: OnchainKitProviderReact) {
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
 
-  const sessionId = useMemo(() => generateUUIDWithInsecureFallback(), []);
+  const [sessionId] = useSessionStorage(
+    'ock-session-id',
+    generateUUIDWithInsecureFallback(),
+  );
 
   // eslint-disable-next-line complexity
   const value = useMemo(() => {
@@ -38,7 +61,6 @@ export function OnchainKitProvider({
           .toLowerCase()}/${apiKey}`
       : null;
     const onchainKitConfig = {
-      address: address ?? null,
       apiKey: apiKey ?? null,
       chain: chain,
       config: {
@@ -72,7 +94,6 @@ export function OnchainKitProvider({
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
   }, [
-    address,
     analytics,
     apiKey,
     chain,
@@ -85,9 +106,14 @@ export function OnchainKitProvider({
 
   return (
     <OnchainKitContext.Provider value={value}>
-      <DefaultOnchainKitProviders>
-        <OnchainKitProviderBoundary>{children}</OnchainKitProviderBoundary>
-      </DefaultOnchainKitProviders>
+      <MiniKitProvider
+        enabled={miniKit.enabled}
+        notificationProxyUrl={miniKit.notificationProxyUrl}
+      >
+        <DefaultOnchainKitProviders>
+          <OnchainKitProviderBoundary>{children}</OnchainKitProviderBoundary>
+        </DefaultOnchainKitProviders>
+      </MiniKitProvider>
     </OnchainKitContext.Provider>
   );
 }

@@ -1,5 +1,5 @@
 import type { UseThemeReact } from '../../core/types';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../onchainkit/hooks/useOnchainKit';
 import { usePreferredColorScheme } from './usePreferredColorScheme';
 
 export function useTheme(): UseThemeReact {

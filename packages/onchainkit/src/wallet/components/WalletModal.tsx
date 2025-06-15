@@ -10,7 +10,7 @@ import { phantomSvg } from '@/internal/svg/phantomSvg';
 import { rabbySvg } from '@/internal/svg/rabbySvg';
 import { trustWalletSvg } from '@/internal/svg/trustWalletSvg';
 import { border, cn, pressable, text } from '@/styles/theme';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { useCallback } from 'react';
 import { useConnect } from 'wagmi';
 import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';

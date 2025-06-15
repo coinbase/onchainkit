@@ -1,7 +1,10 @@
-export { OnchainKitProvider } from './OnchainKitProvider';
-export { useOnchainKit } from './useOnchainKit';
+export {
+  OnchainKitProvider,
+  useOnchainKit,
+  type OnchainKitProviderReact,
+} from './onchainkit';
+
 export { version } from './version';
-export type { OnchainKitProviderReact } from './types';
 
 export { isBase } from './core/utils/isBase';
 export { isEthereum } from './core/utils/isEthereum';
