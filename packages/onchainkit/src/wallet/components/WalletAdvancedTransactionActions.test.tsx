@@ -7,7 +7,7 @@ import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionAct
 import { useWalletContext } from './WalletProvider';
 import { usePortfolio } from '../hooks/usePortfolio';
 
-vi.mock('@/useOnchainKit', () => ({
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

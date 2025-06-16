@@ -42,7 +42,7 @@ vi.mock('../../wallet/hooks/useIsWalletACoinbaseSmartWallet', () => ({
   useIsWalletACoinbaseSmartWallet: vi.fn(),
 }));
 
-vi.mock('@/useOnchainKit', () => ({
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

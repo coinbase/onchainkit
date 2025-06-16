@@ -13,7 +13,7 @@ import {
 } from 'vitest';
 import { NFTOwner } from './NFTOwner';
 
-vi.mock('@/useOnchainKit');
+vi.mock('@/onchainkit/hooks/useOnchainKit');
 vi.mock('@/nft/components/NFTProvider');
 vi.mock('@/identity', async () => ({
   ...(await vi.importActual('@/identity')),

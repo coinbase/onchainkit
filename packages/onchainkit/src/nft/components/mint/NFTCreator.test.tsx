@@ -5,7 +5,7 @@ import { render } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { NFTCreator } from './NFTCreator';
 
-vi.mock('@/useOnchainKit', () => ({
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 vi.mock('@/nft/components/NFTProvider', () => ({

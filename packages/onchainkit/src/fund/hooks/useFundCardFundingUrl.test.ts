@@ -9,7 +9,7 @@ vi.mock('../components/FundCardProvider', () => ({
   useFundContext: vi.fn(),
 }));
 
-vi.mock('@/useOnchainKit', () => ({
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

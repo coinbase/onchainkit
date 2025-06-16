@@ -19,7 +19,7 @@ import { mock } from 'wagmi/connectors';
 
 vi.mock('@/nft/components/NFTProvider');
 vi.mock('@/nft/components/NFTLifecycleProvider');
-vi.mock('@/useOnchainKit');
+vi.mock('@/onchainkit/hooks/useOnchainKit');
 vi.mock('wagmi', async (importOriginal) => {
   return {
     ...(await importOriginal<typeof import('wagmi')>()),

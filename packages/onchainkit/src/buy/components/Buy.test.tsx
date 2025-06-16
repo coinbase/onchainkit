@@ -35,7 +35,7 @@ vi.mock('@/internal/hooks/useOutsideClick', () => ({
   useOutsideClick: vi.fn(),
 }));
 
-vi.mock('@/useOnchainKit', () => ({
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

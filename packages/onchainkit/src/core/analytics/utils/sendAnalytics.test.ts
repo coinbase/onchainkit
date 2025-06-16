@@ -6,7 +6,7 @@ import { ANALYTICS_API_URL } from '../../analytics/constants';
 import { JSON_HEADERS } from '../../network/constants';
 import { type AnalyticsRequestParams, sendAnalytics } from './sendAnalytics';
 
-vi.mock('@/useOnchainKit', () => ({
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(() => ({
     config: { analytics: true },
   })),

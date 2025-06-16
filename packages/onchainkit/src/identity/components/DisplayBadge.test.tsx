@@ -11,7 +11,7 @@ function mock<T>(func: T) {
   return func as Mock;
 }
 
-vi.mock('@/useOnchainKit', () => ({
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 vi.mock('@/identity/hooks/useAttestations', () => ({

@@ -37,7 +37,7 @@ vi.mock('wagmi', async () => {
   };
 });
 
-vi.mock('@/useOnchainKit', () => ({
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
