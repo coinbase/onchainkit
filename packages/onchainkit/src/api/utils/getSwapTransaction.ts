@@ -1,5 +1,5 @@
 import type { Address, Hex } from 'viem';
-import type { TransactionParams } from '../../swap/types';
+import type { Transaction } from '../../swap/types';
 import type { RawTransactionData } from '../types';
 
 /**
@@ -14,7 +14,7 @@ import type { RawTransactionData } from '../types';
 export function getSwapTransaction(
   rawTx: RawTransactionData,
   chainId: string,
-): TransactionParams {
+): Transaction {
   const { data, gas, to, value } = rawTx;
   return {
     chainId: Number(chainId),

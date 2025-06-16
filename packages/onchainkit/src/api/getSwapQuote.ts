@@ -3,7 +3,7 @@ import { SwapMessage } from '@/swap/constants';
 import { UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE } from '@/swap/constants';
 import { CDP_GET_SWAP_QUOTE } from '../core/network/definitions/swap';
 import { sendRequest } from '../core/network/request';
-import type { SwapQuoteParams } from '../swap/types';
+import type { SwapQuote } from '../swap/types';
 import { getSwapErrorCode } from '../swap/utils/getSwapErrorCode';
 import type {
   GetSwapQuoteParams,
@@ -11,6 +11,7 @@ import type {
   SwapAPIParams,
 } from './types';
 import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
+import { buildErrorStruct } from './utils/buildErrorStruct';
 
 /**
  * Retrieves a quote for a swap from Token A to Token B.
@@ -61,24 +62,24 @@ export async function getSwapQuote(
   }
 
   try {
-    const res = await sendRequest<SwapAPIParams, SwapQuoteParams>(
+    const res = await sendRequest<SwapAPIParams, SwapQuote>(
       CDP_GET_SWAP_QUOTE,
       [apiParams],
       _context,
     );
     if (res.error) {
-      return {
+      return buildErrorStruct({
         code: getSwapErrorCode('quote', res.error?.code),
         error: res.error.message,
         message: '',
-      };
+      });
     }
     return res.result;
   } catch {
-    return {
+    return buildErrorStruct({
       code: getSwapErrorCode('uncaught-quote'),
       error: 'Something went wrong',
       message: '',
-    };
+    });
   }
 }

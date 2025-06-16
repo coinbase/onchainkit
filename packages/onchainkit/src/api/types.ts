@@ -1,10 +1,5 @@
 import type { Address } from 'viem';
-import type {
-  Fee,
-  QuoteWarning,
-  SwapQuoteParams,
-  TransactionParams,
-} from '../swap/types';
+import type { Fee, QuoteWarning, SwapQuote, Transaction } from '../swap/types';
 import type { Token } from '../token/types';
 import type { Call } from '../transaction/types';
 
@@ -54,13 +49,13 @@ export type BuildPayTransactionResponse = PayTransaction | APIError;
  */
 export type BuildSwapTransaction = {
   /** ERC20 approve transaction which allows token holders to authorize spending */
-  approveTransaction?: TransactionParams;
+  approveTransaction?: Transaction;
   /** The fee for the swap */
   fee: Fee;
   /** The quote for the swap */
-  quote: SwapQuoteParams;
+  quote: SwapQuote;
   /** The object developers should pass into Wagmi's signTransaction */
-  transaction: TransactionParams;
+  transaction: Transaction;
   /** The warning associated with the swap */
   warning?: QuoteWarning;
 };
@@ -132,7 +127,7 @@ export type GetSwapQuoteParams = {
 /**
  * Note: exported as public Type
  */
-export type GetSwapQuoteResponse = SwapQuoteParams | APIError;
+export type GetSwapQuoteResponse = SwapQuote | APIError;
 
 /**
  * Note: exported as public Type
