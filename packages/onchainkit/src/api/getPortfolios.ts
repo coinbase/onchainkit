@@ -6,6 +6,8 @@ import type {
   GetPortfoliosParams,
   GetPortfoliosResponse,
 } from './types';
+import { buildErrorStruct } from './utils/buildErrorStruct';
+import { ApiErrorCode } from './constants';
 
 /**
  * Retrieves the portfolios for the provided addresses
@@ -24,18 +26,18 @@ export async function getPortfolios(
       _context,
     );
     if (res.error) {
-      return {
+      return buildErrorStruct({
         code: `${res.error.code}`,
         error: 'Error fetching portfolio token balances',
         message: res.error.message,
-      };
+      });
     }
     return res.result;
   } catch (error) {
-    return {
-      code: 'uncaught-portfolio',
+    return buildErrorStruct({
+      code: ApiErrorCode.UncaughtPortfolioError,
       error: 'Something went wrong',
       message: `Error fetching portfolio token balances: ${error}`,
-    };
+    });
   }
 }
