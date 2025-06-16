@@ -2,8 +2,8 @@ import { RequestContext, RequestContextType } from '@/core/network/constants';
 import {
   CDP_CREATE_PRODUCT_CHARGE,
   CDP_HYDRATE_CHARGE,
-} from '../core/network/definitions/pay';
-import { type JSONRPCResult, sendRequest } from '../core/network/request';
+} from '@/core/network/definitions/pay';
+import { type JSONRPCResult, sendRequest } from '@/core/network/request';
 import type {
   BuildPayTransactionParams,
   BuildPayTransactionResponse,

@@ -6,6 +6,9 @@ export const ApiErrorCode = {
   UncaughtPriceQuoteError: 'UNCAUGHT_PRICE_QUOTE_ERROR',
   InvalidInput: 'INVALID_INPUT',
   UncaughtPortfolioError: 'uncaught-portfolio',
+  AmBPTa01: 'AmBPTa01', // Api Module Build Pay Transaction Error 01
+  AmBPTa02: 'AmBPTa02', // Api Module Build Pay Transaction Error 02
+  AmBPTa03: 'AmBPTa03', // Api Module Build Pay Transaction Error 03
 } as const;
 
 export type ApiErrorCode = (typeof ApiErrorCode)[keyof typeof ApiErrorCode];
