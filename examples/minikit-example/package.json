@@ -13,7 +13,7 @@
     "@coinbase/onchainkit": "workspace:*",
     "@farcaster/frame-sdk": "^0.0.60",
     "@upstash/redis": "^1.34.4",
-    "next": "^15.3.3",
+    "next": "^14.2.30",
     "react": "^18",
     "react-dom": "^18",
     "@tanstack/react-query": "^5",
