@@ -1,12 +1,12 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { type PropsWithChildren, useMemo } from 'react';
+import { type PropsWithChildren, useContext, useMemo } from 'react';
 import { Config, WagmiProvider } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
 import { createWagmiConfig } from '../../core/createWagmiConfig';
 import { useProviderDependencies } from '../../internal/hooks/useProviderDependencies';
 import { useOnchainKit } from '../hooks/useOnchainKit';
-import { useMiniKit } from '@/minikit/hooks/useMiniKit';
 import { farcasterFrame } from '@farcaster/frame-wagmi-connector';
+import { MiniKitContext } from '@/minikit/MiniKitProvider';
 
 export function DefaultOnchainKitProviders({ children }: PropsWithChildren) {
   // Check the React context for WagmiProvider and QueryClientProvider
@@ -29,7 +29,8 @@ function WagmiProviderWithDefault({
   providedWagmiConfig: Config | null;
 }>) {
   const onchainKitConfig = useOnchainKit();
-  const miniKit = useMiniKit();
+  // Using useContext here because useMiniKit throws if MiniKit is not enabled
+  const miniKit = useContext(MiniKitContext);
 
   const apiKey = onchainKitConfig.apiKey ?? undefined;
   const appName = onchainKitConfig.config?.appearance?.name ?? undefined;

@@ -375,4 +375,29 @@ describe('MiniKitProvider', () => {
 
     consoleSpy.mockRestore();
   });
+
+  it('should not initialize MiniKit when not enabled', async () => {
+    let contextValue: MiniKitContextType | undefined;
+
+    function TestComponent() {
+      contextValue = useContext(MiniKitContext);
+      return null;
+    }
+
+    render(
+      <WagmiProvider config={createConfig(mockConfig)}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider chain={mockConfig.chains[0]}>
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await act(() => Promise.resolve());
+
+    expect(contextValue?.enabled).toBe(false);
+    expect(contextValue?.context).toBeNull();
+    expect(sdk.on).not.toHaveBeenCalled();
+  });
 });

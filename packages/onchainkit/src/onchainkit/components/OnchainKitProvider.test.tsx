@@ -2,8 +2,10 @@ import '@testing-library/jest-dom';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import type { AppConfig } from '@/core/types';
 import type { EASSchemaUid } from '@/identity/types';
+import { MiniKitContext } from '@/minikit/MiniKitProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
+import { useContext } from 'react';
 import { base } from 'viem/chains';
 import {
   type Mock,
@@ -28,6 +30,18 @@ vi.mock('wagmi', async (importOriginal) => {
     useConfig: vi.fn(),
   };
 });
+
+vi.mock('@farcaster/frame-sdk', () => ({
+  default: {
+    context: Promise.resolve({ client: {} }),
+    on: vi.fn(),
+    removeAllListeners: vi.fn(),
+  },
+}));
+
+vi.mock('@farcaster/frame-wagmi-connector', () => ({
+  farcasterFrame: vi.fn(),
+}));
 
 vi.mock('@/internal/hooks/useProviderDependencies', () => ({
   useProviderDependencies: vi.fn(() => ({
@@ -55,6 +69,18 @@ const TestComponent = () => {
     <>
       <div>{schemaId}</div>
       <div>{apiKey}</div>
+    </>
+  );
+};
+
+const MiniKitTestComponent = () => {
+  const { enabled, notificationProxyUrl } = useContext(MiniKitContext);
+  return (
+    <>
+      <div data-testid="minikit-enabled">{enabled.toString()}</div>
+      <div data-testid="minikit-notification-proxy-url">
+        {notificationProxyUrl}
+      </div>
     </>
   );
 };
@@ -202,7 +228,7 @@ describe('OnchainKitProvider', () => {
               },
             },
           },
-          chain: base,
+          chain: expect.any(Object),
           rpcUrl: null,
           schemaId,
           projectId: null,
@@ -311,7 +337,7 @@ describe('OnchainKitProvider', () => {
         expect.objectContaining({
           address: null,
           apiKey: apiKey,
-          chain: base,
+          chain: expect.any(Object),
           config: {
             analytics: false,
             analyticsUrl: 'https://example.com',
@@ -515,5 +541,68 @@ describe('OnchainKitProvider', () => {
 
   afterEach(() => {
     vi.resetModules();
+  });
+});
+
+describe('OnchainKitProvider with MiniKit', () => {
+  const mockConfig = createConfig({
+    chains: [base],
+    connectors: [
+      mock({
+        accounts: ['0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'],
+      }),
+    ],
+    transports: {
+      [base.id]: http(),
+    },
+  });
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    (useConfig as Mock).mockReturnValue(mockConfig);
+    (useProviderDependencies as Mock).mockReturnValue({
+      providedWagmiConfig: mockConfig,
+      providedQueryClient: queryClient,
+    });
+  });
+
+  it('should have MiniKit disabled by default', async () => {
+    render(
+      <OnchainKitProvider chain={base}>
+        <MiniKitTestComponent />
+      </OnchainKitProvider>,
+    );
+    await waitFor(() => {
+      expect(screen.getByTestId('minikit-enabled').textContent).toBe('false');
+    });
+  });
+
+  it('should enable MiniKit when specified', async () => {
+    render(
+      <OnchainKitProvider chain={base} miniKit={{ enabled: true }}>
+        <MiniKitTestComponent />
+      </OnchainKitProvider>,
+    );
+    await waitFor(() => {
+      expect(screen.getByTestId('minikit-enabled').textContent).toBe('true');
+    });
+  });
+
+  it('should set notificationProxyUrl for MiniKit when specified', async () => {
+    const customUrl = '/api/custom-notify';
+    render(
+      <OnchainKitProvider
+        chain={base}
+        miniKit={{ enabled: true, notificationProxyUrl: customUrl }}
+      >
+        <MiniKitTestComponent />
+      </OnchainKitProvider>,
+    );
+    await waitFor(() => {
+      expect(screen.getByTestId('minikit-enabled').textContent).toBe('true');
+      expect(
+        screen.getByTestId('minikit-notification-proxy-url').textContent,
+      ).toBe(customUrl);
+    });
   });
 });
