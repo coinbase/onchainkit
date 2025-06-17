@@ -5,13 +5,14 @@ import { ANALYTICS_API_URL } from '@/core/analytics/constants';
 import { JSON_HEADERS } from '@/core/network/constants';
 import { SwapEvent } from '@/core/analytics/types';
 import {
-  analyticsService,
-  sendAnalyticsPayload,
+  clientMetaManager,
   type ClientMeta,
-} from './analyticsService';
+} from '@/core/clientMeta/clientMetaManager';
+import { sendAnalyticsPayload } from './analyticsService';
 
 // Mock dependencies
 vi.mock('@/core/OnchainKitConfig');
+vi.mock('@/core/clientMeta/clientMetaManager');
 vi.mock('@/version', () => ({
   version: '1.0.0',
 }));
@@ -43,18 +44,16 @@ const mockConsoleError = vi
   .mockImplementation(() => {});
 
 const mockGetOnchainKitConfig = getOnchainKitConfig as Mock;
+const mockGetClientMeta = clientMetaManager.getClientMeta as Mock;
 
-describe('AnalyticsService', () => {
+describe('sendAnalyticsPayload', () => {
   const mockClientMeta: ClientMeta = {
     mode: 'onchainkit',
     clientFid: 123,
-    ockVersion: '1.0.0',
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
-    // Reset clientMeta to null before each test
-    analyticsService.clientMeta = null;
 
     // Reset process.env.NODE_ENV to test
     process.env.NODE_ENV = 'test';
@@ -68,40 +67,11 @@ describe('AnalyticsService', () => {
       };
       return mockConfig[key as keyof typeof mockConfig];
     });
+
+    mockGetClientMeta.mockResolvedValue(mockClientMeta);
   });
 
-  describe('initialization', () => {
-    it('should have clientMeta property accessible', () => {
-      expect(analyticsService.clientMeta).toBeNull();
-    });
-
-    it('should be an object with expected methods', () => {
-      expect(typeof analyticsService.setClientMeta).toBe('function');
-      expect(typeof analyticsService.sendAnalytics).toBe('function');
-    });
-  });
-
-  describe('setClientMeta', () => {
-    it('should set client metadata', () => {
-      analyticsService.setClientMeta(mockClientMeta);
-      expect(analyticsService.clientMeta).toEqual(mockClientMeta);
-    });
-
-    it('should overwrite existing client metadata', () => {
-      analyticsService.setClientMeta(mockClientMeta);
-
-      const newMeta: ClientMeta = {
-        mode: 'minikit',
-        clientFid: 456,
-        ockVersion: '2.0.0',
-      };
-
-      analyticsService.setClientMeta(newMeta);
-      expect(analyticsService.clientMeta).toEqual(newMeta);
-    });
-  });
-
-  describe('sendAnalytics', () => {
+  describe('sendAnalyticsPayload', () => {
     const eventType = SwapEvent.SwapSuccess;
     const eventData = {
       paymaster: true,
@@ -115,13 +85,15 @@ describe('AnalyticsService', () => {
     it('should send analytics when enabled', async () => {
       mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
 
-      await analyticsService.sendAnalytics(eventType, eventData);
+      await sendAnalyticsPayload(eventType, eventData);
 
       expect(mockFetch).toHaveBeenCalledWith(ANALYTICS_API_URL, {
         method: 'POST',
         headers: {
           ...JSON_HEADERS,
           'OnchainKit-App-Name': 'Test App',
+          'OnchainKit-Client-Fid': '123',
+          'OnchainKit-Mode': 'onchainkit',
         },
         body: JSON.stringify({
           apiKey: 'test-api-key',
@@ -130,7 +102,6 @@ describe('AnalyticsService', () => {
           eventType: eventType,
           data: eventData,
           origin: 'https://test.com',
-          metadata: null,
         }),
       });
     });
@@ -148,33 +119,9 @@ describe('AnalyticsService', () => {
 
       mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
 
-      await analyticsService.sendAnalytics(eventType, eventData);
+      await sendAnalyticsPayload(eventType, eventData);
 
       expect(mockFetch).toHaveBeenCalledWith(customUrl, expect.any(Object));
-    });
-
-    it('should include client metadata when set', async () => {
-      analyticsService.setClientMeta(mockClientMeta);
-      mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
-
-      await analyticsService.sendAnalytics(eventType, eventData);
-
-      expect(mockFetch).toHaveBeenCalledWith(ANALYTICS_API_URL, {
-        method: 'POST',
-        headers: {
-          ...JSON_HEADERS,
-          'OnchainKit-App-Name': 'Test App',
-        },
-        body: JSON.stringify({
-          apiKey: 'test-api-key',
-          sessionId: 'test-session-id',
-          timestamp: MOCK_TIMESTAMP,
-          eventType: eventType,
-          data: eventData,
-          origin: 'https://test.com',
-          metadata: mockClientMeta,
-        }),
-      });
     });
 
     it('should not send analytics when disabled', async () => {
@@ -187,7 +134,7 @@ describe('AnalyticsService', () => {
         return mockConfig[key as keyof typeof mockConfig];
       });
 
-      await analyticsService.sendAnalytics(eventType, eventData);
+      await sendAnalyticsPayload(eventType, eventData);
 
       expect(mockFetch).not.toHaveBeenCalled();
     });
@@ -202,7 +149,7 @@ describe('AnalyticsService', () => {
         return mockConfig[key as keyof typeof mockConfig];
       });
 
-      await analyticsService.sendAnalytics(eventType, eventData);
+      await sendAnalyticsPayload(eventType, eventData);
 
       expect(mockFetch).not.toHaveBeenCalled();
     });
@@ -212,7 +159,7 @@ describe('AnalyticsService', () => {
       mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
       await expect(
-        analyticsService.sendAnalytics(eventType, eventData),
+        sendAnalyticsPayload(eventType, eventData),
       ).resolves.not.toThrow();
 
       expect(mockConsoleError).not.toHaveBeenCalled();
@@ -223,7 +170,7 @@ describe('AnalyticsService', () => {
       const error = new Error('Network error');
       mockFetch.mockRejectedValueOnce(error);
 
-      await analyticsService.sendAnalytics(eventType, eventData);
+      await sendAnalyticsPayload(eventType, eventData);
 
       expect(mockConsoleError).toHaveBeenCalledWith(
         'Error sending analytics:',
@@ -243,13 +190,15 @@ describe('AnalyticsService', () => {
 
       mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
 
-      await analyticsService.sendAnalytics(eventType, eventData);
+      await sendAnalyticsPayload(eventType, eventData);
 
       expect(mockFetch).toHaveBeenCalledWith(ANALYTICS_API_URL, {
         method: 'POST',
         headers: {
           ...JSON_HEADERS,
           'OnchainKit-App-Name': 'Test App',
+          'OnchainKit-Client-Fid': '123',
+          'OnchainKit-Mode': 'onchainkit',
         },
         body: JSON.stringify({
           apiKey: 'undefined',
@@ -258,13 +207,12 @@ describe('AnalyticsService', () => {
           eventType: eventType,
           data: eventData,
           origin: 'https://test.com',
-          metadata: null,
         }),
       });
     });
   });
 
-  describe('buildBody (private method)', () => {
+  describe('body building', () => {
     it('should build correct body structure', async () => {
       const eventType = SwapEvent.SwapSuccess;
       const eventData = {
@@ -276,10 +224,9 @@ describe('AnalyticsService', () => {
         to: 'USDC',
       };
 
-      analyticsService.setClientMeta(mockClientMeta);
       mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
 
-      await analyticsService.sendAnalytics(eventType, eventData);
+      await sendAnalyticsPayload(eventType, eventData);
 
       const fetchCall = mockFetch.mock.calls[0];
       const body = JSON.parse(fetchCall[1].body);
@@ -291,7 +238,6 @@ describe('AnalyticsService', () => {
         eventType: eventType,
         data: eventData,
         origin: 'https://test.com',
-        metadata: mockClientMeta,
       });
 
       // Verify timestamp is correct
@@ -299,59 +245,19 @@ describe('AnalyticsService', () => {
     });
   });
 
-  describe('exported singleton and passthrough function', () => {
-    it('should export analyticsService singleton', () => {
-      expect(typeof analyticsService).toBe('object');
-      expect(analyticsService).toBeDefined();
-    });
-
-    it('should export sendAnalyticsPayload as passthrough function', () => {
-      expect(typeof sendAnalyticsPayload).toBe('function');
-      expect(sendAnalyticsPayload.name).toBe('sendAnalyticsPayload');
-    });
-
-    it('should maintain context when using passthrough function', async () => {
-      const meta: ClientMeta = {
-        mode: 'minikit',
-        clientFid: 789,
-        ockVersion: '1.2.3',
-      };
-
-      analyticsService.setClientMeta(meta);
-      mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
-
-      await sendAnalyticsPayload(SwapEvent.SwapInitiated, { amount: 50 });
-
-      expect(mockFetch).toHaveBeenCalledWith(ANALYTICS_API_URL, {
-        method: 'POST',
-        headers: {
-          ...JSON_HEADERS,
-          'OnchainKit-App-Name': 'Test App',
-        },
-        body: JSON.stringify({
-          apiKey: 'test-api-key',
-          sessionId: 'test-session-id',
-          timestamp: MOCK_TIMESTAMP,
-          eventType: SwapEvent.SwapInitiated,
-          data: { amount: 50 },
-          origin: 'https://test.com',
-          metadata: meta,
-        }),
-      });
-    });
-  });
-
   describe('edge cases', () => {
     it('should handle empty event data', async () => {
       mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
 
-      await analyticsService.sendAnalytics(SwapEvent.SwapCanceled, {});
+      await sendAnalyticsPayload(SwapEvent.SwapCanceled, {});
 
       expect(mockFetch).toHaveBeenCalledWith(ANALYTICS_API_URL, {
         method: 'POST',
         headers: {
           ...JSON_HEADERS,
           'OnchainKit-App-Name': 'Test App',
+          'OnchainKit-Client-Fid': '123',
+          'OnchainKit-Mode': 'onchainkit',
         },
         body: JSON.stringify({
           apiKey: 'test-api-key',
@@ -360,7 +266,6 @@ describe('AnalyticsService', () => {
           eventType: SwapEvent.SwapCanceled,
           data: {},
           origin: 'https://test.com',
-          metadata: null,
         }),
       });
     });
@@ -378,11 +283,40 @@ describe('AnalyticsService', () => {
 
       mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
 
-      await analyticsService.sendAnalytics(SwapEvent.SwapFailure, complexData);
+      await sendAnalyticsPayload(SwapEvent.SwapFailure, complexData);
 
       const fetchCall = mockFetch.mock.calls[0];
       const body = JSON.parse(fetchCall[1].body);
       expect(body.data).toEqual(complexData);
+    });
+
+    it('should handle null client fid', async () => {
+      const eventData = {
+        paymaster: true,
+        transactionHash: '0x123',
+        address: '0xabc',
+        amount: 100,
+        from: 'ETH',
+        to: 'USDC',
+      };
+      mockGetClientMeta.mockResolvedValue({
+        mode: 'onchainkit',
+        clientFid: null,
+      });
+      mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
+
+      await sendAnalyticsPayload(SwapEvent.SwapSuccess, eventData);
+
+      expect(mockFetch).toHaveBeenCalledWith(ANALYTICS_API_URL, {
+        method: 'POST',
+        headers: {
+          ...JSON_HEADERS,
+          'OnchainKit-App-Name': 'Test App',
+          'OnchainKit-Client-Fid': '',
+          'OnchainKit-Mode': 'onchainkit',
+        },
+        body: expect.any(String),
+      });
     });
   });
 });

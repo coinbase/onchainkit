@@ -1,388 +1,142 @@
 import '@testing-library/jest-dom';
-import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
-import { getOnchainKitConfig } from '@/core/OnchainKitConfig';
-import { ANALYTICS_API_URL } from '@/core/analytics/constants';
-import { JSON_HEADERS } from '@/core/network/constants';
-import { SwapEvent } from '@/core/analytics/types';
 import {
-  analyticsService,
-  sendAnalyticsPayload,
-  type ClientMeta,
-} from './analyticsService';
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+  type MockInstance,
+} from 'vitest';
+import sdk from '@farcaster/frame-sdk';
+import { clientMetaManager } from './clientMetaManager';
 
-// Mock dependencies
-vi.mock('@/core/OnchainKitConfig');
-vi.mock('@/version', () => ({
-  version: '1.0.0',
+// Mock the farcaster sdk
+vi.mock('@farcaster/frame-sdk', () => ({
+  default: {
+    context: Promise.resolve({ client: { clientFid: 123 } }),
+  },
 }));
 
-// Mock Date.now to return consistent timestamps
-const MOCK_TIMESTAMP = 1234567890123;
-vi.spyOn(Date, 'now').mockReturnValue(MOCK_TIMESTAMP);
+const mockSdk = sdk as {
+  context: Promise<{ client: { clientFid: number | null } } | null>;
+};
 
-// Mock global fetch
-const mockFetch = vi.fn();
-global.fetch = mockFetch;
+type ConsoleSpy = MockInstance<
+  (message?: unknown, ...optionalParams: unknown[]) => void
+>;
 
-// Mock document and window
-Object.defineProperty(document, 'title', {
-  value: 'Test App',
-  writable: true,
-});
-
-Object.defineProperty(window, 'location', {
-  value: {
-    origin: 'https://test.com',
-  },
-  writable: true,
-});
-
-// Setup console.error mock
-const mockConsoleError = vi
-  .spyOn(console, 'error')
-  .mockImplementation(() => {});
-
-const mockGetOnchainKitConfig = getOnchainKitConfig as Mock;
-
-describe('AnalyticsService', () => {
-  const mockClientMeta: ClientMeta = {
-    mode: 'onchainkit',
-    clientFid: 123,
-    ockVersion: '1.0.0',
-  };
+describe('ClientMetaManager', () => {
+  let consoleWarnSpy: ConsoleSpy;
+  let consoleErrorSpy: ConsoleSpy;
 
   beforeEach(() => {
-    vi.clearAllMocks();
-    // Reset clientMeta to null before each test
-    analyticsService.clientMeta = null;
+    // This is a workaround for testing singletons. A better approach would be to have a reset method.
+    (
+      clientMetaManager as unknown as {
+        initPromise: null;
+        clientMeta: null;
+      }
+    ).initPromise = null;
+    (
+      clientMetaManager as unknown as {
+        initPromise: null;
+        clientMeta: null;
+      }
+    ).clientMeta = null;
 
-    // Reset process.env.NODE_ENV to test
-    process.env.NODE_ENV = 'test';
-
-    // Default mock implementation
-    mockGetOnchainKitConfig.mockImplementation((key: string) => {
-      const mockConfig = {
-        config: { analytics: true, analyticsUrl: null },
-        apiKey: 'test-api-key',
-        sessionId: 'test-session-id',
-      };
-      return mockConfig[key as keyof typeof mockConfig];
-    });
+    consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   describe('initialization', () => {
-    it('should have clientMeta property accessible', () => {
-      expect(analyticsService.clientMeta).toBeNull();
+    it('should not be initialized by default', () => {
+      expect(clientMetaManager.isInitialized()).toBe(false);
     });
 
-    it('should be an object with expected methods', () => {
-      expect(typeof analyticsService.setClientMeta).toBe('function');
-      expect(typeof analyticsService.sendAnalytics).toBe('function');
+    it('should be initialized after calling init', async () => {
+      clientMetaManager.init({ isMiniKit: false });
+      expect(clientMetaManager.isInitialized()).toBe(true);
+      await clientMetaManager.getClientMeta(); // wait for init to complete
+    });
+
+    it('should warn if init is called multiple times', async () => {
+      clientMetaManager.init({ isMiniKit: false });
+      clientMetaManager.init({ isMiniKit: true });
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        'ClientMetaManager already initialized',
+      );
+      await clientMetaManager.getClientMeta(); // wait for init to complete
     });
   });
 
-  describe('setClientMeta', () => {
-    it('should set client metadata', () => {
-      analyticsService.setClientMeta(mockClientMeta);
-      expect(analyticsService.clientMeta).toEqual(mockClientMeta);
+  describe('getClientMeta', () => {
+    it('should throw an error if called before init', async () => {
+      await expect(clientMetaManager.getClientMeta()).rejects.toThrow(
+        'ClientMetaManager not initialized',
+      );
     });
 
-    it('should overwrite existing client metadata', () => {
-      analyticsService.setClientMeta(mockClientMeta);
+    it('should return correct meta for onchainkit mode', async () => {
+      mockSdk.context = Promise.resolve({ client: { clientFid: 123 } });
+      clientMetaManager.init({ isMiniKit: false });
+      const meta = await clientMetaManager.getClientMeta();
+      expect(meta).toEqual({
+        mode: 'onchainkit',
+        clientFid: 123,
+      });
+    });
 
-      const newMeta: ClientMeta = {
+    it('should return correct meta for minikit mode', async () => {
+      mockSdk.context = Promise.resolve({ client: { clientFid: 456 } });
+      clientMetaManager.init({ isMiniKit: true });
+      const meta = await clientMetaManager.getClientMeta();
+      expect(meta).toEqual({
         mode: 'minikit',
         clientFid: 456,
-        ockVersion: '2.0.0',
-      };
-
-      analyticsService.setClientMeta(newMeta);
-      expect(analyticsService.clientMeta).toEqual(newMeta);
-    });
-  });
-
-  describe('sendAnalytics', () => {
-    const eventType = SwapEvent.SwapSuccess;
-    const eventData = {
-      paymaster: true,
-      transactionHash: '0x123',
-      address: '0xabc',
-      amount: 100,
-      from: 'ETH',
-      to: 'USDC',
-    };
-
-    it('should send analytics when enabled', async () => {
-      mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
-
-      await analyticsService.sendAnalytics(eventType, eventData);
-
-      expect(mockFetch).toHaveBeenCalledWith(ANALYTICS_API_URL, {
-        method: 'POST',
-        headers: {
-          ...JSON_HEADERS,
-          'OnchainKit-App-Name': 'Test App',
-        },
-        body: JSON.stringify({
-          apiKey: 'test-api-key',
-          sessionId: 'test-session-id',
-          timestamp: MOCK_TIMESTAMP,
-          eventType: eventType,
-          data: eventData,
-          origin: 'https://test.com',
-          metadata: null,
-        }),
       });
     });
 
-    it('should use custom analytics URL when provided', async () => {
-      const customUrl = 'https://custom-analytics.com/api';
-      mockGetOnchainKitConfig.mockImplementation((key: string) => {
-        const mockConfig = {
-          config: { analytics: true, analyticsUrl: customUrl },
-          apiKey: 'test-api-key',
-          sessionId: 'test-session-id',
-        };
-        return mockConfig[key as keyof typeof mockConfig];
-      });
-
-      mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
-
-      await analyticsService.sendAnalytics(eventType, eventData);
-
-      expect(mockFetch).toHaveBeenCalledWith(customUrl, expect.any(Object));
-    });
-
-    it('should include client metadata when set', async () => {
-      analyticsService.setClientMeta(mockClientMeta);
-      mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
-
-      await analyticsService.sendAnalytics(eventType, eventData);
-
-      expect(mockFetch).toHaveBeenCalledWith(ANALYTICS_API_URL, {
-        method: 'POST',
-        headers: {
-          ...JSON_HEADERS,
-          'OnchainKit-App-Name': 'Test App',
-        },
-        body: JSON.stringify({
-          apiKey: 'test-api-key',
-          sessionId: 'test-session-id',
-          timestamp: MOCK_TIMESTAMP,
-          eventType: eventType,
-          data: eventData,
-          origin: 'https://test.com',
-          metadata: mockClientMeta,
-        }),
+    it('should return null clientFid if not present in sdk context', async () => {
+      mockSdk.context = Promise.resolve({ client: { clientFid: null } });
+      clientMetaManager.init({ isMiniKit: false });
+      const meta = await clientMetaManager.getClientMeta();
+      expect(meta).toEqual({
+        mode: 'onchainkit',
+        clientFid: null,
       });
     });
 
-    it('should not send analytics when disabled', async () => {
-      mockGetOnchainKitConfig.mockImplementation((key: string) => {
-        const mockConfig = {
-          config: { analytics: false, analyticsUrl: null },
-          apiKey: 'test-api-key',
-          sessionId: 'test-session-id',
-        };
-        return mockConfig[key as keyof typeof mockConfig];
+    it('should return null clientFid if client is not present in sdk context', async () => {
+      mockSdk.context = Promise.resolve(null);
+      clientMetaManager.init({ isMiniKit: false });
+      const meta = await clientMetaManager.getClientMeta();
+      expect(meta).toEqual({
+        mode: 'onchainkit',
+        clientFid: null,
       });
-
-      await analyticsService.sendAnalytics(eventType, eventData);
-
-      expect(mockFetch).not.toHaveBeenCalled();
     });
 
-    it('should not send analytics when config is undefined', async () => {
-      mockGetOnchainKitConfig.mockImplementation((key: string) => {
-        if (key === 'config') return undefined;
-        const mockConfig = {
-          apiKey: 'test-api-key',
-          sessionId: 'test-session-id',
-        };
-        return mockConfig[key as keyof typeof mockConfig];
+    it('should handle errors from farcaster sdk gracefully', async () => {
+      const error = new Error('SDK Error');
+      mockSdk.context = Promise.reject(error);
+      clientMetaManager.init({ isMiniKit: false });
+      const meta = await clientMetaManager.getClientMeta();
+      expect(meta).toEqual({
+        mode: 'onchainkit',
+        clientFid: null,
       });
-
-      await analyticsService.sendAnalytics(eventType, eventData);
-
-      expect(mockFetch).not.toHaveBeenCalled();
-    });
-
-    it('should handle fetch errors silently in production', async () => {
-      process.env.NODE_ENV = 'production';
-      mockFetch.mockRejectedValueOnce(new Error('Network error'));
-
-      await expect(
-        analyticsService.sendAnalytics(eventType, eventData),
-      ).resolves.not.toThrow();
-
-      expect(mockConsoleError).not.toHaveBeenCalled();
-    });
-
-    it('should log errors in non-production environment', async () => {
-      process.env.NODE_ENV = 'development';
-      const error = new Error('Network error');
-      mockFetch.mockRejectedValueOnce(error);
-
-      await analyticsService.sendAnalytics(eventType, eventData);
-
-      expect(mockConsoleError).toHaveBeenCalledWith(
-        'Error sending analytics:',
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Error getting client FID',
         error,
       );
     });
 
-    it('should handle undefined config values gracefully', async () => {
-      mockGetOnchainKitConfig.mockImplementation((key: string) => {
-        const mockConfig = {
-          config: { analytics: true, analyticsUrl: null },
-          apiKey: undefined,
-          sessionId: undefined,
-        };
-        return mockConfig[key as keyof typeof mockConfig];
-      });
-
-      mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
-
-      await analyticsService.sendAnalytics(eventType, eventData);
-
-      expect(mockFetch).toHaveBeenCalledWith(ANALYTICS_API_URL, {
-        method: 'POST',
-        headers: {
-          ...JSON_HEADERS,
-          'OnchainKit-App-Name': 'Test App',
-        },
-        body: JSON.stringify({
-          apiKey: 'undefined',
-          sessionId: 'undefined',
-          timestamp: MOCK_TIMESTAMP,
-          eventType: eventType,
-          data: eventData,
-          origin: 'https://test.com',
-          metadata: null,
-        }),
-      });
-    });
-  });
-
-  describe('buildBody (private method)', () => {
-    it('should build correct body structure', async () => {
-      const eventType = SwapEvent.SwapSuccess;
-      const eventData = {
-        paymaster: true,
-        transactionHash: '0x123',
-        address: '0xabc',
-        amount: 100,
-        from: 'ETH',
-        to: 'USDC',
-      };
-
-      analyticsService.setClientMeta(mockClientMeta);
-      mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
-
-      await analyticsService.sendAnalytics(eventType, eventData);
-
-      const fetchCall = mockFetch.mock.calls[0];
-      const body = JSON.parse(fetchCall[1].body);
-
-      expect(body).toEqual({
-        apiKey: 'test-api-key',
-        sessionId: 'test-session-id',
-        timestamp: MOCK_TIMESTAMP,
-        eventType: eventType,
-        data: eventData,
-        origin: 'https://test.com',
-        metadata: mockClientMeta,
-      });
-
-      // Verify timestamp is correct
-      expect(body.timestamp).toBe(MOCK_TIMESTAMP);
-    });
-  });
-
-  describe('exported singleton and passthrough function', () => {
-    it('should export analyticsService singleton', () => {
-      expect(typeof analyticsService).toBe('object');
-      expect(analyticsService).toBeDefined();
-    });
-
-    it('should export sendAnalyticsPayload as passthrough function', () => {
-      expect(typeof sendAnalyticsPayload).toBe('function');
-      expect(sendAnalyticsPayload.name).toBe('sendAnalyticsPayload');
-    });
-
-    it('should maintain context when using passthrough function', async () => {
-      const meta: ClientMeta = {
-        mode: 'minikit',
-        clientFid: 789,
-        ockVersion: '1.2.3',
-      };
-
-      analyticsService.setClientMeta(meta);
-      mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
-
-      await sendAnalyticsPayload(SwapEvent.SwapInitiated, { amount: 50 });
-
-      expect(mockFetch).toHaveBeenCalledWith(ANALYTICS_API_URL, {
-        method: 'POST',
-        headers: {
-          ...JSON_HEADERS,
-          'OnchainKit-App-Name': 'Test App',
-        },
-        body: JSON.stringify({
-          apiKey: 'test-api-key',
-          sessionId: 'test-session-id',
-          timestamp: MOCK_TIMESTAMP,
-          eventType: SwapEvent.SwapInitiated,
-          data: { amount: 50 },
-          origin: 'https://test.com',
-          metadata: meta,
-        }),
-      });
-    });
-  });
-
-  describe('edge cases', () => {
-    it('should handle empty event data', async () => {
-      mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
-
-      await analyticsService.sendAnalytics(SwapEvent.SwapCanceled, {});
-
-      expect(mockFetch).toHaveBeenCalledWith(ANALYTICS_API_URL, {
-        method: 'POST',
-        headers: {
-          ...JSON_HEADERS,
-          'OnchainKit-App-Name': 'Test App',
-        },
-        body: JSON.stringify({
-          apiKey: 'test-api-key',
-          sessionId: 'test-session-id',
-          timestamp: MOCK_TIMESTAMP,
-          eventType: SwapEvent.SwapCanceled,
-          data: {},
-          origin: 'https://test.com',
-          metadata: null,
-        }),
-      });
-    });
-
-    it('should handle complex event data structures', async () => {
-      const complexData = {
-        error: 'Complex error message',
-        metadata: {
-          nestedObject: { value: 123 },
-          array: [1, 2, 3],
-          nullValue: null,
-          undefinedValue: undefined,
-        },
-      };
-
-      mockFetch.mockResolvedValueOnce(new Response('{}', { status: 200 }));
-
-      await analyticsService.sendAnalytics(SwapEvent.SwapFailure, complexData);
-
-      const fetchCall = mockFetch.mock.calls[0];
-      const body = JSON.parse(fetchCall[1].body);
-      expect(body.data).toEqual(complexData);
+    it('should return cached clientMeta on subsequent calls', async () => {
+      mockSdk.context = Promise.resolve({ client: { clientFid: 123 } });
+      clientMetaManager.init({ isMiniKit: false });
+      const meta1 = await clientMetaManager.getClientMeta();
+      const meta2 = await clientMetaManager.getClientMeta();
+      expect(meta1).toBe(meta2);
     });
   });
 });
