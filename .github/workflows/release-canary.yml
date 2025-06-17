@@ -1,14 +1,14 @@
-name: Publish alpha version
+name: Publish canary version
 
 on:
   push:
     branches:
-      - alpha
+      - main
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  publish-alpha:
+  publish-canary:
     runs-on: ubuntu-latest
     environment: release
     permissions:
@@ -27,6 +27,6 @@ jobs:
       - name: Set deployment token
         run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
 
-      - name: Publish alpha
+      - name: Publish canary
         shell: bash
-        run: pnpm f:ock publish-prerelease --tag alpha
+        run: pnpm f:ock publish-prerelease --tag canary
