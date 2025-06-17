@@ -5,8 +5,9 @@ import { act, useContext } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base } from 'wagmi/chains';
-import { MiniKitContext, MiniKitProvider } from './MiniKitProvider';
+import { MiniKitContext } from './MiniKitProvider';
 import type { MiniKitContextType } from './types';
+import { OnchainKitProvider } from '@/onchainkit';
 
 vi.mock('@farcaster/frame-sdk', () => {
   let listeners: Record<string, (data: object) => void> = {};
@@ -67,7 +68,7 @@ describe('MiniKitProvider', () => {
     render(
       <WagmiProvider config={createConfig(mockConfig)}>
         <QueryClientProvider client={queryClient}>
-          <MiniKitProvider
+          <OnchainKitProvider
             chain={mockConfig.chains[0]}
             config={{
               appearance: {
@@ -75,9 +76,12 @@ describe('MiniKitProvider', () => {
                 logo: 'https://example.com/icon.png',
               },
             }}
+            miniKit={{
+              enabled: true,
+            }}
           >
             <TestComponent />
-          </MiniKitProvider>
+          </OnchainKitProvider>
         </QueryClientProvider>
       </WagmiProvider>,
     );
@@ -111,9 +115,14 @@ describe('MiniKitProvider', () => {
       render(
         <WagmiProvider config={createConfig(mockConfig)}>
           <QueryClientProvider client={queryClient}>
-            <MiniKitProvider chain={mockConfig.chains[0]}>
+            <OnchainKitProvider
+              chain={mockConfig.chains[0]}
+              miniKit={{
+                enabled: true,
+              }}
+            >
               <TestComponent />
-            </MiniKitProvider>
+            </OnchainKitProvider>
           </QueryClientProvider>
         </WagmiProvider>,
       );
@@ -126,9 +135,14 @@ describe('MiniKitProvider', () => {
     const { container } = render(
       <WagmiProvider config={createConfig(mockConfig)}>
         <QueryClientProvider client={queryClient}>
-          <MiniKitProvider chain={mockConfig.chains[0]}>
+          <OnchainKitProvider
+            chain={mockConfig.chains[0]}
+            miniKit={{
+              enabled: true,
+            }}
+          >
             <div>Test Child</div>
-          </MiniKitProvider>
+          </OnchainKitProvider>
         </QueryClientProvider>
       </WagmiProvider>,
     );
@@ -147,9 +161,14 @@ describe('MiniKitProvider', () => {
     render(
       <WagmiProvider config={createConfig(mockConfig)}>
         <QueryClientProvider client={queryClient}>
-          <MiniKitProvider chain={mockConfig.chains[0]}>
+          <OnchainKitProvider
+            chain={mockConfig.chains[0]}
+            miniKit={{
+              enabled: true,
+            }}
+          >
             <div>Test Child</div>
-          </MiniKitProvider>
+          </OnchainKitProvider>
         </QueryClientProvider>
       </WagmiProvider>,
     );
@@ -172,9 +191,14 @@ describe('MiniKitProvider', () => {
     const { unmount } = render(
       <WagmiProvider config={createConfig(mockConfig)}>
         <QueryClientProvider client={queryClient}>
-          <MiniKitProvider chain={mockConfig.chains[0]}>
+          <OnchainKitProvider
+            chain={mockConfig.chains[0]}
+            miniKit={{
+              enabled: true,
+            }}
+          >
             <div>Test Child</div>
-          </MiniKitProvider>
+          </OnchainKitProvider>
         </QueryClientProvider>
       </WagmiProvider>,
     );
@@ -197,9 +221,14 @@ describe('MiniKitProvider', () => {
     render(
       <WagmiProvider config={createConfig(mockConfig)}>
         <QueryClientProvider client={queryClient}>
-          <MiniKitProvider chain={mockConfig.chains[0]}>
+          <OnchainKitProvider
+            chain={mockConfig.chains[0]}
+            miniKit={{
+              enabled: true,
+            }}
+          >
             <TestComponent />
-          </MiniKitProvider>
+          </OnchainKitProvider>
         </QueryClientProvider>
       </WagmiProvider>,
     );
@@ -238,9 +267,14 @@ describe('MiniKitProvider', () => {
     render(
       <WagmiProvider config={createConfig(mockConfig)}>
         <QueryClientProvider client={queryClient}>
-          <MiniKitProvider chain={mockConfig.chains[0]}>
+          <OnchainKitProvider
+            chain={mockConfig.chains[0]}
+            miniKit={{
+              enabled: true,
+            }}
+          >
             <div>Test Child</div>
-          </MiniKitProvider>
+          </OnchainKitProvider>
         </QueryClientProvider>
       </WagmiProvider>,
     );
@@ -269,9 +303,14 @@ describe('MiniKitProvider', () => {
     render(
       <WagmiProvider config={createConfig(mockConfig)}>
         <QueryClientProvider client={queryClient}>
-          <MiniKitProvider chain={mockConfig.chains[0]}>
+          <OnchainKitProvider
+            chain={mockConfig.chains[0]}
+            miniKit={{
+              enabled: true,
+            }}
+          >
             <TestComponent />
-          </MiniKitProvider>
+          </OnchainKitProvider>
         </QueryClientProvider>
       </WagmiProvider>,
     );
@@ -315,9 +354,14 @@ describe('MiniKitProvider', () => {
       render(
         <WagmiProvider config={createConfig(mockConfig)}>
           <QueryClientProvider client={queryClient}>
-            <MiniKitProvider chain={mockConfig.chains[0]}>
+            <OnchainKitProvider
+              chain={mockConfig.chains[0]}
+              miniKit={{
+                enabled: true,
+              }}
+            >
               <TestComponent />
-            </MiniKitProvider>
+            </OnchainKitProvider>
           </QueryClientProvider>
         </WagmiProvider>,
       );
@@ -330,5 +374,30 @@ describe('MiniKitProvider', () => {
     expect(contextValue?.context).toBeNull();
 
     consoleSpy.mockRestore();
+  });
+
+  it('should not initialize MiniKit when not enabled', async () => {
+    let contextValue: MiniKitContextType | undefined;
+
+    function TestComponent() {
+      contextValue = useContext(MiniKitContext);
+      return null;
+    }
+
+    render(
+      <WagmiProvider config={createConfig(mockConfig)}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider chain={mockConfig.chains[0]}>
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await act(() => Promise.resolve());
+
+    expect(contextValue?.enabled).toBe(false);
+    expect(contextValue?.context).toBeNull();
+    expect(sdk.on).not.toHaveBeenCalled();
   });
 });

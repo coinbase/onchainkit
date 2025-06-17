@@ -1,7 +1,7 @@
 import { Avatar, Identity, Name } from '@/identity';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { cn, text } from '@/styles/theme';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 
 type NFTMintersProps = {
   className?: string;

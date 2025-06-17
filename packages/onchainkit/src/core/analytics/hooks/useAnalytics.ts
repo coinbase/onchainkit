@@ -39,6 +39,7 @@ export function sendAnalyticsPayload<T extends AnalyticsEvent>(
   if (!config?.analytics) {
     return;
   }
+
   const payload = prepareAnalyticsPayload(event, data);
   sendAnalytics(payload);
 }

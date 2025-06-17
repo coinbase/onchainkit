@@ -1,4 +1,4 @@
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { fireEvent, render, screen } from '@testing-library/react';
 import {
   type Mock,
@@ -20,7 +20,7 @@ vi.mock('wagmi', () => ({
   useConnectors: vi.fn(),
 }));
 
-vi.mock('@/useOnchainKit', () => ({
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

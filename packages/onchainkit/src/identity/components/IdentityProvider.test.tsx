@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { OnchainKitProvider } from '@/OnchainKitProvider';
+import { OnchainKitProvider } from '@/onchainkit/components/OnchainKitProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
 import type { Address, Chain } from 'viem';

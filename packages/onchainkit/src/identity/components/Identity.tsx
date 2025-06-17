@@ -2,7 +2,7 @@
 import { IdentityLayout } from '@/identity/components/IdentityLayout';
 import { IdentityProvider } from '@/identity/components/IdentityProvider';
 import type { IdentityProps } from '@/identity/types';
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { useAccount } from 'wagmi';
 
 export function Identity({

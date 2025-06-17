@@ -42,7 +42,7 @@ import {
   ethToken,
   usdcToken,
 } from '../../token/constants';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../onchainkit/hooks/useOnchainKit';
 import { useBuyTokens } from '../hooks/useBuyTokens';
 import { getBuyQuote } from '../utils/getBuyQuote';
 import { validateQuote } from '../utils/validateQuote';
@@ -75,7 +75,7 @@ vi.mock('../../swap/utils/processSwapTransaction', () => ({
   processSwapTransaction: vi.fn(),
 }));
 
-vi.mock('@/useOnchainKit', () => ({
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

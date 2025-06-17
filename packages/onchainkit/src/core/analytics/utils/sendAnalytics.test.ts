@@ -6,13 +6,13 @@ import { ANALYTICS_API_URL } from '../../analytics/constants';
 import { JSON_HEADERS } from '../../network/constants';
 import { type AnalyticsRequestParams, sendAnalytics } from './sendAnalytics';
 
-vi.mock('@/useOnchainKit', () => ({
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(() => ({
     config: { analytics: true },
   })),
 }));
 
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 
 describe('sendAnalytics', () => {
   const mockFetch = vi.fn();

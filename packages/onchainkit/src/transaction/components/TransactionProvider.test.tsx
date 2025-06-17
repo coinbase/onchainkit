@@ -10,7 +10,7 @@ import {
 } from 'wagmi';
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useCapabilitiesSafe } from '../../internal/hooks/useCapabilitiesSafe';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../onchainkit/hooks/useOnchainKit';
 import { useCallsStatus } from '../hooks/useCallsStatus';
 import { useSendCall } from '../hooks/useSendCall';
 import { useSendCalls } from '../hooks/useSendCalls';
@@ -52,7 +52,7 @@ vi.mock('@/internal/hooks/useCapabilitiesSafe', () => ({
   useCapabilitiesSafe: vi.fn(),
 }));
 
-vi.mock('@/useOnchainKit', () => ({
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 

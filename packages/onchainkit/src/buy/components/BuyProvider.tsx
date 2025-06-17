@@ -23,7 +23,7 @@ import { isSwapError } from '../../swap/utils/isSwapError';
 import { processSwapTransaction } from '../../swap/utils/processSwapTransaction';
 import { GENERIC_ERROR_MESSAGE } from '../../transaction/constants';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
-import { useOnchainKit } from '../../useOnchainKit';
+import { useOnchainKit } from '../../onchainkit/hooks/useOnchainKit';
 import { useBuyTokens } from '../hooks/useBuyTokens';
 import { useOnrampEventListeners } from '../hooks/useOnrampEventListeners';
 import { usePopupMonitor } from '../hooks/usePopupMonitor';

@@ -1,4 +1,4 @@
-import { useOnchainKit } from '@/useOnchainKit';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '@/wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { renderHook } from '@testing-library/react';
 import { type Mock, describe, expect, it, vi } from 'vitest';
@@ -7,7 +7,7 @@ import { getCoinbaseSmartWalletFundUrl } from '../utils/getCoinbaseSmartWalletFu
 import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
 import { useGetFundingUrl } from './useGetFundingUrl';
 
-vi.mock('@/useOnchainKit', () => ({
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
