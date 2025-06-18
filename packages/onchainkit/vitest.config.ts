@@ -37,5 +37,10 @@ export default defineConfig({
     exclude: ['**/node_modules/**'],
     setupFiles: ['./vitest.setup.ts'],
     globals: true,
+    server: {
+      deps: {
+        inline: ['@farcaster/frame-sdk'],
+      },
+    },
   },
 });
