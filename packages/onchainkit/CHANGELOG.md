@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.15
+
+### Patch Changes
+
+- cd90dcd: chore: Rename alpha version to canary
+
 ## 0.38.14
 
 ### Patch Changes
