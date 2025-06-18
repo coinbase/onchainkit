@@ -3,7 +3,7 @@
 import { memo } from 'react';
 import { useTheme } from '../../internal/hooks/useTheme';
 import { cn, pressable, text } from '../../styles/theme';
-import type { TokenRowReact } from '../types';
+import type { TokenRowProps } from '../types';
 import { formatAmount } from '../utils/formatAmount';
 import { TokenImage } from './TokenImage';
 
@@ -14,11 +14,13 @@ export const TokenRow = memo(function TokenRow({
   onClick,
   hideImage,
   hideSymbol,
-}: TokenRowReact) {
+  as,
+}: TokenRowProps) {
   const componentTheme = useTheme();
+  const Component = as ?? 'button';
 
   return (
-    <button
+    <Component
       data-testid="ockTokenRow_Container"
       type="button"
       className={cn(
@@ -56,6 +58,6 @@ export const TokenRow = memo(function TokenRow({
           maximumFractionDigits: Number(amount) < 1 ? 5 : 2,
         })}
       </span>
-    </button>
+    </Component>
   );
 });

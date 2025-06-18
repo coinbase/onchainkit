@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
@@ -237,6 +237,33 @@ describe('SwapSettingsSlippageInput', () => {
     expect(screen.getByRole('textbox')).toHaveValue(
       FALLBACK_DEFAULT_MAX_SLIPPAGE.toString(),
     );
+  });
+
+  it('can handle custom render prop', async () => {
+    render(
+      <SwapSettingsSlippageInput
+        render={({ slippageSetting, setSlippageSetting, setSlippageValue }) => (
+          <div>
+            <div>{slippageSetting}</div>
+            <button onClick={() => setSlippageSetting('Custom')}>
+              Custom Render
+            </button>
+            <button onClick={() => setSlippageValue(1)}>Set 1</button>
+          </div>
+        )}
+      />,
+    );
+    expect(screen.getByText('Custom Render')).toBeInTheDocument();
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Set 1' }));
+    });
+
+    expect(mockSetLifecycleStatus).toHaveBeenLastCalledWith({
+      statusName: 'slippageChange',
+      statusData: {
+        maxSlippage: 1,
+      },
+    });
   });
 
   describe('analytics', () => {

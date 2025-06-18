@@ -108,9 +108,9 @@ export function FundCardPaymentMethodDropdown({
     setIsOpen(!isOpen);
   }, [isOpen]);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const dropdownContainerRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const dropdownContainerRef = useRef<HTMLDivElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   useOutsideClick(dropdownContainerRef, () => {
     if (isOpen) {

@@ -1,6 +1,6 @@
 import type { Portfolio, PortfolioTokenWithFiatValue } from '@/api/types';
 import type { SwapError } from '@/swap';
-import type { SwapDefaultReact } from '@/swap/types';
+import type { SwapDefaultProps } from '@/swap/types';
 import type { Token } from '@/token';
 import type { QueryObserverResult } from '@tanstack/react-query';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
@@ -96,7 +96,7 @@ export type WalletContextType = {
   isSubComponentClosing: boolean;
   setIsSubComponentClosing: Dispatch<SetStateAction<boolean>>;
   handleClose: () => void;
-  connectRef: React.RefObject<HTMLDivElement>;
+  connectRef: React.RefObject<HTMLDivElement | null>;
   showSubComponentAbove: boolean;
   alignSubComponentRight: boolean;
 
@@ -108,6 +108,8 @@ export type WalletContextType = {
     container: string;
     content: string;
   };
+  /** Whether to sponsor transactions for Send feature of advanced wallet implementation */
+  isSponsored?: boolean;
 };
 
 /**
@@ -115,6 +117,8 @@ export type WalletContextType = {
  */
 export type WalletReact = {
   children?: React.ReactNode;
+  /** Whether to sponsor transactions for Send feature of advanced wallet implementation */
+  isSponsored?: boolean;
   className?: string;
 } & (
   | { draggable?: true; draggableStartingPosition?: { x: number; y: number } }
@@ -272,4 +276,4 @@ export type WalletAdvancedSwapProps = {
     /** Optional className override for the swap toast */
     toast?: string;
   };
-} & Omit<SwapDefaultReact, 'children' | 'className' | 'headerLeftContent'>;
+} & Omit<SwapDefaultProps, 'children' | 'className' | 'headerLeftContent'>;

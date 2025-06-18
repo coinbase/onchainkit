@@ -1,5 +1,9 @@
-import type { Basename, GetNameReturnType, GetNames } from '@/identity/types';
-import { base, mainnet } from 'viem/chains';
+import type {
+  Basename,
+  GetNameReturnType,
+  GetNamesParams,
+} from '@/identity/types';
+import { mainnet } from 'viem/chains';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { isBase } from '../../core/utils/isBase';
 import { isEthereum } from '../../core/utils/isEthereum';
@@ -17,7 +21,7 @@ import { getAddresses } from './getAddresses';
 export const getNames = async ({
   addresses,
   chain = mainnet,
-}: GetNames): Promise<GetNameReturnType[]> => {
+}: GetNamesParams): Promise<GetNameReturnType[]> => {
   if (!addresses || addresses.length === 0) {
     return [];
   }
@@ -70,7 +74,6 @@ export const getNames = async ({
           );
           const resolvedAddresses = await getAddresses({
             names: basenames,
-            chain: base,
           });
 
           // Update results with validated basenames
@@ -150,7 +153,6 @@ export const getNames = async ({
           const ensNames = ensNamesWithIndices.map(({ ensName }) => ensName);
           const resolvedAddresses = await getAddresses({
             names: ensNames,
-            chain: mainnet,
           });
 
           // Update results with validated ENS names

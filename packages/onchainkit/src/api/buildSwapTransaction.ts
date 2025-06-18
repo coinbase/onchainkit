@@ -1,4 +1,4 @@
-import { RequestContext } from '@/core/network/constants';
+import { RequestContext, RequestContextType } from '@/core/network/constants';
 import { SwapMessage } from '@/swap/constants';
 import { UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE } from '@/swap/constants';
 import { CDP_GET_SWAP_TRADE } from '../core/network/definitions/swap';
@@ -12,13 +12,14 @@ import type {
 } from './types';
 import { getAPIParamsForToken } from './utils/getAPIParamsForToken';
 import { getSwapTransaction } from './utils/getSwapTransaction';
+import { buildErrorStruct } from './utils/buildErrorStruct';
 
 /**
  * Retrieves an unsigned transaction for a swap from Token A to Token B.
  */
 export async function buildSwapTransaction(
   params: BuildSwapTransactionParams,
-  _context: RequestContext = RequestContext.API,
+  _context: RequestContextType = RequestContext.API,
 ): Promise<BuildSwapTransactionResponse> {
   // Default parameters
   const defaultParams = {
@@ -69,11 +70,11 @@ export async function buildSwapTransaction(
       _context,
     );
     if (res.error) {
-      return {
+      return buildErrorStruct({
         code: getSwapErrorCode('swap', res.error?.code),
         error: res.error.message,
         message: '',
-      };
+      });
     }
 
     const trade = res.result;
@@ -87,10 +88,10 @@ export async function buildSwapTransaction(
       warning: trade.quote.warning,
     };
   } catch {
-    return {
+    return buildErrorStruct({
       code: getSwapErrorCode('uncaught-swap'),
       error: 'Something went wrong',
       message: '',
-    };
+    });
   }
 }

@@ -4,12 +4,12 @@ import type { Address } from 'viem';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIdentityContext } from './IdentityProvider';
 
-type DisplayBadgeReact = {
+type DisplayBadgeProps = {
   children: ReactNode;
   address?: Address;
 };
 
-export function DisplayBadge({ children, address }: DisplayBadgeReact) {
+export function DisplayBadge({ children, address }: DisplayBadgeProps) {
   const { chain, schemaId } = useOnchainKit();
   const { schemaId: contextSchemaId, address: contextAddress } =
     useIdentityContext();

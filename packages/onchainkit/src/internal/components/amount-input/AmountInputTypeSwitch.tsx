@@ -5,9 +5,11 @@ import { formatFiatAmount } from '../../utils/formatFiatAmount';
 import { truncateDecimalPlaces } from '../../utils/truncateDecimalPlaces';
 import { Skeleton } from '../Skeleton';
 
-type AmountInputTypeSwitchPropsReact = {
-  selectedInputType: 'fiat' | 'crypto';
-  setSelectedInputType: (type: 'fiat' | 'crypto') => void;
+type SelectedInputType = 'fiat' | 'crypto';
+
+type AmountInputTypeSwitchProps = {
+  selectedInputType: SelectedInputType;
+  setSelectedInputType: (type: SelectedInputType) => void;
   asset: string;
   fiatAmount: string;
   cryptoAmount: string;
@@ -29,7 +31,7 @@ export function AmountInputTypeSwitch({
   currency,
   loadingDisplay = <Skeleton className="h-[1.625rem]" />,
   className,
-}: AmountInputTypeSwitchPropsReact) {
+}: AmountInputTypeSwitchProps) {
   const iconSvg = useIcon({ icon: 'toggle' });
 
   const handleToggle = useCallback(() => {

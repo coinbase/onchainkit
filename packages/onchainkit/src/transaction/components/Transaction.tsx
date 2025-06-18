@@ -2,7 +2,7 @@ import { useIsMounted } from '../../internal/hooks/useIsMounted';
 import { useTheme } from '../../internal/hooks/useTheme';
 import { cn } from '../../styles/theme';
 import { useOnchainKit } from '../../useOnchainKit';
-import type { TransactionReact } from '../types';
+import type { TransactionProps } from '../types';
 import { TransactionButton } from './TransactionButton';
 import { TransactionProvider } from './TransactionProvider';
 import { TransactionToast } from './TransactionToast';
@@ -19,7 +19,7 @@ export function Transaction({
   onStatus,
   onSuccess,
   resetAfter,
-}: TransactionReact) {
+}: TransactionProps) {
   const isMounted = useIsMounted();
   const componentTheme = useTheme();
   const { chain } = useOnchainKit();

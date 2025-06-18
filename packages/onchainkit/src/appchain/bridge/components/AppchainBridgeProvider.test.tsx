@@ -202,12 +202,12 @@ describe('AppchainBridgeProvider', () => {
   });
 
   it('should handle withdraw modal state changes', async () => {
-    await waitFor(async () => {
+    await act(async () => {
       result.current.setIsWithdrawModalOpen(true);
     });
     expect(result.current.isWithdrawModalOpen).toBe(true);
 
-    await waitFor(async () => {
+    await act(async () => {
       result.current.setIsWithdrawModalOpen(false);
     });
     expect(result.current.isWithdrawModalOpen).toBe(false);
@@ -234,7 +234,7 @@ describe('AppchainBridgeProvider', () => {
       resetDepositStatus: vi.fn(),
     });
     const result = await renderBridgeProvider();
-    await waitFor(async () => {
+    await act(async () => {
       result.current.handleDeposit();
     });
     expect(mockDeposit).toHaveBeenCalled();
@@ -242,7 +242,7 @@ describe('AppchainBridgeProvider', () => {
 
   it('should set resumeWithdrawalTxHash when handleResumeTransaction is called', async () => {
     const result = await renderBridgeProvider();
-    await waitFor(async () => {
+    await act(async () => {
       result.current.handleResumeTransaction(
         '0x1234567890123456789012345678901234567890123456789012345678901234',
       );
@@ -370,7 +370,7 @@ describe('AppchainBridgeProvider', () => {
     });
 
     // Wait for the balance to be fetched
-    await waitFor(async () => {
+    await act(async () => {
       result.current.handleToggle();
     });
 
@@ -390,7 +390,7 @@ describe('AppchainBridgeProvider', () => {
       resetWithdrawStatus: vi.fn(),
     });
     const result = await renderBridgeProvider();
-    await waitFor(async () => {
+    await act(async () => {
       result.current.handleWithdraw();
     });
     expect(mockWithdraw).toHaveBeenCalled();
@@ -402,7 +402,7 @@ describe('AppchainBridgeProvider', () => {
       resetWithdrawStatus: vi.fn(),
     });
     const result = await renderBridgeProvider();
-    await waitFor(async () => {
+    await act(async () => {
       expect(result.current.isWithdrawModalOpen).toBe(true);
     });
   });
@@ -413,7 +413,7 @@ describe('AppchainBridgeProvider', () => {
       resetWithdrawStatus: vi.fn(),
     });
     const result = await renderBridgeProvider();
-    await waitFor(async () => {
+    await act(async () => {
       expect(result.current.isSuccessModalOpen).toBe(true);
     });
   });
@@ -427,7 +427,7 @@ describe('AppchainBridgeProvider', () => {
       chain: baseChain,
       appchain: mockAppchain,
     });
-    await waitFor(async () => {
+    await act(async () => {
       baseResult.current.handleOpenExplorer();
     });
     expect(window.open).toHaveBeenCalledWith(
@@ -444,7 +444,7 @@ describe('AppchainBridgeProvider', () => {
       chain: sepoliaChain,
       appchain: mockAppchain,
     });
-    await waitFor(async () => {
+    await act(async () => {
       sepoliaResult.current.handleOpenExplorer();
     });
     expect(window.open).toHaveBeenCalledWith(
@@ -463,7 +463,7 @@ describe('AppchainBridgeProvider', () => {
     });
 
     const result = await renderBridgeProvider();
-    await waitFor(async () => {
+    await act(async () => {
       result.current.handleOpenExplorer();
     });
     expect(window.open).toHaveBeenCalledWith(

@@ -10,6 +10,7 @@ import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 export const AppchainBridgeAddressInput = () => {
   const { setIsAddressModalOpen, handleAddressSelect } =
     useAppchainBridgeContext();
+
   const [address, setAddress] = useState<Address | null>(null);
   const [isValidAddress, setIsValidAddress] = useState(false);
 
@@ -19,7 +20,7 @@ export const AppchainBridgeAddressInput = () => {
 
   const backButton = (
     <PressableIcon
-      ariaLabel="Back button"
+      aria-label="Back button"
       onClick={() => {
         setIsAddressModalOpen(false);
       }}

@@ -1,10 +1,10 @@
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import type { ReactNode } from 'react';
 import { cn, text } from '../../../styles/theme';
-import { formatAmount as formatSN } from '../../../swap/utils/formatAmount';
+import { formatToDecimalString } from '@/utils/formatter';
 import { formatAmount } from '../../../token/utils/formatAmount';
 
-type NFTLastSoldPriceReact = {
+type NFTLastSoldPriceProps = {
   className?: string;
   label?: ReactNode;
 };
@@ -12,7 +12,7 @@ type NFTLastSoldPriceReact = {
 export function NFTLastSoldPrice({
   className,
   label = 'Last sale price',
-}: NFTLastSoldPriceReact) {
+}: NFTLastSoldPriceProps) {
   const { lastSoldPrice } = useNFTContext();
 
   if (
@@ -30,7 +30,7 @@ export function NFTLastSoldPrice({
       <div className={cn('text-ock-text-foreground-muted')}>{label}</div>
       <div className="flex">
         <div className={text.label1}>
-          {formatSN(amount)} {currency}
+          {formatToDecimalString(amount)} {currency}
         </div>
         <div className="px-2">~</div>
         <div>

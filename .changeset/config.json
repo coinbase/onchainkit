@@ -7,5 +7,5 @@
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["create-onchain", "miniapp-manifest-generator"]
+  "ignore": ["miniapp-manifest-generator"]
 }

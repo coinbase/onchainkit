@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "0.38.8",
+  "version": "0.38.13",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -23,12 +23,17 @@
     "validate-build": "node ./scripts/validate-build.js"
   },
   "peerDependencies": {
-    "react": "^18 || ^19",
-    "react-dom": "^18 || ^19"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "dependencies": {
     "@farcaster/frame-sdk": "^0.0.28",
     "@farcaster/frame-wagmi-connector": "^0.0.16",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-dropdown-menu": "^2.1.6",
+    "@radix-ui/react-popover": "^1.1.14",
+    "@radix-ui/react-tabs": "^1.1.3",
+    "@radix-ui/react-toast": "^1.2.14",
     "@tanstack/react-query": "^5",
     "@wagmi/core": "^2.16.7",
     "clsx": "^2.1.1",
@@ -36,6 +41,7 @@
     "graphql-request": "^6.1.0",
     "qrcode": "^1.5.4",
     "tailwind-merge": "^3.2.0",
+    "usehooks-ts": "^3.1.1",
     "viem": "^2.27.2",
     "wagmi": "^2.14.11"
   },
@@ -46,14 +52,14 @@
     "@babel/types": "^7.27.0",
     "@tailwindcss/postcss": "^4.1.4",
     "@testing-library/jest-dom": "6.4.7",
-    "@testing-library/react": "^14.2.0",
+    "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/babel__core": "^7.20.5",
     "@types/babel__helper-plugin-utils": "^7.10.3",
     "@types/node": "^22.13.10",
     "@types/qrcode": "^1",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "19.1.2",
+    "@types/react-dom": "19.1.3",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitest/coverage-v8": "^3.0.5",
     "@vitest/ui": "^3.0.5",
@@ -70,15 +76,15 @@
     "postcss": "^8",
     "postcss-import": "^16.1.0",
     "postcss-load-config": "^6.0.1",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "rimraf": "^5.0.5",
     "rollup-plugin-preserve-use-client": "^3.0.1",
     "storybook": "^8.2.9",
     "tailwindcss": "^4.1.4",
     "tscpaths": "^0.0.9",
     "tsup": "^8.3.5",
-    "vite": "^5.3.3",
+    "vite": "^5.4.19",
     "vite-plugin-dts": "^4.5.3",
     "vite-plugin-externalize-deps": "^0.9.0",
     "vitest": "^3.0.5"
@@ -203,6 +209,12 @@
       "module": "./dist/wallet/index.js",
       "import": "./dist/wallet/index.js",
       "default": "./dist/wallet/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "module": "./dist/utils/index.js",
+      "import": "./dist/utils/index.js",
+      "default": "./dist/utils/index.js"
     }
   },
   "packageManager": "pnpm@10.6.3"

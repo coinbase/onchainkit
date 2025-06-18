@@ -1,6 +1,6 @@
 'use client';
 import { useAttestations } from '@/identity/hooks/useAttestations';
-import type { BadgeReact } from '@/identity/types';
+import type { BadgeProps } from '@/identity/types';
 import { badgeSvg } from '@/internal/svg/badgeSvg';
 import { zIndex } from '@/styles/constants';
 import { cn, pressable, text } from '@/styles/theme';
@@ -23,7 +23,7 @@ type ExtractAttestationNameParams = {
 /**
  * Badge component.
  */
-export function Badge({ className, tooltip = false }: BadgeReact) {
+export function Badge({ className, tooltip = false }: BadgeProps) {
   const [showTooltip, setShowTooltip] = useState(false);
   const { address, schemaId: contextSchemaId } = useIdentityContext();
   const { chain, schemaId: kitSchemaId } = useOnchainKit();
@@ -45,6 +45,13 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
       : extractAttestationName(attestations[0]);
   }, [tooltip, attestations]);
 
+  const ariaLabel = useMemo(() => {
+    if (displayText) {
+      return `Verification badge: ${displayText}`;
+    }
+    return 'Verification badge';
+  }, [displayText]);
+
   const badgeSize = '12px';
 
   return (
@@ -63,6 +70,7 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
           maxHeight: badgeSize,
           maxWidth: badgeSize,
         }}
+        aria-label={ariaLabel}
         data-testid="ockBadge"
         {...(tooltip && {
           onMouseEnter: () => setShowTooltip(true),

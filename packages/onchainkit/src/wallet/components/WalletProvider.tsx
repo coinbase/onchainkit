@@ -23,9 +23,11 @@ const WalletContext = createContext<WalletContextType>(emptyContext);
 
 export type WalletProviderReact = {
   children: ReactNode;
+  /** Whether to sponsor transactions for Send feature of advanced wallet implementation */
+  isSponsored?: boolean;
 };
 
-export function WalletProvider({ children }: WalletProviderReact) {
+export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
   const { chain } = useOnchainKit();
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [isSubComponentOpen, setIsSubComponentOpen] = useState(false);
@@ -33,7 +35,7 @@ export function WalletProvider({ children }: WalletProviderReact) {
   const [showSubComponentAbove, setShowSubComponentAbove] = useState(false);
   const [alignSubComponentRight, setAlignSubComponentRight] = useState(false);
 
-  const connectRef = useRef<HTMLDivElement>(null);
+  const connectRef = useRef<HTMLDivElement | null>(null);
   const { address } = useAccount();
   const breakpoint = useBreakpoints();
 
@@ -81,6 +83,7 @@ export function WalletProvider({ children }: WalletProviderReact) {
       isActiveFeatureClosing,
       setIsActiveFeatureClosing,
       animations,
+      isSponsored,
     };
   }, [
     address,
@@ -95,6 +98,7 @@ export function WalletProvider({ children }: WalletProviderReact) {
     activeFeature,
     isActiveFeatureClosing,
     animations,
+    isSponsored,
   ]);
 
   return (

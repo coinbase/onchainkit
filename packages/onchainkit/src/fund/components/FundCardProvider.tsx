@@ -9,7 +9,6 @@ import {
 } from 'react';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
-import { useValue } from '../../internal/hooks/useValue';
 import { useEmitLifecycleStatus } from '../hooks/useEmitLifecycleStatus';
 import { useOnrampExchangeRate } from '../hooks/useOnrampExchangeRate';
 import { usePaymentMethods } from '../hooks/usePaymentMethods';
@@ -169,37 +168,42 @@ export function FundCardProvider({
     onError,
   });
 
-  const value = useValue<FundCardContextType>({
-    asset,
-    currency,
-    selectedPaymentMethod,
-    setSelectedPaymentMethod: handleSetSelectedPaymentMethod,
-    fundAmountFiat,
-    setFundAmountFiat: handleSetFundAmountFiat,
-    fundAmountCrypto,
-    setFundAmountCrypto,
-    selectedInputType,
-    setSelectedInputType,
-    exchangeRate,
-    setExchangeRate,
-    exchangeRateLoading,
-    setExchangeRateLoading,
-    submitButtonState,
-    setSubmitButtonState,
-    paymentMethods,
-    setPaymentMethods,
-    isPaymentMethodsLoading,
-    setIsPaymentMethodsLoading,
-    headerText,
-    buttonText,
-    country,
-    subdivision,
-    lifecycleStatus,
-    updateLifecycleStatus,
-    presetAmountInputs,
-    onError,
-  });
-  return <FundContext.Provider value={value}>{children}</FundContext.Provider>;
+  return (
+    <FundContext.Provider
+      value={{
+        asset,
+        currency,
+        selectedPaymentMethod,
+        setSelectedPaymentMethod: handleSetSelectedPaymentMethod,
+        fundAmountFiat,
+        setFundAmountFiat: handleSetFundAmountFiat,
+        fundAmountCrypto,
+        setFundAmountCrypto,
+        selectedInputType,
+        setSelectedInputType,
+        exchangeRate,
+        setExchangeRate,
+        exchangeRateLoading,
+        setExchangeRateLoading,
+        submitButtonState,
+        setSubmitButtonState,
+        paymentMethods,
+        setPaymentMethods,
+        isPaymentMethodsLoading,
+        setIsPaymentMethodsLoading,
+        headerText,
+        buttonText,
+        country,
+        subdivision,
+        lifecycleStatus,
+        updateLifecycleStatus,
+        presetAmountInputs,
+        onError,
+      }}
+    >
+      {children}
+    </FundContext.Provider>
+  );
 }
 
 export function useFundContext() {

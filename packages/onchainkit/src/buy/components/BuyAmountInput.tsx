@@ -2,7 +2,7 @@
 import { TextInput } from '../../internal/components/TextInput';
 import { isValidAmount } from '../../internal/utils/isValidAmount';
 import { border, cn } from '../../styles/theme';
-import { formatAmount } from '../../swap/utils/formatAmount';
+import { formatToDecimalString } from '@/utils/formatter';
 import { TokenChip } from '../../token';
 import { useBuyContext } from './BuyProvider';
 
@@ -32,7 +32,7 @@ export function BuyAmountInput() {
         placeholder="0.0"
         delayMs={1000}
         inputMode="decimal"
-        value={formatAmount(to.amount)}
+        value={formatToDecimalString(to.amount)}
         setValue={to.setAmount}
         disabled={to.loading}
         onChange={handleAmountChange}

@@ -43,7 +43,6 @@ describe('getName', () => {
     expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: expectedEnsName,
-      chain: mainnet,
     });
   });
 
@@ -60,7 +59,6 @@ describe('getName', () => {
     expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: ensName,
-      chain: mainnet,
     });
   });
 
@@ -75,8 +73,18 @@ describe('getName', () => {
     expect(name).toBeNull();
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: ensName,
-      chain: mainnet,
     });
+  });
+
+  it('should return null when address is not provided', async () => {
+    const ensName = 'nonexistent.eth';
+    mockGetEnsName.mockResolvedValue(ensName);
+
+    mockGetAddress.mockResolvedValue(null);
+
+    const name = await getName({ address: undefined });
+
+    expect(name).toBeNull();
   });
 
   it('should handle forward resolution validation errors gracefully', async () => {
@@ -91,7 +99,6 @@ describe('getName', () => {
     expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: ensName,
-      chain: mainnet,
     });
   });
 
@@ -107,7 +114,6 @@ describe('getName', () => {
     expect(mockReadContract).toHaveBeenCalled();
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: expectedBaseName,
-      chain: base,
     });
 
     expect(mockGetEnsName).not.toHaveBeenCalled();

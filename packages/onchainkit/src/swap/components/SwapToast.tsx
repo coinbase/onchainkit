@@ -1,19 +1,20 @@
 'use client';
 import { useCallback } from 'react';
-import { cn, text } from '../../styles/theme';
+import { cn, text } from '@/styles/theme';
 
 import { useAccount } from 'wagmi';
-import { getChainExplorer } from '../../core/network/getChainExplorer';
-import { Toast } from '../../internal/components/Toast';
-import { SuccessSvg } from '../../internal/svg/successSvg';
-import type { SwapToastReact } from '../types';
+import { getChainExplorer } from '@/core/network/getChainExplorer';
+import { Toast } from '@/internal/components/Toast';
+import { SuccessSvg } from '@/internal/svg/successSvg';
+import type { SwapToastProps } from '../types';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapToast({
   className,
-  durationMs = 5000,
+  duration = 5000,
   position = 'bottom-center',
-}: SwapToastReact) {
+  render,
+}: SwapToastProps) {
   const {
     isToastVisible,
     setIsToastVisible,
@@ -29,6 +30,15 @@ export function SwapToast({
     setTransactionHash('');
   }, [setIsToastVisible, setTransactionHash]);
 
+  if (render) {
+    return render({
+      isToastVisible,
+      transactionHash,
+      resetToastState,
+      chainExplorer,
+    });
+  }
+
   if (!isToastVisible) {
     return null;
   }
@@ -37,8 +47,8 @@ export function SwapToast({
     <Toast
       position={position}
       className={className}
-      durationMs={durationMs}
-      isVisible={isToastVisible}
+      duration={duration}
+      open={isToastVisible}
       onClose={resetToastState}
     >
       <div className={cn(text.label2)}>

@@ -7,6 +7,7 @@ import { WalletDropdownContent } from './WalletDropdownContent';
 import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 import { WalletDropdownLink } from './WalletDropdownLink';
 import { useWalletContext } from './WalletProvider';
+import { LayerConfigProvider } from '@/internal/components/LayerConfigProvider';
 
 const defaultWalletDropdownChildren = (
   <>
@@ -34,23 +35,14 @@ export function WalletDropdown({
   classNames,
   swappableTokens,
 }: WalletDropdownReact) {
-  const {
-    address,
-    breakpoint,
-    isSubComponentOpen,
-    showSubComponentAbove,
-    alignSubComponentRight,
-  } = useWalletContext();
+  const { address, breakpoint, showSubComponentAbove, alignSubComponentRight } =
+    useWalletContext();
 
   if (!address) {
     return null;
   }
 
   if (!breakpoint) {
-    return null;
-  }
-
-  if (!isSubComponentOpen) {
     return null;
   }
 
@@ -64,12 +56,14 @@ export function WalletDropdown({
         className,
       )}
     >
-      <WalletDropdownContent
-        classNames={classNames}
-        swappableTokens={swappableTokens}
-      >
-        {children || defaultWalletDropdownChildren}
-      </WalletDropdownContent>
+      <LayerConfigProvider skipPopoverPortal>
+        <WalletDropdownContent
+          classNames={classNames}
+          swappableTokens={swappableTokens}
+        >
+          {children || defaultWalletDropdownChildren}
+        </WalletDropdownContent>
+      </LayerConfigProvider>
     </div>
   );
 }

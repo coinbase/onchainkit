@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { Toast } from '../../internal/components/Toast';
-import type { TransactionToastReact } from '../types';
+import type { TransactionToastProps } from '../types';
 import { useTransactionContext } from './TransactionProvider';
 import { TransactionToastAction } from './TransactionToastAction';
 import { TransactionToastIcon } from './TransactionToastIcon';
@@ -9,9 +9,9 @@ import { TransactionToastLabel } from './TransactionToastLabel';
 export function TransactionToast({
   children,
   className,
-  durationMs = 5000,
+  duration = 5000,
   position = 'bottom-center',
-}: TransactionToastReact) {
+}: TransactionToastProps) {
   const {
     errorMessage,
     isLoading,
@@ -41,10 +41,9 @@ export function TransactionToast({
     <Toast
       position={position}
       className={className}
-      durationMs={durationMs}
-      isVisible={isToastVisible}
+      duration={duration}
+      open={isToastVisible}
       onClose={closeToast}
-      startTimeout={!!receipt || !!errorMessage}
     >
       {children ?? (
         <>

@@ -41,6 +41,8 @@ type State = {
   isSponsored?: boolean;
   vaultAddress?: Address;
   setVaultAddress: (vaultAddress: Address) => void;
+  isSignUpEnabled: boolean;
+  setIsSignUpEnabled: (isSignUpEnabled: boolean) => void;
 };
 
 export const defaultState: State = {
@@ -53,6 +55,8 @@ export const defaultState: State = {
   setNFTToken: () => {},
   setIsSponsored: () => {},
   setVaultAddress: () => {},
+  isSignUpEnabled: true,
+  setIsSignUpEnabled: () => {},
 };
 
 export const AppContext = createContext(defaultState);
@@ -125,6 +129,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     defaultValue: '0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A',
   });
 
+  const [isSignUpEnabled, setIsSignUpEnabled] = useStateWithStorage<boolean>({
+    key: 'isSignUpEnabled',
+    defaultValue: true,
+    parser: (v) => v === 'true',
+  });
+
   // Load initial values from localStorage
   useEffect(() => {
     const storedPaymasters = localStorage.getItem('paymasters');
@@ -170,6 +180,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         isSponsored,
         vaultAddress,
         setVaultAddress,
+        isSignUpEnabled,
+        setIsSignUpEnabled,
       }}
     >
       <OnchainKitProvider
@@ -185,6 +197,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
           paymaster: paymasters?.[chainId || 8453]?.url,
           wallet: {
             display: 'modal',
+            signUpEnabled: isSignUpEnabled,
             termsUrl: 'https://www.coinbase.com/legal/cookie',
             privacyUrl: 'https://www.coinbase.com/legal/privacy',
             supportedWallets: {

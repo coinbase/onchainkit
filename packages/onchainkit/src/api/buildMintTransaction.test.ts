@@ -4,6 +4,7 @@ import { sendRequest } from '@/core/network/request';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { buildMintTransaction } from './buildMintTransaction';
 import type { BuildMintTransactionParams } from './types';
+import { ApiErrorCode } from './constants';
 
 vi.mock('@/core/network/request', () => ({
   sendRequest: vi.fn(),
@@ -73,7 +74,7 @@ describe('buildMintTransaction', () => {
     const result = await buildMintTransaction(params);
 
     expect(result).toEqual({
-      code: 'uncaught-nft',
+      code: ApiErrorCode.UncaughtNft,
       error: 'Something went wrong',
       message: 'Error building mint transaction',
     });
