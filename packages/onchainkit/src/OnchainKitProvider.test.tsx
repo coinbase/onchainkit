@@ -36,6 +36,16 @@ vi.mock('@/internal/hooks/useProviderDependencies', () => ({
   })),
 }));
 
+vi.mock('@farcaster/frame-sdk', () => ({
+  default: {
+    context: Promise.resolve({
+      client: {
+        clientFid: null,
+      },
+    }),
+  },
+}));
+
 const queryClient = new QueryClient();
 const mockConfig = createConfig({
   chains: [base],

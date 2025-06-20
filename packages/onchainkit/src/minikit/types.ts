@@ -31,4 +31,5 @@ export type MiniKitContextType = {
   context: Context.FrameContext | null;
   updateClientContext: (params: UpdateClientContextParams) => void;
   notificationProxyUrl: string;
+  __isMiniKit: boolean;
 };

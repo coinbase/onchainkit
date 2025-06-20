@@ -1,193 +1,38 @@
-import {
-  type ONCHAIN_KIT_CONFIG,
-  getOnchainKitConfig,
-} from '@/core/OnchainKitConfig';
-import { ANALYTICS_API_URL } from '@/core/analytics/constants';
-import { WalletEvent } from '@/core/analytics/types';
-import { sendAnalytics } from '@/core/analytics/utils/sendAnalytics';
-import { cleanup, renderHook } from '@testing-library/react';
-import {
-  type Mock,
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest';
+import '@testing-library/jest-dom';
+import { renderHook } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
+import { SwapEvent } from '../types';
+import { sendAnalyticsPayload } from '../utils/analyticsService';
 import { useAnalytics } from './useAnalytics';
 
-vi.mock('@/core/OnchainKitConfig', () => ({
-  getOnchainKitConfig: vi.fn(),
-}));
-
-vi.mock('@/core/analytics/utils/sendAnalytics', () => ({
-  sendAnalytics: vi.fn(),
+// Mock the analytics service
+vi.mock('../utils/analyticsService', () => ({
+  sendAnalyticsPayload: vi.fn(),
 }));
 
 describe('useAnalytics', () => {
-  const mockApiKey = 'test-api-key';
-  const mockSessionId = 'test-session-id';
-  const mockAnalyticsUrl = 'https://custom-analytics.example.com';
-  const mockOrigin = 'https://example.com';
-
-  beforeEach(() => {
-    vi.clearAllMocks();
-
-    Object.defineProperty(window, 'location', {
-      configurable: true,
-      value: {
-        ...window.location,
-        origin: mockOrigin,
-      },
-    });
-
-    (getOnchainKitConfig as Mock).mockImplementation(
-      (key: keyof typeof ONCHAIN_KIT_CONFIG) => {
-        const config = {
-          apiKey: mockApiKey,
-          sessionId: mockSessionId,
-          config: {
-            analytics: true,
-            analyticsUrl: mockAnalyticsUrl,
-          },
-        };
-        return config[key as keyof typeof config];
-      },
-    );
-  });
-
-  afterEach(() => {
-    cleanup();
-    vi.restoreAllMocks();
-  });
-
-  it('should return sendAnalytics function', () => {
+  it('should return an object with a sendAnalytics function', () => {
     const { result } = renderHook(() => useAnalytics());
-    expect(result.current.sendAnalytics).toBeDefined();
+
+    expect(result.current).toBeDefined();
+    expect(typeof result.current.sendAnalytics).toBe('function');
   });
 
-  it('should call sendAnalytics with correct payload structure', () => {
-    const mockTitle = 'Test App';
-    Object.defineProperty(global.document, 'title', {
-      value: mockTitle,
-      writable: true,
-    });
-
+  it('should return sendAnalytics that is a reference to sendAnalyticsPayload', () => {
     const { result } = renderHook(() => useAnalytics());
-    const event = WalletEvent.ConnectInitiated;
-    const data = {
-      component: 'ConnectWallet',
-      walletProvider: 'TestProvider',
-    };
 
-    result.current.sendAnalytics(event, data);
-
-    expect(sendAnalytics).toHaveBeenCalledWith({
-      url: mockAnalyticsUrl,
-      headers: {
-        'OnchainKit-App-Name': mockTitle,
-      },
-      body: {
-        apiKey: mockApiKey,
-        sessionId: mockSessionId,
-        timestamp: expect.any(Number),
-        eventType: event,
-        data,
-        origin: mockOrigin,
-      },
-    });
+    expect(result.current.sendAnalytics).toBe(sendAnalyticsPayload);
   });
 
-  it('should not send analytics when disabled in config', () => {
-    (getOnchainKitConfig as Mock).mockImplementation(
-      (key: keyof typeof ONCHAIN_KIT_CONFIG) => {
-        const config = {
-          apiKey: mockApiKey,
-          sessionId: mockSessionId,
-          config: {
-            analytics: false,
-          },
-        };
-        return config[key as keyof typeof config];
-      },
-    );
-
+  it('should call sendAnalyticsPayload when sendAnalytics is invoked', () => {
     const { result } = renderHook(() => useAnalytics());
-    const event = WalletEvent.ConnectSuccess;
-    const data = {
-      address: '0x0000000000000000000000000000000000000000',
-      component: 'ConnectWallet',
-      walletProvider: 'TestProvider',
-    };
 
-    result.current.sendAnalytics(event, data);
+    const eventType = SwapEvent.SwapCanceled;
+    const eventData = {};
 
-    expect(sendAnalytics).not.toHaveBeenCalled();
-  });
+    result.current.sendAnalytics(eventType, eventData);
 
-  it('should use default analytics URL when not provided in config', () => {
-    (getOnchainKitConfig as Mock).mockImplementation(
-      (key: keyof typeof ONCHAIN_KIT_CONFIG) => {
-        const config = {
-          apiKey: mockApiKey,
-          sessionId: mockSessionId,
-          config: {
-            analytics: true,
-          },
-        };
-        return config[key as keyof typeof config];
-      },
-    );
-
-    const { result } = renderHook(() => useAnalytics());
-    const event = WalletEvent.ConnectError;
-    const data = {
-      error: 'Test error message',
-      metadata: {
-        connector: 'TestProvider',
-      },
-    };
-
-    result.current.sendAnalytics(event, data);
-
-    expect(sendAnalytics).toHaveBeenCalledWith(
-      expect.objectContaining({
-        url: ANALYTICS_API_URL,
-      }),
-    );
-  });
-
-  it('should handle undefined apiKey and sessionId', () => {
-    (getOnchainKitConfig as Mock).mockImplementation(
-      (key: keyof typeof ONCHAIN_KIT_CONFIG) => {
-        const config = {
-          apiKey: undefined,
-          sessionId: undefined,
-          config: {
-            analytics: true,
-          },
-        };
-        return config[key as keyof typeof config];
-      },
-    );
-
-    const { result } = renderHook(() => useAnalytics());
-    const event = WalletEvent.ConnectInitiated;
-    const data = {
-      component: 'ConnectWallet',
-      walletProvider: 'TestProvider',
-    };
-
-    result.current.sendAnalytics(event, data);
-
-    expect(sendAnalytics).toHaveBeenCalledWith(
-      expect.objectContaining({
-        body: expect.objectContaining({
-          apiKey: 'undefined',
-          sessionId: 'undefined',
-        }),
-      }),
-    );
+    expect(sendAnalyticsPayload).toHaveBeenCalledWith(eventType, eventData);
+    expect(sendAnalyticsPayload).toHaveBeenCalledTimes(1);
   });
 });

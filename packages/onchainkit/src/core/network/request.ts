@@ -1,3 +1,4 @@
+import { clientMetaManager } from '../clientMeta/clientMetaManager';
 import {
   CONTEXT_HEADER,
   JSON_HEADERS,
@@ -52,24 +53,35 @@ export function buildRequestBody<T>(
  * @params context - Tracks the context where the request originated
  * @returns The headers for the JSON-RPC request.
  */
-export function buildRequestHeaders(
+async function buildRequestHeaders(
   context?: RequestContext,
-): Record<string, string> {
+): Promise<Record<string, string>> {
+  const headers: Record<string, string> = {
+    ...JSON_HEADERS,
+  };
+
+  const clientMeta = await clientMetaManager.getClientMeta().catch(() => null);
+
+  if (clientMeta) {
+    headers['OnchainKit-Client-Fid'] = clientMeta.clientFid?.toString() ?? '';
+    headers['OnchainKit-Mode'] = clientMeta.mode;
+  }
+
   if (context) {
     // if an invalid context is provided, default to 'api'
     if (!Object.values(RequestContext).includes(context)) {
       return {
-        ...JSON_HEADERS,
+        ...headers,
         [CONTEXT_HEADER]: RequestContext.API,
       };
     }
 
     return {
-      ...JSON_HEADERS,
+      ...headers,
       [CONTEXT_HEADER]: context,
     };
   }
-  return JSON_HEADERS;
+  return headers;
 }
 
 /**
@@ -91,7 +103,7 @@ export async function sendRequest<T, V>(
     const url = getRPCUrl();
     const response = await fetch(url, {
       body: JSON.stringify(body),
-      headers: buildRequestHeaders(_context),
+      headers: await buildRequestHeaders(_context),
       method: POST_METHOD,
     });
     const data: JSONRPCResult<V> = await response.json();

@@ -1,7 +1,3 @@
-/**
- * Component-specific events
- */
-
 import type { Hex } from 'viem';
 
 /**
