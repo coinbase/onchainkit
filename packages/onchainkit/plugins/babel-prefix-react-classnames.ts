@@ -1,18 +1,6 @@
-import { NodePath } from '@babel/core';
 import { declare } from '@babel/helper-plugin-utils';
 import * as t from '@babel/types';
-
-const HELPER_NAME = '__prefixClassNames';
-
-function prefixStringLiteral(stringLiteral: string, prefix: string) {
-  return stringLiteral.replace(
-    // Match any non-whitespace characters that:
-    // 1. Are at the start of the string (^) OR preceded by whitespace (\s)
-    // 2. Don't already start with the prefix
-    new RegExp(`(^|\\s)(?!${prefix})(\\S+)`, 'g'),
-    `$1${prefix}$2`,
-  );
-}
+import { prefixStringParts } from '../src/utils/prefixStringParts';
 
 function processTemplateLiteral(
   templateLiteral: t.TemplateLiteral,
@@ -64,73 +52,7 @@ export function babelPrefixReactClassNames({
   prefix: string;
   cnUtil?: string | false;
 }): ReturnType<typeof declare> {
-  const helperFunction = t.functionDeclaration(
-    t.identifier(HELPER_NAME),
-    [t.identifier('value')],
-    t.blockStatement([
-      t.returnStatement(
-        t.conditionalExpression(
-          t.unaryExpression('!', t.identifier('value')),
-          t.identifier('value'),
-          t.conditionalExpression(
-            t.binaryExpression(
-              '===',
-              t.unaryExpression('typeof', t.identifier('value')),
-              t.stringLiteral('string'),
-            ),
-            t.callExpression(
-              t.memberExpression(
-                t.identifier('value'),
-                t.identifier('replace'),
-              ),
-              [
-                t.regExpLiteral(`(^|\\s)(?!${prefix})(\\S+)`, 'g'),
-                t.stringLiteral(`$1${prefix}$2 `),
-              ],
-            ),
-            t.binaryExpression(
-              '+',
-              t.stringLiteral(`${prefix} `),
-              t.identifier('value'),
-            ),
-          ),
-        ),
-      ),
-    ]),
-  );
-
   return declare(({ types }) => {
-    // Function to ensure the helper exists in the program
-    const ensureHelperExists = (path: NodePath) => {
-      const program = path.findParent((p) => p.isProgram());
-      let helperExists = false;
-
-      if (program) {
-        program.traverse({
-          FunctionDeclaration(funcPath) {
-            if (funcPath.node.id && funcPath.node.id.name === HELPER_NAME) {
-              helperExists = true;
-            }
-          },
-        });
-
-        if (!helperExists) {
-          (program as NodePath<t.Program>).unshiftContainer(
-            'body',
-            helperFunction,
-          );
-        }
-      }
-
-      return types.identifier(HELPER_NAME);
-    };
-
-    // Function to create a runtime helper call
-    const createHelperCall = (arg: t.Expression, path: NodePath) => {
-      const helperIdentifier = ensureHelperExists(path);
-      return types.callExpression(helperIdentifier, [arg]);
-    };
-
     return {
       visitor: {
         JSXAttribute(path) {
@@ -140,7 +62,7 @@ export function babelPrefixReactClassNames({
 
           // Handle string literals
           if (types.isStringLiteral(value)) {
-            value.value = prefixStringLiteral(value.value, prefix);
+            value.value = prefixStringParts(value.value, prefix);
           }
 
           if (types.isJSXExpressionContainer(value)) {
@@ -149,14 +71,6 @@ export function babelPrefixReactClassNames({
             // Handle template literals
             if (types.isTemplateLiteral(expression)) {
               processTemplateLiteral(expression, prefix);
-            }
-
-            // Handle identifiers and member expressions
-            if (
-              types.isIdentifier(expression) ||
-              types.isMemberExpression(expression)
-            ) {
-              value.expression = createHelperCall(expression, path);
             }
 
             // Handle cnUtil function calls
@@ -169,18 +83,13 @@ export function babelPrefixReactClassNames({
                 // Handle string literals within cnUtil
                 if (types.isStringLiteral(arg)) {
                   return types.stringLiteral(
-                    prefixStringLiteral(arg.value, prefix),
+                    prefixStringParts(arg.value, prefix),
                   );
                 }
 
                 // Handle template literals within cnUtil
                 if (types.isTemplateLiteral(arg)) {
                   processTemplateLiteral(arg, prefix);
-                }
-
-                // Handle identifiers and member expressions within cnUtil
-                if (types.isIdentifier(arg) || types.isMemberExpression(arg)) {
-                  return createHelperCall(arg, path);
                 }
 
                 // Handle conditional classes such as `isActive && "some-class"`
@@ -190,12 +99,13 @@ export function babelPrefixReactClassNames({
                       arg.operator,
                       arg.left,
                       types.stringLiteral(
-                        prefixStringLiteral(arg.right.value, prefix),
+                        prefixStringParts(arg.right.value, prefix),
                       ),
                     );
                   }
                 }
 
+                // Leave identifiers and member expressions untouched
                 return arg;
               });
             }

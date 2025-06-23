@@ -28,9 +28,11 @@ const entryPoints = Object.fromEntries(
     ]),
 );
 
-const ockVersion = JSON.parse(
+const OCK_VERSION = JSON.parse(
   fs.readFileSync('./package.json', 'utf-8'),
 ).version;
+
+const CLASSNAME_PREFIX = 'ock:';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -40,7 +42,8 @@ export default defineConfig({
     },
   },
   define: {
-    __OCK_VERSION__: JSON.stringify(ockVersion),
+    __OCK_VERSION__: JSON.stringify(OCK_VERSION),
+    __CLASSNAME_PREFIX__: JSON.stringify(CLASSNAME_PREFIX),
   },
   plugins: [
     externalizeDeps(),
@@ -49,7 +52,7 @@ export default defineConfig({
       babel: {
         plugins: [
           babelPrefixReactClassNames({
-            prefix: 'ock:',
+            prefix: CLASSNAME_PREFIX,
             cnUtil: 'cn',
           }),
         ],
