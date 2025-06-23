@@ -14,8 +14,8 @@ export function BuyMessage() {
     // on missing required fields, show muted text
     const textColor =
       lifecycleStatus?.statusData?.code === 'TmBPc05'
-        ? 'text-foreground-muted'
-        : 'text-error';
+        ? 'text-ock-foreground-muted'
+        : 'text-ock-error';
 
     return <div className={cn(textColor, text.label2)}>{message}</div>;
   }

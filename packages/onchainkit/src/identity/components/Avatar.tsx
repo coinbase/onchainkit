@@ -88,7 +88,7 @@ export function Avatar({
             {...props}
           />
         ) : (
-          <div className={cn('border-background', 'h-full w-full border')}>
+          <div className={cn('border-ock-background', 'h-full w-full border')}>
             {defaultAvatar}
           </div>
         )}

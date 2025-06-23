@@ -11,7 +11,7 @@ export function useGetCheckoutStatus() {
 
   return useMemo(() => {
     let label = '';
-    let labelClassName: string = 'text-foreground-muted';
+    let labelClassName: string = 'text-ock-foreground-muted';
 
     if (isPending) {
       label = 'Payment in progress...';
@@ -19,12 +19,12 @@ export function useGetCheckoutStatus() {
 
     if (isSuccess) {
       label = 'Payment successful!';
-      labelClassName = 'text-success';
+      labelClassName = 'text-ock-success';
     }
 
     if (errorMessage) {
       label = errorMessage;
-      labelClassName = 'text-error';
+      labelClassName = 'text-ock-error';
     }
 
     return { label, labelClassName };

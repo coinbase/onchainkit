@@ -8,10 +8,10 @@ export function NFTErrorFallback({ error }: { error: Error }) {
     <div
       className={cn(
         componentTheme,
-        'text-foreground',
-        'bg-background',
-        'border-background-active',
-        'rounded-default',
+        'text-ock-foreground',
+        'bg-ock-background',
+        'border-ock-background-active',
+        'rounded-ock-default',
         'flex w-full max-w-[500px] flex-col items-center justify-center border px-6 py-4',
       )}
       data-testid="ockNFTErrorFallback_Container"

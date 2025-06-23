@@ -269,7 +269,7 @@ describe('SwapAmountInput', () => {
     useSwapContextMock.mockReturnValue(mockContextValueWithLowBalance);
     render(<SwapAmountInput label="From" token={ETH_TOKEN} type="from" />);
     const input = screen.getByTestId('ockTextInput_Input');
-    expect(input.className).toContain('ock-text-error');
+    expect(input.className).toContain('ock-text-ock-error');
   });
 
   it('should render a TokenChip component if swappableTokens are not passed as prop', () => {

@@ -72,9 +72,9 @@ export function QuantitySelector({
 
   const classNames = cn(
     'h-11 w-11 rounded-lg border',
-    'border-background-active',
-    'text-foreground',
-    'bg-background',
+    'border-ock-background-active',
+    'text-ock-foreground',
+    'bg-ock-background',
     disabled && pressable.disabled,
   );
 
@@ -99,7 +99,7 @@ export function QuantitySelector({
         aria-label="quantity"
         className={cn(
           classNames,
-          'w-full text-center hover:bg-background-hover focus:bg-transparent',
+          'w-full text-center hover:bg-ock-background-hover focus:bg-transparent',
         )}
         delayMs={DELAY_MS}
         disabled={disabled}

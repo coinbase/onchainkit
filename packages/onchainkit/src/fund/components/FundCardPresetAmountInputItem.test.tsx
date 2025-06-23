@@ -100,7 +100,7 @@ describe('FundCardPresetAmountInputItem', () => {
       />,
     );
     const button = screen.getByTestId('ockPresetAmountInput');
-    expect(button).toHaveClass('hover:bg-background-hover');
+    expect(button).toHaveClass('hover:bg-ock-background-hover');
   });
 
   it('handles long content with ellipsis', () => {

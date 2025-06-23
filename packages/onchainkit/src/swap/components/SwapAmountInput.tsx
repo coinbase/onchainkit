@@ -93,7 +93,7 @@ export function SwapAmountInput({
   return (
     <div
       className={cn(
-        'bg-secondary rounded-default my-0.5 box-border flex h-[148px] w-full flex-col items-start p-4',
+        'bg-ock-secondary rounded-ock-default my-0.5 box-border flex h-[148px] w-full flex-col items-start p-4',
         className,
       )}
       data-testid="ockSwapAmountInput_Container"
@@ -101,7 +101,7 @@ export function SwapAmountInput({
       <div
         className={cn(
           text.label2,
-          'text-foreground-muted flex w-full items-center justify-between',
+          'text-ock-foreground-muted flex w-full items-center justify-between',
         )}
       >
         {label}
@@ -134,13 +134,13 @@ export function SwapAmountInput({
         )}
       </div>
       <div className="mt-4 flex w-full items-center justify-between">
-        <div className={cn(text.label2, 'text-foreground-muted')}>
+        <div className={cn(text.label2, 'text-ock-foreground-muted')}>
           ~{formatUSD(amountUSD)}
         </div>
         <div
           className={cn(
             text.label2,
-            'text-foreground-muted flex grow items-center justify-end',
+            'text-ock-foreground-muted flex grow items-center justify-end',
           )}
         >
           {balance && <span>{`Balance: ${getRoundedAmount(balance, 8)}`}</span>}
@@ -149,7 +149,7 @@ export function SwapAmountInput({
               type="button"
               className={cn(
                 text.label1,
-                'text-primary flex cursor-pointer items-center justify-center px-2 py-1',
+                'text-ock-primary flex cursor-pointer items-center justify-center px-2 py-1',
               )}
               data-testid="ockSwapAmountInput_MaxButton"
               onClick={handleMaxButtonClick}

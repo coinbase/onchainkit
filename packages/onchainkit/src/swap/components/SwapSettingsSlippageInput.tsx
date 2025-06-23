@@ -102,18 +102,18 @@ export function SwapSettingsSlippageInput({
   return (
     <section
       className={cn(
-        'bg-background',
-        'border-background-active',
-        'rounded-default',
+        'bg-ock-background',
+        'border-ock-background-active',
+        'rounded-ock-default',
         'flex items-center gap-2 flex-grow max-sm:pt-4',
         className,
       )}
     >
       <fieldset
         className={cn(
-          'bg-background',
-          'border-background-active',
-          'rounded-default',
+          'bg-ock-background',
+          'border-ock-background-active',
+          'rounded-ock-default',
           'flex h-9 flex-1 rounded-xl border p-1',
         )}
       >
@@ -125,14 +125,18 @@ export function SwapSettingsSlippageInput({
             aria-current={slippageSetting === setting ? 'true' : undefined}
             className={cn(
               pressable.default,
-              'text-foreground',
+              'text-ock-foreground',
               text.label1,
-              'rounded-inner',
+              'rounded-ock-inner',
               'flex-1 px-3 py-1 transition-colors',
               // Highlight the button if it is selected
               slippageSetting === setting
-                ? cn('bg-background-inverse', 'text-primary', 'shadow-default')
-                : 'text-foreground-muted',
+                ? cn(
+                    'bg-ock-background-inverse',
+                    'text-ock-primary',
+                    'shadow-ock-default',
+                  )
+                : 'text-ock-foreground-muted',
             )}
             onClick={() => handleSlippageSettingChange(setting)}
           >
@@ -142,9 +146,9 @@ export function SwapSettingsSlippageInput({
       </fieldset>
       <div
         className={cn(
-          'bg-background',
-          'border-background-active',
-          'rounded-default',
+          'bg-ock-background',
+          'border-ock-background-active',
+          'rounded-ock-default',
           'flex h-9 w-24 items-center justify-between border px-2 py-1',
           slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'opacity-50',
         )}
@@ -160,7 +164,7 @@ export function SwapSettingsSlippageInput({
           placeholder="0"
           disabled={slippageSetting === SLIPPAGE_SETTINGS.AUTO}
           className={cn(
-            'text-foreground truncate',
+            'text-ock-foreground truncate',
             text.label2,
             'w-full flex-grow bg-transparent pl-1 font-normal leading-6 focus:outline-none',
             slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'cursor-not-allowed',
@@ -168,8 +172,8 @@ export function SwapSettingsSlippageInput({
         />
         <span
           className={cn(
-            'bg-background',
-            'text-foreground',
+            'bg-ock-background',
+            'text-ock-foreground',
             text.label2,
             'ml-1 flex-shrink-0 font-normal leading-6',
           )}

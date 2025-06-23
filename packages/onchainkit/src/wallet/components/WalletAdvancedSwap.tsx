@@ -60,7 +60,7 @@ export function WalletAdvancedSwap({
     <div
       className={cn(
         'h-full',
-        'rounded-default',
+        'rounded-ock-default',
         isActiveFeatureClosing
           ? 'fade-out slide-out-to-right-5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-right-5 linear animate-in duration-150',
@@ -82,7 +82,7 @@ export function WalletAdvancedSwap({
         <div
           className={cn(
             componentTheme,
-            'bg-background rounded-default text-foreground relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
+            'bg-ock-background rounded-ock-default text-ock-foreground relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
           )}
           data-testid="ockSwap_Container"
         >

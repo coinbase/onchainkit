@@ -6,40 +6,40 @@ const twMerge = extendTailwindMerge({
   prefix: 'ock:',
   extend: {
     theme: {
-      font: ['ock'],
-      radius: ['default', 'inner'],
-      shadow: ['default'],
-      color: [
-        'foreground',
-        'foreground-muted',
-        'foreground-inverse',
-        'foreground-disabled',
-        'background',
-        'background-hover',
-        'background-active',
-        'background-alternate',
-        'background-alternate-hover',
-        'background-alternate-active',
-        'background-inverse',
-        'background-inverse-hover',
-        'background-inverse-active',
-        'background-reverse',
-        'primary',
-        'primary-hover',
-        'primary-active',
-        'primary-washed',
-        'primary-disabled',
-        'secondary',
-        'secondary-hover',
-        'secondary-active',
-        'error',
-        'warning',
-        'success',
-        'success-background',
-        'border',
-        'border-heavy',
-        'border-inverse',
+      borderRadius: ['ock-default', 'ock-inner'],
+      colors: [
+        'ock-foreground',
+        'ock-foreground-muted',
+        'ock-foreground-inverse',
+        'ock-foreground-disabled',
+        'ock-background',
+        'ock-background-hover',
+        'ock-background-active',
+        'ock-background-alternate',
+        'ock-background-alternate-hover',
+        'ock-background-alternate-active',
+        'ock-background-inverse',
+        'ock-background-inverse-hover',
+        'ock-background-inverse-active',
+        'ock-background-reverse',
+        'ock-primary',
+        'ock-primary-hover',
+        'ock-primary-active',
+        'ock-primary-washed',
+        'ock-primary-disabled',
+        'ock-secondary',
+        'ock-secondary-hover',
+        'ock-secondary-active',
+        'ock-error',
+        'ock-warning',
+        'ock-success',
+        'ock-success-background',
+        'ock-line',
       ],
+    },
+    classGroups: {
+      shadow: ['ock-default'],
+      'font-family': ['ock'],
     },
   },
 });
@@ -69,19 +69,19 @@ export const text = {
 
 export const pressable = {
   default: prefixClassName(
-    `cursor-pointer bg-background hover:bg-background-hover active:bg-background-active focus:bg-background-active`,
+    `cursor-pointer bg-ock-background hover:bg-ock-background-hover active:bg-ock-background-active focus:bg-ock-background-active`,
   ),
   alternate: prefixClassName(
-    `cursor-pointer bg-background-alternate hover:bg-background-alternate-hover active:bg-background-alternate-active focus:bg-background-alternate-active`,
+    `cursor-pointer bg-ock-background-alternate hover:bg-ock-background-alternate-hover active:bg-ock-background-alternate-active focus:bg-ock-background-alternate-active`,
   ),
   inverse: prefixClassName(
-    `cursor-pointer bg-background-inverse hover:bg-background-inverse-hover active:bg-background-inverse-active focus:bg-background-inverse-active`,
+    `cursor-pointer bg-ock-background-inverse hover:bg-ock-background-inverse-hover active:bg-ock-background-inverse-active focus:bg-ock-background-inverse-active`,
   ),
   primary: prefixClassName(
-    `cursor-pointer bg-primary hover:bg-primary-hover active:bg-primary-active focus:bg-primary-active`,
+    `cursor-pointer bg-ock-primary hover:bg-ock-primary-hover active:bg-ock-primary-active focus:bg-ock-primary-active`,
   ),
   secondary: prefixClassName(
-    `cursor-pointer bg-secondary hover:bg-secondary-hover active:bg-secondary-active focus:bg-secondary-active`,
+    `cursor-pointer bg-ock-secondary hover:bg-ock-secondary-hover active:bg-ock-secondary-active focus:bg-ock-secondary-active`,
   ),
   coinbaseBranding: prefixClassName(
     'cursor-pointer bg-[#0052FF] hover:bg-[#0045D8]',
@@ -90,8 +90,5 @@ export const pressable = {
 } as const;
 
 export const border = {
-  linePrimary: prefixClassName('border-primary border'),
-  lineDefault: prefixClassName('border-border border'),
-  lineHeavy: prefixClassName('border-border-heavy border'),
-  lineInverse: prefixClassName('border-border-inverse border'),
+  lineDefault: prefixClassName('border-ock-line border'),
 } as const;

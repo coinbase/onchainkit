@@ -40,8 +40,8 @@ export function SendAddressSelector({ classNames }: SendAddressSelectorProps) {
       <div
         data-testid="ockSendAddressSelector_container"
         className={cn(
-          'bg-background',
-          'rounded-default',
+          'bg-ock-background',
+          'rounded-ock-default',
           pressable.default,
           'items-left flex min-w-[300px]',
           'mt-2 p-2',

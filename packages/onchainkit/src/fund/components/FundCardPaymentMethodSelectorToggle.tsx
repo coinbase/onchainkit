@@ -20,7 +20,7 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
         className={cn(
           pressable.default,
           border.lineDefault,
-          'rounded-default flex h-12 w-full items-center gap-2 px-3 py-1',
+          'rounded-ock-default flex h-12 w-full items-center gap-2 px-3 py-1',
           className,
         )}
         onClick={onClick}
@@ -34,7 +34,7 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
           />
         </div>
         <span
-          className={cn(text.headline, 'text-foreground', 'flex w-full')}
+          className={cn(text.headline, 'text-ock-foreground', 'flex w-full')}
           data-testid="ockFundCardPaymentMethodSelectorToggle__paymentMethodName"
         >
           {paymentMethod.name}

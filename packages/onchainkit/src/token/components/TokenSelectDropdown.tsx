@@ -41,13 +41,13 @@ export function TokenSelectDropdown({
         onClose={closeDropdown}
         align="end"
         aria-label="Select token"
-        className="rounded-default text-foreground flex max-h-80 w-[200px] flex-col overflow-y-hidden ock-scrollbar overflow-y-auto"
+        className="rounded-ock-default text-ock-foreground flex max-h-80 w-[200px] flex-col overflow-y-hidden ock-scrollbar overflow-y-auto"
       >
         {options.map((token) => (
           <TokenRow
             as={DropdownMenuItem}
             key={token.name + token.address}
-            className={cn('bg-background-inverse', 'px-4 py-2')}
+            className={cn('bg-ock-background-inverse', 'px-4 py-2')}
             token={token}
             onClick={() => {
               setToken(token);

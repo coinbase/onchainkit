@@ -75,7 +75,7 @@ export function NFTAudio({
       <button
         type="button"
         className={cn(
-          'bg-background-reverse',
+          'bg-ock-background-reverse',
           'ml-6 inline-flex h-[42px] w-[42px] cursor-pointer items-center justify-center rounded-full',
         )}
         onClick={handlePlayPause}
@@ -83,7 +83,7 @@ export function NFTAudio({
         <div
           className={cn(
             'ml-px box-border h-[18px] transition-all ease-[100ms] will-change-[border-width]',
-            'border-background-reverse border-l-background',
+            'border-ock-background-reverse border-l-ock-background',
             {
               'border-[length:0_0_0_16px] border-double': isPlaying,
               '-mr-px border-[length:9px_0_9px_16px] border-solid': !isPlaying,

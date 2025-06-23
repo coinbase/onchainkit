@@ -1,9 +1,8 @@
-import './theme.css';
-import '@coinbase/onchainkit/styles.css';
-import type { Metadata, Viewport } from 'next';
-import './globals.css';
-import { Providers } from './providers';
-
+import "./theme.css";
+import "@coinbase/onchainkit/styles.css";
+import type { Metadata, Viewport } from "next";
+import "./globals.css";
+import { Providers } from "./providers";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -42,7 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-background text-foreground">
+      <body className="bg-ock-background text-ock-foreground">
         <Providers>{children}</Providers>
       </body>
     </html>

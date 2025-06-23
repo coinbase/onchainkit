@@ -125,10 +125,10 @@ describe('SwapSettingsSlippageInput', () => {
   it('applies correct styles in Auto mode', () => {
     render(<SwapSettingsSlippageInput />);
     expect(screen.getByRole('button', { name: 'Auto' })).toHaveClass(
-      'cursor-pointer hover:bg-background-hover active:bg-background-active font-ock font-semibold text-sm rounded-inner flex-1 px-3 py-1 transition-colors bg-background-inverse text-primary shadow-default',
+      'cursor-pointer hover:bg-ock-background-hover active:bg-ock-background-active font-ock font-semibold text-sm rounded-ock-inner flex-1 px-3 py-1 transition-colors bg-ock-background-inverse text-ock-primary shadow-ock-default',
     );
     expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass(
-      'cursor-pointer bg-background hover:bg-background-hover active:bg-background-active font-ock font-semibold text-sm rounded-inner flex-1 px-3 py-1 transition-colors text-foreground-muted',
+      'cursor-pointer bg-ock-background hover:bg-ock-background-hover active:bg-ock-background-active font-ock font-semibold text-sm rounded-ock-inner flex-1 px-3 py-1 transition-colors text-ock-foreground-muted',
     );
     expect(screen.getByRole('textbox').parentElement).toHaveClass('opacity-50');
   });
@@ -137,10 +137,10 @@ describe('SwapSettingsSlippageInput', () => {
     render(<SwapSettingsSlippageInput />);
     fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
     expect(screen.getByRole('button', { name: 'Auto' })).toHaveClass(
-      'cursor-pointer bg-background hover:bg-background-hover active:bg-background-active font-ock font-semibold text-sm rounded-inner flex-1 px-3 py-1 transition-colors text-foreground-muted',
+      'cursor-pointer bg-ock-background hover:bg-ock-background-hover active:bg-ock-background-active font-ock font-semibold text-sm rounded-ock-inner flex-1 px-3 py-1 transition-colors text-ock-foreground-muted',
     );
     expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass(
-      'cursor-pointer hover:bg-background-hover active:bg-background-active font-ock font-semibold text-sm rounded-inner flex-1 px-3 py-1 transition-colors bg-background-inverse text-primary shadow-default',
+      'cursor-pointer hover:bg-ock-background-hover active:bg-ock-background-active font-ock font-semibold text-sm rounded-ock-inner flex-1 px-3 py-1 transition-colors bg-ock-background-inverse text-ock-primary shadow-ock-default',
     );
     expect(screen.getByRole('textbox').parentElement).not.toHaveClass(
       'opacity-50',
@@ -184,7 +184,7 @@ describe('SwapSettingsSlippageInput', () => {
     };
     render(<SwapSettingsSlippageInput />);
     expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass(
-      'bg-background-inverse text-primary shadow-default',
+      'bg-ock-background-inverse text-ock-primary shadow-ock-default',
     );
     expect(screen.getByRole('textbox')).not.toBeDisabled();
   });

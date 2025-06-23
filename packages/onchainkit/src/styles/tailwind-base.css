@@ -7,213 +7,209 @@
   .light,
   .default-light,
   :root {
-    /* Clean semantic variables */
-    --radius-default: var(--radius-lg);
-    --radius-inner: var(--radius-md);
-    --font-family: 'DM Sans', sans-serif;
+    /* OnchainKit namespaced variables */
+    --ock-radius-default: var(--radius-lg);
+    --ock-radius-inner: var(--radius-md);
+    --ock-font-family: 'DM Sans', sans-serif;
 
     /* Foreground colors */
-    --foreground: theme(colors.gray.950);
-    --foreground-muted: theme(colors.gray.600);
-    --foreground-inverse: theme(colors.gray.50);
-    --foreground-disabled: theme(colors.gray.400);
+    --ock-foreground: theme(colors.gray.950);
+    --ock-foreground-muted: theme(colors.gray.600);
+    --ock-foreground-inverse: theme(colors.gray.50);
+    --ock-foreground-disabled: theme(colors.gray.400);
 
     /* Background colors */
-    --background: theme(colors.gray.50);
-    --background-hover: theme(colors.gray.200);
-    --background-active: theme(colors.gray.300);
-    --background-alternate: theme(colors.gray.200);
-    --background-alternate-hover: theme(colors.gray.300);
-    --background-alternate-active: theme(colors.gray.400);
-    --background-inverse: theme(colors.gray.100);
-    --background-inverse-hover: theme(colors.gray.200);
-    --background-inverse-active: theme(colors.gray.300);
-    --background-reverse: theme(colors.gray.950);
+    --ock-background: theme(colors.gray.50);
+    --ock-background-hover: theme(colors.gray.200);
+    --ock-background-active: theme(colors.gray.300);
+    --ock-background-alternate: theme(colors.gray.200);
+    --ock-background-alternate-hover: theme(colors.gray.300);
+    --ock-background-alternate-active: theme(colors.gray.400);
+    --ock-background-inverse: theme(colors.gray.100);
+    --ock-background-inverse-hover: theme(colors.gray.200);
+    --ock-background-inverse-active: theme(colors.gray.300);
+    --ock-background-reverse: theme(colors.gray.950);
 
     /* Primary colors */
-    --primary: theme(colors.indigo.600);
-    --primary-hover: theme(colors.indigo.700);
-    --primary-active: theme(colors.indigo.800);
-    --primary-washed: theme(colors.indigo.100);
-    --primary-disabled: theme(colors.indigo.300);
+    --ock-primary: theme(colors.indigo.600);
+    --ock-primary-hover: theme(colors.indigo.700);
+    --ock-primary-active: theme(colors.indigo.800);
+    --ock-primary-washed: theme(colors.indigo.100);
+    --ock-primary-disabled: theme(colors.indigo.300);
 
     /* Secondary colors */
-    --secondary: theme(colors.slate.200);
-    --secondary-hover: theme(colors.slate.300);
-    --secondary-active: theme(colors.slate.400);
+    --ock-secondary: theme(colors.slate.200);
+    --ock-secondary-hover: theme(colors.slate.300);
+    --ock-secondary-active: theme(colors.slate.400);
 
     /* State colors */
-    --error: theme(colors.rose.600);
-    --warning: theme(colors.orange.600);
-    --success: theme(colors.lime.600);
-    --success-background: theme(colors.lime.300);
+    --ock-error: theme(colors.rose.600);
+    --ock-warning: theme(colors.orange.600);
+    --ock-success: theme(colors.lime.600);
+    --ock-success-background: theme(colors.lime.300);
 
-    /* Border colors */
-    --border: theme(colors.gray.300);
-    --border-heavy: theme(colors.gray.500);
-    --border-inverse: theme(colors.gray.700);
+    /* Line colors */
+    --ock-line: theme(colors.gray.300);
 
     /* Shadow */
-    --shadow-default: 0px 8px 12px 0px #5b616e1f;
+    --ock-shadow-default: 0px 8px 12px 0px #5b616e1f;
   }
 
   .dark,
   .default-dark,
   .base-dark,
   .cyberpunk {
-    --foreground: theme(colors.gray.50);
-    --foreground-muted: theme(colors.gray.400);
-    --foreground-inverse: theme(colors.gray.950);
-    --foreground-disabled: theme(colors.gray.600);
+    --ock-foreground: theme(colors.gray.50);
+    --ock-foreground-muted: theme(colors.gray.400);
+    --ock-foreground-inverse: theme(colors.gray.950);
+    --ock-foreground-disabled: theme(colors.gray.600);
 
-    --background: theme(colors.gray.950);
-    --background-hover: theme(colors.gray.800);
-    --background-active: theme(colors.gray.700);
-    --background-alternate: theme(colors.gray.800);
-    --background-alternate-hover: theme(colors.gray.700);
-    --background-alternate-active: theme(colors.gray.600);
-    --background-inverse: theme(colors.gray.900);
-    --background-inverse-hover: theme(colors.gray.800);
-    --background-inverse-active: theme(colors.gray.700);
-    --background-reverse: theme(colors.gray.50);
+    --ock-background: theme(colors.gray.950);
+    --ock-background-hover: theme(colors.gray.800);
+    --ock-background-active: theme(colors.gray.700);
+    --ock-background-alternate: theme(colors.gray.800);
+    --ock-background-alternate-hover: theme(colors.gray.700);
+    --ock-background-alternate-active: theme(colors.gray.600);
+    --ock-background-inverse: theme(colors.gray.900);
+    --ock-background-inverse-hover: theme(colors.gray.800);
+    --ock-background-inverse-active: theme(colors.gray.700);
+    --ock-background-reverse: theme(colors.gray.50);
 
-    --primary: theme(colors.indigo.400);
-    --primary-hover: theme(colors.indigo.300);
-    --primary-active: theme(colors.indigo.200);
-    --primary-washed: theme(colors.indigo.900);
-    --primary-disabled: theme(colors.indigo.950);
+    --ock-primary: theme(colors.indigo.400);
+    --ock-primary-hover: theme(colors.indigo.300);
+    --ock-primary-active: theme(colors.indigo.200);
+    --ock-primary-washed: theme(colors.indigo.900);
+    --ock-primary-disabled: theme(colors.indigo.950);
 
-    --secondary: theme(colors.slate.800);
-    --secondary-hover: theme(colors.slate.700);
-    --secondary-active: theme(colors.slate.600);
+    --ock-secondary: theme(colors.slate.800);
+    --ock-secondary-hover: theme(colors.slate.700);
+    --ock-secondary-active: theme(colors.slate.600);
 
-    --error: theme(colors.rose.400);
-    --warning: theme(colors.orange.400);
-    --success: theme(colors.lime.400);
-    --success-background: theme(colors.lime.700);
+    --ock-error: theme(colors.rose.400);
+    --ock-warning: theme(colors.orange.400);
+    --ock-success: theme(colors.lime.400);
+    --ock-success-background: theme(colors.lime.700);
 
-    --border: theme(colors.gray.700);
-    --border-heavy: theme(colors.gray.500);
-    --border-inverse: theme(colors.gray.300);
+    --ock-line: theme(colors.gray.700);
   }
 
   .base-light {
-    --primary: #0052ff;
-    --primary-hover: #014ceb;
-    --primary-active: #0148dc;
-    --primary-washed: #b2cbff;
-    --primary-disabled: #9dbcfe;
+    --ock-primary: #0052ff;
+    --ock-primary-hover: #014ceb;
+    --ock-primary-active: #0148dc;
+    --ock-primary-washed: #b2cbff;
+    --ock-primary-disabled: #9dbcfe;
   }
 
   .base-dark {
-    --primary: #578bfa;
-    --primary-hover: #477ef5;
-    --primary-active: #5386f5;
-    --primary-washed: #051537;
-    --primary-disabled: #1b3365;
+    --ock-primary: #578bfa;
+    --ock-primary-hover: #477ef5;
+    --ock-primary-active: #5386f5;
+    --ock-primary-washed: #051537;
+    --ock-primary-disabled: #1b3365;
   }
 
   .cyberpunk {
-    --font-family: 'Oxanium', sans-serif;
-    --radius-default: 0.125rem;
-    --radius-inner: 0rem;
-    --primary: theme(colors.fuchsia.400);
-    --primary-hover: theme(colors.fuchsia.300);
-    --primary-active: theme(colors.fuchsia.200);
-    --primary-washed: theme(colors.fuchsia.900);
-    --primary-disabled: theme(colors.fuchsia.950);
-    --error: theme(colors.rose.600);
-    --success: theme(colors.lime.600);
-    --warning: theme(colors.orange.600);
+    --ock-font-family: 'Oxanium', sans-serif;
+    --ock-radius-default: 0.125rem;
+    --ock-radius-inner: 0rem;
+    --ock-primary: theme(colors.fuchsia.400);
+    --ock-primary-hover: theme(colors.fuchsia.300);
+    --ock-primary-active: theme(colors.fuchsia.200);
+    --ock-primary-washed: theme(colors.fuchsia.900);
+    --ock-primary-disabled: theme(colors.fuchsia.950);
+    --ock-error: theme(colors.rose.600);
+    --ock-success: theme(colors.lime.600);
+    --ock-warning: theme(colors.orange.600);
   }
 
   .hacker {
-    --font-family: 'Noto Sans Mono', sans-serif;
-    --radius-default: 0.375rem;
-    --radius-inner: 0.125rem;
+    --ock-font-family: 'Noto Sans Mono', sans-serif;
+    --ock-radius-default: 0.375rem;
+    --ock-radius-inner: 0.125rem;
 
-    --foreground: theme(colors.zinc.950);
-    --foreground-muted: theme(colors.zinc.600);
-    --foreground-inverse: theme(colors.zinc.50);
-    --foreground-disabled: theme(colors.zinc.400);
+    --ock-foreground: theme(colors.zinc.950);
+    --ock-foreground-muted: theme(colors.zinc.600);
+    --ock-foreground-inverse: theme(colors.zinc.50);
+    --ock-foreground-disabled: theme(colors.zinc.400);
 
-    --background: theme(colors.zinc.50);
-    --background-hover: theme(colors.zinc.200);
-    --background-active: theme(colors.zinc.300);
-    --background-alternate: theme(colors.zinc.200);
-    --background-alternate-hover: theme(colors.zinc.300);
-    --background-alternate-active: theme(colors.zinc.400);
-    --background-inverse: theme(colors.zinc.100);
-    --background-inverse-hover: theme(colors.zinc.200);
-    --background-inverse-active: theme(colors.zinc.300);
-    --background-reverse: theme(colors.neutral.50);
+    --ock-background: theme(colors.zinc.50);
+    --ock-background-hover: theme(colors.zinc.200);
+    --ock-background-active: theme(colors.zinc.300);
+    --ock-background-alternate: theme(colors.zinc.200);
+    --ock-background-alternate-hover: theme(colors.zinc.300);
+    --ock-background-alternate-active: theme(colors.zinc.400);
+    --ock-background-inverse: theme(colors.zinc.100);
+    --ock-background-inverse-hover: theme(colors.zinc.200);
+    --ock-background-inverse-active: theme(colors.zinc.300);
+    --ock-background-reverse: theme(colors.neutral.50);
 
-    --primary: theme(colors.zinc.950);
-    --primary-hover: theme(colors.zinc.800);
-    --primary-active: theme(colors.zinc.700);
-    --primary-washed: theme(colors.zinc.100);
-    --primary-disabled: theme(colors.zinc.300);
+    --ock-primary: theme(colors.zinc.950);
+    --ock-primary-hover: theme(colors.zinc.800);
+    --ock-primary-active: theme(colors.zinc.700);
+    --ock-primary-washed: theme(colors.zinc.100);
+    --ock-primary-disabled: theme(colors.zinc.300);
 
-    --secondary: theme(colors.neutral.200);
-    --secondary-hover: theme(colors.neutral.300);
-    --secondary-active: theme(colors.neutral.400);
+    --ock-secondary: theme(colors.neutral.200);
+    --ock-secondary-hover: theme(colors.neutral.300);
+    --ock-secondary-active: theme(colors.neutral.400);
 
-    --error: theme(colors.rose.600);
-    --warning: theme(colors.orange.600);
-    --success: theme(colors.lime.600);
+    --ock-error: theme(colors.rose.600);
+    --ock-warning: theme(colors.orange.600);
+    --ock-success: theme(colors.lime.600);
 
-    --border: theme(colors.zinc.300);
-    --border-heavy: theme(colors.zinc.500);
-    --border-inverse: theme(colors.zinc.700);
+    --ock-line: theme(colors.zinc.300);
   }
 }
 
 @theme inline {
-  --font-sans: 'Inter', sans-serif;
-  --font-display: 'DM Sans', sans-serif;
-  --font-ock: var(--font-family);
   --spacing-88: 22rem;
   --spacing-120: 30rem;
-  --radius-default: var(--radius-default);
-  --radius-inner: var(--radius-inner);
 
-  /* Clean semantic color utilities - no ock prefix */
-  --color-foreground: var(--foreground);
-  --color-foreground-muted: var(--foreground-muted);
-  --color-foreground-inverse: var(--foreground-inverse);
-  --color-foreground-disabled: var(--foreground-disabled);
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'DM Sans', sans-serif;
 
-  --color-background: var(--background);
-  --color-background-hover: var(--background-hover);
-  --color-background-active: var(--background-active);
-  --color-background-alternate: var(--background-alternate);
-  --color-background-alternate-hover: var(--background-alternate-hover);
-  --color-background-alternate-active: var(--background-alternate-active);
-  --color-background-inverse: var(--background-inverse);
-  --color-background-inverse-hover: var(--background-inverse-hover);
-  --color-background-inverse-active: var(--background-inverse-active);
-  --color-background-reverse: var(--background-reverse);
+  --font-ock: var(--ock-font-family);
+  --radius-ock-default: var(--ock-radius-default);
+  --radius-ock-inner: var(--ock-radius-inner);
 
-  --color-primary: var(--primary);
-  --color-primary-hover: var(--primary-hover);
-  --color-primary-active: var(--primary-active);
-  --color-primary-washed: var(--primary-washed);
-  --color-primary-disabled: var(--primary-disabled);
+  /* OnchainKit theme utilities with ock prefix */
+  --color-ock-foreground: var(--ock-foreground);
+  --color-ock-foreground-muted: var(--ock-foreground-muted);
+  --color-ock-foreground-inverse: var(--ock-foreground-inverse);
+  --color-ock-foreground-disabled: var(--ock-foreground-disabled);
 
-  --color-secondary: var(--secondary);
-  --color-secondary-hover: var(--secondary-hover);
-  --color-secondary-active: var(--secondary-active);
+  --color-ock-background: var(--ock-background);
+  --color-ock-background-hover: var(--ock-background-hover);
+  --color-ock-background-active: var(--ock-background-active);
+  --color-ock-background-alternate: var(--ock-background-alternate);
+  --color-ock-background-alternate-hover: var(--ock-background-alternate-hover);
+  --color-ock-background-alternate-active: var(
+    --ock-background-alternate-active
+  );
+  --color-ock-background-inverse: var(--ock-background-inverse);
+  --color-ock-background-inverse-hover: var(--ock-background-inverse-hover);
+  --color-ock-background-inverse-active: var(--ock-background-inverse-active);
+  --color-ock-background-reverse: var(--ock-background-reverse);
 
-  --color-error: var(--error);
-  --color-warning: var(--warning);
-  --color-success: var(--success);
-  --color-success-background: var(--success-background);
+  --color-ock-primary: var(--ock-primary);
+  --color-ock-primary-hover: var(--ock-primary-hover);
+  --color-ock-primary-active: var(--ock-primary-active);
+  --color-ock-primary-washed: var(--ock-primary-washed);
+  --color-ock-primary-disabled: var(--ock-primary-disabled);
 
-  --color-border: var(--border);
-  --color-border-heavy: var(--border-heavy);
-  --color-border-inverse: var(--border-inverse);
+  --color-ock-secondary: var(--ock-secondary);
+  --color-ock-secondary-hover: var(--ock-secondary-hover);
+  --color-ock-secondary-active: var(--ock-secondary-active);
 
-  --shadow-default: var(--shadow-default);
+  --color-ock-error: var(--ock-error);
+  --color-ock-warning: var(--ock-warning);
+  --color-ock-success: var(--ock-success);
+  --color-ock-success-background: var(--ock-success-background);
+
+  --color-ock-line: var(--ock-line);
+
+  --shadow-ock-default: var(--ock-shadow-default);
 }
 
 @layer utilities {
@@ -247,6 +243,6 @@
   }
 
   .placeholder-ock-default::placeholder {
-    color: var(--foreground-muted);
+    color: var(--ock-foreground-muted);
   }
 }

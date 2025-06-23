@@ -39,7 +39,7 @@ export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
     return (
       <div className="mt-4 flex max-h-80 flex-col gap-2">
         <span
-          className={cn(text.caption, 'text-foreground-muted', 'uppercase')}
+          className={cn(text.caption, 'text-ock-foreground-muted', 'uppercase')}
         >
           Select a token
         </span>
@@ -53,7 +53,7 @@ export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
               classNames={{
                 container: cn(
                   pressable.default,
-                  'rounded-default',
+                  'rounded-ock-default',
                   classNames?.container,
                 ),
                 ...classNames,
@@ -86,7 +86,7 @@ export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
       classNames={{
         container: cn(
           pressable.alternate,
-          'rounded-default',
+          'rounded-ock-default',
           classNames?.container,
         ),
         ...classNames,

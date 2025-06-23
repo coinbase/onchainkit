@@ -2,7 +2,7 @@ type CloseSvgProps = {
   className?: string;
 };
 
-export function CloseSvg({ className = 'fill-foreground' }: CloseSvgProps) {
+export function CloseSvg({ className = 'fill-ock-foreground' }: CloseSvgProps) {
   return (
     <svg
       aria-label="ock-closeSvg"

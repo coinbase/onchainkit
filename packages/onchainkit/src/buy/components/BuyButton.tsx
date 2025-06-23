@@ -63,7 +63,7 @@ export function BuyButton() {
       return checkmarkSvg;
     }
     if (isDropdownOpen) {
-      return <CloseSvg className="fill-foreground-inverse" />;
+      return <CloseSvg className="fill-ock-foreground-inverse" />;
     }
     return 'Buy';
   }, [statusName, isDropdownOpen]);
@@ -78,8 +78,8 @@ export function BuyButton() {
     <button
       type="button"
       className={cn(
-        'bg-primary',
-        'rounded-default',
+        'bg-ock-primary',
+        'rounded-ock-default',
         'flex rounded-xl',
         'h-12 w-24 items-center justify-center px-4 py-3',
         isDisabled && pressable.disabled,
@@ -92,7 +92,7 @@ export function BuyButton() {
       {isLoading ? (
         <Spinner />
       ) : (
-        <span className={cn(text.headline, 'text-foreground-inverse')}>
+        <span className={cn(text.headline, 'text-ock-foreground-inverse')}>
           {buttonContent}
         </span>
       )}

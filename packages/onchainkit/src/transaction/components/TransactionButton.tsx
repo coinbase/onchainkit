@@ -109,12 +109,12 @@ export function TransactionButton({
     <button
       className={cn(
         pressable.primary,
-        'rounded-default',
+        'rounded-ock-default',
         'w-full rounded-xl',
         'px-4 py-3 font-medium leading-6',
         isDisabled && pressable.disabled,
         text.headline,
-        'text-foreground-inverse',
+        'text-ock-foreground-inverse',
         className,
       )}
       onClick={handleSubmit}

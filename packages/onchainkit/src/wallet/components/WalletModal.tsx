@@ -240,8 +240,8 @@ export function WalletModal({
         data-testid="ockModalOverlay"
         className={cn(
           border.lineDefault,
-          'rounded-default',
-          'bg-background',
+          'rounded-ock-default',
+          'bg-ock-background',
           'w-[22rem] p-6 pb-4',
           'relative flex flex-col items-center gap-4',
           className,
@@ -252,8 +252,8 @@ export function WalletModal({
           onClick={onClose}
           className={cn(
             pressable.default,
-            'rounded-default',
-            'border-background',
+            'rounded-ock-default',
+            'border-ock-background',
             'absolute top-4 right-4',
             'flex items-center justify-center p-1',
             'transition-colors duration-200',
@@ -269,7 +269,10 @@ export function WalletModal({
           <div className="flex w-full flex-col items-center gap-2 py-3">
             {appLogo && (
               <div
-                className={cn('rounded-default', 'h-14 w-14 overflow-hidden')}
+                className={cn(
+                  'rounded-ock-default',
+                  'h-14 w-14 overflow-hidden',
+                )}
               >
                 <img
                   src={appLogo}
@@ -280,7 +283,11 @@ export function WalletModal({
             )}
             {appName && (
               <h2
-                className={cn(text.headline, 'text-foreground', 'text-center')}
+                className={cn(
+                  text.headline,
+                  'text-ock-foreground',
+                  'text-center',
+                )}
               >
                 {appName}
               </h2>
@@ -294,10 +301,10 @@ export function WalletModal({
               type="button"
               onClick={handleCoinbaseWalletConnection}
               className={cn(
-                'rounded-default',
+                'rounded-ock-default',
                 text.body,
                 pressable.alternate,
-                'text-foreground',
+                'text-ock-foreground',
                 'flex items-center justify-between px-4 py-3 text-left',
               )}
             >
@@ -317,8 +324,8 @@ export function WalletModal({
             <div className="relative flex justify-center">
               <span
                 className={cn(
-                  'bg-background',
-                  'text-foreground-muted',
+                  'bg-ock-background',
+                  'text-ock-foreground-muted',
                   text.legal,
                   'px-2',
                 )}
@@ -336,11 +343,11 @@ export function WalletModal({
               type="button"
               onClick={wallet.connector}
               className={cn(
-                'rounded-default',
-                'bg-background',
+                'rounded-ock-default',
+                'bg-ock-background',
                 text.body,
                 pressable.alternate,
-                'text-foreground',
+                'text-ock-foreground',
                 'flex items-center justify-between px-4 py-3 text-left',
               )}
             >
@@ -354,7 +361,7 @@ export function WalletModal({
 
         <div
           className={cn(
-            'text-foreground-muted',
+            'text-ock-foreground-muted',
             text.legal,
             'flex flex-col items-center justify-center gap-1 px-4',
             'mt-4 text-center',
@@ -367,7 +374,7 @@ export function WalletModal({
             {termsOfServiceUrl && (
               <a
                 href={termsOfServiceUrl}
-                className={cn('text-primary', 'hover:underline')}
+                className={cn('text-ock-primary', 'hover:underline')}
                 target="_blank"
                 rel="noopener noreferrer"
                 tabIndex={0}
@@ -379,7 +386,7 @@ export function WalletModal({
             {privacyPolicyUrl && (
               <a
                 href={privacyPolicyUrl}
-                className={cn('text-primary', 'hover:underline')}
+                className={cn('text-ock-primary', 'hover:underline')}
                 target="_blank"
                 rel="noopener noreferrer"
                 tabIndex={0}

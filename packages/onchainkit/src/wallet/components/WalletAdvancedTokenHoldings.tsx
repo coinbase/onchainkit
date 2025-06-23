@@ -121,7 +121,7 @@ function TokenDetails({
           <span
             className={cn(
               text.label1,
-              'text-foreground',
+              'text-ock-foreground',
               'max-w-52 overflow-hidden text-ellipsis whitespace-nowrap text-left',
               classNames?.tokenName,
             )}
@@ -131,7 +131,7 @@ function TokenDetails({
           <span
             className={cn(
               text.legal,
-              'text-foreground-muted',
+              'text-ock-foreground-muted',
               classNames?.tokenBalance,
             )}
           >
@@ -142,7 +142,7 @@ function TokenDetails({
       <span
         className={cn(
           text.label2,
-          'text-foreground-muted',
+          'text-ock-foreground-muted',
           classNames?.fiatValue,
         )}
       >

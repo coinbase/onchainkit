@@ -51,9 +51,9 @@ describe('Badge Component', () => {
     await waitFor(() => {
       const badge = screen.queryByTestId('ockBadge');
       expect(badge).toHaveStyle(badgeStyle);
-      expect(badge).toHaveClass('bg-primary');
+      expect(badge).toHaveClass('bg-ock-primary');
       const ticker = screen.queryByTestId('ock-badgeSvg');
-      expect(ticker).toHaveClass('fill-foreground-inverse');
+      expect(ticker).toHaveClass('fill-ock-foreground-inverse');
     });
   });
 

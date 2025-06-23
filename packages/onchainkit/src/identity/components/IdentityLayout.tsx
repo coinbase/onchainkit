@@ -46,7 +46,7 @@ export function IdentityLayout({
     <div
       className={cn(
         componentTheme,
-        'bg-background',
+        'bg-ock-background',
         'flex flex-col px-4 py-1',
         className,
       )}
@@ -61,7 +61,7 @@ export function IdentityLayout({
           {addressComponent && ethBalance && (
             <div className="flex items-center gap-1">
               {addressComponent}
-              <span className={'text-foreground-muted'}>·</span>
+              <span className={'text-ock-foreground-muted'}>·</span>
               {ethBalance}
             </div>
           )}

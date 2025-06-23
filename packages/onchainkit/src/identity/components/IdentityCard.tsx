@@ -30,9 +30,9 @@ export function IdentityCard({
       address={address}
       chain={chain}
       className={cn(
-        'rounded-default',
+        'rounded-ock-default',
         border.lineDefault,
-        'bg-background',
+        'bg-ock-background',
         'items-left flex min-w-[300px] p-4',
         className,
       )}

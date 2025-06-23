@@ -30,7 +30,7 @@ describe('TransactionStatus', () => {
   it('renders default children correctly', () => {
     (useGetTransactionStatusLabel as Mock).mockReturnValue({
       label: 'Successful!',
-      labelClassName: 'text-foreground-muted',
+      labelClassName: 'text-ock-foreground-muted',
     });
 
     (useGetTransactionStatusAction as Mock).mockReturnValue({

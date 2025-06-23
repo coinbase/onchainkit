@@ -59,7 +59,7 @@ export const Toast = ({
         }}
         className={cn(
           'ock-toast',
-          'bg-background text-foreground',
+          'bg-ock-background text-ock-foreground',
           'flex items-center justify-between rounded-lg',
           'p-2 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.12)]',
           animation && animationClassnameByPosition[position],

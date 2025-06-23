@@ -105,11 +105,11 @@ export function BuyDropdown() {
   return (
     <div
       className={cn(
-        'text-foreground',
-        'bg-background',
+        'text-ock-foreground',
+        'bg-ock-background',
         'absolute right-0 bottom-0 flex translate-y-[102%] flex-col gap-2',
         'z-10 min-w-80 rounded border p-2',
-        'rounded-default',
+        'rounded-ock-default',
       )}
       role="menu"
       aria-label="Buy options"
@@ -143,7 +143,7 @@ export function BuyDropdown() {
           className={cn(
             'flex justify-end',
             text.legal,
-            'text-foreground-muted',
+            'text-ock-foreground-muted',
           )}
         >{`${to?.amount} ${to?.token?.name} ≈ ${formattedAmountUSD}`}</div>
       )}

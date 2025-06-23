@@ -22,8 +22,8 @@ export function PressableIcon({
       aria-label={ariaLabel}
       className={cn(
         pressable.default,
-        'rounded-inner',
-        'border-background',
+        'rounded-ock-inner',
+        'border-ock-background',
         'flex items-center justify-center',
         className,
       )}

@@ -51,8 +51,8 @@ export function SwapButton({
     <button
       type="button"
       className={cn(
-        'bg-primary',
-        'rounded-default',
+        'bg-ock-primary',
+        'rounded-ock-default',
         'w-full rounded-xl',
         'mt-4 px-4 py-3',
         isDisabled && pressable.disabled,
@@ -66,7 +66,7 @@ export function SwapButton({
       {isLoading ? (
         <Spinner />
       ) : (
-        <span className={cn(text.headline, 'text-foreground-inverse')}>
+        <span className={cn(text.headline, 'text-ock-foreground-inverse')}>
           {label}
         </span>
       )}

@@ -46,7 +46,7 @@ export function WalletAdvancedAddressDetails({
       data-testid="ockWalletAdvanced_AddressDetails"
       className={cn(
         'mt-2 flex w-88 flex-col items-center justify-center px-4 py-3',
-        'text-foreground',
+        'text-ock-foreground',
         text.body,
         animations.content,
         classNames?.container,
@@ -67,7 +67,7 @@ export function WalletAdvancedAddressDetails({
             address={address}
             chain={chain}
             className={cn(
-              'hover:text-foreground-muted active:text-primary',
+              'hover:text-ock-foreground-muted active:text-ock-primary',
               classNames?.nameButton,
             )}
           />
@@ -78,9 +78,9 @@ export function WalletAdvancedAddressDetails({
           className={cn(
             pressable.alternate,
             text.legal,
-            'text-foreground',
-            'border-background',
-            'rounded-default',
+            'text-ock-foreground',
+            'border-ock-background',
+            'rounded-ock-default',
             zIndex.tooltip,
             'absolute top-full right-0 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
           )}

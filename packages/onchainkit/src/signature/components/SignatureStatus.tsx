@@ -16,8 +16,8 @@ export function SignatureStatus({
     <div
       className={cn(
         'flex justify-between',
-        'text-foreground-muted',
-        { ['text-error']: lifecycleStatus.statusName === 'error' },
+        'text-ock-foreground-muted',
+        { ['text-ock-error']: lifecycleStatus.statusName === 'error' },
         className,
       )}
     >

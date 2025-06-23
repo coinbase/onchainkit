@@ -17,9 +17,9 @@ export function Button({
       className={cn(
         pressable.primary,
         disabled && pressable.disabled,
-        'rounded-default',
+        'rounded-ock-default',
         text.headline,
-        'text-foreground-inverse',
+        'text-ock-foreground-inverse',
         'items-center justify-center px-4 py-3',
         className,
       )}

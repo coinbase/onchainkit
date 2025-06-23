@@ -18,14 +18,14 @@ export function SendAddressInput({ classNames }: SendAddressInputProps) {
       data-testid="ockSendAddressInput"
       className={cn(
         border.lineDefault,
-        'rounded-default',
+        'rounded-ock-default',
         'w-full',
         'flex items-center gap-2',
         'px-4 py-3',
         classNames?.container,
       )}
     >
-      <span className={cn('text-foreground', classNames?.label)}>To</span>
+      <span className={cn('text-ock-foreground', classNames?.label)}>To</span>
       <TextInput
         inputMode="text"
         placeholder="Basename, ENS, or Address"
@@ -35,7 +35,7 @@ export function SendAddressInput({ classNames }: SendAddressInputProps) {
         onFocus={deselectRecipient}
         aria-label="Input Receiver Address"
         className={cn(
-          'bg-background',
+          'bg-ock-background',
           'w-full outline-none',
           classNames?.input,
         )}

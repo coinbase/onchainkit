@@ -39,7 +39,7 @@ export function WithdrawBalance({ className }: WithdrawBalanceProps) {
     if (status === 'pending') {
       return (
         <div className="flex gap-1">
-          <Skeleton className="bg-background-alternate-active h-6 w-12" />
+          <Skeleton className="bg-ock-background-alternate-active h-6 w-12" />
           <span>{vaultToken?.symbol}</span>
         </div>
       );

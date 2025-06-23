@@ -23,7 +23,7 @@ export function SwapMessage({ className, render }: SwapMessageProps) {
       className={cn(
         'flex h-7 pt-2',
         text.label2,
-        'text-foreground-muted',
+        'text-ock-foreground-muted',
         className,
       )}
       data-testid="ockSwapMessage_Message"

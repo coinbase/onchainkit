@@ -25,7 +25,7 @@ export function TransactionSponsor({ className }: TransactionSponsorProps) {
 
   return (
     <div className={cn(text.label2, 'flex', className)}>
-      <p className={'text-foreground-muted'}>Zero transaction fee</p>
+      <p className={'text-ock-foreground-muted'}>Zero transaction fee</p>
     </div>
   );
 }

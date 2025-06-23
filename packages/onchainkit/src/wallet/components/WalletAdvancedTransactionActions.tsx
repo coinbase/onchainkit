@@ -143,7 +143,7 @@ function WalletAdvancedTransactionAction({
       className={cn(
         'flex flex-col items-center justify-center gap-2 pt-2.5 pb-2',
         'h-16 flex-1',
-        'rounded-default',
+        'rounded-ock-default',
         pressable.alternate,
         classNames?.container,
       )}
@@ -161,7 +161,7 @@ function WalletAdvancedTransactionAction({
       <span
         className={cn(
           text.label2,
-          'text-foreground',
+          'text-ock-foreground',
           'flex flex-col justify-center',
           classNames?.label,
         )}
