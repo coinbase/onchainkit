@@ -52,7 +52,7 @@ export function FundCardPresetAmountInputItem({
       data-testid="ockPresetAmountInput"
       className={cn(
         text.body,
-        'text-ock-text-foreground',
+        'text-foreground',
         'rounded-ock-default',
         border.lineDefault,
         'flex-1',

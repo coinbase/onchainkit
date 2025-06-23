@@ -8,7 +8,7 @@ export function NFTErrorFallback({ error }: { error: Error }) {
     <div
       className={cn(
         componentTheme,
-        'text-ock-text-foreground',
+        'text-foreground',
         'bg-ock-bg-default',
         'border-ock-bg-default-active',
         'rounded-ock-default',

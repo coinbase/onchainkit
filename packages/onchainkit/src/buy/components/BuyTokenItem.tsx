@@ -48,9 +48,7 @@ export function BuyTokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
       <div
         className={cn(
           'flex flex-col items-start',
-          hasInsufficientBalance
-            ? 'text-ock-text-foreground-muted'
-            : 'text-ock-text-foreground',
+          hasInsufficientBalance ? 'text-foreground-muted' : 'text-foreground',
         )}
       >
         <div>
@@ -61,7 +59,7 @@ export function BuyTokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
             'text-xs',
             hasInsufficientBalance
               ? 'text-ock-text-error'
-              : 'text-ock-text-foreground-muted',
+              : 'text-foreground-muted',
           )}
         >{`${
           hasInsufficientBalance ? 'Insufficient balance' : 'Balance'

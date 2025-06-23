@@ -62,7 +62,7 @@ export function AppchainBridgeInput({
         <span
           className={cn(
             text.label2,
-            'text-ock-text-foreground-muted',
+            'text-foreground-muted',
             'flex items-center gap-1',
           )}
         >
@@ -84,7 +84,7 @@ export function AppchainBridgeInput({
                 '0x0000000000000000000000000000000000000000'
               }
               hasCopyAddressOnClick={false}
-              className={cn(text.label2, 'text-ock-text-foreground')}
+              className={cn(text.label2, 'text-foreground')}
             />
           </button>{' '}
           on <span className="inline-flex h-4 w-4 items-center">{to.icon}</span>
@@ -95,7 +95,7 @@ export function AppchainBridgeInput({
           className={cn(
             'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
             'leading-none outline-none',
-            'text-ock-text-foreground',
+            'text-foreground',
             insufficientBalance && 'text-ock-text-error',
           )}
           placeholder="0.00"
@@ -127,7 +127,7 @@ export function AppchainBridgeInput({
           <span
             className={cn(
               text.label2,
-              'text-ock-text-foreground-muted',
+              'text-foreground-muted',
               insufficientBalance && 'text-ock-text-error',
             )}
           >
@@ -137,7 +137,7 @@ export function AppchainBridgeInput({
         {address && (
           <div className="flex items-center">
             <span
-              className={cn(text.label2, 'text-ock-text-foreground-muted')}
+              className={cn(text.label2, 'text-foreground-muted')}
             >{`Balance: ${Number(balance).toLocaleString(undefined, {
               maximumFractionDigits: 5,
               minimumFractionDigits: 0,

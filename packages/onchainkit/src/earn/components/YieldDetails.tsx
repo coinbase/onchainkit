@@ -14,7 +14,7 @@ function YieldInfo() {
   return (
     <div
       className={cn(
-        'text-ock-text-foreground-muted',
+        'text-foreground-muted',
         'border-ock-bg-default-active',
         'bg-ock-bg-default',
         'fade-in flex min-w-52 animate-in flex-col gap-2 rounded-lg border p-3 text-sm duration-200',
@@ -79,7 +79,7 @@ export function YieldDetails() {
         <div
           className={cn(
             text.label1,
-            'text-ock-text-foreground-muted',
+            'text-foreground-muted',
             'bg-ock-bg-alternate',
             'flex items-center justify-center gap-1 rounded-full p-1 px-3',
           )}

@@ -283,11 +283,7 @@ export function WalletModal({
             )}
             {appName && (
               <h2
-                className={cn(
-                  text.headline,
-                  'text-ock-text-foreground',
-                  'text-center',
-                )}
+                className={cn(text.headline, 'text-foreground', 'text-center')}
               >
                 {appName}
               </h2>
@@ -304,7 +300,7 @@ export function WalletModal({
                 'rounded-ock-default',
                 text.body,
                 pressable.alternate,
-                'text-ock-text-foreground',
+                'text-foreground',
                 'flex items-center justify-between px-4 py-3 text-left',
               )}
             >
@@ -325,7 +321,7 @@ export function WalletModal({
               <span
                 className={cn(
                   'bg-ock-bg-default',
-                  'text-ock-text-foreground-muted',
+                  'text-foreground-muted',
                   text.legal,
                   'px-2',
                 )}
@@ -347,7 +343,7 @@ export function WalletModal({
                 'bg-ock-bg-default',
                 text.body,
                 pressable.alternate,
-                'text-ock-text-foreground',
+                'text-foreground',
                 'flex items-center justify-between px-4 py-3 text-left',
               )}
             >
@@ -361,7 +357,7 @@ export function WalletModal({
 
         <div
           className={cn(
-            'text-ock-text-foreground-muted',
+            'text-foreground-muted',
             text.legal,
             'flex flex-col items-center justify-center gap-1 px-4',
             'mt-4 text-center',

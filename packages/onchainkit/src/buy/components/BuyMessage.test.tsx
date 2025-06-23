@@ -60,7 +60,7 @@ describe('BuyMessage', () => {
       'text-sm',
     );
     expect(screen.getByText('Complete the field to continue')).toHaveClass(
-      'text-ock-text-foreground-muted',
+      'text-foreground-muted',
     );
   });
 });

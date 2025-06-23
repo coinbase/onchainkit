@@ -20,7 +20,7 @@ function EarnDefaultContent() {
           className={cn(
             text.headline,
             'bg-ock-bg-default data-[state=active]:bg-ock-bg-primary',
-            'text-ock-text-foreground data-[state=active]:text-ock-text-inverse',
+            'text-foreground data-[state=active]:text-ock-text-inverse',
             'w-1/2 text-center',
             'cursor-pointer px-3 py-2',
             'focus:outline-none focus-visible:ring-2 focus-visible:ring-ock-text-foreground focus-visible:ring-inset',
@@ -34,7 +34,7 @@ function EarnDefaultContent() {
           className={cn(
             text.headline,
             'bg-ock-bg-default data-[state=active]:bg-ock-bg-primary',
-            'text-ock-text-foreground data-[state=active]:text-ock-text-inverse',
+            'text-foreground data-[state=active]:text-ock-text-inverse',
             'w-1/2 text-center',
             'cursor-pointer px-3 py-2',
             'focus:outline-none focus-visible:ring-2 focus-visible:ring-ock-text-foreground focus-visible:ring-inset',

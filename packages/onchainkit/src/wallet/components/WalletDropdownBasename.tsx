@@ -33,7 +33,7 @@ export function WalletDropdownBasename({
     <a
       className={cn(
         pressable.default,
-        'text-ock-text-foreground',
+        'text-foreground',
         'relative flex items-center px-4 py-3',
         className,
       )}

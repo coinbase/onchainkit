@@ -43,7 +43,7 @@ export const TokenRow = memo(function TokenRow({
             {token.name.trim()}
           </span>
           {!hideSymbol && (
-            <span className={cn(text.body, 'text-ock-text-foreground-muted')}>
+            <span className={cn(text.body, 'text-foreground-muted')}>
               {token.symbol}
             </span>
           )}
@@ -51,7 +51,7 @@ export const TokenRow = memo(function TokenRow({
       </span>
       <span
         data-testid="ockTokenRow_Amount"
-        className={cn(text.body, 'text-ock-text-foreground-muted')}
+        className={cn(text.body, 'text-foreground-muted')}
       >
         {formatAmount(amount, {
           minimumFractionDigits: 2,

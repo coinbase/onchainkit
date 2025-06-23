@@ -28,7 +28,7 @@ export function EthBalance({ address, className }: EthBalanceProps) {
   return (
     <span
       data-testid="ockEthBalance"
-      className={cn(text.label2, 'text-ock-text-foreground-muted', className)}
+      className={cn(text.label2, 'text-foreground-muted', className)}
       aria-label={`ETH balance: ${roundedBalance} Ethereum`}
     >
       {roundedBalance} ETH

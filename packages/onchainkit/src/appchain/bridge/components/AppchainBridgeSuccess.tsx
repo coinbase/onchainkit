@@ -40,7 +40,7 @@ export const AppchainBridgeSuccess = ({
                 label: secondaryButtonLabel,
                 action: handleResetState,
                 variant: 'secondary',
-                textColor: 'text-ock-text-foreground',
+                textColor: 'text-foreground',
               },
             ].map(({ label, action, variant, textColor }) => (
               <button

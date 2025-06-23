@@ -23,9 +23,7 @@ export function SwapSettingsSlippageLayoutBottomSheet({
         )}
       />
       <div className="mb-4 flex items-center justify-center">
-        <h2 className={cn('text-ock-text-foreground', 'font-bold text-sm')}>
-          Settings
-        </h2>
+        <h2 className={cn('text-foreground', 'font-bold text-sm')}>Settings</h2>
       </div>
 
       <div className="flex flex-col">{children}</div>

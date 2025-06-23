@@ -101,7 +101,7 @@ export function SwapAmountInput({
       <div
         className={cn(
           text.label2,
-          'text-ock-text-foreground-muted flex w-full items-center justify-between',
+          'text-foreground-muted flex w-full items-center justify-between',
         )}
       >
         {label}
@@ -134,13 +134,13 @@ export function SwapAmountInput({
         )}
       </div>
       <div className="mt-4 flex w-full items-center justify-between">
-        <div className={cn(text.label2, 'text-ock-text-foreground-muted')}>
+        <div className={cn(text.label2, 'text-foreground-muted')}>
           ~{formatUSD(amountUSD)}
         </div>
         <div
           className={cn(
             text.label2,
-            'text-ock-text-foreground-muted flex grow items-center justify-end',
+            'text-foreground-muted flex grow items-center justify-end',
           )}
         >
           {balance && <span>{`Balance: ${getRoundedAmount(balance, 8)}`}</span>}

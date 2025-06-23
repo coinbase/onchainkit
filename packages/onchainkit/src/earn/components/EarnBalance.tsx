@@ -17,9 +17,9 @@ export function EarnBalance({
       )}
       data-testid="ockEarnBalance"
     >
-      <div className={cn('flex flex-col', 'text-ock-text-foreground')}>
+      <div className={cn('flex flex-col', 'text-foreground')}>
         <div className={text.headline}>{title}</div>
-        <div className={cn(text.label2, 'text-ock-text-foreground-muted')}>
+        <div className={cn(text.label2, 'text-foreground-muted')}>
           {subtitle}
         </div>
       </div>

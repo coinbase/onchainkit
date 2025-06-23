@@ -22,7 +22,7 @@ describe('useGetCheckoutStatus', () => {
     const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment in progress...',
-      labelClassName: 'text-ock-text-foreground-muted',
+      labelClassName: 'text-foreground-muted',
     });
   });
 

@@ -22,7 +22,7 @@ export function useGetTransactionStatusLabel() {
 
   return useMemo(() => {
     let label = '';
-    let labelClassName: string = 'text-ock-text-foreground-muted';
+    let labelClassName: string = 'text-foreground-muted';
 
     if (isBuildingTransaction) {
       label = 'Building transaction...';

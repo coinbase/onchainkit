@@ -82,7 +82,7 @@ export function WalletAdvancedSwap({
         <div
           className={cn(
             componentTheme,
-            'bg-ock-bg-default rounded-ock-default text-ock-text-foreground relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
+            'bg-ock-bg-default rounded-ock-default text-foreground relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
           )}
           data-testid="ockSwap_Container"
         >

@@ -19,7 +19,7 @@ export function NFTMinters({ className }: NFTMintersProps) {
     <div
       className={cn(
         text.body,
-        'text-ock-text-foreground-muted',
+        'text-foreground-muted',
         '-my-1 flex items-center',
         className,
       )}

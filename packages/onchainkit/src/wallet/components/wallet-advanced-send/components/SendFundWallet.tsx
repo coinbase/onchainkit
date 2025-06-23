@@ -36,7 +36,7 @@ export function SendFundWallet({
       <div
         className={cn(
           text.label2,
-          'text-ock-text-foreground-muted',
+          'text-foreground-muted',
           classNames?.subtitle,
         )}
       >

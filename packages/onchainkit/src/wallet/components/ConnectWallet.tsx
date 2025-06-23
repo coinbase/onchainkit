@@ -199,7 +199,7 @@ export function ConnectWallet({
           className={cn(
             pressable.secondary,
             'rounded-ock-default',
-            'text-ock-text-foreground',
+            'text-foreground',
             'px-4 py-3',
             isSubComponentOpen &&
               'ock-bg-secondary-active hover:ock-bg-secondary-active',

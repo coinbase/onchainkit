@@ -56,7 +56,7 @@ export const FundCardPaymentMethodSelectRow = memo(
               <span
                 className={cn(
                   text.label2,
-                  'text-ock-text-foreground-muted',
+                  'text-foreground-muted',
                   'font-normal',
                 )}
               >

@@ -159,9 +159,7 @@ export function NFTMintButton({
         </TransactionStatus>
       </Transaction>
       {mintError && (
-        <div
-          className={cn(text.label2, 'text-ock-text-foreground-muted', 'pb-2')}
-        >
+        <div className={cn(text.label2, 'text-foreground-muted', 'pb-2')}>
           {mintError}
         </div>
       )}

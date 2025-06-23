@@ -105,7 +105,7 @@ function TokenBalanceContent({
         <span
           className={cn(
             text.headline,
-            'text-ock-text-foreground',
+            'text-foreground',
             'overflow-hidden text-ellipsis whitespace-nowrap',
             classNames?.tokenName,
           )}
@@ -115,7 +115,7 @@ function TokenBalanceContent({
         <span
           className={cn(
             text.label2,
-            'text-ock-text-foreground-muted',
+            'text-foreground-muted',
             classNames?.tokenValue,
           )}
         >
@@ -127,7 +127,7 @@ function TokenBalanceContent({
           <span
             className={cn(
               text.label2,
-              'text-ock-text-foreground-muted',
+              'text-foreground-muted',
               'whitespace-nowrap',
               classNames?.fiatValue,
             )}

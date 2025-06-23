@@ -27,7 +27,7 @@ export function BuyAmountInput() {
           'mr-2 w-full border-none font-display',
           'leading-none outline-none disabled:cursor-not-allowed',
           'bg-ock-bg-default',
-          'text-ock-text-foreground',
+          'text-foreground',
         )}
         placeholder="0.0"
         delayMs={1000}
@@ -39,7 +39,7 @@ export function BuyAmountInput() {
         inputValidator={isValidAmount}
       />
       <TokenChip
-        className={cn('text-ock-text-foreground', 'rounded-md')}
+        className={cn('text-foreground', 'rounded-md')}
         token={to.token}
         isPressable={false}
       />

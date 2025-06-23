@@ -41,7 +41,7 @@ export function TokenSelectDropdown({
         onClose={closeDropdown}
         align="end"
         aria-label="Select token"
-        className="rounded-ock-default text-ock-text-foreground flex max-h-80 w-[200px] flex-col overflow-y-hidden ock-scrollbar overflow-y-auto"
+        className="rounded-ock-default text-foreground flex max-h-80 w-[200px] flex-col overflow-y-hidden ock-scrollbar overflow-y-auto"
       >
         {options.map((token) => (
           <TokenRow

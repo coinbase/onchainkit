@@ -6,14 +6,7 @@ export function SwapSettingsSlippageDescription({
   className,
 }: SwapSettingsSlippageDescriptionProps) {
   return (
-    <p
-      className={cn(
-        text.legal,
-        'text-ock-text-foreground-muted',
-        'mb-2',
-        className,
-      )}
-    >
+    <p className={cn(text.legal, 'text-foreground-muted', 'mb-2', className)}>
       {children}
     </p>
   );

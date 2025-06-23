@@ -61,7 +61,7 @@ export function IdentityLayout({
           {addressComponent && ethBalance && (
             <div className="flex items-center gap-1">
               {addressComponent}
-              <span className={'text-ock-text-foreground-muted'}>·</span>
+              <span className={'text-foreground-muted'}>·</span>
               {ethBalance}
             </div>
           )}

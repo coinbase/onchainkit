@@ -48,7 +48,7 @@ export function WalletDropdownFundLink({
 
   const overrideClassName = cn(
     pressable.default,
-    'text-ock-text-foreground',
+    'text-foreground',
     // Disable hover effects if there is no funding URL
     !fundingUrlToRender && 'pointer-events-none',
     'relative flex items-center px-4 py-3 w-full',

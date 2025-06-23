@@ -105,7 +105,7 @@ export function BuyDropdown() {
   return (
     <div
       className={cn(
-        'text-ock-text-foreground',
+        'text-foreground',
         'bg-ock-bg-default',
         'absolute right-0 bottom-0 flex translate-y-[102%] flex-col gap-2',
         'z-10 min-w-80 rounded border p-2',
@@ -143,7 +143,7 @@ export function BuyDropdown() {
           className={cn(
             'flex justify-end',
             text.legal,
-            'text-ock-text-foreground-muted',
+            'text-foreground-muted',
           )}
         >{`${to?.amount} ${to?.token?.name} ≈ ${formattedAmountUSD}`}</div>
       )}

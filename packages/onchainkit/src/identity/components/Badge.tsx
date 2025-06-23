@@ -86,7 +86,7 @@ export function Badge({ className, tooltip = false }: BadgeProps) {
             'border-ock-bg-default',
             pressable.alternate,
             text.legal,
-            'text-ock-text-foreground',
+            'text-foreground',
             zIndex.tooltip,
             '-translate-x-1/2 absolute bottom-full left-1/2 mb-1 transform',
             'whitespace-nowrap px-1.5 py-0.5',

@@ -25,9 +25,7 @@ export function SendAddressInput({ classNames }: SendAddressInputProps) {
         classNames?.container,
       )}
     >
-      <span className={cn('text-ock-text-foreground', classNames?.label)}>
-        To
-      </span>
+      <span className={cn('text-foreground', classNames?.label)}>To</span>
       <TextInput
         inputMode="text"
         placeholder="Basename, ENS, or Address"

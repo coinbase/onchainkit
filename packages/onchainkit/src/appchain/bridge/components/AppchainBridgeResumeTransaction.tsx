@@ -44,7 +44,7 @@ export const AppchainBridgeResumeTransaction = () => {
           <span
             className={cn(
               text.label2,
-              'text-ock-text-foreground-muted',
+              'text-foreground-muted',
               'flex items-center gap-1',
             )}
           >
@@ -53,7 +53,7 @@ export const AppchainBridgeResumeTransaction = () => {
           <TextInput
             className={cn(
               text.label2,
-              'text-ock-text-foreground-muted',
+              'text-foreground-muted',
               'bg-ock-bg-secondary',
               'w-full border-none',
               'focus:border-none focus:outline-none focus:ring-0',

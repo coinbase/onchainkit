@@ -125,7 +125,7 @@ export function SwapSettingsSlippageInput({
             aria-current={slippageSetting === setting ? 'true' : undefined}
             className={cn(
               pressable.default,
-              'text-ock-text-foreground',
+              'text-foreground',
               text.label1,
               'rounded-ock-inner',
               'flex-1 px-3 py-1 transition-colors',
@@ -136,7 +136,7 @@ export function SwapSettingsSlippageInput({
                     'text-ock-text-primary',
                     'shadow-ock-default',
                   )
-                : 'text-ock-text-foreground-muted',
+                : 'text-foreground-muted',
             )}
             onClick={() => handleSlippageSettingChange(setting)}
           >
@@ -164,7 +164,7 @@ export function SwapSettingsSlippageInput({
           placeholder="0"
           disabled={slippageSetting === SLIPPAGE_SETTINGS.AUTO}
           className={cn(
-            'text-ock-text-foreground truncate',
+            'text-foreground truncate',
             text.label2,
             'w-full flex-grow bg-transparent pl-1 font-normal leading-6 focus:outline-none',
             slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'cursor-not-allowed',
@@ -173,7 +173,7 @@ export function SwapSettingsSlippageInput({
         <span
           className={cn(
             'bg-ock-bg-default',
-            'text-ock-text-foreground',
+            'text-foreground',
             text.label2,
             'ml-1 flex-shrink-0 font-normal leading-6',
           )}

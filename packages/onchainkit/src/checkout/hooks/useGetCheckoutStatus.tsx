@@ -11,7 +11,7 @@ export function useGetCheckoutStatus() {
 
   return useMemo(() => {
     let label = '';
-    let labelClassName: string = 'text-ock-text-foreground-muted';
+    let labelClassName: string = 'text-foreground-muted';
 
     if (isPending) {
       label = 'Payment in progress...';
