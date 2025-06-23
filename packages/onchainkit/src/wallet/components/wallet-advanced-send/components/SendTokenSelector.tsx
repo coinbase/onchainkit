@@ -53,7 +53,7 @@ export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
               classNames={{
                 container: cn(
                   pressable.default,
-                  'rounded-ock-default',
+                  'rounded-default',
                   classNames?.container,
                 ),
                 ...classNames,
@@ -86,7 +86,7 @@ export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
       classNames={{
         container: cn(
           pressable.alternate,
-          'rounded-ock-default',
+          'rounded-default',
           classNames?.container,
         ),
         ...classNames,

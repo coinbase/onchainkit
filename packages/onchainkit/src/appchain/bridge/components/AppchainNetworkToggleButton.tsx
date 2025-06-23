@@ -16,7 +16,7 @@ export function AppchainNetworkToggleButton({
       type="button"
       className={cn(
         pressable.alternate,
-        'border-ock-bg-default',
+        'border-background',
         'flex h-14 w-14 items-center justify-center',
         'rounded-lg border-4 border-solid',
         'rotate-90',

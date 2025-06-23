@@ -57,9 +57,7 @@ export function BuyTokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
         <div
           className={cn(
             'text-xs',
-            hasInsufficientBalance
-              ? 'text-ock-text-error'
-              : 'text-foreground-muted',
+            hasInsufficientBalance ? 'text-error' : 'text-foreground-muted',
           )}
         >{`${
           hasInsufficientBalance ? 'Insufficient balance' : 'Balance'

@@ -42,7 +42,7 @@ function customRender({
   const classNames = cn(
     'w-full',
     'bg-purple-500',
-    'px-4 py-3 inline-flex items-center justify-center space-x-2 rounded-ock-default text-ock-text-inverse',
+    'px-4 py-3 inline-flex items-center justify-center space-x-2 rounded-default text-foreground-inverse',
     {
       [pressable.disabled]: isDisabled,
     },

@@ -155,8 +155,8 @@ function ActionButton({
       onClick={onActionPress}
       className={cn(
         text.label2,
-        'text-ock-text-primary',
-        'rounded-ock-default',
+        'text-primary',
+        'rounded-default',
         'cursor-pointer p-0.5 font-bold',
         'border border-transparent hover:border-[--ock-line-primary]',
         '-translate-y-1/2 absolute top-1/2 right-2',

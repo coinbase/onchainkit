@@ -5,7 +5,7 @@ export const portfolioSvg = (
     viewBox="0 0 18 18"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="fill-ock-icon-color-foreground"
+    className="fill-foreground"
   >
     <title>Portfolio</title>
     <path

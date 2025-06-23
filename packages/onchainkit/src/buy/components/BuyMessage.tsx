@@ -15,7 +15,7 @@ export function BuyMessage() {
     const textColor =
       lifecycleStatus?.statusData?.code === 'TmBPc05'
         ? 'text-foreground-muted'
-        : 'text-ock-text-error';
+        : 'text-error';
 
     return <div className={cn(textColor, text.label2)}>{message}</div>;
   }

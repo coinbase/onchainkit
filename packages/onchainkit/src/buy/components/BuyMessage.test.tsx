@@ -36,7 +36,7 @@ describe('BuyMessage', () => {
     ).toHaveClass('text-sm');
     expect(
       screen.getByText('Something went wrong. Please try again.'),
-    ).toHaveClass('text-ock-text-error');
+    ).toHaveClass('text-error');
   });
 
   it('renders missing required fields message', () => {

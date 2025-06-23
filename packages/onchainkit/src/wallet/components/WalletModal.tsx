@@ -240,8 +240,8 @@ export function WalletModal({
         data-testid="ockModalOverlay"
         className={cn(
           border.lineDefault,
-          'rounded-ock-default',
-          'bg-ock-bg-default',
+          'rounded-default',
+          'bg-background',
           'w-[22rem] p-6 pb-4',
           'relative flex flex-col items-center gap-4',
           className,
@@ -252,8 +252,8 @@ export function WalletModal({
           onClick={onClose}
           className={cn(
             pressable.default,
-            'rounded-ock-default',
-            'border-ock-bg-default',
+            'rounded-default',
+            'border-background',
             'absolute top-4 right-4',
             'flex items-center justify-center p-1',
             'transition-colors duration-200',
@@ -269,10 +269,7 @@ export function WalletModal({
           <div className="flex w-full flex-col items-center gap-2 py-3">
             {appLogo && (
               <div
-                className={cn(
-                  'rounded-ock-default',
-                  'h-14 w-14 overflow-hidden',
-                )}
+                className={cn('rounded-default', 'h-14 w-14 overflow-hidden')}
               >
                 <img
                   src={appLogo}
@@ -297,7 +294,7 @@ export function WalletModal({
               type="button"
               onClick={handleCoinbaseWalletConnection}
               className={cn(
-                'rounded-ock-default',
+                'rounded-default',
                 text.body,
                 pressable.alternate,
                 'text-foreground',
@@ -320,7 +317,7 @@ export function WalletModal({
             <div className="relative flex justify-center">
               <span
                 className={cn(
-                  'bg-ock-bg-default',
+                  'bg-background',
                   'text-foreground-muted',
                   text.legal,
                   'px-2',
@@ -339,8 +336,8 @@ export function WalletModal({
               type="button"
               onClick={wallet.connector}
               className={cn(
-                'rounded-ock-default',
-                'bg-ock-bg-default',
+                'rounded-default',
+                'bg-background',
                 text.body,
                 pressable.alternate,
                 'text-foreground',
@@ -370,7 +367,7 @@ export function WalletModal({
             {termsOfServiceUrl && (
               <a
                 href={termsOfServiceUrl}
-                className={cn('text-ock-text-primary', 'hover:underline')}
+                className={cn('text-primary', 'hover:underline')}
                 target="_blank"
                 rel="noopener noreferrer"
                 tabIndex={0}
@@ -382,7 +379,7 @@ export function WalletModal({
             {privacyPolicyUrl && (
               <a
                 href={privacyPolicyUrl}
-                className={cn('text-ock-text-primary', 'hover:underline')}
+                className={cn('text-primary', 'hover:underline')}
                 target="_blank"
                 rel="noopener noreferrer"
                 tabIndex={0}

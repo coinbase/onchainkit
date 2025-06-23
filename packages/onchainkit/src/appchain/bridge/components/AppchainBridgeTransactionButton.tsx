@@ -35,7 +35,7 @@ export const AppchainBridgeTransactionButton = () => {
         onClick={buttonHandler}
         className={cn(
           pressable.primary,
-          'rounded-ock-default',
+          'rounded-default',
           'w-full rounded-xl',
           'px-4 py-3 font-medium text-base text-white leading-6',
           text.headline,
@@ -47,7 +47,7 @@ export const AppchainBridgeTransactionButton = () => {
         <div
           className={cn(
             text.headline,
-            'text-ock-text-inverse',
+            'text-foreground-inverse',
             'flex justify-center',
           )}
         >
@@ -55,7 +55,7 @@ export const AppchainBridgeTransactionButton = () => {
         </div>
       </button>
       {isRejected && (
-        <div className={cn(text.label2, 'text-ock-text-error', 'mt-2')}>
+        <div className={cn(text.label2, 'text-error', 'mt-2')}>
           Transaction denied
         </div>
       )}

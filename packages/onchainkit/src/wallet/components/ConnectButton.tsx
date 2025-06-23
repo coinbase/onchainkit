@@ -14,9 +14,9 @@ export function ConnectButton({
       data-testid="ockConnectButton"
       className={cn(
         pressable.primary,
-        'rounded-ock-default',
+        'rounded-default',
         dsText.headline,
-        'text-ock-text-inverse',
+        'text-foreground-inverse',
         'inline-flex min-w-[153px] items-center justify-center px-4 py-3',
         className,
       )}

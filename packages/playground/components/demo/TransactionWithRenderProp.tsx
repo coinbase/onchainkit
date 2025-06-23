@@ -35,12 +35,12 @@ function customRender({
 }: TransactionButtonRenderParams) {
   const className = cn(
     pressable.primary,
-    'rounded-ock-default',
+    'rounded-default',
     'w-full rounded-xl',
     'px-4 py-3 font-medium leading-6',
     isDisabled && pressable.disabled,
     text.headline,
-    'text-ock-text-inverse',
+    'text-foreground-inverse',
   );
 
   if (context.isLoading) {

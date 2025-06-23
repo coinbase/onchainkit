@@ -67,7 +67,7 @@ export function WalletAdvancedAddressDetails({
             address={address}
             chain={chain}
             className={cn(
-              'hover:text-foreground-muted active:text-ock-text-primary',
+              'hover:text-foreground-muted active:text-primary',
               classNames?.nameButton,
             )}
           />
@@ -79,8 +79,8 @@ export function WalletAdvancedAddressDetails({
             pressable.alternate,
             text.legal,
             'text-foreground',
-            'border-ock-bg-default',
-            'rounded-ock-default',
+            'border-background',
+            'rounded-default',
             zIndex.tooltip,
             'absolute top-full right-0 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
           )}

@@ -20,7 +20,7 @@ export const FundCardPaymentMethodSelectorToggle = forwardRef(
         className={cn(
           pressable.default,
           border.lineDefault,
-          'rounded-ock-default flex h-12 w-full items-center gap-2 px-3 py-1',
+          'rounded-default flex h-12 w-full items-center gap-2 px-3 py-1',
           className,
         )}
         onClick={onClick}

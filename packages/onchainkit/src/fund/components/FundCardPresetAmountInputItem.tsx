@@ -53,14 +53,14 @@ export function FundCardPresetAmountInputItem({
       className={cn(
         text.body,
         'text-foreground',
-        'rounded-ock-default',
+        'rounded-default',
         border.lineDefault,
         'flex-1',
         'p-1',
         'overflow-hidden',
         'whitespace-nowrap',
         'text-ellipsis',
-        'hover:bg-ock-bg-default-hover',
+        'hover:bg-background-hover',
         'focus:outline-none focus:ring-2',
       )}
       title={presetAmountInputText}

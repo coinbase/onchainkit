@@ -152,10 +152,10 @@ export function FundCardPaymentMethodDropdown({
           data-testid="ockFundCardPaymentMethodDropdown"
           className={cn(
             border.lineDefault,
-            'rounded-ock-default ock-scrollbar absolute z-10 mt-2 flex w-full flex-col overflow-y-hidden',
+            'rounded-default ock-scrollbar absolute z-10 mt-2 flex w-full flex-col overflow-y-hidden',
           )}
         >
-          <div className={cn('bg-ock-bg-default', 'overflow-y-auto p-2')}>
+          <div className={cn('bg-background', 'overflow-y-auto p-2')}>
             {filteredPaymentMethods.map((paymentMethod) => {
               const isDisabled = isPaymentMethodDisabled(paymentMethod);
               return (

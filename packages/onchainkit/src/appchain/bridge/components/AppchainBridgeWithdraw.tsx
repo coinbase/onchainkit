@@ -9,7 +9,7 @@ import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
 const buttonStyles = cn(
   pressable.primary,
-  'rounded-ock-default',
+  'rounded-default',
   'w-full rounded-xl',
   'px-4 py-3 font-medium text-base text-white leading-6',
   text.headline,
@@ -54,7 +54,7 @@ export const AppchainBridgeWithdraw = () => {
         {isPending && <LoadingContent />}
         {shouldShowClaim && <ClaimContent />}
         {withdrawStatus === 'claimRejected' && (
-          <div className={cn(text.label2, 'text-ock-text-error', 'mt-2')}>
+          <div className={cn(text.label2, 'text-error', 'mt-2')}>
             Transaction denied
           </div>
         )}
@@ -66,7 +66,7 @@ export const AppchainBridgeWithdraw = () => {
 function LoadingContent() {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-16">
-      <Spinner className="border-t-ock-bg-primary h-24 w-24" />
+      <Spinner className="border-t-primary h-24 w-24" />
       <span className="px-4 text-center font-medium text-base">
         Waiting for claim to be ready...
         <br />
@@ -81,7 +81,7 @@ function ErrorContent({ onBack }: { onBack: () => void }) {
     <div className="flex flex-col items-center gap-16">
       <div className="flex justify-center">
         <div className="h-20 w-20">
-          <ErrorSvg className="fill-ock-bg-error" />
+          <ErrorSvg className="fill-error" />
         </div>
       </div>
       <div className="flex flex-col items-center gap-4">
@@ -94,7 +94,7 @@ function ErrorContent({ onBack }: { onBack: () => void }) {
           <div
             className={cn(
               text.headline,
-              'text-ock-text-inverse',
+              'text-foreground-inverse',
               'flex justify-center',
             )}
           >
@@ -118,7 +118,7 @@ function ClaimContent() {
     <div className="flex flex-col items-center gap-16">
       <div className="flex justify-center">
         <div className="h-20 w-20">
-          <SuccessSvg className="fill-ock-bg-primary" />
+          <SuccessSvg className="fill-primary" />
         </div>
       </div>
       <button
@@ -129,7 +129,7 @@ function ClaimContent() {
         <div
           className={cn(
             text.headline,
-            'text-ock-text-inverse',
+            'text-foreground-inverse',
             'flex justify-center',
           )}
         >

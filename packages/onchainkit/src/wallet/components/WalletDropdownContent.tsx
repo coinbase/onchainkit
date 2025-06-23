@@ -118,8 +118,8 @@ export function WalletDropdownContent({
     <div
       data-testid="ockWalletDropdownContent"
       className={cn(
-        'bg-ock-bg-default',
-        'rounded-ock-default',
+        'bg-background',
+        'rounded-default',
         border.lineDefault,
         zIndex.dropdown,
         'my-1.5 h-auto w-full',

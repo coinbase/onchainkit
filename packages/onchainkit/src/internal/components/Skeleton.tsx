@@ -12,8 +12,8 @@ export function Skeleton({ className }: SkeletonProps) {
     <div
       className={cn(
         'animate-pulse bg-opacity-50',
-        'bg-ock-bg-alternate',
-        'rounded-ock-default',
+        'bg-background-alternate',
+        'rounded-default',
         className,
       )}
       data-testid="ockSkeleton"

@@ -10,12 +10,7 @@ export function EarnDetails({ className }: EarnDetailsProps) {
 
   if (error) {
     return (
-      <div
-        className={cn(
-          'flex w-full flex-col gap-1 text-sm',
-          'text-ock-text-error',
-        )}
-      >
+      <div className={cn('flex w-full flex-col gap-1 text-sm', 'text-error')}>
         <div className="font-semibold">Error fetching vault details</div>
         <div className="text-xs">{error.message}</div>
       </div>
@@ -26,7 +21,7 @@ export function EarnDetails({ className }: EarnDetailsProps) {
     <div
       data-testid="ockEarnDetails"
       className={cn(
-        'rounded-ock-default flex w-full items-center justify-between gap-4',
+        'rounded-default flex w-full items-center justify-between gap-4',
         className,
       )}
     >

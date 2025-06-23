@@ -177,7 +177,7 @@ export function ConnectWallet({
           className={cn(
             pressable.primary,
             dsText.headline,
-            'text-ock-text-inverse',
+            'text-foreground-inverse',
             'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
             pressable.disabled,
             className,
@@ -198,7 +198,7 @@ export function ConnectWallet({
           data-testid="ockConnectWallet_Connected"
           className={cn(
             pressable.secondary,
-            'rounded-ock-default',
+            'rounded-default',
             'text-foreground',
             'px-4 py-3',
             isSubComponentOpen &&

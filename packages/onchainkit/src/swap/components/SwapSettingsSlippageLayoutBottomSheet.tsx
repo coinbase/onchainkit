@@ -8,9 +8,9 @@ export function SwapSettingsSlippageLayoutBottomSheet({
   return (
     <div
       className={cn(
-        'bg-ock-bg-default',
-        'border-ock-bg-default',
-        'shadow-ock-default',
+        'bg-background',
+        'border-background',
+        'shadow-default',
         'right-0 z-10 h-full w-full rounded-t-lg px-3 pt-2 pb-3',
         className,
       )}
@@ -18,7 +18,7 @@ export function SwapSettingsSlippageLayoutBottomSheet({
     >
       <div
         className={cn(
-          'bg-ock-bg-alternate',
+          'bg-background-alternate',
           'mx-auto mb-2 h-1 w-4 rounded-[6.25rem]',
         )}
       />
@@ -30,7 +30,7 @@ export function SwapSettingsSlippageLayoutBottomSheet({
       <div className="mt-4 flex justify-center">
         <div
           className={cn(
-            'bg-ock-bg-inverse',
+            'bg-background-inverse',
             'h-1 w-28 shrink-0 rounded-[0.43931rem]',
           )}
         />

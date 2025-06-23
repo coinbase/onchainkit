@@ -93,7 +93,7 @@ export function SwapAmountInput({
   return (
     <div
       className={cn(
-        'bg-ock-bg-secondary rounded-ock-default my-0.5 box-border flex h-[148px] w-full flex-col items-start p-4',
+        'bg-secondary rounded-default my-0.5 box-border flex h-[148px] w-full flex-col items-start p-4',
         className,
       )}
       data-testid="ockSwapAmountInput_Container"
@@ -149,7 +149,7 @@ export function SwapAmountInput({
               type="button"
               className={cn(
                 text.label1,
-                'text-ock-text-primary flex cursor-pointer items-center justify-center px-2 py-1',
+                'text-primary flex cursor-pointer items-center justify-center px-2 py-1',
               )}
               data-testid="ockSwapAmountInput_MaxButton"
               onClick={handleMaxButtonClick}

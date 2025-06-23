@@ -42,7 +42,7 @@ export function useGetTransactionStatusLabel() {
 
     if (errorMessage) {
       label = errorMessage;
-      labelClassName = 'text-ock-text-error';
+      labelClassName = 'text-error';
     }
 
     return { label, labelClassName };

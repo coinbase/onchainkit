@@ -95,8 +95,6 @@ describe('TextInput', () => {
 
   it('handles error', () => {
     render(<RenderTest error="Error message" />);
-    expect(screen.getByTestId('ockTextInput_Input')).toHaveClass(
-      'text-ock-text-error',
-    );
+    expect(screen.getByTestId('ockTextInput_Input')).toHaveClass('text-error');
   });
 });

@@ -35,8 +35,8 @@ export const AppchainBridgeResumeTransaction = () => {
         </div>
         <div
           className={cn(
-            'bg-ock-bg-secondary',
-            'rounded-ock-default',
+            'bg-secondary',
+            'rounded-default',
             'box-border flex h-20 w-full flex-col items-start justify-center gap-2 p-4',
             'mt-4',
           )}
@@ -54,7 +54,7 @@ export const AppchainBridgeResumeTransaction = () => {
             className={cn(
               text.label2,
               'text-foreground-muted',
-              'bg-ock-bg-secondary',
+              'bg-secondary',
               'w-full border-none',
               'focus:border-none focus:outline-none focus:ring-0',
             )}
@@ -95,7 +95,7 @@ export const AppchainBridgeResumeTransaction = () => {
           <div
             className={cn(
               text.headline,
-              'text-ock-text-inverse',
+              'text-foreground-inverse',
               'flex justify-center',
             )}
           >

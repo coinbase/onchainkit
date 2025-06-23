@@ -102,18 +102,18 @@ export function SwapSettingsSlippageInput({
   return (
     <section
       className={cn(
-        'bg-ock-bg-default',
-        'border-ock-bg-default-active',
-        'rounded-ock-default',
+        'bg-background',
+        'border-background-active',
+        'rounded-default',
         'flex items-center gap-2 flex-grow max-sm:pt-4',
         className,
       )}
     >
       <fieldset
         className={cn(
-          'bg-ock-bg-default',
-          'border-ock-bg-default-active',
-          'rounded-ock-default',
+          'bg-background',
+          'border-background-active',
+          'rounded-default',
           'flex h-9 flex-1 rounded-xl border p-1',
         )}
       >
@@ -127,15 +127,11 @@ export function SwapSettingsSlippageInput({
               pressable.default,
               'text-foreground',
               text.label1,
-              'rounded-ock-inner',
+              'rounded-inner',
               'flex-1 px-3 py-1 transition-colors',
               // Highlight the button if it is selected
               slippageSetting === setting
-                ? cn(
-                    'bg-ock-bg-inverse',
-                    'text-ock-text-primary',
-                    'shadow-ock-default',
-                  )
+                ? cn('bg-background-inverse', 'text-primary', 'shadow-default')
                 : 'text-foreground-muted',
             )}
             onClick={() => handleSlippageSettingChange(setting)}
@@ -146,9 +142,9 @@ export function SwapSettingsSlippageInput({
       </fieldset>
       <div
         className={cn(
-          'bg-ock-bg-default',
-          'border-ock-bg-default-active',
-          'rounded-ock-default',
+          'bg-background',
+          'border-background-active',
+          'rounded-default',
           'flex h-9 w-24 items-center justify-between border px-2 py-1',
           slippageSetting === SLIPPAGE_SETTINGS.AUTO && 'opacity-50',
         )}
@@ -172,7 +168,7 @@ export function SwapSettingsSlippageInput({
         />
         <span
           className={cn(
-            'bg-ock-bg-default',
+            'bg-background',
             'text-foreground',
             text.label2,
             'ml-1 flex-shrink-0 font-normal leading-6',

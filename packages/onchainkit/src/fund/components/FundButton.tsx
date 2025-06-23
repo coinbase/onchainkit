@@ -107,7 +107,7 @@ export function FundButton({
 
   const buttonColorClass = useMemo(() => {
     if (buttonState === 'error') {
-      return 'bg-ock-bg-error';
+      return 'bg-error';
     }
     return pressable.primary;
   }, [buttonState]);
@@ -115,12 +115,12 @@ export function FundButton({
   const classNames = cn(
     componentTheme,
     buttonColorClass,
-    'rounded-ock-defaultpx-4 py-3 inline-flex items-center justify-center space-x-2',
+    'rounded-default px-4 py-3 inline-flex items-center justify-center space-x-2',
     {
       [pressable.disabled]: isDisabled,
     },
     text.headline,
-    'text-ock-text-inverse',
+    'text-foreground-inverse',
     className,
   );
 

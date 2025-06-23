@@ -11,8 +11,8 @@ export function EarnBalance({
   return (
     <div
       className={cn(
-        'bg-ock-bg-alternate',
-        'rounded-ock-default flex items-center justify-between gap-4 p-3 px-4',
+        'bg-background-alternate',
+        'rounded-default flex items-center justify-between gap-4 p-3 px-4',
         className,
       )}
       data-testid="ockEarnBalance"
@@ -26,7 +26,7 @@ export function EarnBalance({
       {showAction && (
         <button
           onClick={onActionPress}
-          className={cn(text.label2, 'text-ock-text-primary')}
+          className={cn(text.label2, 'text-primary')}
           type="button"
           aria-label="Use max"
         >

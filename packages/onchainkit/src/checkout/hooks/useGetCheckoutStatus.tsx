@@ -19,12 +19,12 @@ export function useGetCheckoutStatus() {
 
     if (isSuccess) {
       label = 'Payment successful!';
-      labelClassName = 'text-ock-text-success';
+      labelClassName = 'text-success';
     }
 
     if (errorMessage) {
       label = errorMessage;
-      labelClassName = 'text-ock-text-error';
+      labelClassName = 'text-error';
     }
 
     return { label, labelClassName };

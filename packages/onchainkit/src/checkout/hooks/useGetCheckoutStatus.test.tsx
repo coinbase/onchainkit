@@ -43,7 +43,7 @@ describe('useGetCheckoutStatus', () => {
     const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment successful!',
-      labelClassName: 'text-ock-text-success',
+      labelClassName: 'text-success',
     });
   });
 
@@ -64,7 +64,7 @@ describe('useGetCheckoutStatus', () => {
     const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment failed',
-      labelClassName: 'text-ock-text-error',
+      labelClassName: 'text-error',
     });
   });
 });

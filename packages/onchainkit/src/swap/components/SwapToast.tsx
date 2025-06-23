@@ -63,7 +63,7 @@ export function SwapToast({
           target="_blank"
           rel="noreferrer"
         >
-          <span className={cn(text.label1, 'text-ock-text-primary')}>
+          <span className={cn(text.label1, 'text-primary')}>
             View transaction
           </span>
         </a>

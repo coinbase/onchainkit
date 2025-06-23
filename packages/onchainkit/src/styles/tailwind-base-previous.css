@@ -243,7 +243,7 @@
   --color-ock-line-default: var(--ock-line-default);
   --color-ock-line-heavy: var(--ock-line-heavy);
   --color-ock-line-inverse: var(--ock-line-inverse);
-  --shadow-ock-default: var(--ock-shadow-default);
+  --shadow-default: var(--ock-shadow-default);
 }
 
 @layer utilities {

@@ -16,8 +16,8 @@ export const TokenSelectButton = forwardRef(
         data-testid="ockTokenSelectButton_Button"
         className={cn(
           pressable.default,
-          'shadow-ock-default',
-          'rounded-ock-default',
+          'shadow-default',
+          'rounded-default',
           border.lineDefault,
           'flex w-fit items-center gap-2 px-3 py-1',
           className,

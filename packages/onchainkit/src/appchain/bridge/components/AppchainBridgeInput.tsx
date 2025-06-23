@@ -51,8 +51,8 @@ export function AppchainBridgeInput({
   return (
     <div
       className={cn(
-        'bg-ock-bg-secondary',
-        'rounded-ock-default',
+        'bg-secondary',
+        'rounded-default',
         'box-border flex h-[148px] w-full flex-col items-start p-4',
         className,
       )}
@@ -96,7 +96,7 @@ export function AppchainBridgeInput({
             'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
             'leading-none outline-none',
             'text-foreground',
-            insufficientBalance && 'text-ock-text-error',
+            insufficientBalance && 'text-error',
           )}
           placeholder="0.00"
           delayMs={delayMs}
@@ -128,7 +128,7 @@ export function AppchainBridgeInput({
             className={cn(
               text.label2,
               'text-foreground-muted',
-              insufficientBalance && 'text-ock-text-error',
+              insufficientBalance && 'text-error',
             )}
           >
             {label}
@@ -153,9 +153,7 @@ export function AppchainBridgeInput({
                 });
               }}
             >
-              <span className={cn(text.label1, 'text-ock-text-primary')}>
-                Max
-              </span>
+              <span className={cn(text.label1, 'text-primary')}>Max</span>
             </button>
           </div>
         )}

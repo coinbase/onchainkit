@@ -16,7 +16,7 @@ export function SwapToggleButton({ className, render }: SwapToggleButtonProps) {
       type="button"
       className={cn(
         pressable.alternate,
-        'border-ock-bg-default',
+        'border-background',
         '-my-6 relative mx-auto',
         'flex h-12 w-12 items-center justify-center',
         'rounded-lg border-4 border-solid',

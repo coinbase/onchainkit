@@ -9,7 +9,7 @@ export const arrowUpRightSvg = (
     <title>Arrow Up Right</title>
     <path
       d="M2.44196 2.25H8.93304L1 10.183L1.88388 11.0669L9.81695 3.13386V9.625H11.067V1H2.44196V2.25Z"
-      className="fill-ock-icon-color-foreground"
+      className="fill-foreground"
     />
   </svg>
 );

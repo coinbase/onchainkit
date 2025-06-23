@@ -19,11 +19,11 @@ function EarnDefaultContent() {
           onClick={refetchWalletBalance}
           className={cn(
             text.headline,
-            'bg-ock-bg-default data-[state=active]:bg-ock-bg-primary',
-            'text-foreground data-[state=active]:text-ock-text-inverse',
+            'bg-background data-[state=active]:bg-primary',
+            'text-foreground data-[state=active]:text-foreground-inverse',
             'w-1/2 text-center',
             'cursor-pointer px-3 py-2',
-            'focus:outline-none focus-visible:ring-2 focus-visible:ring-ock-text-foreground focus-visible:ring-inset',
+            'focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-inset',
           )}
         >
           Deposit
@@ -33,11 +33,11 @@ function EarnDefaultContent() {
           onClick={refetchDepositedBalance}
           className={cn(
             text.headline,
-            'bg-ock-bg-default data-[state=active]:bg-ock-bg-primary',
-            'text-foreground data-[state=active]:text-ock-text-inverse',
+            'bg-background data-[state=active]:bg-primary',
+            'text-foreground data-[state=active]:text-foreground-inverse',
             'w-1/2 text-center',
             'cursor-pointer px-3 py-2',
-            'focus:outline-none focus-visible:ring-2 focus-visible:ring-ock-text-foreground focus-visible:ring-inset',
+            'focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-inset',
           )}
         >
           Withdraw
@@ -87,7 +87,7 @@ export function Earn({
         className={cn(
           componentTheme,
           'flex w-[375px] flex-col overflow-hidden',
-          'rounded-ock-default',
+          'rounded-default',
           border.lineDefault,
           className,
         )}

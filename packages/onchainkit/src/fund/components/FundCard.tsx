@@ -45,9 +45,9 @@ export function FundCard({
       <div
         className={cn(
           componentTheme,
-          'bg-ock-bg-default',
+          'bg-background',
           'text-foreground',
-          'rounded-ock-default flex w-full flex-col p-6',
+          'rounded-default flex w-full flex-col p-6',
           text.headline,
           border.lineDefault,
           className,

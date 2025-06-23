@@ -17,7 +17,7 @@ export function SignatureStatus({
       className={cn(
         'flex justify-between',
         'text-foreground-muted',
-        { ['text-ock-text-error']: lifecycleStatus.statusName === 'error' },
+        { ['text-error']: lifecycleStatus.statusName === 'error' },
         className,
       )}
     >

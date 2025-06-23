@@ -3,7 +3,7 @@ type AddSvgProps = {
 };
 
 export const AddSvg = ({
-  className = 'fill-ock-icon-color-inverse',
+  className = 'fill-foreground-inverse',
 }: AddSvgProps) => (
   <svg
     data-testid="ock-addSvg"

@@ -21,7 +21,7 @@ export const AppchainBridgeSuccess = ({
           <div className="mb-6 flex flex-col items-center gap-4">
             <div className="flex justify-center">
               <div className="h-12 w-12">
-                <SuccessSvg className="fill-ock-bg-primary" />
+                <SuccessSvg className="fill-primary" />
               </div>
             </div>
             <div className="ock-text-foreground flex-1 text-center font-medium text-sm">
@@ -34,7 +34,7 @@ export const AppchainBridgeSuccess = ({
                 label: primaryButtonLabel,
                 action: handleOpenExplorer,
                 variant: 'primary',
-                textColor: 'text-ock-text-inverse',
+                textColor: 'text-foreground-inverse',
               },
               {
                 label: secondaryButtonLabel,
@@ -47,7 +47,7 @@ export const AppchainBridgeSuccess = ({
                 key={label}
                 className={cn(
                   pressable[variant as keyof typeof pressable],
-                  'rounded-ock-default',
+                  'rounded-default',
                   'w-full rounded-xl',
                   'px-4 py-3 text-base text-white leading-6',
                   text.label1,

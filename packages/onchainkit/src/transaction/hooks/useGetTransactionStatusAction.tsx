@@ -27,7 +27,7 @@ export function useGetTransactionStatusAction() {
           target="_blank"
           rel="noreferrer"
         >
-          <span className={cn(text.label1, 'text-ock-text-primary')}>
+          <span className={cn(text.label1, 'text-primary')}>
             View transaction
           </span>
         </a>
@@ -41,7 +41,7 @@ export function useGetTransactionStatusAction() {
           onClick={() => showCallsStatus({ id: transactionId })}
           type="button"
         >
-          <span className={cn(text.label1, 'text-ock-text-primary')}>
+          <span className={cn(text.label1, 'text-primary')}>
             View transaction
           </span>
         </button>

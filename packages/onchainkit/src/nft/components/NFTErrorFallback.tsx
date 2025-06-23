@@ -9,9 +9,9 @@ export function NFTErrorFallback({ error }: { error: Error }) {
       className={cn(
         componentTheme,
         'text-foreground',
-        'bg-ock-bg-default',
-        'border-ock-bg-default-active',
-        'rounded-ock-default',
+        'bg-background',
+        'border-background-active',
+        'rounded-default',
         'flex w-full max-w-[500px] flex-col items-center justify-center border px-6 py-4',
       )}
       data-testid="ockNFTErrorFallback_Container"

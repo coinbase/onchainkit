@@ -85,8 +85,8 @@ export function Address({
           pressable.alternate,
           text.legal,
           'text-foreground',
-          'border-ock-bg-default',
-          'rounded-ock-default',
+          'border-background',
+          'rounded-default',
           'absolute top-full left-[0%] z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
         )}
         aria-live="polite"

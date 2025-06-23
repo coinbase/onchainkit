@@ -36,7 +36,7 @@ export function useGetTransactionToastLabel() {
 
     if (errorMessage) {
       label = 'Something went wrong';
-      labelClassName = 'text-ock-text-error';
+      labelClassName = 'text-error';
     }
 
     return { label, labelClassName };

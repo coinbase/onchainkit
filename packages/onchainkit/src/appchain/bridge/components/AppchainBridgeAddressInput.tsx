@@ -66,7 +66,7 @@ export const AppchainBridgeAddressInput = () => {
             type="button"
           >
             <Avatar address={address} className="rounded-full bg-white" />
-            <span className="flex flex-col items-start gap-1 text-ock-text-muted">
+            <span className="flex flex-col items-start gap-1 text-foreground-muted">
               <OCKAddress
                 address={address}
                 hasCopyAddressOnClick={false}

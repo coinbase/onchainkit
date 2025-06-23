@@ -61,7 +61,7 @@ export function CheckoutButton({
     <button
       className={cn(
         coinbaseBranded ? pressable.coinbaseBranding : pressable.primary,
-        'rounded-ock-default',
+        'rounded-default',
         isDisabled && pressable.disabled,
         styleText.headline,
         'mt-4 w-full px-4 py-3',
@@ -85,7 +85,7 @@ export function CheckoutButton({
             <span
               className={cn(
                 styleText.headline,
-                coinbaseBranded ? 'text-gray-50' : 'text-ock-text-inverse',
+                coinbaseBranded ? 'text-gray-50' : 'text-foreground-inverse',
               )}
             >
               {buttonText}
