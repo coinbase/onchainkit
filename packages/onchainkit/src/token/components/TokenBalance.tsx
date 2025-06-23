@@ -158,7 +158,7 @@ function ActionButton({
         'text-primary',
         'rounded-default',
         'cursor-pointer p-0.5 font-bold',
-        'border border-transparent hover:border-[--ock-line-primary]',
+        'border border-transparent hover:border-(--color-primary)',
         '-translate-y-1/2 absolute top-1/2 right-2',
         className,
       )}

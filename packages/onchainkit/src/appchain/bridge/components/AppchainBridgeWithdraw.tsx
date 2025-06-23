@@ -44,7 +44,7 @@ export const AppchainBridgeWithdraw = () => {
     <div className="flex h-full w-full flex-col justify-between">
       <div>
         <div className="flex items-center">
-          <h2 className="ock-text-foreground flex-1 text-center font-medium text-lg">
+          <h2 className="text-foreground flex-1 text-center font-medium text-lg">
             {label}
           </h2>
         </div>

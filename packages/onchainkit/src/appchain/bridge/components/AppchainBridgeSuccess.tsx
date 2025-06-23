@@ -24,7 +24,7 @@ export const AppchainBridgeSuccess = ({
                 <SuccessSvg className="fill-primary" />
               </div>
             </div>
-            <div className="ock-text-foreground flex-1 text-center font-medium text-sm">
+            <div className="text-foreground flex-1 text-center font-medium text-sm">
               {title}
             </div>
           </div>

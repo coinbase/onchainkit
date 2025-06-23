@@ -86,75 +86,76 @@
 - [x] [&_path]:fill-ock-icon-color-foreground → [&_path]:fill-foreground
 
 ## CSS Classes and Utilities
-- [ ] ock-bg-secondary-active → bg-secondary-active
-- [ ] ock-text-foreground → text-foreground
-- [ ] ock-border-line-default → border-border
-- [ ] ock-bg-default → bg-background
-- [ ] ock-text-muted → text-foreground-muted
-- [ ] ock-bg-muted → bg-background-hover
-- [ ] ock-scrollbar → scrollbar (this is a custom utility, may need special handling)
-- [ ] placeholder-ock-default → placeholder-foreground-muted
+- [x] ock-bg-secondary-active → bg-secondary-active
+- [x] ock-text-foreground → text-foreground
+- [x] ock-border-line-default → border-border
+- [x] ock-bg-default → bg-background
+- [x] ock-text-muted → text-foreground-muted
+- [x] ock-bg-muted → bg-background-hover
+- [-] ock-scrollbar → scrollbar (this is a custom utility, may need special handling)
+  - This will remain a custom utility
+- [x] placeholder-ock-default → placeholder:text-foreground-muted
 
 ## Font Utilities
-- [ ] font-ock → font-ock  # Keep as-is (already updated in theme.ts)
+- [x] font-ock → font-ock  # Keep as-is (already updated in theme.ts)
 
 ## Radius Utilities (in @theme inline)
-- [ ] radius-ock-default → radius-default
-- [ ] radius-ock-inner → radius-inner
+- [x] radius-ock-default → radius-default
+- [x] radius-ock-inner → radius-inner
 
 ## CSS Variable References (in CSS files)
-- [ ] --ock-radius-default → --radius-default
-- [ ] --ock-radius-inner → --radius-inner
-- [ ] --ock-font-family → --font-family
-- [ ] --ock-text-foreground → --foreground
-- [ ] --ock-text-foreground-muted → --foreground-muted
-- [ ] --ock-text-inverse → --foreground-inverse
-- [ ] --ock-text-disabled → --foreground-disabled
-- [ ] --ock-bg-default → --background
-- [ ] --ock-bg-default-hover → --background-hover
-- [ ] --ock-bg-default-active → --background-active
-- [ ] --ock-bg-alternate → --background-alternate
-- [ ] --ock-bg-alternate-hover → --background-alternate-hover
-- [ ] --ock-bg-alternate-active → --background-alternate-active
-- [ ] --ock-bg-inverse → --background-inverse
-- [ ] --ock-bg-inverse-hover → --background-inverse-hover
-- [ ] --ock-bg-inverse-active → --background-inverse-active
-- [ ] --ock-bg-default-reverse → --background-reverse
-- [ ] --ock-bg-primary → --primary
-- [ ] --ock-bg-primary-hover → --primary-hover
-- [ ] --ock-bg-primary-active → --primary-active
-- [ ] --ock-bg-primary-washed → --primary-washed
-- [ ] --ock-bg-primary-disabled → --primary-disabled
-- [ ] --ock-bg-secondary → --secondary
-- [ ] --ock-bg-secondary-hover → --secondary-hover
-- [ ] --ock-bg-secondary-active → --secondary-active
-- [ ] --ock-bg-error → --error
-- [ ] --ock-bg-warning → --warning
-- [ ] --ock-bg-success → --success
-- [ ] --ock-icon-color-foreground → --foreground
-- [ ] --ock-icon-color-foreground-muted → --foreground-muted
-- [ ] --ock-icon-color-inverse → --foreground-inverse
-- [ ] --ock-icon-color-primary → --primary
-- [ ] --ock-icon-color-error → --error
-- [ ] --ock-icon-color-success → --success
-- [ ] --ock-icon-color-warning → --warning
-- [ ] --ock-line-default → --border
-- [ ] --ock-line-heavy → --border-heavy
-- [ ] --ock-line-inverse → --border-inverse
-- [ ] --ock-line-primary → --primary
-- [ ] --ock-shadow-default → --shadow-default
+- [x] --ock-radius-default → --radius-default
+- [x] --ock-radius-inner → --radius-inner
+- [x] --ock-font-family → --font-family
+- [x] --ock-text-foreground → --foreground
+- [x] --ock-text-foreground-muted → --foreground-muted
+- [x] --ock-text-inverse → --foreground-inverse
+- [x] --ock-text-disabled → --foreground-disabled
+- [x] --ock-bg-default → --background
+- [x] --ock-bg-default-hover → --background-hover
+- [x] --ock-bg-default-active → --background-active
+- [x] --ock-bg-alternate → --background-alternate
+- [x] --ock-bg-alternate-hover → --background-alternate-hover
+- [x] --ock-bg-alternate-active → --background-alternate-active
+- [x] --ock-bg-inverse → --background-inverse
+- [x] --ock-bg-inverse-hover → --background-inverse-hover
+- [x] --ock-bg-inverse-active → --background-inverse-active
+- [x] --ock-bg-default-reverse → --background-reverse
+- [x] --ock-bg-primary → --primary
+- [x] --ock-bg-primary-hover → --primary-hover
+- [x] --ock-bg-primary-active → --primary-active
+- [x] --ock-bg-primary-washed → --primary-washed
+- [x] --ock-bg-primary-disabled → --primary-disabled
+- [x] --ock-bg-secondary → --secondary
+- [x] --ock-bg-secondary-hover → --secondary-hover
+- [x] --ock-bg-secondary-active → --secondary-active
+- [x] --ock-bg-error → --error
+- [x] --ock-bg-warning → --warning
+- [x] --ock-bg-success → --success
+- [x] --ock-icon-color-foreground → --foreground
+- [x] --ock-icon-color-foreground-muted → --foreground-muted
+- [x] --ock-icon-color-inverse → --foreground-inverse
+- [x] --ock-icon-color-primary → --primary
+- [x] --ock-icon-color-error → --error
+- [x] --ock-icon-color-success → --success
+- [x] --ock-icon-color-warning → --warning
+- [x] --ock-line-default → --border
+- [x] --ock-line-heavy → --border-heavy
+- [x] --ock-line-inverse → --border-inverse
+- [x] --ock-line-primary → --primary
+- [x] --ock-shadow-default → --shadow-default
 
 ## CSS Variable Usage (var() functions)
-- [ ] var(--ock-text-foreground-muted) → var(--foreground-muted)
-- [ ] var(--ock-shadow-default) → var(--shadow-default)
-- [ ] var(--ock-font-family) → var(--font-family)
-- [ ] var(--ock-radius-default) → var(--radius-default)
-- [ ] var(--ock-radius-inner) → var(--radius-inner)
+- [x] var(--ock-text-foreground-muted) → var(--foreground-muted)
+- [x] var(--ock-shadow-default) → var(--shadow-default)
+- [x] var(--ock-font-family) → var(--font-family)
+- [x] var(--ock-radius-default) → var(--radius-default)
+- [x] var(--ock-radius-inner) → var(--radius-inner)
 
 ## Special Cases Requiring Manual Review
-- [ ] hover:border-[--ock-line-primary] → hover:border-[--primary]
-- [ ] hover:border-[${'border-ock-bg-default-active'}] → hover:border-[${border-background-active}]
-- [ ] .placeholder-ock-default::placeholder → .placeholder-foreground-muted::placeholder
+- [x] hover:border-[--ock-line-primary] → hover:border-[--primary]
+- [x] hover:border-[${'border-ock-bg-default-active'}] → hover:border-[${border-background-active}]
+- [x] .placeholder-ock-default::placeholder → .placeholder-foreground-muted::placeholder
 
 ## Notes
 1. Some patterns like `rounded-ock-defaultpx-4` appear to be concatenation errors and should be split

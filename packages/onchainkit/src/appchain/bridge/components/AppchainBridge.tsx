@@ -146,7 +146,7 @@ export function AppchainBridge({
           'bg-background',
           'rounded-default',
           'text-foreground',
-          'ock-border-line-default flex w-full flex-col border px-6 pt-6 pb-4',
+          'border-border flex w-full flex-col border px-6 pt-6 pb-4',
           className,
         )}
         data-testid="ockAppchainBridge_Container"

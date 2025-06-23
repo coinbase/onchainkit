@@ -337,7 +337,7 @@ describe('ConnectWallet', () => {
     expect(handleCloseMock).toHaveBeenCalled();
   });
 
-  it('applies ock-bg-secondary-active class when isOpen is true', () => {
+  it('applies bg-secondary-active class when isOpen is true', () => {
     vi.mocked(useWalletContext).mockReturnValue({
       isSubComponentOpen: true,
       handleClose: vi.fn(),
@@ -390,7 +390,7 @@ describe('ConnectWallet', () => {
       </ConnectWallet>,
     );
     const button = screen.getByTestId('ockConnectWallet_Connected');
-    expect(button).toHaveClass('ock-bg-secondary-active');
+    expect(button).toHaveClass('bg-secondary-active');
   });
 
   it('should not render ConnectWalletText when children are present', () => {

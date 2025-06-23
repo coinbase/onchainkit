@@ -202,7 +202,7 @@ export function ConnectWallet({
             'text-foreground',
             'px-4 py-3',
             isSubComponentOpen &&
-              'ock-bg-secondary-active hover:ock-bg-secondary-active',
+              'bg-secondary-active hover:bg-secondary-active',
             className,
           )}
           onClick={handleToggle}

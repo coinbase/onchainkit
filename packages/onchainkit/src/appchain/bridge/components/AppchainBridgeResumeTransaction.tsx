@@ -29,7 +29,7 @@ export const AppchainBridgeResumeTransaction = () => {
       <div>
         <div className="flex items-center">
           {backButton}
-          <h2 className="ock-text-foreground flex-1 text-center font-medium text-md">
+          <h2 className="text-foreground flex-1 text-center font-medium text-md">
             Resume Transaction
           </h2>
         </div>

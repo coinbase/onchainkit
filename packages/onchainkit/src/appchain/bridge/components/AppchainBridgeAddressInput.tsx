@@ -33,7 +33,7 @@ export const AppchainBridgeAddressInput = () => {
     <div className="flex w-full flex-col">
       <div className="flex items-center">
         {backButton}
-        <h2 className="ock-text-foreground mr-10 flex-1 text-center font-medium text-lg">
+        <h2 className="text-foreground mr-10 flex-1 text-center font-medium text-lg">
           Send to
         </h2>
       </div>
@@ -41,7 +41,7 @@ export const AppchainBridgeAddressInput = () => {
         <div className="relative flex items-center">
           <span className="absolute left-4 text-ock-line-default">To</span>
           <TextInput
-            className="ock-bg-default ock-text-foreground ock-border-line-default w-full rounded-lg border p-3 pl-12 placeholder-ock-default focus:border-blue-500 focus:outline-none"
+            className="bg-background text-foreground border-border w-full rounded-lg border p-3 pl-12 placeholder:text-foreground-muted focus:border-blue-500 focus:outline-none"
             placeholder=""
             onChange={(value) => {
               const addr = value as Address;
@@ -58,7 +58,7 @@ export const AppchainBridgeAddressInput = () => {
         )}
         {address && isValidAddress && (
           <button
-            className="hover:ock-bg-muted mt-4 flex w-full gap-2 rounded-lg p-4 transition-colors"
+            className="hover:bg-background-hover mt-4 flex w-full gap-2 rounded-lg p-4 transition-colors"
             onClick={() => {
               handleAddressSelect(address as Address);
               setIsAddressModalOpen(false);
