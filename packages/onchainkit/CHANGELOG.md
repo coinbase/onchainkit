@@ -4,8 +4,8 @@
 
 ### Patch Changes
 
-- cd90dcd: chore: Rename alpha version to canary
-- 0a44556: chore: Add client FID and OnchainKit/MiniKit differentiation to analytics
+- **chore:** Rename alpha version to canary. By @dgca #2404
+- **chore:** Add client FID and OnchainKit/MiniKit differentiation to analytics. By @dgca #2391
 
 ## 0.38.14
 
