@@ -49,9 +49,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const prefixClassName = (className: string) => {
-  if (typeof __CLASSNAME_PREFIX__ === 'undefined') {
-    throw new Error('__CLASSNAME_PREFIX__ is not defined');
-  }
   return prefixStringParts(className, __CLASSNAME_PREFIX__);
 };
 

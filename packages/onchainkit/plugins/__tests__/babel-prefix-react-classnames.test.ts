@@ -59,16 +59,16 @@ describe('babel-prefix-react-classnames', () => {
     );
   });
 
-  it('should handle identifiers by using the helper function', () => {
+  it('should not transform identifiers', () => {
     const code = '<div className={classes}>Hello</div>';
     const result = transform(code);
-    expect(result).toContain('className: __prefixClassNames(classes)');
+    expect(result).toContain('className: classes');
   });
 
-  it('should handle member expressions by using the helper function', () => {
+  it('should not transform member expressions', () => {
     const code = '<div className={styles.container}>Hello</div>';
     const result = transform(code);
-    expect(result).toContain('className: __prefixClassNames(styles.container)');
+    expect(result).toContain('className: styles.container');
   });
 
   it('should handle cn utility function calls with string arguments', () => {
@@ -85,7 +85,7 @@ describe('babel-prefix-react-classnames', () => {
     expect(result).toContain('"prefix-bar"');
   });
 
-  it('should ensure helper function is only added once', () => {
+  it('should not transform member expressions in multiple elements', () => {
     const code = `
       <div>
         <div className={styles.container}>First</div>
@@ -95,20 +95,15 @@ describe('babel-prefix-react-classnames', () => {
     `;
     const result = transform(code);
 
-    // Helper function should be defined only once
-    const helperMatches = result.match(/function __prefixClassNames\(value\)/g);
-    expect(helperMatches).toHaveLength(1);
-
-    // All three elements should use the helper
-    expect(result).toContain('className: __prefixClassNames(styles.container)');
-    expect(result).toContain('className: __prefixClassNames(otherStyles.text)');
-    expect(result).toContain('className: __prefixClassNames(btnStyles.button)');
+    expect(result).toContain('className: styles.container');
+    expect(result).toContain('className: otherStyles.text');
+    expect(result).toContain('className: btnStyles.button');
   });
 
   it('should handle cn utility function calls with variables', () => {
     const code = '<div className={cn(classes, "bar")}>Hello</div>';
     const result = transform(code);
-    expect(result).toContain('cn(__prefixClassNames(classes)');
+    expect(result).toContain('cn(classes');
     expect(result).toContain('"prefix-bar"');
   });
 
@@ -140,7 +135,7 @@ describe('babel-prefix-react-classnames', () => {
     `;
     const result = transform(code);
     expect(result).toMatch(/className: "prefix-container"/);
-    expect(result).toMatch(/className: __prefixClassNames\(styles\.text\)/);
+    expect(result).toMatch(/className: styles\.text/);
     expect(result).toMatch(/cn\("prefix-btn"/);
     expect(result).toMatch(/isActive && "prefix-active"/);
   });
@@ -167,11 +162,10 @@ describe('babel-prefix-react-classnames', () => {
     expect(result).toContain('color: "red"');
   });
 
-  it('should add the helper function when needed', () => {
+  it('should not transform member expressions', () => {
     const code = '<div className={styles.container}>Hello</div>';
     const result = transform(code);
-    expect(result).toContain('function __prefixClassNames(value)');
-    expect(result).toMatch(/typeof value === "string"/);
+    expect(result).toContain('className: styles.container');
   });
 
   it('should not modify non-JSX code', () => {
