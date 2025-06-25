@@ -40,6 +40,16 @@ vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
 }));
 
+vi.mock('@farcaster/frame-sdk', () => ({
+  default: {
+    context: Promise.resolve({
+      client: {
+        clientFid: null,
+      },
+    }),
+  },
+}));
+
 const queryClient = new QueryClient();
 const mockConfig = createConfig({
   chains: [base],

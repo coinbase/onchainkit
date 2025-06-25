@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.38.15
+
+### Patch Changes
+
+- **chore:** Rename alpha version to canary. By @dgca #2404
+- **chore:** Add client FID and OnchainKit/MiniKit differentiation to analytics. By @dgca #2391
+
+## 0.38.14
+
+### Patch Changes
+
+- **chore**: Update Next.js to version 15. By @dgca #2390
+- **feat**: Update Node to version 20. By @dgca #2390
+
 ## 0.38.13
 
 ### Patch Changes
