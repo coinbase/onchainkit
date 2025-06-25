@@ -24,11 +24,7 @@ export function Transaction({
 
   // prevents SSR hydration issue
   if (!isMounted) {
-    return (
-      <div
-        className={cn('flex w-full flex-col gap-2', className)}
-      />
-    );
+    return <div className={cn('flex w-full flex-col gap-2', className)} />;
   }
 
   // If chainId is not provided,
@@ -46,9 +42,7 @@ export function Transaction({
       onSuccess={onSuccess}
       resetAfter={resetAfter}
     >
-      <div
-        className={cn('flex w-full flex-col gap-2', className)}
-      >
+      <div className={cn('flex w-full flex-col gap-2', className)}>
         {children ?? (
           <>
             <TransactionButton disabled={disabled} />

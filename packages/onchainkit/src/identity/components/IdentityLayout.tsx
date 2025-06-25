@@ -41,11 +41,7 @@ export function IdentityLayout({
 
   return (
     <div
-      className={cn(
-        'bg-ock-bg-default',
-        'flex flex-col px-4 py-1',
-        className,
-      )}
+      className={cn('bg-ock-bg-default', 'flex flex-col px-4 py-1', className)}
       data-testid="ockIdentityLayout_container"
     >
       <div className="flex items-center space-x-3">

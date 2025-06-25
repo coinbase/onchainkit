@@ -29,8 +29,8 @@ export function OnchainKitProvider({
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
 
-  const theme = useTheme();
   const sessionId = useMemo(() => generateUUIDWithInsecureFallback(), []);
+  const theme = useTheme();
 
   useLayoutEffect(() => {
     document.documentElement.setAttribute('data-ock-theme', theme);

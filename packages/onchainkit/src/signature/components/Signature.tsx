@@ -87,9 +87,7 @@ export function Signature({
       primaryType={primaryType}
       resetAfter={resetAfter}
     >
-      <div
-        className={cn('flex w-full flex-col gap-2', className)}
-      >
+      <div className={cn('flex w-full flex-col gap-2', className)}>
         {children ?? <DefaultChildren label={label} disabled={disabled} />}
       </div>
     </SignatureProvider>
