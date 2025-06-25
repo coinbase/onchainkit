@@ -104,7 +104,7 @@
   "module": "./dist/index.js",
   "exports": {
     "./package.json": "./package.json",
-    "./styles.css": "./styles.css",
+    "./styles.css": "./dist/assets/style.css",
     ".": {
       "types": "./dist/index.d.ts",
       "module": "./dist/index.js",
