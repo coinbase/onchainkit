@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
 import type { Address, Chain } from 'viem';
 import { baseSepolia, optimism, sepolia } from 'viem/chains';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { WagmiProvider } from 'wagmi';
 import { http, createConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
