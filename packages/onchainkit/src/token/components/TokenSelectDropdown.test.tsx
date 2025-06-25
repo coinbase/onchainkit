@@ -9,10 +9,6 @@ vi.mock('react-dom', () => ({
   createPortal: (node: React.ReactNode) => node,
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 describe('TokenSelectDropdown', () => {
   const setToken = vi.fn();
   const options: Token[] = [

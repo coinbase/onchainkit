@@ -12,9 +12,6 @@ import {
 } from 'vitest';
 import { NFTMintCard } from './NFTMintCard';
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(() => 'default-light'),
-}));
 vi.mock('@/internal/hooks/useIsMounted');
 vi.mock('@/nft/components/NFTProvider', () => ({
   NFTProvider: vi.fn(({ children }) => <div>{children}</div>),

@@ -129,10 +129,6 @@ vi.mock('@/transaction', async (importOriginal) => {
   };
 });
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 describe('WithdrawButton Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();

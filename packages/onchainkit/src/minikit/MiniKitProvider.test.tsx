@@ -8,6 +8,10 @@ import { base } from 'wagmi/chains';
 import { MiniKitContext, MiniKitProvider } from './MiniKitProvider';
 import type { MiniKitContextType } from './types';
 
+vi.mock('@/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(() => 'default-light'),
+}));
+
 vi.mock('@farcaster/frame-sdk', () => {
   let listeners: Record<string, (data: object) => void> = {};
 

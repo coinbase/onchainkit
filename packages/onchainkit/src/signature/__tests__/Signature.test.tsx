@@ -5,9 +5,6 @@ import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Signature } from '../components/Signature';
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(() => 'default-light'),
-}));
 vi.mock('@/internal/hooks/useIsMounted');
 vi.mock('../components/SignatureProvider', () => ({
   SignatureProvider: vi.fn(({ children }) => (

@@ -36,6 +36,10 @@ vi.mock('@/internal/hooks/useProviderDependencies', () => ({
   })),
 }));
 
+vi.mock('@/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(() => 'default-light'),
+}));
+
 const queryClient = new QueryClient();
 const mockConfig = createConfig({
   chains: [base],
@@ -515,5 +519,28 @@ describe('OnchainKitProvider', () => {
 
   afterEach(() => {
     vi.resetModules();
+  });
+
+  it('should set data-ock-theme attribute on document root', async () => {
+    const setAttributeSpy = vi.spyOn(document.documentElement, 'setAttribute');
+
+    render(
+      <WagmiProvider config={mockConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider chain={base} schemaId={schemaId}>
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await waitFor(() => {
+      expect(setAttributeSpy).toHaveBeenCalledWith(
+        'data-ock-theme',
+        'default-light',
+      );
+    });
+
+    setAttributeSpy.mockRestore();
   });
 });

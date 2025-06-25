@@ -1,13 +1,9 @@
-import { useTheme } from '@/internal/hooks/useTheme';
 import { cn } from '../../styles/theme';
 
 export function NFTErrorFallback({ error }: { error: Error }) {
-  const componentTheme = useTheme();
-
   return (
     <div
       className={cn(
-        componentTheme,
         'text-ock-text-foreground',
         'bg-ock-bg-default',
         'border-ock-bg-default-active',

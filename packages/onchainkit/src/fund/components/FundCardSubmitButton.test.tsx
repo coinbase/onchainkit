@@ -13,10 +13,6 @@ import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
 import { FundCardSubmitButton } from './FundCardSubmitButton';
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: () => 'mocked-theme-class',
-}));
-
 vi.mock('@/fund/hooks/useGetFundingUrl', () => ({
   useGetFundingUrl: vi.fn(),
 }));

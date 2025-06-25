@@ -1,6 +1,6 @@
 'use client';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
-import { useMemo } from 'react';
+import { useLayoutEffect, useMemo } from 'react';
 import { DefaultOnchainKitProviders } from './DefaultOnchainKitProviders';
 import OnchainKitProviderBoundary from './OnchainKitProviderBoundary';
 import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from './core/constants';
@@ -9,6 +9,7 @@ import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitProviderReact } from './types';
 import { generateUUIDWithInsecureFallback } from './utils/crypto';
 import { OnchainKitContext } from './useOnchainKit';
+import { useTheme } from './internal/hooks/useTheme';
 
 /**
  * Provides the OnchainKit React Context to the app.
@@ -29,6 +30,11 @@ export function OnchainKitProvider({
   }
 
   const sessionId = useMemo(() => generateUUIDWithInsecureFallback(), []);
+  const theme = useTheme();
+
+  useLayoutEffect(() => {
+    document.documentElement.setAttribute('data-ock-theme', theme);
+  }, [theme]);
 
   // eslint-disable-next-line complexity
   const value = useMemo(() => {

@@ -3,7 +3,6 @@
 import * as React from 'react';
 import * as SheetPrimitive from '@radix-ui/react-dialog';
 import { cn } from '@/styles/theme';
-import { useTheme } from '../hooks/useTheme';
 import { zIndex } from '@/styles/constants';
 
 const SheetRoot = SheetPrimitive.Root;
@@ -48,10 +47,7 @@ export const Sheet = ({
   description,
   ...rest
 }: SheetProps) => {
-  const componentTheme = useTheme();
-
   const sheetContentClassName = cn(
-    componentTheme,
     zIndex.modal,
     'bg-ock-bg-default',
     'fixed gap-4 p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500',
