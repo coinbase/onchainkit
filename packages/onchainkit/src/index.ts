@@ -16,6 +16,7 @@ export type {
   OnchainKitConfig,
   OnchainKitContextType,
 } from './core/types';
-import './styles/index.css';
 
 export { Connected } from './connected';
+
+import './styles/index.css';
