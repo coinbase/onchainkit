@@ -1,5 +1,4 @@
 'use client';
-import { useTheme } from '@/internal/hooks/useTheme';
 import { border, cn, text } from '@/styles/theme';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import type { EarnProps } from '../types';
@@ -74,7 +73,6 @@ export function Earn({
   onStatus,
   onSuccess,
 }: EarnProps) {
-  const componentTheme = useTheme();
   return (
     <EarnProvider
       vaultAddress={vaultAddress}
@@ -85,7 +83,6 @@ export function Earn({
     >
       <div
         className={cn(
-          componentTheme,
           'flex w-[375px] flex-col overflow-hidden',
           'rounded-ock-default',
           border.lineDefault,

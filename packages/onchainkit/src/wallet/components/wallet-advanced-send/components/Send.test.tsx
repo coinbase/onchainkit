@@ -16,7 +16,6 @@ import { SendTokenSelector } from './SendTokenSelector';
 
 // Mock all dependencies
 vi.mock('@/internal/components/Skeleton');
-vi.mock('@/internal/hooks/useTheme');
 vi.mock('./SendAddressInput');
 vi.mock('./SendAddressSelector');
 vi.mock('./SendAmountInput');

@@ -17,10 +17,6 @@ vi.mock('@/wallet/hooks/usePortfolio', () => ({
   usePortfolio: vi.fn(),
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 vi.mock('./WalletAdvancedProvider', () => ({
   useWalletAdvancedContext: vi.fn(),
   WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (

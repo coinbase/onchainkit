@@ -1,6 +1,5 @@
 'use client';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
-import { useTheme } from '@/internal/hooks/useTheme';
 import { cn, text } from '@/styles/theme';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import type { SwapProps } from '../types';
@@ -57,8 +56,6 @@ export function Swap({
   title = 'Swap',
   headerLeftContent,
 }: SwapProps) {
-  const componentTheme = useTheme();
-
   const isMounted = useIsMounted();
 
   // prevents SSR hydration issue
@@ -76,11 +73,10 @@ export function Swap({
       onSuccess={onSuccess}
     >
       {children ? (
-        <div className={componentTheme}>{children}</div>
+        <div>{children}</div>
       ) : (
         <div
           className={cn(
-            componentTheme,
             'bg-ock-bg-default rounded-ock-default text-ock-text-foreground relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
             className,
           )}

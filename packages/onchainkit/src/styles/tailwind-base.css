@@ -1,11 +1,16 @@
 @import 'tailwindcss';
-@custom-variant dark (&:where(.dark, .dark *));
-@source inline("dark");
-@source inline("font-sans");
+
+@custom-variant dark {
+  &:where(
+      [data-ock-theme='default-dark'] *,
+      [data-ock-theme='base-dark'] *,
+      [data-ock-theme='cyberpunk'] *
+    ) {
+    @slot;
+  }
+}
 
 @layer base {
-  .light,
-  .default-light,
   :root {
     /* Base shared across multiple themes */
     --ock-radius-default: var(--radius-lg);
@@ -56,10 +61,9 @@
     --ock-shadow-default: 0px 8px 12px 0px #5b616e1f;
   }
 
-  .dark,
-  .default-dark,
-  .base-dark,
-  .cyberpunk {
+  [data-ock-theme='default-dark'],
+  [data-ock-theme='base-dark'],
+  [data-ock-theme='cyberpunk'] {
     --ock-text-inverse: theme(colors.gray.950);
     --ock-text-foreground: theme(colors.gray.50);
     --ock-text-foreground-muted: theme(colors.gray.400);
@@ -104,7 +108,7 @@
     --ock-line-inverse: theme(colors.gray.300);
   }
 
-  .base-light {
+  [data-ock-theme='base-light'] {
     --ock-text-primary: #0052ff;
     --ock-bg-primary: #0052ff;
     --ock-bg-primary-hover: #014ceb;
@@ -115,7 +119,7 @@
     --ock-line-primary: #0052ff;
   }
 
-  .base-dark {
+  [data-ock-theme='base-dark'] {
     --ock-text-primary: #578bfa;
     --ock-bg-primary: #578bfa;
     --ock-bg-primary-hover: #477ef5;
@@ -126,7 +130,7 @@
     --ock-line-primary: #578bfa;
   }
 
-  .cyberpunk {
+  [data-ock-theme='cyberpunk'] {
     --ock-font-family: 'Oxanium', sans-serif;
     --ock-radius-default: 0.125rem;
     --ock-radius-inner: 0rem;
@@ -143,7 +147,7 @@
     --ock-line-primary: theme(colors.fuchsia.400);
   }
 
-  .hacker {
+  [data-ock-theme='hacker'] {
     --ock-font-family: 'Noto Sans Mono', sans-serif;
     --ock-radius-default: 0.375rem;
     --ock-radius-inner: 0.125rem;

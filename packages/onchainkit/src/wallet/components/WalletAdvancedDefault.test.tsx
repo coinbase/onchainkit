@@ -10,10 +10,6 @@ vi.mock('wagmi', () => ({
   useConfig: vi.fn(),
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 vi.mock('@/identity/hooks/useAvatar', () => ({
   useAvatar: () => ({ data: null, isLoading: false }),
 }));

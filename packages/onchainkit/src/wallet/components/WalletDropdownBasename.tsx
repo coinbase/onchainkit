@@ -53,7 +53,7 @@ export function WalletDropdownBasename({
             {!hasBaseUserName && (
               <span
                 className={cn(
-                  'ml-2 rounded-full bg-[#E0E7FF] px-2 py-0.5 text-center font-bold font-inter text-[#4F46E5] text-[0.6875rem] uppercase leading-none',
+                  'ml-2 rounded-full bg-[#E0E7FF] px-2 py-0.5 text-center font-bold font-sans text-[#4F46E5] text-[0.6875rem] uppercase leading-none',
                 )}
               >
                 NEW

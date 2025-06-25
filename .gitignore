@@ -58,5 +58,6 @@ storybook-static/
 # Tarballs  
 *.tgz
 
-# cursor
+# AI agent rules
 .cursorrules
+AGENT.md

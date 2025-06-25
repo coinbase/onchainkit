@@ -1,7 +1,6 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { useTheme } from '../../internal/hooks/useTheme';
 import { border, cn, text } from '../../styles/theme';
 import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
 import type { FundCardProps } from '../types';
@@ -27,8 +26,6 @@ export function FundCard({
   onStatus,
   onSuccess,
 }: FundCardProps) {
-  const componentTheme = useTheme();
-
   return (
     <FundCardProvider
       asset={assetSymbol}
@@ -44,7 +41,6 @@ export function FundCard({
     >
       <div
         className={cn(
-          componentTheme,
           'bg-ock-bg-default',
           'text-ock-text-foreground',
           'rounded-ock-default flex w-full flex-col p-6',

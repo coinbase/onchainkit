@@ -1,4 +1,3 @@
-import { useTheme } from '@/internal/hooks/useTheme';
 import { findComponent } from '@/internal/utils/findComponent';
 import { cn } from '@/styles/theme';
 import { Children, cloneElement, useMemo } from 'react';
@@ -20,8 +19,6 @@ export function IdentityLayout({
   className,
   hasCopyAddressOnClick,
 }: IdentityLayoutProps) {
-  const componentTheme = useTheme();
-
   const {
     avatar,
     name,
@@ -45,7 +42,6 @@ export function IdentityLayout({
   return (
     <div
       className={cn(
-        componentTheme,
         'bg-ock-bg-default',
         'flex flex-col px-4 py-1',
         className,
