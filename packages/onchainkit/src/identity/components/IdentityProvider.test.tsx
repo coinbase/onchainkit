@@ -10,6 +10,10 @@ import { http, createConfig } from 'wagmi';
 import { mock } from 'wagmi/connectors';
 import { IdentityProvider, useIdentityContext } from './IdentityProvider';
 
+vi.mock('@/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(() => 'default-light'),
+}));
+
 const queryClient = new QueryClient();
 const mockConfig = createConfig({
   chains: [sepolia],
