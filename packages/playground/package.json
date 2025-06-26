@@ -42,7 +42,7 @@
     "concurrently": "^8.0.0",
     "nodemon": "^3.0.0",
     "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.4",
+    "tailwindcss": "^4.1.6",
     "tw-animate-css": "^1.2.8"
   },
   "packageManager": "pnpm@10.6.3"
