@@ -12,6 +12,7 @@ import { IdentityProvider, useIdentityContext } from './IdentityProvider';
 
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
+  useThemeRoot: vi.fn(() => 'default-light'),
 }));
 
 const queryClient = new QueryClient();

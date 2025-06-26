@@ -9,7 +9,7 @@ import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitProviderReact } from './types';
 import { generateUUIDWithInsecureFallback } from './utils/crypto';
 import { OnchainKitContext } from './useOnchainKit';
-import { useTheme, useThemeRoot } from './internal/hooks/useTheme';
+import { useThemeRoot } from './internal/hooks/useTheme';
 import { clientMetaManager } from './core/clientMeta/clientMetaManager';
 import { MiniKitContext } from './minikit/MiniKitProvider';
 

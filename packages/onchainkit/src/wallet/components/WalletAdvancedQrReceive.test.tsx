@@ -5,7 +5,8 @@ import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
 import { useWalletContext } from './WalletProvider';
 
 vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
+  useTheme: vi.fn(() => 'default-light'),
+  useThemeRoot: vi.fn(() => 'default-light'),
 }));
 
 vi.mock('./WalletProvider', () => ({
