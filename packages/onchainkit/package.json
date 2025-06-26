@@ -105,6 +105,7 @@
   "exports": {
     "./package.json": "./package.json",
     "./styles.css": "./dist/assets/style.css",
+    "./theme": "./dist/styles/theme.js",
     ".": {
       "types": "./dist/index.d.ts",
       "module": "./dist/index.js",
