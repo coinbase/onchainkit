@@ -8,6 +8,7 @@ import type {
   GetPriceQuoteResponse,
   PriceQuoteToken,
 } from './types';
+import { ApiErrorCode } from './constants';
 
 vi.mock('@/core/network/request', () => ({
   sendRequest: vi.fn(),
@@ -65,7 +66,7 @@ describe('getPriceQuote', () => {
     });
 
     expect(result).toEqual({
-      code: 'INVALID_INPUT',
+      code: ApiErrorCode.InvalidInput,
       error: 'Invalid input: tokens must be an array of at least one token',
       message: 'Tokens must be an array of at least one token',
     });
@@ -98,7 +99,7 @@ describe('getPriceQuote', () => {
     const result = await getPriceQuote(mockParams);
 
     expect(result).toEqual({
-      code: 'UNCAUGHT_PRICE_QUOTE_ERROR',
+      code: ApiErrorCode.UncaughtPriceQuoteError,
       error: 'Something went wrong',
       message: `Error fetching price quote: Error: ${errorMessage}`,
     });

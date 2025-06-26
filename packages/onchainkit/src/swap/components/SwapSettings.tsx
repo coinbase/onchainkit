@@ -3,7 +3,7 @@ import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
 import { useIcon } from '@/internal/hooks/useIcon';
 import { cn, pressable, text } from '@/styles/theme';
 import { useCallback, useRef, useState } from 'react';
-import type { SwapSettingsReact } from '../types';
+import type { SwapSettingsProps } from '../types';
 import { SwapSettingsSlippageDescription } from './SwapSettingsSlippageDescription';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
 import { SwapSettingsSlippageLayout } from './SwapSettingsSlippageLayout';
@@ -27,7 +27,7 @@ export function SwapSettings({
   className,
   icon = 'swapSettings',
   text: buttonText = '',
-}: SwapSettingsReact) {
+}: SwapSettingsProps) {
   const breakpoint = useBreakpoints();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -81,7 +81,7 @@ export function SwapSettings({
             >
               <div
                 className={cn(
-                  'bg-ock-bg-inverse',
+                  'bg-ock-background-inverse',
                   'shadow-ock-default',
                   'fixed inset-x-0 z-50 transition-[bottom] duration-300 ease-in-out',
                   isOpen ? 'bottom-0' : '-bottom-[12.875rem]',
@@ -107,7 +107,7 @@ export function SwapSettings({
             <div
               className={cn(
                 'rounded-ock-default',
-                'bg-ock-bg-default',
+                'bg-ock-background',
                 'shadow-ock-default',
                 'absolute right-0 z-10 mt-1 w-[21.75rem] rounded-lg',
               )}

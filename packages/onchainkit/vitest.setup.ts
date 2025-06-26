@@ -6,13 +6,5 @@ vi.mock('./src/version', () => ({
   version: '0.0.1',
 }));
 
-vi.stubGlobal('matchMedia', (query) => ({
-  matches: false,
-  media: query,
-  onchange: null,
-  addListener: vi.fn(),
-  removeListener: vi.fn(),
-  addEventListener: vi.fn(),
-  removeEventListener: vi.fn(),
-  dispatchEvent: vi.fn(),
-}));
+// Override the classname prefix to be empty string in tests
+vi.stubGlobal('__CLASSNAME_PREFIX__', '');

@@ -38,6 +38,10 @@ vi.mock('@/useOnchainKit', async (importOriginal) => {
   };
 });
 
+vi.mock('../hooks/usePortfolio', () => ({
+  usePortfolio: vi.fn(),
+}));
+
 vi.mock('@/identity/components/IdentityProvider', () => ({
   useIdentityContext: vi.fn(),
 }));

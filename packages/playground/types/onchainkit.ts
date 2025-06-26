@@ -23,6 +23,9 @@ export const OnchainKitComponent = {
   Signature: 'signature',
 } as const;
 
+export type OnchainKitComponentType =
+  (typeof OnchainKitComponent)[keyof typeof OnchainKitComponent];
+
 export const TransactionTypes = {
   Calls: 'calls',
   Contracts: 'contracts',

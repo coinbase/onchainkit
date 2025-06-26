@@ -121,7 +121,7 @@ export function AmountInput({
               <span
                 className={cn(
                   text.body,
-                  'text-ock-text-disabled',
+                  'text-ock-foreground-disabled',
                   'flex items-center justify-center bg-transparent',
                   'text-6xl leading-none outline-none',
                   textClassName,

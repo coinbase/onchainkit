@@ -1,6 +1,5 @@
 'use client';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
-import { useTheme } from '@/internal/hooks/useTheme';
 import { NFTLifecycleProvider } from '@/nft/components/NFTLifecycleProvider';
 import { NFTProvider } from '@/nft/components/NFTProvider';
 import {
@@ -43,8 +42,6 @@ export function NFTMintCard({
   onError,
   onSuccess,
 }: NFTMintCardProps) {
-  const componentTheme = useTheme();
-
   const isMounted = useIsMounted();
 
   // prevents SSR hydration issue
@@ -69,10 +66,9 @@ export function NFTMintCard({
         >
           <div
             className={cn(
-              componentTheme,
-              'text-ock-text-foreground',
-              'bg-ock-bg-default',
-              'border-ock-bg-default-active',
+              'text-ock-foreground',
+              'bg-ock-background',
+              'border-ock-background-active',
               'rounded-ock-default',
               'flex w-full max-w-[500px] flex-col gap-2 border p-4',
               className,

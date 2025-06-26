@@ -49,8 +49,8 @@ export function BuyTokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
         className={cn(
           'flex flex-col items-start',
           hasInsufficientBalance
-            ? 'text-ock-text-foreground-muted'
-            : 'text-ock-text-foreground',
+            ? 'text-ock-foreground-muted'
+            : 'text-ock-foreground',
         )}
       >
         <div>
@@ -60,8 +60,8 @@ export function BuyTokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
           className={cn(
             'text-xs',
             hasInsufficientBalance
-              ? 'text-ock-text-error'
-              : 'text-ock-text-foreground-muted',
+              ? 'text-ock-error'
+              : 'text-ock-foreground-muted',
           )}
         >{`${
           hasInsufficientBalance ? 'Insufficient balance' : 'Balance'

@@ -29,13 +29,13 @@ export const AppchainBridgeResumeTransaction = () => {
       <div>
         <div className="flex items-center">
           {backButton}
-          <h2 className="ock-text-foreground flex-1 text-center font-medium text-md">
+          <h2 className="text-ock-foreground flex-1 text-center font-medium text-md">
             Resume Transaction
           </h2>
         </div>
         <div
           className={cn(
-            'bg-ock-bg-secondary',
+            'bg-ock-secondary',
             'rounded-ock-default',
             'box-border flex h-20 w-full flex-col items-start justify-center gap-2 p-4',
             'mt-4',
@@ -44,7 +44,7 @@ export const AppchainBridgeResumeTransaction = () => {
           <span
             className={cn(
               text.label2,
-              'text-ock-text-foreground-muted',
+              'text-ock-foreground-muted',
               'flex items-center gap-1',
             )}
           >
@@ -53,8 +53,8 @@ export const AppchainBridgeResumeTransaction = () => {
           <TextInput
             className={cn(
               text.label2,
-              'text-ock-text-foreground-muted',
-              'bg-ock-bg-secondary',
+              'text-ock-foreground-muted',
+              'bg-ock-secondary',
               'w-full border-none',
               'focus:border-none focus:outline-none focus:ring-0',
             )}
@@ -67,7 +67,7 @@ export const AppchainBridgeResumeTransaction = () => {
         </div>
         {withdrawalTxHash && invalidInput && (
           <div className="mt-2 flex">
-            <p className="text-foregroundMuted text-red-500 text-sm">
+            <p className="text-ock-foregroundMuted text-red-500 text-sm">
               Please enter a valid transaction hash
             </p>
           </div>
@@ -95,7 +95,7 @@ export const AppchainBridgeResumeTransaction = () => {
           <div
             className={cn(
               text.headline,
-              'text-ock-text-inverse',
+              'text-ock-foreground-inverse',
               'flex justify-center',
             )}
           >

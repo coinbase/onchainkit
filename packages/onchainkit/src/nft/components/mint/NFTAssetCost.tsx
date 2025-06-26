@@ -1,7 +1,7 @@
 import { multiplyFloats } from '@/internal/utils/multiplyFloats';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { cn, text } from '@/styles/theme';
-import { formatAmount as formatSN } from '@/swap/utils/formatAmount';
+import { formatToDecimalString } from '@/utils/formatter';
 import { formatAmount } from '@/token/utils/formatAmount';
 
 type NFTAssetCostProps = {
@@ -25,7 +25,7 @@ export function NFTAssetCost({ className }: NFTAssetCostProps) {
 
   const totalAmount = multiplyFloats(Number(price.amount), quantity);
   const totalUSD = multiplyFloats(Number(price.amountUSD), quantity);
-  const formattedCryptoAmount = formatSN(`${totalAmount}`);
+  const formattedCryptoAmount = formatToDecimalString(`${totalAmount}`);
   const formattedUSDAmount = formatAmount(`${totalUSD}`, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,

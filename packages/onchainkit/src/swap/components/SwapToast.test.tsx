@@ -185,4 +185,14 @@ describe('SwapToast', () => {
     expect(setTransactionHash).toHaveBeenCalledWith('');
     vi.useRealTimers();
   });
+
+  it('handles custom render', () => {
+    (useSwapContext as Mock).mockReturnValue({
+      isToastVisible: true,
+      transactionHash: '0x123',
+    });
+
+    render(<SwapToast render={() => <div>Custom Render</div>} />);
+    expect(screen.getByText('Custom Render')).toBeInTheDocument();
+  });
 });

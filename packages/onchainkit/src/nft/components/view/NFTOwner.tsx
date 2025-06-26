@@ -26,7 +26,7 @@ export function NFTOwner({ className, label = 'Owned by' }: NFTOwnerProps) {
         className,
       )}
     >
-      <div className={cn('text-ock-text-foreground-muted')}>{label}</div>
+      <div className={cn('text-ock-foreground-muted')}>{label}</div>
       <Identity
         className={cn('!bg-inherit space-x-1 px-0 [&>div]:space-x-2')}
         address={ownerAddress}

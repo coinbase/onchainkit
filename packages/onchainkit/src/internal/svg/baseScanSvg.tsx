@@ -5,7 +5,7 @@ export const baseScanSvg = (
     viewBox="0 0 155 155"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="fill-ock-icon-color-foreground"
+    className="fill-ock-foreground"
   >
     <title>BaseScan</title>
     <g clipPath="url(#clip0_13027_2497)">

@@ -1,6 +1,5 @@
 'use client';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
-import { useTheme } from '@/internal/hooks/useTheme';
 import { cn, text } from '@/styles/theme';
 import type { AppchainBridgeProps } from '../types';
 import { AppchainBridgeAddressInput } from './AppchainBridgeAddressInput';
@@ -88,7 +87,7 @@ const AppchainBridgeDefaultContent = ({ title }: { title: string }) => {
           <span
             className={cn(
               text.label2,
-              'text-ock-text-foreground-muted',
+              'text-ock-foreground-muted',
               'absolute right-0',
             )}
           >
@@ -127,7 +126,6 @@ export function AppchainBridge({
   handleFetchPrice,
 }: AppchainBridgeProps) {
   const isMounted = useIsMounted();
-  const componentTheme = useTheme();
 
   if (!isMounted) {
     return null;
@@ -142,11 +140,10 @@ export function AppchainBridge({
     >
       <div
         className={cn(
-          componentTheme,
-          'bg-ock-bg-default',
+          'bg-ock-background',
           'rounded-ock-default',
-          'text-ock-text-foreground',
-          'ock-border-line-default flex w-full flex-col border px-6 pt-6 pb-4',
+          'text-ock-foreground',
+          'border-ock-line flex w-full flex-col border px-6 pt-6 pb-4',
           className,
         )}
         data-testid="ockAppchainBridge_Container"

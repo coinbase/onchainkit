@@ -25,9 +25,7 @@ export function SendAddressInput({ classNames }: SendAddressInputProps) {
         classNames?.container,
       )}
     >
-      <span className={cn('text-ock-text-foreground', classNames?.label)}>
-        To
-      </span>
+      <span className={cn('text-ock-foreground', classNames?.label)}>To</span>
       <TextInput
         inputMode="text"
         placeholder="Basename, ENS, or Address"
@@ -37,7 +35,7 @@ export function SendAddressInput({ classNames }: SendAddressInputProps) {
         onFocus={deselectRecipient}
         aria-label="Input Receiver Address"
         className={cn(
-          'bg-ock-bg-default',
+          'bg-ock-background',
           'w-full outline-none',
           classNames?.input,
         )}

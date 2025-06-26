@@ -7,10 +7,6 @@ import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
 import { PropsWithChildren } from 'react';
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 vi.mock('@/internal/hooks/useOutsideClick', () => ({
   useOutsideClick: vi.fn(),
 }));

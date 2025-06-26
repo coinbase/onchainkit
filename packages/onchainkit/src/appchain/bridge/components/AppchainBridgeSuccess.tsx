@@ -21,10 +21,10 @@ export const AppchainBridgeSuccess = ({
           <div className="mb-6 flex flex-col items-center gap-4">
             <div className="flex justify-center">
               <div className="h-12 w-12">
-                <SuccessSvg className="fill-ock-bg-primary" />
+                <SuccessSvg className="fill-ock-primary" />
               </div>
             </div>
-            <div className="ock-text-foreground flex-1 text-center font-medium text-sm">
+            <div className="text-ock-foreground flex-1 text-center font-medium text-sm">
               {title}
             </div>
           </div>
@@ -34,13 +34,13 @@ export const AppchainBridgeSuccess = ({
                 label: primaryButtonLabel,
                 action: handleOpenExplorer,
                 variant: 'primary',
-                textColor: 'text-ock-text-inverse',
+                textColor: 'text-ock-foreground-inverse',
               },
               {
                 label: secondaryButtonLabel,
                 action: handleResetState,
                 variant: 'secondary',
-                textColor: 'text-ock-text-foreground',
+                textColor: 'text-ock-foreground',
               },
             ].map(({ label, action, variant, textColor }) => (
               <button

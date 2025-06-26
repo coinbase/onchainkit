@@ -155,7 +155,7 @@ export function FundCardPaymentMethodDropdown({
             'rounded-ock-default ock-scrollbar absolute z-10 mt-2 flex w-full flex-col overflow-y-hidden',
           )}
         >
-          <div className={cn('bg-ock-bg-default', 'overflow-y-auto p-2')}>
+          <div className={cn('bg-ock-background', 'overflow-y-auto p-2')}>
             {filteredPaymentMethods.map((paymentMethod) => {
               const isDisabled = isPaymentMethodDisabled(paymentMethod);
               return (

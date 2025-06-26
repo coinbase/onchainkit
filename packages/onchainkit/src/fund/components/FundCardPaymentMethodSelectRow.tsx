@@ -32,7 +32,7 @@ export const FundCardPaymentMethodSelectRow = memo(
         type="button"
         className={cn(
           pressable.default,
-          'bg-ock-bg-default rounded-ock-default flex w-full items-center justify-between px-4 py-2',
+          'bg-ock-background rounded-ock-default flex w-full items-center justify-between px-4 py-2',
           {
             [pressable.disabled]: disabled,
           },
@@ -56,7 +56,7 @@ export const FundCardPaymentMethodSelectRow = memo(
               <span
                 className={cn(
                   text.label2,
-                  'text-ock-text-foreground-muted',
+                  'text-ock-foreground-muted',
                   'font-normal',
                 )}
               >

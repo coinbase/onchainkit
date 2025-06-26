@@ -11,10 +11,13 @@ export {
 } from './core/OnchainKitConfig';
 export type {
   AppConfig,
-  IsBaseOptions,
-  IsEthereumOptions,
+  IsBaseParams,
+  IsEthereumParams,
   OnchainKitConfig,
   OnchainKitContextType,
 } from './core/types';
+import './styles/index.css';
 
 export { Connected } from './connected';
+
+import './styles/index.css';

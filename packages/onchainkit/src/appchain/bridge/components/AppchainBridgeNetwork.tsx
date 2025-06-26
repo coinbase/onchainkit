@@ -19,7 +19,7 @@ export const AppchainBridgeNetwork = ({
   return (
     <div
       className={cn(
-        'bg-ock-bg-secondary',
+        'bg-ock-secondary',
         'rounded-ock-default',
         'box-border flex h-[80px] w-full flex-col items-start justify-center p-4',
       )}

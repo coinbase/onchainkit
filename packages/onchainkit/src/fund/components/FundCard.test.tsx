@@ -19,10 +19,6 @@ vi.mock('../../internal/hooks/useInputResize', () => ({
   useInputResize: () => mockUpdateInputWidth,
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: () => 'mocked-theme-class',
-}));
-
 vi.mock('../hooks/useGetFundingUrl', () => ({
   useGetFundingUrl: vi.fn(),
 }));

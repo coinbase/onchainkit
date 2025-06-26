@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useMemo } from 'react';
-import { useTheme } from '../../internal/hooks/useTheme';
+
 import { cn, pressable, text } from '../../styles/theme';
 import { useAccount } from 'wagmi';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
@@ -31,7 +31,6 @@ export function FundButton({
   onClick,
   render,
 }: FundButtonProps) {
-  const componentTheme = useTheme();
   // If the fundingUrl prop is undefined, fallback to our recommended funding URL based on the wallet type
   const fallbackFundingUrl = useGetFundingUrl({
     fiatCurrency,
@@ -106,20 +105,19 @@ export function FundButton({
 
   const buttonColorClass = useMemo(() => {
     if (buttonState === 'error') {
-      return 'bg-ock-bg-error';
+      return 'bg-ock-error';
     }
     return pressable.primary;
   }, [buttonState]);
 
   const classNames = cn(
-    componentTheme,
     buttonColorClass,
-    'rounded-ock-defaultpx-4 py-3 inline-flex items-center justify-center space-x-2',
+    'rounded-ock-default px-4 py-3 inline-flex items-center justify-center space-x-2',
     {
       [pressable.disabled]: isDisabled,
     },
     text.headline,
-    'text-ock-text-inverse',
+    'text-ock-foreground-inverse',
     className,
   );
 

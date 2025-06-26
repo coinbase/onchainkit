@@ -12,7 +12,7 @@ export const addSvgForeground = (
     <title>Add</title>
     <path
       d="M7.125 0H5.875V5.37501L0.5 5.37501L0.5 6.62501H5.875V12H7.125V6.62501H12.5V5.37501H7.125V0Z"
-      className="fill-ock-icon-color-foreground"
+      className="fill-ock-foreground"
     />
   </svg>
 );
