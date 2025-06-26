@@ -74,7 +74,7 @@ export function NFTCard({
               pressable.default,
               'rounded-ock-default',
               'flex w-full max-w-[500px] flex-col items-stretch gap-1.5 border p-4 text-left',
-              'hover:border-(--color-background-active)',
+              'hover:border-(--color-ock-background-active)',
               className,
             )}
             data-testid="ockNFTCard_Container"
