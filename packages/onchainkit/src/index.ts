@@ -18,3 +18,5 @@ export type {
 } from './core/types';
 
 export { Connected } from './connected';
+
+import './styles/index.css';
