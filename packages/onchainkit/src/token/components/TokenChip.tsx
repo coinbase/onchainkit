@@ -1,6 +1,5 @@
 'use client';
 
-import { useTheme } from '../../internal/hooks/useTheme';
 import { cn, pressable, text } from '../../styles/theme';
 import type { TokenChipProps } from '../types';
 import { TokenImage } from './TokenImage';
@@ -17,14 +16,11 @@ export function TokenChip({
   className,
   isPressable = true,
 }: TokenChipProps) {
-  const componentTheme = useTheme();
-
   return (
     <button
       type="button"
       data-testid="ockTokenChip_Button"
       className={cn(
-        componentTheme,
         isPressable
           ? [pressable.secondary, 'shadow-ock-default']
           : ['bg-ock-secondary', 'cursor-default'],

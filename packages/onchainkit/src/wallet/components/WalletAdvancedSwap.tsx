@@ -16,7 +16,6 @@ import { SwapToggleButton } from '@/swap/components/SwapToggleButton';
 import { useCallback } from 'react';
 import type { WalletAdvancedSwapProps } from '../types';
 import { useWalletContext } from './WalletProvider';
-import { useTheme } from '@/internal/hooks/useTheme';
 
 export function WalletAdvancedSwap({
   config,
@@ -54,8 +53,6 @@ export function WalletAdvancedSwap({
     </PressableIcon>
   );
 
-  const componentTheme = useTheme();
-
   return (
     <div
       className={cn(
@@ -81,7 +78,6 @@ export function WalletAdvancedSwap({
       >
         <div
           className={cn(
-            componentTheme,
             'bg-ock-background rounded-ock-default text-ock-foreground relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
           )}
           data-testid="ockSwap_Container"

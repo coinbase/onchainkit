@@ -19,3 +19,5 @@ export type {
 import './styles/index.css';
 
 export { Connected } from './connected';
+
+import './styles/index.css';

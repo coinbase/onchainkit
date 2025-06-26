@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, PluginOption } from 'vite';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 import { externalizeDeps } from 'vite-plugin-externalize-deps';
@@ -47,7 +47,7 @@ export default defineConfig({
   },
   plugins: [
     externalizeDeps(),
-    preserveUseClientDirective(),
+    preserveUseClientDirective() as PluginOption,
     react({
       babel: {
         plugins: [

@@ -2,10 +2,6 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Sheet } from './Sheet';
 
-vi.mock('../../internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 describe('Sheet', () => {
   const defaultProps = {
     isOpen: true,

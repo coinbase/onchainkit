@@ -131,10 +131,6 @@ vi.mock('@/transaction', async (importOriginal) => {
   };
 });
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 vi.mock('@/internal/components/Spinner', () => ({
   Spinner: () => <div data-testid="spinner">Loading...</div>,
 }));

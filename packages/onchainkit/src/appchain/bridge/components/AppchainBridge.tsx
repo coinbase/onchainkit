@@ -1,6 +1,5 @@
 'use client';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
-import { useTheme } from '@/internal/hooks/useTheme';
 import { cn, text } from '@/styles/theme';
 import type { AppchainBridgeProps } from '../types';
 import { AppchainBridgeAddressInput } from './AppchainBridgeAddressInput';
@@ -127,7 +126,6 @@ export function AppchainBridge({
   handleFetchPrice,
 }: AppchainBridgeProps) {
   const isMounted = useIsMounted();
-  const componentTheme = useTheme();
 
   if (!isMounted) {
     return null;
@@ -142,7 +140,6 @@ export function AppchainBridge({
     >
       <div
         className={cn(
-          componentTheme,
           'bg-ock-background',
           'rounded-ock-default',
           'text-ock-foreground',

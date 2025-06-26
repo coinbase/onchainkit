@@ -1,7 +1,6 @@
 'use client';
 
 import { memo } from 'react';
-import { useTheme } from '../../internal/hooks/useTheme';
 import { cn, pressable, text } from '../../styles/theme';
 import type { TokenRowProps } from '../types';
 import { formatAmount } from '../utils/formatAmount';
@@ -16,7 +15,6 @@ export const TokenRow = memo(function TokenRow({
   hideSymbol,
   as,
 }: TokenRowProps) {
-  const componentTheme = useTheme();
   const Component = as ?? 'button';
 
   return (
@@ -24,7 +22,6 @@ export const TokenRow = memo(function TokenRow({
       data-testid="ockTokenRow_Container"
       type="button"
       className={cn(
-        componentTheme,
         pressable.default,
         'flex w-full items-center justify-between px-2 py-1',
         className,

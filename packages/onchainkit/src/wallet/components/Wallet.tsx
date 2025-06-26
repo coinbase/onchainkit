@@ -3,7 +3,6 @@
 import { Draggable } from '@/internal/components/Draggable/Draggable';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
-import { useTheme } from '@/internal/hooks/useTheme';
 import { cn } from '@/styles/theme';
 import { useRef } from 'react';
 import type { WalletReact } from '../types';
@@ -26,8 +25,6 @@ export function Wallet({
   draggableStartingPosition,
   isSponsored,
 }: WalletReact) {
-  const componentTheme = useTheme();
-
   const isMounted = useIsMounted();
 
   // prevents SSR hydration issue
@@ -38,7 +35,7 @@ export function Wallet({
   return (
     <WalletProvider isSponsored={isSponsored}>
       <WalletContent
-        className={cn(componentTheme, className)}
+        className={className}
         {...getWalletDraggableProps({ draggable, draggableStartingPosition })}
       >
         {children}

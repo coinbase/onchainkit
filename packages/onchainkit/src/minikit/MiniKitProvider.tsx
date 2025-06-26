@@ -18,6 +18,7 @@ import type {
   MiniKitProviderReact,
   UpdateClientContextParams,
 } from './types';
+import { AutoConnect } from './components/AutoConnect';
 
 export const emptyContext = {} as MiniKitContextType;
 
@@ -29,6 +30,7 @@ export const MiniKitContext = createContext<MiniKitContextType>(emptyContext);
 export function MiniKitProvider({
   children,
   notificationProxyUrl = '/api/notify',
+  autoConnect = true,
   ...onchainKitProps
 }: MiniKitProviderReact & OnchainKitProviderReact) {
   const [context, setContext] = useState<Context.FrameContext | null>(null);
@@ -110,16 +112,17 @@ export function MiniKitProvider({
         : coinbaseWallet({
             appName: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
             appLogoUrl: process.env.NEXT_PUBLIC_ICON_URL,
-            preference: 'all',
+            preference: onchainKitProps.config?.wallet?.preference,
           }),
     ];
-  }, [context]);
+  }, [context, onchainKitProps.config?.wallet?.preference]);
 
   const value = useMemo(() => {
     return {
       context,
       updateClientContext,
       notificationProxyUrl,
+      __isMiniKit: true,
     };
   }, [updateClientContext, notificationProxyUrl, context]);
 
@@ -127,16 +130,18 @@ export function MiniKitProvider({
     <MiniKitContext.Provider value={value}>
       <DefaultOnchainKitProviders connectors={connectors}>
         <OnchainKitProvider {...onchainKitProps}>
-          <div
-            style={{
-              paddingTop: context?.client.safeAreaInsets?.top ?? 0,
-              paddingBottom: context?.client.safeAreaInsets?.bottom ?? 0,
-              paddingLeft: context?.client.safeAreaInsets?.left ?? 0,
-              paddingRight: context?.client.safeAreaInsets?.right ?? 0,
-            }}
-          >
-            {children}
-          </div>
+          <AutoConnect enabled={autoConnect}>
+            <div
+              style={{
+                paddingTop: context?.client.safeAreaInsets?.top ?? 0,
+                paddingBottom: context?.client.safeAreaInsets?.bottom ?? 0,
+                paddingLeft: context?.client.safeAreaInsets?.left ?? 0,
+                paddingRight: context?.client.safeAreaInsets?.right ?? 0,
+              }}
+            >
+              {children}
+            </div>
+          </AutoConnect>
         </OnchainKitProvider>
       </DefaultOnchainKitProviders>
     </MiniKitContext.Provider>
