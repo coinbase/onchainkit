@@ -8,6 +8,10 @@ import { fileURLToPath } from 'node:url';
 import { glob } from 'glob';
 import path from 'node:path';
 import fs from 'fs';
+import tailwindcss from '@tailwindcss/postcss';
+import autoprefixer from 'autoprefixer';
+import postcssPrefixClassnames from './plugins/postcss-prefix-classnames.js';
+import { babelPrefixReactClassNames } from './plugins/babel-prefix-react-classnames';
 
 const entryPoints = Object.fromEntries(
   glob
@@ -24,9 +28,11 @@ const entryPoints = Object.fromEntries(
     ]),
 );
 
-const ockVersion = JSON.parse(
+const OCK_VERSION = JSON.parse(
   fs.readFileSync('./package.json', 'utf-8'),
 ).version;
+
+const CLASSNAME_PREFIX = 'ock:';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -36,12 +42,22 @@ export default defineConfig({
     },
   },
   define: {
-    __OCK_VERSION__: JSON.stringify(ockVersion),
+    __OCK_VERSION__: JSON.stringify(OCK_VERSION),
+    __CLASSNAME_PREFIX__: JSON.stringify(CLASSNAME_PREFIX),
   },
   plugins: [
     externalizeDeps(),
     preserveUseClientDirective() as PluginOption,
-    react(),
+    react({
+      babel: {
+        plugins: [
+          babelPrefixReactClassNames({
+            prefix: CLASSNAME_PREFIX,
+            cnUtil: 'cn',
+          }),
+        ],
+      },
+    }),
     dts({
       tsconfigPath: './tsconfig.json',
       include: ['src'],
@@ -62,6 +78,20 @@ export default defineConfig({
         assetFileNames: 'assets/[name][extname]',
         entryFileNames: '[name].js',
       },
+    },
+  },
+  css: {
+    postcss: {
+      plugins: [
+        tailwindcss({
+          base: './src',
+          optimize: process.env.NODE_ENV !== 'development',
+        }),
+        autoprefixer(),
+        postcssPrefixClassnames({
+          prefix: `ock\\:`,
+        }),
+      ],
     },
   },
 });

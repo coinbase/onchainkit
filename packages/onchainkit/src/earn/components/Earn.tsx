@@ -18,11 +18,11 @@ function EarnDefaultContent() {
           onClick={refetchWalletBalance}
           className={cn(
             text.headline,
-            'bg-ock-bg-default data-[state=active]:bg-ock-bg-primary',
-            'text-ock-text-foreground data-[state=active]:text-ock-text-inverse',
+            'bg-ock-background data-[state=active]:bg-ock-primary',
+            'text-ock-foreground data-[state=active]:text-ock-foreground-inverse',
             'w-1/2 text-center',
             'cursor-pointer px-3 py-2',
-            'focus:outline-none focus-visible:ring-2 focus-visible:ring-ock-text-foreground focus-visible:ring-inset',
+            'focus:outline-none focus-visible:ring-2 focus-visible:ring-ock-foreground focus-visible:ring-inset',
           )}
         >
           Deposit
@@ -32,11 +32,11 @@ function EarnDefaultContent() {
           onClick={refetchDepositedBalance}
           className={cn(
             text.headline,
-            'bg-ock-bg-default data-[state=active]:bg-ock-bg-primary',
-            'text-ock-text-foreground data-[state=active]:text-ock-text-inverse',
+            'bg-ock-background data-[state=active]:bg-ock-primary',
+            'text-ock-foreground data-[state=active]:text-ock-foreground-inverse',
             'w-1/2 text-center',
             'cursor-pointer px-3 py-2',
-            'focus:outline-none focus-visible:ring-2 focus-visible:ring-ock-text-foreground focus-visible:ring-inset',
+            'focus:outline-none focus-visible:ring-2 focus-visible:ring-ock-foreground focus-visible:ring-inset',
           )}
         >
           Withdraw

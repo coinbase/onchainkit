@@ -58,8 +58,8 @@ export function Badge({ className, tooltip = false }: BadgeProps) {
     <div className="relative inline-flex" data-testid="ockBadgeContainer">
       <span
         className={cn(
-          'bg-ock-bg-primary',
-          'border-ock-bg-default',
+          'bg-ock-primary',
+          'border-ock-background',
           'rounded-ock-default',
           tooltip && 'cursor-pointer',
           className,
@@ -83,10 +83,10 @@ export function Badge({ className, tooltip = false }: BadgeProps) {
         <div
           className={cn(
             'rounded-ock-default',
-            'border-ock-bg-default',
+            'border-ock-background',
             pressable.alternate,
             text.legal,
-            'text-ock-text-foreground',
+            'text-ock-foreground',
             zIndex.tooltip,
             '-translate-x-1/2 absolute bottom-full left-1/2 mb-1 transform',
             'whitespace-nowrap px-1.5 py-0.5',

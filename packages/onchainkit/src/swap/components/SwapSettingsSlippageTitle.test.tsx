@@ -4,7 +4,7 @@ import { SwapSettingsSlippageTitle } from './SwapSettingsSlippageTitle';
 
 vi.mock('../styles/theme', () => ({
   cn: (...args: string[]) => args.join(' '),
-  color: { foreground: 'text-foreground' },
+  color: { foreground: 'text-ock-foreground' },
 }));
 
 describe('SwapSettingsSlippageTitle', () => {
@@ -19,7 +19,7 @@ describe('SwapSettingsSlippageTitle', () => {
     render(<SwapSettingsSlippageTitle>Test</SwapSettingsSlippageTitle>);
     const heading = screen.getByText('Test');
     expect(heading.className).toContain(
-      'font-ock font-semibold text-ock-text-foreground mb-2 text-base',
+      'font-ock font-semibold text-ock-foreground mb-2 text-base',
     );
   });
 
@@ -32,7 +32,7 @@ describe('SwapSettingsSlippageTitle', () => {
     const heading = screen.getByText('Test');
     expect(heading.className).toContain('custom-class');
     expect(heading.className).toContain(
-      'font-ock font-semibold text-ock-text-foreground mb-2 text-base custom-class',
+      'font-ock font-semibold text-ock-foreground mb-2 text-base custom-class',
     );
   });
 

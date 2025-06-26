@@ -38,6 +38,7 @@ vi.mock('@/internal/hooks/useProviderDependencies', () => ({
 
 vi.mock('@/internal/hooks/useTheme', () => ({
   useTheme: vi.fn(() => 'default-light'),
+  useThemeRoot: vi.fn(() => 'default-light'),
 }));
 
 vi.mock('@farcaster/frame-sdk', () => ({

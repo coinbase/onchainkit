@@ -27,7 +27,7 @@ export function useGetTransactionToastAction() {
           target="_blank"
           rel="noreferrer"
         >
-          <span className={cn(text.label1, 'text-ock-text-primary')}>
+          <span className={cn(text.label1, 'text-ock-primary')}>
             View transaction
           </span>
         </a>
@@ -41,7 +41,7 @@ export function useGetTransactionToastAction() {
           onClick={() => showCallsStatus({ id: transactionId })}
           type="button"
         >
-          <span className={cn(text.label1, 'text-ock-text-primary')}>
+          <span className={cn(text.label1, 'text-ock-primary')}>
             View transaction
           </span>
         </button>
@@ -51,9 +51,7 @@ export function useGetTransactionToastAction() {
     if (errorMessage) {
       actionElement = (
         <button type="button" onClick={onSubmit}>
-          <span className={cn(text.label1, 'text-ock-text-primary')}>
-            Try again
-          </span>
+          <span className={cn(text.label1, 'text-ock-primary')}>Try again</span>
         </button>
       );
     }

@@ -5,3 +5,6 @@ import { vi } from 'vitest';
 vi.mock('./src/version', () => ({
   version: '0.0.1',
 }));
+
+// Override the classname prefix to be empty string in tests
+vi.stubGlobal('__CLASSNAME_PREFIX__', '');

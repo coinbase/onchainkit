@@ -16,7 +16,7 @@ export function ConnectButton({
         pressable.primary,
         'rounded-ock-default',
         dsText.headline,
-        'text-ock-text-inverse',
+        'text-ock-foreground-inverse',
         'inline-flex min-w-[153px] items-center justify-center px-4 py-3',
         className,
       )}

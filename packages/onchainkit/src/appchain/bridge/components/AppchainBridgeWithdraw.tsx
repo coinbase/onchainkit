@@ -44,7 +44,7 @@ export const AppchainBridgeWithdraw = () => {
     <div className="flex h-full w-full flex-col justify-between">
       <div>
         <div className="flex items-center">
-          <h2 className="ock-text-foreground flex-1 text-center font-medium text-lg">
+          <h2 className="text-ock-foreground flex-1 text-center font-medium text-lg">
             {label}
           </h2>
         </div>
@@ -54,7 +54,7 @@ export const AppchainBridgeWithdraw = () => {
         {isPending && <LoadingContent />}
         {shouldShowClaim && <ClaimContent />}
         {withdrawStatus === 'claimRejected' && (
-          <div className={cn(text.label2, 'text-ock-text-error', 'mt-2')}>
+          <div className={cn(text.label2, 'text-ock-error', 'mt-2')}>
             Transaction denied
           </div>
         )}
@@ -66,7 +66,7 @@ export const AppchainBridgeWithdraw = () => {
 function LoadingContent() {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-16">
-      <Spinner className="border-t-ock-bg-primary h-24 w-24" />
+      <Spinner className="border-t-ock-primary h-24 w-24" />
       <span className="px-4 text-center font-medium text-base">
         Waiting for claim to be ready...
         <br />
@@ -81,7 +81,7 @@ function ErrorContent({ onBack }: { onBack: () => void }) {
     <div className="flex flex-col items-center gap-16">
       <div className="flex justify-center">
         <div className="h-20 w-20">
-          <ErrorSvg className="fill-ock-bg-error" />
+          <ErrorSvg className="fill-ock-error" />
         </div>
       </div>
       <div className="flex flex-col items-center gap-4">
@@ -94,7 +94,7 @@ function ErrorContent({ onBack }: { onBack: () => void }) {
           <div
             className={cn(
               text.headline,
-              'text-ock-text-inverse',
+              'text-ock-foreground-inverse',
               'flex justify-center',
             )}
           >
@@ -118,7 +118,7 @@ function ClaimContent() {
     <div className="flex flex-col items-center gap-16">
       <div className="flex justify-center">
         <div className="h-20 w-20">
-          <SuccessSvg className="fill-ock-bg-primary" />
+          <SuccessSvg className="fill-ock-primary" />
         </div>
       </div>
       <button
@@ -129,7 +129,7 @@ function ClaimContent() {
         <div
           className={cn(
             text.headline,
-            'text-ock-text-inverse',
+            'text-ock-foreground-inverse',
             'flex justify-center',
           )}
         >

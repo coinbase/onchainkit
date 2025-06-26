@@ -40,7 +40,7 @@ function customRender({
     'px-4 py-3 font-medium leading-6',
     isDisabled && pressable.disabled,
     text.headline,
-    'text-ock-text-inverse',
+    'text-ock-foreground-inverse',
   );
 
   if (context.isLoading) {

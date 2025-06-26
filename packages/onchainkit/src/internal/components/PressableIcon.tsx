@@ -23,7 +23,7 @@ export function PressableIcon({
       className={cn(
         pressable.default,
         'rounded-ock-inner',
-        'border-ock-bg-default',
+        'border-ock-background',
         'flex items-center justify-center',
         className,
       )}

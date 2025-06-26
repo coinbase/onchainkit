@@ -67,7 +67,7 @@ export function WalletAdvancedQrReceive({
       data-testid="ockWalletAdvancedQrReceive"
       className={cn(
         'rounded-ock-default',
-        'text-ock-text-foreground',
+        'text-ock-foreground',
         text.headline,
         'flex flex-col items-center justify-between',
         'h-120 w-88 px-4 pt-3 pb-4',
@@ -97,7 +97,7 @@ export function WalletAdvancedQrReceive({
             className={cn(
               pressable.default,
               'rounded-ock-inner',
-              'border-ock-bg-default',
+              'border-ock-background',
               'flex items-center justify-center p-2',
             )}
             aria-label="Copy your address by clicking the icon"
@@ -110,8 +110,8 @@ export function WalletAdvancedQrReceive({
             className={cn(
               pressable.alternate,
               text.legal,
-              'text-ock-text-foreground',
-              'border-ock-bg-default',
+              'text-ock-foreground',
+              'border-ock-background',
               'rounded-ock-default',
               zIndex.dropdown,
               'absolute top-full right-0 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',

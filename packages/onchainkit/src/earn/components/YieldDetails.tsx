@@ -14,9 +14,9 @@ function YieldInfo() {
   return (
     <div
       className={cn(
-        'text-ock-text-foreground-muted',
-        'border-ock-bg-default-active',
-        'bg-ock-bg-default',
+        'text-ock-foreground-muted',
+        'border-ock-background-active',
+        'bg-ock-background',
         'fade-in flex min-w-52 animate-in flex-col gap-2 rounded-lg border p-3 text-sm duration-200',
       )}
     >
@@ -79,8 +79,8 @@ export function YieldDetails() {
         <div
           className={cn(
             text.label1,
-            'text-ock-text-foreground-muted',
-            'bg-ock-bg-alternate',
+            'text-ock-foreground-muted',
+            'bg-ock-background-alternate',
             'flex items-center justify-center gap-1 rounded-full p-1 px-3',
           )}
           data-testid="ock-yieldDetails"
@@ -91,8 +91,8 @@ export function YieldDetails() {
               type="button"
               data-testid="ock-apyInfoButton"
               className={cn(
-                'size-3 [&_path]:fill-ock-icon-color-foreground-muted [&_path]:transition-colors [&_path]:ease-in-out [&_path]:hover:fill-ock-icon-color-foreground',
-                isOpen && '[&_path]:fill-ock-icon-color-foreground',
+                'size-3 [&_path]:fill-ock-foreground-muted [&_path]:transition-colors [&_path]:ease-in-out [&_path]:hover:fill-ock-foreground',
+                isOpen && '[&_path]:fill-ock-foreground',
               )}
               onClick={() => setIsOpen(!isOpen)}
             >

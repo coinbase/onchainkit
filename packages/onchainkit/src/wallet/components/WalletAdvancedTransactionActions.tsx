@@ -161,7 +161,7 @@ function WalletAdvancedTransactionAction({
       <span
         className={cn(
           text.label2,
-          'text-ock-text-foreground',
+          'text-ock-foreground',
           'flex flex-col justify-center',
           classNames?.label,
         )}

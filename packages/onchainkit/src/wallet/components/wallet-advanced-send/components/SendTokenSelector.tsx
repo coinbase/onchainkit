@@ -39,11 +39,7 @@ export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
     return (
       <div className="mt-4 flex max-h-80 flex-col gap-2">
         <span
-          className={cn(
-            text.caption,
-            'text-ock-text-foreground-muted',
-            'uppercase',
-          )}
+          className={cn(text.caption, 'text-ock-foreground-muted', 'uppercase')}
         >
           Select a token
         </span>

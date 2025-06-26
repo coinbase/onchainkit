@@ -23,7 +23,7 @@ export function TokenChip({
       className={cn(
         isPressable
           ? [pressable.secondary, 'shadow-ock-default']
-          : ['bg-ock-bg-secondary', 'cursor-default'],
+          : ['bg-ock-secondary', 'cursor-default'],
         'flex w-fit shrink-0 items-center gap-2 rounded-lg py-1 pr-3 pl-1 ',
         className,
       )}

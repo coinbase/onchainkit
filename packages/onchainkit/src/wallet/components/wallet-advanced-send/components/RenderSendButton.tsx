@@ -26,7 +26,7 @@ export function RenderSendButton({
     'px-4 py-3 font-medium leading-6',
     isDisabled && pressable.disabled,
     text.headline,
-    'text-ock-text-foreground',
+    'text-ock-foreground',
   );
 
   if (context.receipt) {

@@ -16,7 +16,7 @@ export function EarnAmountInput({
       data-testid="ockEarnAmountInput"
       className={cn(
         text.base,
-        'text-ock-text-foreground',
+        'text-ock-foreground',
         'w-full border-none bg-transparent text-5xl',
         'leading-none outline-none',
         className,

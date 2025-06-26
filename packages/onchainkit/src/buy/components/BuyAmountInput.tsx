@@ -17,7 +17,7 @@ export function BuyAmountInput() {
     <div
       className={cn(
         'flex h-12 items-center border px-2 pl-4',
-        'bg-ock-bg-default',
+        'bg-ock-background',
         'rounded-ock-default',
         border.lineDefault,
       )}
@@ -26,8 +26,8 @@ export function BuyAmountInput() {
         className={cn(
           'mr-2 w-full border-none font-display',
           'leading-none outline-none disabled:cursor-not-allowed',
-          'bg-ock-bg-default',
-          'text-ock-text-foreground',
+          'bg-ock-background',
+          'text-ock-foreground',
         )}
         placeholder="0.0"
         delayMs={1000}
@@ -39,7 +39,7 @@ export function BuyAmountInput() {
         inputValidator={isValidAmount}
       />
       <TokenChip
-        className={cn('text-ock-text-foreground', 'rounded-md')}
+        className={cn('text-ock-foreground', 'rounded-md')}
         token={to.token}
         isPressable={false}
       />

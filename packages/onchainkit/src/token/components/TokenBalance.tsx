@@ -105,7 +105,7 @@ function TokenBalanceContent({
         <span
           className={cn(
             text.headline,
-            'text-ock-text-foreground',
+            'text-ock-foreground',
             'overflow-hidden text-ellipsis whitespace-nowrap',
             classNames?.tokenName,
           )}
@@ -115,7 +115,7 @@ function TokenBalanceContent({
         <span
           className={cn(
             text.label2,
-            'text-ock-text-foreground-muted',
+            'text-ock-foreground-muted',
             classNames?.tokenValue,
           )}
         >
@@ -127,7 +127,7 @@ function TokenBalanceContent({
           <span
             className={cn(
               text.label2,
-              'text-ock-text-foreground-muted',
+              'text-ock-foreground-muted',
               'whitespace-nowrap',
               classNames?.fiatValue,
             )}
@@ -155,10 +155,10 @@ function ActionButton({
       onClick={onActionPress}
       className={cn(
         text.label2,
-        'text-ock-text-primary',
+        'text-ock-primary',
         'rounded-ock-default',
         'cursor-pointer p-0.5 font-bold',
-        'border border-transparent hover:border-[--ock-line-primary]',
+        'border border-transparent hover:border-(--color-ock-primary)',
         '-translate-y-1/2 absolute top-1/2 right-2',
         className,
       )}

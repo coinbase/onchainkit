@@ -42,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-background text-foreground">
+      <body className="bg-ock-background text-ock-foreground">
         <Providers>{children}</Providers>
       </body>
     </html>

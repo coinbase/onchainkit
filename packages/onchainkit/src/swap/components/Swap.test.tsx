@@ -60,7 +60,7 @@ vi.mock('@/styles/theme', async (importOriginal) => {
     ...actual,
     background: { default: 'bg-default' },
     border: { radius: 'border-radius' },
-    color: { foreground: 'text-foreground' },
+    color: { foreground: 'text-ock-foreground' },
     text: { title3: 'text-title3' },
     cn: (...args: string[]) => args.filter(Boolean).join(' '),
     icon: {

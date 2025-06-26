@@ -70,11 +70,11 @@ export function NFTCard({
           <button
             type="button"
             className={cn(
-              'text-ock-text-foreground',
+              'text-ock-foreground',
               pressable.default,
               'rounded-ock-default',
               'flex w-full max-w-[500px] flex-col items-stretch gap-1.5 border p-4 text-left',
-              `hover:border-[${'border-ock-bg-default-active'}]`,
+              'hover:border-(--color-ock-background-active)',
               className,
             )}
             data-testid="ockNFTCard_Container"

@@ -41,7 +41,7 @@ export function IdentityLayout({
 
   return (
     <div
-      className={cn('bg-ock-bg-default', 'flex flex-col px-4 py-1', className)}
+      className={cn('bg-ock-background', 'flex flex-col px-4 py-1', className)}
       data-testid="ockIdentityLayout_container"
     >
       <div className="flex items-center space-x-3">
@@ -53,7 +53,7 @@ export function IdentityLayout({
           {addressComponent && ethBalance && (
             <div className="flex items-center gap-1">
               {addressComponent}
-              <span className={'text-ock-text-foreground-muted'}>·</span>
+              <span className={'text-ock-foreground-muted'}>·</span>
               {ethBalance}
             </div>
           )}

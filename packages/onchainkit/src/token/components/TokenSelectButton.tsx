@@ -31,7 +31,7 @@ export const TokenSelectButton = forwardRef(
               <TokenImage token={token} size={16} />
             </div>
             <span
-              className={cn(text.headline, 'text-ock-text-foreground')}
+              className={cn(text.headline, 'text-ock-foreground')}
               data-testid="ockTokenSelectButton_Symbol"
             >
               {token.symbol}

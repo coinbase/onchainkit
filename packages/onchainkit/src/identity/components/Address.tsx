@@ -33,7 +33,7 @@ export function Address({
     return (
       <span
         data-testid="ockAddress"
-        className={cn('text-ock-text-foreground-muted', text.label2, className)}
+        className={cn('text-ock-foreground-muted', text.label2, className)}
       >
         {addressContent}
       </span>
@@ -67,7 +67,7 @@ export function Address({
     <span
       data-testid="ockAddress"
       className={cn(
-        'text-ock-text-foreground-muted',
+        'text-ock-foreground-muted',
         text.label2,
         className,
         'group relative cursor-pointer',
@@ -84,8 +84,8 @@ export function Address({
         className={cn(
           pressable.alternate,
           text.legal,
-          'text-ock-text-foreground',
-          'border-ock-bg-default',
+          'text-ock-foreground',
+          'border-ock-background',
           'rounded-ock-default',
           'absolute top-full left-[0%] z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
         )}

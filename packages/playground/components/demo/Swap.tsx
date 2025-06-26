@@ -116,7 +116,7 @@ function SwapComponent() {
       >
         <div
           className={cn(
-            'bg-ock-bg-default rounded-ock-default text-ock-text-foreground relative flex max-w-[500px] flex-col px-6 pt-6 pb-4 w-full border sm:w-[500px]',
+            'bg-ock-background rounded-ock-default text-ock-foreground relative flex max-w-[500px] flex-col px-6 pt-6 pb-4 w-full border sm:w-[500px]',
           )}
           data-testid="ockSwap_Container"
         >

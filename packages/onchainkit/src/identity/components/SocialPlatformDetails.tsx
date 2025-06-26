@@ -59,7 +59,7 @@ export function SocialPlatformDetails({
       className={cn(
         pressable.default,
         'rounded-ock-default',
-        'border-ock-bg-default',
+        'border-ock-background',
         'flex items-center justify-center p-2',
       )}
       data-testid={`ockSocials_${
