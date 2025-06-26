@@ -9,7 +9,7 @@ import { checkHashLength } from './internal/utils/checkHashLength';
 import type { OnchainKitProviderReact } from './types';
 import { generateUUIDWithInsecureFallback } from './utils/crypto';
 import { OnchainKitContext } from './useOnchainKit';
-import { useTheme } from './internal/hooks/useTheme';
+import { useTheme, useThemeRoot } from './internal/hooks/useTheme';
 import { clientMetaManager } from './core/clientMeta/clientMetaManager';
 import { MiniKitContext } from './minikit/MiniKitProvider';
 
@@ -32,7 +32,10 @@ export function OnchainKitProvider({
   }
 
   const sessionId = useMemo(() => generateUUIDWithInsecureFallback(), []);
-  const theme = useTheme();
+  const theme = useThemeRoot({
+    theme: config?.appearance?.theme,
+    mode: config?.appearance?.mode,
+  });
 
   useLayoutEffect(() => {
     document.documentElement.setAttribute('data-ock-theme', theme);
