@@ -8,18 +8,26 @@ import { copySvg } from '@/internal/svg/copySvg';
 import { zIndex } from '@/styles/constants';
 import { cn, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
-import type { WalletAdvancedQrReceiveProps } from '../types';
 import { useWalletContext } from './WalletProvider';
+import { useAccount } from 'wagmi';
+
+export type WalletAdvancedQrReceiveProps = {
+  classNames?: {
+    container?: string;
+    header?: string;
+    copyButton?: string;
+  };
+};
 
 export function WalletAdvancedQrReceive({
   classNames,
 }: WalletAdvancedQrReceiveProps) {
   const {
-    address,
     setActiveFeature,
     isActiveFeatureClosing,
     setIsActiveFeatureClosing,
   } = useWalletContext();
+  const { address } = useAccount();
 
   const [copyText, setCopyText] = useState('Copy');
   const [copyButtonText, setCopyButtonText] = useState('Copy address');

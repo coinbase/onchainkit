@@ -1,12 +1,34 @@
 'use client';
 
-import { useCallback, useMemo } from 'react';
+import { ReactNode, useCallback, useMemo } from 'react';
 import { useGetFundingUrl } from '../../fund/hooks/useGetFundingUrl';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
 import { useIcon } from '../../internal/hooks/useIcon';
 import { openPopup } from '../../internal/utils/openPopup';
 import { cn, pressable, text as themeText } from '../../styles/theme';
-import type { WalletDropdownFundLinkReact } from '../types';
+
+export type WalletDropdownFundLinkProps = {
+  /** Optional className override for the element */
+  className?: string;
+  /** Optional icon override */
+  icon?: ReactNode;
+  /** Whether to open the funding flow in a tab or a popup window */
+  openIn?: 'popup' | 'tab';
+  /**
+   * Note: popupSize is only respected when providing your own funding link, or when a Coinbase Smart Wallet is
+   * connected. For any other wallet popupSize will be ignored as the Coinbase Onramp widget requires a fixed size
+   * popup window.
+   */
+  popupSize?: 'sm' | 'md' | 'lg';
+  /** Specifies the relationship between the current document and the linked document */
+  rel?: string;
+  /** Where to open the target if `openIn` is set to tab */
+  target?: string;
+  /** Optional text override */
+  text?: string;
+  /** Optional funding URL override */
+  fundingUrl?: string;
+};
 
 export function WalletDropdownFundLink({
   className,
@@ -17,7 +39,7 @@ export function WalletDropdownFundLink({
   rel,
   target,
   text = 'Fund wallet',
-}: WalletDropdownFundLinkReact) {
+}: WalletDropdownFundLinkProps) {
   // If we can't get a funding URL, this component will be a no-op and render a disabled link
   const fundingUrlToRender =
     fundingUrl ??

@@ -5,7 +5,7 @@ import { useAccount } from 'wagmi';
 import { useDepositButton } from '../hooks/useDepositButton';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
-export const AppchainBridgeTransactionButton = () => {
+export function AppchainBridgeTransactionButton() {
   const {
     handleDeposit,
     depositStatus,
@@ -61,4 +61,4 @@ export const AppchainBridgeTransactionButton = () => {
       )}
     </div>
   );
-};
+}

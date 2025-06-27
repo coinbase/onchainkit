@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { createContext } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
 import { WalletAdvancedDefault } from './WalletAdvancedDefault';
@@ -33,6 +34,7 @@ vi.mock('./WalletDropdownContent', () => ({
 
 vi.mock('./WalletProvider', () => ({
   useWalletContext: vi.fn(),
+  WalletContext: createContext(null),
   WalletProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
