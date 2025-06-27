@@ -7,7 +7,7 @@ export const trustWalletSvg = (
     viewBox="0 0 2500 2500"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn('text-foreground')}
+    className={cn('text-ock-foreground')}
     aria-labelledby="trustWallet"
   >
     <title id="trustWalletTitle">Trust Wallet Logo</title>

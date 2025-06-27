@@ -32,7 +32,7 @@ export function IdentityCard({
       className={cn(
         'rounded-ock-default',
         border.lineDefault,
-        'bg-ock-bg-default',
+        'bg-ock-background',
         'items-left flex min-w-[300px] p-4',
         className,
       )}

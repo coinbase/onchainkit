@@ -1,4 +1,3 @@
-import { useTheme } from '@/internal/hooks/useTheme';
 import { zIndex } from '@/styles/constants';
 import { cn } from '@/styles/theme';
 import type React from 'react';
@@ -34,7 +33,6 @@ export const DropdownMenu = ({
   'aria-label': ariaLabel,
   className,
 }: DropdownMenuProps) => {
-  const componentTheme = useTheme();
   const { forceDropdownModal } = useLayerConfigContext();
 
   return (
@@ -53,7 +51,7 @@ export const DropdownMenu = ({
         side={side}
         aria-label={ariaLabel}
         align={align}
-        className={cn(componentTheme, zIndex.dropdown, className)}
+        className={cn(zIndex.dropdown, className)}
         data-testid="ockDropdownMenu"
         role="listbox"
       >

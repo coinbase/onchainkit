@@ -3,7 +3,6 @@ import type {
   SignTypedDataParameters,
 } from 'wagmi/actions';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
-import { useTheme } from '@/internal/hooks/useTheme';
 import { cn } from '@/styles/theme';
 import type { APIError } from '@/api/types';
 import type { LifecycleStatus } from '../types';
@@ -74,7 +73,6 @@ export function Signature({
   resetAfter,
 }: SignatureProps) {
   const isMounted = useIsMounted();
-  const componentTheme = useTheme();
 
   if (!isMounted) return null;
 
@@ -89,9 +87,7 @@ export function Signature({
       primaryType={primaryType}
       resetAfter={resetAfter}
     >
-      <div
-        className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}
-      >
+      <div className={cn('flex w-full flex-col gap-2', className)}>
         {children ?? <DefaultChildren label={label} disabled={disabled} />}
       </div>
     </SignatureProvider>

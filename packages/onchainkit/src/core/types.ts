@@ -61,7 +61,7 @@ export type CreateWagmiConfigParams = {
 /**
  * Note: exported as public Type
  */
-export type IsBaseOptions = {
+export type IsBaseParams = {
   /** Chain ID for the network */
   chainId: number;
   /** If the chainId check is only allowed on mainnet */
@@ -71,7 +71,7 @@ export type IsBaseOptions = {
 /**
  * Note: exported as public Type
  */
-export type IsEthereumOptions = {
+export type IsEthereumParams = {
   /** Chain ID for the network */
   chainId: number;
   /** If the chainId check is only allowed on mainnet */
@@ -123,7 +123,7 @@ export type OnchainKitConfig = {
   sessionId: string | null;
 };
 
-export type SetOnchainKitConfig = Partial<OnchainKitConfig>;
+export type OnchainkitConfigOverrideParams = Partial<OnchainKitConfig>;
 
 /**
  * Note: exported as public Type

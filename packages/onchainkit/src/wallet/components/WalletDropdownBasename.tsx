@@ -6,11 +6,15 @@ import { basenameSvg } from '@/internal/svg/basenameSvg';
 import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
 import { cn, pressable, text } from '../../styles/theme';
-import type { WalletDropdownBasenameReact } from '../types';
+
+export type WalletDropdownBasenameProps = {
+  /** Optional className override for the element */
+  className?: string;
+};
 
 export function WalletDropdownBasename({
   className,
-}: WalletDropdownBasenameReact) {
+}: WalletDropdownBasenameProps) {
   const { address } = useAccount();
 
   if (!address) {
@@ -33,7 +37,7 @@ export function WalletDropdownBasename({
     <a
       className={cn(
         pressable.default,
-        'text-ock-text-foreground',
+        'text-ock-foreground',
         'relative flex items-center px-4 py-3',
         className,
       )}
@@ -53,7 +57,7 @@ export function WalletDropdownBasename({
             {!hasBaseUserName && (
               <span
                 className={cn(
-                  'ml-2 rounded-full bg-[#E0E7FF] px-2 py-0.5 text-center font-bold font-inter text-[#4F46E5] text-[0.6875rem] uppercase leading-none',
+                  'ml-2 rounded-full bg-[#E0E7FF] px-2 py-0.5 text-center font-bold font-sans text-[#4F46E5] text-[0.6875rem] uppercase leading-none',
                 )}
               >
                 NEW

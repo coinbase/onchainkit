@@ -15,10 +15,6 @@ import {
 } from 'wagmi';
 import { Earn } from './Earn';
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: () => 'mocked-theme-class',
-}));
-
 const queryClient = new QueryClient();
 
 const mockConfig = createConfig({
@@ -75,10 +71,6 @@ vi.mock('@/transaction', () => ({
 
 vi.mock('@/wallet/hooks/useGetTokenBalance', () => ({
   useGetTokenBalance: vi.fn(),
-}));
-
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
 }));
 
 describe('Earn Component', () => {

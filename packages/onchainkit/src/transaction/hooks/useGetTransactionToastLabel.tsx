@@ -20,7 +20,7 @@ export function useGetTransactionToastLabel() {
 
   return useMemo(() => {
     let label = '';
-    let labelClassName: string = 'text-ock-text-foreground-muted';
+    let labelClassName: string = 'text-ock-foreground-muted';
 
     if (isBuildingTransaction) {
       label = 'Building transaction';
@@ -36,7 +36,7 @@ export function useGetTransactionToastLabel() {
 
     if (errorMessage) {
       label = 'Something went wrong';
-      labelClassName = 'text-ock-text-error';
+      labelClassName = 'text-ock-error';
     }
 
     return { label, labelClassName };

@@ -1,5 +1,4 @@
 import * as DialogPrimitives from '@radix-ui/react-dialog';
-import { useTheme } from '@/internal/hooks/useTheme';
 import { zIndex } from '@/styles/constants';
 import { cn } from '@/styles/theme';
 import type React from 'react';
@@ -36,8 +35,6 @@ export const Dialog = ({
   description,
   ...rest
 }: DialogProps) => {
-  const componentTheme = useTheme();
-
   return (
     <DialogRoot
       open={isOpen}
@@ -60,7 +57,6 @@ export const Dialog = ({
         <DialogContent
           data-slot="dialog-content"
           className={cn(
-            componentTheme,
             zIndex.modal,
             'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg p-6 shadow-lg duration-200',
             className,

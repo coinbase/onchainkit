@@ -40,7 +40,7 @@ describe('Sign', () => {
 
     expect(screen.getByText('3')).toBeInTheDocument();
     expect(
-      screen.getByText('Sign to generate and save your Mini-App manifeset'),
+      screen.getByText('Sign to generate and save your Mini-App manifest'),
     ).toBeInTheDocument();
     expect(screen.getByText('Your FID is 123')).toBeInTheDocument();
     expect(screen.getByText('Sign')).toBeInTheDocument();

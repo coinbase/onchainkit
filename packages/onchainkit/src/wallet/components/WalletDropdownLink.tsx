@@ -1,8 +1,17 @@
 'use client';
-
+import { ReactNode } from 'react';
 import { useIcon } from '../../internal/hooks/useIcon';
 import { cn, pressable, text } from '../../styles/theme';
-import type { WalletDropdownLinkReact } from '../types';
+
+export type WalletDropdownLinkProps = {
+  children: string;
+  /** Optional className override for the element */
+  className?: string;
+  href: string;
+  icon?: 'wallet' | ReactNode;
+  rel?: string;
+  target?: string;
+};
 
 export function WalletDropdownLink({
   children,
@@ -11,14 +20,14 @@ export function WalletDropdownLink({
   href,
   rel,
   target,
-}: WalletDropdownLinkReact) {
+}: WalletDropdownLinkProps) {
   const iconSvg = useIcon({ icon });
 
   return (
     <a
       className={cn(
         pressable.default,
-        'text-ock-text-foreground',
+        'text-ock-foreground',
         'relative flex items-center px-4 py-3',
         className,
       )}

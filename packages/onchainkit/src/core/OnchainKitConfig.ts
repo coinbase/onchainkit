@@ -1,5 +1,5 @@
 import { baseSepolia } from 'viem/chains';
-import type { OnchainKitConfig, SetOnchainKitConfig } from './types';
+import type { OnchainKitConfig, OnchainkitConfigOverrideParams } from './types';
 
 /**
  * The ONCHAIN_KIT_CONFIG is not exported at index.ts,
@@ -49,7 +49,9 @@ export const getOnchainKitConfig = <K extends keyof typeof ONCHAIN_KIT_CONFIG>(
  * Update the ONCHAIN_KIT_CONFIG object directly by providing the properties to update.
  * This is powerful when you use OnchainKit utilities outside of the React context.
  */
-export const setOnchainKitConfig = (properties: SetOnchainKitConfig) => {
+export const setOnchainKitConfig = (
+  properties: OnchainkitConfigOverrideParams,
+) => {
   Object.assign(ONCHAIN_KIT_CONFIG, properties);
   return getOnchainKitConfig;
 };

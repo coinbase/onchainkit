@@ -11,6 +11,7 @@ import { getSendCalldata } from '../utils/getSendCalldata';
 import { SendButton } from './SendButton';
 import { useSendContext } from './SendProvider';
 import { RenderSendButton } from './RenderSendButton';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 
 vi.mock('viem', () => ({
   parseUnits: vi.fn(),
@@ -74,6 +75,10 @@ vi.mock('./RenderSendButton', () => ({
   )),
 }));
 
+vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
+}));
+
 const mockChain = {
   id: 8453,
   name: 'Base',
@@ -103,11 +108,7 @@ describe('SendButton', () => {
     typeof vi.fn
   >;
   const mockGetSendCalldata = getSendCalldata as ReturnType<typeof vi.fn>;
-
-  const mockWalletContext = {
-    chain: mockChain,
-    address: '0x1234567890123456789012345678901234567890',
-  };
+  const mockUseOnchainKit = useOnchainKit as ReturnType<typeof vi.fn>;
 
   const mockWalletAdvancedContext = {
     setActiveFeature: vi.fn(),
@@ -138,9 +139,11 @@ describe('SendButton', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseWalletContext.mockReturnValue({
-      ...mockWalletContext,
       ...mockWalletAdvancedContext,
       isSponsored: false,
+    });
+    mockUseOnchainKit.mockReturnValue({
+      chain: mockChain,
     });
     mockUseSendContext.mockReturnValue(mockSendContext);
     mockUseTransactionContext.mockReturnValue(mockTransactionContext);
@@ -187,8 +190,7 @@ describe('SendButton', () => {
   });
 
   it('uses default chain when wallet chain is null', () => {
-    mockUseWalletContext.mockReturnValue({
-      ...mockWalletContext,
+    mockUseOnchainKit.mockReturnValue({
       chain: null,
     });
 

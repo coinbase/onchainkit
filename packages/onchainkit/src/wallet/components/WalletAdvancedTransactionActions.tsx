@@ -16,6 +16,7 @@ import { useCallback } from 'react';
 import { useWalletContext } from './WalletProvider';
 import { RequestContext } from '@/core/network/constants';
 import { usePortfolio } from '../hooks/usePortfolio';
+import { useAccount } from 'wagmi';
 
 type WalletAdvancedTransactionActionProps = {
   icon: React.ReactNode;
@@ -40,7 +41,9 @@ type WalletAdvancedTransactionActionsProps = {
 export function WalletAdvancedTransactionActions({
   classNames,
 }: WalletAdvancedTransactionActionsProps) {
-  const { address, chain, setActiveFeature, animations } = useWalletContext();
+  const { setActiveFeature, animations } = useWalletContext();
+  const { address } = useAccount();
+  const { chain } = useOnchainKit();
   const { projectId } = useOnchainKit();
   const { sendAnalytics } = useAnalytics();
 
@@ -161,7 +164,7 @@ function WalletAdvancedTransactionAction({
       <span
         className={cn(
           text.label2,
-          'text-ock-text-foreground',
+          'text-ock-foreground',
           'flex flex-col justify-center',
           classNames?.label,
         )}

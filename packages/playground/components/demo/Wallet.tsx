@@ -26,7 +26,7 @@ function WalletComponent() {
       <Wallet>
         <ConnectWallet
           disconnectedLabel={
-            <span className={cn('text-ock-text-inverse')}>Connect</span>
+            <span className={cn('text-ock-foreground-inverse')}>Connect</span>
           }
         >
           <Avatar address={address} className="h-6 w-6" />
@@ -36,7 +36,7 @@ function WalletComponent() {
           <Identity className="px-4 pt-3 pb-2">
             <Avatar />
             <Name />
-            <Address className={'text-ock-text-foreground-muted'} />
+            <Address className={'text-ock-foreground-muted'} />
             <EthBalance />
             <Socials />
           </Identity>

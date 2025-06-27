@@ -10,7 +10,7 @@ export function SwapSettingsSlippageTitle({
     <h3
       className={cn(
         text.headline,
-        'text-ock-text-foreground',
+        'text-ock-foreground',
         'mb-2 text-base',
         className,
       )}

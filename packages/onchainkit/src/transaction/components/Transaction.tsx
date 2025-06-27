@@ -1,5 +1,4 @@
 import { useIsMounted } from '../../internal/hooks/useIsMounted';
-import { useTheme } from '../../internal/hooks/useTheme';
 import { cn } from '../../styles/theme';
 import { useOnchainKit } from '../../onchainkit/hooks/useOnchainKit';
 import type { TransactionProps } from '../types';
@@ -21,16 +20,11 @@ export function Transaction({
   resetAfter,
 }: TransactionProps) {
   const isMounted = useIsMounted();
-  const componentTheme = useTheme();
   const { chain } = useOnchainKit();
 
   // prevents SSR hydration issue
   if (!isMounted) {
-    return (
-      <div
-        className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}
-      />
-    );
+    return <div className={cn('flex w-full flex-col gap-2', className)} />;
   }
 
   // If chainId is not provided,
@@ -48,9 +42,7 @@ export function Transaction({
       onSuccess={onSuccess}
       resetAfter={resetAfter}
     >
-      <div
-        className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}
-      >
+      <div className={cn('flex w-full flex-col gap-2', className)}>
         {children ?? (
           <>
             <TransactionButton disabled={disabled} />

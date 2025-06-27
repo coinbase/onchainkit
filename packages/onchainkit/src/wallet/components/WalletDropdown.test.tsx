@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { IdentityProvider } from '@/identity/components/IdentityProvider';
 import { render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useDisconnect } from 'wagmi';
+import { useDisconnect, useAccount } from 'wagmi';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
 import { useName } from '@/identity';
@@ -22,6 +22,7 @@ vi.mock('@/identity/components/Identity', () => ({
 
 vi.mock('wagmi', () => ({
   useDisconnect: vi.fn(),
+  useAccount: vi.fn(),
   WagmiProvider: ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   ),
@@ -45,6 +46,7 @@ vi.mock('./WalletAdvancedProvider', () => ({
 }));
 
 const useWalletContextMock = useWalletContext as Mock;
+const useAccountMock = useAccount as Mock;
 
 describe('WalletDropdown', () => {
   beforeEach(() => {
@@ -53,21 +55,37 @@ describe('WalletDropdown', () => {
       disconnect: vi.fn(),
       connectors: [],
     });
+    useAccountMock.mockReturnValue({
+      address: '0x123',
+    });
   });
 
   it('renders null when address is not provided', () => {
-    useWalletContextMock.mockReturnValue({
+    useAccountMock.mockReturnValue({
       address: undefined,
+    });
+    useWalletContextMock.mockReturnValue({
       isSubComponentOpen: true,
+      breakpoint: 'md',
     });
     render(<WalletDropdown>Test Children</WalletDropdown>);
     expect(screen.queryByText('Test Children')).not.toBeInTheDocument();
   });
 
+  it('renders null when isSubComponentOpen is false', () => {
+    useWalletContextMock.mockReturnValue({
+      breakpoint: 'md',
+      isSubComponentOpen: false,
+    });
+    render(<WalletDropdown>Test Children</WalletDropdown>);
+    const dropdown = screen.queryByTestId('ockWalletDropdown');
+    expect(dropdown).toBeNull();
+  });
+
   it('does not render anything if breakpoint is not defined', () => {
     useWalletContextMock.mockReturnValue({
-      address: '0x123',
       breakpoint: null,
+      isSubComponentOpen: true,
     });
 
     render(<WalletDropdown>Content</WalletDropdown>);
@@ -77,7 +95,6 @@ describe('WalletDropdown', () => {
 
   it('renders default children', () => {
     useWalletContextMock.mockReturnValue({
-      address: '0x123',
       breakpoint: 'md',
       isSubComponentOpen: true,
     });
@@ -92,7 +109,6 @@ describe('WalletDropdown', () => {
 
   it('renders children', () => {
     useWalletContextMock.mockReturnValue({
-      address: '0x123',
       breakpoint: 'sm',
       isSubComponentOpen: true,
     });
@@ -110,7 +126,6 @@ describe('WalletDropdown', () => {
 
   it('renders WalletDropdown when breakpoint is not "sm"', () => {
     useWalletContextMock.mockReturnValue({
-      address: '0x123',
       breakpoint: 'md',
       isSubComponentOpen: true,
     });
@@ -125,7 +140,6 @@ describe('WalletDropdown', () => {
 
   it('sets classes correctly based on context values', () => {
     useWalletContextMock.mockReturnValue({
-      address: '0x123',
       showSubComponentAbove: true,
       alignSubComponentRight: false,
       isSubComponentOpen: true,
@@ -136,7 +150,6 @@ describe('WalletDropdown', () => {
     expect(dropdown).toHaveClass('absolute bottom-full left-0');
 
     useWalletContextMock.mockReturnValue({
-      address: '0x123',
       showSubComponentAbove: false,
       alignSubComponentRight: true,
       isSubComponentOpen: true,

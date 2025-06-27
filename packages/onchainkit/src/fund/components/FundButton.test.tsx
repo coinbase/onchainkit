@@ -32,10 +32,6 @@ vi.mock('@/internal/utils/openPopup', () => ({
   openPopup: vi.fn(),
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 vi.mock('../../wallet/components/ConnectWallet', () => ({
   ConnectWallet: () => (
     <div data-testid="ockConnectWallet_Container">Connect</div>

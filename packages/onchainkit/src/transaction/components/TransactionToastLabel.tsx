@@ -8,7 +8,7 @@ export function TransactionToastLabel({
   const { label } = useGetTransactionToastLabel();
   return (
     <div className={cn(text.label1, 'text-nowrap', className)}>
-      <p className={'text-ock-text-foreground'}>{label}</p>
+      <p className={'text-ock-foreground'}>{label}</p>
     </div>
   );
 }

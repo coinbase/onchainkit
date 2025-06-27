@@ -3,7 +3,6 @@ import { zIndex } from '@/styles/constants';
 import { border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
-import type { WalletAdvancedReact } from '../types';
 import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
 import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
@@ -11,12 +10,27 @@ import { Send } from './wallet-advanced-send/components/Send';
 import { RequestContext } from '@/core/network/constants';
 import { usePortfolio } from '@/wallet/hooks/usePortfolio';
 import { useAccount } from 'wagmi';
+import {
+  WalletAdvancedQrReceiveProps,
+  WalletAdvancedSwapProps,
+} from '../types';
+import { Token } from '@/token';
+
+export type WalletDropdownContentProps = {
+  children?: React.ReactNode;
+  swappableTokens?: Token[];
+  classNames?: {
+    container?: string;
+    qr?: WalletAdvancedQrReceiveProps['classNames'];
+    swap?: WalletAdvancedSwapProps['classNames'];
+  };
+};
 
 export function WalletDropdownContent({
   children,
   swappableTokens,
   classNames,
-}: WalletAdvancedReact) {
+}: WalletDropdownContentProps) {
   const {
     isSubComponentOpen,
     setIsSubComponentOpen,
@@ -118,7 +132,7 @@ export function WalletDropdownContent({
     <div
       data-testid="ockWalletDropdownContent"
       className={cn(
-        'bg-ock-bg-default',
+        'bg-ock-background',
         'rounded-ock-default',
         border.lineDefault,
         zIndex.dropdown,

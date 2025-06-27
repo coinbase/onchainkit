@@ -25,7 +25,7 @@ export function Sign({ domain, handleSigned }: SignProps) {
   return (
     <Step
       number={3}
-      label="Sign to generate and save your Mini-App manifeset"
+      label="Sign to generate and save your Mini-App manifest"
       disabled={!address || !domain || fid === 0}
       description="The Mini-App manifest will be saved to your .env file as `FARCASTER_HEADER`, `FARCASTER_PAYLOAD` and `FARCASTER_SIGNATURE` variables"
     >

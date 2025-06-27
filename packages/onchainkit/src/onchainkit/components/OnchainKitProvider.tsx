@@ -1,19 +1,29 @@
 'use client';
-import { useMemo, type ReactNode } from 'react';
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  type ReactNode,
+} from 'react';
 import { useSessionStorage } from 'usehooks-ts';
-import type { Chain } from 'wagmi/chains';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
-import type { EASSchemaUid } from '@/identity/types';
 import OnchainKitProviderBoundary from './OnchainKitProviderBoundary';
-import type { AppConfig } from '../../core/types';
-import { checkHashLength } from '../../internal/utils/checkHashLength';
-import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from '../../identity/constants';
-import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from '../../core/constants';
-import { DefaultOnchainKitProviders } from './DefaultOnchainKitProviders';
-import { generateUUIDWithInsecureFallback } from '../../utils/crypto';
-import { OnchainKitContext } from '../hooks/useOnchainKit';
-import type { MiniKitOptions } from '../../minikit/types';
+import { checkHashLength } from '@/internal/utils/checkHashLength';
+import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from '@/identity/constants';
+import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from '@/core/constants';
+import { generateUUIDWithInsecureFallback } from '@/utils/crypto';
+import { OnchainKitContext } from '@/onchainkit/hooks/useOnchainKit';
 import { MiniKitProvider } from '@/minikit/MiniKitProvider';
+import { useThemeRoot } from '@/internal/hooks/useTheme';
+import { clientMetaManager } from '@/core/clientMeta/clientMetaManager';
+import { MiniKitContext } from '@/minikit/MiniKitProvider';
+import { DefaultOnchainKitProviders } from './DefaultOnchainKitProviders';
+
+import type { Chain } from 'wagmi/chains';
+import type { EASSchemaUid } from '@/identity/types';
+import type { AppConfig } from '@/core/types';
+import type { MiniKitOptions } from '@/minikit/types';
 
 export type OnchainKitProviderReact = {
   analytics?: boolean;
@@ -52,6 +62,20 @@ export function OnchainKitProvider({
     'ock-session-id',
     generateUUIDWithInsecureFallback(),
   );
+  const theme = useThemeRoot({
+    theme: config?.appearance?.theme,
+    mode: config?.appearance?.mode,
+  });
+
+  useLayoutEffect(() => {
+    document.documentElement.setAttribute('data-ock-theme', theme);
+  }, [theme]);
+  const isMiniKit = !!useContext(MiniKitContext)?.__isMiniKit;
+
+  useEffect(() => {
+    if (clientMetaManager.isInitialized()) return;
+    clientMetaManager.init({ isMiniKit });
+  }, [isMiniKit]);
 
   // eslint-disable-next-line complexity
   const value = useMemo(() => {

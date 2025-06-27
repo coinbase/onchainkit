@@ -5,7 +5,7 @@ import { useAccount } from 'wagmi';
 import { useDepositButton } from '../hooks/useDepositButton';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
-export const AppchainBridgeTransactionButton = () => {
+export function AppchainBridgeTransactionButton() {
   const {
     handleDeposit,
     depositStatus,
@@ -47,7 +47,7 @@ export const AppchainBridgeTransactionButton = () => {
         <div
           className={cn(
             text.headline,
-            'text-ock-text-inverse',
+            'text-ock-foreground-inverse',
             'flex justify-center',
           )}
         >
@@ -55,10 +55,10 @@ export const AppchainBridgeTransactionButton = () => {
         </div>
       </button>
       {isRejected && (
-        <div className={cn(text.label2, 'text-ock-text-error', 'mt-2')}>
+        <div className={cn(text.label2, 'text-ock-error', 'mt-2')}>
           Transaction denied
         </div>
       )}
     </div>
   );
-};
+}

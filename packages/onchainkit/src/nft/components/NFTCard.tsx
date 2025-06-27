@@ -1,6 +1,5 @@
 'use client';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
-import { useTheme } from '@/internal/hooks/useTheme';
 import { NFTLifecycleProvider } from '@/nft/components/NFTLifecycleProvider';
 import { NFTProvider } from '@/nft/components/NFTProvider';
 import { useNFTData as defaultUseNFTData } from '@/nft/hooks/useNFTData';
@@ -40,8 +39,6 @@ export function NFTCard({
   onError,
   onSuccess,
 }: NFTCardProps) {
-  const componentTheme = useTheme();
-
   const isMounted = useIsMounted();
 
   const { chain } = useAccount();
@@ -73,12 +70,11 @@ export function NFTCard({
           <button
             type="button"
             className={cn(
-              componentTheme,
-              'text-ock-text-foreground',
+              'text-ock-foreground',
               pressable.default,
               'rounded-ock-default',
               'flex w-full max-w-[500px] flex-col items-stretch gap-1.5 border p-4 text-left',
-              `hover:border-[${'border-ock-bg-default-active'}]`,
+              'hover:border-(--color-ock-background-active)',
               className,
             )}
             data-testid="ockNFTCard_Container"

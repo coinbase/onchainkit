@@ -8,11 +8,11 @@ export const copySvg = (
     <title>Copy</title>
     <path
       d="M0.666016 0H9.33268V9.33333H0.666016V0ZM1.99935 1.33333V8H7.99935V1.33333H1.99935Z"
-      className="fill-ock-icon-color-foreground"
+      className="fill-ock-foreground"
     />
     <path
       d="M10.666 3.33333H11.9993V12H4.66602V10.6667H10.666V3.33333Z"
-      className="fill-ock-icon-color-foreground"
+      className="fill-ock-foreground"
     />
   </svg>
 );

@@ -19,7 +19,7 @@ export function Button({
         disabled && pressable.disabled,
         'rounded-ock-default',
         text.headline,
-        'text-ock-text-inverse',
+        'text-ock-foreground-inverse',
         'items-center justify-center px-4 py-3',
         className,
       )}

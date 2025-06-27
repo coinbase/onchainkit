@@ -11,10 +11,7 @@ export function EarnDetails({ className }: EarnDetailsProps) {
   if (error) {
     return (
       <div
-        className={cn(
-          'flex w-full flex-col gap-1 text-sm',
-          'text-ock-text-error',
-        )}
+        className={cn('flex w-full flex-col gap-1 text-sm', 'text-ock-error')}
       >
         <div className="font-semibold">Error fetching vault details</div>
         <div className="text-xs">{error.message}</div>

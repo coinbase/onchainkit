@@ -20,7 +20,7 @@ export function IsSponsored() {
             checked={isSponsored}
             onCheckedChange={handleChange}
           />
-          <Label htmlFor="is-sponsored text-foregroundMuted">True</Label>
+          <Label htmlFor="is-sponsored text-ock-foregroundMuted">True</Label>
         </div>
       </div>
     </div>

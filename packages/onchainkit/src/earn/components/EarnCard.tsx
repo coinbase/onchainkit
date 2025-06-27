@@ -6,9 +6,9 @@ export function EarnCard({ children, className }: EarnCardProps) {
     <div
       data-testid="ockEarnCard"
       className={cn(
-        'border-ock-bg-default',
+        'border-ock-background',
         'flex flex-col gap-8 border-t p-4',
-        'bg-ock-bg-default',
+        'bg-ock-background',
         className,
       )}
     >

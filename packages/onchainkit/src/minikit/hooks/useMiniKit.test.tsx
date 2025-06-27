@@ -9,6 +9,8 @@ const mockContext = {
   context: null,
   notificationProxyUrl: '/api/notify',
   updateClientContext: vi.fn(),
+  enabled: true,
+  __isMiniKit: true,
 } as MiniKitContextType;
 
 vi.mock('@/DefaultOnchainKitProviders', () => ({
@@ -16,7 +18,7 @@ vi.mock('@/DefaultOnchainKitProviders', () => ({
     children,
 }));
 
-vi.mock('@/OnchainKitProvider', () => ({
+vi.mock('@/onchainkit/components/OnchainKitProvider', () => ({
   OnchainKitProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 

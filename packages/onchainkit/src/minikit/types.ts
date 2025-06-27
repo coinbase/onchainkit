@@ -12,7 +12,8 @@ export type MiniKitOptions = {
    * Notifications are sent by posting a cross origin request to a url returned by
    * the frames context.  This prop allows you to set a custom proxy route for MiniKits
    * notification related hooks to use.
-   * @default `/api/notify`
+   *
+   * @defaultValue `/api/notify`
    */
   notificationProxyUrl?: string;
   enabled?: boolean;
@@ -25,4 +26,5 @@ export type MiniKitContextType = {
   context: Context.FrameContext | null;
   updateClientContext: (params: UpdateClientContextParams) => void;
   notificationProxyUrl: string;
+  __isMiniKit: boolean;
 };

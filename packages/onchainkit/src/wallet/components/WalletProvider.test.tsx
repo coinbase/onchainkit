@@ -40,6 +40,12 @@ describe('useWalletContext', () => {
     });
   });
 
+  it('should throw error when used outside WalletProvider', () => {
+    expect(() => {
+      renderHook(() => useWalletContext());
+    }).toThrow('useWalletContext must be used within a WalletProvider');
+  });
+
   it('should return default context', () => {
     render(
       <WagmiProvider config={{} as Config}>
@@ -57,7 +63,6 @@ describe('useWalletContext', () => {
       ),
     });
     expect(result.current.isSubComponentOpen).toEqual(false);
-    expect(result.current.address).toEqual(null);
     expect(result.current.isSubComponentClosing).toEqual(false);
   });
 

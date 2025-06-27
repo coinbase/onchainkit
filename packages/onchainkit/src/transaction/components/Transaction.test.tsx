@@ -37,10 +37,6 @@ vi.mock('@/onchainkit/hooks/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
   useConnect: vi.fn(),

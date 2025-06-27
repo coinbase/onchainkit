@@ -18,6 +18,7 @@ export const MiniKitContext = createContext<MiniKitContextType>({
   context: null,
   updateClientContext: () => {},
   notificationProxyUrl: '',
+  __isMiniKit: true,
 });
 
 function MiniKitProviderContent({
@@ -101,6 +102,7 @@ function MiniKitProviderContent({
       context,
       updateClientContext,
       notificationProxyUrl,
+      __isMiniKit: true,
     };
   }, [updateClientContext, notificationProxyUrl, context]);
 

@@ -54,17 +54,13 @@ vi.mock('@/internal/svg/closeSvg', () => ({
   CloseSvg: () => <div data-testid="mock-close-svg" />,
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 vi.mock('@/styles/theme', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../styles/theme')>();
   return {
     ...actual,
     background: { default: 'bg-default' },
     border: { radius: 'border-radius' },
-    color: { foreground: 'text-foreground' },
+    color: { foreground: 'text-ock-foreground' },
     text: { title3: 'text-title3' },
     cn: (...args: string[]) => args.filter(Boolean).join(' '),
     icon: {

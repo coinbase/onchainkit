@@ -4,12 +4,12 @@ import { Address, Avatar, Name } from '@/identity';
 import { cn, pressable } from '@/styles/theme';
 import { useCallback } from 'react';
 import type { Address as AddressType } from 'viem';
-import { useWalletContext } from '../../WalletProvider';
+import { useOnchainKit } from '@/onchainkit/hooks/useOnchainKit';
 import type { SendAddressSelectorProps } from '../types';
 import { useSendContext } from './SendProvider';
 
 export function SendAddressSelector({ classNames }: SendAddressSelectorProps) {
-  const { chain } = useWalletContext();
+  const { chain } = useOnchainKit();
   const { recipientState, selectRecipient } = useSendContext();
 
   const handleSelectorClick = useCallback(async () => {
@@ -40,7 +40,7 @@ export function SendAddressSelector({ classNames }: SendAddressSelectorProps) {
       <div
         data-testid="ockSendAddressSelector_container"
         className={cn(
-          'bg-ock-bg-default',
+          'bg-ock-background',
           'rounded-ock-default',
           pressable.default,
           'items-left flex min-w-[300px]',

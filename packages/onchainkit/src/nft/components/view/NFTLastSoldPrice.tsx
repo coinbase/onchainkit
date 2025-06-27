@@ -27,7 +27,7 @@ export function NFTLastSoldPrice({
 
   return (
     <div className={cn(text.label2, 'flex justify-between', className)}>
-      <div className={cn('text-ock-text-foreground-muted')}>{label}</div>
+      <div className={cn('text-ock-foreground-muted')}>{label}</div>
       <div className="flex">
         <div className={text.label1}>
           {formatToDecimalString(amount)} {currency}
