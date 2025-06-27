@@ -1,5 +1,5 @@
 export { MiniKitProvider } from './MiniKitProvider';
-export type { MiniKitProviderReact } from './types';
+export type { MiniKitProviderProps } from './types';
 export { useMiniKit } from './hooks/useMiniKit';
 export { useOpenUrl } from './hooks/useOpenUrl';
 export { useAuthenticate, parseSignInMessage } from './hooks/useAuthenticate';

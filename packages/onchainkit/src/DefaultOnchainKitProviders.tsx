@@ -1,32 +1,20 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import {
-  type PropsWithChildren,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { type PropsWithChildren, useContext, useMemo } from 'react';
 import { Config, WagmiProvider } from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
+import { farcasterFrame } from '@farcaster/frame-wagmi-connector';
+import { MiniKitContext } from '@/minikit/MiniKitProvider';
 import { createWagmiConfig } from './core/createWagmiConfig';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
 import { useOnchainKit } from './useOnchainKit';
-import type { CreateWagmiConfigParams } from './core/types';
 
-export function DefaultOnchainKitProviders({
-  children,
-  connectors,
-}: PropsWithChildren<{ connectors?: CreateWagmiConfigParams['connectors'] }>) {
+export function DefaultOnchainKitProviders({ children }: PropsWithChildren) {
   // Check the React context for WagmiProvider and QueryClientProvider
   const { providedWagmiConfig, providedQueryClient } =
     useProviderDependencies();
 
   return (
-    <WagmiProviderWithDefault
-      providedWagmiConfig={providedWagmiConfig}
-      connectors={connectors}
-    >
+    <WagmiProviderWithDefault providedWagmiConfig={providedWagmiConfig}>
       <QueryClientProviderWithDefault providedQueryClient={providedQueryClient}>
         {children}
       </QueryClientProviderWithDefault>
@@ -37,56 +25,46 @@ export function DefaultOnchainKitProviders({
 function WagmiProviderWithDefault({
   children,
   providedWagmiConfig,
-  connectors,
 }: PropsWithChildren<{
   providedWagmiConfig: Config | null;
-  connectors?: CreateWagmiConfigParams['connectors'];
 }>) {
   const onchainKitConfig = useOnchainKit();
-  const prevConnectorsRef =
-    useRef<CreateWagmiConfigParams['connectors']>(connectors);
+  // Using useContext here because useMiniKit throws if MiniKit is not enabled
+  const miniKit = useContext(MiniKitContext);
 
-  const getWagmiConfig = useCallback(() => {
-    if (providedWagmiConfig) return providedWagmiConfig;
+  const apiKey = onchainKitConfig.apiKey ?? undefined;
+  const appName = onchainKitConfig.config?.appearance?.name ?? undefined;
+  const appLogoUrl = onchainKitConfig.config?.appearance?.logo ?? undefined;
+  const connectorPreference = onchainKitConfig.config?.wallet?.preference;
 
-    const appName = onchainKitConfig.config?.appearance?.name ?? undefined;
-    const appLogoUrl = onchainKitConfig.config?.appearance?.logo ?? undefined;
+  const defaultConnector = useMemo(() => {
+    if (miniKit.context) {
+      return farcasterFrame();
+    }
 
-    return createWagmiConfig({
-      apiKey: onchainKitConfig.apiKey ?? undefined,
+    return coinbaseWallet({
       appName,
       appLogoUrl,
-      connectors: connectors ?? [
-        coinbaseWallet({
-          appName,
-          appLogoUrl,
-          preference: onchainKitConfig.config?.wallet?.preference,
-        }),
-      ],
+      preference: connectorPreference,
     });
-  }, [
-    onchainKitConfig.apiKey,
-    onchainKitConfig.config,
-    connectors,
-    providedWagmiConfig,
-  ]);
+  }, [appName, appLogoUrl, connectorPreference, miniKit.context]);
 
-  const [config, setConfig] = useState(() => {
-    return getWagmiConfig();
-  });
+  const defaultConfig = useMemo(() => {
+    if (providedWagmiConfig) return providedWagmiConfig;
 
-  useEffect(() => {
-    if (prevConnectorsRef.current !== connectors) {
-      setConfig(getWagmiConfig());
-      prevConnectorsRef.current = connectors;
-    }
-  }, [connectors, getWagmiConfig]);
+    return createWagmiConfig({
+      apiKey,
+      appName,
+      appLogoUrl,
+      connectors: [defaultConnector],
+    });
+  }, [providedWagmiConfig, defaultConnector, apiKey, appName, appLogoUrl]);
 
   if (providedWagmiConfig) {
     return children;
   }
 
-  return <WagmiProvider config={config}>{children}</WagmiProvider>;
+  return <WagmiProvider config={defaultConfig}>{children}</WagmiProvider>;
 }
 
 function QueryClientProviderWithDefault({

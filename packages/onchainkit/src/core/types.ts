@@ -1,5 +1,5 @@
 import type { EASSchemaUid } from '@/identity/types';
-import type { Address, Chain } from 'viem';
+import type { Chain } from 'viem';
 import type { CreateConnectorFn } from 'wagmi';
 import { type CoinbaseWalletParameters } from 'wagmi/connectors';
 
@@ -107,8 +107,6 @@ export type UseThemeReact =
  * Note: exported as public Type
  */
 export type OnchainKitConfig = {
-  /** Address is optional as we may not have an address for new users */
-  address: Address | null;
   /** ApiKey for Coinbase Developer Platform APIs */
   apiKey: string | null;
   /** Chain must be provided as we need to know which chain to use */
