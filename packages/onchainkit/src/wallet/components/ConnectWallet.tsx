@@ -140,7 +140,7 @@ function ConnectWalletContent({
   ]);
 
   const handleConnectClick = useCallback(() => {
-    if (config?.wallet?.display === 'modal') {
+    if (isWalletModalEnabled) {
       handleOpenConnectModal();
       setHasClickedConnect(true);
       sendAnalytics(WalletEvent.ConnectInitiated, {
@@ -165,7 +165,7 @@ function ConnectWalletContent({
       },
     );
   }, [
-    config?.wallet?.display,
+    isWalletModalEnabled,
     connect,
     connector,
     handleAnalyticsError,
