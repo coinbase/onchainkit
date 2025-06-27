@@ -38,7 +38,7 @@ function WagmiProviderWithDefault({
   const connectorPreference = onchainKitConfig.config?.wallet?.preference;
 
   const defaultConnector = useMemo(() => {
-    if (miniKit.context) {
+    if (miniKit?.context) {
       return farcasterFrame();
     }
 
@@ -47,7 +47,7 @@ function WagmiProviderWithDefault({
       appLogoUrl,
       preference: connectorPreference,
     });
-  }, [appName, appLogoUrl, connectorPreference, miniKit.context]);
+  }, [appName, appLogoUrl, connectorPreference, miniKit?.context]);
 
   const defaultConfig = useMemo(() => {
     if (providedWagmiConfig) return providedWagmiConfig;

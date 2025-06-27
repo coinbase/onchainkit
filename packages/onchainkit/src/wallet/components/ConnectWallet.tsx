@@ -75,8 +75,8 @@ function ConnectWalletContent({
   const [hasClickedConnect, setHasClickedConnect] = useState(false);
   const miniKitContext = useContext(MiniKitContext);
   const isWalletModalEnabled = useMemo(() => {
-    return config?.wallet?.display === 'modal' && !miniKitContext.context;
-  }, [config?.wallet?.display, miniKitContext.context]);
+    return config?.wallet?.display === 'modal' && !miniKitContext?.context;
+  }, [config?.wallet?.display, miniKitContext?.context]);
 
   const connector = accountConnector || connectors[0];
   const isLoading = connectStatus === 'pending' || status === 'connecting';
