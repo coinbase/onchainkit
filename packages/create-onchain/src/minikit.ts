@@ -16,10 +16,6 @@ import express from 'express';
 import { createServer } from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
 import { analyticsPrompt } from './analytics.js';
-import { exec } from 'child_process';
-import { promisify } from 'util';
-
-const execAsync = promisify(exec);
 
 type WebpageData = {
   header: string;
@@ -135,50 +131,227 @@ export async function createMiniKitManifest(envPath?: string) {
   return true;
 }
 
-const LLM_DOCS_URLS = {
+const DEFAULT_LLM_DOCS_URLS = {
+  base: 'https://raw.githubusercontent.com/base/docs/refs/heads/master/docs/llms-full.txt',
   farcaster: 'https://miniapps.farcaster.xyz/llms-full.txt',
   neynar: 'https://docs.neynar.com/llms-full.txt',
   privy: 'https://docs.privy.io/llms-full.txt',
 };
 
-async function setupAgentDocs(root: string, selectedDocs: string[]) {
+interface DownloadConfig {
+  url: string;
+  name: string;
+  filename: string;
+}
+
+function validateUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
+function isOnline(): Promise<boolean> {
+  return new Promise((resolve) => {
+    const timeout = setTimeout(() => resolve(false), 3000);
+    
+    fetch('https://httpbin.org/status/200', {
+      method: 'HEAD',
+      signal: AbortSignal.timeout(3000)
+    })
+      .then(() => {
+        clearTimeout(timeout);
+        resolve(true);
+      })
+      .catch(() => {
+        clearTimeout(timeout);
+        resolve(false);
+      });
+  });
+}
+
+async function downloadWithRetry(
+  url: string,
+  filepath: string,
+  maxRetries = 3,
+  spinner?: any
+): Promise<{ success: boolean; error?: string; size?: number }> {
+  if (!validateUrl(url)) {
+    return { success: false, error: 'Invalid URL - only HTTPS URLs are allowed' };
+  }
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
+
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          'User-Agent': 'create-onchain-cli'
+        }
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const contentLength = response.headers.get('content-length');
+      const totalSize = contentLength ? parseInt(contentLength) : 0;
+      let downloadedSize = 0;
+
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error('Unable to read response body');
+      }
+
+      const chunks: Uint8Array[] = [];
+
+      while (true) {
+        const { done, value } = await reader.read();
+        
+        if (done) break;
+        
+        chunks.push(value);
+        downloadedSize += value.length;
+        
+        // Update progress only if spinner provided
+        // Removed to reduce flicker during "Creating [app name]..." message
+      }
+
+      // Write file
+      const buffer = new Uint8Array(downloadedSize);
+      let offset = 0;
+      for (const chunk of chunks) {
+        buffer.set(chunk, offset);
+        offset += chunk.length;
+      }
+
+      await fs.promises.writeFile(filepath, buffer);
+      
+      return { success: true, size: downloadedSize };
+      
+    } catch (error: any) {
+      const isLastAttempt = attempt === maxRetries;
+      
+      if (error.name === 'AbortError') {
+        if (isLastAttempt) {
+          return { success: false, error: 'Download timed out after 30 seconds' };
+        }
+      } else if (error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED') {
+        if (isLastAttempt) {
+          return { success: false, error: 'Network connection failed - please check your internet connection' };
+        }
+      } else {
+        if (isLastAttempt) {
+          return { success: false, error: `Download failed: ${error.message}` };
+        }
+      }
+
+      // Exponential backoff for retry
+      if (!isLastAttempt) {
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+  }
+
+  return { success: false, error: 'Max retries exceeded' };
+}
+
+async function setupAgentDocs(root: string, selectedDocs: string[], customUrls?: Record<string, string>) {
   const agentDocsDir = path.join(root, 'agent-docs');
   await fs.promises.mkdir(agentDocsDir, { recursive: true });
 
-  const spinner = ora('Downloading LLM documentation...').start();
-
-  try {
+  // Check if we're online
+  const online = await isOnline();
+  
+  if (!online) {
+    console.log(pc.yellow('⚠️  No internet connection detected. Creating agent-docs folder with placeholder files.'));
+    console.log(pc.gray('   Run "npm run update-llm-docs" later to download documentation.'));
+    
+    // Create placeholder files
     for (const docType of selectedDocs) {
-      const url = LLM_DOCS_URLS[docType as keyof typeof LLM_DOCS_URLS];
-      if (url) {
-        const filename = `${docType}-llms-full.txt`;
-        const filepath = path.join(agentDocsDir, filename);
+      const filename = `${docType}-llms-full.txt`;
+      const filepath = path.join(agentDocsDir, filename);
+      const urls = customUrls || DEFAULT_LLM_DOCS_URLS;
+      const url = urls[docType as keyof typeof urls] || 'Unknown';
+      const placeholder = `# ${docType.charAt(0).toUpperCase() + docType.slice(1)} LLM Documentation\n\nThis file will be populated when you run: npm run update-llm-docs\n\nOriginal URL: ${url}`;
+      await fs.promises.writeFile(filepath, placeholder);
+    }
+  } else {
+    const spinner = ora('Downloading LLM documentation...').start();
+    const results: Array<{ name: string; success: boolean; error?: string; size?: number }> = [];
+
+    try {
+      for (const docType of selectedDocs) {
+        const urls = customUrls || DEFAULT_LLM_DOCS_URLS;
+        const url = urls[docType as keyof typeof urls];
         
-        try {
-          await execAsync(`curl -s "${url}" -o "${filepath}"`);
-          spinner.text = `Downloaded ${docType} documentation`;
-        } catch (error) {
-          console.warn(`Failed to download ${docType} documentation: ${error}`);
+        if (url) {
+          const filename = `${docType}-llms-full.txt`;
+          const filepath = path.join(agentDocsDir, filename);
+          
+          const result = await downloadWithRetry(url, filepath, 3);
+          
+          results.push({
+            name: docType,
+            success: result.success,
+            error: result.error,
+            size: result.size
+          });
         }
       }
+
+      // Report results
+      const successful = results.filter(r => r.success);
+      const failed = results.filter(r => !r.success);
+      
+      if (successful.length > 0) {
+        spinner.succeed(`Downloaded ${successful.length}/${results.length} documentation files`);
+        
+        for (const result of successful) {
+          const sizeStr = result.size ? ` (${(result.size / 1024).toFixed(1)}KB)` : '';
+          console.log(pc.green(`  ✓ ${result.name}${sizeStr}`));
+        }
+      }
+      
+      if (failed.length > 0) {
+        console.log(pc.yellow(`\n⚠️  ${failed.length} downloads failed:`));
+        for (const result of failed) {
+          console.log(pc.red(`  ✗ ${result.name}: ${result.error}`));
+        }
+        console.log(pc.gray('   You can retry with: npm run update-llm-docs'));
+      }
+      
+    } catch (error) {
+      spinner.fail('Failed to setup LLM documentation');
+      console.error(pc.red(`Error: ${error}`));
     }
+  }
 
-    // Create agent config file to store preferences
-    const configPath = path.join(agentDocsDir, 'agent-config.json');
-    const config = {
-      selectedDocs,
-      lastUpdated: new Date().toISOString(),
-      sources: selectedDocs.reduce((acc, doc) => {
-        acc[doc] = LLM_DOCS_URLS[doc as keyof typeof LLM_DOCS_URLS];
-        return acc;
-      }, {} as Record<string, string>),
-    };
-    
-    await fs.promises.writeFile(configPath, JSON.stringify(config, null, 2));
+  // Create agent config file to store preferences
+  const configPath = path.join(agentDocsDir, 'agent-config.json');
+  const urls = customUrls || DEFAULT_LLM_DOCS_URLS;
+  const config = {
+    selectedDocs,
+    lastUpdated: new Date().toISOString(),
+    sources: selectedDocs.reduce((acc, doc) => {
+      acc[doc] = urls[doc as keyof typeof urls];
+      return acc;
+    }, {} as Record<string, string>),
+    offline: !online,
+  };
+  
+  await fs.promises.writeFile(configPath, JSON.stringify(config, null, 2));
 
-    // Create README for agent-docs
-    const readmePath = path.join(agentDocsDir, 'README.md');
-    const readmeContent = `# Agent Documentation
+  // Create README for agent-docs
+  const readmePath = path.join(agentDocsDir, 'README.md');
+  const readmeContent = `# Agent Documentation
 
 This folder contains LLM-optimized documentation for various APIs and services.
 
@@ -198,32 +371,152 @@ npm run update-llm-docs
 
 The \`agent-config.json\` file contains:
 - Selected documentation sources
-- Last update timestamp
+- Last update timestamp  
 - Source URLs for each documentation type
+- Offline status indicator
+
+### Custom URLs
+
+You can customize source URLs by editing the \`sources\` object in \`agent-config.json\`:
+
+\`\`\`json
+{
+  "sources": {
+    "farcaster": "https://your-custom-url.com/farcaster-docs.txt",
+    "neynar": "https://your-custom-url.com/neynar-docs.txt"
+  }
+}
+\`\`\`
 
 ## Usage
 
 These files are optimized for LLM consumption and contain comprehensive API documentation that can be used by AI agents and development tools.
+
+## Offline Mode
+
+If created without internet connection, placeholder files are generated. Run \`npm run update-llm-docs\` when online to download actual documentation.
 `;
 
-    await fs.promises.writeFile(readmePath, readmeContent);
+  await fs.promises.writeFile(readmePath, readmeContent);
 
-    // Create update script inside agent-docs folder
-    const updateScriptPath = path.join(agentDocsDir, 'update-llm-docs.js');
-    const updateScriptContent = `#!/usr/bin/env node
+  // Create update script inside agent-docs folder
+  const updateScriptPath = path.join(agentDocsDir, 'update-llm-docs.js');
+  const updateScriptContent = `#!/usr/bin/env node
 
 const fs = require('fs');
 const path = require('path');
-const { exec } = require('child_process');
-const { promisify } = require('util');
 
-const execAsync = promisify(exec);
+function validateUrl(url) {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
 
-const LLM_DOCS_URLS = {
-  farcaster: 'https://miniapps.farcaster.xyz/llms-full.txt',
-  neynar: 'https://docs.neynar.com/llms-full.txt',
-  privy: 'https://docs.privy.io/llms-full.txt',
-};
+function isOnline() {
+  return new Promise((resolve) => {
+    const timeout = setTimeout(() => resolve(false), 3000);
+    
+    fetch('https://httpbin.org/status/200', {
+      method: 'HEAD',
+      signal: AbortSignal.timeout(3000)
+    })
+      .then(() => {
+        clearTimeout(timeout);
+        resolve(true);
+      })
+      .catch(() => {
+        clearTimeout(timeout);
+        resolve(false);
+      });
+  });
+}
+
+async function downloadWithRetry(url, filepath, maxRetries = 3) {
+  if (!validateUrl(url)) {
+    return { success: false, error: 'Invalid URL - only HTTPS URLs are allowed' };
+  }
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: { 'User-Agent': 'create-onchain-cli' }
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(\`HTTP \${response.status}: \${response.statusText}\`);
+      }
+
+      const contentLength = response.headers.get('content-length');
+      const totalSize = contentLength ? parseInt(contentLength) : 0;
+      let downloadedSize = 0;
+
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error('Unable to read response body');
+      }
+
+      const chunks = [];
+      
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        chunks.push(value);
+        downloadedSize += value.length;
+        
+        if (totalSize > 0) {
+          const percent = Math.round((downloadedSize / totalSize) * 100);
+          process.stdout.write(\`\\r📥 Downloading \${path.basename(filepath)} (\${percent}%)...\`);
+        }
+      }
+
+      const buffer = new Uint8Array(downloadedSize);
+      let offset = 0;
+      for (const chunk of chunks) {
+        buffer.set(chunk, offset);
+        offset += chunk.length;
+      }
+
+      fs.writeFileSync(filepath, buffer);
+      process.stdout.write(\`\\r✅ Downloaded \${path.basename(filepath)} (\${(downloadedSize / 1024).toFixed(1)}KB)\\n\`);
+      
+      return { success: true, size: downloadedSize };
+      
+    } catch (error) {
+      const isLastAttempt = attempt === maxRetries;
+      
+      if (error.name === 'AbortError') {
+        if (isLastAttempt) {
+          return { success: false, error: 'Download timed out after 30 seconds' };
+        }
+      } else if (error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED') {
+        if (isLastAttempt) {
+          return { success: false, error: 'Network connection failed - please check your internet connection' };
+        }
+      } else {
+        if (isLastAttempt) {
+          return { success: false, error: \`Download failed: \${error.message}\` };
+        }
+      }
+
+      if (!isLastAttempt) {
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+  }
+
+  return { success: false, error: 'Max retries exceeded' };
+}
 
 async function updateLLMDocs() {
   try {
@@ -237,45 +530,68 @@ async function updateLLMDocs() {
     const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
     const agentDocsDir = __dirname;
 
-    console.log('🔄 Updating LLM documentation files...');
+    // Check if online
+    console.log('🔄 Checking internet connection...');
+    const online = await isOnline();
+    
+    if (!online) {
+      console.error('❌ No internet connection detected. Please check your network and try again.');
+      process.exit(1);
+    }
+
+    console.log('📥 Updating LLM documentation files...');
+    const results = [];
 
     for (const docType of config.selectedDocs) {
-      const url = LLM_DOCS_URLS[docType];
+      const url = config.sources[docType];
       if (url) {
         const filename = \`\${docType}-llms-full.txt\`;
         const filepath = path.join(agentDocsDir, filename);
         
-        try {
-          console.log(\`📥 Downloading \${docType} documentation...\`);
-          await execAsync(\`curl -s "\${url}" -o "\${filepath}"\`);
-          console.log(\`✅ Updated \${docType} documentation\`);
-        } catch (error) {
-          console.error(\`❌ Failed to download \${docType} documentation:\`, error.message);
-        }
+        const result = await downloadWithRetry(url, filepath, 3);
+        results.push({
+          name: docType,
+          success: result.success,
+          error: result.error,
+          size: result.size
+        });
       }
     }
 
-    // Update config with new timestamp
+    // Report results
+    const successful = results.filter(r => r.success);
+    const failed = results.filter(r => !r.success);
+    
+    if (successful.length > 0) {
+      console.log(\`\\n🎉 Successfully updated \${successful.length}/\${results.length} documentation files\`);
+    }
+    
+    if (failed.length > 0) {
+      console.log(\`\\n⚠️  \${failed.length} downloads failed:\`);
+      for (const result of failed) {
+        console.log(\`  ❌ \${result.name}: \${result.error}\`);
+      }
+    }
+
+    // Update config
     config.lastUpdated = new Date().toISOString();
+    config.offline = false;
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 
-    console.log('🎉 All LLM documentation files updated successfully!');
+    if (failed.length === 0) {
+      console.log('\\n✨ All documentation files are up to date!');
+    }
+    
   } catch (error) {
     console.error('❌ Failed to update LLM documentation:', error.message);
     process.exit(1);
   }
 }
 
-updateLLMDocs();
-`;
+updateLLMDocs();`;
 
-    await fs.promises.writeFile(updateScriptPath, updateScriptContent);
-    await fs.promises.chmod(updateScriptPath, 0o755); // Make executable
-
-    spinner.succeed('LLM documentation downloaded successfully');
-  } catch (error) {
-    spinner.fail(`Failed to setup agent documentation: ${error}`);
-  }
+  await fs.promises.writeFile(updateScriptPath, updateScriptContent);
+  await fs.promises.chmod(updateScriptPath, 0o755); // Make executable
 }
 
 export async function createMiniKitTemplate(
@@ -299,7 +615,7 @@ export async function createMiniKitTemplate(
 
   const defaultProjectName = 'my-minikit-app';
 
-  let result: prompts.Answers<'projectName' | 'packageName' | 'clientKey' | 'llmDocs'>;
+  let result: prompts.Answers<'projectName' | 'packageName' | 'clientKey' | 'llmDocs' | 'customUrls'>;
 
   try {
     result = await prompts(
@@ -346,14 +662,21 @@ export async function createMiniKitTemplate(
         {
           type: 'multiselect',
           name: 'llmDocs',
-          message: pc.reset('Select LLM docs:'),
+          message: pc.reset('Download AI agent documentation for these tools:'),
           choices: [
-            { title: 'Farcaster', value: 'farcaster', selected: true },
-            { title: 'Neynar', value: 'neynar', selected: false },
-            { title: 'Privy', value: 'privy', selected: false },
+            { title: 'Base (L2 blockchain)', value: 'base', selected: true },
+            { title: 'Farcaster (Mini App APIs)', value: 'farcaster', selected: true },
+            { title: 'Neynar (Farcaster API service)', value: 'neynar', selected: false },
+            { title: 'Privy (Auth & wallets)', value: 'privy', selected: false },
           ],
           hint: '↑↓ navigate, space to select, enter to confirm',
           instructions: false,
+        },
+        {
+          type: (prev) => prev && prev.length > 0 ? 'confirm' : null,
+          name: 'customUrls',
+          message: pc.reset('Customize documentation URLs? (Default URLs will be used if declined)'),
+          initial: false,
         },
       ],
       {
@@ -368,7 +691,13 @@ export async function createMiniKitTemplate(
     process.exit(1);
   }
 
-  const { projectName, packageName, clientKey, llmDocs } = result;
+  const { projectName, packageName, clientKey, llmDocs, customUrls } = result;
+  
+  // Handle custom URLs if requested
+  let customUrlsConfig: Record<string, string> | undefined;
+  if (customUrls && llmDocs && llmDocs.length > 0) {
+    console.log(pc.gray('\\nNote: You can customize URLs later by editing agent-docs/agent-config.json'));
+  }
   const root = path.join(process.cwd(), projectName);
 
   await analyticsPrompt(template);
@@ -397,7 +726,7 @@ export async function createMiniKitTemplate(
 
   // Create agent-docs folder and download LLM text files
   if (llmDocs && llmDocs.length > 0) {
-    await setupAgentDocs(root, llmDocs);
+    await setupAgentDocs(root, llmDocs, customUrlsConfig);
   }
 
   // Create .env file
