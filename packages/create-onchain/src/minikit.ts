@@ -16,6 +16,10 @@ import express from 'express';
 import { createServer } from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
 import { analyticsPrompt } from './analytics.js';
+import { exec } from 'child_process';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
 
 type WebpageData = {
   header: string;
@@ -131,6 +135,149 @@ export async function createMiniKitManifest(envPath?: string) {
   return true;
 }
 
+const LLM_DOCS_URLS = {
+  farcaster: 'https://miniapps.farcaster.xyz/llms-full.txt',
+  neynar: 'https://docs.neynar.com/llms-full.txt',
+  privy: 'https://docs.privy.io/llms-full.txt',
+};
+
+async function setupAgentDocs(root: string, selectedDocs: string[]) {
+  const agentDocsDir = path.join(root, 'agent-docs');
+  await fs.promises.mkdir(agentDocsDir, { recursive: true });
+
+  const spinner = ora('Downloading LLM documentation...').start();
+
+  try {
+    for (const docType of selectedDocs) {
+      const url = LLM_DOCS_URLS[docType as keyof typeof LLM_DOCS_URLS];
+      if (url) {
+        const filename = `${docType}-llms-full.txt`;
+        const filepath = path.join(agentDocsDir, filename);
+        
+        try {
+          await execAsync(`curl -s "${url}" -o "${filepath}"`);
+          spinner.text = `Downloaded ${docType} documentation`;
+        } catch (error) {
+          console.warn(`Failed to download ${docType} documentation: ${error}`);
+        }
+      }
+    }
+
+    // Create agent config file to store preferences
+    const configPath = path.join(agentDocsDir, 'agent-config.json');
+    const config = {
+      selectedDocs,
+      lastUpdated: new Date().toISOString(),
+      sources: selectedDocs.reduce((acc, doc) => {
+        acc[doc] = LLM_DOCS_URLS[doc as keyof typeof LLM_DOCS_URLS];
+        return acc;
+      }, {} as Record<string, string>),
+    };
+    
+    await fs.promises.writeFile(configPath, JSON.stringify(config, null, 2));
+
+    // Create README for agent-docs
+    const readmePath = path.join(agentDocsDir, 'README.md');
+    const readmeContent = `# Agent Documentation
+
+This folder contains LLM-optimized documentation for various APIs and services.
+
+## Available Documentation
+
+${selectedDocs.map(doc => `- **${doc}**: \`${doc}-llms-full.txt\``).join('\n')}
+
+## Updating Documentation
+
+To update all documentation files, run:
+
+\`\`\`bash
+npm run update-llm-docs
+\`\`\`
+
+## Configuration
+
+The \`agent-config.json\` file contains:
+- Selected documentation sources
+- Last update timestamp
+- Source URLs for each documentation type
+
+## Usage
+
+These files are optimized for LLM consumption and contain comprehensive API documentation that can be used by AI agents and development tools.
+`;
+
+    await fs.promises.writeFile(readmePath, readmeContent);
+
+    // Create update script inside agent-docs folder
+    const updateScriptPath = path.join(agentDocsDir, 'update-llm-docs.js');
+    const updateScriptContent = `#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+const { exec } = require('child_process');
+const { promisify } = require('util');
+
+const execAsync = promisify(exec);
+
+const LLM_DOCS_URLS = {
+  farcaster: 'https://miniapps.farcaster.xyz/llms-full.txt',
+  neynar: 'https://docs.neynar.com/llms-full.txt',
+  privy: 'https://docs.privy.io/llms-full.txt',
+};
+
+async function updateLLMDocs() {
+  try {
+    const configPath = path.join(__dirname, 'agent-config.json');
+    
+    if (!fs.existsSync(configPath)) {
+      console.error('❌ agent-config.json not found. Run npm create-onchain --mini to set up agent docs.');
+      process.exit(1);
+    }
+
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    const agentDocsDir = __dirname;
+
+    console.log('🔄 Updating LLM documentation files...');
+
+    for (const docType of config.selectedDocs) {
+      const url = LLM_DOCS_URLS[docType];
+      if (url) {
+        const filename = \`\${docType}-llms-full.txt\`;
+        const filepath = path.join(agentDocsDir, filename);
+        
+        try {
+          console.log(\`📥 Downloading \${docType} documentation...\`);
+          await execAsync(\`curl -s "\${url}" -o "\${filepath}"\`);
+          console.log(\`✅ Updated \${docType} documentation\`);
+        } catch (error) {
+          console.error(\`❌ Failed to download \${docType} documentation:\`, error.message);
+        }
+      }
+    }
+
+    // Update config with new timestamp
+    config.lastUpdated = new Date().toISOString();
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+
+    console.log('🎉 All LLM documentation files updated successfully!');
+  } catch (error) {
+    console.error('❌ Failed to update LLM documentation:', error.message);
+    process.exit(1);
+  }
+}
+
+updateLLMDocs();
+`;
+
+    await fs.promises.writeFile(updateScriptPath, updateScriptContent);
+    await fs.promises.chmod(updateScriptPath, 0o755); // Make executable
+
+    spinner.succeed('LLM documentation downloaded successfully');
+  } catch (error) {
+    spinner.fail(`Failed to setup agent documentation: ${error}`);
+  }
+}
+
 export async function createMiniKitTemplate(
   template: 'minikit-snake' | 'minikit-basic' = 'minikit-basic',
 ) {
@@ -152,7 +299,7 @@ export async function createMiniKitTemplate(
 
   const defaultProjectName = 'my-minikit-app';
 
-  let result: prompts.Answers<'projectName' | 'packageName' | 'clientKey'>;
+  let result: prompts.Answers<'projectName' | 'packageName' | 'clientKey' | 'llmDocs'>;
 
   try {
     result = await prompts(
@@ -196,6 +343,18 @@ export async function createMiniKitTemplate(
             )} (optional)`,
           ),
         },
+        {
+          type: 'multiselect',
+          name: 'llmDocs',
+          message: pc.reset('Select LLM docs:'),
+          choices: [
+            { title: 'Farcaster', value: 'farcaster', selected: true },
+            { title: 'Neynar', value: 'neynar', selected: false },
+            { title: 'Privy', value: 'privy', selected: false },
+          ],
+          hint: '↑↓ navigate, space to select, enter to confirm',
+          instructions: false,
+        },
       ],
       {
         onCancel: () => {
@@ -209,7 +368,7 @@ export async function createMiniKitTemplate(
     process.exit(1);
   }
 
-  const { projectName, packageName, clientKey } = result;
+  const { projectName, packageName, clientKey, llmDocs } = result;
   const root = path.join(process.cwd(), projectName);
 
   await analyticsPrompt(template);
@@ -225,7 +384,21 @@ export async function createMiniKitTemplate(
   const pkgPath = path.join(root, 'package.json');
   const pkg = JSON.parse(await fs.promises.readFile(pkgPath, 'utf-8'));
   pkg.name = packageName || toValidPackageName(projectName);
+  
+  // Add update script for LLM docs if any were selected
+  if (llmDocs && llmDocs.length > 0) {
+    if (!pkg.scripts) {
+      pkg.scripts = {};
+    }
+    pkg.scripts['update-llm-docs'] = 'node agent-docs/update-llm-docs.js';
+  }
+  
   await fs.promises.writeFile(pkgPath, JSON.stringify(pkg, null, 2));
+
+  // Create agent-docs folder and download LLM text files
+  if (llmDocs && llmDocs.length > 0) {
+    await setupAgentDocs(root, llmDocs);
+  }
 
   // Create .env file
   const envPath = path.join(root, '.env');
