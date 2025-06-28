@@ -12,6 +12,7 @@ import type {
   MiniKitProviderProps,
   UpdateClientContextParams,
 } from './types';
+import { AutoConnect } from './components/AutoConnect';
 
 export const MiniKitContext = createContext<MiniKitContextType>({
   enabled: false,
@@ -24,6 +25,7 @@ export const MiniKitContext = createContext<MiniKitContextType>({
 function MiniKitProviderContent({
   children,
   notificationProxyUrl = '/api/notify',
+  autoConnect = true,
 }: MiniKitProviderProps) {
   const [context, setContext] = useState<Context.FrameContext | null>(null);
 
@@ -108,16 +110,18 @@ function MiniKitProviderContent({
 
   return (
     <MiniKitContext.Provider value={value}>
-      <div
-        style={{
-          paddingTop: context?.client.safeAreaInsets?.top ?? 0,
-          paddingBottom: context?.client.safeAreaInsets?.bottom ?? 0,
-          paddingLeft: context?.client.safeAreaInsets?.left ?? 0,
-          paddingRight: context?.client.safeAreaInsets?.right ?? 0,
-        }}
-      >
-        {children}
-      </div>
+      <AutoConnect enabled={autoConnect}>
+        <div
+          style={{
+            paddingTop: context?.client.safeAreaInsets?.top ?? 0,
+            paddingBottom: context?.client.safeAreaInsets?.bottom ?? 0,
+            paddingLeft: context?.client.safeAreaInsets?.left ?? 0,
+            paddingRight: context?.client.safeAreaInsets?.right ?? 0,
+          }}
+        >
+          {children}
+        </div>
+      </AutoConnect>
     </MiniKitContext.Provider>
   );
 }
@@ -126,13 +130,17 @@ export function MiniKitProvider({
   children,
   notificationProxyUrl,
   enabled,
+  autoConnect,
 }: MiniKitProviderProps) {
   if (!enabled) {
     return children;
   }
 
   return (
-    <MiniKitProviderContent notificationProxyUrl={notificationProxyUrl}>
+    <MiniKitProviderContent
+      notificationProxyUrl={notificationProxyUrl}
+      autoConnect={autoConnect}
+    >
       {children}
     </MiniKitProviderContent>
   );
