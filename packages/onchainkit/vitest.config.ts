@@ -22,7 +22,6 @@ export default defineConfig({
         'onchainkit/esm/**',
         '**/**.test.tsx',
         'postcss.config.mjs',
-        'vite-env.d.ts',
       ],
       reportOnFailure: true,
       thresholds: {

@@ -400,4 +400,24 @@ describe('MiniKitProvider', () => {
     expect(contextValue?.context).toBeNull();
     expect(sdk.on).not.toHaveBeenCalled();
   });
+
+  it('should provide default context values when used without provider', () => {
+    let contextValue: MiniKitContextType | undefined;
+
+    function TestComponent() {
+      contextValue = useContext(MiniKitContext);
+      return null;
+    }
+
+    render(<TestComponent />);
+
+    expect(contextValue?.enabled).toBe(false);
+    expect(contextValue?.context).toBeNull();
+    expect(contextValue?.notificationProxyUrl).toBe('');
+    expect(contextValue?.__isMiniKit).toBe(false);
+    expect(typeof contextValue?.updateClientContext).toBe('function');
+
+    // Test that the default updateClientContext is a no-op
+    expect(() => contextValue?.updateClientContext({})).not.toThrow();
+  });
 });
