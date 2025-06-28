@@ -30,7 +30,7 @@ export async function createOnchainKitTemplate() {
 
   const defaultProjectName = 'my-onchainkit-app';
 
-  let result: prompts.Answers<'projectName' | 'packageName' | 'clientKey'>;
+  let result: prompts.Answers<'projectName' | 'packageName' | 'clientKey' | 'aiTool'>;
 
   try {
     result = await prompts(
@@ -74,6 +74,30 @@ export async function createOnchainKitTemplate() {
             )} (optional)`,
           ),
         },
+        {
+          type: 'select',
+          name: 'aiTool',
+          message: pc.reset('Install default rules for your AI-powered editor?'),
+          choices: [
+            {
+              title: 'None',
+              value: 'none',
+            },
+            {
+              title: 'Cursor',
+              value: 'cursor',
+            },
+            {
+              title: 'Windsurf',
+              value: 'windsurf',
+            },
+            {
+              title: 'Copilot',
+              value: 'copilot',
+            },
+          ],
+          initial: 0,
+        }
       ],
       {
         onCancel: () => {
@@ -87,7 +111,7 @@ export async function createOnchainKitTemplate() {
     process.exit(1);
   }
 
-  const { projectName, packageName, clientKey } = result;
+  const { projectName, packageName, clientKey, aiTool } = result;
   const root = path.join(process.cwd(), projectName);
 
   await analyticsPrompt('onchainkit');
@@ -124,6 +148,44 @@ export async function createOnchainKitTemplate() {
       )}`,
     );
     console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`Paymaster`)}`);
+  }
+
+  if (aiTool !== 'none') {
+    console.log(`${pc.greenBright('\u2713')} ${pc.blueBright(`${aiTool}`)}`);
+    const onchainkitRulesTemplate = await fs.promises.readFile(
+      path.resolve(
+        fileURLToPath(import.meta.url),
+        '../../../rules/onchainkit.txt',
+      ),
+      'utf-8',
+    );
+
+    if (aiTool === 'cursor') {
+      const rulesDir = path.join(root, '.cursor/rules');
+
+      const fileContent = `---
+description: OnchainKit Cursor Rules
+globs:
+alwaysApply: false
+---
+${onchainkitRulesTemplate.trim()}`;
+      await fs.promises.mkdir(rulesDir, { recursive: true });
+      // Write the file
+      await fs.promises.writeFile(path.join(rulesDir, 'onchainkit.mdc'), fileContent);
+    } else if (aiTool === 'windsurf') {
+      await fs.promises.writeFile(
+        path.join(root, '.windsurfrules'), 
+        onchainkitRulesTemplate,
+      );
+     
+    } else if (aiTool === 'copilot') {
+      await fs.promises.mkdir(path.join(root, '.github'), { recursive: true });
+
+      await fs.promises.writeFile(
+        path.join(root, '.github/copilot-instructions.md'),
+        onchainkitRulesTemplate,
+      );
+    }
   }
 
   console.log(`\nFrameworks:`);
