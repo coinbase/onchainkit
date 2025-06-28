@@ -284,7 +284,7 @@ async function setupAgentDocs(root: string, selectedDocs: string[], customUrls?:
       await fs.promises.writeFile(filepath, placeholder);
     }
   } else {
-    const spinner = ora('Downloading LLM documentation...').start();
+    const spinner = ora().start();
     const results: Array<{ name: string; success: boolean; error?: string; size?: number }> = [];
 
     try {
@@ -615,7 +615,7 @@ export async function createMiniKitTemplate(
 
   const defaultProjectName = 'my-minikit-app';
 
-  let result: prompts.Answers<'projectName' | 'packageName' | 'clientKey' | 'llmDocs' | 'customUrls'>;
+  let result: prompts.Answers<'projectName' | 'packageName' | 'clientKey' | 'llmDocs'>;
 
   try {
     result = await prompts(
@@ -672,12 +672,6 @@ export async function createMiniKitTemplate(
           hint: '↑↓ navigate, space to select, enter to confirm',
           instructions: false,
         },
-        {
-          type: (prev) => prev && prev.length > 0 ? 'confirm' : null,
-          name: 'customUrls',
-          message: pc.reset('Customize documentation URLs? (Default URLs will be used if declined)'),
-          initial: false,
-        },
       ],
       {
         onCancel: () => {
@@ -691,13 +685,7 @@ export async function createMiniKitTemplate(
     process.exit(1);
   }
 
-  const { projectName, packageName, clientKey, llmDocs, customUrls } = result;
-  
-  // Handle custom URLs if requested
-  let customUrlsConfig: Record<string, string> | undefined;
-  if (customUrls && llmDocs && llmDocs.length > 0) {
-    console.log(pc.gray('\\nNote: You can customize URLs later by editing agent-docs/agent-config.json'));
-  }
+  const { projectName, packageName, clientKey, llmDocs } = result;
   const root = path.join(process.cwd(), projectName);
 
   await analyticsPrompt(template);
@@ -726,7 +714,7 @@ export async function createMiniKitTemplate(
 
   // Create agent-docs folder and download LLM text files
   if (llmDocs && llmDocs.length > 0) {
-    await setupAgentDocs(root, llmDocs, customUrlsConfig);
+    await setupAgentDocs(root, llmDocs);
   }
 
   // Create .env file
