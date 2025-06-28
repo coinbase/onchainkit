@@ -647,6 +647,77 @@ describe('ConnectWallet', () => {
         },
       );
     });
+
+    it('should render direct connect when MiniKit context is available even with modal display', () => {
+      const connectMock = vi.fn();
+
+      // Set up modal display config
+      vi.mocked(useOnchainKit).mockReturnValue({
+        config: {
+          wallet: { display: 'modal' },
+          apiKey: 'test-api-key',
+          address: '0x0' as `0x${string}`,
+          chain: { id: 1 },
+          rpcUrl: 'https://test.com',
+          chains: [],
+          projectId: '1',
+          appMetadata: { name: 'Test App' },
+        },
+      } as unknown as ReturnType<typeof useOnchainKit>);
+
+      vi.mocked(useConnect).mockReturnValue({
+        connectors: [
+          {
+            id: 'mockConnector',
+            name: 'MockConnector',
+            type: 'mock',
+            connect: vi.fn(),
+            disconnect: vi.fn(),
+            getAccounts: vi.fn(),
+            getProvider: vi.fn(),
+            isAuthorized: vi.fn(),
+          } as unknown as Connector,
+        ],
+        connect: connectMock,
+        status: 'idle',
+      } as unknown as UseConnectReturnType<Config, unknown>);
+
+      // Mock MiniKit context as available (truthy context)
+      (useContext as Mock).mockImplementation((context) => {
+        // Check if this is the MiniKitContext by checking its shape
+        if (
+          context &&
+          typeof context === 'object' &&
+          '_currentValue' in context
+        ) {
+          return { context: { isFrame: true } }; // MiniKit context is available
+        }
+        return null;
+      });
+
+      render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
+
+      const connectButton = screen.getByTestId('ockConnectButton');
+      fireEvent.click(connectButton);
+
+      // Should connect directly, not open modal
+      expect(connectMock).toHaveBeenCalledWith(
+        {
+          connector: expect.objectContaining({
+            id: 'mockConnector',
+            name: 'MockConnector',
+            type: 'mock',
+          }),
+        },
+        {
+          onSuccess: expect.any(Function),
+          onError: expect.any(Function),
+        },
+      );
+
+      // Should not render modal
+      expect(screen.queryByTestId('ockModalOverlay')).not.toBeInTheDocument();
+    });
   });
 
   describe('connection state handling', () => {

@@ -6,8 +6,7 @@ const twMerge = extendTailwindMerge({
   prefix: 'ock:',
   extend: {
     theme: {
-      borderRadius: ['ock-default', 'ock-inner'],
-      colors: [
+      color: [
         'ock-foreground',
         'ock-foreground-muted',
         'ock-foreground-inverse',
@@ -40,6 +39,7 @@ const twMerge = extendTailwindMerge({
     classGroups: {
       shadow: ['ock-default'],
       'font-family': ['ock'],
+      rounded: ['ock-default', 'ock-inner'],
     },
   },
 });

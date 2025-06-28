@@ -1,6 +1,6 @@
 'use client';
 import { Avatar, Name } from '@/identity';
-import { ReactNode, useCallback, useContext } from 'react';
+import { ReactNode, useCallback, useContext, useMemo } from 'react';
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
@@ -17,6 +17,7 @@ import {
   type WalletContextType,
 } from './WalletProvider';
 import { WithRenderProps } from '@/internal/types';
+import { MiniKitContext } from '@/minikit/MiniKitProvider';
 
 export type ConnectWalletProps = WithRenderProps<{
   /** Children can be utilized to display customized content when the wallet is connected. */
@@ -71,8 +72,11 @@ function ConnectWalletContent({
   } = useAccount();
   const { connectors, connect, status: connectStatus } = useConnect();
   const { sendAnalytics } = useAnalytics();
-
   const [hasClickedConnect, setHasClickedConnect] = useState(false);
+  const miniKitContext = useContext(MiniKitContext);
+  const isWalletModalEnabled = useMemo(() => {
+    return config?.wallet?.display === 'modal' && !miniKitContext?.context;
+  }, [config?.wallet?.display, miniKitContext?.context]);
 
   const connector = accountConnector || connectors[0];
   const isLoading = connectStatus === 'pending' || status === 'connecting';
@@ -136,7 +140,7 @@ function ConnectWalletContent({
   ]);
 
   const handleConnectClick = useCallback(() => {
-    if (config?.wallet?.display === 'modal') {
+    if (isWalletModalEnabled) {
       handleOpenConnectModal();
       setHasClickedConnect(true);
       sendAnalytics(WalletEvent.ConnectInitiated, {
@@ -161,7 +165,7 @@ function ConnectWalletContent({
       },
     );
   }, [
-    config?.wallet?.display,
+    isWalletModalEnabled,
     connect,
     connector,
     handleAnalyticsError,
@@ -178,6 +182,7 @@ function ConnectWalletContent({
         onClick={handleConnectClick}
         isLoading={isLoading}
         render={render}
+        isWalletModalEnabled={isWalletModalEnabled}
       />
     );
   }
@@ -200,7 +205,7 @@ function ConnectWalletContent({
         >
           {disconnectedLabel}
         </button>
-        {config?.wallet?.display === 'modal' && (
+        {isWalletModalEnabled && (
           <WalletModal
             isOpen={isConnectModalOpen}
             onClose={handleCloseConnectModal}
@@ -263,13 +268,14 @@ function ConnectWalletRenderHandler({
   onClick,
   isLoading,
   render,
+  isWalletModalEnabled,
 }: {
   label: ReactNode;
   onClick: () => void;
   isLoading: boolean;
   render: NonNullable<ConnectWalletProps['render']>;
+  isWalletModalEnabled: boolean;
 }) {
-  const { config = { wallet: { display: undefined } } } = useOnchainKit();
   const walletContext = useWalletContext();
   const { isConnectModalOpen, setIsConnectModalOpen } = walletContext;
   const { status, address } = useAccount();
@@ -284,7 +290,7 @@ function ConnectWalletRenderHandler({
           status: 'disconnected',
           isLoading,
         })}
-        {config?.wallet?.display === 'modal' && (
+        {isWalletModalEnabled && (
           <WalletModal
             isOpen={isConnectModalOpen}
             onClose={() => setIsConnectModalOpen(false)}
