@@ -15,7 +15,7 @@ import { SwapToast } from '@/swap/components/SwapToast';
 import { SwapToggleButton } from '@/swap/components/SwapToggleButton';
 import { useCallback } from 'react';
 import { useWalletContext } from './WalletProvider';
-import { SwapDefaultReact } from '@/swap/types';
+import { SwapDefaultProps } from '@/swap/types';
 
 export type WalletAdvancedSwapProps = {
   classNames?: {
@@ -45,7 +45,7 @@ export type WalletAdvancedSwapProps = {
     /** Optional className override for the swap toast */
     toast?: string;
   };
-} & Omit<SwapDefaultReact, 'children' | 'className' | 'headerLeftContent'>;
+} & Omit<SwapDefaultProps, 'children' | 'className' | 'headerLeftContent'>;
 
 export function WalletAdvancedSwap({
   config,

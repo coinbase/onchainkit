@@ -85,7 +85,6 @@ describe('RenderSendButton', () => {
     });
     vi.mocked(useOnchainKit).mockReturnValue({
       chain: base,
-      address: '0x123' as `0x${string}`,
       apiKey: '',
       rpcUrl: '0x123' as `0x${string}`,
       schemaId: '0x123',

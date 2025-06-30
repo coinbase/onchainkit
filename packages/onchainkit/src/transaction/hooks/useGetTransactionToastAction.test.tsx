@@ -5,7 +5,7 @@ import { useShowCallsStatus } from 'wagmi/experimental';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
 import { useTransactionContext } from '../components/TransactionProvider';
 import { useGetTransactionToastAction } from './useGetTransactionToastAction';
-import { ReactNode } from 'react';
+import { ReactElement } from 'react';
 
 vi.mock('../components/TransactionProvider', () => ({
   useTransactionContext: vi.fn(),
@@ -67,7 +67,9 @@ describe('useGetTransactionToastAction', () => {
 
     const { result } = renderHook(() => useGetTransactionToastAction());
 
-    const button = result.current.actionElement as ReactNode;
+    const button = result.current.actionElement as ReactElement<{
+      onClick: () => void;
+    }>;
     expect(button.props.onClick).toBeDefined();
     expect(button).not.toBeNull();
   });
@@ -104,7 +106,9 @@ describe('useGetTransactionToastAction', () => {
 
     const { result } = renderHook(() => useGetTransactionToastAction());
 
-    const button = result.current.actionElement as ReactNode;
+    const button = result.current.actionElement as ReactElement<{
+      onClick: () => void;
+    }>;
     expect(button.props.onClick).toBe(onSubmitMock);
   });
 
@@ -128,7 +132,9 @@ describe('useGetTransactionToastAction', () => {
 
     const { result } = renderHook(() => useGetTransactionToastAction());
 
-    const button = result.current.actionElement as ReactNode;
+    const button = result.current.actionElement as ReactElement<{
+      onClick: () => void;
+    }>;
     expect(button.props.onClick).toBeDefined();
     expect(button).not.toBeNull();
   });
@@ -165,7 +171,9 @@ describe('useGetTransactionToastAction', () => {
 
     const { result } = renderHook(() => useGetTransactionToastAction());
 
-    const button = result.current.actionElement as ReactNode;
+    const button = result.current.actionElement as ReactElement<{
+      onClick: () => void;
+    }>;
     button.props.onClick();
 
     expect(showCallsStatus).toHaveBeenCalledWith({ id: 'ab123' });

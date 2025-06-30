@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 import { version } from '@/version';
 import { clientMetaManager } from '../clientMeta/clientMetaManager';
 import { setOnchainKitConfig } from '../OnchainKitConfig';
-import { RequestContext } from './constants';
+import { RequestContext, RequestContextType } from './constants';
 import { buildRequestBody, sendRequest } from './request';
 
 vi.mock('../clientMeta/clientMetaManager');
@@ -196,7 +196,7 @@ describe('request', () => {
       const response = await sendRequest(
         'exampleMethod',
         ['param1', 'param2'],
-        'fake' as RequestContext,
+        'fake' as RequestContextType,
       );
 
       expect(mockFetch).toHaveBeenCalledWith(expect.any(String), {
