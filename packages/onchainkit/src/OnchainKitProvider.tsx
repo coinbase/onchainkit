@@ -126,14 +126,14 @@ export function OnchainKitProvider({
 
   return (
     <OnchainKitContext.Provider value={value}>
-      <MiniKitProvider
-        enabled={miniKit.enabled}
-        notificationProxyUrl={miniKit.notificationProxyUrl}
-      >
-        <DefaultOnchainKitProviders>
+      <DefaultOnchainKitProviders>
+        <MiniKitProvider
+          enabled={miniKit.enabled}
+          notificationProxyUrl={miniKit.notificationProxyUrl}
+        >
           <OnchainKitProviderBoundary>{children}</OnchainKitProviderBoundary>
-        </DefaultOnchainKitProviders>
-      </MiniKitProvider>
+        </MiniKitProvider>
+      </DefaultOnchainKitProviders>
     </OnchainKitContext.Provider>
   );
 }
