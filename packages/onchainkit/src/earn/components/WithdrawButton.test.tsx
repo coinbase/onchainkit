@@ -4,7 +4,7 @@ import type { MakeRequired } from '@/internal/types';
 import type { Call, TransactionButtonRenderParams } from '@/transaction/types';
 import { render, screen } from '@testing-library/react';
 import type { Address } from 'viem';
-import { act } from 'react';
+import { act, ReactNode } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConnect } from 'wagmi';
 import { useEarnContext } from './EarnProvider';
@@ -31,7 +31,7 @@ vi.mock('wagmi', () => ({
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let capturedRenderFunction:
-  | ((params: TransactionButtonRenderParams) => JSX.Element)
+  | ((params: TransactionButtonRenderParams) => ReactNode)
   | null = null;
 
 let currentContext = {
@@ -52,7 +52,7 @@ vi.mock('@/transaction', async (importOriginal) => {
       render,
       disabled,
     }: {
-      render: (params: TransactionButtonRenderParams) => JSX.Element;
+      render: (params: TransactionButtonRenderParams) => ReactNode;
       disabled: boolean;
     }) => {
       // Store the render function for later use in tests

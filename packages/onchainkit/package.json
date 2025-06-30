@@ -46,7 +46,7 @@
     "tailwind-merge": "^3.2.0",
     "usehooks-ts": "^3.1.1",
     "viem": "^2.27.2",
-    "wagmi": "^2.14.11"
+    "wagmi": "^2.14.15"
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",

@@ -21,7 +21,6 @@ describe('Badge Component', () => {
     });
 
     vi.mocked(useOnchainKit).mockReturnValue({
-      address: null,
       apiKey: null,
       chain: base,
       rpcUrl: null,
@@ -225,7 +224,6 @@ describe('Badge Component', () => {
     });
 
     vi.mocked(useOnchainKit).mockReturnValue({
-      address: null,
       apiKey: null,
       chain: base,
       rpcUrl: null,
@@ -253,7 +251,6 @@ describe('Badge Component', () => {
     });
 
     vi.mocked(useOnchainKit).mockReturnValue({
-      address: null,
       apiKey: null,
       chain: base,
       rpcUrl: null,
@@ -281,7 +278,6 @@ describe('Badge Component', () => {
     });
 
     vi.mocked(useOnchainKit).mockReturnValue({
-      address: null,
       apiKey: null,
       chain: base,
       rpcUrl: null,
