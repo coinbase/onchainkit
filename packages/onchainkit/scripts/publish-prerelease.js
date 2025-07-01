@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import process from 'process';
 import { fileURLToPath } from 'url';
-import { getOckVersion } from '@utils/get-ock-version';
+import * as core from '@actions/core';
 
 const DIST_TAGS_URL =
   'https://registry.npmjs.org/-/package/@coinbase//onchainkit/dist-tags';
@@ -14,20 +14,36 @@ const DIST_TAGS_URL =
  *
  * @example
  * ```bash
- * # Publish an alpha version at the current core and auto-increment the prerelease version
  * pnpm f:ock publish-prerelease --tag alpha
- *
- * # Publish the exact version from package.json (requires a matching prerelease tag in package.json)
- * pnpm f:ock publish-prerelease --tag alpha --use-exact-version
  * ```
- * @returns {Promise<void>}
  */
 export async function publishPrerelease() {
   const { tag } = parseArgs();
   let nextVersion = '';
 
   try {
-    nextVersion = await getNextVersion();
+    const distTagsResponse = await fetch(DIST_TAGS_URL);
+    const distTags = await distTagsResponse.json();
+    const currentTagVersion = distTags[tag];
+
+    // Read the current version from package.json
+    const currentFilePath = fileURLToPath(import.meta.url);
+    const currentDir = path.dirname(currentFilePath);
+    const packageJsonPath = path.resolve(currentDir, '..', 'package.json');
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+    const packageJsonVersion = packageJson.version;
+
+    console.log(
+      `Found versions:\npackage.json: ${packageJsonVersion}\n${tag}: ${currentTagVersion}`,
+    );
+
+    nextVersion = getNextVersionNumber({
+      currentTagVersion,
+      packageJsonVersion,
+      tag,
+    });
+
+    console.log(`Next ${tag} version: ${nextVersion}`);
   } catch (error) {
     console.error(`Error determining next ${tag} version:\n`, error.message);
     process.exit(1);
@@ -41,16 +57,20 @@ export async function publishPrerelease() {
   }
 
   console.log(`${tag} release published: ${nextVersion}`);
+
+  // Set GitHub Actions output using @actions/core
+  try {
+    core.setOutput('version', nextVersion);
+  } catch {
+    // Gracefully handle when not running in GitHub Actions
+    console.log(`Output would be set: version=${nextVersion}`);
+  }
 }
 
-/**
- * Parse command line arguments
- * @returns {{ tag: string, useExactVersion: boolean }} The parsed arguments
- */
+// Parse command line arguments
 function parseArgs() {
   const args = process.argv.slice(2);
   const tagIndex = args.indexOf('--tag');
-  const useExactVersionIndex = args.indexOf('--use-exact-version');
 
   if (tagIndex === -1 || tagIndex === args.length - 1) {
     console.error('Error: --tag argument is required');
@@ -64,64 +84,18 @@ function parseArgs() {
     process.exit(1);
   }
 
-  const useExactVersion = useExactVersionIndex !== -1;
-
-  return { tag, useExactVersion };
+  return { tag };
 }
 
 /**
- * Get the next version to publish
- * @returns {Promise<string>} The next version to publish
- */
-async function getNextVersion() {
-  const { tag, useExactVersion } = parseArgs();
-  const packageVersionInfo = getOckVersion();
-
-  if (!useExactVersion) {
-    const distTagsResponse = await fetch(DIST_TAGS_URL);
-    const distTags = await distTagsResponse.json();
-    const currentTagVersion = distTags[tag];
-
-    console.log(
-      `Found versions:\npackage.json: ${packageVersionInfo.full}\n${tag}: ${currentTagVersion}`,
-    );
-
-    const nextVersion = getAutoIncrementedVersion({
-      currentTagVersion,
-      packageJsonVersion: packageVersionInfo.full,
-      tag,
-    });
-
-    console.log(`Next ${tag} version: ${nextVersion}`);
-    return nextVersion;
-  }
-
-  if (!packageVersionInfo.prereleaseTag) {
-    throw new Error(
-      `package.json version "${packageVersionInfo.full}" does not contain a prerelease tag, but --use-exact-version requires one.`,
-    );
-  }
-
-  if (packageVersionInfo.prereleaseTag !== tag) {
-    throw new Error(
-      `--tag "${tag}" does not match the prerelease tag "${packageVersionInfo.prereleaseTag}" in package.json version "${packageVersionInfo.full}".\n\nEither change the --tag argument to "${packageVersionInfo.prereleaseTag}" or update the version in package.json.`,
-    );
-  }
-
-  const nextVersion = packageVersionInfo.full;
-  console.log(`Using exact version from package.json: ${nextVersion}`);
-  return nextVersion;
-}
-
-/**
- * Get the next auto-incremented version for the specified tag
- * @param {{ currentTagVersion: string | undefined, packageJsonVersion: string, tag: string }} params - The version parameters
- * @param {string | undefined} params.currentTagVersion - The current version for the specified tag
+ * Get the next version number for the specified tag
+ * @param {Object} params - The version parameters
+ * @param {string} params.currentTagVersion - The current version for the specified tag
  * @param {string} params.packageJsonVersion - The current version from package.json
  * @param {string} params.tag - The tag name (e.g., 'canary', 'alpha')
  * @returns {string} The next version for the specified tag
  */
-export function getAutoIncrementedVersion({
+export function getNextVersionNumber({
   currentTagVersion,
   packageJsonVersion,
   tag,
@@ -156,7 +130,6 @@ export function getAutoIncrementedVersion({
  * Publish the release with the specified tag
  * @param {string} nextVersion - The next version to publish
  * @param {string} tag - The tag to publish under
- * @returns {void}
  */
 export function submitToRegistry(nextVersion, tag) {
   const currentFilePath = fileURLToPath(import.meta.url);
@@ -177,10 +150,6 @@ export function submitToRegistry(nextVersion, tag) {
   execSync(`pnpm publish --tag ${tag} --no-git-checks`);
 }
 
-/**
- * Main entry point
- * @returns {Promise<void>}
- */
 export async function main() {
   if (globalThis.__IS_TEST_ENV === true) {
     return;

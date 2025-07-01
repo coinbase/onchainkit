@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - alpha
+    paths:
+      - 'packages/onchainkit/**'
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -28,13 +30,22 @@ jobs:
       - name: 'Setup'
         uses: ./.github/actions/setup
 
-      - name: Build
+      - name: Build OnchainKit
         shell: bash
         run: pnpm f:ock build
+
+      - name: Build create-onchain
+        shell: bash
+        run: pnpm f:create build
 
       - name: Set deployment token
         run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
 
-      - name: Publish alpha
+      - name: Publish OnchainKit alpha
+        id: publish-ock
         shell: bash
-        run: pnpm f:ock publish-prerelease --tag alpha --use-exact-version
+        run: pnpm f:ock publish-prerelease --tag alpha
+
+      - name: Publish create-onchain alpha
+        shell: bash
+        run: pnpm f:create publish-prerelease --tag alpha --version ${{ steps.publish-ock.outputs.version }}
