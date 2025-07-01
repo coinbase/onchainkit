@@ -13,6 +13,7 @@
     "check:types": "tsc --noEmit",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "dev": "bun src/cli.ts",
+    "publish-prerelease": "node ./scripts/publish-prerelease.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
