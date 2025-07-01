@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/onchainkit",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.0",
   "type": "module",
   "repository": "https://github.com/coinbase/onchainkit.git",
   "license": "MIT",
@@ -49,6 +49,7 @@
     "wagmi": "^2.14.15"
   },
   "devDependencies": {
+    "@utils/get-ock-version": "workspace:*",
     "@babel/core": "^7.26.10",
     "@babel/helper-plugin-utils": "^7.26.5",
     "@babel/preset-react": "^7.27.1",
