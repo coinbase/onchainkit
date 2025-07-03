@@ -1,11 +1,14 @@
+"use client";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { Header } from "@/components/Header/Header";
+import { Wallet } from "@coinbase/onchainkit/wallet";
 
 export default function Home() {
   return (
     <div className={styles.container}>
-      <Header />
+      <header className={styles.headerWrapper}>
+        <Wallet />
+      </header>
 
       <div className={styles.content}>
         <Image src="/sphere.svg" alt="Sphere" width={200} height={200} />

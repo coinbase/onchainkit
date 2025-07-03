@@ -4,6 +4,12 @@
   min-height: 100vh;
 }
 
+.headerWrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+}
+
 .content {
   display: flex;
   flex-direction: column;
