@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useCheckoutContext } from '../components/CheckoutProvider';
 import { CHECKOUT_LIFECYCLE_STATUS } from '../constants';
+import { prefixClassName } from '../../styles/theme';
 
 export function useGetCheckoutStatus() {
   const { errorMessage, lifecycleStatus } = useCheckoutContext();
@@ -27,6 +28,6 @@ export function useGetCheckoutStatus() {
       labelClassName = 'text-ock-error';
     }
 
-    return { label, labelClassName };
+    return { label, labelClassName: prefixClassName(labelClassName) };
   }, [errorMessage, isPending, isSuccess]);
 }

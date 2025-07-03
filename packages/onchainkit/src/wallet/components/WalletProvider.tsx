@@ -72,6 +72,7 @@ export function WalletProvider({ children, isSponsored }: WalletProviderProps) {
     if (!isSubComponentOpen) {
       return;
     }
+
     setIsSubComponentClosing(true);
   }, [isSubComponentOpen]);
 

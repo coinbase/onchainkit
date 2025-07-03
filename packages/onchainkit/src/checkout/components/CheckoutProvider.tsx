@@ -11,10 +11,12 @@ import {
 import type { Address, ContractFunctionParameters } from 'viem';
 import { base } from 'viem/chains';
 import { useAccount, useConnect, useSwitchChain } from 'wagmi';
-import { useWaitForTransactionReceipt } from 'wagmi';
+import {
+  useWaitForTransactionReceipt,
+  useSendCalls,
+  useCallsStatus,
+} from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
-import { useWriteContracts } from 'wagmi/experimental';
-import { useCallsStatus } from 'wagmi/experimental';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import {
   type AnalyticsEventData,
@@ -143,7 +145,7 @@ export function CheckoutProvider({
     [chargeId, fetchContracts, updateLifecycleStatus],
   );
 
-  const { status, writeContractsAsync } = useWriteContracts({
+  const { status, sendCallsAsync } = useSendCalls({
     /* v8 ignore start */
     mutation: {
       onSuccess: (data) => {
@@ -322,15 +324,23 @@ export function CheckoutProvider({
       }
 
       // Open keys.coinbase.com for payment
-      await writeContractsAsync({
-        contracts: contractsRef.current,
-        capabilities: isSponsored
-          ? {
-              paymasterService: {
-                url: paymaster,
-              },
-            }
-          : undefined,
+      await sendCallsAsync({
+        calls: contractsRef.current.map((contract) => {
+          return {
+            to: contract.address,
+            abi: contract.abi,
+            functionName: contract.functionName,
+            args: contract.args,
+          };
+        }),
+        capabilities:
+          isSponsored && paymaster
+            ? {
+                paymasterService: {
+                  url: paymaster,
+                },
+              }
+            : undefined,
       });
     } catch (error) {
       handleAnalytics(CheckoutEvent.CheckoutFailure, {
@@ -377,7 +387,7 @@ export function CheckoutProvider({
     paymaster,
     switchChainAsync,
     updateLifecycleStatus,
-    writeContractsAsync,
+    sendCallsAsync,
     handleAnalytics,
     productId,
   ]);

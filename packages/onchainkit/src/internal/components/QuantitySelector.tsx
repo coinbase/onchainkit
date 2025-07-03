@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { TextInput } from '@/internal/components/TextInput';
-import { cn, pressable } from '@/styles/theme';
+import { cn, pressable, prefixClassName } from '@/styles/theme';
 
 export const DELAY_MS = 200;
 
@@ -70,12 +70,14 @@ export function QuantitySelector({
     }
   }, [onChange, minQuantity, value]);
 
-  const classNames = cn(
-    'h-11 w-11 rounded-lg border',
-    'border-ock-background-active',
-    'text-ock-foreground',
-    'bg-ock-background',
-    disabled && pressable.disabled,
+  const classNames = prefixClassName(
+    cn(
+      'h-11 w-11 rounded-lg border',
+      'border-ock-background-active',
+      'text-ock-foreground',
+      'bg-ock-background',
+      disabled && pressable.disabled,
+    ),
   );
 
   return (

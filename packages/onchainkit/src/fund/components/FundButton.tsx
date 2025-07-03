@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo } from 'react';
 
-import { cn, pressable, text } from '../../styles/theme';
+import { cn, pressable, text, prefixClassName } from '../../styles/theme';
 import { useAccount } from 'wagmi';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
@@ -105,7 +105,7 @@ export function FundButton({
 
   const buttonColorClass = useMemo(() => {
     if (buttonState === 'error') {
-      return 'bg-ock-error';
+      return prefixClassName('bg-ock-error');
     }
     return pressable.primary;
   }, [buttonState]);

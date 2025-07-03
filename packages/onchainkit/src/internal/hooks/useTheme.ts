@@ -14,9 +14,10 @@ function baseUseTheme({
   preferredMode?: string | null;
 } = {}): UseThemeReact {
   const finalMode = !mode || !VALID_MODES.has(mode) ? preferredMode : mode;
-  return theme === 'cyberpunk' || theme === 'hacker'
-    ? theme
-    : `${theme}-${finalMode}`;
+  const finalTheme = theme || 'default';
+  return finalTheme === 'cyberpunk' || finalTheme === 'hacker'
+    ? finalTheme
+    : `${finalTheme}-${finalMode}`;
 }
 
 export function useTheme() {

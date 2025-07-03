@@ -3,7 +3,7 @@ on:
   push:
     branches: ['main']
   pull_request:
-    branches: ['main', 'onchainkit-v1']
+    branches: ['main', 'alpha']
 permissions:
   contents: read
 jobs:

@@ -312,11 +312,6 @@ export type UseWriteContractParams = {
   transactionHashList: Address[];
 };
 
-export type UseWriteContractsParams = {
-  setLifecycleStatus: (state: LifecycleStatus) => void;
-  setTransactionId: (id: string) => void;
-};
-
 export type UseSendCallParams = {
   setLifecycleStatus: (state: LifecycleStatus) => void;
   transactionHashList: Address[];

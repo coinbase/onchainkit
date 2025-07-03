@@ -7,7 +7,7 @@ import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { WalletEvent } from '@/core/analytics/types';
 import { IdentityProvider } from '@/identity/components/IdentityProvider';
 import { Spinner } from '@/internal/components/Spinner';
-import { cn, text as dsText, pressable } from '@/styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { WalletModal } from './WalletModal';
 import {
@@ -18,6 +18,7 @@ import {
 } from './WalletProvider';
 import { WithRenderProps } from '@/internal/types';
 import { MiniKitContext } from '@/minikit/MiniKitProvider';
+import { Button } from '@/ui/Button';
 
 export type ConnectWalletProps = WithRenderProps<{
   /** Children can be utilized to display customized content when the wallet is connected. */
@@ -190,21 +191,14 @@ function ConnectWalletContent({
   if (status === 'disconnected') {
     return (
       <div className="flex" data-testid="ockConnectWallet_Container">
-        <button
+        <Button
           type="button"
           data-testid="ockConnectButton"
-          className={cn(
-            pressable.primary,
-            'rounded-ock-default',
-            dsText.headline,
-            'text-ock-foreground-inverse',
-            'inline-flex min-w-[153px] items-center justify-center px-4 py-3',
-            className,
-          )}
+          className={cn('inline-flex min-w-[153px]', className)}
           onClick={handleConnectClick}
         >
           {disconnectedLabel}
-        </button>
+        </Button>
         {isWalletModalEnabled && (
           <WalletModal
             isOpen={isConnectModalOpen}
@@ -223,7 +217,7 @@ function ConnectWalletContent({
           data-testid="ockConnectAccountButtonInner"
           className={cn(
             pressable.primary,
-            dsText.headline,
+            text.headline,
             'text-ock-foreground-inverse',
             'inline-flex min-w-[153px] items-center justify-center rounded-xl px-4 py-3',
             pressable.disabled,

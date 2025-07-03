@@ -8,6 +8,7 @@ import { getWalletDraggableProps } from '../utils/getWalletDraggableProps';
 import { ConnectWallet } from './ConnectWallet';
 import { WalletDropdown } from './WalletDropdown';
 import { WalletProvider, useWalletContext } from './WalletProvider';
+import { Button } from '@/ui/Button';
 
 export type WalletProps = {
   children?: React.ReactNode;
@@ -80,7 +81,7 @@ export function Wallet({
 
   // prevents SSR hydration issue
   if (!isMounted) {
-    return null;
+    return <Button disabled>Connect Wallet</Button>;
   }
 
   return (
