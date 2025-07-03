@@ -1,5 +1,5 @@
 import { Spinner } from '@/internal/components/Spinner';
-import { cn, pressable, text } from '@/styles/theme';
+import { cn, pressable, text, prefixClassName } from '@/styles/theme';
 import { TransactionButtonRenderParams } from '@/transaction';
 
 export type RenderDepositButtonProps = TransactionButtonRenderParams & {
@@ -17,14 +17,16 @@ export function RenderDepositButton({
   depositedAmount,
   vaultToken,
 }: RenderDepositButtonProps) {
-  const classNames = cn(
-    pressable.primary,
-    'rounded-ock-default',
-    'w-full rounded-xl',
-    'px-4 py-3 font-medium leading-6',
-    isDisabled && pressable.disabled,
-    text.headline,
-    'text-ock-foreground-inverse',
+  const classNames = prefixClassName(
+    cn(
+      pressable.primary,
+      'rounded-ock-default',
+      'w-full rounded-xl',
+      'px-4 py-3 font-medium leading-6',
+      isDisabled && pressable.disabled,
+      text.headline,
+      'text-ock-foreground-inverse',
+    ),
   );
 
   if (context.receipt) {

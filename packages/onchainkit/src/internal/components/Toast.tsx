@@ -1,6 +1,6 @@
 import * as ToastPrimitives from '@radix-ui/react-toast';
 import { ComponentProps } from 'react';
-import { cn } from '../../styles/theme';
+import { cn, prefixClassName } from '../../styles/theme';
 import { CloseSvg } from '../svg/closeSvg';
 import { getToastPosition } from '../utils/getToastPosition';
 
@@ -62,7 +62,7 @@ export const Toast = ({
           'bg-ock-background text-ock-foreground',
           'flex items-center justify-between rounded-lg',
           'p-2 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.12)]',
-          animation && animationClassnameByPosition[position],
+          animation && prefixClassName(animationClassnameByPosition[position]),
           animation &&
             'data-[state=closed]:animate-out data-[state=closed]:fade-out-0',
           className,

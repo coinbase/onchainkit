@@ -103,6 +103,29 @@ export function babelPrefixReactClassNames({
                       ),
                     );
                   }
+                  if (types.isTemplateLiteral(arg.right)) {
+                    processTemplateLiteral(arg.right, prefix);
+                  }
+                }
+
+                // Handle conditional expressions (ternary operators) such as `isActive ? "class1" : "class2"`
+                if (types.isConditionalExpression(arg)) {
+                  if (types.isStringLiteral(arg.consequent)) {
+                    arg.consequent = types.stringLiteral(
+                      prefixStringParts(arg.consequent.value, prefix),
+                    );
+                  }
+                  if (types.isStringLiteral(arg.alternate)) {
+                    arg.alternate = types.stringLiteral(
+                      prefixStringParts(arg.alternate.value, prefix),
+                    );
+                  }
+                  if (types.isTemplateLiteral(arg.consequent)) {
+                    processTemplateLiteral(arg.consequent, prefix);
+                  }
+                  if (types.isTemplateLiteral(arg.alternate)) {
+                    processTemplateLiteral(arg.alternate, prefix);
+                  }
                 }
 
                 // Leave identifiers and member expressions untouched
