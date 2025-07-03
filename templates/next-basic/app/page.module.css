@@ -1,0 +1,13 @@
+.header {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .wordmark {
+    filter: invert(1);
+  }
+}
