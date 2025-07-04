@@ -42,8 +42,20 @@ export function withValidManifest(manifest: MiniAppManifest): MiniAppManifest {
     }),
   ) as MiniAppFields;
 
+  const hasValidAccountAssociation =
+    manifest.accountAssociation &&
+    manifest.accountAssociation.header &&
+    manifest.accountAssociation.payload &&
+    manifest.accountAssociation.signature;
+
+  if (manifest.accountAssociation && !hasValidAccountAssociation) {
+    console.warn(
+      'Invalid manifest accountAssociation. Omitting from manifest.',
+    );
+  }
+
   return {
-    ...(manifest.accountAssociation && {
+    ...(hasValidAccountAssociation && {
       accountAssociation: manifest.accountAssociation,
     }),
     miniapp: cleanedMiniapp,
