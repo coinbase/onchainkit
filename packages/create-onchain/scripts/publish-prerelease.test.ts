@@ -355,11 +355,11 @@ describe('create-onchain publish-prerelease script', () => {
         .mockReturnValue(true); // template package.json exists
 
       vi.mocked(fs.readdirSync).mockReturnValue([
-        { name: 'minikit-snake', isDirectory: () => true },
+        { name: 'minikit-nextjs', isDirectory: () => true },
       ] as any);
 
       const templatePackageJson = {
-        name: 'template-minikit-snake',
+        name: 'template-minikit-nextjs',
         devDependencies: {
           '@coinbase/onchainkit': '^0.38.0',
           typescript: '^5.0.0',
@@ -377,7 +377,7 @@ describe('create-onchain publish-prerelease script', () => {
       // Check that the template file was written (it should be the second writeFileSync call)
       expect(fs.writeFileSync).toHaveBeenNthCalledWith(
         2, // Second call should be for the template
-        'templates/minikit-snake/package.json',
+        'templates/minikit-nextjs/package.json',
         JSON.stringify(
           {
             ...templatePackageJson,
@@ -391,7 +391,7 @@ describe('create-onchain publish-prerelease script', () => {
         ) + '\n',
       );
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        'minikit-snake: Updated @coinbase/onchainkit to 1.0.0-alpha.1',
+        'minikit-nextjs: Updated @coinbase/onchainkit to 1.0.0-alpha.1',
       );
     });
 

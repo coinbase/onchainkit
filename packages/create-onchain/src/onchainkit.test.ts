@@ -66,7 +66,12 @@ vi.mock('path', async () => {
             (arg) => typeof arg === 'string' && arg.includes('templates'),
           )
         ) {
-          return actual.resolve(__dirname, '..', 'templates', 'minikit');
+          return actual.resolve(
+            __dirname,
+            '..',
+            'templates',
+            'onchainkit-nextjs',
+          );
         }
         return actual.resolve(...args);
       }),

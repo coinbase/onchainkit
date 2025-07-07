@@ -90,13 +90,13 @@ export async function createOnchainKitTemplate() {
   const { projectName, packageName, clientKey } = result;
   const root = path.join(process.cwd(), projectName);
 
-  await analyticsPrompt('onchainkit');
+  await analyticsPrompt('onchainkit-nextjs');
 
   const spinner = ora(`Creating ${projectName}...`).start();
 
   const sourceDir = path.resolve(
     fileURLToPath(import.meta.url),
-    '../../../templates/next',
+    '../../../templates/onchainkit-nextjs',
   );
 
   await copyDir(sourceDir, root);
@@ -105,12 +105,23 @@ export async function createOnchainKitTemplate() {
   pkg.name = packageName || toValidPackageName(projectName);
   await fs.promises.writeFile(pkgPath, JSON.stringify(pkg, null, 2));
 
-  // Create .env file
+  // Customize .env file from template
   const envPath = path.join(root, '.env');
-  await fs.promises.writeFile(
-    envPath,
-    `NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}`,
-  );
+  const templateEnvContent = await fs.promises
+    .readFile(envPath, 'utf-8')
+    .catch(() => '');
+
+  const customEnvContent = templateEnvContent
+    .replace(
+      'NEXT_PUBLIC_PROJECT_NAME="template-next-basic"',
+      `NEXT_PUBLIC_PROJECT_NAME="${projectName}"`,
+    )
+    .replace(
+      'NEXT_PUBLIC_ONCHAINKIT_API_KEY=""',
+      `NEXT_PUBLIC_ONCHAINKIT_API_KEY="${clientKey}"`,
+    );
+
+  await fs.promises.writeFile(envPath, customEnvContent);
 
   spinner.succeed();
   console.log(`\n${pc.magenta(`Created new OnchainKit project in ${root}`)}`);

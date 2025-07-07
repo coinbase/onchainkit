@@ -79,7 +79,7 @@ vi.mock('path', async () => {
             (arg) => typeof arg === 'string' && arg.includes('templates'),
           )
         ) {
-          return actual.resolve(__dirname, '..', 'templates', 'minikit-basic');
+          return actual.resolve(__dirname, '..', 'templates', 'minikit-nextjs');
         }
         return actual.resolve(...args);
       }),

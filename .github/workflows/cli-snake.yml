@@ -1,4 +1,4 @@
-name: "cli: build & install minikit - snake"
+name: "cli: build & install minikit"
 
 on:
   pull_request:
@@ -48,7 +48,7 @@ jobs:
         run: |
           mkdir test-project
           cd test-project
-          (sleep 1; echo ""; sleep 1; echo ""; sleep 1; echo -e "\033[D\n"; sleep 1; echo -e "\033[D\n") | ../packages/create-onchain/dist/esm/cli.js --template=minikit-snake
+          (sleep 1; echo ""; sleep 1; echo ""; sleep 1; echo -e "\033[D\n"; sleep 1; echo -e "\033[D\n") | ../packages/create-onchain/dist/esm/cli.js --mini
 
       - name: Install & Build test project
         working-directory: ./test-project/my-minikit-app

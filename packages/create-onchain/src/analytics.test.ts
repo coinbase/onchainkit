@@ -20,7 +20,7 @@ describe('analytics', () => {
     it('sends analytics when user accepts', async () => {
       vi.mocked(prompts).mockResolvedValue({ analytics: true });
 
-      const result = await analyticsPrompt('minikit-basic');
+      const result = await analyticsPrompt('minikit-nextjs');
 
       expect(result).toBe(true);
       expect(mockFetch).toHaveBeenCalledWith(
@@ -30,8 +30,8 @@ describe('analytics', () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: expect.stringContaining('"template":"minikit-basic"'),
-        })
+          body: expect.stringContaining('"template":"minikit-nextjs"'),
+        }),
       );
 
       const payload = JSON.parse(mockFetch.mock.calls[0][1]!.body as string);
@@ -39,15 +39,15 @@ describe('analytics', () => {
         eventType: 'createOnchainInitiated',
         timestamp: expect.any(Number),
         data: {
-          template: 'minikit-basic',
-        }
+          template: 'minikit-nextjs',
+        },
       });
     });
 
     it('does not send analytics when user declines', async () => {
       vi.mocked(prompts).mockResolvedValue({ analytics: false });
 
-      const result = await analyticsPrompt('minikit-basic');
+      const result = await analyticsPrompt('minikit-nextjs');
 
       expect(result).toBe(false);
       expect(mockFetch).not.toHaveBeenCalled();
@@ -56,7 +56,7 @@ describe('analytics', () => {
     it('handles prompts cancellation', async () => {
       vi.mocked(prompts).mockRejectedValue(new Error('Cancelled'));
 
-      const result = await analyticsPrompt('minikit-basic');
+      const result = await analyticsPrompt('minikit-nextjs');
 
       expect(result).toBe(false);
       expect(mockFetch).not.toHaveBeenCalled();
@@ -69,7 +69,7 @@ describe('analytics', () => {
         return Promise.resolve({ analytics: false });
       });
 
-      const result = await analyticsPrompt('minikit-basic');
+      const result = await analyticsPrompt('minikit-nextjs');
 
       expect(result).toBe(false);
       expect(mockFetch).not.toHaveBeenCalled();

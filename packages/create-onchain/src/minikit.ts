@@ -132,7 +132,7 @@ export async function createMiniKitManifest(envPath?: string) {
 }
 
 export async function createMiniKitTemplate(
-  template: 'minikit-snake' | 'minikit-basic' = 'minikit-basic',
+  template: 'minikit-nextjs' = 'minikit-nextjs',
 ) {
   console.log(
     `${pc.greenBright(`
