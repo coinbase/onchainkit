@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import * as SheetPrimitive from '@radix-ui/react-dialog';
-import { cn } from '@/styles/theme';
+import { cn, prefixClassName } from '@/styles/theme';
 import { zIndex } from '@/styles/constants';
 
 const SheetRoot = SheetPrimitive.Root;
@@ -47,21 +47,6 @@ export const Sheet = ({
   description,
   ...rest
 }: SheetProps) => {
-  const sheetContentClassName = cn(
-    zIndex.modal,
-    'bg-ock-background',
-    'fixed gap-4 p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500',
-    side === 'top' &&
-      'inset-x-0 top-0 border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top rounded-b-3xl',
-    side === 'bottom' &&
-      'inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom rounded-t-3xl',
-    side === 'left' &&
-      'inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm',
-    side === 'right' &&
-      'inset-y-0 right-0 h-full w-3/4  border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm',
-    className,
-  );
-
   return (
     <SheetRoot
       open={isOpen}
@@ -76,7 +61,20 @@ export const Sheet = ({
         <SheetTitle className="sr-only">{title}</SheetTitle>
         <SheetDescription className="sr-only">{description}</SheetDescription>
         <SheetPrimitive.Content
-          className={sheetContentClassName}
+          className={cn(
+            zIndex.modal,
+            'bg-ock-background',
+            'fixed gap-4 p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500',
+            side === 'top' &&
+              'inset-x-0 top-0 border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top rounded-b-3xl',
+            side === 'bottom' &&
+              'inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom rounded-t-3xl',
+            side === 'left' &&
+              'inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm',
+            side === 'right' &&
+              'inset-y-0 right-0 h-full w-3/4  border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm',
+            className,
+          )}
           {...rest}
           data-testid="ockSheet"
         >

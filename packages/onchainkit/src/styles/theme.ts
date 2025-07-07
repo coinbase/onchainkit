@@ -3,7 +3,7 @@ import { type ClassValue, clsx } from 'clsx';
 import { extendTailwindMerge } from 'tailwind-merge';
 
 const twMerge = extendTailwindMerge({
-  prefix: 'ock:',
+  prefix: 'ock',
   extend: {
     theme: {
       color: [
@@ -48,7 +48,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const prefixClassName = (className: string) => {
+export const prefixClassName = (className: string) => {
   return prefixStringParts(className, __CLASSNAME_PREFIX__);
 };
 

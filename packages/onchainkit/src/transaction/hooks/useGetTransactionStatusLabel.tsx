@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useTransactionContext } from '../components/TransactionProvider';
+import { prefixClassName } from '../../styles/theme';
 
 export function useGetTransactionStatusLabel() {
   const {
@@ -45,6 +46,6 @@ export function useGetTransactionStatusLabel() {
       labelClassName = 'text-ock-error';
     }
 
-    return { label, labelClassName };
+    return { label, labelClassName: prefixClassName(labelClassName) };
   }, [errorMessage, isBuildingTransaction, isInProgress, isPending, receipt]);
 }

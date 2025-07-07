@@ -175,4 +175,47 @@ describe('babel-prefix-react-classnames', () => {
     expect(result).toContain('function test()');
     expect(result).toContain('return 42');
   });
+
+  it('should handle logical expressions with template literals in cn utility', () => {
+    const code =
+      '<div className={cn(isActive && `foo ${dynamic} bar`)}>Hello</div>';
+    const result = transform(code);
+    expect(result).toContain('isActive && `prefix-foo ${dynamic} prefix-bar`');
+  });
+
+  it('should handle conditional expressions with string literals in cn utility', () => {
+    const code =
+      '<div className={cn(isActive ? "active-class" : "inactive-class")}>Hello</div>';
+    const result = transform(code);
+    expect(result).toContain(
+      'isActive ? "prefix-active-class" : "prefix-inactive-class"',
+    );
+  });
+
+  it('should handle conditional expressions with template literals in cn utility', () => {
+    const code =
+      '<div className={cn(isActive ? `active-${dynamic}` : `inactive-${dynamic}`)}>Hello</div>';
+    const result = transform(code);
+    expect(result).toContain(
+      'isActive ? `prefix-active-${dynamic}` : `prefix-inactive-${dynamic}`',
+    );
+  });
+
+  it('should handle conditional expressions with mixed string and template literals in cn utility', () => {
+    const code =
+      '<div className={cn(isActive ? "active-class" : `inactive-${dynamic}`)}>Hello</div>';
+    const result = transform(code);
+    expect(result).toContain(
+      'isActive ? "prefix-active-class" : `prefix-inactive-${dynamic}`',
+    );
+  });
+
+  it('should handle conditional expressions with template literal and string literal in cn utility', () => {
+    const code =
+      '<div className={cn(isActive ? `active-${dynamic}` : "inactive-class")}>Hello</div>';
+    const result = transform(code);
+    expect(result).toContain(
+      'isActive ? `prefix-active-${dynamic}` : "prefix-inactive-class"',
+    );
+  });
 });
