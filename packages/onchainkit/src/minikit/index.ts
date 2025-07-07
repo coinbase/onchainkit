@@ -11,3 +11,10 @@ export { useClose } from './hooks/useClose';
 export { useComposeCast } from './hooks/useComposeCast';
 export { useViewCast } from './hooks/useViewCast';
 export { useIsInMiniApp } from './hooks/useIsInMiniApp';
+
+export { withValidManifest } from './utils/manifestUtils';
+export type {
+  MiniAppManifest,
+  MiniAppFields,
+  AccountAssociationFields,
+} from './utils/types';
