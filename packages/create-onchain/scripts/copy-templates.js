@@ -112,7 +112,11 @@ function shouldIgnoreFile(filePath, gitignoreRules) {
       }
     } else {
       // Exact match or directory match
-      if (fileName === rule || relativePath.includes(rule)) {
+      if (
+        fileName === rule ||
+        relativePath === rule ||
+        relativePath.startsWith(rule + '/')
+      ) {
         return true;
       }
     }
@@ -148,6 +152,24 @@ async function copyTemplateDirectory(sourcePath, targetPath, gitignoreRules) {
         sourceFilePath,
         targetFilePath,
         gitignoreRules,
+      );
+    } else if (entry.name === 'package.json') {
+      // Handle package.json files specially to replace workspace dependencies
+      const packageContent = fs.readFileSync(sourceFilePath, 'utf-8');
+      const packageJson = JSON.parse(packageContent);
+
+      // Replace workspace:* dependency with latest
+      if (
+        packageJson.dependencies &&
+        packageJson.dependencies['@coinbase/onchainkit'] === 'workspace:*'
+      ) {
+        packageJson.dependencies['@coinbase/onchainkit'] = 'latest';
+      }
+
+      // Write the modified package.json
+      fs.writeFileSync(
+        targetFilePath,
+        JSON.stringify(packageJson, null, 2) + '\n',
       );
     } else {
       // Copy file
