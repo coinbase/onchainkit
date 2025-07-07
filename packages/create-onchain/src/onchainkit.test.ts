@@ -106,7 +106,17 @@ describe('CLI', () => {
       ])
       .mockResolvedValue([]);
     (fs.promises.copyFile as Mock).mockResolvedValue(undefined);
-    (fs.promises.readFile as Mock).mockResolvedValue(JSON.stringify({}));
+    (fs.promises.readFile as Mock).mockImplementation((filePath: string) => {
+      if (filePath.endsWith('package.json')) {
+        return Promise.resolve(JSON.stringify({}));
+      }
+      if (filePath.endsWith('.env')) {
+        return Promise.resolve(
+          `NEXT_PUBLIC_PROJECT_NAME="template-next-basic"\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=""\n`,
+        );
+      }
+      return Promise.resolve('{}');
+    });
     (fs.existsSync as Mock).mockResolvedValue(false);
     (fs.readdirSync as Mock).mockReturnValue([]);
 
@@ -135,7 +145,7 @@ describe('CLI', () => {
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
       expect.any(String),
       expect.stringContaining(
-        'NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key',
+        'NEXT_PUBLIC_PROJECT_NAME="test-project"\nNEXT_PUBLIC_ONCHAINKIT_API_KEY="test-key"',
       ),
     );
     expect(logSpy).toHaveBeenCalledWith(
@@ -159,7 +169,7 @@ describe('CLI', () => {
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
       expect.any(String),
       expect.stringContaining(
-        'NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=test-project\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=test-key',
+        'NEXT_PUBLIC_PROJECT_NAME="test-project"\nNEXT_PUBLIC_ONCHAINKIT_API_KEY="test-key"',
       ),
     );
     expect(logSpy).toHaveBeenCalledWith(

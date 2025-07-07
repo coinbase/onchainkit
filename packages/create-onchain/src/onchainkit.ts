@@ -141,7 +141,6 @@ export async function createOnchainKitTemplate() {
   console.log(`${pc.cyan('- Wagmi')}`);
   console.log(`${pc.cyan('- React')}`);
   console.log(`${pc.cyan('- Next.js')}`);
-  console.log(`${pc.cyan('- Tailwind CSS')}`);
   console.log(`${pc.cyan('- ESLint')}`);
 
   console.log(
