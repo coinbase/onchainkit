@@ -48,12 +48,14 @@ export type MiniAppFields = {
   buttonTitle?: string;
 };
 
-export type MiniAppManifest =
-  | {
-      accountAssociation?: AccountAssociationFields;
-      miniapp: MiniAppFields;
-    }
-  | {
-      accountAssociation?: AccountAssociationFields;
-      frame: MiniAppFields;
-    };
+export type MiniAppManifest = {
+  accountAssociation?: AccountAssociationFields;
+  miniapp: MiniAppFields;
+  frame?: never;
+};
+
+export type LegacyMiniAppManifest = {
+  accountAssociation?: AccountAssociationFields;
+  frame: MiniAppFields;
+  miniapp?: never;
+};

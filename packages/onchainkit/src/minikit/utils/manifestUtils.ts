@@ -1,6 +1,12 @@
-import type { MiniAppManifest, MiniAppFields } from './types';
+import type {
+  MiniAppManifest,
+  MiniAppFields,
+  LegacyMiniAppManifest,
+} from './types';
 
-export function withValidManifest(manifest: MiniAppManifest): MiniAppManifest {
+export function withValidManifest<
+  T extends MiniAppManifest | LegacyMiniAppManifest,
+>(manifest: T): T {
   const miniappObject =
     ('miniapp' in manifest && manifest.miniapp) ||
     ('frame' in manifest && manifest.frame);
@@ -56,10 +62,17 @@ export function withValidManifest(manifest: MiniAppManifest): MiniAppManifest {
     );
   }
 
+  if ('frame' in manifest) {
+    return {
+      ...manifest,
+      frame: cleanedMiniapp,
+    };
+  }
+
   return {
     ...(hasValidAccountAssociation && {
       accountAssociation: manifest.accountAssociation,
     }),
     miniapp: cleanedMiniapp,
-  };
+  } as T;
 }
