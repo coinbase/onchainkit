@@ -6,16 +6,16 @@ import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: minikitConfig.miniapp.name,
-    description: minikitConfig.miniapp.description,
+    title: minikitConfig.frame.name,
+    description: minikitConfig.frame.description,
     other: {
-      "fc:miniapp": JSON.stringify({
-        version: minikitConfig.miniapp.version,
-        imageUrl: minikitConfig.miniapp.heroImageUrl,
+      "fc:frame": JSON.stringify({
+        version: minikitConfig.frame.version,
+        imageUrl: minikitConfig.frame.heroImageUrl,
         button: {
-          title: `Launch ${minikitConfig.miniapp.name}`,
+          title: `Launch ${minikitConfig.frame.name}`,
           action: {
-            type: "launch_miniapp",
+            type: "launch_frame",
           },
         },
       }),

@@ -11,11 +11,11 @@ export const minikitConfig = {
     payload: "",
     signature: "",
   },
-  miniapp: {
+  frame: {
     version: "1",
     name: "APP_NAME",
-    subtitle: "APP_SUBTITLE",
-    description: "APP_DESCRIPTION",
+    subtitle: "",
+    description: "",
     screenshotUrls: [],
     iconUrl: `${ROOT_URL}/icon.png`,
     splashImageUrl: `${ROOT_URL}/splash.png`,
@@ -25,9 +25,9 @@ export const minikitConfig = {
     primaryCategory: "utility",
     tags: [],
     heroImageUrl: `${ROOT_URL}/hero.png`,
-    tagline: "Your MiniApp tagline",
-    ogTitle: "Your MiniApp",
-    ogDescription: "A powerful MiniApp built with OnchainKit",
+    tagline: "",
+    ogTitle: "",
+    ogDescription: "",
     ogImageUrl: `${ROOT_URL}/hero.png`,
   },
 } as const;

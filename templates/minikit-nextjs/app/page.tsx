@@ -11,7 +11,13 @@ export default function Home() {
       </header>
 
       <div className={styles.content}>
-        <Image src="/sphere.svg" alt="Sphere" width={200} height={200} />
+        <Image
+          priority
+          src="/sphere.svg"
+          alt="Sphere"
+          width={200}
+          height={200}
+        />
         <h1 className={styles.title}>MiniKit</h1>
 
         <p>
