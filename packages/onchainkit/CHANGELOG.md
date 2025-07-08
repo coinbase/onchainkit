@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.16
+
+### Patch Changes
+
+- 276f8b0: feat: Update useIsInMiniApp to check for sdk.context
+
 ## 0.38.15
 
 ### Patch Changes
