@@ -67,58 +67,50 @@ export async function createMiniKitManifest(envPath?: string) {
     return false;
   }
 
+  // Check if minikit.config.ts exists
+  const configPath = path.join(process.cwd(), 'minikit.config.ts');
+  const configExists = await fs.promises
+    .access(configPath)
+    .then(() => true)
+    .catch(() => false);
+
+  if (!configExists) {
+    console.log(
+      pc.red(
+        '\n* Failed to find minikit.config.ts. Please ensure you are in your project directory.',
+      ),
+    );
+    return false;
+  }
+
   try {
     const webpageData = await getWebpageData();
 
-    // get existing next public url to re-update on subsequent runs
-    let domain =
-      existingEnv.match(/NEXT_PUBLIC_URL=(.*)/)?.[1]?.trim() ||
-      '$NEXT_PUBLIC_URL';
-
-    const envKeys = {
-      FARCASTER_HEADER: {
-        value: webpageData.header,
-        added: false,
-      },
-      FARCASTER_PAYLOAD: {
-        value: webpageData.payload,
-        added: false,
-      },
-      FARCASTER_SIGNATURE: {
-        value: webpageData.signature,
-        added: false,
-      },
-      NEXT_PUBLIC_URL: {
-        value: webpageData.domain,
-        added: false,
-      },
-    };
-
+    // Update NEXT_PUBLIC_URL in .env file
     const updatedEnv = existingEnv
-      .replaceAll(domain, webpageData.domain)
       .split('\n')
       .map((line) => {
-        const [key] = line.split('=');
-
-        if (key in envKeys) {
-          envKeys[key as keyof typeof envKeys].added = true;
-          return `${key}=${envKeys[key as keyof typeof envKeys].value}`;
+        if (line.startsWith('NEXT_PUBLIC_URL=')) {
+          return `NEXT_PUBLIC_URL="${webpageData.domain}"`;
         }
-
         return line;
-      });
+      })
+      .join('\n');
 
-    Object.entries(envKeys).forEach(([key, { added }]) => {
-      if (!added) {
-        updatedEnv.push(`${key}=${envKeys[key as keyof typeof envKeys].value}`);
-      }
-    });
+    await fs.promises.writeFile(envPath, updatedEnv);
 
-    await fs.promises.writeFile(envPath, updatedEnv.join('\n'));
+    // Update minikit.config.ts with account association
+    const configContent = await fs.promises.readFile(configPath, 'utf-8');
+    const updatedConfig = configContent
+      .replace(/header: ".*"/, `header: "${webpageData.header}"`)
+      .replace(/payload: ".*"/, `payload: "${webpageData.payload}"`)
+      .replace(/signature: ".*"/, `signature: "${webpageData.signature}"`);
+
+    await fs.promises.writeFile(configPath, updatedConfig);
 
     console.log(
       pc.blue(
-        '\n* Account association generated successfully and added to your .env file!',
+        '\n* Account association generated successfully and added to your minikit.config.ts file!',
       ),
     );
   } catch (error) {
@@ -132,7 +124,7 @@ export async function createMiniKitManifest(envPath?: string) {
 }
 
 export async function createMiniKitTemplate(
-  template: 'minikit-snake' | 'minikit-basic' = 'minikit-basic',
+  template: 'minikit-nextjs' = 'minikit-nextjs',
 ) {
   console.log(
     `${pc.greenBright(`
@@ -227,41 +219,24 @@ export async function createMiniKitTemplate(
   pkg.name = packageName || toValidPackageName(projectName);
   await fs.promises.writeFile(pkgPath, JSON.stringify(pkg, null, 2));
 
-  // Create .env file
+  // Create .env file from template
   const envPath = path.join(root, '.env');
   await fs.promises.writeFile(
     envPath,
-    `# Shared/OnchainKit variables
-
-NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}
-NEXT_PUBLIC_URL=
-NEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/logo.png
-NEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}
-
-# Frame metadata
-
-FARCASTER_HEADER=
-FARCASTER_PAYLOAD=
-FARCASTER_SIGNATURE=
-NEXT_PUBLIC_APP_ICON=$NEXT_PUBLIC_URL/icon.png
-# Optional Frame metadata items below
-NEXT_PUBLIC_APP_SUBTITLE=
-NEXT_PUBLIC_APP_DESCRIPTION=
-NEXT_PUBLIC_APP_SPLASH_IMAGE=$NEXT_PUBLIC_URL/splash.png
-NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR="#000000"
-NEXT_PUBLIC_APP_PRIMARY_CATEGORY=
-NEXT_PUBLIC_APP_HERO_IMAGE=$NEXT_PUBLIC_URL/hero.png
-NEXT_PUBLIC_APP_TAGLINE=
-NEXT_PUBLIC_APP_OG_TITLE=${projectName}
-NEXT_PUBLIC_APP_OG_DESCRIPTION=
-NEXT_PUBLIC_APP_OG_IMAGE=$NEXT_PUBLIC_URL/hero.png
-
-# Redis config
-
-REDIS_URL=
-REDIS_TOKEN=
+    `NEXT_PUBLIC_PROJECT_NAME="${projectName}"
+NEXT_PUBLIC_ONCHAINKIT_API_KEY="${clientKey}"
+NEXT_PUBLIC_URL=""
 `,
   );
+
+  // Update minikit.config.ts with project name
+  const configPath = path.join(root, 'minikit.config.ts');
+  const configContent = await fs.promises.readFile(configPath, 'utf-8');
+  const updatedConfig = configContent.replace(
+    'name: "APP_NAME"',
+    `name: "${projectName}"`,
+  );
+  await fs.promises.writeFile(configPath, updatedConfig);
 
   spinner.succeed();
 
@@ -293,9 +268,7 @@ function logMiniKitSetupSummary(
   console.log(`${pc.cyan('- Wagmi')}`);
   console.log(`${pc.cyan('- React')}`);
   console.log(`${pc.cyan('- Next.js')}`);
-  console.log(`${pc.cyan('- Tailwind CSS')}`);
   console.log(`${pc.cyan('- ESLint')}`);
-  console.log(`${pc.cyan('- Upstash Redis')}`);
 
   const codeColor = (str: string) => pc.bgBlack(pc.green(str));
 
@@ -310,8 +283,9 @@ function logMiniKitSetupSummary(
     '\n- Set up account manifest',
     '  - Required for app discovery, notifications, and client integration',
     `  - Run ${codeColor('npx create-onchain --manifest')} from project root`,
-    '- Support webhooks and background notifications (optional)',
-    `  - Set ${codeColor('REDIS_URL')} and ${codeColor('REDIS_TOKEN')} environment variables`,
+    '- Configure your app details',
+    '  - Update minikit.config.ts with your app information',
+    '  - Set NEXT_PUBLIC_URL in .env to your deployment URL',
   ]
     .filter(Boolean)
     .forEach((line) => {

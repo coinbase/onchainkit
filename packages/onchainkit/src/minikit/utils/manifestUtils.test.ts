@@ -1,6 +1,22 @@
 import { describe, expect, it, vi } from 'vitest';
 import { withValidManifest } from './manifestUtils';
-import type { MiniAppManifest, MiniAppFields } from './types';
+import type {
+  MiniAppManifest,
+  LegacyMiniAppManifest,
+  MiniAppFields,
+} from './types';
+
+function getMiniAppValue(
+  manifest: MiniAppManifest | LegacyMiniAppManifest,
+): MiniAppFields {
+  if ('miniapp' in manifest && manifest.miniapp) {
+    return manifest.miniapp;
+  }
+  if ('frame' in manifest && manifest.frame) {
+    return manifest.frame;
+  }
+  throw new Error('Invalid manifest: no miniapp or frame found');
+}
 
 describe('withValidManifest', () => {
   const validMiniappBase: MiniAppFields = {
@@ -143,7 +159,7 @@ describe('withValidManifest', () => {
       };
 
       const result = withValidManifest(manifest);
-      expect(result.miniapp).toEqual(manifest.miniapp);
+      expect(getMiniAppValue(result)).toEqual(getMiniAppValue(manifest));
     });
 
     it('should include deprecated fields if they have values', () => {
@@ -171,6 +187,52 @@ describe('withValidManifest', () => {
 
       const result = withValidManifest(manifest);
       expect(result).toEqual(manifest);
+    });
+  });
+
+  describe('deprecated frame field', () => {
+    it('should handle deprecated frame field fallback', () => {
+      const manifest: LegacyMiniAppManifest = {
+        frame: validMiniappBase,
+      };
+
+      const result = withValidManifest(manifest);
+      expect(result).toEqual({
+        frame: validMiniappBase,
+      });
+    });
+
+    it('should throw error when frame field is missing required fields', () => {
+      const manifest: LegacyMiniAppManifest = {
+        frame: {
+          ...validMiniappBase,
+          name: undefined as unknown as string,
+        },
+      };
+      expect(() => withValidManifest(manifest)).toThrow(
+        'Invalid manifest: name is required',
+      );
+    });
+
+    it('should handle frame field with accountAssociation', () => {
+      const manifest: LegacyMiniAppManifest = {
+        frame: validMiniappBase,
+        accountAssociation: {
+          header: 'test-header',
+          payload: 'test-payload',
+          signature: 'test-signature',
+        },
+      };
+
+      const result = withValidManifest(manifest);
+      expect(result).toEqual({
+        frame: validMiniappBase,
+        accountAssociation: {
+          header: 'test-header',
+          payload: 'test-payload',
+          signature: 'test-signature',
+        },
+      });
     });
   });
 
@@ -514,5 +576,26 @@ describe('withValidManifest', () => {
       const result = withValidManifest(manifest);
       expect(result).toEqual(manifest);
     });
+  });
+});
+
+describe('deprecated frame field fallback', () => {
+  it('should handle deprecated frame field fallback', () => {
+    const validFrameBase: MiniAppFields = {
+      version: '1',
+      name: 'Test App',
+      homeUrl: 'https://example.com',
+      iconUrl: 'https://example.com/icon.png',
+    };
+
+    const manifest: LegacyMiniAppManifest = {
+      frame: validFrameBase,
+    };
+
+    const result = withValidManifest(manifest);
+
+    // The result should preserve the frame structure when input has frame
+    expect(result).toHaveProperty('frame');
+    expect(result.frame).toEqual(validFrameBase);
   });
 });

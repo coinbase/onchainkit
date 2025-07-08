@@ -1,4 +1,4 @@
-import prompts from "prompts";
+import prompts from 'prompts';
 import pc from 'picocolors';
 
 const ANALYTICS_API_URL = 'https://api.developer.coinbase.com/analytics';
@@ -7,13 +7,11 @@ type AnalyticsPayload = {
   eventType: 'createOnchainInitiated';
   timestamp: number;
   data: {
-    template: 'minikit-basic' | 'minikit-snake' | 'onchainkit';
+    template: 'onchainkit-nextjs' | 'minikit-nextjs'; // Add new templates here when created
   };
 };
 
-async function sendAnalytics(
-  template: AnalyticsPayload['data']['template'],
-) {
+async function sendAnalytics(template: AnalyticsPayload['data']['template']) {
   const timestamp = Date.now();
   const payload: AnalyticsPayload = {
     eventType: 'createOnchainInitiated',
@@ -29,11 +27,12 @@ async function sendAnalytics(
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
-  })
-  .catch(() => {});
+  }).catch(() => {});
 }
 
-export async function analyticsPrompt(template: AnalyticsPayload['data']['template']) {
+export async function analyticsPrompt(
+  template: AnalyticsPayload['data']['template'],
+) {
   let analyticsResult: prompts.Answers<'analytics'>;
   try {
     analyticsResult = await prompts(
@@ -41,7 +40,9 @@ export async function analyticsPrompt(template: AnalyticsPayload['data']['templa
         {
           type: 'toggle',
           name: 'analytics',
-          message: pc.reset('Share anonymous usage data to help improve create-onchain?'),
+          message: pc.reset(
+            'Share anonymous usage data to help improve create-onchain?',
+          ),
           initial: true,
           active: 'yes',
           inactive: 'no',

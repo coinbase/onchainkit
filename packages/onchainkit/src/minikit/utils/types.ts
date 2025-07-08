@@ -51,4 +51,11 @@ export type MiniAppFields = {
 export type MiniAppManifest = {
   accountAssociation?: AccountAssociationFields;
   miniapp: MiniAppFields;
+  frame?: never;
+};
+
+export type LegacyMiniAppManifest = {
+  accountAssociation?: AccountAssociationFields;
+  frame: MiniAppFields;
+  miniapp?: never;
 };

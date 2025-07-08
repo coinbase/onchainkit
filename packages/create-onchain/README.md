@@ -16,9 +16,8 @@ npx create-onchain --mini
 npx create-onchain --template-<template>
 
 Available Templates:
-  - onchainkit: Create an OnchainKit project
-  - minikit-basic: Create a Demo Mini-App
-  - minikit-snake: Create a Snake Game Mini-App
+  - onchainkit-nextjs: Create a basic OnchainKit project
+  - minikit-nextjs: Create a MiniKit project
 
 # Generate a Mini-App manifest in existing project
 npx create-onchain --manifest
@@ -32,7 +31,7 @@ npx create-onchain --version
 
 ## 📦 Templates
 
-### OnchainKit Template
+### Next.js Basic Template
 A Next.js template with OnchainKit pre-configured for building Base onchain apps:
 - Next.js 14+ with App Router
 - OnchainKit components and hooks
@@ -43,11 +42,10 @@ A Next.js template with OnchainKit pre-configured for building Base onchain apps
 
 ```bash
 npx create-onchain
-# or
-npx create-onchain --template=onchainkit
+# Default template
 ```
 
-### MiniKit Basic Template
+### MiniKit Template
 A template optimized for building Farcaster Mini-Apps:
 - Next.js 14+ with App Router
 - MiniKit components and hooks
@@ -62,23 +60,6 @@ A template optimized for building Farcaster Mini-Apps:
 npx create-onchain --mini
 # or
 npx create-onchain --template=minikit-basic
-```
-
-### MiniKit Snake Template
-A template optimized for building Farcaster Mini-Apps:
-- Next.js 14+ with App Router
-- MiniKit components and hooks
-- Farcaster Frame utilities
-- Demo Snake game
-- OnchainKit for Wallet Connection
-- OnchainKit for sample Attestation Transaction
-- OnchainKit Identity components to display addresses
-- Tailwind CSS for styling
-- TypeScript support
-- ESLint and Prettier configured
-
-```bash
-npx create-onchain --template=minikit-snake
 ```
 
 ## 🔧 Development
