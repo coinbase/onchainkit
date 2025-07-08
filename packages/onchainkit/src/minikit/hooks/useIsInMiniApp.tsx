@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 export function useIsInMiniApp() {
   const { data, ...rest } = useQuery({
     queryKey: ['useIsInMiniApp'],
-    queryFn: sdk.isInMiniApp,
+    queryFn: async () => !!(await sdk.context),
   });
 
   return {
