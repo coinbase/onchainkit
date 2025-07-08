@@ -17,6 +17,7 @@ import NFTCardDefaultDemo from './demo/NFTCardDefault';
 import NFTMintCardDemo from './demo/NFTMintCard';
 import NFTMintCardDefaultDemo from './demo/NFTMintCardDefault';
 import SignatureDemo from './demo/Signature';
+import SubscribeDemo from './demo/Subscribe';
 import SwapDemo from './demo/Swap';
 import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
@@ -47,6 +48,7 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.IdentityCard]: IdentityCardDemo,
   [OnchainKitComponent.Earn]: EarnDemo,
   [OnchainKitComponent.Signature]: SignatureDemo,
+  [OnchainKitComponent.Subscribe]: SubscribeDemo,
 };
 
 export default function Demo() {

@@ -19,6 +19,7 @@ export enum OnchainKitComponent {
   NFTMintCardDefault = 'nft-mint-card-default',
   Earn = 'earn',
   Signature = 'signature',
+  Subscribe = 'subscribe',
 }
 
 export enum TransactionTypes {

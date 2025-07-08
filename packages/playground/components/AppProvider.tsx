@@ -1,6 +1,7 @@
 // AppContext.js
 import { ENVIRONMENT, ENVIRONMENT_VARIABLES } from '@/lib/constants';
 import { useStateWithStorage } from '@/lib/hooks';
+import { wagmiConfig } from '@/lib/wagmi';
 import {
   type CheckoutOptions,
   CheckoutTypes,
@@ -14,6 +15,7 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 import type React from 'react';
 import { createContext, useEffect, useState } from 'react';
 import type { Address } from 'viem';
+import { WagmiProvider } from 'wagmi';
 import { base } from 'wagmi/chains';
 
 type State = {
@@ -43,6 +45,16 @@ type State = {
   setVaultAddress: (vaultAddress: Address) => void;
   isSignUpEnabled: boolean;
   setIsSignUpEnabled: (isSignUpEnabled: boolean) => void;
+  subscribeAmount?: string;
+  setSubscribeAmount: (amount: string) => void;
+  subscribeToken?: string;
+  setSubscribeToken: (token: string) => void;
+  subscribeIntervalValue?: string;
+  setSubscribeIntervalValue: (value: string) => void;
+  subscribeIntervalType?: string;
+  setSubscribeIntervalType: (type: string) => void;
+  subscribeSpender?: string;
+  setSubscribeSpender: (spender: string) => void;
 };
 
 export const defaultState: State = {
@@ -57,6 +69,11 @@ export const defaultState: State = {
   setVaultAddress: () => {},
   isSignUpEnabled: true,
   setIsSignUpEnabled: () => {},
+  setSubscribeAmount: () => {},
+  setSubscribeToken: () => {},
+  setSubscribeIntervalValue: () => {},
+  setSubscribeIntervalType: () => {},
+  setSubscribeSpender: () => {},
 };
 
 export const AppContext = createContext(defaultState);
@@ -135,6 +152,34 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     parser: (v) => v === 'true',
   });
 
+  const [subscribeAmount, setSubscribeAmount] = useStateWithStorage<string>({
+    key: 'subscribeAmount',
+    defaultValue: '10',
+  });
+
+  const [subscribeToken, setSubscribeToken] = useStateWithStorage<string>({
+    key: 'subscribeToken',
+    defaultValue: 'USDC',
+  });
+
+  const [subscribeIntervalValue, setSubscribeIntervalValue] =
+    useStateWithStorage<string>({
+      key: 'subscribeIntervalValue',
+      defaultValue: '30',
+    });
+
+  const [subscribeIntervalType, setSubscribeIntervalType] =
+    useStateWithStorage<string>({
+      key: 'subscribeIntervalType',
+      defaultValue: 'days',
+    });
+
+  const [subscribeSpender, setSubscribeSpender] =
+    useStateWithStorage<string>({
+      key: 'subscribeSpender',
+      defaultValue: '0x742d35Cc6635C0532925a3b8D4DDEC5764B72d32',
+    });
+
   // Load initial values from localStorage
   useEffect(() => {
     const storedPaymasters = localStorage.getItem('paymasters');
@@ -154,7 +199,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AppContext.Provider
+    <WagmiProvider config={wagmiConfig}>
+      <AppContext.Provider
       value={{
         activeComponent,
         setActiveComponent,
@@ -182,6 +228,16 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setVaultAddress,
         isSignUpEnabled,
         setIsSignUpEnabled,
+        subscribeAmount,
+        setSubscribeAmount,
+        subscribeToken,
+        setSubscribeToken,
+        subscribeIntervalValue,
+        setSubscribeIntervalValue,
+        subscribeIntervalType,
+        setSubscribeIntervalType,
+        subscribeSpender,
+        setSubscribeSpender,
       }}
     >
       <OnchainKitProvider
@@ -212,6 +268,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       >
         {children}
       </OnchainKitProvider>
-    </AppContext.Provider>
+      </AppContext.Provider>
+    </WagmiProvider>
   );
 };
