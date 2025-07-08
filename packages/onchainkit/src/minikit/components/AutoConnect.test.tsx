@@ -9,7 +9,7 @@ import { AutoConnect } from './AutoConnect';
 
 vi.mock('@farcaster/frame-sdk', () => ({
   default: {
-    isInMiniApp: vi.fn(),
+    context: undefined,
   },
 }));
 
@@ -70,7 +70,11 @@ describe('AutoConnect', () => {
   });
 
   it('should not attempt connection if not in Mini App', async () => {
-    vi.mocked(sdk.isInMiniApp).mockResolvedValue(false);
+    Object.defineProperty(sdk, 'context', {
+      value: Promise.resolve(null),
+      writable: true,
+      configurable: true,
+    });
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -88,7 +92,11 @@ describe('AutoConnect', () => {
   });
 
   it('should not attempt connection if already connected', async () => {
-    vi.mocked(sdk.isInMiniApp).mockResolvedValue(true);
+    Object.defineProperty(sdk, 'context', {
+      value: Promise.resolve({ user: { fid: 123 } }),
+      writable: true,
+      configurable: true,
+    });
 
     // Mock account to be already connected
     mockUseAccount.mockReturnValue({
@@ -112,7 +120,11 @@ describe('AutoConnect', () => {
   });
 
   it('should not attempt connection if connector is not Farcaster Frame', async () => {
-    vi.mocked(sdk.isInMiniApp).mockResolvedValue(true);
+    Object.defineProperty(sdk, 'context', {
+      value: Promise.resolve({ user: { fid: 123 } }),
+      writable: true,
+      configurable: true,
+    });
 
     // Mock connectors to have a different type of connector
     mockUseConnect.mockReturnValue({
@@ -136,7 +148,11 @@ describe('AutoConnect', () => {
   });
 
   it('should not attempt connection when disabled', async () => {
-    vi.mocked(sdk.isInMiniApp).mockResolvedValue(true);
+    Object.defineProperty(sdk, 'context', {
+      value: Promise.resolve({ user: { fid: 123 } }),
+      writable: true,
+      configurable: true,
+    });
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -154,7 +170,11 @@ describe('AutoConnect', () => {
   });
 
   it('should attempt connection when in Mini App, not connected, and enabled', async () => {
-    vi.mocked(sdk.isInMiniApp).mockResolvedValue(true);
+    Object.defineProperty(sdk, 'context', {
+      value: Promise.resolve({ user: { fid: 123 } }),
+      writable: true,
+      configurable: true,
+    });
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -172,7 +192,11 @@ describe('AutoConnect', () => {
   });
 
   it('should only attempt connection once', async () => {
-    vi.mocked(sdk.isInMiniApp).mockResolvedValue(true);
+    Object.defineProperty(sdk, 'context', {
+      value: Promise.resolve({ user: { fid: 123 } }),
+      writable: true,
+      configurable: true,
+    });
 
     const { rerender } = render(
       <QueryClientProvider client={queryClient}>
@@ -205,8 +229,11 @@ describe('AutoConnect', () => {
   });
 
   it('should call connect with connector when in Mini App and all conditions are met', async () => {
-    // Mock isInMiniApp to return true
-    vi.mocked(sdk.isInMiniApp).mockResolvedValue(true);
+    Object.defineProperty(sdk, 'context', {
+      value: Promise.resolve({ user: { fid: 123 } }),
+      writable: true,
+      configurable: true,
+    });
 
     // Render the component
     render(
@@ -227,7 +254,11 @@ describe('AutoConnect', () => {
   });
 
   it('should not attempt connection if currently connecting', async () => {
-    vi.mocked(sdk.isInMiniApp).mockResolvedValue(true);
+    Object.defineProperty(sdk, 'context', {
+      value: Promise.resolve({ user: { fid: 123 } }),
+      writable: true,
+      configurable: true,
+    });
 
     // Mock account to be currently connecting
     mockUseAccount.mockReturnValue({
@@ -251,7 +282,11 @@ describe('AutoConnect', () => {
   });
 
   it('should not attempt connection if no connectors available', async () => {
-    vi.mocked(sdk.isInMiniApp).mockResolvedValue(true);
+    Object.defineProperty(sdk, 'context', {
+      value: Promise.resolve({ user: { fid: 123 } }),
+      writable: true,
+      configurable: true,
+    });
 
     // Mock empty connectors array
     mockUseConnect.mockReturnValue({
