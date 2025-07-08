@@ -26,7 +26,6 @@ vi.mock('@farcaster/frame-sdk', () => {
         listeners = {};
       }),
       context: vi.fn(),
-      isInMiniApp: vi.fn(),
     },
   };
 });
@@ -56,7 +55,6 @@ describe('MiniKitProvider', () => {
         safeAreaInsets: { top: 0, bottom: 0, left: 0, right: 0 },
       },
     }) as unknown as Promise<Context.FrameContext>;
-    vi.mocked(sdk.isInMiniApp).mockResolvedValue(false);
   });
 
   afterEach(() => {

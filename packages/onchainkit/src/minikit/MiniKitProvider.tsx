@@ -1,5 +1,4 @@
 'use client';
-
 import { DefaultOnchainKitProviders } from '@/DefaultOnchainKitProviders';
 import { OnchainKitProvider } from '@/OnchainKitProvider';
 import type { OnchainKitProviderReact } from '@/types';
@@ -70,7 +69,7 @@ export function MiniKitProvider({
 
     async function fetchContext() {
       try {
-        // if not running in a frame, context resolves as undefined
+        // if not running in a mini app, context resolves as undefined
         const context = await sdk.context;
         setContext(context);
       } catch (error) {
