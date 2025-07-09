@@ -176,6 +176,12 @@
       "import": "./dist/signature/index.js",
       "default": "./dist/signature/index.js"
     },
+    "./subscribe": {
+      "types": "./dist/subscribe/index.d.ts",
+      "module": "./dist/subscribe/index.js",
+      "import": "./dist/subscribe/index.js",
+      "default": "./dist/subscribe/index.js"
+    },
     "./swap": {
       "types": "./dist/swap/index.d.ts",
       "module": "./dist/swap/index.js",
