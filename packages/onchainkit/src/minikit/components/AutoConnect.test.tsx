@@ -18,6 +18,10 @@ const mockFarcasterFrame = {
   type: 'farcasterFrame',
 };
 
+const mockFarcasterMiniApp = {
+  type: 'farcasterMiniApp',
+};
+
 const mockOtherConnector = {
   type: 'otherConnector',
 };
@@ -119,7 +123,7 @@ describe('AutoConnect', () => {
     expect(mockConnect).not.toHaveBeenCalled();
   });
 
-  it('should not attempt connection if connector is not Farcaster Frame', async () => {
+  it('should not attempt connection if connector is not a supported Farcaster connector', async () => {
     Object.defineProperty(sdk, 'context', {
       value: Promise.resolve({ user: { fid: 123 } }),
       writable: true,
@@ -169,7 +173,7 @@ describe('AutoConnect', () => {
     expect(mockConnect).not.toHaveBeenCalled();
   });
 
-  it('should attempt connection when in Mini App, not connected, and enabled', async () => {
+  it('should attempt connection when in Mini App, not connected, and enabled with farcasterFrame connector', async () => {
     Object.defineProperty(sdk, 'context', {
       value: Promise.resolve({ user: { fid: 123 } }),
       writable: true,
@@ -189,6 +193,36 @@ describe('AutoConnect', () => {
     await act(() => Promise.resolve());
 
     expect(mockConnect).toHaveBeenCalledWith({ connector: mockFarcasterFrame });
+  });
+
+  it('should attempt connection when in Mini App, not connected, and enabled with farcasterMiniApp connector', async () => {
+    Object.defineProperty(sdk, 'context', {
+      value: Promise.resolve({ user: { fid: 123 } }),
+      writable: true,
+      configurable: true,
+    });
+
+    // Mock connectors to have farcasterMiniApp type
+    mockUseConnect.mockReturnValue({
+      connectors: [mockFarcasterMiniApp],
+      connect: mockConnect,
+    });
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <WagmiProvider config={createConfig(mockConfig)}>
+          <AutoConnect enabled={true}>
+            <div>Test Child</div>
+          </AutoConnect>
+        </WagmiProvider>
+      </QueryClientProvider>,
+    );
+
+    await act(() => Promise.resolve());
+
+    expect(mockConnect).toHaveBeenCalledWith({
+      connector: mockFarcasterMiniApp,
+    });
   });
 
   it('should only attempt connection once', async () => {
