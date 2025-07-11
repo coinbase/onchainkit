@@ -15,7 +15,7 @@ describe('isBasename', () => {
   });
 
   it('Returns false for any other name', async () => {
-    expect(isBasename('shrek.optimisim.eth')).toBe(false);
+    expect(isBasename('shrek.optimism.eth')).toBe(false);
     expect(isBasename('shrek.eth')).toBe(false);
     expect(isBasename('shrek.baaaaaes.eth')).toBe(false);
   });
