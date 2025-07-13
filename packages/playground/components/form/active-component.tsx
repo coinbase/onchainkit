@@ -72,6 +72,9 @@ export function ActiveComponent() {
           <SelectItem value={OnchainKitComponent.Signature}>
             Signature
           </SelectItem>
+          <SelectItem value={OnchainKitComponent.Subscribe}>
+            Subscribe
+          </SelectItem>
         </SelectContent>
       </Select>
     </div>
