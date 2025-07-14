@@ -1,0 +1,171 @@
+---
+title: Signature components & utilities Types
+description: Glossary of Types in Signature components & utilities.
+sidebarTitle: Signature
+---
+
+## `LifecycleStatus`
+
+```ts
+type LifecycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'error';
+      statusData: APIError;
+    }
+  | {
+      statusName: 'pending';
+      statusData: {
+        type: MessageType;
+      };
+    }
+  | {
+      statusName: 'success';
+      statusData: {
+        signature: `0x${string}`;
+        type: MessageType;
+      };
+    }
+  | {
+      statusName: 'reset';
+      statusData: null;
+    };
+```
+
+## `SignatureReact`
+
+```ts
+type SignatureReact = {
+  chainId?: number;
+  className?: string;
+  onSuccess?: (signature: string) => void;
+  onStatus?: (status: LifecycleStatus) => void;
+  onError?: (error: APIError) => void;
+  resetAfter?: number;
+} & (
+  | {
+      domain?: SignTypedDataParameters['domain'];
+      types: SignTypedDataParameters['types'];
+      message: SignTypedDataParameters['message'];
+      primaryType: SignTypedDataParameters['primaryType'];
+    }
+  | {
+      message: SignMessageParameters['message'];
+      domain?: never;
+      types?: never;
+      primaryType?: never;
+    }
+) &
+  (
+    | {
+        children: React.ReactNode;
+        label?: never;
+        disabled?: never;
+      }
+    | {
+        children?: never;
+        label?: React.ReactNode;
+        disabled?: boolean;
+      }
+  );
+```
+
+## `SignatureButtonProps`
+
+```ts
+type SignatureButtonProps = {
+  className?: string;
+  disabled?: boolean;
+  label?: ReactNode;
+  connectLabel?: ReactNode;
+  errorLabel?: ReactNode;
+  successLabel?: ReactNode;
+  pendingLabel?: ReactNode;
+};
+```
+
+## `SignatureStatusProps`
+
+```ts
+type SignatureStatusProps = {
+  children?: React.ReactNode;
+  className?: string;
+};
+```
+
+## `SignatureToastProps`
+
+```ts
+type SignatureToastProps = {
+  children?: React.ReactNode;
+  className?: string;
+  durationMs?: number;
+  position?: 'bottom-center' | 'top-center' | 'top-right' | 'bottom-right';
+};
+```
+
+## `SignatureIconProps`
+
+```ts
+type SignatureIconProps = {
+  className?: string;
+};
+```
+
+## `SignatureLabelProps`
+
+```ts
+type SignatureLabelProps = {
+  className?: string;
+};
+```
+
+## `MessageType`
+
+```ts
+enum MessageType {
+  SIGNABLE_MESSAGE = 'signable_message',
+  TYPED_DATA = 'typed_data',
+  INVALID = 'invalid'
+}
+```
+
+## `ValidateMessageResult`
+
+```ts
+type ValidateMessageResult =
+  | { type: MessageType.TYPED_DATA; data: SignTypedDataParameters }
+  | { type: MessageType.SIGNABLE_MESSAGE; data: SignMessageParameters }
+  | { type: MessageType.INVALID; data: null };
+```
+
+## `MessageData`
+
+```ts
+type MessageData = {
+  domain?: SignTypedDataParameters['domain'];
+  types?: SignTypedDataParameters['types'];
+  message: SignTypedDataParameters['message'] | SignMessageParameters['message'];
+  primaryType?: SignTypedDataParameters['primaryType'];
+};
+```
+
+## `SignatureProviderProps`
+
+```ts
+type SignatureProviderProps = {
+  children: React.ReactNode;
+  onSuccess?: (signature: string) => void;
+  onError?: (error: APIError) => void;
+  onStatus?: (status: LifecycleStatus) => void;
+  resetAfter?: number;
+} & MessageData;
+```
+
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

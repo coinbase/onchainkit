@@ -1,0 +1,322 @@
+---
+title: <Signature /> · OnchainKit
+sidebarTitle: <Signature />
+description: The `<Signature />` component supports signing EIP712 and personal_sign messages.
+---
+
+The `<Signature />` components provide a wrapper around the useSignTypedData and useSignMessage wagmi hooks.
+These hooks handle EIP712 signatures and personal_sign messages, falling back to eth_sign.
+
+Before using them, ensure you've completed all [Getting Started steps](/onchainkit/getting-started).
+
+## Quick start
+
+You can use the `Signature` component with the default implementation without passing any subcomponents or pass any subcomponents to fully customize the UI.
+
+### Default implementation for EIP712 signatures
+
+<CodeGroup>
+```tsx Signature.tsx
+// @noErrors: 2307 2395 2554 2834 - Cannot find module 'data'
+import { Signature } from '@coinbase/onchainkit/signature';
+import { domain, types, message } from './data';
+// ---cut-start---
+import { encodeAbiParameters } from 'viem';
+import { base } from 'viem/chains';
+
+export const domain = {
+  name: 'EAS Attestation',
+  version: '1.0.0',
+  chainId: base.id,
+  verifyingContract: '0x4200000000000000000000000000000000000021',
+};
+
+export const types = {
+  Attest: [
+    { name: 'schema', type: 'bytes32' },
+    { name: 'recipient', type: 'address' },
+    { name: 'time', type: 'uint64' },
+    { name: 'revocable', type: 'bool' },
+    { name: 'refUID', type: 'bytes32' },
+    { name: 'data', type: 'bytes' },
+    { name: 'value', type: 'uint256' },
+  ],
+};
+
+export const message = {
+  schema: '0xf58b8b212ef75ee8cd7e8d803c37c03e0519890502d5e99ee2412aae1456cafe',
+  recipient: '0x1230000000000000000000000000000000000000000',
+  time: BigInt(0),
+  revocable: false,
+  refUID: '0x0000000000000000000000000000000000000000000000000000000000000000',
+  data: encodeAbiParameters([{ type: 'string' }], ['test attestation']),
+  value: BigInt(0),
+};
+// ---cut-end---
+<Signature
+  domain={domain}
+  types={types}
+  primaryType="Attest"
+  message={message}
+  label="Sign EIP712"
+  onSuccess={(signature: string) => console.log(signature)}
+/>
+```
+
+```tsx data
+// @noErrors: 2554 - Expected 0 arguments, but got 2
+import { encodeAbiParameters } from 'viem';
+import { base } from 'viem/chains';
+
+export const domain = {
+  name: 'EAS Attestation',
+  version: '1.0.0',
+  chainId: base.id,
+  verifyingContract: '0x4200000000000000000000000000000000000021',
+};
+
+export const types = {
+  Attest: [
+    { name: 'schema', type: 'bytes32' },
+    { name: 'recipient', type: 'address' },
+    { name: 'time', type: 'uint64' },
+    { name: 'revocable', type: 'bool' },
+    { name: 'refUID', type: 'bytes32' },
+    { name: 'data', type: 'bytes' },
+    { name: 'value', type: 'uint256' },
+  ],
+};
+
+export const message = {
+  schema: '0xf58b8b212ef75ee8cd7e8d803c37c03e0519890502d5e99ee2412aae1456cafe',
+  recipient: '0x1230000000000000000000000000000000000000000',
+  time: BigInt(0),
+  revocable: false,
+  refUID: '0x0000000000000000000000000000000000000000000000000000000000000000',
+  data: encodeAbiParameters([{ type: 'string' }], ['test attestation']),
+  value: BigInt(0),
+};
+```
+</CodeGroup>
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-signature--second-signature&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <EIP712Signature /> */}
+
+
+### Default implementation for personal_sign messages
+
+```tsx Signature.tsx
+import { Signature } from '@coinbase/onchainkit/signature';
+
+<Signature
+  message="Hello, OnchainKit!"
+  label="Personal_Sign me"
+  onSuccess={(signature: string) => console.log(signature)}
+/>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-signature--personal-sign&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <PersonalSignSignature /> */}
+
+## Components
+
+The Signature components provide a complete signature flow:
+
+### Core Component
+
+- `<Signature />` - Main container that manages the signature lifecycle
+
+### `<Signature />` subcomponents
+
+- `<SignatureButton />` - Handles signature initiation with customizable labels
+- `<SignatureStatus />` - Displays current signature status and actions
+- `<SignatureToast />` - Shows toast notifications for signature events
+
+### `<SignatureStatus />` and `<SignatureToast />` subcomponents
+
+- `<SignatureLabel />` - Displays status text ("Success", "Confirm in wallet", etc.)
+- `<SignatureIcon />` - Shows status icons (pending, success, error)
+
+## Component API
+
+### Signature
+
+Main wrapper component that manages the signature flow.
+
+```tsx
+<Signature
+  // Required for EIP-712 typed data
+  domain={domain}
+  types={types}
+  message={message}
+  primaryType="Test"
+
+  // OR for personal_sign
+  message="Hello World"
+
+  // Optional props
+  label="Sign"
+  onSuccess={(signature: string) => {}}
+  onError={(error: APIError) => {}}
+  onStatus={(status: LifecycleStatus) => {}}
+  resetAfter={5000} // ms to reset after success
+  className="custom-class"
+  disabled={false}
+/>
+```
+
+### SignatureButton
+
+Button component that triggers the signature request.
+
+```tsx
+<SignatureButton
+  label="Sign Message" // Default: "Sign"
+  connectLabel="Connect Wallet" // Default: "Connect Wallet"
+  errorLabel="Try Again" // Default: "Try again"
+  successLabel="Signed!" // Default: "Signed"
+  pendingLabel="Signing..." // Default: "Signing..."
+  disabled={false}
+  className="custom-class"
+/>
+```
+
+### SignatureStatus
+
+Container for signature status information.
+
+```tsx
+<SignatureStatus className="custom-class">
+  <SignatureLabel />
+  {/* Custom status content */}
+</SignatureStatus>
+```
+
+### SignatureToast
+
+Toast notification for signature events.
+
+```tsx
+<SignatureToast
+  durationMs={5000} // Default: 5000
+  position="bottom-center" // Default: "bottom-center"
+  className="custom-class"
+>
+  <SignatureIcon />
+  <SignatureLabel />
+  {/* Custom toast content */}
+</SignatureToast>
+```
+
+## Lifecycle States
+
+The signature flow has the following states:
+
+- `init` - Initial state
+- `pending` - Waiting for wallet signature
+- `success` - Signature completed successfully
+- `error` - Error occurred during signing
+- `reset` - Component reset to initial state
+
+Access the current state through the `onStatus` callback:
+
+```tsx
+<Signature
+  onStatus={(status: LifecycleStatus) => {
+    switch (status.statusName) {
+      case 'success':
+        console.log('Signature:', status.statusData.signature);
+        break;
+      case 'error':
+        console.log('Error:', status.statusData.message);
+        break;
+    }
+  }}
+/>
+```
+
+## Error Handling
+
+Errors are handled automatically and displayed in the UI. Common errors include:
+
+- User rejected request
+- Invalid message format
+- Wallet connection issues
+
+Custom error handling:
+
+```tsx
+<Signature
+  onError={(error: APIError) => {
+    console.error('Error code:', error.code);
+    console.error('Error message:', error.message);
+  }}
+/>
+```
+
+## Message Types
+
+The `<Signature />` component supports two types of messages:
+
+### EIP-712 Typed Data
+
+```tsx
+<Signature
+  domain={{
+    name: 'Example App',
+    version: '1.0.0',
+    chainId: 1,
+    verifyingContract: '0x...'
+  }}
+  types={{
+    Person: [
+      { name: 'name', type: 'string' },
+      { name: 'wallet', type: 'address' }
+    ]
+  }}
+  message={{
+    name: 'Bob',
+    wallet: '0x...'
+  }}
+  primaryType="Person"
+/>
+```
+
+### Personal Sign (personal_sign)
+
+```tsx
+<Signature
+  message="Welcome to Example App! Click to sign in."
+/>
+```
+
+## Component types
+
+- [`SignatureReact`](/onchainkit/signature/types#signaturereact)
+- [`SignatureButtonProps`](/onchainkit/signature/types#signaturebuttonprops)
+- [`SignatureStatusProps`](/onchainkit/signature/types#signaturestatusprops)
+- [`SignatureToastProps`](/onchainkit/signature/types#signaturetoastprops)
+- [`SignatureIconProps`](/onchainkit/signature/types#signatureiconprops)
+- [`SignatureLabelProps`](/onchainkit/signature/types#signaturelabelprops)
+- [`MessageType`](/onchainkit/signature/types#messagetype)
+- [`ValidateMessageResult`](/onchainkit/signature/types#validatemessageresult)
+- [`MessageData`](/onchainkit/signature/types#messagedata)
+- [`SignatureProviderProps`](/onchainkit/signature/types#signatureproviderprops)
+
+## Related Components
+
+- [`<Wallet />`](/onchainkit/wallet/wallet) - Handles the wallet connection
+- [`<Transaction />`](/onchainkit/transaction/transaction) - Handles transaction signing
+
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

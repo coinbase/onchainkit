@@ -1,0 +1,29 @@
+---
+title: Paymaster Security
+sidebar_label: Security
+---
+
+It is important to understand where you are using your Paymaster endpoint as anyone who has your key can send requests to sponsor transactions.
+
+We strongly recommend setting up a contract allowlist on your paymaster configuration which will lock down your paymaster to only sponsor transactions on your wallet.
+
+Further security measures such as setting up a paymaster Proxy so that your api key is not leaked is also recommended.
+
+If you are in a situation where you can not add a contract allowlist due to dynamic calls to contracts that are not on policy then you must set up a paymaster proxy on your backend such that your api token does not get leaked.
+
+Set sponsorship limits to further ensure you're only sponsoring what you want to.
+
+## Paymaster Proxy
+
+Creating an API to proxy calls to your paymaster service is important for two reasons.
+
+- Allows you to protect any API secret.
+- Allows you to add extra validation on what requests you want to sponsor.
+
+You can see more details on implementing a paymaster proxy at [smartwallet.dev](https://www.smartwallet.dev/guides/paymasters).
+
+
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

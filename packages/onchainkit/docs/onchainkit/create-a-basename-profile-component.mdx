@@ -1,0 +1,308 @@
+---
+title: 'Create a Basename Profile Component'
+description: Learn how to create a component that displays social media and profile information for a given basename.
+---
+
+Onchain identities often include social media links and profile information stored as text records. In this tutorial, you'll learn how to create a component that fetches and displays this information for a given basename.
+
+## Objectives
+
+By the end of this tutorial you should be able to:
+
+- Fetch ENS text records for a basename
+- Create a React component to display profile information
+- Implement a dropdown to show/hide profile details
+
+## Prerequisites
+
+### React and TypeScript
+
+You should be familiar with React and TypeScript. If you're new to these technologies, consider reviewing the [React official documentation] first.
+
+### OnchainKit
+
+This tutorial uses Coinbase's [OnchainKit]. Familiarity with its basic concepts will be helpful.
+
+### Basename
+
+A basename with a few text records (Github, Twitter, website) is required for this tutorial. If you don't have a Basename. Get one [here](https://www.base.org/names).
+
+## Set a Text Record
+
+<Frame>
+![image-basename](/images/basenames-tutorial/basename-profile-home.png)
+</Frame>
+
+To set a text record for your basename, start by visiting `https://www.base.org/name/<YOUR-BASE-NAME>`. Connect your wallet to manage your profile, then click the `Manage profile` button. Add one or more text records, such as your X (formerly Twitter) URL. Once you've added the desired records, click the `Save` button at the bottom of the page. Finally, confirm and sign the transaction to make the changes onchain.
+
+<Frame>
+![image-basename](/images/basenames-tutorial/confirm-textrecord-update.png)
+</Frame>
+
+## Setting up the Environment
+
+First, clone or fork the [OnchainKit app template]:
+
+```
+git clone git@github.com:coinbase/onchain-app-template.git
+```
+
+Then, install the following dependencies:
+
+```bash
+bun install framer-motion
+bun install lucide-react
+```
+
+Create a `.env` file:
+
+```
+cp .env.local .env
+```
+
+Update the contents of the `.env` file to include a [Reown] (FKA WalletConnect) project ID and a CDP API key:
+
+```
+# ~~~
+NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=<YOUR_GOOGLE_ANALYTICS_ID>
+
+# See https://www.coinbase.com/developer-platform/products/base-node
+NEXT_PUBLIC_CDP_API_KEY=<YOUR_CDP_API_KEY>
+
+# ~~~
+NEXT_PUBLIC_ENVIRONMENT=localhost
+
+# See https://cloud.reown.com/
+NEXT_PUBLIC_WC_PROJECT_ID=<YOUR_WC_PROJECT_ID>
+```
+
+## Creating the `Client` File
+
+Create a new file `client.ts` in your project's `src` directory:
+
+```typescript
+import { http, createPublicClient } from 'viem';
+import { mainnet } from 'viem/chains';
+
+export const publicClient = createPublicClient({
+  chain: base,
+  transport: http(),
+});
+```
+
+This client will be used to interact with Base mainnet.
+
+## Creating the IdentityWrapper Component
+
+Create a new file `IdentityWrapper.tsx` in your `src/components` directory and import the following packages:
+
+```typescript
+import React, { useState, useEffect } from 'react';
+import { Avatar, Name, getName } from '@coinbase/onchainkit/identity';
+import { motion } from 'framer-motion';
+import { Twitter, Github, Globe } from 'lucide-react';
+import { normalize } from 'viem/ens';
+import { publicClient } from '../client';
+
+// Component code will go here
+```
+
+`IdentityWrapper` will fetch and display social media and profile information for a given Base address using OnchainKit and the Ethereum Name Service (ENS). It will query for the ENS name associated with the address and retrieve relevant text records (Twitter, GitHub, and website URL) using the specified resolver, storing this data in both component state and local storage for optimized performance. The component will be designed to present this information in a user-friendly, expandable format.
+
+## Implementing the Component Logic
+
+Add the following code to your `IdentityWrapper.tsx` file:
+
+```typescript
+const IdentityWrapper: React.FC<{ address: string }> = ({ address }) => {
+  const [ensText, setEnsText] = useState<{
+    twitter: string | null;
+    github: string | null;
+    url: string | null;
+  } | null>(null);
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const BASENAME_L2_RESOLVER_ADDRESS = '0xc6d566a56a1aff6508b41f6c90ff131615583bcd';
+
+  useEffect(() => {
+    const fetchEnsText = async () => {
+      if (address) {
+        try {
+          const name = await getName({ chain: base, address: address });
+          const normalizedAddress = normalize(name as string);
+          const twitterText = await publicClient.getEnsText({
+            name: normalizedAddress,
+            key: 'com.twitter',
+            universalResolverAddress: BASENAME_L2_RESOLVER_ADDRESS,
+          });
+          const githubText = await publicClient.getEnsText({
+            name: normalizedAddress,
+            key: 'com.github',
+            universalResolverAddress: BASENAME_L2_RESOLVER_ADDRESS,
+          });
+          const urlText = await publicClient.getEnsText({
+            name: normalizedAddress,
+            key: 'url',
+            universalResolverAddress: BASENAME_L2_RESOLVER_ADDRESS,
+          });
+          const fetchedData = {
+            twitter: twitterText,
+            github: githubText,
+            url: urlText,
+          };
+          setEnsText(fetchedData);
+          localStorage.setItem(address, JSON.stringify(fetchedData));
+        } catch (error) {
+          console.error('Error fetching ENS text:', error);
+        }
+      }
+    };
+    fetchEnsText();
+  }, [address]);
+
+  // Render logic will go here
+};
+
+export default IdentityWrapper;
+```
+
+<Note>
+**Possible Basename Text Records:**
+
+The full list of existing text records for a basename:
+
+```
+  Description,
+  Keywords,
+  Url,
+  Github,
+  Email,
+  Phone,
+  Twitter,
+  Farcaster,
+  Lens,
+  Telegram,
+  Discord,
+  Avatar
+```
+</Note>
+
+
+## Implementing the Render Logic
+
+Add the following render logic to your `IdentityWrapper` component:
+
+```typescript
+return (
+  <>
+    {address ? (
+      <motion.div
+        className="relative space-y-2"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="flex items-center space-x-2">
+          <Avatar address={address} />
+          <Name address={address} />
+        </div>
+        <button onClick={() => setIsOpen(!isOpen)} className="text-blue-500 hover:underline">
+          {isOpen ? 'Hide' : 'Show'} Profile
+        </button>
+        {ensText && (
+          <motion.div
+            className="rounded-lg bg-white bg-opacity-20 p-4 text-white shadow-md"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            style={{ overflow: 'hidden' }}
+          >
+            {ensText.twitter && (
+              <div className="flex items-center space-x-2">
+                <Twitter className="h-4 w-4" />
+                <span>Twitter:</span>
+                <a
+                  href={`https://x.com/${ensText.twitter}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline"
+                >
+                  {ensText.twitter}
+                </a>
+              </div>
+            )}
+            {ensText.github && (
+              <div className="mt-2 flex items-center space-x-2">
+                <Github className="h-4 w-4" />
+                <span>Github:</span>
+                <a
+                  href={`https://github.com/${ensText.github}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline"
+                >
+                  {ensText.github}
+                </a>
+              </div>
+            )}
+            {ensText.url && (
+              <div className="mt-2 flex items-center space-x-2">
+                <Globe className="h-4 w-4" />
+                <span>Website:</span>
+                <a
+                  href={ensText.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline"
+                >
+                  {ensText.url.replace(/^https?:\/\//, '')}
+                </a>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </motion.div>
+    ) : (
+      <div className="text-white">Connect your wallet to view your profile card.</div>
+    )}
+  </>
+);
+```
+
+## Using the Component
+
+To use this component in your app, import it into your desired page or component:
+
+```typescript
+import IdentityWrapper from '../components/IdentityWrapper';
+
+// In your render function:
+<IdentityWrapper address={userAddress} />;
+```
+
+<Frame>
+![profile-dropdown](/images/basenames-tutorial/profile-component-dropdown.png)
+</Frame>
+
+Example code snippets are available for:
+
+- [IdentityWrapper component](https://gist.github.com/hughescoin/5e5cd6cbfb3c6d1cada0a9d206b003c6)
+- [Page.tsx](https://gist.github.com/hughescoin/49afc9e999d69d372a67186e804e693b)
+
+## Conclusion
+
+Congratulations! You've created a component that fetches and displays profile information for a given basename. This component can be easily integrated into your onchain app to provide users with a rich, interactive profile display.
+
+[OnchainKit]: https://github.com/coinbase/onchainkit
+[Viem]: https://viem.sh/
+[Framer Motion]: https://www.framer.com/motion/
+[Lucide React]: https://lucide.dev/guide/packages/lucide-react
+[React official documentation]: https://react.dev/
+[OnchainKit app template]: https://github.com/coinbase/onchain-app-template
+[Reown]: https://cloud.reown.com/
+
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

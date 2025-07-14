@@ -1,0 +1,42 @@
+---
+title: isEthereum
+---
+
+
+The `isEthereum` utility is designed to verify if the chain id is a valid Ethereum Mainnet or Ethereum Sepolia chain id.
+
+## Usage
+
+<CodeGroup>
+```tsx code
+import { isEthereum } from '@coinbase/onchainkit';
+
+// Ethereum Mainnet (chain ID: 1)
+isEthereum({ chainId: 1 }); // returns true
+
+// Ethereum Sepolia (chain ID: 11155111)
+isEthereum({ chainId: 11155111 }); // returns true
+
+// Base (chain ID: 8453)
+isEthereum({ chainId: 8453 }); // returns false
+```
+
+```ts return value
+true; // When chainId is 1 (Ethereum Mainnet) or 11155111 (Ethereum Sepolia)
+false; // For all other chain IDs
+```
+</CodeGroup>
+
+## Returns
+
+`boolean` - Returns `true` if the chain id is Ethereum Mainnet or Ethereum Sepolia, otherwise `false`.
+
+## Parameters
+
+[`IsEthereumOptions`]: ./types#isethereumoptions
+
+
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

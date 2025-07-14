@@ -1,0 +1,65 @@
+---
+title: setupOnrampEventListeners
+---
+
+
+The `setupOnrampEventListeners` utility sets up event listeners for the Coinbase Onramp widget. It helps you handle various events like successful purchases, exits, and other user interactions.
+
+## Usage
+
+<CodeGroup>
+```tsx code
+// @errors: 2305
+import { setupOnrampEventListeners } from '@coinbase/onchainkit/fund';
+import type { SuccessEventData, OnrampError, EventMetadata } from '@coinbase/onchainkit/fund';
+const unsubscribe = setupOnrampEventListeners({
+  onSuccess: (data: SuccessEventData) => {
+    console.log('Purchase successful:', data);
+  },
+  onExit: (error: OnrampError) => {
+    if (error) {
+      console.error('Exit with error:', error);
+    }
+  },
+  onEvent: (event: EventMetadata) => {
+    console.log('Event received:', event);
+  },
+});
+
+// Clean up when done
+unsubscribe();
+```
+
+```ts return value
+// Returns an unsubscribe function
+() => void
+```
+</CodeGroup>
+
+## Parameters
+
+```typescript
+{
+  host?: string;                                   // Optional custom host URL
+  onSuccess?: (data?: SuccessEventData) => void;  // Success callback
+  onExit?: (error?: OnrampError) => void;         // Exit callback
+  onEvent?: (event: EventMetadata) => void;       // General event callback
+}
+```
+
+## Returns
+
+`() => void` - Returns an unsubscribe function that removes the event listeners when called.
+
+## Event Types
+
+See the following type definitions for event data:
+
+- [`SuccessEventData`](/onchainkit/fund/types#successeventdata)
+- [`OnrampError`](/onchainkit/fund/types#onramperror)
+- [`EventMetadata`](/onchainkit/fund/types#eventmetadata)
+
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

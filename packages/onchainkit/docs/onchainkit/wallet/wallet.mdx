@@ -1,0 +1,381 @@
+---
+title: <Wallet /> · OnchainKit
+sidebarTitle: <Wallet />
+description: The `<Wallet />` components provide an interface for users to connect their Smart Wallet with their identity information like Basename and ETH balance.
+---
+
+The `<Wallet />` components provide an interface for users to connect their
+Smart Wallet with their identity information like Basename and ETH balance.
+
+It features built-in polished user experiences for both web and mobile web,
+making it incredibly easy to enhance with drop-in components.
+
+Before using them, ensure you've completed all [Getting Started steps](/onchainkit/getting-started).
+
+## Quick start
+
+To streamline the integration process and integrate a simplified version of the `Wallet` component, you can render the `Wallet` component without children. 
+
+If you'd like more customization, follow the implementation guide for our `Wallet` component below where you can manually define each subcomponent and prop.
+
+```tsx
+import { Wallet } from '@coinbase/onchainkit/wallet';
+
+<Wallet />
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-wallet-walletcomponents--base&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="400"
+/>
+{/* <WalletComponents>
+  <Wallet />
+</WalletComponents> */}
+
+## Walkthrough
+
+<Steps>
+  <Step title="Set up your wallet connections">
+  Kick off your wallet connection setup by configuring the `wagmi` provider.
+
+  And make sure to update the `appName` as that will be displayed to
+  the user when they connect their wallet.
+
+  ```tsx
+  // @noErrors: 2554
+  import { ReactNode } from 'react';
+  import { WagmiProvider, createConfig, http } from 'wagmi';
+  import { baseSepolia } from 'wagmi/chains';
+  import { coinbaseWallet } from 'wagmi/connectors';
+
+  const wagmiConfig = createConfig({
+    chains: [baseSepolia],
+    connectors: [
+      coinbaseWallet({
+        appName: 'onchainkit',
+      }),
+    ],
+    ssr: true,
+    transports: {
+      [baseSepolia.id]: http(),
+    },
+  });
+
+  function App({ children }: { children: ReactNode }) {
+    return <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>;
+  }
+  ```
+
+  </Step>
+  <Step title="Drop in the <Wallet /> components">
+  Experience the magic by simply dropping in the `<Wallet />` component
+  and watch it seamlessly come to life.
+
+  Additionally, you can see the [`<Identity>`](/onchainkit/identity/identity) components
+  like [`<Avatar>`](/onchainkit/identity/avatar), [`<Name>`](/onchainkit/identity/name),
+  and [`<Address>`](/onchainkit/identity/address) are used in a composable way.
+  Explore their documentation pages to discover various customization options.
+
+  ```tsx
+  import {
+    ConnectWallet,
+    Wallet,
+    WalletDropdown,
+    WalletDropdownDisconnect,
+  } from '@coinbase/onchainkit/wallet';
+  import {
+    Address,
+    Avatar,
+    Name,
+    Identity,
+  } from '@coinbase/onchainkit/identity';
+  import { color } from '@coinbase/onchainkit/theme';
+
+  export function WalletComponents() {
+    return (
+      <div className="flex justify-end">
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+          <WalletDropdown>
+            <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+              <Avatar />
+              <Name />
+              <Address className={color.foregroundMuted} />
+            </Identity>
+            <WalletDropdownDisconnect />
+          </WalletDropdown>
+        </Wallet>
+      </div>
+    );
+  }
+  ```
+
+  <iframe
+    src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-wallet-walletcomponents--with-identity-and-disconnect&viewMode=story&dark=true&hero=true"
+    width="100%"
+    height="400"
+  />
+  {/* <WalletComponents>
+    <Wallet>
+      <ConnectWallet>
+        <Avatar className="h-6 w-6" />
+        <Name />
+      </ConnectWallet>
+      <WalletDropdown>
+        <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+          <Avatar />
+          <Name />
+          <Address className={color.foregroundMuted} />
+        </Identity>
+        <WalletDropdownDisconnect />
+      </WalletDropdown>
+    </Wallet>
+  </WalletComponents> */}
+
+  </Step>
+  <Step title="Drop in pre-made wallet components">
+  Expand the user experience with pre-made components like [`<WalletDropdownLink>`](/onchainkit/wallet/wallet-dropdown-link),
+  [`<WalletDropdownBasename>`](/onchainkit/wallet/wallet-dropdown-basename),
+  [`<WalletDropdownFundLink>`](/onchainkit/wallet/wallet-dropdown-fund-link),
+  or `<EthBalance>`, to help you build a seamless wallet experience for your users.
+
+  The `<WalletDropdownLink>` is highly versatile and will likely be your go-to choice
+  for adding more links to the dropdown, connecting your users to various pages of your onchain app.
+
+  ```tsx
+  import {
+    ConnectWallet,
+    Wallet,
+    WalletDropdown,
+    WalletDropdownBasename, // [!code focus]
+    WalletDropdownFundLink, // [!code focus]
+    WalletDropdownLink, // [!code focus]
+    WalletDropdownDisconnect,
+  } from '@coinbase/onchainkit/wallet';
+  import {
+    Address,
+    Avatar,
+    Name,
+    Identity,
+    EthBalance, // [!code focus]
+  } from '@coinbase/onchainkit/identity';
+
+  // omitted for brevity
+
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity
+        className="px-4 pt-3 pb-2"
+        hasCopyAddressOnClick
+      >
+        <Avatar />
+        <Name />
+        <Address />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownBasename />
+      <WalletDropdownLink
+        icon="wallet"
+        href="https://keys.coinbase.com"
+      >
+        Wallet
+      </WalletDropdownLink>
+      <WalletDropdownFundLink />
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+  ```
+
+  <iframe
+    src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-wallet-walletcomponents--full-dropdown&viewMode=story&dark=true&hero=true"
+    width="100%"
+    height="600"
+  />
+  {/* <WalletComponents>
+    <Wallet>
+      <ConnectWallet>
+        <Avatar className="h-6 w-6" />
+        <Name />
+      </ConnectWallet>
+      <WalletDropdown>
+        <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+          <Avatar />
+          <Name />
+          <Address className={color.foregroundMuted} />
+          <EthBalance />
+        </Identity>
+        <WalletDropdownBasename />
+        <WalletDropdownLink
+          icon="wallet"
+          href="https://keys.coinbase.com"
+        >
+          Wallet
+        </WalletDropdownLink>
+        <WalletDropdownFundLink />
+        <WalletDropdownDisconnect />
+      </WalletDropdown>
+    </Wallet>
+  </WalletComponents> */}
+
+  </Step>
+</Steps>
+
+## Customize Connect button text and style
+
+Each OnchainKit component offers the flexibility to customize `className`
+and adjust the style of the React components it represents.
+
+Customize the connect wallet text by using the `disconnectedLabel` prop on the `<ConnectWallet />` component.
+
+```tsx
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownLink,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+// ---cut-before---
+// omitted for brevity
+
+<Wallet>
+  <ConnectWallet className='bg-blue-800' disconnectedLabel='Log In'>
+    <Avatar className="h-6 w-6" />
+    <Name className='text-white' />
+  </ConnectWallet>
+  <WalletDropdown>
+    <Identity
+      className="px-4 pt-3 pb-2 hover:bg-blue-200"
+      hasCopyAddressOnClick
+    >
+      <Avatar />
+      <Name />
+      <Address />
+      <EthBalance />
+    </Identity>
+    <WalletDropdownLink
+      className='hover:bg-blue-200'
+      icon="wallet"
+      href="https://keys.coinbase.com"
+    >
+      Wallet
+    </WalletDropdownLink>
+    <WalletDropdownDisconnect className='hover:bg-blue-200' />
+  </WalletDropdown>
+</Wallet>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-wallet-walletcomponents--custom-styling&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="400"
+/>
+{/* <WalletComponents>
+  <Wallet>
+    <ConnectWallet className='bg-blue-800' disconnectedLabel='Log In'>
+      <Avatar className="h-6 w-6" />
+      <Name className='text-white' />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2 hover:bg-blue-200" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownLink
+        className='hover:bg-blue-200'
+        icon="wallet"
+        href="https://keys.coinbase.com"
+      >
+        Wallet
+      </WalletDropdownLink>
+      <WalletDropdownDisconnect className='hover:bg-blue-200' />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents> */}
+
+## Example usage
+
+### Usage with Sign In With Ethereum (SIWE)
+
+To use [Sign In With Ethereum (SIWE)](https://docs.login.xyz/general-information/siwe-overview) with OnchainKit, you can use the `onConnect` prop in the `<ConnectWallet />` component. This will trigger the SIWE prompt when the user connects their wallet.
+
+```tsx
+import { ConnectWallet } from '@coinbase/onchainkit/wallet';
+import { base } from 'wagmi/chains';
+import { createSiweMessage } from 'viem/siwe'
+import { useSignMessage } from 'wagmi';
+
+const message = createSiweMessage({
+  address: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+  chainId: base.id,
+  domain: 'example.com',
+  nonce: 'foobarbaz',
+  uri: 'https://example.com/path',
+  version: '1',
+})
+
+export function WalletComponents() {
+  const { signMessage } = useSignMessage();
+
+  return (
+    <ConnectWallet onConnect={() => {signMessage({ message })}} />
+  );
+}
+
+```
+
+## Components
+
+The components are designed to work together hierarchically. For each component, ensure the following:
+
+- `<Wallet />` - Serves as the main container for all wallet-related components.
+- `<ConnectWallet />` - Handles the wallet connection process. Place child components inside to customize the connect button appearance.
+- `<AppWithWalletModal />` - Enables a wallet aggregation experience.
+- `<WalletDropdown />` - Contains additional wallet information and options. Place inside the `<Wallet />` component.
+- `<Identity />` - Displays user identity information. Place inside `<WalletDropdown />` for a complete profile view.
+- `<WalletDropdownBasename />` - Displays the user's Basename within the dropdown.
+- `<WalletDropdownLink />` - Creates a custom link within the dropdown. Use the `icon` prop to add an icon, and `href` to specify the destination.
+- `<WalletDropdownDisconnect />` - Provides a disconnect option within the dropdown.
+
+Additional components for customizing the wallet interface include:
+
+- `<Avatar />` - Displays the user's avatar image.
+- `<Name />` - Shows the user's name or ENS.
+- `<Badge />` - Can be used to display additional user status or information.
+- `<Address />` - Shows the user's wallet address.
+- `<EthBalance />` - Displays the user's ETH balance.
+
+The Wallet component automatically handles the wallet connection state and updates the UI accordingly.
+You need to wrap your application or relevant part of it with these components
+to provide a complete wallet interaction experience.
+
+## Component types
+
+- [`WalletReact`](/onchainkit/wallet/types#walletreact)
+- [`ConnectWalletReact`](/onchainkit/wallet/types#connectwalletreact)
+- [`WalletDropdownReact`](/onchainkit/wallet/types#walletdropdownreact)
+- [`WalletDropdownBasenameReact`](/onchainkit/wallet/types#walletdropdownbasenamereact)
+- [`WalletDropdownDisconnectReact`](/onchainkit/wallet/types#walletdropdowndisconnectreact)
+- [`WalletDropdownLinkReact`](/onchainkit/wallet/types#walletdropdownlinkreact)
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

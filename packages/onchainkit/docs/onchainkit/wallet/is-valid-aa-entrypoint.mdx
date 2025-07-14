@@ -1,0 +1,39 @@
+---
+title: isValidAAEntrypoint
+---
+
+
+The `isValidAAEntrypoint` utility is designed to verify the Account-Abstraction entrypoint before sponsoring a transaction.
+
+## Usage
+
+<CodeGroup>
+```tsx code
+import { isValidAAEntrypoint } from '@coinbase/onchainkit/wallet';
+
+const AAImplementationAddress = '0x123';
+const isValid = isValidAAEntrypoint({ entrypoint: AAImplementationAddress });
+
+if (isValid) {
+  console.log('The entrypoint is valid.');
+} else {
+  console.log('Invalid entrypoint.');
+}
+```
+
+```ts return value
+true;
+```
+</CodeGroup>
+
+## Returns
+
+`boolean` - Returns `true` if the account abstraction entrypoint address is v06, otherwise `false`.
+
+## Parameters
+
+[`isValidAAEntrypointOptions`](/onchainkit/wallet/types#isvalidaaentrypointoptions)
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

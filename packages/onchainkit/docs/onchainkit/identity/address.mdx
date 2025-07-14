@@ -1,0 +1,69 @@
+---
+title: "`<Address />`"
+---
+
+The `Address` component is used to render a shortened user account address.
+
+## Usage
+
+Sliced account address:
+
+```tsx
+import { Address } from '@coinbase/onchainkit/identity';
+<Address address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" /> // [!code focus]
+```
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-address--default-identity&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <App>
+  <Address address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
+</App> */}
+
+### Display full address
+
+Set `isSliced` to false, to display the full address:
+
+```tsx
+import { Address } from '@coinbase/onchainkit/identity';
+<Address address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" isSliced={false} /> // [!code focus]
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-address--full-address&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <App>
+  <Address address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" isSliced={false}/>
+</App> */}
+
+### Override styles
+
+You can override component styles using `className`.
+
+```tsx
+import { Address } from '@coinbase/onchainkit/identity';
+<Address
+  className="bg-emerald-400 px-2 py-1 rounded" // [!code focus]
+  address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"
+/>
+```
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-address--override-styles&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <App>
+  <Address className="bg-emerald-400 px-2 py-1 rounded" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"/>
+</App> */}
+
+## Props
+
+[`AddressReact`](/onchainkit/identity/types#addressreact)
+
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

@@ -1,0 +1,99 @@
+---
+title: 'Paymaster & Bundler Errors'
+sidebar_label: Errors
+---
+
+Learn about Paymaster & Bundler error codes and how to resolve them.
+
+If the error you're encountering persists, please join the [Coinbase Developer Platform Discord](https://discord.com/invite/cdp) and contact us in `#paymaster` for assistance.
+
+## Paymaster Error Codes
+
+Below are a list of common error codes returned by the Paymaster.
+
+| Error                | Code   | Description                                                                                                                       |
+| :------------------- | :----- | :-------------------------------------------------------------------------------------------------------------------------------- |
+| INTERNAL_ERROR       | -32000 | Internal error. Something is wrong with our service. Please contact support if this persists.                                     |
+| UNAUTHORIZED_ERROR   | -32001 | Unauthorized. Check if your API key and RPC URL are valid.                                                                        |
+| DENIED_ERROR         | -32001 | Request denied. This may be due to the gas policy you configured in the Paymaster page. Check the values in your gas policy.      |
+| UNAVAILABLE_ERROR    | -32003 | Service unavailable. Please contact support if this persists.                                                                     |
+| GAS_ESTIMATION_ERROR | -32004 | An error occurred during eth_estimateUserOperation. This is typically due to insufficient gas, or an invalid paymaster signature. |
+| METHOD_NOT_FOUND     | -32601 | Method not found. Check if Paymaster is enabled on your RPC URL, and if you're sending the correct JSON-RPC method.               |
+| INVALID_ARGUMENT     | -32602 | Invalid argument. Ensure you have the correct parameters in the UserOperation.                                                    |
+| PARSE_ERROR          | -32700 | Parse error. Ensure you have the correct parameters in the UserOperation, and that the request body is formatted properly.        |
+
+## Paymaster Gas Policy Errors
+
+| Message                                                       | Description                                                       |
+| :------------------------------------------------------------ | :---------------------------------------------------------------- |
+| rejected due to max per user op Spend Permission exceeded          | UserOperation cost too large - configure Per UserOperation limit. |
+| rejected due to max monthly org Spend Permission                   | over max monthly spend - contact us to increase your limit.       |
+| rejected due to max global usd Spend Permission reached            | over configured max total USD - adjust your policy.               |
+| rejected due to maximum per address transaction count reached | per sender address maximum number of txn sponsored reached.       |
+| rejected due to maximum per address sponsorship reached       | per sender address maximum USD sponsorship reached.               |
+| attestation not found for address                             | sender address does not have required attestation.                |
+| target address not in allowed contracts                       | contract allowlist - invalid address called.                      |
+| method not in allowed methods                                 | contract allowlist - wrong method called on allowed contract.     |
+
+## Bundler Error Codes
+
+Below are a list of common error codes returned by the Bundler. These will typically be accompanied by an Entrypoint Error Code (defined below).
+
+| Error                      | Code   | Description                                        |
+| :------------------------- | :----- | :------------------------------------------------- |
+| REJECTED_BY_EP_OR_ACCOUNT  | -32500 | The transaction was rejected by the EP or account. |
+| REJECTED_BY_PAYMASTER      | -32501 | The transaction was rejected by the Paymaster.     |
+| BANNED_OPCODE              | -32502 | The transaction contains a banned opcode.          |
+| SHORT_DEADLINE             | -32503 | The transaction deadline is too short.             |
+| BANNED_OR_THROTTLED_ENTITY | -32504 | The entity is banned or throttled.                 |
+| INVALID_ENTITY_STAKE       | -32505 | The entity stake is invalid.                       |
+| INVALID_AGGREGATOR         | -32506 | The aggregator is invalid.                         |
+| INVALID_SIGNATURE          | -32507 | The transaction signature is invalid.              |
+| EXECUTION_REVERTED         | -32521 | The transaction execution was reverted.            |
+| INVALID_FIELDS             | -32602 | The transaction contains invalid fields.           |
+
+## Entrypoint Error Codes
+
+Below are a list of common error codes returned by the Entry Point.
+
+| Error                            | Description                                                                                                                                                          |
+| :------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AA10 sender already constructed  | The sender was already created, so initCode should be empty. Remove the initCode.                                                                                    |
+| AA13 initCode failed or OOG      | The initCode failed to create the account or ran out of gas. Additionally, check the verificationGasLimit field in your UserOperation.                               |
+| AA14 initCode must return sender | The initCode fails to provide the sender address. Verify either the initCode or the factory contract for potential issues.                                           |
+| AA15 initCode must create sender | The initCode within the UserOperation fails to generate an account. Please inspect the initCode or the factory contract for potential issues.                        |
+| AA20 Account not deployed        | The smart account has not been deployed, and no initCode was specified. If this is the initial transaction for this account, ensure that an initCode is included.    |
+| AA21 didn’t pay prefund          | The transaction was rejected by the EP or account. Check that the account has enough ETH to pay for the UserOperation, or that the Paymaster is configured properly. |
+| AA23 reverted (or OOG)           | The signature of the UserOperation was rejected or ran out of gas. Check if you have sufficient ETH for gas, or that the Paymaster is configured properly.           |
+| AA24 Signature error             | The signature of the UserOperation is invalid. Check that the UserOperation hash, entrypoint address, and chain ID are correct.                                      |
+| AA25 Invalid account nonce       | The nonce is invalid. The UserOperation is using an old nonce, or the nonce is improperly formatted.                                                                 |
+| AA40 Over verification gas limit | The verification gas limit has been surpassed. Check the verificationGasLimit field in your UserOperation.                                                           |
+| AA41 Too little verification gas | Verifying the UserOperation did not complete due to insufficient gas. You may need to increase verificationGasLimit.                                                 |
+| AA50 PostOp reverted             | The execution of additional logic by the EntryPoint resulted in a revert.                                                                                            |
+| AA51 prefund below actualGasCost | The actual cost of the UserOperation is higher than the total amount of gas approved.                                                                                |
+
+## Request Logs
+
+Request Logs for UserOps can be downloaded under the Logs tab on the Paymaster page. These logs are useful for debugging errors or auditing sponsored UserOps. Click on `Download CSV` to download a CSV of successful and failed requests.
+
+| Column          | Description                                                                              |
+| :-------------- | :--------------------------------------------------------------------------------------- |
+| OrganizationId  | ID of your Cloud Developer Platform Organization.                                        |
+| ProjectId       | ID of your Cloud Developer Platform Project.                                             |
+| Network         | Network for the request. Either base or base-sepolia.                                    |
+| Status          | Status of the request. Either completed, in progress or failed.                          |
+| UserOpHash      | Hash of the UserOperation.                                                               |
+| Sender          | Account making the UserOperation.                                                        |
+| Paymaster       | Contract/service that sponsors UserOperation gas (making transactions free to end user). |
+| TransactionHash | Transaction hash that the UserOperation was included in.                                 |
+| GasCost         | Cost of gas in Gwei.                                                                     |
+| GasUsed         | Amount of gas used \* the gas cost.                                                      |
+| Method          | Method called by the request.                                                            |
+| ErrorCode       | Error code for failed requests.                                                          |
+| ErrorMessage    | Error message for failed requests.                                                       |
+
+
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

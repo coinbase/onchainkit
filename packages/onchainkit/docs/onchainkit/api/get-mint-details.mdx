@@ -1,0 +1,69 @@
+---
+title: getMintDetails
+openapi: get /getMintDetails
+---
+
+
+The `getMintDetails` function returns data required to view an NFT to be minted
+
+Before using them, make sure to obtain a [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+
+{/* ## Usage
+
+<CodeGroup>
+```tsx code
+import { setOnchainKitConfig } from '@coinbase/onchainkit';
+import { getMintDetails } from '@coinbase/onchainkit/api';
+
+const response = await getMintDetails({
+  contractAddress: '0x...',
+  takerAddress: '0x...',
+  tokenId: '1',
+});
+```
+
+```json return value
+{
+  "name": "NFT Name",
+  "description": "NFT description",
+  "imageUrl": "https://example.com/image.png",
+  "animationUrl": "",
+  "mimeType": "image/png",
+  "contractType": "ERC721",
+  "price": {
+    "amount": "0.0001",
+    "currency": "ETH",
+    "amountUSD": "0.242271"
+  },
+  "mintFee": {
+    "amount": "0",
+    "currency": "ETH",
+    "amountUSD": "0"
+  },
+  "maxMintsPerWallet": 100,
+  "isEligibleToMint": true,
+  "creatorAddress": "0x...",
+  "network": "",
+  "totalTokens": "300",
+  "totalOwners": "200"
+}
+```
+</CodeGroup> */}
+
+## Returns
+
+[`Promise<GetMintDetailsResponse>`](/onchainkit/api/types#getmintdetailsresponse)
+
+## Parameters
+
+[`GetMintDetailsParams`](/onchainkit/api/types#getmintdetailsparams)
+
+## Types
+
+- [`GetMintDetailsResponse`](/onchainkit/api/types#getmintdetailsresponse)
+- [`GetMintDetailsParams`](/onchainkit/api/types#getmintdetailsparams)
+
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

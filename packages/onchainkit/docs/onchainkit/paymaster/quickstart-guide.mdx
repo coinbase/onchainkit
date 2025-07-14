@@ -1,0 +1,120 @@
+---
+title: 'Quickstart: Set up your Paymaster on your application'
+sidebar_label: Quickstart
+---
+
+This Paymaster quickstart tutorial explains how to set up a basic app and sponsor transactions using [OnchainKit](https://onchainkit.xyz/) and Coinbase Smart Wallet.
+
+## Getting an endpoint on Base Sepolia
+
+> **How to Get a Paymaster & Bundler endpoint on Base testnet (Sepolia) from CDP**
+
+1. [Create](https://coinbase.com/developer-platform) a new CDP account or [sign in](https://portal.cdp.coinbase.com) to your existing account.
+2. Navigate to [Paymaster](https://portal.cdp.coinbase.com/products/bundler-and-paymaster).
+3. Add the following address to the allowlist under **Configuration**&mdash;this is the address of the contract we are calling:
+
+   ```
+   0x67c97D1FB8184F038592b2109F854dfb09C77C75
+   ```
+
+4. Switch to Base testnet (Sepolia) in the top right of the configuration.
+5. Copy your endpoint to use later.
+
+
+<Accordion title="Expand for images and click to enlarge">
+<Frame caption="Paymaster - Gas Policy">
+<img
+  src="/images/paymaster/pb-paymaster-config.png"
+  width="700"
+  alt=""
+/>
+</Frame>
+</Accordion>
+
+## Setting up an app template
+
+Clone the repo
+
+```js
+git clone https://github.com/coinbase/onchain-app-template.git
+cd onchain-app-template
+```
+
+You can find the API key on the Coinbase Developer Portal's [OnchainKit page](https://portal.cdp.coinbase.com/products/onchainkit). If you don't have an account, you will need to create one.
+You can find your Wallet Connector project ID at Wallet Connect.
+Add the following to your `.env` file
+
+```js
+NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT = ADD_YOUR_PAYMASTER_URL_HERE;
+NEXT_PUBLIC_CDP_API_KEY = ADD_YOUR_ONCHAINKIT_KEY_HERE;
+NEXT_PUBLIC_WC_PROJECT_ID = ADD_YOUR_PROJECT_ID_HERE;
+```
+
+Install dependencies - run these in your terminal in the root of the project
+
+```sh
+# Install bun in case you don't have it
+bun curl -fsSL <https://bun.sh/install> | bash
+
+# Install packages
+bun i
+```
+
+### Add your paymaster to the transact button
+
+Navigate to `/src/components/TransactionWrapper.tsx` and modify the Transaction component to include the paymaster service.
+
+```js
+      <Transaction
+        address={address}
+        contracts={contracts}
+        className="w-[450px]"
+        chainId={BASE_SEPOLIA_CHAIN_ID}
+        onError={handleError}
+        onSuccess={handleSuccess}
+        // Paymaster capabilities added below
+        capabilities={{
+          paymasterService: {
+            url: process.env.NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT!,
+          },
+        }}
+      >
+        <TransactionButton
+          className="mt-0 mr-auto ml-auto w-[450px] max-w-full text-[white]"
+          text="Collect"
+        />
+        <TransactionStatus>
+          <TransactionStatusLabel />
+          <TransactionStatusAction />
+        </TransactionStatus>
+      </Transaction>
+```
+
+### Start the app locally
+
+```js
+bun run dev
+```
+
+### Open the app in your browser and sign in with a smart wallet
+
+Navigate to [http://localhost:3000](http://localhost:3000)
+
+Click connect and sign in with your smart wallet or create a new one.
+
+### Initiate the transaction
+
+Click the "Collect" button and your paymaster will sponsor. Note only Smart Wallets can have sponsored transactions so EOA accounts will not get sponsorship.
+
+Thats it! You've successfully set up your paymaster on your application.
+
+## Other Examples
+
+Additional documentation and information on Coinbase Smart Wallet is at [smartwallet.dev](https://smartwallet.dev/).
+
+Check out how to build onchain applications with ease using [OnchainKit](https://onchainkit.xyz/)!
+
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

@@ -1,0 +1,55 @@
+---
+title: buildMintTransaction
+openapi: post /BuildMintTransaction
+---
+
+
+The `buildMintTransaction` function is used to get an unsigned transaction for minting an NFT.
+
+Before using them, make sure to obtain a [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+
+{/* ## Usage */}
+
+{/* <CodeGroup>
+```tsx code
+import { setOnchainKitConfig } from '@coinbase/onchainkit';
+import { buildMintTransaction } from '@coinbase/onchainkit/api';
+
+const response = await buildMintTransaction({
+  mintAddress: '0x...',
+  takerAddress: '0x...',
+  tokenId: '1',
+  quantity: 1,
+  network: 'networks/base-mainnet',
+});
+```
+
+```json return value
+{
+  "call_data": {
+    "from": "0x...",
+    "to": "0x...",
+    "data": "0x...",
+    "value": "0x000000000001"
+  }
+}
+```
+</CodeGroup> */}
+
+## Returns
+
+[`Promise<BuildMintTransactionResponse>`](/onchainkit/api/types#buildminttransactionresponse)
+
+## Parameters
+
+[`BuildMintTransactionParams`](/onchainkit/api/types#buildminttransactionparams)
+
+## Types
+
+- [`BuildMintTransactionResponse`](/onchainkit/api/types#buildminttransactionresponse)
+- [`BuildMintTransactionParams`](/onchainkit/api/types#buildminttransactionparams)
+
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

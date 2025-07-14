@@ -1,0 +1,72 @@
+---
+title: getName
+---
+
+
+The `getName` utility is designed to retrieve a name from an onchain identity
+provider for a specific address.
+
+Consider the utility instead of the hook when you
+use it with Next.js or any Node.js backend.
+
+## Usage
+
+Get ENS name from an address:
+
+<CodeGroup>
+```tsx code
+import { getName } from '@coinbase/onchainkit/identity';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+const name = await getName({ address });
+```
+
+```ts return value
+zizzamia.eth;
+```
+</CodeGroup>
+
+Get Basename from an address:
+
+<CodeGroup>
+```tsx code
+import { getName } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+const name = await getName({ address, chain: base });
+```
+
+```ts return value
+zizzamia.base.eth;
+```
+</CodeGroup>
+
+Get a sliced address when address does not have an ENS name:
+
+<CodeGroup>
+```tsx code
+import { getName } from '@coinbase/onchainkit/identity';
+
+const address = '0x1234567890abcdef1234567890abcdef12345678';
+const name = await getName({ address });
+```
+
+```ts return value
+0x123...5678
+```
+</CodeGroup>
+
+## Returns
+
+See [GetNameReturnType](/onchainkit/identity/types#getnamereturntype) and [GetName](/onchainkit/identity/types#getname) for more details.
+
+## Parameters
+
+See [GetNameReturnType](/onchainkit/identity/types#getnamereturntype) and [GetName](/onchainkit/identity/types#getname) for more details.
+
+
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

@@ -1,0 +1,156 @@
+---
+title: Wallet Modal · OnchainKit
+sidebarTitle: Wallet Modal
+description: The Wallet Modal provides users with multiple wallet connection options in a polished interface.
+---
+
+<Frame>
+<img 
+  alt="Wallet Modal"
+  src="/images/onchainkit/wallet-modal.png"
+  height="364"
+  width="364"
+  className="mx-400"
+/>
+</Frame>
+
+`WalletModal` offers users multiple wallet connection options. The modal automatically appears when users click the `ConnectWallet` component and provides several connection paths:
+
+1. Quickly create a new smart wallet for new users
+2. Coinbase Wallet connection (supporting both smart wallets and EOA)
+3. MetaMask connection
+4. Phantom connection
+5. Rabby, Frame, and Trust Wallet connections (optional)
+
+## Walkthrough
+
+<Steps>
+  <Step title="Configure the OnchainKitProvider with modal settings:">
+  ```tsx providers.tsx
+  <OnchainKitProvider
+    apiKey={process.env.ONCHAINKIT_API_KEY}
+    chain={base}
+    config={{
+      appearance: {
+        name: 'Your App Name',        // Displayed in modal header
+        logo: 'https://your-logo.com',// Displayed in modal header
+        mode: '400',                 // 'light' | 'dark' | '400'
+        theme: 'default',             // 'default' or custom theme
+      },
+      wallet: { // [!code focus]
+        display: 'modal', // [!code focus]
+        termsUrl: 'https://...', // [!code focus]
+        privacyUrl: 'https://...', // [!code focus]
+        },
+    }}
+  >
+    {children}
+  </OnchainKitProvider>
+  ```
+
+  </Step>
+  <Step title="Use the ConnectWallet component in your UI:">
+  ```tsx App.tsx
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+  ```
+
+  <iframe
+    src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-wallet-modal--connect-wallet-in-ui&viewMode=story&dark=true&hero=true"
+    width="100%"
+    height="400"
+  />
+  {/* <AppWithWalletModal>
+    <div className="my-10 flex justify-center">
+      <Wallet>
+        <ConnectWallet>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletDropdown>
+          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+            <Avatar />
+            <Name />
+            <Address className={color.foregroundMuted} />
+            <EthBalance />
+          </Identity>
+          <WalletDropdownDisconnect />
+        </WalletDropdown>
+      </Wallet>
+    </div>
+  </AppWithWalletModal> */}
+
+  </Step>
+</Steps>
+
+## Components
+
+The Wallet Modal components are designed to work together hierarchically:
+
+- `<OnchainKitProvider />` - Configures the modal settings and appearance
+- `<ConnectWallet />` - Triggers the modal to open when clicked
+- `<WalletModal />` - The modal interface itself, containing:
+  - Smart wallet creation flow
+  - Coinbase Wallet connection
+  - MetaMask connection
+  - Phantom connection
+  - Rabby, Trust, and Frame Wallet connections (if enabled)
+  - Terms and privacy policy links
+
+The modal automatically handles:
+
+- Wallet connection states
+- Error handling
+- Mobile/desktop responsive behavior
+- Theme customization
+- Terms/privacy policy display
+
+## Additional Wallet Support
+
+By default, the wallet modal includes Coinbase Wallet, MetaMask, and Phantom as connection options. You can enable additional wallet support by configuring the `supportedWallets` object in the `OnchainKitProvider`:
+
+```tsx
+<OnchainKitProvider
+  apiKey={process.env.ONCHAINKIT_API_KEY}
+  chain={base}
+  config={{
+    appearance: {
+      name: 'Your App Name',
+      logo: 'https://your-logo.com',
+      mode: '400',
+      theme: 'default',
+    },
+    wallet: {
+      display: 'modal',
+      termsUrl: 'https://...',
+      privacyUrl: 'https://...',
+      supportedWallets: { // [!code focus]
+        rabby: true, // [!code focus]
+        trust: true, // [!code focus]
+        frame: true, // [!code focus]
+      }, // [!code focus]
+    },
+  }}
+>
+  {children}
+</OnchainKitProvider>
+```
+
+Each wallet can be individually enabled or disabled as needed. If no `supportedWallets` configuration is provided, the additional wallets will be disabled by default.
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

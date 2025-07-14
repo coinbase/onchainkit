@@ -1,0 +1,72 @@
+---
+title: useAvatars
+---
+
+
+The `useAvatars` hook is used to get multiple avatar image URLs from an onchain identity
+provider for an array of ENS names or Basenames in a single batch request.
+
+It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+
+## Usage
+
+Get avatars for multiple ENS names:
+
+<CodeGroup>
+```tsx code
+import { useAvatars } from '@coinbase/onchainkit/identity';
+
+const ensNames = ['vitalik.eth', 'paulcramer.eth'];
+const { data: avatars, isLoading } = useAvatars({ ensNames });
+```
+
+```ts return value
+{ 
+  data: [
+    'https://ipfs.io/ipfs/QmSP4nq9fnN9dAiCj42ug9Wa79rqmQerZXZch82VqpiH7U/image.gif',
+    'https://ipfs.io/ipfs/QmQ9RT2SrZ6TWUjrQxG4bNnhb3nDqBE5Ld1j9GYvk3kTjf'
+  ], 
+  isLoading: false 
+}
+```
+</CodeGroup>
+
+Get avatars for multiple Basenames:
+
+<CodeGroup>
+```tsx code
+import { useAvatars } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const ensNames = ['paul.base.eth', 'coinbase.base.eth'];
+const { data: avatars, isLoading } = useAvatars({ ensNames, chain: base });
+```
+
+```ts return value
+{ 
+  data: [
+    'https://ipfs.io/ipfs/QmQ9RT2SrZ6TWUjrQxG4bNnhb3nDqBE5Ld1j9GYvk3kTjf',
+    'https://ipfs.io/ipfs/QmXHFnSXcN7CSuVcyF3vyPgPcPvLQyLpKYBaNpx3x3bPAZ'
+  ], 
+  isLoading: false 
+}
+```
+</CodeGroup>
+
+## Returns
+
+[`useQuery<Promise<GetAvatarReturnType[]>>`](/onchainkit/identity/types#getavatarreturntype)
+
+## Parameters
+
+### UseAvatarsOptions
+
+[`UseAvatarsOptions`](/onchainkit/identity/types#useavatarsoptions)
+
+### UseQueryOptions
+
+[`UseQueryOptions`](/onchainkit/identity/types#usequeryoptions) 
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

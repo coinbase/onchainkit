@@ -1,0 +1,151 @@
+---
+title: Common Issues & Debugging
+description: Frequent issues encountered during Mini App development and their solutions
+---
+
+
+## Previews Not Rendering
+
+**Issue:** The app embed does not appear when previewed.
+
+<Frame>
+<img
+  alt="Manifest Embed Example"
+  src="/images/minikit/example_embed.png"
+  height="364"
+/>
+</Frame>
+
+**Cause:** This is typically due to an incorrectly formatted or unreachable splashImageUrl in the farcaster.json manifest.
+
+<Tabs>
+<Tab title="Correct Format">
+```json
+"splashImageUrl": "https://www.example.com/splash_image.png"
+```
+</Tab>
+
+<Tab title="Common Mistake">
+```json
+"splashImageUrl": "https://www.example.com//splash_image.png"
+```
+</Tab>
+</Tabs>
+
+### Best Practices
+
+<Check>
+**URL Validation:** Ensure the url is correct without typos. Double slashes, like seen above, will break the mini app preview.
+</Check>
+
+<Check>
+**Public Accessibility:** Ensure the image is hosted at a publicly accessible URL.
+</Check>
+
+<Check>
+**Image Requirements:** Confirm that the image meets the requirements: 200x200 pixels, under 1MB, and in PNG or JPG format.
+</Check>
+
+### Preview Tool
+
+To verify your embed, use the Farcaster Frame Developer Tool:
+
+<Card title="Embed Debugging" icon="bug" href="https://farcaster.xyz/~/developers/mini-apps/embed">
+Test your Mini App embed preview
+</Card>
+
+## Manifest Debugging (farcaster.json)
+
+Ensure your domain's manifest at `/.well-known/farcaster.json` is properly configured.
+
+### Example Manifest
+
+```json
+{
+  "accountAssociation": {
+    "header": "BASE64_HEADER_STRING",
+    "payload": "BASE64_PAYLOAD_STRING",
+    "signature": "BASE64_SIGNATURE_STRING"
+  },
+  "frame": {
+    "version": "next",
+    "name": "MiniKit",
+    "iconUrl": "https://example.com/icon.png",
+    "splashImageUrl": "https://example.com/splash.png",
+    "splashBackgroundColor": "#000000",
+    "homeUrl": "https://your-app.com"
+  }
+}
+```
+
+### Checklist
+
+<Check>
+The domain in the payload must match the domain serving the manifest.
+</Check>
+
+<Check>
+Ensure all asset URLs (icon, splash) are reachable and correctly formatted.
+</Check>
+
+## Incorrect FID or Signature Errors
+
+This is often caused by a farcaster.json file that was signed using the wrong wallet. The signing wallet must match the custody address associated with your Farcaster account.
+
+**Issue:** You encounter errors related to an invalid FID or failed signature validation.
+
+**Cause:** The signing wallet does not match the Farcaster custody wallet.
+
+### Resolution
+
+To sign with the correct identity, import your Farcaster custody key into an external wallet:
+
+<Steps>
+<Step title="Open Farcaster Mobile App">
+Navigate to the Farcaster mobile app on your device
+</Step>
+
+<Step title="Access Recovery Phrase">
+Navigate to: `Settings → Advanced → Farcaster Recovery Phrase`
+</Step>
+
+<Step title="Copy Seed Phrase">
+Copy the 24-word seed phrase
+</Step>
+
+<Step title="Import to Wallet">
+Import the phrase into a compatible wallet (e.g., Coinbase Wallet Mobile App, MetaMask or Rabby)
+</Step>
+
+<Step title="Sign Manifest">
+Use this wallet for signing the `accountAssociation` payload
+</Step>
+</Steps>
+
+### Manifest Signing Utility
+
+Run the following to initiate the manifest signing workflow:
+
+```bash
+npx create-onchain --manifest
+```
+
+This CLI will open the signing UI in your browser and update local .env values automatically.
+
+<Info>
+This is required for generating valid signed manifests that link your domain to your Farcaster identity.
+</Info>
+
+## Developer Tools
+
+### Farcaster Frame Debugger
+
+Preview how your Mini App renders inside Farcaster:
+
+<Card title="Farcaster Debugging" icon="magnifying-glass" href="https://farcaster.xyz/~/developers/mini-apps/manifest">
+Test and debug your Mini App in the Farcaster environment
+</Card>
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

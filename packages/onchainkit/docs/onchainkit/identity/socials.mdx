@@ -1,0 +1,170 @@
+---
+title: <Socials /> · OnchainKit
+sidebarTitle: <Socials />
+description: Display social links for ENS names
+---
+
+The `Socials` component displays social media links associated with Basenames and ENS names.
+It automatically fetches and renders social links stored in text records.
+
+## Features
+- **Name Resolution:** Resolves both Basenames and ENS names to fetch associated social links
+- **Multiple Platform Support:** Supports Twitter, GitHub, Discord, and other major platforms
+- **Customizable Display:** Flexible styling options to match your app's design
+- **Chain-Aware:** Works across different EVM chains that support ENS
+
+## Usage
+
+### Basic Usage
+
+```tsx
+// @errors: 2305
+import {
+  Address,
+  Avatar,
+  Badge,
+  Identity,
+  Name,
+  Socials, // [!code focus]
+} from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+<Identity
+  address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF"
+  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+  chain={base}
+>
+  <Avatar />
+  <Name>
+    <Badge />
+  </Name>
+  <Address />
+  <Socials />
+</Identity>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-socials--default-identity&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <App>
+  <Identity
+    address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+    chain={base}
+  >
+    <Avatar />
+    <Name>
+      <Badge />
+    </Name>
+    <Address />
+    <Socials />
+  </Identity>
+</App> */}
+
+### Standalone Usage
+
+You can also use the `Socials` component independently by providing an address:
+
+```tsx
+// @errors: 2305
+import { Socials } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+export default function StandaloneSocials() {
+  return (
+    <Socials // [!code focus]
+      address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF" // [!code focus]
+      chain={base} // [!code focus]
+    /> // [!code focus]
+  );
+}
+```
+{/* <App>
+  <Socials
+    address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF"
+    chain={base}
+  />
+</App> */}
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-socials--standalone&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+
+### Custom Chain
+
+Specify a different chain for ENS resolution:
+
+```tsx
+// @errors: 2305
+import {
+  Address,
+  Avatar,
+  Badge,
+  Identity,
+  Name,
+  Socials, // [!code focus]
+} from '@coinbase/onchainkit/identity';
+import { mainnet } from 'viem/chains'; // [!code focus]
+
+<Identity
+  address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF"
+  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+  chain={mainnet}
+>
+  <Avatar />
+  <Name>
+    <Badge />
+  </Name>
+  <Address />
+  <Socials />
+</Identity>
+```
+
+{/* <App>
+  <Identity
+    address="0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+    chain={mainnet}
+  >
+    <Avatar />
+    <Name>
+      <Badge />
+    </Name>
+    <Address />
+    <Socials />
+  </Identity>
+</App> */}
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-socials--custom-chain&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+
+## Props
+
+The `Socials` component accepts the following props:
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `address` | `Address \| null` | The Ethereum address to resolve social links for |
+| `ensName` | `string` | Optional ENS name to resolve social links for |
+| `chain` | `Chain` | The chain to use for ENS resolution |
+| `className` | `string` | Custom CSS classes to apply to the component |
+
+## Error Handling
+
+The component handles various edge cases:
+
+- Returns `null` if no social links are found
+- Shows empty state while loading
+- Gracefully handles ENS resolution errors
+- Validates social links before display
+
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />

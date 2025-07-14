@@ -1,0 +1,142 @@
+---
+title: <WalletDropdownDisconnect />
+---
+
+The `WalletDropdownDisconnect` component is used to disconnect the wallet from the application.
+
+## Usage
+
+```tsx
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownDisconnect, // [!code focus]
+} from '@coinbase/onchainkit/wallet';
+
+export function WalletComponents() {
+  return (
+    <div className="flex justify-end">
+      <Wallet>
+        <ConnectWallet>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletDropdown>
+          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+            <Avatar />
+            <Name />
+            <Address className={color.foregroundMuted} />
+            <EthBalance />
+          </Identity>
+          <WalletDropdownDisconnect />
+        </WalletDropdown>
+      </Wallet>
+    </div>
+  );
+}
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-wallet-disconnect--main&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="400"
+/>
+{/* <WalletComponents>
+  <Wallet>
+    <ConnectWallet>
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownDisconnect />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents> */}
+
+### Override styles
+
+You can override component styles using `className`.
+
+```tsx
+// omitted for brevity
+
+<WalletDropdownDisconnect className="hover:bg-red-500" /> // [!code focus]
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-wallet-disconnect--override-styles&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="400"
+/>
+{/* <WalletComponents>
+  <Wallet>
+    <ConnectWallet text="Log In">
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownDisconnect className="hover:bg-red-500" />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents> */}
+
+### Override text
+
+You can override component text using `text`.
+
+```tsx
+// omitted for brevity
+
+<WalletDropdownDisconnect text="Log out" /> // [!code focus]
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-wallet-disconnect--override-text&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="400"
+/>
+{/* <WalletComponents>
+  <Wallet>
+    <ConnectWallet text="Log In">
+      <Avatar className="h-6 w-6" />
+      <Name />
+    </ConnectWallet>
+    <WalletDropdown>
+      <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+        <Avatar />
+        <Name />
+        <Address className={color.foregroundMuted} />
+        <EthBalance />
+      </Identity>
+      <WalletDropdownDisconnect text="Log out" />
+    </WalletDropdown>
+  </Wallet>
+</WalletComponents> */}
+
+## Props
+- [`WalletDropdownDisconnectReact`](/onchainkit/wallet/types#walletdropdowndisconnectreact)
+
+import PolicyBanner from "/snippets/PolicyBanner.mdx";
+
+<PolicyBanner />
