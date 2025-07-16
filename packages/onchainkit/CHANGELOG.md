@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.18
+
+### Patch Changes
+
+- 2d87f5b: Update @farcaster/frame-sdk dependency
+
 ## 0.38.17
 
 ### Patch Changes

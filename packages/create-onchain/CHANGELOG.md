@@ -1,5 +1,11 @@
 # create-onchain
 
+## 0.0.23
+
+### Patch Changes
+
+- 2d87f5b: Update @farcaster/frame-sdk dependency
+
 ## 0.0.22
 
 ### Patch Changes
