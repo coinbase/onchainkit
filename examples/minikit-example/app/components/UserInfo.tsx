@@ -17,7 +17,7 @@ function useUserInfo() {
       }
 
       console.log("fetching user info");
-      const result = await sdk.quickAuth.fetch("/me");
+      const result = await sdk.quickAuth.fetch("/api/me");
       console.log("result", result);
       return result;
     },
