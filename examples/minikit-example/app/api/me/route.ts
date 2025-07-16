@@ -40,7 +40,11 @@ export async function GET(request: NextRequest) {
     ).then((res) => res.json());
     console.log("userInfoResult", userInfoResult);
 
-    return NextResponse.json(userInfoResult[0]);
+    return NextResponse.json({
+      userInfoResult,
+      payload,
+      url,
+    });
   } catch (e) {
     if (e instanceof Errors.InvalidTokenError) {
       console.info("Invalid token:", e.message);
