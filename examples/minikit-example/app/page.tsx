@@ -20,6 +20,7 @@ import { AddFrame } from "./actions/AddFrame";
 import { ComposeCast } from "./actions/ComposeCast";
 import { ViewCast } from "./actions/ViewCast";
 import { CloseFrame } from "./actions/CloseFrame";
+import { UserInfo } from "./components/UserInfo";
 
 export default function App() {
   const { setFrameReady, isFrameReady } = useMiniKit();
@@ -65,6 +66,8 @@ export default function App() {
               This mini app is meant to show how you can use the actions
               available in MiniKit.
             </p>
+
+            <UserInfo />
 
             <div className="flex flex-col gap-3 justify-center items-stretch max-w-md mx-auto">
               <IsInMiniApp />
