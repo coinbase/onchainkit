@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     });
     console.log("payload", payload);
     const userInfoResult = await fetch(
-      `https://api.neynar.com/v2/farcaster/user/bulk?fids=[${payload.sub}]`,
+      `https://api.neynar.com/v2/farcaster/user/bulk?fids=${payload.sub}`,
       {
         headers: {
           "x-api-key": process.env.NEYNAR_API_KEY || "",
