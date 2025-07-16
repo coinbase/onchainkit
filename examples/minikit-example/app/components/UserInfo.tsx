@@ -8,7 +8,10 @@ function useUserInfo() {
   return useQuery({
     queryKey: ["useQuickAuth"],
     queryFn: async () => {
-      return await sdk.quickAuth.fetch("/me");
+      console.log("fetching user info");
+      const result = await sdk.quickAuth.fetch("/me");
+      console.log("result", result);
+      return result;
     },
     enabled: isInMiniApp,
   });
