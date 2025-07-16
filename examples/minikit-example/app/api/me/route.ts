@@ -3,6 +3,16 @@ import { NextRequest, NextResponse } from "next/server";
 
 const client = createClient();
 
+function getCurrentUrl() {
+  if (process.env.VERCEL_ENV === "production" && process.env.NEXT_PUBLIC_URL) {
+    return process.env.NEXT_PUBLIC_URL;
+  }
+
+  return process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000";
+}
+
 export async function GET(request: NextRequest) {
   const authorization = request.headers.get("Authorization");
 
@@ -10,9 +20,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ message: "Missing token" }, { status: 401 });
   }
 
-  const url = new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000");
+  const url = new URL(getCurrentUrl());
 
   try {
+    console.log("url", url.host);
     console.log("authorization", authorization);
     const payload = await client.verifyJwt({
       token: authorization.split(" ")[1] as string,
