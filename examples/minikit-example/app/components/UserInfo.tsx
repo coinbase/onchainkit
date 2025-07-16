@@ -18,8 +18,9 @@ function useUserInfo() {
 
       console.log("fetching user info");
       const result = await sdk.quickAuth.fetch("/api/me");
-      console.log("result", result);
-      return result;
+      const body = await result.json();
+      console.log("result", body);
+      return body;
     },
   });
 }
@@ -27,6 +28,7 @@ function useUserInfo() {
 export function UserInfo() {
   const { data } = useUserInfo();
   if (!data) return null;
+  console.log("data", data);
   return (
     <div>
       <pre>
