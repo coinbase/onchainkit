@@ -54,7 +54,7 @@ describe('MiniKitProvider', () => {
         added: false,
         safeAreaInsets: { top: 0, bottom: 0, left: 0, right: 0 },
       },
-    }) as unknown as Promise<Context.FrameContext>;
+    }) as unknown as Promise<Context.MiniAppContext>;
   });
 
   afterEach(() => {
@@ -161,8 +161,12 @@ describe('MiniKitProvider', () => {
 
     await act(() => Promise.resolve());
 
-    expect(sdk.on).toHaveBeenCalledWith('frameAdded', expect.any(Function));
-    expect(sdk.on).toHaveBeenCalledWith('frameRemoved', expect.any(Function));
+    expect(sdk.on).toHaveBeenCalledWith('miniAppAdded', expect.any(Function));
+    expect(sdk.on).toHaveBeenCalledWith(
+      'miniAppAddRejected',
+      expect.any(Function),
+    );
+    expect(sdk.on).toHaveBeenCalledWith('miniAppRemoved', expect.any(Function));
     expect(sdk.on).toHaveBeenCalledWith(
       'notificationsEnabled',
       expect.any(Function),
@@ -217,7 +221,7 @@ describe('MiniKitProvider', () => {
     };
 
     act(() => {
-      sdk.emit('frameAdded', {
+      sdk.emit('miniAppAdded', {
         notificationDetails,
       });
     });
@@ -228,7 +232,7 @@ describe('MiniKitProvider', () => {
     expect(contextValue?.context?.client.added).toBe(true);
 
     act(() => {
-      sdk.emit('frameRemoved');
+      sdk.emit('miniAppRemoved');
     });
 
     expect(contextValue?.context?.client.notificationDetails).toBeUndefined();
@@ -252,12 +256,12 @@ describe('MiniKitProvider', () => {
 
     await act(() => Promise.resolve());
 
-    sdk.emit('frameAddRejected', {
+    sdk.emit('miniAppAddRejected', {
       reason: 'invalid_domain_manifest',
     });
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'Frame add rejected',
+      'Mini app add rejected',
       'invalid_domain_manifest',
     );
   });

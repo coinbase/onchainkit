@@ -32,10 +32,10 @@ export function MiniKitProvider({
   autoConnect = true,
   ...onchainKitProps
 }: MiniKitProviderReact & OnchainKitProviderReact) {
-  const [context, setContext] = useState<Context.FrameContext | null>(null);
+  const [context, setContext] = useState<Context.MiniAppContext | null>(null);
 
   useEffect(() => {
-    sdk.on('frameAdded', ({ notificationDetails }) => {
+    sdk.on('miniAppAdded', ({ notificationDetails }) => {
       if (notificationDetails) {
         updateClientContext({
           details: notificationDetails,
@@ -44,11 +44,11 @@ export function MiniKitProvider({
       }
     });
 
-    sdk.on('frameAddRejected', ({ reason }) => {
-      console.error('Frame add rejected', reason);
+    sdk.on('miniAppAddRejected', ({ reason }) => {
+      console.error('Mini app add rejected', reason);
     });
 
-    sdk.on('frameRemoved', () => {
+    sdk.on('miniAppRemoved', () => {
       updateClientContext({
         details: undefined,
         frameAdded: false,
