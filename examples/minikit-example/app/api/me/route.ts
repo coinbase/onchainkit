@@ -13,10 +13,12 @@ export async function GET(request: NextRequest) {
   const url = new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000");
 
   try {
+    console.log("authorization", authorization);
     const payload = await client.verifyJwt({
       token: authorization.split(" ")[1] as string,
       domain: url.host,
     });
+    console.log("payload", payload);
     const userInfoResult = await fetch(
       `https://api.neynar.com/v2/farcaster/user/bulk?fids=[${payload.sub}]`,
       {
@@ -25,6 +27,7 @@ export async function GET(request: NextRequest) {
         },
       },
     ).then((res) => res.json());
+    console.log("userInfoResult", userInfoResult);
 
     return NextResponse.json(userInfoResult[0]);
   } catch (e) {
