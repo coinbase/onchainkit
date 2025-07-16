@@ -4,16 +4,21 @@ import { useQuery } from "@tanstack/react-query";
 
 function useUserInfo() {
   const { isInMiniApp } = useIsInMiniApp();
+  console.log("isInMiniApp", isInMiniApp);
 
   return useQuery({
-    queryKey: ["useQuickAuth"],
+    queryKey: ["useQuickAuth", isInMiniApp],
     queryFn: async () => {
+      if (!isInMiniApp) {
+        console.log("not in mini app");
+        return null;
+      }
+
       console.log("fetching user info");
       const result = await sdk.quickAuth.fetch("/me");
       console.log("result", result);
       return result;
     },
-    enabled: isInMiniApp,
   });
 }
 
