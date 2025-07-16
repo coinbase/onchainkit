@@ -67,10 +67,9 @@ export default function App() {
               available in MiniKit.
             </p>
 
-            <UserInfo />
-
             <div className="flex flex-col gap-3 justify-center items-stretch max-w-md mx-auto">
               <IsInMiniApp />
+              <UserInfo />
               <AddFrame />
               <ComposeCast />
               <ViewCast />
