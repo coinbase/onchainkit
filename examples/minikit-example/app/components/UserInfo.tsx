@@ -11,7 +11,9 @@ function useUserInfo() {
     queryFn: async () => {
       if (!isInMiniApp) {
         console.log("not in mini app");
-        return null;
+        return {
+          message: "Not in mini app",
+        };
       }
 
       console.log("fetching user info");
