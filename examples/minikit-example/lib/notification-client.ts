@@ -1,5 +1,5 @@
 import {
-  FrameNotificationDetails,
+  MiniAppNotificationDetails,
   type SendNotificationRequest,
   sendNotificationResponseSchema,
 } from "@farcaster/frame-sdk";
@@ -25,7 +25,7 @@ export async function sendFrameNotification({
   fid: number;
   title: string;
   body: string;
-  notificationDetails?: FrameNotificationDetails | null;
+  notificationDetails?: MiniAppNotificationDetails | null;
 }): Promise<SendFrameNotificationResult> {
   if (!notificationDetails) {
     notificationDetails = await getUserNotificationDetails(fid);
@@ -37,7 +37,7 @@ export async function sendFrameNotification({
   // Define a strict allowlist of full hostnames
   const allowedHostnames = ["api.coinbase.com"];
   const url = new URL(notificationDetails.url);
-  
+
   // Validate the URL scheme and hostname
   if (url.protocol !== "https:" || !allowedHostnames.includes(url.hostname)) {
     return { state: "error", error: "Invalid or unsafe notification URL" };

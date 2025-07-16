@@ -54,7 +54,7 @@ describe('MiniKitProvider', () => {
         added: false,
         safeAreaInsets: { top: 0, bottom: 0, left: 0, right: 0 },
       },
-    }) as unknown as Promise<Context.FrameContext>;
+    }) as unknown as Promise<Context.MiniAppContext>;
   });
 
   afterEach(() => {
