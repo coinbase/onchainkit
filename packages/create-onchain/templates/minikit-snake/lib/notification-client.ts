@@ -1,5 +1,5 @@
 import {
-  FrameNotificationDetails,
+  MiniAppNotificationDetails,
   type SendNotificationRequest,
   sendNotificationResponseSchema,
 } from "@farcaster/frame-sdk";
@@ -25,7 +25,7 @@ export async function sendFrameNotification({
   fid: number;
   title: string;
   body: string;
-  notificationDetails?: FrameNotificationDetails | null;
+  notificationDetails?: MiniAppNotificationDetails | null;
 }): Promise<SendFrameNotificationResult> {
   if (!notificationDetails) {
     notificationDetails = await getUserNotificationDetails(fid);
