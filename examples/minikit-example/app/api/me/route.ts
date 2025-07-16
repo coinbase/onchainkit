@@ -39,12 +39,13 @@ export async function GET(request: NextRequest) {
       },
     ).then((res) => res.json());
     console.log("userInfoResult", userInfoResult);
+    const userInfo = userInfoResult?.users?.[0];
 
-    return NextResponse.json({
-      userInfoResult,
-      payload,
-      url,
-    });
+    if (!userInfo) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(userInfo);
   } catch (e) {
     if (e instanceof Errors.InvalidTokenError) {
       console.info("Invalid token:", e.message);
