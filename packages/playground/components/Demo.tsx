@@ -25,6 +25,7 @@ import WalletDemo from './demo/Wallet';
 import WalletAdvancedDefaultDemo from './demo/WalletAdvancedDefault';
 import WalletDefaultDemo from './demo/WalletDefault';
 import WalletIslandDemo from './demo/WalletIsland';
+import VerifyDemo from './demo/Verify';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.FundButton]: FundButtonDemo,
@@ -47,6 +48,7 @@ const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.IdentityCard]: IdentityCardDemo,
   [OnchainKitComponent.Earn]: EarnDemo,
   [OnchainKitComponent.Signature]: SignatureDemo,
+  [OnchainKitComponent.Verify]: VerifyDemo,
 };
 
 export default function Demo() {
