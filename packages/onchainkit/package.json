@@ -41,7 +41,7 @@
     "qrcode": "^1.5.4",
     "tailwind-merge": "^2.3.0",
     "viem": "^2.27.2",
-    "wagmi": "^2.14.11"
+    "wagmi": "^2.16.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.6.14",

@@ -18,7 +18,7 @@
     "react": "^18",
     "react-dom": "^18",
     "viem": "^2.27.2",
-    "wagmi": "^2.14.11"
+    "wagmi": "^2.16.0"
   },
   "devDependencies": {
     "@farcaster/quick-auth": "^0.0.7",
