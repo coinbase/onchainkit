@@ -93,7 +93,6 @@ export function WalletDropdown({
     whileElementsMounted: autoUpdate,
   });
 
-  // Sync the floating-ui reference with the connectRef from WalletProvider
   useEffect(() => {
     if (connectRef?.current) {
       refs.setReference(connectRef.current);
