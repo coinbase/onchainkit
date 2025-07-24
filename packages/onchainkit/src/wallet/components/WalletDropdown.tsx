@@ -2,6 +2,15 @@
 
 import { Address, Avatar, EthBalance, Identity, Name } from '@/identity';
 import { cn } from '@/styles/theme';
+import {
+  useFloating,
+  autoUpdate,
+  offset,
+  flip,
+  shift,
+  FloatingPortal,
+} from '@floating-ui/react';
+import { useEffect } from 'react';
 import type {
   WalletAdvancedQrReceiveProps,
   WalletAdvancedSwapProps,
@@ -11,7 +20,6 @@ import { WalletDropdownDisconnect } from './WalletDropdownDisconnect';
 import { WalletDropdownLink } from './WalletDropdownLink';
 import { useWalletContext } from './WalletProvider';
 import { useAccount } from 'wagmi';
-import { LayerConfigProvider } from '@/internal/components/LayerConfigProvider';
 import { Token } from '@/token';
 
 export type WalletDropdownProps = {
@@ -57,31 +65,59 @@ export function WalletDropdown({
     isSubComponentOpen,
     showSubComponentAbove,
     alignSubComponentRight,
+    connectRef,
   } = useWalletContext();
   const { address } = useAccount();
+
+  const { refs, floatingStyles } = useFloating({
+    open: isSubComponentOpen,
+    placement: showSubComponentAbove
+      ? alignSubComponentRight
+        ? 'top-end'
+        : 'top-start'
+      : alignSubComponentRight
+        ? 'bottom-end'
+        : 'bottom-start',
+    middleware: [
+      offset(6),
+      flip({
+        fallbackPlacements: [
+          'top-start',
+          'top-end',
+          'bottom-start',
+          'bottom-end',
+        ],
+      }),
+      shift({ padding: 8 }),
+    ],
+    whileElementsMounted: autoUpdate,
+  });
+
+  useEffect(() => {
+    if (connectRef?.current) {
+      refs.setReference(connectRef.current);
+    }
+  }, [connectRef, refs]);
 
   if (!address || !breakpoint || !isSubComponentOpen) {
     return null;
   }
 
   return (
-    <div
-      data-testid="ockWalletDropdown"
-      className={cn(
-        'absolute',
-        showSubComponentAbove ? 'bottom-full' : 'top-full',
-        alignSubComponentRight ? 'right-0' : 'left-0',
-        className,
-      )}
-    >
-      <LayerConfigProvider skipPopoverPortal>
+    <FloatingPortal>
+      <div
+        ref={refs.setFloating}
+        style={floatingStyles}
+        data-testid="ockWalletDropdown"
+        className={cn('z-50', className)}
+      >
         <WalletDropdownContent
           classNames={classNames}
           swappableTokens={swappableTokens}
         >
           {children || defaultWalletDropdownChildren}
         </WalletDropdownContent>
-      </LayerConfigProvider>
-    </div>
+      </div>
+    </FloatingPortal>
   );
 }
