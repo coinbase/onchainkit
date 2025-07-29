@@ -20,6 +20,7 @@ import {
   metaMask,
 } from 'wagmi/connectors';
 import { checkWalletAndRedirect } from '../utils/checkWalletAndRedirect';
+import { BaseAccountSvg } from '@/internal/svg/baseAccountSvg';
 
 type WalletProviderOption = {
   id: string;
@@ -211,8 +212,8 @@ export function WalletModal({
   const availableWallets: WalletProviderOption[] = [
     {
       id: 'base-account',
-      name: 'Base Account',
-      icon: coinbaseWalletSvg,
+      name: 'Sign in with Base',
+      icon: <BaseAccountSvg />,
       connector: handleBaseAccountConnection,
       enabled: true,
     },
@@ -353,27 +354,28 @@ export function WalletModal({
               </span>
             </div>
           </div>
-
-          {availableWallets.map((wallet) => (
-            <button
-              key={wallet.id}
-              type="button"
-              onClick={wallet.connector}
-              className={cn(
-                border.radius,
-                background.default,
-                text.body,
-                pressable.alternate,
-                color.foreground,
-                'flex items-center justify-between px-4 py-3 text-left',
-              )}
-            >
-              {wallet.name}
-              <div className="-mr-0.5 flex h-4 w-4 items-center justify-center">
-                {wallet.icon}
-              </div>
-            </button>
-          ))}
+          {availableWallets.map((wallet) => {
+            return (
+              <button
+                key={wallet.id}
+                type="button"
+                onClick={wallet.connector}
+                className={cn(
+                  border.radius,
+                  background.default,
+                  text.body,
+                  pressable.alternate,
+                  color.foreground,
+                  'flex items-center justify-between px-4 py-3 text-left',
+                )}
+              >
+                {wallet.name}
+                <div className="-mr-0.5 flex h-4 w-4 items-center justify-center">
+                  {wallet.icon}
+                </div>
+              </button>
+            );
+          })}
         </div>
 
         <div

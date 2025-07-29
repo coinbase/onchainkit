@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react';
 import { Config, WagmiProvider } from 'wagmi';
-import { coinbaseWallet, baseAccount } from 'wagmi/connectors';
+import { baseAccount } from 'wagmi/connectors';
 import { createWagmiConfig } from './core/createWagmiConfig';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
 import { useOnchainKit } from './useOnchainKit';
