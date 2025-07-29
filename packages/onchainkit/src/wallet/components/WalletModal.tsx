@@ -60,14 +60,15 @@ export function WalletModal({
 
   const handleBaseAccountConnection = useCallback(() => {
     try {
-      const cbConnector = baseAccount({
-        appName,
-        appLogoUrl: appLogo,
+      connect({
+        connector: baseAccount({
+          appName,
+          appLogoUrl: appLogo,
+        }),
       });
-      connect({ connector: cbConnector });
       onClose();
     } catch (error) {
-      console.error('Coinbase Wallet connection error:', error);
+      console.error('Base Account connection error:', error);
       if (onError) {
         onError(
           error instanceof Error
@@ -354,28 +355,26 @@ export function WalletModal({
               </span>
             </div>
           </div>
-          {availableWallets.map((wallet) => {
-            return (
-              <button
-                key={wallet.id}
-                type="button"
-                onClick={wallet.connector}
-                className={cn(
-                  border.radius,
-                  background.default,
-                  text.body,
-                  pressable.alternate,
-                  color.foreground,
-                  'flex items-center justify-between px-4 py-3 text-left',
-                )}
-              >
-                {wallet.name}
-                <div className="-mr-0.5 flex h-4 w-4 items-center justify-center">
-                  {wallet.icon}
-                </div>
-              </button>
-            );
-          })}
+          {availableWallets.map((wallet) => (
+            <button
+              key={wallet.id}
+              type="button"
+              onClick={wallet.connector}
+              className={cn(
+                border.radius,
+                background.default,
+                text.body,
+                pressable.alternate,
+                color.foreground,
+                'flex items-center justify-between px-4 py-3 text-left',
+              )}
+            >
+              {wallet.name}
+              <div className="-mr-0.5 flex h-4 w-4 items-center justify-center">
+                {wallet.icon}
+              </div>
+            </button>
+          ))}
         </div>
 
         <div

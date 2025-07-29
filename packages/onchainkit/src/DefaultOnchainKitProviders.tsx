@@ -60,7 +60,6 @@ function WagmiProviderWithDefault({
         baseAccount({
           appName,
           appLogoUrl,
-          // preference: onchainKitConfig.config?.wallet?.preference,
         }),
       ],
     });
