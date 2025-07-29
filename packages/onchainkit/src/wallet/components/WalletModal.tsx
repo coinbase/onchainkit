@@ -213,7 +213,7 @@ export function WalletModal({
   const availableWallets: WalletProviderOption[] = [
     {
       id: 'base-account',
-      name: 'Sign in with Base',
+      name: 'Base',
       icon: <BaseAccountSvg />,
       connector: handleBaseAccountConnection,
       enabled: true,
