@@ -584,7 +584,7 @@ describe('BuyProvider', () => {
     expect(onStatusMock).toHaveBeenCalled();
   });
 
-  it('should persist statusData when upodating lifecycle status', async () => {
+  it('should persist statusData when updating lifecycle status', async () => {
     const onStatusMock = vi.fn();
     renderWithProviders({
       Component: TestSwapComponent,
