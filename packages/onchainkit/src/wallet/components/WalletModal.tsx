@@ -13,8 +13,14 @@ import { background, border, cn, color, pressable, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback } from 'react';
 import { useConnect } from 'wagmi';
-import { coinbaseWallet, injected, metaMask } from 'wagmi/connectors';
+import {
+  baseAccount,
+  coinbaseWallet,
+  injected,
+  metaMask,
+} from 'wagmi/connectors';
 import { checkWalletAndRedirect } from '../utils/checkWalletAndRedirect';
+import { BaseAccountSvg } from '@/internal/svg/baseAccountSvg';
 
 type WalletProviderOption = {
   id: string;
@@ -51,6 +57,27 @@ export function WalletModal({
     frame: false,
   };
   const isSignUpEnabled = config?.wallet?.signUpEnabled ?? true;
+
+  const handleBaseAccountConnection = useCallback(() => {
+    try {
+      connect({
+        connector: baseAccount({
+          appName,
+          appLogoUrl: appLogo,
+        }),
+      });
+      onClose();
+    } catch (error) {
+      console.error('Base Account connection error:', error);
+      if (onError) {
+        onError(
+          error instanceof Error
+            ? error
+            : new Error('Failed to connect wallet'),
+        );
+      }
+    }
+  }, [appName, appLogo, connect, onClose, onError]);
 
   const handleCoinbaseWalletConnection = useCallback(() => {
     try {
@@ -184,6 +211,13 @@ export function WalletModal({
   }, [connect, onClose, onError]);
 
   const availableWallets: WalletProviderOption[] = [
+    {
+      id: 'base-account',
+      name: 'Base',
+      icon: <BaseAccountSvg />,
+      connector: handleBaseAccountConnection,
+      enabled: true,
+    },
     {
       id: 'coinbase',
       name: 'Coinbase Wallet',
@@ -321,7 +355,6 @@ export function WalletModal({
               </span>
             </div>
           </div>
-
           {availableWallets.map((wallet) => (
             <button
               key={wallet.id}

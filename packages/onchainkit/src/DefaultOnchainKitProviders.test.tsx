@@ -10,6 +10,7 @@ import type { CreateWagmiConfigParams } from './core/types';
 
 // Mock the coinbase wallet connector
 const mockCoinbaseWallet = vi.fn();
+const mockBaseAccount = vi.fn();
 
 // Mock for the createWagmiConfig
 const mockCreateWagmiConfig = vi.fn();
@@ -105,6 +106,11 @@ const createMockConnector = (id: string): CreateConnectorFn => {
 // Mock wagmi/connectors
 vi.mock('wagmi/connectors', () => {
   return {
+    baseAccount: (params: { appName?: string; appLogoUrl?: string }) => {
+      mockBaseAccount(params);
+      // Return a connector function that satisfies the CreateConnectorFn interface
+      return createMockConnector('baseAccount');
+    },
     coinbaseWallet: (params: {
       preference?: string;
       appName?: string;
@@ -189,7 +195,7 @@ describe('DefaultOnchainKitProviders', () => {
     expect(screen.queryAllByTestId('query-client-provider')).toHaveLength(0);
   });
 
-  it('should pass the wallet preference to the coinbaseWallet connector', () => {
+  it('should use baseAccount even when wallet preference is specified', () => {
     // Mock useOnchainKit to return smartWalletOnly preference
     (useOnchainKit as Mock).mockReturnValue({
       apiKey: 'mock-api-key',
@@ -210,15 +216,16 @@ describe('DefaultOnchainKitProviders', () => {
       </DefaultOnchainKitProviders>,
     );
 
-    // Verify coinbaseWallet was called with the correct preference
-    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+    // Verify baseAccount was called with app name and logo (preferences are ignored)
+    expect(mockBaseAccount).toHaveBeenCalledWith(
       expect.objectContaining({
-        preference: 'smartWalletOnly',
+        appName: 'Mock App',
+        appLogoUrl: 'https://example.com/logo.png',
       }),
     );
   });
 
-  it('should pass the default preference "all" when no preference is specified', () => {
+  it('should use baseAccount as default when no preference is specified', () => {
     // Mock useOnchainKit to return config without preference
     (useOnchainKit as Mock).mockReturnValue({
       apiKey: 'mock-api-key',
@@ -237,15 +244,16 @@ describe('DefaultOnchainKitProviders', () => {
       </DefaultOnchainKitProviders>,
     );
 
-    // Verify coinbaseWallet was called with the default preference
-    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+    // Verify baseAccount was called with app name and logo
+    expect(mockBaseAccount).toHaveBeenCalledWith(
       expect.objectContaining({
-        preference: undefined,
+        appName: 'Mock App',
+        appLogoUrl: 'https://example.com/logo.png',
       }),
     );
   });
 
-  it('should pass eoaOnly preference to the coinbaseWallet connector', () => {
+  it('should use baseAccount even when eoaOnly preference is specified', () => {
     // Mock useOnchainKit to return eoaOnly preference
     (useOnchainKit as Mock).mockReturnValue({
       apiKey: 'mock-api-key',
@@ -266,10 +274,11 @@ describe('DefaultOnchainKitProviders', () => {
       </DefaultOnchainKitProviders>,
     );
 
-    // Verify coinbaseWallet was called with eoaOnly preference
-    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+    // Verify baseAccount was called with app name and logo (preferences are ignored)
+    expect(mockBaseAccount).toHaveBeenCalledWith(
       expect.objectContaining({
-        preference: 'eoaOnly',
+        appName: 'Mock App',
+        appLogoUrl: 'https://example.com/logo.png',
       }),
     );
   });
@@ -291,8 +300,8 @@ describe('DefaultOnchainKitProviders', () => {
       </DefaultOnchainKitProviders>,
     );
 
-    // Verify coinbaseWallet was called with undefined app name and logo
-    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+    // Verify baseAccount was called with undefined app name and logo
+    expect(mockBaseAccount).toHaveBeenCalledWith(
       expect.objectContaining({
         appName: undefined,
         appLogoUrl: undefined,
@@ -313,7 +322,7 @@ describe('DefaultOnchainKitProviders', () => {
     );
 
     expect(screen.getByText('Test Child')).toBeInTheDocument();
-    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+    expect(mockBaseAccount).toHaveBeenCalledWith(
       expect.objectContaining({
         appName: undefined,
         appLogoUrl: undefined,

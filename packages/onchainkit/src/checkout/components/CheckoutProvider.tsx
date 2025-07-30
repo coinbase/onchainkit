@@ -322,13 +322,14 @@ export function CheckoutProvider({
       // Open keys.coinbase.com for payment
       await writeContractsAsync({
         contracts: contractsRef.current,
-        capabilities: isSponsored
-          ? {
-              paymasterService: {
-                url: paymaster,
-              },
-            }
-          : undefined,
+        capabilities:
+          isSponsored && paymaster
+            ? {
+                paymasterService: {
+                  url: paymaster,
+                },
+              }
+            : undefined,
       });
     } catch (error) {
       handleAnalytics(CheckoutEvent.CheckoutFailure, {

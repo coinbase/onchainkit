@@ -25,6 +25,13 @@ vi.mock('@/useOnchainKit', () => ({
 }));
 
 vi.mock('wagmi/connectors', () => ({
+  baseAccount: ({
+    appName,
+    appLogoUrl,
+  }: {
+    appName?: string;
+    appLogoUrl?: string;
+  }) => ({ appName, appLogoUrl }),
   coinbaseWallet: () => ({ preference: 'all' }),
   metaMask: ({ dappMetadata }: MetaMaskParameters) => ({ dappMetadata }),
   injected: ({ target }: { target?: string } = {}) =>
@@ -56,6 +63,10 @@ vi.mock('../../internal/components/Dialog', () => ({
 vi.mock('../utils/checkWalletAndRedirect', () => ({
   checkWalletAndRedirect: vi.fn(),
   redirectToWalletInstall: vi.fn(),
+}));
+
+vi.mock('@/internal/hooks/usePreferredColorScheme', () => ({
+  usePreferredColorScheme: vi.fn().mockReturnValue('light'),
 }));
 
 interface WindowWithPhantom extends Window {
@@ -648,6 +659,7 @@ describe('WalletModal', () => {
       <WalletModal isOpen={true} onClose={mockOnClose} />,
     );
 
+    expect(screen.getByText('Base')).toBeInTheDocument();
     expect(screen.getByText('Coinbase Wallet')).toBeInTheDocument();
     expect(screen.getByText('MetaMask')).toBeInTheDocument();
     expect(screen.getByText('Phantom')).toBeInTheDocument();
@@ -666,6 +678,7 @@ describe('WalletModal', () => {
 
     expect(screen.queryByText('Rabby')).not.toBeInTheDocument();
 
+    expect(screen.getByText('Base')).toBeInTheDocument();
     expect(screen.getByText('Coinbase Wallet')).toBeInTheDocument();
     expect(screen.getByText('MetaMask')).toBeInTheDocument();
     expect(screen.getByText('Phantom')).toBeInTheDocument();
@@ -674,7 +687,7 @@ describe('WalletModal', () => {
   it('correctly filters wallets based on supportedWallets config', () => {
     const configs = [{ rabby: true }, { rabby: false }, {}];
 
-    const expectedWalletCounts = [4, 3, 3];
+    const expectedWalletCounts = [5, 4, 4];
 
     configs.forEach((supportedWallets, index) => {
       (useOnchainKit as Mock).mockReturnValue({
@@ -704,6 +717,7 @@ describe('WalletModal', () => {
         expect(screen.queryByText('Rabby')).not.toBeInTheDocument();
       }
 
+      expect(screen.getByText('Base')).toBeInTheDocument();
       expect(screen.getByText('Coinbase Wallet')).toBeInTheDocument();
       expect(screen.getByText('MetaMask')).toBeInTheDocument();
       expect(screen.getByText('Phantom')).toBeInTheDocument();
@@ -730,12 +744,13 @@ describe('WalletModal', () => {
         !button.getAttribute('aria-label')?.includes('Close'),
     );
 
-    expect(walletButtons[0].textContent).toContain('Coinbase Wallet');
-    expect(walletButtons[1].textContent).toContain('MetaMask');
-    expect(walletButtons[2].textContent).toContain('Phantom');
-    expect(walletButtons[3].textContent).toContain('Rabby');
+    expect(walletButtons[0].textContent).toContain('Base');
+    expect(walletButtons[1].textContent).toContain('Coinbase Wallet');
+    expect(walletButtons[2].textContent).toContain('MetaMask');
+    expect(walletButtons[3].textContent).toContain('Phantom');
+    expect(walletButtons[4].textContent).toContain('Rabby');
 
-    expect(walletButtons.length).toBe(4);
+    expect(walletButtons.length).toBe(5);
   });
 
   it('renders Trust Wallet button when enabled in config', () => {
@@ -1237,5 +1252,176 @@ describe('WalletModal', () => {
     const dialog = screen.getByTestId('ockModalOverlay');
     const dividers = dialog.querySelectorAll('.border-\\[0\\.5px\\]');
     expect(dividers.length).toBe(1);
+  });
+
+  it('connects with Base Account when clicking Base button', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {
+          name: 'Test App',
+          logo: 'test-logo.png',
+        },
+        wallet: {
+          supportedWallets: { rabby: false },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    fireEvent.click(screen.getByText('Base'));
+
+    expect(mockConnect).toHaveBeenCalledWith({
+      connector: {
+        appName: 'Test App',
+        appLogoUrl: 'test-logo.png',
+      },
+    });
+    expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('connects with Base Account using undefined values when no app name or logo provided', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          supportedWallets: { rabby: false },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    fireEvent.click(screen.getByText('Base'));
+
+    expect(mockConnect).toHaveBeenCalledWith({
+      connector: {
+        appName: undefined,
+        appLogoUrl: undefined,
+      },
+    });
+    expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('handles Base Account connection errors', () => {
+    const mockError = new Error('Base Account connection failed');
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw mockError;
+      }),
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Base'));
+
+    expect(mockOnError).toHaveBeenCalledWith(mockError);
+    expect(console.error).toHaveBeenCalledWith(
+      'Base Account connection error:',
+      mockError,
+    );
+  });
+
+  it('handles non-Error objects in Base Account connection errors', () => {
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw 'Some string error';
+      }),
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Base'));
+
+    expect(mockOnError).toHaveBeenCalledWith(
+      new Error('Failed to connect wallet'),
+    );
+    expect(console.error).toHaveBeenCalledWith(
+      'Base Account connection error:',
+      'Some string error',
+    );
+  });
+
+  it('shows Base Account button in wallet list', () => {
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    expect(screen.getByText('Base')).toBeInTheDocument();
+  });
+
+  it('displays wallet options in correct order with Base Account first', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          supportedWallets: { rabby: true },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    const walletButtons = Array.from(screen.getAllByRole('button')).filter(
+      (button) =>
+        button.textContent !== 'Sign up' &&
+        !button.getAttribute('aria-label')?.includes('Close'),
+    );
+
+    expect(walletButtons[0].textContent).toContain('Base');
+    expect(walletButtons[1].textContent).toContain('Coinbase Wallet');
+    expect(walletButtons[2].textContent).toContain('MetaMask');
+    expect(walletButtons[3].textContent).toContain('Phantom');
+    expect(walletButtons[4].textContent).toContain('Rabby');
+
+    expect(walletButtons.length).toBe(5);
+  });
+
+  it('uses default supportedWallets when config.wallet.supportedWallets is undefined', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          // supportedWallets is undefined, should fallback to default
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    // Should show Base, Coinbase Wallet, MetaMask, Phantom (default enabled wallets)
+    // Should NOT show Rabby, Trust Wallet, Frame (default disabled wallets)
+    expect(screen.getByText('Base')).toBeInTheDocument();
+    expect(screen.getByText('Coinbase Wallet')).toBeInTheDocument();
+    expect(screen.getByText('MetaMask')).toBeInTheDocument();
+    expect(screen.getByText('Phantom')).toBeInTheDocument();
+    expect(screen.queryByText('Rabby')).not.toBeInTheDocument();
+    expect(screen.queryByText('Trust Wallet')).not.toBeInTheDocument();
+    expect(screen.queryByText('Frame')).not.toBeInTheDocument();
+  });
+
+  it('uses default supportedWallets when config.wallet is undefined', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        // wallet is undefined, should fallback to default
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    // Should show Base, Coinbase Wallet, MetaMask, Phantom (default enabled wallets)
+    // Should NOT show Rabby, Trust Wallet, Frame (default disabled wallets)
+    expect(screen.getByText('Base')).toBeInTheDocument();
+    expect(screen.getByText('Coinbase Wallet')).toBeInTheDocument();
+    expect(screen.getByText('MetaMask')).toBeInTheDocument();
+    expect(screen.getByText('Phantom')).toBeInTheDocument();
+    expect(screen.queryByText('Rabby')).not.toBeInTheDocument();
+    expect(screen.queryByText('Trust Wallet')).not.toBeInTheDocument();
+    expect(screen.queryByText('Frame')).not.toBeInTheDocument();
   });
 });
