@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 2d87f5b: Update @farcaster/frame-sdk dependency
+- **chore:** Update @farcaster/frame-sdk dependency
 
 ## 0.0.22
 
