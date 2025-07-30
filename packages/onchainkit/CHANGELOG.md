@@ -1,16 +1,23 @@
 # Changelog
 
+## 0.38.18
+
+### Patch Changes
+
+- **feat:** Add Base Account connector support
+- **chore:**: Update @farcaster/frame-sdk dependency
+
 ## 0.38.17
 
 ### Patch Changes
 
-- d50e3f3: feat: Accept farcasterMiniApp connector for autoconnect functionality
+- **feat:** Accept farcasterMiniApp connector for autoconnect functionality
 
 ## 0.38.16
 
 ### Patch Changes
 
-- 276f8b0: feat: Update useIsInMiniApp to check for sdk.context
+- **feat:** Update useIsInMiniApp to check for sdk.context
 
 ## 0.38.15
 
