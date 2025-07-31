@@ -165,13 +165,25 @@ describe('WalletModal', () => {
     expect(screen.getByText('Test App')).toBeInTheDocument();
   });
 
-  it('connects with Coinbase Wallet when clicking Sign up', () => {
+  it('connects with Base Account when clicking Sign up', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {
+          logo: 'test-logo.png',
+          name: 'Test App',
+        },
+        wallet: {
+          supportedWallets: { rabby: false },
+        },
+      },
+    });
+
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
 
     fireEvent.click(screen.getByText('Sign up'));
 
     expect(mockConnect).toHaveBeenCalledWith({
-      connector: { preference: 'all' },
+      connector: { appName: 'Test App', appLogoUrl: 'test-logo.png' },
     });
     expect(mockOnClose).toHaveBeenCalled();
   });
@@ -329,7 +341,7 @@ describe('WalletModal', () => {
       <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
     );
 
-    fireEvent.click(screen.getByText('Sign up'));
+    fireEvent.click(screen.getByText('Coinbase Wallet'));
 
     expect(mockOnError).toHaveBeenCalledWith(mockError);
     expect(console.error).toHaveBeenCalledWith(
@@ -350,7 +362,7 @@ describe('WalletModal', () => {
       <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
     );
 
-    fireEvent.click(screen.getByText('Sign up'));
+    fireEvent.click(screen.getByText('Coinbase Wallet'));
 
     expect(mockOnError).toHaveBeenCalledWith(
       new Error('Failed to connect wallet'),
