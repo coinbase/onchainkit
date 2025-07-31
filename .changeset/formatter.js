@@ -1,5 +1,13 @@
 import { getInfo, getInfoFromPullRequest } from "@changesets/get-github-info";
 
+/**
+ * NOTE: This is a slightly modified version of `@changesets/changelog-github`.
+ * It omits the commit link from the changelog since we squash commits, and it
+ * reorders the message to put the action first and attribution second.
+ *
+ * @see https://github.com/changesets/changesets/blob/main/packages/changelog-github/src/index.ts
+ */
+
 const changelogFunctions = {
   getDependencyReleaseLine: async (
     changesets,
