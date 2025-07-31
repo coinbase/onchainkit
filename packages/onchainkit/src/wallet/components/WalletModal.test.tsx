@@ -328,7 +328,7 @@ describe('WalletModal', () => {
     expect(screen.getByAltText('App icon')).toBeInTheDocument();
   });
 
-  it('handles Base Account connection errors', () => {
+  it('handles Coinbase Wallet connection errors', () => {
     const mockError = new Error('Connection failed');
     const mockOnError = vi.fn();
     (useConnect as Mock).mockReturnValue({
@@ -341,11 +341,11 @@ describe('WalletModal', () => {
       <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
     );
 
-    fireEvent.click(screen.getByText('Sign up'));
+    fireEvent.click(screen.getByText('Coinbase Wallet'));
 
     expect(mockOnError).toHaveBeenCalledWith(mockError);
     expect(console.error).toHaveBeenCalledWith(
-      'Base Account connection error:',
+      'Coinbase Wallet connection error:',
       mockError,
     );
   });
@@ -362,7 +362,7 @@ describe('WalletModal', () => {
       <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
     );
 
-    fireEvent.click(screen.getByText('Sign up'));
+    fireEvent.click(screen.getByText('Coinbase Wallet'));
 
     expect(mockOnError).toHaveBeenCalledWith(
       new Error('Failed to connect wallet'),
