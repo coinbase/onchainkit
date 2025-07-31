@@ -165,13 +165,13 @@ describe('WalletModal', () => {
     expect(screen.getByText('Test App')).toBeInTheDocument();
   });
 
-  it('connects with Coinbase Wallet when clicking Sign up', () => {
+  it('connects with Base Account when clicking Sign up', () => {
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
 
     fireEvent.click(screen.getByText('Sign up'));
 
     expect(mockConnect).toHaveBeenCalledWith({
-      connector: { preference: 'all' },
+      connector: { appName: 'OnchainKit App', appLogoUrl: undefined },
     });
     expect(mockOnClose).toHaveBeenCalled();
   });
