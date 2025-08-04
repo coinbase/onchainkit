@@ -1,6 +1,7 @@
 // 🌲☀️🌲
 export { buildMintTransaction } from './buildMintTransaction';
 export { buildSwapTransaction } from './buildSwapTransaction';
+export { buildBatchSwapTransactions } from './buildBatchSwapTransactions';
 export { buildPayTransaction } from './buildPayTransaction';
 export { getMintDetails } from './getMintDetails';
 export { getSwapQuote } from './getSwapQuote';
@@ -10,6 +11,10 @@ export { getPortfolios } from './getPortfolios';
 export { getPriceQuote } from './getPriceQuote';
 export type {
   APIError,
+  BatchRequest,
+  BatchResponse,
+  BuildBatchSwapTransactionParams,
+  BuildBatchSwapTransactionResponse,
   BuildMintTransactionParams,
   BuildMintTransactionResponse,
   BuildPayTransactionParams,
