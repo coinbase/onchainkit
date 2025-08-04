@@ -3,7 +3,7 @@ import { DefaultOnchainKitProviders } from '@/DefaultOnchainKitProviders';
 import { OnchainKitProvider } from '@/OnchainKitProvider';
 import type { OnchainKitProviderReact } from '@/types';
 import sdk, { type Context } from '@farcaster/frame-sdk';
-import { farcasterFrame } from '@farcaster/frame-wagmi-connector';
+import { farcasterFrame } from '@farcaster/miniapp-wagmi-connector';
 import {
   createContext,
   useCallback,
