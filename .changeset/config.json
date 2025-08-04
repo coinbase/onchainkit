@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "coinbase/onchainkit" }],
+  "changelog": ["./formatter.js", { "repo": "coinbase/onchainkit" }],
   "commit": false,
   "fixed": [],
   "linked": [],
