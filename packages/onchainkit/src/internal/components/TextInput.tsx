@@ -40,7 +40,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
     },
     ref,
   ) => {
-    const handleDebounce = useDebounce((value) => {
+    const handleDebounce = useDebounce((value: string) => {
       onChange(value);
     }, delayMs);
 
