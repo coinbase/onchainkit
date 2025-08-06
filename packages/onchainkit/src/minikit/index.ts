@@ -12,3 +12,4 @@ export { useComposeCast } from './hooks/useComposeCast';
 export { useViewCast } from './hooks/useViewCast';
 export { useIsInMiniApp } from './hooks/useIsInMiniApp';
 export { useSwapToken } from './hooks/useSwapToken';
+export { useSendToken } from './hooks/useSendToken';

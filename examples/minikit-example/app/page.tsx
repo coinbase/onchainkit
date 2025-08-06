@@ -19,6 +19,7 @@ import { IsInMiniApp } from "./actions/IsInMiniApp";
 import { AddFrame } from "./actions/AddFrame";
 import { ComposeCast } from "./actions/ComposeCast";
 import { ViewCast } from "./actions/ViewCast";
+import { SendToken } from "./actions/SendToken";
 import { SwapToken } from "./actions/SwapToken";
 import { CloseFrame } from "./actions/CloseFrame";
 import { UserInfo } from "./components/UserInfo";
@@ -74,6 +75,7 @@ export default function App() {
               <AddFrame />
               <ComposeCast />
               <ViewCast />
+              <SendToken />
               <SwapToken />
               <CloseFrame />
             </div>
