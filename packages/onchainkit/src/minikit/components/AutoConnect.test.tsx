@@ -26,7 +26,7 @@ const mockOtherConnector = {
   type: 'otherConnector',
 };
 
-vi.mock('@farcaster/frame-wagmi-connector', () => ({
+vi.mock('@farcaster/miniapp-wagmi-connector', () => ({
   farcasterFrame: {
     type: 'farcasterFrame',
   },

@@ -30,7 +30,7 @@ vi.mock('@farcaster/frame-sdk', () => {
   };
 });
 
-vi.mock('@farcaster/frame-wagmi-connector', () => ({
+vi.mock('@farcaster/miniapp-wagmi-connector', () => ({
   farcasterFrame: vi.fn(),
 }));
 

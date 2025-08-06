@@ -20,7 +20,7 @@ vi.mock('@/OnchainKitProvider', () => ({
   OnchainKitProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-vi.mock('@farcaster/frame-wagmi-connector', () => ({
+vi.mock('@farcaster/miniapp-wagmi-connector', () => ({
   farcasterFrame: vi.fn(),
 }));
 
