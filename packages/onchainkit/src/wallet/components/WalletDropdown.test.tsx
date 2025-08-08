@@ -198,6 +198,82 @@ describe('WalletDropdown', () => {
     expect(dropdown).toHaveClass('z-50');
   });
 
+  it('does not call handleClose when clicking inside the dropdown', async () => {
+    // Create a floating ref that will be wired by setFloating
+    const floatingRef: { current: HTMLDivElement | null } = { current: null };
+
+    mockUseFloating.mockReturnValue({
+      refs: {
+        floating: floatingRef,
+        setReference: vi.fn(),
+        setFloating: (node: HTMLDivElement | null) => {
+          floatingRef.current = node;
+        },
+      },
+      floatingStyles: {
+        position: 'absolute' as const,
+        top: 0,
+        left: 0,
+      },
+    });
+
+    const handleClose = vi.fn();
+
+    useWalletContextMock.mockReturnValue({
+      breakpoint: 'md',
+      isSubComponentOpen: true,
+      showSubComponentAbove: false,
+      alignSubComponentRight: false,
+      handleClose,
+      animations: { container: '', content: '' },
+    });
+
+    render(<WalletDropdown>Content</WalletDropdown>);
+
+    const dropdown = screen.getByTestId('ockWalletDropdown');
+    // Click inside the dropdown
+    dropdown.click();
+
+    expect(handleClose).not.toHaveBeenCalled();
+  });
+
+  it('calls handleClose when clicking outside the dropdown', async () => {
+    const floatingRef: { current: HTMLDivElement | null } = { current: null };
+
+    mockUseFloating.mockReturnValue({
+      refs: {
+        floating: floatingRef,
+        setReference: vi.fn(),
+        setFloating: (node: HTMLDivElement | null) => {
+          floatingRef.current = node;
+        },
+      },
+      floatingStyles: {
+        position: 'absolute' as const,
+        top: 0,
+        left: 0,
+      },
+    });
+
+    const handleClose = vi.fn();
+
+    useWalletContextMock.mockReturnValue({
+      breakpoint: 'md',
+      isSubComponentOpen: true,
+      showSubComponentAbove: false,
+      alignSubComponentRight: false,
+      handleClose,
+      animations: { container: '', content: '' },
+    });
+
+    render(<WalletDropdown>Content</WalletDropdown>);
+
+    // Click outside the dropdown
+    document.body.click();
+
+    expect(handleClose).toHaveBeenCalledTimes(1);
+  });
+
   it('uses top-end placement when showSubComponentAbove and alignSubComponentRight are both true', () => {
     useWalletContextMock.mockReturnValue({
       showSubComponentAbove: true,
