@@ -318,7 +318,7 @@ export function WalletModal({
           {isSignUpEnabled && (
             <button
               type="button"
-              onClick={handleCoinbaseWalletConnection}
+              onClick={handleBaseAccountConnection}
               className={cn(
                 border.radius,
                 text.body,
