@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.38.19
+
+### Patch Changes
+
+- **feat:** Add useSwapToken mini app util - Thanks [@dgca](https://github.com/dgca)! [#2444](https://github.com/coinbase/onchainkit/pull/2444)
+
+- **feat:** Add `useSendToken` MiniKit hook - Thanks [@dgca](https://github.com/dgca)! [#2445](https://github.com/coinbase/onchainkit/pull/2445)
+
 ## 0.38.18
 
 ### Patch Changes
