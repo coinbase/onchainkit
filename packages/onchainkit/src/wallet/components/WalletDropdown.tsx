@@ -21,6 +21,7 @@ import { WalletDropdownLink } from './WalletDropdownLink';
 import { useWalletContext } from './WalletProvider';
 import { useAccount } from 'wagmi';
 import { Token } from '@/token';
+import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 
 export type WalletDropdownProps = {
   children?: React.ReactNode;
@@ -66,6 +67,7 @@ export function WalletDropdown({
     showSubComponentAbove,
     alignSubComponentRight,
     connectRef,
+    handleClose,
   } = useWalletContext();
   const { address } = useAccount();
 
@@ -92,6 +94,8 @@ export function WalletDropdown({
     ],
     whileElementsMounted: autoUpdate,
   });
+
+  useOutsideClick(refs.floating, handleClose);
 
   useEffect(() => {
     if (connectRef?.current) {

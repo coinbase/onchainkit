@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import * as SheetPrimitive from '@radix-ui/react-dialog';
-import { cn, prefixClassName } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import { zIndex } from '@/styles/constants';
 
 const SheetRoot = SheetPrimitive.Root;

@@ -1,7 +1,6 @@
 'use client';
 import { Draggable } from '@/internal/components/Draggable/Draggable';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
-import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
 import { cn } from '@/styles/theme';
 import { useRef } from 'react';
 import { getWalletDraggableProps } from '../utils/getWalletDraggableProps';
@@ -26,16 +25,9 @@ function WalletContent({
   draggable,
   draggableStartingPosition,
 }: WalletProps) {
-  const {
-    isSubComponentOpen,
-    isConnectModalOpen,
-    handleClose,
-    connectRef,
-    breakpoint,
-  } = useWalletContext();
+  const { isSubComponentOpen, isConnectModalOpen, connectRef, breakpoint } =
+    useWalletContext();
   const walletContainerRef = useRef<HTMLDivElement>(null);
-
-  useOutsideClick(walletContainerRef, handleClose);
 
   if (draggable) {
     return (
