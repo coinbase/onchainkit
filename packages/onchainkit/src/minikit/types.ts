@@ -1,21 +1,22 @@
-import type { Context, MiniAppNotificationDetails } from '@farcaster/frame-sdk';
+import type { Context, FrameNotificationDetails } from '@farcaster/frame-sdk';
+import { PropsWithChildren } from 'react';
 
 export type UpdateClientContextParams = {
-  details?: MiniAppNotificationDetails | null;
+  details?: FrameNotificationDetails | null;
   frameAdded?: boolean;
 };
 
-/**
- * Note: exported as public Type
- */
-export type MiniKitProviderReact = {
-  children: React.ReactNode;
+export type MiniKitOptions = {
+  /**
+   * Whether to enable MiniKit features.
+   * @defaultValue `false`
+   */
+  enabled?: boolean;
   /**
    * The URL of the notification proxy.
    * Notifications are sent by posting a cross origin request to a url returned by
    * the frames context.  This prop allows you to set a custom proxy route for MiniKits
    * notification related hooks to use.
-   *
    * @defaultValue `/api/notify`
    */
   notificationProxyUrl?: string;
@@ -27,8 +28,11 @@ export type MiniKitProviderReact = {
   autoConnect?: boolean;
 };
 
+export type MiniKitProviderProps = PropsWithChildren<MiniKitOptions>;
+
 export type MiniKitContextType = {
-  context: Context.MiniAppContext | null;
+  enabled: boolean;
+  context: Context.FrameContext | null;
   updateClientContext: (params: UpdateClientContextParams) => void;
   notificationProxyUrl: string;
   __isMiniKit: boolean;

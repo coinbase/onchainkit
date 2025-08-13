@@ -1,7 +1,11 @@
 'use client';
 
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
-import { WalletEvent, WalletOption } from '@/core/analytics/types';
+import {
+  WalletEvent,
+  WalletOption,
+  WalletOptionType,
+} from '@/core/analytics/types';
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { baseScanSvg } from '@/internal/svg/baseScanSvg';
 import { disconnectSvg } from '@/internal/svg/disconnectSvg';
@@ -38,7 +42,7 @@ export function WalletAdvancedWalletActions({
   );
 
   const handleAnalyticsOptionSelected = useCallback(
-    (option: WalletOption) => {
+    (option: WalletOptionType) => {
       sendAnalytics(WalletEvent.OptionSelected, {
         option,
       });
@@ -92,7 +96,7 @@ export function WalletAdvancedWalletActions({
     >
       <div className="flex items-center">
         <PressableIcon
-          ariaLabel="Open transaction history"
+          aria-label="Open transaction history"
           onClick={handleTransactions}
         >
           <div
@@ -102,7 +106,7 @@ export function WalletAdvancedWalletActions({
             {baseScanSvg}
           </div>
         </PressableIcon>
-        <PressableIcon ariaLabel="Show QR code" onClick={handleQr}>
+        <PressableIcon aria-label="Show QR code" onClick={handleQr}>
           <div
             data-testid="ockWalletAdvanced_QrButton"
             className={cn('h-7 w-7 scale-110', classNames?.qrIcon)}
@@ -112,7 +116,10 @@ export function WalletAdvancedWalletActions({
         </PressableIcon>
       </div>
       <div className="flex items-center">
-        <PressableIcon ariaLabel="Disconnect wallet" onClick={handleDisconnect}>
+        <PressableIcon
+          aria-label="Disconnect wallet"
+          onClick={handleDisconnect}
+        >
           <div
             data-testid="ockWalletAdvanced_DisconnectButton"
             className={cn('h-7 w-7 scale-110 p-2', classNames?.disconnectIcon)}
@@ -121,7 +128,7 @@ export function WalletAdvancedWalletActions({
           </div>
         </PressableIcon>
         <PressableIcon
-          ariaLabel="Refresh portfolio data"
+          aria-label="Refresh portfolio data"
           onClick={handleRefreshPortfolioData}
         >
           <div

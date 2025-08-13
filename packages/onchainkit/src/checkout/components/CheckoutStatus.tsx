@@ -2,9 +2,9 @@
 
 import { cn, text } from '../../styles/theme';
 import { useGetCheckoutStatus } from '../hooks/useGetCheckoutStatus';
-import type { CheckoutStatusReact } from '../types';
+import type { CheckoutStatusProps } from '../types';
 
-export function CheckoutStatus({ className }: CheckoutStatusReact) {
+export function CheckoutStatus({ className }: CheckoutStatusProps) {
   const { label, labelClassName } = useGetCheckoutStatus();
 
   return (

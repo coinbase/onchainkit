@@ -29,7 +29,7 @@ export function ComponentTheme() {
           setComponentTheme(value);
         }}
       >
-        <SelectTrigger id="theme">
+        <SelectTrigger id="theme" className="w-full">
           <SelectValue placeholder="Select theme" />
         </SelectTrigger>
         <SelectContent>

@@ -1,12 +1,14 @@
-import { cn, color, text } from '../../styles/theme';
-import type { SwapSettingsSlippageDescriptionReact } from '../types';
+import { cn, text } from '@/styles/theme';
+import type { SwapSettingsSlippageDescriptionProps } from '../types';
 
 export function SwapSettingsSlippageDescription({
   children,
   className,
-}: SwapSettingsSlippageDescriptionReact) {
+}: SwapSettingsSlippageDescriptionProps) {
   return (
-    <p className={cn(text.legal, color.foregroundMuted, 'mb-2', className)}>
+    <p
+      className={cn(text.legal, 'text-ock-foreground-muted', 'mb-2', className)}
+    >
       {children}
     </p>
   );

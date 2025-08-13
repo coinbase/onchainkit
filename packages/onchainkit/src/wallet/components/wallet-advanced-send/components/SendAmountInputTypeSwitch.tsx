@@ -1,6 +1,6 @@
 import { Skeleton } from '@/internal/components/Skeleton';
 import { AmountInputTypeSwitch } from '@/internal/components/amount-input/AmountInputTypeSwitch';
-import { cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { useSendContext } from './SendProvider';
 
 type SendAmountInputTypeSwitchProps = {
@@ -11,7 +11,7 @@ type SendAmountInputTypeSwitchProps = {
 const defaultErrorDisplay = (
   <div
     data-testid="ockSendAmountInputTypeSwitch_ErrorDisplay"
-    className={cn(text.caption, color.foregroundMuted, 'h-[1.625rem]')}
+    className={cn(text.caption, 'text-ock-foreground-muted', 'h-[1.625rem]')}
   >
     Exchange rate unavailable
   </div>

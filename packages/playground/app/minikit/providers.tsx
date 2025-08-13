@@ -2,11 +2,11 @@
 
 import type { ReactNode } from 'react';
 import { base } from 'wagmi/chains';
-import { MiniKitProvider } from '@coinbase/onchainkit/minikit';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
 
 export function Providers(props: { children: ReactNode }) {
   return (
-    <MiniKitProvider
+    <OnchainKitProvider
       apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
       chain={base}
       config={{
@@ -17,8 +17,11 @@ export function Providers(props: { children: ReactNode }) {
           logo: 'https://onchainkit.xyz/playground/snake.png',
         },
       }}
+      miniKit={{
+        enabled: true,
+      }}
     >
       {props.children}
-    </MiniKitProvider>
+    </OnchainKitProvider>
   );
 }

@@ -1,0 +1,39 @@
+.container {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+.headerWrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 5vh;
+}
+
+.title {
+  font-size: clamp(2rem, 8vw, 80px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.componentsTitle {
+  font-weight: 600;
+  margin-top: 2rem;
+}
+
+.components {
+  list-style-type: disc;
+  margin-top: 0.75rem;
+}
+
+.components a:hover {
+  text-decoration: underline;
+}

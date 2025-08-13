@@ -1,16 +1,54 @@
+import type {
+  SignMessageParameters,
+  SignTypedDataParameters,
+} from 'wagmi/actions';
 import { useIsMounted } from '@/internal/hooks/useIsMounted';
-import { useTheme } from '@/internal/hooks/useTheme';
 import { cn } from '@/styles/theme';
-import type { SignatureReact } from '../types';
+import type { APIError } from '@/api/types';
+import type { LifecycleStatus } from '../types';
 import { SignatureButton } from './SignatureButton';
 import { SignatureProvider } from './SignatureProvider';
 import { SignatureStatus } from './SignatureStatus';
 import { SignatureToast } from './SignatureToast';
 
-function SignatureDefaultContent({
+export type SignatureProps = {
+  chainId?: number;
+  className?: string;
+  onSuccess?: (signature: string) => void;
+  onStatus?: (status: LifecycleStatus) => void;
+  onError?: (error: APIError) => void;
+  resetAfter?: number;
+} & (
+  | {
+      message: SignTypedDataParameters['message'];
+      domain?: SignTypedDataParameters['domain'];
+      types: SignTypedDataParameters['types'];
+      primaryType: SignTypedDataParameters['primaryType'];
+    }
+  | {
+      message: SignMessageParameters['message'];
+      domain?: never;
+      types?: never;
+      primaryType?: never;
+    }
+) &
+  (
+    | {
+        children: React.ReactNode;
+        label?: never;
+        disabled?: never;
+      }
+    | {
+        children?: never;
+        label?: React.ReactNode;
+        disabled?: boolean;
+      }
+  );
+
+function DefaultChildren({
   label,
   disabled,
-}: Pick<SignatureReact, 'label' | 'disabled'>) {
+}: Pick<SignatureProps, 'label' | 'disabled'>) {
   return (
     <>
       <SignatureButton label={label} disabled={disabled} />
@@ -28,22 +66,15 @@ export function Signature({
   primaryType,
   children,
   label,
-  disabled = false,
+  disabled,
   onSuccess,
   onStatus,
   onError,
   resetAfter,
-}: SignatureReact) {
+}: SignatureProps) {
   const isMounted = useIsMounted();
-  const componentTheme = useTheme();
 
-  if (!isMounted) {
-    return (
-      <div
-        className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}
-      />
-    );
-  }
+  if (!isMounted) return null;
 
   return (
     <SignatureProvider
@@ -56,12 +87,8 @@ export function Signature({
       primaryType={primaryType}
       resetAfter={resetAfter}
     >
-      <div
-        className={cn(componentTheme, 'flex w-full flex-col gap-2', className)}
-      >
-        {children ?? (
-          <SignatureDefaultContent label={label} disabled={disabled} />
-        )}
+      <div className={cn('flex w-full flex-col gap-2', className)}>
+        {children ?? <DefaultChildren label={label} disabled={disabled} />}
       </div>
     </SignatureProvider>
   );

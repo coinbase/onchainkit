@@ -11,30 +11,34 @@ import {
 import type { Address, ContractFunctionParameters } from 'viem';
 import { base } from 'viem/chains';
 import { useAccount, useConnect, useSwitchChain } from 'wagmi';
-import { useWaitForTransactionReceipt } from 'wagmi';
+import {
+  useWaitForTransactionReceipt,
+  useSendCalls,
+  useCallsStatus,
+} from 'wagmi';
 import { coinbaseWallet } from 'wagmi/connectors';
-import { useWriteContracts } from 'wagmi/experimental';
-import { useCallsStatus } from 'wagmi/experimental';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import {
   type AnalyticsEventData,
   CheckoutEvent,
+  CheckoutEventType,
 } from '../../core/analytics/types';
 import { useValue } from '../../internal/hooks/useValue';
 import { isUserRejectedRequestError } from '../../transaction/utils/isUserRejectedRequestError';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import {
+  CHECKOUT_LIFECYCLE_STATUS,
   GENERIC_ERROR_MESSAGE,
   NO_CONNECTED_ADDRESS_ERROR,
   NO_CONTRACTS_ERROR,
   USER_REJECTED_ERROR,
 } from '../constants';
-import { CHECKOUT_LIFECYCLESTATUS, CheckoutErrorCode } from '../constants';
+import { CheckoutErrorCode } from '../constants';
 import { useCommerceContracts } from '../hooks/useCommerceContracts';
 import type {
   CheckoutContextType,
-  CheckoutProviderReact,
+  CheckoutProviderProps,
   LifecycleStatus,
 } from '../types';
 import { ONRAMP_POPUP_HEIGHT, ONRAMP_POPUP_WIDTH } from '@/fund/constants';
@@ -62,7 +66,7 @@ export function CheckoutProvider({
   isSponsored,
   onStatus,
   productId,
-}: CheckoutProviderReact) {
+}: CheckoutProviderProps) {
   // Core hooks
   const {
     config: { appearance, paymaster } = {
@@ -83,14 +87,14 @@ export function CheckoutProvider({
   const fetchedDataUseEffect = useRef<boolean>(false);
   const fetchedDataHandleSubmit = useRef<boolean>(false);
   const userRejectedRef = useRef<boolean>(false);
-  const contractsRef = useRef<ContractFunctionParameters[] | null>();
+  const contractsRef = useRef<ContractFunctionParameters[] | null>(null);
   const insufficientBalanceRef = useRef<boolean>(false);
   const priceInUSDCRef = useRef<string | undefined>('');
 
   // Component lifecycle
   const [lifecycleStatus, updateLifecycleStatus] =
     useLifecycleStatus<LifecycleStatus>({
-      statusName: CHECKOUT_LIFECYCLESTATUS.INIT,
+      statusName: CHECKOUT_LIFECYCLE_STATUS.INIT,
       statusData: {},
     });
 
@@ -104,7 +108,7 @@ export function CheckoutProvider({
   const fetchData = useCallback(
     async (address: Address) => {
       updateLifecycleStatus({
-        statusName: CHECKOUT_LIFECYCLESTATUS.FETCHING_DATA,
+        statusName: CHECKOUT_LIFECYCLE_STATUS.FETCHING_DATA,
         statusData: {},
       });
       const {
@@ -117,7 +121,7 @@ export function CheckoutProvider({
       if (error) {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
-          statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
+          statusName: CHECKOUT_LIFECYCLE_STATUS.ERROR,
           statusData: {
             code: CheckoutErrorCode.UNEXPECTED_ERROR,
             error: (error as Error).name,
@@ -131,7 +135,7 @@ export function CheckoutProvider({
       insufficientBalanceRef.current = insufficientBalance;
       priceInUSDCRef.current = priceInUSDC;
       updateLifecycleStatus({
-        statusName: CHECKOUT_LIFECYCLESTATUS.READY,
+        statusName: CHECKOUT_LIFECYCLE_STATUS.READY,
         statusData: {
           chargeId,
           contracts: contractsRef.current || [],
@@ -141,7 +145,7 @@ export function CheckoutProvider({
     [chargeId, fetchContracts, updateLifecycleStatus],
   );
 
-  const { status, writeContractsAsync } = useWriteContracts({
+  const { status, sendCallsAsync } = useSendCalls({
     /* v8 ignore start */
     mutation: {
       onSuccess: (data) => {
@@ -181,7 +185,7 @@ export function CheckoutProvider({
   useEffect(() => {
     if (status === 'pending') {
       updateLifecycleStatus({
-        statusName: CHECKOUT_LIFECYCLESTATUS.PENDING,
+        statusName: CHECKOUT_LIFECYCLE_STATUS.PENDING,
         statusData: {},
       });
     }
@@ -193,7 +197,7 @@ export function CheckoutProvider({
       return;
     }
     updateLifecycleStatus({
-      statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
+      statusName: CHECKOUT_LIFECYCLE_STATUS.SUCCESS,
       statusData: {
         transactionReceipts: [receipt],
         chargeId: chargeId,
@@ -205,7 +209,7 @@ export function CheckoutProvider({
   // We need to pre-load transaction data in `useEffect` when the wallet is already connected due to a Smart Wallet popup blocking issue in Safari iOS
   useEffect(() => {
     if (
-      lifecycleStatus.statusName === CHECKOUT_LIFECYCLESTATUS.INIT &&
+      lifecycleStatus.statusName === CHECKOUT_LIFECYCLE_STATUS.INIT &&
       address &&
       !fetchedDataHandleSubmit.current
     ) {
@@ -215,7 +219,7 @@ export function CheckoutProvider({
   }, [address, fetchData, lifecycleStatus]);
 
   const handleAnalytics = useCallback(
-    (event: CheckoutEvent, data: AnalyticsEventData[CheckoutEvent]) => {
+    (event: CheckoutEventType, data: AnalyticsEventData[CheckoutEventType]) => {
       sendAnalytics(event, data);
     },
     [sendAnalytics],
@@ -231,7 +235,7 @@ export function CheckoutProvider({
       });
 
       // Open Coinbase Commerce receipt
-      if (lifecycleStatus.statusName === CHECKOUT_LIFECYCLESTATUS.SUCCESS) {
+      if (lifecycleStatus.statusName === CHECKOUT_LIFECYCLE_STATUS.SUCCESS) {
         window.open(
           `https://commerce.coinbase.com/pay/${chargeId}/receipt`,
           '_blank',
@@ -267,7 +271,7 @@ export function CheckoutProvider({
       if (!connectedAddress) {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
-          statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
+          statusName: CHECKOUT_LIFECYCLE_STATUS.ERROR,
           statusData: {
             code: CheckoutErrorCode.UNEXPECTED_ERROR,
             error: NO_CONNECTED_ADDRESS_ERROR,
@@ -309,7 +313,7 @@ export function CheckoutProvider({
       if (!contractsRef.current || contractsRef.current.length === 0) {
         setErrorMessage(GENERIC_ERROR_MESSAGE);
         updateLifecycleStatus({
-          statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
+          statusName: CHECKOUT_LIFECYCLE_STATUS.ERROR,
           statusData: {
             code: CheckoutErrorCode.UNEXPECTED_ERROR,
             error: NO_CONTRACTS_ERROR,
@@ -320,8 +324,15 @@ export function CheckoutProvider({
       }
 
       // Open keys.coinbase.com for payment
-      await writeContractsAsync({
-        contracts: contractsRef.current,
+      await sendCallsAsync({
+        calls: contractsRef.current.map((contract) => {
+          return {
+            to: contract.address,
+            abi: contract.abi,
+            functionName: contract.functionName,
+            args: contract.args,
+          };
+        }),
         capabilities:
           isSponsored && paymaster
             ? {
@@ -353,7 +364,7 @@ export function CheckoutProvider({
 
       setErrorMessage(errorMessage);
       updateLifecycleStatus({
-        statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
+        statusName: CHECKOUT_LIFECYCLE_STATUS.ERROR,
         statusData: {
           code: errorCode,
           error: JSON.stringify(error),
@@ -376,7 +387,7 @@ export function CheckoutProvider({
     paymaster,
     switchChainAsync,
     updateLifecycleStatus,
-    writeContractsAsync,
+    sendCallsAsync,
     handleAnalytics,
     productId,
   ]);

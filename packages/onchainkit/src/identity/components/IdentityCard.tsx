@@ -7,9 +7,9 @@ import { Identity } from './Identity';
 import { Name } from './Name';
 import { Socials } from './Socials';
 
-import { background, border, cn } from '../../styles/theme';
+import { border, cn } from '../../styles/theme';
 
-type IdentityCardReact = {
+type IdentityCardProps = {
   address?: Address;
   chain?: Chain;
   className?: string;
@@ -24,15 +24,15 @@ export function IdentityCard({
   className = '',
   schemaId,
   badgeTooltip,
-}: IdentityCardReact) {
+}: IdentityCardProps) {
   return (
     <Identity
       address={address}
       chain={chain}
       className={cn(
-        border.radius,
+        'rounded-ock-default',
         border.lineDefault,
-        background.default,
+        'bg-ock-background',
         'items-left flex min-w-[300px] p-4',
         className,
       )}

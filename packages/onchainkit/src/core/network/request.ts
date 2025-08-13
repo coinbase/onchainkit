@@ -5,6 +5,7 @@ import {
   JSON_RPC_VERSION,
   POST_METHOD,
   RequestContext,
+  RequestContextType,
 } from './constants';
 import { getRPCUrl } from './getRPCUrl';
 
@@ -54,7 +55,7 @@ export function buildRequestBody<T>(
  * @returns The headers for the JSON-RPC request.
  */
 async function buildRequestHeaders(
-  context?: RequestContext,
+  context?: RequestContextType,
 ): Promise<Record<string, string>> {
   const headers: Record<string, string> = {
     ...JSON_HEADERS,
@@ -96,7 +97,7 @@ async function buildRequestHeaders(
 export async function sendRequest<T, V>(
   method: string,
   params: T[],
-  _context?: RequestContext,
+  _context?: RequestContextType,
 ): Promise<JSONRPCResult<V>> {
   try {
     const body = buildRequestBody<T>(method, params);

@@ -5,14 +5,14 @@ import { useCallback } from 'react';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
 import { useOnrampExchangeRate } from '../hooks/useOnrampExchangeRate';
-import type { FundCardAmountInputPropsReact } from '../types';
+import type { FundCardAmountInputProps } from '../types';
 import { useFundContext } from './FundCardProvider';
 
 const THROTTLE_DELAY_MS = 5000;
 
 export const FundCardAmountInput = ({
   className,
-}: FundCardAmountInputPropsReact) => {
+}: FundCardAmountInputProps) => {
   const {
     fundAmountFiat,
     fundAmountCrypto,

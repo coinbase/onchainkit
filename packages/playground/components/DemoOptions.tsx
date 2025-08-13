@@ -2,7 +2,10 @@ import { ComponentMode } from '@/components/form/component-mode';
 import { ComponentTheme } from '@/components/form/component-theme';
 import { EarnOptions } from '@/components/form/earn-options';
 import { PaymasterUrl } from '@/components/form/paymaster';
-import { OnchainKitComponent } from '@/types/onchainkit';
+import {
+  OnchainKitComponent,
+  OnchainKitComponentType,
+} from '@/types/onchainkit';
 import { ActiveComponent } from './form/active-component';
 import { Chain } from './form/chain';
 import { CheckoutOptions } from './form/checkout-options';
@@ -12,6 +15,7 @@ import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
 import { WalletType } from './form/wallet-type';
 import { WalletSignUp } from './form/wallet-sign-up';
+import { ReactNode } from 'react';
 const COMMON_OPTIONS = [
   ActiveComponent,
   ComponentMode,
@@ -20,7 +24,7 @@ const COMMON_OPTIONS = [
 ];
 
 const COMPONENT_CONFIG: Partial<
-  Record<OnchainKitComponent, Array<() => React.JSX.Element>>
+  Record<OnchainKitComponentType, Array<() => ReactNode>>
 > = {
   [OnchainKitComponent.Buy]: [Chain, PaymasterUrl, IsSponsored, SwapConfig],
   [OnchainKitComponent.WalletIsland]: [PaymasterUrl, IsSponsored],
@@ -73,7 +77,7 @@ const COMPONENT_CONFIG: Partial<
 export default function DemoOptions({
   component,
 }: {
-  component?: OnchainKitComponent;
+  component?: OnchainKitComponentType;
 }) {
   const commonElements = COMMON_OPTIONS.map((Component) => (
     <Component key={Component.name} />

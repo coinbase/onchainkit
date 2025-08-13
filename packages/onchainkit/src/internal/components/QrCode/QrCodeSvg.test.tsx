@@ -4,7 +4,8 @@ import { coinbaseWalletSvg } from '../../svg/coinbaseWalletSvg';
 import { QrCodeSvg } from './QrCodeSvg';
 
 vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(() => 'default'),
+  useTheme: vi.fn(() => 'default-light'),
+  useThemeRoot: vi.fn(() => 'default-light'),
 }));
 
 describe('QRCodeSVG', () => {

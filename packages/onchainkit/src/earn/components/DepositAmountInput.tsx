@@ -1,9 +1,9 @@
 'use client';
-import type { DepositAmountInputReact } from '../types';
+import type { DepositAmountInputProps } from '../types';
 import { EarnAmountInput } from './EarnAmountInput';
 import { useEarnContext } from './EarnProvider';
 
-export function DepositAmountInput({ className }: DepositAmountInputReact) {
+export function DepositAmountInput({ className }: DepositAmountInputProps) {
   const { depositAmount, setDepositAmount } = useEarnContext();
 
   return (

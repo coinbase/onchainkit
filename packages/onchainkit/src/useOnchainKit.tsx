@@ -1,3 +1,4 @@
+'use client';
 import { createContext, useContext } from 'react';
 import { ONCHAIN_KIT_CONFIG } from '@/core/OnchainKitConfig';
 import { OnchainKitContextType } from './core/types';

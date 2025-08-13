@@ -1,9 +1,9 @@
 'use client';
 import { useAttestations } from '@/identity/hooks/useAttestations';
-import type { BadgeReact } from '@/identity/types';
+import type { BadgeProps } from '@/identity/types';
 import { badgeSvg } from '@/internal/svg/badgeSvg';
 import { zIndex } from '@/styles/constants';
-import { background, border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { useMemo, useState } from 'react';
 import { useOnchainKit } from '../../useOnchainKit';
 import { useIdentityContext } from './IdentityProvider';
@@ -23,7 +23,7 @@ type ExtractAttestationNameParams = {
 /**
  * Badge component.
  */
-export function Badge({ className, tooltip = false }: BadgeReact) {
+export function Badge({ className, tooltip = false }: BadgeProps) {
   const [showTooltip, setShowTooltip] = useState(false);
   const { address, schemaId: contextSchemaId } = useIdentityContext();
   const { chain, schemaId: kitSchemaId } = useOnchainKit();
@@ -45,15 +45,22 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
       : extractAttestationName(attestations[0]);
   }, [tooltip, attestations]);
 
+  const ariaLabel = useMemo(() => {
+    if (displayText) {
+      return `Verification badge: ${displayText}`;
+    }
+    return 'Verification badge';
+  }, [displayText]);
+
   const badgeSize = '12px';
 
   return (
     <div className="relative inline-flex" data-testid="ockBadgeContainer">
       <span
         className={cn(
-          background.primary,
-          border.default,
-          border.radius,
+          'bg-ock-primary',
+          'border-ock-background',
+          'rounded-ock-default',
           tooltip && 'cursor-pointer',
           className,
         )}
@@ -63,6 +70,7 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
           maxHeight: badgeSize,
           maxWidth: badgeSize,
         }}
+        aria-label={ariaLabel}
         data-testid="ockBadge"
         {...(tooltip && {
           onMouseEnter: () => setShowTooltip(true),
@@ -74,11 +82,11 @@ export function Badge({ className, tooltip = false }: BadgeReact) {
       {showTooltip && tooltip && (
         <div
           className={cn(
-            border.radius,
-            border.default,
+            'rounded-ock-default',
+            'border-ock-background',
             pressable.alternate,
             text.legal,
-            color.foreground,
+            'text-ock-foreground',
             zIndex.tooltip,
             '-translate-x-1/2 absolute bottom-full left-1/2 mb-1 transform',
             'whitespace-nowrap px-1.5 py-0.5',

@@ -2,7 +2,7 @@
 
 import { PressableIcon } from '@/internal/components/PressableIcon';
 import { backArrowSvg } from '@/internal/svg/backArrowSvg';
-import { border, cn } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { Swap } from '@/swap/components/Swap';
 import { SwapAmountInput } from '@/swap/components/SwapAmountInput';
 import { SwapButton } from '@/swap/components/SwapButton';
@@ -14,8 +14,38 @@ import { SwapSettingsSlippageTitle } from '@/swap/components/SwapSettingsSlippag
 import { SwapToast } from '@/swap/components/SwapToast';
 import { SwapToggleButton } from '@/swap/components/SwapToggleButton';
 import { useCallback } from 'react';
-import type { WalletAdvancedSwapProps } from '../types';
 import { useWalletContext } from './WalletProvider';
+import { SwapDefaultProps } from '@/swap/types';
+
+export type WalletAdvancedSwapProps = {
+  classNames?: {
+    /** Optional className override for the swap container */
+    container?: string;
+    /** Optional className override for the swap settings component */
+    settings?: {
+      /** Optional className override for the swap settings container */
+      container?: string;
+      /** Optional className override for the swap settings title */
+      slippageTitle?: string;
+      /** Optional className override for the swap settings description */
+      slippageDescription?: string;
+      /** Optional className override for the swap settings input */
+      slippageInput?: string;
+    };
+    /** Optional className override for the swap to amount input */
+    toAmountInput?: string;
+    /** Optional className override for the swap from amount input */
+    fromAmountInput?: string;
+    /** Optional className override for the swap toggle button */
+    toggleButton?: string;
+    /** Optional className override for the swap button */
+    swapButton?: string;
+    /** Optional className override for the swap message */
+    message?: string;
+    /** Optional className override for the swap toast */
+    toast?: string;
+  };
+} & Omit<SwapDefaultProps, 'children' | 'className' | 'headerLeftContent'>;
 
 export function WalletAdvancedSwap({
   config,
@@ -48,7 +78,7 @@ export function WalletAdvancedSwap({
   }, [isActiveFeatureClosing, setActiveFeature, setIsActiveFeatureClosing]);
 
   const backButton = (
-    <PressableIcon ariaLabel="Back button" onClick={handleCloseSwap}>
+    <PressableIcon aria-label="Back button" onClick={handleCloseSwap}>
       <div className="p-2">{backArrowSvg}</div>
     </PressableIcon>
   );
@@ -57,7 +87,7 @@ export function WalletAdvancedSwap({
     <div
       className={cn(
         'h-full',
-        border.radius,
+        'rounded-ock-default',
         isActiveFeatureClosing
           ? 'fade-out slide-out-to-right-5 animate-out fill-mode-forwards ease-in-out'
           : 'fade-in slide-in-from-right-5 linear animate-in duration-150',
@@ -74,42 +104,59 @@ export function WalletAdvancedSwap({
         onError={onError}
         config={config}
         isSponsored={isSponsored}
-        title={title}
         experimental={experimental}
-        headerLeftContent={backButton}
       >
-        <SwapSettings className={cn('w-auto', classNames?.settings?.container)}>
-          <SwapSettingsSlippageTitle
-            className={classNames?.settings?.slippageTitle}
+        <div
+          className={cn(
+            'bg-ock-background rounded-ock-default text-ock-foreground relative flex w-full max-w-[500px] flex-col px-6 pt-6 pb-4',
+          )}
+          data-testid="ockSwap_Container"
+        >
+          <div className="absolute flex w-1/2 items-center justify-between">
+            {backButton}
+            <h3
+              className={cn(text.title3, 'text-center')}
+              data-testid="ockSwap_Title"
+            >
+              {title}
+            </h3>
+          </div>
+
+          <SwapSettings
+            className={cn('w-auto', classNames?.settings?.container)}
           >
-            Max. slippage
-          </SwapSettingsSlippageTitle>
-          <SwapSettingsSlippageDescription
-            className={classNames?.settings?.slippageDescription}
-          >
-            Your swap will revert if the prices change by more than the selected
-            percentage.
-          </SwapSettingsSlippageDescription>
-          <SwapSettingsSlippageInput
-            className={classNames?.settings?.slippageInput}
+            <SwapSettingsSlippageTitle
+              className={classNames?.settings?.slippageTitle}
+            >
+              Max. slippage
+            </SwapSettingsSlippageTitle>
+            <SwapSettingsSlippageDescription
+              className={classNames?.settings?.slippageDescription}
+            >
+              Your swap will revert if the prices change by more than the
+              selected percentage.
+            </SwapSettingsSlippageDescription>
+            <SwapSettingsSlippageInput
+              className={classNames?.settings?.slippageInput}
+            />
+          </SwapSettings>
+          <SwapAmountInput
+            label="Sell"
+            swappableTokens={from}
+            type="from"
+            className={classNames?.fromAmountInput}
           />
-        </SwapSettings>
-        <SwapAmountInput
-          label="Sell"
-          swappableTokens={from}
-          type="from"
-          className={classNames?.fromAmountInput}
-        />
-        <SwapToggleButton className={classNames?.toggleButton} />
-        <SwapAmountInput
-          label="Buy"
-          swappableTokens={to}
-          type="to"
-          className={classNames?.toAmountInput}
-        />
-        <SwapButton disabled={disabled} className={classNames?.swapButton} />
-        <SwapMessage className={classNames?.message} />
-        <SwapToast className={classNames?.toast} />
+          <SwapToggleButton className={classNames?.toggleButton} />
+          <SwapAmountInput
+            label="Buy"
+            swappableTokens={to}
+            type="to"
+            className={classNames?.toAmountInput}
+          />
+          <SwapButton disabled={disabled} className={classNames?.swapButton} />
+          <SwapMessage className={classNames?.message} />
+          <SwapToast className={classNames?.toast} />
+        </div>
       </Swap>
     </div>
   );

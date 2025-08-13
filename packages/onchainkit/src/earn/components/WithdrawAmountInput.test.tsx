@@ -21,8 +21,7 @@ describe('WithdrawAmountInput', () => {
     expect(input).toBeInTheDocument();
     expect(input).toHaveValue('100');
 
-    const container = input.parentElement;
-    expect(container).toHaveClass('custom-class');
+    expect(input?.className).toContain('custom-class');
   });
 
   it('updates the value when onChange is called', () => {

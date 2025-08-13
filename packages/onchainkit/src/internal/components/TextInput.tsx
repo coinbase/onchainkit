@@ -1,28 +1,27 @@
 import {
   type ChangeEvent,
   type InputHTMLAttributes,
-  forwardRef,
+  type ForwardedRef,
+  type ComponentProps,
   useCallback,
+  forwardRef,
 } from 'react';
 import { useDebounce } from '../hooks/useDebounce';
+import { cn } from '@/styles/theme';
 
-type TextInputReact = {
-  'aria-label'?: string;
-  className: string;
+type TextInputProps = Omit<ComponentProps<'input'>, 'onChange'> & {
   delayMs?: number;
-  disabled?: boolean;
   /** specify 'decimal' to trigger numeric keyboards on mobile devices */
   inputMode?: InputHTMLAttributes<HTMLInputElement>['inputMode'];
-  onBlur?: () => void;
   onChange: (s: string) => void;
-  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   placeholder: string;
   setValue?: (s: string) => void;
-  value: string;
   inputValidator?: (s: string) => boolean;
+  /** specify 'error' to show error state (change in color), field is used for a11y purposes, not actually rendered currently, can be either boolean flag or string error message */
+  error?: string | boolean;
 };
 
-export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
+export const TextInput = forwardRef(
   (
     {
       'aria-label': ariaLabel,
@@ -37,10 +36,12 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
       inputMode,
       value,
       inputValidator = () => true,
-    },
-    ref,
+      error,
+      ...rest
+    }: TextInputProps,
+    ref: ForwardedRef<HTMLInputElement>,
   ) => {
-    const handleDebounce = useDebounce((value: string) => {
+    const handleDebounce = useDebounce((value) => {
       onChange(value);
     }, delayMs);
 
@@ -62,11 +63,12 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
 
     return (
       <input
-        aria-label={ariaLabel}
         data-testid="ockTextInput_Input"
+        aria-invalid={!!error}
+        aria-label={ariaLabel}
         ref={ref}
         type="text"
-        className={className}
+        className={cn(className, !!error && 'text-ock-error')}
         inputMode={inputMode}
         placeholder={placeholder}
         value={value}
@@ -76,6 +78,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputReact>(
         disabled={disabled}
         autoComplete="off" // autocomplete attribute handles browser autocomplete
         data-1p-ignore={true} // data-1p-ignore attribute handles password manager autocomplete
+        {...rest}
       />
     );
   },

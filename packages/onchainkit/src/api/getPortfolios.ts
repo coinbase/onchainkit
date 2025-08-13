@@ -1,4 +1,4 @@
-import { RequestContext } from '@/core/network/constants';
+import { RequestContext, RequestContextType } from '@/core/network/constants';
 import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '@/core/network/definitions/wallet';
 import { sendRequest } from '@/core/network/request';
 import type {
@@ -6,6 +6,8 @@ import type {
   GetPortfoliosParams,
   GetPortfoliosResponse,
 } from './types';
+import { buildErrorStruct } from './utils/buildErrorStruct';
+import { ApiErrorCode } from './constants';
 
 /**
  * Retrieves the portfolios for the provided addresses
@@ -13,7 +15,7 @@ import type {
  */
 export async function getPortfolios(
   params: GetPortfoliosParams,
-  _context: RequestContext = RequestContext.API,
+  _context: RequestContextType = RequestContext.API,
 ): Promise<GetPortfoliosResponse | APIError> {
   const { addresses } = params;
 
@@ -24,18 +26,18 @@ export async function getPortfolios(
       _context,
     );
     if (res.error) {
-      return {
+      return buildErrorStruct({
         code: `${res.error.code}`,
         error: 'Error fetching portfolio token balances',
         message: res.error.message,
-      };
+      });
     }
     return res.result;
   } catch (error) {
-    return {
-      code: 'uncaught-portfolio',
+    return buildErrorStruct({
+      code: ApiErrorCode.UncaughtPortfolioError,
       error: 'Something went wrong',
       message: `Error fetching portfolio token balances: ${error}`,
-    };
+    });
   }
 }

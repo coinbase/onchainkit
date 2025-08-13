@@ -1,8 +1,7 @@
 'use client';
 
-import { useTheme } from '../../internal/hooks/useTheme';
-import { background, cn, pressable, text } from '../../styles/theme';
-import type { TokenChipReact } from '../types';
+import { cn, pressable, text } from '../../styles/theme';
+import type { TokenChipProps } from '../types';
 import { TokenImage } from './TokenImage';
 
 /**
@@ -16,18 +15,15 @@ export function TokenChip({
   onClick,
   className,
   isPressable = true,
-}: TokenChipReact) {
-  const componentTheme = useTheme();
-
+}: TokenChipProps) {
   return (
     <button
       type="button"
       data-testid="ockTokenChip_Button"
       className={cn(
-        componentTheme,
         isPressable
-          ? [pressable.secondary, pressable.shadow]
-          : [background.secondary, 'cursor-default'],
+          ? [pressable.secondary, 'shadow-ock-default']
+          : ['bg-ock-secondary', 'cursor-default'],
         'flex w-fit shrink-0 items-center gap-2 rounded-lg py-1 pr-3 pl-1 ',
         className,
       )}

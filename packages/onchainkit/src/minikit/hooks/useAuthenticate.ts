@@ -103,21 +103,6 @@ function validateSignInMessage({
   }
 }
 
-/**
- * Generates a cryptographically secure random nonce string.
- * Uses the Web Crypto API to create random values that are then converted to a base-36 string.
- *
- * @param length - The length of the nonce to generate in bytes. Defaults to 8 bytes.
- * @returns A random string of base-36 characters (0-9, a-z) derived from the random bytes.
- */
-function generateSecureNonce(length = 8): string {
-  const array = new Uint8Array(length);
-  crypto.getRandomValues(array);
-  return Array.from(array)
-    .map((val) => (val % 36).toString(36))
-    .join('');
-}
-
 type UseAuthenticateProps = Omit<SignInCore.SignInOptions, 'nonce'> & {
   nonce?: string;
 };
@@ -135,7 +120,9 @@ export const useAuthenticate = (domain?: string, skipValidation = false) => {
     async (signInOptions: UseAuthenticateProps = {}) => {
       try {
         if (!signInOptions?.nonce) {
-          signInOptions.nonce = generateSecureNonce();
+          signInOptions.nonce = [...Array(8)]
+            .map(() => Math.floor(Math.random() * 36).toString(36))
+            .join('');
         }
         const result = await sdk.actions.signIn(
           signInOptions as SignInCore.SignInOptions,

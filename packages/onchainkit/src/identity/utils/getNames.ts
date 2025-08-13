@@ -1,4 +1,8 @@
-import type { Basename, GetNameReturnType, GetNames } from '@/identity/types';
+import type {
+  Basename,
+  GetNameReturnType,
+  GetNamesParams,
+} from '@/identity/types';
 import { mainnet } from 'viem/chains';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { isBase } from '../../core/utils/isBase';
@@ -17,7 +21,7 @@ import { getAddresses } from './getAddresses';
 export const getNames = async ({
   addresses,
   chain = mainnet,
-}: GetNames): Promise<GetNameReturnType[]> => {
+}: GetNamesParams): Promise<GetNameReturnType[]> => {
   if (!addresses || addresses.length === 0) {
     return [];
   }

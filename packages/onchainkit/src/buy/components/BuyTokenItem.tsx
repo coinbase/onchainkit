@@ -1,40 +1,37 @@
 'use client';
 import { useCallback, useMemo } from 'react';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
-import { cn, color, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import type { SwapUnit } from '../../swap/types';
 import { TokenImage } from '../../token';
 import { useBuyContext } from './BuyProvider';
 
-export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
+export function BuyTokenItem({ swapUnit }: { swapUnit: SwapUnit }) {
   const { handleSubmit, setIsDropdownOpen } = useBuyContext();
 
-  if (!swapUnit || !swapUnit.token) {
-    return null;
-  }
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const handleClick = useCallback(() => {
     setIsDropdownOpen(false);
     handleSubmit(swapUnit);
   }, [handleSubmit, swapUnit, setIsDropdownOpen]);
 
   const hasInsufficientBalance =
-    !swapUnit.balance ||
+    !swapUnit?.balance ||
     Number.parseFloat(swapUnit.balance) < Number.parseFloat(swapUnit.amount);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const roundedAmount = useMemo(() => {
-    if (!swapUnit.amount) {
+    if (!swapUnit?.amount) {
       return '';
     }
     return getRoundedAmount(swapUnit.amount, 10);
-  }, [swapUnit.amount]);
+  }, [swapUnit?.amount]);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const roundedBalance = useMemo(() => {
-    return getRoundedAmount(swapUnit.balance || '0', 3);
-  }, [swapUnit.balance]);
+    return getRoundedAmount(swapUnit?.balance || '0', 3);
+  }, [swapUnit?.balance]);
+
+  if (!swapUnit.token) {
+    return null;
+  }
 
   return (
     <button
@@ -51,7 +48,9 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
       <div
         className={cn(
           'flex flex-col items-start',
-          hasInsufficientBalance ? color.foregroundMuted : color.foreground,
+          hasInsufficientBalance
+            ? 'text-ock-foreground-muted'
+            : 'text-ock-foreground',
         )}
       >
         <div>
@@ -60,7 +59,9 @@ export function BuyTokenItem({ swapUnit }: { swapUnit?: SwapUnit }) {
         <div
           className={cn(
             'text-xs',
-            hasInsufficientBalance ? color.error : color.foregroundMuted,
+            hasInsufficientBalance
+              ? 'text-ock-error'
+              : 'text-ock-foreground-muted',
           )}
         >{`${
           hasInsufficientBalance ? 'Insufficient balance' : 'Balance'

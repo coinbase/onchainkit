@@ -1,14 +1,14 @@
 'use client';
 import { toggleSvg } from '@/internal/svg/toggleSvg';
-import { border, cn, pressable } from '@/styles/theme';
+import { cn, pressable } from '@/styles/theme';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
-interface AppchainNetworkToggleButtonReact {
+interface AppchainNetworkToggleButtonProps {
   className?: string;
 }
 
 export function AppchainNetworkToggleButton({
   className,
-}: AppchainNetworkToggleButtonReact) {
+}: AppchainNetworkToggleButtonProps) {
   const { handleToggle } = useAppchainBridgeContext();
 
   return (
@@ -16,7 +16,7 @@ export function AppchainNetworkToggleButton({
       type="button"
       className={cn(
         pressable.alternate,
-        border.default,
+        'border-ock-background',
         'flex h-14 w-14 items-center justify-center',
         'rounded-lg border-4 border-solid',
         'rotate-90',

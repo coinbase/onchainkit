@@ -10,11 +10,12 @@ export const getVersion = async () => {
   const packageJsonContent = await fs.readFile(pkgPath, 'utf8');
   const packageJson = JSON.parse(packageJsonContent);
   return packageJson.version;
-}
+};
 
 const renameFiles: Record<string, string | undefined> = {
   _gitignore: '.gitignore',
   '_env.local': '.env.local',
+  '.template.env': '.env',
 };
 
 const excludeDirs = ['node_modules', '.next'];
@@ -40,7 +41,6 @@ export async function copyDir(src: string, dest: string) {
   }
 }
 
-
 async function optimizedCopyFile(src: string, dest: string) {
   await fs.copyFile(src, dest);
 }
@@ -58,7 +58,7 @@ async function optimizedCopyDir(src: string, dest: string) {
       } else {
         await optimizedCopyFile(srcPath, destPath);
       }
-    })
+    }),
   );
 }
 
@@ -78,7 +78,7 @@ export function createClickableLink(text: string, url: string): string {
 
 export function isValidPackageName(projectName: string) {
   return /^(?:@[a-z\d\-*~][a-z\d\-*._~]*\/)?[a-z\d\-~][a-z\d\-._~]*$/.test(
-    projectName
+    projectName,
   );
 }
 

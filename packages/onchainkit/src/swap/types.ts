@@ -18,6 +18,8 @@ import type {
 import type { BuildSwapTransaction, RawTransactionData } from '../api/types';
 import type { Token } from '../token/types';
 import type { Call } from '../transaction/types';
+import type { ToastProps } from '@/internal/components/Toast';
+import type { SlippageSettingsType } from './constants';
 
 export type SendSwapTransactionParams = {
   config: Config;
@@ -153,7 +155,7 @@ export type ProcessSwapTransactionParams = {
 /**
  * Note: exported as public Type
  */
-export type SwapAmountInputReact = {
+export type SwapAmountInputProps = {
   /** Optional className override for top div element */
   className?: string;
   /** The debounce delay in milliseconds */
@@ -166,26 +168,39 @@ export type SwapAmountInputReact = {
   token?: Token;
   /** Identifies if component is for toToken or fromToken */
   type: 'to' | 'from';
+  render?: (props: {
+    token: SwapUnit;
+    setAmountToMax: () => void;
+    onSetToken: (token: Token) => void;
+    hasInsufficientBalance: boolean;
+  }) => ReactNode;
 };
 
 export type SwapAPIResponse = {
   approveTx?: RawTransactionData; // The approval transaction
   chainId: string; // The chain ID
   fee: Fee; // The fee for the trade
-  quote: SwapQuote; // The quote for the trade
+  quote: SwapQuoteParams; // The quote for the trade
   tx: RawTransactionData; // The trade transaction
 };
 
 /**
  * Note: exported as public Type
  */
-export type SwapButtonReact = {
+export type SwapButtonProps = {
   /** Optional className override for top div element */
   className?: string;
   /** Disables swap button */
   disabled?: boolean;
   /** Label for the swap button */
   label?: ReactNode;
+  render?: (props: {
+    onSubmit: () => void;
+    isLoading: boolean;
+    lifecycleStatus: LifecycleStatus;
+    isDisabled: boolean;
+    isSwapInvalid: boolean;
+  }) => ReactNode;
 };
 
 export type SwapConfig = {
@@ -234,15 +249,16 @@ export type SwapLoadingState = {
 /**
  * Note: exported as public Type
  */
-export type SwapMessageReact = {
+export type SwapMessageProps = {
   /** Optional className override for top div element */
   className?: string;
+  render?: (props: { message: string | null }) => ReactNode;
 };
 
 /**
  * Note: exported as public Type
  */
-export type SwapQuote = {
+export type SwapQuoteParams = {
   /** The reference amount for the quote */
   amountReference: string;
   /** The source token for the swap */
@@ -274,7 +290,7 @@ export type SwapParams = {
   to: Token;
 };
 
-export type SwapProviderReact = {
+export type SwapProviderProps = {
   children: React.ReactNode;
   config?: {
     maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
@@ -291,7 +307,7 @@ export type SwapProviderReact = {
 /**
  * Note: exported as public Type
  */
-export type SwapReact = {
+export type SwapProps = {
   /** Optional className override for top div element */
   className?: string;
   /** Configuration options */
@@ -309,16 +325,9 @@ export type SwapReact = {
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   /** An optional callback function that exposes the transaction receipt */
   onSuccess?: (transactionReceipt: TransactionReceipt) => void;
-  /** Title for the Swap component. (default: "Swap") */
-  title?: ReactNode;
-  /** Header left content for the Swap component (eg. back button) */
-  headerLeftContent?: ReactNode;
 } & (
   | {
-      /** When React children are provided
-       * swappableTokens, toToken, and fromToken should be passed to the SwapAmountInput component
-       * disabled should be passed to the SwapButton component
-       **/
+      /** When children is provided, swappableTokens, toToken, and fromToken are not required */
       children: ReactNode;
       /** To token */
       to?: never;
@@ -326,35 +335,43 @@ export type SwapReact = {
       from?: never;
       /** Disables swap button */
       disabled?: never;
+      /** Title for the Swap component. (default: "Swap") */
+      title?: never;
+      /** Header left content for the Swap component (eg. back button) */
+      headerLeftContent?: never;
     }
   | {
-      /** When React Children are undefined, swappableTokens, toToken, and fromToken are required */
+      /** When children is undefined, swappableTokens, toToken, and fromToken are required */
       children?: never;
       /** To token */
-      to: Token[];
+      to?: Token[];
       /** From token */
-      from: Token[];
+      from?: Token[];
       /** Disables swap button */
       disabled?: boolean;
+      /** Title for the Swap component. (default: "Swap") */
+      title?: ReactNode;
+      /** Header left content for the Swap component (eg. back button) */
+      headerLeftContent?: ReactNode;
     }
 );
 
 /**
  * Note: exported as public Type
  */
-export type SwapDefaultReact = {
+export type SwapDefaultProps = {
   /** Swappable tokens */
   to: Token[];
   /** Swappable tokens */
   from: Token[];
   /** Disables swap button */
   disabled?: boolean;
-} & Omit<SwapReact, 'children'>;
+} & Omit<SwapProps, 'children'>;
 
 /**
  * Note: exported as public Type
  */
-export type SwapSettingsReact = {
+export type SwapSettingsProps = {
   children?: ReactNode;
   /** Optional className override for top div element */
   className?: string;
@@ -367,7 +384,7 @@ export type SwapSettingsReact = {
 /**
  * Note: exported as public Type
  */
-export type SwapSettingsSlippageDescriptionReact = {
+export type SwapSettingsSlippageDescriptionProps = {
   children: ReactNode;
   /** Optional className override for top div element */
   className?: string;
@@ -376,12 +393,17 @@ export type SwapSettingsSlippageDescriptionReact = {
 /**
  * Note: exported as public Type
  */
-export type SwapSettingsSlippageInputReact = {
+export type SwapSettingsSlippageInputProps = {
   /** Optional className override for top div element */
   className?: string;
+  render?: (props: {
+    slippageSetting: SlippageSettingsType;
+    setSlippageSetting: (slippageSetting: SlippageSettingsType) => void;
+    setSlippageValue: (number: number) => void;
+  }) => ReactNode;
 };
 
-export type SwapSettingsSlippageLayoutReact = {
+export type SwapSettingsSlippageLayoutProps = {
   children: ReactNode;
   /** Optional className override for top div element */
   className?: string;
@@ -390,7 +412,7 @@ export type SwapSettingsSlippageLayoutReact = {
 /**
  * Note: exported as public Type
  */
-export type SwapSettingsSlippageTitleReact = {
+export type SwapSettingsSlippageTitleProps = {
   children: ReactNode;
   /** Optional className override for top div element */
   className?: string;
@@ -399,9 +421,10 @@ export type SwapSettingsSlippageTitleReact = {
 /**
  * Note: exported as public Type
  */
-export type SwapToggleButtonReact = {
+export type SwapToggleButtonProps = {
   /** Optional className override for top div element */
   className?: string;
+  render?: (props: { onToggle: () => void }) => ReactNode;
 };
 
 /**
@@ -427,7 +450,7 @@ export type SwapUnit = {
 /**
  * Note: exported as public Type
  */
-export type Transaction = {
+export type TransactionParams = {
   /** The chain ID */
   chainId: number;
   /** The data for the transaction */
@@ -446,13 +469,16 @@ export type Transaction = {
   value: bigint;
 };
 
-export type SwapToastReact = {
-  /** An optional CSS class name for styling the toast component */
-  className?: string;
-  /** An optional value to customize time until toast disappears */
-  durationMs?: number;
-  /** An optional position property to specify the toast's position on the screen */
-  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
+export type SwapToastProps = Pick<
+  ToastProps,
+  'duration' | 'position' | 'className'
+> & {
+  render?: (props: {
+    isToastVisible: boolean;
+    transactionHash: string;
+    resetToastState: () => void;
+    chainExplorer: string;
+  }) => ReactNode;
 };
 
 export type SwapTransaction = {

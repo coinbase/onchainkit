@@ -10,7 +10,9 @@ import type { CreateWagmiConfigParams } from './core/types';
 
 // Mock the coinbase wallet connector
 const mockCoinbaseWallet = vi.fn();
-const mockBaseAccount = vi.fn();
+
+// Mock the farcaster frame connector
+const mockFarcasterFrame = vi.fn();
 
 // Mock for the createWagmiConfig
 const mockCreateWagmiConfig = vi.fn();
@@ -79,6 +81,32 @@ vi.mock('./useOnchainKit', () => ({
   })),
 }));
 
+// Mock MiniKitContext
+const mockMiniKitContext = vi.fn();
+
+vi.mock('@/minikit/MiniKitProvider', () => ({
+  MiniKitContext: { _currentValue: null },
+}));
+
+// Mock useContext to control MiniKit context
+vi.mock('react', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('react')>();
+  return {
+    ...actual,
+    useContext: vi.fn((context) => {
+      // Check if this is the MiniKitContext by checking its shape
+      if (
+        context &&
+        typeof context === 'object' &&
+        '_currentValue' in context
+      ) {
+        return mockMiniKitContext();
+      }
+      return actual.useContext(context);
+    }),
+  };
+});
+
 // Create mock connector function that satisfies the CreateConnectorFn interface
 const createMockConnector = (id: string): CreateConnectorFn => {
   return () => ({
@@ -106,11 +134,6 @@ const createMockConnector = (id: string): CreateConnectorFn => {
 // Mock wagmi/connectors
 vi.mock('wagmi/connectors', () => {
   return {
-    baseAccount: (params: { appName?: string; appLogoUrl?: string }) => {
-      mockBaseAccount(params);
-      // Return a connector function that satisfies the CreateConnectorFn interface
-      return createMockConnector('baseAccount');
-    },
     coinbaseWallet: (params: {
       preference?: string;
       appName?: string;
@@ -123,12 +146,21 @@ vi.mock('wagmi/connectors', () => {
   };
 });
 
+// Mock @farcaster/frame-wagmi-connector
+vi.mock('@farcaster/frame-wagmi-connector', () => ({
+  farcasterFrame: () => {
+    mockFarcasterFrame();
+    return createMockConnector('farcasterFrame');
+  },
+}));
+
 describe('DefaultOnchainKitProviders', () => {
   beforeEach(() => {
     (useProviderDependencies as Mock).mockReturnValue({
       providedWagmiConfig: null,
       providedQueryClient: null,
     });
+    mockMiniKitContext.mockReturnValue({ context: null });
     vi.clearAllMocks();
   });
 
@@ -195,7 +227,45 @@ describe('DefaultOnchainKitProviders', () => {
     expect(screen.queryAllByTestId('query-client-provider')).toHaveLength(0);
   });
 
-  it('should use baseAccount even when wallet preference is specified', () => {
+  it('should use coinbaseWallet connector when MiniKit context is not available', () => {
+    mockMiniKitContext.mockReturnValue({ context: null });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // Verify coinbaseWallet was called
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+      expect.objectContaining({
+        appName: 'Mock App',
+        appLogoUrl: 'https://example.com/logo.png',
+        preference: 'all',
+      }),
+    );
+
+    // Verify farcasterFrame was not called
+    expect(mockFarcasterFrame).not.toHaveBeenCalled();
+  });
+
+  it('should use farcasterFrame connector when MiniKit context is available', () => {
+    mockMiniKitContext.mockReturnValue({ context: { isFrame: true } });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // Verify farcasterFrame was called
+    expect(mockFarcasterFrame).toHaveBeenCalled();
+
+    // Verify coinbaseWallet was not called
+    expect(mockCoinbaseWallet).not.toHaveBeenCalled();
+  });
+
+  it('should pass the wallet preference to the coinbaseWallet connector', () => {
     // Mock useOnchainKit to return smartWalletOnly preference
     (useOnchainKit as Mock).mockReturnValue({
       apiKey: 'mock-api-key',
@@ -216,16 +286,15 @@ describe('DefaultOnchainKitProviders', () => {
       </DefaultOnchainKitProviders>,
     );
 
-    // Verify baseAccount was called with app name and logo (preferences are ignored)
-    expect(mockBaseAccount).toHaveBeenCalledWith(
+    // Verify coinbaseWallet was called with the correct preference
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
       expect.objectContaining({
-        appName: 'Mock App',
-        appLogoUrl: 'https://example.com/logo.png',
+        preference: 'smartWalletOnly',
       }),
     );
   });
 
-  it('should use baseAccount as default when no preference is specified', () => {
+  it('should pass the default preference "all" when no preference is specified', () => {
     // Mock useOnchainKit to return config without preference
     (useOnchainKit as Mock).mockReturnValue({
       apiKey: 'mock-api-key',
@@ -244,16 +313,15 @@ describe('DefaultOnchainKitProviders', () => {
       </DefaultOnchainKitProviders>,
     );
 
-    // Verify baseAccount was called with app name and logo
-    expect(mockBaseAccount).toHaveBeenCalledWith(
+    // Verify coinbaseWallet was called with the default preference
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
       expect.objectContaining({
-        appName: 'Mock App',
-        appLogoUrl: 'https://example.com/logo.png',
+        preference: undefined,
       }),
     );
   });
 
-  it('should use baseAccount even when eoaOnly preference is specified', () => {
+  it('should pass eoaOnly preference to the coinbaseWallet connector', () => {
     // Mock useOnchainKit to return eoaOnly preference
     (useOnchainKit as Mock).mockReturnValue({
       apiKey: 'mock-api-key',
@@ -274,11 +342,10 @@ describe('DefaultOnchainKitProviders', () => {
       </DefaultOnchainKitProviders>,
     );
 
-    // Verify baseAccount was called with app name and logo (preferences are ignored)
-    expect(mockBaseAccount).toHaveBeenCalledWith(
+    // Verify coinbaseWallet was called with eoaOnly preference
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
       expect.objectContaining({
-        appName: 'Mock App',
-        appLogoUrl: 'https://example.com/logo.png',
+        preference: 'eoaOnly',
       }),
     );
   });
@@ -300,8 +367,8 @@ describe('DefaultOnchainKitProviders', () => {
       </DefaultOnchainKitProviders>,
     );
 
-    // Verify baseAccount was called with undefined app name and logo
-    expect(mockBaseAccount).toHaveBeenCalledWith(
+    // Verify coinbaseWallet was called with undefined app name and logo
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
       expect.objectContaining({
         appName: undefined,
         appLogoUrl: undefined,
@@ -322,73 +389,11 @@ describe('DefaultOnchainKitProviders', () => {
     );
 
     expect(screen.getByText('Test Child')).toBeInTheDocument();
-    expect(mockBaseAccount).toHaveBeenCalledWith(
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
       expect.objectContaining({
         appName: undefined,
         appLogoUrl: undefined,
       }),
     );
-  });
-
-  it('should update the Wagmi config when connectors change', async () => {
-    const { rerender } = render(
-      <DefaultOnchainKitProviders>
-        <div>Test Child</div>
-      </DefaultOnchainKitProviders>,
-    );
-
-    // Initial config creation
-    expect(mockCreateWagmiConfig).toHaveBeenCalledTimes(1);
-
-    // First call parameters
-    const firstCallParams = mockCreateWagmiConfig.mock.calls[0][0];
-    expect(firstCallParams.connectors).toBeDefined();
-
-    // Clear mocks to check rerender behavior
-    mockCreateWagmiConfig.mockClear();
-
-    // Create a different connector
-    const newConnector = createMockConnector('newConnector');
-
-    // Re-render with new connectors
-    rerender(
-      <DefaultOnchainKitProviders connectors={[newConnector]}>
-        <div>Test Child</div>
-      </DefaultOnchainKitProviders>,
-    );
-
-    // Should create a new config with the new connectors
-    expect(mockCreateWagmiConfig).toHaveBeenCalledTimes(1);
-
-    // Second call parameters
-    const secondCallParams = mockCreateWagmiConfig.mock.calls[0][0];
-    expect(secondCallParams.connectors).toEqual([newConnector]);
-  });
-
-  it('should not update the Wagmi config when the same connectors are passed', async () => {
-    // Create an initial connector
-    const initialConnectors = [createMockConnector('initialConnector')];
-
-    const { rerender } = render(
-      <DefaultOnchainKitProviders connectors={initialConnectors}>
-        <div>Test Child</div>
-      </DefaultOnchainKitProviders>,
-    );
-
-    // Initial config creation
-    expect(mockCreateWagmiConfig).toHaveBeenCalledTimes(1);
-
-    // Clear mocks to check rerender behavior
-    mockCreateWagmiConfig.mockClear();
-
-    // Re-render with the same connectors
-    rerender(
-      <DefaultOnchainKitProviders connectors={initialConnectors}>
-        <div>Test Child</div>
-      </DefaultOnchainKitProviders>,
-    );
-
-    // Should not create a new config
-    expect(mockCreateWagmiConfig).not.toHaveBeenCalled();
   });
 });

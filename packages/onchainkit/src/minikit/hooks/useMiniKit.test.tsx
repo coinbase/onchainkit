@@ -6,9 +6,19 @@ import type { MiniKitContextType } from '../types';
 import { useMiniKit } from './useMiniKit';
 
 const mockContext = {
+  enabled: true,
   context: null,
   notificationProxyUrl: '/api/notify',
   updateClientContext: vi.fn(),
+  __isMiniKit: true,
+} as MiniKitContextType;
+
+const mockDisabledContext = {
+  enabled: false,
+  context: null,
+  notificationProxyUrl: '/api/notify',
+  updateClientContext: vi.fn(),
+  __isMiniKit: false,
 } as MiniKitContextType;
 
 vi.mock('@/DefaultOnchainKitProviders', () => ({
@@ -20,7 +30,7 @@ vi.mock('@/OnchainKitProvider', () => ({
   OnchainKitProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-vi.mock('@farcaster/miniapp-wagmi-connector', () => ({
+vi.mock('@farcaster/frame-wagmi-connector', () => ({
   farcasterFrame: vi.fn(),
 }));
 
@@ -29,10 +39,16 @@ describe('useMiniKit', () => {
     vi.clearAllMocks();
   });
 
-  it('should throw error when used outside MiniKitProvider', () => {
+  it('should throw error when MiniKit is not enabled', () => {
     expect(() => {
-      renderHook(() => useMiniKit());
-    }).toThrow('useMiniKit must be used within a MiniKitProvider');
+      renderHook(() => useMiniKit(), {
+        wrapper: ({ children }) => (
+          <MiniKitContext.Provider value={mockDisabledContext}>
+            {children}
+          </MiniKitContext.Provider>
+        ),
+      });
+    }).toThrow('MiniKit is not enabled. Please check your OnchainKitProvider.');
   });
 
   it('allows users to pass through ready options', async () => {

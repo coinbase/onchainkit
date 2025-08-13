@@ -1,18 +1,20 @@
 {
   "name": "create-onchain",
   "description": "Instantly create onchain applications with OnchainKit.",
-  "version": "0.0.24",
+  "version": "0.0.22",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "pnpm run clean && pnpm run build:esm+types && pnpm run build:manifest",
+    "build": "pnpm run clean && pnpm run copy-templates && pnpm run build:esm+types && pnpm run build:manifest",
     "build:manifest": "pnpm --filter miniapp-manifest-generator build:copy --out $(pwd)/dist/manifest",
     "build:esm+types": "tsc --project tsconfig.build.json --outDir ./dist/esm --declaration --declarationMap --declarationDir ./dist/types",
     "check:types": "tsc --noEmit",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "copy-templates": "node ./scripts/copy-templates.js",
     "dev": "bun src/cli.ts",
+    "publish-prerelease": "node ./scripts/publish-prerelease.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"

@@ -1,12 +1,8 @@
 'use client';
+import { farcasterFrame } from '@farcaster/frame-wagmi-connector';
 import { PropsWithChildren, useEffect, useRef } from 'react';
 import { useConnect, useAccount } from 'wagmi';
 import { useIsInMiniApp } from '../hooks/useIsInMiniApp';
-
-const FARCASTER_CONNECTOR_TYPES = new Set([
-  'farcasterFrame',
-  'farcasterMiniApp',
-]);
 
 /**
  * Automatically connects to the Farcaster connector if the user is in a Mini App
@@ -25,7 +21,7 @@ export function AutoConnect({
     if (
       !enabled ||
       hasAttemptedConnection.current ||
-      !FARCASTER_CONNECTOR_TYPES.has(connector?.type) ||
+      connector?.type !== farcasterFrame.type ||
       !isInMiniAppSuccess
     ) {
       return;
