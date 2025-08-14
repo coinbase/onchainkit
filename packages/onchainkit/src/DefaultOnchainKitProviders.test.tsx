@@ -12,7 +12,7 @@ import type { CreateWagmiConfigParams } from './core/types';
 const mockCoinbaseWallet = vi.fn();
 
 // Mock the farcaster frame connector
-const mockFarcasterFrame = vi.fn();
+const mockFarcasterMiniApp = vi.fn();
 
 // Mock for the createWagmiConfig
 const mockCreateWagmiConfig = vi.fn();
@@ -146,11 +146,11 @@ vi.mock('wagmi/connectors', () => {
   };
 });
 
-// Mock @farcaster/frame-wagmi-connector
-vi.mock('@farcaster/frame-wagmi-connector', () => ({
-  farcasterFrame: () => {
-    mockFarcasterFrame();
-    return createMockConnector('farcasterFrame');
+// Mock @farcaster/miniapp-wagmi-connector
+vi.mock('@farcaster/miniapp-wagmi-connector', () => ({
+  farcasterMiniApp: () => {
+    mockFarcasterMiniApp();
+    return createMockConnector('farcasterMiniApp');
   },
 }));
 
@@ -246,7 +246,7 @@ describe('DefaultOnchainKitProviders', () => {
     );
 
     // Verify farcasterFrame was not called
-    expect(mockFarcasterFrame).not.toHaveBeenCalled();
+    expect(mockFarcasterMiniApp).not.toHaveBeenCalled();
   });
 
   it('should use farcasterFrame connector when MiniKit context is available', () => {
@@ -259,7 +259,7 @@ describe('DefaultOnchainKitProviders', () => {
     );
 
     // Verify farcasterFrame was called
-    expect(mockFarcasterFrame).toHaveBeenCalled();
+    expect(mockFarcasterMiniApp).toHaveBeenCalled();
 
     // Verify coinbaseWallet was not called
     expect(mockCoinbaseWallet).not.toHaveBeenCalled();

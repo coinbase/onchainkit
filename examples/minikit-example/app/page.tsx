@@ -21,6 +21,8 @@ import { ComposeCast } from "./actions/ComposeCast";
 import { ViewCast } from "./actions/ViewCast";
 import { CloseFrame } from "./actions/CloseFrame";
 import { UserInfo } from "./components/UserInfo";
+import { SendToken } from "./actions/SendToken";
+import { SwapToken } from "./actions/SwapToken";
 
 export default function App() {
   const { setFrameReady, isFrameReady } = useMiniKit();
@@ -73,6 +75,8 @@ export default function App() {
               <AddFrame />
               <ComposeCast />
               <ViewCast />
+              <SendToken />
+              <SwapToken />
               <CloseFrame />
             </div>
           </div>

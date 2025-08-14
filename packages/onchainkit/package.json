@@ -32,8 +32,8 @@
     "wagmi": "^2.16"
   },
   "dependencies": {
-    "@farcaster/frame-sdk": "^0.0.60",
-    "@farcaster/frame-wagmi-connector": "^0.0.53",
+    "@farcaster/frame-sdk": "^0.1.8",
+    "@farcaster/miniapp-wagmi-connector": "^1.0.0",
     "@floating-ui/react": "^0.27.13",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-dropdown-menu": "^2.1.6",

@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { type PropsWithChildren, useContext, useMemo } from 'react';
 import { Config, WagmiProvider } from 'wagmi';
 import { baseAccount } from 'wagmi/connectors';
-import { farcasterFrame } from '@farcaster/frame-wagmi-connector';
+import { farcasterMiniApp } from '@farcaster/miniapp-wagmi-connector';
 import { MiniKitContext } from '@/minikit/MiniKitProvider';
 import { createWagmiConfig } from './core/createWagmiConfig';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
@@ -39,7 +39,7 @@ function WagmiProviderWithDefault({
 
   const defaultConnector = useMemo(() => {
     if (miniKit?.context) {
-      return farcasterFrame();
+      return farcasterMiniApp();
     }
 
     return baseAccount({

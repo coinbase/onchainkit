@@ -11,6 +11,8 @@ export { useClose } from './hooks/useClose';
 export { useComposeCast } from './hooks/useComposeCast';
 export { useViewCast } from './hooks/useViewCast';
 export { useIsInMiniApp } from './hooks/useIsInMiniApp';
+export { useSwapToken } from './hooks/useSwapToken';
+export { useSendToken } from './hooks/useSendToken';
 
 export { withValidManifest } from './utils/manifestUtils';
 export type {
