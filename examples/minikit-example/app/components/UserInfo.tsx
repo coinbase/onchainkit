@@ -1,6 +1,7 @@
 import { useIsInMiniApp } from "@coinbase/onchainkit/minikit";
 import sdk from "@farcaster/frame-sdk";
 import { useQuery } from "@tanstack/react-query";
+import styles from "./UserInfo.module.css";
 
 function useUserInfo() {
   const { isInMiniApp } = useIsInMiniApp();
@@ -11,9 +12,10 @@ function useUserInfo() {
       // If we're in a mini app context, all we have to do to make an authenticated
       // request is to use `sdk.quickAuth.fetch`. This will automatically include the
       // necessary `Authorization` header for the backend to verify.
-      const result = await sdk.quickAuth.fetch("/api/me");
 
+      const result = await sdk.quickAuth.fetch("/api/me");
       const userInfo = await result.json();
+
       return {
         displayName: userInfo.display_name,
         pfpUrl: userInfo.pfp_url,
@@ -22,7 +24,7 @@ function useUserInfo() {
         followingCount: userInfo.following_count,
       };
     },
-    enabled: isInMiniApp,
+    enabled: !!isInMiniApp,
   });
 }
 
@@ -31,12 +33,12 @@ export function UserInfo() {
 
   if (isLoading) {
     return (
-      <div className="bg-[var(--app-card-bg)] border border-[var(--app-card-border)] rounded-lg p-4 animate-pulse">
-        <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 bg-[var(--app-gray)] rounded-full"></div>
-          <div className="space-y-2 flex-1">
-            <div className="h-5 bg-[var(--app-gray)] rounded w-32"></div>
-            <div className="h-4 bg-[var(--app-gray)] rounded w-24"></div>
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingContent}>
+          <div className={styles.loadingAvatar}></div>
+          <div className={styles.loadingTextContainer}>
+            <div className={styles.loadingTextLong}></div>
+            <div className={styles.loadingTextShort}></div>
           </div>
         </div>
       </div>
@@ -45,8 +47,8 @@ export function UserInfo() {
 
   if (error || !data) {
     return (
-      <div className="bg-[var(--app-card-bg)] border border-[var(--app-card-border)] rounded-lg p-4">
-        <p className="text-[var(--app-foreground-muted)] text-center">
+      <div className={styles.errorContainer}>
+        <p className={styles.errorText}>
           {error ? "Failed to load user info" : "No user info available"}
         </p>
       </div>
@@ -54,48 +56,38 @@ export function UserInfo() {
   }
 
   return (
-    <div className="bg-[var(--app-card-bg)] border border-[var(--app-card-border)] rounded-lg p-6 backdrop-blur-sm">
-      <div className="flex items-start space-x-4">
+    <div className={styles.container}>
+      <div className={styles.content}>
         {/* Profile Picture */}
         {data.pfpUrl && (
           <img
             src={data.pfpUrl}
             alt={`${data.displayName}'s profile picture`}
-            className="w-16 h-16 rounded-full object-cover border-2 border-[var(--app-card-border)]"
+            className={styles.profilePicture}
           />
         )}
 
         {/* User Info */}
-        <div className="flex-1 min-w-0">
+        <div className={styles.userInfo}>
           {/* Display Name */}
-          <h2 className="text-xl font-bold text-[var(--app-foreground)] mb-2 truncate">
-            {data.displayName}
-          </h2>
+          <h2 className={styles.displayName}>{data.displayName}</h2>
 
           {/* Bio */}
-          {data.bio && (
-            <p className="text-[var(--app-foreground-muted)] text-sm mb-3 leading-relaxed">
-              {data.bio}
-            </p>
-          )}
+          {data.bio && <p className={styles.bio}>{data.bio}</p>}
 
           {/* Follower Stats */}
-          <div className="flex space-x-6 text-sm">
-            <div className="flex flex-col items-center">
-              <span className="font-semibold text-[var(--app-foreground)]">
+          <div className={styles.stats}>
+            <div className={styles.statItem}>
+              <span className={styles.statNumber}>
                 {data.followerCount?.toLocaleString() || "0"}
               </span>
-              <span className="text-[var(--app-foreground-muted)]">
-                Followers
-              </span>
+              <span className={styles.statLabel}>Followers</span>
             </div>
-            <div className="flex flex-col items-center">
-              <span className="font-semibold text-[var(--app-foreground)]">
+            <div className={styles.statItem}>
+              <span className={styles.statNumber}>
                 {data.followingCount?.toLocaleString() || "0"}
               </span>
-              <span className="text-[var(--app-foreground-muted)]">
-                Following
-              </span>
+              <span className={styles.statLabel}>Following</span>
             </div>
           </div>
         </div>
