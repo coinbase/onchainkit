@@ -1,6 +1,6 @@
 - [ ] fix: useDebounce cleanup (#2305)
 - [ ] feat: use crypto api for nonce generation (#2303)
-- [ ] fix: useFundCardSetupOnrampEventListeners unmount reset (#2182)
+- [x] fix: useFundCardSetupOnrampEventListeners unmount reset (#2182)
 - [x] fix: Export useSendToken, add example (#2446)
 - [x] feat: useSendToken hook (#2445)
 - [x] feat: Add useSwapToken util (#2444)
