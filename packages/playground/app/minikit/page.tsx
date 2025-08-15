@@ -13,7 +13,7 @@ import Check from './svg/Check';
 
 export default function App() {
   const { setFrameReady, isFrameReady, context } = useMiniKit();
-  const [frameAdded, setFrameAdded] = useState(false);
+  const [miniAppAdded, setMiniAppAdded] = useState(false);
 
   const addFrame = useAddFrame();
   const openUrl = useOpenUrl();
@@ -26,8 +26,8 @@ export default function App() {
   }, [setFrameReady, isFrameReady]);
 
   const handleAddFrame = useCallback(async () => {
-    const frameAdded = await addFrame();
-    setFrameAdded(Boolean(frameAdded));
+    const miniAppAdded = await addFrame();
+    setMiniAppAdded(Boolean(miniAppAdded));
   }, [addFrame]);
 
   const saveFrameButton = useMemo(() => {
@@ -43,7 +43,7 @@ export default function App() {
       );
     }
 
-    if (frameAdded) {
+    if (miniAppAdded) {
       return (
         <div className="flex animate-fade-out items-center space-x-1 font-semibold text-sm">
           <Check />
@@ -53,7 +53,7 @@ export default function App() {
     }
 
     return null;
-  }, [context, handleAddFrame, frameAdded]);
+  }, [context, handleAddFrame, miniAppAdded]);
 
   return (
     <div className="snake-dark relative flex min-h-screen flex-col items-center bg-[#E5E5E5] font-sans text-black sm:min-h-[820px]">

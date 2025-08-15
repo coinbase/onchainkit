@@ -15,7 +15,7 @@ export function useAddFrame() {
     if (result.notificationDetails) {
       updateClientContext({
         details: result.notificationDetails,
-        frameAdded: true,
+        miniAppAdded: true,
       });
       return result.notificationDetails;
     }

@@ -106,58 +106,6 @@ importers:
         specifier: ^5
         version: 5.8.3
 
-  examples/minikit-examplezzz:
-    dependencies:
-      '@coinbase/onchainkit':
-        specifier: workspace:*
-        version: link:../../packages/onchainkit
-      '@farcaster/frame-sdk':
-        specifier: ^0.1.8
-        version: 0.1.8(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.62)
-      '@tanstack/react-query':
-        specifier: ^5
-        version: 5.81.5(react@19.1.0)
-      '@upstash/redis':
-        specifier: ^1.34.4
-        version: 1.35.0
-      next:
-        specifier: ^15.3.3
-        version: 15.3.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      react:
-        specifier: ^19
-        version: 19.1.0
-      react-dom:
-        specifier: ^19
-        version: 19.1.0(react@19.1.0)
-      viem:
-        specifier: ^2.31.6
-        version: 2.33.3(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.62)
-      wagmi:
-        specifier: ^2.16.3
-        version: 2.16.3(@tanstack/query-core@5.81.5)(@tanstack/react-query@5.81.5(react@19.1.0))(@types/react@19.1.2)(@upstash/redis@1.35.0)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.33.3(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.62))(zod@3.25.62)
-    devDependencies:
-      '@farcaster/quick-auth':
-        specifier: ^0.0.7
-        version: 0.0.7(typescript@5.8.3)
-      '@types/node':
-        specifier: ^22
-        version: 22.13.10
-      '@types/react':
-        specifier: ^19
-        version: 19.1.2
-      '@types/react-dom':
-        specifier: ^19
-        version: 19.1.3(@types/react@19.1.2)
-      eslint-config-next:
-        specifier: 15.3.3
-        version: 15.3.3(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.3)
-      postcss:
-        specifier: ^8
-        version: 8.5.3
-      tailwindcss:
-        specifier: ^4.1.4
-        version: 4.1.6
-
   packages/create-onchain:
     dependencies:
       cac:
@@ -1820,9 +1768,6 @@ packages:
 
   '@next/env@15.3.4':
     resolution: {integrity: sha512-ZkdYzBseS6UjYzz6ylVKPOK+//zLWvD6Ta+vpoye8cW11AjiQjGYVibF0xuvT4L0iJfAPfZLFidaEzAOywyOAQ==}
-
-  '@next/eslint-plugin-next@15.3.3':
-    resolution: {integrity: sha512-VKZJEiEdpKkfBmcokGjHu0vGDG+8CehGs90tBEy/IDoDDKGngeyIStt2MmE5FYNyU9BhgR7tybNWTAJY/30u+Q==}
 
   '@next/eslint-plugin-next@15.3.4':
     resolution: {integrity: sha512-lBxYdj7TI8phbJcLSAqDt57nIcobEign5NYIKCiy0hXQhrUbTqLqOaSDi568U6vFg4hJfBdZYsG4iP/uKhCqgg==}
@@ -4869,15 +4814,6 @@ packages:
   escape-string-regexp@4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
-
-  eslint-config-next@15.3.3:
-    resolution: {integrity: sha512-QJLv/Ouk2vZnxL4b67njJwTLjTf7uZRltI0LL4GERYR4qMF5z08+gxkfODAeaK7TiC6o+cER91bDaEnwrTWV6Q==}
-    peerDependencies:
-      eslint: ^7.23.0 || ^8.0.0 || ^9.0.0
-      typescript: '>=3.3.1'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
 
   eslint-config-next@15.3.4:
     resolution: {integrity: sha512-WqeumCq57QcTP2lYlV6BRUySfGiBYEXlQ1L0mQ+u4N4X4ZhUVSSQ52WtjqHv60pJ6dD7jn+YZc0d1/ZSsxccvg==}
@@ -9863,10 +9799,6 @@ snapshots:
 
   '@next/env@15.3.4': {}
 
-  '@next/eslint-plugin-next@15.3.3':
-    dependencies:
-      fast-glob: 3.3.1
-
   '@next/eslint-plugin-next@15.3.4':
     dependencies:
       fast-glob: 3.3.1
@@ -11897,6 +11829,7 @@ snapshots:
   '@upstash/redis@1.35.0':
     dependencies:
       uncrypto: 0.1.3
+    optional: true
 
   '@vitejs/plugin-react@4.3.4(vite@5.4.19(@types/node@22.13.10)(lightningcss@1.29.2))':
     dependencies:
@@ -13789,26 +13722,6 @@ snapshots:
     optional: true
 
   escape-string-regexp@4.0.0: {}
-
-  eslint-config-next@15.3.3(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.3):
-    dependencies:
-      '@next/eslint-plugin-next': 15.3.3
-      '@rushstack/eslint-patch': 1.11.0
-      '@typescript-eslint/eslint-plugin': 8.26.1(@typescript-eslint/parser@8.26.1(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.3)
-      '@typescript-eslint/parser': 8.26.1(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.3)
-      eslint: 9.22.0(jiti@2.4.2)
-      eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.9.1(eslint-plugin-import@2.31.0)(eslint@9.22.0(jiti@2.4.2))
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.26.1(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.9.1)(eslint@9.22.0(jiti@2.4.2))
-      eslint-plugin-jsx-a11y: 6.10.2(eslint@9.22.0(jiti@2.4.2))
-      eslint-plugin-react: 7.37.4(eslint@9.22.0(jiti@2.4.2))
-      eslint-plugin-react-hooks: 5.2.0(eslint@9.22.0(jiti@2.4.2))
-    optionalDependencies:
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - eslint-import-resolver-webpack
-      - eslint-plugin-import-x
-      - supports-color
 
   eslint-config-next@15.3.4(eslint@9.22.0(jiti@2.4.2))(typescript@5.8.3):
     dependencies:

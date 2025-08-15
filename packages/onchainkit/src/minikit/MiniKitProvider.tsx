@@ -27,10 +27,10 @@ function MiniKitProviderContent({
   notificationProxyUrl = '/api/notify',
   autoConnect = true,
 }: MiniKitProviderProps) {
-  const [context, setContext] = useState<Context.FrameContext | null>(null);
+  const [context, setContext] = useState<Context.MiniAppContext | null>(null);
 
   const updateClientContext = useCallback(
-    ({ details, frameAdded }: UpdateClientContextParams) => {
+    ({ details, miniAppAdded }: UpdateClientContextParams) => {
       setContext((prevContext) => {
         if (!prevContext) {
           return null;
@@ -40,7 +40,7 @@ function MiniKitProviderContent({
           client: {
             ...prevContext.client,
             notificationDetails: details ?? undefined,
-            added: frameAdded ?? prevContext.client.added,
+            added: miniAppAdded ?? prevContext.client.added,
           },
         };
       });
@@ -49,23 +49,23 @@ function MiniKitProviderContent({
   );
 
   useEffect(() => {
-    sdk.on('frameAdded', ({ notificationDetails }) => {
+    sdk.on('miniAppAdded', ({ notificationDetails }) => {
       if (notificationDetails) {
         updateClientContext({
           details: notificationDetails,
-          frameAdded: true,
+          miniAppAdded: true,
         });
       }
     });
 
-    sdk.on('frameAddRejected', ({ reason }) => {
-      console.error('Frame add rejected', reason);
+    sdk.on('miniAppAddRejected', ({ reason }) => {
+      console.error('MiniApp add rejected', reason);
     });
 
-    sdk.on('frameRemoved', () => {
+    sdk.on('miniAppRemoved', () => {
       updateClientContext({
         details: undefined,
-        frameAdded: false,
+        miniAppAdded: false,
       });
     });
 

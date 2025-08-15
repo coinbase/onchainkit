@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react';
 
 export type UpdateClientContextParams = {
   details?: FrameNotificationDetails | null;
-  frameAdded?: boolean;
+  miniAppAdded?: boolean;
 };
 
 export type MiniKitOptions = {
@@ -32,7 +32,7 @@ export type MiniKitProviderProps = PropsWithChildren<MiniKitOptions>;
 
 export type MiniKitContextType = {
   enabled: boolean;
-  context: Context.FrameContext | null;
+  context: Context.MiniAppContext | null;
   updateClientContext: (params: UpdateClientContextParams) => void;
   notificationProxyUrl: string;
   __isMiniKit: boolean;
