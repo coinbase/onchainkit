@@ -1,10 +1,10 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import sdk from '@farcaster/frame-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 import { renderHook, waitFor } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useIsInMiniApp } from './useIsInMiniApp';
 
-vi.mock('@farcaster/frame-sdk', () => ({
+vi.mock('@farcaster/miniapp-sdk', () => ({
   default: {
     isInMiniApp: vi.fn(),
   },

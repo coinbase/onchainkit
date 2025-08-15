@@ -1,4 +1,4 @@
-import sdk, { type Context } from '@farcaster/frame-sdk';
+import sdk, { type Context } from '@farcaster/miniapp-sdk';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
 import { act, useContext } from 'react';
@@ -9,7 +9,7 @@ import { MiniKitContext } from './MiniKitProvider';
 import type { MiniKitContextType } from './types';
 import { OnchainKitProvider } from '../OnchainKitProvider';
 
-vi.mock('@farcaster/frame-sdk', () => {
+vi.mock('@farcaster/miniapp-sdk', () => {
   let listeners: Record<string, (data: object) => void> = {};
 
   return {

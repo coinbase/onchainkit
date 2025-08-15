@@ -1,4 +1,4 @@
-import sdk from '@farcaster/frame-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
 import { act } from 'react';
@@ -7,7 +7,7 @@ import { http, WagmiProvider, createConfig } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { AutoConnect } from './AutoConnect';
 
-vi.mock('@farcaster/frame-sdk', () => ({
+vi.mock('@farcaster/miniapp-sdk', () => ({
   default: {
     isInMiniApp: vi.fn(),
   },

@@ -2,7 +2,7 @@ import {
   FrameNotificationDetails,
   type SendNotificationRequest,
   sendNotificationResponseSchema,
-} from '@farcaster/frame-sdk';
+} from '@farcaster/miniapp-sdk';
 import { getUserNotificationDetails } from '@/lib/notification';
 
 const appUrl = process.env.NEXT_PUBLIC_URL || '';

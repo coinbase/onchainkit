@@ -1,4 +1,7 @@
-import type { Context, MiniAppNotificationDetails } from '@farcaster/frame-sdk';
+import type {
+  Context,
+  MiniAppNotificationDetails,
+} from '@farcaster/miniapp-sdk';
 import { PropsWithChildren } from 'react';
 
 export type UpdateClientContextParams = {

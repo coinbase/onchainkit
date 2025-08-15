@@ -1,5 +1,5 @@
 'use client';
-import sdk, { type Context } from '@farcaster/frame-sdk';
+import sdk, { type Context } from '@farcaster/miniapp-sdk';
 import {
   createContext,
   useCallback,

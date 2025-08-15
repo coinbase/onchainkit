@@ -1,10 +1,10 @@
-import sdk from '@farcaster/frame-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 import { renderHook } from '@testing-library/react';
 import { act } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { useClose } from './useClose';
 
-vi.mock('@farcaster/frame-sdk', () => ({
+vi.mock('@farcaster/miniapp-sdk', () => ({
   default: {
     actions: {
       close: vi.fn(),

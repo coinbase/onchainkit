@@ -1,4 +1,4 @@
-import sdk, { ComposeCast } from '@farcaster/frame-sdk';
+import sdk, { ComposeCast } from '@farcaster/miniapp-sdk';
 import { useMutation } from '@tanstack/react-query';
 
 type ComposeCastParams<TClose extends boolean | undefined = undefined> = {

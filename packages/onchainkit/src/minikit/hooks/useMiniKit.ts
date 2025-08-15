@@ -1,9 +1,9 @@
 'use client';
 import { MiniKitContext } from '@/minikit/MiniKitProvider';
-import sdk from '@farcaster/frame-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 import { useContext, useState } from 'react';
 import type { MiniKitContextType } from '../types';
-import type { ReadyOptions } from '@farcaster/frame-sdk';
+import type { ReadyOptions } from '@farcaster/miniapp-sdk';
 
 type UseMiniKitReturn = {
   setFrameReady: (

@@ -42,7 +42,7 @@ vi.mock('@/internal/hooks/useTheme', () => ({
   useThemeRoot: vi.fn(() => 'default-light'),
 }));
 
-vi.mock('@farcaster/frame-sdk', () => ({
+vi.mock('@farcaster/miniapp-sdk', () => ({
   default: {
     context: Promise.resolve({
       client: {
