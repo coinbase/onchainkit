@@ -20,6 +20,10 @@ import { AddFrame } from "./actions/AddFrame";
 import { ComposeCast } from "./actions/ComposeCast";
 import { ViewCast } from "./actions/ViewCast";
 import { CloseFrame } from "./actions/CloseFrame";
+import { UserInfo } from "./components/UserInfo";
+import { SendToken } from "./actions/SendToken";
+import { SwapToken } from "./actions/SwapToken";
+import styles from "./page.module.css";
 
 export default function App() {
   const { setFrameReady, isFrameReady } = useMiniKit();
@@ -32,17 +36,17 @@ export default function App() {
   }, [setFrameReady, isFrameReady]);
 
   return (
-    <div className="flex flex-col min-h-screen font-sans text-[var(--app-foreground)] from-[var(--app-background)] to-[var(--app-gray)]">
-      <div className="w-full max-w-4xl mx-auto px-4 py-3">
-        <header className="flex justify-between items-center mb-3 h-11">
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        <header className={styles.header}>
           <div>
-            <div className="flex items-center space-x-2">
-              <Wallet className="z-10">
+            <div className={styles.walletSection}>
+              <Wallet className={styles.wallet}>
                 <ConnectWallet>
-                  <Name className="text-inherit" />
+                  <Name className={styles.walletName} />
                 </ConnectWallet>
                 <WalletDropdown>
-                  <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+                  <Identity className={styles.identity} hasCopyAddressOnClick>
                     <Avatar />
                     <Name />
                     <Address />
@@ -55,32 +59,33 @@ export default function App() {
           </div>
         </header>
 
-        <main className="flex-1">
-          <div className="space-y-6">
-            <h1 className="text-3xl font-bold text-center text-[var(--app-foreground)]">
-              MiniKit Examples
-            </h1>
+        <main className={styles.main}>
+          <div className={styles.content}>
+            <h1 className={styles.title}>MiniKit Examples</h1>
 
-            <p className="text-center text-sm text-[var(--app-foreground-muted)]">
+            <p className={styles.description}>
               This mini app is meant to show how you can use the actions
               available in MiniKit.
             </p>
 
-            <div className="flex flex-col gap-3 justify-center items-stretch max-w-md mx-auto">
+            <div className={styles.actionsList}>
               <IsInMiniApp />
+              <UserInfo />
               <AddFrame />
               <ComposeCast />
               <ViewCast />
+              <SendToken />
+              <SwapToken />
               <CloseFrame />
             </div>
           </div>
         </main>
 
-        <footer className="mt-2 pt-4 flex justify-center">
+        <footer className={styles.footer}>
           <Button
             variant="ghost"
             size="sm"
-            className="text-[var(--ock-text-foreground-muted)] text-xs"
+            className={styles.footerButton}
             onClick={() => openUrl("https://base.org/builders/minikit")}
           >
             Built on Base with MiniKit

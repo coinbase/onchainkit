@@ -60,7 +60,7 @@ describe('useAddFrame', () => {
         type: 'frame_added',
         frameId: '123',
       },
-      frameAdded: true,
+      miniAppAdded: true,
     });
   });
 

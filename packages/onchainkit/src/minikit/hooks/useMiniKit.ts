@@ -1,3 +1,4 @@
+'use client';
 import { MiniKitContext } from '@/minikit/MiniKitProvider';
 import sdk from '@farcaster/frame-sdk';
 import { useContext, useState } from 'react';

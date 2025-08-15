@@ -1,9 +1,9 @@
-import type { Context, FrameNotificationDetails } from '@farcaster/frame-sdk';
+import type { Context, MiniAppNotificationDetails } from '@farcaster/frame-sdk';
 import { PropsWithChildren } from 'react';
 
 export type UpdateClientContextParams = {
-  details?: FrameNotificationDetails | null;
-  frameAdded?: boolean;
+  details?: MiniAppNotificationDetails | null;
+  miniAppAdded?: boolean;
 };
 
 export type MiniKitOptions = {
@@ -32,7 +32,7 @@ export type MiniKitProviderProps = PropsWithChildren<MiniKitOptions>;
 
 export type MiniKitContextType = {
   enabled: boolean;
-  context: Context.FrameContext | null;
+  context: Context.MiniAppContext | null;
   updateClientContext: (params: UpdateClientContextParams) => void;
   notificationProxyUrl: string;
   __isMiniKit: boolean;

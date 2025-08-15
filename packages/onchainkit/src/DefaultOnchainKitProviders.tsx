@@ -2,8 +2,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { type PropsWithChildren, useContext, useMemo } from 'react';
 import { Config, WagmiProvider } from 'wagmi';
-import { coinbaseWallet } from 'wagmi/connectors';
-import { farcasterFrame } from '@farcaster/frame-wagmi-connector';
+import { baseAccount } from 'wagmi/connectors';
+import { farcasterMiniApp } from '@farcaster/miniapp-wagmi-connector';
 import { MiniKitContext } from '@/minikit/MiniKitProvider';
 import { createWagmiConfig } from './core/createWagmiConfig';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
@@ -36,19 +36,17 @@ function WagmiProviderWithDefault({
   const apiKey = onchainKitConfig.apiKey ?? undefined;
   const appName = onchainKitConfig.config?.appearance?.name ?? undefined;
   const appLogoUrl = onchainKitConfig.config?.appearance?.logo ?? undefined;
-  const connectorPreference = onchainKitConfig.config?.wallet?.preference;
 
   const defaultConnector = useMemo(() => {
     if (miniKit?.context) {
-      return farcasterFrame();
+      return farcasterMiniApp();
     }
 
-    return coinbaseWallet({
+    return baseAccount({
       appName,
       appLogoUrl,
-      preference: connectorPreference,
     });
-  }, [appName, appLogoUrl, connectorPreference, miniKit?.context]);
+  }, [appName, appLogoUrl, miniKit?.context]);
 
   const defaultConfig = useMemo(() => {
     if (providedWagmiConfig) return providedWagmiConfig;

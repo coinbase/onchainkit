@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useFundContext } from '../components/FundCardProvider';
 import { FUND_BUTTON_RESET_TIMEOUT } from '../constants';
 import type { EventMetadata, SuccessEventData } from '../types';
@@ -6,6 +6,17 @@ import { setupOnrampEventListeners } from '../utils/setupOnrampEventListeners';
 
 export const useFundCardSetupOnrampEventListeners = () => {
   const { setSubmitButtonState, updateLifecycleStatus } = useFundContext();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const scheduleFundButtonReset = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      setSubmitButtonState('default');
+    }, FUND_BUTTON_RESET_TIMEOUT);
+  }, [setSubmitButtonState]);
 
   const handleOnrampEvent = useCallback(
     (data: EventMetadata) => {
@@ -21,12 +32,10 @@ export const useFundCardSetupOnrampEventListeners = () => {
         });
 
         setSubmitButtonState('error');
-        setTimeout(() => {
-          setSubmitButtonState('default');
-        }, FUND_BUTTON_RESET_TIMEOUT);
+        scheduleFundButtonReset();
       }
     },
-    [updateLifecycleStatus, setSubmitButtonState],
+    [updateLifecycleStatus, setSubmitButtonState, scheduleFundButtonReset],
   );
 
   const handleOnrampSuccess = useCallback(
@@ -37,12 +46,9 @@ export const useFundCardSetupOnrampEventListeners = () => {
       });
 
       setSubmitButtonState('success');
-
-      setTimeout(() => {
-        setSubmitButtonState('default');
-      }, FUND_BUTTON_RESET_TIMEOUT);
+      scheduleFundButtonReset();
     },
-    [updateLifecycleStatus, setSubmitButtonState],
+    [updateLifecycleStatus, setSubmitButtonState, scheduleFundButtonReset],
   );
 
   const handleOnrampExit = useCallback(() => {
@@ -63,6 +69,10 @@ export const useFundCardSetupOnrampEventListeners = () => {
 
     return () => {
       unsubscribe();
+
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
