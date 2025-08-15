@@ -37,6 +37,7 @@ vi.mock('@farcaster/miniapp-wagmi-connector', () => ({
 
 vi.mock('wagmi/connectors', () => ({
   coinbaseWallet: vi.fn(),
+  baseAccount: vi.fn(),
 }));
 
 const mockConfig = {
@@ -181,8 +182,8 @@ describe('MiniKitProvider', () => {
 
     await act(() => Promise.resolve());
 
-    expect(sdk.on).toHaveBeenCalledWith('frameAdded', expect.any(Function));
-    expect(sdk.on).toHaveBeenCalledWith('frameRemoved', expect.any(Function));
+    expect(sdk.on).toHaveBeenCalledWith('miniAppAdded', expect.any(Function));
+    expect(sdk.on).toHaveBeenCalledWith('miniAppRemoved', expect.any(Function));
     expect(sdk.on).toHaveBeenCalledWith(
       'notificationsEnabled',
       expect.any(Function),
@@ -265,7 +266,7 @@ describe('MiniKitProvider', () => {
     expect(contextValue?.context?.client.added).toBe(false);
   });
 
-  it('should log an error when frameAddRejected is emitted', async () => {
+  it('should log an error when miniAppAddRejected is emitted', async () => {
     const consoleErrorSpy = vi
       .spyOn(console, 'error')
       .mockImplementation(vi.fn());
@@ -292,7 +293,7 @@ describe('MiniKitProvider', () => {
     });
 
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'Frame add rejected',
+      'MiniApp add rejected',
       'invalid_domain_manifest',
     );
   });
