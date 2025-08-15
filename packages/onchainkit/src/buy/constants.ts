@@ -1,4 +1,6 @@
-export const ONRAMP_PAYMENT_METHODS = [
+import { type PaymentMethod } from '@/fund/types';
+
+export const ONRAMP_PAYMENT_METHODS: PaymentMethod[] = [
   {
     id: 'CRYPTO_ACCOUNT',
     name: 'Coinbase',

@@ -1,13 +1,13 @@
 import { Avatar, Identity, Name } from '@/identity';
 import { useNFTContext } from '@/nft/components/NFTProvider';
-import { cn, color, text } from '@/styles/theme';
+import { cn, text } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 
-type NFTMintersReact = {
+type NFTMintersProps = {
   className?: string;
 };
 
-export function NFTMinters({ className }: NFTMintersReact) {
+export function NFTMinters({ className }: NFTMintersProps) {
   const { schemaId } = useOnchainKit();
   const { totalOwners, recentOwners } = useNFTContext();
 
@@ -19,7 +19,7 @@ export function NFTMinters({ className }: NFTMintersReact) {
     <div
       className={cn(
         text.body,
-        color.foregroundMuted,
+        'text-ock-foreground-muted',
         '-my-1 flex items-center',
         className,
       )}

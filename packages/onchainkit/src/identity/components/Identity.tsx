@@ -1,7 +1,7 @@
 'use client';
 import { IdentityLayout } from '@/identity/components/IdentityLayout';
 import { IdentityProvider } from '@/identity/components/IdentityProvider';
-import type { IdentityReact } from '@/identity/types';
+import type { IdentityProps } from '@/identity/types';
 import { useOnchainKit } from '@/useOnchainKit';
 import { useAccount } from 'wagmi';
 
@@ -12,7 +12,7 @@ export function Identity({
   className,
   hasCopyAddressOnClick,
   schemaId,
-}: IdentityReact) {
+}: IdentityProps) {
   const { chain: contextChain } = useOnchainKit();
   const accountChain = chain ?? contextChain;
   const { address } = useAccount();

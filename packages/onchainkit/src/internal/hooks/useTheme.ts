@@ -2,24 +2,39 @@ import type { UseThemeReact } from '../../core/types';
 import { useOnchainKit } from '../../useOnchainKit';
 import { usePreferredColorScheme } from './usePreferredColorScheme';
 
-export function useTheme(): UseThemeReact {
+const VALID_MODES = new Set<unknown>(['light', 'dark']);
+
+function baseUseTheme({
+  theme,
+  mode,
+  preferredMode,
+}: {
+  theme?: string | null;
+  mode?: string | null;
+  preferredMode?: string | null;
+} = {}): UseThemeReact {
+  const finalMode = !mode || !VALID_MODES.has(mode) ? preferredMode : mode;
+  const finalTheme = theme || 'default';
+  return finalTheme === 'cyberpunk' || finalTheme === 'hacker'
+    ? finalTheme
+    : `${finalTheme}-${finalMode}`;
+}
+
+export function useTheme() {
   const preferredMode = usePreferredColorScheme();
   const { config: { appearance } = {} } = useOnchainKit();
-  const { theme = 'default', mode = 'auto' } = appearance || {};
+  const theme = appearance?.theme ?? 'default';
 
-  if (theme === 'cyberpunk' || theme === 'hacker') {
-    return theme;
-  }
+  return baseUseTheme({ theme, mode: appearance?.mode ?? '', preferredMode });
+}
 
-  switch (mode) {
-    case 'auto':
-      return `${theme}-${preferredMode}` as UseThemeReact;
-    case 'dark':
-      return `${theme}-dark` as UseThemeReact;
-    case 'light':
-      return `${theme}-light` as UseThemeReact;
-    default:
-      // If mode is not set or is an invalid value, fall back to preferredMode
-      return `${theme}-${preferredMode}` as UseThemeReact;
-  }
+export function useThemeRoot({
+  theme,
+  mode,
+}: {
+  theme?: string | null;
+  mode?: string | null;
+}) {
+  const preferredMode = usePreferredColorScheme();
+  return baseUseTheme({ theme, mode, preferredMode });
 }

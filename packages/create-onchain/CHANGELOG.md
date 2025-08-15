@@ -1,19 +1,5 @@
 # create-onchain
 
-## 0.0.24
-
-### Patch Changes
-
-- **chore:** Bump Farcaster frames SDK version. Migrate to new miniapp Wagmi connector. - Thanks [@dgca](https://github.com/dgca)! [#2444](https://github.com/coinbase/onchainkit/pull/2444)
-
-- fix: Allow manifest generator domain parsing to validate longer TLDs - Thanks [@dgca](https://github.com/dgca)! [#2440](https://github.com/coinbase/onchainkit/pull/2440)
-
-## 0.0.23
-
-### Patch Changes
-
-- **chore:** Update @farcaster/frame-sdk dependency
-
 ## 0.0.22
 
 ### Patch Changes

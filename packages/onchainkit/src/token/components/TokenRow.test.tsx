@@ -4,10 +4,6 @@ import { describe, expect, it, vi } from 'vitest';
 import type { Token } from '../types';
 import { TokenRow } from './TokenRow';
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 const EXAMPLE_TOKEN: Token = {
   address: '0x1234',
   chainId: 1,

@@ -5,7 +5,6 @@ import { getChainExplorer } from '@/core/network/getChainExplorer';
 import { useValue } from '@/internal/hooks/useValue';
 import { baseSvg } from '@/internal/svg/baseSvg';
 import { coinbaseLogoSvg } from '@/internal/svg/coinbaseLogoSvg';
-import { toReadableAmount } from '@/swap/utils/toReadableAmount';
 import type { Token } from '@/token';
 import {
   createContext,
@@ -14,7 +13,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { type Address, type Hex, erc20Abi } from 'viem';
+import { type Address, type Hex, erc20Abi, formatUnits } from 'viem';
 import { useAccount, useConfig } from 'wagmi';
 import { getBalance, readContract } from 'wagmi/actions';
 import { DEFAULT_BRIDGEABLE_TOKENS } from '../constants';
@@ -24,7 +23,7 @@ import { useWithdraw } from '../hooks/useWithdraw';
 import type { ChainWithIcon } from '../types';
 import type { BridgeParams } from '../types';
 import type { AppchainBridgeContextType } from '../types';
-import type { AppchainBridgeProviderReact } from '../types';
+import type { AppchainBridgeProviderProps } from '../types';
 import { defaultPriceFetcher } from '../utils/defaultPriceFetcher';
 
 const AppchainBridgeContext = createContext<
@@ -37,7 +36,7 @@ export const AppchainBridgeProvider = ({
   appchain,
   bridgeableTokens = DEFAULT_BRIDGEABLE_TOKENS,
   handleFetchPrice = defaultPriceFetcher,
-}: AppchainBridgeProviderReact) => {
+}: AppchainBridgeProviderProps) => {
   // Source network
   const [from, setFrom] = useState<ChainWithIcon>({
     ...chain,
@@ -133,7 +132,7 @@ export const AppchainBridgeProvider = ({
         ? bridgeParams.token.address
         : bridgeParams.token.remoteToken;
 
-    let _balance: string;
+    let newBalance: string;
 
     if (
       !tokenAddress ||
@@ -144,10 +143,7 @@ export const AppchainBridgeProvider = ({
         address,
         chainId: from.id,
       });
-      _balance = toReadableAmount(
-        ethBalance.value.toString(),
-        ethBalance.decimals,
-      );
+      newBalance = formatUnits(ethBalance.value, ethBalance.decimals);
     } else {
       const erc20Balance = await readContract(wagmiConfig, {
         abi: erc20Abi,
@@ -156,13 +152,10 @@ export const AppchainBridgeProvider = ({
         address: tokenAddress as Address,
         chainId: from.id,
       });
-      _balance = toReadableAmount(
-        erc20Balance.toString(),
-        bridgeParams.token.decimals,
-      );
+      newBalance = formatUnits(erc20Balance, bridgeParams.token.decimals);
     }
 
-    setBalance(_balance);
+    setBalance(newBalance);
   }, [address, direction, bridgeParams.token, from.id, wagmiConfig]);
 
   // Fetch balance when bridge params change

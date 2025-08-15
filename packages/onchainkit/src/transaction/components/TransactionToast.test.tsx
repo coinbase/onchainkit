@@ -1,3 +1,4 @@
+import { act } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useShowCallsStatus } from 'wagmi/experimental';
@@ -27,7 +28,7 @@ describe('TransactionToast', () => {
     });
   });
 
-  it('renders children correctly', () => {
+  it('renders children correctly', async () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
       isToastVisible: true,
@@ -36,17 +37,19 @@ describe('TransactionToast', () => {
       },
     });
 
-    render(
-      <TransactionToast className="custom-class">
-        <span>Transaction Toast Content</span>
-      </TransactionToast>,
-    );
+    await act(async () => {
+      render(
+        <TransactionToast className="custom-class">
+          <span>Transaction Toast Content</span>
+        </TransactionToast>,
+      );
+    });
 
     const contentElement = screen.getByText('Transaction Toast Content');
     expect(contentElement).toBeInTheDocument();
   });
 
-  it('renders default children correctly', () => {
+  it('renders default children correctly', async () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
       isToastVisible: true,
@@ -55,12 +58,14 @@ describe('TransactionToast', () => {
       },
     });
 
-    render(<TransactionToast className="custom-class" />);
+    await act(async () => {
+      render(<TransactionToast className="custom-class" />);
+    });
 
     expect(screen.getByText('Transaction in progress')).toBeInTheDocument();
   });
 
-  it('does not render when not visible', () => {
+  it('does not render when not visible', async () => {
     (useTransactionContext as Mock).mockReturnValue({
       errorMessage: '',
       isLoading: false,
@@ -74,11 +79,13 @@ describe('TransactionToast', () => {
       },
     });
 
-    render(<TransactionToast>Test Message</TransactionToast>);
+    await act(async () => {
+      render(<TransactionToast>Test Message</TransactionToast>);
+    });
     expect(screen.queryByText('Test Message')).toBeNull();
   });
 
-  it('closes when the close button is clicked', () => {
+  it('closes when the close button is clicked', async () => {
     const setIsToastVisible = vi.fn();
     (useTransactionContext as Mock).mockReturnValue({
       errorMessage: '',
@@ -93,13 +100,15 @@ describe('TransactionToast', () => {
       },
     });
 
-    render(<TransactionToast>Test Message</TransactionToast>);
+    await act(async () => {
+      render(<TransactionToast>Test Message</TransactionToast>);
+    });
     fireEvent.click(screen.getByTestId('ockCloseButton'));
 
     expect(setIsToastVisible).toHaveBeenCalledWith(false);
   });
 
-  it('displays loading state correctly', () => {
+  it('displays loading state correctly', async () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: true,
       isToastVisible: true,
@@ -110,12 +119,14 @@ describe('TransactionToast', () => {
       },
     });
 
-    render(<TransactionToast>Transaction in progress</TransactionToast>);
+    await act(async () => {
+      render(<TransactionToast>Transaction in progress</TransactionToast>);
+    });
 
     expect(screen.getByText('Transaction in progress')).toBeInTheDocument();
   });
 
-  it('displays transaction hash when available', () => {
+  it('displays transaction hash when available', async () => {
     const mockTransactionHash = '0x123';
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
@@ -127,12 +138,14 @@ describe('TransactionToast', () => {
       },
     });
 
-    render(<TransactionToast>Transaction completed</TransactionToast>);
+    await act(async () => {
+      render(<TransactionToast>Transaction completed</TransactionToast>);
+    });
 
     expect(screen.getByText('Transaction completed')).toBeInTheDocument();
   });
 
-  it('displays error message when present', () => {
+  it('displays error message when present', async () => {
     const setIsToastVisible = vi.fn();
     const mockErrorMessage = 'Transaction failed';
     (useTransactionContext as Mock).mockReturnValue({
@@ -146,12 +159,14 @@ describe('TransactionToast', () => {
       },
     });
 
-    render(<TransactionToast>Error occurred</TransactionToast>);
+    await act(async () => {
+      render(<TransactionToast>Error occurred</TransactionToast>);
+    });
 
     expect(screen.getByText('Error occurred')).toBeInTheDocument();
   });
 
-  it('does not render when in progress', () => {
+  it('does not render when in progress', async () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
@@ -164,12 +179,14 @@ describe('TransactionToast', () => {
       },
     });
 
-    render(<TransactionToast>In Progress</TransactionToast>);
+    await act(async () => {
+      render(<TransactionToast>In Progress</TransactionToast>);
+    });
 
     expect(screen.queryByText('In Progress')).not.toBeInTheDocument();
   });
 
-  it('applies correct position class for bottom-right', () => {
+  it('applies correct position class for bottom-right', async () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
@@ -182,15 +199,15 @@ describe('TransactionToast', () => {
       },
     });
 
-    const { container } = render(
-      <TransactionToast position="bottom-right">Test</TransactionToast>,
-    );
+    await act(async () => {
+      render(<TransactionToast position="bottom-right">Test</TransactionToast>);
+    });
 
-    const toastElement = container.firstChild as HTMLElement;
+    const toastElement = screen.getByTestId('ockToastViewport');
     expect(toastElement).toHaveClass('bottom-5 left-3/4');
   });
 
-  it('applies correct position class for top-right', () => {
+  it('applies correct position class for top-right', async () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
@@ -203,15 +220,15 @@ describe('TransactionToast', () => {
       },
     });
 
-    const { container } = render(
-      <TransactionToast position="top-right">Test</TransactionToast>,
-    );
+    await act(async () => {
+      render(<TransactionToast position="top-right">Test</TransactionToast>);
+    });
 
-    const toastElement = container.firstChild as HTMLElement;
+    const toastElement = screen.getByTestId('ockToastViewport');
     expect(toastElement).toHaveClass('top-[100px] left-3/4');
   });
 
-  it('applies correct position class for top-center', () => {
+  it('applies correct position class for top-center', async () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
@@ -224,15 +241,15 @@ describe('TransactionToast', () => {
       },
     });
 
-    const { container } = render(
-      <TransactionToast position="top-center">Test</TransactionToast>,
-    );
+    await act(async () => {
+      render(<TransactionToast position="top-center">Test</TransactionToast>);
+    });
 
-    const toastElement = container.firstChild as HTMLElement;
+    const toastElement = screen.getByTestId('ockToastViewport');
     expect(toastElement).toHaveClass('top-[100px] left-2/4');
   });
 
-  it('applies default position class when not specified', () => {
+  it('applies default position class when not specified', async () => {
     (useTransactionContext as Mock).mockReturnValue({
       isLoading: false,
       isToastVisible: true,
@@ -245,13 +262,15 @@ describe('TransactionToast', () => {
       },
     });
 
-    const { container } = render(<TransactionToast>Test</TransactionToast>);
+    await act(async () => {
+      render(<TransactionToast>Test</TransactionToast>);
+    });
 
-    const toastElement = container.firstChild as HTMLElement;
+    const toastElement = screen.getByTestId('ockToastViewport');
     expect(toastElement).toHaveClass('bottom-5 left-2/4');
   });
 
-  it('hides toast after specified duration when receipt is available', () => {
+  it('hides toast after specified duration when receipt is available', async () => {
     vi.useFakeTimers();
     const setIsToastVisible = vi.fn();
     (useTransactionContext as Mock).mockReturnValue({
@@ -266,14 +285,18 @@ describe('TransactionToast', () => {
       },
     });
 
-    render(<TransactionToast durationMs={2000}>Test</TransactionToast>);
+    await act(async () => {
+      render(<TransactionToast duration={2000}>Test</TransactionToast>);
+    });
 
-    vi.advanceTimersByTime(2000);
+    await act(async () => {
+      vi.advanceTimersByTime(2000);
+    });
     expect(setIsToastVisible).toHaveBeenCalledWith(false);
     vi.useRealTimers();
   });
 
-  it('hides toast after specified duration when error message is present', () => {
+  it('hides toast after specified duration when error message is present', async () => {
     vi.useFakeTimers();
     const setIsToastVisible = vi.fn();
     (useTransactionContext as Mock).mockReturnValue({
@@ -288,9 +311,13 @@ describe('TransactionToast', () => {
       },
     });
 
-    render(<TransactionToast durationMs={2000}>Test</TransactionToast>);
+    await act(async () => {
+      render(<TransactionToast duration={2000}>Test</TransactionToast>);
+    });
 
-    vi.advanceTimersByTime(2000);
+    await act(async () => {
+      vi.advanceTimersByTime(2000);
+    });
     expect(setIsToastVisible).toHaveBeenCalledWith(false);
     vi.useRealTimers();
   });

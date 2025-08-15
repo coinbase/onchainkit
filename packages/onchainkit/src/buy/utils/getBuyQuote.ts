@@ -5,7 +5,7 @@ import { formatTokenAmount } from '@/internal/utils/formatTokenAmount';
 import type { SwapError, SwapUnit } from '../../swap/types';
 import { isSwapError } from '../../swap/utils/isSwapError';
 import type { Token } from '../../token';
-import type { GetBuyQuoteResponse } from '../types';
+import type { GetBuyQuoteResponseType } from '../types';
 
 /**
  * Parameters for getting a buy quote, extending GetSwapQuoteParams but omitting 'from'
@@ -27,7 +27,7 @@ export async function getBuyQuote({
   to,
   useAggregator,
   fromSwapUnit,
-}: GetBuyQuoteParams): Promise<GetBuyQuoteResponse> {
+}: GetBuyQuoteParams): Promise<GetBuyQuoteResponseType> {
   // only fetch quote if the from token is provided
   if (!from) {
     return { response: undefined, formattedFromAmount: '', error: undefined };

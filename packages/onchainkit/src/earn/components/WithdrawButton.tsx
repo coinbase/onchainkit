@@ -5,14 +5,16 @@ import {
   type LifecycleStatus,
   Transaction,
   TransactionButton,
-  type TransactionResponse,
+  type TransactionResponseType,
 } from '@/transaction';
+import { TransactionButtonRenderParams } from '@/transaction/types';
 import { ConnectWallet } from '@/wallet';
 import { useCallback, useState } from 'react';
-import type { WithdrawButtonReact } from '../types';
+import type { WithdrawButtonProps } from '../types';
 import { useEarnContext } from './EarnProvider';
+import { RenderWithdrawButton } from './RenderWithdrawButton';
 
-export function WithdrawButton({ className }: WithdrawButtonReact) {
+export function WithdrawButton({ className }: WithdrawButtonProps) {
   const {
     recipientAddress: address,
     withdrawCalls,
@@ -46,7 +48,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
   );
 
   const handleOnSuccess = useCallback(
-    (res: TransactionResponse) => {
+    (res: TransactionResponseType) => {
       if (
         res.transactionReceipts[0] &&
         res.transactionReceipts[0].status === 'success'
@@ -65,7 +67,7 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
     return (
       <ConnectWallet
         className={cn('w-full', className)}
-        text="Connect to withdraw"
+        disconnectedLabel="Connect to withdraw"
       />
     );
   }
@@ -80,9 +82,15 @@ export function WithdrawButton({ className }: WithdrawButtonReact) {
       resetAfter={3_000}
     >
       <TransactionButton
-        text={withdrawAmountError ?? 'Withdraw'}
-        successOverride={{
-          text: `Withdrew ${withdrawnAmount} ${vaultToken?.symbol}`,
+        render={(params: TransactionButtonRenderParams) => {
+          return (
+            <RenderWithdrawButton
+              withdrawAmountError={withdrawAmountError}
+              withdrawnAmount={withdrawAmount}
+              vaultToken={vaultToken}
+              {...params}
+            />
+          );
         }}
         disabled={!!withdrawAmountError || !withdrawAmount}
       />

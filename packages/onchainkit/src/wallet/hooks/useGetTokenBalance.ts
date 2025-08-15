@@ -7,7 +7,33 @@ import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import type { SwapError } from '../../swap';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
 import type { Token } from '../../token';
-import type { UseGetTokenBalanceResponse } from '../types';
+
+export type UseGetTokenBalanceResponse = {
+  error?: SwapError;
+  response?: UseReadContractReturnType;
+  convertedBalance?: string;
+  roundedBalance?: string;
+  status: UseReadContractReturnType['status'];
+  refetch: UseReadContractReturnType['refetch'];
+};
+
+/**
+ * A custom hook that retrieves and formats the balance of an ERC-20 token for a given address.
+ *
+ * This hook uses `wagmi`'s `useReadContract` to call the `balanceOf` function on the token contract,
+ * and returns both the raw and rounded token balance. It also handles loading, error, and refetch states.
+ *
+ * @param address - The wallet address whose token balance is being fetched.
+ * @param token - The ERC-20 token object containing the token's address and decimals.
+ *
+ * @returns An object containing:
+ * - `convertedBalance`: The full precision balance formatted using the token's decimals.
+ * - `roundedBalance`: The balance rounded to 8 decimal places for display purposes.
+ * - `status`: The status of the balance fetch operation (`idle`, `loading`, `success`, or `error`).
+ * - `error`: A `SwapError` object if an error occurred while fetching the balance.
+ * - `response`: The original `useReadContract` response from `wagmi`.
+ * - `refetch`: A function to manually re-trigger the balance fetch.
+ */
 
 export function useGetTokenBalance(
   address?: Address,

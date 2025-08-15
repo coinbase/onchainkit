@@ -1,10 +1,8 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { createRef } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DropdownMenu } from './DropdownMenu';
 
 describe('DropdownMenu', () => {
-  let trigger: HTMLElement;
   const onClose = vi.fn();
 
   beforeEach(() => {
@@ -21,15 +19,10 @@ describe('DropdownMenu', () => {
         dispatchEvent: vi.fn(),
       })),
     });
-
-    trigger = document.createElement('button');
-    trigger.setAttribute('data-testid', 'trigger');
-    document.body.appendChild(trigger);
   });
 
   afterEach(() => {
     cleanup();
-    document.body.innerHTML = '';
     vi.clearAllMocks();
   });
 
@@ -37,7 +30,7 @@ describe('DropdownMenu', () => {
     it('should not render when isOpen is false', () => {
       render(
         <DropdownMenu
-          trigger={{ current: trigger }}
+          trigger={<button>Trigger</button>}
           isOpen={false}
           onClose={onClose}
         >
@@ -50,7 +43,7 @@ describe('DropdownMenu', () => {
 
     it('should render when isOpen is true', () => {
       render(
-        <DropdownMenu trigger={{ current: trigger }} isOpen={true}>
+        <DropdownMenu trigger={<button>Trigger</button>} isOpen={true}>
           Content
         </DropdownMenu>,
       );
@@ -61,7 +54,7 @@ describe('DropdownMenu', () => {
 
     it('should handle null trigger gracefully', () => {
       render(
-        <DropdownMenu trigger={{ current: null }} isOpen={true}>
+        <DropdownMenu trigger={null} isOpen={true}>
           Content
         </DropdownMenu>,
       );
@@ -77,10 +70,10 @@ describe('DropdownMenu', () => {
       it(`should position correctly with align=${align}`, () => {
         render(
           <DropdownMenu
-            trigger={{ current: trigger }}
+            trigger={<button>Trigger</button>}
             isOpen={true}
             align={align}
-            offset={8}
+            sideOffset={8}
           >
             Content
           </DropdownMenu>,
@@ -95,7 +88,7 @@ describe('DropdownMenu', () => {
 
     it('should update position on window resize', () => {
       render(
-        <DropdownMenu trigger={{ current: trigger }} isOpen={true}>
+        <DropdownMenu trigger={<button>Trigger</button>} isOpen={true}>
           Content
         </DropdownMenu>,
       );
@@ -106,7 +99,7 @@ describe('DropdownMenu', () => {
 
     it('should update position on scroll', () => {
       render(
-        <DropdownMenu trigger={{ current: trigger }} isOpen={true}>
+        <DropdownMenu trigger={<button>Trigger</button>} isOpen={true}>
           Content
         </DropdownMenu>,
       );
@@ -123,7 +116,7 @@ describe('DropdownMenu', () => {
         .mockReturnValue(undefined);
 
       render(
-        <DropdownMenu trigger={{ current: trigger }} isOpen={true}>
+        <DropdownMenu trigger={<button>Trigger</button>} isOpen={true}>
           Content
         </DropdownMenu>,
       );
@@ -142,102 +135,13 @@ describe('DropdownMenu', () => {
         .mockReturnValue(undefined);
 
       render(
-        <DropdownMenu trigger={{ current: null }} isOpen={true}>
+        <DropdownMenu trigger={null} isOpen={true}>
           Content
         </DropdownMenu>,
       );
 
       const dropdown = screen.getByTestId('ockDropdownMenu');
       expect(dropdown).toBeInTheDocument();
-
-      Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
-    });
-
-    it('should handle undefined trigger rect gracefully', () => {
-      const mockTrigger = document.createElement('button');
-      const mockGetBoundingClientRect = vi.fn().mockReturnValue(undefined);
-      mockTrigger.getBoundingClientRect = mockGetBoundingClientRect;
-
-      render(
-        <DropdownMenu trigger={{ current: mockTrigger }} isOpen={true}>
-          Content
-        </DropdownMenu>,
-      );
-
-      const dropdown = screen.getByTestId('ockDropdownMenu');
-      fireEvent(window, new Event('resize'));
-
-      expect(dropdown).toBeInTheDocument();
-      expect(mockGetBoundingClientRect).toHaveBeenCalled();
-    });
-
-    it('should handle null trigger ref gracefully', () => {
-      render(
-        <DropdownMenu trigger={{ current: null }} isOpen={true}>
-          Content
-        </DropdownMenu>,
-      );
-
-      const dropdown = screen.getByTestId('ockDropdownMenu');
-
-      fireEvent(window, new Event('resize'));
-      fireEvent.scroll(window);
-
-      expect(dropdown).toBeInTheDocument();
-    });
-
-    it('should update position correctly when trigger and contentRef are valid', () => {
-      const mockTrigger = document.createElement('button');
-
-      mockTrigger.getBoundingClientRect = vi.fn().mockReturnValue({
-        top: 100,
-        bottom: 150,
-        left: 100,
-        right: 150,
-        width: 50,
-        height: 50,
-        x: 100,
-        y: 100,
-        toJSON() {
-          return this;
-        },
-      });
-
-      const mockDropdownRect = {
-        top: 158,
-        bottom: 208,
-        left: 100,
-        right: 150,
-        width: 50,
-        height: 50,
-        x: 100,
-        y: 158,
-        toJSON() {
-          return this;
-        },
-      };
-
-      const originalGetBoundingClientRect =
-        Element.prototype.getBoundingClientRect;
-      Element.prototype.getBoundingClientRect = vi
-        .fn()
-        .mockReturnValue(mockDropdownRect);
-
-      render(
-        <DropdownMenu trigger={{ current: mockTrigger }} isOpen={true}>
-          <div>Content</div>
-        </DropdownMenu>,
-      );
-
-      const dropdown = screen.getByTestId('ockDropdownMenu');
-
-      expect(dropdown.style.top).toBe(
-        `${mockTrigger.getBoundingClientRect().bottom + 8}px`,
-      );
-      expect(dropdown.style.left).toBe(`${mockDropdownRect.left}px`);
-
-      fireEvent(window, new Event('resize'));
-      expect(mockTrigger.getBoundingClientRect).toHaveBeenCalled();
 
       Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
     });
@@ -247,7 +151,7 @@ describe('DropdownMenu', () => {
     it('should not call onClose when clicking inside', () => {
       render(
         <DropdownMenu
-          trigger={{ current: trigger }}
+          trigger={<button>Trigger</button>}
           isOpen={true}
           onClose={onClose}
         >
@@ -259,25 +163,10 @@ describe('DropdownMenu', () => {
       expect(onClose).not.toHaveBeenCalled();
     });
 
-    it('should call onClose when clicking outside', () => {
-      render(
-        <DropdownMenu
-          trigger={{ current: trigger }}
-          isOpen={true}
-          onClose={onClose}
-        >
-          Content
-        </DropdownMenu>,
-      );
-
-      fireEvent.pointerDown(document.body);
-      expect(onClose).toHaveBeenCalled();
-    });
-
     it('should call onClose when pressing Escape', () => {
       render(
         <DropdownMenu
-          trigger={{ current: trigger }}
+          trigger={<button>Trigger</button>}
           isOpen={true}
           onClose={onClose}
         >
@@ -294,7 +183,7 @@ describe('DropdownMenu', () => {
     it('should have correct ARIA attributes', () => {
       render(
         <DropdownMenu
-          trigger={{ current: trigger }}
+          trigger={<button>Trigger</button>}
           isOpen={true}
           aria-label="Test Menu"
         >
@@ -306,55 +195,5 @@ describe('DropdownMenu', () => {
       expect(menu).toHaveAttribute('role', 'listbox');
       expect(menu).toHaveAttribute('aria-label', 'Test Menu');
     });
-
-    it('should trap focus when open', async () => {
-      render(
-        <DropdownMenu trigger={{ current: trigger }} isOpen={true}>
-          <button type="button">First</button>
-          <button type="button">Second</button>
-        </DropdownMenu>,
-      );
-
-      const firstButton = screen.getByText('First');
-      expect(document.activeElement).toBe(firstButton);
-    });
-  });
-
-  describe('cleanup', () => {
-    it('should remove event listeners on unmount', () => {
-      const removeEventListenerSpy = vi.spyOn(window, 'removeEventListener');
-
-      const { unmount } = render(
-        <DropdownMenu trigger={{ current: trigger }} isOpen={true}>
-          Content
-        </DropdownMenu>,
-      );
-
-      unmount();
-      expect(removeEventListenerSpy).toHaveBeenCalledTimes(2);
-    });
-
-    it('should handle unmount when not open', () => {
-      const { unmount } = render(
-        <DropdownMenu trigger={{ current: trigger }} isOpen={false}>
-          Content
-        </DropdownMenu>,
-      );
-
-      unmount();
-    });
-  });
-
-  it('handles null trigger or content refs', () => {
-    const nullTrigger = createRef<HTMLElement>();
-
-    render(
-      <DropdownMenu isOpen={true} trigger={nullTrigger}>
-        <div>Content</div>
-      </DropdownMenu>,
-    );
-
-    const menu = screen.getByTestId('ockDropdownMenu');
-    expect(menu).toBeInTheDocument();
   });
 });

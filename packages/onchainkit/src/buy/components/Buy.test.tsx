@@ -27,10 +27,6 @@ vi.mock('./BuyButton', () => ({
   BuyButton: () => <div data-testid="mock-BuyButton">Buy</div>,
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 vi.mock('@/internal/hooks/useOutsideClick', () => ({
   useOutsideClick: vi.fn(),
 }));

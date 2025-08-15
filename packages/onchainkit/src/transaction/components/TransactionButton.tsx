@@ -2,71 +2,40 @@ import { useCallback, useMemo } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
 import { Spinner } from '../../internal/components/Spinner';
-import { border, cn, color, pressable, text } from '../../styles/theme';
-import type { TransactionButtonReact } from '../types';
-import { isSpinnerDisplayed } from '../utils/isSpinnerDisplayed';
+import { cn, pressable, text } from '../../styles/theme';
+import type { TransactionButtonProps } from '../types';
 import { useTransactionContext } from './TransactionProvider';
 
 export function TransactionButton({
   className,
   disabled = false,
   text: idleText = 'Transact',
-  errorOverride,
-  successOverride,
-  pendingOverride,
-}: TransactionButtonReact) {
+  render,
+}: TransactionButtonProps) {
+  const context = useTransactionContext();
   const {
     chainId,
     errorMessage,
     isLoading,
-    lifecycleStatus,
     onSubmit,
     receipt,
     transactions,
-    transactionCount,
     transactionHash,
     transactionId,
-  } = useTransactionContext();
+  } = context;
 
   const { address } = useAccount();
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const accountChainId = chainId ?? useChainId();
-
-  const isLegacyTransactionInProgress =
-    lifecycleStatus.statusName === 'transactionLegacyExecuted' &&
-    transactionCount !==
-      lifecycleStatus?.statusData?.transactionHashList?.length;
-
-  const isInProgress =
-    lifecycleStatus.statusName === 'buildingTransaction' ||
-    lifecycleStatus.statusName === 'transactionPending' ||
-    isLegacyTransactionInProgress ||
-    isLoading;
 
   const isMissingProps = !transactions || !address;
   const isWaitingForReceipt = !!transactionId || !!transactionHash;
 
   const isDisabled =
     !receipt &&
-    (isInProgress || isMissingProps || isWaitingForReceipt || disabled);
+    (isLoading || isMissingProps || isWaitingForReceipt || disabled);
 
-  const displayPendingState = isSpinnerDisplayed({
-    errorMessage,
-    hasReceipt: !!receipt,
-    isInProgress,
-    transactionHash,
-    transactionId,
-  });
-
-  const { errorText, successText, pendingContent } = useMemo(() => {
-    const successText = successOverride?.text ?? 'View transaction';
-    const errorText = errorOverride?.text ?? 'Try again';
-    const pendingContent = pendingOverride?.text ?? <Spinner />;
-
-    return { successText, errorText, pendingContent };
-  }, [errorOverride, pendingOverride, successOverride]);
-
-  const defaultSuccessHandler = useCallback(() => {
+  const handleSuccess = useCallback(() => {
     // SW will have txn id so open in wallet
     if (receipt && transactionId && transactionHash && chainId && address) {
       const url = new URL('https://wallet.coinbase.com/assets/transactions');
@@ -91,63 +60,61 @@ export function TransactionButton({
     accountChainId,
   ]);
 
-  const successHandler = useCallback(() => {
-    if (successOverride?.onClick && receipt) {
-      return successOverride?.onClick?.(receipt);
-    }
-    defaultSuccessHandler();
-  }, [defaultSuccessHandler, successOverride, receipt]);
-
-  const errorHandler = useCallback(() => {
-    if (errorOverride?.onClick) {
-      return errorOverride?.onClick?.();
-    }
-    // if no custom logic, retry submit
-    return onSubmit();
-  }, [errorOverride, onSubmit]);
-
   const buttonContent = useMemo(() => {
     // txn successful
     if (receipt) {
-      return successText;
+      return 'View transaction';
     }
     if (errorMessage) {
-      return errorText;
+      return 'Try again';
     }
-    if (displayPendingState) {
-      return pendingContent;
+    if (isLoading) {
+      return <Spinner />;
     }
     return idleText;
-  }, [
-    displayPendingState,
-    errorMessage,
-    errorText,
-    idleText,
-    pendingContent,
-    receipt,
-    successText,
-  ]);
+  }, [isLoading, errorMessage, receipt, idleText]);
 
   const handleSubmit = useCallback(() => {
     if (receipt) {
-      successHandler();
-    } else if (errorMessage) {
-      errorHandler();
+      handleSuccess();
     } else {
       onSubmit();
     }
-  }, [errorMessage, errorHandler, onSubmit, receipt, successHandler]);
+  }, [onSubmit, receipt, handleSuccess]);
+
+  const status = useMemo(() => {
+    if (receipt) {
+      return 'success';
+    }
+    if (errorMessage) {
+      return 'error';
+    }
+    if (isLoading) {
+      return 'pending';
+    }
+    return 'default';
+  }, [isLoading, errorMessage, receipt]);
+
+  if (render) {
+    return render({
+      status,
+      context,
+      onSubmit: handleSubmit,
+      onSuccess: handleSuccess,
+      isDisabled,
+    });
+  }
 
   return (
     <button
       className={cn(
         pressable.primary,
-        border.radius,
+        'rounded-ock-default',
         'w-full rounded-xl',
         'px-4 py-3 font-medium leading-6',
         isDisabled && pressable.disabled,
         text.headline,
-        color.inverse,
+        'text-ock-foreground-inverse',
         className,
       )}
       onClick={handleSubmit}

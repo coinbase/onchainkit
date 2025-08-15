@@ -9,7 +9,7 @@ import type {
 import type { Token } from '@/token';
 import type { Address, TransactionReceipt } from 'viem';
 
-export type BuyReact = {
+export type BuyProps = {
   /** Optional className override for top div element. */
   className?: string;
   config?: SwapConfig;
@@ -58,7 +58,7 @@ export type BuyContextType = {
   startPopupMonitor: (popupWindow: Window) => void;
 };
 
-export type BuyProviderReact = {
+export type BuyProviderProps = {
   children: React.ReactNode;
   config?: {
     /** Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points */
@@ -88,7 +88,7 @@ export type BuyTokens = {
   from?: SwapUnit;
 };
 
-export type GetBuyQuoteResponse = {
+export type GetBuyQuoteResponseType = {
   response?: GetSwapQuoteResponse;
   error?: APIError;
   formattedFromAmount?: string;

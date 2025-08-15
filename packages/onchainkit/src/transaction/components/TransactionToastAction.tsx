@@ -1,10 +1,10 @@
 import { cn, text } from '../../styles/theme';
 import { useGetTransactionToastAction } from '../hooks/useGetTransactionToastAction';
-import type { TransactionToastActionReact } from '../types';
+import type { TransactionToastActionProps } from '../types';
 
 export function TransactionToastAction({
   className,
-}: TransactionToastActionReact) {
+}: TransactionToastActionProps) {
   const { actionElement } = useGetTransactionToastAction();
 
   return (

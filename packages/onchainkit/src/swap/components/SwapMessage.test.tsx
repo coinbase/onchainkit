@@ -117,4 +117,16 @@ describe('SwapMessage', () => {
       to: { amount: 1, token: 'ETH' },
     });
   });
+
+  it('should handle custom render', () => {
+    const mockContext = {
+      to: {},
+      from: {},
+      lifecycleStatus: { statusName: 'init', statusData: null },
+    };
+    useSwapContextMock.mockReturnValue(mockContext);
+    mockGetSwapMessage.mockReturnValue('');
+    render(<SwapMessage render={() => <div>Custom Render</div>} />);
+    expect(screen.getByText('Custom Render')).toBeInTheDocument();
+  });
 });

@@ -1,8 +1,7 @@
 'use client';
-import { Tab, TabContent, Tabs, TabsList } from '@/internal';
-import { useTheme } from '@/internal/hooks/useTheme';
-import { border, cn } from '@/styles/theme';
-import type { EarnReact } from '../types';
+import { border, cn, text } from '@/styles/theme';
+import * as TabsPrimitive from '@radix-ui/react-tabs';
+import type { EarnProps } from '../types';
 import { EarnDeposit } from './EarnDeposit';
 import { EarnProvider } from './EarnProvider';
 import { useEarnContext } from './EarnProvider';
@@ -10,25 +9,40 @@ import { EarnWithdraw } from './EarnWithdraw';
 
 function EarnDefaultContent() {
   const { refetchWalletBalance, refetchDepositedBalance } = useEarnContext();
+
   return (
-    <Tabs defaultValue="deposit">
-      <TabsList>
-        <Tab
+    <TabsPrimitive.Root defaultValue="deposit">
+      <TabsPrimitive.List>
+        <TabsPrimitive.Trigger
           value="deposit"
           onClick={refetchWalletBalance}
-          className="rounded-tl-[calc(var(--ock-border-radius)_-_1px)]"
+          className={cn(
+            text.headline,
+            'bg-ock-background data-[state=active]:bg-ock-primary',
+            'text-ock-foreground data-[state=active]:text-ock-foreground-inverse',
+            'w-1/2 text-center',
+            'cursor-pointer px-3 py-2',
+            'focus:outline-none focus-visible:ring-2 focus-visible:ring-ock-foreground focus-visible:ring-inset',
+          )}
         >
           Deposit
-        </Tab>
-        <Tab
+        </TabsPrimitive.Trigger>
+        <TabsPrimitive.Trigger
           value="withdraw"
           onClick={refetchDepositedBalance}
-          className="rounded-tr-[calc(var(--ock-border-radius)_-_1px)]"
+          className={cn(
+            text.headline,
+            'bg-ock-background data-[state=active]:bg-ock-primary',
+            'text-ock-foreground data-[state=active]:text-ock-foreground-inverse',
+            'w-1/2 text-center',
+            'cursor-pointer px-3 py-2',
+            'focus:outline-none focus-visible:ring-2 focus-visible:ring-ock-foreground focus-visible:ring-inset',
+          )}
         >
           Withdraw
-        </Tab>
-      </TabsList>
-      <TabContent
+        </TabsPrimitive.Trigger>
+      </TabsPrimitive.List>
+      <TabsPrimitive.Content
         value="deposit"
         className={cn(
           border.lineDefault,
@@ -36,8 +50,8 @@ function EarnDefaultContent() {
         )}
       >
         <EarnDeposit />
-      </TabContent>
-      <TabContent
+      </TabsPrimitive.Content>
+      <TabsPrimitive.Content
         value="withdraw"
         className={cn(
           border.lineDefault,
@@ -45,8 +59,8 @@ function EarnDefaultContent() {
         )}
       >
         <EarnWithdraw />
-      </TabContent>
-    </Tabs>
+      </TabsPrimitive.Content>
+    </TabsPrimitive.Root>
   );
 }
 
@@ -58,8 +72,7 @@ export function Earn({
   onError,
   onStatus,
   onSuccess,
-}: EarnReact) {
-  const componentTheme = useTheme();
+}: EarnProps) {
   return (
     <EarnProvider
       vaultAddress={vaultAddress}
@@ -70,9 +83,8 @@ export function Earn({
     >
       <div
         className={cn(
-          componentTheme,
           'flex w-[375px] flex-col overflow-hidden',
-          border.radius,
+          'rounded-ock-default',
           border.lineDefault,
           className,
         )}

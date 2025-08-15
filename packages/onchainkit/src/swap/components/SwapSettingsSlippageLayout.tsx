@@ -1,15 +1,15 @@
-import { background, border, cn } from '../../styles/theme';
-import type { SwapSettingsSlippageLayoutReact } from '../types';
+import { border, cn } from '@/styles/theme';
+import type { SwapSettingsSlippageLayoutProps } from '../types';
 
 export function SwapSettingsSlippageLayout({
   children,
   className,
-}: SwapSettingsSlippageLayoutReact) {
+}: SwapSettingsSlippageLayoutProps) {
   return (
     <div
       className={cn(
-        background.default,
-        border.radius,
+        'bg-ock-background',
+        'rounded-ock-default',
         border.lineDefault,
         'right-0 z-10 w-[21.75rem] px-3 py-3',
         className,

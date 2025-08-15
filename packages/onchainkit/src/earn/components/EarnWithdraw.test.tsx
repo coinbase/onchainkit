@@ -25,10 +25,6 @@ vi.mock('wagmi', async (importOriginal) => {
   };
 });
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),
 }));

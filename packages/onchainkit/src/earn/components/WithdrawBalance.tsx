@@ -3,11 +3,11 @@ import { getTruncatedAmount } from '@/earn/utils/getTruncatedAmount';
 import { Skeleton } from '@/internal/components/Skeleton';
 import { useCallback, useMemo } from 'react';
 import { useAccount } from 'wagmi';
-import type { WithdrawBalanceReact } from '../types';
+import type { WithdrawBalanceProps } from '../types';
 import { EarnBalance } from './EarnBalance';
 import { useEarnContext } from './EarnProvider';
 
-export function WithdrawBalance({ className }: WithdrawBalanceReact) {
+export function WithdrawBalance({ className }: WithdrawBalanceProps) {
   const {
     depositedBalance,
     depositedBalanceStatus: status,
@@ -39,7 +39,7 @@ export function WithdrawBalance({ className }: WithdrawBalanceReact) {
     if (status === 'pending') {
       return (
         <div className="flex gap-1">
-          <Skeleton className="!bg-[var(--ock-bg-alternate-active)] h-6 w-12" />
+          <Skeleton className="bg-ock-background-alternate-active h-6 w-12" />
           <span>{vaultToken?.symbol}</span>
         </div>
       );

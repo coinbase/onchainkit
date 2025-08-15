@@ -1,9 +1,8 @@
-import { BottomSheet } from '@/internal/components/BottomSheet';
+import { Sheet } from '@/internal/components/Sheet';
 import { zIndex } from '@/styles/constants';
-import { background, border, cn, text } from '@/styles/theme';
+import { border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { WALLET_ADVANCED_DEFAULT_SWAPPABLE_TOKENS } from '../constants';
-import type { WalletAdvancedReact } from '../types';
 import { WalletAdvancedQrReceive } from './WalletAdvancedQrReceive';
 import { WalletAdvancedSwap } from './WalletAdvancedSwap';
 import { useWalletContext } from './WalletProvider';
@@ -11,18 +10,32 @@ import { Send } from './wallet-advanced-send/components/Send';
 import { RequestContext } from '@/core/network/constants';
 import { usePortfolio } from '@/wallet/hooks/usePortfolio';
 import { useAccount } from 'wagmi';
+import {
+  WalletAdvancedQrReceiveProps,
+  WalletAdvancedSwapProps,
+} from '../types';
+import { Token } from '@/token';
+
+export type WalletDropdownContentProps = {
+  children?: React.ReactNode;
+  swappableTokens?: Token[];
+  classNames?: {
+    container?: string;
+    qr?: WalletAdvancedQrReceiveProps['classNames'];
+    swap?: WalletAdvancedSwapProps['classNames'];
+  };
+};
 
 export function WalletDropdownContent({
   children,
   swappableTokens,
   classNames,
-}: WalletAdvancedReact) {
+}: WalletDropdownContentProps) {
   const {
     isSubComponentOpen,
     setIsSubComponentOpen,
     isSubComponentClosing,
     setIsSubComponentClosing,
-    connectRef,
     breakpoint,
     activeFeature,
     animations,
@@ -96,25 +109,31 @@ export function WalletDropdownContent({
 
   if (breakpoint === 'sm') {
     return (
-      <BottomSheet
+      <Sheet
         isOpen={isSubComponentOpen}
-        triggerRef={connectRef}
         onClose={handleBottomSheetClose}
         className={classNames?.container}
+        side="bottom"
+        title="Wallet"
+        description="Wallet menu"
       >
         <div className="flex h-full w-full flex-col items-center justify-center">
           {content}
         </div>
-      </BottomSheet>
+      </Sheet>
     );
+  }
+
+  if (!isSubComponentOpen && !isSubComponentClosing) {
+    return null;
   }
 
   return (
     <div
       data-testid="ockWalletDropdownContent"
       className={cn(
-        background.default,
-        border.radius,
+        'bg-ock-background',
+        'rounded-ock-default',
         border.lineDefault,
         zIndex.dropdown,
         'my-1.5 h-auto w-full',

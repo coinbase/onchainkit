@@ -1,7 +1,8 @@
 import { MORPHO_TOKEN_BASE_ADDRESS } from '@/earn/constants';
 import { fetchMorphoApy } from '@/earn/utils/fetchMorphoApy';
 import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
-import { renderHook } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
+import { act } from 'react';
 import {
   type Mock,
   afterEach,
@@ -43,7 +44,7 @@ describe('useMorphoVault', () => {
     vi.clearAllMocks();
   });
 
-  it('returns undefined values when contract reads are pending', () => {
+  it('returns undefined values when contract reads are pending', async () => {
     vi.mocked(useReadContracts).mockReturnValue({
       data: undefined,
       status: 'pending',
@@ -54,8 +55,10 @@ describe('useMorphoVault', () => {
 
     (fetchMorphoApy as Mock).mockResolvedValue(undefined);
 
-    const { result } = renderHook(() => useMorphoVault(mockParams), {
-      wrapper: getNewReactQueryTestProvider(),
+    const { result } = await act(async () => {
+      return renderHook(() => useMorphoVault(mockParams), {
+        wrapper: getNewReactQueryTestProvider(),
+      });
     });
 
     expect(result.current).toEqual({
@@ -125,11 +128,13 @@ describe('useMorphoVault', () => {
       },
     });
 
-    const { result } = renderHook(() => useMorphoVault(mockParams), {
-      wrapper: getNewReactQueryTestProvider(),
+    const { result } = await act(async () => {
+      return renderHook(() => useMorphoVault(mockParams), {
+        wrapper: getNewReactQueryTestProvider(),
+      });
     });
 
-    await vi.waitFor(() => {
+    await waitFor(() => {
       expect(result.current).toMatchObject({
         status: 'success',
         asset: {
@@ -158,7 +163,7 @@ describe('useMorphoVault', () => {
     });
   });
 
-  it('handles missing balance data', () => {
+  it('handles missing balance data', async () => {
     vi.mocked(useReadContracts).mockReturnValue({
       data: [
         { result: DUMMY_ADDRESS },
@@ -172,8 +177,10 @@ describe('useMorphoVault', () => {
       data: 18,
     } as UseReadContractReturnType<unknown[], string, unknown[], unknown>); // for brevity
 
-    const { result } = renderHook(() => useMorphoVault(mockParams), {
-      wrapper: getNewReactQueryTestProvider(),
+    const { result } = await act(async () => {
+      return renderHook(() => useMorphoVault(mockParams), {
+        wrapper: getNewReactQueryTestProvider(),
+      });
     });
 
     expect(result.current.balance).toBeUndefined();
@@ -219,11 +226,13 @@ describe('useMorphoVault', () => {
       },
     });
 
-    const { result } = renderHook(() => useMorphoVault(mockParams), {
-      wrapper: getNewReactQueryTestProvider(),
+    const { result } = await act(async () => {
+      return renderHook(() => useMorphoVault(mockParams), {
+        wrapper: getNewReactQueryTestProvider(),
+      });
     });
 
-    await vi.waitFor(() => {
+    await waitFor(() => {
       expect(result.current).toMatchObject({
         status: 'success',
         asset: {
@@ -257,27 +266,31 @@ describe('useMorphoVault', () => {
     });
   });
 
-  it('returns error status when contract reads fail', () => {
+  it('returns error status when contract reads fail', async () => {
     vi.mocked(useReadContracts).mockReturnValue({
       data: undefined,
       status: 'error',
     } as UseReadContractsReturnType<unknown[], boolean, unknown>);
 
-    const { result } = renderHook(() => useMorphoVault(mockParams), {
-      wrapper: getNewReactQueryTestProvider(),
+    const { result } = await act(async () => {
+      return renderHook(() => useMorphoVault(mockParams), {
+        wrapper: getNewReactQueryTestProvider(),
+      });
     });
 
     expect(result.current.status).toBe('error');
   });
 
-  it('handles undefined Morpho API result', () => {
+  it('handles undefined Morpho API result', async () => {
     vi.mocked(useReadContracts).mockReturnValue({
       data: [{ result: undefined }, { result: 'Morpho Vault' }, { result: 18 }],
       status: 'success',
     } as UseReadContractsReturnType<unknown[], boolean, unknown>);
 
-    const { result } = renderHook(() => useMorphoVault(mockParams), {
-      wrapper: getNewReactQueryTestProvider(),
+    const { result } = await act(async () => {
+      return renderHook(() => useMorphoVault(mockParams), {
+        wrapper: getNewReactQueryTestProvider(),
+      });
     });
 
     expect(result.current.rewards).toEqual([
@@ -320,11 +333,13 @@ describe('useMorphoVault', () => {
       },
     });
 
-    const { result } = renderHook(() => useMorphoVault(mockParams), {
-      wrapper: getNewReactQueryTestProvider(),
+    const { result } = await act(async () => {
+      return renderHook(() => useMorphoVault(mockParams), {
+        wrapper: getNewReactQueryTestProvider(),
+      });
     });
 
-    await vi.waitFor(() => {
+    await waitFor(() => {
       expect(result.current.deposits).toBe('2');
     });
   });
@@ -346,13 +361,23 @@ describe('useMorphoVault', () => {
         netApyWithoutRewards: 0.03,
         rewards: [],
       },
+      asset: {
+        decimals: 18,
+        symbol: 'DUMMY',
+        address: DUMMY_ADDRESS,
+      },
+      liquidity: {
+        underlying: undefined,
+      },
     });
 
-    const { result } = renderHook(() => useMorphoVault(mockParams), {
-      wrapper: getNewReactQueryTestProvider(),
+    const { result } = await act(async () => {
+      return renderHook(() => useMorphoVault(mockParams), {
+        wrapper: getNewReactQueryTestProvider(),
+      });
     });
 
-    await vi.waitFor(() => {
+    await waitFor(() => {
       expect(result.current.deposits).toBeUndefined();
     });
   });

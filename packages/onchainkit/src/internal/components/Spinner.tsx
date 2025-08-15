@@ -1,10 +1,10 @@
-import { cn } from '../../styles/theme';
+import { cn } from '@/styles/theme';
 
-type SpinnerReact = {
+type SpinnerProps = {
   className?: string;
 };
 
-export function Spinner({ className }: SpinnerReact) {
+export function Spinner({ className }: SpinnerProps) {
   return (
     <div
       className="flex h-full items-center justify-center"

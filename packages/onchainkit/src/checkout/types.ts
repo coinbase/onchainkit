@@ -61,7 +61,7 @@ export type HandlePayRequestParams = {
 };
 
 /** Note: exported as public Type */
-export type CheckoutButtonReact = {
+export type CheckoutButtonProps = {
   className?: string;
   coinbaseBranded?: boolean;
   disabled?: boolean;
@@ -78,7 +78,7 @@ export type CheckoutContextType = {
   ) => void;
 };
 
-export type CheckoutProviderReact = {
+export type CheckoutProviderProps = {
   chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
   isSponsored?: boolean;
@@ -87,7 +87,7 @@ export type CheckoutProviderReact = {
 };
 
 /** Note: exported as public Type */
-export type CheckoutReact = {
+export type CheckoutProps = {
   chargeHandler?: () => Promise<string>;
   children: React.ReactNode;
   className?: string;
@@ -97,7 +97,7 @@ export type CheckoutReact = {
 };
 
 /** Note: exported as public Type */
-export type CheckoutStatusReact = { className?: string };
+export type CheckoutStatusProps = { className?: string };
 
 export type UseCommerceContractsParams = {
   chargeHandler?: () => Promise<string>;

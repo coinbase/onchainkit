@@ -10,10 +10,6 @@ vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 describe('VaultDetails', () => {
   beforeEach(() => {
     // Reset mock before each test

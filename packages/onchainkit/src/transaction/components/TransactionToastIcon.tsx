@@ -3,10 +3,10 @@ import { Spinner } from '../../internal/components/Spinner';
 import { ErrorSvg } from '../../internal/svg/errorSvg';
 import { SuccessSvg } from '../../internal/svg/successSvg';
 import { cn, text } from '../../styles/theme';
-import type { TransactionToastIconReact } from '../types';
+import type { TransactionToastIconProps } from '../types';
 import { useTransactionContext } from './TransactionProvider';
 
-export function TransactionToastIcon({ className }: TransactionToastIconReact) {
+export function TransactionToastIcon({ className }: TransactionToastIconProps) {
   const { errorMessage, isLoading, receipt, transactionHash, transactionId } =
     useTransactionContext();
   const isInProgress = isLoading || !!transactionId || !!transactionHash;

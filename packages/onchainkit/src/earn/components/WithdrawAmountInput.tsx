@@ -1,9 +1,9 @@
 'use client';
-import type { WithdrawAmountInputReact } from '../types';
+import type { WithdrawAmountInputProps } from '../types';
 import { EarnAmountInput } from './EarnAmountInput';
 import { useEarnContext } from './EarnProvider';
 
-export function WithdrawAmountInput({ className }: WithdrawAmountInputReact) {
+export function WithdrawAmountInput({ className }: WithdrawAmountInputProps) {
   const { withdrawAmount, setWithdrawAmount } = useEarnContext();
 
   return (

@@ -1,6 +1,7 @@
+import { act } from 'react';
 import { getName } from '@/identity';
 import { getSlicedAddress } from '@/identity/utils/getSlicedAddress';
-import { renderHook, act, waitFor } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { validateAddressInput } from '../utils/validateAddressInput';
@@ -121,7 +122,7 @@ describe('useRecipientState', () => {
 
     const { result } = renderHook(() => useRecipientState());
 
-    act(() => {
+    await act(async () => {
       result.current.selectRecipient({
         phase: 'selected',
         input: mockAddress,
@@ -130,11 +131,9 @@ describe('useRecipientState', () => {
       });
     });
 
-    await waitFor(() => {
-      expect(getName).toHaveBeenCalledWith({
-        address: mockAddress,
-        chain: base,
-      });
+    expect(getName).toHaveBeenCalledWith({
+      address: mockAddress,
+      chain: base,
     });
 
     expect(result.current.recipientState).toEqual({
@@ -151,7 +150,7 @@ describe('useRecipientState', () => {
 
     const { result } = renderHook(() => useRecipientState());
 
-    act(() => {
+    await act(async () => {
       result.current.selectRecipient({
         phase: 'selected',
         input: mockAddress,
@@ -160,11 +159,9 @@ describe('useRecipientState', () => {
       });
     });
 
-    await waitFor(() => {
-      expect(getName).toHaveBeenCalledWith({
-        address: mockAddress,
-        chain: base,
-      });
+    expect(getName).toHaveBeenCalledWith({
+      address: mockAddress,
+      chain: base,
     });
 
     expect(result.current.recipientState).toEqual({
@@ -175,10 +172,10 @@ describe('useRecipientState', () => {
     });
   });
 
-  it('should deselect recipient from selected phase', () => {
+  it('should deselect recipient from selected phase', async () => {
     const { result } = renderHook(() => useRecipientState());
 
-    act(() => {
+    await act(async () => {
       result.current.selectRecipient({
         phase: 'selected',
         input: mockAddress,
@@ -199,10 +196,10 @@ describe('useRecipientState', () => {
     });
   });
 
-  it('should deselect recipient from non-selected phase', () => {
+  it('should deselect recipient from non-selected phase', async () => {
     const { result } = renderHook(() => useRecipientState());
 
-    act(() => {
+    await act(async () => {
       result.current.validateRecipientInput(mockAddress);
     });
 

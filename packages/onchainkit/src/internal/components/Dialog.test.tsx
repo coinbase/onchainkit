@@ -6,6 +6,11 @@ vi.mock('react-dom', () => ({
   createPortal: (node: React.ReactNode) => node,
 }));
 
+const defaultProps = {
+  title: 'Test Dialog',
+  description: 'Test Description',
+};
+
 describe('Dialog', () => {
   const onClose = vi.fn();
 
@@ -29,7 +34,7 @@ describe('Dialog', () => {
   describe('rendering', () => {
     it('renders nothing when isOpen is false', () => {
       render(
-        <Dialog isOpen={false} onClose={onClose}>
+        <Dialog isOpen={false} onClose={onClose} {...defaultProps}>
           <div>Content</div>
         </Dialog>,
       );
@@ -38,7 +43,7 @@ describe('Dialog', () => {
 
     it('renders content when isOpen is true', () => {
       render(
-        <Dialog isOpen={true} onClose={onClose}>
+        <Dialog isOpen={true} onClose={onClose} {...defaultProps}>
           <div data-testid="content">Content</div>
         </Dialog>,
       );
@@ -52,11 +57,11 @@ describe('Dialog', () => {
       render(
         <Dialog
           isOpen={true}
+          onClose={onClose}
+          {...defaultProps}
           aria-label="Test Dialog"
           aria-describedby="desc"
           aria-labelledby="title"
-          modal={false}
-          onClose={onClose}
         >
           <div>Content</div>
         </Dialog>,
@@ -67,57 +72,13 @@ describe('Dialog', () => {
       expect(dialog).toHaveAttribute('aria-label', 'Test Dialog');
       expect(dialog).toHaveAttribute('aria-describedby', 'desc');
       expect(dialog).toHaveAttribute('aria-labelledby', 'title');
-      expect(dialog).toHaveAttribute('aria-modal', 'false');
-    });
-
-    it('uses default modal=true when not specified', () => {
-      render(
-        <Dialog isOpen={true} onClose={onClose}>
-          <div>Content</div>
-        </Dialog>,
-      );
-      expect(screen.getByTestId('ockDialog')).toHaveAttribute(
-        'aria-modal',
-        'true',
-      );
     });
   });
 
   describe('event handling', () => {
-    it('stops propagation of click events on dialog', () => {
-      render(
-        <Dialog isOpen={true} onClose={onClose}>
-          <div>Content</div>
-        </Dialog>,
-      );
-
-      const dialog = screen.getByTestId('ockDialog');
-      const clickEvent = new MouseEvent('click', { bubbles: true });
-      const stopPropagationSpy = vi.spyOn(clickEvent, 'stopPropagation');
-
-      fireEvent(dialog, clickEvent);
-      expect(stopPropagationSpy).toHaveBeenCalled();
-    });
-
-    it('stops propagation of Enter and Space key events', () => {
-      render(
-        <Dialog isOpen={true} onClose={onClose}>
-          <div>Content</div>
-        </Dialog>,
-      );
-
-      const dialog = screen.getByTestId('ockDialog');
-      for (const key of ['Enter', ' ']) {
-        const event = new KeyboardEvent('keydown', { key, bubbles: true });
-        const spy = vi.spyOn(event, 'stopPropagation');
-        fireEvent(dialog, event);
-        expect(spy).toHaveBeenCalled();
-      }
-    });
-
     it('does not stop propagation of other key events', () => {
       render(
-        <Dialog isOpen={true} onClose={onClose}>
+        <Dialog isOpen={true} onClose={onClose} {...defaultProps}>
           <div>Content</div>
         </Dialog>,
       );
@@ -131,20 +92,9 @@ describe('Dialog', () => {
   });
 
   describe('dismissal behavior', () => {
-    it('calls onClose when clicking outside', () => {
-      render(
-        <Dialog isOpen={true} onClose={onClose}>
-          <div>Content</div>
-        </Dialog>,
-      );
-
-      fireEvent.pointerDown(document.body);
-      expect(onClose).toHaveBeenCalledTimes(1);
-    });
-
     it('calls onClose when pressing Escape', () => {
       render(
-        <Dialog isOpen={true} onClose={onClose}>
+        <Dialog isOpen={true} onClose={onClose} {...defaultProps}>
           <div>Content</div>
         </Dialog>,
       );
@@ -155,7 +105,7 @@ describe('Dialog', () => {
 
     it('handles undefined onClose prop gracefully', () => {
       render(
-        <Dialog isOpen={true}>
+        <Dialog isOpen={true} onClose={onClose} {...defaultProps}>
           <div>Content</div>
         </Dialog>,
       );
@@ -165,52 +115,10 @@ describe('Dialog', () => {
     });
   });
 
-  describe('theme and styling', () => {
-    it('applies correct theme classes to outer container', () => {
-      const { container } = render(
-        <Dialog isOpen={true} onClose={onClose}>
-          <div>Content</div>
-        </Dialog>,
-      );
-
-      const outerContainer = container.querySelector('[class*="fixed"]');
-      const expectedClasses = [
-        'fixed',
-        'inset-0',
-        'z-40',
-        'flex',
-        'items-center',
-        'justify-center',
-        'bg-black/50',
-        'transition-opacity',
-        'duration-200',
-        'fade-in',
-        'animate-in',
-      ];
-
-      for (const className of expectedClasses) {
-        expect(outerContainer).toHaveClass(className);
-      }
-    });
-
-    it('applies animation classes to dialog container', () => {
-      render(
-        <Dialog isOpen={true} onClose={onClose}>
-          <div>Content</div>
-        </Dialog>,
-      );
-
-      const dialog = screen.getByTestId('ockDialog');
-      expect(dialog).toHaveClass('zoom-in-95');
-      expect(dialog).toHaveClass('animate-in');
-      expect(dialog).toHaveClass('duration-200');
-    });
-  });
-
   describe('portal rendering', () => {
     it('renders in portal', () => {
       const { baseElement } = render(
-        <Dialog isOpen={true} onClose={onClose}>
+        <Dialog isOpen={true} onClose={onClose} {...defaultProps}>
           <div>Content</div>
         </Dialog>,
       );

@@ -28,10 +28,6 @@ vi.mock('@/identity/components/Socials', () => ({
   Socials: vi.fn(() => <div>Socials</div>),
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 const renderComponent = (props = {}) => {
   return render(
     <IdentityLayout className="custom-class" {...props}>
@@ -129,7 +125,7 @@ describe('IdentityLayout', () => {
     );
     expect(Address).toHaveBeenCalledWith(
       expect.objectContaining({ hasCopyAddressOnClick: true }),
-      expect.anything(),
+      undefined,
     );
   });
 
@@ -143,7 +139,7 @@ describe('IdentityLayout', () => {
     );
     expect(Address).toHaveBeenCalledWith(
       expect.objectContaining({ hasCopyAddressOnClick: undefined }),
-      expect.anything(),
+      undefined,
     );
   });
 });

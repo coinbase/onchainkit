@@ -11,7 +11,7 @@ import {
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { CheckoutEvent } from '../../core/analytics/types';
 import { useIcon } from '../../internal/hooks/useIcon';
-import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
+import { CHECKOUT_LIFECYCLE_STATUS } from '../constants';
 import { CheckoutButton } from './CheckoutButton';
 import { useCheckoutContext } from './CheckoutProvider';
 
@@ -74,7 +74,7 @@ describe('CheckoutButton', () => {
 
   it('disables button when lifecycle status is PENDING', () => {
     (useCheckoutContext as Mock).mockReturnValue({
-      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.PENDING },
+      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLE_STATUS.PENDING },
       onSubmit: mockOnSubmit,
     });
 
@@ -84,7 +84,7 @@ describe('CheckoutButton', () => {
 
   it('disables button when lifecycle status is FETCHING_DATA', () => {
     (useCheckoutContext as Mock).mockReturnValue({
-      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.FETCHING_DATA },
+      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLE_STATUS.FETCHING_DATA },
       onSubmit: mockOnSubmit,
     });
 
@@ -94,7 +94,7 @@ describe('CheckoutButton', () => {
 
   it('shows spinner when lifecycle status is PENDING', () => {
     (useCheckoutContext as Mock).mockReturnValue({
-      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.PENDING },
+      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLE_STATUS.PENDING },
       onSubmit: mockOnSubmit,
     });
 
@@ -106,7 +106,7 @@ describe('CheckoutButton', () => {
 
   it('changes button text to "View payment details" when transaction is successful', () => {
     (useCheckoutContext as Mock).mockReturnValue({
-      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS },
+      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLE_STATUS.SUCCESS },
       onSubmit: mockOnSubmit,
     });
 
@@ -126,7 +126,7 @@ describe('CheckoutButton', () => {
 
     (useCheckoutContext as Mock).mockReturnValue({
       lifecycleStatus: {
-        statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
+        statusName: CHECKOUT_LIFECYCLE_STATUS.SUCCESS,
         statusData: {
           transactionReceipts: [{ transactionHash }],
           chargeId,
@@ -151,7 +151,7 @@ describe('CheckoutButton', () => {
   it('does not track analytics when transaction hash or charge ID is missing', () => {
     (useCheckoutContext as Mock).mockReturnValue({
       lifecycleStatus: {
-        statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
+        statusName: CHECKOUT_LIFECYCLE_STATUS.SUCCESS,
         statusData: {
           transactionReceipts: [{ transactionHash: null }],
           chargeId: 'charge-123',
@@ -166,7 +166,7 @@ describe('CheckoutButton', () => {
 
   it('does not track analytics when status is not SUCCESS', () => {
     (useCheckoutContext as Mock).mockReturnValue({
-      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLESTATUS.READY },
+      lifecycleStatus: { statusName: CHECKOUT_LIFECYCLE_STATUS.READY },
       onSubmit: mockOnSubmit,
     });
 

@@ -1,10 +1,10 @@
-import sdk from '@farcaster/frame-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 import { renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useMiniKit } from './useMiniKit';
 import { useViewProfile } from './useViewProfile';
 
-vi.mock('@farcaster/frame-sdk', () => ({
+vi.mock('@farcaster/miniapp-sdk', () => ({
   default: {
     actions: {
       viewProfile: vi.fn(),

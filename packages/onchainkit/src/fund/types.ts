@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import React from 'react';
 
 /**
  * Props used to get an Onramp buy URL by directly providing a CDP project ID.
@@ -111,33 +112,75 @@ type GetOnrampBuyUrlOptionalProps = {
   originComponentName?: string;
 };
 
-/**
- * Note: exported as public Type
- */
-export type FundButtonReact = {
-  className?: string; // An optional CSS class name for styling the button component
-  disabled?: boolean; // A optional prop to disable the fund button
-  text?: string; // An optional text to be displayed in the button component
-  successText?: string; // An optional text to be displayed in the button component when the transaction is successful
-  errorText?: string; // An optional text to be displayed in the button component when the transaction fails
-  state?: FundButtonStateReact; // The state of the button component
-  hideText?: boolean; // An optional prop to hide the text in the button component
-  hideIcon?: boolean; // An optional prop to hide the icon in the button component
-  fundingUrl?: string; // An optional prop to provide a custom funding URL
-  openIn?: 'popup' | 'tab'; // Whether to open the funding flow in a tab or a popup window
+type FundButtonBaseProps = {
+  /* An optional CSS class name for styling the button component */
+  className?: string;
+  /* An optional React node to be displayed in the button component */
+  children?: ReactNode;
+  /* A optional prop to disable the fund button */
+  disabled?: boolean;
+  /* The state of the button component */
+  state?: FundButtonState;
+  /* An optional prop to provide a custom funding URL */
+  fundingUrl?: string;
+  /* Whether to open the funding flow in a tab or a popup window */
+  openIn?: 'popup' | 'tab';
   /**
+   * Size of the popup window if `openIn` is set to `popup`
    * Note: popupSize will be ignored when using a Coinbase Onramp URL (i.e. https://pay.coinbase.com/*) as it requires
    * a fixed popup size.
    */
-  popupSize?: 'sm' | 'md' | 'lg'; // Size of the popup window if `openIn` is set to `popup`
-  rel?: string; // Specifies the relationship between the current document and the linked document
-  target?: string; // Where to open the target if `openIn` is set to tab
-  fiatCurrency?: string; // The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR.
-  onPopupClose?: () => void; // A callback function that will be called when the popup window is closed
-  onClick?: () => void; // A callback function that will be called when the button is clicked
+  popupSize?: 'sm' | 'md' | 'lg';
+  /* Where to open the target if `openIn` is set to tab */
+  target?: string;
+  /* The currency code of the fiat amount provided in the presetFiatAmount param e.g. USD, CAD, EUR. */
+  fiatCurrency?: string;
+  /* A callback function that will be called when the popup window is closed */
+  onPopupClose?: () => void;
+  /* A callback function that will be called when the button is clicked */
+  onClick?: () => void;
 };
 
-export type FundButtonStateReact = 'default' | 'success' | 'error' | 'loading';
+export type FundButtonRenderParams = {
+  /* The state of the button component, only relevant when using FundCardSubmitButton */
+  status: FundButtonState;
+  /* A callback function that will be called when the button is clicked */
+  onClick: (e: React.MouseEvent) => void;
+  /* Whether the button is disabled */
+  isDisabled: boolean;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type FundButtonProps =
+  | (FundButtonBaseProps & {
+      render?: (props: FundButtonRenderParams) => React.ReactNode;
+      /* An optional React node to be displayed in the button component */
+      children?: never;
+    })
+  | (FundButtonBaseProps & {
+      render?: never;
+      /* An optional React node to be displayed in the button component */
+      children?: ReactNode;
+    });
+
+/**
+ * Note: exported as public Type
+ */
+export type FundCardSubmitButtonProps =
+  | {
+      render?: (props: FundButtonRenderParams) => React.ReactNode;
+      /* An optional React node to be displayed in the button component */
+      children?: never;
+    }
+  | {
+      render?: never;
+      /* An optional React node to be displayed in the button component */
+      children?: ReactNode;
+    };
+
+export type FundButtonState = 'default' | 'success' | 'error' | 'loading';
 
 /**
  * Matches a JSON object.
@@ -320,19 +363,19 @@ export type OnrampPaymentCurrency = {
   iconUrl: string;
 };
 
-export type FundCardAmountInputPropsReact = {
+export type FundCardAmountInputProps = {
   className?: string;
 };
 
-export type FundCardAmountInputTypeSwitchPropsReact = {
+export type FundCardAmountInputTypeSwitchProps = {
   className?: string;
 };
 
-export type FundCardHeaderPropsReact = {
+export type FundCardHeaderProps = {
   className?: string;
 };
 
-export type FundCardPaymentMethodImagePropsReact = {
+export type FundCardPaymentMethodImageProps = {
   className?: string;
   size?: number;
   paymentMethod: PaymentMethod;
@@ -347,18 +390,14 @@ export type PaymentMethod = {
   maxAmount?: number;
 };
 
-export type FundCardPaymentMethodDropdownPropsReact = {
+export type FundCardPaymentMethodDropdownProps = {
   className?: string;
-};
-
-export type FundCardCurrencyLabelPropsReact = {
-  label: string;
 };
 
 /**
  * Note: exported as public Type
  */
-export type FundCardPropsReact = {
+export type FundCardProps = {
   children?: ReactNode;
   assetSymbol: string;
   placeholder?: string | React.ReactNode;
@@ -371,18 +410,18 @@ export type FundCardPropsReact = {
   presetAmountInputs?: PresetAmountInputs;
 } & LifecycleEvents;
 
-export type FundCardContentPropsReact = {
+export type FundCardContentProps = {
   children?: ReactNode;
 };
 
-export type FundCardPaymentMethodSelectorTogglePropsReact = {
+export type FundCardPaymentMethodSelectorToggleProps = {
   className?: string;
   isOpen: boolean; // Determines carot icon direction
   onClick: () => void; // Button on click handler
   paymentMethod: PaymentMethod;
 };
 
-export type FundCardPaymentMethodSelectRowPropsReact = {
+export type FundCardPaymentMethodSelectRowProps = {
   paymentMethod: PaymentMethod;
   onClick?: (paymentMethod: PaymentMethod) => void;
   hideImage?: boolean;
@@ -392,7 +431,7 @@ export type FundCardPaymentMethodSelectRowPropsReact = {
   testId?: string;
 };
 
-export type FundCardProviderReact = {
+export type FundCardProviderProps = {
   children: ReactNode;
   asset: string;
   /**
@@ -438,7 +477,7 @@ export type LifecycleStatus =
       statusData: null;
     };
 
-export type PresetAmountInputItemPropsReact = {
+export type PresetAmountInputItemProps = {
   presetAmountInput: string;
   currency: string;
   onClick: (presetAmountInput: string) => void;

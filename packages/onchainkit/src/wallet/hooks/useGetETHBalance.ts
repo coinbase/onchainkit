@@ -7,9 +7,32 @@ import { DEFAULT_QUERY_OPTIONS } from '../../internal/constants';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import type { SwapError } from '../../swap';
 import { getSwapErrorCode } from '../../swap/utils/getSwapErrorCode';
-import type { UseGetETHBalanceResponse } from '../types';
 
 const ETH_DECIMALS = 18;
+
+export type UseGetETHBalanceResponse = {
+  error?: SwapError;
+  response?: UseBalanceReturnType;
+  convertedBalance?: string;
+  roundedBalance?: string;
+};
+
+/**
+ * A custom hook that retrieves and formats the ETH balance for a given wallet address.
+ *
+ * This hook uses `wagmi`'s `useBalance` internally and formats the raw balance value
+ * into a human-readable string with 18 decimals (ETH standard), along with a rounded
+ * version limited to 8 decimal places.
+ *
+ * It also handles potential balance-fetching errors and returns them in a structured format.
+ *
+ * @param address - The wallet address for which to fetch the ETH balance.
+ * @returns An object containing:
+ * - `convertedBalance`: The balance in ETH as a string.
+ * - `roundedBalance`: The balance rounded to 8 decimal places.
+ * - `error`: An optional `SwapError` object if an error occurred while fetching the balance.
+ * - `response`: The original `useBalance` response from `wagmi`.
+ */
 
 export function useGetETHBalance(address?: Address): UseGetETHBalanceResponse {
   const ethBalanceResponse: UseBalanceReturnType = useBalance({

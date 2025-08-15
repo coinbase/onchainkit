@@ -3,6 +3,7 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import * as core from '@actions/core';
 import {
   getNextVersionNumber,
   submitToRegistry,
@@ -15,6 +16,7 @@ vi.mock('child_process');
 vi.mock('fs');
 vi.mock('path');
 vi.mock('url');
+vi.mock('@actions/core');
 
 // Mock global fetch
 const mockFetch = vi.fn();
@@ -358,6 +360,64 @@ describe('publish-prerelease script', () => {
         'Publish failed',
       );
       expect(mockExit).toHaveBeenCalledWith(1);
+    });
+
+    it('should set GitHub Actions output using @actions/core', async () => {
+      // Mock fetch response for dist tags
+      mockFetch.mockResolvedValueOnce({
+        json: () =>
+          Promise.resolve({
+            latest: '1.2.0',
+            canary: '1.2.1-canary.0',
+          }),
+      });
+
+      // Mock fs.readFileSync for package.json
+      vi.mocked(fs.readFileSync).mockReturnValue(
+        JSON.stringify({ version: '1.1.0' }),
+      );
+
+      // Mock core.setOutput
+      const mockSetOutput = vi.mocked(core.setOutput);
+
+      // Run the publishPrerelease function
+      await publishPrerelease();
+
+      // Verify that core.setOutput was called with correct parameters
+      expect(mockSetOutput).toHaveBeenCalledWith('version', '1.1.0-canary.0');
+    });
+
+    it('should handle core.setOutput errors gracefully', async () => {
+      // Mock fetch response for dist tags
+      mockFetch.mockResolvedValueOnce({
+        json: () =>
+          Promise.resolve({
+            latest: '1.2.0',
+            canary: '1.2.1-canary.0',
+          }),
+      });
+
+      // Mock fs.readFileSync for package.json
+      vi.mocked(fs.readFileSync).mockReturnValue(
+        JSON.stringify({ version: '1.1.0' }),
+      );
+
+      // Mock core.setOutput to throw an error
+      const mockSetOutput = vi.mocked(core.setOutput);
+      mockSetOutput.mockImplementation(() => {
+        throw new Error('Not in GitHub Actions environment');
+      });
+
+      // Run the publishPrerelease function
+      await publishPrerelease();
+
+      // Verify that core.setOutput was called
+      expect(mockSetOutput).toHaveBeenCalledWith('version', '1.1.0-canary.0');
+
+      // Verify that the fallback console.log was called
+      expect(mockConsoleLog).toHaveBeenCalledWith(
+        'Output would be set: version=1.1.0-canary.0',
+      );
     });
   });
 

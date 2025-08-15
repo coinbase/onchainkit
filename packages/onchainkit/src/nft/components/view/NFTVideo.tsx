@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { defaultNFTSvg } from '../../../internal/svg/defaultNFTSvg';
 import { cn } from '../../../styles/theme';
 
-type NFTVideoReact = {
+type NFTVideoProps = {
   className?: string;
   square?: boolean;
   onLoading?: (mediaUrl: string) => void;
@@ -18,7 +18,7 @@ export function NFTVideo({
   onLoading,
   onLoaded,
   onError,
-}: NFTVideoReact) {
+}: NFTVideoProps) {
   const { animationUrl, imageUrl } = useNFTContext();
   const videoRef = useRef<HTMLVideoElement>(null);
 

@@ -1,4 +1,3 @@
-import { useValue } from '@/internal/hooks/useValue';
 import { useSwapBalances } from '@/swap/hooks/useSwapBalances';
 import type { Token } from '@/token';
 import { act, renderHook } from '@testing-library/react';
@@ -15,7 +14,6 @@ import { useBuyTokens } from './useBuyTokens';
 
 vi.mock('./useBuyToken');
 vi.mock('../../swap/hooks/useSwapBalances');
-vi.mock('@/internal/hooks/useValue');
 
 const toToken: Token = {
   name: 'DEGEN',
@@ -62,13 +60,15 @@ const mockFrom = {
 
 const mockTo = {
   balance: '1000',
-  balanceResponse: { refetch: vi.fn() },
+  balanceResponse: { balance: '1000' },
   error: null,
   loading: false,
-  setAmount: vi.fn(),
-  setAmountUSD: vi.fn(),
-  setLoading: vi.fn(),
-  token: daiToken,
+  setAmount: expect.any(Function),
+  setAmountUSD: expect.any(Function),
+  setLoading: expect.any(Function),
+  token: toToken,
+  amount: '',
+  amountUSD: '',
 };
 
 const address = '0x123';
@@ -91,8 +91,6 @@ describe('useBuyTokens', () => {
       toTokenBalanceError: null,
       toTokenResponse: { balance: '1000' },
     });
-
-    (useValue as Mock).mockReturnValue(mockTo);
   });
 
   it('should return expected swap tokens', () => {
@@ -107,18 +105,6 @@ describe('useBuyTokens', () => {
       address,
       fromToken: ethToken,
       toToken,
-    });
-    expect(useValue).toHaveBeenCalledWith({
-      balance: '1000',
-      balanceResponse: { balance: '1000' },
-      amount: '',
-      setAmount: expect.any(Function),
-      amountUSD: '',
-      setAmountUSD: expect.any(Function),
-      token: toToken,
-      loading: false,
-      setLoading: expect.any(Function),
-      error: null,
     });
 
     expect(result.current).toEqual({
@@ -146,10 +132,6 @@ describe('useBuyTokens', () => {
       fromTokenResponse: { refetch: mockFromRefetch },
       toTokenResponse: { refetch: mockToRefetch },
     });
-    (useValue as Mock).mockImplementation((props) => ({
-      ...props,
-      response: props.response,
-    }));
     const { result } = renderHook(() =>
       useBuyTokens(toToken, undefined, '0x123'),
     );

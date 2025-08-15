@@ -54,17 +54,13 @@ vi.mock('@/internal/svg/closeSvg', () => ({
   CloseSvg: () => <div data-testid="mock-close-svg" />,
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 vi.mock('@/styles/theme', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../styles/theme')>();
   return {
     ...actual,
     background: { default: 'bg-default' },
     border: { radius: 'border-radius' },
-    color: { foreground: 'text-foreground' },
+    color: { foreground: 'text-ock-foreground' },
     text: { title3: 'text-title3' },
     cn: (...args: string[]) => args.filter(Boolean).join(' '),
     icon: {
@@ -75,20 +71,20 @@ vi.mock('@/styles/theme', async (importOriginal) => {
 
 describe('Swap Component', () => {
   it('should render the title correctly', () => {
-    render(<Swap title="Test Swap">Test Swap</Swap>);
+    render(<Swap title="Test Swap" to={[]} from={[]} />);
 
     const title = screen.getByTestId('ockSwap_Title');
     expect(title).toHaveTextContent('Test Swap');
   });
 
   it('should pass className to container div', () => {
-    render(<Swap className="custom-class">Test Swap</Swap>);
+    render(<Swap className="custom-class" to={[]} from={[]} />);
 
     const container = screen.getByTestId('ockSwap_Container');
     expect(container).toHaveClass('custom-class');
   });
 
-  it('should render children', () => {
+  it('should custom render prop', () => {
     render(
       <Swap>
         <div>Test Child</div>

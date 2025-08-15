@@ -27,6 +27,10 @@ describe('Socials', () => {
   });
 
   it('renders null when no address is provided and context is empty', () => {
+    (useName as ReturnType<typeof vi.fn>).mockReturnValue({ data: undefined });
+    (useSocials as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: undefined,
+    });
     (useIdentityContext as ReturnType<typeof vi.fn>).mockReturnValue({
       address: null,
       chain: null,
@@ -36,6 +40,10 @@ describe('Socials', () => {
   });
 
   it('logs an error and returns null when no address is provided', () => {
+    (useName as ReturnType<typeof vi.fn>).mockReturnValue({ data: undefined });
+    (useSocials as ReturnType<typeof vi.fn>).mockReturnValue({
+      data: undefined,
+    });
     (useIdentityContext as ReturnType<typeof vi.fn>).mockReturnValue({
       address: null,
       chain: null,

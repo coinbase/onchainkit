@@ -27,6 +27,7 @@ function TransactionDemo() {
   const { chainId, transactionType, isSponsored } = useContext(AppContext);
   const contracts = clickContracts as ContractFunctionParameters[];
   const calls = clickCalls as Call[];
+
   const promiseCalls = new Promise((resolve) => {
     setTimeout(() => {
       resolve(calls);
@@ -37,6 +38,7 @@ function TransactionDemo() {
       resolve(contracts);
     }, 4000);
   }) as Promise<ContractFunctionParameters[]>;
+
   const callsCallback = useCallback(
     () =>
       new Promise((resolve) => {

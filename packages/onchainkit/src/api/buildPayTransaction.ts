@@ -1,9 +1,9 @@
-import { RequestContext } from '@/core/network/constants';
+import { RequestContext, RequestContextType } from '@/core/network/constants';
 import {
   CDP_CREATE_PRODUCT_CHARGE,
   CDP_HYDRATE_CHARGE,
-} from '../core/network/definitions/pay';
-import { type JSONRPCResult, sendRequest } from '../core/network/request';
+} from '@/core/network/definitions/pay';
+import { type JSONRPCResult, sendRequest } from '@/core/network/request';
 import type {
   BuildPayTransactionParams,
   BuildPayTransactionResponse,
@@ -11,10 +11,12 @@ import type {
   HydrateChargeAPIParams,
 } from './types';
 import { getPayErrorMessage } from './utils/getPayErrorMessage';
+import { ApiErrorCode } from './constants';
+import { buildErrorStruct } from './utils/buildErrorStruct';
 
 export async function buildPayTransaction(
   params: BuildPayTransactionParams,
-  _context: RequestContext = RequestContext.API,
+  _context: RequestContextType = RequestContext.API,
 ): Promise<BuildPayTransactionResponse> {
   const { address, chargeId, productId } = params;
 
@@ -49,25 +51,25 @@ export async function buildPayTransaction(
         _context,
       );
     } else {
-      return {
-        code: 'AmBPTa01', // Api Module Build Pay Transaction Error 01
+      return buildErrorStruct({
+        code: ApiErrorCode.AmBPTa01,
         error: 'No chargeId or productId provided',
         message: getPayErrorMessage(),
-      };
+      });
     }
     if (res.error) {
-      return {
-        code: 'AmBPTa02', // Api Module Build Pay Transaction Error 02
+      return buildErrorStruct({
+        code: ApiErrorCode.AmBPTa02,
         error: res.error.message,
         message: getPayErrorMessage(res.error?.code),
-      };
+      });
     }
     return res.result;
   } catch {
-    return {
-      code: 'AmBPTa03', // Api Module Build Pay Transaction Error 03
+    return buildErrorStruct({
+      code: ApiErrorCode.AmBPTa03,
       error: 'Something went wrong',
       message: getPayErrorMessage(),
-    };
+    });
   }
 }

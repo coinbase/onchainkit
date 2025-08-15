@@ -1,12 +1,11 @@
 'use client';
-import { cn } from '@/styles/theme';
-import { border, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { ConnectWallet } from '@/wallet';
 import { useAccount } from 'wagmi';
 import { useDepositButton } from '../hooks/useDepositButton';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
-export const AppchainBridgeTransactionButton = () => {
+export function AppchainBridgeTransactionButton() {
   const {
     handleDeposit,
     depositStatus,
@@ -36,7 +35,7 @@ export const AppchainBridgeTransactionButton = () => {
         onClick={buttonHandler}
         className={cn(
           pressable.primary,
-          border.radius,
+          'rounded-ock-default',
           'w-full rounded-xl',
           'px-4 py-3 font-medium text-base text-white leading-6',
           text.headline,
@@ -46,16 +45,20 @@ export const AppchainBridgeTransactionButton = () => {
         disabled={isDisabled}
       >
         <div
-          className={cn(text.headline, color.inverse, 'flex justify-center')}
+          className={cn(
+            text.headline,
+            'text-ock-foreground-inverse',
+            'flex justify-center',
+          )}
         >
           {buttonContent}
         </div>
       </button>
       {isRejected && (
-        <div className={cn(text.label2, color.error, 'mt-2')}>
+        <div className={cn(text.label2, 'text-ock-error', 'mt-2')}>
           Transaction denied
         </div>
       )}
     </div>
   );
-};
+}

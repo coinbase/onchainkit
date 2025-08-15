@@ -3,11 +3,11 @@ import { useNFTContext } from '@/nft/components/NFTProvider';
 import { cn } from '@/styles/theme';
 import { useOnchainKit } from '@/useOnchainKit';
 
-type NFTCreatorReact = {
+type NFTCreatorProps = {
   className?: string;
 };
 
-export function NFTCreator({ className }: NFTCreatorReact) {
+export function NFTCreator({ className }: NFTCreatorProps) {
   const { schemaId } = useOnchainKit();
   const { creatorAddress } = useNFTContext();
 

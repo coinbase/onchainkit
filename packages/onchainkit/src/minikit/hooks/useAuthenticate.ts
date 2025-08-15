@@ -1,5 +1,5 @@
-import sdk from '@farcaster/frame-sdk';
-import type { SignIn as SignInCore } from '@farcaster/frame-sdk';
+import sdk from '@farcaster/miniapp-sdk';
+import type { SignIn as SignInCore } from '@farcaster/miniapp-sdk';
 import { useCallback } from 'react';
 import { useMiniKit } from './useMiniKit';
 

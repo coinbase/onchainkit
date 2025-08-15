@@ -7,11 +7,11 @@ import { base, optimism } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 import { useName } from './useName';
-import type { GetName } from '@/identity/types';
+import type { GetNameParams } from '@/identity/types';
 
 const mockGetName = vi.fn();
 vi.mock('@/identity/utils/getName', () => ({
-  getName: (...args: [GetName]) => mockGetName(...args),
+  getName: (...args: [GetNameParams]) => mockGetName(...args),
 }));
 
 vi.mock('@/core/network/client');

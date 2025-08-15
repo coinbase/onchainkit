@@ -1,5 +1,5 @@
 import { getChainPublicClient } from '@/core/network/getChainPublicClient';
-import type { GetAddress, GetAddressReturnType } from '@/identity/types';
+import type { GetAddressParams, GetAddressReturnType } from '@/identity/types';
 import { mainnet } from 'viem/chains';
 
 const mainnetClient = getChainPublicClient(mainnet);
@@ -9,7 +9,7 @@ const mainnetClient = getChainPublicClient(mainnet);
  */
 export const getAddress = async ({
   name,
-}: GetAddress): Promise<GetAddressReturnType> => {
+}: GetAddressParams): Promise<GetAddressReturnType> => {
   // Gets address for ENS name.
   const address = await mainnetClient.getEnsAddress({
     name,

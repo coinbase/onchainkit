@@ -1,10 +1,10 @@
 import { cn, text } from '../../styles/theme';
 import { useGetTransactionStatusAction } from '../hooks/useGetTransactionStatusAction';
-import type { TransactionStatusActionReact } from '../types';
+import type { TransactionStatusActionProps } from '../types';
 
 export function TransactionStatusAction({
   className,
-}: TransactionStatusActionReact) {
+}: TransactionStatusActionProps) {
   const { actionElement } = useGetTransactionStatusAction();
 
   return (

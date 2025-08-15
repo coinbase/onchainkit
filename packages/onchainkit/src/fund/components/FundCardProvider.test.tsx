@@ -46,13 +46,15 @@ describe('FundCardProvider', () => {
     });
 
     it('tracks fund amount changes for fiat', async () => {
-      const { result } = renderHook(() => useFundContext(), {
-        wrapper: ({ children }) => (
-          <FundCardProvider asset="ETH" country="US">
-            {children}
-          </FundCardProvider>
-        ),
-      });
+      const { result } = await act(async () =>
+        renderHook(() => useFundContext(), {
+          wrapper: ({ children }) => (
+            <FundCardProvider asset="ETH" country="US">
+              {children}
+            </FundCardProvider>
+          ),
+        }),
+      );
 
       act(() => {
         result.current.setFundAmountFiat('100.00');
@@ -68,13 +70,15 @@ describe('FundCardProvider', () => {
     });
 
     it('does not track fund amount changes when amount is invalid', async () => {
-      const { result } = renderHook(() => useFundContext(), {
-        wrapper: ({ children }) => (
-          <FundCardProvider asset="ETH" country="US">
-            {children}
-          </FundCardProvider>
-        ),
-      });
+      const { result } = await act(async () =>
+        renderHook(() => useFundContext(), {
+          wrapper: ({ children }) => (
+            <FundCardProvider asset="ETH" country="US">
+              {children}
+            </FundCardProvider>
+          ),
+        }),
+      );
 
       act(() => {
         result.current.setFundAmountFiat('invalid');
@@ -84,13 +88,15 @@ describe('FundCardProvider', () => {
     });
 
     it('tracks payment method selection', async () => {
-      const { result } = renderHook(() => useFundContext(), {
-        wrapper: ({ children }) => (
-          <FundCardProvider asset="ETH" country="US">
-            {children}
-          </FundCardProvider>
-        ),
-      });
+      const { result } = await act(async () =>
+        renderHook(() => useFundContext(), {
+          wrapper: ({ children }) => (
+            <FundCardProvider asset="ETH" country="US">
+              {children}
+            </FundCardProvider>
+          ),
+        }),
+      );
 
       const mockPaymentMethod = {
         id: 'debit_card',
@@ -113,13 +119,15 @@ describe('FundCardProvider', () => {
     });
 
     it('handles fund amount changes with different currencies', async () => {
-      const { result } = renderHook(() => useFundContext(), {
-        wrapper: ({ children }) => (
-          <FundCardProvider asset="ETH" country="GB" currency="GBP">
-            {children}
-          </FundCardProvider>
-        ),
-      });
+      const { result } = await act(async () =>
+        renderHook(() => useFundContext(), {
+          wrapper: ({ children }) => (
+            <FundCardProvider asset="ETH" country="GB" currency="GBP">
+              {children}
+            </FundCardProvider>
+          ),
+        }),
+      );
 
       act(() => {
         result.current.setFundAmountFiat('50.00');
@@ -135,12 +143,14 @@ describe('FundCardProvider', () => {
     });
   });
 
-  it('provides default context values', () => {
-    render(
-      <FundCardProvider asset="BTC" country="US">
-        <TestComponent />
-      </FundCardProvider>,
-    );
+  it('provides default context values', async () => {
+    await act(async () => {
+      render(
+        <FundCardProvider asset="BTC" country="US">
+          <TestComponent />
+        </FundCardProvider>,
+      );
+    });
     expect(screen.getByTestId('selected-asset').textContent).toBe('BTC');
   });
 

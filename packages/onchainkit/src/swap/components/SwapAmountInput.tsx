@@ -1,23 +1,16 @@
 'use client';
 import { useCallback, useEffect, useMemo } from 'react';
-import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
-import { SwapEvent } from '../../core/analytics/types';
-import { TextInput } from '../../internal/components/TextInput';
-import { useValue } from '../../internal/hooks/useValue';
-import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
-import { isValidAmount } from '../../internal/utils/isValidAmount';
-import {
-  background,
-  border,
-  cn,
-  color,
-  pressable,
-  text,
-} from '../../styles/theme';
-import type { Token } from '../../token';
-import { TokenChip, TokenSelectDropdown } from '../../token';
-import type { SwapAmountInputReact } from '../types';
-import { formatAmount } from '../utils/formatAmount';
+import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
+import { SwapEvent } from '@/core/analytics/types';
+import { TextInput } from '@/internal/components/TextInput';
+import { useValue } from '@/internal/hooks/useValue';
+import { getRoundedAmount } from '@/internal/utils/getRoundedAmount';
+import { isValidAmount } from '@/internal/utils/isValidAmount';
+import { cn, pressable, text } from '@/styles/theme';
+import type { Token } from '@/token';
+import { TokenChip, TokenSelectDropdown } from '@/token';
+import type { SwapAmountInputProps } from '../types';
+import { formatToDecimalString, formatUSD } from '@/utils/formatter';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapAmountInput({
@@ -27,7 +20,8 @@ export function SwapAmountInput({
   token,
   type,
   swappableTokens,
-}: SwapAmountInputReact) {
+  render,
+}: SwapAmountInputProps) {
   const { address, to, from, handleAmountChange } = useSwapContext();
   const { sendAnalytics } = useAnalytics();
 
@@ -87,20 +81,19 @@ export function SwapAmountInput({
   const hasInsufficientBalance =
     type === 'from' && Number(balance) < Number(amount);
 
-  const formatUSD = (amount: string) => {
-    if (!amount || amount === '0') {
-      return null;
-    }
-    const roundedAmount = Number(getRoundedAmount(amount, 2));
-    return `~$${roundedAmount.toFixed(2)}`;
-  };
+  if (render) {
+    return render({
+      token: source,
+      hasInsufficientBalance,
+      setAmountToMax: handleMaxButtonClick,
+      onSetToken: handleSetToken,
+    });
+  }
 
   return (
     <div
       className={cn(
-        background.secondary,
-        border.radius,
-        'my-0.5 box-border flex h-[148px] w-full flex-col items-start p-4',
+        'bg-ock-secondary rounded-ock-default my-0.5 box-border flex h-[148px] w-full flex-col items-start p-4',
         className,
       )}
       data-testid="ockSwapAmountInput_Container"
@@ -108,8 +101,7 @@ export function SwapAmountInput({
       <div
         className={cn(
           text.label2,
-          color.foregroundMuted,
-          'flex w-full items-center justify-between',
+          'text-ock-foreground-muted flex w-full items-center justify-between',
         )}
       >
         {label}
@@ -117,13 +109,13 @@ export function SwapAmountInput({
       <div className="flex w-full items-center justify-between">
         <TextInput
           className={cn(
-            'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
-            'leading-none outline-none',
-            hasInsufficientBalance && address ? color.error : color.foreground,
+            'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem] leading-none outline-none truncate',
           )}
+          aria-label={type === 'from' ? 'From amount' : 'To amount'}
+          error={!!(hasInsufficientBalance && address)}
           placeholder="0.0"
           delayMs={delayMs}
-          value={formatAmount(amount)}
+          value={formatToDecimalString(amount)}
           setValue={setAmount}
           disabled={source.loading}
           onChange={handleChange}
@@ -142,14 +134,13 @@ export function SwapAmountInput({
         )}
       </div>
       <div className="mt-4 flex w-full items-center justify-between">
-        <div className={cn(text.label2, color.foregroundMuted)}>
-          {formatUSD(amountUSD)}
+        <div className={cn(text.label2, 'text-ock-foreground-muted')}>
+          ~{formatUSD(amountUSD)}
         </div>
         <div
           className={cn(
             text.label2,
-            color.foregroundMuted,
-            'flex grow items-center justify-end',
+            'text-ock-foreground-muted flex grow items-center justify-end',
           )}
         >
           {balance && <span>{`Balance: ${getRoundedAmount(balance, 8)}`}</span>}
@@ -158,8 +149,7 @@ export function SwapAmountInput({
               type="button"
               className={cn(
                 text.label1,
-                color.primary,
-                'flex cursor-pointer items-center justify-center px-2 py-1',
+                'text-ock-primary flex cursor-pointer items-center justify-center px-2 py-1',
               )}
               data-testid="ockSwapAmountInput_MaxButton"
               onClick={handleMaxButtonClick}

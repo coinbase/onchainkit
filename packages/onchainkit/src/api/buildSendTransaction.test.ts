@@ -1,6 +1,7 @@
 import { type Address, encodeFunctionData, erc20Abi } from 'viem';
 import { type Mock, describe, expect, it, vi } from 'vitest';
 import { buildSendTransaction } from './buildSendTransaction';
+import { ApiErrorCode } from './constants';
 
 vi.mock('viem', async () => {
   const actual = await vi.importActual('viem');
@@ -59,7 +60,7 @@ describe('buildSendTransaction', () => {
     });
 
     expect(result).toMatchObject({
-      code: 'AmBSeTx01',
+      code: ApiErrorCode.AmBSeTx01,
       message: 'Could not build transfer transaction',
       error: 'Test error',
     });

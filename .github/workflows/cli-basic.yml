@@ -12,6 +12,7 @@ on:
 
 jobs:
   test:
+    if: github.head_ref != 'alpha'
     runs-on: ubuntu-latest
     strategy:
       matrix:

@@ -38,6 +38,7 @@ describe('Name', () => {
   });
 
   it('should console.error and return null when no address is provided', () => {
+    (useName as Mock).mockReturnValue({ data: undefined });
     vi.mocked(useIdentityContext).mockReturnValue({
       // @ts-expect-error - Testing undefined address case
       address: undefined,

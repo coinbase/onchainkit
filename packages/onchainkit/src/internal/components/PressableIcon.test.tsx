@@ -44,7 +44,7 @@ describe('PressableIcon', () => {
   it('applies aria-label to button', () => {
     const ariaLabel = 'test-aria-label';
     render(
-      <PressableIcon ariaLabel={ariaLabel}>
+      <PressableIcon aria-label={ariaLabel}>
         <span>Icon</span>
       </PressableIcon>,
     );

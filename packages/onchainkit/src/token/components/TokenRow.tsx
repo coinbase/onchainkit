@@ -1,9 +1,8 @@
 'use client';
 
 import { memo } from 'react';
-import { useTheme } from '../../internal/hooks/useTheme';
-import { cn, color, pressable, text } from '../../styles/theme';
-import type { TokenRowReact } from '../types';
+import { cn, pressable, text } from '../../styles/theme';
+import type { TokenRowProps } from '../types';
 import { formatAmount } from '../utils/formatAmount';
 import { TokenImage } from './TokenImage';
 
@@ -14,15 +13,15 @@ export const TokenRow = memo(function TokenRow({
   onClick,
   hideImage,
   hideSymbol,
-}: TokenRowReact) {
-  const componentTheme = useTheme();
+  as,
+}: TokenRowProps) {
+  const Component = as ?? 'button';
 
   return (
-    <button
+    <Component
       data-testid="ockTokenRow_Container"
       type="button"
       className={cn(
-        componentTheme,
         pressable.default,
         'flex w-full items-center justify-between px-2 py-1',
         className,
@@ -41,7 +40,7 @@ export const TokenRow = memo(function TokenRow({
             {token.name.trim()}
           </span>
           {!hideSymbol && (
-            <span className={cn(text.body, color.foregroundMuted)}>
+            <span className={cn(text.body, 'text-ock-foreground-muted')}>
               {token.symbol}
             </span>
           )}
@@ -49,13 +48,13 @@ export const TokenRow = memo(function TokenRow({
       </span>
       <span
         data-testid="ockTokenRow_Amount"
-        className={cn(text.body, color.foregroundMuted)}
+        className={cn(text.body, 'text-ock-foreground-muted')}
       >
         {formatAmount(amount, {
           minimumFractionDigits: 2,
           maximumFractionDigits: Number(amount) < 1 ? 5 : 2,
         })}
       </span>
-    </button>
+    </Component>
   );
 });

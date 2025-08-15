@@ -2,7 +2,7 @@ import { Address, Avatar, Name } from '@/identity';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Chain } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWalletContext } from '../../WalletProvider';
+import { useOnchainKit } from '@/useOnchainKit';
 import { SendAddressSelector } from './SendAddressSelector';
 import { useSendContext } from './SendProvider';
 
@@ -12,8 +12,8 @@ vi.mock('@/identity', () => ({
   Name: vi.fn(() => <div data-testid="mock-name">Name Component</div>),
 }));
 
-vi.mock('../../WalletProvider', () => ({
-  useWalletContext: vi.fn(),
+vi.mock('@/useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
 }));
 
 vi.mock('./SendProvider', () => ({
@@ -30,10 +30,6 @@ const mockChain = {
   },
 } as Chain;
 
-const mockWalletContext = {
-  chain: mockChain,
-};
-
 const mockSendContext = {
   recipientState: {
     phase: 'input',
@@ -45,7 +41,7 @@ const mockSendContext = {
 };
 
 describe('SendAddressSelector', () => {
-  const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
+  const mockUseOnchainKit = useOnchainKit as ReturnType<typeof vi.fn>;
   const mockUseSendContext = useSendContext as ReturnType<typeof vi.fn>;
   const mockClassNames = {
     container: 'custom-container',
@@ -57,7 +53,7 @@ describe('SendAddressSelector', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseSendContext.mockReturnValue(mockSendContext);
-    mockUseWalletContext.mockReturnValue(mockWalletContext);
+    mockUseOnchainKit.mockReturnValue({ chain: mockChain });
   });
 
   it('returns null when recipientState.address is null', () => {
@@ -69,10 +65,7 @@ describe('SendAddressSelector', () => {
   });
 
   it('returns null when senderChain is not provided', () => {
-    mockUseWalletContext.mockReturnValue({
-      ...mockWalletContext,
-      chain: null,
-    });
+    mockUseOnchainKit.mockReturnValue({ chain: null });
     render(<SendAddressSelector classNames={mockClassNames} />);
 
     const container = screen.queryByTestId('ockSendAddressSelector_container');
@@ -118,19 +111,19 @@ describe('SendAddressSelector', () => {
     expect(Avatar).toHaveBeenCalledWith(
       expect.objectContaining({
         address: '0x1234567890123456789012345678901234567890',
-        chain: mockWalletContext.chain,
+        chain: mockChain,
         className: 'custom-avatar',
       }),
-      {},
+      undefined,
     );
 
     expect(Name).toHaveBeenCalledWith(
       expect.objectContaining({
         address: '0x1234567890123456789012345678901234567890',
-        chain: mockWalletContext.chain,
+        chain: mockChain,
         className: 'custom-name',
       }),
-      {},
+      undefined,
     );
 
     expect(Address).toHaveBeenCalledWith(
@@ -139,7 +132,7 @@ describe('SendAddressSelector', () => {
         hasCopyAddressOnClick: false,
         className: 'custom-address',
       }),
-      {},
+      undefined,
     );
   });
 

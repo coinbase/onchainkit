@@ -1,9 +1,8 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { color } from '../../styles/theme';
 import { useCheckoutContext } from '../components/CheckoutProvider';
-import { CHECKOUT_LIFECYCLESTATUS } from '../constants';
 import { useGetCheckoutStatus } from './useGetCheckoutStatus';
+import { CHECKOUT_LIFECYCLE_STATUS } from '../constants';
 
 vi.mock('../components/CheckoutProvider', () => ({
   useCheckoutContext: vi.fn(),
@@ -14,7 +13,7 @@ describe('useGetCheckoutStatus', () => {
     vi.mocked(useCheckoutContext).mockReturnValue({
       errorMessage: '',
       lifecycleStatus: {
-        statusName: CHECKOUT_LIFECYCLESTATUS.PENDING,
+        statusName: CHECKOUT_LIFECYCLE_STATUS.PENDING,
         statusData: {},
       },
       onSubmit: vi.fn(),
@@ -23,7 +22,7 @@ describe('useGetCheckoutStatus', () => {
     const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment in progress...',
-      labelClassName: color.foregroundMuted,
+      labelClassName: 'text-ock-foreground-muted',
     });
   });
 
@@ -31,7 +30,7 @@ describe('useGetCheckoutStatus', () => {
     vi.mocked(useCheckoutContext).mockReturnValue({
       errorMessage: '',
       lifecycleStatus: {
-        statusName: CHECKOUT_LIFECYCLESTATUS.SUCCESS,
+        statusName: CHECKOUT_LIFECYCLE_STATUS.SUCCESS,
         statusData: {
           transactionReceipts: [],
           chargeId: '',
@@ -44,7 +43,7 @@ describe('useGetCheckoutStatus', () => {
     const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment successful!',
-      labelClassName: color.success,
+      labelClassName: 'text-ock-success',
     });
   });
 
@@ -52,7 +51,7 @@ describe('useGetCheckoutStatus', () => {
     vi.mocked(useCheckoutContext).mockReturnValue({
       errorMessage: 'Payment failed',
       lifecycleStatus: {
-        statusName: CHECKOUT_LIFECYCLESTATUS.ERROR,
+        statusName: CHECKOUT_LIFECYCLE_STATUS.ERROR,
         statusData: {
           code: 'PmUWCSh01',
           error: 'Payment failed',
@@ -65,7 +64,7 @@ describe('useGetCheckoutStatus', () => {
     const { result } = renderHook(() => useGetCheckoutStatus());
     expect(result.current).toEqual({
       label: 'Payment failed',
-      labelClassName: color.error,
+      labelClassName: 'text-ock-error',
     });
   });
 });
