@@ -1,3 +1,4 @@
+'use client';
 import sdk, { type SetPrimaryButtonOptions } from '@farcaster/frame-sdk';
 import { useEffect } from 'react';
 

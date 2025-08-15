@@ -21,9 +21,10 @@ export function usePortfolio(
   return useQuery({
     queryKey: ['usePortfolio', address],
     queryFn: async () => {
+      const addressWithType = address as Address; // Safe to coerce to Address because useQuery's enabled flag will prevent the query from running if address is undefined
       const response = await getPortfolios(
         {
-          addresses: [address as Address], // Safe to coerce to Address because useQuery's enabled flag will prevent the query from running if address is undefined
+          addresses: [addressWithType],
         },
         _context,
       );
@@ -34,8 +35,8 @@ export function usePortfolio(
 
       if (response.portfolios.length === 0) {
         return {
-          address,
-          portfolioBalanceUsd: 0,
+          address: addressWithType,
+          portfolioBalanceInUsd: 0,
           tokenBalances: [],
         };
       }
