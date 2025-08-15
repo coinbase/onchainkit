@@ -681,7 +681,7 @@ describe('WalletModal', () => {
   it('correctly filters wallets based on supportedWallets config', () => {
     const configs = [{ rabby: true }, { rabby: false }, {}];
 
-    const expectedWalletCounts = [4, 3, 3];
+    const expectedWalletCounts = [5, 4, 4];
 
     configs.forEach((supportedWallets, index) => {
       (useOnchainKit as Mock).mockReturnValue({
@@ -711,6 +711,7 @@ describe('WalletModal', () => {
         expect(screen.queryByText('Rabby')).not.toBeInTheDocument();
       }
 
+      expect(screen.getByText('Base')).toBeInTheDocument();
       expect(screen.getByText('Coinbase Wallet')).toBeInTheDocument();
       expect(screen.getByText('MetaMask')).toBeInTheDocument();
       expect(screen.getByText('Phantom')).toBeInTheDocument();
@@ -737,12 +738,13 @@ describe('WalletModal', () => {
         !button.getAttribute('aria-label')?.includes('Close'),
     );
 
-    expect(walletButtons[0].textContent).toContain('Coinbase Wallet');
-    expect(walletButtons[1].textContent).toContain('MetaMask');
-    expect(walletButtons[2].textContent).toContain('Phantom');
-    expect(walletButtons[3].textContent).toContain('Rabby');
+    expect(walletButtons[0].textContent).toContain('Base');
+    expect(walletButtons[1].textContent).toContain('Coinbase Wallet');
+    expect(walletButtons[2].textContent).toContain('MetaMask');
+    expect(walletButtons[3].textContent).toContain('Phantom');
+    expect(walletButtons[4].textContent).toContain('Rabby');
 
-    expect(walletButtons.length).toBe(4);
+    expect(walletButtons.length).toBe(5);
   });
 
   it('renders Trust Wallet button when enabled in config', () => {
