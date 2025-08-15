@@ -29,6 +29,13 @@ vi.mock('wagmi/connectors', () => ({
   metaMask: ({ dappMetadata }: MetaMaskParameters) => ({ dappMetadata }),
   injected: ({ target }: { target?: string } = {}) =>
     target ? { target } : {},
+  baseAccount: ({
+    appName,
+    appLogoUrl,
+  }: {
+    appName?: string;
+    appLogoUrl?: string;
+  }) => ({ appName, appLogoUrl }),
 }));
 
 vi.mock('../../internal/components/Dialog', () => ({
@@ -1237,5 +1244,98 @@ describe('WalletModal', () => {
     const dialog = screen.getByTestId('ockModalOverlay');
     const dividers = dialog.querySelectorAll('.border-\\[0\\.5px\\]');
     expect(dividers.length).toBe(1);
+  });
+
+  it('connects with Base Account when clicking Base button', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {
+          name: 'Test App',
+          logo: 'test-logo.png',
+        },
+        wallet: {
+          supportedWallets: { rabby: false },
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    fireEvent.click(screen.getByText('Base'));
+
+    expect(mockConnect).toHaveBeenCalledWith({
+      connector: {
+        appName: 'Test App',
+        appLogoUrl: 'test-logo.png',
+      },
+    });
+    expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('handles Base Account connection errors', () => {
+    const mockError = new Error('Base Account connection failed');
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw mockError;
+      }),
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Base'));
+
+    expect(mockOnError).toHaveBeenCalledWith(mockError);
+    expect(console.error).toHaveBeenCalledWith(
+      'Base Account connection error:',
+      mockError,
+    );
+  });
+
+  it('handles non-Error objects in Base Account connection errors', () => {
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw 'Some string error';
+      }),
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Base'));
+
+    expect(mockOnError).toHaveBeenCalledWith(
+      new Error('Failed to connect wallet'),
+    );
+    expect(console.error).toHaveBeenCalledWith(
+      'Base Account connection error:',
+      'Some string error',
+    );
+  });
+
+  it('uses default supportedWallets when config wallet supportedWallets is undefined', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      config: {
+        appearance: {},
+        wallet: {
+          // supportedWallets is undefined, should use default fallback
+        },
+      },
+    });
+
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    // Should show default wallets but not the optional ones (rabby, trust, frame all default to false)
+    expect(screen.getByText('Base')).toBeInTheDocument();
+    expect(screen.getByText('Coinbase Wallet')).toBeInTheDocument();
+    expect(screen.getByText('MetaMask')).toBeInTheDocument();
+    expect(screen.getByText('Phantom')).toBeInTheDocument();
+    expect(screen.queryByText('Rabby')).not.toBeInTheDocument();
+    expect(screen.queryByText('Trust Wallet')).not.toBeInTheDocument();
+    expect(screen.queryByText('Frame')).not.toBeInTheDocument();
   });
 });
