@@ -1,3 +1,4 @@
+"use client";
 import { useIsInMiniApp } from "@coinbase/onchainkit/minikit";
 import sdk from "@farcaster/frame-sdk";
 import { useQuery } from "@tanstack/react-query";
