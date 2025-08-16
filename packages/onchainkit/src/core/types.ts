@@ -28,8 +28,6 @@ export type AppConfig = {
     display?: ConnectWalletDisplay | null;
     /** Preference for the type of wallet to display for the Coinbase connector. Defaults to 'all' */
     preference?: Extract<CoinbaseWalletParameters<'4'>['preference'], string>;
-    /** Enable/disable sign up in the wallet modal. Defaults to true*/
-    signUpEnabled?: boolean;
     /** URL to the terms of service for the wallet modal */
     termsUrl?: string | null;
     /** URL to the privacy policy for the wallet modal */

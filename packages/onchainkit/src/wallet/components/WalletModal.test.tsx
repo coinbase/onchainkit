@@ -121,7 +121,7 @@ describe('WalletModal', () => {
 
     const dialog = screen.getByRole('dialog');
     expect(dialog).toBeInTheDocument();
-    expect(screen.getByText('Sign up')).toBeInTheDocument();
+    expect(screen.getByText('Sign in with Base')).toBeInTheDocument();
   });
 
   it('passes correct props to Dialog component', () => {
@@ -161,10 +161,21 @@ describe('WalletModal', () => {
     expect(screen.getByText('Test App')).toBeInTheDocument();
   });
 
-  it('connects with Coinbase Wallet when clicking Sign up', () => {
+  it('connects with Base Account when clicking Sign in with Base', () => {
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
 
-    fireEvent.click(screen.getByText('Sign up'));
+    fireEvent.click(screen.getByText('Sign in with Base'));
+
+    expect(mockConnect).toHaveBeenCalledWith({
+      connector: { appName: undefined, appLogoUrl: undefined },
+    });
+    expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('connects with Coinbase Wallet when clicking Coinbase Wallet button', () => {
+    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
+
+    fireEvent.click(screen.getByText('Coinbase Wallet'));
 
     expect(mockConnect).toHaveBeenCalledWith({
       connector: { preference: 'all' },
@@ -312,6 +323,47 @@ describe('WalletModal', () => {
     expect(screen.getByAltText('App icon')).toBeInTheDocument();
   });
 
+  it('handles Base Account connection errors', () => {
+    const mockError = new Error('Connection failed');
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw mockError;
+      }),
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Sign in with Base'));
+
+    expect(mockOnError).toHaveBeenCalledWith(mockError);
+    expect(console.error).toHaveBeenCalledWith(
+      'Base Account connection error:',
+      mockError,
+    );
+  });
+
+  it('handles non-Error objects in Base Account connection errors', () => {
+    const mockOnError = vi.fn();
+    (useConnect as Mock).mockReturnValue({
+      connect: vi.fn(() => {
+        throw 'Some string error';
+      }),
+    });
+
+    render(
+      <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
+    );
+
+    fireEvent.click(screen.getByText('Sign in with Base'));
+
+    expect(mockOnError).toHaveBeenCalledWith(
+      new Error('Failed to connect wallet'),
+    );
+  });
+
   it('handles Coinbase Wallet connection errors', () => {
     const mockError = new Error('Connection failed');
     const mockOnError = vi.fn();
@@ -325,7 +377,7 @@ describe('WalletModal', () => {
       <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
     );
 
-    fireEvent.click(screen.getByText('Sign up'));
+    fireEvent.click(screen.getByText('Coinbase Wallet'));
 
     expect(mockOnError).toHaveBeenCalledWith(mockError);
     expect(console.error).toHaveBeenCalledWith(
@@ -346,7 +398,7 @@ describe('WalletModal', () => {
       <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
     );
 
-    fireEvent.click(screen.getByText('Sign up'));
+    fireEvent.click(screen.getByText('Coinbase Wallet'));
 
     expect(mockOnError).toHaveBeenCalledWith(
       new Error('Failed to connect wallet'),
@@ -699,7 +751,7 @@ describe('WalletModal', () => {
         container.querySelectorAll('button'),
       ).filter(
         (button) =>
-          button.textContent !== 'Sign up' &&
+          button.textContent !== 'Sign in with Base' &&
           !button.getAttribute('aria-label')?.includes('Close'),
       );
 
@@ -711,7 +763,7 @@ describe('WalletModal', () => {
         expect(screen.queryByText('Rabby')).not.toBeInTheDocument();
       }
 
-      expect(screen.getByText('Base')).toBeInTheDocument();
+      expect(screen.getByText('Sign in with Base')).toBeInTheDocument();
       expect(screen.getByText('Coinbase Wallet')).toBeInTheDocument();
       expect(screen.getByText('MetaMask')).toBeInTheDocument();
       expect(screen.getByText('Phantom')).toBeInTheDocument();
@@ -734,11 +786,10 @@ describe('WalletModal', () => {
 
     const walletButtons = Array.from(screen.getAllByRole('button')).filter(
       (button) =>
-        button.textContent !== 'Sign up' &&
         !button.getAttribute('aria-label')?.includes('Close'),
     );
 
-    expect(walletButtons[0].textContent).toContain('Base');
+    expect(walletButtons[0].textContent).toContain('Sign in with Base');
     expect(walletButtons[1].textContent).toContain('Coinbase Wallet');
     expect(walletButtons[2].textContent).toContain('MetaMask');
     expect(walletButtons[3].textContent).toContain('Phantom');
@@ -1153,100 +1204,6 @@ describe('WalletModal', () => {
     window.open = originalWindowOpen;
   });
 
-  it('does not show Sign Up button when signUpEnabled is set to false', () => {
-    (useOnchainKit as Mock).mockReturnValue({
-      config: {
-        appearance: {},
-        wallet: {
-          signUpEnabled: false,
-          supportedWallets: { rabby: false },
-        },
-      },
-    });
-
-    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-
-    expect(screen.queryByText('Sign up')).not.toBeInTheDocument();
-    expect(screen.queryByText('Connect your wallet')).toBeInTheDocument();
-  });
-
-  it('shows Sign Up button when signUpEnabled is true', () => {
-    (useOnchainKit as Mock).mockReturnValue({
-      config: {
-        appearance: {},
-        wallet: {
-          signUpEnabled: true,
-          supportedWallets: { rabby: false },
-        },
-      },
-    });
-
-    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-
-    expect(screen.getByText('Sign up')).toBeInTheDocument();
-  });
-
-  it('shows Sign Up button by default when signUpEnabled is not specified', () => {
-    (useOnchainKit as Mock).mockReturnValue({
-      config: {
-        appearance: {},
-        wallet: {
-          supportedWallets: { rabby: false },
-        },
-      },
-    });
-
-    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-
-    expect(screen.getByText('Sign up')).toBeInTheDocument();
-  });
-
-  it('changes layout when signUpEnabled is false', () => {
-    (useOnchainKit as Mock).mockReturnValue({
-      config: {
-        appearance: {},
-        wallet: {
-          signUpEnabled: false,
-          supportedWallets: { rabby: false },
-        },
-      },
-    });
-
-    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-
-    // "Connect your wallet" should be present
-    const connectText = screen.getByText('Connect your wallet');
-    expect(connectText).toBeInTheDocument();
-
-    // When signUpEnabled is false, there should be no divider line
-    const dialog = screen.getByTestId('ockModalOverlay');
-    const dividers = dialog.querySelectorAll('.border-\\[0\\.5px\\]');
-    expect(dividers.length).toBe(0);
-  });
-
-  it('includes divider line when signUpEnabled is true', () => {
-    (useOnchainKit as Mock).mockReturnValue({
-      config: {
-        appearance: {},
-        wallet: {
-          signUpEnabled: true,
-          supportedWallets: { rabby: false },
-        },
-      },
-    });
-
-    render(<WalletModal isOpen={true} onClose={mockOnClose} />);
-
-    // "Connect your wallet" should be present with divider
-    expect(
-      screen.getByText('or continue with an existing wallet'),
-    ).toBeInTheDocument();
-
-    // When signUpEnabled is true, there should be a divider line
-    const dialog = screen.getByTestId('ockModalOverlay');
-    const dividers = dialog.querySelectorAll('.border-\\[0\\.5px\\]');
-    expect(dividers.length).toBe(1);
-  });
 
   it('connects with Base Account when clicking Base button', () => {
     (useOnchainKit as Mock).mockReturnValue({
@@ -1263,7 +1220,7 @@ describe('WalletModal', () => {
 
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
 
-    fireEvent.click(screen.getByText('Base'));
+    fireEvent.click(screen.getByText('Sign in with Base'));
 
     expect(mockConnect).toHaveBeenCalledWith({
       connector: {
@@ -1287,7 +1244,7 @@ describe('WalletModal', () => {
       <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
     );
 
-    fireEvent.click(screen.getByText('Base'));
+    fireEvent.click(screen.getByText('Sign in with Base'));
 
     expect(mockOnError).toHaveBeenCalledWith(mockError);
     expect(console.error).toHaveBeenCalledWith(
@@ -1308,7 +1265,7 @@ describe('WalletModal', () => {
       <WalletModal isOpen={true} onClose={mockOnClose} onError={mockOnError} />,
     );
 
-    fireEvent.click(screen.getByText('Base'));
+    fireEvent.click(screen.getByText('Sign in with Base'));
 
     expect(mockOnError).toHaveBeenCalledWith(
       new Error('Failed to connect wallet'),
@@ -1332,7 +1289,7 @@ describe('WalletModal', () => {
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
 
     // Should show default wallets but not the optional ones (rabby, trust, frame all default to false)
-    expect(screen.getByText('Base')).toBeInTheDocument();
+    expect(screen.getByText('Sign in with Base')).toBeInTheDocument();
     expect(screen.getByText('Coinbase Wallet')).toBeInTheDocument();
     expect(screen.getByText('MetaMask')).toBeInTheDocument();
     expect(screen.getByText('Phantom')).toBeInTheDocument();

@@ -96,7 +96,6 @@ export function OnchainKitProvider({
         wallet: {
           display: config?.wallet?.display ?? 'classic',
           preference: config?.wallet?.preference ?? 'all',
-          signUpEnabled: config?.wallet?.signUpEnabled ?? true,
           termsUrl: config?.wallet?.termsUrl || DEFAULT_TERMS_URL,
           privacyUrl: config?.wallet?.privacyUrl || DEFAULT_PRIVACY_URL,
           supportedWallets: {

@@ -56,7 +56,6 @@ export function WalletModal({
     trust: false,
     frame: false,
   };
-  const isSignUpEnabled = config?.wallet?.signUpEnabled ?? true;
 
   const handleBaseAccountConnection = useCallback(() => {
     try {
@@ -212,13 +211,6 @@ export function WalletModal({
 
   const availableWallets: WalletProviderOption[] = [
     {
-      id: 'base-account',
-      name: 'Base',
-      icon: <BaseAccountSvg />,
-      connector: handleBaseAccountConnection,
-      enabled: true,
-    },
-    {
       id: 'coinbase',
       name: 'Coinbase Wallet',
       icon: coinbaseWalletSvg,
@@ -330,31 +322,30 @@ export function WalletModal({
         )}
 
         <div className="flex w-full flex-col gap-3">
-          {isSignUpEnabled && (
-            <button
-              type="button"
-              onClick={handleCoinbaseWalletConnection}
-              className={cn(
-                'rounded-ock-default',
-                text.body,
-                pressable.alternate,
-                'text-ock-foreground',
-                'flex items-center justify-between px-4 py-3 text-left',
-              )}
-            >
-              Sign up
-              <div className="h-4 w-4">{defaultAvatarSVG}</div>
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={handleBaseAccountConnection}
+            className={cn(
+              'rounded-ock-default',
+              'bg-ock-background',
+              text.body,
+              pressable.alternate,
+              'text-ock-foreground',
+              'flex items-center justify-between px-4 py-3 text-left',
+            )}
+          >
+            Sign in with Base
+            <div className="-mr-0.5 flex h-4 w-4 items-center justify-center">
+              <BaseAccountSvg />
+            </div>
+          </button>
 
           <div className="relative">
-            {isSignUpEnabled && (
-              <div className="absolute inset-0 flex items-center">
-                <div
-                  className={cn(border.lineDefault, 'w-full border-[0.5px]')}
-                />
-              </div>
-            )}
+            <div className="absolute inset-0 flex items-center">
+              <div
+                className={cn(border.lineDefault, 'w-full border-[0.5px]')}
+              />
+            </div>
             <div className="relative flex justify-center">
               <span
                 className={cn(
@@ -364,9 +355,7 @@ export function WalletModal({
                   'px-2',
                 )}
               >
-                {isSignUpEnabled
-                  ? 'or continue with an existing wallet'
-                  : 'Connect your wallet'}
+                or use another wallet
               </span>
             </div>
           </div>
