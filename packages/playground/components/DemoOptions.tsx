@@ -4,6 +4,7 @@ import { EarnOptions } from '@/components/form/earn-options';
 import { PaymasterUrl } from '@/components/form/paymaster';
 import { OnchainKitComponent } from '@/types/onchainkit';
 import { ActiveComponent } from './form/active-component';
+import { SubscribeOptions } from './form/subscribe-options';
 import { Chain } from './form/chain';
 import { CheckoutOptions } from './form/checkout-options';
 import { IsSponsored } from './form/is-sponsored';
@@ -65,6 +66,7 @@ const COMPONENT_CONFIG: Partial<
   ],
   [OnchainKitComponent.Earn]: [EarnOptions],
   [OnchainKitComponent.Signature]: [Chain],
+  [OnchainKitComponent.Subscribe]: [Chain, SubscribeOptions],
   [OnchainKitComponent.Wallet]: [WalletSignUp],
   [OnchainKitComponent.WalletDefault]: [WalletSignUp],
   [OnchainKitComponent.WalletAdvancedDefault]: [WalletSignUp],
