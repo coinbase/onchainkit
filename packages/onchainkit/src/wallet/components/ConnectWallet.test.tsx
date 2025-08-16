@@ -1143,7 +1143,7 @@ describe('ConnectWallet', () => {
       );
 
       expect(customRender).toHaveBeenCalledWith({
-        label: 'Connect Now',
+        label: expect.any(Object), // JSX element with Avatar and Name
         onClick: expect.any(Function),
         context: mockWalletContext,
         status: 'connected',
