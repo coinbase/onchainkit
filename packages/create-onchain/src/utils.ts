@@ -12,6 +12,41 @@ export const getVersion = async () => {
   return packageJson.version;
 };
 
+export const getOnchainKitWorkspaceVersion = async () => {
+  const pkgPath = path.resolve(
+    fileURLToPath(import.meta.url),
+    '../../../onchainkit/package.json',
+  );
+  try {
+    const packageJsonContent = await fs.readFile(pkgPath, 'utf8');
+    const packageJson = JSON.parse(packageJsonContent);
+    return packageJson.version;
+  } catch (error) {
+    console.warn('Warning: Could not read workspace OnchainKit version. Using "latest".');
+    return 'latest';
+  }
+}
+
+export const resolveOnchainKitVersion = async (versionFlag?: string): Promise<string> => {
+  if (versionFlag) {
+    if (versionFlag === 'workspace') {
+      return await getOnchainKitWorkspaceVersion();
+    }
+    return versionFlag;
+  }
+  
+  // Auto-detect version based on create-onchain version
+  const createOnchainVersion = await getVersion();
+  
+  // If create-onchain is an alpha version, use alpha OnchainKit
+  if (createOnchainVersion.includes('alpha')) {
+    return 'alpha';
+  }
+  
+  // Otherwise use latest
+  return 'latest';
+}
+
 const renameFiles: Record<string, string | undefined> = {
   _gitignore: '.gitignore',
   '_env.local': '.env.local',

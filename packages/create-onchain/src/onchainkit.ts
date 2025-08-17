@@ -8,6 +8,7 @@ import {
   toValidPackageName,
   createClickableLink,
   copyDir,
+  resolveOnchainKitVersion,
 } from './utils.js';
 import { fileURLToPath } from 'url';
 import { analyticsPrompt } from './analytics.js';
@@ -103,6 +104,12 @@ export async function createOnchainKitTemplate() {
   const pkgPath = path.join(root, 'package.json');
   const pkg = JSON.parse(await fs.promises.readFile(pkgPath, 'utf-8'));
   pkg.name = packageName || toValidPackageName(projectName);
+  
+  const resolvedVersion = await resolveOnchainKitVersion();
+  if (pkg.dependencies?.['@coinbase/onchainkit']) {
+    pkg.dependencies['@coinbase/onchainkit'] = resolvedVersion;
+  }
+  
   await fs.promises.writeFile(pkgPath, JSON.stringify(pkg, null, 2));
 
   // Customize .env file from template

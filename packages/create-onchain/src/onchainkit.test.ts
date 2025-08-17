@@ -19,6 +19,7 @@ vi.mock('./utils.js', () => ({
   createClickableLink: vi.fn(),
   isValidPackageName: vi.fn().mockReturnValue(true),
   toValidPackageName: vi.fn().mockImplementation((name) => name),
+  resolveOnchainKitVersion: vi.fn().mockResolvedValue('latest'),
 }));
 vi.mock('ora', () => ({
   default: vi.fn(),
@@ -201,6 +202,66 @@ describe('CLI', () => {
       expect.stringContaining(
         'Directory already exists and is not empty. Please choose a different name.',
       ),
+    );
+  });
+
+  it('updates OnchainKit version in package.json when specified', async () => {
+    const { resolveOnchainKitVersion } = await import('./utils.js');
+    
+    (prompts as unknown as Mock).mockResolvedValue({
+      projectName: 'test-project',
+      clientKey: 'test-key',
+      smartWallet: true,
+    });
+
+    const mockPackageJson = {
+      name: 'existing-name',
+      dependencies: {
+        '@coinbase/onchainkit': 'latest',
+        'other-package': '1.0.0',
+      },
+    };
+
+    (fs.promises.readFile as Mock).mockResolvedValue(JSON.stringify(mockPackageJson));
+    
+    // Mock resolveOnchainKitVersion to return a specific version
+    vi.mocked(resolveOnchainKitVersion).mockResolvedValueOnce('0.38.19');
+
+    await createOnchainKitTemplate();
+
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
+      expect.stringContaining('package.json'),
+      expect.stringContaining('"@coinbase/onchainkit": "0.38.19"'),
+    );
+  });
+
+  it('auto-detects alpha version when create-onchain is alpha', async () => {
+    const { resolveOnchainKitVersion } = await import('./utils.js');
+    
+    (prompts as unknown as Mock).mockResolvedValue({
+      projectName: 'test-project',
+      clientKey: 'test-key',
+      smartWallet: true,
+    });
+
+    const mockPackageJson = {
+      name: 'existing-name',
+      dependencies: {
+        '@coinbase/onchainkit': 'latest',
+        'other-package': '1.0.0',
+      },
+    };
+
+    (fs.promises.readFile as Mock).mockResolvedValue(JSON.stringify(mockPackageJson));
+    
+    // Mock resolveOnchainKitVersion to return 'alpha' for this test
+    vi.mocked(resolveOnchainKitVersion).mockResolvedValueOnce('alpha');
+
+    await createOnchainKitTemplate();
+
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
+      expect.stringContaining('package.json'),
+      expect.stringContaining('"@coinbase/onchainkit": "alpha"'),
     );
   });
 });
