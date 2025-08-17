@@ -22,6 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
         button: {
           title: `Launch ${minikitConfig.frame.name}`,
           action: {
+            name: `Launch ${minikitConfig.frame.name}`,
             type: "launch_frame",
           },
         },
