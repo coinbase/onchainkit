@@ -22,6 +22,7 @@ import { CloseFrame } from "./actions/CloseFrame";
 import { UserInfo } from "./components/UserInfo";
 import { SendToken } from "./actions/SendToken";
 import { SwapToken } from "./actions/SwapToken";
+import { BatchedTransaction } from "./actions/BatchedTransaction";
 import { Anchor, Flex, Stack, Text, Title } from "@mantine/core";
 
 export default function App() {
@@ -70,6 +71,7 @@ export default function App() {
           <SendToken />
           <SwapToken />
           <CloseFrame />
+          <BatchedTransaction />
         </Stack>
       </Stack>
 
