@@ -224,7 +224,6 @@ describe('CLI', () => {
 
     (fs.promises.readFile as Mock).mockResolvedValue(JSON.stringify(mockPackageJson));
     
-    // Mock resolveOnchainKitVersion to return a specific version
     vi.mocked(resolveOnchainKitVersion).mockResolvedValueOnce('0.38.19');
 
     await createOnchainKitTemplate();
@@ -254,7 +253,6 @@ describe('CLI', () => {
 
     (fs.promises.readFile as Mock).mockResolvedValue(JSON.stringify(mockPackageJson));
     
-    // Mock resolveOnchainKitVersion to return 'alpha' for this test
     vi.mocked(resolveOnchainKitVersion).mockResolvedValueOnce('alpha');
 
     await createOnchainKitTemplate();
