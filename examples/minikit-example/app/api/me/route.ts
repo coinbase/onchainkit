@@ -29,13 +29,17 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ message: "Missing token" }, { status: 401 });
   }
 
+  const domain = getUrlHost();
+
+  console.log("Domain: ", domain);
+
   try {
     // Now we verify the token. `domain` must match the domain of the request.
     // In our case, we're using the `getUrlHost` function to get the domain of the request
     // based on the Vercel environment. This will vary depending on your hosting provider.
     const payload = await client.verifyJwt({
       token: authorization.split(" ")[1] as string,
-      domain: getUrlHost(),
+      domain,
     });
 
     // If the token was valid, `payload.sub` will be the user's Farcaster ID.
