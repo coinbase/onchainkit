@@ -41,6 +41,9 @@ function useUserInfo() {
 export function UserInfo() {
   const { data, isLoading, error } = useUserInfo();
 
+  console.log("User info: ");
+  console.log(data);
+
   if (isLoading) {
     return (
       <Card withBorder p="md" radius="md">
