@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import { Inter, Source_Code_Pro } from "next/font/google";
 import { minikitConfig } from "@/minikit.config";
 import { RootProvider } from "./rootProvider";
+import {
+  ColorSchemeScript,
+  MantineProvider,
+  mantineHtmlProps,
+} from "@mantine/core";
+import "@coinbase/onchainkit/styles.css";
+import "@mantine/core/styles.css";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -39,9 +46,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" {...mantineHtmlProps}>
+      <head>
+        <ColorSchemeScript />
+      </head>
       <body className={`${inter.variable} ${sourceCodePro.variable}`}>
-        <RootProvider>{children}</RootProvider>
+        <MantineProvider defaultColorScheme="auto">
+          <RootProvider>{children}</RootProvider>
+        </MantineProvider>
       </body>
     </html>
   );

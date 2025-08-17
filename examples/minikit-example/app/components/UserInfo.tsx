@@ -2,7 +2,16 @@
 import { useIsInMiniApp } from "@coinbase/onchainkit/minikit";
 import sdk from "@farcaster/miniapp-sdk";
 import { useQuery } from "@tanstack/react-query";
-import styles from "./UserInfo.module.css";
+import {
+  Card,
+  Avatar,
+  Title,
+  Text,
+  Group,
+  Stack,
+  Skeleton,
+  Center,
+} from "@mantine/core";
 
 function useUserInfo() {
   const { isInMiniApp } = useIsInMiniApp();
@@ -34,65 +43,86 @@ export function UserInfo() {
 
   if (isLoading) {
     return (
-      <div className={styles.loadingContainer}>
-        <div className={styles.loadingContent}>
-          <div className={styles.loadingAvatar}></div>
-          <div className={styles.loadingTextContainer}>
-            <div className={styles.loadingTextLong}></div>
-            <div className={styles.loadingTextShort}></div>
-          </div>
-        </div>
-      </div>
+      <Card withBorder p="md" radius="md">
+        <Group align="flex-start" gap="md">
+          <Skeleton height={64} circle />
+          <Stack gap="xs" style={{ flex: 1 }}>
+            <Skeleton height={20} width={128} />
+            <Skeleton height={16} width={96} />
+          </Stack>
+        </Group>
+      </Card>
     );
   }
 
   if (error || !data) {
     return (
-      <div className={styles.errorContainer}>
-        <p className={styles.errorText}>
-          {error ? "Failed to load user info" : "No user info available"}
-        </p>
-      </div>
+      <Card withBorder p="md" radius="md">
+        <Center>
+          <Text c="dimmed" ta="center">
+            {error ? "Failed to load user info" : "No user info available"}
+          </Text>
+        </Center>
+      </Card>
     );
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
+    <Card withBorder p="xl" radius="md">
+      <Group align="flex-start" gap="md">
         {/* Profile Picture */}
         {data.pfpUrl && (
-          <img
+          <Avatar
             src={data.pfpUrl}
             alt={`${data.displayName}'s profile picture`}
-            className={styles.profilePicture}
+            size={64}
           />
         )}
 
         {/* User Info */}
-        <div className={styles.userInfo}>
+        <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
           {/* Display Name */}
-          <h2 className={styles.displayName}>{data.displayName}</h2>
+          <Title
+            order={2}
+            size="lg"
+            fw={600}
+            style={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {data.displayName}
+          </Title>
 
           {/* Bio */}
-          {data.bio && <p className={styles.bio}>{data.bio}</p>}
+          {data.bio && (
+            <Text c="dimmed" size="sm" lh={1.6}>
+              {data.bio}
+            </Text>
+          )}
 
           {/* Follower Stats */}
-          <div className={styles.stats}>
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>
+          <Group gap="xl" mt="xs">
+            <Stack align="center" gap={2}>
+              <Text fw={600} size="sm">
                 {data.followerCount?.toLocaleString() || "0"}
-              </span>
-              <span className={styles.statLabel}>Followers</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>
+              </Text>
+              <Text c="dimmed" size="xs">
+                Followers
+              </Text>
+            </Stack>
+            <Stack align="center" gap={2}>
+              <Text fw={600} size="sm">
                 {data.followingCount?.toLocaleString() || "0"}
-              </span>
-              <span className={styles.statLabel}>Following</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+              </Text>
+              <Text c="dimmed" size="xs">
+                Following
+              </Text>
+            </Stack>
+          </Group>
+        </Stack>
+      </Group>
+    </Card>
   );
 }
