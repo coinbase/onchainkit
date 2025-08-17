@@ -1,6 +1,6 @@
 "use client";
 import { useViewCast, useIsInMiniApp } from "@coinbase/onchainkit/minikit";
-import { Button } from "../ui/Button";
+import { Button } from "@mantine/core";
 
 export function ViewCast() {
   const { isInMiniApp } = useIsInMiniApp();
