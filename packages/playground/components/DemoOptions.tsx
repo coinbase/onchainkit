@@ -14,7 +14,6 @@ import { NFTOptions } from './form/nft-options';
 import { SwapConfig } from './form/swap-config';
 import { TransactionOptions } from './form/transaction-options';
 import { WalletType } from './form/wallet-type';
-import { WalletSignUp } from './form/wallet-sign-up';
 import { ReactNode } from 'react';
 const COMMON_OPTIONS = [
   ActiveComponent,
@@ -69,9 +68,9 @@ const COMPONENT_CONFIG: Partial<
   ],
   [OnchainKitComponent.Earn]: [EarnOptions],
   [OnchainKitComponent.Signature]: [Chain],
-  [OnchainKitComponent.Wallet]: [WalletSignUp],
-  [OnchainKitComponent.WalletDefault]: [WalletSignUp],
-  [OnchainKitComponent.WalletAdvancedDefault]: [WalletSignUp],
+  [OnchainKitComponent.Wallet]: [],
+  [OnchainKitComponent.WalletDefault]: [],
+  [OnchainKitComponent.WalletAdvancedDefault]: [],
 };
 
 export default function DemoOptions({

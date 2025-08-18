@@ -30,6 +30,7 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+.ignore
 
 # System Files
 .DS_Store
@@ -61,3 +62,4 @@ storybook-static/
 # AI agent rules
 .cursorrules
 AGENT.md
+.claude

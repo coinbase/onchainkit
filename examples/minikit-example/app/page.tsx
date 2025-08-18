@@ -14,7 +14,6 @@ import {
   WalletDropdownDisconnect,
 } from "@coinbase/onchainkit/wallet";
 import { useEffect } from "react";
-import { Button } from "./ui/Button";
 import { IsInMiniApp } from "./actions/IsInMiniApp";
 import { AddFrame } from "./actions/AddFrame";
 import { ComposeCast } from "./actions/ComposeCast";
@@ -23,7 +22,8 @@ import { CloseFrame } from "./actions/CloseFrame";
 import { UserInfo } from "./components/UserInfo";
 import { SendToken } from "./actions/SendToken";
 import { SwapToken } from "./actions/SwapToken";
-import styles from "./page.module.css";
+import { BatchedTransaction } from "./actions/BatchedTransaction";
+import { Anchor, Flex, Stack, Text, Title } from "@mantine/core";
 
 export default function App() {
   const { setFrameReady, isFrameReady } = useMiniKit();
@@ -36,62 +36,57 @@ export default function App() {
   }, [setFrameReady, isFrameReady]);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.wrapper}>
-        <header className={styles.header}>
-          <div>
-            <div className={styles.walletSection}>
-              <Wallet className={styles.wallet}>
-                <ConnectWallet>
-                  <Name className={styles.walletName} />
-                </ConnectWallet>
-                <WalletDropdown>
-                  <Identity className={styles.identity} hasCopyAddressOnClick>
-                    <Avatar />
-                    <Name />
-                    <Address />
-                    <EthBalance />
-                  </Identity>
-                  <WalletDropdownDisconnect />
-                </WalletDropdown>
-              </Wallet>
-            </div>
-          </div>
-        </header>
+    <Stack p="md">
+      <Flex component="header" align="end" justify="end" mb="xl">
+        <Wallet>
+          <ConnectWallet>
+            <Name />
+          </ConnectWallet>
+          <WalletDropdown>
+            <Identity hasCopyAddressOnClick>
+              <Avatar />
+              <Name />
+              <Address />
+              <EthBalance />
+            </Identity>
+            <WalletDropdownDisconnect />
+          </WalletDropdown>
+        </Wallet>
+      </Flex>
 
-        <main className={styles.main}>
-          <div className={styles.content}>
-            <h1 className={styles.title}>MiniKit Examples</h1>
+      <Stack component="main" justify="center" align="center" gap="md">
+        <Title order={1}>MiniKit Examples</Title>
 
-            <p className={styles.description}>
-              This mini app is meant to show how you can use the actions
-              available in MiniKit.
-            </p>
+        <Text>
+          This mini app is meant to show how you can use the actions available
+          in MiniKit.
+        </Text>
 
-            <div className={styles.actionsList}>
-              <IsInMiniApp />
-              <UserInfo />
-              <AddFrame />
-              <ComposeCast />
-              <ViewCast />
-              <SendToken />
-              <SwapToken />
-              <CloseFrame />
-            </div>
-          </div>
-        </main>
+        <Stack>
+          <IsInMiniApp />
+          <UserInfo />
+          <AddFrame />
+          <ComposeCast />
+          <ViewCast />
+          <SendToken />
+          <SwapToken />
+          <CloseFrame />
+          <BatchedTransaction />
+        </Stack>
+      </Stack>
 
-        <footer className={styles.footer}>
-          <Button
-            variant="ghost"
-            size="sm"
-            className={styles.footerButton}
-            onClick={() => openUrl("https://base.org/builders/minikit")}
-          >
-            Built on Base with MiniKit
-          </Button>
-        </footer>
-      </div>
-    </div>
+      <Text ta="center" mt="xl">
+        Built on Base with{" "}
+        <Anchor
+          href="https://base.org/builders/minikit"
+          onClick={(e) => {
+            e.preventDefault();
+            openUrl("https://base.org/builders/minikit");
+          }}
+        >
+          MiniKit
+        </Anchor>
+      </Text>
+    </Stack>
   );
 }

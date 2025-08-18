@@ -282,7 +282,6 @@ describe('OnchainKitProvider', () => {
             wallet: {
               display: 'classic',
               preference: 'all',
-              signUpEnabled: true,
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
               supportedWallets: {
@@ -329,7 +328,6 @@ describe('OnchainKitProvider', () => {
             wallet: {
               display: 'classic',
               preference: 'all',
-              signUpEnabled: true,
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
               supportedWallets: {
@@ -414,7 +412,6 @@ describe('OnchainKitProvider', () => {
             wallet: {
               display: 'classic',
               preference: 'all',
-              signUpEnabled: true,
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
               supportedWallets: {
@@ -554,7 +551,6 @@ describe('OnchainKitProvider', () => {
       wallet: {
         display: 'modal',
         preference: 'eoaOnly',
-        signUpEnabled: false,
         termsUrl: 'https://example.com/terms',
         privacyUrl: 'https://example.com/privacy',
         supportedWallets: {
@@ -586,7 +582,6 @@ describe('OnchainKitProvider', () => {
             wallet: {
               display: 'modal',
               preference: 'eoaOnly',
-              signUpEnabled: false,
               termsUrl: 'https://example.com/terms',
               privacyUrl: 'https://example.com/privacy',
               supportedWallets: {

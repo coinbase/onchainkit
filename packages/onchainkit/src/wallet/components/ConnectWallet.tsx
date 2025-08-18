@@ -176,10 +176,20 @@ function ConnectWalletContent({
     sendAnalytics,
   ]);
 
+  const buttonContent = useMemo(() => {
+    if (isLoading) return <Spinner />;
+
+    if (status === 'disconnected') return disconnectedLabel;
+
+    return (
+      <div className="flex items-center justify-center gap-2">{children}</div>
+    );
+  }, [isLoading, status, disconnectedLabel, children]);
+
   if (render) {
     return (
       <ConnectWalletRenderHandler
-        label={disconnectedLabel}
+        label={buttonContent}
         onClick={handleConnectClick}
         isLoading={isLoading}
         render={render}
@@ -197,7 +207,7 @@ function ConnectWalletContent({
           className={cn('inline-flex min-w-[153px]', className)}
           onClick={handleConnectClick}
         >
-          {disconnectedLabel}
+          {buttonContent}
         </Button>
         {isWalletModalEnabled && (
           <WalletModal
@@ -225,7 +235,7 @@ function ConnectWalletContent({
           )}
           disabled={true}
         >
-          <Spinner />
+          {buttonContent}
         </button>
       </div>
     );

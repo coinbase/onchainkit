@@ -3,9 +3,26 @@ import { NextRequest, NextResponse } from "next/server";
 
 const client = createClient();
 
-function getUrlHost() {
-  let urlValue: string;
+function getUrlHost(request: NextRequest) {
+  // First try to get the origin from the Origin header (most reliable for CORS requests)
+  const origin = request.headers.get("origin");
+  if (origin) {
+    try {
+      const url = new URL(origin);
+      return url.host;
+    } catch (error) {
+      console.warn("Invalid origin header:", origin, error);
+    }
+  }
 
+  // Fallback to Host header
+  const host = request.headers.get("host");
+  if (host) {
+    return host;
+  }
+
+  // Final fallback to environment variables (your original logic)
+  let urlValue: string;
   if (process.env.VERCEL_ENV === "production") {
     urlValue = process.env.NEXT_PUBLIC_URL!;
   } else if (process.env.VERCEL_URL) {
@@ -15,7 +32,6 @@ function getUrlHost() {
   }
 
   const url = new URL(urlValue);
-
   return url.host;
 }
 
@@ -35,7 +51,7 @@ export async function GET(request: NextRequest) {
     // based on the Vercel environment. This will vary depending on your hosting provider.
     const payload = await client.verifyJwt({
       token: authorization.split(" ")[1] as string,
-      domain: getUrlHost(),
+      domain: getUrlHost(request),
     });
 
     // If the token was valid, `payload.sub` will be the user's Farcaster ID.

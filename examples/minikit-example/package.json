@@ -11,6 +11,8 @@
   "dependencies": {
     "@coinbase/onchainkit": "workspace:*",
     "@farcaster/miniapp-sdk": "^0.1.8",
+    "@mantine/core": "^8.2.5",
+    "@mantine/hooks": "^8.2.5",
     "@tanstack/react-query": "^5.81.5",
     "next": "15.3.4",
     "react": "^19.0.0",
@@ -19,14 +21,17 @@
     "wagmi": "^2.15.6"
   },
   "devDependencies": {
-    "@farcaster/quick-auth": "^0.0.7",
     "@eslint/eslintrc": "^3",
+    "@farcaster/quick-auth": "^0.0.7",
     "@next/eslint-plugin-next": "^15.3.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.4",
+    "postcss": "^8.5.6",
+    "postcss-preset-mantine": "^1.18.0",
+    "postcss-simple-vars": "^7.0.1",
     "typescript": "^5"
   }
 }
