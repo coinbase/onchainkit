@@ -126,11 +126,47 @@ Farcaster integration has moved to the newer SDK:
 
 ## 📦 New Features in v1.0.0
 
-### Utils Export
-v1.0.0 adds a new utils export for utility functions:
+### Scoped Styling System
+v1.0.0 includes a completely redesigned styling system built with Tailwind CSS v4. However, **you don't need to upgrade your own Tailwind setup** - OnchainKit's styles are pre-built and self-contained.
+
+Additionally, all styles are now scoped to prevent conflicts with consumer app theming:
+
+- **Class Prefixing**: All OnchainKit classes are automatically prefixed with `ock:`
+- **Theme Variables**: Custom CSS properties use the `--ock-` prefix
+- **Data Attributes**: Theming is controlled via `data-ock-theme` attributes
 
 ```tsx
-import { formatAmount } from "@coinbase/onchainkit/utils";
+// Themes are applied via data attribute to prevent conflicts
+<html data-ock-theme="default-dark">
+  {/* Your app content */}
+</html>
+```
+
+### Render Props Support
+Some components now support render props for complete customization:
+
+```tsx
+// ConnectWallet with render prop
+<ConnectWallet
+  render={({ label, onClick, context, status, isLoading }) => (
+    <button 
+      onClick={onClick}
+      className="my-custom-button"
+      disabled={isLoading}
+    >
+      {status === 'connecting' ? 'Connecting...' : label}
+    </button>
+  )}
+/>
+
+// SignatureButton with render prop
+<SignatureButton
+  render={({ label, onClick, context }) => (
+    <button onClick={onClick} className="my-custom-button">
+      {label}
+    </button>
+  )}
+/>
 ```
 
 ### Enhanced Build Configuration
@@ -139,9 +175,8 @@ import { formatAmount } from "@coinbase/onchainkit/utils";
 - Better TypeScript integration
 
 ### Improved Dependencies
-- Updated to latest Radix UI components
+- Adopted Radix UI components for better accessibility and consistency
 - Enhanced Tailwind CSS integration
-- Better PostCSS configuration
 
 ## 🔧 Migration Steps
 
@@ -156,10 +191,21 @@ Replace `MiniKitProvider` with `OnchainKitProvider` and add MiniKit configuratio
 ### Step 3: Update Package References
 Change `@farcaster/frame-sdk` to `@farcaster/miniapp-sdk` in your package.json.
 
-### Step 4: Update Imports
-If you're using the new utils, add the utils import:
-```tsx
-import { formatAmount } from "@coinbase/onchainkit/utils";
+### Step 4: Migrate Custom Theming
+If you have custom OnchainKit theming, update CSS variables to use the `--ock-` prefix:
+
+```css
+/* Before (v0.x) */
+:root {
+  --text-primary: #000000;
+  --bg-primary: #ffffff;
+}
+
+/* After (v1.0) */
+[data-ock-theme='custom'] {
+  --ock-text-foreground: #000000;
+  --ock-background: #ffffff;
+}
 ```
 
 ### Step 5: Test Your Application
@@ -194,17 +240,10 @@ npm install viem@^2.27 wagmi@^2.16
 npm install react@19 react-dom@19
 ```
 
-**Issue**: Frame SDK imports fail
-**Solution**: Update to miniapp-sdk:
-```bash
-npm uninstall @farcaster/frame-sdk
-npm install @farcaster/miniapp-sdk@^0.1.8
-```
-
 ### Getting Help
 
-- 📖 [OnchainKit Documentation](https://onchainkit.xyz/)
-- 💬 [Discord Community](https://discord.gg/invite/cdp)
+- 📖 [OnchainKit Documentation](https://docs.base.org/onchainkit/getting-started)
+- 💬 [Base Discord](https://discord.com/invite/buildonbase)
 - 🐛 [GitHub Issues](https://github.com/coinbase/onchainkit/issues)
 
 ## ✅ Migration Checklist
@@ -216,6 +255,8 @@ npm install @farcaster/miniapp-sdk@^0.1.8
 - [ ] Updated @farcaster/frame-sdk to @farcaster/miniapp-sdk
 - [ ] Added @coinbase/onchainkit/styles.css import
 - [ ] Configured miniKit options in OnchainKitProvider
+- [ ] Migrated custom CSS variables to use `--ock-` prefix (if customizing OnchainKit themes)
+- [ ] Tested render props functionality (if used)
 - [ ] Tested all existing functionality
 - [ ] Updated any custom styling or CSS
 

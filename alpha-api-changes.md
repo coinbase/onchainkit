@@ -52,17 +52,36 @@ This document outlines all API changes, additions, and removals between OnchainK
 
 ## New Features
 
-### Package Exports
-
-#### Added
-- **`./utils`** - New utils export path
-  ```tsx
-  import { formatAmount } from "@coinbase/onchainkit/utils";
-  ```
-
 ### Component Enhancements
 
-All existing component APIs remain **backward compatible**. No breaking changes to:
+All existing component APIs remain **backward compatible**. However, several components now support new render prop patterns:
+
+#### New Render Props Support
+- **ConnectWallet**: Added render prop for custom button rendering
+- **SignatureButton**: Added render prop for custom button rendering
+
+```tsx
+// ConnectWallet render prop (NEW)
+<ConnectWallet
+  render={({ label, onClick, context, status, isLoading }) => (
+    <CustomButton onClick={onClick} loading={isLoading}>
+      {label}
+    </CustomButton>
+  )}
+/>
+
+// SignatureButton render prop (NEW)
+<SignatureButton
+  render={({ label, onClick, context }) => (
+    <CustomButton onClick={onClick}>
+      {label}
+    </CustomButton>
+  )}
+/>
+```
+
+#### Component API Compatibility
+No breaking changes to:
 
 - **Identity Module**: `Address`, `Avatar`, `Badge`, `EthBalance`, `Identity`, `Name`, `Socials`, `IdentityCard`
 - **Wallet Module**: `Wallet`, `ConnectWallet`, `WalletDropdown`, etc.
@@ -125,20 +144,64 @@ All hooks maintain backward compatibility:
 #### Removed
 - **packemon**: `3.3.1` (replaced with Vite)
 
+## Styling System Changes
+
+### Internal Styling System Upgrade
+
+#### Internal Changes (No User Action Required)
+- **OnchainKit Build**: Now uses Tailwind CSS v4 internally
+- **Pre-built Styles**: All styles are compiled and distributed as CSS
+- **Self-contained**: No impact on user's own Tailwind setup
+
+**Note**: You don't need to upgrade your own Tailwind CSS version. OnchainKit's styles are pre-built and imported via `@coinbase/onchainkit/styles.css`.
+
+### Scoped Styling System
+
+#### New Features
+- **Class Prefixing**: All OnchainKit classes automatically prefixed with `ock-`
+- **CSS Variable Scoping**: Theme variables use `--ock-` prefix
+- **Data Attribute Theming**: Themes applied via `data-ock-theme` attributes
+
+#### Breaking Changes for Custom Styling
+```css
+/* v0.x - Global CSS variables */
+:root {
+  --text-primary: #000000;
+  --bg-primary: #ffffff;
+}
+
+/* v1.0 - Scoped CSS variables */
+[data-ock-theme='default-light'] {
+  --ock-text-foreground: #000000;
+  --ock-background: #ffffff;
+}
+```
+
+#### New Scoped Color System
+- `ock-foreground`, `ock-foreground-muted`, `ock-foreground-inverse`
+- `ock-background`, `ock-background-hover`, `ock-background-active`
+- `ock-primary`, `ock-secondary`, `ock-error`, `ock-warning`, `ock-success`
+
+### Theme Configuration Changes
+
+#### v0.x Theme Application
+```tsx
+// Applied globally
+<html className="dark">
+```
+
+#### v1.0 Theme Application
+```tsx
+// Applied via data attributes
+<html data-ock-theme="default-dark">
+```
+
 ## Configuration Changes
 
 ### Package.json Structure
 
-#### Updated Exports
-All existing exports remain the same, with the addition of:
-```json
-"./utils": {
-  "types": "./dist/utils/index.d.ts",
-  "module": "./dist/utils/index.js",
-  "import": "./dist/utils/index.js",
-  "default": "./dist/utils/index.js"
-}
-```
+#### Package Exports
+All existing exports remain the same with no additions or removals.
 
 #### Build Configuration
 - Transitioned from custom build scripts to Vite
@@ -165,10 +228,12 @@ All existing exports remain the same, with the addition of:
 - **Provider setup**: Requires migration from MiniKitProvider
 - **Dependencies**: Must add peer dependencies
 - **Farcaster SDK**: Requires package update
+- **Custom theming**: CSS variables need `--ock-` prefix migration (if customizing OnchainKit themes)
 
 ### High Impact Changes
 - **React version**: Must upgrade to React 19
 - **Build system**: Projects using custom builds may need updates
+- **Styling conflicts**: Existing CSS may conflict with new scoped system
 
 ## Compatibility Matrix
 
@@ -182,6 +247,10 @@ All existing exports remain the same, with the addition of:
 | React 18 | ✅ | ❌ | ❌ |
 | React 19 | ✅ | ✅ | ✅ |
 | Viem/Wagmi as deps | Optional | Required | ⚠️ |
+| User's Tailwind v3/v4 | ✅ | ✅ | ✅ (no impact) |
+| Global CSS variables | ✅ | ❌ | ❌ |
+| Scoped CSS variables | ❌ | ✅ | ⚠️ (new system) |
+| Render props | ❌ | ✅ | ✅ (additive) |
 
 ## Summary
 

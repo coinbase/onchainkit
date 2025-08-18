@@ -1,6 +1,6 @@
 import { declare } from '@babel/helper-plugin-utils';
 import * as t from '@babel/types';
-import { prefixStringParts } from '../src/utils/prefixStringParts';
+import { prefixStringParts } from '../src/internal/utils/prefixStringParts';
 
 function processTemplateLiteral(
   templateLiteral: t.TemplateLiteral,

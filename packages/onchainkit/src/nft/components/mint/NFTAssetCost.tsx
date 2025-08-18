@@ -1,7 +1,7 @@
 import { multiplyFloats } from '@/internal/utils/multiplyFloats';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { cn, text } from '@/styles/theme';
-import { formatToDecimalString } from '@/utils/formatter';
+import { formatToDecimalString } from '@/internal/utils/formatter';
 import { formatAmount } from '@/token/utils/formatAmount';
 
 type NFTAssetCostProps = {

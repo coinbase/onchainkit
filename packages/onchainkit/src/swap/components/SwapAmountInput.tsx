@@ -10,7 +10,7 @@ import { cn, pressable, text } from '@/styles/theme';
 import type { Token } from '@/token';
 import { TokenChip, TokenSelectDropdown } from '@/token';
 import type { SwapAmountInputProps } from '../types';
-import { formatToDecimalString, formatUSD } from '@/utils/formatter';
+import { formatToDecimalString, formatUSD } from '@/internal/utils/formatter';
 import { useSwapContext } from './SwapProvider';
 
 export function SwapAmountInput({
