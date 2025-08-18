@@ -785,8 +785,7 @@ describe('WalletModal', () => {
     render(<WalletModal isOpen={true} onClose={mockOnClose} />);
 
     const walletButtons = Array.from(screen.getAllByRole('button')).filter(
-      (button) =>
-        !button.getAttribute('aria-label')?.includes('Close'),
+      (button) => !button.getAttribute('aria-label')?.includes('Close'),
     );
 
     expect(walletButtons[0].textContent).toContain('Sign in with Base');
@@ -1203,7 +1202,6 @@ describe('WalletModal', () => {
     window.ethereum = originalEthereum;
     window.open = originalWindowOpen;
   });
-
 
   it('connects with Base Account when clicking Base button', () => {
     (useOnchainKit as Mock).mockReturnValue({

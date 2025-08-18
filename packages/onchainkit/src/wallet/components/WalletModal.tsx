@@ -3,7 +3,6 @@
 import { Dialog } from '@/internal/components/Dialog';
 import { CloseSvg } from '@/internal/svg/closeSvg';
 import { coinbaseWalletSvg } from '@/internal/svg/coinbaseWalletSvg';
-import { defaultAvatarSVG } from '@/internal/svg/defaultAvatarSVG';
 import { frameWalletSvg } from '@/internal/svg/frameWalletSvg';
 import { metamaskSvg } from '@/internal/svg/metamaskSvg';
 import { phantomSvg } from '@/internal/svg/phantomSvg';
