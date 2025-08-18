@@ -4,7 +4,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { EarnAmountInput } from './EarnAmountInput';
 
-vi.mock('@/utils/formatter', () => ({
+vi.mock('@/internal/utils/formatter', () => ({
   formatToDecimalString: vi.fn((value) => value),
 }));
 
