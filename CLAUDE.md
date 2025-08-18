@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - The plan should be a detailed implementation plan and the reasoning behind the plan, the tasks to implement the plan, and a briefdescription of each task
 - Don't over plan, keep things simple and focused
 - After you write the plan, ask me to review it. Do not continue until I approve the plan
+- If it's clear that the task is too trivial to require a plan, you may skip the step of creating the written TASK_NAME.md. You should still start by explaining the plan of attack, and asking for approval before starting
 
 ### While implementing
 - Update the plan as you go

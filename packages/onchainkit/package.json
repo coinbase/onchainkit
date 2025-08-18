@@ -216,12 +216,6 @@
       "module": "./dist/wallet/index.js",
       "import": "./dist/wallet/index.js",
       "default": "./dist/wallet/index.js"
-    },
-    "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "module": "./dist/utils/index.js",
-      "import": "./dist/utils/index.js",
-      "default": "./dist/utils/index.js"
     }
   },
   "packageManager": "pnpm@10.6.3"

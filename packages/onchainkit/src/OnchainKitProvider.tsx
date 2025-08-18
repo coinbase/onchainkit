@@ -6,7 +6,7 @@ import OnchainKitProviderBoundary from './OnchainKitProviderBoundary';
 import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from './core/constants';
 import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
 import { checkHashLength } from './internal/utils/checkHashLength';
-import { generateUUIDWithInsecureFallback } from './utils/crypto';
+import { generateUUIDWithInsecureFallback } from './internal/utils/crypto';
 import { OnchainKitContext } from './useOnchainKit';
 import { useThemeRoot } from './internal/hooks/useTheme';
 import { clientMetaManager } from './core/clientMeta/clientMetaManager';

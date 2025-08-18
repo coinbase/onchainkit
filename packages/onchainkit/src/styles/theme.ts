@@ -1,4 +1,4 @@
-import { prefixStringParts } from '@/utils/prefixStringParts';
+import { prefixStringParts } from '@/internal/utils/prefixStringParts';
 import { type ClassValue, clsx } from 'clsx';
 import { extendTailwindMerge } from 'tailwind-merge';
 

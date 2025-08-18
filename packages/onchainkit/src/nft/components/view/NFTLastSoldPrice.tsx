@@ -1,7 +1,7 @@
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import type { ReactNode } from 'react';
 import { cn, text } from '../../../styles/theme';
-import { formatToDecimalString } from '@/utils/formatter';
+import { formatToDecimalString } from '@/internal/utils/formatter';
 import { formatAmount } from '../../../token/utils/formatAmount';
 
 type NFTLastSoldPriceProps = {

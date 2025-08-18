@@ -1,7 +1,7 @@
 import { TextInput } from '@/internal/components/TextInput';
 import { isValidAmount } from '@/internal/utils/isValidAmount';
 import { cn, text } from '@/styles/theme';
-import { formatToDecimalString } from '@/utils/formatter';
+import { formatToDecimalString } from '@/internal/utils/formatter';
 import type { EarnAmountInputProps } from '../types';
 
 export function EarnAmountInput({

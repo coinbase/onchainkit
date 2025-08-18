@@ -1,10 +1,10 @@
 import { isValidAmount } from '@/internal/utils/isValidAmount';
-import { formatToDecimalString } from '@/utils/formatter';
+import { formatToDecimalString } from '@/internal/utils/formatter';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { EarnAmountInput } from './EarnAmountInput';
 
-vi.mock('@/utils/formatter', () => ({
+vi.mock('@/internal/utils/formatter', () => ({
   formatToDecimalString: vi.fn((value) => value),
 }));
 

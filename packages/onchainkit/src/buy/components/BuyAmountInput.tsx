@@ -2,7 +2,7 @@
 import { TextInput } from '../../internal/components/TextInput';
 import { isValidAmount } from '../../internal/utils/isValidAmount';
 import { border, cn } from '../../styles/theme';
-import { formatToDecimalString } from '@/utils/formatter';
+import { formatToDecimalString } from '@/internal/utils/formatter';
 import { TokenChip } from '../../token';
 import { useBuyContext } from './BuyProvider';
 
