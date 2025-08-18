@@ -2,6 +2,15 @@
 
 This guide will help you upgrade from OnchainKit v0.x to v1.0.0. The v1.0.0 release includes breaking changes that require code updates.
 
+## Starting a new project?
+
+Bootstrap a new project using OnchainKit v1.0.0@alpha with the following command:
+
+```bash
+npx create-onchain@alpha        // Traditional web app
+npx create-onchain@alpha --mini // Mini app
+```
+
 ## 📋 Prerequisites
 
 Before upgrading, ensure your project meets these requirements:
