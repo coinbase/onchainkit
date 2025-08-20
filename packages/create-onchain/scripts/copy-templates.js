@@ -91,9 +91,9 @@ function shouldIgnoreFile(filePath, gitignoreRules) {
   const fileName = path.basename(filePath);
   const relativePath = filePath;
 
-  // Always ignore .gitignore files themselves
+  // Don't ignore .gitignore files - they need to be copied and renamed to _gitignore
   if (fileName === '.gitignore') {
-    return true;
+    return false;
   }
 
   // Never ignore .template.env files (even though they match .env* pattern)
@@ -171,6 +171,10 @@ async function copyTemplateDirectory(sourcePath, targetPath, gitignoreRules) {
         targetFilePath,
         JSON.stringify(packageJson, null, 2) + '\n',
       );
+    } else if (entry.name === '.gitignore') {
+      // Rename .gitignore to _gitignore for the template
+      const renamedTargetPath = path.join(targetPath, '_gitignore');
+      fs.copyFileSync(sourceFilePath, renamedTargetPath);
     } else {
       // Copy file
       fs.copyFileSync(sourceFilePath, targetFilePath);
