@@ -63,7 +63,7 @@ export default function App() {
           in MiniKit.
         </Text>
 
-        <Stack>
+        <Stack maw="100%">
           <IsInMiniApp />
           <UserInfo />
           <AddFrame />
