@@ -54,6 +54,8 @@ export async function GET(request: NextRequest) {
       domain: getUrlHost(request),
     });
 
+    console.log("payload", payload);
+
     // If the token was valid, `payload.sub` will be the user's Farcaster ID.
     const userFid = payload.sub;
 
