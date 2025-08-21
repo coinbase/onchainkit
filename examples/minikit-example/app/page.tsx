@@ -24,6 +24,7 @@ import { SendToken } from "./actions/SendToken";
 import { SwapToken } from "./actions/SwapToken";
 import { BatchedTransaction } from "./actions/BatchedTransaction";
 import { Anchor, Flex, Stack, Text, Title } from "@mantine/core";
+import { Context } from "./components/Context";
 
 export default function App() {
   const { setFrameReady, isFrameReady } = useMiniKit();
@@ -72,6 +73,7 @@ export default function App() {
           <SwapToken />
           <CloseFrame />
           <BatchedTransaction />
+          <Context />
         </Stack>
       </Stack>
 
