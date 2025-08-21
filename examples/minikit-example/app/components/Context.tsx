@@ -6,7 +6,9 @@ export function Context() {
 
   return (
     <Card>
-      <Code>{JSON.stringify(context ?? {}, null, 2)}</Code>
+      <pre>
+        <Code>{JSON.stringify(context ?? {}, null, 2)}</Code>
+      </pre>
     </Card>
   );
 }
