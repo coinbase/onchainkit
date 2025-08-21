@@ -10,6 +10,7 @@ import {
   isValidPackageName,
   toValidPackageName,
   copyDir,
+  resolveOnchainKitVersion,
 } from './utils.js';
 import open from 'open';
 import express from 'express';
@@ -217,6 +218,12 @@ export async function createMiniKitTemplate(
   const pkgPath = path.join(root, 'package.json');
   const pkg = JSON.parse(await fs.promises.readFile(pkgPath, 'utf-8'));
   pkg.name = packageName || toValidPackageName(projectName);
+
+  const resolvedVersion = await resolveOnchainKitVersion();
+  if (pkg.dependencies?.['@coinbase/onchainkit']) {
+    pkg.dependencies['@coinbase/onchainkit'] = resolvedVersion;
+  }
+
   await fs.promises.writeFile(pkgPath, JSON.stringify(pkg, null, 2));
 
   // Create .env file from template
