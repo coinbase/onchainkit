@@ -2,6 +2,7 @@ import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryT
 import { renderHook, waitFor } from '@testing-library/react';
 import type { Address, Chain, Hex } from 'viem';
 import { parseEther } from 'viem';
+import { act } from 'react';
 import { getWithdrawals } from 'viem/op-stack';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConfig, useSwitchChain, useWriteContract } from 'wagmi';
@@ -127,7 +128,9 @@ describe('useWithdraw', () => {
         }),
       { wrapper },
     );
-    await result.current.withdraw();
+    await act(async () => {
+      await result.current.withdraw();
+    });
     await waitFor(() => {
       expect(mockSwitchChainAsync).toHaveBeenCalledWith({ chainId: 0 });
     });
@@ -143,7 +146,9 @@ describe('useWithdraw', () => {
         }),
       { wrapper },
     );
-    await result.current.withdraw();
+    await act(async () => {
+      await result.current.withdraw();
+    });
     await waitFor(() => {
       expect(result.current.withdrawStatus).toBe('withdrawSuccess');
     });
@@ -167,7 +172,9 @@ describe('useWithdraw', () => {
         }),
       { wrapper },
     );
-    await result.current.withdraw();
+    await act(async () => {
+      await result.current.withdraw();
+    });
     await waitFor(() => {
       expect(result.current.withdrawStatus).toBe('withdrawRejected');
     });
@@ -198,7 +205,9 @@ describe('useWithdraw', () => {
         }),
       { wrapper },
     );
-    await result.current.withdraw();
+    await act(async () => {
+      await result.current.withdraw();
+    });
     await waitFor(() => {
       expect(result.current.withdrawStatus).toBe('error');
     });
@@ -221,7 +230,9 @@ describe('useWithdraw', () => {
         }),
       { wrapper },
     );
-    await result.current.withdraw();
+    await act(async () => {
+      await result.current.withdraw();
+    });
     await waitFor(() => {
       expect(mockWriteContractAsync).toHaveBeenCalledWith({
         abi: expect.arrayContaining([
@@ -253,7 +264,9 @@ describe('useWithdraw', () => {
         }),
       { wrapper },
     );
-    await result.current.withdraw();
+    await act(async () => {
+      await result.current.withdraw();
+    });
     await waitFor(() => {
       expect(result.current.withdrawStatus).toBe('error');
     });
@@ -294,7 +307,9 @@ describe('useWithdraw', () => {
         }),
       { wrapper },
     );
-    await result.current.waitForWithdrawal();
+    await act(async () => {
+      await result.current.waitForWithdrawal();
+    });
     await waitFor(() => {
       expect(result.current.withdrawStatus).toBe('claimReady');
     });
@@ -332,7 +347,9 @@ describe('useWithdraw', () => {
       { wrapper },
     );
 
-    await result.current.waitForWithdrawal();
+    await act(async () => {
+      await result.current.waitForWithdrawal();
+    });
     await waitFor(() => {
       expect(result.current.withdrawStatus).toBe('idle');
     });
@@ -357,7 +374,9 @@ describe('useWithdraw', () => {
       { wrapper },
     );
 
-    await result.current.withdraw();
+    await act(async () => {
+      await result.current.withdraw();
+    });
     await waitFor(() => {
       expect(mockWriteContractAsync).toHaveBeenCalledWith({
         abi: expect.arrayContaining([

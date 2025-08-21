@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import type { AppConfig } from '@/core/types';
 import type { EASSchemaUid } from '@/identity/types';
+import type { MiniKitOptions } from '@/minikit/types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { base } from 'viem/chains';
@@ -36,7 +37,12 @@ vi.mock('@/internal/hooks/useProviderDependencies', () => ({
   })),
 }));
 
-vi.mock('@farcaster/frame-sdk', () => ({
+vi.mock('@/internal/hooks/useTheme', () => ({
+  useTheme: vi.fn(() => 'default-light'),
+  useThemeRoot: vi.fn(() => 'default-light'),
+}));
+
+vi.mock('@farcaster/miniapp-sdk', () => ({
   default: {
     context: Promise.resolve({
       client: {
@@ -44,6 +50,27 @@ vi.mock('@farcaster/frame-sdk', () => ({
       },
     }),
   },
+}));
+
+// Mock MiniKitProvider
+vi.mock('@/minikit/MiniKitProvider', () => ({
+  MiniKitProvider: vi.fn(({ children, enabled, notificationProxyUrl }) => (
+    <div
+      data-testid="minikit-provider"
+      data-enabled={enabled}
+      data-notification-proxy-url={notificationProxyUrl}
+    >
+      {children}
+    </div>
+  )),
+  MiniKitContext: {
+    _currentValue: null,
+  },
+}));
+
+// Mock useSessionStorage
+vi.mock('usehooks-ts', () => ({
+  useSessionStorage: vi.fn(() => ['test-session-id', vi.fn()]),
 }));
 
 const queryClient = new QueryClient();
@@ -72,7 +99,6 @@ const TestComponent = () => {
 vi.mock('@/core/OnchainKitConfig', () => ({
   setOnchainKitConfig: vi.fn(),
   ONCHAIN_KIT_CONFIG: {
-    address: null,
     apiKey: null,
     chain: { name: 'base', id: 8453 },
     rpcUrl: null,
@@ -173,6 +199,61 @@ describe('OnchainKitProvider', () => {
     }).not.toThrow();
   });
 
+  it('should wrap children with MiniKitProvider with default options', async () => {
+    render(
+      <WagmiProvider config={mockConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider
+            chain={base}
+            schemaId={schemaId}
+            apiKey={apiKey}
+            miniKit={{ enabled: true }}
+          >
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await waitFor(() => {
+      const miniKitProvider = screen.getByTestId('minikit-provider');
+      expect(miniKitProvider).toBeInTheDocument();
+      expect(miniKitProvider).toHaveAttribute('data-enabled', 'true');
+    });
+  });
+
+  it('should wrap children with MiniKitProvider with custom options', async () => {
+    const miniKitOptions: MiniKitOptions = {
+      enabled: true,
+      notificationProxyUrl: 'https://example.com/proxy',
+    };
+
+    render(
+      <WagmiProvider config={mockConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider
+            chain={base}
+            schemaId={schemaId}
+            apiKey={apiKey}
+            miniKit={miniKitOptions}
+          >
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await waitFor(() => {
+      const miniKitProvider = screen.getByTestId('minikit-provider');
+      expect(miniKitProvider).toBeInTheDocument();
+      expect(miniKitProvider).toHaveAttribute('data-enabled', 'true');
+      expect(miniKitProvider).toHaveAttribute(
+        'data-notification-proxy-url',
+        'https://example.com/proxy',
+      );
+    });
+  });
+
   it('should call setOnchainKitConfig with the correct values', async () => {
     render(
       <WagmiProvider config={mockConfig}>
@@ -187,7 +268,6 @@ describe('OnchainKitProvider', () => {
     await waitFor(() => {
       expect(setOnchainKitConfig).toHaveBeenCalledWith(
         expect.objectContaining({
-          address: null,
           apiKey,
           config: {
             analytics: true,
@@ -202,7 +282,6 @@ describe('OnchainKitProvider', () => {
             wallet: {
               display: 'classic',
               preference: 'all',
-              signUpEnabled: true,
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
               supportedWallets: {
@@ -216,7 +295,7 @@ describe('OnchainKitProvider', () => {
           rpcUrl: null,
           schemaId,
           projectId: null,
-          sessionId: expect.any(String),
+          sessionId: 'test-session-id',
         }),
       );
     });
@@ -249,7 +328,6 @@ describe('OnchainKitProvider', () => {
             wallet: {
               display: 'classic',
               preference: 'all',
-              signUpEnabled: true,
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
               supportedWallets: {
@@ -319,7 +397,6 @@ describe('OnchainKitProvider', () => {
     await waitFor(() => {
       expect(setOnchainKitConfig).toHaveBeenCalledWith(
         expect.objectContaining({
-          address: null,
           apiKey: apiKey,
           chain: base,
           config: {
@@ -335,7 +412,6 @@ describe('OnchainKitProvider', () => {
             wallet: {
               display: 'classic',
               preference: 'all',
-              signUpEnabled: true,
               termsUrl: 'https://base.org/terms-of-service',
               privacyUrl: 'https://base.org/privacy-policy',
               supportedWallets: {
@@ -348,7 +424,7 @@ describe('OnchainKitProvider', () => {
           projectId: null,
           rpcUrl: null,
           schemaId: schemaId,
-          sessionId: expect.any(String),
+          sessionId: 'test-session-id',
         }),
       );
     });
@@ -461,8 +537,7 @@ describe('OnchainKitProvider', () => {
           }),
           chain: expect.any(Object),
           schemaId: schemaId,
-          sessionId: expect.any(String),
-          address: null,
+          sessionId: 'test-session-id',
           apiKey: null,
           projectId: null,
           rpcUrl: null,
@@ -476,7 +551,6 @@ describe('OnchainKitProvider', () => {
       wallet: {
         display: 'modal',
         preference: 'eoaOnly',
-        signUpEnabled: false,
         termsUrl: 'https://example.com/terms',
         privacyUrl: 'https://example.com/privacy',
         supportedWallets: {
@@ -508,7 +582,6 @@ describe('OnchainKitProvider', () => {
             wallet: {
               display: 'modal',
               preference: 'eoaOnly',
-              signUpEnabled: false,
               termsUrl: 'https://example.com/terms',
               privacyUrl: 'https://example.com/privacy',
               supportedWallets: {
@@ -525,5 +598,28 @@ describe('OnchainKitProvider', () => {
 
   afterEach(() => {
     vi.resetModules();
+  });
+
+  it('should set data-ock-theme attribute on document root', async () => {
+    const setAttributeSpy = vi.spyOn(document.documentElement, 'setAttribute');
+
+    render(
+      <WagmiProvider config={mockConfig}>
+        <QueryClientProvider client={queryClient}>
+          <OnchainKitProvider chain={base} schemaId={schemaId}>
+            <TestComponent />
+          </OnchainKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>,
+    );
+
+    await waitFor(() => {
+      expect(setAttributeSpy).toHaveBeenCalledWith(
+        'data-ock-theme',
+        'default-light',
+      );
+    });
+
+    setAttributeSpy.mockRestore();
   });
 });

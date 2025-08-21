@@ -17,6 +17,7 @@ import { waitForTransactionReceipt } from 'wagmi/actions';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import {
   TransactionEvent,
+  TransactionEventType,
   type TransactionEventData,
 } from '../../core/analytics/types';
 import { Capabilities } from '../../core/constants';
@@ -31,7 +32,7 @@ import { useSendWalletTransactions } from '../hooks/useSendWalletTransactions';
 import type {
   LifecycleStatus,
   TransactionContextType,
-  TransactionProviderReact,
+  TransactionProviderProps,
 } from '../types';
 import { getPaymasterUrl } from '../utils/getPaymasterUrl';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';
@@ -55,13 +56,12 @@ export function TransactionProvider({
   capabilities: transactionCapabilities,
   chainId,
   children,
-  contracts,
   isSponsored,
   onError,
   onStatus,
   onSuccess,
   resetAfter,
-}: TransactionProviderReact) {
+}: TransactionProviderProps) {
   // Core Hooks
   const account = useAccount();
   const config = useConfig();
@@ -79,7 +79,6 @@ export function TransactionProvider({
     number | undefined
   >();
   const [transactionHashList, setTransactionHashList] = useState<Address[]>([]);
-  const transactions = calls || contracts;
 
   // Retrieve wallet capabilities
   const walletCapabilities = useCapabilitiesSafe({
@@ -89,16 +88,9 @@ export function TransactionProvider({
   const { switchChainAsync } = useSwitchChain();
 
   // Validate `calls` and `contracts` props
-  if (!contracts && !calls) {
+  if (!calls) {
     throw new Error(
-      'Transaction: calls or contracts must be provided as a prop to the Transaction component.',
-    );
-  }
-
-  // Validate `calls` and `contracts` props
-  if (calls && contracts) {
-    throw new Error(
-      'Transaction: Only one of contracts or calls can be provided as a prop to the Transaction component.',
+      'Transaction: calls must be provided as a prop to the Transaction component.',
     );
   }
 
@@ -167,7 +159,10 @@ export function TransactionProvider({
   const { sendAnalytics } = useAnalytics();
 
   const handleAnalytics = useCallback(
-    (event: TransactionEvent, data: TransactionEventData[TransactionEvent]) => {
+    (
+      event: TransactionEventType,
+      data: TransactionEventData[TransactionEventType],
+    ) => {
       sendAnalytics(event, data);
     },
     [sendAnalytics],
@@ -241,7 +236,6 @@ export function TransactionProvider({
     }
   }, [receipt, resetAfter, resetSendCalls, resetSendCall]);
 
-  // When all transactions are successful, get the receipts
   const getTransactionLegacyReceipts = useCallback(async () => {
     const receipts = [];
     for (const hash of transactionHashList) {
@@ -252,6 +246,8 @@ export function TransactionProvider({
         });
         receipts.push(txnReceipt);
       } catch (err) {
+        console.error(err);
+
         setLifecycleStatus({
           statusName: 'error',
           statusData: {
@@ -260,6 +256,7 @@ export function TransactionProvider({
             message: GENERIC_ERROR_MESSAGE,
           },
         });
+        return;
       }
     }
     setLifecycleStatus({
@@ -270,9 +267,10 @@ export function TransactionProvider({
     });
   }, [chainId, config, transactionHashList]);
 
+  // When all transactions are successful, get the receipts
   useEffect(() => {
     if (
-      !transactions ||
+      !calls ||
       transactionHashList.length !== transactionCount ||
       transactionCount < 2
     ) {
@@ -280,7 +278,7 @@ export function TransactionProvider({
     }
     getTransactionLegacyReceipts();
   }, [
-    transactions,
+    calls,
     transactionCount,
     transactionHashList,
     getTransactionLegacyReceipts,
@@ -304,12 +302,13 @@ export function TransactionProvider({
       handleAnalytics(TransactionEvent.TransactionInitiated, {
         address: account.address,
       });
-      const resolvedTransactions = await (typeof transactions === 'function'
-        ? transactions()
-        : Promise.resolve(transactions));
+      const resolvedTransactions = await (typeof calls === 'function'
+        ? calls()
+        : Promise.resolve(calls));
       setTransactionCount(resolvedTransactions?.length);
       return resolvedTransactions;
     } catch (err) {
+      console.error(err);
       handleAnalytics(TransactionEvent.TransactionFailure, {
         error: (err as Error).message,
         metadata: {
@@ -326,7 +325,7 @@ export function TransactionProvider({
       });
       return undefined;
     }
-  }, [transactions, handleAnalytics, account.address, errorCode]);
+  }, [calls, handleAnalytics, account.address, errorCode]);
 
   const handleSubmit = useCallback(async () => {
     setErrorMessage('');
@@ -351,11 +350,21 @@ export function TransactionProvider({
     }
   }, [buildTransaction, chainId, sendWalletTransactions, switchChain]);
 
+  const isLoading =
+    callStatus === 'PENDING' ||
+    lifecycleStatus.statusName === 'buildingTransaction' ||
+    lifecycleStatus.statusName === 'transactionPending' ||
+    (lifecycleStatus.statusName === 'transactionLegacyExecuted' &&
+      transactionCount !==
+        lifecycleStatus?.statusData?.transactionHashList?.length) ||
+    ((!!transactionId || !!singleTransactionHash || !!batchedTransactionHash) &&
+      !receipt);
+
   const value = useValue({
     chainId,
     errorCode,
     errorMessage,
-    isLoading: callStatus === 'PENDING',
+    isLoading,
     isToastVisible,
     lifecycleStatus,
     onSubmit: handleSubmit,
@@ -364,7 +373,7 @@ export function TransactionProvider({
     setIsToastVisible,
     setLifecycleStatus,
     setTransactionId,
-    transactions,
+    transactions: calls,
     transactionId,
     transactionHash: singleTransactionHash || batchedTransactionHash,
     transactionCount,

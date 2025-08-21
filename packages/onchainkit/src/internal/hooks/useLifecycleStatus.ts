@@ -7,8 +7,12 @@ import { useCallback, useState } from 'react';
 
 export function useLifecycleStatus<T extends AbstractLifecycleStatus>(
   initialState: T,
+  options?: {
+    onStatus?: (status: T) => void;
+  },
 ): UseLifecycleStatusReturn<T> {
   const [lifecycleStatus, setLifecycleStatus] = useState<T>(initialState); // Component lifecycle
+  const { onStatus } = options ?? {};
 
   // Update lifecycle status, statusData will be persisted for the full lifecycle
   const updateLifecycleStatus = useCallback(
@@ -22,16 +26,18 @@ export function useLifecycleStatus<T extends AbstractLifecycleStatus>(
                 prevStatus.statusData,
               )
             : prevStatus.statusData;
-        return {
+        const nextStatus = {
           statusName: newStatus.statusName,
           statusData: {
             ...persistedStatusData,
             ...newStatus.statusData,
           },
         } as T;
+        onStatus?.(nextStatus);
+        return nextStatus;
       });
     },
-    [],
+    [onStatus],
   );
 
   return [lifecycleStatus, updateLifecycleStatus];

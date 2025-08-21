@@ -1,3 +1,4 @@
+import { act } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { describe, expect, it, vi } from 'vitest';
@@ -7,12 +8,12 @@ describe('Toast component', () => {
   it('should render bottom-right with default animation correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
-      <Toast isVisible={true} position="bottom-right" onClose={handleClose}>
+      <Toast open={true} position="bottom-right" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
 
-    const toastContainer = getByTestId('ockToastContainer');
+    const toastContainer = getByTestId('ockToastViewport');
     expect(toastContainer).toBeInTheDocument();
     expect(toastContainer).toHaveClass('bottom-5 left-3/4');
 
@@ -28,22 +29,22 @@ describe('Toast component', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
       <Toast
-        isVisible={true}
+        open={true}
         position="bottom-right"
-        animation="animate-enterUp"
+        animation
         onClose={handleClose}
       >
         <div>Test</div>
       </Toast>,
     );
 
-    const toastContainer = getByTestId('ockToastContainer');
+    const toastContainer = getByTestId('ockToastViewport');
     expect(toastContainer).toBeInTheDocument();
     expect(toastContainer).toHaveClass('bottom-5 left-3/4');
 
     const toast = getByTestId('ockToast');
     expect(toast).toBeInTheDocument();
-    expect(toast).toHaveClass('animate-enterUp');
+    expect(toast).toHaveClass('animate-enterRight');
 
     const closeButton = getByTestId('ockCloseButton');
     expect(closeButton).toBeInTheDocument();
@@ -52,12 +53,12 @@ describe('Toast component', () => {
   it('should render top-right with default animation correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
-      <Toast isVisible={true} position="top-right" onClose={handleClose}>
+      <Toast open={true} position="top-right" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
 
-    const toastContainer = getByTestId('ockToastContainer');
+    const toastContainer = getByTestId('ockToastViewport');
     expect(toastContainer).toBeInTheDocument();
     expect(toastContainer).toHaveClass('top-[100px] left-3/4');
 
@@ -72,23 +73,18 @@ describe('Toast component', () => {
   it('should render top-right with custom animation correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
-      <Toast
-        isVisible={true}
-        position="top-right"
-        animation="animate-enterUp"
-        onClose={handleClose}
-      >
+      <Toast open={true} position="top-right" animation onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
 
-    const toastContainer = getByTestId('ockToastContainer');
+    const toastContainer = getByTestId('ockToastViewport');
     expect(toastContainer).toBeInTheDocument();
     expect(toastContainer).toHaveClass('top-[100px] left-3/4');
 
     const toast = getByTestId('ockToast');
     expect(toast).toBeInTheDocument();
-    expect(toast).toHaveClass('animate-enterUp');
+    expect(toast).toHaveClass('animate-enterRight');
 
     const closeButton = getByTestId('ockCloseButton');
     expect(closeButton).toBeInTheDocument();
@@ -97,12 +93,12 @@ describe('Toast component', () => {
   it('should render top-center with default animation correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
-      <Toast isVisible={true} position="top-center" onClose={handleClose}>
+      <Toast open={true} position="top-center" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
 
-    const toastContainer = getByTestId('ockToastContainer');
+    const toastContainer = getByTestId('ockToastViewport');
     expect(toastContainer).toBeInTheDocument();
     expect(toastContainer).toHaveClass('top-[100px] left-2/4');
 
@@ -117,23 +113,18 @@ describe('Toast component', () => {
   it('should render top-center with custom animation correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
-      <Toast
-        isVisible={true}
-        position="top-center"
-        animation="animate-enterRight"
-        onClose={handleClose}
-      >
+      <Toast open={true} position="top-center" animation onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
 
-    const toastContainer = getByTestId('ockToastContainer');
+    const toastContainer = getByTestId('ockToastViewport');
     expect(toastContainer).toBeInTheDocument();
     expect(toastContainer).toHaveClass('top-[100px] left-2/4');
 
     const toast = getByTestId('ockToast');
     expect(toast).toBeInTheDocument();
-    expect(toast).toHaveClass('animate-enterRight');
+    expect(toast).toHaveClass('animate-enterDown');
 
     const closeButton = getByTestId('ockCloseButton');
     expect(closeButton).toBeInTheDocument();
@@ -142,12 +133,12 @@ describe('Toast component', () => {
   it('should render bottom-center with default animation correctly', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
-      <Toast isVisible={true} position="bottom-center" onClose={handleClose}>
+      <Toast open={true} position="bottom-center" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
 
-    const toastContainer = getByTestId('ockToastContainer');
+    const toastContainer = getByTestId('ockToastViewport');
     expect(toastContainer).toBeInTheDocument();
     expect(toastContainer).toHaveClass('bottom-5 left-2/4');
 
@@ -163,22 +154,22 @@ describe('Toast component', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
       <Toast
-        isVisible={true}
+        open={true}
         position="bottom-center"
-        animation="animate-enterRight"
+        animation
         onClose={handleClose}
       >
         <div>Test</div>
       </Toast>,
     );
 
-    const toastContainer = getByTestId('ockToastContainer');
+    const toastContainer = getByTestId('ockToastViewport');
     expect(toastContainer).toBeInTheDocument();
     expect(toastContainer).toHaveClass('bottom-5 left-2/4');
 
     const toast = getByTestId('ockToast');
     expect(toast).toBeInTheDocument();
-    expect(toast).toHaveClass('animate-enterRight');
+    expect(toast).toHaveClass('animate-enterUp');
 
     const closeButton = getByTestId('ockCloseButton');
     expect(closeButton).toBeInTheDocument();
@@ -188,7 +179,7 @@ describe('Toast component', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
       <Toast
-        isVisible={true}
+        open={true}
         position="bottom-right"
         onClose={handleClose}
         className="custom-class"
@@ -201,21 +192,21 @@ describe('Toast component', () => {
     expect(toast).toHaveClass('custom-class');
   });
 
-  it('should not be visible when isVisible is false', () => {
+  it('should not be visible when open is false', () => {
     const handleClose = vi.fn();
     const { queryByTestId } = render(
-      <Toast isVisible={false} position="bottom-right" onClose={handleClose}>
+      <Toast open={false} position="bottom-right" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
-    const toastContainer = queryByTestId('ockToastContainer');
+    const toastContainer = queryByTestId('ockToast');
     expect(toastContainer).not.toBeInTheDocument();
   });
 
   it('should close when close button is clicked', () => {
     const handleClose = vi.fn();
     const { getByTestId } = render(
-      <Toast isVisible={true} position="bottom-right" onClose={handleClose}>
+      <Toast open={true} position="bottom-right" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
@@ -228,7 +219,7 @@ describe('Toast component', () => {
   it('should render children correctly', () => {
     const handleClose = vi.fn();
     const { getByText } = render(
-      <Toast isVisible={true} position="bottom-right" onClose={handleClose}>
+      <Toast open position="bottom-right" onClose={handleClose}>
         <div>Test</div>
       </Toast>,
     );
@@ -244,10 +235,10 @@ describe('Toast component', () => {
 
     render(
       <Toast
-        isVisible={true}
+        open
         position="bottom-right"
         onClose={handleClose}
-        durationMs={durationMs}
+        duration={durationMs}
       >
         <div>Test</div>
       </Toast>,
@@ -255,112 +246,12 @@ describe('Toast component', () => {
 
     expect(handleClose).not.toHaveBeenCalled();
 
-    vi.advanceTimersByTime(durationMs);
+    await act(async () => {
+      vi.advanceTimersByTime(durationMs);
+    });
 
     expect(handleClose).toHaveBeenCalled();
 
-    vi.useRealTimers();
-  });
-
-  it('should reset the timer when re-triggered while already visible', async () => {
-    vi.useFakeTimers();
-    const handleClose = vi.fn();
-    const durationMs = 5000;
-
-    const { rerender } = render(
-      <Toast
-        isVisible={true}
-        position="bottom-right"
-        onClose={handleClose}
-        durationMs={durationMs}
-        startTimeout={false}
-      >
-        <div>Test Child</div>
-      </Toast>,
-    );
-    vi.advanceTimersByTime(2000);
-    expect(handleClose).not.toHaveBeenCalled();
-
-    rerender(
-      <Toast
-        isVisible={true}
-        position="bottom-right"
-        onClose={handleClose}
-        durationMs={durationMs}
-        startTimeout={true}
-      >
-        <div>Updated Child</div>
-      </Toast>,
-    );
-
-    vi.advanceTimersByTime(4000);
-    expect(handleClose).not.toHaveBeenCalled();
-
-    vi.advanceTimersByTime(2000);
-    expect(handleClose).toHaveBeenCalled();
-
-    vi.useRealTimers();
-  });
-
-  it('should not fire timer after manual close', () => {
-    vi.useFakeTimers();
-    const handleClose = vi.fn();
-    const durationMs = 2000;
-
-    const { getByTestId, rerender } = render(
-      <Toast
-        isVisible={true}
-        position="bottom-right"
-        onClose={handleClose}
-        durationMs={durationMs}
-      >
-        <div>Test</div>
-      </Toast>,
-    );
-
-    vi.advanceTimersByTime(1000);
-
-    const closeButton = getByTestId('ockCloseButton');
-    fireEvent.click(closeButton);
-
-    expect(handleClose).toHaveBeenCalledTimes(1);
-
-    rerender(
-      <Toast
-        isVisible={false}
-        position="bottom-right"
-        onClose={handleClose}
-        durationMs={durationMs}
-      >
-        <div>Test</div>
-      </Toast>,
-    );
-
-    vi.advanceTimersByTime(1500);
-    expect(handleClose).toHaveBeenCalledTimes(1);
-
-    vi.useRealTimers();
-  });
-
-  it('should cleanup correctly on unmount', () => {
-    vi.useFakeTimers();
-    const handleClose = vi.fn();
-
-    const { unmount } = render(
-      <Toast
-        isVisible={true}
-        position="bottom-right"
-        onClose={handleClose}
-        durationMs={2000}
-      >
-        <div>Test</div>
-      </Toast>,
-    );
-
-    unmount();
-    vi.advanceTimersByTime(2000);
-
-    expect(handleClose).not.toHaveBeenCalled();
     vi.useRealTimers();
   });
 });

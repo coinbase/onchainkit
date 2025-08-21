@@ -1,6 +1,5 @@
-import { useTheme } from '@/internal/hooks/useTheme';
 import { findComponent } from '@/internal/utils/findComponent';
-import { background, cn, color } from '@/styles/theme';
+import { cn } from '@/styles/theme';
 import { Children, cloneElement, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { Address } from './Address';
@@ -9,7 +8,7 @@ import { EthBalance } from './EthBalance';
 import { Name } from './Name';
 import { Socials } from './Socials';
 
-type IdentityLayoutReact = {
+type IdentityLayoutProps = {
   children: ReactNode;
   className?: string;
   hasCopyAddressOnClick?: boolean;
@@ -19,9 +18,7 @@ export function IdentityLayout({
   children,
   className,
   hasCopyAddressOnClick,
-}: IdentityLayoutReact) {
-  const componentTheme = useTheme();
-
+}: IdentityLayoutProps) {
   const {
     avatar,
     name,
@@ -44,12 +41,7 @@ export function IdentityLayout({
 
   return (
     <div
-      className={cn(
-        componentTheme,
-        background.default,
-        'flex flex-col px-4 py-1',
-        className,
-      )}
+      className={cn('bg-ock-background', 'flex flex-col px-4 py-1', className)}
       data-testid="ockIdentityLayout_container"
     >
       <div className="flex items-center space-x-3">
@@ -61,7 +53,7 @@ export function IdentityLayout({
           {addressComponent && ethBalance && (
             <div className="flex items-center gap-1">
               {addressComponent}
-              <span className={color.foregroundMuted}>·</span>
+              <span className={'text-ock-foreground-muted'}>·</span>
               {ethBalance}
             </div>
           )}

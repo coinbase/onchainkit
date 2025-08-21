@@ -64,6 +64,7 @@ vi.mock('fs', async () => {
         mkdir: vi.fn().mockResolvedValue(undefined),
         readdir: vi.fn().mockResolvedValue([]),
         readFile: vi.fn().mockResolvedValue('{}'),
+        access: vi.fn().mockResolvedValue(undefined),
       },
     },
   };
@@ -79,7 +80,7 @@ vi.mock('path', async () => {
             (arg) => typeof arg === 'string' && arg.includes('templates'),
           )
         ) {
-          return actual.resolve(__dirname, '..', 'templates', 'minikit-basic');
+          return actual.resolve(__dirname, '..', 'templates', 'minikit-nextjs');
         }
         return actual.resolve(...args);
       }),
@@ -101,35 +102,9 @@ const logSpy = vi.spyOn(console, 'log');
 const getExpectedEnv = (
   projectName: string,
   clientKey: string,
-) => `# Shared/OnchainKit variables
-
-NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME=${projectName}
-NEXT_PUBLIC_URL=
-NEXT_PUBLIC_ICON_URL=$NEXT_PUBLIC_URL/logo.png
-NEXT_PUBLIC_ONCHAINKIT_API_KEY=${clientKey}
-
-# Frame metadata
-
-FARCASTER_HEADER=
-FARCASTER_PAYLOAD=
-FARCASTER_SIGNATURE=
-NEXT_PUBLIC_APP_ICON=$NEXT_PUBLIC_URL/icon.png
-# Optional Frame metadata items below
-NEXT_PUBLIC_APP_SUBTITLE=
-NEXT_PUBLIC_APP_DESCRIPTION=
-NEXT_PUBLIC_APP_SPLASH_IMAGE=$NEXT_PUBLIC_URL/splash.png
-NEXT_PUBLIC_SPLASH_BACKGROUND_COLOR="#000000"
-NEXT_PUBLIC_APP_PRIMARY_CATEGORY=
-NEXT_PUBLIC_APP_HERO_IMAGE=$NEXT_PUBLIC_URL/hero.png
-NEXT_PUBLIC_APP_TAGLINE=
-NEXT_PUBLIC_APP_OG_TITLE=${projectName}
-NEXT_PUBLIC_APP_OG_DESCRIPTION=
-NEXT_PUBLIC_APP_OG_IMAGE=$NEXT_PUBLIC_URL/hero.png
-
-# Redis config
-
-REDIS_URL=
-REDIS_TOKEN=
+) => `NEXT_PUBLIC_PROJECT_NAME="${projectName}"
+NEXT_PUBLIC_ONCHAINKIT_API_KEY="${clientKey}"
+NEXT_PUBLIC_URL=""
 `;
 
 describe('MiniKit', () => {
@@ -148,7 +123,30 @@ describe('MiniKit', () => {
       ])
       .mockResolvedValue([]);
     (fs.promises.copyFile as Mock).mockResolvedValue(undefined);
-    (fs.promises.readFile as Mock).mockResolvedValue(JSON.stringify({}));
+    (fs.promises.access as Mock).mockResolvedValue(undefined);
+    (fs.promises.readFile as Mock).mockImplementation((filePath: string) => {
+      if (filePath.endsWith('package.json')) {
+        return Promise.resolve(JSON.stringify({}));
+      }
+      if (filePath.endsWith('minikit.config.ts')) {
+        return Promise.resolve(`export const minikitConfig = {
+  accountAssociation: {
+    header: "",
+    payload: "",
+    signature: "",
+  },
+  miniapp: {
+    name: "APP_NAME",
+  },
+};`);
+      }
+      if (filePath.endsWith('.env')) {
+        return Promise.resolve(
+          'NEXT_PUBLIC_PROJECT_NAME="test"\nNEXT_PUBLIC_ONCHAINKIT_API_KEY=""\nNEXT_PUBLIC_URL=""',
+        );
+      }
+      return Promise.resolve('');
+    });
 
     (ora as unknown as Mock).mockReturnValue({
       start: vi.fn().mockReturnValue({
@@ -182,6 +180,10 @@ describe('MiniKit', () => {
       expect.any(String),
       expect.stringContaining(getExpectedEnv('test-project', 'test-key')),
     );
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.stringContaining('name: "test-project"'),
+    );
     expect(logSpy).toHaveBeenCalledWith(
       expect.stringContaining('Created new MiniKit project in'),
     );
@@ -205,6 +207,10 @@ describe('MiniKit', () => {
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
       expect.any(String),
       expect.stringContaining(getExpectedEnv('test-project', 'test-key')),
+    );
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.stringContaining('name: "test-project"'),
     );
     expect(logSpy).toHaveBeenCalledWith(
       expect.stringContaining('Created new MiniKit project in'),
@@ -268,23 +274,23 @@ describe('MiniKit', () => {
     expect(open).toHaveBeenCalledWith('http://localhost:3333');
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
       expect.any(String),
-      expect.stringContaining('FARCASTER_HEADER=test-header'),
+      expect.stringContaining('NEXT_PUBLIC_URL="test-domain"'),
     );
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
       expect.any(String),
-      expect.stringContaining('FARCASTER_PAYLOAD=test-payload'),
+      expect.stringContaining('header: "test-header"'),
     );
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
       expect.any(String),
-      expect.stringContaining('FARCASTER_SIGNATURE=test-signature'),
+      expect.stringContaining('payload: "test-payload"'),
     );
     expect(fs.promises.writeFile).toHaveBeenCalledWith(
       expect.any(String),
-      expect.stringContaining('NEXT_PUBLIC_URL=test-domain'),
+      expect.stringContaining('signature: "test-signature"'),
     );
     expect(logSpy).toHaveBeenCalledWith(
       expect.stringContaining(
-        '* Account association generated successfully and added to your .env file!',
+        '* Account association generated successfully and added to your minikit.config.ts file!',
       ),
     );
     expect(logSpy).toHaveBeenCalledWith(

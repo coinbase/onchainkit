@@ -6,4 +6,4 @@ export { SignatureIcon } from './components/SignatureIcon';
 export { SignatureLabel } from './components/SignatureLabel';
 export { SignatureProvider } from './components/SignatureProvider';
 export { useSignatureContext } from './components/SignatureProvider';
-export type { LifecycleStatus, SignatureReact } from './types';
+export type { LifecycleStatus, SignatureProps } from './types';

@@ -1,12 +1,12 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import sdk from '@farcaster/frame-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 import { renderHook, waitFor } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useIsInMiniApp } from './useIsInMiniApp';
 
-vi.mock('@farcaster/frame-sdk', () => ({
+vi.mock('@farcaster/miniapp-sdk', () => ({
   default: {
-    context: undefined,
+    isInMiniApp: vi.fn(),
   },
 }));
 
@@ -30,11 +30,7 @@ describe('useIsInMiniApp', () => {
   });
 
   it('should return isInMiniApp as true when in mini app context', async () => {
-    Object.defineProperty(sdk, 'context', {
-      value: Promise.resolve({ user: { fid: 123 } }),
-      writable: true,
-      configurable: true,
-    });
+    (sdk.isInMiniApp as Mock).mockResolvedValue(true);
 
     const { result } = renderHook(() => useIsInMiniApp(), {
       wrapper: createWrapper(),
@@ -42,15 +38,12 @@ describe('useIsInMiniApp', () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
+    expect(sdk.isInMiniApp).toHaveBeenCalled();
     expect(result.current.isInMiniApp).toBe(true);
   });
 
   it('should return isInMiniApp as false when not in mini app context', async () => {
-    Object.defineProperty(sdk, 'context', {
-      value: Promise.resolve(null),
-      writable: true,
-      configurable: true,
-    });
+    (sdk.isInMiniApp as Mock).mockResolvedValue(false);
 
     const { result } = renderHook(() => useIsInMiniApp(), {
       wrapper: createWrapper(),
@@ -58,16 +51,13 @@ describe('useIsInMiniApp', () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
+    expect(sdk.isInMiniApp).toHaveBeenCalled();
     expect(result.current.isInMiniApp).toBe(false);
   });
 
-  it('should handle errors when sdk.context fails', async () => {
+  it('should handle errors when sdk.isInMiniApp fails', async () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
-    Object.defineProperty(sdk, 'context', {
-      value: Promise.reject(new Error('SDK error')),
-      writable: true,
-      configurable: true,
-    });
+    (sdk.isInMiniApp as Mock).mockRejectedValue(new Error('SDK error'));
 
     const { result } = renderHook(() => useIsInMiniApp(), {
       wrapper: createWrapper(),
@@ -75,17 +65,14 @@ describe('useIsInMiniApp', () => {
 
     await waitFor(() => expect(result.current.isError).toBe(true));
 
+    expect(sdk.isInMiniApp).toHaveBeenCalled();
     expect(result.current.isInMiniApp).toBeUndefined();
 
     consoleSpy.mockRestore();
   });
 
   it('should handle mutation states correctly', async () => {
-    Object.defineProperty(sdk, 'context', {
-      value: Promise.resolve({ user: { fid: 123 } }),
-      writable: true,
-      configurable: true,
-    });
+    (sdk.isInMiniApp as Mock).mockResolvedValue(true);
 
     const { result } = renderHook(() => useIsInMiniApp(), {
       wrapper: createWrapper(),
@@ -102,11 +89,7 @@ describe('useIsInMiniApp', () => {
   });
 
   it('should return all useQuery properties', async () => {
-    Object.defineProperty(sdk, 'context', {
-      value: Promise.resolve({ user: { fid: 123 } }),
-      writable: true,
-      configurable: true,
-    });
+    (sdk.isInMiniApp as Mock).mockResolvedValue(true);
 
     const { result } = renderHook(() => useIsInMiniApp(), {
       wrapper: createWrapper(),
@@ -124,11 +107,7 @@ describe('useIsInMiniApp', () => {
   });
 
   it('should use correct query key', async () => {
-    Object.defineProperty(sdk, 'context', {
-      value: Promise.resolve({ user: { fid: 123 } }),
-      writable: true,
-      configurable: true,
-    });
+    (sdk.isInMiniApp as Mock).mockResolvedValue(true);
 
     const { result } = renderHook(() => useIsInMiniApp(), {
       wrapper: createWrapper(),
@@ -136,18 +115,18 @@ describe('useIsInMiniApp', () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    // Since we're no longer calling a function, we just verify the query worked
-    expect(result.current.isInMiniApp).toBe(true);
+    expect(sdk.isInMiniApp).toHaveBeenCalledWith(
+      expect.objectContaining({
+        queryKey: ['useIsInMiniApp'],
+        signal: expect.any(AbortSignal),
+      }),
+    );
   });
 
   it('should handle initial loading state', () => {
-    Object.defineProperty(sdk, 'context', {
-      value: new Promise((resolve) =>
-        setTimeout(() => resolve({ user: { fid: 123 } }), 100),
-      ),
-      writable: true,
-      configurable: true,
-    });
+    (sdk.isInMiniApp as Mock).mockImplementation(
+      () => new Promise((resolve) => setTimeout(() => resolve(true), 100)),
+    );
 
     const { result } = renderHook(() => useIsInMiniApp(), {
       wrapper: createWrapper(),

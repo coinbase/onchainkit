@@ -3,15 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { Spinner } from '../../internal/components/Spinner';
 import { checkmarkSvg } from '../../internal/svg/checkmarkSvg';
 import { CloseSvg } from '../../internal/svg/closeSvg';
-import {
-  background,
-  border,
-  cn,
-  color,
-  icon,
-  pressable,
-  text,
-} from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import { ConnectWallet } from '../../wallet';
 import { useBuyContext } from './BuyProvider';
 
@@ -71,21 +63,23 @@ export function BuyButton() {
       return checkmarkSvg;
     }
     if (isDropdownOpen) {
-      return <CloseSvg className={icon.inverse} />;
+      return <CloseSvg className="fill-ock-foreground-inverse" />;
     }
     return 'Buy';
   }, [statusName, isDropdownOpen]);
 
   if (!isDisabled && !address) {
-    return <ConnectWallet text="Buy" className="h-12 w-24 min-w-24" />;
+    return (
+      <ConnectWallet disconnectedLabel="Buy" className="h-12 w-24 min-w-24" />
+    );
   }
 
   return (
     <button
       type="button"
       className={cn(
-        background.primary,
-        border.radius,
+        'bg-ock-primary',
+        'rounded-ock-default',
         'flex rounded-xl',
         'h-12 w-24 items-center justify-center px-4 py-3',
         isDisabled && pressable.disabled,
@@ -98,7 +92,7 @@ export function BuyButton() {
       {isLoading ? (
         <Spinner />
       ) : (
-        <span className={cn(text.headline, color.inverse)}>
+        <span className={cn(text.headline, 'text-ock-foreground-inverse')}>
           {buttonContent}
         </span>
       )}

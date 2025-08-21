@@ -1,6 +1,6 @@
 'use client';
 import { EarnDetails } from '@/earn/components/EarnDetails';
-import type { EarnDepositReact } from '../types';
+import type { EarnDepositProps } from '../types';
 import { DepositAmountInput } from './DepositAmountInput';
 import { DepositBalance } from './DepositBalance';
 import { DepositButton } from './DepositButton';
@@ -20,6 +20,6 @@ function EarnDepositDefaultContent() {
 export function EarnDeposit({
   children = <EarnDepositDefaultContent />,
   className,
-}: EarnDepositReact) {
+}: EarnDepositProps) {
   return <EarnCard className={className}>{children}</EarnCard>;
 }

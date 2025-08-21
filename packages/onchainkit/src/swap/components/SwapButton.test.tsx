@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   type Config,
@@ -152,5 +153,29 @@ describe('SwapButton', () => {
     render(<SwapButton />);
     const button = screen.getByTestId('ockConnectWallet_Container');
     expect(button).toBeDefined();
+  });
+
+  it('should handle custom render', async () => {
+    useSwapContextMock.mockReturnValue({
+      to: { loading: false, amount: 1, token: 'ETH' },
+      from: { loading: false, amount: null, token: 'BTC' },
+      lifecycleStatus: { statusName: 'init' },
+      handleSubmit: mockHandleSubmit,
+    });
+
+    const swapButton = render(
+      <SwapButton
+        render={({ onSubmit }) => (
+          <div>
+            Custom Render<button onClick={onSubmit}>Click me</button>
+          </div>
+        )}
+      />,
+    );
+    expect(swapButton.queryByText('Custom Render')).toBeInTheDocument();
+    await act(async () => {
+      fireEvent.click(swapButton.getByText('Click me'));
+    });
+    expect(mockHandleSubmit).toHaveBeenCalled();
   });
 });

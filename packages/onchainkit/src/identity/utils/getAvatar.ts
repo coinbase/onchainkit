@@ -3,7 +3,7 @@ import { isBase } from '@/core/utils/isBase';
 import { isEthereum } from '@/core/utils/isEthereum';
 import type {
   Basename,
-  GetAvatar,
+  GetAvatarParams,
   GetAvatarReturnType,
 } from '@/identity/types';
 import { mainnet } from 'viem/chains';
@@ -20,7 +20,7 @@ import { isBasename } from './isBasename';
 export const getAvatar = async ({
   ensName,
   chain = mainnet,
-}: GetAvatar): Promise<GetAvatarReturnType> => {
+}: GetAvatarParams): Promise<GetAvatarReturnType> => {
   const chainIsBase = isBase({ chainId: chain.id });
   const chainIsEthereum = isEthereum({ chainId: chain.id });
   const chainSupportsUniversalResolver = chainIsEthereum || chainIsBase;

@@ -1,70 +1,70 @@
-import { useEffect } from 'react';
-import { background, cn } from '../../styles/theme';
+import * as ToastPrimitives from '@radix-ui/react-toast';
+import { ComponentProps } from 'react';
+import { cn, prefixClassName } from '../../styles/theme';
 import { CloseSvg } from '../svg/closeSvg';
 import { getToastPosition } from '../utils/getToastPosition';
 
+const ToastProvider = ToastPrimitives.Provider;
+const ToastViewport = ToastPrimitives.Viewport;
+const ToastRoot = ToastPrimitives.Root;
+
 export type ToastProps = {
   className?: string;
-  durationMs?: number;
   startTimeout?: boolean;
-  position: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
-  animation?: 'animate-enterRight' | 'animate-enterUp' | 'animate-enterDown';
-  isVisible: boolean;
+  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
+  open: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  animation?: boolean;
+} & Pick<ComponentProps<typeof ToastProvider>, 'duration'>;
+
+const getSwipeDirection = (position: ToastProps['position']) => {
+  if (position === 'bottom-center') {
+    return 'up';
+  }
+  if (position === 'top-center') {
+    return 'down';
+  }
+
+  return 'right';
 };
 
-const defaultAnimationByPosition = {
+const animationClassnameByPosition = {
   'top-center': 'animate-enterDown',
   'top-right': 'animate-enterRight',
   'bottom-center': 'animate-enterUp',
   'bottom-right': 'animate-enterRight',
 };
 
-export function Toast({
-  className,
-  durationMs = 5000,
-  startTimeout = true,
-  position = 'bottom-center',
-  animation,
-  isVisible,
-  onClose,
+export const Toast = ({
   children,
-}: ToastProps) {
-  const positionClass = getToastPosition(position);
-  const animationClass = animation ?? defaultAnimationByPosition[position];
-
-  useEffect(() => {
-    if (startTimeout) {
-      const timer = setTimeout(() => {
-        if (isVisible) {
-          onClose();
-        }
-      }, durationMs);
-
-      return () => {
-        if (timer) {
-          clearTimeout(timer);
-        }
-      };
-    }
-  }, [durationMs, isVisible, onClose, startTimeout]);
-
-  if (!isVisible) {
-    return null;
-  }
-
+  duration = 5000,
+  open,
+  position = 'bottom-center',
+  className,
+  onClose,
+  animation = true,
+}: ToastProps) => {
   return (
-    <div
-      className={cn('-translate-x-2/4 fixed z-20', positionClass)}
-      data-testid="ockToastContainer"
+    <ToastProvider
+      swipeDirection={getSwipeDirection(position)}
+      duration={duration}
     >
-      <div
+      <ToastRoot
+        open={open}
+        onOpenChange={(flag) => {
+          if (!flag) {
+            onClose();
+          }
+        }}
         className={cn(
-          background.default,
+          'ock-toast',
+          'bg-ock-background text-ock-foreground',
           'flex items-center justify-between rounded-lg',
           'p-2 shadow-[0px_8px_24px_0px_rgba(0,0,0,0.12)]',
-          animationClass,
+          animation && prefixClassName(animationClassnameByPosition[position]),
+          animation &&
+            'data-[state=closed]:animate-out data-[state=closed]:fade-out-0',
           className,
         )}
         data-testid="ockToast"
@@ -78,7 +78,11 @@ export function Toast({
         >
           <CloseSvg />
         </button>
-      </div>
-    </div>
+      </ToastRoot>
+      <ToastViewport
+        className={cn('fixed', getToastPosition(position))}
+        data-testid="ockToastViewport"
+      />
+    </ToastProvider>
   );
-}
+};

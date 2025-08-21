@@ -1,14 +1,14 @@
-import { background, border, cn } from '@/styles/theme';
-import type { EarnCardReact } from '../types';
+import { cn } from '@/styles/theme';
+import type { EarnCardProps } from '../types';
 
-export function EarnCard({ children, className }: EarnCardReact) {
+export function EarnCard({ children, className }: EarnCardProps) {
   return (
     <div
       data-testid="ockEarnCard"
       className={cn(
-        border.default,
+        'border-ock-background',
         'flex flex-col gap-8 border-t p-4',
-        background.default,
+        'bg-ock-background',
         className,
       )}
     >

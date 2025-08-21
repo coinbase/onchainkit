@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import type { Address } from 'viem';
-import { useValue } from '../../internal/hooks/useValue';
 import { useSwapBalances } from '../../swap/hooks/useSwapBalances';
 import type { Token } from '../../token';
 import { ethToken, usdcToken } from '../../token/constants';
@@ -29,7 +28,7 @@ export const useBuyTokens = (
     toTokenResponse: balanceResponse,
   } = useSwapBalances({ address, fromToken: token, toToken });
 
-  const to = useValue({
+  const to = {
     balance,
     balanceResponse,
     amount: toAmount,
@@ -40,7 +39,7 @@ export const useBuyTokens = (
     loading: toLoading,
     setLoading: setToLoading,
     error,
-  });
+  };
 
   return { fromETH, fromUSDC, from, to };
 };

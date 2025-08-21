@@ -1,11 +1,13 @@
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
+import { act } from 'react';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import { quoteResponseDataMock } from '../mocks';
-import type { FundCardProviderReact } from '../types';
+import type { FundCardProviderProps } from '../types';
 import { FundCardAmountInputTypeSwitch } from './FundCardAmountInputTypeSwitch';
 import { FundCardProvider, useFundContext } from './FundCardProvider';
+import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 
 global.fetch = vi.fn(() =>
   Promise.resolve({
@@ -13,7 +15,13 @@ global.fetch = vi.fn(() =>
   }),
 ) as Mock;
 
-const mockContext: FundCardProviderReact = {
+vi.mock('../utils/fetchOnrampQuote', () => ({
+  fetchOnrampQuote: vi.fn().mockImplementation(() => {
+    return Promise.resolve(quoteResponseDataMock);
+  }),
+}));
+
+const mockContext: FundCardProviderProps = {
   asset: 'ETH',
   country: 'US',
   inputType: 'fiat',
@@ -48,13 +56,55 @@ describe('FundCardAmountInputTypeSwitch', () => {
     );
   };
 
+  describe('loading skeleton', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+      (fetchOnrampQuote as Mock).mockImplementation(() => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(quoteResponseDataMock);
+          }, 1000);
+        });
+      });
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+
+      (fetchOnrampQuote as Mock).mockImplementation(() => {
+        return Promise.resolve(quoteResponseDataMock);
+      });
+    });
+
+    it('renders loading skeleton when exchange rate is loading', async () => {
+      await act(async () => {
+        render(
+          <FundCardProvider {...mockContext} inputType="crypto">
+            <FundCardAmountInputTypeSwitch />
+            <TestComponent />
+          </FundCardProvider>,
+        );
+      });
+
+      expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
+
+      await act(async () => {
+        vi.advanceTimersByTime(1001);
+      });
+
+      expect(screen.queryByTestId('ockSkeleton')).not.toBeInTheDocument();
+    });
+  });
+
   it('renders fiat to crypto conversion', async () => {
-    render(
-      <FundCardProvider {...mockContext}>
-        <FundCardAmountInputTypeSwitch />
-        <TestComponent />
-      </FundCardProvider>,
-    );
+    await act(async () => {
+      render(
+        <FundCardProvider {...mockContext}>
+          <FundCardAmountInputTypeSwitch />
+          <TestComponent />
+        </FundCardProvider>,
+      );
+    });
 
     await waitFor(() => {
       expect(screen.getByTestId('loading-state').textContent).toBe(
@@ -102,72 +152,56 @@ describe('FundCardAmountInputTypeSwitch', () => {
     });
   });
 
-  it('renders loading skeleton when exchange rate is loading', () => {
-    render(
-      <FundCardProvider {...mockContext} inputType="crypto">
-        <FundCardAmountInputTypeSwitch />
-        <TestComponent />
-      </FundCardProvider>,
-    );
-
-    expect(screen.getByTestId('ockSkeleton')).toBeInTheDocument();
-  });
-
   it('applies custom className', async () => {
-    render(
-      <FundCardProvider asset="ETH" country="US">
-        <FundCardAmountInputTypeSwitch className="custom-class" />
-        <TestComponent />
-      </FundCardProvider>,
-    );
-
-    await waitFor(() => {
-      const container = screen.getByTestId('ockAmountTypeSwitch').parentElement;
-      expect(container).toHaveClass('custom-class');
+    await act(async () => {
+      render(
+        <FundCardProvider {...mockContext}>
+          <FundCardAmountInputTypeSwitch className="custom-class" />
+          <TestComponent />
+        </FundCardProvider>,
+      );
     });
+
+    const container = screen.getByTestId('ockAmountTypeSwitch').parentElement;
+    expect(container).toHaveClass('custom-class');
   });
 
   it('toggles input type from fiat to crypto when clicked', async () => {
-    render(
-      <FundCardProvider {...mockContext} inputType="fiat">
-        <FundCardAmountInputTypeSwitch />
-        <TestComponent />
-      </FundCardProvider>,
-    );
-
-    await waitFor(() => {
-      expect(screen.getByTestId('loading-state').textContent).toBe(
-        'not-loading',
+    await act(async () => {
+      render(
+        <FundCardProvider {...mockContext} inputType="fiat">
+          <FundCardAmountInputTypeSwitch />
+          <TestComponent />
+        </FundCardProvider>,
       );
-      expect(screen.getByTestId('ockAmountLine').textContent).toBe('0 ETH');
+    });
+    expect(screen.getByTestId('loading-state').textContent).toBe('not-loading');
+    expect(screen.getByTestId('ockAmountLine').textContent).toBe('0 ETH');
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('ockAmountTypeSwitch'));
     });
 
-    fireEvent.click(screen.getByTestId('ockAmountTypeSwitch'));
-
-    await waitFor(() => {
-      expect(screen.getByTestId('ockAmountLine').textContent).toBe('$0');
-    });
+    expect(screen.getByTestId('ockAmountLine').textContent).toBe('$0');
   });
 
   it('toggles input type from crypto to fiat when clicked', async () => {
-    render(
-      <FundCardProvider {...mockContext} inputType="crypto">
-        <FundCardAmountInputTypeSwitch />
-        <TestComponent />
-      </FundCardProvider>,
-    );
-
-    await waitFor(() => {
-      expect(screen.getByTestId('loading-state').textContent).toBe(
-        'not-loading',
+    await act(async () => {
+      render(
+        <FundCardProvider {...mockContext} inputType="crypto">
+          <FundCardAmountInputTypeSwitch />
+          <TestComponent />
+        </FundCardProvider>,
       );
-      expect(screen.getByTestId('ockAmountLine').textContent).toBe('$0');
     });
 
-    fireEvent.click(screen.getByTestId('ockAmountTypeSwitch'));
+    expect(screen.getByTestId('loading-state').textContent).toBe('not-loading');
+    expect(screen.getByTestId('ockAmountLine').textContent).toBe('$0');
 
-    await waitFor(() => {
-      expect(screen.getByTestId('ockAmountLine').textContent).toBe('0 ETH');
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('ockAmountTypeSwitch'));
     });
+
+    expect(screen.getByTestId('ockAmountLine').textContent).toBe('0 ETH');
   });
 });

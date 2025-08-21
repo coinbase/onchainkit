@@ -1,4 +1,5 @@
-import { render } from '@testing-library/react';
+import { act } from 'react';
+import { render, RenderResult, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { useNFTLifecycleContext } from '@/nft/components/NFTLifecycleProvider';
 import { useNFTContext } from '@/nft/components/NFTProvider';
@@ -161,56 +162,72 @@ describe('NFTMintButton', () => {
     expect(await findByText('Custom Mint')).toBeInTheDocument();
   });
 
-  it('should call updateLifecycleStatus with transactionPending status when transactionStatus is transactionPending', () => {
-    const { getByText } = render(
-      <TestProviders>
-        <NFTMintButton />
-      </TestProviders>,
-    );
+  it('should call updateLifecycleStatus with transactionPending status when transactionStatus is transactionPending', async () => {
+    await act(async () => {
+      render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+    });
 
-    getByText('TransactionPending').click();
+    await act(async () => {
+      screen.getByText('TransactionPending').click();
+    });
 
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionPending',
     });
   });
 
-  it('should call updateLifecycleStatus with transaction status when transactionStatus is transactionLegacyExecuted', () => {
-    const { getByText } = render(
-      <TestProviders>
-        <NFTMintButton />
-      </TestProviders>,
-    );
+  it('should call updateLifecycleStatus with transaction status when transactionStatus is transactionLegacyExecuted', async () => {
+    await act(async () => {
+      render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+    });
 
-    getByText('TransactionLegacyExecuted').click();
+    await act(async () => {
+      screen.getByText('TransactionLegacyExecuted').click();
+    });
 
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'transactionLegacyExecuted',
     });
   });
 
-  it('should call updateLifecycleStatus with transaction status when transactionStatus is success', () => {
-    const { getByText } = render(
-      <TestProviders>
-        <NFTMintButton />
-      </TestProviders>,
-    );
+  it('should call updateLifecycleStatus with transaction status when transactionStatus is success', async () => {
+    await act(async () => {
+      render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+    });
 
-    getByText('Success').click();
+    await act(async () => {
+      screen.getByText('Success').click();
+    });
 
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'success',
     });
   });
 
-  it('should call updateLifecycleStatus with transaction status when transactionStatus is error', () => {
-    const { getByText } = render(
-      <TestProviders>
-        <NFTMintButton />
-      </TestProviders>,
-    );
+  it('should call updateLifecycleStatus with transaction status when transactionStatus is error', async () => {
+    await act(async () => {
+      render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+    });
 
-    getByText('Error').click();
+    await act(async () => {
+      screen.getByText('Error').click();
+    });
 
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',
@@ -280,11 +297,18 @@ describe('NFTMintButton', () => {
       quantity: 1,
     });
 
-    const { rerender } = render(
-      <TestProviders>
-        <NFTMintButton />
-      </TestProviders>,
-    );
+    let rerender: RenderResult['rerender'];
+
+    await act(async () => {
+      const { rerender: rerenderFn } = render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+
+      rerender = rerenderFn;
+    });
+
     expect(buildMintTransactionMock).toHaveBeenCalledWith(
       expect.objectContaining({
         contractAddress: '0x123',
@@ -303,11 +327,13 @@ describe('NFTMintButton', () => {
       quantity: 2,
     });
 
-    rerender(
-      <TestProviders>
-        <NFTMintButton />
-      </TestProviders>,
-    );
+    await act(async () => {
+      rerender(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+    });
 
     expect(buildMintTransactionMock).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -330,11 +356,13 @@ describe('NFTMintButton', () => {
       quantity: 1,
     });
 
-    await render(
-      <TestProviders>
-        <NFTMintButton />
-      </TestProviders>,
-    );
+    await act(async () => {
+      render(
+        <TestProviders>
+          <NFTMintButton />
+        </TestProviders>,
+      );
+    });
 
     expect(mockUpdateLifecycleStatus).toHaveBeenCalledWith({
       statusName: 'error',

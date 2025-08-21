@@ -1,6 +1,6 @@
 "use client";
 import { useSwapToken, useIsInMiniApp } from "@coinbase/onchainkit/minikit";
-import { Button } from "../ui/Button";
+import { Button } from "@mantine/core";
 
 export function SwapToken() {
   const { isInMiniApp } = useIsInMiniApp();

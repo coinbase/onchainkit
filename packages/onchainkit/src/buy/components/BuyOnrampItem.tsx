@@ -5,10 +5,10 @@ import { useCallback, useMemo } from 'react';
 import { applePaySvg } from '../../internal/svg/applePaySvg';
 import { cardSvg } from '../../internal/svg/cardSvg';
 import { coinbaseLogoSvg } from '../../internal/svg/coinbaseLogoSvg';
-import { cn, color, pressable, text } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import { useBuyContext } from './BuyProvider';
 
-type OnrampItemReact = {
+type OnrampItemProps = {
   name: string;
   description: string;
   onClick: () => void;
@@ -29,7 +29,7 @@ export function BuyOnrampItem({
   onClick,
   icon,
   to,
-}: OnrampItemReact) {
+}: OnrampItemProps) {
   const { setIsDropdownOpen } = useBuyContext();
 
   const handleClick = useCallback(() => {
@@ -66,7 +66,7 @@ export function BuyOnrampItem({
         'flex items-center gap-2 rounded-lg p-2',
         text.label2,
         !isDisabled && pressable.default,
-        isDisabled && color.foregroundMuted,
+        isDisabled && 'text-ock-foreground-muted',
       )}
       onClick={handleClick}
       type="button"
@@ -80,7 +80,9 @@ export function BuyOnrampItem({
         <div className="relative flex items-center gap-1">
           <div>{name}</div>
         </div>
-        <div className={cn('text-xs', color.foregroundMuted)}>{message}</div>
+        <div className={cn('text-xs', 'text-ock-foreground-muted')}>
+          {message}
+        </div>
       </div>
     </button>
   );

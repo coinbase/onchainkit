@@ -1,6 +1,6 @@
 import type {
   IdentityContextType,
-  IdentityProviderReact,
+  IdentityProviderProps,
 } from '@/identity/types';
 import { useValue } from '@/internal/hooks/useValue';
 import { useOnchainKit } from '@/useOnchainKit';
@@ -15,7 +15,7 @@ export function useIdentityContext() {
   return useContext(IdentityContext);
 }
 
-export function IdentityProvider(props: IdentityProviderReact) {
+export function IdentityProvider(props: IdentityProviderProps) {
   const { chain: contextChain } = useOnchainKit();
   const accountChain = props.chain ?? contextChain;
 

@@ -1,7 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import { base } from 'viem/chains';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useValue } from '../../internal/hooks/useValue';
 import { useSwapBalances } from '../../swap/hooks/useSwapBalances';
 import type { Token } from '../../token';
 import { usdcToken } from '../../token/constants';
@@ -9,10 +8,6 @@ import { useBuyToken } from './useBuyToken';
 
 vi.mock('../../swap/hooks/useSwapBalances', () => ({
   useSwapBalances: vi.fn(),
-}));
-
-vi.mock('@/internal/hooks/useValue', () => ({
-  useValue: vi.fn(),
 }));
 
 const toToken: Token = {
@@ -39,9 +34,6 @@ describe('useBuyToken', () => {
       toTokenBalanceError: null,
       toTokenResponse: { refetch: vi.fn() },
     });
-    (useValue as Mock).mockImplementation((props) => ({
-      ...props,
-    }));
     const { result } = renderHook(() =>
       useBuyToken(toToken, usdcToken, '0x123'),
     );
@@ -66,10 +58,6 @@ describe('useBuyToken', () => {
       fromTokenResponse: { refetch: mockFromRefetch },
       toTokenResponse: { refetch: mockToRefetch },
     });
-    (useValue as Mock).mockImplementation((props) => ({
-      ...props,
-      response: props.response,
-    }));
     const { result } = renderHook(() =>
       useBuyToken(toToken, usdcToken, '0x123'),
     );

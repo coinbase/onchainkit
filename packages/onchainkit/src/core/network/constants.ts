@@ -14,12 +14,15 @@ export const JSON_RPC_VERSION = '2.0';
  * @enum {string}
  * @readonly
  */
-export enum RequestContext {
-  API = 'api',
-  Buy = 'buy',
-  Checkout = 'checkout',
-  Hook = 'hook',
-  NFT = 'nft',
-  Swap = 'swap',
-  Wallet = 'wallet',
-}
+export const RequestContext = {
+  API: 'api',
+  Buy: 'buy',
+  Checkout: 'checkout',
+  Hook: 'hook',
+  NFT: 'nft',
+  Swap: 'swap',
+  Wallet: 'wallet',
+} as const;
+
+export type RequestContextType =
+  (typeof RequestContext)[keyof typeof RequestContext];

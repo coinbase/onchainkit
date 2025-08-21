@@ -16,7 +16,6 @@ export async function GET() {
       buttonTitle: 'Launch MiniKit',
       splashImageUrl: 'https://onchainkit.xyz/playground/snake.png',
       splashBackgroundColor: '#FFFFFF',
-      webhookUrl: 'https://onchainkit.xyz/playground/api/webhook',
     },
   });
 }

@@ -1,6 +1,6 @@
 "use client";
 import { useComposeCast, useIsInMiniApp } from "@coinbase/onchainkit/minikit";
-import { Button } from "../ui/Button";
+import { Button } from "@mantine/core";
 
 export function ComposeCast() {
   const { isInMiniApp } = useIsInMiniApp();

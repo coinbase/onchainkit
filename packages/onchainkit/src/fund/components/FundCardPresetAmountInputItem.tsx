@@ -1,15 +1,15 @@
 import { formatFiatAmount } from '@/internal/utils/formatFiatAmount';
-import { border, cn, color, text } from '@/styles/theme';
+import { border, cn, text } from '@/styles/theme';
 import { useCallback, useMemo } from 'react';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
-import type { PresetAmountInputItemPropsReact } from '../types';
+import type { PresetAmountInputItemProps } from '../types';
 
 export function FundCardPresetAmountInputItem({
   presetAmountInput,
   currency,
   onClick,
-}: PresetAmountInputItemPropsReact) {
+}: PresetAmountInputItemProps) {
   const { sendAnalytics } = useAnalytics();
 
   const presetAmountInputText = useMemo(() => {
@@ -52,15 +52,15 @@ export function FundCardPresetAmountInputItem({
       data-testid="ockPresetAmountInput"
       className={cn(
         text.body,
-        color.foreground,
-        border.radius,
+        'text-ock-foreground',
+        'rounded-ock-default',
         border.lineDefault,
         'flex-1',
         'p-1',
         'overflow-hidden',
         'whitespace-nowrap',
         'text-ellipsis',
-        'hover:bg-[var(--ock-bg-default-hover)]',
+        'hover:bg-ock-background-hover',
         'focus:outline-none focus:ring-2',
       )}
       title={presetAmountInputText}

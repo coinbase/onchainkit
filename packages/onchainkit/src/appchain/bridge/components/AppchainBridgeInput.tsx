@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { TextInput } from '../../../internal/components/TextInput';
 import { isValidAmount } from '../../../internal/utils/isValidAmount';
-import { background, border, cn, color, text } from '../../../styles/theme';
+import { cn, text } from '../../../styles/theme';
 import { TokenSelectDropdown } from '../../../token';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
@@ -51,8 +51,8 @@ export function AppchainBridgeInput({
   return (
     <div
       className={cn(
-        background.secondary,
-        border.radius,
+        'bg-ock-secondary',
+        'rounded-ock-default',
         'box-border flex h-[148px] w-full flex-col items-start p-4',
         className,
       )}
@@ -62,7 +62,7 @@ export function AppchainBridgeInput({
         <span
           className={cn(
             text.label2,
-            color.foregroundMuted,
+            'text-ock-foreground-muted',
             'flex items-center gap-1',
           )}
         >
@@ -84,7 +84,7 @@ export function AppchainBridgeInput({
                 '0x0000000000000000000000000000000000000000'
               }
               hasCopyAddressOnClick={false}
-              className={cn(text.label2, '!text-[var(--ock-text-foreground)]')}
+              className={cn(text.label2, 'text-ock-foreground')}
             />
           </button>{' '}
           on <span className="inline-flex h-4 w-4 items-center">{to.icon}</span>
@@ -95,8 +95,8 @@ export function AppchainBridgeInput({
           className={cn(
             'mr-2 w-full border-[none] bg-transparent font-display text-[2.5rem]',
             'leading-none outline-none',
-            color.foreground,
-            insufficientBalance && color.error,
+            'text-ock-foreground',
+            insufficientBalance && 'text-ock-error',
           )}
           placeholder="0.00"
           delayMs={delayMs}
@@ -127,8 +127,8 @@ export function AppchainBridgeInput({
           <span
             className={cn(
               text.label2,
-              color.foregroundMuted,
-              insufficientBalance && color.error,
+              'text-ock-foreground-muted',
+              insufficientBalance && 'text-ock-error',
             )}
           >
             {label}
@@ -137,7 +137,7 @@ export function AppchainBridgeInput({
         {address && (
           <div className="flex items-center">
             <span
-              className={cn(text.label2, color.foregroundMuted)}
+              className={cn(text.label2, 'text-ock-foreground-muted')}
             >{`Balance: ${Number(balance).toLocaleString(undefined, {
               maximumFractionDigits: 5,
               minimumFractionDigits: 0,
@@ -153,7 +153,7 @@ export function AppchainBridgeInput({
                 });
               }}
             >
-              <span className={cn(text.label1, color.primary)}>Max</span>
+              <span className={cn(text.label1, 'text-ock-primary')}>Max</span>
             </button>
           </div>
         )}

@@ -16,7 +16,8 @@ vi.mock('./utils', async () => {
 });
 
 vi.mock('./onchainkit', async () => {
-  const actual = await vi.importActual<typeof import('./onchainkit')>('./onchainkit');
+  const actual =
+    await vi.importActual<typeof import('./onchainkit')>('./onchainkit');
   return {
     ...actual,
     createOnchainKitTemplate: vi.fn(),
@@ -47,7 +48,7 @@ describe('CLI', () => {
     process.argv = originalGetArgs;
     vi.resetAllMocks();
     vi.resetModules();
-  })
+  });
 
   it('calls createOnchainKitTemplate with no arguments', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -63,7 +64,7 @@ describe('CLI', () => {
 
     await import('./cli.js');
 
-    expect(createMiniKitTemplate).toHaveBeenCalledWith('minikit-basic');
+    expect(createMiniKitTemplate).toHaveBeenCalledWith();
   });
 
   it('calls createMiniKitManifest with --manifest', async () => {
@@ -81,16 +82,7 @@ describe('CLI', () => {
 
     await import('./cli.js');
 
-    expect(createMiniKitTemplate).toHaveBeenCalledWith('minikit-basic');
-  });
-
-  it('calls createMiniKitTemplate with --template=minikit-snake', async () => {
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-    process.argv = ['node', 'cli.js', '--template=minikit-snake'];
-
-    await import('./cli.js');
-
-    expect(createMiniKitTemplate).toHaveBeenCalledWith('minikit-snake');
+    expect(createMiniKitTemplate).toHaveBeenCalledWith();
   });
 
   it('shows help text with --help', async () => {

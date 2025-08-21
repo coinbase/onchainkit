@@ -3,9 +3,14 @@ import { WalletEvent, WalletOption } from '@/core/analytics/types';
 import { useOnchainKit } from '@/useOnchainKit';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+import { useAccount } from 'wagmi';
 import { WalletAdvancedTransactionActions } from './WalletAdvancedTransactionActions';
 import { useWalletContext } from './WalletProvider';
 import { usePortfolio } from '../hooks/usePortfolio';
+
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+}));
 
 vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
@@ -27,7 +32,7 @@ vi.mock('@/core/analytics/hooks/useAnalytics', () => ({
 
 describe('WalletAdvancedTransactionActons', () => {
   const mockUseOnchainKit = useOnchainKit as ReturnType<typeof vi.fn>;
-
+  const mockUseAccount = useAccount as ReturnType<typeof vi.fn>;
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
 
   const defaultMockUseWalletAdvancedContext = {
@@ -48,11 +53,14 @@ describe('WalletAdvancedTransactionActons', () => {
     vi.spyOn(window, 'open').mockImplementation(() => null);
     mockUseOnchainKit.mockReturnValue({
       projectId: mockProjectId,
+      chain: mockChain,
+    });
+
+    mockUseAccount.mockReturnValue({
+      address: mockAddress,
     });
 
     mockUseWalletContext.mockReturnValue({
-      address: mockAddress,
-      chain: mockChain,
       ...defaultMockUseWalletAdvancedContext,
     });
 
@@ -114,11 +122,7 @@ describe('WalletAdvancedTransactionActons', () => {
   it('does not open the buy page when the buy button is clicked and projectId, address or chain.name are not defined', () => {
     mockUseOnchainKit.mockReturnValue({
       projectId: null,
-    });
-    mockUseWalletContext.mockReturnValue({
-      address: '0x123',
       chain: mockChain,
-      ...defaultMockUseWalletAdvancedContext,
     });
 
     const { rerender } = render(<WalletAdvancedTransactionActions />);
@@ -128,20 +132,21 @@ describe('WalletAdvancedTransactionActons', () => {
 
     mockUseOnchainKit.mockReturnValue({
       projectId: mockProjectId,
-    });
-    mockUseWalletContext.mockReturnValue({
-      address: null,
       chain: mockChain,
-      ...defaultMockUseWalletAdvancedContext,
+    });
+    mockUseAccount.mockReturnValue({
+      address: null,
     });
     rerender(<WalletAdvancedTransactionActions />);
     fireEvent.click(buyButton);
     expect(window.open).not.toHaveBeenCalled();
 
-    mockUseWalletContext.mockReturnValue({
+    mockUseAccount.mockReturnValue({
       address: mockAddress,
+    });
+    mockUseOnchainKit.mockReturnValue({
+      projectId: mockProjectId,
       chain: null,
-      ...defaultMockUseWalletAdvancedContext,
     });
     rerender(<WalletAdvancedTransactionActions />);
     fireEvent.click(buyButton);
@@ -171,12 +176,6 @@ describe('WalletAdvancedTransactionActons', () => {
   });
 
   it('renders a placeholder when fetcher is loading', () => {
-    mockUseWalletContext.mockReturnValue({
-      address: mockAddress,
-      chain: mockChain,
-      ...defaultMockUseWalletAdvancedContext,
-    });
-
     (usePortfolio as Mock).mockReturnValue({
       data: {
         tokenBalances: [],
@@ -291,6 +290,7 @@ describe('WalletAdvancedTransactionActons', () => {
     it('sends analytics for buy action only when required parameters are present', () => {
       mockUseOnchainKit.mockReturnValue({
         projectId: null,
+        chain: mockChain,
       });
 
       const { rerender } = render(<WalletAdvancedTransactionActions />);
@@ -302,16 +302,11 @@ describe('WalletAdvancedTransactionActons', () => {
 
       mockUseOnchainKit.mockReturnValue({
         projectId: mockProjectId,
-      });
-      mockUseWalletContext.mockReturnValue({
-        address: mockAddress,
         chain: mockChain,
-        ...defaultMockUseWalletAdvancedContext,
       });
 
       rerender(<WalletAdvancedTransactionActions />);
       fireEvent.click(buyButton);
-
       expect(mockSendAnalytics).toHaveBeenCalledTimes(2);
       expect(window.open).toHaveBeenCalled();
     });

@@ -1,15 +1,9 @@
 import '@testing-library/jest-dom';
-import { useTheme } from '@/internal/hooks/useTheme';
 import { render } from '@testing-library/react';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { NFTErrorFallback } from './NFTErrorFallback';
 
-vi.mock('@/internal/hooks/useTheme');
-
 describe('NFTErrorFallback', () => {
-  beforeEach(() => {
-    (useTheme as Mock).mockReturnValue('default-light');
-  });
   it('should render', () => {
     const error = new Error('Test error message');
 

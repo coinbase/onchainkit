@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import sdk from '@farcaster/frame-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 import { renderHook, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -9,7 +9,7 @@ const swapTokenMock = {
   success: true,
 };
 
-vi.mock('@farcaster/frame-sdk', () => ({
+vi.mock('@farcaster/miniapp-sdk', () => ({
   default: {
     actions: {
       swapToken: vi.fn(),

@@ -1,6 +1,6 @@
 import type {
   Attestation,
-  UseAttestations,
+  UseAttestationsParams,
   UseQueryOptions,
 } from '@/identity/types';
 import { getAttestations } from '@/identity/utils/getAttestations';
@@ -11,7 +11,7 @@ import { useQuery } from '@tanstack/react-query';
  * Fetches EAS Attestations for a given address, chain, and schemaId.
  */
 export function useAttestations(
-  { address, chain, schemaId }: UseAttestations,
+  { address, chain, schemaId }: UseAttestationsParams,
   queryOptions?: UseQueryOptions<Attestation[]>,
 ): Attestation[] {
   const result = useQuery<Attestation[]>({

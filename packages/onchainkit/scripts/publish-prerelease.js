@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import process from 'process';
 import { fileURLToPath } from 'url';
+import * as core from '@actions/core';
 
 const DIST_TAGS_URL =
   'https://registry.npmjs.org/-/package/@coinbase//onchainkit/dist-tags';
@@ -56,6 +57,14 @@ export async function publishPrerelease() {
   }
 
   console.log(`${tag} release published: ${nextVersion}`);
+
+  // Set GitHub Actions output using @actions/core
+  try {
+    core.setOutput('version', nextVersion);
+  } catch {
+    // Gracefully handle when not running in GitHub Actions
+    console.log(`Output would be set: version=${nextVersion}`);
+  }
 }
 
 // Parse command line arguments

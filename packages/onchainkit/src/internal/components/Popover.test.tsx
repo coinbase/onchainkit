@@ -2,10 +2,9 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Popover } from './Popover';
+import { LayerConfigProvider } from './LayerConfigProvider';
 
 describe('Popover', () => {
-  let anchor: HTMLElement;
-
   beforeEach(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -20,10 +19,6 @@ describe('Popover', () => {
         dispatchEvent: vi.fn(),
       })),
     });
-
-    anchor = document.createElement('button');
-    anchor.setAttribute('data-testid', 'anchor');
-    document.body.appendChild(anchor);
   });
 
   afterEach(() => {
@@ -35,131 +30,56 @@ describe('Popover', () => {
   describe('rendering', () => {
     it('should not render when isOpen is false', () => {
       render(
-        <Popover anchor={anchor} isOpen={false}>
-          Content
+        <Popover trigger={<button type="button">Trigger</button>} open={false}>
+          Popover Content
         </Popover>,
       );
 
-      expect(screen.queryByTestId('ockPopover')).not.toBeInTheDocument();
+      expect(screen.queryByText('Popover Content')).not.toBeInTheDocument();
     });
 
     it('should render when isOpen is true', () => {
       render(
-        <Popover anchor={anchor} isOpen={true}>
-          Content
+        <Popover trigger={<button type="button">Trigger</button>} open={true}>
+          Popover Content
         </Popover>,
       );
 
-      expect(screen.getByTestId('ockPopover')).toBeInTheDocument();
-      expect(screen.getByText('Content')).toBeInTheDocument();
-    });
-
-    it('should handle null anchor gracefully', () => {
-      render(
-        <Popover anchor={null} isOpen={true}>
-          Content
-        </Popover>,
-      );
-
-      expect(screen.getByTestId('ockPopover')).toBeInTheDocument();
-    });
-  });
-
-  describe('positioning', () => {
-    const positions = ['top', 'right', 'bottom', 'left'] as const;
-    const alignments = ['start', 'center', 'end'] as const;
-
-    for (const position of positions) {
-      for (const align of alignments) {
-        it(`should position correctly with position=${position} and align=${align}`, () => {
-          render(
-            <Popover
-              anchor={anchor}
-              isOpen={true}
-              position={position}
-              align={align}
-              offset={8}
-            >
-              Content
-            </Popover>,
-          );
-
-          const popover = screen.getByTestId('ockPopover');
-          expect(popover).toBeInTheDocument();
-
-          expect(popover.style.top).toBeDefined();
-          expect(popover.style.left).toBeDefined();
-        });
-      }
-    }
-
-    it('should update position on window resize', async () => {
-      render(
-        <Popover anchor={anchor} isOpen={true}>
-          Content
-        </Popover>,
-      );
-
-      fireEvent(window, new Event('resize'));
-
-      expect(screen.getByTestId('ockPopover')).toBeInTheDocument();
-    });
-
-    it('should update position on scroll', async () => {
-      render(
-        <Popover anchor={anchor} isOpen={true}>
-          Content
-        </Popover>,
-      );
-
-      fireEvent.scroll(window);
-
-      expect(screen.getByTestId('ockPopover')).toBeInTheDocument();
-    });
-
-    it('should handle missing getBoundingClientRect gracefully', () => {
-      const originalGetBoundingClientRect =
-        Element.prototype.getBoundingClientRect;
-      Element.prototype.getBoundingClientRect = vi
-        .fn()
-        .mockReturnValue(undefined);
-
-      render(
-        <Popover anchor={anchor} isOpen={true}>
-          Content
-        </Popover>,
-      );
-
-      const popover = screen.getByTestId('ockPopover');
-      expect(popover).toBeInTheDocument();
-
-      Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
+      expect(screen.getByText('Popover Content')).toBeInTheDocument();
     });
   });
 
   describe('interactions', () => {
-    it('should not call onClose when clicking inside', async () => {
-      const onClose = vi.fn();
+    it('should not call onOpenChange when clicking inside', async () => {
+      const onOpenChange = vi.fn();
       render(
-        <Popover anchor={anchor} isOpen={true} onClose={onClose}>
-          Content
+        <Popover
+          trigger={<button type="button">Trigger</button>}
+          open={true}
+          onOpenChange={onOpenChange}
+        >
+          Popover Content
         </Popover>,
       );
 
-      fireEvent.mouseDown(screen.getByText('Content'));
-      expect(onClose).not.toHaveBeenCalled();
+      fireEvent.mouseDown(screen.getByText('Popover Content'));
+      expect(onOpenChange).not.toHaveBeenCalled();
     });
 
-    it('should call onClose when pressing Escape', async () => {
-      const onClose = vi.fn();
+    it('should call onOpenChange when pressing Escape', async () => {
+      const onOpenChange = vi.fn();
       render(
-        <Popover anchor={anchor} isOpen={true} onClose={onClose}>
-          Content
+        <Popover
+          trigger={<button type="button">Trigger</button>}
+          open={true}
+          onOpenChange={onOpenChange}
+        >
+          Popover Content
         </Popover>,
       );
 
       fireEvent.keyDown(document.body, { key: 'Escape' });
-      expect(onClose).toHaveBeenCalled();
+      expect(onOpenChange).toHaveBeenCalled();
     });
   });
 
@@ -167,13 +87,13 @@ describe('Popover', () => {
     it('should have correct ARIA attributes', () => {
       render(
         <Popover
-          anchor={anchor}
-          isOpen={true}
+          trigger={<button type="button">Trigger</button>}
+          open={true}
           aria-label="Test Label"
           aria-labelledby="labelId"
           aria-describedby="describeId"
         >
-          Content
+          Popover Content
         </Popover>,
       );
 
@@ -187,7 +107,7 @@ describe('Popover', () => {
     it('should trap focus when open', async () => {
       const user = userEvent.setup();
       render(
-        <Popover anchor={anchor} isOpen={true}>
+        <Popover trigger={<button type="button">Trigger</button>} open={true}>
           <button type="button">First</button>
           <button type="button">Second</button>
         </Popover>,
@@ -207,18 +127,53 @@ describe('Popover', () => {
     });
   });
 
-  describe('cleanup', () => {
-    it('should remove event listeners on unmount', () => {
-      const { unmount } = render(
-        <Popover anchor={anchor} isOpen={true}>
-          Content
-        </Popover>,
+  describe('skipPopoverPortal', () => {
+    it('should not render the popover portal when skipPopoverPortal is true', () => {
+      const popover = render(
+        <LayerConfigProvider skipPopoverPortal={true}>
+          <div data-testid="popover-container">
+            <Popover
+              trigger={
+                <button type="button" data-testid="trigger">
+                  Trigger
+                </button>
+              }
+              open={true}
+            >
+              Popover Content
+            </Popover>
+          </div>
+        </LayerConfigProvider>,
       );
 
-      const removeEventListenerSpy = vi.spyOn(window, 'removeEventListener');
-      unmount();
+      const popoverContent = popover.getByTestId('ockPopover');
+      const popoverContainer = popover.getByTestId('popover-container');
+      expect(popoverContent).toBeInTheDocument();
+      expect(popoverContainer.contains(popoverContent)).toBe(true);
+    });
 
-      expect(removeEventListenerSpy).toHaveBeenCalledTimes(2);
+    it('should render the popover portal when skipPopoverPortal is false', () => {
+      const popover = render(
+        <LayerConfigProvider skipPopoverPortal={false}>
+          <div data-testid="popover-container">
+            <Popover
+              trigger={
+                <button type="button" data-testid="trigger">
+                  Trigger
+                </button>
+              }
+              open={true}
+            >
+              Popover Content
+            </Popover>
+          </div>
+        </LayerConfigProvider>,
+      );
+
+      const popoverContent = popover.getByTestId('ockPopover');
+      const popoverContainer = popover.getByTestId('popover-container');
+      expect(popoverContent).toBeInTheDocument();
+      expect(popoverContainer.contains(popoverContent)).toBe(false);
     });
   });
 });

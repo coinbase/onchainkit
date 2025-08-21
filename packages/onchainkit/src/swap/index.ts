@@ -3,7 +3,6 @@
 export { Swap } from './components/Swap';
 export { SwapAmountInput } from './components/SwapAmountInput';
 export { SwapButton } from './components/SwapButton';
-export { SwapDefault } from './components/SwapDefault';
 export { SwapMessage } from './components/SwapMessage';
 export { SwapSettings } from './components/SwapSettings';
 export { SwapSettingsSlippageDescription } from './components/SwapSettingsSlippageDescription';
@@ -15,26 +14,20 @@ export { useSwapContext } from './components/SwapProvider';
 
 // Types
 export type {
-  /** @deprecated Prefer import from `api` module */
-  BuildSwapTransaction,
-  /** @deprecated Prefer import from `api` module */
-  BuildSwapTransactionResponse,
-} from '../api/types';
-export type {
   Fee,
   LifecycleStatus,
   QuoteWarning,
-  SwapAmountInputReact,
-  SwapButtonReact,
+  SwapAmountInputProps,
+  SwapButtonProps,
   SwapError,
-  SwapMessageReact,
-  SwapQuote,
-  SwapReact,
-  SwapSettingsReact,
-  SwapSettingsSlippageDescriptionReact,
-  SwapSettingsSlippageInputReact,
-  SwapSettingsSlippageTitleReact,
-  SwapToggleButtonReact,
+  SwapMessageProps,
+  SwapQuoteParams,
+  SwapProps,
+  SwapSettingsProps,
+  SwapSettingsSlippageDescriptionProps,
+  SwapSettingsSlippageInputProps,
+  SwapSettingsSlippageTitleProps,
+  SwapToggleButtonProps,
   SwapTransactionType,
-  Transaction,
+  TransactionParams,
 } from './types';

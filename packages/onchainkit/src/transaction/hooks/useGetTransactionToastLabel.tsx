@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { color } from '../../styles/theme';
 import { useTransactionContext } from '../components/TransactionProvider';
+import { prefixClassName } from '@/styles/theme';
 
 export function useGetTransactionToastLabel() {
   const {
@@ -21,7 +21,7 @@ export function useGetTransactionToastLabel() {
 
   return useMemo(() => {
     let label = '';
-    let labelClassName: string = color.foregroundMuted;
+    let labelClassName: string = 'text-ock-foreground-muted';
 
     if (isBuildingTransaction) {
       label = 'Building transaction';
@@ -37,9 +37,9 @@ export function useGetTransactionToastLabel() {
 
     if (errorMessage) {
       label = 'Something went wrong';
-      labelClassName = color.error;
+      labelClassName = 'text-ock-error';
     }
 
-    return { label, labelClassName };
+    return { label, labelClassName: prefixClassName(labelClassName) };
   }, [errorMessage, isBuildingTransaction, isInProgress, receipt]);
 }

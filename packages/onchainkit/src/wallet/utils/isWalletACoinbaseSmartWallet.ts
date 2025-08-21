@@ -1,15 +1,26 @@
 import { checksumAddress, decodeAbiParameters } from 'viem';
-import type { Address, BlockTag, Hex } from 'viem';
+import type {
+  Address,
+  BlockTag,
+  Hex,
+  PublicClient,
+  RpcUserOperation,
+} from 'viem';
 import {
   CB_SW_FACTORY_ADDRESS,
   CB_SW_PROXY_BYTECODE,
   CB_SW_V1_IMPLEMENTATION_ADDRESS,
   ERC_1967_PROXY_IMPLEMENTATION_SLOT,
 } from '../constants';
-import type {
-  IsWalletACoinbaseSmartWalletOptions,
-  IsWalletACoinbaseSmartWalletResponse,
-} from '../types';
+
+export type IsWalletACoinbaseSmartWalletOptions = {
+  client: PublicClient;
+  userOp: RpcUserOperation<'0.6'>;
+};
+
+export type IsWalletACoinbaseSmartWalletResponse =
+  | { isCoinbaseSmartWallet: true }
+  | { isCoinbaseSmartWallet: false; error: string; code: string };
 
 /**
  * Validates a User Operation by checking if the sender address

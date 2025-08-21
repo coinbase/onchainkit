@@ -4,7 +4,7 @@ import { type MouseEvent, useCallback, useEffect, useState } from 'react';
 import { defaultNFTSvg } from '../../../internal/svg/defaultNFTSvg';
 import { cn } from '../../../styles/theme';
 
-type NFTImageReact = {
+type NFTImageProps = {
   className?: string;
   square?: boolean;
   onLoading?: (mediaUrl: string) => void;
@@ -18,7 +18,7 @@ export function NFTImage({
   onLoading,
   onLoaded,
   onError,
-}: NFTImageReact) {
+}: NFTImageProps) {
   const { imageUrl, description } = useNFTContext();
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);

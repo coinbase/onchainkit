@@ -15,39 +15,46 @@ export const CHECKOUT_INVALID_PARAMETER_ERROR_MESSAGE =
 export const UNCAUGHT_CHECKOUT_ERROR_MESSAGE = 'UNCAUGHT_CHECKOUT_ERROR';
 export const USER_REJECTED_ERROR = 'Request denied.';
 
-export enum CheckoutErrorCode {
-  INSUFFICIENT_BALANCE = 'insufficient_balance',
-  GENERIC_ERROR = 'generic_error',
-  UNEXPECTED_ERROR = 'unexpected_error',
-  USER_REJECTED_ERROR = 'user_rejected',
-}
+export const CheckoutErrorCode = {
+  INSUFFICIENT_BALANCE: 'insufficient_balance',
+  GENERIC_ERROR: 'generic_error',
+  UNEXPECTED_ERROR: 'unexpected_error',
+  USER_REJECTED_ERROR: 'user_rejected',
+} as const;
+
+export type CheckoutErrorCodeType = keyof typeof CheckoutErrorCode;
 
 export interface CheckoutErrorType {
-  code: CheckoutErrorCode;
+  code: CheckoutErrorCodeType;
   error: string;
   message: string;
 }
 
 export type CheckoutErrors = {
-  [K in CheckoutErrorCode]: CheckoutErrorType;
+  [K in CheckoutErrorCodeType]: CheckoutErrorType;
 };
 
-export enum CHECKOUT_LIFECYCLESTATUS {
-  FETCHING_DATA = 'fetchingData',
-  INIT = 'init',
-  PENDING = 'pending',
-  READY = 'ready',
-  SUCCESS = 'success',
-  ERROR = 'error',
-}
+export const CHECKOUT_LIFECYCLE_STATUS = {
+  FETCHING_DATA: 'fetchingData',
+  INIT: 'init',
+  PENDING: 'pending',
+  READY: 'ready',
+  SUCCESS: 'success',
+  ERROR: 'error',
+} as const;
+
+export type CheckoutLifecycleStatusType =
+  keyof typeof CHECKOUT_LIFECYCLE_STATUS;
 
 export const USDC_ADDRESS_BASE = '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913';
 
-export enum CONTRACT_METHODS {
-  APPROVE = 'approve',
-  BALANCE_OF = 'balanceOf',
-  TRANSFER_TOKEN_PRE_APPROVED = 'transferTokenPreApproved',
-}
+export const CONTRACT_METHODS = {
+  APPROVE: 'approve',
+  BALANCE_OF: 'balanceOf',
+  TRANSFER_TOKEN_PRE_APPROVED: 'transferTokenPreApproved',
+} as const;
+
+export type ContractMethodsType = keyof typeof CONTRACT_METHODS;
 
 export const COMMERCE_ABI = [
   {

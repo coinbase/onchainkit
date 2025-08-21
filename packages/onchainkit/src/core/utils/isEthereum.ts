@@ -1,5 +1,5 @@
 import { mainnet, sepolia } from 'viem/chains';
-import type { IsEthereumOptions } from '../types';
+import type { IsEthereumParams } from '../types';
 
 /**
  * isEthereum
@@ -8,7 +8,7 @@ import type { IsEthereumOptions } from '../types';
 export function isEthereum({
   chainId,
   isMainnetOnly = false,
-}: IsEthereumOptions): boolean {
+}: IsEthereumParams): boolean {
   // If only ETH mainnet
   if (isMainnetOnly && chainId === mainnet.id) {
     return true;

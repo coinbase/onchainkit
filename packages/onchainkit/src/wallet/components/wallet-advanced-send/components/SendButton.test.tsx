@@ -1,3 +1,4 @@
+import { TransactionButtonRenderParams } from '@/transaction';
 import { Transaction } from '@/transaction/components/Transaction';
 import { TransactionButton } from '@/transaction/components/TransactionButton';
 import { useTransactionContext } from '@/transaction/components/TransactionProvider';
@@ -6,10 +7,11 @@ import { type Address, type Chain, parseUnits } from 'viem';
 import { base } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWalletContext } from '../../WalletProvider';
-import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
 import { getSendCalldata } from '../utils/getSendCalldata';
 import { SendButton } from './SendButton';
 import { useSendContext } from './SendProvider';
+import { RenderSendButton } from './RenderSendButton';
+import { useOnchainKit } from '@/useOnchainKit';
 
 vi.mock('viem', () => ({
   parseUnits: vi.fn(),
@@ -67,6 +69,16 @@ vi.mock('../utils/defaultSendTxSuccessHandler', () => ({
   defaultSendTxSuccessHandler: vi.fn(() => vi.fn()),
 }));
 
+vi.mock('./RenderSendButton', () => ({
+  RenderSendButton: vi.fn(() => (
+    <div data-testid="mock-render-send-button">Rendered Send Button</div>
+  )),
+}));
+
+vi.mock('@/useOnchainKit', () => ({
+  useOnchainKit: vi.fn(),
+}));
+
 const mockChain = {
   id: 8453,
   name: 'Base',
@@ -95,14 +107,8 @@ describe('SendButton', () => {
   const mockUseTransactionContext = useTransactionContext as ReturnType<
     typeof vi.fn
   >;
-  const mockDefaultSendTxSuccessHandler =
-    defaultSendTxSuccessHandler as ReturnType<typeof vi.fn>;
   const mockGetSendCalldata = getSendCalldata as ReturnType<typeof vi.fn>;
-
-  const mockWalletContext = {
-    chain: mockChain,
-    address: '0x1234567890123456789012345678901234567890',
-  };
+  const mockUseOnchainKit = useOnchainKit as ReturnType<typeof vi.fn>;
 
   const mockWalletAdvancedContext = {
     setActiveFeature: vi.fn(),
@@ -133,9 +139,11 @@ describe('SendButton', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseWalletContext.mockReturnValue({
-      ...mockWalletContext,
       ...mockWalletAdvancedContext,
       isSponsored: false,
+    });
+    mockUseOnchainKit.mockReturnValue({
+      chain: mockChain,
     });
     mockUseSendContext.mockReturnValue(mockSendContext);
     mockUseTransactionContext.mockReturnValue(mockTransactionContext);
@@ -151,7 +159,7 @@ describe('SendButton', () => {
         chainId: mockChain.id,
         calls: [mockTransactionData.calldata],
       }),
-      {},
+      undefined,
     );
 
     expect(screen.getByTestId('mock-transaction')).toBeInTheDocument();
@@ -177,13 +185,12 @@ describe('SendButton', () => {
       expect.objectContaining({
         disabled: true,
       }),
-      {},
+      undefined,
     );
   });
 
   it('uses default chain when wallet chain is null', () => {
-    mockUseWalletContext.mockReturnValue({
-      ...mockWalletContext,
+    mockUseOnchainKit.mockReturnValue({
       chain: null,
     });
 
@@ -193,7 +200,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         chainId: base.id,
       }),
-      {},
+      undefined,
     );
   });
 
@@ -209,7 +216,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         calls: [],
       }),
-      {},
+      undefined,
     );
   });
 
@@ -225,7 +232,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         text: 'Input amount',
       }),
-      {},
+      undefined,
     );
   });
 
@@ -241,7 +248,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         text: 'Select token',
       }),
-      {},
+      undefined,
     );
   });
 
@@ -261,7 +268,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         text: 'Insufficient balance',
       }),
-      {},
+      undefined,
     );
   });
 
@@ -276,7 +283,7 @@ describe('SendButton', () => {
       expect.objectContaining({
         text: 'Continue',
       }),
-      {},
+      undefined,
     );
   });
 
@@ -304,46 +311,38 @@ describe('SendButton', () => {
     expect(mockSendContext.updateLifecycleStatus).not.toHaveBeenCalled();
   });
 
-  it('handles null wallet address correctly', () => {
-    mockUseWalletContext.mockReturnValue({
-      ...mockWalletContext,
-      address: null,
-    });
+  it('passes correct props to RenderSendButton through the render prop', () => {
+    vi.clearAllMocks();
+
+    const renderSendButtonSpy = vi.fn(() => <div>Mocked RenderSendButton</div>);
+    vi.mocked(RenderSendButton).mockImplementation(renderSendButtonSpy);
+
+    vi.mocked(parseUnits).mockImplementation(() => 1000000n);
 
     render(<SendButton />);
 
-    expect(defaultSendTxSuccessHandler).toHaveBeenCalledWith(
+    expect(TransactionButton).toHaveBeenCalled();
+    const transactionButtonProps =
+      vi.mocked(TransactionButton).mock.calls[0][0];
+    expect(transactionButtonProps.render).toBeDefined();
+
+    const renderFunction = transactionButtonProps.render;
+
+    const mockTransactionParams = {
+      onSubmit: vi.fn(),
+      isDisabled: false,
+    } as unknown as TransactionButtonRenderParams;
+
+    render(renderFunction?.(mockTransactionParams));
+
+    expect(renderSendButtonSpy).toHaveBeenCalled();
+    expect(renderSendButtonSpy).toHaveBeenCalledWith(
       expect.objectContaining({
-        address: undefined,
+        onSubmit: mockTransactionParams.onSubmit,
+        isDisabled: mockTransactionParams.isDisabled,
+        label: 'Continue',
       }),
+      undefined,
     );
-  });
-
-  it('configures defaultSuccessOverride with correct parameters', () => {
-    render(<SendButton />);
-
-    expect(defaultSendTxSuccessHandler).toHaveBeenCalledWith({
-      transactionId: '123',
-      transactionHash: '0xabcdef',
-      senderChain: mockWalletContext.chain,
-      address: mockWalletContext.address,
-      onComplete: expect.any(Function),
-    });
-  });
-
-  it('calls setActiveFeature when completionHandler is triggered', () => {
-    const setActiveFeature = vi.fn();
-    mockUseWalletContext.mockReturnValue({
-      ...mockWalletContext,
-      setActiveFeature,
-    });
-
-    render(<SendButton />);
-
-    const { onComplete } = mockDefaultSendTxSuccessHandler.mock.calls[0][0];
-
-    onComplete();
-
-    expect(setActiveFeature).toHaveBeenCalledWith(null);
   });
 });

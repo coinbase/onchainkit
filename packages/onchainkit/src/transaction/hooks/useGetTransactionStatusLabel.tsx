@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { color } from '../../styles/theme';
 import { useTransactionContext } from '../components/TransactionProvider';
+import { prefixClassName } from '../../styles/theme';
 
 export function useGetTransactionStatusLabel() {
   const {
@@ -23,7 +23,7 @@ export function useGetTransactionStatusLabel() {
 
   return useMemo(() => {
     let label = '';
-    let labelClassName: string = color.foregroundMuted;
+    let labelClassName: string = 'text-ock-foreground-muted';
 
     if (isBuildingTransaction) {
       label = 'Building transaction...';
@@ -43,9 +43,9 @@ export function useGetTransactionStatusLabel() {
 
     if (errorMessage) {
       label = errorMessage;
-      labelClassName = color.error;
+      labelClassName = 'text-ock-error';
     }
 
-    return { label, labelClassName };
+    return { label, labelClassName: prefixClassName(labelClassName) };
   }, [errorMessage, isBuildingTransaction, isInProgress, isPending, receipt]);
 }

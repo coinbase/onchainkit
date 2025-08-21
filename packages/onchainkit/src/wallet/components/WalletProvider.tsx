@@ -1,7 +1,6 @@
 'use client';
 
 import { useBreakpoints } from '@/internal/hooks/useBreakpoints';
-import { useOnchainKit } from '@/useOnchainKit';
 import {
   createContext,
   useCallback,
@@ -11,32 +10,54 @@ import {
   useRef,
   useState,
 } from 'react';
-import type { ReactNode } from 'react';
-import { useAccount } from 'wagmi';
-import type { WalletAdvancedFeature, WalletContextType } from '../types';
+import type { ReactNode, Dispatch, SetStateAction } from 'react';
+import type { WalletAdvancedFeature } from '../types';
 import { getAnimations } from '../utils/getAnimations';
 import { calculateSubComponentPosition } from '../utils/getWalletSubComponentPosition';
 
-const emptyContext = {} as WalletContextType;
+export type WalletContextType = {
+  /** The breakpoint of the current device */
+  breakpoint: string | undefined;
+  /** Whether the connect modal is open */
+  isConnectModalOpen: boolean;
+  setIsConnectModalOpen: Dispatch<SetStateAction<boolean>>;
+  isSubComponentOpen: boolean;
+  setIsSubComponentOpen: Dispatch<SetStateAction<boolean>>;
+  isSubComponentClosing: boolean;
+  setIsSubComponentClosing: Dispatch<SetStateAction<boolean>>;
+  handleClose: () => void;
+  connectRef: React.RefObject<HTMLDivElement | null>;
+  showSubComponentAbove: boolean;
+  alignSubComponentRight: boolean;
 
-const WalletContext = createContext<WalletContextType>(emptyContext);
+  activeFeature: WalletAdvancedFeature | null;
+  setActiveFeature: Dispatch<SetStateAction<WalletAdvancedFeature | null>>;
+  isActiveFeatureClosing: boolean;
+  setIsActiveFeatureClosing: Dispatch<SetStateAction<boolean>>;
+  animations: {
+    container: string;
+    content: string;
+  };
+  /** Whether to sponsor transactions for Send feature of advanced wallet implementation */
+  isSponsored?: boolean;
+};
 
-export type WalletProviderReact = {
+export const WalletContext = createContext<WalletContextType | null>(null);
+
+type WalletProviderProps = {
   children: ReactNode;
   /** Whether to sponsor transactions for Send feature of advanced wallet implementation */
   isSponsored?: boolean;
 };
 
-export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
-  const { chain } = useOnchainKit();
+export function WalletProvider({ children, isSponsored }: WalletProviderProps) {
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [isSubComponentOpen, setIsSubComponentOpen] = useState(false);
   const [isSubComponentClosing, setIsSubComponentClosing] = useState(false);
   const [showSubComponentAbove, setShowSubComponentAbove] = useState(false);
   const [alignSubComponentRight, setAlignSubComponentRight] = useState(false);
 
-  const connectRef = useRef<HTMLDivElement>(null);
-  const { address } = useAccount();
+  const connectRef = useRef<HTMLDivElement | null>(null);
   const breakpoint = useBreakpoints();
 
   const [activeFeature, setActiveFeature] =
@@ -51,6 +72,7 @@ export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
     if (!isSubComponentOpen) {
       return;
     }
+
     setIsSubComponentClosing(true);
   }, [isSubComponentOpen]);
 
@@ -65,8 +87,6 @@ export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
 
   const value = useMemo(() => {
     return {
-      address,
-      chain,
       breakpoint,
       isConnectModalOpen,
       setIsConnectModalOpen,
@@ -84,10 +104,9 @@ export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
       setIsActiveFeatureClosing,
       animations,
       isSponsored,
+      __hasContext: true,
     };
   }, [
-    address,
-    chain,
     breakpoint,
     isConnectModalOpen,
     isSubComponentOpen,
@@ -107,5 +126,11 @@ export function WalletProvider({ children, isSponsored }: WalletProviderReact) {
 }
 
 export function useWalletContext() {
-  return useContext(WalletContext);
+  const context = useContext(WalletContext);
+
+  if (!context) {
+    throw new Error('useWalletContext must be used within a WalletProvider');
+  }
+
+  return context;
 }

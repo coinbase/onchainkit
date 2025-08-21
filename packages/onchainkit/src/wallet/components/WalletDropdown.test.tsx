@@ -1,59 +1,98 @@
-import '@testing-library/jest-dom';
-import { IdentityProvider } from '@/identity/components/IdentityProvider';
 import { render, screen } from '@testing-library/react';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useDisconnect } from 'wagmi';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+import { useAccount, useDisconnect } from 'wagmi';
+import { useName } from '../../identity/hooks/useName';
+import { usePortfolio } from '../hooks/usePortfolio';
 import { WalletDropdown } from './WalletDropdown';
 import { useWalletContext } from './WalletProvider';
 
-vi.mock('./WalletProvider', () => ({
-  useWalletContext: vi.fn(),
-  WalletProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
-}));
-
-vi.mock('@/identity/components/Identity', () => ({
-  Identity: vi.fn(({ address, children }) => (
-    <IdentityProvider address={address}>{children}</IdentityProvider>
-  )),
-}));
+// Mock floating-ui
+vi.mock('@floating-ui/react', () => {
+  const mockUseFloating = vi.fn();
+  return {
+    useFloating: mockUseFloating,
+    autoUpdate: vi.fn(),
+    offset: vi.fn(),
+    flip: vi.fn(),
+    shift: vi.fn(),
+    FloatingPortal: ({ children }: { children: React.ReactNode }) => (
+      <div data-testid="floating-portal">{children}</div>
+    ),
+  };
+});
 
 vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
   useDisconnect: vi.fn(),
-  WagmiProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
 }));
 
-vi.mock('./WalletDropdownContent', () => ({
-  WalletDropdownContent: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="wallet-advanced-content">{children}</div>
-  ),
+vi.mock('./WalletProvider', () => ({
+  useWalletContext: vi.fn(),
 }));
 
-vi.mock('./WalletAdvancedProvider', () => ({
-  useWalletAdvancedContext: vi.fn(),
-  WalletAdvancedProvider: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
+vi.mock('../../identity/hooks/useName', () => ({
+  useName: vi.fn(),
+}));
+
+vi.mock('../hooks/usePortfolio', () => ({
+  usePortfolio: vi.fn(),
+}));
+
+vi.mock('../../identity', () => ({
+  Identity: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="identity">{children}</div>
   ),
+  Avatar: () => <div data-testid="avatar">Avatar</div>,
+  Name: () => <div data-testid="name">Name</div>,
+  Address: () => <div data-testid="address">Address</div>,
+  EthBalance: () => <div data-testid="eth-balance">EthBalance</div>,
 }));
 
 const useWalletContextMock = useWalletContext as Mock;
+const useAccountMock = useAccount as Mock;
 
 describe('WalletDropdown', () => {
-  beforeEach(() => {
+  let mockUseFloating: Mock;
+
+  beforeEach(async () => {
     vi.clearAllMocks();
+
+    // Import the mock after clearing
+    const floatingUi = await import('@floating-ui/react');
+    mockUseFloating = floatingUi.useFloating as Mock;
+
     (useDisconnect as Mock).mockReturnValue({
       disconnect: vi.fn(),
       connectors: [],
     });
+    useAccountMock.mockReturnValue({
+      address: '0x123',
+    });
+    (usePortfolio as Mock).mockReturnValue({
+      data: {
+        tokenBalances: [],
+      },
+    });
+    mockUseFloating.mockReturnValue({
+      refs: {
+        setReference: vi.fn(),
+        setFloating: vi.fn(),
+      },
+      floatingStyles: {
+        position: 'absolute' as const,
+        top: 0,
+        left: 0,
+      },
+    });
   });
 
   it('renders null when address is not provided', () => {
-    useWalletContextMock.mockReturnValue({
+    useAccountMock.mockReturnValue({
       address: undefined,
+    });
+    useWalletContextMock.mockReturnValue({
       isSubComponentOpen: true,
+      breakpoint: 'md',
     });
     render(<WalletDropdown>Test Children</WalletDropdown>);
     expect(screen.queryByText('Test Children')).not.toBeInTheDocument();
@@ -61,7 +100,6 @@ describe('WalletDropdown', () => {
 
   it('renders null when isSubComponentOpen is false', () => {
     useWalletContextMock.mockReturnValue({
-      address: '0x123',
       breakpoint: 'md',
       isSubComponentOpen: false,
     });
@@ -72,8 +110,8 @@ describe('WalletDropdown', () => {
 
   it('does not render anything if breakpoint is not defined', () => {
     useWalletContextMock.mockReturnValue({
-      address: '0x123',
       breakpoint: null,
+      isSubComponentOpen: true,
     });
 
     render(<WalletDropdown>Content</WalletDropdown>);
@@ -83,10 +121,14 @@ describe('WalletDropdown', () => {
 
   it('renders default children', () => {
     useWalletContextMock.mockReturnValue({
-      address: '0x123',
       breakpoint: 'md',
       isSubComponentOpen: true,
+      animations: {
+        container: '',
+        content: '',
+      },
     });
+    (useName as ReturnType<typeof vi.fn>).mockReturnValue({ data: '0x123' });
 
     render(<WalletDropdown />);
 
@@ -97,9 +139,12 @@ describe('WalletDropdown', () => {
 
   it('renders children', () => {
     useWalletContextMock.mockReturnValue({
-      address: '0x123',
       breakpoint: 'sm',
       isSubComponentOpen: true,
+      animations: {
+        container: '',
+        content: '',
+      },
     });
 
     render(
@@ -115,9 +160,12 @@ describe('WalletDropdown', () => {
 
   it('renders WalletDropdown when breakpoint is not "sm"', () => {
     useWalletContextMock.mockReturnValue({
-      address: '0x123',
       breakpoint: 'md',
       isSubComponentOpen: true,
+      animations: {
+        container: '',
+        content: '',
+      },
     });
 
     render(<WalletDropdown className="dropdown">Content</WalletDropdown>);
@@ -128,26 +176,178 @@ describe('WalletDropdown', () => {
     expect(dropdown).toHaveClass('dropdown');
   });
 
-  it('sets classes correctly based on context values', () => {
+  it('renders with floating portal and proper z-index', () => {
     useWalletContextMock.mockReturnValue({
-      address: '0x123',
       showSubComponentAbove: true,
       alignSubComponentRight: false,
       isSubComponentOpen: true,
       breakpoint: 'md',
+      animations: {
+        container: '',
+        content: '',
+      },
     });
-    const { rerender } = render(<WalletDropdown>Content</WalletDropdown>);
+
+    render(<WalletDropdown>Content</WalletDropdown>);
+
+    const portal = screen.getByTestId('floating-portal');
     const dropdown = screen.getByTestId('ockWalletDropdown');
-    expect(dropdown).toHaveClass('absolute bottom-full left-0');
+
+    expect(portal).toBeInTheDocument();
+    expect(dropdown).toBeInTheDocument();
+    expect(dropdown).toHaveClass('z-50');
+  });
+
+  it('does not call handleClose when clicking inside the dropdown', async () => {
+    // Create a floating ref that will be wired by setFloating
+    const floatingRef: { current: HTMLDivElement | null } = { current: null };
+
+    mockUseFloating.mockReturnValue({
+      refs: {
+        floating: floatingRef,
+        setReference: vi.fn(),
+        setFloating: (node: HTMLDivElement | null) => {
+          floatingRef.current = node;
+        },
+      },
+      floatingStyles: {
+        position: 'absolute' as const,
+        top: 0,
+        left: 0,
+      },
+    });
+
+    const handleClose = vi.fn();
 
     useWalletContextMock.mockReturnValue({
-      address: '0x123',
+      breakpoint: 'md',
+      isSubComponentOpen: true,
+      showSubComponentAbove: false,
+      alignSubComponentRight: false,
+      handleClose,
+      animations: { container: '', content: '' },
+    });
+
+    render(<WalletDropdown>Content</WalletDropdown>);
+
+    const dropdown = screen.getByTestId('ockWalletDropdown');
+    // Click inside the dropdown
+    dropdown.click();
+
+    expect(handleClose).not.toHaveBeenCalled();
+  });
+
+  it('calls handleClose when clicking outside the dropdown', async () => {
+    const floatingRef: { current: HTMLDivElement | null } = { current: null };
+
+    mockUseFloating.mockReturnValue({
+      refs: {
+        floating: floatingRef,
+        setReference: vi.fn(),
+        setFloating: (node: HTMLDivElement | null) => {
+          floatingRef.current = node;
+        },
+      },
+      floatingStyles: {
+        position: 'absolute' as const,
+        top: 0,
+        left: 0,
+      },
+    });
+
+    const handleClose = vi.fn();
+
+    useWalletContextMock.mockReturnValue({
+      breakpoint: 'md',
+      isSubComponentOpen: true,
+      showSubComponentAbove: false,
+      alignSubComponentRight: false,
+      handleClose,
+      animations: { container: '', content: '' },
+    });
+
+    render(<WalletDropdown>Content</WalletDropdown>);
+
+    // Click outside the dropdown
+    document.body.click();
+
+    expect(handleClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('uses top-end placement when showSubComponentAbove and alignSubComponentRight are both true', () => {
+    useWalletContextMock.mockReturnValue({
+      showSubComponentAbove: true,
+      alignSubComponentRight: true,
+      isSubComponentOpen: true,
+      breakpoint: 'md',
+      animations: {
+        container: '',
+        content: '',
+      },
+    });
+
+    render(<WalletDropdown>Content</WalletDropdown>);
+
+    expect(mockUseFloating).toHaveBeenCalledWith({
+      open: true,
+      placement: 'top-end',
+      middleware: expect.any(Array),
+      whileElementsMounted: expect.any(Function),
+    });
+  });
+
+  it('uses bottom-end placement when showSubComponentAbove is false and alignSubComponentRight is true', () => {
+    useWalletContextMock.mockReturnValue({
       showSubComponentAbove: false,
       alignSubComponentRight: true,
       isSubComponentOpen: true,
       breakpoint: 'md',
+      animations: {
+        container: '',
+        content: '',
+      },
     });
-    rerender(<WalletDropdown>Content</WalletDropdown>);
-    expect(dropdown).toHaveClass('absolute top-full right-0');
+
+    render(<WalletDropdown>Content</WalletDropdown>);
+
+    expect(mockUseFloating).toHaveBeenCalledWith({
+      open: true,
+      placement: 'bottom-end',
+      middleware: expect.any(Array),
+      whileElementsMounted: expect.any(Function),
+    });
+  });
+
+  it('sets floating reference when connectRef exists', () => {
+    const mockSetReference = vi.fn();
+    const mockConnectRef = { current: document.createElement('div') };
+
+    mockUseFloating.mockReturnValue({
+      refs: {
+        setReference: mockSetReference,
+        setFloating: vi.fn(),
+      },
+      floatingStyles: {
+        position: 'absolute' as const,
+        top: 0,
+        left: 0,
+      },
+    });
+
+    useWalletContextMock.mockReturnValue({
+      showSubComponentAbove: false,
+      alignSubComponentRight: false,
+      isSubComponentOpen: true,
+      breakpoint: 'md',
+      connectRef: mockConnectRef,
+      animations: {
+        container: '',
+        content: '',
+      },
+    });
+
+    render(<WalletDropdown>Content</WalletDropdown>);
+
+    expect(mockSetReference).toHaveBeenCalledWith(mockConnectRef.current);
   });
 });

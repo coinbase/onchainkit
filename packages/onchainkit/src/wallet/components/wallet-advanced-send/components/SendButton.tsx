@@ -4,22 +4,26 @@ import type { PortfolioTokenWithFiatValue } from '@/api/types';
 import type { LifecycleStatusUpdate } from '@/internal/types';
 import { Transaction } from '@/transaction/components/Transaction';
 import { TransactionButton } from '@/transaction/components/TransactionButton';
-import { useTransactionContext } from '@/transaction/components/TransactionProvider';
 import { TransactionStatus } from '@/transaction/components/TransactionStatus';
 import { TransactionStatusAction } from '@/transaction/components/TransactionStatusAction';
 import { TransactionStatusLabel } from '@/transaction/components/TransactionStatusLabel';
-import type { LifecycleStatus } from '@/transaction/types';
+import type {
+  LifecycleStatus,
+  TransactionButtonRenderParams,
+} from '@/transaction/types';
 import { useCallback } from 'react';
 import { parseUnits } from 'viem';
-import { type Chain, base } from 'viem/chains';
+import { base } from 'viem/chains';
 import { useWalletContext } from '../../WalletProvider';
+import { useOnchainKit } from '@/useOnchainKit';
 import type { SendLifecycleStatus } from '../types';
-import { defaultSendTxSuccessHandler } from '../utils/defaultSendTxSuccessHandler';
 import { getSendCalldata } from '../utils/getSendCalldata';
 import { useSendContext } from './SendProvider';
+import { RenderSendButton } from './RenderSendButton';
 
 export function SendButton() {
-  const { chain: senderChain, isSponsored } = useWalletContext();
+  const { chain: senderChain } = useOnchainKit();
+  const { isSponsored } = useWalletContext();
   const {
     recipientState,
     cryptoAmount: inputAmount,
@@ -71,9 +75,11 @@ export function SendButton() {
       calls={calldata ? [calldata] : []}
       onStatus={handleStatus}
     >
-      <SendTransactionButton
-        label={buttonLabel}
-        senderChain={senderChain}
+      <TransactionButton
+        text={buttonLabel}
+        render={(params: TransactionButtonRenderParams) => (
+          <RenderSendButton {...params} label={buttonLabel} />
+        )}
         disabled={disableSendButton}
       />
       <TransactionStatus>
@@ -81,46 +87,6 @@ export function SendButton() {
         <TransactionStatusAction />
       </TransactionStatus>
     </Transaction>
-  );
-}
-
-/**
- * SendTransactionButton required to be a nested component in order to pull from TransactionContext.
- * Need to pull from TransactionContext in order to get transactionHash and transactionId.
- * Need transactionHash and transactionId in order to determine where to open the transaction in the wallet or explorer.
- */
-function SendTransactionButton({
-  label,
-  senderChain,
-  disabled,
-}: {
-  label: string;
-  senderChain?: Chain | null;
-  disabled?: boolean;
-}) {
-  const { address, setActiveFeature } = useWalletContext();
-  const { transactionHash, transactionId } = useTransactionContext();
-
-  const completionHandler = useCallback(() => {
-    setActiveFeature(null);
-  }, [setActiveFeature]);
-
-  const defaultSuccessOverride = {
-    onClick: defaultSendTxSuccessHandler({
-      transactionId,
-      transactionHash,
-      senderChain: senderChain ?? undefined,
-      address: address ?? undefined,
-      onComplete: completionHandler,
-    }),
-  };
-
-  return (
-    <TransactionButton
-      text={label}
-      successOverride={defaultSuccessOverride}
-      disabled={disabled}
-    />
   );
 }
 

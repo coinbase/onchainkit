@@ -2,12 +2,12 @@
 import { useIdentityContext } from '@/identity/components/IdentityProvider';
 import { useAvatar } from '@/identity/hooks/useAvatar';
 import { useName } from '@/identity/hooks/useName';
-import type { AvatarReact } from '@/identity/types';
+import type { AvatarProps } from '@/identity/types';
 import { findComponent } from '@/internal/utils/findComponent';
 import { Children, useMemo } from 'react';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
 import { defaultLoadingSVG } from '../../internal/svg/defaultLoadingSVG';
-import { border, cn } from '../../styles/theme';
+import { cn } from '../../styles/theme';
 import { Badge } from './Badge';
 import { DisplayBadge } from './DisplayBadge';
 
@@ -23,7 +23,7 @@ export function Avatar({
   loadingComponent,
   children,
   ...props
-}: AvatarReact) {
+}: AvatarProps) {
   const { address: contextAddress, chain: contextChain } = useIdentityContext();
 
   const accountAddress = address ?? contextAddress;
@@ -88,7 +88,7 @@ export function Avatar({
             {...props}
           />
         ) : (
-          <div className={cn(border.default, 'h-full w-full border')}>
+          <div className={cn('border-ock-background', 'h-full w-full border')}>
             {defaultAvatar}
           </div>
         )}

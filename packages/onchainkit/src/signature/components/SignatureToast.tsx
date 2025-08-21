@@ -13,15 +13,12 @@ const DEFAULT_CHILDREN = (
 
 type SignatureToastProps = {
   children?: React.ReactNode;
-  className?: string;
-  durationMs?: ToastProps['durationMs'];
-  position?: ToastProps['position'];
-};
+} & Pick<ToastProps, 'duration' | 'position' | 'className'>;
 
 export function SignatureToast({
   children = DEFAULT_CHILDREN,
   className,
-  durationMs = 5000,
+  duration = 5000,
   position = 'bottom-center',
 }: SignatureToastProps) {
   const { lifecycleStatus } = useSignatureContext();
@@ -41,13 +38,9 @@ export function SignatureToast({
     <Toast
       position={position}
       className={className}
-      durationMs={durationMs}
-      isVisible={isToastVisible}
+      duration={duration}
+      open={isToastVisible}
       onClose={closeToast}
-      startTimeout={
-        lifecycleStatus.statusName === 'error' ||
-        lifecycleStatus.statusName === 'success'
-      }
     >
       {children}
     </Toast>

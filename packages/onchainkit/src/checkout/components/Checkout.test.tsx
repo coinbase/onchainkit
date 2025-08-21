@@ -26,10 +26,6 @@ vi.mock('@/internal/hooks/useIsMounted', () => ({
   useIsMounted: vi.fn(),
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 const useIsMountedMock = mock(useIsMounted);
 
 describe('Pay', () => {

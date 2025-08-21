@@ -21,7 +21,7 @@ export function Chain() {
           value ? setChainId?.(Number.parseInt(value)) : value
         }
       >
-        <SelectTrigger>
+        <SelectTrigger className="w-full">
           <SelectValue placeholder="Select chain" />
         </SelectTrigger>
         <SelectContent>

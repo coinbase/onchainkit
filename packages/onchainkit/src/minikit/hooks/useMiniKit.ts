@@ -1,8 +1,9 @@
-import { MiniKitContext, emptyContext } from '@/minikit/MiniKitProvider';
-import sdk from '@farcaster/frame-sdk';
+'use client';
+import { MiniKitContext } from '@/minikit/MiniKitProvider';
+import sdk from '@farcaster/miniapp-sdk';
 import { useContext, useState } from 'react';
 import type { MiniKitContextType } from '../types';
-import type { ReadyOptions } from '@farcaster/frame-sdk';
+import type { ReadyOptions } from '@farcaster/miniapp-sdk';
 
 type UseMiniKitReturn = {
   setFrameReady: (
@@ -26,8 +27,11 @@ type UseMiniKitReturn = {
 export const useMiniKit = (): UseMiniKitReturn => {
   const [isFrameReady, setIsFrameReady] = useState(false);
   const context = useContext(MiniKitContext);
-  if (context === emptyContext) {
-    throw new Error('useMiniKit must be used within a MiniKitProvider');
+
+  if (!context.enabled) {
+    throw new Error(
+      'MiniKit is not enabled. Please check your OnchainKitProvider.',
+    );
   }
 
   const setFrameReady = async (readyOptions: Partial<ReadyOptions> = {}) => {

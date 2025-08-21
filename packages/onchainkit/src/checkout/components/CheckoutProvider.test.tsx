@@ -1,5 +1,6 @@
 import { openPopup } from '@/internal/utils/openPopup';
 import { useOnchainKit } from '@/useOnchainKit';
+import { act } from 'react';
 import { useIsWalletACoinbaseSmartWallet } from '@/wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import {
@@ -11,10 +12,14 @@ import {
   it,
   vi,
 } from 'vitest';
-import { useAccount, useConnect, useSwitchChain } from 'wagmi';
-import { useWaitForTransactionReceipt } from 'wagmi';
-import { useCallsStatus } from 'wagmi/experimental';
-import { useWriteContracts } from 'wagmi/experimental';
+import {
+  useAccount,
+  useConnect,
+  useSwitchChain,
+  useWaitForTransactionReceipt,
+  useSendCalls,
+  useCallsStatus,
+} from 'wagmi';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { CheckoutEvent } from '../../core/analytics/types';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
@@ -26,11 +31,8 @@ vi.mock('wagmi', () => ({
   useConnect: vi.fn(),
   useSwitchChain: vi.fn(),
   useWaitForTransactionReceipt: vi.fn(),
-}));
-
-vi.mock('wagmi/experimental', () => ({
+  useSendCalls: vi.fn(),
   useCallsStatus: vi.fn(),
-  useWriteContracts: vi.fn(),
 }));
 
 vi.mock('../hooks/useCommerceContracts', () => ({
@@ -96,9 +98,9 @@ describe('CheckoutProvider', () => {
     (useSwitchChain as Mock).mockReturnValue({ switchChainAsync: vi.fn() });
     (useCallsStatus as Mock).mockReturnValue({ data: null });
     (useWaitForTransactionReceipt as Mock).mockReturnValue({ data: null });
-    (useWriteContracts as Mock).mockReturnValue({
+    (useSendCalls as Mock).mockReturnValue({
       status: 'idle',
-      writeContractsAsync: vi.fn(),
+      sendCallsAsync: vi.fn(),
     });
     (useCommerceContracts as Mock).mockReturnValue(() =>
       Promise.resolve({ contracts: [{}], insufficientBalance: false }),
@@ -110,12 +112,14 @@ describe('CheckoutProvider', () => {
     windowOpenMock.mockReset();
   });
 
-  it('should render children', () => {
-    render(
-      <CheckoutProvider>
-        <TestComponent />
-      </CheckoutProvider>,
-    );
+  it('should render children', async () => {
+    await act(async () => {
+      render(
+        <CheckoutProvider>
+          <TestComponent />
+        </CheckoutProvider>,
+      );
+    });
     expect(screen.getByTestId('test-component')).toBeTruthy();
   });
 
@@ -127,10 +131,10 @@ describe('CheckoutProvider', () => {
         priceInUSDC: '10',
       }),
     );
-    (useWriteContracts as Mock).mockImplementation(() => {
+    (useSendCalls as Mock).mockImplementation(() => {
       return {
         status: 'error',
-        writeContractsAsync: vi
+        sendCallsAsync: vi
           .fn()
           .mockRejectedValue(new Error('User denied connection request.')),
       };
@@ -156,10 +160,10 @@ describe('CheckoutProvider', () => {
         priceInUSDC: '10',
       }),
     );
-    (useWriteContracts as Mock).mockImplementation(() => {
+    (useSendCalls as Mock).mockImplementation(() => {
       return {
         status: 'error',
-        writeContractsAsync: vi
+        sendCallsAsync: vi
           .fn()
           .mockRejectedValue(new Error('User denied connection request.')),
       };
@@ -189,10 +193,10 @@ describe('CheckoutProvider', () => {
         priceInUSDC: '10',
       }),
     );
-    (useWriteContracts as Mock).mockImplementation(() => {
+    (useSendCalls as Mock).mockImplementation(() => {
       return {
         status: 'error',
-        writeContractsAsync: vi
+        sendCallsAsync: vi
           .fn()
           .mockRejectedValue(new Error('some other error')),
       };
@@ -355,9 +359,9 @@ describe('CheckoutProvider', () => {
         .mockResolvedValue({ accounts: ['0x123'], chainId: 1 }),
       connectors: [{ id: 'coinbaseWalletSDK' }],
     });
-    (useWriteContracts as Mock).mockReturnValue({
+    (useSendCalls as Mock).mockReturnValue({
       status: 'pending',
-      writeContractsAsync: vi.fn(),
+      sendCallsAsync: vi.fn(),
     });
     render(
       <CheckoutProvider>
@@ -476,17 +480,24 @@ describe('CheckoutProvider', () => {
   });
 
   it('should handle successful contract calls', async () => {
-    const mockWriteContractsAsync = vi.fn().mockResolvedValue({});
+    const mockSendCallsAsync = vi.fn().mockResolvedValue({});
     (useCommerceContracts as Mock).mockReturnValue(() => {
       return Promise.resolve({
         insufficientBalance: false,
-        contracts: [{ id: 'test-contract' }],
+        contracts: [
+          {
+            address: '0x1234567890123456789012345678901234567890',
+            abi: [],
+            functionName: 'testFunction',
+            args: [],
+          },
+        ],
         priceInUSDC: '10',
       });
     });
-    (useWriteContracts as Mock).mockReturnValue({
+    (useSendCalls as Mock).mockReturnValue({
       status: 'success',
-      writeContractsAsync: mockWriteContractsAsync,
+      sendCallsAsync: mockSendCallsAsync,
     });
     render(
       <CheckoutProvider>
@@ -495,12 +506,15 @@ describe('CheckoutProvider', () => {
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
-      expect(mockWriteContractsAsync).toHaveBeenCalled();
+      expect(mockSendCallsAsync).toHaveBeenCalled();
     });
-    expect(mockWriteContractsAsync).toHaveBeenCalledWith({
-      contracts: [
+    expect(mockSendCallsAsync).toHaveBeenCalledWith({
+      calls: [
         {
-          id: 'test-contract',
+          to: '0x1234567890123456789012345678901234567890',
+          abi: [],
+          functionName: 'testFunction',
+          args: [],
         },
       ],
       capabilities: undefined,
@@ -511,17 +525,24 @@ describe('CheckoutProvider', () => {
     (useOnchainKit as Mock).mockReturnValue({
       config: { paymaster: 'http://example.com' },
     });
-    const mockWriteContractsAsync = vi.fn().mockResolvedValue({});
+    const mockSendCallsAsync = vi.fn().mockResolvedValue({});
     (useCommerceContracts as Mock).mockReturnValue(() => {
       return Promise.resolve({
         insufficientBalance: false,
-        contracts: [{ id: 'test-contract' }],
+        contracts: [
+          {
+            address: '0x1234567890123456789012345678901234567890',
+            abi: [],
+            functionName: 'testFunction',
+            args: [],
+          },
+        ],
         priceInUSDC: '10',
       });
     });
-    (useWriteContracts as Mock).mockReturnValue({
+    (useSendCalls as Mock).mockReturnValue({
       status: 'success',
-      writeContractsAsync: mockWriteContractsAsync,
+      sendCallsAsync: mockSendCallsAsync,
     });
     render(
       <CheckoutProvider isSponsored={true}>
@@ -530,12 +551,15 @@ describe('CheckoutProvider', () => {
     );
     fireEvent.click(screen.getByText('Submit'));
     await waitFor(() => {
-      expect(mockWriteContractsAsync).toHaveBeenCalled();
+      expect(mockSendCallsAsync).toHaveBeenCalled();
     });
-    expect(mockWriteContractsAsync).toHaveBeenCalledWith({
-      contracts: [
+    expect(mockSendCallsAsync).toHaveBeenCalledWith({
+      calls: [
         {
-          id: 'test-contract',
+          to: '0x1234567890123456789012345678901234567890',
+          abi: [],
+          functionName: 'testFunction',
+          args: [],
         },
       ],
       capabilities: {
@@ -592,9 +616,9 @@ describe('CheckoutProvider', () => {
 
     it('should track checkout failure', async () => {
       const error = new Error('Test error');
-      (useWriteContracts as Mock).mockImplementation(() => ({
+      (useSendCalls as Mock).mockImplementation(() => ({
         status: 'error',
-        writeContractsAsync: vi.fn().mockRejectedValue(error),
+        sendCallsAsync: vi.fn().mockRejectedValue(error),
       }));
 
       render(
@@ -617,9 +641,9 @@ describe('CheckoutProvider', () => {
     });
 
     it('should track checkout failure with unknown error', async () => {
-      (useWriteContracts as Mock).mockImplementation(() => ({
+      (useSendCalls as Mock).mockImplementation(() => ({
         status: 'error',
-        writeContractsAsync: vi.fn().mockRejectedValue('string error'),
+        sendCallsAsync: vi.fn().mockRejectedValue('string error'),
       }));
 
       render(
