@@ -1,8 +1,6 @@
-import { http, createPublicClient } from 'viem';
+import { createPublicClient } from 'viem';
 import { mainnet } from 'viem/chains';
+import { getChainPublicClient } from './getChainPublicClient';
 
 export const publicClient: ReturnType<typeof createPublicClient> =
-  createPublicClient({
-    chain: mainnet,
-    transport: http(),
-  });
+  getChainPublicClient(mainnet);

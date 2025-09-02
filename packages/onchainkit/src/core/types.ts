@@ -1,5 +1,5 @@
 import type { EASSchemaUid } from '@/identity/types';
-import type { Chain } from 'viem';
+import type { Chain, PublicClient } from 'viem';
 import type { CreateConnectorFn } from 'wagmi';
 import { type CoinbaseWalletParameters } from 'wagmi/connectors';
 
@@ -119,6 +119,10 @@ export type OnchainKitConfig = {
   projectId: string | null;
   /** SessionId, used for analytics */
   sessionId: string | null;
+  /** Default Viem public clients to use for fetching onchain data */
+  defaultPublicClients?: {
+    [chainId: number]: PublicClient;
+  };
 };
 
 export type OnchainkitConfigOverrideParams = Partial<OnchainKitConfig>;

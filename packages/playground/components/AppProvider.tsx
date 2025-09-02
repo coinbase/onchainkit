@@ -13,8 +13,9 @@ import {
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import type React from 'react';
 import { createContext, useEffect, useState } from 'react';
+import { createPublicClient, http } from 'viem';
 import type { Address } from 'viem';
-import { base } from 'wagmi/chains';
+import { base, mainnet } from 'wagmi/chains';
 
 type State = {
   activeComponent?: OnchainKitComponent;
@@ -56,6 +57,15 @@ export const defaultState: State = {
 };
 
 export const AppContext = createContext(defaultState);
+
+const defaultPublicClients = process.env.NEXT_PUBLIC_ETHEREUM_MAINNET_RPC_URL
+  ? {
+      [mainnet.id]: createPublicClient({
+        chain: mainnet,
+        transport: http(process.env.NEXT_PUBLIC_ETHEREUM_MAINNET_RPC_URL),
+      }),
+    }
+  : undefined;
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [activeComponent, setActiveComponent] =
@@ -196,6 +206,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         }}
         projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
         schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+        defaultPublicClients={defaultPublicClients}
       >
         {children}
       </OnchainKitProvider>

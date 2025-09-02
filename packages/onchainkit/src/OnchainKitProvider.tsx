@@ -19,6 +19,7 @@ import type { AppConfig } from './core/types';
 import type { MiniKitOptions } from './minikit/types';
 import { MiniKitProvider } from '@/minikit/MiniKitProvider';
 import type { EASSchemaUid } from '@/identity/types';
+import { type PublicClient } from 'viem';
 
 export type OnchainKitProviderReact = {
   analytics?: boolean;
@@ -31,6 +32,9 @@ export type OnchainKitProviderReact = {
   rpcUrl?: string;
   schemaId?: EASSchemaUid;
   miniKit?: MiniKitOptions;
+  defaultPublicClients?: {
+    [chainId: number]: PublicClient;
+  };
 };
 
 /**
@@ -48,6 +52,7 @@ export function OnchainKitProvider({
   miniKit = {
     enabled: false,
   },
+  defaultPublicClients,
 }: OnchainKitProviderReact) {
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
@@ -109,6 +114,7 @@ export function OnchainKitProvider({
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
       sessionId,
+      defaultPublicClients,
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
@@ -121,6 +127,7 @@ export function OnchainKitProvider({
     rpcUrl,
     schemaId,
     sessionId,
+    defaultPublicClients,
   ]);
 
   return (
