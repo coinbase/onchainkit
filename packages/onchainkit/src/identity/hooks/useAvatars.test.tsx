@@ -1,16 +1,12 @@
-import { publicClient } from '@/core/network/client';
-import { getChainPublicClient } from '@/core/network/getChainPublicClient';
 import { renderHook, waitFor } from '@testing-library/react';
 import { base, baseSepolia, mainnet, optimism } from 'viem/chains';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 import { useAvatars } from './useAvatars';
 
-vi.mock('@/core/network/client');
-
-vi.mock('@/core/network/getChainPublicClient', () => ({
-  ...vi.importActual('@/core/network/getChainPublicClient'),
-  getChainPublicClient: vi.fn(() => publicClient),
+const mockGetAvatars = vi.fn();
+vi.mock('@/identity/utils/getAvatars', () => ({
+  getAvatars: mockGetAvatars,
 }));
 
 // Mock for testing cacheTime to gcTime mapping
@@ -38,20 +34,17 @@ vi.mock('@tanstack/react-query', async () => {
 });
 
 describe('useAvatars', () => {
-  const mockGetEnsAvatar = publicClient.getEnsAvatar as Mock;
-
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseQuery.mockClear();
+    mockGetAvatars.mockReset();
   });
 
   it('returns the correct ENS avatars and loading state', async () => {
     const testEnsNames = ['test1.ens', 'test2.ens'];
     const testEnsAvatars = ['avatarUrl1', 'avatarUrl2'];
 
-    mockGetEnsAvatar
-      .mockResolvedValueOnce(testEnsAvatars[0])
-      .mockResolvedValueOnce(testEnsAvatars[1]);
+    mockGetAvatars.mockResolvedValue(testEnsAvatars);
 
     const { result } = renderHook(
       () => useAvatars({ ensNames: testEnsNames }),
@@ -65,11 +58,14 @@ describe('useAvatars', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
+    expect(mockGetAvatars).toHaveBeenCalledWith({ ensNames: testEnsNames, chain: mainnet });
   });
 
   it('returns the loading state true while still fetching ENS avatars', async () => {
     const testEnsNames = ['test1.ens', 'test2.ens'];
+
+    // Don't resolve the promise immediately
+    mockGetAvatars.mockImplementation(() => new Promise(() => {}));
 
     const { result } = renderHook(
       () => useAvatars({ ensNames: testEnsNames }),
@@ -86,9 +82,7 @@ describe('useAvatars', () => {
     const testEnsNames = ['shrek.base.eth', 'donkey.base.eth'];
     const testEnsAvatars = ['shrekface', 'donkeyface'];
 
-    mockGetEnsAvatar
-      .mockResolvedValueOnce(testEnsAvatars[0])
-      .mockResolvedValueOnce(testEnsAvatars[1]);
+    mockGetAvatars.mockResolvedValue(testEnsAvatars);
 
     const { result } = renderHook(
       () =>
@@ -106,16 +100,14 @@ describe('useAvatars', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(getChainPublicClient).toHaveBeenCalledWith(base);
+    expect(mockGetAvatars).toHaveBeenCalledWith({ ensNames: testEnsNames, chain: base });
   });
 
   it('returns correct base sepolia avatars', async () => {
     const testEnsNames = ['shrek.basetest.eth', 'donkey.basetest.eth'];
     const testEnsAvatars = ['shrektestface', 'donkeytestface'];
 
-    mockGetEnsAvatar
-      .mockResolvedValueOnce(testEnsAvatars[0])
-      .mockResolvedValueOnce(testEnsAvatars[1]);
+    mockGetAvatars.mockResolvedValue(testEnsAvatars);
 
     const { result } = renderHook(
       () =>
@@ -133,11 +125,13 @@ describe('useAvatars', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia);
+    expect(mockGetAvatars).toHaveBeenCalledWith({ ensNames: testEnsNames, chain: baseSepolia });
   });
 
   it('returns error for unsupported chain', async () => {
     const testEnsNames = ['shrek.basetest.eth', 'donkey.basetest.eth'];
+
+    mockGetAvatars.mockRejectedValue('ChainId not supported, avatar resolution is only supported on Ethereum and Base.');
 
     const { result } = renderHook(
       () =>
@@ -164,9 +158,7 @@ describe('useAvatars', () => {
     const testEnsNames = ['test1.ens', 'test2.ens'];
     const testEnsAvatars = ['avatarUrl1', 'avatarUrl2'];
 
-    mockGetEnsAvatar
-      .mockResolvedValueOnce(testEnsAvatars[0])
-      .mockResolvedValueOnce(testEnsAvatars[1]);
+    mockGetAvatars.mockResolvedValue(testEnsAvatars);
 
     const { result } = renderHook(
       () => useAvatars({ ensNames: testEnsNames }, { enabled: false }),
@@ -177,23 +169,21 @@ describe('useAvatars', () => {
 
     expect(result.current.isLoading).toBe(false);
     expect(result.current.isFetched).toBe(false);
-    expect(mockGetEnsAvatar).not.toHaveBeenCalled();
+    expect(mockGetAvatars).not.toHaveBeenCalled();
   });
 
   it('uses the default query options when no queryOptions are provided', async () => {
     const testEnsNames = ['test1.ens', 'test2.ens'];
     const testEnsAvatars = ['avatarUrl1', 'avatarUrl2'];
 
-    mockGetEnsAvatar
-      .mockResolvedValueOnce(testEnsAvatars[0])
-      .mockResolvedValueOnce(testEnsAvatars[1]);
+    mockGetAvatars.mockResolvedValue(testEnsAvatars);
 
     renderHook(() => useAvatars({ ensNames: testEnsNames }), {
       wrapper: getNewReactQueryTestProvider(),
     });
 
     await waitFor(() => {
-      expect(mockGetEnsAvatar).toHaveBeenCalled();
+      expect(mockGetAvatars).toHaveBeenCalled();
     });
   });
 
@@ -202,9 +192,7 @@ describe('useAvatars', () => {
     const testEnsAvatars = ['avatarUrl1', 'avatarUrl2'];
     const customStaleTime = 60000;
 
-    mockGetEnsAvatar
-      .mockResolvedValueOnce(testEnsAvatars[0])
-      .mockResolvedValueOnce(testEnsAvatars[1]);
+    mockGetAvatars.mockResolvedValue(testEnsAvatars);
 
     const { result } = renderHook(
       () =>
@@ -218,7 +206,7 @@ describe('useAvatars', () => {
       expect(result.current.data).toEqual(testEnsAvatars);
     });
 
-    expect(mockGetEnsAvatar).toHaveBeenCalled();
+    expect(mockGetAvatars).toHaveBeenCalled();
   });
 
   it('handles empty ensNames array', async () => {
@@ -228,7 +216,7 @@ describe('useAvatars', () => {
 
     expect(result.current.isLoading).toBe(false);
     expect(result.current.isFetched).toBe(false);
-    expect(mockGetEnsAvatar).not.toHaveBeenCalled();
+    expect(mockGetAvatars).not.toHaveBeenCalled();
   });
 
   it('creates a stable query key based on ensNames', async () => {
@@ -236,9 +224,7 @@ describe('useAvatars', () => {
     const testEnsNames2 = ['test1.ens', 'test3.ens'];
     const testEnsAvatars = ['avatarUrl1', 'avatarUrl2'];
 
-    mockGetEnsAvatar
-      .mockResolvedValueOnce(testEnsAvatars[0])
-      .mockResolvedValueOnce(testEnsAvatars[1]);
+    mockGetAvatars.mockResolvedValue(testEnsAvatars);
 
     const { rerender } = renderHook(
       ({ ensNames }) => useAvatars({ ensNames }),
@@ -249,15 +235,15 @@ describe('useAvatars', () => {
     );
 
     await waitFor(() => {
-      expect(mockGetEnsAvatar).toHaveBeenCalled();
+      expect(mockGetAvatars).toHaveBeenCalled();
     });
 
-    mockGetEnsAvatar.mockClear();
+    mockGetAvatars.mockClear();
 
     rerender({ ensNames: testEnsNames2 });
 
     await waitFor(() => {
-      expect(mockGetEnsAvatar).toHaveBeenCalled();
+      expect(mockGetAvatars).toHaveBeenCalled();
     });
   });
 
@@ -265,10 +251,7 @@ describe('useAvatars', () => {
     const testEnsNames = ['success1.eth', 'fail.eth', 'success2.eth'];
 
     const partialResults = ['avatar1-url', null, 'avatar2-url'];
-    mockGetEnsAvatar
-      .mockResolvedValueOnce('avatar1-url')
-      .mockRejectedValueOnce(new Error('Failed to resolve avatar'))
-      .mockResolvedValueOnce('avatar2-url');
+    mockGetAvatars.mockResolvedValue(partialResults);
 
     const { result } = renderHook(
       () => useAvatars({ ensNames: testEnsNames }),
@@ -283,11 +266,11 @@ describe('useAvatars', () => {
       expect(result.current.isError).toBe(false);
     });
 
-    expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
+    expect(mockGetAvatars).toHaveBeenCalledWith({ ensNames: testEnsNames, chain: mainnet });
   });
 
   it('disables the query when ensNames array is empty', async () => {
-    mockGetEnsAvatar.mockImplementation(() => {
+    mockGetAvatars.mockImplementation(() => {
       throw new Error('This should not be called');
     });
 
@@ -297,7 +280,7 @@ describe('useAvatars', () => {
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    expect(mockGetEnsAvatar).not.toHaveBeenCalled();
+    expect(mockGetAvatars).not.toHaveBeenCalled();
     expect(result.current.isLoading).toBe(false);
     expect(result.current.fetchStatus).toBe('idle');
   });
@@ -306,9 +289,7 @@ describe('useAvatars', () => {
     const testEnsNames = ['test1.ens', 'test2.ens'];
     const testEnsAvatars = ['avatarUrl1', 'avatarUrl2'];
 
-    mockGetEnsAvatar
-      .mockResolvedValueOnce(testEnsAvatars[0])
-      .mockResolvedValueOnce(testEnsAvatars[1]);
+    mockGetAvatars.mockResolvedValue(testEnsAvatars);
 
     const { result } = renderHook(
       () => useAvatars({ ensNames: testEnsNames }, { enabled: true }),
@@ -321,13 +302,13 @@ describe('useAvatars', () => {
       expect(result.current.data).toEqual(testEnsAvatars);
     });
 
-    expect(mockGetEnsAvatar).toHaveBeenCalled();
+    expect(mockGetAvatars).toHaveBeenCalled();
   });
 
   it('respects enabled=false even with valid ensNames', async () => {
     const testEnsNames = ['test1.ens', 'test2.ens'];
 
-    mockGetEnsAvatar.mockImplementation(() => {
+    mockGetAvatars.mockImplementation(() => {
       throw new Error('This should not be called');
     });
 
@@ -340,7 +321,7 @@ describe('useAvatars', () => {
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    expect(mockGetEnsAvatar).not.toHaveBeenCalled();
+    expect(mockGetAvatars).not.toHaveBeenCalled();
     expect(result.current.isLoading).toBe(false);
     expect(result.current.fetchStatus).toBe('idle');
   });
@@ -350,7 +331,7 @@ describe('useAvatars', () => {
     const testEnsAvatar = 'avatarUrl1';
     const mockCacheTime = 60000;
 
-    mockGetEnsAvatar.mockResolvedValueOnce(testEnsAvatar);
+    mockGetAvatars.mockResolvedValue([testEnsAvatar]);
 
     renderHook(
       () =>

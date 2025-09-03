@@ -1,16 +1,12 @@
-import { publicClient } from '@/core/network/client';
-import { getChainPublicClient } from '@/core/network/getChainPublicClient';
 import { renderHook, waitFor } from '@testing-library/react';
 import { base, baseSepolia, mainnet, optimism } from 'viem/chains';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 import { useAvatar } from './useAvatar';
 
-vi.mock('@/core/network/client');
-
-vi.mock('@/core/network/getChainPublicClient', () => ({
-  ...vi.importActual('@/core/network/getChainPublicClient'),
-  getChainPublicClient: vi.fn(() => publicClient),
+const mockGetAvatar = vi.fn();
+vi.mock('@/identity/utils/getAvatar', () => ({
+  getAvatar: mockGetAvatar,
 }));
 
 const mockUseQuery = vi.fn();
@@ -37,19 +33,18 @@ vi.mock('@tanstack/react-query', async () => {
 });
 
 describe('useAvatar', () => {
-  const mockGetEnsAvatar = publicClient.getEnsAvatar as Mock;
-
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseQuery.mockClear();
+    mockGetAvatar.mockReset();
   });
 
   it('returns the correct ENS avatar and loading state', async () => {
     const testEnsName = 'test.ens';
     const testEnsAvatar = 'avatarUrl';
 
-    // Mock the getEnsAvatar method of the publicClient
-    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+    // Mock the getAvatar function
+    mockGetAvatar.mockResolvedValue(testEnsAvatar);
 
     // Use the renderHook function to create a test harness for the useAvatar hook
     const { result } = renderHook(() => useAvatar({ ensName: testEnsName }), {
@@ -63,11 +58,14 @@ describe('useAvatar', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
+    expect(mockGetAvatar).toHaveBeenCalledWith({ ensName: testEnsName, chain: mainnet });
   });
 
   it('returns the loading state true while still fetching ENS avatar', async () => {
     const testEnsName = 'test.ens';
+
+    // Don't resolve the promise immediately
+    mockGetAvatar.mockImplementation(() => new Promise(() => {}));
 
     // Use the renderHook function to create a test harness for the useAvatar hook
     const { result } = renderHook(() => useAvatar({ ensName: testEnsName }), {
@@ -86,8 +84,8 @@ describe('useAvatar', () => {
     const testEnsName = 'shrek.base.eth';
     const testEnsAvatar = 'shrekface';
 
-    // Mock the getEnsAvatar method of the publicClient
-    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+    // Mock the getAvatar function
+    mockGetAvatar.mockResolvedValue(testEnsAvatar);
 
     // Use the renderHook function to create a test harness for the useAvatar hook
     const { result } = renderHook(
@@ -104,15 +102,15 @@ describe('useAvatar', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(getChainPublicClient).toHaveBeenCalledWith(base);
+    expect(mockGetAvatar).toHaveBeenCalledWith({ ensName: testEnsName, chain: base });
   });
 
   it('return correct base sepolia avatar', async () => {
     const testEnsName = 'shrek.basetest.eth';
     const testEnsAvatar = 'shrektestface';
 
-    // Mock the getEnsAvatar method of the publicClient
-    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+    // Mock the getAvatar function
+    mockGetAvatar.mockResolvedValue(testEnsAvatar);
 
     // Use the renderHook function to create a test harness for the useAvatar hook
     const { result } = renderHook(
@@ -129,15 +127,14 @@ describe('useAvatar', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia);
+    expect(mockGetAvatar).toHaveBeenCalledWith({ ensName: testEnsName, chain: baseSepolia });
   });
 
   it('returns error for unsupported chain ', async () => {
     const testEnsName = 'shrek.basetest.eth';
-    const testEnsAvatar = 'shrektestface';
 
-    // Mock the getEnsAvatar method of the publicClient
-    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+    // Mock the getAvatar function to reject with error
+    mockGetAvatar.mockRejectedValue('ChainId not supported, avatar resolution is only supported on Ethereum and Base.');
 
     // Use the renderHook function to create a test harness for the useAvatar hook
     const { result } = renderHook(
@@ -163,7 +160,7 @@ describe('useAvatar', () => {
     const testEnsName = 'test.ens';
     const testEnsAvatar = 'avatarUrl';
 
-    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+    mockGetAvatar.mockResolvedValue(testEnsAvatar);
 
     const { result } = renderHook(
       () => useAvatar({ ensName: testEnsName }, { enabled: false }),
@@ -174,21 +171,21 @@ describe('useAvatar', () => {
 
     expect(result.current.isLoading).toBe(false);
     expect(result.current.isFetched).toBe(false);
-    expect(mockGetEnsAvatar).not.toHaveBeenCalled();
+    expect(mockGetAvatar).not.toHaveBeenCalled();
   });
 
   it('uses the default query options when no queryOptions are provided', async () => {
     const testEnsName = 'test.ens';
     const testEnsAvatar = 'avatarUrl';
 
-    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+    mockGetAvatar.mockResolvedValue(testEnsAvatar);
 
     renderHook(() => useAvatar({ ensName: testEnsName }), {
       wrapper: getNewReactQueryTestProvider(),
     });
 
     await waitFor(() => {
-      expect(mockGetEnsAvatar).toHaveBeenCalled();
+      expect(mockGetAvatar).toHaveBeenCalled();
     });
   });
 
@@ -197,7 +194,7 @@ describe('useAvatar', () => {
     const testEnsAvatar = 'avatarUrl';
     const customStaleTime = 60000;
 
-    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+    mockGetAvatar.mockResolvedValue(testEnsAvatar);
 
     const { result } = renderHook(
       () => useAvatar({ ensName: testEnsName }, { staleTime: customStaleTime }),
@@ -210,11 +207,11 @@ describe('useAvatar', () => {
       expect(result.current.data).toBe(testEnsAvatar);
     });
 
-    expect(mockGetEnsAvatar).toHaveBeenCalled();
+    expect(mockGetAvatar).toHaveBeenCalled();
   });
 
   it('disables the query when ensName is empty', async () => {
-    mockGetEnsAvatar.mockImplementation(() => {
+    mockGetAvatar.mockImplementation(() => {
       throw new Error('This should not be called');
     });
 
@@ -224,7 +221,7 @@ describe('useAvatar', () => {
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    expect(mockGetEnsAvatar).not.toHaveBeenCalled();
+    expect(mockGetAvatar).not.toHaveBeenCalled();
     expect(result.current.isLoading).toBe(false);
     expect(result.current.fetchStatus).toBe('idle');
   });
@@ -233,7 +230,7 @@ describe('useAvatar', () => {
     const testEnsName = 'test.ens';
     const testEnsAvatar = 'avatarUrl';
 
-    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+    mockGetAvatar.mockResolvedValue(testEnsAvatar);
 
     const { result } = renderHook(
       () => useAvatar({ ensName: testEnsName }, { enabled: true }),
@@ -246,7 +243,7 @@ describe('useAvatar', () => {
       expect(result.current.data).toBe(testEnsAvatar);
     });
 
-    expect(mockGetEnsAvatar).toHaveBeenCalled();
+    expect(mockGetAvatar).toHaveBeenCalled();
   });
 
   it('correctly maps cacheTime to gcTime for backwards compatibility', async () => {
@@ -254,7 +251,7 @@ describe('useAvatar', () => {
     const testEnsAvatar = 'avatarUrl';
     const mockCacheTime = 60000; // 1 minute in milliseconds
 
-    mockGetEnsAvatar.mockResolvedValue(testEnsAvatar);
+    mockGetAvatar.mockResolvedValue(testEnsAvatar);
 
     // Test with only cacheTime provided
     renderHook(

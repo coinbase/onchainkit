@@ -1,4 +1,3 @@
-import { publicClient } from '@/core/network/client';
 /**
  * @vitest-environment jsdom
  */
@@ -12,12 +11,6 @@ import type { GetNameParams } from '@/identity/types';
 const mockGetName = vi.fn();
 vi.mock('@/identity/utils/getName', () => ({
   getName: (...args: [GetNameParams]) => mockGetName(...args),
-}));
-
-vi.mock('@/core/network/client');
-vi.mock('@/core/network/getChainPublicClient', () => ({
-  ...vi.importActual('@/core/network/getChainPublicClient'),
-  getChainPublicClient: vi.fn(() => publicClient),
 }));
 
 const mockGetAddress = vi.fn();
