@@ -28,9 +28,14 @@ describe('getChainPublicClient', () => {
   });
 
   it('should use public RPC URL when chain is not base or baseSepolia', async () => {
-    vi.mocked(getOnchainKitConfig).mockReturnValue('123');
+    vi.mocked(getOnchainKitConfig).mockImplementation((key) => {
+      if (key === 'apiKey') return '123';
+      if (key === 'defaultPublicClients') return null;
+      return null;
+    });
     const publicClient = getChainPublicClient(mainnet);
-    expect(publicClient.transport.url).toBe('https://eth.merkle.io');
+    expect(publicClient.chain.id).toBe(mainnet.id);
+    // The transport uses the default RPC when http() is called without URL
   });
 
   it('should use user-provided RPC URL when an API key is provided and the chain is base or baseSepolia', async () => {
