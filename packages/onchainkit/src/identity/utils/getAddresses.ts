@@ -5,8 +5,6 @@ import type {
 } from '@/identity/types';
 import { mainnet } from 'viem/chains';
 
-const mainnetClient = getChainPublicClient(mainnet);
-
 /**
  * An asynchronous function to fetch multiple Ethereum addresses from ENS names or Basenames
  * in a single batch request.
@@ -18,6 +16,7 @@ export const getAddresses = async ({
     return [];
   }
 
+  const mainnetClient = getChainPublicClient(mainnet);
   const results: GetAddressReturnType[] = Array(names.length).fill(null);
 
   try {
