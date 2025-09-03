@@ -2,6 +2,7 @@
  * @vitest-environment jsdom
  */
 
+import { createPublicClient, http } from 'viem';
 import { base, baseSepolia, mainnet } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getChainPublicClient } from './getChainPublicClient';
@@ -54,5 +55,54 @@ describe('getChainPublicClient', () => {
     expect(publicSepoliaClientWithCustomRpc.transport.url).toBe(
       'https://api.developer.coinbase.com/rpc/v1/base-sepolia/123',
     );
+  });
+
+  it('should return custom public client from defaultPublicClients when configured', async () => {
+    // Create a mock custom public client
+    const customPublicClient = createPublicClient({
+      chain: base,
+      transport: http('https://custom-rpc-url.com'),
+    });
+
+    // Mock getOnchainKitConfig to return defaultPublicClients with custom client
+    vi.mocked(getOnchainKitConfig).mockImplementation((key) => {
+      if (key === 'apiKey') return null;
+      if (key === 'defaultPublicClients') {
+        return {
+          [base.id]: customPublicClient,
+        };
+      }
+      return null;
+    });
+
+    const result = getChainPublicClient(base);
+    expect(result).toBe(customPublicClient);
+  });
+
+  it('should fallback to default behavior when chain ID is not in defaultPublicClients', async () => {
+    // Create a mock custom public client for mainnet only
+    const customPublicClient = createPublicClient({
+      chain: mainnet,
+      transport: http('https://custom-mainnet-rpc.com'),
+    });
+
+    // Mock getOnchainKitConfig to return defaultPublicClients but without base chain
+    vi.mocked(getOnchainKitConfig).mockImplementation((key) => {
+      if (key === 'apiKey') return null;
+      if (key === 'defaultPublicClients') {
+        return {
+          [mainnet.id]: customPublicClient, // Only mainnet configured
+        };
+      }
+      return null;
+    });
+
+    // Request base chain which is not in defaultPublicClients
+    const result = getChainPublicClient(base);
+    
+    // Should fallback to default public client
+    expect(result).not.toBe(customPublicClient);
+    expect(result.chain.id).toBe(base.id);
+    expect(result.transport.url).toBe('https://mainnet.base.org');
   });
 });
