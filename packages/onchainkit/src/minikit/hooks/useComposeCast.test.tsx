@@ -6,7 +6,9 @@ import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useComposeCast } from './useComposeCast';
 
 const composeCastMock = {
-  success: true,
+  cast: {
+    hash: '0x1234567890abcdef1234567890abcdef12345678',
+  },
 };
 
 vi.mock('@farcaster/frame-sdk', () => ({
@@ -155,6 +157,26 @@ describe('useComposeCast', () => {
     expect(response).toBe(composeCastMock);
   });
 
+  it('should return castHash from composeCastAsync', async () => {
+    const { result } = renderHook(() => useComposeCast(), {
+      wrapper: createWrapper(),
+    });
+
+    let response;
+    await act(async () => {
+      response = await result.current.composeCastAsync({
+        text: 'Hello world!',
+      });
+    });
+
+    expect(response).toBeDefined();
+    expect(response).toHaveProperty('cast');
+    expect(response!.cast).toHaveProperty('hash');
+    expect(response!.cast!.hash).toBe(
+      '0x1234567890abcdef1234567890abcdef12345678',
+    );
+  });
+
   it('should handle errors when composeCast fails', async () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
     (sdk.actions.composeCast as Mock).mockRejectedValue(
@@ -191,6 +213,25 @@ describe('useComposeCast', () => {
 
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true);
+    });
+  });
+
+  it('should provide access to castHash through mutation data', async () => {
+    const { result } = renderHook(() => useComposeCast(), {
+      wrapper: createWrapper(),
+    });
+
+    act(() => {
+      result.current.composeCast({ text: 'Hello world!' });
+    });
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+      expect(result.current.data).toHaveProperty('cast');
+      expect(result.current.data?.cast).toHaveProperty('hash');
+      expect(result.current.data?.cast?.hash).toBe(
+        '0x1234567890abcdef1234567890abcdef12345678',
+      );
     });
   });
 });

@@ -25,7 +25,8 @@ export function useComposeCast() {
     mutationFn: async (
       params: ComposeCastParams,
     ): Promise<ComposeCast.Result> => {
-      return await sdk.actions.composeCast(params);
+      const result = await sdk.actions.composeCast(params);
+      return result;
     },
   });
 
