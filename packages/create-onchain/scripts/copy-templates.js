@@ -55,7 +55,6 @@ export async function copyTemplates() {
     const gitignoreRules = fs.existsSync(gitignorePath)
       ? parseGitignore(fs.readFileSync(gitignorePath, 'utf-8'))
       : [];
-    
 
     // Copy template with selective logic
     await copyTemplateDirectory(sourcePath, targetPath, gitignoreRules);
@@ -76,7 +75,6 @@ function parseGitignore(gitignoreContent) {
     .filter((line) => line && !line.startsWith('#'))
     .map((line) => {
       // Convert gitignore patterns to simple matching
-      // This is a simplified version - real gitignore parsing is complex
       return line.replace(/^\//, '').replace(/\/$/, '');
     });
 }
@@ -107,13 +105,13 @@ function shouldIgnoreFile(filePath, gitignoreRules) {
       // Handle simple wildcards - convert to proper regex
       let pattern = rule
         .replace(/\\/g, '\\\\') // Escape backslashes
-        .replace(/\./g, '\\.')  // Escape dots
-        .replace(/\?/g, '.')    // ? matches one character
+        .replace(/\./g, '\\.') // Escape dots
+        .replace(/\?/g, '.') // ? matches one character
         .replace(/\*/g, '[^/]*'); // * matches any characters except /
-      
+
       // Add anchors for exact matching
       pattern = `^${pattern}$`;
-      
+
       try {
         const regex = new RegExp(pattern);
         if (regex.test(fileName)) {
