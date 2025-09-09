@@ -106,6 +106,7 @@ function shouldIgnoreFile(filePath, gitignoreRules) {
     if (rule.includes('*')) {
       // Handle simple wildcards - convert to proper regex
       let pattern = rule
+        .replace(/\\/g, '\\\\') // Escape backslashes
         .replace(/\./g, '\\.')  // Escape dots
         .replace(/\?/g, '.')    // ? matches one character
         .replace(/\*/g, '[^/]*'); // * matches any characters except /
