@@ -1,5 +1,13 @@
 import '@testing-library/jest-dom';
-import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+  type Mock,
+} from 'vitest';
 import { getOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { ANALYTICS_API_URL } from '@/core/analytics/constants';
 import { JSON_HEADERS } from '@/core/network/constants';
@@ -8,7 +16,7 @@ import {
   clientMetaManager,
   type ClientMeta,
 } from '@/core/clientMeta/clientMetaManager';
-import { sendAnalyticsPayload } from './analyticsService';
+import { sendAnalyticsPayload, isProduction } from './analyticsService';
 
 // Mock dependencies
 vi.mock('@/core/OnchainKitConfig');
@@ -317,6 +325,128 @@ describe('sendAnalyticsPayload', () => {
         },
         body: expect.any(String),
       });
+    });
+  });
+
+  describe('isProduction function', () => {
+    afterEach(() => {
+      // Clean up all global mocks
+      vi.unstubAllGlobals();
+    });
+
+    it('should return true when process.env.NODE_ENV is production', () => {
+      vi.stubGlobal('process', {
+        env: { NODE_ENV: 'production' },
+      });
+
+      expect(isProduction()).toBe(true);
+    });
+
+    it('should return false when process.env.NODE_ENV is development', () => {
+      vi.stubGlobal('process', {
+        env: { NODE_ENV: 'development' },
+      });
+
+      expect(isProduction()).toBe(false);
+    });
+
+    it('should return false when process.env.NODE_ENV is test', () => {
+      vi.stubGlobal('process', {
+        env: { NODE_ENV: 'test' },
+      });
+
+      expect(isProduction()).toBe(false);
+    });
+
+    it('should return true when import.meta.env.MODE is production', () => {
+      vi.stubGlobal('process', undefined);
+      vi.stubGlobal('import', {
+        meta: {
+          env: { MODE: 'production' },
+        },
+      });
+
+      expect(isProduction()).toBe(true);
+    });
+
+    it('should return false when import.meta.env.MODE is development', () => {
+      vi.stubGlobal('process', undefined);
+      vi.stubGlobal('import', {
+        meta: {
+          env: { MODE: 'development' },
+        },
+      });
+
+      expect(isProduction()).toBe(false);
+    });
+
+    it('should return true when both process and import.meta indicate production', () => {
+      vi.stubGlobal('process', {
+        env: { NODE_ENV: 'production' },
+      });
+      vi.stubGlobal('import', {
+        meta: {
+          env: { MODE: 'production' },
+        },
+      });
+
+      expect(isProduction()).toBe(true);
+    });
+
+    it('should return true when only process indicates production and import.meta is undefined', () => {
+      vi.stubGlobal('process', {
+        env: { NODE_ENV: 'production' },
+      });
+      vi.stubGlobal('import', undefined);
+
+      expect(isProduction()).toBe(true);
+    });
+
+    it('should return true when only import.meta indicates production and process is undefined', () => {
+      vi.stubGlobal('process', undefined);
+      vi.stubGlobal('import', {
+        meta: {
+          env: { MODE: 'production' },
+        },
+      });
+
+      expect(isProduction()).toBe(true);
+    });
+
+    it('should return false when neither environment indicates production', () => {
+      vi.stubGlobal('process', {
+        env: { NODE_ENV: 'development' },
+      });
+      vi.stubGlobal('import', {
+        meta: {
+          env: { MODE: 'development' },
+        },
+      });
+
+      expect(isProduction()).toBe(false);
+    });
+
+    it('should return false when both process and import.meta are undefined', () => {
+      vi.stubGlobal('process', undefined);
+      vi.stubGlobal('import', undefined);
+
+      expect(isProduction()).toBe(false);
+    });
+
+    it('should return false when process.env is undefined', () => {
+      vi.stubGlobal('process', {});
+      vi.stubGlobal('import', undefined);
+
+      expect(isProduction()).toBe(false);
+    });
+
+    it('should return false when import.meta.env is undefined', () => {
+      vi.stubGlobal('process', undefined);
+      vi.stubGlobal('import', {
+        meta: {},
+      });
+
+      expect(isProduction()).toBe(false);
     });
   });
 });
