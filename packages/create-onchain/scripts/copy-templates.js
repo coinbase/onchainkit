@@ -15,6 +15,12 @@ export async function copyTemplates() {
   const sourceTemplatesDir = path.resolve(workspaceRoot, 'templates');
   const targetTemplatesDir = path.resolve(packageRoot, 'templates');
 
+  // Determine which tag to use for @coinbase/onchainkit in templates
+  // Priority: explicit override via ONCHAINKIT_TAG -> PR base branch alpha -> default latest
+  const desiredOnchainkitTag =
+    process.env.ONCHAINKIT_TAG ||
+    (process.env.GITHUB_BASE_REF === 'alpha' ? 'alpha' : 'latest');
+
   // Find all template directories in workspace (only nextjs templates)
   const workspaceTemplates = fs
     .readdirSync(sourceTemplatesDir, { withFileTypes: true })
@@ -158,12 +164,17 @@ async function copyTemplateDirectory(sourcePath, targetPath, gitignoreRules) {
       const packageContent = fs.readFileSync(sourceFilePath, 'utf-8');
       const packageJson = JSON.parse(packageContent);
 
-      // Replace workspace:* dependency with latest
-      if (
-        packageJson.dependencies &&
-        packageJson.dependencies['@coinbase/onchainkit'] === 'workspace:*'
-      ) {
-        packageJson.dependencies['@coinbase/onchainkit'] = 'latest';
+      // Replace workspace:* dependency with desired tag across dep sections
+      const sections = ['dependencies', 'devDependencies', 'peerDependencies'];
+      for (const section of sections) {
+        const deps = packageJson[section];
+        if (
+          deps &&
+          typeof deps === 'object' &&
+          deps['@coinbase/onchainkit'] === 'workspace:*'
+        ) {
+          deps['@coinbase/onchainkit'] = desiredOnchainkitTag;
+        }
       }
 
       // Write the modified package.json
