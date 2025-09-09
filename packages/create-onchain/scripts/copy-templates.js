@@ -16,10 +16,12 @@ export async function copyTemplates() {
   const targetTemplatesDir = path.resolve(packageRoot, 'templates');
 
   // Determine which tag to use for @coinbase/onchainkit in templates
-  // Priority: explicit override via ONCHAINKIT_TAG -> PR base branch alpha -> default latest
+  // Priority: explicit override via ONCHAINKIT_TAG -> PR base/head branch alpha -> default latest
+  const isAlphaPR =
+    process.env.GITHUB_BASE_REF === 'alpha' ||
+    process.env.GITHUB_HEAD_REF === 'alpha';
   const desiredOnchainkitTag =
-    process.env.ONCHAINKIT_TAG ||
-    (process.env.GITHUB_BASE_REF === 'alpha' ? 'alpha' : 'latest');
+    process.env.ONCHAINKIT_TAG || (isAlphaPR ? 'alpha' : 'latest');
 
   // Find all template directories in workspace (only nextjs templates)
   const workspaceTemplates = fs
