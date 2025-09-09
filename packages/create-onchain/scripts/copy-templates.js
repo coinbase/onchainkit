@@ -15,14 +15,6 @@ export async function copyTemplates() {
   const sourceTemplatesDir = path.resolve(workspaceRoot, 'templates');
   const targetTemplatesDir = path.resolve(packageRoot, 'templates');
 
-  // Determine which tag to use for @coinbase/onchainkit in templates
-  // Priority: explicit override via ONCHAINKIT_TAG -> PR base/head branch alpha -> default latest
-  const isAlphaPR =
-    process.env.GITHUB_BASE_REF === 'alpha' ||
-    process.env.GITHUB_HEAD_REF === 'alpha';
-  const desiredOnchainkitTag =
-    process.env.ONCHAINKIT_TAG || (isAlphaPR ? 'alpha' : 'latest');
-
   // Find all template directories in workspace (only nextjs templates)
   const workspaceTemplates = fs
     .readdirSync(sourceTemplatesDir, { withFileTypes: true })
@@ -175,7 +167,7 @@ async function copyTemplateDirectory(sourcePath, targetPath, gitignoreRules) {
           typeof deps === 'object' &&
           deps['@coinbase/onchainkit'] === 'workspace:*'
         ) {
-          deps['@coinbase/onchainkit'] = desiredOnchainkitTag;
+          deps['@coinbase/onchainkit'] = getDesiredOnchainkitTag();
         }
       }
 
@@ -206,6 +198,19 @@ export async function main() {
     console.error('Error copying templates:', error.message);
     process.exit(1);
   }
+}
+
+function getDesiredOnchainkitTag() {
+  // Determine which tag to use for @coinbase/onchainkit in templates
+  // Priority: explicit override via ONCHAINKIT_TAG -> PR base/head branch alpha -> default latest
+  const isAlphaPR =
+    process.env.GITHUB_BASE_REF === 'alpha' ||
+    process.env.GITHUB_HEAD_REF === 'alpha';
+
+  const desiredOnchainkitTag =
+    process.env.ONCHAINKIT_TAG || (isAlphaPR ? 'alpha' : 'latest');
+
+  return desiredOnchainkitTag;
 }
 
 main().catch((error) => {
