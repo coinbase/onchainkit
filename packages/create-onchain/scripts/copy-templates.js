@@ -158,12 +158,17 @@ async function copyTemplateDirectory(sourcePath, targetPath, gitignoreRules) {
       const packageContent = fs.readFileSync(sourceFilePath, 'utf-8');
       const packageJson = JSON.parse(packageContent);
 
-      // Replace workspace:* dependency with latest
-      if (
-        packageJson.dependencies &&
-        packageJson.dependencies['@coinbase/onchainkit'] === 'workspace:*'
-      ) {
-        packageJson.dependencies['@coinbase/onchainkit'] = 'latest';
+      // Replace workspace:* dependency with desired tag across dep sections
+      const sections = ['dependencies', 'devDependencies', 'peerDependencies'];
+      for (const section of sections) {
+        const deps = packageJson[section];
+        if (
+          deps &&
+          typeof deps === 'object' &&
+          deps['@coinbase/onchainkit'] === 'workspace:*'
+        ) {
+          deps['@coinbase/onchainkit'] = getDesiredOnchainkitTag();
+        }
       }
 
       // Write the modified package.json
@@ -193,6 +198,19 @@ export async function main() {
     console.error('Error copying templates:', error.message);
     process.exit(1);
   }
+}
+
+function getDesiredOnchainkitTag() {
+  // Determine which tag to use for @coinbase/onchainkit in templates
+  // Priority: explicit override via ONCHAINKIT_TAG -> PR base/head branch alpha -> default latest
+  const isAlphaPR =
+    process.env.GITHUB_BASE_REF === 'alpha' ||
+    process.env.GITHUB_HEAD_REF === 'alpha';
+
+  const desiredOnchainkitTag =
+    process.env.ONCHAINKIT_TAG || (isAlphaPR ? 'alpha' : 'latest');
+
+  return desiredOnchainkitTag;
 }
 
 main().catch((error) => {

@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - alpha
     paths:
       - 'packages/create-onchain/**'
   push:

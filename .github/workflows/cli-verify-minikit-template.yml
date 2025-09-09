@@ -1,9 +1,10 @@
-name: "cli: build & install minikit - basic"
+name: "cli: build & install minikit"
 
 on:
   pull_request:
     branches:
       - main
+      - alpha
     paths:
       - 'packages/create-onchain/**'
   push:
@@ -12,7 +13,6 @@ on:
 
 jobs:
   test:
-    if: github.head_ref != 'alpha'
     runs-on: ubuntu-latest
     strategy:
       matrix:
