@@ -10,6 +10,8 @@ import { defaultLoadingSVG } from '../../internal/svg/defaultLoadingSVG';
 import { cn } from '../../styles/theme';
 import { Badge } from './Badge';
 import { DisplayBadge } from './DisplayBadge';
+import { useMiniKitAvatar } from '../hooks/useMiniKitAvatar';
+import { useMiniKitName } from '../hooks/useMiniKitName';
 
 /**
  * Represents an Avatar component that displays either a loading indicator,
@@ -29,27 +31,24 @@ export function Avatar({
   const accountAddress = address ?? contextAddress;
   const accountChain = chain ?? contextChain;
 
-  if (!accountAddress) {
-    console.error(
-      'Avatar: an Ethereum address must be provided to the Identity or Avatar component.',
-    );
-    return null;
-  }
+  // The component first attempts to retrieve the minikit name and avatar for the given Ethereum address.
+  // Then it falls back to the ENS name and avatar.
+  const miniKitAvatar = useMiniKitAvatar();
+  const miniKitName = useMiniKitName();
 
-  // The component first attempts to retrieve the ENS name and avatar for the given Ethereum address.
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { data: name, isLoading: isLoadingName } = useName({
-    address: accountAddress,
-    chain: accountChain,
-  });
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { data: avatar, isLoading: isLoadingAvatar } = useAvatar(
-    { ensName: name ?? '', chain: accountChain },
-    { enabled: !!name },
+  const { data: name, isLoading: isLoadingName } = useName(
+    {
+      address: accountAddress,
+      chain: accountChain,
+    },
+    { enabled: !!accountAddress && !miniKitName },
   );
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { data: avatar, isLoading: isLoadingAvatar } = useAvatar(
+    { ensName: name ?? '', chain: accountChain },
+    { enabled: !!name && !miniKitAvatar },
+  );
+
   const badge = useMemo(() => {
     return Children.toArray(children).find(findComponent(Badge));
   }, [children]);
@@ -57,8 +56,17 @@ export function Avatar({
   const defaultAvatar = defaultComponent || defaultAvatarSVG;
   const loadingAvatar = loadingComponent || defaultLoadingSVG;
 
+  const isLoading = isLoadingName || isLoadingAvatar;
+
+  if (!accountAddress) {
+    console.error(
+      'Avatar: an Ethereum address must be provided to the Identity or Avatar component.',
+    );
+    return null;
+  }
+
   // If the data is still loading, it displays a loading SVG.
-  if (isLoadingName || isLoadingAvatar) {
+  if (!miniKitName && isLoading) {
     return (
       <div className={cn('h-8 w-8 overflow-hidden rounded-full', className)}>
         {loadingAvatar}
@@ -66,7 +74,10 @@ export function Avatar({
     );
   }
 
-  const displayAvatarImg = name && avatar;
+  const finalAvatar = miniKitAvatar || avatar;
+  const finalName = miniKitName || name;
+
+  const shouldDisplayAvatarImg = finalName && finalAvatar;
 
   // Otherwise, it displays the custom avatar obtained from ENS.
   return (
@@ -75,7 +86,8 @@ export function Avatar({
         data-testid="ockAvatar_ImageContainer"
         className={cn('h-10 w-10 overflow-hidden rounded-full', className)}
       >
-        {displayAvatarImg ? (
+        {shouldDisplayAvatarImg ? (
+          // biome-ignore lint/a11y/useAltText: alt is provided, seems like a bug
           <img
             className="min-h-full min-w-full object-cover"
             data-testid="ockAvatar_Image"
@@ -83,8 +95,8 @@ export function Avatar({
             width="100%"
             height="100%"
             decoding="async"
-            src={avatar}
-            alt={name}
+            src={finalAvatar}
+            alt={finalName}
             {...props}
           />
         ) : (

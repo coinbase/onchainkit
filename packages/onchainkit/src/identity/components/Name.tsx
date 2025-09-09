@@ -8,6 +8,7 @@ import { Children, useMemo } from 'react';
 import { cn, text } from '../../styles/theme';
 import { Badge } from './Badge';
 import { DisplayBadge } from './DisplayBadge';
+import { useMiniKitName } from '../hooks/useMiniKitName';
 
 /**
  * Name is a React component that renders the user name from an Ethereum address.
@@ -20,14 +21,20 @@ export function Name({
   ...props
 }: NameProps) {
   const { address: contextAddress, chain: contextChain } = useIdentityContext();
+  const miniKitName = useMiniKitName();
 
   const accountAddress = address ?? contextAddress;
   const accountChain = chain ?? contextChain;
 
-  const { data: name, isLoading } = useName({
-    address: accountAddress,
-    chain: accountChain,
-  });
+  const { data: name, isLoading } = useName(
+    {
+      address: accountAddress,
+      chain: accountChain,
+    },
+    {
+      enabled: !miniKitName,
+    },
+  );
 
   const badge = useMemo(() => {
     return Children.toArray(children).find(findComponent(Badge));
@@ -47,7 +54,7 @@ export function Name({
     return null;
   }
 
-  if (isLoading) {
+  if (!miniKitName && isLoading) {
     return <span className={className} />;
   }
 
@@ -59,7 +66,7 @@ export function Name({
         {...props}
         aria-label={ariaLabel}
       >
-        {name || getSlicedAddress(accountAddress)}
+        {miniKitName || name || getSlicedAddress(accountAddress)}
       </span>
       {badge && <DisplayBadge address={accountAddress}>{badge}</DisplayBadge>}
     </div>

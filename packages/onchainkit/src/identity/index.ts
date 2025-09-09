@@ -22,6 +22,8 @@ export { useAvatar } from './hooks/useAvatar';
 export { useAvatars } from './hooks/useAvatars';
 export { useName } from './hooks/useName';
 export { useNames } from './hooks/useNames';
+export { useMiniKitName } from './hooks/useMiniKitName';
+export { useMiniKitAvatar } from './hooks/useMiniKitAvatar';
 export type {
   AddressProps,
   Attestation,
