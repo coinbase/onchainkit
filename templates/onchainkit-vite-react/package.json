@@ -12,15 +12,15 @@
   "dependencies": {
     "@coinbase/onchainkit": "workspace:*",
     "@tanstack/react-query": "^5.81.5",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "viem": "^2.31.6",
     "wagmi": "^2.16.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
-    "@types/react": "19.1.10",
-    "@types/react-dom": "19.1.7",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^5.0.0",
     "eslint": "^9.33.0",
     "eslint-plugin-react-hooks": "^5.2.0",
