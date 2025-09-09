@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <radialGradient id="a" cx="30%" cy="30%" r="70%">
+      <stop offset="0%">
+        <animate attributeName="stop-color" dur="5s" repeatCount="indefinite" values="#4da6ff;#00ccff;#0066cc;#6600cc;#4da6ff"/>
+      </stop>
+      <stop offset="70%">
+        <animate attributeName="stop-color" dur="5s" repeatCount="indefinite" values="#0066cc;#0099ff;#003366;#3300cc;#0066cc"/>
+      </stop>
+      <stop offset="100%">
+        <animate attributeName="stop-color" dur="5s" repeatCount="indefinite" values="#004080;#006699;#000033;#000099;#004080"/>
+      </stop>
+    </radialGradient>
+  </defs>
+  <circle cx="50" cy="50" r="40" fill="url(#a)">
+    <animate attributeName="r" calcMode="spline" dur="2s" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1" repeatCount="indefinite" values="40;42;40"/>
+  </circle>
+</svg>

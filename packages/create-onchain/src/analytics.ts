@@ -7,7 +7,7 @@ type AnalyticsPayload = {
   eventType: 'createOnchainInitiated';
   timestamp: number;
   data: {
-    template: 'onchainkit-nextjs' | 'minikit-nextjs'; // Add new templates here when created
+    template: 'onchainkit-nextjs' | 'minikit-nextjs' | 'onchainkit-vite-react'; // Add new templates here when created
   };
 };
 

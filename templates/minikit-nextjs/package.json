@@ -13,8 +13,8 @@
     "@farcaster/miniapp-sdk": "^0.1.8",
     "@tanstack/react-query": "^5.81.5",
     "next": "15.3.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "viem": "^2.31.6",
     "wagmi": "^2.16.3"
   },
@@ -22,8 +22,8 @@
     "@eslint/eslintrc": "^3",
     "@next/eslint-plugin-next": "^15.3.4",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "19.1.10",
+    "@types/react-dom": "19.1.7",
     "eslint": "^9",
     "eslint-config-next": "15.3.4",
     "typescript": "^5"

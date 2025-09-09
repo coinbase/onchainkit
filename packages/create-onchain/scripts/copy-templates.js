@@ -15,12 +15,11 @@ export async function copyTemplates() {
   const sourceTemplatesDir = path.resolve(workspaceRoot, 'templates');
   const targetTemplatesDir = path.resolve(packageRoot, 'templates');
 
-  // Find all template directories in workspace (only nextjs templates)
+  // Find all template directories in workspace
   const workspaceTemplates = fs
     .readdirSync(sourceTemplatesDir, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name)
-    .filter((name) => name.endsWith('-nextjs'));
+    .map((dirent) => dirent.name);
 
   // Create 1:1 mapping: workspace template -> package template
   const templateMappings = Object.fromEntries(
@@ -56,6 +55,7 @@ export async function copyTemplates() {
     const gitignoreRules = fs.existsSync(gitignorePath)
       ? parseGitignore(fs.readFileSync(gitignorePath, 'utf-8'))
       : [];
+    
 
     // Copy template with selective logic
     await copyTemplateDirectory(sourcePath, targetPath, gitignoreRules);
@@ -104,11 +104,25 @@ function shouldIgnoreFile(filePath, gitignoreRules) {
   // Check against gitignore rules
   for (const rule of gitignoreRules) {
     if (rule.includes('*')) {
-      // Handle simple wildcards
-      const pattern = rule.replace(/\*/g, '.*');
-      const regex = new RegExp(pattern);
-      if (regex.test(fileName) || regex.test(relativePath)) {
-        return true;
+      // Handle simple wildcards - convert to proper regex
+      let pattern = rule
+        .replace(/\./g, '\\.')  // Escape dots
+        .replace(/\?/g, '.')    // ? matches one character
+        .replace(/\*/g, '[^/]*'); // * matches any characters except /
+      
+      // Add anchors for exact matching
+      pattern = `^${pattern}$`;
+      
+      try {
+        const regex = new RegExp(pattern);
+        if (regex.test(fileName)) {
+          return true;
+        }
+      } catch (e) {
+        // If regex is invalid, fall back to simple string matching
+        if (fileName === rule || fileName.startsWith(rule.replace('*', ''))) {
+          return true;
+        }
       }
     } else {
       // Exact match or directory match
