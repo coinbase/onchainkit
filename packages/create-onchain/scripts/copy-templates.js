@@ -121,7 +121,7 @@ function shouldIgnoreFile(filePath, gitignoreRules) {
         }
       } catch (e) {
         // If regex is invalid, fall back to simple string matching
-        if (fileName === rule || fileName.startsWith(rule.replace('*', ''))) {
+        if (fileName === rule || fileName.startsWith(rule.replace(/\*/g, ''))) {
           return true;
         }
       }
