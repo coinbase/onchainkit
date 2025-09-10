@@ -104,6 +104,7 @@ function AvatarContent({
       defaultAvatar={defaultAvatar}
       badge={badge}
       accountAddress={accountAddress}
+      className={className}
       {...props}
     />
   );

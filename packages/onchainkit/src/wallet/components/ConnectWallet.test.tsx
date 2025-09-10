@@ -56,6 +56,14 @@ vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
   useAnalytics: vi.fn(),
 }));
 
+vi.mock('@/minikit/hooks/useIsInMiniApp', () => ({
+  useIsInMiniApp: vi.fn(() => ({ isInMiniApp: false })),
+}));
+
+vi.mock('@/minikit', () => ({
+  useMiniKit: vi.fn(() => ({ isInMiniApp: false })),
+}));
+
 vi.mock('react', async () => {
   const actual = await vi.importActual('react');
   return {
