@@ -17,6 +17,7 @@ export function Name({
   className,
   children,
   chain,
+  name: nameOverride,
   ...props
 }: NameProps) {
   const { address: contextAddress, chain: contextChain } = useIdentityContext();
@@ -59,7 +60,7 @@ export function Name({
         {...props}
         aria-label={ariaLabel}
       >
-        {name || getSlicedAddress(accountAddress)}
+        {nameOverride || name || getSlicedAddress(accountAddress)}
       </span>
       {badge && <DisplayBadge address={accountAddress}>{badge}</DisplayBadge>}
     </div>

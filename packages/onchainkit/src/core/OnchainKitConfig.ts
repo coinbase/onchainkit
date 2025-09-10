@@ -33,6 +33,9 @@ export const ONCHAIN_KIT_CONFIG: OnchainKitConfig = {
   schemaId: null,
   projectId: null,
   sessionId: null,
+  miniKit: {
+    enabled: false,
+  },
 };
 
 /**

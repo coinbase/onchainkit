@@ -59,6 +59,10 @@ export type AvatarProps = {
   defaultComponent?: ReactNode;
   /** Optional attestation by passing Badge component as its children */
   children?: ReactNode;
+  /** Optional name to display. Will take precedence over the name fetched from the address. */
+  name?: string | null;
+  /** Optional avatar to display. Will take precedence over the avatar fetched from the address. */
+  avatar?: string | null;
 } & ImgHTMLAttributes<HTMLImageElement>; /** Optional additional image attributes to apply to the avatar. */
 
 /**
@@ -270,6 +274,8 @@ export type NameProps = {
   chain?: Chain;
   /** Optional className override for top span element. */
   className?: string;
+  /** Optional name to display. Will take precedence over the name fetched from the address. */
+  name?: string | null;
 } & HTMLAttributes<HTMLSpanElement>; /** Optional additional span attributes to apply to the name. */
 
 export type ResolverAddressesByChainIdMap = Record<number, Address>;

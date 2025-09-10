@@ -115,6 +115,7 @@ export function OnchainKitProvider({
       schemaId: schemaId ?? COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
       sessionId,
       defaultPublicClients,
+      miniKit,
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
@@ -128,6 +129,7 @@ export function OnchainKitProvider({
     schemaId,
     sessionId,
     defaultPublicClients,
+    miniKit,
   ]);
 
   return (
