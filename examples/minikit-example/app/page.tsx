@@ -40,9 +40,7 @@ export default function App() {
     <Stack p="md">
       <Flex component="header" align="end" justify="end" mb="xl">
         <Wallet>
-          <ConnectWallet>
-            <Name />
-          </ConnectWallet>
+          <ConnectWallet />
           <WalletDropdown>
             <Identity hasCopyAddressOnClick>
               <Avatar />

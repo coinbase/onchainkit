@@ -57,10 +57,7 @@ function MiniAppDefaultChildren() {
         name={context?.user.displayName}
         avatar={context?.user.pfpUrl}
       />
-      <Name
-        // name={context?.user.displayName}
-        name="Test mini app"
-      />
+      <Name name={context?.user.displayName} />
     </>
   );
 }
@@ -71,7 +68,7 @@ function ConnectWalletContent({
       fallback={
         <>
           <Avatar className="h-6 w-6" />
-          <Name name="Testing" />
+          <Name />
         </>
       }
     >
