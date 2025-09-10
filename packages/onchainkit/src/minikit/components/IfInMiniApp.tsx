@@ -5,7 +5,7 @@ import { useIsInMiniApp } from '../hooks/useIsInMiniApp';
 export function IfInMiniApp({
   fallback,
   children,
-}: PropsWithChildren<{ fallback: ReactNode }>) {
+}: PropsWithChildren<{ fallback?: ReactNode }>) {
   const { isInMiniApp } = useIsInMiniApp();
   const miniKit = getOnchainKitConfig('miniKit');
 
