@@ -22,6 +22,16 @@ function buildBody<T extends AnalyticsEvent>(
   };
 }
 
+export function isProduction() {
+  return (
+    (typeof process !== 'undefined' &&
+      process.env?.NODE_ENV === 'production') ||
+    (typeof globalThis !== 'undefined' &&
+      (globalThis as { import?: { meta?: { env?: { MODE?: string } } } }).import
+        ?.meta?.env?.MODE === 'production')
+  );
+}
+
 async function handleSendAnalytics<T extends AnalyticsEvent>(
   event: T,
   data: AnalyticsEventData[T],
@@ -46,8 +56,7 @@ async function handleSendAnalytics<T extends AnalyticsEvent>(
       body: JSON.stringify(buildBody(event, data)),
     });
   } catch (error) {
-    // Silently fail
-    if (process.env.NODE_ENV !== 'production') {
+    if (!isProduction()) {
       console.error('Error sending analytics:', error);
     }
   }
