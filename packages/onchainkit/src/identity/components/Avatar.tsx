@@ -4,12 +4,13 @@ import { useAvatar } from '@/identity/hooks/useAvatar';
 import { useName } from '@/identity/hooks/useName';
 import type { AvatarProps } from '@/identity/types';
 import { findComponent } from '@/internal/utils/findComponent';
-import { Children, useMemo } from 'react';
+import { Children, ImgHTMLAttributes, ReactNode, useMemo } from 'react';
 import { defaultAvatarSVG } from '../../internal/svg/defaultAvatarSVG';
 import { defaultLoadingSVG } from '../../internal/svg/defaultLoadingSVG';
 import { cn } from '../../styles/theme';
 import { Badge } from './Badge';
 import { DisplayBadge } from './DisplayBadge';
+import { Address } from 'viem';
 
 /**
  * Represents an Avatar component that displays either a loading indicator,
@@ -24,10 +25,8 @@ export function Avatar({
   children,
   ...props
 }: AvatarProps) {
-  const { address: contextAddress, chain: contextChain } = useIdentityContext();
-
+  const { address: contextAddress } = useIdentityContext();
   const accountAddress = address ?? contextAddress;
-  const accountChain = chain ?? contextChain;
 
   if (!accountAddress) {
     console.error(
@@ -36,20 +35,53 @@ export function Avatar({
     return null;
   }
 
-  // The component first attempts to retrieve the ENS name and avatar for the given Ethereum address.
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return (
+    <AvatarContent
+      address={address}
+      chain={chain}
+      className={className}
+      defaultComponent={defaultComponent}
+      loadingComponent={loadingComponent}
+      {...props}
+    >
+      {children}
+    </AvatarContent>
+  );
+}
+
+function AvatarContent({
+  address = null,
+  chain,
+  className,
+  defaultComponent,
+  loadingComponent,
+  children,
+  name: nameOverride,
+  avatar: avatarOverride,
+  ...props
+}: AvatarProps) {
+  const { address: contextAddress, chain: contextChain } = useIdentityContext();
+
+  const accountAddress = address ?? contextAddress;
+  const accountChain = chain ?? contextChain;
+
   const { data: name, isLoading: isLoadingName } = useName({
     address: accountAddress,
     chain: accountChain,
   });
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: avatar, isLoading: isLoadingAvatar } = useAvatar(
     { ensName: name ?? '', chain: accountChain },
     { enabled: !!name },
   );
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { resolvedName, resolvedAvatar } = useMemo(() => {
+    return {
+      resolvedName: nameOverride ?? name ?? '',
+      resolvedAvatar: avatarOverride ?? avatar ?? '',
+    };
+  }, [name, avatar, nameOverride, avatarOverride]);
+
   const badge = useMemo(() => {
     return Children.toArray(children).find(findComponent(Badge));
   }, [children]);
@@ -57,7 +89,6 @@ export function Avatar({
   const defaultAvatar = defaultComponent || defaultAvatarSVG;
   const loadingAvatar = loadingComponent || defaultLoadingSVG;
 
-  // If the data is still loading, it displays a loading SVG.
   if (isLoadingName || isLoadingAvatar) {
     return (
       <div className={cn('h-8 w-8 overflow-hidden rounded-full', className)}>
@@ -66,16 +97,42 @@ export function Avatar({
     );
   }
 
-  const displayAvatarImg = name && avatar;
+  return (
+    <AvatarRenderer
+      avatar={resolvedAvatar}
+      name={resolvedName}
+      defaultAvatar={defaultAvatar}
+      badge={badge}
+      accountAddress={accountAddress}
+      className={className}
+      {...props}
+    />
+  );
+}
 
-  // Otherwise, it displays the custom avatar obtained from ENS.
+function AvatarRenderer({
+  className,
+  avatar,
+  name,
+  defaultAvatar,
+  badge,
+  accountAddress,
+  ...rest
+}: {
+  className?: string;
+  avatar: string;
+  name: string;
+  defaultAvatar: ReactNode;
+  badge: ReactNode;
+  accountAddress: Address;
+} & ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <div className="relative">
       <div
         data-testid="ockAvatar_ImageContainer"
         className={cn('h-10 w-10 overflow-hidden rounded-full', className)}
       >
-        {displayAvatarImg ? (
+        {name && avatar ? (
           <img
             className="min-h-full min-w-full object-cover"
             data-testid="ockAvatar_Image"
@@ -85,7 +142,7 @@ export function Avatar({
             decoding="async"
             src={avatar}
             alt={name}
-            {...props}
+            {...rest}
           />
         ) : (
           <div className={cn('border-ock-background', 'h-full w-full border')}>

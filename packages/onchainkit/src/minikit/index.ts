@@ -15,6 +15,7 @@ export { useSwapToken } from './hooks/useSwapToken';
 export { useSendToken } from './hooks/useSendToken';
 
 export { withValidManifest } from './utils/manifestUtils';
+
 export type {
   MiniAppManifest,
   MiniAppFields,

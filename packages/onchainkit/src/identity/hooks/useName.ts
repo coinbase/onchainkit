@@ -10,9 +10,6 @@ import type {
 
 /**
  * It leverages the `@tanstack/react-query` hook for fetching and optionally caching the ENS name
- * @returns An object containing:
- *  - `ensName`: The fetched ENS name for the provided address, or null if not found or in case of an error.
- *  - `{UseQueryResult}`: The rest of useQuery return values. including isLoading, isError, error, isFetching, refetch, etc.
  */
 export const useName = (
   { address, chain = mainnet }: UseNameParams,

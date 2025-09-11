@@ -10,6 +10,7 @@ import { useWalletContext } from './WalletProvider';
 import type { Connector } from 'wagmi';
 import type { UseAccountReturnType, UseConnectReturnType, Config } from 'wagmi';
 import type { WalletContextType } from '../types';
+import { useMiniKit } from '@/minikit';
 
 const openConnectModalMock = vi.fn();
 
@@ -54,6 +55,23 @@ vi.mock('@/useOnchainKit', () => ({
 
 vi.mock('../../core/analytics/hooks/useAnalytics', () => ({
   useAnalytics: vi.fn(),
+}));
+
+vi.mock('@/minikit/hooks/useIsInMiniApp', () => ({
+  useIsInMiniApp: vi.fn(() => ({ isInMiniApp: false })),
+}));
+
+vi.mock('@/minikit', () => ({
+  useMiniKit: vi.fn(() => ({ isInMiniApp: false })),
+}));
+
+vi.mock('@/minikit/components/IfInMiniApp', () => ({
+  IfInMiniApp: ({
+    children,
+  }: {
+    children: ReactNode;
+    fallback?: ReactNode;
+  }) => <>{children}</>,
 }));
 
 vi.mock('react', async () => {
@@ -1247,6 +1265,48 @@ describe('ConnectWallet', () => {
 
       // Should render WalletModal when using render prop in modal mode
       expect(screen.getByTestId('modal-render-button')).toBeInTheDocument();
+    });
+  });
+
+  describe('MiniAppDefaultChildren coverage', () => {
+    it('renders default MiniApp children when in MiniApp with user context', () => {
+      vi.mocked(useAccount).mockReturnValue({
+        address: '0x123' as `0x${string}`,
+        status: 'connected',
+        isConnected: true,
+        isConnecting: false,
+        isDisconnected: false,
+        isReconnecting: false,
+        addresses: ['0x123'] as Array<`0x${string}`>,
+        chain: { id: 1 },
+        chainId: 1,
+        connector: {
+          id: 'mockConnector',
+          name: 'MockConnector',
+        } as unknown as Connector,
+      } as unknown as UseAccountReturnType<Config>);
+
+      const mockedMiniKitReturn = {
+        setFrameReady: vi.fn(),
+        isFrameReady: true,
+        context: {
+          user: {
+            displayName: 'Alice',
+            pfpUrl: 'https://example.com/alice.png',
+            fid: 1,
+          },
+        },
+        updateClientContext: vi.fn(),
+        notificationProxyUrl: '',
+      } as unknown as ReturnType<typeof useMiniKit>;
+
+      vi.mocked(useMiniKit).mockReturnValue(mockedMiniKitReturn);
+
+      render(<ConnectWallet disconnectedLabel="Connect Wallet" />);
+
+      // Avatar and Name from MiniAppDefaultChildren are rendered
+      expect(screen.getByTestId('ockAvatar')).toBeInTheDocument();
+      expect(screen.getByTestId('ockName')).toBeInTheDocument();
     });
   });
 

@@ -40,6 +40,14 @@ vi.mock('./WalletProvider', () => ({
   ),
 }));
 
+vi.mock('@/minikit/hooks/useIsInMiniApp', () => ({
+  useIsInMiniApp: vi.fn(() => ({ isInMiniApp: false })),
+}));
+
+vi.mock('@/minikit', () => ({
+  useMiniKit: vi.fn(() => ({ isInMiniApp: false })),
+}));
+
 describe('WalletAdvancedDefault', () => {
   const mockUseWalletContext = useWalletContext as ReturnType<typeof vi.fn>;
 

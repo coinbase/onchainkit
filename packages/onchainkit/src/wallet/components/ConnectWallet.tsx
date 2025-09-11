@@ -19,6 +19,8 @@ import {
 import { WithRenderProps } from '@/internal/types';
 import { MiniKitContext } from '@/minikit/MiniKitProvider';
 import { Button } from '@/ui/Button';
+import { IfInMiniApp } from '@/minikit/components/IfInMiniApp';
+import { useMiniKit } from '@/minikit';
 
 export type ConnectWalletProps = WithRenderProps<{
   /** Children can be utilized to display customized content when the wallet is connected. */
@@ -45,12 +47,33 @@ export type ConnectWalletProps = WithRenderProps<{
   }) => ReactNode;
 }>;
 
+function MiniAppDefaultChildren() {
+  const { context } = useMiniKit();
+
+  return (
+    <>
+      <Avatar
+        className="h-6 w-6"
+        name={context?.user.displayName}
+        avatar={context?.user.pfpUrl}
+      />
+      <Name name={context?.user.displayName} />
+    </>
+  );
+}
+
 function ConnectWalletContent({
   children = (
-    <>
-      <Avatar className="h-6 w-6" />
-      <Name />
-    </>
+    <IfInMiniApp
+      fallback={
+        <>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </>
+      }
+    >
+      <MiniAppDefaultChildren />
+    </IfInMiniApp>
   ),
   className,
   onConnect,
