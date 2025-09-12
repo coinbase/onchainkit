@@ -7,6 +7,15 @@ type FetchParams = Parameters<typeof sdk.quickAuth.fetch>;
 type Input = FetchParams[0];
 type Init = FetchParams[1];
 
+/**
+ * Hook to authenticate user via Farcaster SDK's Quick Auth feature.
+ * Runs only in Mini App context, performs a single authenticated fetch to
+ * your app's auth endpoint
+ * @param input - The endpoint that will process the Quick Auth request
+ * @param init - A RequestInit object containing any custom settings that you want to apply to the request
+ * @param useQueryOptions - Options to pass to the useQuery hook
+ * @returns The React Query result where `data` is `TQuickAuthResponse | null`
+ */
 export function useQuickAuth<TQuickAuthResponse = unknown>(
   input: Input,
   init?: Init,
@@ -18,10 +27,6 @@ export function useQuickAuth<TQuickAuthResponse = unknown>(
   return useQuery<TQuickAuthResponse | null>({
     queryKey: ['useQuickAuth', isInMiniApp],
     queryFn: async () => {
-      // If we're in a mini app context, all we have to do to make an authenticated
-      // request is to use `sdk.quickAuth.fetch`. This will automatically include the
-      // necessary `Authorization` header for the backend to verify.
-
       if (hasAuthedRef.current) {
         return null;
       }
@@ -34,15 +39,12 @@ export function useQuickAuth<TQuickAuthResponse = unknown>(
         }
 
         const data = (await result.json()) as TQuickAuthResponse;
-
         hasAuthedRef.current = true;
-
         return data;
       } catch (err) {
         console.error('Quick auth error:', err);
-        return null;
-      } finally {
         hasAuthedRef.current = true;
+        return null;
       }
     },
     enabled: !!isInMiniApp,
