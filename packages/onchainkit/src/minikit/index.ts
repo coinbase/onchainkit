@@ -1,5 +1,7 @@
 export { MiniKitProvider } from './MiniKitProvider';
 export type { MiniKitProviderProps } from './types';
+export { SafeAreaInsets } from './components/SafeAreaInsets';
+export type { SafeAreaInsetsProps } from './components/SafeAreaInsets';
 export { useMiniKit } from './hooks/useMiniKit';
 export { useOpenUrl } from './hooks/useOpenUrl';
 export { useAuthenticate, parseSignInMessage } from './hooks/useAuthenticate';

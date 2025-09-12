@@ -1,3 +1,4 @@
+'use client';
 import {
   PropsWithChildren,
   useLayoutEffect,
@@ -9,6 +10,11 @@ import {
 import type { CSSProperties, ReactElement } from 'react';
 import { useIsInMiniApp } from '../hooks/useIsInMiniApp';
 import { useMiniKit } from '../hooks/useMiniKit';
+
+export type SafeAreaInsetsProps = PropsWithChildren<{
+  asChild?: boolean;
+  cssVariablesOnly?: boolean;
+}>;
 
 /**
  * Renders children with safe area padding when running inside a Mini App.
@@ -23,10 +29,7 @@ import { useMiniKit } from '../hooks/useMiniKit';
  *   CSS variables are set on `:root`.
  * - When not inside a Mini App, returns `children` unchanged and does not set variables.
  */
-export function SafeAreaInsets({
-  children,
-  asChild,
-}: PropsWithChildren<{ asChild?: boolean }>) {
+export function SafeAreaInsets({ children, asChild }: SafeAreaInsetsProps) {
   const { context } = useMiniKit();
   const { isInMiniApp } = useIsInMiniApp();
 
