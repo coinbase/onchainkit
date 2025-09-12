@@ -13,6 +13,7 @@ export { useViewCast } from './hooks/useViewCast';
 export { useIsInMiniApp } from './hooks/useIsInMiniApp';
 export { useSwapToken } from './hooks/useSwapToken';
 export { useSendToken } from './hooks/useSendToken';
+export { useQuickAuth } from './hooks/useQuickAuth';
 
 export { withValidManifest } from './utils/manifestUtils';
 
