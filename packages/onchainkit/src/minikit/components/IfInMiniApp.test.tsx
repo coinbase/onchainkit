@@ -18,26 +18,32 @@ describe('IfInMiniApp', () => {
   });
 
   it('renders children when in mini app and enabled', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (getOnchainKitConfig as any).mockReturnValue({ enabled: true });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (useIsInMiniApp as any).mockReturnValue({ isInMiniApp: true });
 
     render(
       <IfInMiniApp>
         <div data-testid="miniapp-content">MiniApp Content</div>
-      </IfInMiniApp>
+      </IfInMiniApp>,
     );
 
     expect(screen.getByTestId('miniapp-content')).toBeInTheDocument();
   });
 
   it('renders fallback when not in mini app', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (getOnchainKitConfig as any).mockReturnValue({ enabled: true });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (useIsInMiniApp as any).mockReturnValue({ isInMiniApp: false });
 
     render(
-      <IfInMiniApp fallback={<div data-testid="fallback">Fallback Content</div>}>
+      <IfInMiniApp
+        fallback={<div data-testid="fallback">Fallback Content</div>}
+      >
         <div data-testid="miniapp-content">MiniApp Content</div>
-      </IfInMiniApp>
+      </IfInMiniApp>,
     );
 
     expect(screen.getByTestId('fallback')).toBeInTheDocument();
@@ -45,13 +51,17 @@ describe('IfInMiniApp', () => {
   });
 
   it('renders fallback when minikit is not enabled', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (getOnchainKitConfig as any).mockReturnValue({ enabled: false });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (useIsInMiniApp as any).mockReturnValue({ isInMiniApp: true });
 
     render(
-      <IfInMiniApp fallback={<div data-testid="fallback">Fallback Content</div>}>
+      <IfInMiniApp
+        fallback={<div data-testid="fallback">Fallback Content</div>}
+      >
         <div data-testid="miniapp-content">MiniApp Content</div>
-      </IfInMiniApp>
+      </IfInMiniApp>,
     );
 
     expect(screen.getByTestId('fallback')).toBeInTheDocument();
@@ -59,13 +69,17 @@ describe('IfInMiniApp', () => {
   });
 
   it('renders fallback when minikit config is null', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (getOnchainKitConfig as any).mockReturnValue(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (useIsInMiniApp as any).mockReturnValue({ isInMiniApp: true });
 
     render(
-      <IfInMiniApp fallback={<div data-testid="fallback">Fallback Content</div>}>
+      <IfInMiniApp
+        fallback={<div data-testid="fallback">Fallback Content</div>}
+      >
         <div data-testid="miniapp-content">MiniApp Content</div>
-      </IfInMiniApp>
+      </IfInMiniApp>,
     );
 
     expect(screen.getByTestId('fallback')).toBeInTheDocument();
@@ -73,26 +87,30 @@ describe('IfInMiniApp', () => {
   });
 
   it('renders null when no fallback provided and conditions not met', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (getOnchainKitConfig as any).mockReturnValue({ enabled: false });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (useIsInMiniApp as any).mockReturnValue({ isInMiniApp: false });
 
     const { container } = render(
       <IfInMiniApp>
         <div data-testid="miniapp-content">MiniApp Content</div>
-      </IfInMiniApp>
+      </IfInMiniApp>,
     );
 
     expect(container.firstChild).toBeNull();
   });
 
   it('renders null when no fallback provided and not in miniapp', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (getOnchainKitConfig as any).mockReturnValue({ enabled: true });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (useIsInMiniApp as any).mockReturnValue({ isInMiniApp: false });
 
     const { container } = render(
       <IfInMiniApp>
         <div data-testid="miniapp-content">MiniApp Content</div>
-      </IfInMiniApp>
+      </IfInMiniApp>,
     );
 
     expect(container.firstChild).toBeNull();

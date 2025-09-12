@@ -1,4 +1,4 @@
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getAddress } from './getAddress';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 
@@ -11,6 +11,7 @@ describe('getAddress', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(getChainPublicClient).mockReturnValue(mockClient as any);
   });
 

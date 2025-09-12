@@ -27,6 +27,7 @@ describe('getName', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(getChainPublicClient).mockReturnValue(mockClient as any);
   });
 
@@ -38,7 +39,9 @@ describe('getName', () => {
     const name = await getName({ address: walletAddress });
 
     expect(name).toBe(expectedEnsName);
-    expect(mockClient.getEnsName).toHaveBeenCalledWith({ address: walletAddress });
+    expect(mockClient.getEnsName).toHaveBeenCalledWith({
+      address: walletAddress,
+    });
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: expectedEnsName,
     });
@@ -54,7 +57,9 @@ describe('getName', () => {
     const name = await getName({ address: walletAddress });
 
     expect(name).toBeNull();
-    expect(mockClient.getEnsName).toHaveBeenCalledWith({ address: walletAddress });
+    expect(mockClient.getEnsName).toHaveBeenCalledWith({
+      address: walletAddress,
+    });
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: ensName,
     });
@@ -94,7 +99,9 @@ describe('getName', () => {
     const name = await getName({ address: walletAddress });
 
     expect(name).toBeNull();
-    expect(mockClient.getEnsName).toHaveBeenCalledWith({ address: walletAddress });
+    expect(mockClient.getEnsName).toHaveBeenCalledWith({
+      address: walletAddress,
+    });
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: ensName,
     });
@@ -222,7 +229,9 @@ describe('getName', () => {
     const name = await getName({ address: walletAddress });
 
     expect(name).toBeNull();
-    expect(mockClient.getEnsName).toHaveBeenCalledWith({ address: walletAddress });
+    expect(mockClient.getEnsName).toHaveBeenCalledWith({
+      address: walletAddress,
+    });
     expect(mockGetAddress).not.toHaveBeenCalled();
   });
 });

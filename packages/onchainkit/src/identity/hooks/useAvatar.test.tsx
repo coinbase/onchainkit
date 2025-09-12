@@ -57,7 +57,10 @@ describe('useAvatar', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(vi.mocked(getAvatar)).toHaveBeenCalledWith({ ensName: testEnsName, chain: mainnet });
+    expect(vi.mocked(getAvatar)).toHaveBeenCalledWith({
+      ensName: testEnsName,
+      chain: mainnet,
+    });
   });
 
   it('returns the loading state true while still fetching ENS avatar', async () => {
@@ -101,7 +104,10 @@ describe('useAvatar', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(vi.mocked(getAvatar)).toHaveBeenCalledWith({ ensName: testEnsName, chain: base });
+    expect(vi.mocked(getAvatar)).toHaveBeenCalledWith({
+      ensName: testEnsName,
+      chain: base,
+    });
   });
 
   it('return correct base sepolia avatar', async () => {
@@ -126,14 +132,19 @@ describe('useAvatar', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(vi.mocked(getAvatar)).toHaveBeenCalledWith({ ensName: testEnsName, chain: baseSepolia });
+    expect(vi.mocked(getAvatar)).toHaveBeenCalledWith({
+      ensName: testEnsName,
+      chain: baseSepolia,
+    });
   });
 
   it('returns error for unsupported chain ', async () => {
     const testEnsName = 'shrek.basetest.eth';
 
     // Mock the getAvatar function to reject with error
-    vi.mocked(getAvatar).mockRejectedValue('ChainId not supported, avatar resolution is only supported on Ethereum and Base.');
+    vi.mocked(getAvatar).mockRejectedValue(
+      'ChainId not supported, avatar resolution is only supported on Ethereum and Base.',
+    );
 
     // Use the renderHook function to create a test harness for the useAvatar hook
     const { result } = renderHook(
