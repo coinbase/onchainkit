@@ -1,8 +1,6 @@
-import { cn, color } from '../../styles/theme';
+import { cn } from '../../styles/theme';
 import { SignatureLabel } from './SignatureLabel';
 import { useSignatureContext } from './SignatureProvider';
-
-const DEFAULT_CHILDREN = <SignatureLabel />;
 
 type SignatureStatusProps = {
   children?: React.ReactNode;
@@ -10,7 +8,7 @@ type SignatureStatusProps = {
 };
 
 export function SignatureStatus({
-  children = DEFAULT_CHILDREN,
+  children = <SignatureLabel />,
   className,
 }: SignatureStatusProps) {
   const { lifecycleStatus } = useSignatureContext();
@@ -18,8 +16,8 @@ export function SignatureStatus({
     <div
       className={cn(
         'flex justify-between',
-        color.foregroundMuted,
-        { [color.error]: lifecycleStatus.statusName === 'error' },
+        'text-ock-foreground-muted',
+        { ['text-ock-error']: lifecycleStatus.statusName === 'error' },
         className,
       )}
     >

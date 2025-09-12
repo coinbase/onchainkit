@@ -3,12 +3,13 @@
 import { Avatar, Name } from '@/identity';
 import { Spinner } from '@/internal/components/Spinner';
 import { zIndex } from '@/styles/constants';
-import { border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { useCallback, useState } from 'react';
 import { useWalletContext } from './WalletProvider';
 import { usePortfolio } from '../hooks/usePortfolio';
 import { RequestContext } from '@/core/network/constants';
 import { useAccount } from 'wagmi';
+import { useOnchainKit } from '@/useOnchainKit';
 
 type WalletAdvancedAddressDetailsProps = {
   classNames?: {
@@ -22,7 +23,9 @@ type WalletAdvancedAddressDetailsProps = {
 export function WalletAdvancedAddressDetails({
   classNames,
 }: WalletAdvancedAddressDetailsProps) {
-  const { address, chain, animations } = useWalletContext();
+  const { animations } = useWalletContext();
+  const { address } = useAccount();
+  const { chain } = useOnchainKit();
   const [copyText, setCopyText] = useState('Copy');
 
   const handleCopyAddress = useCallback(async () => {
@@ -46,7 +49,7 @@ export function WalletAdvancedAddressDetails({
       data-testid="ockWalletAdvanced_AddressDetails"
       className={cn(
         'mt-2 flex w-88 flex-col items-center justify-center px-4 py-3',
-        color.foreground,
+        'text-ock-foreground',
         text.body,
         animations.content,
         classNames?.container,
@@ -67,7 +70,7 @@ export function WalletAdvancedAddressDetails({
             address={address}
             chain={chain}
             className={cn(
-              'hover:text-[var(--ock-text-foreground-muted)] active:text-[var(--ock-text-primary)]',
+              'hover:text-ock-foreground-muted active:text-ock-primary',
               classNames?.nameButton,
             )}
           />
@@ -78,9 +81,9 @@ export function WalletAdvancedAddressDetails({
           className={cn(
             pressable.alternate,
             text.legal,
-            color.foreground,
-            border.default,
-            border.radius,
+            'text-ock-foreground',
+            'border-ock-background',
+            'rounded-ock-default',
             zIndex.tooltip,
             'absolute top-full right-0 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
           )}

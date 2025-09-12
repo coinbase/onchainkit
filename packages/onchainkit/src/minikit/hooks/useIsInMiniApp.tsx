@@ -1,4 +1,4 @@
-import sdk from '@farcaster/frame-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 import { useQuery } from '@tanstack/react-query';
 
 /**
@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 export function useIsInMiniApp() {
   const { data, ...rest } = useQuery({
     queryKey: ['useIsInMiniApp'],
-    queryFn: async () => !!(await sdk.context),
+    queryFn: sdk.isInMiniApp,
   });
 
   return {

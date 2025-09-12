@@ -1,4 +1,3 @@
-import { publicClient } from '@/core/network/client';
 import { getChainPublicClient } from '@/core/network/getChainPublicClient';
 import type { Address } from 'viem';
 import { base, mainnet, optimism } from 'viem/chains';
@@ -7,40 +6,42 @@ import type { Mock } from 'vitest';
 import { getAddress } from './getAddress';
 import { getName } from './getName';
 
-vi.mock('@/core/network/client');
-
 vi.mock('@/core/utils/getSlicedAddress', () => ({
   getSlicedAddress: vi.fn(),
 }));
 
-vi.mock('@/core/network/getChainPublicClient', () => ({
-  ...vi.importActual('@/core/network/getChainPublicClient'),
-  getChainPublicClient: vi.fn(() => publicClient),
-}));
+vi.mock('@/core/network/getChainPublicClient');
 
 vi.mock('./getAddress', () => ({
   getAddress: vi.fn(),
 }));
 
 describe('getName', () => {
-  const mockGetEnsName = publicClient.getEnsName as Mock;
-  const mockReadContract = publicClient.readContract as Mock;
   const mockGetAddress = getAddress as Mock;
   const walletAddress = '0x1234567890123456789012345678901234567890' as Address;
 
+  const mockClient = {
+    getEnsName: vi.fn(),
+    readContract: vi.fn(),
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.mocked(getChainPublicClient).mockReturnValue(mockClient as any);
   });
 
   it('should return ENS name after successful bidirectional validation', async () => {
     const expectedEnsName = 'vitalik.eth';
-    mockGetEnsName.mockResolvedValue(expectedEnsName);
+    mockClient.getEnsName.mockResolvedValue(expectedEnsName);
     mockGetAddress.mockResolvedValue(walletAddress);
 
     const name = await getName({ address: walletAddress });
 
     expect(name).toBe(expectedEnsName);
-    expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
+    expect(mockClient.getEnsName).toHaveBeenCalledWith({
+      address: walletAddress,
+    });
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: expectedEnsName,
     });
@@ -49,14 +50,16 @@ describe('getName', () => {
   it('should return null when forward resolution validation fails', async () => {
     const ensName = 'spoofed.eth';
     const differentAddress = '0xDifferentAddress' as Address;
-    mockGetEnsName.mockResolvedValue(ensName);
+    mockClient.getEnsName.mockResolvedValue(ensName);
 
     mockGetAddress.mockResolvedValue(differentAddress);
 
     const name = await getName({ address: walletAddress });
 
     expect(name).toBeNull();
-    expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
+    expect(mockClient.getEnsName).toHaveBeenCalledWith({
+      address: walletAddress,
+    });
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: ensName,
     });
@@ -64,7 +67,7 @@ describe('getName', () => {
 
   it('should return null when forward resolution returns null', async () => {
     const ensName = 'nonexistent.eth';
-    mockGetEnsName.mockResolvedValue(ensName);
+    mockClient.getEnsName.mockResolvedValue(ensName);
 
     mockGetAddress.mockResolvedValue(null);
 
@@ -76,16 +79,29 @@ describe('getName', () => {
     });
   });
 
+  it('should return null when address is not provided', async () => {
+    const ensName = 'nonexistent.eth';
+    mockClient.getEnsName.mockResolvedValue(ensName);
+
+    mockGetAddress.mockResolvedValue(null);
+
+    const name = await getName({ address: undefined });
+
+    expect(name).toBeNull();
+  });
+
   it('should handle forward resolution validation errors gracefully', async () => {
     const ensName = 'error.eth';
-    mockGetEnsName.mockResolvedValue(ensName);
+    mockClient.getEnsName.mockResolvedValue(ensName);
 
     mockGetAddress.mockRejectedValue(new Error('Forward resolution error'));
 
     const name = await getName({ address: walletAddress });
 
     expect(name).toBeNull();
-    expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
+    expect(mockClient.getEnsName).toHaveBeenCalledWith({
+      address: walletAddress,
+    });
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: ensName,
     });
@@ -93,19 +109,19 @@ describe('getName', () => {
 
   it('should return validated basename on Base chain', async () => {
     const expectedBaseName = 'user.base';
-    mockReadContract.mockResolvedValue(expectedBaseName);
+    mockClient.readContract.mockResolvedValue(expectedBaseName);
 
     mockGetAddress.mockResolvedValue(walletAddress);
 
     const name = await getName({ address: walletAddress, chain: base });
 
     expect(name).toBe(expectedBaseName);
-    expect(mockReadContract).toHaveBeenCalled();
+    expect(mockClient.readContract).toHaveBeenCalled();
     expect(mockGetAddress).toHaveBeenCalledWith({
       name: expectedBaseName,
     });
 
-    expect(mockGetEnsName).not.toHaveBeenCalled();
+    expect(mockClient.getEnsName).not.toHaveBeenCalled();
   });
 
   it('should fallback to ENS when basename validation fails', async () => {
@@ -113,17 +129,17 @@ describe('getName', () => {
     const ensName = 'legitimate.eth';
     const differentAddress = '0xDifferentAddress' as Address;
 
-    mockReadContract.mockResolvedValue(baseName);
+    mockClient.readContract.mockResolvedValue(baseName);
     mockGetAddress.mockResolvedValueOnce(differentAddress);
 
-    mockGetEnsName.mockResolvedValue(ensName);
+    mockClient.getEnsName.mockResolvedValue(ensName);
     mockGetAddress.mockResolvedValueOnce(walletAddress);
 
     const name = await getName({ address: walletAddress, chain: base });
 
     expect(name).toBe(ensName);
-    expect(mockReadContract).toHaveBeenCalled();
-    expect(mockGetEnsName).toHaveBeenCalled();
+    expect(mockClient.readContract).toHaveBeenCalled();
+    expect(mockClient.getEnsName).toHaveBeenCalled();
     expect(mockGetAddress).toHaveBeenCalledTimes(2);
   });
 
@@ -132,10 +148,10 @@ describe('getName', () => {
     const ensName = 'also-spoofed.eth';
     const differentAddress = '0xDifferentAddress' as Address;
 
-    mockReadContract.mockResolvedValue(baseName);
+    mockClient.readContract.mockResolvedValue(baseName);
     mockGetAddress.mockResolvedValueOnce(differentAddress);
 
-    mockGetEnsName.mockResolvedValue(ensName);
+    mockClient.getEnsName.mockResolvedValue(ensName);
     mockGetAddress.mockResolvedValueOnce(differentAddress);
 
     const name = await getName({ address: walletAddress, chain: base });
@@ -154,23 +170,23 @@ describe('getName', () => {
 
   it('should fallback to ENS when readContract throws an error', async () => {
     const expectedEnsName = 'zizzamia.eth';
-    mockReadContract.mockRejectedValue(new Error('This is an error'));
-    mockGetEnsName.mockResolvedValue(expectedEnsName);
+    mockClient.readContract.mockRejectedValue(new Error('This is an error'));
+    mockClient.getEnsName.mockResolvedValue(expectedEnsName);
     mockGetAddress.mockResolvedValue(walletAddress);
 
     const name = await getName({ address: walletAddress, chain: base });
 
     expect(name).toBe(expectedEnsName);
-    expect(getChainPublicClient).toHaveBeenCalledWith(base);
+    expect(vi.mocked(getChainPublicClient)).toHaveBeenCalledWith(base);
 
-    expect(getChainPublicClient).toHaveBeenLastCalledWith(mainnet);
+    expect(vi.mocked(getChainPublicClient)).toHaveBeenLastCalledWith(mainnet);
   });
 
   it('should validate addresses case-insensitively', async () => {
     const ensName = 'case-insensitive.eth';
     const upperCaseAddress = walletAddress.toUpperCase() as Address;
 
-    mockGetEnsName.mockResolvedValue(ensName);
+    mockClient.getEnsName.mockResolvedValue(ensName);
     mockGetAddress.mockResolvedValue(upperCaseAddress);
 
     const name = await getName({
@@ -185,12 +201,12 @@ describe('getName', () => {
     const ensName = 'user.eth';
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    mockReadContract.mockResolvedValue(baseName);
+    mockClient.readContract.mockResolvedValue(baseName);
     mockGetAddress.mockRejectedValueOnce(
       new Error('Forward resolution verification error'),
     );
 
-    mockGetEnsName.mockResolvedValue(ensName);
+    mockClient.getEnsName.mockResolvedValue(ensName);
     mockGetAddress.mockResolvedValueOnce(walletAddress);
 
     const name = await getName({ address: walletAddress, chain: base });
@@ -201,19 +217,21 @@ describe('getName', () => {
     );
 
     expect(name).toBe(ensName);
-    expect(mockGetEnsName).toHaveBeenCalled();
+    expect(mockClient.getEnsName).toHaveBeenCalled();
     expect(mockGetAddress).toHaveBeenCalledTimes(2);
 
     consoleSpy.mockRestore();
   });
 
   it('should return null when ENS resolution throws an error', async () => {
-    mockGetEnsName.mockRejectedValue(new Error('ENS resolution error'));
+    mockClient.getEnsName.mockRejectedValue(new Error('ENS resolution error'));
 
     const name = await getName({ address: walletAddress });
 
     expect(name).toBeNull();
-    expect(mockGetEnsName).toHaveBeenCalledWith({ address: walletAddress });
+    expect(mockClient.getEnsName).toHaveBeenCalledWith({
+      address: walletAddress,
+    });
     expect(mockGetAddress).not.toHaveBeenCalled();
   });
 });

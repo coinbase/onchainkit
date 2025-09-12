@@ -1,4 +1,4 @@
-import { publicClient } from '@/core/network/client';
+import { getChainPublicClient } from '@/core/network/getChainPublicClient';
 import type { Address } from 'viem';
 import { base, mainnet, optimism } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -10,16 +10,11 @@ import { getAddress } from './getAddress';
 import { getAddresses } from './getAddresses';
 import { getNames } from './getNames';
 
-vi.mock('@/core/network/client');
-
 vi.mock('@/core/utils/getSlicedAddress', () => ({
   getSlicedAddress: vi.fn(),
 }));
 
-vi.mock('@/core/network/getChainPublicClient', () => ({
-  ...vi.importActual('@/core/network/getChainPublicClient'),
-  getChainPublicClient: vi.fn(() => publicClient),
-}));
+vi.mock('@/core/network/getChainPublicClient');
 
 vi.mock('./convertReverseNodeToBytes', () => ({
   convertReverseNodeToBytes: vi.fn((address) => `${address}-bytes`),
@@ -34,8 +29,6 @@ vi.mock('./getAddresses', () => ({
 }));
 
 describe('getNames', () => {
-  const mockGetEnsName = publicClient.getEnsName as Mock;
-  const mockMulticall = publicClient.multicall as Mock;
   const mockGetAddress = getAddress as Mock;
   const mockGetAddresses = getAddresses as Mock;
   const walletAddresses = [
@@ -44,8 +37,16 @@ describe('getNames', () => {
     '0x3456789012345678901234567890123456789012',
   ] as Address[];
 
+  const mockClient = {
+    getEnsName: vi.fn(),
+    readContract: vi.fn(),
+    multicall: vi.fn(),
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.mocked(getChainPublicClient).mockReturnValue(mockClient as any);
 
     mockGetAddress.mockImplementation(({ name }) => {
       if (name?.includes('user1')) {
@@ -85,7 +86,7 @@ describe('getNames', () => {
 
   it('should fetch ENS names for multiple addresses on mainnet', async () => {
     const expectedEnsNames = ['user1.eth', 'user2.eth', null];
-    mockGetEnsName.mockImplementation((params) => {
+    mockClient.getEnsName.mockImplementation((params) => {
       const index = walletAddresses.findIndex(
         (addr) => addr === params.address,
       );
@@ -95,17 +96,19 @@ describe('getNames', () => {
     const names = await getNames({ addresses: walletAddresses });
 
     expect(names).toEqual(['user1.eth', 'user2.eth', null]);
-    expect(mockGetEnsName).toHaveBeenCalledTimes(3);
+    expect(mockClient.getEnsName).toHaveBeenCalledTimes(3);
     expect(mockGetAddresses).toHaveBeenCalledTimes(1);
     walletAddresses.forEach((address, index) => {
-      expect(mockGetEnsName).toHaveBeenNthCalledWith(index + 1, { address });
+      expect(mockClient.getEnsName).toHaveBeenNthCalledWith(index + 1, {
+        address,
+      });
     });
   });
 
   it('should fetch Basenames for multiple addresses on Base chain', async () => {
     const expectedBaseNames = ['user1.base', 'user2.base', 'user3.base'];
 
-    mockMulticall.mockResolvedValue(
+    mockClient.multicall.mockResolvedValue(
       expectedBaseNames.map((name) => ({
         status: 'success',
         result: name,
@@ -118,9 +121,9 @@ describe('getNames', () => {
     });
 
     expect(names).toEqual(expectedBaseNames);
-    expect(mockMulticall).toHaveBeenCalledTimes(1);
+    expect(mockClient.multicall).toHaveBeenCalledTimes(1);
     expect(mockGetAddresses).toHaveBeenCalledTimes(1);
-    expect(mockMulticall).toHaveBeenCalledWith({
+    expect(mockClient.multicall).toHaveBeenCalledWith({
       contracts: walletAddresses.map((address) => ({
         address: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
         abi: L2ResolverAbi,
@@ -138,9 +141,9 @@ describe('getNames', () => {
       { status: 'failure', result: null },
     ];
 
-    mockMulticall.mockResolvedValue(baseResults);
+    mockClient.multicall.mockResolvedValue(baseResults);
 
-    mockGetEnsName.mockImplementation((params) => {
+    mockClient.getEnsName.mockImplementation((params) => {
       if (params.address === walletAddresses[2]) {
         return Promise.resolve('user3.eth');
       }
@@ -153,19 +156,19 @@ describe('getNames', () => {
     });
 
     expect(names).toEqual(['user1.base', 'user2.base', 'user3.eth']);
-    expect(mockMulticall).toHaveBeenCalledTimes(1);
-    expect(mockGetEnsName).toHaveBeenCalledTimes(1);
+    expect(mockClient.multicall).toHaveBeenCalledTimes(1);
+    expect(mockClient.getEnsName).toHaveBeenCalledTimes(1);
     expect(mockGetAddresses).toHaveBeenCalledTimes(2);
-    expect(mockGetEnsName).toHaveBeenCalledWith({
+    expect(mockClient.getEnsName).toHaveBeenCalledWith({
       address: walletAddresses[2],
     });
   });
 
   it('should handle multicall errors gracefully and fall back to ENS', async () => {
-    mockMulticall.mockRejectedValue(new Error('Multicall failed'));
+    mockClient.multicall.mockRejectedValue(new Error('Multicall failed'));
 
     const expectedEnsNames = ['user1.eth', 'user2.eth', 'user3.eth'];
-    mockGetEnsName.mockImplementation((params) => {
+    mockClient.getEnsName.mockImplementation((params) => {
       const index = walletAddresses.findIndex(
         (addr) => addr === params.address,
       );
@@ -178,8 +181,8 @@ describe('getNames', () => {
     });
 
     expect(names).toEqual(expectedEnsNames);
-    expect(mockMulticall).toHaveBeenCalledTimes(1);
-    expect(mockGetEnsName).toHaveBeenCalledTimes(3);
+    expect(mockClient.multicall).toHaveBeenCalledTimes(1);
+    expect(mockClient.getEnsName).toHaveBeenCalledTimes(3);
     expect(mockGetAddresses).toHaveBeenCalledTimes(1);
   });
 
@@ -193,23 +196,23 @@ describe('getNames', () => {
       'ChainId not supported, name resolution is only supported on Ethereum and Base.',
     );
 
-    expect(mockGetEnsName).not.toHaveBeenCalled();
-    expect(mockMulticall).not.toHaveBeenCalled();
+    expect(mockClient.getEnsName).not.toHaveBeenCalled();
+    expect(mockClient.multicall).not.toHaveBeenCalled();
     expect(mockGetAddresses).not.toHaveBeenCalled();
   });
 
   it('should handle ENS resolution errors gracefully', async () => {
-    mockGetEnsName.mockRejectedValue(new Error('ENS resolution failed'));
+    mockClient.getEnsName.mockRejectedValue(new Error('ENS resolution failed'));
 
     const names = await getNames({ addresses: walletAddresses });
 
     expect(names).toEqual([null, null, null]);
-    expect(mockGetEnsName).toHaveBeenCalledTimes(3);
+    expect(mockClient.getEnsName).toHaveBeenCalledTimes(3);
     expect(mockGetAddresses).not.toHaveBeenCalled();
   });
 
   it('should handle partial ENS resolution failures', async () => {
-    mockGetEnsName.mockImplementation((params) => {
+    mockClient.getEnsName.mockImplementation((params) => {
       if (params.address === walletAddresses[0]) {
         return Promise.resolve('user1.eth');
       }
@@ -226,7 +229,7 @@ describe('getNames', () => {
     const names = await getNames({ addresses: walletAddresses });
 
     expect(names).toEqual(['user1.eth', null, 'user3.eth']);
-    expect(mockGetEnsName).toHaveBeenCalledTimes(3);
+    expect(mockClient.getEnsName).toHaveBeenCalledTimes(3);
     expect(mockGetAddresses).toHaveBeenCalledTimes(1);
     expect(consoleSpy).toHaveBeenCalled();
 
@@ -257,7 +260,7 @@ describe('getNames', () => {
   it('should filter Basenames that fail forward resolution verification', async () => {
     const expectedBaseNames = ['user1.base', 'user2.base', 'user3.base'];
 
-    mockMulticall.mockResolvedValue(
+    mockClient.multicall.mockResolvedValue(
       expectedBaseNames.map((name) => ({
         status: 'success',
         result: name,
@@ -291,7 +294,7 @@ describe('getNames', () => {
 
     expect(names).toEqual(['user1.base', null, 'user3.base']);
     expect(mockGetAddresses).toHaveBeenCalledTimes(1);
-    expect(mockGetEnsName).toHaveBeenCalledTimes(1);
+    expect(mockClient.getEnsName).toHaveBeenCalledTimes(1);
 
     consoleSpy.mockRestore();
   });
@@ -299,7 +302,7 @@ describe('getNames', () => {
   it('should filter ENS names that fail forward resolution verification', async () => {
     const expectedEnsNames = ['user1.eth', 'user2.eth', 'user3.eth'];
 
-    mockGetEnsName.mockImplementation((params) => {
+    mockClient.getEnsName.mockImplementation((params) => {
       const index = walletAddresses.findIndex(
         (addr) => addr === params.address,
       );
@@ -338,7 +341,7 @@ describe('getNames', () => {
   });
 
   it('should handle errors in Basename forward resolution', async () => {
-    mockMulticall.mockResolvedValue([
+    mockClient.multicall.mockResolvedValue([
       { status: 'success', result: 'user1.base' },
       { status: 'success', result: 'user2.base' },
       { status: 'success', result: 'user3.base' },
@@ -371,7 +374,7 @@ describe('getNames', () => {
   });
 
   it('should handle errors in ENS forward resolution', async () => {
-    mockGetEnsName.mockImplementation((params) => {
+    mockClient.getEnsName.mockImplementation((params) => {
       const index = walletAddresses.findIndex(
         (addr) => addr === params.address,
       );
@@ -400,7 +403,7 @@ describe('getNames', () => {
   });
 
   it('should handle null addresses from forward resolution', async () => {
-    mockGetEnsName.mockImplementation((params) => {
+    mockClient.getEnsName.mockImplementation((params) => {
       const index = walletAddresses.findIndex(
         (addr) => addr === params.address,
       );

@@ -1,5 +1,6 @@
 import { getNewReactQueryTestProvider } from '@/identity/hooks/getNewReactQueryTestProvider';
 import { renderHook, waitFor } from '@testing-library/react';
+import { act } from 'react';
 import { type Chain, parseEther, parseUnits } from 'viem';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount, useConfig, useSwitchChain, useWriteContract } from 'wagmi';
@@ -92,24 +93,32 @@ describe('useDeposit', () => {
   });
 
   it('should switch chain if not on correct network', async () => {
-    const { result } = renderHook(() => useDeposit(), { wrapper });
-    await result.current.deposit({
-      config: mockAppchainConfig,
-      from: { ...mockChain, id: 2 },
-      bridgeParams: mockBridgeParams,
+    const { result } = await act(async () =>
+      renderHook(() => useDeposit(), { wrapper }),
+    );
+    await act(async () => {
+      await result.current.deposit({
+        config: mockAppchainConfig,
+        from: { ...mockChain, id: 2 },
+        bridgeParams: mockBridgeParams,
+      });
     });
     expect(mockSwitchChainAsync).toHaveBeenCalledWith({ chainId: 2 });
   });
 
   it('should handle native ETH deposits correctly', async () => {
-    const { result } = renderHook(() => useDeposit(), { wrapper });
-    await result.current.deposit({
-      config: mockAppchainConfig,
-      from: mockChain,
-      bridgeParams: {
-        ...mockBridgeParams,
-        token: { ...mockBridgeParams.token, address: '' },
-      },
+    const { result } = await act(async () =>
+      renderHook(() => useDeposit(), { wrapper }),
+    );
+    await act(async () => {
+      await result.current.deposit({
+        config: mockAppchainConfig,
+        from: mockChain,
+        bridgeParams: {
+          ...mockBridgeParams,
+          token: { ...mockBridgeParams.token, address: '' },
+        },
+      });
     });
     expect(mockWriteContractAsync).toHaveBeenCalledWith({
       abi: expect.any(Array),
@@ -122,11 +131,15 @@ describe('useDeposit', () => {
   });
 
   it('should handle ERC20 deposits correctly', async () => {
-    const { result } = renderHook(() => useDeposit(), { wrapper });
-    await result.current.deposit({
-      config: mockAppchainConfig,
-      from: mockChain,
-      bridgeParams: mockBridgeParams,
+    const { result } = await act(async () =>
+      renderHook(() => useDeposit(), { wrapper }),
+    );
+    await act(async () => {
+      await result.current.deposit({
+        config: mockAppchainConfig,
+        from: mockChain,
+        bridgeParams: mockBridgeParams,
+      });
     });
     expect(mockWriteContractAsync).toHaveBeenCalledWith({
       abi: expect.any(Array),
@@ -153,15 +166,19 @@ describe('useDeposit', () => {
   });
 
   it('should update status correctly through the deposit flow', async () => {
-    const { result } = renderHook(() => useDeposit(), { wrapper });
+    const { result } = await act(async () =>
+      renderHook(() => useDeposit(), { wrapper }),
+    );
     expect(result.current.depositStatus).toBe('idle');
-    await result.current.deposit({
-      config: mockAppchainConfig,
-      from: mockChain,
-      bridgeParams: {
-        ...mockBridgeParams,
-        token: { ...mockBridgeParams.token, address: '' },
-      },
+    await act(async () => {
+      await result.current.deposit({
+        config: mockAppchainConfig,
+        from: mockChain,
+        bridgeParams: {
+          ...mockBridgeParams,
+          token: { ...mockBridgeParams.token, address: '' },
+        },
+      });
     });
     await waitFor(() => {
       expect(result.current.depositStatus).toBe('depositSuccess');
@@ -169,43 +186,57 @@ describe('useDeposit', () => {
   });
 
   it('should expose transaction hash', async () => {
-    const { result } = renderHook(() => useDeposit(), { wrapper });
-    await result.current.deposit({
-      config: mockAppchainConfig,
-      from: mockChain,
-      bridgeParams: {
-        ...mockBridgeParams,
-        token: { ...mockBridgeParams.token, address: '' },
-      },
+    const { result } = await act(async () =>
+      renderHook(() => useDeposit(), { wrapper }),
+    );
+    await act(async () => {
+      await result.current.deposit({
+        config: mockAppchainConfig,
+        from: mockChain,
+        bridgeParams: {
+          ...mockBridgeParams,
+          token: { ...mockBridgeParams.token, address: '' },
+        },
+      });
     });
     expect(result.current.transactionHash).toBe('0xmocktxhash');
   });
 
-  it('should reset deposit status when called', () => {
-    const { result } = renderHook(() => useDeposit(), { wrapper });
+  it('should reset deposit status when called', async () => {
+    const { result } = await act(async () =>
+      renderHook(() => useDeposit(), { wrapper }),
+    );
 
     // Set some non-idle status first
-    result.current.deposit({
-      config: mockAppchainConfig,
-      from: mockChain,
-      bridgeParams: mockBridgeParams,
+    await act(async () => {
+      await result.current.deposit({
+        config: mockAppchainConfig,
+        from: mockChain,
+        bridgeParams: mockBridgeParams,
+      });
     });
 
     // Reset status
-    result.current.resetDepositStatus();
+    await act(async () => {
+      result.current.resetDepositStatus();
+    });
 
     expect(result.current.depositStatus).toBe('idle');
   });
 
   it('should throw error if remote token address is missing for ERC20', async () => {
-    const { result } = renderHook(() => useDeposit(), { wrapper });
-    await result.current.deposit({
-      config: mockAppchainConfig,
-      from: mockChain,
-      bridgeParams: {
-        ...mockBridgeParams,
-        token: { ...mockBridgeParams.token, remoteToken: undefined },
-      },
+    const { result } = await act(async () =>
+      renderHook(() => useDeposit(), { wrapper }),
+    );
+    await act(async () => {
+      await result.current.deposit({
+        config: mockAppchainConfig,
+        from: mockChain,
+        bridgeParams: {
+          ...mockBridgeParams,
+          token: { ...mockBridgeParams.token, remoteToken: undefined },
+        },
+      });
     });
     await waitFor(() => {
       expect(result.current.depositStatus).toBe('error');
@@ -221,11 +252,15 @@ describe('useDeposit', () => {
     };
     mockWriteContractAsync.mockRejectedValue(mockError);
 
-    const { result } = renderHook(() => useDeposit(), { wrapper });
-    await result.current.deposit({
-      config: mockAppchainConfig,
-      from: mockChain,
-      bridgeParams: mockBridgeParams,
+    const { result } = await act(async () =>
+      renderHook(() => useDeposit(), { wrapper }),
+    );
+    await act(async () => {
+      await result.current.deposit({
+        config: mockAppchainConfig,
+        from: mockChain,
+        bridgeParams: mockBridgeParams,
+      });
     });
 
     await waitFor(() => {
@@ -240,11 +275,15 @@ describe('useDeposit', () => {
     };
     mockWriteContractAsync.mockRejectedValue(mockError);
 
-    const { result } = renderHook(() => useDeposit(), { wrapper });
-    await result.current.deposit({
-      config: mockAppchainConfig,
-      from: mockChain,
-      bridgeParams: mockBridgeParams,
+    const { result } = await act(async () =>
+      renderHook(() => useDeposit(), { wrapper }),
+    );
+    await act(async () => {
+      await result.current.deposit({
+        config: mockAppchainConfig,
+        from: mockChain,
+        bridgeParams: mockBridgeParams,
+      });
     });
 
     await waitFor(() => {
@@ -253,14 +292,18 @@ describe('useDeposit', () => {
   });
 
   it('should handle custom gas token deposits correctly', async () => {
-    const { result } = renderHook(() => useDeposit(), { wrapper });
-    await result.current.deposit({
-      config: mockAppchainConfig,
-      from: mockChain,
-      bridgeParams: {
-        ...mockBridgeParams,
-        token: { ...mockBridgeParams.token, isCustomGasToken: true },
-      },
+    const { result } = await act(async () =>
+      renderHook(() => useDeposit(), { wrapper }),
+    );
+    await act(async () => {
+      await result.current.deposit({
+        config: mockAppchainConfig,
+        from: mockChain,
+        bridgeParams: {
+          ...mockBridgeParams,
+          token: { ...mockBridgeParams.token, isCustomGasToken: true },
+        },
+      });
     });
 
     expect(mockWriteContractAsync).toHaveBeenCalledWith({

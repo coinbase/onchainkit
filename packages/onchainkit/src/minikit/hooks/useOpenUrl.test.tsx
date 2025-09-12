@@ -1,11 +1,11 @@
-import sdk from '@farcaster/frame-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 import { renderHook } from '@testing-library/react';
 import { act } from 'react';
 import { type Mock, afterEach, describe, expect, it, vi } from 'vitest';
 import { useMiniKit } from './useMiniKit';
 import { useOpenUrl } from './useOpenUrl';
 
-vi.mock('@farcaster/frame-sdk', () => ({
+vi.mock('@farcaster/miniapp-sdk', () => ({
   default: {
     actions: {
       openUrl: vi.fn(),

@@ -9,6 +9,7 @@ import DemoOptions from './DemoOptions';
 import BuyDemo from './demo/Buy';
 import CheckoutDemo from './demo/Checkout';
 import FundButtonDemo from './demo/FundButton';
+import FundButtonWithRenderPropDemo from './demo/FundButtonWithRenderProp';
 import FundCardDemo from './demo/FundCard';
 import IdentityDemo from './demo/Identity';
 import { IdentityCardDemo } from './demo/IdentityCard';
@@ -21,6 +22,7 @@ import SwapDemo from './demo/Swap';
 import SwapDefaultDemo from './demo/SwapDefault';
 import TransactionDemo from './demo/Transaction';
 import TransactionDefaultDemo from './demo/TransactionDefault';
+import TransactionWithRenderPropDemo from './demo/TransactionWithRenderProp';
 import WalletDemo from './demo/Wallet';
 import WalletAdvancedDefaultDemo from './demo/WalletAdvancedDefault';
 import WalletDefaultDemo from './demo/WalletDefault';
@@ -28,10 +30,13 @@ import WalletIslandDemo from './demo/WalletIsland';
 
 const activeComponentMapping: Record<OnchainKitComponent, React.FC> = {
   [OnchainKitComponent.FundButton]: FundButtonDemo,
+  [OnchainKitComponent.FundButtonWithRenderProp]: FundButtonWithRenderPropDemo,
   [OnchainKitComponent.FundCard]: FundCardDemo,
   [OnchainKitComponent.Buy]: BuyDemo,
   [OnchainKitComponent.Identity]: IdentityDemo,
   [OnchainKitComponent.Transaction]: TransactionDemo,
+  [OnchainKitComponent.TransactionWithRenderProp]:
+    TransactionWithRenderPropDemo,
   [OnchainKitComponent.Checkout]: CheckoutDemo,
   [OnchainKitComponent.Swap]: SwapDemo,
   [OnchainKitComponent.SwapDefault]: SwapDefaultDemo,
@@ -92,7 +97,7 @@ export default function Demo() {
     <>
       <div
         className={cn(
-          'absolute top-0 right-0 bottom-0 left-0 z-20 flex w-full min-w-80 flex-col border-r bg-background p-6 transition-[height] sm:static sm:z-0 sm:w-1/4',
+          'absolute top-0 right-0 bottom-0 left-0 z-20 flex w-full min-w-80 flex-col border-r bg-ock-background p-6 transition-[height] sm:static sm:z-0 sm:w-1/4',
           sideBarVisible ? 'h-full min-h-screen' : 'h-20 overflow-hidden',
         )}
       >

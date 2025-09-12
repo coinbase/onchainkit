@@ -1,4 +1,5 @@
-import sdk, { type SetPrimaryButtonOptions } from '@farcaster/frame-sdk';
+'use client';
+import sdk, { type SetPrimaryButtonOptions } from '@farcaster/miniapp-sdk';
 import { useEffect } from 'react';
 
 /**

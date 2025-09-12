@@ -1,15 +1,12 @@
-import { publicClient } from '@/core/network/client';
 import { renderHook, waitFor } from '@testing-library/react';
 import { base, baseSepolia } from 'viem/chains';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 import { useAddress } from './useAddress';
+import { getAddress } from '@/identity/utils/getAddress';
 
-vi.mock('@/core/network/client');
-
-vi.mock('@/core/network/getChainPublicClient', () => ({
-  ...vi.importActual('@/core/network/getChainPublicClient'),
-  getChainPublicClient: vi.fn(() => publicClient),
+vi.mock('@/identity/utils/getAddress', () => ({
+  getAddress: vi.fn(),
 }));
 
 const mockUseQuery = vi.fn();
@@ -36,8 +33,6 @@ vi.mock('@tanstack/react-query', async () => {
 });
 
 describe('useAddress', () => {
-  const mockGetEnsAddress = publicClient.getEnsAddress as Mock;
-
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseQuery.mockClear();
@@ -46,7 +41,7 @@ describe('useAddress', () => {
   it('should return the correct address and loading state', async () => {
     const testEnsName = 'test.ens';
     const testEnsAddress = '0x1234';
-    mockGetEnsAddress.mockResolvedValue(testEnsAddress);
+    vi.mocked(getAddress).mockResolvedValue(testEnsAddress);
     const { result } = renderHook(() => useAddress({ name: testEnsName }), {
       wrapper: getNewReactQueryTestProvider(),
     });
@@ -70,7 +65,7 @@ describe('useAddress', () => {
   it('should return correct base mainnet address', async () => {
     const testEnsName = 'shrek.base.eth';
     const testEnsAddress = '0x1234';
-    mockGetEnsAddress.mockResolvedValue(testEnsAddress);
+    vi.mocked(getAddress).mockResolvedValue(testEnsAddress);
     const { result } = renderHook(
       () => useAddress({ name: testEnsName, chain: base }),
       {
@@ -86,7 +81,7 @@ describe('useAddress', () => {
   it('should return correct base sepolia address', async () => {
     const testEnsName = 'shrek.basetest.eth';
     const testEnsAddress = '0x1234';
-    mockGetEnsAddress.mockResolvedValue(testEnsAddress);
+    vi.mocked(getAddress).mockResolvedValue(testEnsAddress);
     const { result } = renderHook(
       () => useAddress({ name: testEnsName, chain: baseSepolia }),
       {
@@ -104,7 +99,7 @@ describe('useAddress', () => {
     const testAddress = '0x1234';
     const mockCacheTime = 60000;
 
-    mockGetEnsAddress.mockResolvedValue(testAddress);
+    vi.mocked(getAddress).mockResolvedValue(testAddress);
 
     renderHook(
       () => useAddress({ name: testName }, { cacheTime: mockCacheTime }),

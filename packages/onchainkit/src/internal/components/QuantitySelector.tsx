@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import { TextInput } from '../../internal/components/TextInput';
-import { background, border, cn, color, pressable } from '../../styles/theme';
+import { TextInput } from '@/internal/components/TextInput';
+import { cn, pressable, prefixClassName } from '@/styles/theme';
 
 export const DELAY_MS = 200;
 
@@ -70,12 +70,14 @@ export function QuantitySelector({
     }
   }, [onChange, minQuantity, value]);
 
-  const classNames = cn(
-    'h-11 w-11 rounded-lg border',
-    border.defaultActive,
-    color.foreground,
-    background.default,
-    disabled && pressable.disabled,
+  const classNames = prefixClassName(
+    cn(
+      'h-11 w-11 rounded-lg border',
+      'border-ock-background-active',
+      'text-ock-foreground',
+      'bg-ock-background',
+      disabled && pressable.disabled,
+    ),
   );
 
   return (
@@ -99,7 +101,7 @@ export function QuantitySelector({
         aria-label="quantity"
         className={cn(
           classNames,
-          'w-full text-center hover:bg-[var(--ock-bg-default-hover)] focus:bg-transparent',
+          'w-full text-center hover:bg-ock-background-hover focus:bg-transparent',
         )}
         delayMs={DELAY_MS}
         disabled={disabled}

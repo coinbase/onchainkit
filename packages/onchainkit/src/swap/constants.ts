@@ -13,19 +13,29 @@ export const UNIVERSALROUTER_CONTRACT_ADDRESS =
 export const USER_REJECTED_ERROR_CODE = 'USER_REJECTED';
 export const UNSUPPORTED_AMOUNT_REFERENCE_ERROR_CODE =
   'UNSUPPORTED_AMOUNT_REFERENCE_ERROR';
-export enum SwapMessage {
-  BALANCE_ERROR = 'Error fetching token balance',
-  CONFIRM_IN_WALLET = 'Confirm in wallet',
-  FETCHING_QUOTE = 'Fetching quote...',
-  FETCHING_BALANCE = 'Fetching balance...',
-  INCOMPLETE_FIELD = 'Complete the fields to continue',
-  INSUFFICIENT_BALANCE = 'Insufficient balance',
-  LOW_LIQUIDITY = 'Insufficient liquidity for this trade.',
-  SWAP_IN_PROGRESS = 'Swap in progress...',
-  TOO_MANY_REQUESTS = 'Too many requests. Please try again later.',
-  USER_REJECTED = 'User rejected the transaction',
-  UNSUPPORTED_AMOUNT_REFERENCE = 'useAggregator does not support amountReference: to, please use useAggregator: false',
-}
+export const SwapMessage = {
+  BALANCE_ERROR: 'Error fetching token balance',
+  CONFIRM_IN_WALLET: 'Confirm in wallet',
+  FETCHING_QUOTE: 'Fetching quote...',
+  FETCHING_BALANCE: 'Fetching balance...',
+  INCOMPLETE_FIELD: 'Complete the fields to continue',
+  INSUFFICIENT_BALANCE: 'Insufficient balance',
+  LOW_LIQUIDITY: 'Insufficient liquidity for this trade.',
+  SWAP_IN_PROGRESS: 'Swap in progress...',
+  TOO_MANY_REQUESTS: 'Too many requests. Please try again later.',
+  USER_REJECTED: 'User rejected the transaction',
+  UNSUPPORTED_AMOUNT_REFERENCE:
+    'useAggregator does not support amountReference: to, please use useAggregator: false',
+} as const;
+export type SwapMessageType = (typeof SwapMessage)[keyof typeof SwapMessage];
+
+export const SLIPPAGE_SETTINGS = {
+  AUTO: 'Auto',
+  CUSTOM: 'Custom',
+} as const;
+
+export type SlippageSettingsType =
+  (typeof SLIPPAGE_SETTINGS)[keyof typeof SLIPPAGE_SETTINGS];
 
 export const ONRAMP_PAYMENT_METHODS = [
   {

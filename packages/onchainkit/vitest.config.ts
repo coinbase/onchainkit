@@ -21,6 +21,7 @@ export default defineConfig({
         'node_modules/**',
         'onchainkit/esm/**',
         '**/**.test.tsx',
+        'postcss.config.mjs',
       ],
       reportOnFailure: true,
       thresholds: {

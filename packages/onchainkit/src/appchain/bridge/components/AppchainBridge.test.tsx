@@ -101,10 +101,6 @@ vi.mock('wagmi/actions', () => ({
   readContract: vi.fn(),
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 vi.mock('@/internal/hooks/useIsMounted', () => ({
   useIsMounted: vi.fn(() => true),
 }));

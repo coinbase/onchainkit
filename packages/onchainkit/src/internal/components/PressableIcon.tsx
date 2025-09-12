@@ -1,18 +1,18 @@
-import { border, cn, pressable } from '@/styles/theme';
+import { cn, pressable } from '@/styles/theme';
 import type { ReactNode } from 'react';
 
 type PressableIconProps = {
   children: ReactNode;
   className?: string;
   onClick?: () => void;
-  ariaLabel?: string;
+  'aria-label'?: string;
 };
 
 export function PressableIcon({
   children,
   className,
   onClick,
-  ariaLabel,
+  'aria-label': ariaLabel,
 }: PressableIconProps) {
   return (
     <button
@@ -22,8 +22,8 @@ export function PressableIcon({
       aria-label={ariaLabel}
       className={cn(
         pressable.default,
-        border.radiusInner,
-        border.default,
+        'rounded-ock-inner',
+        'border-ock-background',
         'flex items-center justify-center',
         className,
       )}

@@ -5,7 +5,7 @@ export const useDebounce = <T extends (...args: never[]) => void>(
   delay: number,
 ) => {
   const callbackRef = useRef(callback);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useLayoutEffect(() => {
     callbackRef.current = callback;

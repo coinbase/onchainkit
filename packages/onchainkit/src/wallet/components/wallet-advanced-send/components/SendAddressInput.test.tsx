@@ -64,7 +64,7 @@ describe('SendAddressInput', () => {
         placeholder: 'Basename, ENS, or Address',
         'aria-label': 'Input Receiver Address',
       }),
-      {},
+      undefined,
     );
   });
 
@@ -85,7 +85,7 @@ describe('SendAddressInput', () => {
       expect.objectContaining({
         value: 'test.base.eth',
       }),
-      {},
+      undefined,
     );
   });
 
@@ -106,7 +106,7 @@ describe('SendAddressInput', () => {
       expect.objectContaining({
         value: '0x1234567890123456789012345678901234567890',
       }),
-      {},
+      undefined,
     );
   });
 

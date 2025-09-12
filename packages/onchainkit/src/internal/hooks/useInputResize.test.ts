@@ -47,7 +47,7 @@ describe('useInputResize', () => {
     inputRef = { current: input };
     measureRef = { current: measure };
     labelRef = { current: label };
-    nullRef = { current: null };
+    nullRef = { current: null as unknown as HTMLDivElement };
 
     // Mock ResizeObserver
     resizeObserver = {

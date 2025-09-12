@@ -1,19 +1,19 @@
-import { background, border, cn } from '../../styles/theme';
+import { cn } from '@/styles/theme';
 
-type SkeletonReact = {
+type SkeletonProps = {
   className?: string;
 };
 
 /**
  * A skeleton component is a visual placeholder that mimics the content of an element while it's loading
  */
-export function Skeleton({ className }: SkeletonReact) {
+export function Skeleton({ className }: SkeletonProps) {
   return (
     <div
       className={cn(
         'animate-pulse bg-opacity-50',
-        background.alternate,
-        border.radius,
+        'bg-ock-background-alternate',
+        'rounded-ock-default',
         className,
       )}
       data-testid="ockSkeleton"

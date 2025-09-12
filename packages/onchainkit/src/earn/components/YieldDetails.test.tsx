@@ -8,10 +8,6 @@ vi.mock('./EarnProvider', () => ({
   useEarnContext: vi.fn(),
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 describe('YieldDetails', () => {
   const mockUseEarnContext = useEarnContext as Mock;
 

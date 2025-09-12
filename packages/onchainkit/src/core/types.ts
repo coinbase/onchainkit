@@ -1,5 +1,6 @@
 import type { EASSchemaUid } from '@/identity/types';
-import type { Address, Chain } from 'viem';
+import { MiniKitOptions } from '@/minikit/types';
+import type { Chain, PublicClient } from 'viem';
 import type { CreateConnectorFn } from 'wagmi';
 import { type CoinbaseWalletParameters } from 'wagmi/connectors';
 
@@ -28,8 +29,6 @@ export type AppConfig = {
     display?: ConnectWalletDisplay | null;
     /** Preference for the type of wallet to display for the Coinbase connector. Defaults to 'all' */
     preference?: Extract<CoinbaseWalletParameters<'4'>['preference'], string>;
-    /** Enable/disable sign up in the wallet modal. Defaults to true*/
-    signUpEnabled?: boolean;
     /** URL to the terms of service for the wallet modal */
     termsUrl?: string | null;
     /** URL to the privacy policy for the wallet modal */
@@ -61,32 +60,22 @@ export type CreateWagmiConfigParams = {
 /**
  * Note: exported as public Type
  */
-export type IsBaseOptions = {
+export type IsBaseParams = {
   /** Chain ID for the network */
   chainId: number;
   /** If the chainId check is only allowed on mainnet */
   isMainnetOnly?: boolean;
 };
-
-/**
- * @deprecated Use IsBaseOptions instead
- */
-export type isBaseOptions = IsBaseOptions;
 
 /**
  * Note: exported as public Type
  */
-export type IsEthereumOptions = {
+export type IsEthereumParams = {
   /** Chain ID for the network */
   chainId: number;
   /** If the chainId check is only allowed on mainnet */
   isMainnetOnly?: boolean;
 };
-
-/**
- * @deprecated Use IsEthereumOptions instead
- */
-export type isEthereumOptions = IsEthereumOptions;
 
 export type Mode = 'auto' | 'light' | 'dark';
 
@@ -117,8 +106,6 @@ export type UseThemeReact =
  * Note: exported as public Type
  */
 export type OnchainKitConfig = {
-  /** Address is optional as we may not have an address for new users */
-  address: Address | null;
   /** ApiKey for Coinbase Developer Platform APIs */
   apiKey: string | null;
   /** Chain must be provided as we need to know which chain to use */
@@ -133,9 +120,15 @@ export type OnchainKitConfig = {
   projectId: string | null;
   /** SessionId, used for analytics */
   sessionId: string | null;
+  /** Default Viem public clients to use for fetching onchain data */
+  defaultPublicClients?: {
+    [chainId: number]: PublicClient;
+  };
+  /** MiniKit configuration */
+  miniKit?: MiniKitOptions;
 };
 
-export type SetOnchainKitConfig = Partial<OnchainKitConfig>;
+export type OnchainkitConfigOverrideParams = Partial<OnchainKitConfig>;
 
 /**
  * Note: exported as public Type

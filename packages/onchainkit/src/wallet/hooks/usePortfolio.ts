@@ -1,6 +1,6 @@
 import { getPortfolios } from '@/api/getPortfolios';
 import type { Portfolio } from '@/api/types';
-import { RequestContext } from '@/core/network/constants';
+import { RequestContext, RequestContextType } from '@/core/network/constants';
 import { isApiError } from '@/internal/utils/isApiResponseError';
 import { type UseQueryResult, useQuery } from '@tanstack/react-query';
 import type { Address } from 'viem';
@@ -16,14 +16,15 @@ type UsePortfolioProps = {
  */
 export function usePortfolio(
   { address, enabled = true }: UsePortfolioProps,
-  _context: RequestContext = RequestContext.Hook,
+  _context: RequestContextType = RequestContext.Hook,
 ): UseQueryResult<Portfolio> {
   return useQuery({
     queryKey: ['usePortfolio', address],
     queryFn: async () => {
+      const addressWithType = address as Address; // Safe to coerce to Address because useQuery's enabled flag will prevent the query from running if address is undefined
       const response = await getPortfolios(
         {
-          addresses: [address as Address], // Safe to coerce to Address because useQuery's enabled flag will prevent the query from running if address is undefined
+          addresses: [addressWithType],
         },
         _context,
       );
@@ -34,8 +35,8 @@ export function usePortfolio(
 
       if (response.portfolios.length === 0) {
         return {
-          address,
-          portfolioBalanceUsd: 0,
+          address: addressWithType,
+          portfolioBalanceInUsd: 0,
           tokenBalances: [],
         };
       }

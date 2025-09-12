@@ -1,11 +1,10 @@
 'use client';
 
 import { useOutsideClick } from '@/internal/hooks/useOutsideClick';
-import { useTheme } from '@/internal/hooks/useTheme';
 import { cn } from '@/styles/theme';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '@/swap/constants';
 import { useRef } from 'react';
-import type { BuyReact } from '../types';
+import type { BuyProps } from '../types';
 import { BuyAmountInput } from './BuyAmountInput';
 import { BuyButton } from './BuyButton';
 import { BuyDropdown } from './BuyDropdown';
@@ -13,9 +12,8 @@ import { BuyMessage } from './BuyMessage';
 import { BuyProvider, useBuyContext } from './BuyProvider';
 
 function BuyContent({ className }: { className?: string }) {
-  const componentTheme = useTheme();
   const { isDropdownOpen, setIsDropdownOpen } = useBuyContext();
-  const buyContainerRef = useRef<HTMLDivElement>(null);
+  const buyContainerRef = useRef<HTMLDivElement | null>(null);
 
   useOutsideClick(buyContainerRef, () => {
     if (isDropdownOpen) {
@@ -26,7 +24,7 @@ function BuyContent({ className }: { className?: string }) {
   return (
     <div
       ref={buyContainerRef}
-      className={cn('relative flex flex-col gap-2', componentTheme, className)}
+      className={cn('relative flex flex-col gap-2', className)}
     >
       <div className={cn('flex items-center gap-4')}>
         <BuyAmountInput />
@@ -51,7 +49,7 @@ export function Buy({
   onSuccess,
   toToken,
   fromToken,
-}: BuyReact) {
+}: BuyProps) {
   return (
     <BuyProvider
       config={config}

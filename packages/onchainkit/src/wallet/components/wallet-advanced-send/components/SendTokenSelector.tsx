@@ -1,6 +1,6 @@
 'use client';
 
-import { border, cn, color, pressable, text } from '@/styles/theme';
+import { cn, pressable, text } from '@/styles/theme';
 import { TokenBalance } from '@/token';
 import { formatUnits } from 'viem';
 import { useSendContext } from './SendProvider';
@@ -38,7 +38,9 @@ export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
   if (!selectedToken) {
     return (
       <div className="mt-4 flex max-h-80 flex-col gap-2">
-        <span className={cn(text.caption, color.foregroundMuted, 'uppercase')}>
+        <span
+          className={cn(text.caption, 'text-ock-foreground-muted', 'uppercase')}
+        >
           Select a token
         </span>
         <div className="scrollbar-hidden overflow-y-auto">
@@ -51,7 +53,7 @@ export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
               classNames={{
                 container: cn(
                   pressable.default,
-                  border.radius,
+                  'rounded-ock-default',
                   classNames?.container,
                 ),
                 ...classNames,
@@ -84,7 +86,7 @@ export function SendTokenSelector({ classNames }: SendTokenSelectorProps) {
       classNames={{
         container: cn(
           pressable.alternate,
-          border.radius,
+          'rounded-ock-default',
           classNames?.container,
         ),
         ...classNames,

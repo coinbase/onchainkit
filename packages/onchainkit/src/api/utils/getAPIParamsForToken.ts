@@ -1,4 +1,4 @@
-import { formatDecimals } from '../../swap/utils/formatDecimals';
+import { parseUnits } from 'viem';
 import type {
   APIError,
   BuildSwapTransactionParams,
@@ -47,7 +47,7 @@ export function getAPIParamsForToken(
     to: to.address || 'ETH',
     amount: isAmountInDecimals
       ? amount
-      : formatDecimals(amount, false, decimals),
+      : parseUnits(amount, decimals).toString(),
     amountReference: amountReference || 'from',
   };
 }

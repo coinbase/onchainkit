@@ -2,8 +2,8 @@
 
 import { copyToClipboard } from '@/internal/utils/copyToClipboard';
 import { useState } from 'react';
-import { border, cn, color, pressable, text } from '../../styles/theme';
-import type { AddressReact } from '../types';
+import { cn, pressable, text } from '../../styles/theme';
+import type { AddressProps } from '../types';
 import { getSlicedAddress } from '../utils/getSlicedAddress';
 import { useIdentityContext } from './IdentityProvider';
 
@@ -12,7 +12,7 @@ export function Address({
   className,
   isSliced = true,
   hasCopyAddressOnClick = true,
-}: AddressReact) {
+}: AddressProps) {
   const [copyText, setCopyText] = useState('Copy');
   const { address: contextAddress } = useIdentityContext();
   const accountAddress = address ?? contextAddress;
@@ -33,7 +33,7 @@ export function Address({
     return (
       <span
         data-testid="ockAddress"
-        className={cn(color.foregroundMuted, text.label2, className)}
+        className={cn('text-ock-foreground-muted', text.label2, className)}
       >
         {addressContent}
       </span>
@@ -67,7 +67,7 @@ export function Address({
     <span
       data-testid="ockAddress"
       className={cn(
-        color.foregroundMuted,
+        'text-ock-foreground-muted',
         text.label2,
         className,
         'group relative cursor-pointer',
@@ -84,9 +84,9 @@ export function Address({
         className={cn(
           pressable.alternate,
           text.legal,
-          color.foreground,
-          border.default,
-          border.radius,
+          'text-ock-foreground',
+          'border-ock-background',
+          'rounded-ock-default',
           'absolute top-full left-[0%] z-10 mt-0.5 px-1.5 py-0.5 opacity-0 transition-opacity group-hover:opacity-100',
         )}
         aria-live="polite"

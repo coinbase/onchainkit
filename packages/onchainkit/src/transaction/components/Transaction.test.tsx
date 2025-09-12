@@ -37,10 +37,6 @@ vi.mock('@/useOnchainKit', () => ({
   useOnchainKit: vi.fn(),
 }));
 
-vi.mock('@/internal/hooks/useTheme', () => ({
-  useTheme: vi.fn(),
-}));
-
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
   useConnect: vi.fn(),
@@ -77,7 +73,7 @@ describe('Transaction', () => {
         capabilities={{}}
         chainId={123}
         className="test-class"
-        contracts={[]}
+        calls={[]}
         onError={vi.fn()}
         onSuccess={vi.fn()}
       >
@@ -93,7 +89,7 @@ describe('Transaction', () => {
         capabilities={{}}
         chainId={123}
         className="test-class"
-        contracts={[]}
+        calls={[]}
         onError={vi.fn()}
         onSuccess={vi.fn()}
       >
@@ -114,7 +110,7 @@ describe('Transaction', () => {
         capabilities={{}}
         chainId={123}
         className="test-class"
-        contracts={[]}
+        calls={[]}
         onError={onError}
         onStatus={onStatus}
         onSuccess={onSuccess}
@@ -131,7 +127,7 @@ describe('Transaction', () => {
       <Transaction
         capabilities={{}}
         className="test-class"
-        contracts={[]}
+        calls={[]}
         onError={vi.fn()}
         onSuccess={vi.fn()}
       >
@@ -147,7 +143,7 @@ describe('Transaction', () => {
         capabilities={{}}
         chainId={base.id}
         className="test-class"
-        contracts={[]}
+        calls={[]}
         onError={vi.fn()}
         onSuccess={vi.fn()}
       >
@@ -163,7 +159,7 @@ describe('Transaction', () => {
         capabilities={{}}
         chainId={base.id}
         className="test-class"
-        contracts={[]}
+        calls={[]}
         onError={vi.fn()}
         onSuccess={vi.fn()}
       />,

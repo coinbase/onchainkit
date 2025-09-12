@@ -1,68 +1,72 @@
 import { base, baseSepolia, mainnet, optimism } from 'viem/chains';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { publicClient } from '../../core/network/client';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { getAvatars } from './getAvatars';
 import { getBaseDefaultProfilePicture } from './getBaseDefaultProfilePicture';
 
-vi.mock('@/core/network/client');
-
-vi.mock('@/core/network/getChainPublicClient', () => ({
-  ...vi.importActual('@/core/network/getChainPublicClient'),
-  getChainPublicClient: vi.fn(() => publicClient),
-}));
+vi.mock('@/core/network/getChainPublicClient');
 
 vi.mock('./getBaseDefaultProfilePicture', () => ({
   getBaseDefaultProfilePicture: vi.fn(() => 'default-base-avatar'),
 }));
 
 describe('getAvatars', () => {
-  const mockGetEnsAvatar = publicClient.getEnsAvatar as Mock;
+  const mockClient = {
+    getEnsAvatar: vi.fn(),
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.mocked(getChainPublicClient).mockReturnValue(mockClient as any);
   });
 
   it('should return empty array when ensNames is empty', async () => {
     const result = await getAvatars({ ensNames: [] });
     expect(result).toEqual([]);
-    expect(mockGetEnsAvatar).not.toHaveBeenCalled();
+    expect(mockClient.getEnsAvatar).not.toHaveBeenCalled();
   });
 
   it('should return correct avatar URLs from client getEnsAvatar', async () => {
     const ensNames = ['test1.ens', 'test2.ens'];
     const expectedAvatarUrls = ['avatarUrl1', 'avatarUrl2'];
 
-    mockGetEnsAvatar
+    mockClient.getEnsAvatar
       .mockResolvedValueOnce(expectedAvatarUrls[0])
       .mockResolvedValueOnce(expectedAvatarUrls[1]);
 
     const avatarUrls = await getAvatars({ ensNames });
 
     expect(avatarUrls).toEqual(expectedAvatarUrls);
-    expect(mockGetEnsAvatar).toHaveBeenCalledTimes(2);
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(1, { name: ensNames[0] });
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(2, { name: ensNames[1] });
-    expect(getChainPublicClient).toHaveBeenCalledWith(mainnet);
+    expect(mockClient.getEnsAvatar).toHaveBeenCalledTimes(2);
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(1, {
+      name: ensNames[0],
+    });
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(2, {
+      name: ensNames[1],
+    });
+    expect(vi.mocked(getChainPublicClient)).toHaveBeenCalledWith(mainnet);
   });
 
   it('should handle null avatars correctly', async () => {
     const ensNames = ['test1.ens', 'test2.ens'];
 
-    mockGetEnsAvatar.mockResolvedValueOnce(null).mockResolvedValueOnce(null);
+    mockClient.getEnsAvatar
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(null);
 
     const avatarUrls = await getAvatars({ ensNames });
 
     expect(avatarUrls).toEqual([null, null]);
-    expect(mockGetEnsAvatar).toHaveBeenCalledTimes(2);
+    expect(mockClient.getEnsAvatar).toHaveBeenCalledTimes(2);
   });
 
   it('should resolve base mainnet avatars', async () => {
     const ensNames = ['shrek.base.eth', 'donkey.base.eth'];
     const expectedAvatarUrls = ['shrekface', 'donkeyface'];
 
-    mockGetEnsAvatar
+    mockClient.getEnsAvatar
       .mockResolvedValueOnce(expectedAvatarUrls[0])
       .mockResolvedValueOnce(expectedAvatarUrls[1]);
 
@@ -72,23 +76,23 @@ describe('getAvatars', () => {
     });
 
     expect(avatarUrls).toEqual(expectedAvatarUrls);
-    expect(mockGetEnsAvatar).toHaveBeenCalledTimes(2);
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(1, {
+    expect(mockClient.getEnsAvatar).toHaveBeenCalledTimes(2);
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(1, {
       name: ensNames[0],
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
     });
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(2, {
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(2, {
       name: ensNames[1],
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
     });
-    expect(getChainPublicClient).toHaveBeenCalledWith(base);
+    expect(vi.mocked(getChainPublicClient)).toHaveBeenCalledWith(base);
   });
 
   it('should resolve base sepolia avatars', async () => {
     const ensNames = ['shrek.basetest.eth', 'donkey.basetest.eth'];
     const expectedAvatarUrls = ['shrektestface', 'donkeytestface'];
 
-    mockGetEnsAvatar
+    mockClient.getEnsAvatar
       .mockResolvedValueOnce(expectedAvatarUrls[0])
       .mockResolvedValueOnce(expectedAvatarUrls[1]);
 
@@ -98,23 +102,23 @@ describe('getAvatars', () => {
     });
 
     expect(avatarUrls).toEqual(expectedAvatarUrls);
-    expect(mockGetEnsAvatar).toHaveBeenCalledTimes(2);
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(1, {
+    expect(mockClient.getEnsAvatar).toHaveBeenCalledTimes(2);
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(1, {
       name: ensNames[0],
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[baseSepolia.id],
     });
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(2, {
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(2, {
       name: ensNames[1],
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[baseSepolia.id],
     });
-    expect(getChainPublicClient).toHaveBeenCalledWith(baseSepolia);
+    expect(vi.mocked(getChainPublicClient)).toHaveBeenCalledWith(baseSepolia);
   });
 
   it('should default to mainnet when base mainnet avatars are not available', async () => {
     const ensNames = ['shrek.base.eth', 'donkey.base.eth'];
     const expectedMainnetAvatarUrls = ['mainnetshrek.eth', 'mainnetdonkey.eth'];
 
-    mockGetEnsAvatar
+    mockClient.getEnsAvatar
       .mockResolvedValueOnce(null)
       .mockResolvedValueOnce(null)
 
@@ -128,30 +132,30 @@ describe('getAvatars', () => {
 
     expect(avatarUrls).toEqual(expectedMainnetAvatarUrls);
 
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(1, {
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(1, {
       name: ensNames[0],
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
     });
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(2, {
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(2, {
       name: ensNames[1],
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
     });
 
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(3, {
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(3, {
       name: ensNames[0],
     });
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(4, {
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(4, {
       name: ensNames[1],
     });
 
-    expect(getChainPublicClient).toHaveBeenNthCalledWith(1, base);
-    expect(getChainPublicClient).toHaveBeenNthCalledWith(2, mainnet);
+    expect(vi.mocked(getChainPublicClient)).toHaveBeenNthCalledWith(1, base);
+    expect(vi.mocked(getChainPublicClient)).toHaveBeenNthCalledWith(2, mainnet);
   });
 
   it('should use default base avatar when both mainnet and base avatars are not available', async () => {
     const ensNames = ['shrek.base.eth', 'regular.eth'];
 
-    mockGetEnsAvatar.mockResolvedValue(null);
+    mockClient.getEnsAvatar.mockResolvedValue(null);
 
     const avatarUrls = await getAvatars({
       ensNames,
@@ -176,14 +180,14 @@ describe('getAvatars', () => {
       'ChainId not supported, avatar resolution is only supported on Ethereum and Base.',
     );
 
-    expect(getChainPublicClient).not.toHaveBeenCalled();
+    expect(vi.mocked(getChainPublicClient)).not.toHaveBeenCalled();
   });
 
   it('should handle errors when resolving base avatars and continue with mainnet', async () => {
     const ensNames = ['shrek.base.eth', 'donkey.base.eth'];
     const expectedMainnetAvatarUrls = ['mainnetshrek.eth', 'mainnetdonkey.eth'];
 
-    mockGetEnsAvatar
+    mockClient.getEnsAvatar
       .mockImplementationOnce(() => {
         throw new Error('Base resolution error');
       })
@@ -198,10 +202,10 @@ describe('getAvatars', () => {
 
     expect(avatarUrls).toEqual(expectedMainnetAvatarUrls);
 
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(2, {
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(2, {
       name: ensNames[0],
     });
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(3, {
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(3, {
       name: ensNames[1],
     });
   });
@@ -210,9 +214,9 @@ describe('getAvatars', () => {
     const ensNames = ['shrek.base.eth', 'regular.eth'];
     const baseAvatarUrl = 'baseavatar';
 
-    mockGetEnsAvatar.mockReset();
+    mockClient.getEnsAvatar.mockReset();
 
-    mockGetEnsAvatar
+    mockClient.getEnsAvatar
       .mockResolvedValueOnce(baseAvatarUrl)
       .mockResolvedValueOnce(null);
 
@@ -223,12 +227,12 @@ describe('getAvatars', () => {
 
     expect(avatarUrls).toEqual([baseAvatarUrl, null]);
 
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(1, {
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(1, {
       name: ensNames[0],
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
     });
 
-    expect(mockGetEnsAvatar).toHaveBeenNthCalledWith(2, {
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(2, {
       name: ensNames[1],
     });
   });
@@ -236,9 +240,9 @@ describe('getAvatars', () => {
   it('should handle errors when resolving mainnet avatars', async () => {
     const ensNames = ['test1.ens', 'test2.ens'];
 
-    mockGetEnsAvatar.mockReset();
+    mockClient.getEnsAvatar.mockReset();
 
-    mockGetEnsAvatar.mockImplementationOnce(() => {
+    mockClient.getEnsAvatar.mockImplementationOnce(() => {
       throw new Error('Mainnet resolution error');
     });
 
@@ -246,7 +250,7 @@ describe('getAvatars', () => {
 
     expect(avatarUrls).toEqual([null, null]);
 
-    expect(mockGetEnsAvatar).toHaveBeenCalledWith({
+    expect(mockClient.getEnsAvatar).toHaveBeenCalledWith({
       name: ensNames[0],
     });
   });
@@ -255,8 +259,8 @@ describe('getAvatars', () => {
     const ensNames = ['success1.eth', 'fail.eth', 'success2.eth'];
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    mockGetEnsAvatar.mockReset();
-    mockGetEnsAvatar.mockImplementation((params) => {
+    mockClient.getEnsAvatar.mockReset();
+    mockClient.getEnsAvatar.mockImplementation((params) => {
       if (params.name === 'fail.eth') {
         return Promise.reject(
           new Error('Avatar resolution failed for this name'),
@@ -277,7 +281,7 @@ describe('getAvatars', () => {
     const avatarUrls = await getAvatars({ ensNames });
 
     expect(avatarUrls).toEqual(['avatar1-url', null, 'avatar2-url']);
-    expect(mockGetEnsAvatar).toHaveBeenCalledTimes(3);
+    expect(mockClient.getEnsAvatar).toHaveBeenCalledTimes(3);
     expect(consoleSpy).toHaveBeenCalledWith(
       'Error resolving ENS avatar for fail.eth:',
       expect.any(Error),
@@ -294,8 +298,8 @@ describe('getAvatars', () => {
     ];
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    mockGetEnsAvatar.mockReset();
-    mockGetEnsAvatar.mockImplementation((params) => {
+    mockClient.getEnsAvatar.mockReset();
+    mockClient.getEnsAvatar.mockImplementation((params) => {
       if (params.name === 'fail.base.eth') {
         return Promise.reject(new Error('Base avatar resolution failed'));
       }
@@ -322,15 +326,15 @@ describe('getAvatars', () => {
       'base-avatar2-url',
     ]);
 
-    expect(mockGetEnsAvatar).toHaveBeenCalledWith({
+    expect(mockClient.getEnsAvatar).toHaveBeenCalledWith({
       name: 'success1.base.eth',
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
     });
-    expect(mockGetEnsAvatar).toHaveBeenCalledWith({
+    expect(mockClient.getEnsAvatar).toHaveBeenCalledWith({
       name: 'fail.base.eth',
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
     });
-    expect(mockGetEnsAvatar).toHaveBeenCalledWith({
+    expect(mockClient.getEnsAvatar).toHaveBeenCalledWith({
       name: 'success2.base.eth',
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[base.id],
     });

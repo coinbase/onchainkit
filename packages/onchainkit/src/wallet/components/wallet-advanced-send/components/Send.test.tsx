@@ -16,7 +16,6 @@ import { SendTokenSelector } from './SendTokenSelector';
 
 // Mock all dependencies
 vi.mock('@/internal/components/Skeleton');
-vi.mock('@/internal/hooks/useTheme');
 vi.mock('./SendAddressInput');
 vi.mock('./SendAddressSelector');
 vi.mock('./SendAmountInput');
@@ -120,7 +119,7 @@ describe('Send', () => {
 
       expect(Skeleton).toHaveBeenCalledWith(
         expect.objectContaining({ className: 'h-full w-full' }),
-        {},
+        undefined,
       );
     });
 

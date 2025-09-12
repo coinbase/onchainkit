@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { FALLBACK_DEFAULT_MAX_SLIPPAGE } from '../constants';
 import { SwapSettingsSlippageInput } from './SwapSettingsSlippageInput';
@@ -125,10 +125,10 @@ describe('SwapSettingsSlippageInput', () => {
   it('applies correct styles in Auto mode', () => {
     render(<SwapSettingsSlippageInput />);
     expect(screen.getByRole('button', { name: 'Auto' })).toHaveClass(
-      'cursor-pointer ock-bg-default active:bg-[var(--ock-bg-default-active)] hover:bg-[var(--ock-bg-default-hover)] ock-text-foreground ock-font-family font-semibold text-sm ock-border-radius-inner flex-1 px-3 py-1 transition-colors ock-bg-inverse ock-text-primary ock-shadow-default',
+      'cursor-pointer bg-ock-background hover:bg-ock-background-hover active:bg-ock-background-active focus:bg-ock-background-active text-ock-foreground font-ock font-semibold text-sm rounded-ock-inner flex-1 px-3 py-1 transition-colors bg-ock-background-inverse text-ock-primary shadow-ock-default',
     );
     expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass(
-      'cursor-pointer ock-bg-default active:bg-[var(--ock-bg-default-active)] hover:bg-[var(--ock-bg-default-hover)] ock-text-foreground ock-font-family font-semibold text-sm ock-border-radius-inner flex-1 px-3 py-1 transition-colors ock-text-foreground-muted',
+      'cursor-pointer bg-ock-background hover:bg-ock-background-hover active:bg-ock-background-active focus:bg-ock-background-active text-ock-foreground font-ock font-semibold text-sm rounded-ock-inner flex-1 px-3 py-1 transition-colors text-ock-foreground-muted',
     );
     expect(screen.getByRole('textbox').parentElement).toHaveClass('opacity-50');
   });
@@ -137,10 +137,10 @@ describe('SwapSettingsSlippageInput', () => {
     render(<SwapSettingsSlippageInput />);
     fireEvent.click(screen.getByRole('button', { name: 'Custom' }));
     expect(screen.getByRole('button', { name: 'Auto' })).toHaveClass(
-      'cursor-pointer ock-bg-default active:bg-[var(--ock-bg-default-active)] hover:bg-[var(--ock-bg-default-hover)] ock-text-foreground ock-font-family font-semibold text-sm ock-border-radius-inner flex-1 px-3 py-1 transition-colors ock-text-foreground-muted',
+      'cursor-pointer bg-ock-background hover:bg-ock-background-hover active:bg-ock-background-active focus:bg-ock-background-active text-ock-foreground font-ock font-semibold text-sm rounded-ock-inner flex-1 px-3 py-1 transition-colors text-ock-foreground-muted',
     );
     expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass(
-      'cursor-pointer ock-bg-default active:bg-[var(--ock-bg-default-active)] hover:bg-[var(--ock-bg-default-hover)] ock-text-foreground ock-font-family font-semibold text-sm ock-border-radius-inner flex-1 px-3 py-1 transition-colors ock-bg-inverse ock-text-primary ock-shadow-default',
+      'cursor-pointer bg-ock-background hover:bg-ock-background-hover active:bg-ock-background-active focus:bg-ock-background-active text-ock-foreground font-ock font-semibold text-sm rounded-ock-inner flex-1 px-3 py-1 transition-colors bg-ock-background-inverse text-ock-primary shadow-ock-default',
     );
     expect(screen.getByRole('textbox').parentElement).not.toHaveClass(
       'opacity-50',
@@ -184,7 +184,7 @@ describe('SwapSettingsSlippageInput', () => {
     };
     render(<SwapSettingsSlippageInput />);
     expect(screen.getByRole('button', { name: 'Custom' })).toHaveClass(
-      'ock-bg-inverse ock-text-primary ock-shadow-default',
+      'bg-ock-background-inverse text-ock-primary shadow-ock-default',
     );
     expect(screen.getByRole('textbox')).not.toBeDisabled();
   });
@@ -237,6 +237,33 @@ describe('SwapSettingsSlippageInput', () => {
     expect(screen.getByRole('textbox')).toHaveValue(
       FALLBACK_DEFAULT_MAX_SLIPPAGE.toString(),
     );
+  });
+
+  it('can handle custom render prop', async () => {
+    render(
+      <SwapSettingsSlippageInput
+        render={({ slippageSetting, setSlippageSetting, setSlippageValue }) => (
+          <div>
+            <div>{slippageSetting}</div>
+            <button onClick={() => setSlippageSetting('Custom')}>
+              Custom Render
+            </button>
+            <button onClick={() => setSlippageValue(1)}>Set 1</button>
+          </div>
+        )}
+      />,
+    );
+    expect(screen.getByText('Custom Render')).toBeInTheDocument();
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Set 1' }));
+    });
+
+    expect(mockSetLifecycleStatus).toHaveBeenLastCalledWith({
+      statusName: 'slippageChange',
+      statusData: {
+        maxSlippage: 1,
+      },
+    });
   });
 
   describe('analytics', () => {

@@ -1,7 +1,6 @@
 // 🌲☀🌲
 export { Transaction } from './components/Transaction';
 export { TransactionButton } from './components/TransactionButton';
-export { TransactionDefault } from './components/TransactionDefault';
 export { TransactionSponsor } from './components/TransactionSponsor';
 export { TransactionStatus } from './components/TransactionStatus';
 export { TransactionStatusAction } from './components/TransactionStatusAction';
@@ -13,17 +12,18 @@ export { TransactionToastLabel } from './components/TransactionToastLabel';
 export { useTransactionContext } from './components/TransactionProvider';
 export type {
   LifecycleStatus,
-  TransactionButtonReact,
-  TransactionReact,
-  TransactionResponse,
-  TransactionSponsorReact,
-  TransactionStatusReact,
-  TransactionStatusActionReact,
-  TransactionStatusLabelReact,
-  TransactionToastReact,
-  TransactionToastActionReact,
-  TransactionToastIconReact,
-  TransactionToastLabelReact,
+  TransactionButtonProps,
+  TransactionProps,
+  TransactionResponseType,
+  TransactionSponsorProps,
+  TransactionStatusProps,
+  TransactionStatusActionProps,
+  TransactionStatusLabelProps,
+  TransactionToastProps,
+  TransactionToastActionProps,
+  TransactionToastIconProps,
+  TransactionToastLabelProps,
+  TransactionButtonRenderParams,
   WalletCapabilities,
 } from './types';
 export type { TransactionError } from '@/api/types';

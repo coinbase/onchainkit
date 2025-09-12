@@ -127,7 +127,7 @@ describe('usePortfolio', () => {
 
     expect(result.current.data).toEqual({
       address: '0x123',
-      portfolioBalanceUsd: 0,
+      portfolioBalanceInUsd: 0,
       tokenBalances: [],
     });
   });

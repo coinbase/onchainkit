@@ -1,80 +1,72 @@
-import { useTheme } from '@/internal/hooks/useTheme';
+import * as DialogPrimitives from '@radix-ui/react-dialog';
 import { zIndex } from '@/styles/constants';
 import { cn } from '@/styles/theme';
 import type React from 'react';
-import { useRef } from 'react';
-import { createPortal } from 'react-dom';
-import { DismissableLayer } from './DismissableLayer';
-import { FocusTrap } from './FocusTrap';
+import { ComponentProps } from 'react';
+
+const DialogRoot = DialogPrimitives.Root;
+const DialogPortal = DialogPrimitives.Portal;
+const DialogTitle = DialogPrimitives.Title;
+const DialogDescription = DialogPrimitives.Description;
+const DialogContent = DialogPrimitives.Content;
+const DialogOverlay = DialogPrimitives.Overlay;
 
 type DialogProps = {
   children?: React.ReactNode;
-  isOpen?: boolean;
-  onClose?: () => void;
-  modal?: boolean;
-  'aria-label'?: string;
-  'aria-labelledby'?: string;
-  'aria-describedby'?: string;
-};
+  isOpen: boolean;
+  onClose: () => void;
+  className?: string;
+  /**
+   * The title of the dialog.
+   */
+  title: string;
+  /**
+   * The description of the dialog.
+   */
+  description: string;
+} & ComponentProps<typeof DialogPrimitives.DialogContent>;
 
-/**
- * Dialog primitive that handles:
- * Portaling to document.body
- * Focus management (trapping focus within dialog)
- * Click outside and escape key dismissal
- * Proper ARIA attributes for accessibility
- */
-export function Dialog({
+export const Dialog = ({
   children,
   isOpen,
-  modal = true,
   onClose,
-  'aria-label': ariaLabel,
-  'aria-labelledby': ariaLabelledby,
-  'aria-describedby': ariaDescribedby,
-}: DialogProps) {
-  const componentTheme = useTheme();
-  const dialogRef = useRef<HTMLDivElement>(null);
-
-  if (!isOpen) {
-    return null;
-  }
-
-  const dialog = (
-    <div
-      className={cn(
-        componentTheme,
-        zIndex.modal,
-        'fixed inset-0 flex items-center justify-center',
-        'bg-black/50 transition-opacity duration-200',
-        'fade-in animate-in duration-200',
-      )}
-      data-portal-origin="true"
+  className,
+  title,
+  description,
+  ...rest
+}: DialogProps) => {
+  return (
+    <DialogRoot
+      open={isOpen}
+      onOpenChange={(flag) => {
+        if (!flag) {
+          onClose();
+        }
+      }}
     >
-      <FocusTrap active={isOpen}>
-        <DismissableLayer onDismiss={onClose}>
-          <div
-            aria-describedby={ariaDescribedby}
-            aria-label={ariaLabel}
-            aria-labelledby={ariaLabelledby}
-            aria-modal={modal}
-            className="zoom-in-95 animate-in duration-200"
-            data-testid="ockDialog"
-            onClick={(e) => e.stopPropagation()}
-            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.stopPropagation();
-              }
-            }}
-            ref={dialogRef}
-            role="dialog"
-          >
-            {children}
-          </div>
-        </DismissableLayer>
-      </FocusTrap>
-    </div>
+      <DialogTitle className="sr-only">{title}</DialogTitle>
+      <DialogDescription className="sr-only">{description}</DialogDescription>
+      <DialogPortal data-slot="dialog-portal">
+        <DialogOverlay
+          data-slot="dialog-overlay"
+          className={cn(
+            zIndex.modal,
+            'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 bg-black/50',
+          )}
+        />
+        <DialogContent
+          data-slot="dialog-content"
+          className={cn(
+            zIndex.modal,
+            'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg p-6 shadow-lg duration-200',
+            className,
+          )}
+          data-testid="ockDialog"
+          {...rest}
+        >
+          {children}
+        </DialogContent>
+      </DialogPortal>
+    </DialogRoot>
   );
-
-  return createPortal(dialog, document.body);
-}
+};

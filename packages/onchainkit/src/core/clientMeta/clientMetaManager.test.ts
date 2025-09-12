@@ -7,11 +7,11 @@ import {
   vi,
   type MockInstance,
 } from 'vitest';
-import sdk from '@farcaster/frame-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 import { clientMetaManager } from './clientMetaManager';
 
 // Mock the farcaster sdk
-vi.mock('@farcaster/frame-sdk', () => ({
+vi.mock('@farcaster/miniapp-sdk', () => ({
   default: {
     context: Promise.resolve({ client: { clientFid: 123 } }),
   },

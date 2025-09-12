@@ -1,22 +1,46 @@
 'use client';
 import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect, useLayoutEffect, useMemo } from 'react';
 import { DefaultOnchainKitProviders } from './DefaultOnchainKitProviders';
 import OnchainKitProviderBoundary from './OnchainKitProviderBoundary';
 import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from './core/constants';
 import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
 import { checkHashLength } from './internal/utils/checkHashLength';
-import type { OnchainKitProviderReact } from './types';
-import { generateUUIDWithInsecureFallback } from './utils/crypto';
+import { generateUUIDWithInsecureFallback } from './internal/utils/crypto';
 import { OnchainKitContext } from './useOnchainKit';
+import { useThemeRoot } from './internal/hooks/useTheme';
 import { clientMetaManager } from './core/clientMeta/clientMetaManager';
 import { MiniKitContext } from './minikit/MiniKitProvider';
+
+import { type ReactNode } from 'react';
+import { useSessionStorage } from 'usehooks-ts';
+import type { Chain } from 'wagmi/chains';
+import type { AppConfig } from './core/types';
+import type { MiniKitOptions } from './minikit/types';
+import { MiniKitProvider } from '@/minikit/MiniKitProvider';
+import type { EASSchemaUid } from '@/identity/types';
+import { type PublicClient } from 'viem';
+
+export type OnchainKitProviderReact = {
+  analytics?: boolean;
+  apiKey?: string;
+  chain: Chain;
+  children: ReactNode;
+  config?: AppConfig;
+  sessionId?: string;
+  projectId?: string;
+  rpcUrl?: string;
+  schemaId?: EASSchemaUid;
+  miniKit?: MiniKitOptions;
+  defaultPublicClients?: {
+    [chainId: number]: PublicClient;
+  };
+};
 
 /**
  * Provides the OnchainKit React Context to the app.
  */
 export function OnchainKitProvider({
-  address,
   analytics,
   apiKey,
   chain,
@@ -25,12 +49,28 @@ export function OnchainKitProvider({
   projectId,
   rpcUrl,
   schemaId,
+  miniKit = {
+    enabled: false,
+  },
+  defaultPublicClients,
 }: OnchainKitProviderReact) {
   if (schemaId && !checkHashLength(schemaId, 64)) {
     throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
   }
 
-  const sessionId = useMemo(() => generateUUIDWithInsecureFallback(), []);
+  const [sessionId] = useSessionStorage(
+    'ock-session-id',
+    generateUUIDWithInsecureFallback(),
+  );
+
+  const theme = useThemeRoot({
+    theme: config?.appearance?.theme,
+    mode: config?.appearance?.mode,
+  });
+
+  useLayoutEffect(() => {
+    document.documentElement.setAttribute('data-ock-theme', theme);
+  }, [theme]);
   const isMiniKit = !!useContext(MiniKitContext)?.__isMiniKit;
 
   useEffect(() => {
@@ -46,7 +86,6 @@ export function OnchainKitProvider({
           .toLowerCase()}/${apiKey}`
       : null;
     const onchainKitConfig = {
-      address: address ?? null,
       apiKey: apiKey ?? null,
       chain: chain,
       config: {
@@ -62,7 +101,6 @@ export function OnchainKitProvider({
         wallet: {
           display: config?.wallet?.display ?? 'classic',
           preference: config?.wallet?.preference ?? 'all',
-          signUpEnabled: config?.wallet?.signUpEnabled ?? true,
           termsUrl: config?.wallet?.termsUrl || DEFAULT_TERMS_URL,
           privacyUrl: config?.wallet?.privacyUrl || DEFAULT_PRIVACY_URL,
           supportedWallets: {
@@ -76,11 +114,12 @@ export function OnchainKitProvider({
       rpcUrl: rpcUrl ?? null,
       schemaId: schemaId ?? COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
       sessionId,
+      defaultPublicClients,
+      miniKit,
     };
     setOnchainKitConfig(onchainKitConfig);
     return onchainKitConfig;
   }, [
-    address,
     analytics,
     apiKey,
     chain,
@@ -89,12 +128,19 @@ export function OnchainKitProvider({
     rpcUrl,
     schemaId,
     sessionId,
+    defaultPublicClients,
+    miniKit,
   ]);
 
   return (
     <OnchainKitContext.Provider value={value}>
       <DefaultOnchainKitProviders>
-        <OnchainKitProviderBoundary>{children}</OnchainKitProviderBoundary>
+        <MiniKitProvider
+          enabled={miniKit.enabled}
+          notificationProxyUrl={miniKit.notificationProxyUrl}
+        >
+          <OnchainKitProviderBoundary>{children}</OnchainKitProviderBoundary>
+        </MiniKitProvider>
       </DefaultOnchainKitProviders>
     </OnchainKitContext.Provider>
   );

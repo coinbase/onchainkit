@@ -14,19 +14,40 @@ import {
   WalletDropdownDisconnect,
 } from "@coinbase/onchainkit/wallet";
 import { useEffect } from "react";
-import { Button } from "./ui/Button";
 import { IsInMiniApp } from "./actions/IsInMiniApp";
 import { AddFrame } from "./actions/AddFrame";
 import { ComposeCast } from "./actions/ComposeCast";
 import { ViewCast } from "./actions/ViewCast";
-import { SendToken } from "./actions/SendToken";
-import { SwapToken } from "./actions/SwapToken";
 import { CloseFrame } from "./actions/CloseFrame";
 import { UserInfo } from "./components/UserInfo";
+import { SendToken } from "./actions/SendToken";
+import { SwapToken } from "./actions/SwapToken";
+import { BatchedTransaction } from "./actions/BatchedTransaction";
+import { Anchor, Flex, Stack, Text, Title } from "@mantine/core";
+import { Context } from "./components/Context";
 
 export default function App() {
   const { setFrameReady, isFrameReady } = useMiniKit();
   const openUrl = useOpenUrl();
+
+  const safeAreaInsets = (() => {
+    if (typeof window === "undefined") {
+      return { top: "", right: "", bottom: "", left: "" };
+    }
+    const styles = getComputedStyle(document.documentElement);
+    return {
+      top: styles.getPropertyValue("--ock-minikit-safe-area-inset-top").trim(),
+      right: styles
+        .getPropertyValue("--ock-minikit-safe-area-inset-right")
+        .trim(),
+      bottom: styles
+        .getPropertyValue("--ock-minikit-safe-area-inset-bottom")
+        .trim(),
+      left: styles
+        .getPropertyValue("--ock-minikit-safe-area-inset-left")
+        .trim(),
+    };
+  })();
 
   useEffect(() => {
     if (!isFrameReady) {
@@ -35,64 +56,73 @@ export default function App() {
   }, [setFrameReady, isFrameReady]);
 
   return (
-    <div className="flex flex-col min-h-screen font-sans text-[var(--app-foreground)] from-[var(--app-background)] to-[var(--app-gray)]">
-      <div className="w-full max-w-4xl mx-auto px-4 py-3">
-        <header className="flex justify-between items-center mb-3 h-11">
-          <div>
-            <div className="flex items-center space-x-2">
-              <Wallet className="z-10">
-                <ConnectWallet>
-                  <Name className="text-inherit" />
-                </ConnectWallet>
-                <WalletDropdown>
-                  <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
-                    <Avatar />
-                    <Name />
-                    <Address />
-                    <EthBalance />
-                  </Identity>
-                  <WalletDropdownDisconnect />
-                </WalletDropdown>
-              </Wallet>
-            </div>
-          </div>
-        </header>
+    <Stack p="md">
+      <Flex component="header" align="end" justify="end" mb="xl">
+        <Wallet>
+          <ConnectWallet />
+          <WalletDropdown>
+            <Identity hasCopyAddressOnClick>
+              <Avatar />
+              <Name />
+              <Address />
+              <EthBalance />
+            </Identity>
+            <WalletDropdownDisconnect />
+          </WalletDropdown>
+        </Wallet>
+      </Flex>
 
-        <main className="flex-1">
-          <div className="space-y-6">
-            <h1 className="text-3xl font-bold text-center text-[var(--app-foreground)]">
-              MiniKit Examples
-            </h1>
+      <Stack component="main" justify="center" align="center" gap="md">
+        <Title order={1}>MiniKit Examples</Title>
 
-            <p className="text-center text-sm text-[var(--app-foreground-muted)]">
-              This mini app is meant to show how you can use the actions
-              available in MiniKit.
-            </p>
+        <Text>
+          This mini app is meant to show how you can use the actions available
+          in MiniKit.
+        </Text>
 
-            <div className="flex flex-col gap-3 justify-center items-stretch max-w-md mx-auto">
-              <IsInMiniApp />
-              <UserInfo />
-              <AddFrame />
-              <ComposeCast />
-              <ViewCast />
-              <SendToken />
-              <SwapToken />
-              <CloseFrame />
-            </div>
-          </div>
-        </main>
+        <Stack maw="100%">
+          <IsInMiniApp />
+          <UserInfo />
+          <AddFrame />
+          <ComposeCast />
+          <ViewCast />
+          <SendToken />
+          <SwapToken />
+          <CloseFrame />
+          <BatchedTransaction />
+          <Context />
+          <Stack>
+            <Title order={3}>Safe Area Insets (:root)</Title>
+            <Text>
+              --ock-minikit-safe-area-inset-top: {safeAreaInsets.top || "N/A"}
+            </Text>
+            <Text>
+              --ock-minikit-safe-area-inset-right:{" "}
+              {safeAreaInsets.right || "N/A"}
+            </Text>
+            <Text>
+              --ock-minikit-safe-area-inset-bottom:{" "}
+              {safeAreaInsets.bottom || "N/A"}
+            </Text>
+            <Text>
+              --ock-minikit-safe-area-inset-left: {safeAreaInsets.left || "N/A"}
+            </Text>
+          </Stack>
+        </Stack>
+      </Stack>
 
-        <footer className="mt-2 pt-4 flex justify-center">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-[var(--ock-text-foreground-muted)] text-xs"
-            onClick={() => openUrl("https://base.org/builders/minikit")}
-          >
-            Built on Base with MiniKit
-          </Button>
-        </footer>
-      </div>
-    </div>
+      <Text ta="center" mt="xl">
+        Built on Base with{" "}
+        <Anchor
+          href="https://base.org/builders/minikit"
+          onClick={(e) => {
+            e.preventDefault();
+            openUrl("https://base.org/builders/minikit");
+          }}
+        >
+          MiniKit
+        </Anchor>
+      </Text>
+    </Stack>
   );
 }

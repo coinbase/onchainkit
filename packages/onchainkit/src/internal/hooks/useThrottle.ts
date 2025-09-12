@@ -19,8 +19,8 @@ export const useThrottle = <T extends AnyFunction>(
   delay: number,
 ): ((...args: Parameters<T>) => void) => {
   const lastCallTime = useRef<number>(0);
-  const timeoutRef = useRef<NodeJS.Timeout>();
-  const lastArgsRef = useRef<Parameters<T>>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const lastArgsRef = useRef<Parameters<T> | undefined>(undefined);
   const callbackRef = useRef(callback);
   callbackRef.current = callback;
 

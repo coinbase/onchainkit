@@ -10,6 +10,7 @@ import type { Config } from 'wagmi';
 import type { SendTransactionMutateAsync } from 'wagmi/query';
 // 🌲☀🌲
 import type { TransactionError } from '../api/types';
+import type { ToastProps } from '@/internal/components/Toast';
 
 export type Call = { to: Hex; data?: Hex; value?: bigint };
 
@@ -70,10 +71,25 @@ export type IsSpinnerDisplayedProps = {
   transactionId?: string;
 };
 
+type TransactionButtonState = 'default' | 'success' | 'error' | 'pending';
+
+export type TransactionButtonRenderParams = {
+  /** The current state of the button */
+  status: TransactionButtonState;
+  /** The function to be called when the button is clicked */
+  onSubmit: () => void;
+  /** The function to be called when the button is clicked */
+  onSuccess: () => void;
+  /** Whether the button is disabled */
+  isDisabled: boolean;
+  /** The context of the transaction */
+  context: TransactionContextType;
+};
+
 /**
  * Note: exported as public Type
  */
-export type TransactionButtonReact = {
+export type TransactionButtonProps = {
   /** An optional CSS class name for styling the button component */
   className?: string;
   /** A optional prop to disable the submit button */
@@ -86,6 +102,8 @@ export type TransactionButtonReact = {
   successOverride?: TransactionButtonOverride;
   /** Optional overrides for text in pending state (default is loading spinner) */
   pendingOverride?: Pick<TransactionButtonOverride, 'text'>;
+  /** Optional render prop to customize the button content */
+  render?: (params: TransactionButtonRenderParams) => ReactNode;
 };
 
 export type TransactionContextType = {
@@ -140,21 +158,13 @@ export type SendSingleTransactionParams = {
   transactions: Array<Call | ContractFunctionParameters>;
 };
 
-/**
- * Note: exported as public Type
- */
-
-export type TransactionDefaultReact = {
-  disabled?: boolean;
-} & Omit<TransactionReact, 'children'>;
-
 export type Calls = Call[] | Promise<Call[]> | (() => Promise<Call[]>);
 export type Contracts =
   | ContractFunctionParameters[]
   | Promise<ContractFunctionParameters[]>
   | (() => Promise<ContractFunctionParameters[]>);
 
-export type TransactionProviderReact = {
+export type TransactionProviderProps = {
   /** An array of calls to be made in the transaction */
   calls?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
   /**
@@ -165,10 +175,6 @@ export type TransactionProviderReact = {
   chainId: number;
   /** The child components to be rendered within the provider component */
   children: ReactNode;
-  /**
-   * @deprecated Use `calls` instead.
-   */
-  contracts?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
   /** Whether the transactions are sponsored (default: false) */
   isSponsored?: boolean;
   /** An optional callback function that handles errors within the provider */
@@ -176,7 +182,7 @@ export type TransactionProviderReact = {
   /** An optional callback function that exposes the component lifecycle state */
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   /** An optional callback function that exposes the transaction receipts */
-  onSuccess?: (response: TransactionResponse) => void;
+  onSuccess?: (response: TransactionResponseType) => void;
   /** An optional time (in ms) after which to reset the component */
   resetAfter?: number;
 };
@@ -184,7 +190,7 @@ export type TransactionProviderReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionReact = {
+export type TransactionProps = {
   /** An array of calls to be made in the transaction */
   calls?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
   /**
@@ -197,10 +203,6 @@ export type TransactionReact = {
   children?: ReactNode;
   /** An optional CSS class name for styling the component */
   className?: string;
-  /**
-   * @deprecated Use `calls` instead.
-   */
-  contracts?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
   /** Whether the transactions are sponsored (default: false) */
   isSponsored?: boolean;
   /** An optional callback function that handles transaction errors */
@@ -208,7 +210,7 @@ export type TransactionReact = {
   /** An optional callback function that exposes the component lifecycle state */
   onStatus?: (lifecycleStatus: LifecycleStatus) => void;
   /** An optional callback function that exposes the transaction receipts */
-  onSuccess?: (response: TransactionResponse) => void;
+  onSuccess?: (response: TransactionResponseType) => void;
   /** An optional time (in ms) after which to reset the component */
   resetAfter?: number;
 } & (
@@ -227,14 +229,14 @@ export type TransactionReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionResponse = {
+export type TransactionResponseType = {
   transactionReceipts: TransactionReceipt[];
 };
 
 /**
  * Note: exported as public Type
  */
-export type TransactionSponsorReact = {
+export type TransactionSponsorProps = {
   /** An optional CSS class name for styling the sponsor component */
   className?: string;
 };
@@ -242,7 +244,7 @@ export type TransactionSponsorReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionStatusReact = {
+export type TransactionStatusProps = {
   /** The child components to be rendered within the status component */
   children?: ReactNode;
   /** An optional CSS class name for styling the status component */
@@ -252,7 +254,7 @@ export type TransactionStatusReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionStatusActionReact = {
+export type TransactionStatusActionProps = {
   /** An optional CSS class name for styling */
   className?: string;
 };
@@ -260,7 +262,7 @@ export type TransactionStatusActionReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionStatusLabelReact = {
+export type TransactionStatusLabelProps = {
   /** An optional CSS class name for styling */
   className?: string;
 };
@@ -268,21 +270,18 @@ export type TransactionStatusLabelReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionToastReact = {
+export type TransactionToastProps = Pick<
+  ToastProps,
+  'duration' | 'position' | 'className'
+> & {
   /** The child components to be rendered within the toast component */
   children?: ReactNode;
-  /** An optional CSS class name for styling the toast component */
-  className?: string;
-  /** An optional value to customize time until toast disappears */
-  durationMs?: number;
-  /** An optional position property to specify the toast's position on the screen */
-  position?: 'top-center' | 'top-right' | 'bottom-center' | 'bottom-right';
 };
 
 /**
  * Note: exported as public Type
  */
-export type TransactionToastActionReact = {
+export type TransactionToastActionProps = {
   /** An optional CSS class name for styling */
   className?: string;
 };
@@ -290,7 +289,7 @@ export type TransactionToastActionReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionToastIconReact = {
+export type TransactionToastIconProps = {
   /** An optional CSS class name for styling */
   className?: string;
 };
@@ -298,7 +297,7 @@ export type TransactionToastIconReact = {
 /**
  * Note: exported as public Type
  */
-export type TransactionToastLabelReact = {
+export type TransactionToastLabelProps = {
   /** An optional CSS class name for styling */
   className?: string;
 };
@@ -311,11 +310,6 @@ export type UseCallsStatusParams = {
 export type UseWriteContractParams = {
   setLifecycleStatus: (state: LifecycleStatus) => void;
   transactionHashList: Address[];
-};
-
-export type UseWriteContractsParams = {
-  setLifecycleStatus: (state: LifecycleStatus) => void;
-  setTransactionId: (id: string) => void;
 };
 
 export type UseSendCallParams = {

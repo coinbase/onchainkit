@@ -1,9 +1,5 @@
 'use client';
-import { DefaultOnchainKitProviders } from '@/DefaultOnchainKitProviders';
-import { OnchainKitProvider } from '@/OnchainKitProvider';
-import type { OnchainKitProviderReact } from '@/types';
-import sdk, { type Context } from '@farcaster/frame-sdk';
-import { farcasterFrame } from '@farcaster/miniapp-wagmi-connector';
+import sdk, { type Context } from '@farcaster/miniapp-sdk';
 import {
   createContext,
   useCallback,
@@ -11,47 +7,65 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { coinbaseWallet } from 'wagmi/connectors';
 import type {
   MiniKitContextType,
-  MiniKitProviderReact,
+  MiniKitProviderProps,
   UpdateClientContextParams,
 } from './types';
 import { AutoConnect } from './components/AutoConnect';
 
-export const emptyContext = {} as MiniKitContextType;
+export const MiniKitContext = createContext<MiniKitContextType>({
+  enabled: false,
+  context: null,
+  updateClientContext: () => {},
+  notificationProxyUrl: '',
+  __isMiniKit: false,
+});
 
-export const MiniKitContext = createContext<MiniKitContextType>(emptyContext);
-
-/**
- * Provides the MiniKit React Context to the app.
- */
-export function MiniKitProvider({
+function MiniKitProviderContent({
   children,
   notificationProxyUrl = '/api/notify',
   autoConnect = true,
-  ...onchainKitProps
-}: MiniKitProviderReact & OnchainKitProviderReact) {
+}: MiniKitProviderProps) {
   const [context, setContext] = useState<Context.MiniAppContext | null>(null);
+
+  const updateClientContext = useCallback(
+    ({ details, miniAppAdded }: UpdateClientContextParams) => {
+      setContext((prevContext) => {
+        if (!prevContext) {
+          return null;
+        }
+        return {
+          ...prevContext,
+          client: {
+            ...prevContext.client,
+            notificationDetails: details ?? undefined,
+            added: miniAppAdded ?? prevContext.client.added,
+          },
+        };
+      });
+    },
+    [],
+  );
 
   useEffect(() => {
     sdk.on('miniAppAdded', ({ notificationDetails }) => {
       if (notificationDetails) {
         updateClientContext({
           details: notificationDetails,
-          frameAdded: true,
+          miniAppAdded: true,
         });
       }
     });
 
     sdk.on('miniAppAddRejected', ({ reason }) => {
-      console.error('Mini app add rejected', reason);
+      console.error('MiniApp add rejected', reason);
     });
 
     sdk.on('miniAppRemoved', () => {
       updateClientContext({
         details: undefined,
-        frameAdded: false,
+        miniAppAdded: false,
       });
     });
 
@@ -69,7 +83,7 @@ export function MiniKitProvider({
 
     async function fetchContext() {
       try {
-        // if not running in a mini app, context resolves as undefined
+        // if not running in a frame, context resolves as undefined
         const context = await sdk.context;
         setContext(context);
       } catch (error) {
@@ -82,42 +96,11 @@ export function MiniKitProvider({
     return () => {
       sdk.removeAllListeners();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const updateClientContext = useCallback(
-    ({ details, frameAdded }: UpdateClientContextParams) => {
-      setContext((prevContext) => {
-        if (!prevContext) {
-          return null;
-        }
-        return {
-          ...prevContext,
-          client: {
-            ...prevContext.client,
-            notificationDetails: details ?? undefined,
-            added: frameAdded ?? prevContext.client.added,
-          },
-        };
-      });
-    },
-    [],
-  );
-
-  const connectors = useMemo(() => {
-    return [
-      context // if context is set, the app is running in a frame, use farcasterFrame connector
-        ? farcasterFrame()
-        : coinbaseWallet({
-            appName: process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_NAME,
-            appLogoUrl: process.env.NEXT_PUBLIC_ICON_URL,
-            preference: onchainKitProps.config?.wallet?.preference,
-          }),
-    ];
-  }, [context, onchainKitProps.config?.wallet?.preference]);
+  }, [updateClientContext]);
 
   const value = useMemo(() => {
     return {
+      enabled: true,
       context,
       updateClientContext,
       notificationProxyUrl,
@@ -127,22 +110,27 @@ export function MiniKitProvider({
 
   return (
     <MiniKitContext.Provider value={value}>
-      <DefaultOnchainKitProviders connectors={connectors}>
-        <OnchainKitProvider {...onchainKitProps}>
-          <AutoConnect enabled={autoConnect}>
-            <div
-              style={{
-                paddingTop: context?.client.safeAreaInsets?.top ?? 0,
-                paddingBottom: context?.client.safeAreaInsets?.bottom ?? 0,
-                paddingLeft: context?.client.safeAreaInsets?.left ?? 0,
-                paddingRight: context?.client.safeAreaInsets?.right ?? 0,
-              }}
-            >
-              {children}
-            </div>
-          </AutoConnect>
-        </OnchainKitProvider>
-      </DefaultOnchainKitProviders>
+      <AutoConnect enabled={autoConnect}>{children}</AutoConnect>
     </MiniKitContext.Provider>
+  );
+}
+
+export function MiniKitProvider({
+  children,
+  notificationProxyUrl,
+  enabled,
+  autoConnect,
+}: MiniKitProviderProps) {
+  if (!enabled) {
+    return children;
+  }
+
+  return (
+    <MiniKitProviderContent
+      notificationProxyUrl={notificationProxyUrl}
+      autoConnect={autoConnect}
+    >
+      {children}
+    </MiniKitProviderContent>
   );
 }

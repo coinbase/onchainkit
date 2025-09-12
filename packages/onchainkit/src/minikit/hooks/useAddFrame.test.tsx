@@ -1,11 +1,11 @@
-import sdk from '@farcaster/frame-sdk';
+import sdk from '@farcaster/miniapp-sdk';
 import { renderHook } from '@testing-library/react';
 import { act } from 'react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAddFrame } from './useAddFrame';
 import { useMiniKit } from './useMiniKit';
 
-vi.mock('@farcaster/frame-sdk', () => ({
+vi.mock('@farcaster/miniapp-sdk', () => ({
   default: {
     actions: {
       addFrame: vi.fn(),
@@ -60,7 +60,7 @@ describe('useAddFrame', () => {
         type: 'frame_added',
         frameId: '123',
       },
-      frameAdded: true,
+      miniAppAdded: true,
     });
   });
 

@@ -4,7 +4,7 @@ import { isEthereum } from '@/core/utils/isEthereum';
 import type {
   Basename,
   GetAvatarReturnType,
-  GetAvatars,
+  GetAvatarsParams,
 } from '@/identity/types';
 import { mainnet } from 'viem/chains';
 import { normalize } from 'viem/ens';
@@ -20,7 +20,7 @@ import { isBasename } from './isBasename';
 export const getAvatars = async ({
   ensNames,
   chain = mainnet,
-}: GetAvatars): Promise<GetAvatarReturnType[]> => {
+}: GetAvatarsParams): Promise<GetAvatarReturnType[]> => {
   if (!ensNames || ensNames.length === 0) {
     return [];
   }

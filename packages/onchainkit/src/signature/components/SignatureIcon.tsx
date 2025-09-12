@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { Spinner } from '../../internal/components/Spinner';
-import { ErrorSvg } from '../../internal/svg/errorSvg';
-import { SuccessSvg } from '../../internal/svg/successSvg';
-import { cn, text } from '../../styles/theme';
+import { Spinner } from '@/internal/components/Spinner';
+import { ErrorSvg } from '@/internal/svg/errorSvg';
+import { SuccessSvg } from '@/internal/svg/successSvg';
+import { cn, text } from '@/styles/theme';
 import { useSignatureContext } from './SignatureProvider';
 
 type SignatureIconProps = {

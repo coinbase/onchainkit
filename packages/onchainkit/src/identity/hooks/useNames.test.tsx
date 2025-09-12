@@ -1,4 +1,3 @@
-import { publicClient } from '@/core/network/client';
 import { renderHook, waitFor } from '@testing-library/react';
 import type { Address } from 'viem';
 import { base, mainnet, optimism } from 'viem/chains';
@@ -6,12 +5,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getNames } from '../utils/getNames';
 import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
 import { useNames } from './useNames';
-
-vi.mock('@/core/network/client');
-vi.mock('@/core/network/getChainPublicClient', () => ({
-  ...vi.importActual('@/core/network/getChainPublicClient'),
-  getChainPublicClient: vi.fn(() => publicClient),
-}));
 
 vi.mock('../utils/getNames');
 

@@ -1,6 +1,6 @@
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { type ReactNode, useMemo } from 'react';
-import { cn, color, text } from '../../../styles/theme';
+import { cn, text } from '../../../styles/theme';
 
 const DATE_OPTIONS = {
   year: 'numeric',
@@ -8,7 +8,7 @@ const DATE_OPTIONS = {
   day: 'numeric',
 } as Intl.DateTimeFormatOptions;
 
-type NFTMintDateReact = {
+type NFTMintDateProps = {
   className?: string;
   label?: ReactNode;
 };
@@ -16,7 +16,7 @@ type NFTMintDateReact = {
 export function NFTMintDate({
   className,
   label = 'Mint date',
-}: NFTMintDateReact) {
+}: NFTMintDateProps) {
   const { mintDate } = useNFTContext();
 
   const formattedDate = useMemo(() => {
@@ -39,7 +39,7 @@ export function NFTMintDate({
         className,
       )}
     >
-      <div className={cn(color.foregroundMuted)}>{label}</div>
+      <div className={cn('text-ock-foreground-muted')}>{label}</div>
       <div>{formattedDate}</div>
     </div>
   );

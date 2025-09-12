@@ -1,105 +1,107 @@
-import { useIsInMiniApp } from "@coinbase/onchainkit/minikit";
-import sdk from "@farcaster/frame-sdk";
-import { useQuery } from "@tanstack/react-query";
-
-function useUserInfo() {
-  const { isInMiniApp } = useIsInMiniApp();
-
-  return useQuery({
-    queryKey: ["useQuickAuth", isInMiniApp],
-    queryFn: async () => {
-      // If we're in a mini app context, all we have to do to make an authenticated
-      // request is to use `sdk.quickAuth.fetch`. This will automatically include the
-      // necessary `Authorization` header for the backend to verify.
-      const result = await sdk.quickAuth.fetch("/api/me");
-
-      const userInfo = await result.json();
-      return {
-        displayName: userInfo.display_name,
-        pfpUrl: userInfo.pfp_url,
-        bio: userInfo.profile?.bio?.text,
-        followerCount: userInfo.follower_count,
-        followingCount: userInfo.following_count,
-      };
-    },
-    enabled: isInMiniApp,
-  });
-}
+"use client";
+import { useQuickAuth } from "@coinbase/onchainkit/minikit";
+import {
+  Card,
+  Avatar,
+  Title,
+  Text,
+  Group,
+  Stack,
+  Skeleton,
+  Center,
+} from "@mantine/core";
 
 export function UserInfo() {
-  const { data, isLoading, error } = useUserInfo();
+  const { data, isLoading, error } = useQuickAuth<{
+    displayName: string;
+    pfpUrl: string;
+    bio: string;
+    followerCount: number;
+    followingCount: number;
+  }>("/api/me");
 
   if (isLoading) {
     return (
-      <div className="bg-[var(--app-card-bg)] border border-[var(--app-card-border)] rounded-lg p-4 animate-pulse">
-        <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 bg-[var(--app-gray)] rounded-full"></div>
-          <div className="space-y-2 flex-1">
-            <div className="h-5 bg-[var(--app-gray)] rounded w-32"></div>
-            <div className="h-4 bg-[var(--app-gray)] rounded w-24"></div>
-          </div>
-        </div>
-      </div>
+      <Card withBorder p="md" radius="md">
+        <Group align="flex-start" gap="md">
+          <Skeleton height={64} circle />
+          <Stack gap="xs" style={{ flex: 1 }}>
+            <Skeleton height={20} width={128} />
+            <Skeleton height={16} width={96} />
+          </Stack>
+        </Group>
+      </Card>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="bg-[var(--app-card-bg)] border border-[var(--app-card-border)] rounded-lg p-4">
-        <p className="text-[var(--app-foreground-muted)] text-center">
-          {error ? "Failed to load user info" : "No user info available"}
-        </p>
-      </div>
+      <Card withBorder p="md" radius="md">
+        <Center>
+          <Text c="dimmed" ta="center">
+            {error ? "Failed to load user info" : "No user info available"}
+          </Text>
+        </Center>
+      </Card>
     );
   }
 
   return (
-    <div className="bg-[var(--app-card-bg)] border border-[var(--app-card-border)] rounded-lg p-6 backdrop-blur-sm">
-      <div className="flex items-start space-x-4">
+    <Card withBorder p="xl" radius="md">
+      <Group align="flex-start" gap="md">
         {/* Profile Picture */}
         {data.pfpUrl && (
-          <img
+          <Avatar
             src={data.pfpUrl}
             alt={`${data.displayName}'s profile picture`}
-            className="w-16 h-16 rounded-full object-cover border-2 border-[var(--app-card-border)]"
+            size={64}
           />
         )}
 
         {/* User Info */}
-        <div className="flex-1 min-w-0">
+        <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
           {/* Display Name */}
-          <h2 className="text-xl font-bold text-[var(--app-foreground)] mb-2 truncate">
+          <Title
+            order={2}
+            size="lg"
+            fw={600}
+            style={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
             {data.displayName}
-          </h2>
+          </Title>
 
           {/* Bio */}
           {data.bio && (
-            <p className="text-[var(--app-foreground-muted)] text-sm mb-3 leading-relaxed">
+            <Text c="dimmed" size="sm" lh={1.6}>
               {data.bio}
-            </p>
+            </Text>
           )}
 
           {/* Follower Stats */}
-          <div className="flex space-x-6 text-sm">
-            <div className="flex flex-col items-center">
-              <span className="font-semibold text-[var(--app-foreground)]">
+          <Group gap="xl" mt="xs">
+            <Stack align="center" gap={2}>
+              <Text fw={600} size="sm">
                 {data.followerCount?.toLocaleString() || "0"}
-              </span>
-              <span className="text-[var(--app-foreground-muted)]">
+              </Text>
+              <Text c="dimmed" size="xs">
                 Followers
-              </span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="font-semibold text-[var(--app-foreground)]">
+              </Text>
+            </Stack>
+            <Stack align="center" gap={2}>
+              <Text fw={600} size="sm">
                 {data.followingCount?.toLocaleString() || "0"}
-              </span>
-              <span className="text-[var(--app-foreground-muted)]">
+              </Text>
+              <Text c="dimmed" size="xs">
                 Following
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+              </Text>
+            </Stack>
+          </Group>
+        </Stack>
+      </Group>
+    </Card>
   );
 }

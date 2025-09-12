@@ -1,5 +1,7 @@
 export { MiniKitProvider } from './MiniKitProvider';
-export type { MiniKitProviderReact } from './types';
+export type { MiniKitProviderProps } from './types';
+export { SafeArea } from './components/SafeArea';
+export type { SafeAreaProps } from './components/SafeArea';
 export { useMiniKit } from './hooks/useMiniKit';
 export { useOpenUrl } from './hooks/useOpenUrl';
 export { useAuthenticate, parseSignInMessage } from './hooks/useAuthenticate';
@@ -13,3 +15,12 @@ export { useViewCast } from './hooks/useViewCast';
 export { useIsInMiniApp } from './hooks/useIsInMiniApp';
 export { useSwapToken } from './hooks/useSwapToken';
 export { useSendToken } from './hooks/useSendToken';
+export { useQuickAuth } from './hooks/useQuickAuth';
+
+export { withValidManifest } from './utils/manifestUtils';
+
+export type {
+  MiniAppManifest,
+  MiniAppFields,
+  AccountAssociationFields,
+} from './utils/types';

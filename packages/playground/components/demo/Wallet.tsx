@@ -6,7 +6,7 @@ import {
   Name,
   Socials,
 } from '@coinbase/onchainkit/identity';
-import { cn, color } from '@coinbase/onchainkit/theme';
+import { cn } from '@coinbase/onchainkit/theme';
 import {
   ConnectWallet,
   Wallet,
@@ -25,7 +25,9 @@ function WalletComponent() {
     <div className="flex justify-end">
       <Wallet>
         <ConnectWallet
-          disconnectedLabel={<span className={cn(color.inverse)}>Connect</span>}
+          disconnectedLabel={
+            <span className={cn('text-ock-foreground-inverse')}>Connect</span>
+          }
         >
           <Avatar address={address} className="h-6 w-6" />
           <Name />
@@ -34,7 +36,7 @@ function WalletComponent() {
           <Identity className="px-4 pt-3 pb-2">
             <Avatar />
             <Name />
-            <Address className={color.foregroundMuted} />
+            <Address className={'text-ock-foreground-muted'} />
             <EthBalance />
             <Socials />
           </Identity>

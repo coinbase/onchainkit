@@ -13,8 +13,9 @@ import {
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import type React from 'react';
 import { createContext, useEffect, useState } from 'react';
+import { createPublicClient, http } from 'viem';
 import type { Address } from 'viem';
-import { base } from 'wagmi/chains';
+import { base, mainnet } from 'wagmi/chains';
 
 type State = {
   activeComponent?: OnchainKitComponent;
@@ -41,8 +42,6 @@ type State = {
   isSponsored?: boolean;
   vaultAddress?: Address;
   setVaultAddress: (vaultAddress: Address) => void;
-  isSignUpEnabled: boolean;
-  setIsSignUpEnabled: (isSignUpEnabled: boolean) => void;
 };
 
 export const defaultState: State = {
@@ -55,11 +54,18 @@ export const defaultState: State = {
   setNFTToken: () => {},
   setIsSponsored: () => {},
   setVaultAddress: () => {},
-  isSignUpEnabled: true,
-  setIsSignUpEnabled: () => {},
 };
 
 export const AppContext = createContext(defaultState);
+
+const defaultPublicClients = process.env.NEXT_PUBLIC_ETHEREUM_MAINNET_RPC_URL
+  ? {
+      [mainnet.id]: createPublicClient({
+        chain: mainnet,
+        transport: http(process.env.NEXT_PUBLIC_ETHEREUM_MAINNET_RPC_URL),
+      }),
+    }
+  : undefined;
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [activeComponent, setActiveComponent] =
@@ -129,12 +135,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     defaultValue: '0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A',
   });
 
-  const [isSignUpEnabled, setIsSignUpEnabled] = useStateWithStorage<boolean>({
-    key: 'isSignUpEnabled',
-    defaultValue: true,
-    parser: (v) => v === 'true',
-  });
-
   // Load initial values from localStorage
   useEffect(() => {
     const storedPaymasters = localStorage.getItem('paymasters');
@@ -180,8 +180,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         isSponsored,
         vaultAddress,
         setVaultAddress,
-        isSignUpEnabled,
-        setIsSignUpEnabled,
       }}
     >
       <OnchainKitProvider
@@ -197,7 +195,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
           paymaster: paymasters?.[chainId || 8453]?.url,
           wallet: {
             display: 'modal',
-            signUpEnabled: isSignUpEnabled,
             termsUrl: 'https://www.coinbase.com/legal/cookie',
             privacyUrl: 'https://www.coinbase.com/legal/privacy',
             supportedWallets: {
@@ -209,6 +206,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         }}
         projectId={ENVIRONMENT_VARIABLES[ENVIRONMENT.PROJECT_ID]}
         schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+        defaultPublicClients={defaultPublicClients}
       >
         {children}
       </OnchainKitProvider>
