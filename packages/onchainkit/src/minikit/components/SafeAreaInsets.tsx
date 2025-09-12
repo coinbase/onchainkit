@@ -13,7 +13,6 @@ import { useMiniKit } from '../hooks/useMiniKit';
 
 export type SafeAreaInsetsProps = PropsWithChildren<{
   asChild?: boolean;
-  cssVariablesOnly?: boolean;
 }>;
 
 /**
@@ -28,6 +27,10 @@ export type SafeAreaInsetsProps = PropsWithChildren<{
  * - If no `children` are provided, the component renders nothing but still ensures the
  *   CSS variables are set on `:root`.
  * - When not inside a Mini App, returns `children` unchanged and does not set variables.
+ *
+ * @param props
+ * @param props.children React children to render.
+ * @param props.asChild When true, merges safe-area padding into the single child's `style` instead of wrapping.
  */
 export function SafeAreaInsets({ children, asChild }: SafeAreaInsetsProps) {
   const { context } = useMiniKit();
