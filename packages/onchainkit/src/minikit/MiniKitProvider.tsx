@@ -110,18 +110,7 @@ function MiniKitProviderContent({
 
   return (
     <MiniKitContext.Provider value={value}>
-      <AutoConnect enabled={autoConnect}>
-        <div
-          style={{
-            paddingTop: context?.client.safeAreaInsets?.top ?? 0,
-            paddingBottom: context?.client.safeAreaInsets?.bottom ?? 0,
-            paddingLeft: context?.client.safeAreaInsets?.left ?? 0,
-            paddingRight: context?.client.safeAreaInsets?.right ?? 0,
-          }}
-        >
-          {children}
-        </div>
-      </AutoConnect>
+      <AutoConnect enabled={autoConnect}>{children}</AutoConnect>
     </MiniKitContext.Provider>
   );
 }

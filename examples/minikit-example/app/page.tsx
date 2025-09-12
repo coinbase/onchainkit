@@ -30,6 +30,25 @@ export default function App() {
   const { setFrameReady, isFrameReady } = useMiniKit();
   const openUrl = useOpenUrl();
 
+  const safeAreaInsets = (() => {
+    if (typeof window === "undefined") {
+      return { top: "", right: "", bottom: "", left: "" };
+    }
+    const styles = getComputedStyle(document.documentElement);
+    return {
+      top: styles.getPropertyValue("--ock-minikit-safe-area-inset-top").trim(),
+      right: styles
+        .getPropertyValue("--ock-minikit-safe-area-inset-right")
+        .trim(),
+      bottom: styles
+        .getPropertyValue("--ock-minikit-safe-area-inset-bottom")
+        .trim(),
+      left: styles
+        .getPropertyValue("--ock-minikit-safe-area-inset-left")
+        .trim(),
+    };
+  })();
+
   useEffect(() => {
     if (!isFrameReady) {
       setFrameReady();
@@ -72,6 +91,23 @@ export default function App() {
           <CloseFrame />
           <BatchedTransaction />
           <Context />
+          <Stack>
+            <Title order={3}>Safe Area Insets (:root)</Title>
+            <Text>
+              --ock-minikit-safe-area-inset-top: {safeAreaInsets.top || "N/A"}
+            </Text>
+            <Text>
+              --ock-minikit-safe-area-inset-right:{" "}
+              {safeAreaInsets.right || "N/A"}
+            </Text>
+            <Text>
+              --ock-minikit-safe-area-inset-bottom:{" "}
+              {safeAreaInsets.bottom || "N/A"}
+            </Text>
+            <Text>
+              --ock-minikit-safe-area-inset-left: {safeAreaInsets.left || "N/A"}
+            </Text>
+          </Stack>
         </Stack>
       </Stack>
 

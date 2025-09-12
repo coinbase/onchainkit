@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Source_Code_Pro } from "next/font/google";
+import { SafeArea } from "@coinbase/onchainkit/minikit";
 import { minikitConfig } from "@/minikit.config";
 import { RootProvider } from "./rootProvider";
 import {
@@ -47,15 +48,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" {...mantineHtmlProps}>
-      <head>
-        <ColorSchemeScript />
-      </head>
-      <body className={`${inter.variable} ${sourceCodePro.variable}`}>
-        <MantineProvider defaultColorScheme="auto">
-          <RootProvider>{children}</RootProvider>
-        </MantineProvider>
-      </body>
-    </html>
+    <RootProvider>
+      <html lang="en" {...mantineHtmlProps}>
+        <head>
+          <ColorSchemeScript />
+        </head>
+        <body className={`${inter.variable} ${sourceCodePro.variable}`}>
+          <MantineProvider defaultColorScheme="auto">
+            <SafeArea>{children}</SafeArea>
+          </MantineProvider>
+        </body>
+      </html>
+    </RootProvider>
   );
 }

@@ -138,32 +138,6 @@ describe('MiniKitProvider', () => {
     expect(contextValue?.context).toBeNull();
   });
 
-  it('should render children with safe area insets', async () => {
-    const { container } = render(
-      <WagmiProvider config={createConfig(mockConfig)}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider
-            chain={mockConfig.chains[0]}
-            miniKit={{
-              enabled: true,
-            }}
-          >
-            <div>Test Child</div>
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await act(() => Promise.resolve());
-
-    expect(container.querySelector('div')).toHaveStyle({
-      paddingTop: '0px',
-      paddingBottom: '0px',
-      paddingLeft: '0px',
-      paddingRight: '0px',
-    });
-  });
-
   it('should set up frame event listeners', async () => {
     render(
       <WagmiProvider config={createConfig(mockConfig)}>
