@@ -11,7 +11,7 @@ import type { CSSProperties, ReactElement } from 'react';
 import { useIsInMiniApp } from '../hooks/useIsInMiniApp';
 import { useMiniKit } from '../hooks/useMiniKit';
 
-export type SafeAreaInsetsProps = PropsWithChildren<{
+export type SafeAreaProps = PropsWithChildren<{
   asChild?: boolean;
 }>;
 
@@ -20,7 +20,7 @@ export type SafeAreaInsetsProps = PropsWithChildren<{
  *
  * - Reads inset values from `MiniKit` `context.client.safeAreaInsets` and exposes them as
  *   CSS custom properties on `:root`/`html`:
- *   `--ock-minikit-safeareainsets-top|right|bottom|left`.
+ *   `--ock-minikit-safe-area-inset-top|right|bottom|left`.
  * - Uses those variables directly as pixel values via `var(..., 0px)`.
  * - When `asChild` is true, expects a single React element and merges the padding into the
  *   child's `style`. Otherwise, wraps `children` in a `div` that has the padding applied.
@@ -32,7 +32,7 @@ export type SafeAreaInsetsProps = PropsWithChildren<{
  * @param props.children React children to render.
  * @param props.asChild When true, merges safe-area padding into the single child's `style` instead of wrapping.
  */
-export function SafeAreaInsets({ children, asChild }: SafeAreaInsetsProps) {
+export function SafeArea({ children, asChild }: SafeAreaProps) {
   const { context } = useMiniKit();
   const { isInMiniApp } = useIsInMiniApp();
 
@@ -54,7 +54,7 @@ export function SafeAreaInsets({ children, asChild }: SafeAreaInsetsProps) {
 
     Object.entries(safeAreaInsets).forEach(([key, value]) => {
       document.documentElement.style.setProperty(
-        `--ock-minikit-safeareainsets-${key}`,
+        `--ock-minikit-safe-area-inset-${key}`,
         `${value}px`,
       );
     });
@@ -62,10 +62,10 @@ export function SafeAreaInsets({ children, asChild }: SafeAreaInsetsProps) {
 
   const paddingStyles: CSSProperties = useMemo(() => {
     return {
-      paddingTop: 'var(--ock-minikit-safeareainsets-top, 0px)',
-      paddingRight: 'var(--ock-minikit-safeareainsets-right, 0px)',
-      paddingBottom: 'var(--ock-minikit-safeareainsets-bottom, 0px)',
-      paddingLeft: 'var(--ock-minikit-safeareainsets-left, 0px)',
+      paddingTop: 'var(--ock-minikit-safe-area-inset-top, 0px)',
+      paddingRight: 'var(--ock-minikit-safe-area-inset-right, 0px)',
+      paddingBottom: 'var(--ock-minikit-safe-area-inset-bottom, 0px)',
+      paddingLeft: 'var(--ock-minikit-safe-area-inset-left, 0px)',
     };
   }, []);
 
@@ -80,7 +80,7 @@ export function SafeAreaInsets({ children, asChild }: SafeAreaInsetsProps) {
   if (asChild) {
     if (!isValidElement(children)) {
       console.warn(
-        'SafeAreaInsets: children is not a valid element. Returning children as is.',
+        'SafeArea: children is not a valid element. Returning children as is.',
       );
       return children;
     }

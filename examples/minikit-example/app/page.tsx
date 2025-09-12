@@ -36,14 +36,16 @@ export default function App() {
     }
     const styles = getComputedStyle(document.documentElement);
     return {
-      top: styles.getPropertyValue("--ock-minikit-safeareainsets-top").trim(),
+      top: styles.getPropertyValue("--ock-minikit-safe-area-inset-top").trim(),
       right: styles
-        .getPropertyValue("--ock-minikit-safeareainsets-right")
+        .getPropertyValue("--ock-minikit-safe-area-inset-right")
         .trim(),
       bottom: styles
-        .getPropertyValue("--ock-minikit-safeareainsets-bottom")
+        .getPropertyValue("--ock-minikit-safe-area-inset-bottom")
         .trim(),
-      left: styles.getPropertyValue("--ock-minikit-safeareainsets-left").trim(),
+      left: styles
+        .getPropertyValue("--ock-minikit-safe-area-inset-left")
+        .trim(),
     };
   })();
 
@@ -92,18 +94,18 @@ export default function App() {
           <Stack>
             <Title order={3}>Safe Area Insets (:root)</Title>
             <Text>
-              --ock-minikit-safeareainsets-top: {safeAreaInsets.top || "N/A"}
+              --ock-minikit-safe-area-inset-top: {safeAreaInsets.top || "N/A"}
             </Text>
             <Text>
-              --ock-minikit-safeareainsets-right:{" "}
+              --ock-minikit-safe-area-inset-right:{" "}
               {safeAreaInsets.right || "N/A"}
             </Text>
             <Text>
-              --ock-minikit-safeareainsets-bottom:{" "}
+              --ock-minikit-safe-area-inset-bottom:{" "}
               {safeAreaInsets.bottom || "N/A"}
             </Text>
             <Text>
-              --ock-minikit-safeareainsets-left: {safeAreaInsets.left || "N/A"}
+              --ock-minikit-safe-area-inset-left: {safeAreaInsets.left || "N/A"}
             </Text>
           </Stack>
         </Stack>

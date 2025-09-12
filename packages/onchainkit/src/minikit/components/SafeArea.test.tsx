@@ -1,27 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { SafeAreaInsets } from './SafeAreaInsets';
+import { SafeArea } from './SafeArea';
 import { useIsInMiniApp } from '../hooks/useIsInMiniApp';
 import { useMiniKit } from '../hooks/useMiniKit';
 
 vi.mock('../hooks/useIsInMiniApp', () => ({ useIsInMiniApp: vi.fn() }));
 vi.mock('../hooks/useMiniKit', () => ({ useMiniKit: vi.fn() }));
 
-describe('SafeAreaInsets', () => {
+describe('SafeArea', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     document.documentElement.style.removeProperty(
-      '--ock-minikit-safeareainsets-top',
+      '--ock-minikit-safe-area-inset-top',
     );
     document.documentElement.style.removeProperty(
-      '--ock-minikit-safeareainsets-right',
+      '--ock-minikit-safe-area-inset-right',
     );
     document.documentElement.style.removeProperty(
-      '--ock-minikit-safeareainsets-bottom',
+      '--ock-minikit-safe-area-inset-bottom',
     );
     document.documentElement.style.removeProperty(
-      '--ock-minikit-safeareainsets-left',
+      '--ock-minikit-safe-area-inset-left',
     );
   });
 
@@ -30,15 +30,15 @@ describe('SafeAreaInsets', () => {
     (useMiniKit as any).mockReturnValue({ context: { client: {} } } as any);
 
     render(
-      <SafeAreaInsets>
+      <SafeArea>
         <div data-testid="content">Hello</div>
-      </SafeAreaInsets>,
+      </SafeArea>,
     );
 
     expect(screen.getByTestId('content')).toHaveTextContent('Hello');
     expect(
       document.documentElement.style.getPropertyValue(
-        '--ock-minikit-safeareainsets-top',
+        '--ock-minikit-safe-area-inset-top',
       ),
     ).toBe('');
   });
@@ -52,29 +52,29 @@ describe('SafeAreaInsets', () => {
     } as any);
 
     const { container } = render(
-      <SafeAreaInsets>
+      <SafeArea>
         <div data-testid="content">Hello</div>
-      </SafeAreaInsets>,
+      </SafeArea>,
     );
 
     expect(
       document.documentElement.style
-        .getPropertyValue('--ock-minikit-safeareainsets-top')
+        .getPropertyValue('--ock-minikit-safe-area-inset-top')
         .trim(),
     ).toBe('10px');
     expect(
       document.documentElement.style
-        .getPropertyValue('--ock-minikit-safeareainsets-right')
+        .getPropertyValue('--ock-minikit-safe-area-inset-right')
         .trim(),
     ).toBe('2px');
     expect(
       document.documentElement.style
-        .getPropertyValue('--ock-minikit-safeareainsets-bottom')
+        .getPropertyValue('--ock-minikit-safe-area-inset-bottom')
         .trim(),
     ).toBe('3px');
     expect(
       document.documentElement.style
-        .getPropertyValue('--ock-minikit-safeareainsets-left')
+        .getPropertyValue('--ock-minikit-safe-area-inset-left')
         .trim(),
     ).toBe('4px');
 
@@ -92,11 +92,11 @@ describe('SafeAreaInsets', () => {
     } as any);
 
     render(
-      <SafeAreaInsets asChild>
+      <SafeArea asChild>
         <div data-testid="child" style={{ color: 'red' }}>
           Hi
         </div>
-      </SafeAreaInsets>,
+      </SafeArea>,
     );
 
     const child = screen.getByTestId('child');
@@ -114,7 +114,7 @@ describe('SafeAreaInsets', () => {
 
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
-    render(<SafeAreaInsets asChild>{'text child'}</SafeAreaInsets>);
+    render(<SafeArea asChild>{'text child'}</SafeArea>);
 
     expect(screen.getByText('text child')).toBeInTheDocument();
     expect(warnSpy).toHaveBeenCalled();
@@ -132,11 +132,11 @@ describe('SafeAreaInsets', () => {
       },
     } as any);
 
-    const { container } = render(<SafeAreaInsets>{null}</SafeAreaInsets>);
+    const { container } = render(<SafeArea>{null}</SafeArea>);
     expect(container.firstChild).toBeNull();
     expect(
       document.documentElement.style
-        .getPropertyValue('--ock-minikit-safeareainsets-top')
+        .getPropertyValue('--ock-minikit-safe-area-inset-top')
         .trim(),
     ).toBe('11px');
   });
