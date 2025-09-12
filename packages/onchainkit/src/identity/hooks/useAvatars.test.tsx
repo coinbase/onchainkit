@@ -57,7 +57,10 @@ describe('useAvatars', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(vi.mocked(getAvatars)).toHaveBeenCalledWith({ ensNames: testEnsNames, chain: mainnet });
+    expect(vi.mocked(getAvatars)).toHaveBeenCalledWith({
+      ensNames: testEnsNames,
+      chain: mainnet,
+    });
   });
 
   it('returns the loading state true while still fetching ENS avatars', async () => {
@@ -99,7 +102,10 @@ describe('useAvatars', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(vi.mocked(getAvatars)).toHaveBeenCalledWith({ ensNames: testEnsNames, chain: base });
+    expect(vi.mocked(getAvatars)).toHaveBeenCalledWith({
+      ensNames: testEnsNames,
+      chain: base,
+    });
   });
 
   it('returns correct base sepolia avatars', async () => {
@@ -124,13 +130,18 @@ describe('useAvatars', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(vi.mocked(getAvatars)).toHaveBeenCalledWith({ ensNames: testEnsNames, chain: baseSepolia });
+    expect(vi.mocked(getAvatars)).toHaveBeenCalledWith({
+      ensNames: testEnsNames,
+      chain: baseSepolia,
+    });
   });
 
   it('returns error for unsupported chain', async () => {
     const testEnsNames = ['shrek.basetest.eth', 'donkey.basetest.eth'];
 
-    vi.mocked(getAvatars).mockRejectedValue('ChainId not supported, avatar resolution is only supported on Ethereum and Base.');
+    vi.mocked(getAvatars).mockRejectedValue(
+      'ChainId not supported, avatar resolution is only supported on Ethereum and Base.',
+    );
 
     const { result } = renderHook(
       () =>
@@ -265,7 +276,10 @@ describe('useAvatars', () => {
       expect(result.current.isError).toBe(false);
     });
 
-    expect(vi.mocked(getAvatars)).toHaveBeenCalledWith({ ensNames: testEnsNames, chain: mainnet });
+    expect(vi.mocked(getAvatars)).toHaveBeenCalledWith({
+      ensNames: testEnsNames,
+      chain: mainnet,
+    });
   });
 
   it('disables the query when ensNames array is empty', async () => {

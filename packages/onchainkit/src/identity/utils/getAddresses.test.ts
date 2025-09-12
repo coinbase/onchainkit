@@ -2,7 +2,6 @@ import { isBasename } from '@/identity/utils/isBasename';
 import type { Address } from 'viem';
 import { mainnet } from 'viem/chains';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { Mock } from 'vitest';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { getAddresses } from './getAddresses';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
@@ -27,6 +26,7 @@ describe('getAddresses', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(getChainPublicClient).mockReturnValue(mockClient as any);
     vi.mocked(isBasename).mockImplementation(
       (name) => name.includes('.base.eth') || name.includes('.basetest.eth'),

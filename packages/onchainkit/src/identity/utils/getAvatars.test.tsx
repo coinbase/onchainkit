@@ -1,5 +1,5 @@
 import { base, baseSepolia, mainnet, optimism } from 'viem/chains';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { getAvatars } from './getAvatars';
@@ -18,6 +18,7 @@ describe('getAvatars', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(getChainPublicClient).mockReturnValue(mockClient as any);
   });
 
@@ -39,15 +40,21 @@ describe('getAvatars', () => {
 
     expect(avatarUrls).toEqual(expectedAvatarUrls);
     expect(mockClient.getEnsAvatar).toHaveBeenCalledTimes(2);
-    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(1, { name: ensNames[0] });
-    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(2, { name: ensNames[1] });
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(1, {
+      name: ensNames[0],
+    });
+    expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(2, {
+      name: ensNames[1],
+    });
     expect(vi.mocked(getChainPublicClient)).toHaveBeenCalledWith(mainnet);
   });
 
   it('should handle null avatars correctly', async () => {
     const ensNames = ['test1.ens', 'test2.ens'];
 
-    mockClient.getEnsAvatar.mockResolvedValueOnce(null).mockResolvedValueOnce(null);
+    mockClient.getEnsAvatar
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(null);
 
     const avatarUrls = await getAvatars({ ensNames });
 

@@ -99,7 +99,7 @@ describe('getChainPublicClient', () => {
 
     // Request base chain which is not in defaultPublicClients
     const result = getChainPublicClient(base);
-    
+
     // Should fallback to default public client
     expect(result).not.toBe(customPublicClient);
     expect(result.chain.id).toBe(base.id);

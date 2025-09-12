@@ -1,5 +1,5 @@
 import { base, baseSepolia, mainnet, optimism } from 'viem/chains';
-import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getChainPublicClient } from '../../core/network/getChainPublicClient';
 import { RESOLVER_ADDRESSES_BY_CHAIN_ID } from '../constants';
 import { getAvatar } from './getAvatar';
@@ -13,6 +13,7 @@ describe('getAvatar', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(getChainPublicClient).mockReturnValue(mockClient as any);
   });
 
@@ -113,7 +114,10 @@ describe('getAvatar', () => {
       name: ensName,
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[baseSepolia.id],
     });
-    expect(vi.mocked(getChainPublicClient)).toHaveBeenNthCalledWith(1, baseSepolia);
+    expect(vi.mocked(getChainPublicClient)).toHaveBeenNthCalledWith(
+      1,
+      baseSepolia,
+    );
 
     // getAvatar defaulted to mainnet
     expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(2, {
@@ -171,7 +175,10 @@ describe('getAvatar', () => {
       name: ensName,
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[baseSepolia.id],
     });
-    expect(vi.mocked(getChainPublicClient)).toHaveBeenNthCalledWith(1, baseSepolia);
+    expect(vi.mocked(getChainPublicClient)).toHaveBeenNthCalledWith(
+      1,
+      baseSepolia,
+    );
 
     // getAvatar defaulted to mainnet
     expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(2, {
@@ -223,7 +230,10 @@ describe('getAvatar', () => {
       name: ensName,
       universalResolverAddress: RESOLVER_ADDRESSES_BY_CHAIN_ID[baseSepolia.id],
     });
-    expect(vi.mocked(getChainPublicClient)).toHaveBeenNthCalledWith(1, baseSepolia);
+    expect(vi.mocked(getChainPublicClient)).toHaveBeenNthCalledWith(
+      1,
+      baseSepolia,
+    );
 
     // getAvatar defaulted to mainnet
     expect(mockClient.getEnsAvatar).toHaveBeenNthCalledWith(2, {

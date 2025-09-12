@@ -9,7 +9,7 @@ export const getAddress = async ({
   name,
 }: GetAddressParams): Promise<GetAddressReturnType> => {
   const mainnetClient = getChainPublicClient(mainnet);
-  
+
   // Gets address for ENS name.
   const address = await mainnetClient.getEnsAddress({
     name,

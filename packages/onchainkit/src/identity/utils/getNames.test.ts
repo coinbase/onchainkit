@@ -45,6 +45,7 @@ describe('getNames', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(getChainPublicClient).mockReturnValue(mockClient as any);
 
     mockGetAddress.mockImplementation(({ name }) => {
@@ -98,7 +99,9 @@ describe('getNames', () => {
     expect(mockClient.getEnsName).toHaveBeenCalledTimes(3);
     expect(mockGetAddresses).toHaveBeenCalledTimes(1);
     walletAddresses.forEach((address, index) => {
-      expect(mockClient.getEnsName).toHaveBeenNthCalledWith(index + 1, { address });
+      expect(mockClient.getEnsName).toHaveBeenNthCalledWith(index + 1, {
+        address,
+      });
     });
   });
 
