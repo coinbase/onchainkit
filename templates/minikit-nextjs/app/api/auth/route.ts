@@ -23,26 +23,13 @@ export async function GET(request: NextRequest) {
     });
 
     // If the token was valid, `payload.sub` will be the user's Farcaster ID.
+    // This is guaranteed to be the user that signed the message in the mini app.
+    // You can now use this to do anything you want, e.g. fetch the user's data from your database
+    // or fetch the user's info from a service like Neynar.
     const userFid = payload.sub;
 
-    // And now we can use that FID to do whatever we want.
-    // In this example, we're going to get the user's info from Neynar and return it.
-    const userInfoResult = await fetch(
-      `https://api.neynar.com/v2/farcaster/user/bulk?fids=${userFid}`,
-      {
-        headers: {
-          "x-api-key": process.env.NEYNAR_API_KEY || "",
-        },
-      },
-    ).then((res) => res.json());
-
-    const userInfo = userInfoResult?.users?.[0];
-
-    if (!userInfo) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
-    }
-
-    return NextResponse.json(userInfo);
+    // By default, we'll return the user's FID. Update this to meet your needs.
+    return NextResponse.json({ userFid });
   } catch (e) {
     if (e instanceof Errors.InvalidTokenError) {
       return NextResponse.json({ message: "Invalid token" }, { status: 401 });
