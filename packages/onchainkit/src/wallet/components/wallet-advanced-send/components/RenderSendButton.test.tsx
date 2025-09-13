@@ -87,7 +87,6 @@ describe('RenderSendButton', () => {
       chain: base,
       apiKey: '',
       rpcUrl: '0x123' as `0x${string}`,
-      schemaId: '0x123',
       projectId: '',
       sessionId: '0x123',
     });

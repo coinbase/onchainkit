@@ -24,7 +24,6 @@ describe('Badge Component', () => {
       apiKey: null,
       chain: base,
       rpcUrl: null,
-      schemaId: null,
       projectId: null,
       sessionId: null,
       config: {
@@ -227,7 +226,6 @@ describe('Badge Component', () => {
       apiKey: null,
       chain: base,
       rpcUrl: null,
-      schemaId: '0xkitSchema',
       projectId: null,
       sessionId: null,
       config: {
@@ -254,7 +252,6 @@ describe('Badge Component', () => {
       apiKey: null,
       chain: base,
       rpcUrl: null,
-      schemaId: '0xkitSchema',
       projectId: null,
       sessionId: null,
       config: {
@@ -271,7 +268,7 @@ describe('Badge Component', () => {
     });
   });
 
-  it('should fall back to kit schemaId if context schemaId is not available and tooltip is enabled', async () => {
+  it('should pass null schemaId when context schemaId is not available and tooltip is enabled', async () => {
     vi.mocked(useIdentityContext).mockReturnValue({
       address: '0x123',
       schemaId: null,
@@ -281,7 +278,6 @@ describe('Badge Component', () => {
       apiKey: null,
       chain: base,
       rpcUrl: null,
-      schemaId: '0xkitSchema',
       projectId: null,
       sessionId: null,
       config: {
@@ -294,7 +290,7 @@ describe('Badge Component', () => {
     expect(useAttestations).toHaveBeenCalledWith({
       address: '0x123',
       chain: base,
-      schemaId: '0xkitSchema',
+      schemaId: null,
     });
   });
 

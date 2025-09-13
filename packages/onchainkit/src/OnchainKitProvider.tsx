@@ -4,8 +4,6 @@ import { useContext, useEffect, useLayoutEffect, useMemo } from 'react';
 import { DefaultOnchainKitProviders } from './DefaultOnchainKitProviders';
 import OnchainKitProviderBoundary from './OnchainKitProviderBoundary';
 import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from './core/constants';
-import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from './identity/constants';
-import { checkHashLength } from './internal/utils/checkHashLength';
 import { generateUUIDWithInsecureFallback } from './internal/utils/crypto';
 import { OnchainKitContext } from './useOnchainKit';
 import { useThemeRoot } from './internal/hooks/useTheme';
@@ -18,7 +16,6 @@ import type { Chain } from 'wagmi/chains';
 import type { AppConfig } from './core/types';
 import type { MiniKitOptions } from './minikit/types';
 import { MiniKitProvider } from '@/minikit/MiniKitProvider';
-import type { EASSchemaUid } from '@/identity/types';
 import { type PublicClient } from 'viem';
 
 export type OnchainKitProviderReact = {
@@ -30,7 +27,6 @@ export type OnchainKitProviderReact = {
   sessionId?: string;
   projectId?: string;
   rpcUrl?: string;
-  schemaId?: EASSchemaUid;
   miniKit?: MiniKitOptions;
   defaultPublicClients?: {
     [chainId: number]: PublicClient;
@@ -48,16 +44,11 @@ export function OnchainKitProvider({
   config,
   projectId,
   rpcUrl,
-  schemaId,
   miniKit = {
     enabled: false,
   },
   defaultPublicClients,
 }: OnchainKitProviderReact) {
-  if (schemaId && !checkHashLength(schemaId, 64)) {
-    throw Error('EAS schemaId must be 64 characters prefixed with "0x"');
-  }
-
   const [sessionId] = useSessionStorage(
     'ock-session-id',
     generateUUIDWithInsecureFallback(),
@@ -112,7 +103,6 @@ export function OnchainKitProvider({
       },
       projectId: projectId ?? null,
       rpcUrl: rpcUrl ?? null,
-      schemaId: schemaId ?? COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
       sessionId,
       defaultPublicClients,
       miniKit,
@@ -126,7 +116,6 @@ export function OnchainKitProvider({
     config,
     projectId,
     rpcUrl,
-    schemaId,
     sessionId,
     defaultPublicClients,
     miniKit,

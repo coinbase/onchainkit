@@ -5,23 +5,21 @@ import { setOnchainKitConfig } from './core/OnchainKitConfig';
 import { useOnchainKit } from './useOnchainKit';
 
 const TestComponent = () => {
-  const { schemaId, apiKey } = useOnchainKit();
+  const { apiKey } = useOnchainKit();
   return (
     <div>
-      {apiKey} + {schemaId}
+      {apiKey}
     </div>
   );
 };
 
 describe('useOnchainKit', () => {
   it('should return the correct value', () => {
-    const schemaId = '0x123';
     const apiKey = 'test-api-key';
-    setOnchainKitConfig({ schemaId, apiKey });
+    setOnchainKitConfig({ apiKey });
     const { container } = render(<TestComponent />, {
       wrapper: ({ children }) => <div>{children}</div>,
     });
-    expect(container).toHaveTextContent(schemaId);
     expect(container).toHaveTextContent(apiKey);
   });
 });
