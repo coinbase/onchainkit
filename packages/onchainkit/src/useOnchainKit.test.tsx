@@ -6,11 +6,7 @@ import { useOnchainKit } from './useOnchainKit';
 
 const TestComponent = () => {
   const { apiKey } = useOnchainKit();
-  return (
-    <div>
-      {apiKey}
-    </div>
-  );
+  return <div>{apiKey}</div>;
 };
 
 describe('useOnchainKit', () => {

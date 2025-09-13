@@ -1,5 +1,6 @@
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
+import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from '@/identity/constants';
 import { useAttestations } from '@/identity/hooks/useAttestations';
 import { useOnchainKit } from '@/useOnchainKit';
 import { render, screen } from '@testing-library/react';
@@ -33,10 +34,9 @@ describe('DisplayBadge', () => {
     vi.clearAllMocks();
   });
 
-  it('should throw an error if neither contextSchemaId nor schemaId is provided', () => {
+  it('should use default schema when no contextSchemaId is provided', () => {
     useOnchainKitMock.mockReturnValue({
       chain: 'test-chain',
-      schemaId: null,
     });
     useIdentityContextMock.mockReturnValue({
       schemaId: null,
@@ -44,21 +44,22 @@ describe('DisplayBadge', () => {
     });
     useAttestationsMock.mockReturnValue([]);
 
-    expect(() =>
-      render(
-        <DisplayBadge>
-          <Badge />
-        </DisplayBadge>,
-      ),
-    ).toThrow(
-      'Name: a SchemaId must be provided to the OnchainKitProvider or Identity component.',
+    render(
+      <DisplayBadge>
+        <Badge />
+      </DisplayBadge>,
     );
+
+    expect(useAttestations).toHaveBeenCalledWith({
+      address: testIdentityProviderAddress,
+      chain: 'test-chain',
+      schemaId: COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID,
+    });
   });
 
   it('should return null if attestations are empty', () => {
     useOnchainKitMock.mockReturnValue({
       chain: 'test-chain',
-      schemaId: 'test-schema-id',
     });
     useIdentityContextMock.mockReturnValue({
       schemaId: null,
@@ -77,7 +78,6 @@ describe('DisplayBadge', () => {
   it('should render children if attestations are not empty', () => {
     useOnchainKitMock.mockReturnValue({
       chain: 'test-chain',
-      schemaId: 'test-schema-id',
     });
     useIdentityContextMock.mockReturnValue({
       schemaId: null,
@@ -94,8 +94,12 @@ describe('DisplayBadge', () => {
   });
 
   it('use identity context address if provided', () => {
+    useOnchainKitMock.mockReturnValue({
+      chain: 'test-chain',
+    });
     useIdentityContextMock.mockReturnValue({
       address: testIdentityProviderAddress,
+      schemaId: 'test-schema-id',
     });
 
     render(
@@ -112,8 +116,12 @@ describe('DisplayBadge', () => {
   });
 
   it('use component address over identity context if both are provided', () => {
+    useOnchainKitMock.mockReturnValue({
+      chain: 'test-chain',
+    });
     useIdentityContextMock.mockReturnValue({
       address: testIdentityProviderAddress,
+      schemaId: 'test-schema-id',
     });
 
     render(
