@@ -1,0 +1,112 @@
+---
+title: "Troubleshooting"
+---
+
+Running into issues? This guide covers the most common problems and how to fix them. Can't find your issue? Check our [GitHub Issues](https://github.com/coinbase/onchainkit/issues) or ask in [Discord](https://discord.gg/invite/buildonbase).
+
+## Common Issues
+
+### Environment Setup
+
+- **Missing Project ID**
+
+  - Error: "Project ID is required for this component"
+  - Solution: Add your Project ID to the OnchainKitProvider:
+
+```tsx
+<OnchainKitProvider
+  apiKey="YOUR_API_KEY"
+  projectId="YOUR_PROJECT_ID" // Get this from portal.cdp.coinbase.com
+  chain={base}
+>
+```
+
+- **Contracts Not Available**
+  - Error: "Contracts are not available" or "Contracts not available for LifecycleStatus"
+  - Solutions:
+    - Double-check your OnchainKit API key is set correctly
+    - Make sure you're using an API key from [portal.cdp.coinbase.com](https://portal.cdp.coinbase.com)
+    - Verify your environment variables are properly exposed to the client
+
+### Dependencies
+
+- **Version Compatibility**
+  - Issue: Compilation failures or TypeScript errors
+  - Solution: Make sure you're using compatible package versions:
+
+```json
+{
+  "dependencies": {
+    "@coinbase/onchainkit": "^1.0.0",
+    "react": "^19",
+    "react-dom": "^19",
+    "viem": "^2.27.0",
+    "wagmi": "^2.16.0"
+  }
+}
+```
+
+### Provider Configuration
+
+- **Missing OnchainKitProvider**
+
+  - Issue: Missing OnchainKitProvider context values
+  - Solution: Wrap your app with OnchainKitProvider. See our [setup guide](/getting-started/manual-installation) for details:
+
+```tsx
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { base } from 'viem/chains';
+
+export default function App({ children }) {
+  return (
+    <OnchainKitProvider
+      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+      chain={base}
+    >
+      {children}
+    </OnchainKitProvider>
+  );
+}
+```
+
+### Wallet Connection
+
+- **Connection Failed**
+
+  - Error: "Unable to connect wallet"
+  - Solutions:
+    - Make sure your wallet extension is installed and unlocked
+    - Check that you're on a supported network
+    - Try switching networks in your wallet
+    - Verify your RPC endpoints are working
+
+- **Chain Switching Issues**
+  - Error: "Failed to switch chain"
+  - Solutions:
+    - Make sure the chain is supported by OnchainKit
+    - Check that your wallet has the right permissions
+    - Verify your RPC endpoints are set up correctly
+    - Try manually adding the chain to your wallet first
+
+### Transaction Issues
+
+- **Gas Estimation Failed**
+  - Error: "Gas estimation failed"
+  - Solutions:
+    - Make sure you have enough ETH for gas fees
+    - Double-check your transaction parameters
+    - Verify you're on the right network
+
+### Module Resolution
+
+- **Module Resolution Errors**
+  - Error: "Cannot find module ... or its corresponding type declarations"
+  - Solution: OnchainKit only supports ES Modules, not CommonJS. Use Node 22+ and set `"moduleResolution": "NodeNext"` in your TypeScript config for the best experience.
+
+## Getting Help
+
+Need more help?
+
+- [Discord Community](https://discord.gg/invite/buildonbase)
+- [X/Twitter Support](https://x.com/onchainkit)
+- [GitHub Issues](https://github.com/coinbase/onchainkit/issues)

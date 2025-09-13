@@ -6,9 +6,11 @@
       "pages": [
         "getting-started/overview",
         "getting-started/quickstart-guide",
-        "getting-started/manual-installation"
+        "getting-started/manual-installation",
+        "getting-started/troubleshooting"
       ]
     },
+    {},
     {
       "group": "Advanced",
       "pages": ["advanced/custom-providers"]
