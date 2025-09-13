@@ -1,0 +1,197 @@
+---
+title: "Manual Installation"
+---
+
+Working in an existing React project? Here's how to manually install and configure OnchainKit.
+
+## Install the required dependencies
+
+Add OnchainKit and its peer dependencies to your project:
+
+```bash Terminal
+npm install @coinbase/onchainkit react react-dom wagmi viem
+```
+
+Or with your preferred package manager:
+
+```bash Terminal
+# pnpm
+pnpm add @coinbase/onchainkit react react-dom wagmi viem
+
+# yarn
+yarn add @coinbase/onchainkit react react-dom wagmi viem
+```
+
+## Import styles
+
+OnchainKit components need the base styles to look correct. Import them in your app's root layout or main CSS file:
+
+```tsx app/layout.tsx
+import '@coinbase/onchainkit/styles.css';
+```
+
+Or in your main CSS file:
+
+```css globals.css
+@import '@coinbase/onchainkit/styles.css';
+```
+
+## Set up and configure the provider
+
+Wrap your app with the `OnchainKitProvider`. This gives all OnchainKit components access to your chain configuration and API keys.
+
+OnchainKit handles Wagmi and React Query setup internally, so you just need to configure the provider with your preferences.
+
+If you want to customize these providers, check out the [Custom Providers](/advanced/custom-providers) page.
+
+```tsx app/layout.tsx
+'use client';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { base } from 'wagmi/chains';
+
+export default function RootLayout({ children }) {
+  return (
+    <OnchainKitProvider
+      apiKey="YOUR_API_KEY"
+      chain={base}
+      config={{
+        appearance: {
+          mode: 'auto', // 'light' | 'dark' | 'auto'
+        },
+        wallet: {
+          display: 'modal', // 'modal' | 'drawer'
+          preference: 'all', // 'all' | 'smartWalletOnly' | 'eoaOnly'
+        },
+      }}
+    >
+      <html>
+        <body>
+          {children}
+        </body>
+      </html>
+    </OnchainKitProvider>
+  );
+}
+```
+
+## Environment variables (optional)
+
+While you can hardcode your API key directly in the provider, it may be cleaner to use environment variables for security, especially in production apps.
+
+### Next.js
+
+Create a `.env.local` file in your project root:
+
+```bash .env.local
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=your_api_key_here
+```
+
+### Vite
+
+Create a `.env` file in your project root:
+
+```bash .env
+VITE_ONCHAINKIT_API_KEY=your_api_key_here
+```
+
+### Other frameworks
+
+Follow your framework's convention for environment variables. Most React frameworks support `.env` files.
+
+### Using the environment variable
+
+```tsx
+<OnchainKitProvider
+  apiKey={
+    // Next.js
+    process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY ||
+    // Vite
+    import.meta.env.VITE_ONCHAINKIT_API_KEY ||
+    // Hardcoded fallback
+    "your_api_key_here"
+  }
+  chain={base}
+>
+```
+
+## Basic usage
+
+Now you can start using OnchainKit components:
+
+```tsx components/WalletDemo.tsx
+'use client';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+
+export default function WalletDemo() {
+  return (
+    <Wallet>
+      <ConnectWallet />
+      <WalletDropdown />
+    </Wallet>
+  );
+}
+```
+
+## Mini app setup
+
+If you're building a mini app, you'll need to follow a couple additional steps:
+
+### 1. Enable MiniKit in the provider
+
+```tsx app/layout.tsx
+<OnchainKitProvider
+  apiKey="YOUR_API_KEY"
+  chain={base}
+  miniKit={{
+    enabled: true, // Add this
+  }}
+>
+```
+
+### 2. Add SafeArea component
+
+Wrap your main content to handle safe areas on mobile.
+
+If you want to wrap your whole application, put this in your root layout.
+
+```tsx app/page.tsx
+import { SafeArea } from '@coinbase/onchainkit/minikit';
+
+export default function Home() {
+  return (
+    <SafeArea>
+      <main>
+        {/* Your app content */}
+      </main>
+    </SafeArea>
+  );
+}
+```
+
+### 3. Create the manifest endpoint
+
+Create an API route that serves your Farcaster manifest:
+
+```tsx app/api/.well-known/farcaster.json/route.ts
+export async function GET() {
+  const manifest = {
+    name: "Your Mini App",
+    description: "Description of your mini app",
+    icon: "https://yoursite.com/icon.png",
+    url: "https://yoursite.com",
+  };
+
+  return Response.json(manifest);
+}
+```
+
+## Next steps
+
+- Check out the [component documentation](/components) to see what's available
+- Look at [example templates](/templates) for inspiration
+- Read the [configuration guide](/config) for advanced setup options
