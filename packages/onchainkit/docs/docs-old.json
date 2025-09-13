@@ -1,0 +1,214 @@
+{
+  "version": "0.38.19",
+  "groups": [
+    {
+      "group": "Introduction",
+      "pages": ["getting-started", "guides/telemetry", "guides/troubleshooting"]
+    },
+    {
+      "group": "Installation",
+      "pages": [
+        "installation/nextjs",
+        "installation/vite",
+        "installation/remix",
+        "installation/astro"
+      ]
+    },
+    {
+      "group": "Config",
+      "pages": ["config/onchainkit-provider", "config/supplemental-providers"]
+    },
+    {
+      "group": "Guides",
+      "pages": [
+        "guides/lifecycle-status",
+        "guides/tailwind",
+        "guides/themes",
+        "guides/use-basename-in-onchain-app",
+        "guides/using-ai-powered-ides",
+        "guides/ai-prompting-guide",
+        "guides/testing-with-onchaintestkit"
+      ]
+    },
+    {
+      "group": "Components",
+      "pages": [
+        {
+          "group": "Appchain",
+          "pages": ["components/appchain/bridge"]
+        },
+        {
+          "group": "Buy",
+          "pages": ["components/buy/buy"]
+        },
+        {
+          "group": "Checkout",
+          "pages": ["components/checkout/checkout"]
+        },
+        {
+          "group": "Earn",
+          "pages": ["components/earn/earn"]
+        },
+        {
+          "group": "Fund",
+          "pages": ["components/fund/fund-button", "components/fund/fund-card"]
+        },
+        {
+          "group": "Identity",
+          "pages": [
+            "components/identity/identity",
+            "components/identity/address",
+            "components/identity/avatar",
+            "components/identity/badge",
+            "components/identity/identity-card",
+            "components/identity/name",
+            "components/identity/socials"
+          ]
+        },
+        {
+          "group": "Mint",
+          "pages": ["components/mint/nft-card", "components/mint/nft-mint-card"]
+        },
+        "components/signature/signature",
+        {
+          "group": "Swap",
+          "pages": ["components/swap/swap", "components/swap/swap-settings"]
+        },
+        {
+          "group": "Token",
+          "pages": [
+            "components/token/token-chip",
+            "components/token/token-image",
+            "components/token/token-row",
+            "components/token/token-search",
+            "components/token/token-select-dropdown"
+          ]
+        },
+        "components/transaction/transaction",
+        {
+          "group": "Wallet",
+          "pages": [
+            "components/wallet/wallet",
+            "components/wallet/wallet-dropdown-basename",
+            "components/wallet/wallet-dropdown-disconnect",
+            "components/wallet/wallet-dropdown-fund-link",
+            "components/wallet/wallet-dropdown-link",
+            "components/wallet/wallet-island",
+            "components/wallet/wallet-modal"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "API",
+      "pages": [
+        {
+          "group": "Mint",
+          "pages": [
+            "api/get-token-details",
+            "api/get-mint-details",
+            "api/build-mint-transaction"
+          ]
+        },
+        {
+          "group": "Swap",
+          "pages": ["api/build-swap-transaction", "api/get-swap-quote"]
+        },
+        {
+          "group": "Token",
+          "pages": ["api/get-tokens"]
+        },
+        {
+          "group": "Wallet",
+          "pages": ["api/get-portfolios"]
+        }
+      ]
+    },
+    {
+      "group": "Utilities",
+      "pages": [
+        {
+          "group": "Config",
+          "pages": ["utilities/config/is-base", "utilities/config/is-ethereum"]
+        },
+        {
+          "group": "Earn",
+          "pages": [
+            "utilities/api/build-deposit-to-morpho-tx",
+            "utilities/api/build-withdraw-from-morpho-tx",
+            "utilities/hooks/use-build-deposit-to-morpho-tx",
+            "utilities/hooks/use-build-withdraw-from-morpho-tx",
+            "utilities/hooks/use-earn-context"
+          ]
+        },
+        {
+          "group": "Fund",
+          "pages": [
+            "utilities/fund/get-onramp-buy-url",
+            "utilities/fund/fetch-onramp-config",
+            "utilities/fund/fetch-onramp-quote",
+            "utilities/fund/fetch-onramp-options",
+            "utilities/fund/fetch-onramp-transaction-status",
+            "utilities/fund/setup-onramp-event-listeners"
+          ]
+        },
+        {
+          "group": "Identity",
+          "pages": [
+            "utilities/identity/get-address",
+            "utilities/identity/get-attestations",
+            "utilities/identity/get-avatar",
+            "utilities/identity/get-avatars",
+            "utilities/identity/get-name",
+            "utilities/identity/get-names",
+            "utilities/identity/use-address",
+            "utilities/identity/use-avatar",
+            "utilities/identity/use-avatars",
+            "utilities/identity/use-name",
+            "utilities/identity/use-names"
+          ]
+        },
+        {
+          "group": "Mint",
+          "pages": [
+            "utilities/hooks/use-token-details",
+            "utilities/hooks/use-mint-details"
+          ]
+        },
+        {
+          "group": "Token",
+          "pages": ["utilities/token/format-amount"]
+        },
+        {
+          "group": "Wallet",
+          "pages": [
+            "utilities/wallet/is-valid-aa-entrypoint",
+            "utilities/wallet/is-wallet-a-coinbase-smart-wallet"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Types",
+      "pages": [
+        "types/api/types",
+        "types/appchain/types",
+        "types/checkout/types",
+        "types/config/types",
+        "types/earn/types",
+        "types/fund/types",
+        "types/identity/types",
+        "types/mint/types",
+        "types/signature/types",
+        "types/swap/types",
+        "types/token/types",
+        "types/transaction/types",
+        "types/wallet/types"
+      ]
+    },
+    {
+      "group": "Contribution",
+      "pages": ["guides/contribution", "guides/reporting-bug"]
+    }
+  ]
+}

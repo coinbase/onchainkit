@@ -1,0 +1,17 @@
+{
+  "version": "latest",
+  "groups": [
+    {
+      "group": "Getting started",
+      "pages": [
+        "getting-started/overview",
+        "getting-started/quickstart-guide",
+        "getting-started/manual-installation"
+      ]
+    },
+    {
+      "group": "Advanced",
+      "pages": ["advanced/custom-providers"]
+    }
+  ]
+}
