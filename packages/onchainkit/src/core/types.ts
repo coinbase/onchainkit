@@ -1,4 +1,3 @@
-import type { EASSchemaUid } from '@/identity/types';
 import { MiniKitOptions } from '@/minikit/types';
 import type { Chain, PublicClient } from 'viem';
 import type { CreateConnectorFn } from 'wagmi';
@@ -114,8 +113,6 @@ export type OnchainKitConfig = {
   config?: AppConfig;
   /** RPC URL for onchain requests. Defaults to using CDP Node if the API Key is set */
   rpcUrl: string | null;
-  /** SchemaId is optional as not all apps need to use EAS */
-  schemaId: EASSchemaUid | null;
   /** ProjectId from Coinbase Developer Platform, only required for Coinbase Onramp support */
   projectId: string | null;
   /** SessionId, used for analytics */

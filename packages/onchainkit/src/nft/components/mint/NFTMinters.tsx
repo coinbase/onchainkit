@@ -1,14 +1,15 @@
 import { Avatar, Identity, Name } from '@/identity';
+import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from '@/identity/constants';
 import { useNFTContext } from '@/nft/components/NFTProvider';
 import { cn, text } from '@/styles/theme';
-import { useOnchainKit } from '@/useOnchainKit';
+import type { EASSchemaUid } from '@/identity/types';
 
 type NFTMintersProps = {
   className?: string;
+  schemaId?: EASSchemaUid | null;
 };
 
-export function NFTMinters({ className }: NFTMintersProps) {
-  const { schemaId } = useOnchainKit();
+export function NFTMinters({ className, schemaId }: NFTMintersProps) {
   const { totalOwners, recentOwners } = useNFTContext();
 
   if (!recentOwners || recentOwners.length === 0) {
@@ -30,7 +31,7 @@ export function NFTMinters({ className }: NFTMintersProps) {
             key={address}
             className="space-x-0 px-0 py-0 [&>div]:space-x-2"
             address={address}
-            schemaId={schemaId}
+            schemaId={schemaId ?? COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID}
           >
             <Avatar className="h-4 w-4" />
           </Identity>

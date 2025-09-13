@@ -1,5 +1,6 @@
 'use client';
 import { useAttestations } from '@/identity/hooks/useAttestations';
+import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from '@/identity/constants';
 import type { BadgeProps } from '@/identity/types';
 import { badgeSvg } from '@/internal/svg/badgeSvg';
 import { zIndex } from '@/styles/constants';
@@ -26,12 +27,14 @@ type ExtractAttestationNameParams = {
 export function Badge({ className, tooltip = false }: BadgeProps) {
   const [showTooltip, setShowTooltip] = useState(false);
   const { address, schemaId: contextSchemaId } = useIdentityContext();
-  const { chain, schemaId: kitSchemaId } = useOnchainKit();
+  const { chain } = useOnchainKit();
 
   const attestations = useAttestations({
     address,
     chain,
-    schemaId: tooltip ? (contextSchemaId ?? kitSchemaId) : null,
+    schemaId: tooltip
+      ? (contextSchemaId ?? COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID)
+      : null,
   });
 
   // Get tooltip text from tooltip prop or attestation
