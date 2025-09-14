@@ -2,7 +2,6 @@
 title: useAddress
 ---
 
-
 The `useAddress` hook is used to get an address from an onchain identity provider for a given name.
 
 It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
@@ -42,12 +41,5 @@ type UseAddressParams = {
 type UseQueryOptions<TData = unknown> = Omit<
   TanstackUseQueryOptions<TData>,
   'queryKey' | 'queryFn'
-> & {
-  /**
-   * @deprecated Use `gcTime` instead. Will be removed in a future version.
-   * The time in milliseconds after data is considered stale before it is removed from the cache.
-   */
-  cacheTime?: number;
-};
+>;
 ```
-

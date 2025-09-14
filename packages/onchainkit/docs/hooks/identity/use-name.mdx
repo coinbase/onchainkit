@@ -2,7 +2,6 @@
 title: useName
 ---
 
-
 The `useName` hook is used to get name from an onchain identity provider
 for a given address.
 
@@ -18,11 +17,13 @@ import { useName } from '@coinbase/onchainkit/identity';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 const { data: name, isLoading } = await useName({ address });
-```
+
+````
 
 ```ts return value
 { data: 'zizzamia.eth', isLoading: false }
-```
+````
+
 </CodeGroup>
 
 Get Basename from an address:
@@ -34,11 +35,13 @@ import { base } from 'viem/chains';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 const { data: name, isLoading } = await useName({ address, chain: base });
-```
+
+````
 
 ```ts return value
 { data: 'zizzamia.base.eth', isLoading: false }
-```
+````
+
 </CodeGroup>
 
 ## Returns
@@ -68,12 +71,5 @@ type UseNameParams = {
 type UseQueryOptions<TData = unknown> = Omit<
   TanstackUseQueryOptions<TData>,
   'queryKey' | 'queryFn'
-> & {
-  /**
-   * @deprecated Use `gcTime` instead. Will be removed in a future version.
-   * The time in milliseconds after data is considered stale before it is removed from the cache.
-   */
-  cacheTime?: number;
-};
+>;
 ```
-
