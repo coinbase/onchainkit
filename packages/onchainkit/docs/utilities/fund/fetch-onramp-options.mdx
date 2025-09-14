@@ -2,7 +2,6 @@
 title: fetchOnrampOptions
 ---
 
-
 The `fetchOnrampOptions` utility retrieves supported fiat currencies and available crypto assets for a specific country. This information is essential for determining which assets can be purchased in the user's jurisdiction.
 
 ## Usage
@@ -12,11 +11,12 @@ The `fetchOnrampOptions` utility retrieves supported fiat currencies and availab
 import { fetchOnrampOptions } from '@coinbase/onchainkit/fund';
 
 const options = await fetchOnrampOptions({
-  country: 'US',
-  subdivision: 'CA', // Required for US residents
-  apiKey: 'your-api-key', //   Required when using without OnchainKitProvider or in non-React environment
+country: 'US',
+subdivision: 'CA', // Required for US residents
+apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in non-React environment
 });
-```
+
+````
 
 ```js return value
 {
@@ -43,7 +43,8 @@ const options = await fetchOnrampOptions({
     }
   ]
 }
-```
+````
+
 </CodeGroup>
 
 ## Parameters
@@ -75,5 +76,43 @@ const options = await fetchOnrampOptions({
 
 `Promise<OnrampOptionsResponseData>` - Returns a promise that resolves to the available options for the specified location.
 
-See [`OnrampOptionsResponseData`](/onchainkit/fund/types#onrampoptionsresponsedata) for full response type details.
+```typescript
+type OnrampOptionsResponseData = {
+  /**
+   * List of supported fiat currencies that can be exchanged for crypto on Onramp in the given location.
+   * Each currency contains a list of available payment methods, with min and max transaction limits for that currency.
+   */
+  paymentCurrencies: OnrampPaymentCurrency[];
+  /**
+   * List of available crypto assets that can be bought on Onramp in the given location.
+   */
+  purchaseCurrencies: OnrampPurchaseCurrency[];
+};
 
+type OnrampPurchaseCurrency = {
+  id: string;
+  name: string;
+  symbol: string;
+  iconUrl: string;
+  networks: OnrampNetwork[];
+};
+
+type OnrampPaymentCurrency = {
+  id: string;
+  limits: OnrampPaymentMethodLimit[];
+  iconUrl: string;
+};
+
+type OnrampPaymentMethodLimit = {
+  id: string;
+  min: string;
+  max: string;
+};
+
+type OnrampNetwork = {
+  name: string;
+  displayName: string;
+  chainId: string;
+  contractAddress: string;
+};
+```

@@ -2,7 +2,6 @@
 title: fetchOnrampConfig
 ---
 
-
 The `fetchOnrampConfig` utility fetches the list of countries supported by Coinbase Onramp and their available payment methods. This is useful when you need to validate user eligibility or display available payment options.
 
 ## Usage
@@ -16,7 +15,8 @@ const config = await fetchOnrampConfig();
 
 // When using without OnchainKitProvider or in non-React environment
 const config2 = await fetchOnrampConfig('your-api-key');
-```
+
+````
 
 ```js return value
 {
@@ -37,7 +37,8 @@ const config2 = await fetchOnrampConfig('your-api-key');
     }
   ]
 }
-```
+````
+
 </CodeGroup>
 
 ## Parameters
@@ -55,5 +56,18 @@ apiKey?: string;
 
 `Promise<OnrampConfigResponseData>` - Returns a promise that resolves to the configuration data containing supported countries and their payment methods.
 
-See [`OnrampConfigResponseData`](/onchainkit/fund/types#onrampconfigresponsedata) for response type details.
+```typescript
+type OnrampConfigResponseData = {
+  countries: OnrampConfigCountry[];
+};
 
+type OnrampConfigCountry = {
+  id: string;
+  subdivisions: string[];
+  paymentMethods: OnrampPaymentMethod[];
+};
+
+type OnrampPaymentMethod = {
+  id: string;
+};
+```

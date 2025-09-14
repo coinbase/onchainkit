@@ -4,7 +4,6 @@ sidebarTitle: isWalletACoinbaseSmartWallet
 description: Utility to verify if a sender address is a Coinbase Smart Wallet
 ---
 
-
 The `isWalletACoinbaseSmartWallet` utility is designed to verify if a given sender address is a Smart Wallet proxy with the expected implementation before sponsoring a transaction.
 
 ## Usage
@@ -25,21 +24,50 @@ export const publicClient = createPublicClient({
 const userOperation = { sender: '0x123' } as UserOperation<'v0.6'>;
 
 if (isWalletACoinbaseSmartWallet({ client: publicClient, userOp: userOperation })) {
-  console.log('The sender address is a valid smart wallet proxy.');
+console.log('The sender address is a valid smart wallet proxy.');
 } else {
-  console.log('The sender address is not a valid smart wallet proxy.');
+console.log('The sender address is not a valid smart wallet proxy.');
 }
-```
+
+````
 
 ```ts return value
 true;
-```
+````
+
 </CodeGroup>
 
 ## Returns
 
-[`IsWalletACoinbaseSmartWalletResponse`](/onchainkit/wallet/types#iswalletacoinbasesmartwalletresponse)
+```typescript
+Promise<IsWalletACoinbaseSmartWalletResponse>
+
+type IsWalletACoinbaseSmartWalletResponse =
+  | { isCoinbaseSmartWallet: true }
+  | { isCoinbaseSmartWallet: false; error: string; code: string };
+```
 
 ## Parameters
 
-[`isWalletACoinbaseSmartWalletOptions`](/onchainkit/wallet/types#iswalletacoinbasesmartwalletoptions)
+```typescript
+type IsWalletACoinbaseSmartWalletOptions = {
+  client: PublicClient;
+  userOp: RpcUserOperation<'0.6'>;
+};
+
+type PublicClient = {
+  // Viem PublicClient type
+  getBytecode: (args: { address: Address }) => Promise<Hex | undefined>;
+  request: <T>(args: { method: string; params: any[] }) => Promise<T>;
+  // ... other PublicClient properties
+};
+
+type RpcUserOperation<T> = {
+  sender: Address;
+  initCode?: Hex;
+  // ... other UserOperation properties
+};
+
+type Address = `0x${string}`;
+type Hex = `0x${string}`;
+```

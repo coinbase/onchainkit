@@ -2,7 +2,6 @@
 title: getName
 ---
 
-
 The `getName` utility is designed to retrieve a name from an onchain identity
 provider for a specific address.
 
@@ -19,11 +18,13 @@ import { getName } from '@coinbase/onchainkit/identity';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 const name = await getName({ address });
-```
+
+````
 
 ```ts return value
 zizzamia.eth;
-```
+````
+
 </CodeGroup>
 
 Get Basename from an address:
@@ -35,11 +36,13 @@ import { base } from 'viem/chains';
 
 const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
 const name = await getName({ address, chain: base });
-```
+
+````
 
 ```ts return value
 zizzamia.base.eth;
-```
+````
+
 </CodeGroup>
 
 Get a sliced address when address does not have an ENS name:
@@ -50,19 +53,42 @@ import { getName } from '@coinbase/onchainkit/identity';
 
 const address = '0x1234567890abcdef1234567890abcdef12345678';
 const name = await getName({ address });
-```
+
+````
 
 ```ts return value
 0x123...5678
-```
+````
+
 </CodeGroup>
 
 ## Returns
 
-See [GetNameReturnType](/onchainkit/identity/types#getnamereturntype) and [GetName](/onchainkit/identity/types#getname) for more details.
+```typescript
+Promise<GetNameReturnType>
+
+type GetNameReturnType = string | Basename | null;
+
+type Basename = BaseMainnetName | BaseSepoliaName;
+type BaseMainnetName = `${string}.base.eth`;
+type BaseSepoliaName = `${string}.basetest.eth`;
+```
 
 ## Parameters
 
-See [GetNameReturnType](/onchainkit/identity/types#getnamereturntype) and [GetName](/onchainkit/identity/types#getname) for more details.
+```typescript
+type GetNameParams = {
+  /** Ethereum address to resolve */
+  address?: Address;
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
 
+type Address = `0x${string}`;
 
+type Chain = {
+  id: number;
+  name: string;
+  // ... other chain properties
+};
+```

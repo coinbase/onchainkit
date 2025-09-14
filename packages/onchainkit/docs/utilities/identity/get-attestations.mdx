@@ -2,7 +2,6 @@
 title: getAttestations
 ---
 
-
 The `getAttestations` function fetches attestations for a specified address
 and blockchain in Ethereum Attestation Service (EAS). It allows optional filtering
 based on schema IDs, revocation status, expiration time, and the number of attestations to return.
@@ -17,15 +16,16 @@ import { getAttestations } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
 const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
-  '0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
+'0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9';
 
 const address = '0x1234567890abcdef1234567890abcdef12345678';
 const attestationsOptions = {
-  schemas: [COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID],
+schemas: [COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID],
 };
 
 const attestations = await getAttestations(address, base, attestationsOptions);
-```
+
+````
 
 ```ts return value
 const attestations = [
@@ -44,14 +44,39 @@ const attestations = [
     txid: '0x71e21910fd44c2b75b143cf71318507b60d09c5f3caf848109974dd397de9f37',
   },
 ];
-```
+````
+
 </CodeGroup>
 
 ## Returns
 
-[`Promise<Attestation[]>`](/onchainkit/identity/types#attestation)
+```typescript
+Promise<Attestation[]>
 
-See [Attestation](/onchainkit/identity/types#attestation) and [GetEASAttestationsOptions](/onchainkit/identity/types#geteasttestationsoptions) for more details.
+type Attestation = {
+  /** The attester who created the attestation. */
+  attester: Address;
+  /** The attestation data decoded to JSON. */
+  decodedDataJson: string;
+  /** The Unix timestamp when the attestation expires (0 for no expiration). */
+  expirationTime: number;
+  /** The unique identifier of the attestation. */
+  id: string;
+  /** The Ethereum address of the recipient of the attestation. */
+  recipient: Address;
+  /** The Unix timestamp when the attestation was revoked, if applicable. */
+  revocationTime: number;
+  /** A boolean indicating whether the attestation is revoked or not. */
+  revoked: boolean;
+  /** The schema identifier associated with the attestation. */
+  schemaId: EASSchemaUid;
+  /** The Unix timestamp when the attestation was created. */
+  time: number;
+};
+
+type Address = `0x${string}`;
+type EASSchemaUid = `0x${string}`;
+```
 
 ## Parameters
 
@@ -81,5 +106,15 @@ type Chain = { // The blockchain of interest.
 
 ### GetAttestationsOptions
 
-[GetEASAttestationsOptions](/onchainkit/identity/types#geteasttestationsoptions)
-
+```typescript
+type GetAttestationsParams = {
+  /** Array of schema UIDs to filter by */
+  schemas?: EASSchemaUid[];
+  /** Filter by revocation status */
+  revoked?: boolean;
+  /** Filter by expiration time */
+  expirationTime?: number;
+  /** Limit number of results */
+  limit?: number;
+};
+```

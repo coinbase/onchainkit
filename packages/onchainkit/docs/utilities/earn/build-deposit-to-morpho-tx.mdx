@@ -2,7 +2,7 @@
 title: buildDepositToMorphoTx
 ---
 
-Builds [Calls](/onchainkit/transaction/types#calls) for depositing assets to Morpho. Pass the calls to `<Transaction />` to execute the deposit.
+Builds `Call[]` for depositing assets to Morpho. Pass the calls to `<Transaction />` to execute the deposit.
 
 ## Usage
 
@@ -19,9 +19,31 @@ const calls = await buildDepositToMorphoTx({
 
 ## Returns
 
-[`Call[]`](/onchainkit/transaction/types#calls)
+```typescript
+Call[]
+
+type Call = {
+  to: Hex;
+  data?: Hex;
+  value?: bigint;
+};
+
+type Hex = `0x${string}`;
+```
 
 ## Parameters
 
-[`DepositToMorphoParams`](/onchainkit/earn/types#deposittomorphoparams)
+```typescript
+type DepositToMorphoParams = {
+  /** The address of the Morpho vault */
+  vaultAddress: Address;
+  /** The address of the token to deposit */
+  tokenAddress: Address;
+  /** The amount of tokens to deposit */
+  amount: bigint;
+  /** The address which can withdraw the deposited tokens */
+  recipientAddress: Address;
+};
 
+type Address = `0x${string}`;
+```

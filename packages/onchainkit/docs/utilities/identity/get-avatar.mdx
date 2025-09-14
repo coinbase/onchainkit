@@ -2,7 +2,6 @@
 title: getAvatar
 ---
 
-
 The `getAvatar` utility is designed to retrieve an avatar image
 URL from an onchain identity provider for a given name.
 
@@ -24,11 +23,13 @@ import { getAvatar } from '@coinbase/onchainkit/identity';
 import { base, mainnet } from 'viem/chains';
 
 const baseAvatar = await getAvatar({ ensName: 'paulcramer.eth', chain: base });
-```
+
+````
 
 ```ts return value
 https://zku9gdedgba48lmr.public.blob.vercel-storage.com/basenames/avatar/paul.base.eth/1722120524815/FWUzoZmJ_400x400-kWjr2gMvjNe9hHMs9Z9LxGVGIME3By.jpg
-```
+````
+
 </CodeGroup>
 
 Get ENS avatar:
@@ -39,14 +40,36 @@ import { getAvatar } from '@coinbase/onchainkit/identity';
 import { mainnet } from 'viem/chains';
 
 const ensAvatar = await getAvatar({ ensName: 'paulcramer.eth', chain: mainnet });
-```
+
+````
 
 ```ts return value
 https://euc.li/paulcramer.eth;
-```
+````
+
 </CodeGroup>
 
 ## Returns
 
-[`Promise<GetAvatarReturnType>`](/onchainkit/identity/types#getavatarreturntype)
+```typescript
+Promise<GetAvatarReturnType>
 
+type GetAvatarReturnType = string | null;
+```
+
+## Parameters
+
+```typescript
+type GetAvatarParams = {
+  /** The ENS or Basename to fetch the avatar for. */
+  ensName: string;
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
+
+type Chain = {
+  id: number;
+  name: string;
+  // ... other chain properties
+};
+```

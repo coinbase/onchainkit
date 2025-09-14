@@ -2,7 +2,6 @@
 title: fetchOnrampTransactionStatus
 ---
 
-
 The `fetchOnrampTransactionStatus` utility retrieves the status of onramp transactions for a specific user. This is useful for tracking the progress of crypto purchases and displaying transaction history.
 
 ## Usage
@@ -12,12 +11,13 @@ The `fetchOnrampTransactionStatus` utility retrieves the status of onramp transa
 import { fetchOnrampTransactionStatus } from '@coinbase/onchainkit/fund';
 
 const transactions = await fetchOnrampTransactionStatus({
-  partnerUserId: 'user123',
-  nextPageKey: '',
-  pageSize: '10',
-  apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in non-React environment
+partnerUserId: 'user123',
+nextPageKey: '',
+pageSize: '10',
+apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in non-React environment
 });
-```
+
+````
 
 ```json return value
 {
@@ -34,7 +34,8 @@ const transactions = await fetchOnrampTransactionStatus({
   "nextPageKey": "next_page_token",
   "totalCount": "1"
 }
-```
+````
+
 </CodeGroup>
 
 ## Parameters
@@ -63,5 +64,40 @@ const transactions = await fetchOnrampTransactionStatus({
 
 `Promise<OnrampTransactionStatusResponseData>` - Returns a promise that resolves to the transaction status data.
 
-See [`OnrampTransactionStatusResponseData`](/onchainkit/fund/types#onramptransactionstatusresponsedata) for full response type details.
+```typescript
+type OnrampTransactionStatusResponseData = {
+  transactions: OnrampTransaction[];
+  nextPageKey?: string;
+  totalCount: string;
+};
 
+type OnrampTransaction = {
+  status: OnrampTransactionStatusName;
+  purchaseCurrency: string;
+  purchaseNetwork: string;
+  purchaseAmount: OnrampAmount;
+  paymentTotal: OnrampAmount;
+  paymentSubtotal: OnrampAmount;
+  coinbaseFee: OnrampAmount;
+  networkFee: OnrampAmount;
+  exchangeRate: OnrampAmount;
+  txHash: string;
+  createdAt: string;
+  country: string;
+  userId: string;
+  paymentMethod: string;
+  transactionId: string;
+};
+
+type OnrampTransactionStatusName =
+  | 'ONRAMP_TRANSACTION_STATUS_UNSPECIFIED'
+  | 'ONRAMP_TRANSACTION_STATUS_CREATED'
+  | 'ONRAMP_TRANSACTION_STATUS_IN_PROGRESS'
+  | 'ONRAMP_TRANSACTION_STATUS_SUCCESS'
+  | 'ONRAMP_TRANSACTION_STATUS_FAILED';
+
+type OnrampAmount = {
+  value: string;
+  currency: string;
+};
+```

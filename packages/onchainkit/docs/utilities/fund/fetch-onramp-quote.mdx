@@ -2,7 +2,6 @@
 title: fetchOnrampQuote
 ---
 
-
 The `fetchOnrampQuote` utility provides a quote based on the asset the user would like to purchase, plus the network, fiat payment, payment currency, payment method, and country. This is useful for getting pricing information and fees before initiating a transaction.
 
 ## Usage
@@ -12,16 +11,17 @@ The `fetchOnrampQuote` utility provides a quote based on the asset the user woul
 import { fetchOnrampQuote } from '@coinbase/onchainkit/fund';
 
 const quote = await fetchOnrampQuote({
-  purchaseCurrency: 'ETH',
-  purchaseNetwork: 'ethereum',
-  paymentCurrency: 'USD',
-  paymentMethod: 'CARD',
-  paymentAmount: '100.00',
-  country: 'US',
-  subdivision: 'CA', // Required for US residents
-  apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in non-React environment
+purchaseCurrency: 'ETH',
+purchaseNetwork: 'ethereum',
+paymentCurrency: 'USD',
+paymentMethod: 'CARD',
+paymentAmount: '100.00',
+country: 'US',
+subdivision: 'CA', // Required for US residents
+apiKey: 'your-api-key', // Required when using without OnchainKitProvider or in non-React environment
 });
-```
+
+````
 
 ```json return value
 {
@@ -47,7 +47,8 @@ const quote = await fetchOnrampQuote({
   },
   "quoteId": "quote_123"
 }
-```
+````
+
 </CodeGroup>
 
 ## Parameters
@@ -95,7 +96,7 @@ const quote = await fetchOnrampQuote({
    * because certain states (e.g., NY) have state specific asset restrictions.
    */
   subdivision?: string;
-  
+
    /**
    * Optional API key for Coinbase Onramp. If not provided, the API key from
    * OnchainKitProvider will be used. Required when using the utility without
@@ -109,5 +110,42 @@ const quote = await fetchOnrampQuote({
 
 `Promise<OnrampQuoteResponseData>` - Returns a promise that resolves to the quote data containing payment amounts, fees, and quote ID.
 
-See [`OnrampQuoteResponseData`](/onchainkit/fund/types#onrampquoteresponsedata) for full response type details.
+```typescript
+type OnrampQuoteResponseData = {
+  /**
+   * Object with amount and currency of the total fiat payment required to complete the purchase, inclusive of any fees.
+   * The currency will match the `paymentCurrency` in the request if it is supported, otherwise it falls back to USD.
+   */
+  paymentTotal: OnrampAmount;
+  /**
+   * Object with amount and currency of the fiat cost of the crypto asset to be purchased, exclusive of any fees.
+   * The currency will match the `paymentCurrency`.
+   */
+  paymentSubtotal: OnrampAmount;
+  /**
+   * Object with amount and currency of the crypto that to be purchased.
+   * The currency will match the `purchaseCurrency` in the request.
+   * The number of decimals will be based on the crypto asset.
+   */
+  purchaseAmount: OnrampAmount;
+  /**
+   * Object with amount and currency of the fee changed by the Coinbase exchange to complete the transaction.
+   * The currency will match the `paymentCurrency`.
+   */
+  coinbaseFee: OnrampAmount;
+  /**
+   * Object with amount and currency of the network fee required to send the purchased crypto to the user's wallet.
+   * The currency will match the `paymentCurrency`.
+   */
+  networkFee: OnrampAmount;
+  /**
+   * Reference to the quote that should be passed into the initialization parameters when launching the Coinbase Onramp widget via the SDK or URL generator.
+   */
+  quoteId: string;
+};
 
+type OnrampAmount = {
+  value: string;
+  currency: string;
+};
+```

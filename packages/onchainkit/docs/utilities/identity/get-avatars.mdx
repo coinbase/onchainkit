@@ -2,7 +2,6 @@
 title: getAvatars
 ---
 
-
 The `getAvatars` utility is designed to retrieve multiple avatars from an onchain identity
 provider for an array of ENS names or Basenames in a single batch request.
 
@@ -19,14 +18,16 @@ import { getAvatars } from '@coinbase/onchainkit/identity';
 
 const ensNames = ['vitalik.eth', 'zizzamia.eth'];
 const avatars = await getAvatars({ ensNames });
-```
+
+````
 
 ```ts return value
 [
   'https://ipfs.io/ipfs/QmSP4nq9fnN9dAiCj42ug9Wa79rqmQerZXZch82VqpiH7U/image.gif',
   'https://ipfs.io/ipfs/QmQ9RT2SrZ6TWUjrQxG4bNnhb3nDqBE5Ld1j9GYvk3kTjf'
 ]
-```
+````
+
 </CodeGroup>
 
 Get avatars for multiple Basenames:
@@ -38,14 +39,16 @@ import { base } from 'viem/chains';
 
 const ensNames = ['zizzamia.base.eth', 'coinbase.base.eth'];
 const avatars = await getAvatars({ ensNames, chain: base });
-```
+
+````
 
 ```ts return value
 [
   'https://ipfs.io/ipfs/QmQ9RT2SrZ6TWUjrQxG4bNnhb3nDqBE5Ld1j9GYvk3kTjf',
   'https://ipfs.io/ipfs/QmXHFnSXcN7CSuVcyF3vyPgPcPvLQyLpKYBaNpx3x3bPAZ'
 ]
-```
+````
+
 </CodeGroup>
 
 Get avatars for a mix of ENS names and Basenames:
@@ -57,22 +60,39 @@ import { base } from 'viem/chains';
 
 const ensNames = ['vitalik.eth', 'zizzamia.base.eth'];
 const avatars = await getAvatars({ ensNames, chain: base });
-```
+
+````
 
 ```ts return value
 [
   'https://ipfs.io/ipfs/QmSP4nq9fnN9dAiCj42ug9Wa79rqmQerZXZch82VqpiH7U/image.gif',
   'https://ipfs.io/ipfs/QmQ9RT2SrZ6TWUjrQxG4bNnhb3nDqBE5Ld1j9GYvk3kTjf'
 ]
-```
+````
+
 </CodeGroup>
 
 ## Returns
 
-Array of [`GetAvatarReturnType`](/onchainkit/identity/types#getavatarreturntype)
+```typescript
+Promise<GetAvatarReturnType[]>
+
+type GetAvatarReturnType = string | null;
+```
 
 ## Parameters
 
-### GetAvatars
+```typescript
+type GetAvatarsParams = {
+  /** Array of ENS names to resolve avatars for */
+  ensNames: string[];
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
 
-[`GetAvatars`](/onchainkit/identity/types#getavatars) 
+type Chain = {
+  id: number;
+  name: string;
+  // ... other chain properties
+};
+```

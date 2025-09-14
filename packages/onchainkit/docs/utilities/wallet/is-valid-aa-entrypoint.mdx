@@ -4,7 +4,6 @@ sidebarTitle: isValidAAEntrypoint
 description: Utility to verify Account-Abstraction entrypoint before sponsoring transactions
 ---
 
-
 The `isValidAAEntrypoint` utility is designed to verify the Account-Abstraction entrypoint before sponsoring a transaction.
 
 ## Usage
@@ -17,15 +16,17 @@ const AAImplementationAddress = '0x123';
 const isValid = isValidAAEntrypoint({ entrypoint: AAImplementationAddress });
 
 if (isValid) {
-  console.log('The entrypoint is valid.');
+console.log('The entrypoint is valid.');
 } else {
-  console.log('Invalid entrypoint.');
+console.log('Invalid entrypoint.');
 }
-```
+
+````
 
 ```ts return value
 true;
-```
+````
+
 </CodeGroup>
 
 ## Returns
@@ -34,4 +35,8 @@ true;
 
 ## Parameters
 
-[`isValidAAEntrypointOptions`](/onchainkit/wallet/types#isvalidaaentrypointoptions)
+```typescript
+type IsValidAAEntrypointOptions = {
+  entrypoint: string;
+};
+```

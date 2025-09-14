@@ -2,7 +2,6 @@
 title: setupOnrampEventListeners
 ---
 
-
 The `setupOnrampEventListeners` utility sets up event listeners for the Coinbase Onramp widget. It helps you handle various events like successful purchases, exits, and other user interactions.
 
 ## Usage
@@ -28,12 +27,14 @@ const unsubscribe = setupOnrampEventListeners({
 
 // Clean up when done
 unsubscribe();
-```
+
+````
 
 ```ts return value
 // Returns an unsubscribe function
 () => void
-```
+````
+
 </CodeGroup>
 
 ## Parameters
@@ -53,9 +54,59 @@ unsubscribe();
 
 ## Event Types
 
-See the following type definitions for event data:
+```typescript
+type SuccessEventData = {
+  assetImageUrl: string;
+  assetName: string;
+  assetSymbol: string;
+  chainId: string;
+};
 
-- [`SuccessEventData`](/onchainkit/fund/types#successeventdata)
-- [`OnrampError`](/onchainkit/fund/types#onramperror)
-- [`EventMetadata`](/onchainkit/fund/types#eventmetadata)
+type OnrampError = {
+  errorType:
+    | 'internal_error'
+    | 'handled_error'
+    | 'network_error'
+    | 'unknown_error';
+  code?: string;
+  debugMessage?: string;
+};
 
+type EventMetadata =
+  | OpenEvent
+  | TransitionViewEvent
+  | PublicErrorEvent
+  | ExitEvent
+  | SuccessEvent
+  | RequestOpenUrlEvent;
+
+type OpenEvent = {
+  eventName: 'open';
+  widgetName: string;
+};
+
+type TransitionViewEvent = {
+  eventName: 'transition_view';
+  pageRoute: string;
+};
+
+type PublicErrorEvent = {
+  eventName: 'error';
+  error: OnrampError;
+};
+
+type ExitEvent = {
+  eventName: 'exit';
+  error?: OnrampError;
+};
+
+type SuccessEvent = {
+  eventName: 'success';
+  data?: SuccessEventData;
+};
+
+type RequestOpenUrlEvent = {
+  eventName: 'request_open_url';
+  url: string;
+};
+```

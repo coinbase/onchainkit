@@ -58,10 +58,10 @@ type TransactionProps = {
   <Step title="Add calls">
   Execute one or multiple transactions using the Transaction component. You can pass transactions in either `Call` or `ContractFunctionParameters` format. The component will automatically apply batching logic if the user's wallet supports it.
 
-#### Types
+  #### Types
 
-- [`ContractFunctionParameters`](https://github.com/wevm/viem/blob/ce1b8aff4d4523d3a324e500261c8c0867fd35e9/src/types/contract.ts#L188)
-- `Call` (see Supporting Types section below)
+  - [`ContractFunctionParameters`](https://github.com/wevm/viem/blob/ce1b8aff4d4523d3a324e500261c8c0867fd35e9/src/types/contract.ts#L188)
+  - `Call` (see Supporting Types section below)
 
   <CodeGroup>
   ```tsx TransactionComponents.tsx
@@ -80,66 +80,65 @@ type TransactionProps = {
   import { useAccount } from 'wagmi';
   import { calls } from '@/calls'; // [!code focus]
 
-// ---cut-start---
+  // ---cut-start---
 
-const BASE_SEPOLIA_CHAIN_ID = 84532;
-// ---cut-end---
+  const BASE_SEPOLIA_CHAIN_ID = 84532;
+  // ---cut-end---
 
-export default function TransactionComponents() {
-const { address } = useAccount();
+  export default function TransactionComponents() {
+  const { address } = useAccount();
 
-    const handleOnStatus = useCallback((status: LifecycleStatus) => {
-      console.log('LifecycleStatus', status);
-    }, []);
+      const handleOnStatus = useCallback((status: LifecycleStatus) => {
+        console.log('LifecycleStatus', status);
+      }, []);
 
-    return address ? (
-      <Transaction // [!code focus]
-        chainId={BASE_SEPOLIA_CHAIN_ID} // [!code focus]
-        calls={calls} // [!code focus]
-        onStatus={handleOnStatus} // [!code focus]
-      >
-        <TransactionButton />
-        <TransactionSponsor />
-        <TransactionStatus>
-          <TransactionStatusLabel />
-          <TransactionStatusAction />
-        </TransactionStatus>
-      </Transaction> // [!code focus]
-    ) : (
-      <Wallet>
-        <ConnectWallet>
-          <Avatar className='h-6 w-6' />
-          <Name />
-        </ConnectWallet>
-      </Wallet>
-    );
+      return address ? (
+        <Transaction // [!code focus]
+          chainId={BASE_SEPOLIA_CHAIN_ID} // [!code focus]
+          calls={calls} // [!code focus]
+          onStatus={handleOnStatus} // [!code focus]
+        >
+          <TransactionButton />
+          <TransactionSponsor />
+          <TransactionStatus>
+            <TransactionStatusLabel />
+            <TransactionStatusAction />
+          </TransactionStatus>
+        </Transaction> // [!code focus]
+      ) : (
+        <Wallet>
+          <ConnectWallet>
+            <Avatar className='h-6 w-6' />
+            <Name />
+          </ConnectWallet>
+        </Wallet>
+      );
 
-};
+  };
 
-````
+  ```
 
-```ts calls.ts
-const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
-const clickContractAbi = [
-  {
-    type: 'function',
-    name: 'click',
-    inputs: [],
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-] as const;
+  ```ts calls.ts
+  const clickContractAddress = '0x67c97D1FB8184F038592b2109F854dfb09C77C75';
+  const clickContractAbi = [
+    {
+      type: 'function',
+      name: 'click',
+      inputs: [],
+      outputs: [],
+      stateMutability: 'nonpayable',
+    },
+  ] as const;
 
-export const calls = [
-  {
-    address: clickContractAddress,
-    abi: clickContractAbi,
-    functionName: 'click',
-    args: [],
-  }
-];
-````
-
+  export const calls = [
+    {
+      address: clickContractAddress,
+      abi: clickContractAbi,
+      functionName: 'click',
+      args: [],
+    }
+  ];
+  ```
   </CodeGroup>
 
   <iframe
@@ -147,132 +146,98 @@ export const calls = [
     width="100%"
     height="auto"
   />
-  {/* <App>
-    <TransactionWrapper>
-      {({ address, contracts, onStatus }) => {
-        if (address) {
-          return (
-            <Transaction
-              isSponsored={true}
-              chainId={BASE_SEPOLIA_CHAIN_ID}
-              contracts={contracts}
-              onStatus={onStatus}
-            >
-              <TransactionButton />
-              <TransactionSponsor />
-              <TransactionStatus>
-                <TransactionStatusLabel />
-                <TransactionStatusAction />
-              </TransactionStatus>
-            </Transaction>
-          )
-        } else {
-          return (
-            <Wallet>
-              <ConnectWallet>
-                <Avatar className="h-6 w-6" />
-                <Name />
-              </ConnectWallet>
-            </Wallet>
-          )
-        }
-      }}
-
-    </TransactionWrapper>
-
-  </App> */}
 
   </Step>
   <Step title="Listen to LifecycleStatus">
   Take full control of your transactions data with the `LifecycleStatus` object via the `onStatus` prop.
   This TypeScript object provides `statusName` and `statusData` to keep you informed.
 
-```tsx
-import { useCallback } from 'react';
-import {
-  Transaction,
-  TransactionButton,
-  TransactionSponsor,
-  TransactionStatus,
-  TransactionToast,
-  TransactionToastIcon,
-  TransactionToastLabel,
-  TransactionToastAction,
-} from '@coinbase/onchainkit/transaction';
-import {contracts} from '@/contracts';
-// ---cut-before---
+  ```tsx
+  import { useCallback } from 'react';
+  import {
+    Transaction,
+    TransactionButton,
+    TransactionSponsor,
+    TransactionStatus,
+    TransactionToast,
+    TransactionToastIcon,
+    TransactionToastLabel,
+    TransactionToastAction,
+  } from '@coinbase/onchainkit/transaction';
+  import {contracts} from '@/contracts';
+  // ---cut-before---
 
-import type { LifecycleStatus } from '@coinbase/onchainkit/transaction'; // [!code focus]
+  import type { LifecycleStatus } from '@coinbase/onchainkit/transaction'; // [!code focus]
 
-// omitted for brevity
+  // omitted for brevity
 
-const handleOnStatus = useCallback((status: LifecycleStatus) => {  // [!code focus]
-  console.log('Transaction status:', status); // [!code focus]
-}, []); // [!code focus]
+  const handleOnStatus = useCallback((status: LifecycleStatus) => {  // [!code focus]
+    console.log('Transaction status:', status); // [!code focus]
+  }, []); // [!code focus]
 
-// omitted for brevity
+  // omitted for brevity
 
-// Usage in component
-<Transaction  // [!code focus]
-  contracts={contracts}
-  onStatus={handleOnStatus} // [!code focus]
->
-  <TransactionButton />
-  <TransactionSponsor />
-  <TransactionToast>
-    <TransactionToastIcon />
-    <TransactionToastLabel />
-    <TransactionToastAction />
-  </TransactionToast>
-</Transaction>
-```
+  // Usage in component
+  <Transaction  // [!code focus]
+    contracts={contracts}
+    onStatus={handleOnStatus} // [!code focus]
+  >
+    <TransactionButton />
+    <TransactionSponsor />
+    <TransactionToast>
+      <TransactionToastIcon />
+      <TransactionToastLabel />
+      <TransactionToastAction />
+    </TransactionToast>
+  </Transaction>
+  ```
 
-The Lifecycle Status features seven states for the transaction experience.
+  The Lifecycle Status features seven states for the transaction experience.
 
-```ts
-import type { TransactionError } from "@coinbase/onchainkit/transaction";
-import type { Address, TransactionReceipt } from "viem";
-// ---cut-before---
-type LifecycleStatus =
-  | {
-      statusName: 'init';
-      statusData: null;
-    }
-  | {
-      statusName: 'error';
-      statusData: TransactionError;
-    }
-  | {
-      statusName: 'transactionIdle'; // initial status prior to the mutation function executing
-      statusData: null;
-    }
-  | {
-      statusName: 'buildingTransaction'; // resolving calls or contracts promise
-      statusData: null;
-    }
-  | {
-      statusName: 'transactionPending'; // if the mutation is currently executing
-      statusData: null;
-    }
-  | {
-      statusName: 'transactionLegacyExecuted';
-      statusData: {
-        transactionHashList: string[];
+  ```ts
+  import type { TransactionError } from "@coinbase/onchainkit/transaction";
+  import type { Address, TransactionReceipt } from "viem";
+  // ---cut-before---
+  type LifecycleStatus =
+    | {
+        statusName: 'init';
+        statusData: null;
+      }
+    | {
+        statusName: 'error';
+        statusData: TransactionError;
+      }
+    | {
+        statusName: 'transactionIdle'; // initial status prior to the mutation function executing
+        statusData: null;
+      }
+    | {
+        statusName: 'buildingTransaction'; // resolving calls or contracts promise
+        statusData: null;
+      }
+    | {
+        statusName: 'transactionPending'; // if the mutation is currently executing
+        statusData: null;
+      }
+    | {
+        statusName: 'transactionLegacyExecuted';
+        statusData: {
+          transactionHashList: string[];
+        };
+      }
+    | {
+        statusName: 'success'; // if the last mutation attempt was successful
+        statusData: {
+          transactionReceipts: TransactionReceipt[];
+        };
       };
-    }
-  | {
-      statusName: 'success'; // if the last mutation attempt was successful
-      statusData: {
-        transactionReceipts: TransactionReceipt[];
-      };
-    };
-```
+  ```
 
   </Step>
   <Step title="Sponsor with Paymaster capabilities">
   To sponsor your transactions with Paymaster capabilities, configure your [`OnchainKitProvider`](/onchainkit/config/onchainkit-provider) with the appropriate `config.paymaster` URL, then pass `isSponsored={true}` to the `Transaction` component.
 
-Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/bundler-and-paymaster).
+  Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/bundler-and-paymaster).
 
   <Frame>
   <img
@@ -284,29 +249,28 @@ Obtain a Paymaster and Bundler endpoint from the [Coinbase Developer Platform](h
   />
   </Frame>
 
-```tsx
-<OnchainKitProvider
-  config={{ // [!code focus]
-    paymaster: process.env.PAYMASTER_ENDPOINT, // [!code focus]
-  }} // [!code focus]
->
-```
+  ```tsx
+  <OnchainKitProvider
+    config={{ // [!code focus]
+      paymaster: process.env.PAYMASTER_ENDPOINT, // [!code focus]
+    }} // [!code focus]
+  >
+  ```
 
-Next, pass `isSponsored={true}` to the `Transaction` component.
+  Next, pass `isSponsored={true}` to the `Transaction` component.
 
-```tsx
-import { Transaction, TransactionButton, TransactionSponsor } from "@coinbase/onchainkit/transaction"
-// ---cut-before---
-// omitted for brevity
-<Transaction
-  isSponsored={true} // [!code focus]
-  contracts={contracts} // [!code focus]
->
-  <TransactionButton />
-  <TransactionSponsor />
-</Transaction>
-```
-
+  ```tsx
+  import { Transaction, TransactionButton, TransactionSponsor } from "@coinbase/onchainkit/transaction"
+  // ---cut-before---
+  // omitted for brevity
+  <Transaction
+    isSponsored={true} // [!code focus]
+    contracts={contracts} // [!code focus]
+  >
+    <TransactionButton />
+    <TransactionSponsor />
+  </Transaction>
+  ```
   </Step>
 </Steps>
 

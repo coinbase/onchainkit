@@ -2,7 +2,6 @@
 title: getAddress
 ---
 
-
 The `getAddress` utility is designed to retrieve an address from an onchain identity provider for a given name.
 
 ## Usage
@@ -14,11 +13,13 @@ Get ENS Name from mainnet chain
 import { getAddress } from '@coinbase/onchainkit/identity';
 
 const address = await getAddress({ name: 'zizzamia.eth' });
-```
+
+````
 
 ```ts return value
 0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1
-```
+````
+
 </CodeGroup>
 
 Get Basename from base chain
@@ -29,18 +30,40 @@ import { getAddress } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 
 const address = await getAddress({ name: 'zizzamia.base.eth', chain: base });
-```
+
+````
 
 ```ts return value
 0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1
-```
+````
+
 </CodeGroup>
 
 ## Returns
 
-See [`GetAddressReturnType`](/onchainkit/identity/types#getaddressreturntype) and [`GetAddress`](/onchainkit/identity/types#getaddress) for more details.
+```typescript
+type GetAddressReturnType = Address | null;
+
+type Address = `0x${string}`;
+```
 
 ## Parameters
 
-See [`GetAddressReturnType`](/onchainkit/identity/types#getaddressreturntype) and [`GetAddress`](/onchainkit/identity/types#getaddress) for more details.
+```typescript
+type GetAddressParams = {
+  /** Name to resolve */
+  name: string | Basename;
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
 
+type Basename = BaseMainnetName | BaseSepoliaName;
+type BaseMainnetName = `${string}.base.eth`;
+type BaseSepoliaName = `${string}.basetest.eth`;
+
+type Chain = {
+  id: number;
+  name: string;
+  // ... other chain properties
+};
+```
