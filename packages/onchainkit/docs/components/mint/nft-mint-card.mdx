@@ -43,6 +43,7 @@ pnpm add @coinbase/onchainkit
 ```bash bun
 bun add @coinbase/onchainkit
 ```
+
 </CodeGroup>
 
 Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](/onchainkit/getting-started#add-providers).
@@ -74,29 +75,29 @@ If you'd like more customization you can follow the steps below to customize whi
   </Step>
   <Step title="Add the NFTMintCard components">
 
-  ```tsx
-  import { NFTMintCard } from '@coinbase/onchainkit/nft';
-  import { NFTMedia } from '@coinbase/onchainkit/nft/view'; // [!code ++]
-  import {
-    NFTCreator, // [!code ++]
-    NFTCollectionTitle, // [!code ++]
-    NFTQuantitySelector, // [!code ++]
-    NFTAssetCost, // [!code ++]
-    NFTMintButton, // [!code ++]
-  } from '@coinbase/onchainkit/nft/mint'; // [!code ++]
+```tsx
+import { NFTMintCard } from '@coinbase/onchainkit/nft';
+import { NFTMedia } from '@coinbase/onchainkit/nft/view'; // [!code ++]
+import {
+  NFTCreator, // [!code ++]
+  NFTCollectionTitle, // [!code ++]
+  NFTQuantitySelector, // [!code ++]
+  NFTAssetCost, // [!code ++]
+  NFTMintButton, // [!code ++]
+} from '@coinbase/onchainkit/nft/mint'; // [!code ++]
 
-  <NFTMintCard
-    contractAddress='0xed2f34043387783b2727ff2799a46ce3ae1a34d2'
-    tokenId='2'
-  >
-    <NFTCreator />
-    <NFTMedia />
-    <NFTCollectionTitle />
-    <NFTQuantitySelector />
-    <NFTAssetCost />
-    <NFTMintButton />
-  </NFTMintCard>
-  ```
+<NFTMintCard
+  contractAddress='0xed2f34043387783b2727ff2799a46ce3ae1a34d2'
+  tokenId='2'
+>
+  <NFTCreator />
+  <NFTMedia />
+  <NFTCollectionTitle />
+  <NFTQuantitySelector />
+  <NFTAssetCost />
+  <NFTMintButton />
+</NFTMintCard>
+```
 
   <iframe
     src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-nft-mintcard--card-main&viewMode=story&dark=true&hero=true"
@@ -222,7 +223,7 @@ The default `NFTMintCard` implementation uses Coinbase Developer Platform to pro
 
 You can also use a custom `buildMintTransaction` function to create your own Mint transaction.
 
-```ts
+```tsx
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
 import { NFTMedia } from '@coinbase/onchainkit/nft/view';
 import { NFTCollectionTitle, NFTMintButton } from '@coinbase/onchainkit/nft/mint';
@@ -339,4 +340,3 @@ type NFTMintCardProps = {
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
 };
 ```
-
