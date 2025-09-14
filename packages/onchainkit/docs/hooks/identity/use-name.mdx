@@ -43,15 +43,37 @@ const { data: name, isLoading } = await useName({ address, chain: base });
 
 ## Returns
 
-[`useQuery<Promise<GetAddressReturnType>>`](/onchainkit/identity/types#getaddressreturntype)
+```ts
+useQuery<Promise<GetNameReturnType>>
+
+type GetNameReturnType = string | Basename | null;
+```
 
 ## Parameters
 
-### UseNameOptions
+### UseNameParams
 
-[`UseNameOptions`](/onchainkit/identity/types#usenameoptions)
+```ts
+type UseNameParams = {
+  /** The address for which the ENS or Basename is to be fetched. */
+  address?: Address;
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
+```
 
 ### UseQueryOptions
 
-[`UseQueryOptions`](/onchainkit/identity/types#usequeryoptions)
+```ts
+type UseQueryOptions<TData = unknown> = Omit<
+  TanstackUseQueryOptions<TData>,
+  'queryKey' | 'queryFn'
+> & {
+  /**
+   * @deprecated Use `gcTime` instead. Will be removed in a future version.
+   * The time in milliseconds after data is considered stale before it is removed from the cache.
+   */
+  cacheTime?: number;
+};
+```
 

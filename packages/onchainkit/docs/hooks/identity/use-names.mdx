@@ -55,14 +55,36 @@ const { data: names, isLoading } = useNames({ addresses, chain: base });
 
 ## Returns
 
-[`useQuery<Promise<GetNameReturnType[]>>`](/onchainkit/identity/types#getnamereturntype)
+```ts
+useQuery<Promise<GetNameReturnType[]>>
+
+type GetNameReturnType = string | Basename | null;
+```
 
 ## Parameters
 
-### UseNamesOptions
+### UseNamesParams
 
-[`UseNamesOptions`](/onchainkit/identity/types#usenamesoptions)
+```ts
+type UseNamesParams = {
+  /** Array of addresses to resolve ENS or Basenames for */
+  addresses: Address[];
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
+```
 
 ### UseQueryOptions
 
-[`UseQueryOptions`](/onchainkit/identity/types#usequeryoptions) 
+```ts
+type UseQueryOptions<TData = unknown> = Omit<
+  TanstackUseQueryOptions<TData>,
+  'queryKey' | 'queryFn'
+> & {
+  /**
+   * @deprecated Use `gcTime` instead. Will be removed in a future version.
+   * The time in milliseconds after data is considered stale before it is removed from the cache.
+   */
+  cacheTime?: number;
+};
+``` 

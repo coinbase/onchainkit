@@ -48,10 +48,13 @@ const handleChange = useCallback((value: string) => {
   width="100%"
   height="auto"
 />
-{/* <App>
-  <TokenSearch onChange={(value) => console.log('Search term:', value)} delayMs={200} />
-</App> */}
 
 ## Props
 
-[`TokenSearchReact`](/onchainkit/token/types#tokensearchreact)
+```ts
+type TokenSearchProps = {
+  className?: string;
+  delayMs?: number; // Debounce delay in milliseconds
+  onChange: (value: string) => void; // Search callback function
+};
+```

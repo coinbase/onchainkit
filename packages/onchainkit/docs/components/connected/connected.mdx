@@ -107,7 +107,7 @@ export default function MintFlow() {
   return (
     <div className="space-y-4">
       <h1>Mint Your NFT</h1>
-      
+
       <Connected
         connecting={<div>Preparing wallet...</div>}
         fallback={
@@ -124,7 +124,7 @@ export default function MintFlow() {
           <p className="text-gray-600 mb-4">
             Your wallet is connected. Click below to mint your NFT.
           </p>
-          
+
           <Transaction
             calls={[
               {
@@ -153,13 +153,13 @@ export default function Navigation() {
   return (
     <nav className="flex items-center justify-between p-4">
       <div>My App</div>
-      
+
       <div className="flex items-center gap-4">
         <Connected fallback={null}>
           <a href="/dashboard">Dashboard</a>
           <a href="/profile">Profile</a>
         </Connected>
-        
+
         <Connected>
           <span>Wallet connected</span>
         </Connected>
@@ -171,10 +171,8 @@ export default function Navigation() {
 
 ## Props
 
-[`ConnectedProps`](#connectedprops)
-
 ```ts
-type ConnectedProps<TFallback extends ReactNode | undefined = undefined> = 
+type ConnectedProps<TFallback extends ReactNode | undefined = undefined> =
   TFallback extends undefined
     ? ConnectedBaseProps<TFallback> & ConnectWalletFallbackProps
     : ConnectedBaseProps<TFallback>;

@@ -17,15 +17,37 @@ const { data: address, isLoading } = useAddress({ name: 'zizzamia.base.eth' });
 
 ## Returns
 
-[`useQuery<Promise<GetAddressReturnType>>`](/onchainkit/identity/types#getaddressreturntype)
+```ts
+useQuery<Promise<GetAddressReturnType>>
+
+type GetAddressReturnType = Address | null;
+```
 
 ## Parameters
 
-### UseAddressOptions
+### UseAddressParams
 
-[`UseAddressOptions`](/onchainkit/identity/types#useaddressoptions)
+```ts
+type UseAddressParams = {
+  /** The ENS or Basename for which the Ethereum address is to be fetched */
+  name: string | Basename;
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
+```
 
 ### UseQueryOptions
 
-[`UseQueryOptions`](/onchainkit/identity/types#usequeryoptions)
+```ts
+type UseQueryOptions<TData = unknown> = Omit<
+  TanstackUseQueryOptions<TData>,
+  'queryKey' | 'queryFn'
+> & {
+  /**
+   * @deprecated Use `gcTime` instead. Will be removed in a future version.
+   * The time in milliseconds after data is considered stale before it is removed from the cache.
+   */
+  cacheTime?: number;
+};
+```
 

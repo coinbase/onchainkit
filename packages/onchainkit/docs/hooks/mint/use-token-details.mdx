@@ -68,9 +68,37 @@ const queryClient = new QueryClient();
 
 ## Returns
 
-[`UseQueryResult<TokenDetails>`](/onchainkit/api/types#gettokendetailsresponse)
+```ts
+UseQueryResult<TokenDetails>
+
+type TokenDetails = {
+  /** The name of the token */
+  name: string;
+  /** The description of the token */
+  description: string;
+  /** The image URL of the token */
+  imageUrl: string;
+  /** The animation URL of the token */
+  animationUrl: string;
+  /** The MIME type of the token */
+  mimeType: string;
+  /** The address of the owner of the token */
+  ownerAddress: Address;
+  /** The last sold price of the token */
+  lastSoldPrice: NFTPrice;
+  /** ERC721, ERC1155 */
+  contractType: ContractType;
+};
+```
 
 ## Parameters
 
-[`GetTokenDetailsParams`](/onchainkit/api/types#gettokendetailsparams)
+```ts
+type GetTokenDetailsParams = {
+  /** The address of the token contract */
+  contractAddress: Address;
+  /** The ID of the token */
+  tokenId?: string;
+};
+```
 

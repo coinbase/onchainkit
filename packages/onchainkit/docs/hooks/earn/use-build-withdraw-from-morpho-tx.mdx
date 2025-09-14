@@ -26,8 +26,25 @@ const { calls } = useBuildWithdrawFromMorphoTx({
 
 ## Returns
 
-[`{ calls: Call[] }`](/onchainkit/transaction/types#calls)
+```ts
+{
+  calls: Call[];
+}
+
+type Call = { 
+  to: Hex; 
+  data?: Hex; 
+  value?: bigint; 
+};
+```
 
 ## Parameters
 
-[`UseBuildWithdrawFromMorphoTxParams`](/onchainkit/earn/types#usebuildwithdrawfrommorphotxparams)
+```ts
+type UseBuildWithdrawFromMorphoTxParams = {
+  vaultAddress: Address;
+  recipientAddress?: Address;
+  amount: string;
+  tokenDecimals: number | undefined;
+};
+```
