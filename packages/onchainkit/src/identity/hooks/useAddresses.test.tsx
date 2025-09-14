@@ -141,58 +141,17 @@ describe('useAddresses', () => {
   });
 
   it('merges custom queryOptions with default options', async () => {
-    const customCacheTime = 120000;
+    const gcTime = 120000;
 
     vi.mocked(getAddresses).mockResolvedValue(testAddresses);
 
-    renderHook(
-      () => useAddresses({ names: testNames }, { cacheTime: customCacheTime }),
-      {
-        wrapper: getNewReactQueryTestProvider(),
-      },
-    );
+    renderHook(() => useAddresses({ names: testNames }, { gcTime }), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
 
     expect(mockUseQuery).toHaveBeenCalled();
     const options = mockUseQuery.mock.calls[0][0];
-    expect(options).toHaveProperty('gcTime', customCacheTime);
-  });
-
-  it('correctly maps cacheTime to gcTime for backwards compatibility', async () => {
-    const mockCacheTime = 60000;
-    const mockGcTime = 120000;
-
-    vi.mocked(getAddresses).mockResolvedValue(testAddresses);
-
-    renderHook(
-      () => useAddresses({ names: testNames }, { cacheTime: mockCacheTime }),
-      {
-        wrapper: getNewReactQueryTestProvider(),
-      },
-    );
-
-    expect(mockUseQuery).toHaveBeenCalled();
-    const optionsWithCacheTime = mockUseQuery.mock.calls[0][0];
-    expect(optionsWithCacheTime).toHaveProperty('gcTime', mockCacheTime);
-
-    mockUseQuery.mockClear();
-
-    renderHook(
-      () =>
-        useAddresses(
-          { names: testNames },
-          {
-            cacheTime: mockCacheTime,
-            gcTime: mockGcTime,
-          },
-        ),
-      {
-        wrapper: getNewReactQueryTestProvider(),
-      },
-    );
-
-    expect(mockUseQuery).toHaveBeenCalled();
-    const optionsWithBoth = mockUseQuery.mock.calls[0][0];
-    expect(optionsWithBoth).toHaveProperty('gcTime', mockGcTime);
+    expect(options).toHaveProperty('gcTime', gcTime);
   });
 
   it('creates a stable query key based on names', async () => {

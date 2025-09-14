@@ -22,8 +22,6 @@ export const useName = (
     queryFn: () => getName({ address, chain }),
     enabled: !!address,
     ...DEFAULT_QUERY_OPTIONS,
-    // Use cacheTime as gcTime for backward compatibility
-    gcTime: queryOptions?.cacheTime,
     ...queryOptions,
   });
 };
