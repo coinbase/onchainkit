@@ -2,4 +2,108 @@
 title: "Name"
 ---
 
-Placeholder for Name component documentation.
+The `Name` component is used to display ENS or [Basenames](https://www.base.org/names) associated with Ethereum addresses.
+
+## Usage
+
+Address with an ENS:
+
+```tsx
+import { Name } from '@coinbase/onchainkit/identity';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+<Name address={address} /> // [!code focus]
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-name--default-identity&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <App>
+  <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1"/>
+</App> */}
+
+Address with a Basename:
+
+```tsx
+import { Name } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains'; // [!code focus]
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+<Name address={address} chain={base} /> // [!code focus]
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-name--with-basename&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <App>
+  <Name address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" chain={base}/>
+</App> */}
+
+### Override styles
+
+You can override component styles using `className`.
+
+```tsx
+import { Name } from '@coinbase/onchainkit/identity';
+
+const address = '0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1';
+<Name
+  address={address}
+  className="bg-emerald-400 px-2 py-1 rounded"// [!code focus]
+/>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-name--override-styles&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <App>
+  <Name className="bg-emerald-400 px-2 py-1 rounded" address="0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1" />
+</App> */}
+
+### Add attestation badge
+
+Show attestation on ENV name with [`Badge`](/onchainkit/identity/badge) component.
+
+Use [`OnchainKitProvider`](/onchainkit/config/onchainkit-provider) or [`Identity`](/onchainkit/identity/identity) component with the `schemaId` prop.
+
+```tsx
+import { Badge, Name, Identity } from '@coinbase/onchainkit/identity';
+
+const address = '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9';
+<Identity
+  address={address}
+  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+>
+  <Name>
+    <Badge />
+  </Name>
+</Identity>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-name--add-badge&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <App>
+  <Identity
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+    address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+    className="bg-transparent"
+  >
+    <Name>
+      <Badge />
+    </Name>
+  </Identity>
+</App> */}
+
+## Props
+
+[`NameReact`](/onchainkit/identity/types#namereact)
+

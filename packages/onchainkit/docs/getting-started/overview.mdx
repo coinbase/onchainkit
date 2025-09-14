@@ -33,6 +33,26 @@ OnchainKit provides everything you need to build modern onchain applications:
 - **Transaction Tools** - Transaction building, sending, and status tracking
 - **DeFi Integration** - Token swaps, yield farming, and portfolio management
 - **Commerce Components** - Onramp, checkout, and payment flows
+- **Advanced Customization** - Render props for complete UI control while maintaining functionality
+
+## Customization
+
+OnchainKit components are designed to be highly customizable. In addition to standard props like `className` and `children`, many components support **render props** for complete control over their UI while maintaining all underlying functionality.
+
+Render props let you implement custom designs for buttons, inputs, and other interactive elements while OnchainKit handles the complex onchain logic:
+
+```tsx
+// Example: Custom wallet connect button
+<ConnectWallet
+  render={({ onClick, status, isLoading }) => (
+    <button onClick={onClick} className="my-custom-style">
+      {status === 'disconnected' ? 'Connect' : 'Connected'}
+    </button>
+  )}
+/>
+```
+
+Components with render prop support include `ConnectWallet`, `TransactionButton`, `SignatureButton`, various `Swap` components, and `Fund` components. Check individual component documentation for specific render prop interfaces.
 
 <Check>
   These docs are LLM-friendly. Reference the [OnchainKit AI Prompting Guide](/onchainkit/guides/ai-prompting-guide) in your code editor to streamline builds and prompt smarter.

@@ -2,4 +2,232 @@
 title: "Identity"
 ---
 
-Placeholder for Identity component documentation.
+`Identity` is a React context provider and arranges identity components.
+
+## Usage
+
+Show user avatar, name with attestation and address:
+
+```tsx
+import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
+
+<Identity
+  address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+>
+  <Avatar />
+  <Name>
+    <Badge />
+  </Name>
+  <Address />
+</Identity>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-identity--default-identity&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <App>
+  <Identity
+    address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+  >
+    <Avatar />
+    <Name>
+      <Badge />
+    </Name>
+    <Address />
+  </Identity>
+</App> */}
+
+### Badge with Tooltip
+
+You can enable a tooltip for the attestation badge to provide context about what the badge represents:
+
+```tsx
+import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
+
+<Identity
+  address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+>
+  <Avatar />
+  <Name> 
+    <Badge 
+      tooltip={true} // [!code focus]
+    />
+  </Name>
+  <Address />
+</Identity>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-identity--badge-tooltip&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <App>
+  <Identity
+    address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+  >
+    <Avatar />
+    <Name>
+      <Badge tooltip={true} />
+    </Name>
+    <Address />
+  </Identity>
+</App> */}
+
+You can also provide custom tooltip text:
+```tsx
+// @errors: 2304 2552
+import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
+
+<Identity
+  address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+>
+  <Avatar />
+  <Name>
+    <Badge 
+      tooltip="Coinbase Verified Account" // [!code focus]
+    />
+  </Name>
+  <Address />
+</Identity>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-identity--badge-custom-tooltip&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <App>
+  <Identity
+    address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+  >
+    <Avatar />
+    <Name>
+      <Badge tooltip="Coinbase Verified Account" />
+    </Name>
+    <Address />
+  </Identity>
+</App> */}
+
+Modify any styles with `className` prop.
+
+```tsx
+// @errors: 2304 2552 2657
+import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
+
+<Identity
+  address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+  schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+>
+  <Avatar>
+    <Badge
+      className="bg-error" // [!code focus]
+    />
+  </Avatar>
+  <Name
+    className="text-orange-600" // [!code focus]
+  />
+  <Address
+    className="text-zinc-500 font-bold" // [!code focus]
+  />
+</Identity>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-identity--class-name-prop&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+
+{/* <App>
+  <Identity
+    address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+  >
+    <Avatar>
+      <Badge className="bg-error" />
+    </Avatar>
+    <Name className="text-orange-600" />
+    <Address className="text-zinc-500 font-bold"/>
+  </Identity>
+</App> */}
+
+Choose which identity components to render:
+
+```tsx
+import { Avatar, Identity, Name, Badge, Address } from '@coinbase/onchainkit/identity';
+// ---cut-start---
+<div>
+// ---cut-end---
+
+<Identity address="0x838..." schemaId="0xf8b...">
+  <Avatar />
+  <Name>
+    <Badge />
+  </Name>
+</Identity>
+
+<Identity address="0x838..." schemaId="0xf8b...">
+  <Name>
+    <Badge />
+  </Name>
+  <Address />
+</Identity>
+// ---cut-after---
+</div>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-identity-identity--choose-components&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+{/* <App>
+  <Identity
+    address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+  >
+    <Avatar />
+    <Name>
+      <Badge />
+    </Name>
+  </Identity>
+  <Identity
+    address="0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9"
+    schemaId="0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9"
+    className="mt-2"
+  >
+    <Name>
+      <Badge />
+    </Name>
+    <Address />
+  </Identity>
+</App> */}
+
+## Props
+
+[`IdentityProps`](#identityprops)
+
+```ts
+type IdentityProps = {
+  /** The Ethereum address to fetch the avatar and name for. */
+  address?: Address;
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+  /** Child components */
+  children: ReactNode;
+  /** Optional className override for top div element. */
+  className?: string;
+  /** The Ethereum address of the schema to use for EAS attestation. */
+  schemaId?: Address | null;
+};
+```
+

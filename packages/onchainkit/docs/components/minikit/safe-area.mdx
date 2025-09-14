@@ -2,4 +2,124 @@
 title: "SafeArea"
 ---
 
-Placeholder for SafeArea component documentation.
+The `SafeArea` component automatically handles safe area insets when running inside a mini app. It ensures your app's content doesn't get obscured by device UI elements like status bars, home indicators, or navigation bars.
+
+When not inside a mini app, the component returns children unchanged without applying any safe area styles.
+
+## Usage
+
+### Basic usage
+
+Wrap your content with `SafeArea` to automatically apply safe area padding when inside a mini app:
+
+```tsx
+import { SafeArea } from '@coinbase/onchainkit/minikit';
+
+export default function MyMiniApp() {
+  return (
+    <SafeArea>
+      <div className="p-4">
+        <h1>My Mini App Content</h1>
+        <p>This content will be properly inset from device edges.</p>
+      </div>
+    </SafeArea>
+  );
+}
+```
+
+### Using asChild prop
+
+Use the `asChild` prop to merge safe area padding directly into a single child element instead of wrapping it:
+
+```tsx
+import { SafeArea } from '@coinbase/onchainkit/minikit';
+
+export default function MyMiniApp() {
+  return (
+    <SafeArea asChild>
+      <main className="min-h-screen bg-blue-50">
+        <div className="p-4">
+          <h1>My Mini App</h1>
+          <p>Safe area padding is applied directly to the main element.</p>
+        </div>
+      </main>
+    </SafeArea>
+  );
+}
+```
+
+### CSS custom properties
+
+The `SafeArea` component exposes safe area values as CSS custom properties on the `:root` element:
+
+- `--ock-minikit-safe-area-inset-top`
+- `--ock-minikit-safe-area-inset-right` 
+- `--ock-minikit-safe-area-inset-bottom`
+- `--ock-minikit-safe-area-inset-left`
+
+You can use these variables in your own CSS:
+
+```css
+.my-header {
+  position: fixed;
+  top: var(--ock-minikit-safe-area-inset-top, 0px);
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 100;
+}
+
+.my-footer {
+  position: fixed;
+  bottom: var(--ock-minikit-safe-area-inset-bottom, 0px);
+  left: 0;
+  right: 0;
+  background: white;
+}
+```
+
+## Advanced Usage
+
+### Complex layout example
+
+```tsx
+import { SafeArea } from '@coinbase/onchainkit/minikit';
+
+export default function MiniAppLayout() {
+  return (
+    <SafeArea>
+      <div className="flex flex-col min-h-screen">
+        <header className="bg-blue-600 text-white p-4">
+          <h1>Mini App Header</h1>
+        </header>
+        <main className="flex-1 p-4">
+          <p>Main content area</p>
+        </main>
+        <footer className="bg-gray-100 p-4">
+          <p>Footer content</p>
+        </footer>
+      </div>
+    </SafeArea>
+  );
+}
+```
+
+## Behavior
+
+- **Inside mini app**: Applies safe area padding and sets CSS custom properties
+- **Outside mini app**: Returns children unchanged with no modifications
+- **No children**: Still sets CSS custom properties if inside mini app, returns `null`
+- **asChild with invalid element**: Logs warning and returns children as-is
+
+## Props
+
+[`SafeAreaProps`](#safeareaprops)
+
+```ts
+type SafeAreaProps = {
+  /** React children to render */
+  children?: ReactNode;
+  /** When true, merges safe-area padding into the single child's style instead of wrapping */
+  asChild?: boolean;
+};
+```

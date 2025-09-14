@@ -14,7 +14,8 @@
       "group": "Configuration",
       "pages": [
         "configuration/onchainkit-provider",
-        "configuration/wagmi-viem-integration"
+        "configuration/wagmi-viem-integration",
+        "configuration/themes"
       ]
     },
     {
@@ -93,6 +94,89 @@
             "components/minikit/safe-area"
           ]
         }
+      ]
+    },
+    {
+      "group": "Utilities",
+      "pages": [
+        {
+          "group": "Earn",
+          "pages": [
+            "utilities/earn/build-deposit-to-morpho-tx",
+            "utilities/earn/build-withdraw-from-morpho-tx"
+          ]
+        },
+        {
+          "group": "Fund",
+          "pages": [
+            "utilities/fund/get-onramp-buy-url",
+            "utilities/fund/fetch-onramp-config",
+            "utilities/fund/fetch-onramp-quote",
+            "utilities/fund/fetch-onramp-options",
+            "utilities/fund/fetch-onramp-transaction-status",
+            "utilities/fund/setup-onramp-event-listeners"
+          ]
+        },
+        {
+          "group": "Identity",
+          "pages": [
+            "utilities/identity/get-address",
+            "utilities/identity/get-attestations",
+            "utilities/identity/get-avatar",
+            "utilities/identity/get-avatars",
+            "utilities/identity/get-name",
+            "utilities/identity/get-names"
+          ]
+        },
+        {
+          "group": "Token",
+          "pages": ["utilities/token/format-amount"]
+        },
+        {
+          "group": "Wallet",
+          "pages": [
+            "utilities/wallet/is-valid-aa-entrypoint",
+            "utilities/wallet/is-wallet-a-coinbase-smart-wallet"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Hooks",
+      "pages": [
+        {
+          "group": "Earn",
+          "pages": [
+            "hooks/earn/use-earn-context",
+            "hooks/earn/use-build-deposit-to-morpho-tx",
+            "hooks/earn/use-build-withdraw-from-morpho-tx",
+            "hooks/earn/use-morpho-vault"
+          ]
+        },
+        {
+          "group": "Identity",
+          "pages": [
+            "hooks/identity/use-address",
+            "hooks/identity/use-avatar",
+            "hooks/identity/use-avatars",
+            "hooks/identity/use-name",
+            "hooks/identity/use-names"
+          ]
+        },
+        {
+          "group": "Mint",
+          "pages": [
+            "hooks/mint/use-token-details",
+            "hooks/mint/use-mint-details"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Guides",
+      "pages": [
+        "guides/ai-prompting-guide",
+        "guides/contributing"
       ]
     }
   ]

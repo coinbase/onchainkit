@@ -1,0 +1,78 @@
+---
+title: getAvatars
+---
+
+
+The `getAvatars` utility is designed to retrieve multiple avatars from an onchain identity
+provider for an array of ENS names or Basenames in a single batch request.
+
+Consider the utility instead of the hook when you
+use it with Next.js or any Node.js backend.
+
+## Usage
+
+Get avatars for multiple ENS names:
+
+<CodeGroup>
+```tsx code
+import { getAvatars } from '@coinbase/onchainkit/identity';
+
+const ensNames = ['vitalik.eth', 'zizzamia.eth'];
+const avatars = await getAvatars({ ensNames });
+```
+
+```ts return value
+[
+  'https://ipfs.io/ipfs/QmSP4nq9fnN9dAiCj42ug9Wa79rqmQerZXZch82VqpiH7U/image.gif',
+  'https://ipfs.io/ipfs/QmQ9RT2SrZ6TWUjrQxG4bNnhb3nDqBE5Ld1j9GYvk3kTjf'
+]
+```
+</CodeGroup>
+
+Get avatars for multiple Basenames:
+
+<CodeGroup>
+```tsx code
+import { getAvatars } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const ensNames = ['zizzamia.base.eth', 'coinbase.base.eth'];
+const avatars = await getAvatars({ ensNames, chain: base });
+```
+
+```ts return value
+[
+  'https://ipfs.io/ipfs/QmQ9RT2SrZ6TWUjrQxG4bNnhb3nDqBE5Ld1j9GYvk3kTjf',
+  'https://ipfs.io/ipfs/QmXHFnSXcN7CSuVcyF3vyPgPcPvLQyLpKYBaNpx3x3bPAZ'
+]
+```
+</CodeGroup>
+
+Get avatars for a mix of ENS names and Basenames:
+
+<CodeGroup>
+```tsx code
+import { getAvatars } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const ensNames = ['vitalik.eth', 'zizzamia.base.eth'];
+const avatars = await getAvatars({ ensNames, chain: base });
+```
+
+```ts return value
+[
+  'https://ipfs.io/ipfs/QmSP4nq9fnN9dAiCj42ug9Wa79rqmQerZXZch82VqpiH7U/image.gif',
+  'https://ipfs.io/ipfs/QmQ9RT2SrZ6TWUjrQxG4bNnhb3nDqBE5Ld1j9GYvk3kTjf'
+]
+```
+</CodeGroup>
+
+## Returns
+
+Array of [`GetAvatarReturnType`](/onchainkit/identity/types#getavatarreturntype)
+
+## Parameters
+
+### GetAvatars
+
+[`GetAvatars`](/onchainkit/identity/types#getavatars) 

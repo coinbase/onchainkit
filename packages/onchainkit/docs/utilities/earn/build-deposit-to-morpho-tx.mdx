@@ -1,0 +1,27 @@
+---
+title: buildDepositToMorphoTx
+---
+
+Builds [Calls](/onchainkit/transaction/types#calls) for depositing assets to Morpho. Pass the calls to `<Transaction />` to execute the deposit.
+
+## Usage
+
+```tsx code
+import { buildDepositToMorphoTx } from '@coinbase/onchainkit/earn';
+
+const calls = await buildDepositToMorphoTx({
+  vaultAddress: '0x...', // Morpho vault address on Base
+  tokenAddress: '0x...', // Address of the token to deposit
+  amount: 1000000000000000000n, // Amount of tokens to deposit
+  recipientAddress: '0x...', // Address of the recipient
+});
+```
+
+## Returns
+
+[`Call[]`](/onchainkit/transaction/types#calls)
+
+## Parameters
+
+[`DepositToMorphoParams`](/onchainkit/earn/types#deposittomorphoparams)
+
