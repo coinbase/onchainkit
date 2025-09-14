@@ -2,4 +2,344 @@
 title: "NFTMintCard"
 ---
 
-Placeholder for NFTMintCard component documentation.
+The `NFTMintCard` component provides an easy way to mint an NFT. Just enter the NFT contract address and token Id (for ERC1155 contracts) and include the subcomponents you want to render.
+
+<Frame>
+<img alt="Checkout"
+  src="/images/onchainkit/NFTMintCard.gif"
+  height="364"
+/>
+</Frame>
+
+<Note>
+To use the `NFTMintCard` component, you'll need to provide an API Key in `OnchainKitProvider`. You can get one following our [Getting Started](/onchainkit/getting-started#get-your-public-api-key) steps.
+</Note>
+
+### Starting a new project
+
+If you're starting a new project, we recommend using `create onchain` to scaffold your project.
+
+```bash
+npm create onchain@latest
+```
+
+### Adding to an existing project
+
+If you're adding `NFTMintCard` to an existing project, simply install OnchainKit.
+
+<CodeGroup>
+```bash npm
+npm install @coinbase/onchainkit
+```
+
+```bash yarn
+yarn add @coinbase/onchainkit
+```
+
+```bash pnpm
+pnpm add @coinbase/onchainkit
+```
+
+```bash bun
+bun add @coinbase/onchainkit
+```
+</CodeGroup>
+
+Wrap the `<OnchainKitProvider />` around your app, following the steps in [Getting Started](/onchainkit/getting-started#add-providers).
+
+## Quickstart
+
+The `NFTMintCardDefault` component is a simplified version of the `NFTMintCard` component, designed to streamline the integration process for developers. Instead of manually defining each subcomponent, developers can use this shorthand version which renders our suggested implementation of the component and includes `NFTCreator`, `NFTMedia`, `NFTCollectionTitle`, `NFTQuantitySelector`, `NFTAssetCost` and `NFTMintButton`.
+
+```tsx
+import { NFTMintCardDefault } from '@coinbase/onchainkit/nft'; // [!code focus]
+
+<NFTMintCardDefault  // [!code focus]
+  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'  // [!code focus]
+/>  // [!code focus]
+```
+
+If you'd like more customization you can follow the steps below to customize which subcomponents are rendered.
+
+<Steps>
+  <Step title="Add the NFTMintCard">
+  ```tsx
+  // @noErrors: 2741 - Property children missing in type
+  import { NFTMintCard } from '@coinbase/onchainkit/nft'; // [!code focus]
+
+  <NFTMintCard  // [!code focus]
+    contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'  // [!code focus]
+  >
+  </NFTMintCard>
+  ```
+  </Step>
+  <Step title="Add the NFTMintCard components">
+
+  ```tsx
+  // @noErrors: 2739
+  import { NFTMintCard } from '@coinbase/onchainkit/nft';
+  import { NFTMedia } from '@coinbase/onchainkit/nft/view'; // [!code ++]
+  import {
+    NFTCreator, // [!code ++]
+    NFTCollectionTitle, // [!code ++]
+    NFTQuantitySelector, // [!code ++]
+    NFTAssetCost, // [!code ++]
+    NFTMintButton, // [!code ++]
+  } from '@coinbase/onchainkit/nft/mint'; // [!code ++]
+
+  <NFTMintCard
+    contractAddress='0xed2f34043387783b2727ff2799a46ce3ae1a34d2'
+    tokenId='2'
+  >
+    <NFTCreator />
+    <NFTMedia />
+    <NFTCollectionTitle />
+    <NFTQuantitySelector />
+    <NFTAssetCost />
+    <NFTMintButton />
+  </NFTMintCard>
+  ```
+
+  <iframe
+    src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-nft-mintcard--card-main&viewMode=story&dark=true&hero=true"
+    width="100%"
+    height="760px"
+  />
+  {/* <MintCardMain /> */}
+  </Step>
+</Steps>
+
+That's it! You've now created an NFT mint card.
+
+## Not sure what to mint?
+
+You can create your own NFT to mint at [Coinbase Wallets create a Mint flow](https://wallet.coinbase.com/home/create). Just follow the instructions to create your NFT and then copy the contract address out of the url into an NFTMintCard.
+
+## Customization
+
+### Add the NFTMintCard components in any order
+
+If you prefer to have the collection title above the media, you can easily change the order of the subcomponents and they will render in the new order.
+
+```tsx
+import { NFTMintCard } from '@coinbase/onchainkit/nft';
+import { NFTMedia } from '@coinbase/onchainkit/nft/view';
+import { NFTCollectionTitle } from '@coinbase/onchainkit/nft/mint';
+// ---cut-before---
+<NFTMintCard
+  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'
+>
+  <NFTCollectionTitle />
+  <NFTMedia />
+  <NFTCollectionTitle />
+</NFTMintCard>
+// ---cut-after---
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-nft-mintcard--card-title-above&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="580px"
+/>
+{/* <MintCardTitleAbove /> */}
+
+### Customize the `<NFTMedia />` aspect ratio
+
+By default, we display all media scaled to fit the card. If you would prefer to show the media at its original aspect ratio you can set `square={false}` on the `<NFTMedia />` component.
+
+```tsx
+import { NFTMintCard } from '@coinbase/onchainkit/nft';
+import {
+  NFTMedia,
+} from '@coinbase/onchainkit/nft/view';
+// ---cut-before---
+<NFTMintCard
+  contractAddress='0x877f0f3fef81c28a8c40fe060b17d254003377ad'
+>
+  <NFTMedia square={false} />
+</NFTMintCard>
+// ---cut-after---
+```
+
+<Tabs>
+  <Tab title="Scaled to fit (default) ">
+    <iframe
+      src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-nft-mintcard--card-scaled&viewMode=story&dark=true&hero=true"
+      width="100%"
+      height="580px"
+    />
+  </Tab>
+  <Tab title="Original Aspect Ratio">
+    <iframe
+      src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-nft-mintcard--card-not-scaled&viewMode=story&dark=true&hero=true"
+      width="100%"
+      height="580px"
+    />
+  </Tab>
+</Tabs>
+{/* | Scaled to fit (default)         | Original Aspect Ratio            |
+| ------------------------------- | -------------------------------- |
+| <MintCardScaled square={true}/> | <MintCardScaled square={false}/> | */}
+
+### Override styles
+
+We recommend style customization by setting a custom [OnchainKit theme](/onchainkit/guides/themes#custom-theme). You can also override individual component styles using `className`.
+
+```tsx
+import { NFTMintCard } from '@coinbase/onchainkit/nft';
+import {
+  NFTMedia,
+} from '@coinbase/onchainkit/nft/view';
+import { NFTCollectionTitle } from '@coinbase/onchainkit/nft/mint';
+export default function NFTComponent() {
+  return (
+// ---cut-before---
+<NFTMintCard
+  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'
+>
+  <NFTMedia/>
+  <NFTCollectionTitle className='text-[#EA580C]'/>
+</NFTMintCard>
+// ---cut-after---
+);
+}
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-nft-mintcard--card-override-styles&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="580px"
+/>
+{/* <MintCardOverrideStyles/> */}
+
+## Compatibility
+
+The mint component uses a custom buildMintTransaction implementation which supports Coinbase mints as well as [`these supported platforms on reservoir`](https://docs.reservoir.tools/docs/minting#platform-support). If your contract is not supported, please follow the [`bring your own data instructions`](#bring-your-own-data) below.
+
+## Advanced Usage
+
+### Bring your own data
+
+The default `NFTMintCard` implementation uses Coinbase Developer Platform to provide the data and requires an API key. You can use the `useNFTData` prop to pass in a hook which fetches the NFT data from a source of your choice. As long as this hook returns an object with the same shape as the [`NFTData`](/onchainkit/mint/types#nftdata) type, the NFTMintCard will render.
+
+You can also use a custom `buildMintTransaction` function to create your own Mint transaction.
+
+```tsx
+// @noErrors: 2739
+import { NFTMintCard } from '@coinbase/onchainkit/nft';
+import { NFTMedia } from '@coinbase/onchainkit/nft/view';
+import { NFTCollectionTitle, NFTMintButton } from '@coinbase/onchainkit/nft/mint';
+// ---cut-before---
+
+function useNFTData() {  // [!code focus]
+  return {  // [!code focus]
+    title: 'My NFT',  // [!code focus]
+    imageUrl: 'https://example.com/image.png',  // [!code focus]
+  }  // [!code focus]
+}  // [!code focus]
+
+async function buildMintTransaction() {  // [!code focus]
+  const response = await fetch('https://api.minttransaction.com');  // [!code focus]
+  return await response.json();  // [!code focus]
+}  // [!code focus]
+
+export default function NFTComponent() {
+  return (
+    <NFTMintCard
+      contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'
+      useNFTData={useNFTData}  // [!code focus]
+      buildMintTransaction={buildMintTransaction}  // [!code focus]
+    >
+      <NFTMedia/>
+      <NFTCollectionTitle />
+      <NFTMintButton disabled={true}/>
+    </NFTMintCard>
+  );
+}
+```
+
+### Listening to the component lifecycle
+
+You can use our NFT [`LifecycleStatus`](/onchainkit/mint/types#lifecyclestatus) and the `onStatus` prop to listen to transaction states.
+
+NFTMintCard has 6 lifecycle states:
+
+- `init` - The component is initialized
+- `error` - The component has encountered an error
+- `mediaLoading` - The media is loading
+- `mediaLoaded` - The media has been loaded
+- `transactionPending` - The mint transaction is pending
+- `transactionLegacyExecuted` - The mint transaction has been executed
+- `success` - The mint transaction has been successful
+
+```tsx
+import { NFTMintCard } from '@coinbase/onchainkit/nft';
+import { NFTMedia } from '@coinbase/onchainkit/nft/view';
+// ---cut-before---
+import type { LifecycleStatus } from '@coinbase/onchainkit/nft'; // [!code focus]
+
+const statusHandler = (status: LifecycleStatus) => { // [!code focus]
+  const { statusName, statusData } = status; // [!code focus]
+  switch (statusName) { // [!code focus]
+    case 'success': // [!code focus]
+      // handle success
+    case 'error': // [!code focus]
+      // handle error
+    default: // [!code focus]
+      // handle 'init' state
+  } // [!code focus]
+} // [!code focus]
+
+<NFTMintCard  // [!code focus]
+  onStatus={statusHandler}  // [!code focus]
+  contractAddress='0xb4703a3a73aec16e764cbd210b0fde9efdab8941'
+>
+  <NFTMedia />
+</NFTMintCard>
+// ---cut-after---
+```
+
+## Example use cases
+
+- **Create a gallery of your mintable NFTs:** Create a gallery of NFTs you created for users to mint
+- **Minted in game avatar:** Allow your users to mint and then view a minted avatar
+
+## Components
+
+The `NFTMintCard` component can be customized with the following components:
+
+- `<NFTCreator />` - The creator of the NFT.
+- `<NFTMedia square={boolean}/>` - The media for the NFT, this includes support for images, videos and audio NFTs.
+- `<NFTCollectionTitle />` - The title of the NFT collection.
+- `<NFTQuantitySelector />` - The quantity selector for the NFT.
+- `<NFTAssetCost />` - The cost of the NFT in native currency and USD.
+- `<NFTMintButton />` - The mint button for the NFT.
+
+## Props
+
+[`NFTMintCardProps`](#nftmintcardprops)
+
+```ts
+type NFTMintCardProps = {
+  children?: ReactNode;
+  /** Optional className override for top div element. */
+  className?: string;
+  /** Contract address of the NFT */
+  contractAddress: Hex;
+  /** Token ID of the NFT only required for ERC1155 */
+  tokenId?: string;
+  /** Optional boolean to determine if the mint is sponsored by paymaster */
+  isSponsored?: boolean;
+  /** Optional hook to override the default useNFTData hook */
+  useNFTData?: UseNFTData;
+  /** Optional function to override the default function that builds the mint transaction */
+  buildMintTransaction?: BuildMintTransaction;
+  /** An optional callback function that handles errors within the provider. */
+  onError?: (error: NFTError) => void;
+  /** An optional callback function that exposes the component lifecycle state */
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  /** mint will pass transactionReceipt */
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
+};
+```
+

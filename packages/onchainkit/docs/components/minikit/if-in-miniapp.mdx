@@ -2,4 +2,200 @@
 title: "IfInMiniApp"
 ---
 
-Placeholder for IfInMiniApp component documentation.
+The `IfInMiniApp` component provides conditional rendering based on whether the app is running inside a Farcaster Mini App. It renders children only when inside a Mini App, and optionally shows a fallback when outside.
+
+## Usage
+
+### Basic conditional rendering
+
+Show different content based on Mini App context:
+
+```tsx
+import { IfInMiniApp } from '@coinbase/onchainkit/minikit';
+
+export default function MyApp() {
+  return (
+    <div>
+      <h1>My App</h1>
+      
+      <IfInMiniApp>
+        <div className="bg-purple-100 p-4 rounded-lg">
+          <h2>🎉 Welcome to the Mini App!</h2>
+          <p>You're experiencing this app inside Farcaster.</p>
+        </div>
+      </IfInMiniApp>
+      
+      <div className="mt-4">
+        <p>This content shows everywhere.</p>
+      </div>
+    </div>
+  );
+}
+```
+
+### With fallback content
+
+Show alternative content when not in a Mini App:
+
+```tsx
+import { IfInMiniApp } from '@coinbase/onchainkit/minikit';
+
+export default function ResponsiveApp() {
+  return (
+    <div>
+      <IfInMiniApp
+        fallback={
+          <div className="bg-blue-100 p-4 rounded-lg">
+            <h2>👋 Web Version</h2>
+            <p>Visit this on Farcaster for the full Mini App experience!</p>
+            <a href="https://warpcast.com" className="text-blue-600 underline">
+              Get Farcaster
+            </a>
+          </div>
+        }
+      >
+        <div className="bg-purple-100 p-4 rounded-lg">
+          <h2>🚀 Mini App Experience</h2>
+          <p>Enhanced features available in Farcaster!</p>
+        </div>
+      </IfInMiniApp>
+    </div>
+  );
+}
+```
+
+## Advanced Usage
+
+### Mini App-specific navigation
+
+```tsx
+import { IfInMiniApp } from '@coinbase/onchainkit/minikit';
+import { useOpenUrl } from '@coinbase/onchainkit/minikit';
+
+function NavigationButtons() {
+  const openUrl = useOpenUrl();
+
+  return (
+    <div className="flex gap-2">
+      <IfInMiniApp
+        fallback={
+          <a 
+            href="/profile" 
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            View Profile
+          </a>
+        }
+      >
+        <button
+          onClick={() => openUrl('https://myapp.com/profile')}
+          className="bg-purple-500 text-white px-4 py-2 rounded"
+        >
+          View Profile in Browser
+        </button>
+      </IfInMiniApp>
+    </div>
+  );
+}
+```
+
+### Feature-specific UI
+
+```tsx
+import { IfInMiniApp } from '@coinbase/onchainkit/minikit';
+import { useAddFrame } from '@coinbase/onchainkit/minikit';
+
+function ShareButtons() {
+  const addFrame = useAddFrame();
+
+  return (
+    <div className="space-y-2">
+      <IfInMiniApp>
+        <button
+          onClick={() => addFrame()}
+          className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg"
+        >
+          📌 Add to Farcaster
+        </button>
+      </IfInMiniApp>
+      
+      <button className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg">
+        🔗 Share Link
+      </button>
+    </div>
+  );
+}
+```
+
+### Layout adaptation
+
+```tsx
+import { IfInMiniApp } from '@coinbase/onchainkit/minikit';
+import { SafeArea } from '@coinbase/onchainkit/minikit';
+
+export default function AdaptiveLayout({ children }) {
+  return (
+    <IfInMiniApp
+      fallback={
+        // Regular web layout
+        <div className="container mx-auto max-w-4xl p-4">
+          <header className="mb-8">
+            <nav className="flex justify-between items-center">
+              <h1>My App</h1>
+              <div className="space-x-4">
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+              </div>
+            </nav>
+          </header>
+          <main>{children}</main>
+        </div>
+      }
+    >
+      {/* Mini App layout with safe area */}
+      <SafeArea>
+        <div className="min-h-screen flex flex-col">
+          <header className="bg-purple-600 text-white p-4">
+            <h1>Mini App</h1>
+          </header>
+          <main className="flex-1 p-4">
+            {children}
+          </main>
+        </div>
+      </SafeArea>
+    </IfInMiniApp>
+  );
+}
+```
+
+## Requirements
+
+The `IfInMiniApp` component requires:
+
+1. **MiniKit enabled** in `OnchainKitProvider`:
+   ```tsx
+   <OnchainKitProvider miniKit={{ enabled: true }}>
+     <App />
+   </OnchainKitProvider>
+   ```
+
+2. **Running inside a Farcaster Mini App context**
+
+## Behavior
+
+- **Inside Mini App + MiniKit enabled**: Renders `children`
+- **Outside Mini App OR MiniKit disabled**: Renders `fallback` or `null`
+- **No fallback provided**: Renders `null` when conditions aren't met
+
+## Props
+
+[`IfInMiniAppProps`](#ifinminiappprops)
+
+```ts
+type IfInMiniAppProps = {
+  /** React children to render when inside a Mini App */
+  children?: ReactNode;
+  /** Content to render when not inside a Mini App (optional) */
+  fallback?: ReactNode;
+};
+```

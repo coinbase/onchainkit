@@ -1,5 +1,96 @@
 ---
-title: "TokenRow"
+title: TokenRow
+sidebarTitle: TokenRow
+description: Component that displays token information in a row format
 ---
 
-Placeholder for TokenRow component documentation.
+The `TokenRow` component displays token information in a row format to be used in list components.
+
+## Usage
+
+Token with an image url
+
+```tsx
+// @noErrors: 1109 - Expression expected
+import { TokenRow } from '@coinbase/onchainkit/token';
+
+const token = { ... };
+
+<TokenRow token={token} />; // [!code focus]
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-token-row--default&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+
+Token without an image url
+
+```tsx
+// @noErrors: 1109 - Expression expected
+import { TokenRow } from '@coinbase/onchainkit/token';
+
+const token = { ... };
+
+<TokenRow token={token} />; // [!code focus]
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-token-row--null&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+
+Token with an amount
+
+```tsx
+// @noErrors: 1109 - Expression expected
+import { TokenRow } from '@coinbase/onchainkit/token';
+
+const token = { ... };
+
+<TokenRow token={token} amount="1000" />; // [!code focus]
+<TokenRow token={token} amount="0.00234567" />; // [!code focus]
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-token-row--amount&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+
+Variations with `hideImage` and `hideSymbol`
+
+```tsx
+// @noErrors: 1109 - Expression expected
+import { TokenRow } from '@coinbase/onchainkit/token';
+
+const token = { ... };
+
+<TokenRow token={token} hideSymbol />; // [!code focus]
+<TokenRow token={token} hideImage />; // [!code focus]
+<TokenRow token={token} hideSymbol hideImage />; // [!code focus]
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-token-row--hide-symbol&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+
+## Props
+
+### TokenRowProps
+
+```ts
+type TokenRowProps = {
+  amount?: string; // Token amount
+  className?: string;
+  hideImage?: boolean;
+  hideSymbol?: boolean;
+  onClick?: (token: Token) => void; // Component on click handler
+  token: Token; // Rendered token
+  as?: React.ElementType;
+};
+```

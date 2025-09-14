@@ -2,4 +2,341 @@
 title: "Earn"
 ---
 
-Placeholder for Earn component documentation.
+The `Earn` component provides a simple interface for earning interest on your crypto via Morpho vaults on Base.
+
+
+## Quickstart
+
+To use `Earn`, you'll need to provide a `vaultAddress` prop. A vault address can be obtained from Morpho's [Vaults page](https://app.morpho.org/base/earn).
+
+```tsx
+// @noErrors: 2307
+import { Earn } from '@coinbase/onchainkit/earn'; // [!code focus]
+
+<Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" /> // [!code focus]
+```
+
+{/* <EarnMain /> */}
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-earn--main&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="400px"
+/>
+
+## Customization
+
+### Custom components and layouts
+
+`Earn` accepts a `children` prop that can be used to render `Earn` subcomponents or custom components.
+
+For instance, you can render the `EarnDeposit` component by itself within the `Earn` component, along with any other custom components you'd like to render.
+
+```tsx
+// @noErrors: 2307
+import { Earn, EarnDeposit } from '@coinbase/onchainkit/earn';
+
+<Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A">
+  <div>Custom header</div>
+  <EarnDeposit />
+  <div>Custom footer</div>
+</Earn>
+```
+
+{/* <EarnDeposit /> */}
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-earn--deposit&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="450px"
+/>
+
+For more granular control, you can also render lower level subcomponents within `EarnDeposit` and `EarnWithdraw`. These subcomponents accept `className` props to customize their styles.
+
+```tsx
+import { Earn,
+        EarnDeposit,
+        EarnDetails,
+        DepositBalance,
+        DepositAmountInput,
+        DepositButton } from '@coinbase/onchainkit/earn';
+
+<Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A">
+  <EarnDeposit>
+    <EarnDetails />
+    <DepositBalance />
+    <DepositAmountInput className="border-2 border-green-400" />
+    <DepositButton />
+  </EarnDeposit>
+</Earn>
+```
+
+{/* <RearrangedEarnDeposit /> */}
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-earn--rearranged-deposit&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="400px"
+/>
+
+### Customizing styles
+
+The `Earn` component is best styled via a [OnchainKit theme](/onchainkit/guides/themes#custom-theme). You can also override individual component styles using `className`.
+
+## Advanced Usage
+
+If you'd like to implement your own custom components, you can use `useEarnContext` within an `Earn` component to access context and build your own components.
+
+You can find the full interface for `EarnContextType` on the [Types page](/onchainkit/earn/types#earncontexttype).
+
+Below, we use `useEarnContext` to implement a custom deposit interface by using `useEarnContext` to access the `depositAmount` and `setDepositAmount` context values.
+
+<CodeGroup>
+```tsx index.tsx
+// @noErrors: 2307
+import { Earn, useEarnContext } from '@coinbase/onchainkit/earn';
+import { CustomDepositButtons } from '@/custom-deposit-buttons';
+
+  <Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A">
+      <CustomDepositButtons />
+  </Earn>
+
+```
+
+```tsx custom-deposit-buttons.tsx
+import {EarnDetails,
+        EarnDeposit,
+        useEarnContext,
+        DepositButton} from '@coinbase/onchainkit/earn';
+
+const predefinedAmounts = ['0.1', '1', '10'];
+
+function CustomDepositButtons() {
+  const { depositAmount, setDepositAmount } = useEarnContext();
+
+  return (
+    <EarnDeposit>
+      <EarnDetails />
+      <div className="grid grid-cols-3 gap-2">
+        {predefinedAmounts.map((amount) => {
+          const selected = amount === depositAmount;
+          return (
+            <button
+              key={amount}
+              type="button"
+              onClick={() => setDepositAmount(amount)}
+              className={`rounded-md px-4 py-2
+              ${selected ? 'bg-[var(--ock-bg-primary)] text-[var(--ock-text-inverse)]'
+              : 'bg-[var(--ock-bg-secondary)] text-[var(--ock-text-primary)]'}`}
+            >
+              {amount}
+            </button>
+          );
+        })}
+      </div>
+      <DepositButton />
+    </EarnDeposit>
+  );
+}
+```
+</CodeGroup>
+
+{/* <PredefinedInputDeposit /> */}
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-earn--predefined-deposit&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="400px"
+/>
+
+Taking advantage of the data and methods provided by `useEarnContext`, developers can implement fully custom deposit and withdraw interfaces, modifying everything from UI elements to input behavior.
+
+## Examples
+
+### Sponsoring transactions
+
+To sponsor transactions, you can use the `isSponsored` prop.
+
+```tsx
+// @noErrors: 2304
+<Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" isSponsored />
+```
+
+Ensure that your `OnchainKitProvider` has a `paymaster` configured:
+
+```tsx
+// @noErrors:  2304 17008 1005
+<OnchainKitProvider
+  config={{ // [!code focus]
+    paymaster: process.env.PAYMASTER_ENDPOINT, // [!code focus]
+  }} // [!code focus]
+>
+```
+
+<Tip>
+If you have a contract allowlist set on Coinbase Developer Platform, you'll need to ensure that the following contract functions are allowed:
+
+- `deposit` on the Morpho vault
+- `redeem` on the Morpho vault
+- `approve` on the token being deposited
+</Tip>
+
+
+## Components
+
+The `Earn` component includes the following subcomponents:
+
+- `<Earn />` - A fully built Withdraw and Deposit component. Also includes a `children` prop to render custom components and provides `useEarnContext` to access the context values.
+- `<EarnProvider />` - A headless provider that provides the `useEarnContext` hook to the `Earn` component.
+- `<EarnDeposit />` - A fully built deposit card.
+- `<EarnWithdraw />` - A fully built withdraw card.
+- `<EarnDetails />` - A component that displays the details of the vault.
+- `<DepositAmountInput />` - A component that handles the deposit amount input.
+- `<DepositBalance />` - A component that displays the balance underlying asset in the user's wallet.
+- `<DepositButton />` - A component that triggers the deposit transaction.
+- `<WithdrawAmountInput />` - A component that handles the withdraw amount input.
+- `<WithdrawBalance />` - A component that displays how much the user can withdraw from a vault.
+- `<WithdrawButton />` - A component that triggers the withdraw transaction.
+- `<YieldDetails />` - A component that displays the yield details of the vault.
+- `<VaultDetails />` - A component that displays the vault details.
+
+## Hooks
+
+- [`useEarnContext`](/onchainkit/hooks/use-earn-context) - A hook that provides the context values of the `Earn` component.
+- [`useBuildDepositToMorphoTx`](/onchainkit/hooks/use-build-deposit-to-morpho-tx) - A hook that builds a deposit transaction to Morpho.
+- [`useBuildWithdrawFromMorphoTx`](/onchainkit/hooks/use-build-withdraw-from-morpho-tx) - A hook that builds a withdraw transaction from Morpho.
+- [`useMorphoVault`](/onchainkit/hooks/use-morpho-vault) - A hook that provides the details of a Morpho vault.
+
+## Props
+
+[`EarnProps`](#earnprops)
+
+```ts
+type EarnProps = {
+  children?: React.ReactNode;
+  className?: string;
+  vaultAddress: Address;
+  isSponsored?: boolean;
+  /** An optional callback function that handles errors within the provider. */
+  onError?: (error: TransactionError) => void;
+  /** An optional callback function that exposes the component lifecycle state */
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  /** An optional callback function that exposes the transaction receipt */
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
+};
+```
+
+[`EarnProviderProps`](#earnproviderprops)
+
+```ts
+type EarnProviderProps = {
+  children: React.ReactNode;
+  vaultAddress: Address;
+  isSponsored?: boolean;
+  /** An optional callback function that handles errors within the provider. */
+  onError?: (error: TransactionError) => void;
+  /** An optional callback function that exposes the component lifecycle state */
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  /** An optional callback function that exposes the transaction receipt */
+  onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
+};
+```
+
+[`EarnContextType`](#earncontexttype)
+
+```ts
+type EarnContextType = {
+  /** Warns users if vault address is invalid */
+  error: Error | null;
+  recipientAddress?: Address;
+  /** Balance of the underlying asset in the user's wallet, converted to the asset's decimals */
+  walletBalance?: string;
+  /** Status of the wallet balance fetch */
+  walletBalanceStatus: 'pending' | 'success' | 'error';
+  refetchWalletBalance: () => void;
+  vaultAddress: Address;
+  /** The token that is being deposited or withdrawn (the underlying asset of the vault) */
+  vaultToken: Token | undefined;
+  vaultName: string | undefined;
+  /** Total deposits in the vault */
+  deposits: string | undefined;
+  /** Total liquidity (available to borrow) in the vault */
+  liquidity: string | undefined;
+  /** Total APY of the vault, including rewards */
+  apy: number | undefined;
+  nativeApy: UseMorphoVaultReturnType['nativeApy'];
+  vaultFee: UseMorphoVaultReturnType['vaultFee'];
+  /** Rewards earned by the user in the vault */
+  rewards: UseMorphoVaultReturnType['rewards'];
+  /** The amount of underlying asset that has been deposited in the vault by the connected user */
+  depositedBalance?: string;
+  /** Whether the deposited balance is being fetched */
+  depositedBalanceStatus: 'pending' | 'success' | 'error';
+  refetchDepositedBalance: () => void;
+  /** Interest earned by the user in the vault */
+  interestEarned?: string;
+  /** Amount that the user has typed into the deposit amount input */
+  depositAmount: string;
+  setDepositAmount: (amount: string) => void;
+  depositAmountError: string | null;
+  depositCalls: Call[];
+  /** Amount that the user has typed into the withdraw amount input */
+  withdrawAmount: string;
+  setWithdrawAmount: (amount: string) => void;
+  withdrawAmountError: string | null;
+  withdrawCalls: Call[];
+  lifecycleStatus: LifecycleStatus;
+  updateLifecycleStatus: (
+    status: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void;
+};
+```
+
+[`LifecycleStatus`](#lifecyclestatus)
+
+```ts
+type LifecycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'amountChange';
+      statusData: {
+        amount: string;
+        token: Token;
+      };
+    }
+  | Extract<
+      TransactionLifecycleStatus,
+      {
+        statusName:
+          | 'transactionPending'
+          | 'transactionLegacyExecuted'
+          | 'success'
+          | 'error';
+      }
+    >;
+```
+
+Additional component props:
+
+```ts
+// Input components
+type DepositAmountInputProps = { className?: string; };
+type WithdrawAmountInputProps = { className?: string; };
+
+// Balance components  
+type DepositBalanceProps = { className?: string; };
+type WithdrawBalanceProps = { className?: string; };
+
+// Container components
+type EarnDepositProps = { children?: React.ReactNode; className?: string; };
+type EarnWithdrawProps = { children?: React.ReactNode; className?: string; };
+
+// Action components
+type DepositButtonProps = { className?: string; };
+type WithdrawButtonProps = { className?: string; };
+type EarnDetailsProps = { className?: string; };
+```
+

@@ -1,5 +1,210 @@
 ---
-title: "SwapSettings"
+title: SwapSettings
+sidebarTitle: SwapSettings
+description: Customizable components for token Swap settings and slippage configuration
 ---
 
-Placeholder for SwapSettings component documentation.
+The `SwapSettings` component enables customizable slippage configuration in the `Swap` component.
+
+## Usage
+
+```tsx
+// omitted for brevity
+import {
+  Swap,
+  SwapSettings,
+  SwapSettingsSlippageDescription,
+  SwapSettingsSlippageInput,
+  SwapSettingsSlippageTitle,
+} from '@coinbase/onchainkit/swap';
+
+<Swap>
+  <SwapSettings>
+    <SwapSettingsSlippageTitle>
+      Max. slippage
+    </SwapSettingsSlippageTitle>
+    <SwapSettingsSlippageDescription>
+      Your swap will revert if the prices change by more than the selected
+      percentage.
+    </SwapSettingsSlippageDescription>
+    <SwapSettingsSlippageInput />
+  </SwapSettings>
+</Swap>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-swap-settings--default&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="520px"
+/>
+
+### Override styles
+
+You can override component styles using `className`.
+
+```tsx
+import {
+  Swap,
+  SwapSettings,
+  SwapSettingsSlippageDescription,
+  SwapSettingsSlippageInput,
+  SwapSettingsSlippageTitle,
+} from '@coinbase/onchainkit/swap';
+// ---cut-before---
+// omitted for brevity
+<Swap>
+  <SwapSettings>
+    <SwapSettingsSlippageTitle className="text-[#EA580C]">
+      Max. slippage
+    </SwapSettingsSlippageTitle>
+    <SwapSettingsSlippageDescription className="text-[#EA580C]">
+      Your swap will revert if the prices change by more than the selected
+      percentage.
+    </SwapSettingsSlippageDescription>
+    <SwapSettingsSlippageInput/>
+  </SwapSettings>
+</Swap>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-swap-settings--styled-title-and-description&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="520px"
+/>
+
+### Override icon
+
+You can override the icon using the icon prop.
+
+```tsx
+// suppress twoslash error
+declare const baseIcon: any;
+
+import {
+  Swap,
+  SwapSettings,
+  SwapSettingsSlippageDescription,
+  SwapSettingsSlippageInput,
+  SwapSettingsSlippageTitle,
+} from '@coinbase/onchainkit/swap';
+// ---cut-before---
+// omitted for brevity
+<SwapSettings icon={baseIcon}>
+// ---cut-after---
+</SwapSettings>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-swap-settings--with-icon&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="520px"
+/>
+
+### Add text
+
+You can add text next to the `SwapSettings` component using text.
+
+```tsx
+import {
+  Swap,
+  SwapSettings,
+  SwapSettingsSlippageDescription,
+  SwapSettingsSlippageInput,
+  SwapSettingsSlippageTitle,
+} from '@coinbase/onchainkit/swap';
+// ---cut-before---
+// omitted for brevity
+<SwapSettings text="Settings">
+// ---cut-after---
+</SwapSettings>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-swap-settings--with-text-prop&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="520px"
+/>
+
+### Override text
+
+You can override component text by providing children text.
+
+```tsx
+import {
+  Swap,
+  SwapSettings,
+  SwapSettingsSlippageDescription,
+  SwapSettingsSlippageInput,
+  SwapSettingsSlippageTitle,
+} from '@coinbase/onchainkit/swap';
+<Swap>
+// ---cut-before---
+// omitted for brevity
+
+<SwapSettingsSlippageTitle>
+  Slippage Settings
+</SwapSettingsSlippageTitle>
+<SwapSettingsSlippageDescription>
+  Set a max slippage you are willing to accept.
+</SwapSettingsSlippageDescription>
+// ---cut-after---
+</Swap>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-swap-settings--custom-title-and-description&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="520px"
+/>
+
+## Components
+
+- `<SwapSettings />` - Container component for swap slippage settings.
+- `<SwapSettingsSlippageDescription />` - Displays description text explaining the slippage setting.
+- `<SwapSettingsSlippageInput />` - Input field for users to enter their desired max slippage percentage
+- `<SwapSettingsSlippageTitle />` - Displays the title for the slippage settings section
+
+## Props
+
+### SwapSettingsProps
+
+```ts
+type SwapSettingsProps = {
+  children?: ReactNode;
+  className?: string; // Optional className override for top div element
+  icon?: ReactNode; // Optional icon override
+  text?: string; // Optional text override
+};
+```
+
+### SwapSettingsSlippageDescriptionProps
+
+```ts
+type SwapSettingsSlippageDescriptionProps = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element
+};
+```
+
+### SwapSettingsSlippageInputProps
+
+```ts
+type SwapSettingsSlippageInputProps = {
+  className?: string; // Optional className override for top div element
+  render?: (props: {
+    slippageSetting: SlippageSettingsType;
+    setSlippageSetting: (slippageSetting: SlippageSettingsType) => void;
+    setSlippageValue: (number: number) => void;
+  }) => ReactNode; // Custom render function for complete control of slippage input rendering
+};
+```
+
+### SwapSettingsSlippageTitleProps
+
+```ts
+type SwapSettingsSlippageTitleProps = {
+  children: ReactNode;
+  className?: string; // Optional className override for top div element
+};
+```
+

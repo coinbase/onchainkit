@@ -1,0 +1,34 @@
+---
+title: useEarnContext
+---
+
+Access context values from the `Earn` component. Build custom deposit and withdraw interfaces with Morpho vault data.
+
+<Note>
+Use within `<Earn />` or `<EarnProvider />` components.
+</Note>
+
+## Usage
+
+```tsx code
+import { useEarnContext } from '@coinbase/onchainkit/earn';
+
+const { depositAmount, 
+        setDepositAmount, 
+        apy, 
+        nativeApy, 
+        rewards, 
+        vaultFee, 
+        vaultToken, 
+        liquidity, 
+        deposits 
+       // ...  
+        } = useEarnContext();
+
+// Use the values to build a custom deposit interface!
+```
+
+## Returns
+
+[`EarnContextType`](/onchainkit/earn/types#earncontexttype)
+

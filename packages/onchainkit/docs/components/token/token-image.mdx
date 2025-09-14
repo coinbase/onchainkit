@@ -1,5 +1,100 @@
 ---
-title: "TokenImage"
+title: TokenImage
+sidebarTitle: TokenImage
+description: Image component that displays token images with fallback to symbol
 ---
 
-Placeholder for TokenImage component documentation.
+The `TokenImage` component is an image that crops token image to a circle with an adjustable size.
+
+With `token` props has no image, render partial token symbol and deterministic dark color.
+
+## Usage
+
+`TokenImage` with an url
+
+```tsx
+// @noErrors: 2739 - missing properties from Token
+import { TokenImage } from '@coinbase/onchainkit/token';
+<div>
+// ---cut-before---
+<TokenImage
+  token={{
+    image: "https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png",
+  }}
+  size={24}
+/>
+
+<TokenImage
+  token={{
+    image: "https://dynamic-assets.coinbase.com/dbb4b4983bde81309ddab83eb598358eb44375b930b94687ebe38bc22e52c3b2125258ffb8477a5ef22e33d6bd72e32a506c391caa13af64c00e46613c3e5806/asset_icons/4113b082d21cc5fab17fc8f2d19fb996165bcce635e6900f7fc2d57c4ef33ae9.png",
+  }}
+  size={32}
+/>
+// ---cut-after---
+</div>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-token-image--default&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+
+`TokenImage` with null as src
+
+```tsx
+import { TokenImage } from '@coinbase/onchainkit/token';
+<div>
+// ---cut-before---
+<TokenImage
+  token={{
+    name: 'USDC',
+    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+    symbol: 'USDC',
+    decimals: 6,
+    image: null,
+    chainId: 8453,
+  }}
+  size={24}
+/>
+
+<TokenImage
+  token={{
+    name: 'USDC',
+    address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913',
+    symbol: 'USDC',
+    decimals: 6,
+    image: null,
+    chainId: 8453,
+  }}
+  size={32}
+/>
+// ---cut-after---
+</div>
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-token-image--null&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="auto"
+/>
+
+## Props
+
+### TokenImageProps
+
+```ts
+type TokenImageProps = {
+  className?: string; // Optional additional CSS class to apply to the component
+  size?: number; // size of the image in px (default: 24)
+  token: Token;
+};
+```
+
+## CSS
+
+```css
+.ock-tokenimage {
+  @apply overflow-hidden rounded-[50%];
+}
+```

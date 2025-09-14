@@ -1,0 +1,94 @@
+---
+title: Contributing
+---
+
+Contributing guide for OnchainKit development.
+
+## Setup
+
+```bash
+# Clone repo
+git clone git@github.com:coinbase/onchainkit.git
+
+# Install dependencies
+pnpm install
+```
+
+Requires Node.js and pnpm. See [pnpm installation](https://pnpm.io/installation) if needed.
+
+## Codebase
+
+Monorepo structure:
+
+```bash
+packages/onchainkit/
+└── src/
+   ├── api/                         - API related components and functions
+   ├── core/                        - Files with zero dependencies
+   ├── styles/                      - Styles
+   │   ├── index-with-tailwind.css  - CSS entrypoint
+   ├── {Component}/                 - Component folder
+   │   ├── components/              - React components
+   │   │   ├── {Name}.tsx
+   │   │   ├── {Name}.test.tsx
+   │   │   └── {Name}.css
+   │   ├── core/                    - Utility functions
+   │   ├── index.ts                 - Entrypoint for the folder
+   │   └── types.ts                 - Export types
+   │
+   ├── index.ts                     - Main package entry point
+   ├── types.ts                     - Core types
+   └── OnchainKitProvider.tsx       - OnchainKit provider
+```
+
+## Development
+
+```bash
+# Start development environment with live reload
+pnpm f:play dev
+
+# Build package
+pnpm f:ock build
+
+# Run tests
+pnpm f:ock test
+pnpm f:ock test:watch
+pnpm f:ock test:coverage
+```
+
+Requirements:
+- 100% test coverage for all changes
+- All tests must pass
+- Follow existing code patterns
+
+## Changelog
+
+All changes require a changelog entry. Run this command and follow the prompts:
+
+```bash
+pnpm changeset
+```
+
+Select the appropriate bump type (usually `minor`) and write a clear description:
+
+```
+- **feat**: add render props to ConnectWallet component
+- **fix**: resolve wallet connection timeout issue  
+- **docs**: update swap component examples
+```
+
+Types: `feat`, `fix`, `docs`, `chore`
+
+The system automatically adds your username and PR number when the change is merged.
+
+## What We Don't Accept
+
+We don't accept PRs for:
+- Typos in comments
+- Test changes that don't fix actual functionality
+- Changelog edits
+- Minor formatting or style changes
+
+## Feature Requests
+
+Submit via [GitHub Issues](https://github.com/coinbase/onchainkit/issues) with "Feature Request:" label.

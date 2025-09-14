@@ -1,5 +1,141 @@
 ---
-title: "WalletDropdownLink"
+title: WalletDropdownLink
+sidebarTitle: WalletDropdownLink
+description: Component for creating customizable links in wallet dropdown
 ---
 
-Placeholder for WalletDropdownLink component documentation.
+The `WalletDropdownLink` component creates customizable, interactive links within the wallet dropdown menu.
+
+## Usage
+
+```tsx
+import {
+  Address,
+  Avatar,
+  Name,
+  Identity,
+  EthBalance,
+} from '@coinbase/onchainkit/identity';
+import { color } from '@coinbase/onchainkit/theme';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownLink, // [!code focus]
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
+
+export function WalletComponents() {
+  return (
+    <div className="flex justify-end">
+      <Wallet>
+        <ConnectWallet>
+          <Avatar className="h-6 w-6" />
+          <Name />
+        </ConnectWallet>
+        <WalletDropdown>
+          <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+            <Avatar />
+            <Name />
+            <Address className={color.foregroundMuted} />
+            <EthBalance />
+          </Identity>
+          <WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
+            Wallet
+          </WalletDropdownLink>
+          <WalletDropdownDisconnect />
+        </WalletDropdown>
+      </Wallet>
+    </div>
+  );
+}
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-wallet-link--main&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="400"
+/>
+
+### Custom link
+
+Add a custom link to the wallet dropdown menu, allowing users to navigate to external resources directly from the wallet interface.
+
+```tsx
+// @noErrors: 2304 Cannot find name 'BaseIcon'
+import {
+  WalletDropdownLink,
+} from '@coinbase/onchainkit/wallet';
+// ---cut-before---
+// omitted for brevity
+<WalletDropdownLink // [!code focus]
+  icon={BaseIcon} // [!code focus]
+  href="https://www.base.org/" // [!code focus]
+  rel="noopener noreferrer" // [!code focus]
+>
+  Base.org
+</WalletDropdownLink> // [!code focus]
+```
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-wallet-link--custom-link&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="400"
+/>
+
+### Custom children components
+
+Accepts React children, enabling the use of custom elements, styled text, icons, and complex components.
+This allows for diverse customizations, including complex layouts and conditional rendering based on your app's state.
+
+```tsx
+// @noErrors: 2322 - type 'Element' is not assignable to type 'string'
+import {
+  WalletDropdownLink,
+} from '@coinbase/onchainkit/wallet';
+// ---cut-before---
+// omitted for brevity
+<WalletDropdownLink icon="wallet" href="https://keys.coinbase.com">
+  <span className="font-bold italic">Profile</span>
+  <span> 🔵 </span>
+</WalletDropdownLink> // [!code focus]
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-wallet-link--custom-children&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="400"
+/>
+
+### Override styles
+
+You can override component styles using className.
+
+```tsx
+import {
+  WalletDropdownLink,
+} from '@coinbase/onchainkit/wallet';
+// ---cut-before---
+// omitted for brevity
+<WalletDropdownLink className="hover:bg-red-500" icon="wallet" href="https://keys.coinbase.com" >
+  Wallet
+</WalletDropdownLink> // [!code focus]
+```
+
+<iframe
+  src="https://684b5e62b1ff46bc5bf83966-aijszlfakk.chromatic.com/iframe.html?args=&id=onchainkit-wallet-link--customize-text-and-style&viewMode=story&dark=true&hero=true"
+  width="100%"
+  height="400"
+/>
+
+## Props
+
+```ts
+type WalletDropdownLinkProps = {
+  children: string;
+  className?: string; // Optional className override for the element
+  href: string;
+  icon?: 'wallet' | ReactNode;
+  rel?: string;
+  target?: string;
+};
+```

@@ -2,4 +2,232 @@
 title: "AutoConnect"
 ---
 
-Placeholder for AutoConnect component documentation.
+The `AutoConnect` component automatically connects to the Farcaster connector when the user is inside a Farcaster Mini App. It provides a seamless wallet connection experience without requiring manual wallet selection.
+
+## Usage
+
+### Basic setup
+
+Wrap your app with `AutoConnect` to enable automatic wallet connection in Mini Apps:
+
+```tsx
+import { AutoConnect } from '@coinbase/onchainkit/minikit';
+
+export default function App() {
+  return (
+    <AutoConnect>
+      <div>
+        <h1>My Mini App</h1>
+        <p>Wallet will connect automatically when in Farcaster!</p>
+      </div>
+    </AutoConnect>
+  );
+}
+```
+
+### With manual control
+
+You can disable auto-connection when needed:
+
+```tsx
+import { AutoConnect } from '@coinbase/onchainkit/minikit';
+import { useState } from 'react';
+
+export default function App() {
+  const [autoConnectEnabled, setAutoConnectEnabled] = useState(true);
+
+  return (
+    <AutoConnect enabled={autoConnectEnabled}>
+      <div>
+        <div className="flex items-center gap-2 mb-4">
+          <input
+            type="checkbox"
+            checked={autoConnectEnabled}
+            onChange={(e) => setAutoConnectEnabled(e.target.checked)}
+          />
+          <label>Enable auto-connect</label>
+        </div>
+        
+        <h1>Mini App with Auto-Connect Control</h1>
+      </div>
+    </AutoConnect>
+  );
+}
+```
+
+## Advanced Usage
+
+### Combining with connection status
+
+```tsx
+import { AutoConnect } from '@coinbase/onchainkit/minikit';
+import { useAccount } from 'wagmi';
+
+function ConnectionStatus() {
+  const { address, isConnected, isConnecting } = useAccount();
+
+  if (isConnecting) {
+    return (
+      <div className="flex items-center gap-2 text-blue-600">
+        <div className="animate-spin w-4 h-4 border-2 border-blue-500 rounded-full border-t-transparent" />
+        <span>Connecting wallet...</span>
+      </div>
+    );
+  }
+
+  if (isConnected) {
+    return (
+      <div className="text-green-600">
+        ✅ Connected: {address?.slice(0, 6)}...{address?.slice(-4)}
+      </div>
+    );
+  }
+
+  return <div className="text-gray-500">Not connected</div>;
+}
+
+export default function MiniApp() {
+  return (
+    <AutoConnect>
+      <div className="p-4">
+        <h1>My Mini App</h1>
+        <ConnectionStatus />
+        
+        <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+          <p>When you open this in Farcaster, the wallet connects automatically!</p>
+        </div>
+      </div>
+    </AutoConnect>
+  );
+}
+```
+
+### Layout integration
+
+```tsx
+import { AutoConnect } from '@coinbase/onchainkit/minikit';
+import { IfInMiniApp, SafeArea } from '@coinbase/onchainkit/minikit';
+import { ConnectWallet } from '@coinbase/onchainkit/wallet';
+import { useAccount } from 'wagmi';
+
+function WalletSection() {
+  const { isConnected } = useAccount();
+
+  return (
+    <IfInMiniApp
+      fallback={
+        // Show manual connect button on web
+        <div className="text-center">
+          <ConnectWallet />
+        </div>
+      }
+    >
+      {/* In Mini App, connection is automatic */}
+      {isConnected ? (
+        <div className="text-center text-green-600">
+          🎉 Auto-connected in Mini App!
+        </div>
+      ) : (
+        <div className="text-center text-blue-600">
+          🔄 Auto-connecting...
+        </div>
+      )}
+    </IfInMiniApp>
+  );
+}
+
+export default function App() {
+  return (
+    <AutoConnect>
+      <SafeArea>
+        <div className="min-h-screen p-4">
+          <h1>Multi-Platform App</h1>
+          <WalletSection />
+          
+          <div className="mt-8">
+            <p>Your app content here...</p>
+          </div>
+        </div>
+      </SafeArea>
+    </AutoConnect>
+  );
+}
+```
+
+### Handling connection errors
+
+```tsx
+import { AutoConnect } from '@coinbase/onchainkit/minikit';
+import { useAccount } from 'wagmi';
+import { useEffect, useState } from 'react';
+
+function ConnectionHandler() {
+  const { isConnected, isConnecting } = useAccount();
+  const [connectionTimeout, setConnectionTimeout] = useState(false);
+
+  useEffect(() => {
+    if (isConnecting) {
+      // Set a timeout to show help text if connection takes too long
+      const timer = setTimeout(() => {
+        setConnectionTimeout(true);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    } else {
+      setConnectionTimeout(false);
+    }
+  }, [isConnecting]);
+
+  if (connectionTimeout) {
+    return (
+      <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+        <h3 className="font-semibold text-yellow-800">Connection taking longer than expected</h3>
+        <p className="text-yellow-700 text-sm mt-1">
+          Make sure you're using a compatible Farcaster client.
+        </p>
+      </div>
+    );
+  }
+
+  return null;
+}
+
+export default function MiniApp() {
+  return (
+    <AutoConnect>
+      <div className="p-4">
+        <h1>Robust Mini App</h1>
+        <ConnectionHandler />
+        {/* Rest of your app */}
+      </div>
+    </AutoConnect>
+  );
+}
+```
+
+## Requirements
+
+- **Farcaster Mini App environment**: Must be running inside a Farcaster client
+- **Compatible connector**: Requires a Farcaster connector (`farcasterFrame` or `farcasterMiniApp` type)
+- **Wagmi setup**: Needs proper Wagmi configuration with Farcaster connector
+
+## Behavior
+
+- **Inside Mini App with Farcaster connector**: Automatically attempts connection once
+- **Outside Mini App**: No connection attempt, renders children normally
+- **Already connected**: Skips connection attempt
+- **Connection in progress**: Skips additional connection attempts
+- **Disabled**: When `enabled={false}`, behaves as a passthrough component
+
+## Props
+
+[`AutoConnectProps`](#autoconnectprops)
+
+```ts
+type AutoConnectProps = {
+  /** React children to render */
+  children?: ReactNode;
+  /** Whether to enable auto-connection (default: true) */
+  enabled?: boolean;
+};
+```

@@ -2,4 +2,200 @@
 title: "Connected"
 ---
 
-Placeholder for Connected component documentation.
+The `Connected` component provides conditional rendering based on wallet connection state. It renders children when a wallet is connected, and shows a fallback UI when no wallet is connected.
+
+This component simplifies building wallet-aware user interfaces by handling the common pattern of showing different content for connected vs. disconnected states.
+
+## Usage
+
+### Basic usage
+
+The simplest usage shows children when connected and a `ConnectWallet` button when disconnected:
+
+```tsx
+import { Connected } from '@coinbase/onchainkit/connected';
+
+export default function MyComponent() {
+  return (
+    <Connected>
+      <div>Welcome! Your wallet is connected.</div>
+    </Connected>
+  );
+}
+```
+
+When no wallet is connected, this automatically renders a `ConnectWallet` button.
+
+### Custom fallback
+
+Provide a custom fallback UI for when no wallet is connected:
+
+```tsx
+import { Connected } from '@coinbase/onchainkit/connected';
+
+export default function MyComponent() {
+  return (
+    <Connected
+      fallback={
+        <div className="text-center p-4">
+          <h2>Connect your wallet</h2>
+          <p>Please connect your wallet to continue</p>
+        </div>
+      }
+    >
+      <div>Welcome! Your wallet is connected.</div>
+    </Connected>
+  );
+}
+```
+
+### No fallback
+
+Pass `null` as the fallback to render nothing when disconnected:
+
+```tsx
+import { Connected } from '@coinbase/onchainkit/connected';
+
+export default function MyComponent() {
+  return (
+    <Connected fallback={null}>
+      <div>This only shows when connected</div>
+    </Connected>
+  );
+}
+```
+
+### Connecting state
+
+Show a loading state while the wallet is connecting:
+
+```tsx
+import { Connected } from '@coinbase/onchainkit/connected';
+
+export default function MyComponent() {
+  return (
+    <Connected
+      connecting={
+        <div className="flex items-center gap-2">
+          <div className="animate-spin w-4 h-4 border-2 border-blue-500 rounded-full border-t-transparent" />
+          <span>Connecting wallet...</span>
+        </div>
+      }
+      fallback={
+        <button className="bg-blue-500 text-white px-4 py-2 rounded">
+          Connect Wallet
+        </button>
+      }
+    >
+      <div>Wallet connected successfully!</div>
+    </Connected>
+  );
+}
+```
+
+## Advanced Usage
+
+### Building complex flows
+
+Use `Connected` to create sophisticated user flows that adapt to connection state:
+
+```tsx
+import { Connected } from '@coinbase/onchainkit/connected';
+import { Transaction, TransactionButton } from '@coinbase/onchainkit/transaction';
+
+export default function MintFlow() {
+  return (
+    <div className="space-y-4">
+      <h1>Mint Your NFT</h1>
+      
+      <Connected
+        connecting={<div>Preparing wallet...</div>}
+        fallback={
+          <div className="border rounded-lg p-6 text-center">
+            <h2>Connect to get started</h2>
+            <p className="text-gray-600 mb-4">
+              You need to connect your wallet to mint an NFT
+            </p>
+          </div>
+        }
+      >
+        <div className="border rounded-lg p-6">
+          <h2>Ready to mint!</h2>
+          <p className="text-gray-600 mb-4">
+            Your wallet is connected. Click below to mint your NFT.
+          </p>
+          
+          <Transaction
+            calls={[
+              {
+                to: '0x...',
+                data: '0x...',
+              },
+            ]}
+          >
+            <TransactionButton>Mint NFT</TransactionButton>
+          </Transaction>
+        </div>
+      </Connected>
+    </div>
+  );
+}
+```
+
+### Conditional navigation
+
+Hide navigation items when wallet is not connected:
+
+```tsx
+import { Connected } from '@coinbase/onchainkit/connected';
+
+export default function Navigation() {
+  return (
+    <nav className="flex items-center justify-between p-4">
+      <div>My App</div>
+      
+      <div className="flex items-center gap-4">
+        <Connected fallback={null}>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/profile">Profile</a>
+        </Connected>
+        
+        <Connected>
+          <span>Wallet connected</span>
+        </Connected>
+      </div>
+    </nav>
+  );
+}
+```
+
+## Props
+
+[`ConnectedProps`](#connectedprops)
+
+```ts
+type ConnectedProps<TFallback extends ReactNode | undefined = undefined> = 
+  TFallback extends undefined
+    ? ConnectedBaseProps<TFallback> & ConnectWalletFallbackProps
+    : ConnectedBaseProps<TFallback>;
+
+type ConnectedBaseProps<TFallback extends ReactNode | undefined> = {
+  /**
+   * The content to render when there is a connected account.
+   */
+  children: ReactNode;
+  /**
+   * The content to render when there is no connected account.
+   * If undefined, defaults to rendering the `<ConnectWallet />` button.
+   * Pass `null` to render nothing.
+   */
+  fallback?: TFallback;
+  /**
+   * If defined, the content to render when there is no connected account
+   * and `useAccount().status` is "connecting".
+   */
+  connecting?: ReactNode;
+};
+```
+
+When no `fallback` prop is provided, the component accepts all props that `ConnectWallet` accepts as passthrough props.

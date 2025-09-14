@@ -1,0 +1,68 @@
+---
+title: useNames
+---
+
+
+The `useNames` hook is used to get multiple names from an onchain identity provider
+for an array of addresses in a single batch request.
+
+It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+
+## Usage
+
+Get ENS names from multiple addresses:
+
+<CodeGroup>
+```tsx code
+import { useNames } from '@coinbase/onchainkit/identity';
+
+const addresses = [
+  '0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF',
+  '0x838aD0EAE54F99F1926dA7C3b6bFbF617389B4D9'
+];
+const { data: names, isLoading } = useNames({ addresses });
+```
+
+```ts return value
+{ 
+  data: ['paulcramer.eth', 'vitalik.eth'], 
+  isLoading: false 
+}
+```
+</CodeGroup>
+
+Get Basenames from multiple addresses:
+
+<CodeGroup>
+```tsx code
+import { useNames } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
+
+const addresses = [
+  '0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF',
+  '0x4bEf0221d6F7Dd0C969fe46a4e9b339a84F52FDF'
+];
+const { data: names, isLoading } = useNames({ addresses, chain: base });
+```
+
+```ts return value
+{ 
+  data: ['paul.base.eth', 'coinbase.base.eth'], 
+  isLoading: false 
+}
+```
+</CodeGroup>
+
+## Returns
+
+[`useQuery<Promise<GetNameReturnType[]>>`](/onchainkit/identity/types#getnamereturntype)
+
+## Parameters
+
+### UseNamesOptions
+
+[`UseNamesOptions`](/onchainkit/identity/types#usenamesoptions)
+
+### UseQueryOptions
+
+[`UseQueryOptions`](/onchainkit/identity/types#usequeryoptions) 
