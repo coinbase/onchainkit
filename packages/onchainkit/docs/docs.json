@@ -10,10 +10,90 @@
         "getting-started/troubleshooting"
       ]
     },
-    {},
     {
-      "group": "Advanced",
-      "pages": ["advanced/custom-providers"]
+      "group": "Configuration",
+      "pages": [
+        "configuration/onchainkit-provider",
+        "configuration/wagmi-viem-integration"
+      ]
+    },
+    {
+      "group": "Components",
+      "pages": [
+        {
+          "group": "Appchain",
+          "pages": ["components/appchain/bridge"]
+        },
+        {
+          "group": "Buy",
+          "pages": ["components/buy/buy"]
+        },
+        {
+          "group": "Checkout",
+          "pages": ["components/checkout/checkout"]
+        },
+        {
+          "group": "Earn",
+          "pages": ["components/earn/earn"]
+        },
+        {
+          "group": "Fund",
+          "pages": ["components/fund/fund-button", "components/fund/fund-card"]
+        },
+        {
+          "group": "Identity",
+          "pages": [
+            "components/identity/identity",
+            "components/identity/address",
+            "components/identity/avatar",
+            "components/identity/badge",
+            "components/identity/identity-card",
+            "components/identity/name",
+            "components/identity/socials"
+          ]
+        },
+        {
+          "group": "Mint",
+          "pages": ["components/mint/nft-card", "components/mint/nft-mint-card"]
+        },
+        "components/signature/signature",
+        {
+          "group": "Swap",
+          "pages": ["components/swap/swap", "components/swap/swap-settings"]
+        },
+        {
+          "group": "Token",
+          "pages": [
+            "components/token/token-chip",
+            "components/token/token-image",
+            "components/token/token-row",
+            "components/token/token-search",
+            "components/token/token-select-dropdown"
+          ]
+        },
+        "components/transaction/transaction",
+        {
+          "group": "Wallet",
+          "pages": [
+            "components/wallet/wallet",
+            "components/wallet/wallet-dropdown-basename",
+            "components/wallet/wallet-dropdown-disconnect",
+            "components/wallet/wallet-dropdown-fund-link",
+            "components/wallet/wallet-dropdown-link",
+            "components/wallet/wallet-island",
+            "components/wallet/wallet-modal"
+          ]
+        },
+        "components/connected/connected",
+        {
+          "group": "MiniKit",
+          "pages": [
+            "components/minikit/autoconnect",
+            "components/minikit/if-in-miniapp",
+            "components/minikit/safe-area"
+          ]
+        }
+      ]
     }
   ]
 }

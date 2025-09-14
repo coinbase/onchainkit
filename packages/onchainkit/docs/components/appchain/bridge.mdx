@@ -1,0 +1,505 @@
+---
+title: "AppchainBridge"
+---
+
+import { Danger } from "/snippets/danger.mdx";
+
+<Danger>
+**⚠️ NOTE**
+
+The AppchainBridge component is alpha release software and is provided AS-IS. Use at your own risk.
+
+</Danger>
+
+Bridge tokens to appchains with a simple, customizable interface.
+
+## Usage
+
+Create a custom chain for your appchain using Viem's [defineChain](https://viem.sh/docs/chains/introduction#custom-chains), then add it to your Wagmi configuration.
+
+<CodeGroup>
+```tsx chain.ts
+// @noErrors: 2554
+import { defineChain } from 'viem';
+
+export const EXAMPLE_CHAIN = defineChain({
+  id: 8453200000, // [!code ++]
+  name: 'Your Appchain Network',
+  nativeCurrency: {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://your-rpc.appchain.base.org'], // [!code ++]
+    },
+  },
+});
+```
+```tsx providers.tsx
+// @noErrors: 2554
+import { defineChain } from 'viem';
+
+const EXAMPLE_CHAIN = defineChain({
+  id: 8453200000,
+  name: 'Your Appchain Network',
+  nativeCurrency: {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://your-rpc.appchain.base.org'],
+    },
+  },
+});
+// ---cut-before---
+'use client';
+
+import { baseSepolia } from 'wagmi/chains';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import type { ReactNode } from 'react';
+import { createConfig, http, WagmiProvider } from 'wagmi';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const wagmiConfig = createConfig({
+  chains: [baseSepolia, EXAMPLE_CHAIN], // [!code ++]
+  transports: {
+    [baseSepolia.id]: http(),
+    [EXAMPLE_CHAIN.id]: http(), // [!code ++]
+  }
+});
+
+const queryClient = new QueryClient();
+
+export function Providers(props: { children: ReactNode }) {
+  return (
+    <OnchainKitProvider
+      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+          chain={baseSepolia}
+          config={{ appearance: {
+            mode: 'auto',
+        }
+      }}
+    >
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+          {props.children}
+        </QueryClientProvider>
+      </WagmiProvider>
+    </OnchainKitProvider>
+  );
+}
+```
+</CodeGroup>
+
+Use the custom chain to create an `Appchain` object. You can also render an icon in the UI using the `icon` prop.
+
+```tsx
+// @noErrors: 2554
+import { defineChain } from 'viem';
+const EXAMPLE_CHAIN = defineChain({
+  id: 8453200000, // [!code ++]
+  name: 'Your Appchain Network',
+  nativeCurrency: {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://your-rpc.appchain.base.org'], // [!code ++]
+    },
+  },
+});
+// ---cut-before---
+import type { Appchain } from '@coinbase/onchainkit/appchain';
+
+const EXAMPLE_APPCHAIN: Appchain = {
+  chain: EXAMPLE_CHAIN,
+  icon: <img src="https://some-icon.com/icon.png" alt="Your Appchain Network" />,
+};
+```
+Now, you can render the `AppchainBridge` component with the `chain` and `appchain` props.
+
+```tsx
+// @noErrors: 2554
+import { defineChain } from 'viem';
+const EXAMPLE_CHAIN = defineChain({
+  id: 8453200000, // [!code ++]
+  name: 'Your Appchain Network',
+  nativeCurrency: {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://your-rpc.appchain.base.org'], // [!code ++]
+    },
+  },
+});
+import type { Appchain } from '@coinbase/onchainkit/appchain';
+
+const EXAMPLE_APPCHAIN: Appchain = {
+  chain: EXAMPLE_CHAIN,
+  icon: <img src="https://some-icon.com/icon.png" alt="Your Appchain Network" />,
+};
+// ---cut-before---
+import { AppchainBridge } from '@coinbase/onchainkit/appchain';
+import { baseSepolia } from 'viem/chains';
+
+<AppchainBridge chain={baseSepolia} appchain={EXAMPLE_APPCHAIN} />
+```
+## Custom Bridgeable Tokens
+
+By default, only native ETH is bridgeable. Add custom tokens using the `bridgeableTokens` prop:
+
+```tsx
+// @noErrors: 2554
+import { defineChain } from 'viem';
+const EXAMPLE_CHAIN = defineChain({
+  id: 8453200000, // [!code ++]
+  name: 'Your Appchain Network',
+  nativeCurrency: {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://your-rpc.appchain.base.org'], // [!code ++]
+    },
+  },
+});
+import type { Appchain } from '@coinbase/onchainkit/appchain';
+
+const EXAMPLE_APPCHAIN: Appchain = {
+  chain: EXAMPLE_CHAIN,
+  icon: <img src="https://some-icon.com/icon.png" alt="Your Appchain Network" />,
+};
+// ---cut-before---
+import type { BridgeableToken } from '@coinbase/onchainkit/appchain';
+
+const customBridgeableTokens: BridgeableToken[] = [
+  {
+    name: 'ETH',
+    address: '',
+    symbol: 'ETH',
+    decimals: 18,
+    image:
+    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+    chainId: 8453200000,
+  },
+  {
+    address: '0x...',
+    remoteToken: '0x...',
+    name: 'Appchain Token',
+    symbol: 'ATKN',
+    decimals: 18,
+    chainId: 8453200000,
+    image: 'https://some-icon.com/icon.png',
+  },
+];
+```
+<Warning>
+**⚠️ What is remoteToken?**
+
+The `remoteToken` field represents the token address on the appchain you're bridging to.
+
+ERC-20 tokens on the appchain must comply to the `IOptimismMintableERC20` interface to be bridgeable.
+
+Follow the [Optimism documentation](https://docs.optimism.io/app-developers/tutorials/bridging/standard-bridge-standard-token#create-an-l2-erc-20-token) to retrieve the `remoteToken` address for your ERC-20 token.
+
+</Warning>
+
+You can then plug the `customBridgeableTokens` into the `AppchainBridge` component with the `bridgeableTokens` prop.
+
+```tsx
+// @noErrors: 2554
+// @noErrors: 2304
+import type { BridgeableToken } from '@coinbase/onchainkit/appchain';
+
+const customBridgeableTokens: BridgeableToken[] = [
+  {
+    name: 'ETH',
+    address: '',
+    symbol: 'ETH',
+    decimals: 18,
+    image:
+    'https://wallet-api-production.s3.amazonaws.com/uploads/tokens/eth_288.png',
+    chainId: 84532,
+  },
+  {
+    address: '0x...',
+    remoteToken: '0x...',
+    name: 'Sandbox Token',
+    symbol: 'SBOX',
+    decimals: 18,
+    chainId: 8453200058,
+    image: 'https://img.cryptorank.io/coins/blocklords1670492311588.png',
+  },
+];
+// ---cut-before---
+import { AppchainBridge } from '@coinbase/onchainkit/appchain';
+import { baseSepolia } from 'viem/chains';
+
+<AppchainBridge
+  chain={baseSepolia}
+  appchain={SANDBOX_APPCHAIN}
+  bridgeableTokens={customBridgeableTokens} // [!code ++]
+/>
+```
+
+### Custom Gas Tokens
+
+For chains using custom gas tokens, set `isCustomGasToken: true`:
+
+```tsx
+// @noErrors: 2554
+import type { BridgeableToken } from '@coinbase/onchainkit/appchain';
+
+const customGasToken: BridgeableToken[] = [
+  {
+    address: '0x...',
+    remoteToken: '0x...',
+    name: 'Appchain Token',
+    symbol: 'ATKN',
+    decimals: 18,
+    chainId: 8453200000,
+    image: 'https://some-icon.com/icon.png',
+    isCustomGasToken: true, // [!code ++]
+  },
+];
+```
+
+### Custom Price Fetching
+
+Override `handleFetchPrice` to fetch prices for custom tokens. Called whenever the user changes the input amount:
+
+```ts
+(amount: string, token: Token) => Promise<string>;
+```
+```tsx
+// @noErrors: 2554
+// @noErrors: 2362 2363 2304
+import { AppchainBridge } from '@coinbase/onchainkit/appchain';
+import type { Token } from '@coinbase/onchainkit/token';
+import { baseSepolia } from 'viem/chains';
+
+const handleFetchPrice = async (amount: string, token: Token): Promise<string> => {
+  // Example: fetch price from your API
+  const response = await fetch(`https://api.example.com/price/${token.address}`);
+  const priceData = await response.json();
+  return (parseFloat(amount) * priceData.price).toString();
+};
+
+<AppchainBridge
+  chain={baseSepolia}
+  appchain={EXAMPLE_APPCHAIN}
+  bridgeableTokens={customBridgeableTokens}
+  handleFetchPrice={handleFetchPrice} // [!code ++]
+/>
+```
+## Components
+
+- `AppchainBridge` - Complete bridge interface for deposits and withdrawals
+- `AppchainBridgeProvider` - Headless provider for bridge context
+- `AppchainBridgeInput` - Amount input component
+- `AppchainBridgeNetwork` - Network selection and display
+- `AppchainBridgeTransactionButton` - Transaction trigger button
+- `AppchainBridgeWithdraw` - Withdrawal interface
+- `AppchainNetworkToggleButton` - Network toggle button
+- `AppchainBridgeSuccess` - Success state display
+- `AppchainBridgeResumeTransaction` - Resume interrupted transactions
+
+## Props
+
+### Appchain
+
+```ts
+export type Appchain = {
+  /** The chain to bridge to. */
+  chain: Chain;
+  /** Optional icon to display for the appchain. */
+  icon?: React.ReactNode;
+};
+```
+
+### AppchainBridgeProps
+
+```ts
+export type AppchainBridgeProps = {
+  /** The source chain to bridge from. This should be Base or Base Sepolia. */
+  chain: Chain;
+  /** The appchain to bridge to. */
+  appchain: Appchain;
+  /** Optional children to render within the component. */
+  children?: React.ReactNode;
+  /** Optional className override for the component. */
+  className?: string;
+  /** Optional title for the component. */
+  title?: string;
+  /** Optional array of bridgeable tokens. */
+  bridgeableTokens?: BridgeableToken[];
+  /** Optional function to implement fetching the price of the token. */
+  handleFetchPrice?: (amount: string, token: Token) => Promise<string>;
+};
+```
+
+### AppchainBridgeProviderProps
+
+```ts
+export type AppchainBridgeProviderProps = {
+  children: ReactNode;
+  chain: Chain;
+  appchain: Appchain;
+  bridgeableTokens?: BridgeableToken[];
+  handleFetchPrice?: (amount: string, token: Token) => Promise<string>;
+};
+```
+
+### AppchainBridgeContextType
+
+```ts
+export type AppchainBridgeContextType = {
+  // Configuration
+  config: AppchainConfig;
+  from: ChainWithIcon;
+  to: ChainWithIcon;
+  bridgeParams: BridgeParams;
+  bridgeableTokens: BridgeableToken[];
+
+  // UI State
+  isPriceLoading: boolean;
+  isAddressModalOpen: boolean;
+  isWithdrawModalOpen: boolean;
+  isSuccessModalOpen: boolean;
+  isResumeTransactionModalOpen: boolean;
+  balance: string;
+  depositStatus: string;
+  withdrawStatus: string;
+  direction: string;
+  depositTransactionHash?: Hex;
+  finalizedWithdrawalTxHash?: Hex;
+  resumeWithdrawalTxHash?: Hex;
+
+  // Handler Functions
+  handleToggle: () => void;
+  handleAmountChange: (params: { amount: string; token: Token }) => void;
+  handleAddressSelect: (address: Address) => void;
+  handleResumeTransaction: (txHash: Hex) => void;
+  handleDeposit: () => void;
+  handleWithdraw: () => void;
+  handleOpenExplorer: () => void;
+  handleResetState: () => void;
+  waitForWithdrawal: (txHash?: Hex) => Promise<void>;
+  proveAndFinalizeWithdrawal: () => Promise<void>;
+  setIsAddressModalOpen: (open: boolean) => void;
+  setIsWithdrawModalOpen: (open: boolean) => void;
+  setIsSuccessModalOpen: (open: boolean) => void;
+  resetDepositStatus: () => void;
+  setResumeWithdrawalTxHash: (txHash: Hex) => void;
+  setIsResumeTransactionModalOpen: (open: boolean) => void;
+};
+```
+
+### BridgeableToken
+
+```ts
+export type BridgeableToken = Token & {
+  /** The address of the remote token on the appchain. */
+  remoteToken?: Address;
+  /** Optional boolean to indicate if the chain uses a custom gas token */
+  isCustomGasToken?: boolean;
+};
+```
+
+### ChainWithIcon
+```ts
+export type ChainWithIcon = Chain & {
+  icon: React.ReactNode;
+};
+```
+
+### AppchainConfig
+```ts
+export type AppchainConfig = {
+  chainId: number;
+  /** The OP Bedrock contract addresses for an appchain. These are on Base and retrieved from DeployContract. */
+  contracts: {
+    l2OutputOracle: Address;
+    systemConfig: Address;
+    optimismPortal: Address;
+    l1CrossDomainMessenger: Address;
+    l1StandardBridge: Address;
+    l1ERC721Bridge: Address;
+    optimismMintableERC20Factory: Address;
+  };
+};
+```
+
+### AppchainBridgeSuccessProps
+
+```ts
+export type AppchainBridgeSuccessProps = {
+  title?: string;
+  primaryButtonLabel?: string;
+  secondaryButtonLabel?: string;
+};
+```
+
+### BridgeParams
+
+```ts
+export type BridgeParams = {
+  amount: string;
+  amountUSD: string;
+  token: BridgeableToken;
+  recipient?: Address;
+};
+```
+
+### ChainConfigParams
+```ts
+export type ChainConfigParams = {
+  config: AppchainConfig;
+  chain: Chain;
+};
+```
+
+### UseDepositParams
+```ts
+export type UseDepositParams = {
+  config: AppchainConfig;
+  from: Chain;
+  bridgeParams: BridgeParams;
+};
+```
+
+### UseWithdrawParams
+```ts
+export type UseWithdrawParams = {
+  config: AppchainConfig;
+  chain: Chain;
+  bridgeParams: BridgeParams;
+};
+```
+
+### UseDepositButtonParams
+```ts
+export type UseDepositButtonParams = {
+  depositStatus: string;
+  withdrawStatus: string;
+  bridgeParams: BridgeParams;
+};
+```
+
+### UseWithdrawButtonParams
+```ts
+export type UseWithdrawButtonParams = {
+  withdrawStatus: string;
+};
+```
