@@ -18,15 +18,37 @@ const { data: avatar, isLoading } = useAvatar({ ensName: 'vitalik.eth' });
 
 ## Returns
 
-[`useQuery<Promise<GetAddressReturnType>>`](/onchainkit/identity/types#getaddressreturntype)
+```ts
+useQuery<Promise<GetAvatarReturnType>>
+
+type GetAvatarReturnType = string | null;
+```
 
 ## Parameters
 
-### UseAvatarOptions
+### UseAvatarParams
 
-[`UseAvatarOptions`](/onchainkit/identity/types#useavataroptions)
+```ts
+type UseAvatarParams = {
+  /** ENS name to resolve */
+  ensName: string;
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
+```
 
 ### UseQueryOptions
 
-[`UseQueryOptions`](/onchainkit/identity/types#usequeryoptions)
+```ts
+type UseQueryOptions<TData = unknown> = Omit<
+  TanstackUseQueryOptions<TData>,
+  'queryKey' | 'queryFn'
+> & {
+  /**
+   * @deprecated Use `gcTime` instead. Will be removed in a future version.
+   * The time in milliseconds after data is considered stale before it is removed from the cache.
+   */
+  cacheTime?: number;
+};
+```
 
