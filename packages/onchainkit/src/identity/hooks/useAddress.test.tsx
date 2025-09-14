@@ -93,47 +93,4 @@ describe('useAddress', () => {
       expect(result.current.isLoading).toBe(false);
     });
   });
-
-  it('correctly maps cacheTime to gcTime for backwards compatibility', async () => {
-    const testName = 'test.ens';
-    const testAddress = '0x1234';
-    const mockCacheTime = 60000;
-
-    vi.mocked(getAddress).mockResolvedValue(testAddress);
-
-    renderHook(
-      () => useAddress({ name: testName }, { cacheTime: mockCacheTime }),
-      {
-        wrapper: getNewReactQueryTestProvider(),
-      },
-    );
-
-    expect(mockUseQuery).toHaveBeenCalled();
-    const optionsWithCacheTime = mockUseQuery.mock.calls[0][0];
-    expect(optionsWithCacheTime).toHaveProperty('gcTime', mockCacheTime);
-
-    const mockGcTime = 120000;
-
-    mockUseQuery.mockClear();
-
-    renderHook(
-      () =>
-        useAddress(
-          {
-            name: testName,
-          },
-          {
-            cacheTime: mockCacheTime,
-            gcTime: mockGcTime,
-          },
-        ),
-      {
-        wrapper: getNewReactQueryTestProvider(),
-      },
-    );
-
-    expect(mockUseQuery).toHaveBeenCalled();
-    const optionsWithBoth = mockUseQuery.mock.calls[0][0];
-    expect(optionsWithBoth).toHaveProperty('gcTime', mockGcTime);
-  });
 });

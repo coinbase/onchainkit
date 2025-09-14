@@ -24,7 +24,6 @@ export const useAvatars = (
     queryFn: () => getAvatars({ ensNames, chain }),
     enabled: !!ensNames.length,
     ...DEFAULT_QUERY_OPTIONS,
-    gcTime: queryOptions?.cacheTime,
     ...queryOptions,
   });
 };

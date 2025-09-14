@@ -23,8 +23,6 @@ export const useAddresses = (
     queryFn: () => getAddresses({ names }),
     enabled: !!names.length,
     ...DEFAULT_QUERY_OPTIONS,
-    // Use cacheTime as gcTime for backward compatibility
-    gcTime: queryOptions?.cacheTime,
     ...queryOptions,
   });
 };

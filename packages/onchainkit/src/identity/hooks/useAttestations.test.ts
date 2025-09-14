@@ -153,50 +153,6 @@ describe('useAttestations', () => {
     expect(getAttestations).toHaveBeenCalled();
   });
 
-  it('correctly maps cacheTime to gcTime for backwards compatibility', async () => {
-    const mockCacheTime = 60000;
-    const mockAttestations = [{ schemaId: '0xschema' }];
-
-    (getAttestations as Mock).mockResolvedValue(mockAttestations);
-
-    const address = '0xaddress';
-    const chain = base;
-    const schemaId = '0xschema' as `0x${string}`;
-
-    renderHook(
-      () =>
-        useAttestations(
-          { address, chain, schemaId },
-          { cacheTime: mockCacheTime },
-        ),
-      {
-        wrapper: getNewReactQueryTestProvider(),
-      },
-    );
-
-    expect(mockUseQuery).toHaveBeenCalled();
-    const optionsWithCacheTime = mockUseQuery.mock.calls[0][0];
-    expect(optionsWithCacheTime).toHaveProperty('gcTime', mockCacheTime);
-
-    const mockGcTime = 120000;
-    mockUseQuery.mockClear();
-
-    renderHook(
-      () =>
-        useAttestations(
-          { address, chain, schemaId },
-          { cacheTime: mockCacheTime, gcTime: mockGcTime },
-        ),
-      {
-        wrapper: getNewReactQueryTestProvider(),
-      },
-    );
-
-    expect(mockUseQuery).toHaveBeenCalled();
-    const optionsWithBoth = mockUseQuery.mock.calls[0][0];
-    expect(optionsWithBoth).toHaveProperty('gcTime', mockGcTime);
-  });
-
   it('creates a stable query key based on address, chain, and schemaId', async () => {
     const mockAttestations = [{ schemaId: '0xschema' }];
     (getAttestations as Mock).mockResolvedValue(mockAttestations);

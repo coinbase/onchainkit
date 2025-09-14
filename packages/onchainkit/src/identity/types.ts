@@ -359,10 +359,4 @@ export type UseAvatarsParams = {
 export type UseQueryOptions<TData = unknown> = Omit<
   TanstackUseQueryOptions<TData>,
   'queryKey' | 'queryFn'
-> & {
-  /**
-   * @deprecated Use `gcTime` instead. Will be removed in a future version.
-   * The time in milliseconds after data is considered stale before it is removed from the cache.
-   */
-  cacheTime?: number;
-};
+>;

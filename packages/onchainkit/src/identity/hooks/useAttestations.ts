@@ -21,7 +21,6 @@ export function useAttestations(
     },
     enabled: !!address && !!schemaId,
     ...DEFAULT_QUERY_OPTIONS,
-    gcTime: queryOptions?.cacheTime,
     ...queryOptions,
   });
 
