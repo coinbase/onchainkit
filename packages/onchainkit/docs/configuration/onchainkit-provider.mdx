@@ -6,6 +6,12 @@ The OnchainKitProvider provides the React context that powers all OnchainKit com
 
 ## Basic Usage
 
+To get started, wrap your app with `OnchainKitProvider` and provide the required props described below.
+
+Also, import `'@coinbase/onchainkit/styles.css'` to ensure OnchainKit's components are styled correctly.
+
+In the example below, we're creating a `RootProvider` to keep our code organized.
+
 ```tsx RootProvider.tsx
 'use client';
 import { ReactNode } from 'react';
@@ -32,6 +38,8 @@ export function RootProvider({ children }: { children: ReactNode }) {
   );
 }
 ```
+
+Then, we're wrapping our app with the `RootProvider` in our root layout.
 
 ```tsx layout.tsx
 import { RootProvider } from './RootProvider';

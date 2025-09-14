@@ -55,14 +55,36 @@ const { data: avatars, isLoading } = useAvatars({ ensNames, chain: base });
 
 ## Returns
 
-[`useQuery<Promise<GetAvatarReturnType[]>>`](/onchainkit/identity/types#getavatarreturntype)
+```ts
+useQuery<Promise<GetAvatarReturnType[]>>
+
+type GetAvatarReturnType = string | null;
+```
 
 ## Parameters
 
-### UseAvatarsOptions
+### UseAvatarsParams
 
-[`UseAvatarsOptions`](/onchainkit/identity/types#useavatarsoptions)
+```ts
+type UseAvatarsParams = {
+  /** Array of ENS names to resolve avatars for */
+  ensNames: string[];
+  /** Optional chain for domain resolution */
+  chain?: Chain;
+};
+```
 
 ### UseQueryOptions
 
-[`UseQueryOptions`](/onchainkit/identity/types#usequeryoptions) 
+```ts
+type UseQueryOptions<TData = unknown> = Omit<
+  TanstackUseQueryOptions<TData>,
+  'queryKey' | 'queryFn'
+> & {
+  /**
+   * @deprecated Use `gcTime` instead. Will be removed in a future version.
+   * The time in milliseconds after data is considered stale before it is removed from the cache.
+   */
+  cacheTime?: number;
+};
+``` 

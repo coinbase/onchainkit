@@ -18,6 +18,7 @@ By default, OnchainKitProvider handles all the provider setup internally:
 ```
 
 This automatically includes:
+
 - Wagmi configuration with Coinbase Wallet connector
 - TanStack Query client for caching
 - Optimized defaults for most applications
@@ -98,9 +99,7 @@ export function Providers(props: {
 
 Consider custom Wagmi configuration when you need:
 
-- **Additional wallet connectors** (MetaMask, WalletConnect, etc.)
 - **Multiple chains** beyond the primary chain
-- **Custom storage** (localStorage, AsyncStorage for React Native)
 - **Advanced caching** with custom QueryClient settings
 - **SSR support** with cookie-based persistence
 - **Custom transports** or RPC configurations

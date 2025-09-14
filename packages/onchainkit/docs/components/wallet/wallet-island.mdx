@@ -26,12 +26,10 @@ users a seamless way to interact with their wallet and manage their assets.
 This component requires a `projectId` and an `apiKey` to be set in the `OnchainKitProvider`. You can find both of these values on [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
 </Note>
 
-
 <Note>
 Please note: token balances are only available for Base mainnet and Ethereum mainnet.
 You can control the network in the `OnchainKitProvider` by setting the `chain` prop.
 </Note>
-
 
 ## Quick start
 
@@ -83,8 +81,8 @@ make sure you have a `projectId` configured correctly in your providers.
 
 If transaction history is not loading, make sure you have an `apiKey` configured
 correctly in your providers.
-</Note>
 
+</Note>
 
 ## Configuring `WalletIsland` and advanced `Wallet`
 
@@ -239,13 +237,3 @@ Additional components for customizing the wallet interface include:
 The Wallet component automatically handles the wallet connection state and updates the UI accordingly.
 You need to wrap your application or relevant part of it with these components
 to provide a complete wallet interaction experience.
-
-## Component types
-
-- [`WalletReact`](/onchainkit/wallet/types#walletreact)
-- [`ConnectWalletReact`](/onchainkit/wallet/types#connectwalletreact)
-- [`WalletDropdownReact`](/onchainkit/wallet/types#walletdropdownreact)
-- [`WalletDropdownBasenameReact`](/onchainkit/wallet/types#walletdropdownbasenamereact)
-- [`WalletDropdownDisconnectReact`](/onchainkit/wallet/types#walletdropdowndisconnectreact)
-- [`WalletDropdownLinkReact`](/onchainkit/wallet/types#walletdropdownlinkreact)
-

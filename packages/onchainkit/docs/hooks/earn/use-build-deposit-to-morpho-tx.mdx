@@ -25,8 +25,24 @@ const { calls } = useBuildDepositToMorphoTx({
 
 ## Returns
 
-[`{ calls: Call[] }`](/onchainkit/transaction/types#calls)
+```ts
+{
+  calls: Call[];
+}
+
+type Call = { 
+  to: Hex; 
+  data?: Hex; 
+  value?: bigint; 
+};
+```
 
 ## Parameters
 
-[`UseBuildDepositToMorphoTxParams`](/onchainkit/earn/types#usebuilddeposittomorphotxparams)
+```ts
+type UseBuildDepositToMorphoTxParams = {
+  vaultAddress: Address;
+  recipientAddress?: Address;
+  amount: string;
+};
+```
