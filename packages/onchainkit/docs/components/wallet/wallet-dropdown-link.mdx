@@ -62,11 +62,9 @@ export function WalletComponents() {
 Add a custom link to the wallet dropdown menu, allowing users to navigate to external resources directly from the wallet interface.
 
 ```tsx
-// @noErrors: 2304 Cannot find name 'BaseIcon'
 import {
   WalletDropdownLink,
 } from '@coinbase/onchainkit/wallet';
-// ---cut-before---
 // omitted for brevity
 <WalletDropdownLink // [!code focus]
   icon={BaseIcon} // [!code focus]
@@ -88,7 +86,6 @@ Accepts React children, enabling the use of custom elements, styled text, icons,
 This allows for diverse customizations, including complex layouts and conditional rendering based on your app's state.
 
 ```tsx
-// @noErrors: 2322 - type 'Element' is not assignable to type 'string'
 import {
   WalletDropdownLink,
 } from '@coinbase/onchainkit/wallet';

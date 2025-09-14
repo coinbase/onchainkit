@@ -31,7 +31,6 @@ OnchainKit includes several built-in themes. Set the theme via the `OnchainKitPr
 If no theme is specified, the `default` theme is used.
 
 ```tsx
-// @noErrors:  2304 17008 1005
 <OnchainKitProvider
   apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
   chain={base}
@@ -55,7 +54,6 @@ Control the color scheme by setting the `config.appearance.mode` property:
 Note: Single-mode themes like `cyberpunk` and `hacker` ignore the mode setting.
 
 ```tsx
-// @noErrors:  2304 17008 1005
 <OnchainKitProvider
   apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
   chain={base}
@@ -97,7 +95,6 @@ Create a completely custom theme with full control over colors, fonts, and styli
 Define your custom theme using CSS variables. Theme classes should include `-light` and `-dark` suffixes for multi-mode support:
 
 ```tsx
-// @noErrors: 2304 17008 1005
 <OnchainKitProvider
   apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
   chain={base}

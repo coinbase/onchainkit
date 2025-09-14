@@ -45,16 +45,12 @@ import { Badge } from '@coinbase/onchainkit/identity';
   width="100%"
   height="auto"
 />
-{/* <App>
-  <Badge className="bg-blue-400 border-white"/>
-</App> */}
 
 ## Badge with Tooltip
 
 You can enable a tooltip for the attestation badge to provide context about what the badge represents:
 
 ```tsx
-// @noErrors: 2657
 import { Badge } from '@coinbase/onchainkit/identity';
 
 <Badge 
@@ -75,7 +71,6 @@ import { Badge } from '@coinbase/onchainkit/identity';
 With custom tooltip text:
 
 ```tsx
-// @noErrors: 2657
 import { Badge } from '@coinbase/onchainkit/identity';
 
 <Badge 
@@ -109,7 +104,6 @@ Badge with [`<Name />`](/onchainkit/identity/name), best used when [`<Name />`](
 In both examples we use the Coinbase [Verified Account](https://base.easscan.org/schema/view/0xf8b05c79f090979bf4a80270aba232dff11a10d9ca55c4f88de95317970f0de9) schema ID to show the Coinbase verified badge on the Name and Avatar components.
 
 ```tsx
-// @noErrors: 2657
 import { base } from 'viem/chains';
 import { Badge, Name, Identity } from '@coinbase/onchainkit/identity';
 
@@ -147,7 +141,6 @@ const COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID =
 Badge with [`<Avatar />`](/onchainkit/identity/avatar), best used when [`<Avatar />`](/onchainkit/identity/avatar) is not paired with any labels.
 
 ```tsx
-// @noErrors: 2657
 import { base } from 'viem/chains';
 import { Avatar, Badge, Identity } from '@coinbase/onchainkit/identity';
 

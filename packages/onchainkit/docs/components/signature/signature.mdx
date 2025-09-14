@@ -14,7 +14,6 @@ You can use the `Signature` component with the default implementation without pa
 
 <CodeGroup>
 ```tsx Signature.tsx
-// @noErrors: 2307 2395 2554 2834 - Cannot find module 'data'
 import { Signature } from '@coinbase/onchainkit/signature';
 import { domain, types, message } from './data';
 // ---cut-start---
@@ -61,7 +60,6 @@ export const message = {
 ```
 
 ```tsx data
-// @noErrors: 2554 - Expected 0 arguments, but got 2
 import { encodeAbiParameters } from 'viem';
 import { base } from 'viem/chains';
 

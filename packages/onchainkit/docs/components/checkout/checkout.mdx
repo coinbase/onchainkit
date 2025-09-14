@@ -249,9 +249,7 @@ height="364"/>
 To customize the name and logo of your application rendered in the popup, set the `name` and `logo` values inside [OnchainKitProvider](/onchainkit/config/onchainkit-provider#usage).
 
 ```tsx providers.tsx
-// @noErrors: 2304 - Cannot find name 'children'
 import { base } from 'wagmi/chains';
-// ---cut-before---
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 
 <OnchainKitProvider
@@ -265,7 +263,6 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
   >
     {children}
 </OnchainKitProvider>
-// ---cut-after---
 ```
 
 <Frame>
