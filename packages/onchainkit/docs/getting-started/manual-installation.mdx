@@ -175,23 +175,19 @@ export default function Home() {
 
 ### 3. Create the manifest endpoint
 
-Create an API route that serves your Farcaster manifest:
+Create an API route that serves your Farcaster manifest.
+
+See the [manifest documentation](/mini-apps/features/manifest) for more information.
 
 ```tsx app/api/.well-known/farcaster.json/route.ts
 export async function GET() {
-  const manifest = {
-    name: "Your Mini App",
-    description: "Description of your mini app",
-    icon: "https://yoursite.com/icon.png",
-    url: "https://yoursite.com",
-  };
-
-  return Response.json(manifest);
+  return Response.json({
+    // ...your manifest data...
+  });
 }
 ```
 
 ## Next steps
 
-- Check out the [component documentation](/components) to see what's available
-- Look at [example templates](/templates) for inspiration
-- Read the [configuration guide](/config) for advanced setup options
+- Check out the [component documentation](/onchainkit/latest/components) to see what's available
+- Read the [configuration guide](/onchainkit/latest/configuration) for advanced setup options

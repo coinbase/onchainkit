@@ -13,7 +13,6 @@ The `Transaction` component now supports a simplified shorthand version to strea
 If you'd like more customization, follow the implementation guide for our `Transaction` components below.
 
 ```tsx
-// @noErrors: 1109 - Cannot find name 'contracts'
 import { Transaction } from "@coinbase/onchainkit/transaction"
 
 const calls = [...];
@@ -66,7 +65,6 @@ type TransactionProps = {
 
   <CodeGroup>
   ```tsx TransactionComponents.tsx
-  // @noErrors: 2307
   import { useCallback } from 'react';
   import { Avatar, Name } from '@coinbase/onchainkit/identity';
   import { // [!code focus]
@@ -186,7 +184,6 @@ type TransactionProps = {
   This TypeScript object provides `statusName` and `statusData` to keep you informed.
 
   ```tsx
-  // @noErrors: 2307
   import { useCallback } from 'react';
   import {
     Transaction,
@@ -283,7 +280,6 @@ type TransactionProps = {
   </Frame>
 
   ```tsx
-  // @noErrors:  2304 17008 1005
   <OnchainKitProvider
     config={{ // [!code focus]
       paymaster: process.env.PAYMASTER_ENDPOINT, // [!code focus]
@@ -294,7 +290,6 @@ type TransactionProps = {
   Next, pass `isSponsored={true}` to the `Transaction` component.
 
   ```tsx
-  // @noErrors: 2580 2304 2322 - Cannot find name 'process', Cannot find name 'contracts'
   import { Transaction, TransactionButton, TransactionSponsor } from "@coinbase/onchainkit/transaction"
   // ---cut-before---
   // omitted for brevity
@@ -318,8 +313,7 @@ These functions must resolve to `Call[]` or `ContractFunctionParameters[]`.
 
 In the example the calls data will be fetched from api.transaction.com when the user clicks the Transaction Button.
 
-```tsx
-// @noErrors: 2322
+```ts
 import { Transaction, TransactionButton, LifecycleStatus} from '@coinbase/onchainkit/transaction';
 import { baseSepolia } from 'wagmi/chains';
 

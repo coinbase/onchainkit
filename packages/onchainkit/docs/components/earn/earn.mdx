@@ -10,7 +10,6 @@ The `Earn` component provides a simple interface for earning interest on your cr
 To use `Earn`, you'll need to provide a `vaultAddress` prop. A vault address can be obtained from Morpho's [Vaults page](https://app.morpho.org/base/earn).
 
 ```tsx
-// @noErrors: 2307
 import { Earn } from '@coinbase/onchainkit/earn'; // [!code focus]
 
 <Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" /> // [!code focus]
@@ -33,7 +32,6 @@ import { Earn } from '@coinbase/onchainkit/earn'; // [!code focus]
 For instance, you can render the `EarnDeposit` component by itself within the `Earn` component, along with any other custom components you'd like to render.
 
 ```tsx
-// @noErrors: 2307
 import { Earn, EarnDeposit } from '@coinbase/onchainkit/earn';
 
 <Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A">
@@ -93,7 +91,6 @@ Below, we use `useEarnContext` to implement a custom deposit interface by using 
 
 <CodeGroup>
 ```tsx index.tsx
-// @noErrors: 2307
 import { Earn, useEarnContext } from '@coinbase/onchainkit/earn';
 import { CustomDepositButtons } from '@/custom-deposit-buttons';
 
@@ -158,14 +155,12 @@ Taking advantage of the data and methods provided by `useEarnContext`, developer
 To sponsor transactions, you can use the `isSponsored` prop.
 
 ```tsx
-// @noErrors: 2304
 <Earn vaultAddress="0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A" isSponsored />
 ```
 
 Ensure that your `OnchainKitProvider` has a `paymaster` configured:
 
 ```tsx
-// @noErrors:  2304 17008 1005
 <OnchainKitProvider
   config={{ // [!code focus]
     paymaster: process.env.PAYMASTER_ENDPOINT, // [!code focus]

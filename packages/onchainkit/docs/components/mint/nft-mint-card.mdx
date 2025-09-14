@@ -64,7 +64,6 @@ If you'd like more customization you can follow the steps below to customize whi
 <Steps>
   <Step title="Add the NFTMintCard">
   ```tsx
-  // @noErrors: 2741 - Property children missing in type
   import { NFTMintCard } from '@coinbase/onchainkit/nft'; // [!code focus]
 
   <NFTMintCard  // [!code focus]
@@ -76,7 +75,6 @@ If you'd like more customization you can follow the steps below to customize whi
   <Step title="Add the NFTMintCard components">
 
   ```tsx
-  // @noErrors: 2739
   import { NFTMintCard } from '@coinbase/onchainkit/nft';
   import { NFTMedia } from '@coinbase/onchainkit/nft/view'; // [!code ++]
   import {
@@ -224,8 +222,7 @@ The default `NFTMintCard` implementation uses Coinbase Developer Platform to pro
 
 You can also use a custom `buildMintTransaction` function to create your own Mint transaction.
 
-```tsx
-// @noErrors: 2739
+```ts
 import { NFTMintCard } from '@coinbase/onchainkit/nft';
 import { NFTMedia } from '@coinbase/onchainkit/nft/view';
 import { NFTCollectionTitle, NFTMintButton } from '@coinbase/onchainkit/nft/mint';
