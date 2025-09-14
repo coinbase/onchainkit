@@ -1,0 +1,287 @@
+---
+title: "OnchainKitProvider"
+---
+
+The OnchainKitProvider provides the React context that powers all OnchainKit components. It handles wallet connections, theming, API configuration, and MiniKit integration.
+
+## Basic Usage
+
+```tsx RootProvider.tsx
+'use client';
+import { ReactNode } from 'react';
+import { base } from 'viem/chains';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import '@coinbase/onchainkit/styles.css';
+
+export function RootProvider({ children }: { children: ReactNode }) {
+  return (
+    <OnchainKitProvider
+      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+      chain={base}
+      config={{
+        appearance: {
+          mode: 'auto',
+        },
+        wallet: {
+          display: 'modal',
+        },
+      }}
+    >
+      {children}
+    </OnchainKitProvider>
+  );
+}
+```
+
+```tsx layout.tsx
+import { RootProvider } from './RootProvider';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <RootProvider>{children}</RootProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+## Props
+
+| Prop                       | Description                                                            | Required |
+| -------------------------- | ---------------------------------------------------------------------- | -------- |
+| [`chain`](#chain)          | The blockchain network your app operates on.                           | Yes      |
+| [`apiKey`](#apikey)        | Coinbase Developer Platform API key for accessing OnchainKit services. | No       |
+| [`projectId`](#project-id) | Coinbase Developer Platform Project ID for funding components.         | No       |
+| [`rpcUrl`](#rpc-url)       | Custom RPC endpoint for blockchain requests.                           | No       |
+| [`config`](#config)        | Configuration object for appearance, wallet settings, and paymaster.   | No       |
+| [`miniKit`](#minikit)      | MiniKit configuration for mini app features.                           | No       |
+| [`analytics`](#analytics)  | Enable/disable usage analytics (defaults to true).                     | No       |
+| `defaultPublicClients`     | Custom viem public clients for specific chains.                        | No       |
+
+### Chain
+
+Specifies the blockchain network your OnchainKit components will use. This is required for all OnchainKit functionality.
+
+```tsx
+import { base, mainnet } from 'viem/chains';
+
+// Use Base network
+<OnchainKitProvider chain={base}>
+  {children}
+</OnchainKitProvider>
+
+// Use Ethereum mainnet
+<OnchainKitProvider chain={mainnet}>
+  {children}
+</OnchainKitProvider>
+```
+
+Import chain configurations from [viem/chains](https://viem.sh/docs/chains/introduction) for type safety and accuracy.
+
+### API Key
+
+Your Coinbase Developer Platform API key enables access to OnchainKit services like token data, swap quotes, and transaction sponsorship.
+
+Required for:
+
+- Swap components and APIs
+- Transaction components with sponsorship
+- Token data and metadata
+- NFT minting components
+
+Get your API key from the [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/onchainkit).
+
+```tsx
+<OnchainKitProvider
+  apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+  chain={base}
+>
+  {children}
+</OnchainKitProvider>
+```
+
+<Frame>
+<img
+  alt="OnchainKit copy Client API Key"
+  src="./images/copy-api-key-guide.png"
+  height="364"
+/>
+</Frame>
+
+### RPC URL
+
+Custom RPC endpoint for blockchain requests. If not provided, OnchainKit uses the Coinbase Developer Platform Node (requires `apiKey`).
+
+```tsx
+<OnchainKitProvider
+  chain={base}
+  rpcUrl="https://your-custom-rpc-endpoint.com"
+>
+  {children}
+</OnchainKitProvider>
+```
+
+Most applications can omit this and use the default CDP Node by providing an `apiKey`.
+
+### Project ID
+
+Your Coinbase Developer Platform Project ID, required for funding and onramp components.
+
+```tsx
+<OnchainKitProvider
+  chain={base}
+  projectId={process.env.NEXT_PUBLIC_CDP_PROJECT_ID}
+>
+  {children}
+</OnchainKitProvider>
+```
+
+Get your Project ID from the [Coinbase Developer Platform](https://portal.cdp.coinbase.com/projects).
+
+<Frame>
+<img
+  alt="OnchainKit copy Project ID"
+  src="./images/copy-project-id.png"
+  height="364"
+/>
+</Frame>
+
+### Config
+
+Configuration object to customize OnchainKit's appearance, wallet behavior, and gas sponsorship.
+
+```tsx
+<OnchainKitProvider
+  chain={base}
+  config={{
+    appearance: {
+      name: 'My App',
+      logo: 'https://example.com/logo.png',
+      mode: 'auto',
+      theme: 'default',
+    },
+    wallet: {
+      display: 'modal',
+      preference: 'all',
+      termsUrl: 'https://example.com/terms',
+      privacyUrl: 'https://example.com/privacy',
+      supportedWallets: {
+        rabby: true,
+        trust: true,
+      },
+    },
+    paymaster: 'https://api.developer.coinbase.com/rpc/v1/base/your-api-key',
+    analytics: true,
+  }}
+>
+  {children}
+</OnchainKitProvider>
+```
+
+#### Appearance
+
+Controls visual styling and branding:
+
+- `name` — Your app's name displayed in components
+- `logo` — URL to your app's logo
+- `mode` — Color scheme: `'auto'`, `'light'`, or `'dark'`
+- `theme` — Visual theme: `'default'`, `'base'`, `'cyberpunk'`, `'hacker'`, or custom
+
+#### Wallet
+
+Wallet connection and display settings:
+
+- `display` — Interface style: `'modal'` (overlay) or `'classic'` (inline)
+- `preference` — Coinbase Wallet preference: `'all'`, `'smartWalletOnly'`, or `'eoaOnly'`
+- `termsUrl` — Link to your terms of service
+- `privacyUrl` — Link to your privacy policy
+- `supportedWallets` — Enable additional wallets: `rabby`, `trust`, `frame`
+
+#### Paymaster
+
+URL for gas sponsorship. Configure through [Coinbase Developer Platform](https://portal.cdp.coinbase.com/products/bundler-and-paymaster).
+
+#### Analytics
+
+Enable/disable usage analytics (defaults to `true`).
+
+### MiniKit
+
+Configuration for mini app features. Only needed when building mini apps.
+
+```tsx
+<OnchainKitProvider
+  chain={base}
+  miniKit={{
+    enabled: true,
+    autoConnect: true,
+    notificationProxyUrl: '/api/notify',
+  }}
+>
+  {children}
+</OnchainKitProvider>
+```
+
+Options:
+
+- `enabled` — Enable MiniKit features (defaults to `false`)
+- `autoConnect` — Auto-connect when in mini apps (defaults to `true`)
+- `notificationProxyUrl` — Custom notification proxy URL (defaults to `/api/notify`)
+
+### Analytics
+
+Enable or disable OnchainKit usage analytics.
+
+```tsx
+<OnchainKitProvider
+  chain={base}
+  analytics={false} // Disable analytics
+>
+  {children}
+</OnchainKitProvider>
+```
+
+Defaults to `true`. Analytics help improve OnchainKit but can be disabled for privacy.
+
+### Default Public Clients
+
+Custom viem public clients for specific chains. Useful when you need custom RPC configurations or want to use your own client settings.
+
+```tsx
+import { createPublicClient, http } from 'viem';
+import { base, mainnet } from 'viem/chains';
+
+const customClients = {
+  [base.id]: createPublicClient({
+    chain: base,
+    transport: http('https://your-custom-base-rpc.com'),
+  }),
+  [mainnet.id]: createPublicClient({
+    chain: mainnet,
+    transport: http('https://your-custom-mainnet-rpc.com'),
+    batch: {
+      multicall: true,
+    },
+  }),
+};
+
+<OnchainKitProvider
+  chain={base}
+  defaultPublicClients={customClients}
+>
+  {children}
+</OnchainKitProvider>
+```
+
+Use cases:
+
+- Custom RPC endpoints with specific configurations
+- Enhanced client settings (batching, caching, retries)
+- Private or premium RPC providers
+- Multi-chain applications with different client requirements per chain

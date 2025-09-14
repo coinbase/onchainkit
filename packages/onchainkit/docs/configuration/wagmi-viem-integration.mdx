@@ -1,0 +1,159 @@
+---
+title: "Wagmi & Viem Integration"
+---
+
+OnchainKit automatically sets up Wagmi and TanStack Query providers for you. However, you can provide your own custom Wagmi configuration for advanced use cases like custom connectors, chains, or storage options.
+
+## Default Setup
+
+By default, OnchainKitProvider handles all the provider setup internally:
+
+```tsx
+<OnchainKitProvider
+  apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+  chain={base}
+>
+  {children}
+</OnchainKitProvider>
+```
+
+This automatically includes:
+- Wagmi configuration with Coinbase Wallet connector
+- TanStack Query client for caching
+- Optimized defaults for most applications
+
+## Custom Wagmi Configuration
+
+For advanced control over wallet connectors, chains, or other Wagmi settings, wrap OnchainKitProvider with your own Wagmi providers:
+
+<CodeGroup>
+
+```tsx wagmi.ts
+import { http, cookieStorage, createConfig, createStorage } from 'wagmi';
+import { base, baseSepolia } from 'viem/chains';
+import { coinbaseWallet, metaMask } from 'wagmi/connectors';
+
+export function getConfig() {
+  return createConfig({
+    chains: [base, baseSepolia],
+    connectors: [
+      coinbaseWallet({
+        appName: 'My OnchainKit App',
+        preference: 'smartWalletOnly',
+        version: '4',
+      }),
+      metaMask(), // Add additional connectors
+    ],
+    storage: createStorage({
+      storage: cookieStorage,
+    }),
+    ssr: true,
+    transports: {
+      [base.id]: http(),
+      [baseSepolia.id]: http(),
+    },
+  });
+}
+
+declare module 'wagmi' {
+  interface Register {
+    config: ReturnType<typeof getConfig>;
+  }
+}
+```
+
+```tsx providers.tsx
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { base } from 'viem/chains';
+import { type ReactNode, useState } from 'react';
+import { type State, WagmiProvider } from 'wagmi';
+import { getConfig } from './wagmi';
+
+export function Providers(props: {
+  children: ReactNode;
+  initialState?: State;
+}) {
+  const [config] = useState(() => getConfig());
+  const [queryClient] = useState(() => new QueryClient());
+
+  return (
+    <WagmiProvider config={config} initialState={props.initialState}>
+      <QueryClientProvider client={queryClient}>
+        <OnchainKitProvider
+          apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+          chain={base}
+        >
+          {props.children}
+        </OnchainKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+}
+```
+
+</CodeGroup>
+
+## When to Use Custom Configuration
+
+Consider custom Wagmi configuration when you need:
+
+- **Additional wallet connectors** (MetaMask, WalletConnect, etc.)
+- **Multiple chains** beyond the primary chain
+- **Custom storage** (localStorage, AsyncStorage for React Native)
+- **Advanced caching** with custom QueryClient settings
+- **SSR support** with cookie-based persistence
+- **Custom transports** or RPC configurations
+
+## Common Patterns
+
+### Multi-chain Support
+
+```tsx wagmi.ts
+import { base, mainnet, optimism } from 'viem/chains';
+
+export function getConfig() {
+  return createConfig({
+    chains: [base, mainnet, optimism],
+    // ... other config
+    transports: {
+      [base.id]: http(),
+      [mainnet.id]: http(),
+      [optimism.id]: http(),
+    },
+  });
+}
+```
+
+### Custom Query Client
+
+```tsx providers.tsx
+const [queryClient] = useState(() => new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      cacheTime: 1000 * 60 * 10, // 10 minutes
+    },
+  },
+}));
+```
+
+### Environment-specific Configuration
+
+```tsx wagmi.ts
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+export function getConfig() {
+  return createConfig({
+    chains: isDevelopment ? [baseSepolia] : [base],
+    // ... development vs production settings
+  });
+}
+```
+
+## Important Notes
+
+- Always place custom Wagmi and Query providers **outside** of OnchainKitProvider
+- OnchainKit components will use your custom Wagmi configuration automatically
+- The `chain` prop on OnchainKitProvider should match your primary chain
+- Custom configurations require additional setup but provide maximum flexibility
