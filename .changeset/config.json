@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
   "changelog": ["./formatter.js", { "repo": "coinbase/onchainkit" }],
   "commit": false,
-  "fixed": [],
+  "fixed": [["@coinbase/onchainkit", "create-onchain"]],
   "linked": [],
   "access": "restricted",
   "baseBranch": "main",
