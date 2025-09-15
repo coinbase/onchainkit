@@ -1,5 +1,15 @@
 # create-onchain
 
+## 1.0.2
+
+### Patch Changes
+
+- **chore:** Package version bump
+
+## 1.0.1
+
+- Skipped version to sync versions with create-onchain
+
 ## 1.0.0
 
 ### Major Changes
