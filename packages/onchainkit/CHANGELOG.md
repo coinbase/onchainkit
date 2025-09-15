@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.0
+
+### Major Changes
+
+- Bumps major dependencies
+  - Tailwind v4
+  - React 19
+  - Next 15
+  - Node 22
+- Adds render props for better customization
+- Combines MiniKit and OnchainKit
+  - MiniKit support is not controlled by a prop on OnchainKit
+- Removes deprecated components
+
 ## 0.38.15
 
 ### Patch Changes

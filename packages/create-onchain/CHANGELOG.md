@@ -1,5 +1,11 @@
 # create-onchain
 
+## 1.0.0
+
+### Major Changes
+
+- Release create-onchain v1 - Thanks [@dgca](https://github.com/dgca)! [#2497](https://github.com/coinbase/onchainkit/pull/2497)
+
 ## 0.0.22
 
 ### Patch Changes
