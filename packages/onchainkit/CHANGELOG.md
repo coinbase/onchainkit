@@ -2,9 +2,17 @@
 
 ## 1.0.0
 
-### Patch Changes
+### Major Changes
 
-- fix: Remove deprecated `cacheTime` argument - Thanks [@dgca](https://github.com/dgca)! [#2493](https://github.com/coinbase/onchainkit/pull/2493)
+- Bumps major dependencies
+  - Tailwind v4
+  - React 19
+  - Next 15
+  - Node 22
+- Adds render props for better customization
+- Combines MiniKit and OnchainKit
+  - MiniKit support is not controlled by a prop on OnchainKit
+- Removes deprecated components
 
 ## 0.38.15
 
