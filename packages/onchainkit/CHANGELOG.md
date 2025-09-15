@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0
+
+### Patch Changes
+
+- fix: Remove deprecated `cacheTime` argument - Thanks [@dgca](https://github.com/dgca)! [#2493](https://github.com/coinbase/onchainkit/pull/2493)
+
 ## 0.38.15
 
 ### Patch Changes
