@@ -21,6 +21,7 @@
     "test:ui": "vitest --ui",
     "get-next-version": "node ./scripts/get-next-version.js",
     "publish-prerelease": "node ./scripts/publish-prerelease.js",
+    "update-docs": "tsx ./scripts/update-docs.ts",
     "validate-build": "node ./scripts/validate-build.js",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -97,6 +98,7 @@
     "tailwindcss-animate": "^1.0.7",
     "tscpaths": "^0.0.9",
     "tsup": "^8.3.5",
+    "tsx": "^4.20.5",
     "viem": "^2.31.6",
     "vite": "^5.4.20",
     "vite-plugin-dts": "^4.5.3",
