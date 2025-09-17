@@ -1,9 +1,8 @@
 export { MiniKitProvider } from './MiniKitProvider';
 export type { MiniKitProviderProps } from './types';
-export { SafeArea } from './components/SafeArea';
-export type { SafeAreaProps } from './components/SafeArea';
+export { SafeArea, type SafeAreaProps } from './components/SafeArea';
 export { useMiniKit } from './hooks/useMiniKit';
-export { useOpenUrl } from './hooks/useOpenUrl';
+export { useOpenUrl, type UseOpenUrlParams } from './hooks/useOpenUrl';
 export { useAuthenticate, parseSignInMessage } from './hooks/useAuthenticate';
 export { useViewProfile } from './hooks/useViewProfile';
 export { useAddFrame } from './hooks/useAddFrame';
