@@ -1,4 +1,4 @@
-import { execSync, execFileSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -35,7 +35,7 @@ async function updateDocs() {
 
     console.log('📥 Cloning base/docs repository...');
     if (fs.existsSync(tempDir)) {
-      execFileSync('rm', ['-rf', tempDir]);
+      execFileSync('rm', ['-r', '-f', tempDir]);
     }
 
     // Ensure the tmp directory exists
@@ -85,27 +85,20 @@ async function updateDocs() {
     }
 
     // Find the latest version within the OnchainKit tab
-    if (onchainKitTab.versions) {
-      // Handle the versions array structure
-      const latestVersion = onchainKitTab.versions.find(
-        (versionObj: VersionNavigation) => versionObj.version === 'latest',
-      );
-
-      if (!latestVersion) {
-        throw new Error('Latest version not found in OnchainKit tab versions');
-      }
-
-      latestVersion.navigation = localDocsJson;
-      console.log('✅ Updated latest version navigation in versions array');
-    } else if (onchainKitTab.version === 'latest') {
-      // Handle direct version property (fallback)
-      onchainKitTab.navigation = localDocsJson;
-      console.log('✅ Updated navigation directly on tab');
-    } else {
-      throw new Error(
-        'OnchainKit tab structure is unexpected - no versions array or direct latest version found',
-      );
+    if (!onchainKitTab.versions) {
+      throw new Error('OnchainKit tab does not have versions array');
     }
+
+    const latestVersion = onchainKitTab.versions.find(
+      (versionObj: VersionNavigation) => versionObj.version === 'latest',
+    );
+
+    if (!latestVersion) {
+      throw new Error('Latest version not found in OnchainKit tab versions');
+    }
+
+    latestVersion.navigation = localDocsJson;
+    console.log('✅ Updated latest version navigation in versions array');
 
     // 5. Write the updated docs.json back
     console.log('💾 Writing updated docs.json...');
@@ -117,7 +110,11 @@ async function updateDocs() {
 
     console.log('🗑️  Clearing existing content...');
     if (fs.existsSync(targetContentDir)) {
-      execFileSync('rm', ['-rf', path.join(targetContentDir, '*')]);
+      // Remove all contents of the directory using Node.js fs methods
+      for (const file of fs.readdirSync(targetContentDir)) {
+        const filePath = path.join(targetContentDir, file);
+        fs.rmSync(filePath, { recursive: true, force: true });
+      }
     } else {
       fs.mkdirSync(targetContentDir, { recursive: true });
     }
@@ -130,9 +127,9 @@ async function updateDocs() {
         const targetPath = path.join(targetContentDir, file);
 
         if (fs.statSync(sourcePath).isDirectory()) {
-          execSync(`cp -r "${sourcePath}" "${targetPath}"`);
+          execFileSync('cp', ['-r', sourcePath, targetPath]);
         } else {
-          execSync(`cp "${sourcePath}" "${targetPath}"`);
+          execFileSync('cp', [sourcePath, targetPath]);
         }
       }
     }
@@ -144,7 +141,7 @@ async function updateDocs() {
     // Check git status to see if there are any changes
     let hasChanges = false;
     try {
-      const gitStatus = execSync('git status --porcelain', {
+      const gitStatus = execFileSync('git', ['status', '--porcelain'], {
         encoding: 'utf8',
       });
       hasChanges = gitStatus.trim().length > 0;
@@ -168,11 +165,13 @@ async function updateDocs() {
     console.log('🌿 Creating new branch and committing changes...');
 
     const branchName = `update-onchainkit-docs-${Date.now()}`;
-    execSync(`git checkout -b ${branchName}`);
-    execSync('git add .');
-    execSync(
-      'git commit -m "Update OnchainKit documentation to latest version"',
-    );
+    execFileSync('git', ['checkout', '-b', branchName]);
+    execFileSync('git', ['add', '.']);
+    execFileSync('git', [
+      'commit',
+      '-m',
+      'Update OnchainKit documentation to latest version',
+    ]);
 
     console.log(`✅ Documentation update completed successfully!`);
     console.log(`📋 Branch created: ${branchName}`);
@@ -196,4 +195,19 @@ async function updateDocs() {
   }
 }
 
-updateDocs();
+// Export the function for testing
+export { updateDocs };
+
+// Main execution
+async function main() {
+  // Don't run in test environment
+  if ((globalThis as any).__IS_TEST_ENV === true) {
+    return;
+  }
+
+  await updateDocs();
+}
+
+main().catch((error) => {
+  console.error('Unhandled error:', error);
+});
