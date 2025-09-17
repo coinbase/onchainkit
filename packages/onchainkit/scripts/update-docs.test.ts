@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { execFileSync } from 'child_process';
 import * as fs from 'fs';
@@ -101,7 +102,7 @@ describe('update-docs script', () => {
         .mockReturnValueOnce(JSON.stringify(baseDocsJson))
         .mockReturnValueOnce(JSON.stringify(localDocsJson));
 
-      vi.mocked(execFileSync).mockImplementation((command, args, options) => {
+      vi.mocked(execFileSync).mockImplementation((command, args) => {
         if (command === 'git' && args?.[0] === 'status') {
           return 'modified files';
         }
@@ -167,7 +168,7 @@ describe('update-docs script', () => {
       setupSuccessfulMocks();
 
       // Mock git status to return empty (no changes)
-      vi.mocked(execFileSync).mockImplementation((command, args, options) => {
+      vi.mocked(execFileSync).mockImplementation((command, args) => {
         if (command === 'git' && args?.[0] === 'status') {
           return '';
         }
@@ -302,9 +303,9 @@ describe('update-docs script', () => {
     it('should copy files and directories correctly', async () => {
       setupSuccessfulMocks();
       vi.mocked(fs.readdirSync).mockReturnValue([
-        'file.txt',
-        'directory',
-        'docs.json',
+        'file.txt' as any,
+        'directory' as any,
+        'docs.json' as any,
       ]);
       vi.mocked(fs.statSync).mockImplementation(
         (path) =>
@@ -513,7 +514,7 @@ describe('update-docs script', () => {
 
     it('should handle git status check failure with warning', async () => {
       setupSuccessfulMocks();
-      vi.mocked(execFileSync).mockImplementation((command, args, options) => {
+      vi.mocked(execFileSync).mockImplementation((command, args) => {
         if (command === 'git' && args?.[0] === 'status') {
           throw new Error('Git status failed');
         }
@@ -542,7 +543,7 @@ describe('update-docs script', () => {
 
     it('should handle file copy errors', async () => {
       setupSuccessfulMocks();
-      vi.mocked(execFileSync).mockImplementation((command, args) => {
+      vi.mocked(execFileSync).mockImplementation((command) => {
         if (command === 'cp') {
           throw new Error('Copy failed');
         }
@@ -675,9 +676,9 @@ describe('update-docs script', () => {
     it('should handle complex nested directory structures', async () => {
       setupSuccessfulMocks();
       vi.mocked(fs.readdirSync).mockReturnValue([
-        'components',
-        'utils',
-        'README.md',
+        'components' as any,
+        'utils' as any,
+        'README.md' as any,
       ]);
       vi.mocked(fs.statSync).mockImplementation(
         (path) =>
@@ -707,7 +708,7 @@ describe('update-docs script', () => {
     it('should handle very long git status output', async () => {
       setupSuccessfulMocks();
       const longGitStatus = 'M '.repeat(1000) + 'file.txt\\n';
-      vi.mocked(execFileSync).mockImplementation((command, args, options) => {
+      vi.mocked(execFileSync).mockImplementation((command, args) => {
         if (command === 'git' && args?.[0] === 'status') {
           return longGitStatus;
         }
@@ -738,14 +739,14 @@ describe('update-docs script', () => {
         JSON.stringify({ version: '1.1.0', groups: ['test'] }),
       );
 
-    vi.mocked(execFileSync).mockImplementation((command, args, options) => {
+    vi.mocked(execFileSync).mockImplementation((command, args) => {
       if (command === 'git' && args?.[0] === 'status') {
         return 'M docs.json\n';
       }
       return '';
     });
 
-    vi.mocked(fs.readdirSync).mockReturnValue(['file.txt']);
+    vi.mocked(fs.readdirSync).mockReturnValue(['file.txt' as any]);
     vi.mocked(fs.statSync).mockReturnValue({ isDirectory: () => false } as any);
   }
 
@@ -771,35 +772,39 @@ describe('update-docs script', () => {
     it('should execute updateDocs when not in test environment', async () => {
       // Remove test environment flag to allow main function to run
       delete (globalThis as any).__IS_TEST_ENV;
-      
+
       setupSuccessfulMocks();
-      
+
       // Import and execute the main function by importing the script
       await import('./update-docs.js?' + Date.now());
-      
+
       // Verify that the update process was executed
-      expect(mockConsoleLog).toHaveBeenCalledWith('🚀 Starting docs update process...');
+      expect(mockConsoleLog).toHaveBeenCalledWith(
+        '🚀 Starting docs update process...',
+      );
     });
 
     it('should handle errors in main function', async () => {
       // Remove test environment flag to allow main function to run
       delete (globalThis as any).__IS_TEST_ENV;
-      
+
       // Set up mocks to cause an error
       vi.mocked(fs.existsSync).mockReturnValue(false);
-      
+
       // Mock console.error for the main function's catch block
-      const mockMainConsoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
-      
+      const mockMainConsoleError = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+
       // Import the script which will trigger main function
       await import('./update-docs.js?' + Date.now());
-      
+
       // Verify the main function's error handling was called
       expect(mockMainConsoleError).toHaveBeenCalledWith(
         'Unhandled error:',
         expect.any(Error),
       );
-      
+
       mockMainConsoleError.mockRestore();
     });
   });
