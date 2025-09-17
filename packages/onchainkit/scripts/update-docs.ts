@@ -117,7 +117,7 @@ async function updateDocs() {
 
     console.log('🗑️  Clearing existing content...');
     if (fs.existsSync(targetContentDir)) {
-      execSync(`rm -rf ${targetContentDir}/*`);
+      execFileSync('rm', ['-rf', path.join(targetContentDir, '*')]);
     } else {
       fs.mkdirSync(targetContentDir, { recursive: true });
     }
