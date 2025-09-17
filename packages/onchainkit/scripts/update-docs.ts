@@ -44,7 +44,7 @@ async function updateDocs() {
       fs.mkdirSync(tmpParentDir, { recursive: true });
     }
 
-    execSync(`git clone https://github.com/base/docs.git ${tempDir}`);
+    execFileSync('git', ['clone', 'https://github.com/base/docs.git', tempDir]);
 
     // 2. Read the current docs.json from base/docs
     const baseDocsJsonPath = path.join(tempDir, 'docs', 'docs.json');
