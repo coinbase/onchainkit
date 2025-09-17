@@ -68,7 +68,6 @@ export function OnchainKitProvider({
     clientMetaManager.init({ isMiniKit });
   }, [isMiniKit]);
 
-  // eslint-disable-next-line complexity
   const value = useMemo(() => {
     const defaultPaymasterUrl = apiKey
       ? `https://api.developer.coinbase.com/rpc/v1/${chain.name

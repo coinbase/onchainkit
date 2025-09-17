@@ -5,7 +5,6 @@ import { useToken } from './useToken';
 
 type ContractType = 'ERC721' | 'ERC1155';
 
-// eslint-disable-next-line complexity
 export function useReservoirMintData(
   contractAddress: string,
   tokenId?: string,

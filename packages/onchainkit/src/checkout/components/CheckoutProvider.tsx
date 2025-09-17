@@ -225,7 +225,6 @@ export function CheckoutProvider({
     [sendAnalytics],
   );
 
-  // eslint-disable-next-line complexity
   const handleSubmit = useCallback(async () => {
     try {
       handleAnalytics(CheckoutEvent.CheckoutInitiated, {
