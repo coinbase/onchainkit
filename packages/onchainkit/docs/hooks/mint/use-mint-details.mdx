@@ -1,0 +1,128 @@
+---
+title: useMintDetails
+---
+
+
+The `useMintDetails` hook implements the `getMintDetails` API, returning the data required to view an NFT to be minted.
+
+It is implemented with [useQuery](https://tanstack.com/query/latest/docs/framework/react/reference/useQuery) from `@tanstack/react-query`, and returns a `UseQueryResult` object, allowing you to pass through all `@tanstack/react-query` options.
+
+Before using them, make sure to obtain a [Client API Key](https://portal.cdp.coinbase.com/projects/api-keys/client-key) from Coinbase Developer Platform.
+
+## Usage
+
+<CodeGroup>
+```tsx code
+import { useMintDetails } from '@coinbase/onchainkit/nft';
+
+const Component = () => {
+  const { data, isLoading, error } = useMintDetails({
+    contractAddress: '0x...',
+    takerAddress: '0x...',
+    tokenId: '1',
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  
+  return <div>{JSON.stringify(data)}</div>;
+};
+```
+
+```tsx scaffolding
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { useTokenDetails } from '@coinbase/onchainkit/nft';
+
+const queryClient = new QueryClient();
+
+<QueryClientProvider client={queryClient}>
+  <OnchainKitProvider
+    apiKey={...apiKey}
+    chain={base}
+  >
+    <Component />
+  </OnchainKitProvider>
+</QueryClientProvider>
+```
+
+
+```json return value
+{
+  "data": {
+    "name": "NFT Name",
+    "description": "NFT description",
+    "imageUrl": "https://example.com/image.png",
+    "animationUrl": "",
+    "mimeType": "image/png",
+    "contractType": "ERC721",
+    "price": {
+      "amount": "0.0001",
+      "currency": "ETH",
+      "amountUSD": "0.242271"
+    },
+    "mintFee": {
+      "amount": "0",
+      "currency": "ETH",
+      "amountUSD": "0"
+    },
+    "maxMintsPerWallet": 100,
+    "isEligibleToMint": true,
+    "creatorAddress": "0x...",
+    "network": "",
+    "totalTokens": "300",
+    "totalOwners": "200"
+  }
+}
+```
+</CodeGroup>
+
+## Returns
+
+```ts
+UseQueryResult<MintDetails>
+
+type MintDetails = {
+  /** The name of the NFT */
+  name: string;
+  /** The description of the NFT */
+  description: string;
+  /** The image URL of the NFT */
+  imageUrl: string;
+  /** The animation URL of the NFT */
+  animationUrl: string;
+  /** The MIME type of the NFT */
+  mimeType: string;
+  /** ERC721, ERC1155 */
+  contractType: ContractType;
+  /** The price of the NFT */
+  price: NFTPrice;
+  /** The mint fee of the NFT */
+  mintFee: NFTPrice;
+  /** The maximum number of mints per wallet */
+  maxMintsPerWallet: number;
+  /** Whether the user is eligible to mint */
+  isEligibleToMint: boolean;
+  /** The address of the creator of the NFT */
+  creatorAddress: Address;
+  /** The total number of tokens */
+  totalTokens: string;
+  /** The total number of owners of the NFT */
+  totalOwners: string;
+  /** The network the NFT is on */
+  network: string;
+};
+```
+
+## Parameters
+
+```ts
+type GetMintDetailsParams = {
+  /** The address of the token contract */
+  contractAddress: Address;
+  /** The address of the user */
+  takerAddress?: Address;
+  /** The ID of the token (required for ERC1155) */
+  tokenId?: string;
+};
+```
+

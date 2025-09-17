@@ -21,7 +21,7 @@
   - Node 22
 - Adds render props for better customization
 - Combines MiniKit and OnchainKit
-  - MiniKit support is not controlled by a prop on OnchainKit
+  - MiniKit support is now controlled by a prop on OnchainKit
 - Removes deprecated components
 
 ## 0.38.15

@@ -1,0 +1,81 @@
+---
+title: useEarnContext
+---
+
+Access context values from the `Earn` component. Build custom deposit and withdraw interfaces with Morpho vault data.
+
+<Note>
+Use within `<Earn />` or `<EarnProvider />` components.
+</Note>
+
+## Usage
+
+```tsx code
+import { useEarnContext } from '@coinbase/onchainkit/earn';
+
+const { depositAmount, 
+        setDepositAmount, 
+        apy, 
+        nativeApy, 
+        rewards, 
+        vaultFee, 
+        vaultToken, 
+        liquidity, 
+        deposits 
+       // ...  
+        } = useEarnContext();
+
+// Use the values to build a custom deposit interface!
+```
+
+## Returns
+
+```ts
+type EarnContextType = {
+  /** Warns users if vault address is invalid */
+  error: Error | null;
+  recipientAddress?: Address;
+  /** Balance of the underlying asset in the user's wallet, converted to the asset's decimals */
+  walletBalance?: string;
+  /** Status of the wallet balance fetch */
+  walletBalanceStatus: 'pending' | 'success' | 'error';
+  refetchWalletBalance: () => void;
+  vaultAddress: Address;
+  /** The token that is being deposited or withdrawn (the underlying asset of the vault) */
+  vaultToken: Token | undefined;
+  vaultName: string | undefined;
+  /** Total deposits in the vault */
+  deposits: string | undefined;
+  /** Total liquidity (available to borrow) in the vault */
+  liquidity: string | undefined;
+  /** Total APY of the vault, including rewards */
+  apy: number | undefined;
+  nativeApy: UseMorphoVaultReturnType['nativeApy'];
+  vaultFee: UseMorphoVaultReturnType['vaultFee'];
+  /** Rewards earned by the user in the vault */
+  rewards: UseMorphoVaultReturnType['rewards'];
+  /** The amount of underlying asset that has been deposited in the vault by the connected user */
+  depositedBalance?: string;
+  /** Whether the deposited balance is being fetched */
+  depositedBalanceStatus: 'pending' | 'success' | 'error';
+  refetchDepositedBalance: () => void;
+  /** Interest earned by the user in the vault */
+  interestEarned?: string;
+  /** Amount that the user has typed into the deposit amount input */
+  depositAmount: string;
+  setDepositAmount: (amount: string) => void;
+  depositAmountError: string | null;
+  depositCalls: Call[];
+  /** Amount that the user has typed into the withdraw amount input */
+  withdrawAmount: string;
+  setWithdrawAmount: (amount: string) => void;
+  withdrawAmountError: string | null;
+  withdrawCalls: Call[];
+  lifecycleStatus: LifecycleStatus;
+  updateLifecycleStatus: (
+    status: LifecycleStatusUpdate<LifecycleStatus>,
+  ) => void;
+  isSponsored?: boolean;
+};
+```
+

@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 
 type ContractType = 'ERC721' | 'ERC1155';
 
-// eslint-disable-next-line complexity
 export function useEarningsData(contractAddress: string, tokenId?: string) {
   const { data: collection } = useCollection(contractAddress);
 
