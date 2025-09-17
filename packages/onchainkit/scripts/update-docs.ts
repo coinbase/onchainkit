@@ -201,6 +201,7 @@ export { updateDocs };
 // Main execution
 async function main() {
   // Don't run in test environment
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   if ((globalThis as any).__IS_TEST_ENV === true) {
     return;
   }
