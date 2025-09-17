@@ -1,0 +1,86 @@
+name: Update Documentation (Simple)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/onchainkit/docs/**'
+      - 'packages/onchainkit/src/**'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout OnchainKit repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "OnchainKit Bot"
+          git config --global user.email "noreply@coinbase.com"
+
+      - name: Run docs update script
+        working-directory: packages/onchainkit
+        env:
+          GITHUB_TOKEN: ${{ secrets.DOCS_UPDATE_TOKEN }}
+        run: pnpm update-docs
+
+      - name: Push changes and create PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.DOCS_UPDATE_TOKEN }}
+        run: |
+          # Check if the tmp/base-docs directory exists and has changes
+          if [ -d "tmp/base-docs" ]; then
+            cd tmp/base-docs
+            
+            # Get the branch name that was created by the script
+            BRANCH_NAME=$(git branch --show-current)
+            
+            # Only proceed if we're on a branch (not main)
+            if [ "$BRANCH_NAME" != "main" ]; then
+              echo "Pushing branch: $BRANCH_NAME"
+              
+              # Push the branch to the base/docs repository
+              git push origin "$BRANCH_NAME"
+              
+              # Create PR using GitHub CLI
+              gh pr create \
+                --repo base/docs \
+                --title "Update OnchainKit documentation to latest version" \
+                --body "This PR updates the OnchainKit documentation with the latest changes from the OnchainKit repository.
+
+              **Changes include:**
+              - Updated navigation structure
+              - Latest component documentation
+              - Updated utility and hook documentation
+
+              Generated automatically by OnchainKit documentation sync." \
+                --head "$BRANCH_NAME" \
+                --base main
+              
+              echo "✅ PR created successfully!"
+            else
+              echo "No changes detected - staying on main branch"
+            fi
+          else
+            echo "No tmp/base-docs directory found - no changes to push"
+          fi

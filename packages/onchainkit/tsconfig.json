@@ -21,6 +21,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "plugins"],
+  "include": ["src", "scripts", "plugins"],
   "exclude": ["node_modules"]
 }

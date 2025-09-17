@@ -7,8 +7,14 @@ interface DocsNavigation {
   groups: unknown[];
 }
 
+interface VersionNavigation {
+  version: string;
+  navigation?: DocsNavigation;
+}
+
 interface TabNavigation {
   tab: string;
+  versions?: VersionNavigation[];
   version?: string;
   navigation?: DocsNavigation;
 }
@@ -24,12 +30,18 @@ async function updateDocs() {
     console.log('🚀 Starting docs update process...');
 
     // 1. Clone the base/docs repository
-    const tempDir = '/tmp/base-docs';
     const currentDir = process.cwd();
+    const tempDir = path.join(currentDir, '..', '..', 'tmp', 'base-docs');
 
     console.log('📥 Cloning base/docs repository...');
     if (fs.existsSync(tempDir)) {
       execSync(`rm -rf ${tempDir}`);
+    }
+
+    // Ensure the tmp directory exists
+    const tmpParentDir = path.dirname(tempDir);
+    if (!fs.existsSync(tmpParentDir)) {
+      fs.mkdirSync(tmpParentDir, { recursive: true });
     }
 
     execSync(`git clone https://github.com/base/docs.git ${tempDir}`);
@@ -73,13 +85,26 @@ async function updateDocs() {
     }
 
     // Find the latest version within the OnchainKit tab
-    // If the tab has a version property directly, update it
-    if (onchainKitTab.version === 'latest') {
+    if (onchainKitTab.versions) {
+      // Handle the versions array structure
+      const latestVersion = onchainKitTab.versions.find(
+        (versionObj: VersionNavigation) => versionObj.version === 'latest',
+      );
+
+      if (!latestVersion) {
+        throw new Error('Latest version not found in OnchainKit tab versions');
+      }
+
+      latestVersion.navigation = localDocsJson;
+      console.log('✅ Updated latest version navigation in versions array');
+    } else if (onchainKitTab.version === 'latest') {
+      // Handle direct version property (fallback)
       onchainKitTab.navigation = localDocsJson;
+      console.log('✅ Updated navigation directly on tab');
     } else {
-      // If it's structured differently, we might need to handle nested versions
-      console.warn('OnchainKit tab structure may need manual adjustment');
-      onchainKitTab.navigation = localDocsJson;
+      throw new Error(
+        'OnchainKit tab structure is unexpected - no versions array or direct latest version found',
+      );
     }
 
     // 5. Write the updated docs.json back
@@ -99,8 +124,7 @@ async function updateDocs() {
 
     console.log('📁 Copying new content...');
     // Copy all files except docs.json
-    const files = fs.readdirSync(sourceContentDir);
-    for (const file of files) {
+    for (const file of fs.readdirSync(sourceContentDir)) {
       if (file !== 'docs.json') {
         const sourcePath = path.join(sourceContentDir, file);
         const targetPath = path.join(targetContentDir, file);
@@ -113,9 +137,35 @@ async function updateDocs() {
       }
     }
 
-    // 7. Create a new branch and commit changes
-    console.log('🌿 Creating new branch and committing changes...');
+    // 7. Check if there are any changes to commit
+    console.log('🔍 Checking for changes...');
     process.chdir(tempDir);
+
+    // Check git status to see if there are any changes
+    let hasChanges = false;
+    try {
+      const gitStatus = execSync('git status --porcelain', {
+        encoding: 'utf8',
+      });
+      hasChanges = gitStatus.trim().length > 0;
+    } catch {
+      console.warn('⚠️  Could not check git status, proceeding with commit');
+      hasChanges = true;
+    }
+
+    if (!hasChanges) {
+      console.log(
+        '✨ No changes detected between local and remote documentation',
+      );
+      console.log('🎉 Documentation is already up to date - no PR needed');
+
+      // Return to original directory and exit
+      process.chdir(currentDir);
+      return;
+    }
+
+    // 8. Create a new branch and commit changes
+    console.log('🌿 Creating new branch and committing changes...');
 
     const branchName = `update-onchainkit-docs-${Date.now()}`;
     execSync(`git checkout -b ${branchName}`);
@@ -125,13 +175,21 @@ async function updateDocs() {
     );
 
     console.log(`✅ Documentation update completed successfully!`);
-    console.log(`📋 Next steps:`);
-    console.log(`   1. Push the branch: git push origin ${branchName}`);
-    console.log(`   2. Create a PR from the branch`);
-    console.log(`   3. Branch location: ${tempDir}`);
+    console.log(`📋 Branch created: ${branchName}`);
+    console.log(`📂 Repository location: ${tempDir}`);
 
-    // Return to original directory
-    process.chdir(currentDir);
+    // For GitHub Actions, stay in the temp directory
+    // For local runs, return to original directory
+    if (!process.env.GITHUB_ACTIONS) {
+      console.log(`📋 Next steps:`);
+      console.log(`   1. Push the branch: git push origin ${branchName}`);
+      console.log(`   2. Create a PR from the branch`);
+      process.chdir(currentDir);
+    } else {
+      console.log(
+        `🤖 Running in GitHub Actions - leaving repository ready for PR creation`,
+      );
+    }
   } catch (error) {
     console.error('❌ Error updating docs:', error);
     throw error;
