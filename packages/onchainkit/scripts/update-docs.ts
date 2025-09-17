@@ -1,4 +1,4 @@
-import { execSync } from 'child_process';
+import { execSync, execFileSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -35,7 +35,7 @@ async function updateDocs() {
 
     console.log('📥 Cloning base/docs repository...');
     if (fs.existsSync(tempDir)) {
-      execSync(`rm -rf ${tempDir}`);
+      execFileSync('rm', ['-rf', tempDir]);
     }
 
     // Ensure the tmp directory exists
