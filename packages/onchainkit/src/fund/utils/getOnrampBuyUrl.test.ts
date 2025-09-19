@@ -74,12 +74,11 @@ describe('getOnrampBuyUrl', () => {
     // Testing lines 22-23: JSON.stringify for non-primitive values
     const url = getOnrampBuyUrl({
       sessionToken: 'session-token',
-      // @ts-ignore - intentionally passing complex type to test JSON.stringify path
+      // @ts-expect-error - intentionally passing complex type to test JSON.stringify path
       customData: { key: 'value', nested: { data: true } },
-      // @ts-ignore - intentionally passing array to test JSON.stringify path
       items: ['item1', 'item2'],
     });
-    
+
     // Verify that complex objects are JSON stringified in the URL
     expect(url).toContain(
       'customData=%7B%22key%22%3A%22value%22%2C%22nested%22%3A%7B%22data%22%3Atrue%7D%7D',
@@ -95,7 +94,7 @@ describe('getOnrampBuyUrl', () => {
       presetCryptoAmount: undefined,
       fiatCurrency: 'USD',
     });
-    
+
     // Should not include undefined parameters
     expect(url).not.toContain('defaultAsset');
     expect(url).not.toContain('presetCryptoAmount');

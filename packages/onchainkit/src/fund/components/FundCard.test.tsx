@@ -317,7 +317,6 @@ describe('FundCard', () => {
 
   it('passes sessionToken to FundCardProvider', async () => {
     const sessionToken = 'test-session-token';
-    
     await act(async () => {
       render(
         <FundCard assetSymbol="ETH" country="US" sessionToken={sessionToken}>
@@ -343,7 +342,7 @@ describe('FundCard', () => {
 
     await act(async () => {
       render(
-        <FundCardProvider 
+        <FundCardProvider
           asset="ETH"
           country="US"
           currency="USD"

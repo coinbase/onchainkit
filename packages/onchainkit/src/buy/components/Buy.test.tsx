@@ -163,7 +163,7 @@ describe('Buy', () => {
         className="test-class"
         toToken={degenToken}
         sessionToken={sessionToken}
-      />
+      />,
     );
 
     // Verify BuyProvider is rendered (which receives the sessionToken prop)

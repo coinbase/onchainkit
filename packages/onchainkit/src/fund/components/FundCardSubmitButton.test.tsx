@@ -338,7 +338,6 @@ describe('FundCardSubmitButton', () => {
     });
 
     expect(screen.getByTestId('session-token').textContent).toBe(sessionToken);
- 
     // Set amounts to enable button
     const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
     await act(async () => {
