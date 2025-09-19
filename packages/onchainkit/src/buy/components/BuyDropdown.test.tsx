@@ -58,6 +58,7 @@ const mockContextValue = {
   from: { token: { symbol: 'DAI' } },
   startPopupMonitor: mockStartPopupMonitor,
   setIsDropdownOpen: vi.fn(),
+  sessionToken: undefined,
 };
 
 describe('BuyDropdown', () => {
@@ -155,5 +156,32 @@ describe('BuyDropdown', () => {
     });
 
     expect(mockStartPopupMonitor).not.toHaveBeenCalled();
+  });
+
+  it('passes sessionToken to getBuyFundingUrl when available', () => {
+    const sessionToken = 'test-session-token';
+    (useBuyContext as Mock).mockReturnValue({
+      ...mockContextValue,
+      sessionToken,
+      fromETH: { token: ethToken, amount: '10' },
+      fromUSDC: { token: usdcToken, amount: '10' },
+      from: { token: { symbol: 'DAI' }, amount: '10' },
+    });
+    (openPopup as Mock).mockReturnValue('popup');
+    (getBuyFundingUrl as Mock).mockReturnValue('valid-funding-url');
+
+    render(<BuyDropdown />);
+
+    const onrampButton = screen.getByTestId('ock-coinbasePayOnrampItem');
+
+    act(() => {
+      fireEvent.click(onrampButton);
+    });
+
+    expect(getBuyFundingUrl).toHaveBeenCalledWith({
+      to: mockContextValue.to,
+      paymentMethodId: 'CRYPTO_ACCOUNT',
+      sessionToken,
+    });
   });
 });

@@ -314,4 +314,46 @@ describe('FundCard', () => {
       expect(presetAmountInput).toBeInTheDocument();
     });
   });
+
+  it('passes sessionToken to FundCardProvider', async () => {
+    const sessionToken = 'test-session-token';
+    
+    await act(async () => {
+      render(
+        <FundCard assetSymbol="ETH" country="US" sessionToken={sessionToken}>
+          <TestComponent />
+        </FundCard>,
+      );
+    });
+
+    // Verify the component renders correctly with sessionToken
+    await waitFor(() => {
+      expect(screen.getByTestId('loading-state').textContent).toBe(
+        'not-loading',
+      );
+    });
+  });
+
+  it('handles sessionToken correctly in FundCardProvider context', async () => {
+    const sessionToken = 'test-session-token';
+    const TestSessionComponent = () => {
+      const context = useFundContext();
+      return <div data-testid="session-token">{context.sessionToken}</div>;
+    };
+
+    await act(async () => {
+      render(
+        <FundCardProvider 
+          asset="ETH"
+          country="US"
+          currency="USD"
+          sessionToken={sessionToken}
+        >
+          <TestSessionComponent />
+        </FundCardProvider>,
+      );
+    });
+
+    expect(screen.getByTestId('session-token').textContent).toBe(sessionToken);
+  });
 });

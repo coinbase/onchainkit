@@ -1,9 +1,7 @@
 import { getOnrampBuyUrl } from '@/fund/utils/getOnrampBuyUrl';
 import { SwapUnit } from '@/swap/types';
 import { Token } from '@/token';
-import type { Chain } from 'viem';
-import { base } from 'viem/chains';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { getBuyFundingUrl } from './getBuyFundingUrl';
 
 vi.mock('@/fund/utils/getOnrampBuyUrl', () => ({
@@ -11,74 +9,88 @@ vi.mock('@/fund/utils/getOnrampBuyUrl', () => ({
 }));
 
 describe('getBuyFundingUrl', () => {
-  const baseParams = {
-    projectId: 'abc123',
-    address: '0x123',
-    paymentMethodId: 'pm_001',
-    chain: base as Chain,
-  };
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-  it('returns undefined if projectId is null', () => {
+  it('returns undefined if sessionToken is not provided', () => {
     const result = getBuyFundingUrl({
-      ...baseParams,
-      projectId: null,
       to: {
         amount: '1',
         token: { symbol: 'ETH' } as Token,
       } as SwapUnit,
+      paymentMethodId: 'pm_001',
     });
 
     expect(result).toBeUndefined();
+    expect(getOnrampBuyUrl).not.toHaveBeenCalled();
   });
 
-  it('returns undefined if address is undefined', () => {
+  it('returns undefined if fundAmount is missing', () => {
     const result = getBuyFundingUrl({
-      ...baseParams,
-      address: undefined,
-      to: {
-        amount: '1',
-        token: { symbol: 'ETH' },
-      } as SwapUnit,
+      to: undefined,
+      sessionToken: 'test-session-token',
+      paymentMethodId: 'pm_001',
     });
 
     expect(result).toBeUndefined();
+    expect(getOnrampBuyUrl).toHaveBeenCalled();
   });
 
-  it('returns undefined if assetSymbol is missing', () => {
+  it('returns undefined if amount is missing from to', () => {
     const result = getBuyFundingUrl({
-      ...baseParams,
       to: {
-        amount: '1',
-        token: undefined,
+        token: { symbol: 'ETH' } as Token,
       } as SwapUnit,
+      sessionToken: 'test-session-token',
+      paymentMethodId: 'pm_001',
     });
 
     expect(result).toBeUndefined();
+    expect(getOnrampBuyUrl).toHaveBeenCalled();
   });
 
-  it('calls getOnrampBuyUrl with correct parameters', () => {
+  it('calls getOnrampBuyUrl with correct parameters when sessionToken is provided', () => {
     const mockUrl = 'https://onramp.com/buy';
     (getOnrampBuyUrl as ReturnType<typeof vi.fn>).mockReturnValue(mockUrl);
 
     const result = getBuyFundingUrl({
-      ...baseParams,
       to: {
         amount: '1.5',
         token: { symbol: 'ETH' },
       } as SwapUnit,
+      sessionToken: 'test-session-token',
+      paymentMethodId: 'pm_001',
     });
 
     expect(getOnrampBuyUrl).toHaveBeenCalledWith({
-      projectId: 'abc123',
-      assets: ['ETH'],
+      sessionToken: 'test-session-token',
       presetCryptoAmount: 1.5,
       defaultPaymentMethod: 'pm_001',
-      addresses: {
-        '0x123': ['base'],
-      },
       originComponentName: 'FundCard',
     });
 
     expect(result).toBe(mockUrl);
+  });
+
+  it('uses correct originComponentName', () => {
+    const mockUrl = 'https://onramp.com/buy';
+    (getOnrampBuyUrl as ReturnType<typeof vi.fn>).mockReturnValue(mockUrl);
+
+    getBuyFundingUrl({
+      to: {
+        amount: '2.0',
+        token: { symbol: 'USDC' },
+      } as SwapUnit,
+      sessionToken: 'another-session-token',
+      paymentMethodId: 'CARD',
+    });
+
+    expect(getOnrampBuyUrl).toHaveBeenCalledWith({
+      sessionToken: 'another-session-token',
+      presetCryptoAmount: 2.0,
+      defaultPaymentMethod: 'CARD',
+      originComponentName: 'FundCard',
+    });
   });
 });

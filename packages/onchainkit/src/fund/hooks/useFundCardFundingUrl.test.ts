@@ -23,16 +23,6 @@ describe('useFundCardFundingUrl', () => {
   });
 
   it('should return undefined if projectId is null', () => {
-    (useOnchainKit as Mock).mockReturnValue({
-      projectId: null,
-      chain: { name: 'base' },
-    });
-
-    (useAccount as Mock).mockReturnValue({
-      address: '0x123',
-      chain: { name: 'base' },
-    });
-
     (useFundContext as Mock).mockReturnValue({
       selectedPaymentMethod: { id: 'FIAT_WALLET' },
       selectedInputType: 'fiat',
@@ -46,16 +36,6 @@ describe('useFundCardFundingUrl', () => {
   });
 
   it('should return undefined if address is undefined', () => {
-    (useOnchainKit as Mock).mockReturnValue({
-      projectId: 'project123',
-      chain: { name: 'base' },
-    });
-
-    (useAccount as Mock).mockReturnValue({
-      address: undefined,
-      chain: { name: 'base' },
-    });
-
     (useFundContext as Mock).mockReturnValue({
       selectedPaymentMethod: { id: 'FIAT_WALLET' },
       selectedInputType: 'fiat',
@@ -69,17 +49,8 @@ describe('useFundCardFundingUrl', () => {
   });
 
   it('should return valid URL when input type is fiat', () => {
-    (useOnchainKit as Mock).mockReturnValue({
-      projectId: 'project123',
-      chain: { name: 'base' },
-    });
-
-    (useAccount as Mock).mockReturnValue({
-      address: '0x123',
-      chain: { name: 'base' },
-    });
-
     (useFundContext as Mock).mockReturnValue({
+      sessionToken: 'sessionToken',
       selectedPaymentMethod: { id: 'FIAT_WALLET' },
       selectedInputType: 'fiat',
       fundAmountFiat: '100',
@@ -88,22 +59,12 @@ describe('useFundCardFundingUrl', () => {
     });
 
     const { result } = renderHook(() => useFundCardFundingUrl());
-    expect(result.current).toContain('appId=project123');
     expect(result.current).toContain('presetFiatAmount=100');
   });
 
   it('should return valid URL when input type is crypto', () => {
-    (useOnchainKit as Mock).mockReturnValue({
-      projectId: 'project123',
-      chain: { name: 'base' },
-    });
-
-    (useAccount as Mock).mockReturnValue({
-      address: '0x123',
-      chain: { name: 'base' },
-    });
-
     (useFundContext as Mock).mockReturnValue({
+      sessionToken: 'sessionToken',
       selectedPaymentMethod: { id: 'CRYPTO_WALLET' },
       selectedInputType: 'crypto',
       fundAmountFiat: '0',
@@ -112,30 +73,7 @@ describe('useFundCardFundingUrl', () => {
     });
 
     const { result } = renderHook(() => useFundCardFundingUrl());
-    expect(result.current).toContain('appId=project123');
     expect(result.current).toContain('presetCryptoAmount=1.5');
   });
 
-  it('should use defaultChain when accountChain is undefined', () => {
-    (useOnchainKit as Mock).mockReturnValue({
-      projectId: 'project123',
-      chain: { name: 'base' },
-    });
-
-    (useAccount as Mock).mockReturnValue({
-      address: '0x123',
-      chain: undefined,
-    });
-
-    (useFundContext as Mock).mockReturnValue({
-      selectedPaymentMethod: { id: 'FIAT_WALLET' },
-      selectedInputType: 'fiat',
-      fundAmountFiat: '100',
-      fundAmountCrypto: '0',
-      asset: 'ETH',
-    });
-
-    const { result } = renderHook(() => useFundCardFundingUrl());
-    expect(result.current).toContain(encodeURI('0x123'));
-  });
 });

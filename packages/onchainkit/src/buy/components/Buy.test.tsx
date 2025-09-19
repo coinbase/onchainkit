@@ -155,4 +155,18 @@ describe('Buy', () => {
     render(<Buy className="test-class" toToken={degenToken} />);
     expect(screen.queryByTestId('mock-BuyDropdown')).not.toBeInTheDocument();
   });
+
+  it('should pass sessionToken to BuyProvider', () => {
+    const sessionToken = 'test-session-token';
+    render(
+      <Buy
+        className="test-class"
+        toToken={degenToken}
+        sessionToken={sessionToken}
+      />
+    );
+
+    // Verify BuyProvider is rendered (which receives the sessionToken prop)
+    expect(screen.getByTestId('mock-BuyProvider')).toBeInTheDocument();
+  });
 });
