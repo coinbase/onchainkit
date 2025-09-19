@@ -30,11 +30,13 @@ export function FundButton({
   onPopupClose,
   onClick,
   render,
+  sessionToken,
 }: FundButtonProps) {
   // If the fundingUrl prop is undefined, fallback to our recommended funding URL based on the wallet type
   const fallbackFundingUrl = useGetFundingUrl({
     fiatCurrency,
     originComponentName: 'FundButton',
+    sessionToken,
   });
   const { address } = useAccount();
   const fundingUrlToRender = fundingUrl ?? fallbackFundingUrl;

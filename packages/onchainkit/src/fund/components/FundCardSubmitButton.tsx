@@ -19,6 +19,7 @@ export function FundCardSubmitButton({
     setSubmitButtonState,
     currency,
     updateLifecycleStatus,
+    sessionToken,
   } = useFundContext();
 
   const fundingUrl = useFundCardFundingUrl();
@@ -91,6 +92,7 @@ export function FundCardSubmitButton({
     return (
       <FundButton
         disabled={isButtonDisabled}
+        sessionToken={sessionToken}
         fundingUrl={fundingUrl}
         state={submitButtonState}
         onClick={handleOnClick}
@@ -105,6 +107,7 @@ export function FundCardSubmitButton({
     <FundButton
       disabled={isButtonDisabled}
       className="w-full"
+      sessionToken={sessionToken}
       fundingUrl={fundingUrl}
       state={submitButtonState}
       onClick={handleOnClick}

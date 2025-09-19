@@ -48,6 +48,7 @@ type FundCardContextType = {
   country: string;
   subdivision?: string;
   inputType?: 'fiat' | 'crypto';
+  sessionToken?: string;
   lifecycleStatus: LifecycleStatus;
 
   presetAmountInputs?: PresetAmountInputs;
@@ -72,6 +73,7 @@ export function FundCardProvider({
   onStatus,
   onSuccess,
   presetAmountInputs,
+  sessionToken,
 }: FundCardProviderProps) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
     PaymentMethod | undefined
@@ -198,6 +200,7 @@ export function FundCardProvider({
         lifecycleStatus,
         updateLifecycleStatus,
         presetAmountInputs,
+        sessionToken,
         onError,
       }}
     >

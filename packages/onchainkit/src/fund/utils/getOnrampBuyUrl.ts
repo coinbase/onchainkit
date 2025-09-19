@@ -1,9 +1,6 @@
 import { version } from '@/version';
 import { ONRAMP_BUY_URL } from '../constants';
-import type {
-  GetOnrampUrlWithProjectIdParams,
-  GetOnrampUrlWithSessionTokenParams,
-} from '../types';
+import type { GetOnrampUrlParams } from '../types';
 
 /**
  * Builds a Coinbase Onramp buy URL using the provided parameters.
@@ -11,16 +8,10 @@ import type {
  * @returns the URL
  */
 export function getOnrampBuyUrl({
-  projectId,
   originComponentName,
   ...props
-}: GetOnrampUrlWithProjectIdParams | GetOnrampUrlWithSessionTokenParams) {
+}: GetOnrampUrlParams) {
   const url = new URL(ONRAMP_BUY_URL);
-
-  if (projectId !== undefined) {
-    // Coinbase Onramp requires projectId to be passed as appId
-    url.searchParams.append('appId', projectId);
-  }
 
   for (const key of Object.keys(props) as Array<keyof typeof props>) {
     const value = props[key];

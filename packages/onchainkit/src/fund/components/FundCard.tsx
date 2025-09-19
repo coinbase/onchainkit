@@ -25,6 +25,7 @@ export function FundCard({
   onError,
   onStatus,
   onSuccess,
+  sessionToken,
 }: FundCardProps) {
   return (
     <FundCardProvider
@@ -38,6 +39,7 @@ export function FundCard({
       onStatus={onStatus}
       onSuccess={onSuccess}
       presetAmountInputs={presetAmountInputs}
+      sessionToken={sessionToken}
     >
       <div
         className={cn(

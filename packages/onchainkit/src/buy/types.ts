@@ -31,6 +31,8 @@ export type BuyProps = {
   fromToken?: Token;
   /** The token to swap to */
   toToken: Token;
+  /** Onramp session token */
+  sessionToken?: string;
 };
 
 export type BuyContextType = {
@@ -56,6 +58,7 @@ export type BuyContextType = {
   isDropdownOpen: boolean;
   setIsDropdownOpen: (open: boolean) => void;
   startPopupMonitor: (popupWindow: Window) => void;
+  sessionToken?: string;
 };
 
 export type BuyProviderProps = {
@@ -79,6 +82,7 @@ export type BuyProviderProps = {
   onSuccess?: (transactionReceipt?: TransactionReceipt) => void;
   fromToken?: Token;
   toToken: Token;
+  sessionToken?: string;
 };
 
 export type BuyTokens = {

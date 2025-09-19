@@ -238,6 +238,22 @@ describe('FundButton', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('passes sessionToken to useGetFundingUrl hook', () => {
+    const sessionToken = 'test-session-token';
+    const fundingUrl = 'https://default.funding.url';
+    const { height, width } = { height: 200, width: 100 };
+    (useGetFundingUrl as Mock).mockReturnValue(fundingUrl);
+    (getFundingPopupSize as Mock).mockReturnValue({ height, width });
+
+    render(<FundButton sessionToken={sessionToken} />);
+
+    expect(useGetFundingUrl).toHaveBeenCalledWith({
+      fiatCurrency: 'USD',
+      originComponentName: 'FundButton',
+      sessionToken: sessionToken,
+    });
+  });
+
   describe('analytics', () => {
     it('sends FundInitiated analytics when fund button is clicked', () => {
       const fundingUrl = 'https://props.funding.url';

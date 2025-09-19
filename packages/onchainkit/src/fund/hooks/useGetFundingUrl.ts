@@ -1,6 +1,4 @@
 import { useMemo } from 'react';
-import { useAccount } from 'wagmi';
-import { useOnchainKit } from '../../useOnchainKit';
 import { useIsWalletACoinbaseSmartWallet } from '../../wallet/hooks/useIsWalletACoinbaseSmartWallet';
 import { getCoinbaseSmartWalletFundUrl } from '../utils/getCoinbaseSmartWalletFundUrl';
 import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
@@ -13,39 +11,27 @@ import { getOnrampBuyUrl } from '../utils/getOnrampBuyUrl';
 export function useGetFundingUrl({
   fiatCurrency,
   originComponentName,
+  sessionToken,
 }: {
   fiatCurrency?: string;
   originComponentName?: string;
+  sessionToken?: string;
 }): string | undefined {
-  const { projectId, chain: defaultChain } = useOnchainKit();
-  const { address, chain: accountChain } = useAccount();
   const isCoinbaseSmartWallet = useIsWalletACoinbaseSmartWallet();
-
-  // If the connected wallet's active chain is not included in the Wagmi config, accountChain will be undefined. If this
-  // is the case, fall back to the default chain specified in the OnchainKit config.
-  const chain = accountChain || defaultChain;
 
   return useMemo(() => {
     if (isCoinbaseSmartWallet) {
       return getCoinbaseSmartWalletFundUrl();
     }
 
-    if (projectId === null || address === undefined) {
+    if (!sessionToken) {
       return undefined;
     }
 
     return getOnrampBuyUrl({
-      projectId,
-      addresses: { [address]: [chain.name.toLowerCase()] },
+      sessionToken,
       fiatCurrency,
       originComponentName,
     });
-  }, [
-    isCoinbaseSmartWallet,
-    projectId,
-    address,
-    chain,
-    fiatCurrency,
-    originComponentName,
-  ]);
+  }, [isCoinbaseSmartWallet, sessionToken, fiatCurrency, originComponentName]);
 }
