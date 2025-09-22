@@ -1,6 +1,8 @@
 "use client";
+import { useEffect } from "react";
 import Image from "next/image";
 import { Wallet } from "@coinbase/onchainkit/wallet";
+import { useMiniKit } from "@coinbase/onchainkit/minikit";
 // import { useQuickAuth } from "@coinbase/onchainkit/minikit";
 import styles from "./page.module.css";
 
@@ -13,6 +15,14 @@ export default function Home() {
   // const { data, isLoading, error } = useQuickAuth<{
   //   userFid: string;
   // }>("/api/auth");
+
+  const { setFrameReady, isFrameReady } = useMiniKit();
+
+  useEffect(() => {
+    if (!isFrameReady) {
+      setFrameReady();
+    }
+  }, [setFrameReady, isFrameReady]);
 
   return (
     <div className={styles.container}>

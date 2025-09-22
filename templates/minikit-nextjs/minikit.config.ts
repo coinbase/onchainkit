@@ -14,6 +14,9 @@ export const minikitConfig = {
     payload: "",
     signature: "",
   },
+  baseBuilder: {
+    allowedAddresses: [],
+  },
   frame: {
     version: "1",
     name: "APP_NAME",
