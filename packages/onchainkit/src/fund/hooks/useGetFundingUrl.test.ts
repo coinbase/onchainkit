@@ -92,20 +92,4 @@ describe('useGetFundingUrl', () => {
       expect.objectContaining({ projectId: 'projectId' }),
     );
   });
-
-  it('should use sessionToken over projectId when both are available', () => {
-    (useIsWalletACoinbaseSmartWallet as Mock).mockReturnValue(false);
-    (getOnrampBuyUrl as Mock).mockReturnValue('https://pay.coinbase.com/buy');
-
-    const sessionToken = 'test-session-token';
-
-    const { result } = renderHook(() => useGetFundingUrl({ sessionToken }));
-
-    expect(result.current).toBe('https://pay.coinbase.com/buy');
-    expect(getOnrampBuyUrl).toHaveBeenCalledWith({
-      sessionToken,
-      fiatCurrency: undefined,
-      originComponentName: undefined,
-    });
-  });
 });

@@ -4,7 +4,6 @@ import type { GetOnrampUrlParams } from '../types';
 
 /**
  * Builds a Coinbase Onramp buy URL using the provided parameters.
- * @param projectId a projectId generated in the Coinbase Developer Portal
  * @returns the URL
  */
 export function getOnrampBuyUrl({
