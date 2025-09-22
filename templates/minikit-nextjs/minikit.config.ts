@@ -17,7 +17,7 @@ export const minikitConfig = {
   baseBuilder: {
     allowedAddresses: [],
   },
-  frame: {
+  miniapp: {
     version: "1",
     name: "APP_NAME",
     subtitle: "",
