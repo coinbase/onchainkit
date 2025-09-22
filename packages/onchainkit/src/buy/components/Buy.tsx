@@ -49,6 +49,7 @@ export function Buy({
   onSuccess,
   toToken,
   fromToken,
+  sessionToken,
 }: BuyProps) {
   return (
     <BuyProvider
@@ -61,6 +62,7 @@ export function Buy({
       onSuccess={onSuccess}
       toToken={toToken}
       fromToken={fromToken}
+      sessionToken={sessionToken}
     >
       <BuyContent className={className} />
     </BuyProvider>

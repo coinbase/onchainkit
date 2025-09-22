@@ -8,6 +8,7 @@ export default function FundCardDemo() {
   return (
     <div className="mx-auto min-w-[394px] max-w-[800px] gap-8">
       <FundCard
+        sessionToken="MWYwOTMzNzUtNmEzOC02MTg5LTk0MzYtOWFmMmJkMjFmODdm"
         assetSymbol="ETH"
         country="US"
         currency="USD"

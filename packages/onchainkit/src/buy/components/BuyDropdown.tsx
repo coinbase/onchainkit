@@ -3,10 +3,7 @@ import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
 import { BuyEvent, type BuyOptionType } from '@/core/analytics/types';
 import { type PaymentMethod } from '@/fund/types';
 import { openPopup } from '@/internal/utils/openPopup';
-import { useOnchainKit } from '@/useOnchainKit';
 import { useCallback, useEffect, useMemo } from 'react';
-import { base } from 'viem/chains';
-import { useAccount } from 'wagmi';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
 import { getRoundedAmount } from '../../internal/utils/getRoundedAmount';
 import { cn, text } from '../../styles/theme';
@@ -19,10 +16,15 @@ import { BuyTokenItem } from './BuyTokenItem';
 
 // eslint-disable-next-line complexity
 export function BuyDropdown() {
-  const { projectId } = useOnchainKit();
-  const { to, fromETH, fromUSDC, from, startPopupMonitor, setIsDropdownOpen } =
-    useBuyContext();
-  const { address } = useAccount();
+  const {
+    to,
+    fromETH,
+    fromUSDC,
+    from,
+    startPopupMonitor,
+    setIsDropdownOpen,
+    sessionToken,
+  } = useBuyContext();
   const { sendAnalytics } = useAnalytics();
 
   const handleOnrampClick = useCallback(
@@ -34,10 +36,8 @@ export function BuyDropdown() {
 
         const fundingUrl = getBuyFundingUrl({
           to,
-          projectId,
           paymentMethodId,
-          address,
-          chain: base,
+          sessionToken,
         });
 
         if (!fundingUrl) {
@@ -59,7 +59,7 @@ export function BuyDropdown() {
         }
       };
     },
-    [address, to, projectId, startPopupMonitor, sendAnalytics],
+    [sendAnalytics, to, sessionToken, startPopupMonitor],
   );
 
   const formattedAmountUSD = useMemo(() => {

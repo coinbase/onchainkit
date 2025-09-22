@@ -57,6 +57,7 @@ export function BuyProvider({
   onSuccess,
   toToken,
   fromToken,
+  sessionToken,
 }: BuyProviderProps) {
   const { config: { paymaster } = { paymaster: undefined }, projectId } =
     useOnchainKit();
@@ -470,6 +471,7 @@ export function BuyProvider({
         toToken,
         fromToken,
         startPopupMonitor,
+        sessionToken,
       }}
     >
       {children}

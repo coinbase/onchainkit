@@ -310,4 +310,41 @@ describe('FundCardSubmitButton', () => {
     // Assert that the submit button state is set to 'default'
     expect(submitButton).not.toBeDisabled();
   });
+
+  it('passes sessionToken to FundButton when available in context', async () => {
+    const sessionToken = 'test-session-token';
+    const TestSessionComponent = () => {
+      const context = useFundContext();
+      return (
+        <>
+          <TestHelperComponent />
+          <FundCardSubmitButton />
+          <div data-testid="session-token">{context.sessionToken}</div>
+        </>
+      );
+    };
+
+    await act(async () => {
+      render(
+        <FundCardProvider
+          asset="ETH"
+          country="US"
+          currency="USD"
+          sessionToken={sessionToken}
+        >
+          <TestSessionComponent />
+        </FundCardProvider>,
+      );
+    });
+
+    expect(screen.getByTestId('session-token').textContent).toBe(sessionToken);
+    // Set amounts to enable button
+    const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
+    await act(async () => {
+      fireEvent.click(setFiatAmountButton);
+    });
+
+    // Verify the FundButton is rendered with proper context
+    expect(screen.getByTestId('ockFundButton')).toBeInTheDocument();
+  });
 });
