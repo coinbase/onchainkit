@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- feat: Add option to useOpenUrl to handle non-mini-app behavior in a custom way - Thanks [@dgca](https://github.com/dgca)! [#2500](https://github.com/coinbase/onchainkit/pull/2500)
+
+### Patch Changes
+
+- fix: Deprecate isFrameReady and setFrameReady for isMiniAppReady and setMiniAppReady - Thanks [@dgca](https://github.com/dgca)! [#2510](https://github.com/coinbase/onchainkit/pull/2510)
+
+- fix: Update GetOnrampUrl types to account for new API interface - Thanks [@dgca](https://github.com/dgca)! [#2511](https://github.com/coinbase/onchainkit/pull/2511)
+
 ## 1.0.3
 
 ## 1.0.2
