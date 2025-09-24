@@ -16,13 +16,13 @@ export default function Home() {
   //   userFid: string;
   // }>("/api/auth");
 
-  const { setFrameReady, isFrameReady } = useMiniKit();
+  const { setMiniAppReady, isMiniAppReady } = useMiniKit();
 
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady();
+    if (!isMiniAppReady) {
+      setMiniAppReady();
     }
-  }, [setFrameReady, isFrameReady]);
+  }, [setMiniAppReady, isMiniAppReady]);
 
   return (
     <div className={styles.container}>

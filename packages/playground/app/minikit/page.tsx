@@ -12,7 +12,7 @@ import { useAccount } from 'wagmi';
 import Check from './svg/Check';
 
 export default function App() {
-  const { setFrameReady, isFrameReady, context } = useMiniKit();
+  const { setMiniAppReady, isMiniAppReady, context } = useMiniKit();
   const [miniAppAdded, setMiniAppAdded] = useState(false);
 
   const addFrame = useAddFrame();
@@ -20,10 +20,10 @@ export default function App() {
   const { address } = useAccount();
 
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady();
+    if (!isMiniAppReady) {
+      setMiniAppReady();
     }
-  }, [setFrameReady, isFrameReady]);
+  }, [setMiniAppReady, isMiniAppReady]);
 
   const handleAddFrame = useCallback(async () => {
     const miniAppAdded = await addFrame();

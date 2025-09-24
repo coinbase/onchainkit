@@ -10,11 +10,16 @@ type SetMiniAppReady = (
 ) => Promise<MiniKitContextType>;
 
 type UseMiniKitReturn = {
+  /** The MiniKit context. */
   context: MiniKitContextType['context'];
-  updateClientContext: MiniKitContextType['updateClientContext'];
-  notificationProxyUrl: MiniKitContextType['notificationProxyUrl'];
-  setMiniAppReady: SetMiniAppReady;
+  /** A boolean indicating if the mini app has been set as ready. */
   isMiniAppReady: boolean;
+  /** A function to set the mini app as ready, which will hide the splash screen. */
+  setMiniAppReady: SetMiniAppReady;
+  /** A function to update the client context. */
+  updateClientContext: MiniKitContextType['updateClientContext'];
+  /** The notification proxy URL. */
+  notificationProxyUrl: MiniKitContextType['notificationProxyUrl'];
   /** @deprecated Use `setMiniAppReady` instead. This property will be removed in a future version. */
   setFrameReady: SetMiniAppReady;
   /** @deprecated Use `isMiniAppReady` instead. This property will be removed in a future version. */
@@ -23,14 +28,8 @@ type UseMiniKitReturn = {
 
 /**
  * Allows for the use of the MiniKit context.
- * @returns The MiniKitContext object, consisting of:
- * - `setMiniAppReady` - A function to set the mini app as ready, which will hide the splash screen.
- * - `isMiniAppReady` - A boolean indicating if the mini app has been set as ready.
- * - `context` - The MiniKit context.
- * - `updateClientContext` - A function to update the client context.
- * - `notificationProxyUrl` - The notification proxy URL.
- * - `setFrameReady` - @deprecated Use `setMiniAppReady` instead. This property will be removed in a future version.
- * - `isFrameReady` - @deprecated Use `isMiniAppReady` instead. This property will be removed in a future version.
+ *
+ * @returns The MiniKitContext object.
  */
 export const useMiniKit = (): UseMiniKitReturn => {
   const [isMiniAppReady, setIsMiniAppReady] = useState(false);
