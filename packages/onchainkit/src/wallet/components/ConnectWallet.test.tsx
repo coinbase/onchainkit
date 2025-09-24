@@ -1289,6 +1289,8 @@ describe('ConnectWallet', () => {
       const mockedMiniKitReturn = {
         setFrameReady: vi.fn(),
         isFrameReady: true,
+        setMiniAppReady: vi.fn(),
+        isMiniAppReady: true,
         context: {
           user: {
             displayName: 'Alice',

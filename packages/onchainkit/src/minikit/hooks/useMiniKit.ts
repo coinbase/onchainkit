@@ -5,27 +5,35 @@ import { useContext, useState } from 'react';
 import type { MiniKitContextType } from '../types';
 import type { ReadyOptions } from '@farcaster/miniapp-sdk';
 
+type SetMiniAppReady = (
+  readyOptions?: Partial<ReadyOptions>,
+) => Promise<MiniKitContextType>;
+
 type UseMiniKitReturn = {
-  setFrameReady: (
-    readyOptions?: Partial<ReadyOptions>,
-  ) => Promise<MiniKitContextType>;
-  isFrameReady: boolean;
   context: MiniKitContextType['context'];
   updateClientContext: MiniKitContextType['updateClientContext'];
   notificationProxyUrl: MiniKitContextType['notificationProxyUrl'];
+  setMiniAppReady: SetMiniAppReady;
+  isMiniAppReady: boolean;
+  /** @deprecated Use `setMiniAppReady` instead. This property will be removed in a future version. */
+  setFrameReady: SetMiniAppReady;
+  /** @deprecated Use `isMiniAppReady` instead. This property will be removed in a future version. */
+  isFrameReady: boolean;
 };
 
 /**
  * Allows for the use of the MiniKit context.
  * @returns The MiniKitContext object, consisting of:
- * - `setFrameReady` - A function to set the frame as ready, which will hide the splash screen.
- * - `isFrameReady` - A boolean indicating if the frame has been set as ready.
+ * - `setMiniAppReady` - A function to set the mini app as ready, which will hide the splash screen.
+ * - `isMiniAppReady` - A boolean indicating if the mini app has been set as ready.
  * - `context` - The MiniKit context.
  * - `updateClientContext` - A function to update the client context.
  * - `notificationProxyUrl` - The notification proxy URL.
+ * - `setFrameReady` - @deprecated Use `setMiniAppReady` instead. This property will be removed in a future version.
+ * - `isFrameReady` - @deprecated Use `isMiniAppReady` instead. This property will be removed in a future version.
  */
 export const useMiniKit = (): UseMiniKitReturn => {
-  const [isFrameReady, setIsFrameReady] = useState(false);
+  const [isMiniAppReady, setIsMiniAppReady] = useState(false);
   const context = useContext(MiniKitContext);
 
   if (!context.enabled) {
@@ -34,17 +42,19 @@ export const useMiniKit = (): UseMiniKitReturn => {
     );
   }
 
-  const setFrameReady = async (readyOptions: Partial<ReadyOptions> = {}) => {
+  const setMiniAppReady = async (readyOptions: Partial<ReadyOptions> = {}) => {
     sdk.actions.ready(readyOptions);
-    setIsFrameReady(true);
+    setIsMiniAppReady(true);
     return context;
   };
 
   return {
-    setFrameReady,
-    isFrameReady,
+    setMiniAppReady,
+    isMiniAppReady,
     context: context.context,
     updateClientContext: context.updateClientContext,
     notificationProxyUrl: context.notificationProxyUrl,
+    setFrameReady: setMiniAppReady,
+    isFrameReady: isMiniAppReady,
   };
 };
