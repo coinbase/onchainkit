@@ -26,8 +26,7 @@ export { useFundContext } from './components/FundCardProvider';
 export type {
   EventMetadata,
   FundCardProps,
-  GetOnrampUrlWithProjectIdParams,
-  GetOnrampUrlWithSessionTokenParams,
+  GetOnrampUrlParams,
   OnrampAmount,
   OnrampConfigCountry,
   OnrampConfigResponseData,
