@@ -27,7 +27,7 @@ import { Anchor, Flex, Stack, Text, Title } from "@mantine/core";
 import { Context } from "./components/Context";
 
 export default function App() {
-  const { setFrameReady, isFrameReady } = useMiniKit();
+  const { setMiniAppReady, isMiniAppReady } = useMiniKit();
   const openUrl = useOpenUrl();
 
   const safeAreaInsets = (() => {
@@ -50,10 +50,10 @@ export default function App() {
   })();
 
   useEffect(() => {
-    if (!isFrameReady) {
-      setFrameReady();
+    if (!isMiniAppReady) {
+      setMiniAppReady();
     }
-  }, [setFrameReady, isFrameReady]);
+  }, [setMiniAppReady, isMiniAppReady]);
 
   return (
     <Stack p="md">
