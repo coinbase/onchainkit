@@ -36,7 +36,6 @@ type WalletModalProps = {
   onError?: (error: Error) => void;
 };
 
-// eslint-disable-next-line complexity
 export function WalletModal({
   className,
   isOpen,

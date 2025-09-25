@@ -50,7 +50,6 @@ export type UseMorphoVaultReturnType = {
   liquidity: string | undefined;
 };
 
-// eslint-disable-next-line complexity
 export function useMorphoVault({
   vaultAddress,
   recipientAddress,
