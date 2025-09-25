@@ -2,7 +2,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { type PropsWithChildren, useContext, useMemo } from 'react';
 import { Config, WagmiProvider } from 'wagmi';
-import { baseAccount } from 'wagmi/connectors';
+import { baseAccount, coinbaseWallet } from 'wagmi/connectors';
 import { farcasterMiniApp } from '@farcaster/miniapp-wagmi-connector';
 import { MiniKitContext } from '@/minikit/MiniKitProvider';
 import { createWagmiConfig } from './core/createWagmiConfig';
@@ -36,17 +36,35 @@ function WagmiProviderWithDefault({
   const apiKey = onchainKitConfig.apiKey ?? undefined;
   const appName = onchainKitConfig.config?.appearance?.name ?? undefined;
   const appLogoUrl = onchainKitConfig.config?.appearance?.logo ?? undefined;
+  const walletPreference = onchainKitConfig.config?.wallet?.preference ?? 'all';
 
   const defaultConnector = useMemo(() => {
+    // MiniKit context varsa farcasterMiniApp kullan
     if (miniKit?.context) {
       return farcasterMiniApp();
     }
 
-    return baseAccount({
-      appName,
-      appLogoUrl,
-    });
-  }, [appName, appLogoUrl, miniKit?.context]);
+    // Wallet preference'a göre connector seç
+    switch (walletPreference) {
+      case 'smartWalletOnly':
+        return baseAccount({
+          appName,
+          appLogoUrl,
+        });
+      case 'eoaOnly':
+        return coinbaseWallet({
+          appName,
+          appLogoUrl,
+          preference: 'eoaOnly',
+        });
+      case 'all':
+      default:
+        return baseAccount({
+          appName,
+          appLogoUrl,
+        });
+    }
+  }, [appName, appLogoUrl, miniKit?.context, walletPreference]);
 
   const defaultConfig = useMemo(() => {
     if (providedWagmiConfig) return providedWagmiConfig;
