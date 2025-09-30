@@ -64,10 +64,10 @@ export function withValidManifest<
   }
 
   return {
-    ...rest,
     ...(hasValidAccountAssociation && {
       accountAssociation: manifest.accountAssociation,
     }),
     miniapp: cleanedMiniapp,
+    ...rest,
   } as T;
 }
