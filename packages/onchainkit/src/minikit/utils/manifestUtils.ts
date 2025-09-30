@@ -7,9 +7,10 @@ import type {
 export function withValidManifest<
   T extends MiniAppManifest | LegacyMiniAppManifest,
 >(manifest: T): T {
+  const { accountAssociation, miniapp, frame, ...rest } = manifest;
+
   const miniappObject =
-    ('miniapp' in manifest && manifest.miniapp) ||
-    ('frame' in manifest && manifest.frame);
+    ('miniapp' in manifest && miniapp) || ('frame' in manifest && frame);
 
   // Validate that miniapp object exists
   if (!miniappObject) {
@@ -51,22 +52,15 @@ export function withValidManifest<
   ) as MiniAppFields;
 
   const hasValidAccountAssociation =
-    manifest.accountAssociation &&
-    manifest.accountAssociation.header &&
-    manifest.accountAssociation.payload &&
-    manifest.accountAssociation.signature;
+    accountAssociation &&
+    accountAssociation.header &&
+    accountAssociation.payload &&
+    accountAssociation.signature;
 
-  if (manifest.accountAssociation && !hasValidAccountAssociation) {
+  if (accountAssociation && !hasValidAccountAssociation) {
     console.warn(
       'Invalid manifest accountAssociation. Omitting from manifest.',
     );
-  }
-
-  if ('frame' in manifest) {
-    return {
-      ...manifest,
-      frame: cleanedMiniapp,
-    };
   }
 
   return {
@@ -74,5 +68,6 @@ export function withValidManifest<
       accountAssociation: manifest.accountAssociation,
     }),
     miniapp: cleanedMiniapp,
+    ...rest,
   } as T;
 }

@@ -9,13 +9,11 @@ import type {
 function getMiniAppValue(
   manifest: MiniAppManifest | LegacyMiniAppManifest,
 ): MiniAppFields {
+  // After withValidManifest processing, the result always has 'miniapp' field
   if ('miniapp' in manifest && manifest.miniapp) {
     return manifest.miniapp;
   }
-  if ('frame' in manifest && manifest.frame) {
-    return manifest.frame;
-  }
-  throw new Error('Invalid manifest: no miniapp or frame found');
+  throw new Error('Invalid manifest: no miniapp found');
 }
 
 describe('withValidManifest', () => {
@@ -198,7 +196,7 @@ describe('withValidManifest', () => {
 
       const result = withValidManifest(manifest);
       expect(result).toEqual({
-        frame: validMiniappBase,
+        miniapp: validMiniappBase,
       });
     });
 
@@ -226,7 +224,7 @@ describe('withValidManifest', () => {
 
       const result = withValidManifest(manifest);
       expect(result).toEqual({
-        frame: validMiniappBase,
+        miniapp: validMiniappBase,
         accountAssociation: {
           header: 'test-header',
           payload: 'test-payload',
@@ -594,8 +592,8 @@ describe('deprecated frame field fallback', () => {
 
     const result = withValidManifest(manifest);
 
-    // The result should preserve the frame structure when input has frame
-    expect(result).toHaveProperty('frame');
-    expect(result.frame).toEqual(validFrameBase);
+    // The result should always have 'miniapp' field, even when input has 'frame'
+    expect(result).toHaveProperty('miniapp');
+    expect(result.miniapp).toEqual(validFrameBase);
   });
 });
