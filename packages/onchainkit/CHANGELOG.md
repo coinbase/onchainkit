@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1
+
+### Patch Changes
+
+- fix: Allow additional properties in withValidManifest - Thanks [@dgca](https://github.com/dgca)! [#2515](https://github.com/coinbase/onchainkit/pull/2515)
+
 ## 1.1.0
 
 ### Minor Changes
