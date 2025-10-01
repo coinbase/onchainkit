@@ -65,7 +65,7 @@ export default defineConfig({
       include: ['src'],
       exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
     }),
-    dualCSSPlugin({ scopedFileName: 'ock.css' }), // Generate scoped styles after build
+    dualCSSPlugin({ scopedFileName: 'onchainkit.css' }), // Generate scoped styles after build
   ],
   build: {
     minify: false,

@@ -5,12 +5,10 @@ import fs from 'fs';
 import postcssCreateScopedStyles from './postcss-create-scoped-styles.js';
 
 interface DualCSSOptions {
-  scopedFileName?: string;
+  scopedFileName: string;
 }
 
-export function dualCSSPlugin(options: DualCSSOptions = {}): Plugin {
-  const { scopedFileName = 'scoped-styles.css' } = options;
-
+export function dualCSSPlugin({ scopedFileName }: DualCSSOptions): Plugin {
   return {
     name: 'dual-css',
     async writeBundle(outputOptions, bundle) {

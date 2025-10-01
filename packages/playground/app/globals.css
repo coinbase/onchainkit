@@ -1,48 +1,15 @@
 @import 'tailwindcss';
-@layer theme, base, components, utilities;
+@import '@coinbase/onchainkit/onchainkit.css';
+@layer theme, base, components, utilities, onchainkit;
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* Customize existing Theme */
 
-/* @layer base {
-  :root,
-  .default-light,
-  .default-dark,
-  .base,
-  .cyberpunk,
-  .hacker {
-    /* Override specific variables as needed */
-/* --ock-font-family: 'your-custom-value';
-    --ock-border-radius: 'your-custom-value';
-    --ock-text-primary: 'your-custom-value'; */
-/* }
-}  */
-
-/* Create your own custom Theme*/
-/* 
-Usage: 
-  config={{
-    appearance: {
-      mode: 'auto',
-      theme: 'custom',
-    },
-  }}
-
-  config={{
-    appearance: {
-      mode: 'light', // To use custom-light only.
-      theme: 'custom',
-    },
-  }}
-*/
-
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-
   body {
     @apply bg-background text-foreground;
+    border-color: var(--border);
+    outline-color: oklch(var(--ring) / 0.5);
   }
 
   :root {

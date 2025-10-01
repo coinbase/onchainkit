@@ -330,9 +330,14 @@ function transformGlobalSelector(rule: Rule, scopeClass: string) {
         return `${scopeClass}${trimmed}`;
       }
 
-      // Transform element selectors like 'html', 'body', 'hr', 'h1', 'h2', etc.
+      // Special handling for html and :host selectors - these should apply to .ock:el directly
+      if (trimmed === 'html' || trimmed === ':host') {
+        return scopeClass;
+      }
+
+      // Transform element selectors like 'body', 'hr', 'h1', 'h2', etc.
       if (/^[a-zA-Z][a-zA-Z0-9]*$/.test(trimmed)) {
-        return `${trimmed}${scopeClass}`; // Combine element with scope class
+        return `${trimmed}:where(${scopeClass})`; // Use :where() to avoid specificity issues
       }
 
       // Transform element selectors with pseudo-selectors like 'abbr:where([title])', 'input:where([type="button"])', etc.
@@ -346,7 +351,7 @@ function transformGlobalSelector(rule: Rule, scopeClass: string) {
           pseudoPart &&
           (pseudoPart.startsWith(':') || pseudoPart.startsWith('['))
         ) {
-          return `${elementName}${scopeClass}${pseudoPart}`;
+          return `${elementName}:where(${scopeClass})${pseudoPart}`;
         }
       }
 
