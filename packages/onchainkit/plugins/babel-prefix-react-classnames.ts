@@ -53,18 +53,20 @@ function addElementClass(
   const openingElement = jsxElement.openingElement;
 
   // Find existing className attribute
-  let classNameAttr = openingElement.attributes.find(
+  const classNameAttr = openingElement.attributes.find(
     (attr): attr is t.JSXAttribute =>
       t.isJSXAttribute(attr) &&
       t.isJSXIdentifier(attr.name) &&
-      attr.name.name === 'className'
+      attr.name.name === 'className',
   );
 
   if (classNameAttr && t.isStringLiteral(classNameAttr.value)) {
     // Add to existing className string
     const currentClasses = classNameAttr.value.value;
     if (!currentClasses.includes(className)) {
-      classNameAttr.value.value = currentClasses ? `${currentClasses} ${className}` : className;
+      classNameAttr.value.value = currentClasses
+        ? `${currentClasses} ${className}`
+        : className;
     }
   } else if (classNameAttr && t.isJSXExpressionContainer(classNameAttr.value)) {
     // Handle existing JSX expression (like cn() calls)
@@ -78,8 +80,8 @@ function addElementClass(
     openingElement.attributes.push(
       types.jsxAttribute(
         types.jsxIdentifier('className'),
-        types.stringLiteral(className)
-      )
+        types.stringLiteral(className),
+      ),
     );
   }
 }

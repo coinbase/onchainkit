@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import postcss, { type PluginCreator, type Rule, type AtRule } from 'postcss';
 
 interface PostCSSScopeToClassOptions {
@@ -236,8 +237,12 @@ function transformAnimationReferences(
   keyframeNames: Set<string>,
 ) {
   // Transform animation and animation-name properties to use ock- prefix
-  if (decl.prop === 'animation' || decl.prop === 'animation-name') {
-    // Handle animation values that reference keyframes
+  // But skip values that use var() since those are handled by variable reference transformation
+  if (
+    (decl.prop === 'animation' || decl.prop === 'animation-name') &&
+    !decl.value.includes('var(')
+  ) {
+    // Handle animation values that reference keyframes directly
     for (const keyframe of keyframeNames) {
       // Use word boundaries to avoid partial matches
       const regex = new RegExp(`\\b${keyframe}\\b`, 'g');
@@ -248,13 +253,8 @@ function transformAnimationReferences(
   }
 
   // Also handle CSS variable values that contain keyframe references
-  // BUT skip transformation for variables that are already prefixed with --ock-
-  // since they should reference the scoped keyframes directly
-  if (
-    decl.prop.startsWith('--') &&
-    decl.prop.includes('animate') &&
-    !decl.prop.startsWith('--ock-')
-  ) {
+  // This includes both --ock- prefixed and non-prefixed variables
+  if (decl.prop.startsWith('--') && decl.prop.includes('animate')) {
     for (const keyframe of keyframeNames) {
       const regex = new RegExp(`\\b${keyframe}\\b`, 'g');
       if (regex.test(decl.value) && !decl.value.includes(`ock-${keyframe}`)) {
