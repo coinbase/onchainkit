@@ -45,16 +45,63 @@ function processTemplateLiteral(
   });
 }
 
+function addElementClass(
+  jsxElement: t.JSXElement,
+  className: string,
+  types: typeof t,
+) {
+  const openingElement = jsxElement.openingElement;
+
+  // Find existing className attribute
+  let classNameAttr = openingElement.attributes.find(
+    (attr): attr is t.JSXAttribute =>
+      t.isJSXAttribute(attr) &&
+      t.isJSXIdentifier(attr.name) &&
+      attr.name.name === 'className'
+  );
+
+  if (classNameAttr && t.isStringLiteral(classNameAttr.value)) {
+    // Add to existing className string
+    const currentClasses = classNameAttr.value.value;
+    if (!currentClasses.includes(className)) {
+      classNameAttr.value.value = currentClasses ? `${currentClasses} ${className}` : className;
+    }
+  } else if (classNameAttr && t.isJSXExpressionContainer(classNameAttr.value)) {
+    // Handle existing JSX expression (like cn() calls)
+    const expression = classNameAttr.value.expression;
+    if (t.isCallExpression(expression)) {
+      // Add as first argument to function call
+      expression.arguments.unshift(types.stringLiteral(className));
+    }
+  } else {
+    // Create new className attribute
+    openingElement.attributes.push(
+      types.jsxAttribute(
+        types.jsxIdentifier('className'),
+        types.stringLiteral(className)
+      )
+    );
+  }
+}
+
 export function babelPrefixReactClassNames({
   prefix,
   cnUtil = 'cn',
+  addUniversalClass = false,
 }: {
   prefix: string;
   cnUtil?: string | false;
+  addUniversalClass?: boolean;
 }): ReturnType<typeof declare> {
   return declare(({ types }) => {
     return {
       visitor: {
+        JSXElement(path) {
+          // Add universal "el" class to all JSX elements when enabled
+          if (addUniversalClass) {
+            addElementClass(path.node, 'el', types);
+          }
+        },
         JSXAttribute(path) {
           if (path.node.name.name !== 'className') return;
 
