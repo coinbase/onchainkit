@@ -114,6 +114,7 @@
   "exports": {
     "./package.json": "./package.json",
     "./styles.css": "./dist/assets/style.css",
+    "./ock.css": "./dist/assets/ock.css",
     "./theme": "./dist/styles/theme.js",
     ".": {
       "types": "./dist/index.d.ts",
