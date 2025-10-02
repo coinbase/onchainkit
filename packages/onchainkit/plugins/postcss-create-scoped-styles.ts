@@ -51,7 +51,10 @@ const postcssCreateScopedStyles: PluginCreator<PostCSSScopeToClassOptions> = (
               // Transform variable declarations and references in all rules
               rule.walkDecls((decl) => {
                 // Transform variable declarations to have --ock- prefix
-                if (decl.prop.startsWith('--') && !decl.prop.startsWith('--ock-')) {
+                if (
+                  decl.prop.startsWith('--') &&
+                  !decl.prop.startsWith('--ock-')
+                ) {
                   decl.prop = `--ock-${decl.prop.slice(2)}`;
                 }
                 // Transform variable references
