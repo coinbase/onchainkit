@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import '@coinbase/onchainkit/onchainkit.css';
-@layer theme, base, components, utilities, onchainkit;
+@layer onchainkit, theme, base, components, utilities;
+/* @layer theme, base, components, utilities; */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* Customize existing Theme */

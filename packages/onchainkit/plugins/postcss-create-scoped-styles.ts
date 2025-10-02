@@ -48,10 +48,15 @@ const postcssCreateScopedStyles: PluginCreator<PostCSSScopeToClassOptions> = (
               // Transform other global selectors
               transformGlobalSelector(rule, scopeClass);
 
-              // Transform variable references in all rules
-              rule.walkDecls((decl) =>
-                transformVariableReferences(decl, keyframeNames),
-              );
+              // Transform variable declarations and references in all rules
+              rule.walkDecls((decl) => {
+                // Transform variable declarations to have --ock- prefix
+                if (decl.prop.startsWith('--') && !decl.prop.startsWith('--ock-')) {
+                  decl.prop = `--ock-${decl.prop.slice(2)}`;
+                }
+                // Transform variable references
+                transformVariableReferences(decl, keyframeNames);
+              });
             }
           });
 
@@ -212,18 +217,51 @@ function transformVariableReferences(
   keyframeNames: Set<string>,
 ) {
   // Transform var(--variable-name) references to use --ock- prefix
-  if (decl.value.includes('var(--') && !decl.value.includes('var(--ock-')) {
+  // We need to handle nested var() calls in fallbacks
+  // We process from innermost to outermost by repeatedly transforming
+  let previousValue = '';
+  let iterations = 0;
+  const maxIterations = 10; // Prevent infinite loops
+
+  while (previousValue !== decl.value && iterations < maxIterations) {
+    previousValue = decl.value;
+    iterations++;
+
+    // Match var() calls with simple variable names (no nested var in this match)
+    // We'll process innermost first by doing multiple passes
     decl.value = decl.value.replace(
-      /var\((--[a-zA-Z0-9-]+)(?:,([^)]*))?\)/g,
+      /var\((--[a-zA-Z0-9-]+)\)/g,
+      (match, varName) => {
+        // If the variable doesn't already have --ock- prefix, add it
+        if (!varName.startsWith('--ock-')) {
+          return `var(--ock-${varName.slice(2)})`;
+        }
+        return match;
+      },
+    );
+
+    // Match var() calls with fallbacks (including empty fallbacks like var(--foo,))
+    // This will catch var(--foo, value) or var(--foo,)
+    decl.value = decl.value.replace(
+      /var\((--[a-zA-Z0-9-]+),\s*([^)]*)\)/g,
       (match, varName, fallback) => {
+        // If fallback contains var(, skip it for now (will be handled in next iteration)
+        if (fallback && fallback.includes('var(')) {
+          // Just prefix the variable name if needed
+          if (!varName.startsWith('--ock-')) {
+            return `var(--ock-${varName.slice(2)}, ${fallback})`;
+          }
+          return match;
+        }
+
         // If the variable doesn't already have --ock- prefix, add it
         if (!varName.startsWith('--ock-')) {
           const prefixedVar = `--ock-${varName.slice(2)}`;
           return fallback
             ? `var(${prefixedVar}, ${fallback})`
-            : `var(${prefixedVar})`;
+            : `var(${prefixedVar},)`;
         }
-        return match; // Return unchanged if already prefixed
+        return match;
       },
     );
   }
@@ -237,11 +275,7 @@ function transformAnimationReferences(
   keyframeNames: Set<string>,
 ) {
   // Transform animation and animation-name properties to use ock- prefix
-  // But skip values that use var() since those are handled by variable reference transformation
-  if (
-    (decl.prop === 'animation' || decl.prop === 'animation-name') &&
-    !decl.value.includes('var(')
-  ) {
+  if (decl.prop === 'animation' || decl.prop === 'animation-name') {
     // Handle animation values that reference keyframes directly
     for (const keyframe of keyframeNames) {
       // Use word boundaries to avoid partial matches
@@ -254,7 +288,12 @@ function transformAnimationReferences(
 
   // Also handle CSS variable values that contain keyframe references
   // This includes both --ock- prefixed and non-prefixed variables
-  if (decl.prop.startsWith('--') && decl.prop.includes('animate')) {
+  // But skip variables that are already prefixed with --ock- to avoid double-prefixing
+  if (
+    decl.prop.startsWith('--') &&
+    !decl.prop.startsWith('--ock-') &&
+    decl.prop.includes('animate')
+  ) {
     for (const keyframe of keyframeNames) {
       const regex = new RegExp(`\\b${keyframe}\\b`, 'g');
       if (regex.test(decl.value) && !decl.value.includes(`ock-${keyframe}`)) {
@@ -295,14 +334,19 @@ function transformGlobalSelector(rule: Rule, scopeClass: string) {
     return;
   }
 
+  // Skip nested selectors that reference parent with &
+  if (rule.selector.includes('&')) {
+    return;
+  }
+
   // Transform global selectors to be scoped
   rule.selector = splitSelectors(rule.selector)
     .map((selector) => {
       const trimmed = selector.trim();
 
-      // Transform common global selectors
+      // Transform common global selectors with :where() for low specificity
       if (trimmed === '*') {
-        return scopeClass;
+        return `*:where(${scopeClass})`;
       }
 
       if (
@@ -311,7 +355,7 @@ function transformGlobalSelector(rule: Rule, scopeClass: string) {
         trimmed === '::backdrop' ||
         trimmed === '::file-selector-button'
       ) {
-        return `${scopeClass}${trimmed}`;
+        return `:where(${scopeClass})${trimmed}`;
       }
 
       // Transform functional pseudo-classes like ':where()', ':is()', ':not()', etc.

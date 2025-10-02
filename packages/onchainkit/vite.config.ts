@@ -55,7 +55,7 @@ export default defineConfig({
           babelPrefixReactClassNames({
             prefix: CLASSNAME_PREFIX,
             cnUtil: 'cn',
-            addUniversalClass: true, // Always add ock:el for scoped styles
+            universalClass: 'el',
           }),
         ],
       },
