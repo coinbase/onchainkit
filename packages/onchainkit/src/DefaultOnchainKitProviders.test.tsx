@@ -172,6 +172,7 @@ describe('DefaultOnchainKitProviders', () => {
     mockCoinbaseWallet.mockClear();
     mockBaseAccount.mockClear();
     mockFarcasterMiniApp.mockClear();
+    mockCreateWagmiConfig.mockClear();
     vi.clearAllMocks();
   });
 
@@ -339,36 +340,6 @@ describe('DefaultOnchainKitProviders', () => {
     );
   });
 
-  it('should pass app details with eoaOnly preference', () => {
-    // Mock useOnchainKit to return eoaOnly preference
-    (useOnchainKit as Mock).mockReturnValue({
-      apiKey: 'mock-api-key',
-      config: {
-        appearance: {
-          name: 'Mock App',
-          logo: 'https://example.com/logo.png',
-        },
-        wallet: {
-          preference: 'eoaOnly',
-        },
-      },
-    });
-
-    render(
-      <DefaultOnchainKitProviders>
-        <div>Test Child</div>
-      </DefaultOnchainKitProviders>,
-    );
-
-    // Verify baseAccount was called with app details
-    expect(mockBaseAccount).toHaveBeenCalledWith(
-      expect.objectContaining({
-        appName: 'Mock App',
-        appLogoUrl: 'https://example.com/logo.png',
-      }),
-    );
-  });
-
   it('should handle undefined appearance values', () => {
     // Mock useOnchainKit to return undefined appearance values
     (useOnchainKit as Mock).mockReturnValue({
@@ -412,6 +383,247 @@ describe('DefaultOnchainKitProviders', () => {
       expect.objectContaining({
         appName: undefined,
         appLogoUrl: undefined,
+      }),
+    );
+  });
+
+  // Yeni Test Senaryoları - Wallet Preference Tests
+  it('should handle wallet preference "smartWalletOnly"', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: 'mock-api-key',
+      config: {
+        appearance: {
+          name: 'Test App',
+          logo: 'https://example.com/logo.png',
+        },
+        wallet: {
+          preference: 'smartWalletOnly',
+        },
+      },
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // Bu durumda baseAccount kullanılıyor (wallet preference henüz desteklenmiyor)
+    expect(mockBaseAccount).toHaveBeenCalledWith(
+      expect.objectContaining({
+        appName: 'Test App',
+        appLogoUrl: 'https://example.com/logo.png',
+      }),
+    );
+  });
+
+  it('should handle wallet preference "eoaOnly"', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: 'mock-api-key',
+      config: {
+        appearance: {
+          name: 'Test App',
+          logo: 'https://example.com/logo.png',
+        },
+        wallet: {
+          preference: 'eoaOnly',
+        },
+      },
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // eoaOnly preference'da coinbaseWallet kullanılmalı
+    expect(mockCoinbaseWallet).toHaveBeenCalledWith(
+      expect.objectContaining({
+        appName: 'Test App',
+        appLogoUrl: 'https://example.com/logo.png',
+        preference: 'eoaOnly',
+      }),
+    );
+    expect(mockBaseAccount).not.toHaveBeenCalled();
+  });
+
+  it('should handle wallet preference "all" (default)', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: 'mock-api-key',
+      config: {
+        appearance: {
+          name: 'Test App',
+          logo: 'https://example.com/logo.png',
+        },
+        wallet: {
+          preference: 'all',
+        },
+      },
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    // 'all' preference'da baseAccount kullanılmalı (default davranış)
+    expect(mockBaseAccount).toHaveBeenCalledWith(
+      expect.objectContaining({
+        appName: 'Test App',
+        appLogoUrl: 'https://example.com/logo.png',
+      }),
+    );
+    expect(mockCoinbaseWallet).not.toHaveBeenCalled();
+  });
+
+  // API Key Tests
+  it('should handle null API key', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: null,
+      config: {
+        appearance: {
+          name: 'Test App',
+        },
+      },
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    expect(screen.getByText('Test Child')).toBeInTheDocument();
+    expect(mockCreateWagmiConfig).toHaveBeenCalledWith(
+      expect.objectContaining({
+        apiKey: undefined,
+        appName: 'Test App',
+      }),
+    );
+  });
+
+  it('should handle empty string API key', () => {
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: '',
+      config: {
+        appearance: {
+          name: 'Test App',
+        },
+      },
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    expect(mockCreateWagmiConfig).toHaveBeenCalledWith(
+      expect.objectContaining({
+        apiKey: '',
+        appName: 'Test App',
+      }),
+    );
+  });
+
+  // MiniKit Error Handling Tests
+  it('should handle MiniKit context error gracefully', () => {
+    // MiniKit context'de null/undefined durumu simüle et
+    mockMiniKitContext.mockReturnValue(null);
+
+    // Hata durumunda bile component render olmalı
+    expect(() => {
+      render(
+        <DefaultOnchainKitProviders>
+          <div>Test Child</div>
+        </DefaultOnchainKitProviders>,
+      );
+    }).not.toThrow();
+    
+    expect(screen.getByText('Test Child')).toBeInTheDocument();
+  });
+
+  // QueryClient Error Handling Tests
+  it('should handle QueryClient creation with custom configuration', () => {
+    const customQueryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: 0,
+        },
+      },
+    });
+
+    (useProviderDependencies as Mock).mockReturnValue({
+      providedWagmiConfig: null,
+      providedQueryClient: customQueryClient,
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    expect(screen.getByText('Test Child')).toBeInTheDocument();
+    // Custom QueryClient kullanıldığı için yeni provider oluşturulmamalı
+    expect(screen.queryAllByTestId('query-client-provider')).toHaveLength(0);
+  });
+
+  // Edge Case Tests
+  it('should handle extremely long app name and logo URL', () => {
+    const longAppName = 'A'.repeat(1000);
+    const longLogoUrl = 'https://example.com/' + 'very-long-path/'.repeat(100) + 'logo.png';
+
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: 'test-api-key',
+      config: {
+        appearance: {
+          name: longAppName,
+          logo: longLogoUrl,
+        },
+      },
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    expect(mockBaseAccount).toHaveBeenCalledWith(
+      expect.objectContaining({
+        appName: longAppName,
+        appLogoUrl: longLogoUrl,
+      }),
+    );
+  });
+
+  it('should handle special characters in app name and logo URL', () => {
+    const specialAppName = 'Test App 🚀 & <script>alert("test")</script>';
+    const specialLogoUrl = 'https://example.com/logo with spaces & special chars.png';
+
+    (useOnchainKit as Mock).mockReturnValue({
+      apiKey: 'test-api-key',
+      config: {
+        appearance: {
+          name: specialAppName,
+          logo: specialLogoUrl,
+        },
+      },
+    });
+
+    render(
+      <DefaultOnchainKitProviders>
+        <div>Test Child</div>
+      </DefaultOnchainKitProviders>,
+    );
+
+    expect(mockBaseAccount).toHaveBeenCalledWith(
+      expect.objectContaining({
+        appName: specialAppName,
+        appLogoUrl: specialLogoUrl,
       }),
     );
   });
