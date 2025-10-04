@@ -130,7 +130,7 @@ export function TransactionProvider({
       return {
         paymasterService: { url: paymaster },
         // this needs to be below so devs can override default paymaster
-        // with their personal paymaster in production playgroundd
+        // with their personal paymaster in production playground
         ...transactionCapabilities,
       };
     }
