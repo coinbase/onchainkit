@@ -16,7 +16,7 @@
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "vitest run --coverage --coverage.all=false",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "get-next-version": "node ./scripts/get-next-version.js",
@@ -114,6 +114,7 @@
   "exports": {
     "./package.json": "./package.json",
     "./styles.css": "./dist/assets/style.css",
+    "./onchainkit.css": "./dist/assets/onchainkit.css",
     "./theme": "./dist/styles/theme.js",
     ".": {
       "types": "./dist/index.d.ts",
