@@ -1,0 +1,239 @@
+---
+sidebarTitle: 'AI Prompting Guide'
+title: AI Prompting Guide
+description: Practical techniques for getting better results from AI coding assistants when building with OnchainKit.
+---
+
+Get better results from AI coding assistants when building with OnchainKit. Whether you're using Cursor, GitHub Copilot, or other AI tools, these techniques will improve your workflow.
+
+## Understanding Context Windows
+
+### Why Context Matters
+
+AI coding assistants have a "context window" - the amount of text they can process at once. Think of it as working memory:
+
+- Most assistants process thousands of tokens (roughly 4-5 words per token)
+- Everything you share consumes this limited space
+- Once full, older conversation parts may be lost
+
+Provide relevant context upfront since AI can only work with what's in its current window.
+
+### Optimizing for Context Windows
+
+Optimize for context windows:
+
+1. **Share relevant info first** - Most important details upfront
+2. **Skip unnecessary content** - Avoid irrelevant code or docs
+3. **Structure requests clearly** - Use sections and formatting
+4. **Reference smartly** - Share only relevant files for large codebases
+
+For larger projects, create a central documentation file rather than repeatedly explaining context.
+
+## Setting Up AI Tools
+
+### Cursor Rules
+
+Cursor Rules provide consistent context to help AI understand your codebase better.
+
+1. Open Command Palette: `Cmd + Shift + P` (Mac) or `Ctrl + Shift + P` (Windows/Linux)
+2. Search "Cursor Rules" and create/edit rules
+3. Add project-specific rules:
+   - [Next.js](https://raw.githubusercontent.com/PatrickJS/awesome-cursorrules/refs/heads/main/rules/nextjs-tailwind-typescript-apps-cursorrules-prompt/.cursorrules)
+   - [Astro](https://raw.githubusercontent.com/PatrickJS/awesome-cursorrules/refs/heads/main/rules/astro-typescript-cursorrules-prompt-file/.cursorrules)
+   - [Vite](https://raw.githubusercontent.com/PatrickJS/awesome-cursorrules/refs/heads/main/rules/typescript-vite-tailwind-cursorrules-prompt-file/.cursorrules)
+4. Save to apply rules to AI suggestions
+
+### OnchainKit Projects
+
+Create a new OnchainKit project:
+
+```shell
+npm create onchain@latest
+```
+
+After setup, generate comprehensive documentation for your project.
+
+### Creating Project Documentation
+
+A project instructions file helps AI understand your codebase. Create this early and update regularly.
+
+**Instructions.md prompt:**
+
+```
+Create a detailed instructions.md file for my OnchainKit project:
+
+1. Overview: Project goals and core functionality
+2. Tech Stack: Technologies, libraries, frameworks with versions
+3. Project Structure: File organization with explanations
+4. Coding Standards: Style conventions, linting rules, patterns
+5. User Stories: Key functionality from user perspective
+6. APIs and Integrations: External services and connections
+```
+
+<Note>
+For architecture planning and complex design decisions, use reasoning-focused AI models. They excel at analyzing tradeoffs, edge cases, and long-term planning.
+</Note>
+
+
+## Effective Prompting Strategies
+
+### Be Specific
+
+AI tools respond best to clear, direct instructions.
+
+❌ "Help me with my code"
+✅ "Refactor this authentication function to use async/await instead of nested then() calls"
+
+### Provide Context
+
+**Template:**
+
+```
+I'm working on an OnchainKit project using [frameworks/libraries]. I need help with:
+
+1. Problem: [describe specific issue]
+2. Current approach: [what you've tried]
+3. Constraints: [technical limitations]
+4. Expected outcome: [what success looks like]
+
+Relevant docs: @https://onchainkit.xyz
+
+Relevant code:
+[paste your code]
+```
+
+### Iterate
+
+Start simple and refine rather than trying to get everything perfect at once.
+
+**Template:**
+
+```
+Let's approach this step by step:
+1. First, implement basic [feature] with minimal functionality
+2. Review and identify improvements
+3. Add error handling and edge cases
+4. Optimize for performance
+
+Start with step 1.
+```
+
+## Working with OnchainKit
+
+### Using Documentation
+
+Reference OnchainKit documentation directly in your prompts:
+
+1. Browse [OnchainKit docs](../getting-started/overview)
+2. Find your component
+3. Reference the docs URL in your prompt
+
+**Example:**
+
+```
+I'm implementing a swap component with OnchainKit. 
+
+Docs: @https://onchainkit.xyz
+
+Show me how to implement a swap that:
+1. Swaps USDC to ETH on Base
+2. Handles connection states
+3. Includes error handling
+4. Follows UX best practices
+```
+
+### Component Integration
+
+**Token balance example:**
+
+```
+Implement a token balance display feature:
+
+1. Shows connected wallet's balance of [TOKEN_SYMBOL]
+2. Updates when balance changes
+3. Handles loading and error states
+4. Follows project coding standards
+5. Update instructions.md with this implementation
+```
+
+## Debugging with AI
+
+### Debugging Prompts
+
+**Bug analysis template:**
+
+```
+I'm encountering an issue:
+
+1. Expected behavior: [what should happen]
+2. Actual behavior: [what's happening]
+3. Error messages: [any errors]
+4. Relevant code: [problematic code]
+
+Analyze step by step and help me:
+1. Identify potential causes
+2. Suggest debugging steps
+3. Propose solutions
+```
+
+**Debug logging template:**
+
+```
+Add comprehensive logging to this function to trace:
+1. Input values and types
+2. Function execution flow
+3. Intermediate state changes
+4. Output values or errors
+
+Code:
+[paste your code]
+```
+
+### When Stuck
+
+**Clarification template:**
+
+```
+I'm unsure how to proceed with [specific task]. Here's what I know:
+1. [problem context]
+2. [what you've tried]
+3. [specific areas needing guidance]
+
+What additional information would help you assist better?
+```
+
+## Advanced Techniques
+
+1. **Step-by-step reasoning**
+   ```
+   Analyze this code step by step and identify potential issues.
+   ```
+
+2. **Format specification**
+   ```
+   Structure your response as a tutorial with code examples.
+   ```
+
+3. **Length guidance**
+   ```
+   Provide a concise explanation in 2-3 paragraphs.
+   ```
+
+4. **Clarify ambiguities**
+   ```
+   You suggested two approaches. I prefer the first with TypeScript.
+   ```
+
+## Best Practices
+
+1. **Understand context limitations** - AI has finite memory, prioritize important info
+2. **Provide relevant context** - Share code, errors, and project details that matter
+3. **Be specific** - Clear instructions beat vague questions
+4. **Break down complex tasks** - Iterative approaches work better
+5. **Request explanations** - Ask AI to explain generated code you don't understand
+6. **Use clear formatting** - Structure prompts with sections
+7. **Reference docs** - Include OnchainKit documentation links
+8. **Test and validate** - Always review AI-generated code before implementing
+9. **Build on context** - Reference earlier conversation parts when iterating
+10. **Provide feedback** - Tell AI what worked and what didn't
+

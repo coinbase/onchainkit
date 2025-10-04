@@ -3,7 +3,6 @@ import { useToken } from './useToken';
 
 type ContractType = 'ERC721' | 'ERC1155';
 
-// eslint-disable-next-line complexity
 export function useReservoirNFTData(contractAddress: string, tokenId = '0') {
   const { data: token } = useToken(contractAddress, tokenId);
 
