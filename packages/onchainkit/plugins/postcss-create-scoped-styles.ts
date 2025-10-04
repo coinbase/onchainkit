@@ -101,32 +101,11 @@ function moveImportsToTop(root: postcss.Root) {
     atRule.remove();
   });
 
-  // Add imports at the beginning of the file with proper formatting
+  // Add imports at the beginning of the file
   if (imports.length > 0) {
     // Process imports in reverse order since we're prepending
     for (let i = imports.length - 1; i >= 0; i--) {
-      const importRule = imports[i];
-
-      // Set the raws for this specific import
-      if (i === 0) {
-        // First import (will be at the top after prepend)
-        importRule.raws.before = '';
-        importRule.raws.after = ';'; // Ensure semicolon
-      } else {
-        // Other imports
-        importRule.raws.before = '';
-        importRule.raws.after = ';\n'; // Semicolon + newline
-      }
-
-      root.prepend(importRule);
-    }
-
-    // Add spacing after all imports by modifying the next node
-    if (root.nodes.length > imports.length) {
-      const firstNonImport = root.nodes[imports.length];
-      if (firstNonImport) {
-        firstNonImport.raws.before = '\n\n';
-      }
+      root.prepend(imports[i]);
     }
   }
 }
@@ -160,31 +139,48 @@ function consolidateAllLayers(root: postcss.Root) {
     }
   });
 
-  // Create single consolidated layer with all content in correct order
+  // Insert layer contents directly into root without wrapper
   if (Object.keys(layerContents).length > 0) {
-    const consolidatedLayer = postcss.atRule({
-      name: 'layer',
-      params: 'onchainkit',
+    // Find where to insert content (after imports)
+    let insertAfterNode: postcss.ChildNode | null = null;
+    root.each((node) => {
+      if (node.type === 'atrule' && node.name === 'import') {
+        insertAfterNode = node;
+      }
     });
 
-    // Add contents in the correct order with section comments
+    // Build all nodes to insert
+    const nodesToInsert: postcss.ChildNode[] = [];
+
     layerOrder.forEach((layerName) => {
       if (layerContents[layerName]) {
         // Add section comment
         const comment = postcss.comment({
           text: ` ${layerName.charAt(0).toUpperCase() + layerName.slice(1)} section `,
         });
-        consolidatedLayer.append(comment);
+
+        nodesToInsert.push(comment);
 
         // Add all rules from this layer
         layerContents[layerName].forEach((node) => {
-          consolidatedLayer.append(node);
+          nodesToInsert.push(node);
         });
       }
     });
 
-    // Insert the consolidated layer at the beginning of the file
-    root.prepend(consolidatedLayer);
+    // Insert all nodes after imports (or at beginning if no imports)
+    if (insertAfterNode) {
+      nodesToInsert.reverse().forEach((node) => {
+        insertAfterNode!.after(node);
+      });
+    } else {
+      nodesToInsert.reverse().forEach((node) => {
+        root.prepend(node);
+      });
+    }
+
+    // Format the inserted content by cleaning up the root
+    root.cleanRaws();
   }
 }
 

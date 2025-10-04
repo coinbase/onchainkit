@@ -91,7 +91,9 @@ describe('postcssCreateScopedStyles', () => {
     `;
 
     const output = await runPlugin(input, { consolidateLayers: true });
-    expect(output).toContain('@layer onchainkit');
+    expect(output).not.toContain('@layer onchainkit');
+    expect(output).not.toContain('@layer theme');
+    expect(output).not.toContain('@layer base');
     expect(output).toContain('Theme section');
     expect(output).toContain('Base section');
   });
@@ -378,7 +380,9 @@ describe('postcssCreateScopedStyles', () => {
     `;
 
     const output = await runPlugin(input, { consolidateLayers: true });
-    expect(output).toContain('@layer onchainkit');
+    expect(output).not.toContain('@layer onchainkit');
+    expect(output).not.toContain('@layer theme, base, utilities');
+    expect(output).toContain('Theme section');
   });
 
   it('should handle multiple imports', async () => {
@@ -508,7 +512,28 @@ describe('postcssCreateScopedStyles', () => {
     `;
 
     const output = await runPlugin(input, { consolidateLayers: true });
-    expect(output).toContain('@layer onchainkit');
+    expect(output).not.toContain('@layer onchainkit');
+    expect(output).not.toContain('@layer properties');
     expect(output).toContain('Properties section');
+  });
+
+  it('should insert layers after imports when consolidating', async () => {
+    const input = `
+      @import "first.css";
+      @layer theme {
+        .theme { color: blue; }
+      }
+      @layer base {
+        .base { margin: 0; }
+      }
+    `;
+
+    const output = await runPlugin(input, { consolidateLayers: true });
+    const lines = output.trim().split('\n');
+    expect(lines[0]).toContain('@import');
+    expect(output).toContain('Theme section');
+    expect(output).toContain('Base section');
+    expect(output).not.toContain('@layer theme');
+    expect(output).not.toContain('@layer base');
   });
 });
