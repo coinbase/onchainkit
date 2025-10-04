@@ -100,6 +100,11 @@ export function getNextVersionNumber({
   packageJsonVersion,
   tag,
 }) {
+  // TEMPORARY FIX - remove after publish
+  if (packageJsonVersion === '1.1.1' && tag === 'alpha') {
+    return '1.1.1-alpha.2';
+  }
+
   // Validate package.json version format
   const packageJsonSplit = packageJsonVersion.split('.').map(Number);
   if (packageJsonSplit.length !== 3) {
