@@ -307,8 +307,10 @@ describe('dualCSSPlugin', () => {
 
     const writtenCss = mockFs.writeFileSync.mock.calls[0][1] as string;
 
-    // Should consolidate layers into @layer onchainkit
-    expect(writtenCss).toContain('@layer onchainkit');
+    // Should consolidate layers without wrapping in @layer onchainkit
+    expect(writtenCss).not.toContain('@layer onchainkit');
+    expect(writtenCss).not.toContain('@layer theme');
+    expect(writtenCss).toContain('Theme section');
   });
 
   it('should skip processing if asset is not of type asset', async () => {
