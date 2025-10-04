@@ -64,6 +64,6 @@ describe('postcssCreateScopedStyles', () => {
 
     const output = await runPlugin(input);
 
-    expect(output).toContain('.ock\\:el::before');
+    expect(output).toContain(':where(.ock\\:el)::before');
   });
 });

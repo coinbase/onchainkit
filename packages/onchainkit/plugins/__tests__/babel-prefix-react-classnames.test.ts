@@ -230,7 +230,7 @@ describe('babel-prefix-react-classnames', () => {
         prefix: 'prefix-',
         universalClass: 'el',
       });
-      expect(result).toContain('className: "el"');
+      expect(result).toContain('className: "prefix-el"');
     });
 
     it('should add universal class to HTML elements with existing className', () => {
@@ -239,7 +239,7 @@ describe('babel-prefix-react-classnames', () => {
         prefix: 'prefix-',
         universalClass: 'el',
       });
-      expect(result).toContain('className: "prefix-foo el"');
+      expect(result).toContain('className: "prefix-foo prefix-el"');
     });
 
     it('should NOT add universal class to React components', () => {
@@ -273,7 +273,7 @@ describe('babel-prefix-react-classnames', () => {
         universalClass: 'el',
       });
       // Each HTML element should get the universal class
-      expect(result.match(/className: "el"/g)?.length).toBe(3);
+      expect(result.match(/className: "prefix-el"/g)?.length).toBe(3);
     });
 
     it('should add universal class to HTML elements but not React components in mixed JSX', () => {
@@ -288,7 +288,7 @@ describe('babel-prefix-react-classnames', () => {
         universalClass: 'el',
       });
       // Only div and button should get the universal class (2 times), not MyComponent
-      expect(result.match(/className: "el"/g)?.length).toBe(2);
+      expect(result.match(/className: "prefix-el"/g)?.length).toBe(2);
     });
 
     it('should add universal class as first argument in cn() calls for HTML elements', () => {
@@ -297,9 +297,9 @@ describe('babel-prefix-react-classnames', () => {
         prefix: 'prefix-',
         universalClass: 'el',
       });
-      expect(result).toContain('cn("el"');
-      expect(result).toContain('"prefix-foo"');
+      expect(result).toContain('cn("prefix-foo"');
       expect(result).toContain('"prefix-bar"');
+      expect(result).toContain('"prefix-el"');
     });
 
     it('should NOT add universal class to JSX member expressions', () => {
