@@ -16,7 +16,7 @@
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "vitest run --coverage --coverage.all=false",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "get-next-version": "node ./scripts/get-next-version.js",

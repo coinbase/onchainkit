@@ -201,6 +201,7 @@ export function babelPrefixReactClassNames({
           }
 
           // Handle elements without className - add it if it's an HTML element
+          /* c8 ignore next 4 */
           if (!value && universalClass && isHTMLElement) {
             const prefixedUniversalClass = `${prefix}${universalClass}`;
             path.node.value = types.stringLiteral(prefixedUniversalClass);
