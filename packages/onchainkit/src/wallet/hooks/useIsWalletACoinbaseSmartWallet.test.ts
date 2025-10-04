@@ -44,9 +44,21 @@ describe('useIsWalletACoinbaseSmartWallet', () => {
     expect(result.current).toBe(false);
   });
 
-  it('should return true if the wallet is a Coinbase Smart Wallet', () => {
+  it('should return false if the wallet is not a Coinbase Wallet', () => {
     (useOnchainKit as Mock).mockReturnValue({ chain: { id: 'chainId' } });
     (useAccount as Mock).mockReturnValue({ connector: { id: 'someOtherId' } });
+    (useCapabilitiesSafe as Mock).mockReturnValue({
+      atomicBatch: { supported: true },
+    });
+
+    const { result } = renderHook(() => useIsWalletACoinbaseSmartWallet());
+
+    expect(result.current).toBe(false);
+  });
+
+  it('should return false if no connector is connected', () => {
+    (useOnchainKit as Mock).mockReturnValue({ chain: { id: 'chainId' } });
+    (useAccount as Mock).mockReturnValue({ connector: undefined });
     (useCapabilitiesSafe as Mock).mockReturnValue({
       atomicBatch: { supported: true },
     });
