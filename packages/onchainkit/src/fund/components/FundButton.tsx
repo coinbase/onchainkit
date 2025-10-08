@@ -105,24 +105,6 @@ export function FundButton({
     ],
   );
 
-  const buttonColorClass = useMemo(() => {
-    if (buttonState === 'error') {
-      return prefixClassName('bg-ock-error');
-    }
-    return pressable.primary;
-  }, [buttonState]);
-
-  const classNames = cn(
-    buttonColorClass,
-    'rounded-ock-default px-4 py-3 inline-flex items-center justify-center space-x-2',
-    {
-      [pressable.disabled]: isDisabled,
-    },
-    text.headline,
-    'text-ock-foreground-inverse',
-    className,
-  );
-
   const buttonIcon = useMemo(() => {
     switch (buttonState) {
       case 'loading':
@@ -183,7 +165,16 @@ export function FundButton({
 
   return (
     <button
-      className={classNames}
+      className={cn(
+        buttonState === 'error' ? 'bg-ock-error' : pressable.primary,
+        'rounded-ock-default px-4 py-3 inline-flex items-center justify-center space-x-2',
+        {
+          [pressable.disabled]: isDisabled,
+        },
+        text.headline,
+        'text-ock-foreground-inverse',
+        className,
+      )}
       onClick={handleClick}
       type="button"
       disabled={isDisabled}

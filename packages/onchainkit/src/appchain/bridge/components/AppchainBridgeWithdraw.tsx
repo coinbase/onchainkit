@@ -2,17 +2,19 @@
 import { Spinner } from '@/internal/components/Spinner';
 import { ErrorSvg } from '@/internal/svg/fullWidthErrorSvg';
 import { SuccessSvg } from '@/internal/svg/fullWidthSuccessSvg';
-import { cn, pressable, text } from '@/styles/theme';
+import { cn, prefixClassName, pressable, text } from '@/styles/theme';
 import { useEffect } from 'react';
 import { useWithdrawButton } from '../hooks/useWithdrawButton';
 import { useAppchainBridgeContext } from './AppchainBridgeProvider';
 
-const buttonStyles = cn(
-  pressable.primary,
-  'rounded-ock-default',
-  'w-full rounded-xl',
-  'px-4 py-3 font-medium text-base text-white leading-6',
-  text.headline,
+const buttonStyles = prefixClassName(
+  cn(
+    pressable.primary,
+    'rounded-ock-default',
+    'w-full rounded-xl',
+    'px-4 py-3 font-medium text-base text-white leading-6',
+    text.headline,
+  ),
 );
 
 export const AppchainBridgeWithdraw = () => {

@@ -5,7 +5,12 @@ import { useGetFundingUrl } from '../../fund/hooks/useGetFundingUrl';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
 import { useIcon } from '../../internal/hooks/useIcon';
 import { openPopup } from '../../internal/utils/openPopup';
-import { cn, pressable, text as themeText } from '../../styles/theme';
+import {
+  cn,
+  prefixClassName,
+  pressable,
+  text as themeText,
+} from '../../styles/theme';
 
 export type WalletDropdownFundLinkProps = {
   /** Optional className override for the element */
@@ -68,13 +73,14 @@ export function WalletDropdownFundLink({
     [fundingUrlToRender, popupSize, target],
   );
 
-  const overrideClassName = cn(
-    pressable.default,
-    'text-ock-foreground',
-    // Disable hover effects if there is no funding URL
-    !fundingUrlToRender && 'pointer-events-none',
-    'relative flex items-center px-4 py-3 w-full',
-    className,
+  const overrideClassName = prefixClassName(
+    cn(
+      pressable.default,
+      'text-ock-foreground',
+      // Disable hover effects if there is no funding URL
+      !fundingUrlToRender && 'pointer-events-none',
+      'relative flex items-center px-4 py-3 w-full',
+    ),
   );
 
   const linkContent = useMemo(
@@ -94,7 +100,7 @@ export function WalletDropdownFundLink({
   if (openIn === 'tab') {
     return (
       <a
-        className={overrideClassName}
+        className={cn(overrideClassName, className)}
         href={fundingUrlToRender}
         target={target}
         rel={rel}
@@ -105,7 +111,11 @@ export function WalletDropdownFundLink({
   }
 
   return (
-    <button type="button" className={overrideClassName} onClick={handleClick}>
+    <button
+      type="button"
+      className={cn(overrideClassName, className)}
+      onClick={handleClick}
+    >
       {linkContent}
     </button>
   );
