@@ -1,5 +1,4 @@
 'use client';
-
 import { ReactNode, useCallback, useMemo } from 'react';
 import { useGetFundingUrl } from '../../fund/hooks/useGetFundingUrl';
 import { getFundingPopupSize } from '../../fund/utils/getFundingPopupSize';
@@ -33,6 +32,8 @@ export type WalletDropdownFundLinkProps = {
   text?: string;
   /** Optional funding URL override */
   fundingUrl?: string;
+  /** CDP on/offramp session token. @see {@link https://docs.cdp.coinbase.com/onramp-&-offramp/session-token-authentication} */
+  sessionToken?: string;
 };
 
 export function WalletDropdownFundLink({
@@ -44,14 +45,14 @@ export function WalletDropdownFundLink({
   rel,
   target,
   text = 'Fund wallet',
+  sessionToken,
 }: WalletDropdownFundLinkProps) {
-  // If we can't get a funding URL, this component will be a no-op and render a disabled link
-  const fundingUrlToRender =
-    fundingUrl ??
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useGetFundingUrl({
-      originComponentName: 'WalletDropdownFundLink',
-    });
+  const derivedFundingUrl = useGetFundingUrl({
+    originComponentName: 'WalletDropdownFundLink',
+    sessionToken,
+  });
+  const fundingUrlToRender = fundingUrl ?? derivedFundingUrl;
+
   const iconSvg = useIcon({ icon });
 
   const handleClick = useCallback(
