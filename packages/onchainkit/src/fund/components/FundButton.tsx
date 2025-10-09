@@ -1,8 +1,6 @@
 'use client';
-
 import { useCallback, useMemo } from 'react';
-
-import { cn, pressable, text, prefixClassName } from '../../styles/theme';
+import { cn, pressable, text } from '../../styles/theme';
 import { useAccount } from 'wagmi';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
 import { FundEvent } from '../../core/analytics/types';
