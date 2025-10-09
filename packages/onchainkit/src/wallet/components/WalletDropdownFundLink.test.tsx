@@ -30,7 +30,10 @@ describe('WalletDropdownFundLink', () => {
 
     render(<WalletDropdownFundLink fundingUrl={fundingUrl} />);
 
-    expect(useGetFundingUrl).not.toHaveBeenCalled();
+    expect(useGetFundingUrl).toHaveBeenCalledWith({
+      originComponentName: 'WalletDropdownFundLink',
+      sessionToken: undefined,
+    });
     const buttonElement = screen.getByRole('button');
     expect(screen.getByText('Fund wallet')).toBeInTheDocument();
 
@@ -85,7 +88,10 @@ describe('WalletDropdownFundLink', () => {
 
     render(<WalletDropdownFundLink fundingUrl={fundingUrl} openIn="tab" />);
 
-    expect(useGetFundingUrl).not.toHaveBeenCalled();
+    expect(useGetFundingUrl).toHaveBeenCalledWith({
+      originComponentName: 'WalletDropdownFundLink',
+      sessionToken: undefined,
+    });
     const linkElement = screen.getByRole('link');
     expect(screen.getByText('Fund wallet')).toBeInTheDocument();
     expect(linkElement).toHaveAttribute('href', fundingUrl);
