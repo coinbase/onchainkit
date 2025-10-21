@@ -3,6 +3,11 @@ import { useMiniKit } from './useMiniKit';
 
 /**
  * Sends notification data to the notification proxy URL set in the MiniKit context
+ *
+ * @deprecated
+ * We recommend using a server‑initiated notification flow.
+ * This hook will be removed in a future version.
+ *
  * @param title - The title of the notification.
  * @param body - The body of the notification.
  * @returns boolean - true if the notification was sent successfully, false otherwise
