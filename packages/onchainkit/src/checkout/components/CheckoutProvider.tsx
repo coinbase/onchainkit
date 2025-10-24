@@ -50,6 +50,11 @@ import {
 const emptyContext = {} as CheckoutContextType;
 export const CheckoutContext = createContext<CheckoutContextType>(emptyContext);
 
+/**
+ * @deprecated The <Checkout /> component and its related components and hooks are deprecated
+ * and will be removed in a future version. We recommend looking at Base Pay for similar functionality.
+ * @see {@link https://docs.base.org/base-account/guides/accept-payments}
+ */
 export function useCheckoutContext() {
   const context = useContext(CheckoutContext);
   if (context === emptyContext) {
