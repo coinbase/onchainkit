@@ -10,6 +10,11 @@ import type { CheckoutButtonProps } from '../types';
 import { useCheckoutContext } from './CheckoutProvider';
 import { CHECKOUT_LIFECYCLE_STATUS } from '../constants';
 
+/**
+ * @deprecated The <Checkout /> component and its related components and hooks are deprecated
+ * and will be removed in a future version. We recommend looking at Base Pay for similar functionality.
+ * @see {@link https://docs.base.org/base-account/guides/accept-payments}
+ */
 export function CheckoutButton({
   className,
   coinbaseBranded,

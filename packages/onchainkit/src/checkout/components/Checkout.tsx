@@ -5,6 +5,11 @@ import { cn } from '../../styles/theme';
 import type { CheckoutProps } from '../types';
 import { CheckoutProvider } from './CheckoutProvider';
 
+/**
+ * @deprecated The <Checkout /> component and its related components and hooks are deprecated
+ * and will be removed in a future version. We recommend looking at Base Pay for similar functionality.
+ * @see {@link https://docs.base.org/base-account/guides/accept-payments}
+ */
 export function Checkout({
   chargeHandler,
   children,
