@@ -15,7 +15,7 @@ export const minikitConfig = {
     signature: "",
   },
   baseBuilder: {
-    allowedAddresses: [],
+    ownerAddress: "",
   },
   miniapp: {
     version: "1",
