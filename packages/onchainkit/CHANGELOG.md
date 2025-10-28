@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.2
+
+### Patch Changes
+
+- fix: Rename allowedAddresses field to ownerAddress - Thanks [@dgca](https://github.com/dgca)! [#2530](https://github.com/coinbase/onchainkit/pull/2530)
+
+- chore: Deprecate <Checkout /> component and related functionality - Thanks [@dgca](https://github.com/dgca)! [#2528](https://github.com/coinbase/onchainkit/pull/2528)
+
 ## 1.1.1
 
 ### Patch Changes
