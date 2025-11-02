@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { declare } from '@babel/helper-plugin-utils';
 import * as t from '@babel/types';
 import { prefixStringParts } from '../src/internal/utils/prefixStringParts';
@@ -48,21 +49,64 @@ function processTemplateLiteral(
 export function babelPrefixReactClassNames({
   prefix,
   cnUtil = 'cn',
+  universalClass,
 }: {
   prefix: string;
   cnUtil?: string | false;
+  universalClass?: string;
 }): ReturnType<typeof declare> {
   return declare(({ types }) => {
     return {
       visitor: {
+        JSXOpeningElement(path) {
+          // Only process if universalClass is defined
+          if (!universalClass) return;
+
+          // Only add to HTML elements (lowercase tag names)
+          if (!types.isJSXIdentifier(path.node.name)) return;
+          if (!/^[a-z]/.test(path.node.name.name)) return;
+
+          // Check if element already has a className attribute
+          const hasClassName = path.node.attributes.some(
+            (attr) =>
+              types.isJSXAttribute(attr) &&
+              types.isJSXIdentifier(attr.name) &&
+              attr.name.name === 'className',
+          );
+
+          // If no className, add one with just the universal class
+          if (!hasClassName) {
+            const prefixedUniversalClass = `${prefix}${universalClass}`;
+            path.node.attributes.push(
+              types.jsxAttribute(
+                types.jsxIdentifier('className'),
+                types.stringLiteral(prefixedUniversalClass),
+              ),
+            );
+          }
+        },
         JSXAttribute(path) {
           if (path.node.name.name !== 'className') return;
 
           const value = path.node.value;
 
+          // Check if this className is on an HTML element (lowercase tag)
+          const parent = path.parent;
+          const isHTMLElement =
+            types.isJSXOpeningElement(parent) &&
+            types.isJSXIdentifier(parent.name) &&
+            /^[a-z]/.test(parent.name.name);
+
           // Handle string literals
           if (types.isStringLiteral(value)) {
             value.value = prefixStringParts(value.value, prefix);
+            // Add universal class only to HTML elements
+            if (universalClass && isHTMLElement) {
+              const prefixedUniversalClass = `${prefix}${universalClass}`;
+              if (!value.value.includes(prefixedUniversalClass)) {
+                value.value = `${value.value} ${prefixedUniversalClass}`;
+              }
+            }
           }
 
           if (types.isJSXExpressionContainer(value)) {
@@ -71,6 +115,20 @@ export function babelPrefixReactClassNames({
             // Handle template literals
             if (types.isTemplateLiteral(expression)) {
               processTemplateLiteral(expression, prefix);
+              // Add universal class only to HTML elements
+              if (universalClass && isHTMLElement) {
+                const prefixedUniversalClass = `${prefix}${universalClass}`;
+                // Add as last quasi
+                const lastQuasi =
+                  expression.quasis[expression.quasis.length - 1];
+                if (
+                  lastQuasi &&
+                  !lastQuasi.value.raw.includes(prefixedUniversalClass)
+                ) {
+                  lastQuasi.value.raw = `${lastQuasi.value.raw} ${prefixedUniversalClass}`;
+                  lastQuasi.value.cooked = lastQuasi.value.raw;
+                }
+              }
             }
 
             // Handle cnUtil function calls
@@ -131,7 +189,22 @@ export function babelPrefixReactClassNames({
                 // Leave identifiers and member expressions untouched
                 return arg;
               });
+
+              // Add universal class only to HTML elements
+              if (universalClass && isHTMLElement) {
+                const prefixedUniversalClass = `${prefix}${universalClass}`;
+                expression.arguments.push(
+                  types.stringLiteral(prefixedUniversalClass),
+                );
+              }
             }
+          }
+
+          // Handle elements without className - add it if it's an HTML element
+          /* c8 ignore next 4 */
+          if (!value && universalClass && isHTMLElement) {
+            const prefixedUniversalClass = `${prefix}${universalClass}`;
+            path.node.value = types.stringLiteral(prefixedUniversalClass);
           }
         },
       },
