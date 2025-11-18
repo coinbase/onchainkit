@@ -75,8 +75,6 @@ type FundButtonBaseProps = {
   disabled?: boolean;
   /* The state of the button component */
   state?: FundButtonState;
-  /* An optional prop to provide a custom funding URL */
-  fundingUrl?: string;
   /* Whether to open the funding flow in a tab or a popup window */
   openIn?: 'popup' | 'tab';
   /**
@@ -93,8 +91,6 @@ type FundButtonBaseProps = {
   onPopupClose?: () => void;
   /* A callback function that will be called when the button is clicked */
   onClick?: () => void;
-  /* An optional prop to provide a session token */
-  sessionToken?: string;
 };
 
 export type FundButtonRenderParams = {
@@ -106,20 +102,27 @@ export type FundButtonRenderParams = {
   isDisabled: boolean;
 };
 
+// Require at least one funding source for FundButton
+type FundButtonSourceProps =
+  | { fundingUrl: string; sessionToken?: string }
+  | { sessionToken: string; fundingUrl?: string };
+
 /**
  * Note: exported as public Type
  */
 export type FundButtonProps =
-  | (FundButtonBaseProps & {
-      render?: (props: FundButtonRenderParams) => React.ReactNode;
-      /* An optional React node to be displayed in the button component */
-      children?: never;
-    })
-  | (FundButtonBaseProps & {
-      render?: never;
-      /* An optional React node to be displayed in the button component */
-      children?: ReactNode;
-    });
+  | (FundButtonBaseProps &
+      FundButtonSourceProps & {
+        render?: (props: FundButtonRenderParams) => React.ReactNode;
+        /* An optional React node to be displayed in the button component */
+        children?: never;
+      })
+  | (FundButtonBaseProps &
+      FundButtonSourceProps & {
+        render?: never;
+        /* An optional React node to be displayed in the button component */
+        children?: ReactNode;
+      });
 
 /**
  * Note: exported as public Type

@@ -32,6 +32,10 @@ export function FundButton({
   render,
   sessionToken,
 }: FundButtonProps) {
+  // Ensure a funding source is provided
+  if (!fundingUrl && !sessionToken) {
+    throw new Error('FundButton requires either sessionToken or fundingUrl');
+  }
   // If the fundingUrl prop is undefined, fallback to our recommended funding URL based on the wallet type
   const fallbackFundingUrl = useGetFundingUrl({
     fiatCurrency,
