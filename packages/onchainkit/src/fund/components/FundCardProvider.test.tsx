@@ -49,7 +49,11 @@ describe('FundCardProvider', () => {
       const { result } = await act(async () =>
         renderHook(() => useFundContext(), {
           wrapper: ({ children }) => (
-            <FundCardProvider asset="ETH" country="US">
+            <FundCardProvider
+              asset="ETH"
+              country="US"
+              sessionToken="test-session-token"
+            >
               {children}
             </FundCardProvider>
           ),
@@ -73,7 +77,11 @@ describe('FundCardProvider', () => {
       const { result } = await act(async () =>
         renderHook(() => useFundContext(), {
           wrapper: ({ children }) => (
-            <FundCardProvider asset="ETH" country="US">
+            <FundCardProvider
+              asset="ETH"
+              country="US"
+              sessionToken="test-session-token"
+            >
               {children}
             </FundCardProvider>
           ),
@@ -91,7 +99,11 @@ describe('FundCardProvider', () => {
       const { result } = await act(async () =>
         renderHook(() => useFundContext(), {
           wrapper: ({ children }) => (
-            <FundCardProvider asset="ETH" country="US">
+            <FundCardProvider
+              asset="ETH"
+              country="US"
+              sessionToken="test-session-token"
+            >
               {children}
             </FundCardProvider>
           ),
@@ -122,7 +134,12 @@ describe('FundCardProvider', () => {
       const { result } = await act(async () =>
         renderHook(() => useFundContext(), {
           wrapper: ({ children }) => (
-            <FundCardProvider asset="ETH" country="GB" currency="GBP">
+            <FundCardProvider
+              asset="ETH"
+              country="GB"
+              currency="GBP"
+              sessionToken="test-session-token"
+            >
               {children}
             </FundCardProvider>
           ),
@@ -146,7 +163,11 @@ describe('FundCardProvider', () => {
   it('provides default context values', async () => {
     await act(async () => {
       render(
-        <FundCardProvider asset="BTC" country="US">
+        <FundCardProvider
+          asset="BTC"
+          country="US"
+          sessionToken="test-session-token"
+        >
           <TestComponent />
         </FundCardProvider>,
       );
@@ -157,7 +178,11 @@ describe('FundCardProvider', () => {
   it('fetches and sets exchange rate on mount', async () => {
     act(() => {
       render(
-        <FundCardProvider asset="BTC" country="US">
+        <FundCardProvider
+          asset="BTC"
+          country="US"
+          sessionToken="test-session-token"
+        >
           <TestComponent />
         </FundCardProvider>,
       );
@@ -203,7 +228,12 @@ describe('FundCardProvider', () => {
     global.fetch = vi.fn(() => Promise.reject(mockError)) as Mock;
 
     render(
-      <FundCardProvider asset="ETH" country="US" onError={mockOnError}>
+      <FundCardProvider
+        asset="ETH"
+        country="US"
+        onError={mockOnError}
+        sessionToken="test-session-token"
+      >
         <TestComponent />
       </FundCardProvider>,
     );

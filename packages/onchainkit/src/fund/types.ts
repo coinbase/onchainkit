@@ -354,6 +354,7 @@ export type FundCardPaymentMethodDropdownProps = {
  * Note: exported as public Type
  */
 export type FundCardProps = {
+  sessionToken: string; // REQUIRED session token used to create funding url upon submit button click
   children?: ReactNode;
   assetSymbol: string;
   placeholder?: string | React.ReactNode;
@@ -364,7 +365,6 @@ export type FundCardProps = {
   currency?: string;
   className?: string;
   presetAmountInputs?: PresetAmountInputs;
-  sessionToken?: string;
 } & LifecycleEvents;
 
 export type FundCardContentProps = {
@@ -391,6 +391,7 @@ export type FundCardPaymentMethodSelectRowProps = {
 export type FundCardProviderProps = {
   children: ReactNode;
   asset: string;
+  sessionToken: string; // REQUIRED session token used to create funding url upon submit button click
   /**
    * Three letter currency code. Defaults to USD.
    */
@@ -402,7 +403,6 @@ export type FundCardProviderProps = {
   subdivision?: string;
   inputType?: AmountInputType;
   presetAmountInputs?: PresetAmountInputs;
-  sessionToken?: string;
 } & LifecycleEvents;
 
 export type LifecycleEvents = {

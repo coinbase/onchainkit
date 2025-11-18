@@ -14,6 +14,7 @@ import { FundCardSubmitButton } from './FundCardSubmitButton';
 
 export function FundCard({
   assetSymbol,
+  sessionToken,
   buttonText = 'Buy',
   headerText,
   country = 'US',
@@ -25,7 +26,6 @@ export function FundCard({
   onError,
   onStatus,
   onSuccess,
-  sessionToken,
 }: FundCardProps) {
   return (
     <FundCardProvider

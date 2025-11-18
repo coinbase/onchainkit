@@ -20,33 +20,10 @@ describe('useFundCardFundingUrl', () => {
     vi.resetAllMocks();
   });
 
-  it('should return undefined if projectId is null', () => {
-    (useFundContext as Mock).mockReturnValue({
-      selectedPaymentMethod: { id: 'FIAT_WALLET' },
-      selectedInputType: 'fiat',
-      fundAmountFiat: '100',
-      fundAmountCrypto: '0',
-      asset: 'ETH',
-    });
+  // With sessionToken required in FundCard flow, the URL is always constructed with it
+  // These tests assert the URL contains sessionToken and correct amount param
 
-    const { result } = renderHook(() => useFundCardFundingUrl());
-    expect(result.current).toBeUndefined();
-  });
-
-  it('should return undefined if address is undefined', () => {
-    (useFundContext as Mock).mockReturnValue({
-      selectedPaymentMethod: { id: 'FIAT_WALLET' },
-      selectedInputType: 'fiat',
-      fundAmountFiat: '100',
-      fundAmountCrypto: '0',
-      asset: 'ETH',
-    });
-
-    const { result } = renderHook(() => useFundCardFundingUrl());
-    expect(result.current).toBeUndefined();
-  });
-
-  it('should return valid URL when input type is fiat', () => {
+  it('should return valid URL with sessionToken when input type is fiat', () => {
     (useFundContext as Mock).mockReturnValue({
       sessionToken: 'sessionToken',
       selectedPaymentMethod: { id: 'FIAT_WALLET' },
@@ -54,13 +31,15 @@ describe('useFundCardFundingUrl', () => {
       fundAmountFiat: '100',
       fundAmountCrypto: '0',
       asset: 'ETH',
+      currency: 'USD',
     });
 
     const { result } = renderHook(() => useFundCardFundingUrl());
+    expect(result.current).toContain('sessionToken=sessionToken');
     expect(result.current).toContain('presetFiatAmount=100');
   });
 
-  it('should return valid URL when input type is crypto', () => {
+  it('should return valid URL with sessionToken when input type is crypto', () => {
     (useFundContext as Mock).mockReturnValue({
       sessionToken: 'sessionToken',
       selectedPaymentMethod: { id: 'CRYPTO_WALLET' },
@@ -68,9 +47,11 @@ describe('useFundCardFundingUrl', () => {
       fundAmountFiat: '0',
       fundAmountCrypto: '1.5',
       asset: 'ETH',
+      currency: 'USD',
     });
 
     const { result } = renderHook(() => useFundCardFundingUrl());
+    expect(result.current).toContain('sessionToken=sessionToken');
     expect(result.current).toContain('presetCryptoAmount=1.5');
   });
 });

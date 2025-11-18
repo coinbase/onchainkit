@@ -25,6 +25,7 @@ import type {
 type FundCardContextType = {
   asset: string;
   currency: string;
+  sessionToken: string; // REQUIRED session token used to create funding url upon submit button click
   selectedPaymentMethod?: PaymentMethod;
   setSelectedPaymentMethod: (paymentMethod: PaymentMethod) => void;
   selectedInputType: AmountInputType;
@@ -48,7 +49,6 @@ type FundCardContextType = {
   country: string;
   subdivision?: string;
   inputType?: 'fiat' | 'crypto';
-  sessionToken?: string;
   lifecycleStatus: LifecycleStatus;
 
   presetAmountInputs?: PresetAmountInputs;

@@ -12,10 +12,6 @@ export const useFundCardFundingUrl = () => {
     sessionToken,
   } = useFundContext();
   return useMemo(() => {
-    if (!sessionToken) {
-      return undefined;
-    }
-
     const fundAmount =
       selectedInputType === 'fiat' ? fundAmountFiat : fundAmountCrypto;
 

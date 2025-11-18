@@ -105,11 +105,13 @@ const renderComponent = async (presetAmountInputs?: PresetAmountInputs) => {
       <FundCardProvider
         asset="BTC"
         country="US"
+        sessionToken="test-session-token"
         presetAmountInputs={presetAmountInputs}
       >
         <FundCard
           assetSymbol="BTC"
           country="US"
+          sessionToken="test-session-token"
           presetAmountInputs={presetAmountInputs}
         />
         <TestComponent />
@@ -287,7 +289,11 @@ describe('FundCard', () => {
   it('renders custom children instead of default children', async () => {
     await act(async () => {
       render(
-        <FundCard assetSymbol="ETH" country="US">
+        <FundCard
+          assetSymbol="ETH"
+          country="US"
+          sessionToken="test-session-token"
+        >
           <div data-testid="custom-child">Custom Content</div>
         </FundCard>,
       );
