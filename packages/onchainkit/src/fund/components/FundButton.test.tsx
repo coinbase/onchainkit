@@ -218,6 +218,29 @@ describe('FundButton', () => {
     expect(screen.getByText('click')).toBeInTheDocument();
   });
 
+  it('throws when neither sessionToken nor fundingUrl is provided', () => {
+    expect(() =>
+      render(
+        <FundButton
+          fundingUrl={undefined as unknown as string}
+          sessionToken={undefined as unknown as string}
+        />,
+      ),
+    ).toThrow('FundButton requires either sessionToken or fundingUrl');
+  });
+
+  it('renders custom children instead of default content', () => {
+    render(
+      <FundButton fundingUrl="https://funding.url">
+        <span data-testid="customChild">Top Up</span>
+      </FundButton>,
+    );
+    expect(screen.getByTestId('customChild')).toBeInTheDocument();
+    expect(
+      screen.queryByTestId('ockFundButtonTextContent'),
+    ).not.toHaveTextContent('Fund');
+  });
+
   it('shows ConnectWallet when no wallet is connected', () => {
     (useAccount as Mock).mockReturnValue({
       address: undefined,
