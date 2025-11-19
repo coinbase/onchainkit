@@ -69,8 +69,6 @@ type GetOnrampBuyUrlOptionalProps = {
 type FundButtonBaseProps = {
   /* An optional CSS class name for styling the button component */
   className?: string;
-  /* An optional React node to be displayed in the button component */
-  children?: ReactNode;
   /* A optional prop to disable the fund button */
   disabled?: boolean;
   /* The state of the button component */
@@ -93,6 +91,23 @@ type FundButtonBaseProps = {
   onClick?: () => void;
 };
 
+// Require exactly one funding source for FundButton (not both)
+type FundButtonSourceProps =
+  | { fundingUrl: string; sessionToken?: string }
+  | { sessionToken: string; fundingUrl?: string };
+
+type FundButtonRenderProps =
+  | {
+      render?: (props: FundButtonRenderParams) => React.ReactNode;
+      /* An optional React node to be displayed in the button component */
+      children?: never;
+    }
+  | {
+      render?: never;
+      /* An optional React node to be displayed in the button component */
+      children?: ReactNode;
+    };
+
 export type FundButtonRenderParams = {
   /* The state of the button component, only relevant when using FundCardSubmitButton */
   status: FundButtonState;
@@ -102,27 +117,12 @@ export type FundButtonRenderParams = {
   isDisabled: boolean;
 };
 
-// Require at least one funding source for FundButton
-type FundButtonSourceProps =
-  | { fundingUrl: string; sessionToken?: string }
-  | { sessionToken: string; fundingUrl?: string };
-
 /**
  * Note: exported as public Type
  */
-export type FundButtonProps =
-  | (FundButtonBaseProps &
-      FundButtonSourceProps & {
-        render?: (props: FundButtonRenderParams) => React.ReactNode;
-        /* An optional React node to be displayed in the button component */
-        children?: never;
-      })
-  | (FundButtonBaseProps &
-      FundButtonSourceProps & {
-        render?: never;
-        /* An optional React node to be displayed in the button component */
-        children?: ReactNode;
-      });
+export type FundButtonProps = FundButtonBaseProps &
+  FundButtonSourceProps &
+  FundButtonRenderProps;
 
 /**
  * Note: exported as public Type
