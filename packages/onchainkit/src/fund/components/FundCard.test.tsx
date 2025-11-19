@@ -2,7 +2,7 @@ import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { openPopup } from '@/internal/utils/openPopup';
 import '@testing-library/jest-dom';
 import { act } from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
 import { useFundCardFundingUrl } from '../hooks/useFundCardFundingUrl';
@@ -12,7 +12,7 @@ import { fetchOnrampOptions } from '../utils/fetchOnrampOptions';
 import { fetchOnrampQuote } from '../utils/fetchOnrampQuote';
 import { getFundingPopupSize } from '../utils/getFundingPopupSize';
 import { FundCard } from './FundCard';
-import { FundCardProvider, useFundContext } from './FundCardProvider';
+import { useFundContext } from './FundCardProvider';
 
 const mockUpdateInputWidth = vi.fn();
 vi.mock('../../internal/hooks/useInputResize', () => ({
@@ -61,63 +61,14 @@ vi.mock('../../wallet/components/ConnectWallet', () => ({
   ),
 }));
 
-// Test component to access context values
-const TestComponent = () => {
-  const {
-    fundAmountFiat,
-    fundAmountCrypto,
-    exchangeRate,
-    exchangeRateLoading,
-    setFundAmountFiat,
-    setSelectedInputType,
-  } = useFundContext();
-
+// Probe component to read context provided by FundCard's internal provider
+const ContextProbe = () => {
+  const context = useFundContext();
   return (
     <div>
-      <span data-testid="test-value-fiat">{fundAmountFiat}</span>
-      <span data-testid="test-value-crypto">{fundAmountCrypto}</span>
-      <span data-testid="test-value-exchange-rate">{exchangeRate}</span>
-      <span data-testid="loading-state">
-        {exchangeRateLoading ? 'loading' : 'not-loading'}
-      </span>
-      <button
-        type="button"
-        data-testid="set-fiat-amount"
-        onClick={() => setFundAmountFiat('100')}
-      />
-      <button
-        type="button"
-        data-testid="set-crypto-input-type"
-        onClick={() => setSelectedInputType('crypto')}
-      />
-      <button
-        type="button"
-        data-testid="set-fiat-input-type"
-        onClick={() => setSelectedInputType('fiat')}
-      />
+      <span data-testid="session-token-probe">{context.sessionToken}</span>
     </div>
   );
-};
-
-const renderComponent = async (presetAmountInputs?: PresetAmountInputs) => {
-  await act(async () => {
-    render(
-      <FundCardProvider
-        asset="BTC"
-        country="US"
-        sessionToken="test-session-token"
-        presetAmountInputs={presetAmountInputs}
-      >
-        <FundCard
-          assetSymbol="BTC"
-          country="US"
-          sessionToken="test-session-token"
-          presetAmountInputs={presetAmountInputs}
-        />
-        <TestComponent />
-      </FundCardProvider>,
-    );
-  });
 };
 
 describe('FundCard', () => {
@@ -137,28 +88,75 @@ describe('FundCard', () => {
     });
   });
 
+  it('throws when sessionToken is missing or empty', () => {
+    expect(() =>
+      render(
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          sessionToken={undefined as unknown as string}
+        />,
+      ),
+    ).toThrow('FundCard requires a sessionToken');
+    expect(() =>
+      render(<FundCard assetSymbol="BTC" country="US" sessionToken="" />),
+    ).toThrow('FundCard requires a sessionToken');
+  });
+
   it('renders without crashing', async () => {
-    await renderComponent();
+    await act(async () => {
+      render(
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          sessionToken="test-session-token"
+        />,
+      );
+    });
     expect(screen.getByTestId('ockFundCardHeader')).toBeInTheDocument();
     expect(screen.getByTestId('ockFundButtonTextContent')).toBeInTheDocument();
   });
 
   it('displays the correct header text', async () => {
-    await renderComponent();
+    await act(async () => {
+      render(
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          sessionToken="test-session-token"
+        />,
+      );
+    });
     expect(screen.getByTestId('ockFundCardHeader')).toHaveTextContent(
       'Buy BTC',
     );
   });
 
   it('displays the correct button text', async () => {
-    await renderComponent();
+    await act(async () => {
+      render(
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          sessionToken="test-session-token"
+        />,
+      );
+    });
     expect(screen.getByTestId('ockFundButtonTextContent')).toHaveTextContent(
       'Buy',
     );
   });
 
   it('handles input changes for fiat amount', async () => {
-    await renderComponent();
+    await act(async () => {
+      render(
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          sessionToken="test-session-token"
+        />,
+      );
+    });
 
     const input = screen.getByTestId('ockTextInput_Input') as HTMLInputElement;
 
@@ -170,120 +168,127 @@ describe('FundCard', () => {
   });
 
   it('switches input type from fiat to crypto', async () => {
-    await renderComponent();
-
-    await waitFor(() => {
-      const switchButton = screen.getByTestId('ockAmountTypeSwitch');
-      fireEvent.click(switchButton);
+    await act(async () => {
+      render(
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          sessionToken="test-session-token"
+        />,
+      );
     });
+
+    const switchButton = screen.getByTestId('ockAmountTypeSwitch');
+    fireEvent.click(switchButton);
 
     expect(screen.getByTestId('ockCurrencySpan')).toHaveTextContent('BTC');
   });
 
-  it('disables the submit button when fund amount is zero and type is fiat', async () => {
-    await renderComponent();
-    const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
-    fireEvent.click(setFiatAmountButton);
-
+  it('disables the submit button by default (zero amount, fiat)', async () => {
+    await act(async () => {
+      render(
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          sessionToken="test-session-token"
+        />,
+      );
+    });
     const button = screen.getByTestId('ockFundButton');
     expect(button).toBeDisabled();
   });
 
   it('disables the submit button when fund amount is zero and input type is crypto', async () => {
-    await renderComponent();
-    const setCryptoInputTypeButton = screen.getByTestId(
-      'set-crypto-input-type',
-    );
-    fireEvent.click(setCryptoInputTypeButton);
+    await act(async () => {
+      render(
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          sessionToken="test-session-token"
+        />,
+      );
+    });
+    const switchButton = screen.getByTestId('ockAmountTypeSwitch');
+    fireEvent.click(switchButton);
 
     const button = screen.getByTestId('ockFundButton');
     expect(button).toBeDisabled();
   });
 
   it('enables the submit button when fund amount is greater than zero and type is fiat', async () => {
-    await renderComponent();
-    const setFiatAmountButton = screen.getByTestId('set-fiat-amount');
-    fireEvent.click(setFiatAmountButton);
-
-    await waitFor(() => {
-      expect(screen.getByTestId('loading-state').textContent).toBe(
-        'not-loading',
+    await act(async () => {
+      render(
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          sessionToken="test-session-token"
+        />,
       );
-      const input = screen.getByTestId('ockTextInput_Input');
-      fireEvent.change(input, { target: { value: '1000' } });
-
-      const button = screen.getByTestId('ockFundButton');
-      expect(button).not.toBeDisabled();
     });
+    const input = screen.getByTestId('ockTextInput_Input');
+    fireEvent.change(input, { target: { value: '1000' } });
+    const button = screen.getByTestId('ockFundButton');
+    expect(button).not.toBeDisabled();
   });
 
   it('enables the submit button when fund amount is greater than zero and type is crypto', async () => {
-    await renderComponent();
-    const setCryptoInputTypeButton = screen.getByTestId(
-      'set-crypto-input-type',
-    );
-    fireEvent.click(setCryptoInputTypeButton);
-
-    await waitFor(() => {
-      expect(screen.getByTestId('loading-state').textContent).toBe(
-        'not-loading',
+    await act(async () => {
+      render(
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          sessionToken="test-session-token"
+        />,
       );
-      const input = screen.getByTestId('ockTextInput_Input');
-      fireEvent.change(input, { target: { value: '1000' } });
-
-      const button = screen.getByTestId('ockFundButton');
-      expect(button).not.toBeDisabled();
     });
+    const switchButton = screen.getByTestId('ockAmountTypeSwitch');
+    fireEvent.click(switchButton);
+    const input = screen.getByTestId('ockTextInput_Input');
+    fireEvent.change(input, { target: { value: '1000' } });
+    const button = screen.getByTestId('ockFundButton');
+    expect(button).not.toBeDisabled();
   });
 
   it('shows loading state when submitting', async () => {
-    await renderComponent();
-
-    await waitFor(() => {
-      expect(screen.getByTestId('loading-state').textContent).toBe(
-        'not-loading',
+    await act(async () => {
+      render(
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          sessionToken="test-session-token"
+        />,
       );
-      const input = screen.getByTestId('ockTextInput_Input');
-
-      fireEvent.change(input, { target: { value: '1000' } });
-
-      const button = screen.getByTestId('ockFundButton');
-
-      expect(screen.queryByTestId('ockSpinner')).not.toBeInTheDocument();
-      act(() => {
-        fireEvent.click(button);
-      });
-
-      expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
     });
+    const input = screen.getByTestId('ockTextInput_Input');
+    fireEvent.change(input, { target: { value: '1000' } });
+    const button = screen.getByTestId('ockFundButton');
+    expect(screen.queryByTestId('ockSpinner')).not.toBeInTheDocument();
+    act(() => {
+      fireEvent.click(button);
+    });
+    expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
   });
 
   it('sets submit button state to default on popup close', async () => {
     (openPopup as Mock).mockImplementation(() => ({ closed: true }));
 
-    await renderComponent();
+    await act(async () => {
+      render(
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          sessionToken="test-session-token"
+        />,
+      );
+    });
 
     const button = screen.getByTestId('ockFundButton');
 
-    const submitButton = screen.getByTestId('ockFundButton');
-
-    await waitFor(() => {
-      expect(screen.getByTestId('loading-state').textContent).toBe(
-        'not-loading',
-      );
-
-      // Simulate entering a valid amount
-      const input = screen.getByTestId(
-        'ockTextInput_Input',
-      ) as HTMLInputElement;
-
-      fireEvent.change(input, { target: { value: '100' } });
-
-      fireEvent.click(button);
-
-      // Assert that the submit button state is set to 'default'
-      expect(submitButton).not.toBeDisabled();
-    });
+    const input = screen.getByTestId('ockTextInput_Input') as HTMLInputElement;
+    fireEvent.change(input, { target: { value: '100' } });
+    fireEvent.click(button);
+    // After popup close, state should reset, button should be enabled again
+    expect(screen.getByTestId('ockFundButton')).not.toBeDisabled();
   });
 
   it('renders custom children instead of default children', async () => {
@@ -306,59 +311,37 @@ describe('FundCard', () => {
   it('handles preset amount input click correctly', async () => {
     const presetAmountInputs: PresetAmountInputs = ['12345', '20', '30'];
 
-    await renderComponent(presetAmountInputs);
-
-    await waitFor(() => {
-      expect(screen.getByTestId('loading-state').textContent).toBe(
-        'not-loading',
+    await act(async () => {
+      render(
+        <FundCard
+          assetSymbol="BTC"
+          country="US"
+          sessionToken="test-session-token"
+          presetAmountInputs={presetAmountInputs}
+        />,
       );
-
-      // Click the preset amount input
-      const presetAmountInput = screen.getByText('$12,345');
-
-      // Verify the input value was updated
-      expect(presetAmountInput).toBeInTheDocument();
     });
+
+    // Click the preset amount input
+    const presetAmountInput = screen.getByText('$12,345');
+    expect(presetAmountInput).toBeInTheDocument();
+    fireEvent.click(presetAmountInput);
+    const input = screen.getByTestId('ockTextInput_Input') as HTMLInputElement;
+    expect(input.value.replace(/,/g, '')).toBe('12345');
   });
 
-  it('passes sessionToken to FundCardProvider', async () => {
+  it('exposes sessionToken via context to children', async () => {
     const sessionToken = 'test-session-token';
     await act(async () => {
       render(
         <FundCard assetSymbol="ETH" country="US" sessionToken={sessionToken}>
-          <TestComponent />
+          <ContextProbe />
         </FundCard>,
       );
     });
 
-    // Verify the component renders correctly with sessionToken
-    await waitFor(() => {
-      expect(screen.getByTestId('loading-state').textContent).toBe(
-        'not-loading',
-      );
-    });
-  });
-
-  it('handles sessionToken correctly in FundCardProvider context', async () => {
-    const sessionToken = 'test-session-token';
-    const TestSessionComponent = () => {
-      const context = useFundContext();
-      return <div data-testid="session-token">{context.sessionToken}</div>;
-    };
-
-    await act(async () => {
-      render(
-        <FundCardProvider
-          asset="ETH"
-          country="US"
-          currency="USD"
-          sessionToken={sessionToken}
-        >
-          <TestSessionComponent />
-        </FundCardProvider>,
-      );
-    });
-
-    expect(screen.getByTestId('session-token').textContent).toBe(sessionToken);
+    expect(screen.getByTestId('session-token-probe').textContent).toBe(
+      sessionToken,
+    );
   });
 });

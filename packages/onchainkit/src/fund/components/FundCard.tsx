@@ -27,6 +27,10 @@ export function FundCard({
   onStatus,
   onSuccess,
 }: FundCardProps) {
+  // Ensure a session token is provided
+  if (!sessionToken) {
+    throw new Error('FundCard requires a sessionToken');
+  }
   return (
     <FundCardProvider
       asset={assetSymbol}

@@ -238,7 +238,7 @@ describe('FundButton', () => {
     expect(screen.getByTestId('customChild')).toBeInTheDocument();
     expect(
       screen.queryByTestId('ockFundButtonTextContent'),
-    ).not.toHaveTextContent('Fund');
+    ).not.toBeInTheDocument();
   });
 
   it('shows ConnectWallet when no wallet is connected', () => {
