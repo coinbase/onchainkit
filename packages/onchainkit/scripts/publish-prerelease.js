@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import process from 'process';
 import { fileURLToPath } from 'url';
+import escapeRegExp from 'lodash.escaperegexp';
 import * as core from '@actions/core';
 
 const DIST_TAGS_URL =
@@ -114,7 +115,8 @@ export function getNextVersionNumber({
     return nextVersionAtTagZero;
   }
 
-  const [tagBase, tagCount] = currentTagVersion.split(new RegExp(`-${tag}\\.`));
+  const escapedTag = escapeRegExp(tag);
+  const [tagBase, tagCount] = currentTagVersion.split(new RegExp(`-${escapedTag}\\.`));
 
   // If the base version is the same as the current tag version...
   if (baseVersion === tagBase) {
