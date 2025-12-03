@@ -48,9 +48,14 @@ export type MiniAppFields = {
   buttonTitle?: string;
 };
 
+export type BaseBuilderFields = {
+  ownerAddress: string;
+}
+
 export type MiniAppManifest = {
   accountAssociation?: AccountAssociationFields;
   miniapp: MiniAppFields;
+  baseBuilder?: BaseBuilderFields;
   frame?: never;
 };
 
