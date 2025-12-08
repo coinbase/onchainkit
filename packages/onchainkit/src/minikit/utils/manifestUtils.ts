@@ -7,7 +7,7 @@ import type {
 export function withValidManifest<
   T extends MiniAppManifest | LegacyMiniAppManifest,
 >(manifest: T): T {
-  const { accountAssociation, miniapp, frame, ...rest } = manifest;
+  const { accountAssociation, miniapp, frame, baseBuilder, ...rest } = manifest as MiniAppManifest & LegacyMiniAppManifest;
 
   const miniappObject =
     ('miniapp' in manifest && miniapp) || ('frame' in manifest && frame);
@@ -63,11 +63,20 @@ export function withValidManifest<
     );
   }
 
+  const hasValidBaseBuilder = baseBuilder && baseBuilder.ownerAddress;
+
+  if (baseBuilder && !hasValidBaseBuilder) {
+    console.warn('Invalid manifest baseBuilder. Omitting from manifest.');
+  }
+
   return {
     ...(hasValidAccountAssociation && {
       accountAssociation: manifest.accountAssociation,
     }),
     miniapp: cleanedMiniapp,
+    ...(hasValidBaseBuilder && {
+      baseBuilder: (manifest as MiniAppManifest).baseBuilder,
+    }),
     ...rest,
   } as T;
 }
