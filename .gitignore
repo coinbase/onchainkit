@@ -1,0 +1,65 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+dist
+esm
+tmp
+/out-tsc
+src/styles.css
+
+# dependencies
+node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+
+# misc
+/.sass-cache
+/connect.lock
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+.ignore
+
+# System Files
+.DS_Store
+Thumbs.db
+
+.nx/cache
+
+package-lock.json
+bun.lockb
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+# VitePress
+docs/.vitepress/cache
+docs/.vitepress/dist
+
+*storybook.log
+storybook-static/
+
+# Tarballs  
+*.tgz
+
+# AI agent rules
+.cursorrules
+AGENT.md
+.claude

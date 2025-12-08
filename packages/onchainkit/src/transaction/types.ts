@@ -1,0 +1,340 @@
+import type { ReactNode } from 'react';
+import type {
+  Address,
+  ContractFunctionParameters,
+  Hex,
+  TransactionReceipt,
+} from 'viem';
+import type { WalletCapabilities as ViemWalletCapabilities } from 'viem';
+import type { Config } from 'wagmi';
+import type { SendTransactionMutateAsync } from 'wagmi/query';
+// 🌲☀🌲
+import type { TransactionError } from '../api/types';
+import type { ToastProps } from '@/internal/components/Toast';
+
+export type Call = { to: Hex; data?: Hex; value?: bigint };
+
+type TransactionButtonOverride = {
+  text?: ReactNode;
+  onClick?: (receipt?: TransactionReceipt) => void;
+};
+
+/**
+ * List of transaction lifecycle statuses.
+ * The order of the statuses loosely follows the transaction lifecycle.
+ *
+ * Note: exported as public Type
+ */
+export type LifecycleStatus =
+  | {
+      statusName: 'init';
+      statusData: null;
+    }
+  | {
+      statusName: 'error';
+      statusData: TransactionError;
+    }
+  | {
+      statusName: 'transactionIdle'; // initial status prior to the mutation function executing
+      statusData: null;
+    }
+  | {
+      statusName: 'buildingTransaction';
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionPending'; // if the mutation is currently executing
+      statusData: null;
+    }
+  | {
+      statusName: 'transactionLegacyExecuted';
+      statusData: {
+        transactionHashList: Address[];
+      };
+    }
+  | {
+      statusName: 'success'; // if the last mutation attempt was successful
+      statusData: {
+        transactionReceipts: TransactionReceipt[];
+      };
+    }
+  | {
+      statusName: 'reset';
+      statusData: null;
+    };
+
+export type IsSpinnerDisplayedProps = {
+  errorMessage?: string;
+  hasReceipt?: boolean;
+  isInProgress?: boolean;
+  transactionHash?: string;
+  transactionId?: string;
+};
+
+type TransactionButtonState = 'default' | 'success' | 'error' | 'pending';
+
+export type TransactionButtonRenderParams = {
+  /** The current state of the button */
+  status: TransactionButtonState;
+  /** The function to be called when the button is clicked */
+  onSubmit: () => void;
+  /** The function to be called when the button is clicked */
+  onSuccess: () => void;
+  /** Whether the button is disabled */
+  isDisabled: boolean;
+  /** The context of the transaction */
+  context: TransactionContextType;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionButtonProps = {
+  /** An optional CSS class name for styling the button component */
+  className?: string;
+  /** A optional prop to disable the submit button */
+  disabled?: boolean;
+  /** An optional text to be displayed in the button component */
+  text?: ReactNode;
+  /** Optional overrides for text and onClick handler in error state (default is resubmit txn) */
+  errorOverride?: TransactionButtonOverride;
+  /** Optional overrides for text and onClick handler in success state (default is view txn on block explorer) */
+  successOverride?: TransactionButtonOverride;
+  /** Optional overrides for text in pending state (default is loading spinner) */
+  pendingOverride?: Pick<TransactionButtonOverride, 'text'>;
+  /** Optional render prop to customize the button content */
+  render?: (params: TransactionButtonRenderParams) => ReactNode;
+};
+
+export type TransactionContextType = {
+  /** The chainId for the transaction */
+  chainId?: number;
+  /** An error code used to localize errors and provide more context with unit-tests */
+  errorCode?: string;
+  /** An error message string if the transaction encounters an issue */
+  errorMessage?: string;
+  /** A boolean indicating if the transaction is currently loading */
+  isLoading: boolean;
+  /** A boolean indicating if the transaction toast notification is visible */
+  isToastVisible: boolean;
+  /** A function called when the transaction is submitted */
+  onSubmit: () => void;
+  /** The paymaster URL for the transaction */
+  paymasterUrl: string | null;
+  /** The receipt of the transaction */
+  receipt?: TransactionReceipt;
+  /** The lifecycle status of the transaction */
+  lifecycleStatus: LifecycleStatus;
+  /** A function to set the visibility of the transaction toast */
+  setIsToastVisible: (isVisible: boolean) => void;
+  /** A function to set the lifecycle status of the component */
+  setLifecycleStatus: (state: LifecycleStatus) => void;
+  /** A function to set the transaction ID */
+  setTransactionId: (id: string) => void;
+  /** An array of transactions for the component or a promise that resolves to an array of transactions */
+  transactions?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
+  /** An optional string representing the ID of the transaction */
+  transactionId?: string;
+  /** An optional string representing the hash of the transaction */
+  transactionHash?: string;
+  /** Number of transactions being executed */
+  transactionCount?: number;
+};
+
+type PaymasterService = {
+  url: string;
+};
+
+export type SendBatchedTransactionsParams = {
+  capabilities?: WalletCapabilities;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  sendCallsAsync: any;
+  transactions?: Array<Call | ContractFunctionParameters>;
+};
+
+export type SendSingleTransactionParams = {
+  config: Config;
+  sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
+  transactions: Array<Call | ContractFunctionParameters>;
+};
+
+export type Calls = Call[] | Promise<Call[]> | (() => Promise<Call[]>);
+export type Contracts =
+  | ContractFunctionParameters[]
+  | Promise<ContractFunctionParameters[]>
+  | (() => Promise<ContractFunctionParameters[]>);
+
+export type TransactionProviderProps = {
+  /** An array of calls to be made in the transaction */
+  calls?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
+  /**
+   * @deprecated Use `isSponsored` instead.
+   */
+  capabilities?: WalletCapabilities;
+  /** The chainId for the transaction */
+  chainId: number;
+  /** The child components to be rendered within the provider component */
+  children: ReactNode;
+  /** Whether the transactions are sponsored (default: false) */
+  isSponsored?: boolean;
+  /** An optional callback function that handles errors within the provider */
+  onError?: (e: TransactionError) => void;
+  /** An optional callback function that exposes the component lifecycle state */
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  /** An optional callback function that exposes the transaction receipts */
+  onSuccess?: (response: TransactionResponseType) => void;
+  /** An optional time (in ms) after which to reset the component */
+  resetAfter?: number;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionProps = {
+  /** An array of calls to be made in the transaction */
+  calls?: Calls | Contracts | Array<Call | ContractFunctionParameters>;
+  /**
+   * @deprecated Use `isSponsored` instead.
+   */
+  capabilities?: WalletCapabilities;
+  /** The chainId for the transaction */
+  chainId?: number;
+  /** The child components to be rendered within the transaction component */
+  children?: ReactNode;
+  /** An optional CSS class name for styling the component */
+  className?: string;
+  /** Whether the transactions are sponsored (default: false) */
+  isSponsored?: boolean;
+  /** An optional callback function that handles transaction errors */
+  onError?: (e: TransactionError) => void;
+  /** An optional callback function that exposes the component lifecycle state */
+  onStatus?: (lifecycleStatus: LifecycleStatus) => void;
+  /** An optional callback function that exposes the transaction receipts */
+  onSuccess?: (response: TransactionResponseType) => void;
+  /** An optional time (in ms) after which to reset the component */
+  resetAfter?: number;
+} & (
+  | {
+      children: ReactNode;
+      /** An optional prop to disable submit button. Only available when children are not provided. */
+      disabled?: never;
+    }
+  | {
+      children?: never;
+      /** An optional prop to disable submit button. Only available when children are not provided. */
+      disabled?: boolean;
+    }
+);
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionResponseType = {
+  transactionReceipts: TransactionReceipt[];
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionSponsorProps = {
+  /** An optional CSS class name for styling the sponsor component */
+  className?: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionStatusProps = {
+  /** The child components to be rendered within the status component */
+  children?: ReactNode;
+  /** An optional CSS class name for styling the status component */
+  className?: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionStatusActionProps = {
+  /** An optional CSS class name for styling */
+  className?: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionStatusLabelProps = {
+  /** An optional CSS class name for styling */
+  className?: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionToastProps = Pick<
+  ToastProps,
+  'duration' | 'position' | 'className'
+> & {
+  /** The child components to be rendered within the toast component */
+  children?: ReactNode;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionToastActionProps = {
+  /** An optional CSS class name for styling */
+  className?: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionToastIconProps = {
+  /** An optional CSS class name for styling */
+  className?: string;
+};
+
+/**
+ * Note: exported as public Type
+ */
+export type TransactionToastLabelProps = {
+  /** An optional CSS class name for styling */
+  className?: string;
+};
+
+export type UseCallsStatusParams = {
+  setLifecycleStatus: (state: LifecycleStatus) => void;
+  transactionId: string;
+};
+
+export type UseWriteContractParams = {
+  setLifecycleStatus: (state: LifecycleStatus) => void;
+  transactionHashList: Address[];
+};
+
+export type UseSendCallParams = {
+  setLifecycleStatus: (state: LifecycleStatus) => void;
+  transactionHashList: Address[];
+};
+
+export type UseSendCallsParams = {
+  setLifecycleStatus: (state: LifecycleStatus) => void;
+  setTransactionId: (id: string) => void;
+};
+
+export type UseSendWalletTransactionsParams = {
+  capabilities?: WalletCapabilities;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  sendCallsAsync: any;
+  sendCallAsync: SendTransactionMutateAsync<Config, unknown> | (() => void);
+  walletCapabilities: ViemWalletCapabilities;
+};
+
+/**
+ * Note: exported as public Type
+ *
+ * Wallet capabilities configuration
+ */
+export type WalletCapabilities = {
+  paymasterService?: PaymasterService;
+};

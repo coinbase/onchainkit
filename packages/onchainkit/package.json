@@ -1,0 +1,222 @@
+{
+  "name": "@coinbase/onchainkit",
+  "version": "1.1.2",
+  "type": "module",
+  "repository": "https://github.com/coinbase/onchainkit.git",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "pnpm clean && vite build",
+    "dev": "NODE_ENV=development vite build --watch",
+    "clean": "rm -rf dist esm",
+    "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "get-next-version": "node ./scripts/get-next-version.js",
+    "publish-prerelease": "node ./scripts/publish-prerelease.js",
+    "validate-build": "node ./scripts/validate-build.js",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19",
+    "viem": "^2.27",
+    "wagmi": "^2.16"
+  },
+  "dependencies": {
+    "@farcaster/miniapp-sdk": "^0.1.8",
+    "@farcaster/miniapp-wagmi-connector": "^1.0.0",
+    "@floating-ui/react": "^0.27.13",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-dropdown-menu": "^2.1.6",
+    "@radix-ui/react-popover": "^1.1.14",
+    "@radix-ui/react-tabs": "^1.1.3",
+    "@radix-ui/react-toast": "^1.2.14",
+    "@tanstack/react-query": "^5",
+    "@wagmi/core": "^2.16.7",
+    "clsx": "^2.1.1",
+    "graphql": "^14 || ^15 || ^16",
+    "graphql-request": "^6.1.0",
+    "qrcode": "^1.5.4",
+    "tailwind-merge": "^3.2.0",
+    "usehooks-ts": "^3.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/helper-plugin-utils": "^7.26.5",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/types": "^7.27.0",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-interactions": "^8.6.14",
+    "@storybook/addon-onboarding": "^8.6.14",
+    "@storybook/blocks": "^8.6.14",
+    "@storybook/react": "^8.6.14",
+    "@storybook/react-vite": "^8.6.14",
+    "@storybook/test": "^8.6.14",
+    "@tailwindcss/cli": "^4.1.4",
+    "@tailwindcss/postcss": "^4.1.4",
+    "@testing-library/jest-dom": "6.4.7",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/babel__core": "^7.20.5",
+    "@types/babel__helper-plugin-utils": "^7.10.3",
+    "@types/node": "^22.13.10",
+    "@types/qrcode": "^1",
+    "@types/react": "19.1.2",
+    "@types/react-dom": "19.1.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^3.0.5",
+    "@vitest/ui": "^3.0.5",
+    "autoprefixer": "^10.4.19",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "chromatic": "^11.28.2",
+    "esbuild-fix-imports-plugin": "^1.0.19",
+    "esbuild-plugin-babel": "^0.2.3",
+    "glob": "^11.0.1",
+    "globals": "^15.15.0",
+    "graphql": "^14",
+    "graphql-request": "^6.1.0",
+    "jsdom": "^24.1.0",
+    "postcss": "^8",
+    "postcss-import": "^16.1.0",
+    "postcss-load-config": "^6.0.1",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "rimraf": "^5.0.5",
+    "rollup-plugin-preserve-use-client": "^3.0.1",
+    "storybook": "^8.2.9",
+    "tailwindcss": "^4.1.6",
+    "tailwindcss-animate": "^1.0.7",
+    "tscpaths": "^0.0.9",
+    "tsup": "^8.3.5",
+    "viem": "^2.31.6",
+    "vite": "^5.4.20",
+    "vite-plugin-dts": "^4.5.3",
+    "vite-plugin-externalize-deps": "^0.9.0",
+    "vitest": "^3.0.5",
+    "wagmi": "^2.16.3"
+  },
+  "files": [
+    "dist/**/*",
+    "src/**/*"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    "./styles.css": "./dist/assets/style.css",
+    "./theme": "./dist/styles/theme.js",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "module": "./dist/index.js",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./api": {
+      "types": "./dist/api/index.d.ts",
+      "module": "./dist/api/index.js",
+      "import": "./dist/api/index.js",
+      "default": "./dist/api/index.js"
+    },
+    "./appchain": {
+      "types": "./dist/appchain/index.d.ts",
+      "module": "./dist/appchain/index.js",
+      "import": "./dist/appchain/index.js",
+      "default": "./dist/appchain/index.js"
+    },
+    "./buy": {
+      "types": "./dist/buy/index.d.ts",
+      "module": "./dist/buy/index.js",
+      "import": "./dist/buy/index.js",
+      "default": "./dist/buy/index.js"
+    },
+    "./checkout": {
+      "types": "./dist/checkout/index.d.ts",
+      "module": "./dist/checkout/index.js",
+      "import": "./dist/checkout/index.js",
+      "default": "./dist/checkout/index.js"
+    },
+    "./earn": {
+      "types": "./dist/earn/index.d.ts",
+      "module": "./dist/earn/index.js",
+      "import": "./dist/earn/index.js",
+      "default": "./dist/earn/index.js"
+    },
+    "./fund": {
+      "types": "./dist/fund/index.d.ts",
+      "module": "./dist/fund/index.js",
+      "import": "./dist/fund/index.js",
+      "default": "./dist/fund/index.js"
+    },
+    "./identity": {
+      "types": "./dist/identity/index.d.ts",
+      "module": "./dist/identity/index.js",
+      "import": "./dist/identity/index.js",
+      "default": "./dist/identity/index.js"
+    },
+    "./minikit": {
+      "types": "./dist/minikit/index.d.ts",
+      "module": "./dist/minikit/index.js",
+      "import": "./dist/minikit/index.js",
+      "default": "./dist/minikit/index.js"
+    },
+    "./nft": {
+      "types": "./dist/nft/index.d.ts",
+      "module": "./dist/nft/index.js",
+      "import": "./dist/nft/index.js",
+      "default": "./dist/nft/index.js"
+    },
+    "./nft/view": {
+      "types": "./dist/nft/components/view/index.d.ts",
+      "module": "./dist/nft/components/view/index.js",
+      "import": "./dist/nft/components/view/index.js",
+      "default": "./dist/nft/components/view/index.js"
+    },
+    "./nft/mint": {
+      "types": "./dist/nft/components/mint/index.d.ts",
+      "module": "./dist/nft/components/mint/index.js",
+      "import": "./dist/nft/components/mint/index.js",
+      "default": "./dist/nft/components/mint/index.js"
+    },
+    "./signature": {
+      "types": "./dist/signature/index.d.ts",
+      "module": "./dist/signature/index.js",
+      "import": "./dist/signature/index.js",
+      "default": "./dist/signature/index.js"
+    },
+    "./swap": {
+      "types": "./dist/swap/index.d.ts",
+      "module": "./dist/swap/index.js",
+      "import": "./dist/swap/index.js",
+      "default": "./dist/swap/index.js"
+    },
+    "./token": {
+      "types": "./dist/token/index.d.ts",
+      "module": "./dist/token/index.js",
+      "import": "./dist/token/index.js",
+      "default": "./dist/token/index.js"
+    },
+    "./transaction": {
+      "types": "./dist/transaction/index.d.ts",
+      "module": "./dist/transaction/index.js",
+      "import": "./dist/transaction/index.js",
+      "default": "./dist/transaction/index.js"
+    },
+    "./wallet": {
+      "types": "./dist/wallet/index.d.ts",
+      "module": "./dist/wallet/index.js",
+      "import": "./dist/wallet/index.js",
+      "default": "./dist/wallet/index.js"
+    }
+  },
+  "packageManager": "pnpm@10.6.3"
+}

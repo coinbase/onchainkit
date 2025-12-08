@@ -1,0 +1,34 @@
+'use client';
+import { useEarnContext } from '@/earn/components/EarnProvider';
+import { VaultDetails } from '@/earn/components/VaultDetails';
+import { YieldDetails } from '@/earn/components/YieldDetails';
+import { cn } from '@/styles/theme';
+import type { EarnDetailsProps } from '../types';
+
+export function EarnDetails({ className }: EarnDetailsProps) {
+  const { error } = useEarnContext();
+
+  if (error) {
+    return (
+      <div
+        className={cn('flex w-full flex-col gap-1 text-sm', 'text-ock-error')}
+      >
+        <div className="font-semibold">Error fetching vault details</div>
+        <div className="text-xs">{error.message}</div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      data-testid="ockEarnDetails"
+      className={cn(
+        'rounded-ock-default flex w-full items-center justify-between gap-4',
+        className,
+      )}
+    >
+      <VaultDetails />
+      <YieldDetails />
+    </div>
+  );
+}

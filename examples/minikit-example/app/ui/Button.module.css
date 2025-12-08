@@ -1,0 +1,97 @@
+/* Base button styles */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+  outline: none;
+
+  --app-background: #111111;
+  --app-foreground: #ffffff;
+  --app-foreground-muted: #c8c8d1;
+  --app-accent: #0052ff;
+  --app-accent-hover: #0047e1;
+  --app-accent-light: #1e293b;
+  --app-gray: #1e1e1e;
+  --app-gray-dark: #2e2e2e;
+}
+
+.button:focus {
+  outline: none;
+  box-shadow:
+    0 0 0 2px rgba(0, 82, 255, 0.2),
+    0 0 0 4px rgba(0, 82, 255, 0.1);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Variant styles */
+.primary {
+  background-color: var(--app-accent);
+  color: var(--app-background);
+}
+
+.primary:hover:not(:disabled) {
+  background-color: var(--app-accent-hover);
+}
+
+.secondary {
+  background-color: var(--app-gray);
+  color: var(--app-foreground);
+}
+
+.secondary:hover:not(:disabled) {
+  background-color: var(--app-gray-dark);
+}
+
+.outline {
+  border: 1px solid var(--app-accent);
+  background-color: transparent;
+  color: var(--app-accent);
+}
+
+.outline:hover:not(:disabled) {
+  background-color: var(--app-accent-light);
+}
+
+.ghost {
+  background-color: transparent;
+  color: var(--app-foreground-muted);
+}
+
+.ghost:hover:not(:disabled) {
+  background-color: var(--app-accent-light);
+}
+
+/* Size styles */
+.sm {
+  font-size: 0.75rem; /* text-xs */
+  padding: 0.375rem 0.625rem; /* py-1.5 px-2.5 */
+  border-radius: 0.375rem; /* rounded-md */
+}
+
+.md {
+  font-size: 0.875rem; /* text-sm */
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  border-radius: 0.5rem; /* rounded-lg */
+}
+
+.lg {
+  font-size: 1rem; /* text-base */
+  padding: 0.75rem 1.5rem; /* py-3 px-6 */
+  border-radius: 0.5rem; /* rounded-lg */
+}
+
+/* Icon styles */
+.iconContainer {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem; /* mr-2 */
+}

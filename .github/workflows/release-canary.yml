@@ -1,0 +1,40 @@
+name: Publish canary version
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: read
+
+jobs:
+  publish-canary:
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: read
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@002fdce3c6a235733a90a27c80493a3241e56863 # v2.12.1
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: 'Setup'
+        uses: ./.github/actions/setup
+
+      - name: Build
+        shell: bash
+        run: pnpm f:ock build
+
+      - name: Set deployment token
+        run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
+
+      - name: Publish canary
+        shell: bash
+        run: pnpm f:ock publish-prerelease --tag canary

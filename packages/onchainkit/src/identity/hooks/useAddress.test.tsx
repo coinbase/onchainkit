@@ -1,0 +1,96 @@
+import { renderHook, waitFor } from '@testing-library/react';
+import { base, baseSepolia } from 'viem/chains';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { getNewReactQueryTestProvider } from './getNewReactQueryTestProvider';
+import { useAddress } from './useAddress';
+import { getAddress } from '@/identity/utils/getAddress';
+
+vi.mock('@/identity/utils/getAddress', () => ({
+  getAddress: vi.fn(),
+}));
+
+const mockUseQuery = vi.fn();
+vi.mock('@tanstack/react-query', async () => {
+  const actual = await vi.importActual('@tanstack/react-query');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  type UseQueryFunctionType = <TData, TError = Error>(options: {
+    queryKey: unknown[];
+    queryFn: () => Promise<TData>;
+    [key: string]: unknown;
+  }) => unknown;
+
+  return {
+    ...actual,
+    useQuery: <TData, _TError = Error>(options: {
+      queryKey: unknown[];
+      queryFn: () => Promise<TData>;
+      [key: string]: unknown;
+    }) => {
+      mockUseQuery(options);
+      return (actual.useQuery as UseQueryFunctionType)<TData, _TError>(options);
+    },
+  };
+});
+
+describe('useAddress', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockUseQuery.mockClear();
+  });
+
+  it('should return the correct address and loading state', async () => {
+    const testEnsName = 'test.ens';
+    const testEnsAddress = '0x1234';
+    vi.mocked(getAddress).mockResolvedValue(testEnsAddress);
+    const { result } = renderHook(() => useAddress({ name: testEnsName }), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
+    await waitFor(() => {
+      expect(result.current.data).toBe(testEnsAddress);
+      expect(result.current.isLoading).toBe(false);
+    });
+  });
+
+  it('should return the loading state true while still fetching ENS address', async () => {
+    const testEnsName = 'test.ens';
+    const { result } = renderHook(() => useAddress({ name: testEnsName }), {
+      wrapper: getNewReactQueryTestProvider(),
+    });
+    await waitFor(() => {
+      expect(result.current.data).toBe(undefined);
+      expect(result.current.isLoading).toBe(true);
+    });
+  });
+
+  it('should return correct base mainnet address', async () => {
+    const testEnsName = 'shrek.base.eth';
+    const testEnsAddress = '0x1234';
+    vi.mocked(getAddress).mockResolvedValue(testEnsAddress);
+    const { result } = renderHook(
+      () => useAddress({ name: testEnsName, chain: base }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+    await waitFor(() => {
+      expect(result.current.data).toBe(testEnsAddress);
+      expect(result.current.isLoading).toBe(false);
+    });
+  });
+
+  it('should return correct base sepolia address', async () => {
+    const testEnsName = 'shrek.basetest.eth';
+    const testEnsAddress = '0x1234';
+    vi.mocked(getAddress).mockResolvedValue(testEnsAddress);
+    const { result } = renderHook(
+      () => useAddress({ name: testEnsName, chain: baseSepolia }),
+      {
+        wrapper: getNewReactQueryTestProvider(),
+      },
+    );
+    await waitFor(() => {
+      expect(result.current.data).toBe(testEnsAddress);
+      expect(result.current.isLoading).toBe(false);
+    });
+  });
+});

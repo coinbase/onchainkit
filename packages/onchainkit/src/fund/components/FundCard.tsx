@@ -1,0 +1,85 @@
+'use client';
+
+import type { ReactNode } from 'react';
+import { border, cn, text } from '../../styles/theme';
+import { useFundCardSetupOnrampEventListeners } from '../hooks/useFundCardSetupOnrampEventListeners';
+import type { FundCardProps } from '../types';
+import FundCardAmountInput from './FundCardAmountInput';
+import FundCardAmountInputTypeSwitch from './FundCardAmountInputTypeSwitch';
+import { FundCardHeader } from './FundCardHeader';
+import { FundCardPaymentMethodDropdown } from './FundCardPaymentMethodDropdown';
+import { FundCardPresetAmountInputList } from './FundCardPresetAmountInputList';
+import { FundCardProvider } from './FundCardProvider';
+import { FundCardSubmitButton } from './FundCardSubmitButton';
+
+export function FundCard({
+  assetSymbol,
+  sessionToken,
+  buttonText = 'Buy',
+  headerText,
+  country = 'US',
+  subdivision,
+  currency = 'USD',
+  presetAmountInputs,
+  children = <DefaultFundCardContent />,
+  className,
+  onError,
+  onStatus,
+  onSuccess,
+}: FundCardProps) {
+  // Ensure a session token is provided
+  if (!sessionToken) {
+    throw new Error('FundCard requires a sessionToken');
+  }
+  return (
+    <FundCardProvider
+      asset={assetSymbol}
+      headerText={headerText}
+      buttonText={buttonText}
+      country={country}
+      subdivision={subdivision}
+      currency={currency}
+      onError={onError}
+      onStatus={onStatus}
+      onSuccess={onSuccess}
+      presetAmountInputs={presetAmountInputs}
+      sessionToken={sessionToken}
+    >
+      <div
+        className={cn(
+          'bg-ock-background',
+          'text-ock-foreground',
+          'rounded-ock-default flex w-full flex-col p-6',
+          text.headline,
+          border.lineDefault,
+          className,
+        )}
+      >
+        <FundCardContent>{children}</FundCardContent>
+      </div>
+    </FundCardProvider>
+  );
+}
+
+function FundCardContent({ children }: { children: ReactNode }) {
+  // Setup event listeners for the onramp
+  useFundCardSetupOnrampEventListeners();
+  return (
+    <form className="w-full" data-testid="ockFundCardForm">
+      {children}
+    </form>
+  );
+}
+
+function DefaultFundCardContent() {
+  return (
+    <>
+      <FundCardHeader />
+      <FundCardAmountInput />
+      <FundCardAmountInputTypeSwitch />
+      <FundCardPresetAmountInputList />
+      <FundCardPaymentMethodDropdown />
+      <FundCardSubmitButton />
+    </>
+  );
+}

@@ -1,0 +1,33 @@
+import { Avatar, Badge, Identity, Name } from '@/identity';
+import { COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID } from '@/identity/constants';
+import { useNFTContext } from '@/nft/components/NFTProvider';
+import { cn } from '@/styles/theme';
+import type { EASSchemaUid } from '@/identity/types';
+
+type NFTCreatorProps = {
+  className?: string;
+  schemaId?: EASSchemaUid | null;
+};
+
+export function NFTCreator({ className, schemaId }: NFTCreatorProps) {
+  const { creatorAddress } = useNFTContext();
+
+  if (!creatorAddress) {
+    return null;
+  }
+
+  return (
+    <div className={cn('-my-1 flex justify-between', className)}>
+      <Identity
+        className="px-0 py-0 [&>div]:space-x-2"
+        address={creatorAddress}
+        schemaId={schemaId ?? COINBASE_VERIFIED_ACCOUNT_SCHEMA_ID}
+      >
+        <Avatar className="h-4 w-4" />
+        <Name>
+          <Badge />
+        </Name>
+      </Identity>
+    </div>
+  );
+}

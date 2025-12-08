@@ -1,0 +1,84 @@
+'use client';
+import { useIsMounted } from '@/internal/hooks/useIsMounted';
+import { NFTLifecycleProvider } from '@/nft/components/NFTLifecycleProvider';
+import { NFTProvider } from '@/nft/components/NFTProvider';
+import {
+  NFTAssetCost,
+  NFTCollectionTitle,
+  NFTCreator,
+  NFTMintButton,
+  NFTQuantitySelector,
+} from '@/nft/components/mint';
+import { useMintData as defaultUseMintData } from '@/nft/hooks/useMintData';
+import { Lifecycle, type NFTMintCardProps } from '@/nft/types';
+import { buildMintTransactionData as defaultBuildMintTransaction } from '@/nft/utils/buildMintTransactionData';
+import { cn } from '../../styles/theme';
+import NFTErrorBoundary from './NFTErrorBoundary';
+import { NFTErrorFallback } from './NFTErrorFallback';
+import { NFTMedia } from './view';
+
+function NFTMintCardDefaultContent() {
+  return (
+    <>
+      <NFTCreator />
+      <NFTMedia />
+      <NFTCollectionTitle />
+      <NFTQuantitySelector />
+      <NFTAssetCost />
+      <NFTMintButton />
+    </>
+  );
+}
+
+export function NFTMintCard({
+  children = <NFTMintCardDefaultContent />,
+  className,
+  contractAddress,
+  tokenId,
+  isSponsored,
+  useNFTData = defaultUseMintData,
+  buildMintTransaction = defaultBuildMintTransaction,
+  onStatus,
+  onError,
+  onSuccess,
+}: NFTMintCardProps) {
+  const isMounted = useIsMounted();
+
+  // prevents SSR hydration issue
+  if (!isMounted) {
+    return null;
+  }
+
+  return (
+    <NFTErrorBoundary fallback={NFTErrorFallback}>
+      <NFTLifecycleProvider
+        type={Lifecycle.MINT}
+        onStatus={onStatus}
+        onError={onError}
+        onSuccess={onSuccess}
+      >
+        <NFTProvider
+          contractAddress={contractAddress}
+          tokenId={tokenId}
+          isSponsored={isSponsored}
+          useNFTData={useNFTData}
+          buildMintTransaction={buildMintTransaction}
+        >
+          <div
+            className={cn(
+              'text-ock-foreground',
+              'bg-ock-background',
+              'border-ock-background-active',
+              'rounded-ock-default',
+              'flex w-full max-w-[500px] flex-col gap-2 border p-4',
+              className,
+            )}
+            data-testid="ockNFTMintCard_Container"
+          >
+            {children}
+          </div>
+        </NFTProvider>
+      </NFTLifecycleProvider>
+    </NFTErrorBoundary>
+  );
+}

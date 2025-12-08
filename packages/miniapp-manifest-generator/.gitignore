@@ -1,0 +1,10 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+dist
+
+# dependencies
+node_modules
+
+# test coverage
+coverage

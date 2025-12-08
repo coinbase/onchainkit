@@ -1,0 +1,255 @@
+import { fireEvent, render, screen } from '@testing-library/react';
+import {
+  type Mock,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
+import { useAccount, useConnect } from 'wagmi';
+import { SignatureButton } from '../components/SignatureButton';
+import { useSignatureContext } from '../components/SignatureProvider';
+
+vi.mock('wagmi', () => ({
+  useAccount: vi.fn(),
+  useConnect: vi.fn(),
+  useConnectors: vi.fn(() => ({ connectors: [{ id: 'mockConnector' }] })),
+}));
+
+vi.mock('../components/SignatureProvider', () => ({
+  useSignatureContext: vi.fn(),
+}));
+
+describe('SignatureButton', () => {
+  const mockHandleSign = vi.fn();
+
+  beforeEach(() => {
+    (useConnect as Mock).mockReturnValue({
+      connectors: [{ id: 'mockConnector' }],
+      connect: vi.fn(),
+      status: 'idle',
+    });
+    (useSignatureContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: 'init',
+      },
+      handleSign: mockHandleSign,
+    });
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('should render ConnectWallet when no address is connected', () => {
+    (useAccount as Mock).mockReturnValue({
+      address: undefined,
+      status: 'disconnected',
+    });
+
+    render(<SignatureButton />);
+    expect(screen.getByText('Connect Wallet')).toBeInTheDocument();
+  });
+
+  it('should render connect label when passed in', () => {
+    (useAccount as Mock).mockReturnValue({
+      address: undefined,
+      status: 'disconnected',
+    });
+
+    render(<SignatureButton disconnectedLabel="Disconnected Label" />);
+    expect(screen.getByText('Disconnected Label')).toBeInTheDocument();
+  });
+
+  it('should render sign button when address is connected', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+
+    render(<SignatureButton label="Sign Message" />);
+    expect(screen.getByText('Sign Message')).toBeInTheDocument();
+  });
+
+  it('should render pending message when pending', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+    (useSignatureContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: 'pending',
+      },
+    });
+
+    render(<SignatureButton label="Sign Message" />);
+    expect(screen.getByText('Signing...')).toBeInTheDocument();
+  });
+
+  it('should render pending label when pending', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+    (useSignatureContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: 'pending',
+      },
+    });
+
+    render(<SignatureButton label="Sign Message" pendingLabel="Pending" />);
+    expect(screen.getByText('Pending')).toBeInTheDocument();
+  });
+
+  it('should render error message when error', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+    (useSignatureContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: 'error',
+      },
+    });
+
+    render(<SignatureButton label="Sign Message" />);
+    expect(screen.getByText('Try again')).toBeInTheDocument();
+  });
+
+  it('should render error label when error', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+    (useSignatureContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: 'error',
+      },
+    });
+
+    render(
+      <SignatureButton label="Sign Message" errorLabel="Try more things" />,
+    );
+    expect(screen.getByText('Try more things')).toBeInTheDocument();
+  });
+
+  it('should render success message when success', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+    (useSignatureContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: 'success',
+      },
+    });
+
+    render(<SignatureButton label="Sign Message" />);
+    expect(screen.getByText('Signed')).toBeInTheDocument();
+  });
+
+  it('should render success label when success', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+    (useSignatureContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: 'success',
+      },
+    });
+
+    render(<SignatureButton label="Sign Message" successLabel="done" />);
+    expect(screen.getByText('done')).toBeInTheDocument();
+  });
+
+  it('should call handleSign when clicked', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+
+    render(<SignatureButton label="Sign Message" />);
+    fireEvent.click(screen.getByText('Sign Message'));
+    expect(mockHandleSign).toHaveBeenCalled();
+  });
+
+  it('should apply custom className', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+
+    render(<SignatureButton label="Sign Message" className="custom-class" />);
+    expect(screen.getByRole('button')).toHaveClass('custom-class');
+  });
+
+  it('should disable button when disabled prop is true', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+
+    render(<SignatureButton label="Sign Message" disabled={true} />);
+    expect(screen.getByRole('button')).toBeDisabled();
+  });
+
+  it('should use default label when none provided', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+
+    render(<SignatureButton />);
+    expect(screen.getByText('Sign')).toBeInTheDocument();
+  });
+
+  it('should use custom render function when provided', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+    const mockContext = {
+      lifecycleStatus: {
+        statusName: 'init',
+      },
+      handleSign: mockHandleSign,
+    };
+    (useSignatureContext as Mock).mockReturnValue(mockContext);
+
+    const customRender = vi.fn(({ label, onClick, context }) => {
+      expect(context).toBe(mockContext);
+      return (
+        <button data-testid="custom-button" onClick={onClick}>
+          Custom: {label}
+        </button>
+      );
+    });
+
+    render(<SignatureButton label="Sign Message" render={customRender} />);
+
+    expect(customRender).toHaveBeenCalledWith({
+      label: 'Sign Message',
+      onClick: mockHandleSign,
+      context: mockContext,
+    });
+    expect(screen.getByTestId('custom-button')).toBeInTheDocument();
+    expect(screen.getByText('Custom: Sign Message')).toBeInTheDocument();
+  });
+
+  it('should trigger handleSign when custom rendered button is clicked', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+    (useSignatureContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: 'init',
+      },
+      handleSign: mockHandleSign,
+    });
+
+    render(
+      <SignatureButton
+        label="Sign Message"
+        render={({ label, onClick }) => (
+          <button data-testid="custom-button" onClick={onClick}>
+            {label}
+          </button>
+        )}
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId('custom-button'));
+    expect(mockHandleSign).toHaveBeenCalled();
+  });
+
+  it('should pass updated label to render function based on lifecycle status', () => {
+    (useAccount as Mock).mockReturnValue({ address: '0x123' });
+    (useSignatureContext as Mock).mockReturnValue({
+      lifecycleStatus: {
+        statusName: 'success',
+      },
+      handleSign: mockHandleSign,
+    });
+
+    const customRender = vi.fn(({ label }) => (
+      <div data-testid="rendered-label">{label}</div>
+    ));
+
+    render(
+      <SignatureButton
+        label="Sign Message"
+        successLabel="Successfully Signed"
+        render={customRender}
+      />,
+    );
+
+    expect(screen.getByTestId('rendered-label')).toHaveTextContent(
+      'Successfully Signed',
+    );
+  });
+});

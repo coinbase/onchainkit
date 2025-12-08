@@ -1,0 +1,43 @@
+import { RequestContext, RequestContextType } from '@/core/network/constants';
+import { CDP_GET_PORTFOLIO_TOKEN_BALANCES } from '@/core/network/definitions/wallet';
+import { sendRequest } from '@/core/network/request';
+import type {
+  APIError,
+  GetPortfoliosParams,
+  GetPortfoliosResponse,
+} from './types';
+import { buildErrorStruct } from './utils/buildErrorStruct';
+import { ApiErrorCode } from './constants';
+
+/**
+ * Retrieves the portfolios for the provided addresses
+ * Supported networks: Base mainnet and Ethereum mainnet
+ */
+export async function getPortfolios(
+  params: GetPortfoliosParams,
+  _context: RequestContextType = RequestContext.API,
+): Promise<GetPortfoliosResponse | APIError> {
+  const { addresses } = params;
+
+  try {
+    const res = await sendRequest<GetPortfoliosParams, GetPortfoliosResponse>(
+      CDP_GET_PORTFOLIO_TOKEN_BALANCES,
+      [{ addresses }],
+      _context,
+    );
+    if (res.error) {
+      return buildErrorStruct({
+        code: `${res.error.code}`,
+        error: 'Error fetching portfolio token balances',
+        message: res.error.message,
+      });
+    }
+    return res.result;
+  } catch (error) {
+    return buildErrorStruct({
+      code: ApiErrorCode.UncaughtPortfolioError,
+      error: 'Something went wrong',
+      message: `Error fetching portfolio token balances: ${error}`,
+    });
+  }
+}
