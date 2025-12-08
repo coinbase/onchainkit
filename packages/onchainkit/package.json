@@ -80,7 +80,7 @@
     "chromatic": "^11.28.2",
     "esbuild-fix-imports-plugin": "^1.0.19",
     "esbuild-plugin-babel": "^0.2.3",
-    "glob": "^11.0.1",
+    "glob": "^11.1.0",
     "globals": "^15.15.0",
     "graphql": "^14",
     "graphql-request": "^6.1.0",
