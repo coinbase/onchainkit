@@ -166,6 +166,21 @@ describe('FundButton', () => {
     expect(screen.getByRole('button')).toHaveClass(pressable.disabled);
   });
 
+  // *** NEW TEST START ***
+  it('hides the fund icon when hideIcon prop is true', () => {
+    // The icon in FundButton.tsx should be hidden when hideIcon: true.
+    // We use queryByTestId because we expect the element NOT to be in the DOM.
+    render(<FundButton hideIcon={true} />);
+
+    // Verify that the icon (presumably with data-testid="ockFundIcon") is absent
+    expect(screen.queryByTestId('ockFundIcon')).not.toBeInTheDocument();
+    
+    // Verify that the button's text content remains
+    expect(screen.getByText('Fund')).toBeInTheDocument(); 
+  });
+  // *** NEW TEST END ***
+
+
   it('calls onPopupClose when the popup window is closed', () => {
     vi.useFakeTimers();
     const fundingUrl = 'https://props.funding.url';
