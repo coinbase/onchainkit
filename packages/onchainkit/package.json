@@ -92,7 +92,7 @@
     "react-dom": "19.1.0",
     "rimraf": "^5.0.5",
     "rollup-plugin-preserve-use-client": "^3.0.1",
-    "storybook": "^8.2.9",
+    "storybook": "^8.6.15",
     "tailwindcss": "^4.1.6",
     "tailwindcss-animate": "^1.0.7",
     "tscpaths": "^0.0.9",
