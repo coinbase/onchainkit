@@ -139,3 +139,14 @@ Then, you can view the playground at [http://localhost:3000](http://localhost:30
 ## 🌊 License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## 🐳 Running with Docker
+
+You can build and run the project locally using Docker without installing Node.js or pnpm manually.
+
+```bash
+# Build the image
+docker build -f tools/docker/Dockerfile -t onchainkit .
+
+# Run the app
+docker run -it --rm -p 3000:3000 onchainkit
