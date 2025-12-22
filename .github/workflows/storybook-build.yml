@@ -1,0 +1,25 @@
+name: Storybook Build Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  storybook-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Storybook
+        run: pnpm --filter @coinbase/onchainkit run build-storybook
