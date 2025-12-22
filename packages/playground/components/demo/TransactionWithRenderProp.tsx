@@ -72,16 +72,24 @@ function TransactionWithRenderPropDemo() {
   const contracts = clickContracts as ContractFunctionParameters[];
   const calls = clickCalls as Call[];
 
-  const promiseCalls = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(calls);
-    }, 4000);
-  }) as Promise<Call[]>;
-  const promiseContracts = new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(contracts);
-    }, 4000);
-  }) as Promise<ContractFunctionParameters[]>;
+  const promiseCalls = useMemo(
+    () =>
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(calls);
+        }, 4000);
+      }) as Promise<Call[]>,
+    [calls],
+  );
+  const promiseContracts = useMemo(
+    () =>
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(contracts);
+        }, 4000);
+      }) as Promise<ContractFunctionParameters[]>,
+    [contracts],
+  );
 
   const callsCallback = useCallback(
     () =>

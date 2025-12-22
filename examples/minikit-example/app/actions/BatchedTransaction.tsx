@@ -227,6 +227,80 @@ export function BatchedTransaction() {
 
   const isDisabled = !isConnected;
 
+  const renderOnchainKitApproach = () => (
+    <Stack gap="sm">
+      <Text fw={500}>OnchainKit Transaction Component:</Text>
+
+      <Transaction
+        calls={createBatchedCalls()}
+        onError={(error) => {
+          console.error("OnchainKit transaction error:", error);
+          setOnchainKitError(error.message || "Transaction failed");
+          setOnchainKitSuccess(null);
+        }}
+        onSuccess={(response) => {
+          console.log("OnchainKit transaction success:", response);
+          setOnchainKitSuccess(
+            `Success! ${response.transactionReceipts.length} transaction(s) completed`,
+          );
+          setOnchainKitError(null);
+          // Refresh contract data after a delay to allow transaction to be mined
+          setTimeout(refreshContractData, 2000);
+        }}
+      />
+
+      {onchainKitError && (
+        <Alert color="red" title="OnchainKit Error">
+          {onchainKitError}
+        </Alert>
+      )}
+
+      {onchainKitSuccess && (
+        <Alert color="green" title="OnchainKit Success">
+          {onchainKitSuccess}
+        </Alert>
+      )}
+    </Stack>
+  );
+
+  const renderDirectApproach = () => (
+    <Stack gap="sm">
+      <Text fw={500}>Direct Wagmi Batched Approach:</Text>
+
+      <Text size="sm" c="dimmed">
+        This uses Wagmi&apos;s useSendCalls hook to submit the same batched
+        transactions as OnchainKit, allowing direct comparison of both
+        approaches.
+      </Text>
+
+      <Button
+        onClick={handleDirectTransaction}
+        disabled={isDisabled || isDirectPending}
+        loading={isDirectPending}
+      >
+        {isDirectPending ? "Sending Batch..." : "Send Batched Transactions"}
+      </Button>
+
+      {directWriteError && (
+        <Alert color="red" title="Direct Transaction Error">
+          {directWriteError.message}
+        </Alert>
+      )}
+
+      {directError && (
+        <Alert color="red" title="Direct Error">
+          {directError}
+        </Alert>
+      )}
+
+      {directSuccess && (
+        <Alert color="green" title="Direct Success">
+          {directSuccess}
+        </Alert>
+      )}
+    </Stack>
+  );
+
   return (
     <Stack gap="md">
       <Text fw={600} size="lg">
@@ -339,80 +413,10 @@ export function BatchedTransaction() {
       <Divider />
 
       {/* OnchainKit Approach */}
-      {approach === "onchainkit" && (
-        <Stack gap="sm">
-          <Text fw={500}>OnchainKit Transaction Component:</Text>
-
-          <Transaction
-            calls={createBatchedCalls()}
-            onError={(error) => {
-              console.error("OnchainKit transaction error:", error);
-              setOnchainKitError(error.message || "Transaction failed");
-              setOnchainKitSuccess(null);
-            }}
-            onSuccess={(response) => {
-              console.log("OnchainKit transaction success:", response);
-              setOnchainKitSuccess(
-                `Success! ${response.transactionReceipts.length} transaction(s) completed`,
-              );
-              setOnchainKitError(null);
-              // Refresh contract data after a delay to allow transaction to be mined
-              setTimeout(refreshContractData, 2000);
-            }}
-          />
-
-          {onchainKitError && (
-            <Alert color="red" title="OnchainKit Error">
-              {onchainKitError}
-            </Alert>
-          )}
-
-          {onchainKitSuccess && (
-            <Alert color="green" title="OnchainKit Success">
-              {onchainKitSuccess}
-            </Alert>
-          )}
-        </Stack>
-      )}
+      {approach === "onchainkit" && renderOnchainKitApproach()}
 
       {/* Direct Wagmi Batched Approach */}
-      {approach === "direct" && (
-        <Stack gap="sm">
-          <Text fw={500}>Direct Wagmi Batched Approach:</Text>
-
-          <Text size="sm" c="dimmed">
-            This uses Wagmi&apos;s useSendCalls hook to submit the same batched
-            transactions as OnchainKit, allowing direct comparison of both
-            approaches.
-          </Text>
-
-          <Button
-            onClick={handleDirectTransaction}
-            disabled={isDisabled || isDirectPending}
-            loading={isDirectPending}
-          >
-            {isDirectPending ? "Sending Batch..." : "Send Batched Transactions"}
-          </Button>
-
-          {directWriteError && (
-            <Alert color="red" title="Direct Transaction Error">
-              {directWriteError.message}
-            </Alert>
-          )}
-
-          {directError && (
-            <Alert color="red" title="Direct Error">
-              {directError}
-            </Alert>
-          )}
-
-          {directSuccess && (
-            <Alert color="green" title="Direct Success">
-              {directSuccess}
-            </Alert>
-          )}
-        </Stack>
-      )}
+      {approach === "direct" && renderDirectApproach()}
 
       {!isConnected && (
         <Alert color="blue">
