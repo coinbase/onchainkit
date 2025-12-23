@@ -24,7 +24,6 @@ export type OnchainKitProviderReact = {
   chain: Chain;
   children: ReactNode;
   config?: AppConfig;
-  sessionId?: string;
   projectId?: string;
   rpcUrl?: string;
   miniKit?: MiniKitOptions;
