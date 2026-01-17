@@ -57,6 +57,48 @@ Run `npm create onchain` to bootstrap an example onchain app with all the batter
 
 For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 
+## 📊 API Stability
+
+OnchainKit follows semantic versioning. Here's the stability status of each module:
+
+### Stable APIs
+These APIs are production-ready and follow semantic versioning. Breaking changes only occur in major versions.
+
+| Module | Components | Hooks | Status |
+|--------|------------|-------|--------|
+| **Identity** | `Address`, `Avatar`, `Badge`, `EthBalance`, `Identity`, `IdentityCard`, `Name`, `Socials` | `useAddress`, `useAvatar`, `useName`, `useAttestations` | ✅ Stable |
+| **Wallet** | `Wallet`, `ConnectWallet`, `WalletDropdown`, `WalletDropdownLink`, `WalletDropdownDisconnect` | `useWalletContext`, `usePortfolio` | ✅ Stable |
+| **Transaction** | `Transaction`, `TransactionButton`, `TransactionStatus`, `TransactionStatusLabel`, `TransactionStatusAction` | `useTransactionContext` | ✅ Stable |
+| **Swap** | `Swap`, `SwapAmountInput`, `SwapButton`, `SwapMessage`, `SwapToggleButton` | `useSwapContext` | ✅ Stable |
+| **Fund** | `FundButton`, `FundCard` | `useFundContext` | ✅ Stable |
+| **Token** | `TokenChip`, `TokenImage`, `TokenRow`, `TokenSearch`, `TokenSelectDropdown` | — | ✅ Stable |
+
+### Evolving APIs
+These APIs are stable but may receive non-breaking enhancements. Safe for production use.
+
+| Module | Components | Status |
+|--------|------------|--------|
+| **Buy** | `Buy`, `BuyButton`, `BuyDropdown` | ⚡ Evolving |
+| **Earn** | `Earn`, `EarnCard`, `EarnDetails` | ⚡ Evolving |
+| **NFT** | `NFTCard`, `NFTMintCard`, `NFTCollectionTitle` | ⚡ Evolving |
+| **MiniKit** | MiniKit utilities and hooks | ⚡ Evolving |
+
+### Experimental APIs
+These APIs may change significantly. Use with caution in production.
+
+| Module | Status | Notes |
+|--------|--------|-------|
+| **Appchain Bridge** | 🧪 Experimental | New bridging functionality |
+| **Signature** | 🧪 Experimental | Signature request components |
+
+### Deprecated APIs
+These APIs are scheduled for removal. Migrate to recommended alternatives.
+
+| API | Status | Alternative |
+|-----|--------|-------------|
+| **Checkout** | ⚠️ Deprecated | Use `Transaction` component |
+| **MiniKitProvider** | ⚠️ Deprecated | Use `OnchainKitProvider` with `miniKit` prop |
+
 ## 🛠️ Contributing
 
 ### Overview
