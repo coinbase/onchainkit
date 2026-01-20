@@ -53,6 +53,53 @@
 
 Run `npm create onchain` to bootstrap an example onchain app with all the batteries included.
 
+## ⚙️ OnchainKitProvider Setup
+
+Wrap your app with `OnchainKitProvider` to enable OnchainKit components:
+
+```tsx
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { base } from 'wagmi/chains';
+
+<OnchainKitProvider
+  chain={base}                    // Required: Target chain
+  apiKey="YOUR_CDP_API_KEY"       // Recommended: Enables Paymaster, Identity, etc.
+>
+  {children}
+</OnchainKitProvider>
+```
+
+### Configuration Options
+
+| Prop | Required | Description |
+|------|----------|-------------|
+| `chain` | ✅ Yes | Target chain (e.g., `base`, `baseSepolia` from `wagmi/chains`) |
+| `children` | ✅ Yes | Your app components |
+| `apiKey` | Recommended | [CDP API Key](https://portal.cdp.coinbase.com/projects/api-keys) - enables Paymaster, Identity resolution, and other features |
+| `projectId` | Optional | CDP Project ID for analytics |
+| `rpcUrl` | Optional | Custom RPC URL (defaults to chain's public RPC) |
+| `config` | Optional | Appearance and wallet configuration (see below) |
+| `miniKit` | Optional | Mini App configuration |
+
+### Config Object
+
+```tsx
+config={{
+  appearance: {
+    name: 'My App',           // App name shown in wallet prompts
+    logo: 'https://...',      // App logo URL
+    mode: 'auto',             // 'light' | 'dark' | 'auto'
+    theme: 'default',         // Theme preset
+  },
+  wallet: {
+    display: 'classic',       // 'classic' | 'modal'
+    preference: 'all',        // 'all' | 'smartWalletOnly' | 'eoaOnly'
+  },
+}}
+```
+
+> **Note:** Without an `apiKey`, features like sponsored transactions (Paymaster) and ENS/Basename resolution won't work. Get your free API key at [CDP Portal](https://portal.cdp.coinbase.com/projects/api-keys).
+
 ## ✨ Documentation
 
 For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
