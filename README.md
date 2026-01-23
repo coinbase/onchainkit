@@ -53,6 +53,94 @@
 
 Run `npm create onchain` to bootstrap an example onchain app with all the batteries included.
 
+## 🔌 Handling Wallet Connection Issues
+
+When building with OnchainKit's wallet components, here's how to handle common connection scenarios:
+
+### Connection States
+
+The `<ConnectWallet>` component handles three states automatically:
+- `disconnected` - Shows connect button
+- `connecting` - Shows loading spinner
+- `connected` - Shows wallet info (avatar, name)
+
+### Handling Connection Errors
+
+Use the `onConnect` callback and wagmi's hooks for error handling:
+
+```tsx
+import { useAccount, useConnect } from 'wagmi';
+import { ConnectWallet } from '@coinbase/onchainkit/wallet';
+
+function MyWallet() {
+  const { isConnected, isConnecting } = useAccount();
+  const { error } = useConnect();
+
+  return (
+    <div>
+      <ConnectWallet onConnect={() => console.log('Connected!')} />
+
+      {error && (
+        <p className="text-red-500">
+          Connection failed: {error.message}
+        </p>
+      )}
+    </div>
+  );
+}
+```
+
+### Common Issues and Solutions
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| "User rejected request" | User cancelled in wallet | Show a friendly retry message |
+| "Connector not found" | Wallet extension missing | Prompt user to install wallet |
+| Connection stuck | Network issues | Add timeout and retry button |
+| Wrong network | Chain mismatch | Use `useSwitchChain` from wagmi |
+
+### Handling Disconnections
+
+Use `<WalletDropdownDisconnect>` for user-initiated disconnect, and monitor connection state:
+
+```tsx
+import { useAccount } from 'wagmi';
+import { useEffect } from 'react';
+
+function WalletMonitor() {
+  const { isDisconnected } = useAccount();
+
+  useEffect(() => {
+    if (isDisconnected) {
+      // Handle disconnection (clear user data, redirect, etc.)
+      console.log('Wallet disconnected');
+    }
+  }, [isDisconnected]);
+
+  return null;
+}
+```
+
+### Reconnecting Automatically
+
+Wagmi handles auto-reconnection on page reload. For manual reconnection:
+
+```tsx
+import { useConnect } from 'wagmi';
+
+function ReconnectButton() {
+  const { connect, connectors } = useConnect();
+
+  return (
+    <button onClick={() => connect({ connector: connectors[0] })}>
+      Reconnect Wallet
+    </button>
+  );
+}
+```
+
+> **Tip:** Always provide clear feedback to users during connection states and offer a way to retry failed connections.
+
 ## ✨ Documentation
 
 For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
