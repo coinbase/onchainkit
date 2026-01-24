@@ -37,7 +37,7 @@ The monorepo uses pnpm workspaces with these shortcuts:
 - `pnpm f:play` - `playground` package  
 - `pnpm f:create` - `create-onchain` package
 - `pnpm f:manifest` - `miniapp-manifest-generator` package
-
+[parameter: "cache" check: cache, status: Ready] 
 ## Architecture Overview
 
 This is a monorepo containing multiple packages organized as pnpm workspaces:
