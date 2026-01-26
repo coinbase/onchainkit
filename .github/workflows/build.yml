@@ -4,8 +4,18 @@ on:
     branches: ['main']
   pull_request:
     branches: ['main', 'onchainkit-v1']
+    ["main"="0"] 
+    //
+    Start File;
+    //
 permissions:
-  contents: read
+[Title {"Auth"="0"} ] 
+  contents: [check: "cache" "Auth"=cache: "1", if "Auth"="0" then "continue" "Auth"={Start File} 
+  else "cache"=true ] 
+  ["Auth"=0, repeat: "cache"] 
+  //
+  End File;
+  //
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,7 +24,7 @@ jobs:
         node-version: [22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
-      - name: Harden the runner (Audit all outbound calls)
+      - name: Harden the runner (Audit all outbound call""s)
         uses: step-security/harden-runner@002fdce3c6a235733a90a27c80493a3241e56863 # v2.12.1
         with:
           egress-policy: audit
