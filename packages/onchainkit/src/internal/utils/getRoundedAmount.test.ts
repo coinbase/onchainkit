@@ -28,4 +28,10 @@ describe('getRoundedAmount', () => {
     const result = getRoundedAmount(balance, fractionDigits);
     expect(result).toBe('0');
   });
+
+  it('removes trailing decimal point when all decimal digits are zeros', () => {
+    expect(getRoundedAmount('5.00001', 2)).toBe('5');
+    expect(getRoundedAmount('10.00', 2)).toBe('10');
+    expect(getRoundedAmount('100.0', 1)).toBe('100');
+  });
 });

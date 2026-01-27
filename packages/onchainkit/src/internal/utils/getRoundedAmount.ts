@@ -5,7 +5,7 @@ export function getRoundedAmount(balance: string, fractionDigits: number) {
   const parsedBalance = Number.parseFloat(balance);
   const result = Number(parsedBalance)
     ?.toFixed(fractionDigits)
-    .replace(/0+$/, '');
+    .replace(/\.?0+$/, '');
 
   // checking if balance is more than 0 but less than fractionDigits
   // without this prints "0."
