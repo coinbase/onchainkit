@@ -1,39 +1,23 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-onchain`](https://www.npmjs.com/package/create-onchain).
+This is a Next.js project bootstrapped with create-onchain.
 
-
-## Getting Started
-
+Getting Started
 First, install dependencies:
 
-```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
-# or
-bun install
-```
+npm install yarn install pnpm install bun install
+
+Then, set up your environment variables:
+
+cp .env.example .env.local
 
 Next, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+npm run dev yarn dev pnpm dev bun dev
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying app/page.tsx. The page auto-updates as you edit the file.
 
+Learn More
+To learn more about OnchainKit, see our documentation.
 
-## Learn More
-
-To learn more about OnchainKit, see our [documentation](https://docs.base.org/onchainkit).
-
-To learn more about Next.js, see the [Next.js documentation](https://nextjs.org/docs).
+To learn more about Next.js, see the Next.js documentation.
