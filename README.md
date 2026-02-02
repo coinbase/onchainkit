@@ -53,6 +53,84 @@
 
 Run `npm create onchain` to bootstrap an example onchain app with all the batteries included.
 
+## 🔧 OnchainKitProvider Setup
+
+Wrap your app with `OnchainKitProvider` to enable OnchainKit components:
+
+### Minimal Setup
+
+```tsx
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { base } from 'wagmi/chains';
+
+function App() {
+  return (
+    <OnchainKitProvider chain={base}>
+      <YourApp />
+    </OnchainKitProvider>
+  );
+}
+```
+
+### Full Configuration
+
+```tsx
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { base } from 'wagmi/chains';
+
+function App() {
+  return (
+    <OnchainKitProvider
+      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+      chain={base}
+      projectId={process.env.NEXT_PUBLIC_CDP_PROJECT_ID}
+      config={{
+        appearance: {
+          name: 'My Dapp',
+          logo: 'https://example.com/logo.png',
+          mode: 'auto', // 'auto' | 'light' | 'dark'
+          theme: 'default', // 'default' | 'base' | 'cyberpunk' | 'hacker'
+        },
+        wallet: {
+          display: 'modal', // 'modal' | 'classic'
+          termsUrl: 'https://example.com/terms',
+          privacyUrl: 'https://example.com/privacy',
+        },
+      }}
+    >
+      <YourApp />
+    </OnchainKitProvider>
+  );
+}
+```
+
+### Props Reference
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `chain` | `Chain` | **Yes** | The blockchain to connect to (e.g., `base`, `mainnet`) |
+| `children` | `ReactNode` | **Yes** | Your app components |
+| `apiKey` | `string` | No | Your [Coinbase Developer Platform](https://portal.cdp.coinbase.com/) API key. Enables paymaster for gas sponsorship. |
+| `projectId` | `string` | No | Your CDP project ID |
+| `rpcUrl` | `string` | No | Custom RPC URL for blockchain calls |
+| `config.appearance.name` | `string` | No | Your app name (default: `'Dapp'`) |
+| `config.appearance.logo` | `string` | No | URL to your app logo |
+| `config.appearance.mode` | `'auto' \| 'light' \| 'dark'` | No | Color mode (default: `'auto'`) |
+| `config.appearance.theme` | `string` | No | Visual theme (default: `'default'`) |
+| `config.wallet.display` | `'modal' \| 'classic'` | No | Wallet connection UI style (default: `'classic'`) |
+| `config.wallet.termsUrl` | `string` | No | Link to your terms of service |
+| `config.wallet.privacyUrl` | `string` | No | Link to your privacy policy |
+| `miniKit.enabled` | `boolean` | No | Enable Farcaster MiniKit integration (default: `false`) |
+
+### Getting an API Key
+
+1. Go to [Coinbase Developer Platform](https://portal.cdp.coinbase.com/)
+2. Create a new project
+3. Copy your API key and Project ID
+4. Add them to your environment variables
+
+> **Note:** The API key enables gas sponsorship via Coinbase Paymaster. Without it, users pay their own gas fees.
+
 ## ✨ Documentation
 
 For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
