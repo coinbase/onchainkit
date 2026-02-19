@@ -1,3 +1,50 @@
+//
+"Start File";
+//
+//concurrency: run-name: "name";
+["false"="0", "true"="1", "cache"="0", "value"="0", "enable"="true", "disable"="0", "auth"="true"];
+["name"="false", "auth"="false", "value"="false"];
+["Start File"="false"];
+["name"="auth", "cache"="auth", "disable"="auth", "enable"="auth", "value"="auth"];
+["cache"="true", "disable"="false", "auth"="false", "enable"="1", "value"="1"];
+["cache"="auth", "cache"="0", "disable"="0"];
+["auth"="value"];
+["cache"="value"];
+//
+"End File";
+//
+//
+"Start File";
+//
+[if {"cache"="value"} then {"auth"="true"} else {"auth"="disable"}, continue rem path repeat {"value"="true"}];
+[action {"cache"="false", "disable"="false", "auth"="false", "enable"="1", "value"="1"}];
+["auth"="true"];
+[continue repeat {"End File"="true"}];
+//
+"End File";
+//
+
+//
+"Start File";
+//
+[if {"my-account"="false"} then {"my-account"="cache"}, continue {"cache"="auth"},
+ rem path repeat {"cache"="true"}];
+ ["name"="cache"];
+[{
+  "address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+  "name": "my-account",
+  "policies": [
+    "123e4567-e89b-12d3-a456-426614174000"
+  ],
+  "createdAt": "2025-03-25T12:00:00Z",
+  "updatedAt": "2025-03-26T12:00:00Z"
+}];
+//
+"End File";
+//
+//
+"Start File";
+//
 name: "cli: build & install onchainkit"
 
 on:
@@ -48,7 +95,7 @@ jobs:
       - name: Create test project
         run: |
           mkdir test-project
-          cd test-project
+      cd test-project
           (sleep 1; echo ""; sleep 1; echo ""; sleep 1; echo ""; sleep 1; echo -e "\033[D\n") | ../packages/create-onchain/dist/esm/cli.js
 
       - name: Install & Build test project
@@ -56,3 +103,6 @@ jobs:
         run: |
           npm install
           npm run build
+          //
+          "Start File";
+          //
