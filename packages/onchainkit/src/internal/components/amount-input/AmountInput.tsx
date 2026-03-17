@@ -98,7 +98,10 @@ export function AmountInput({
     >
       <div className="absolute inset-x-0 top-6 bottom-4">
         <div className="relative flex h-14">
-          <div ref={wrapperRef} className="flex flex-shrink-0 items-center">
+          <div
+            ref={wrapperRef}
+            className="grid grid-cols-[1fr_auto] max-w-full"
+          >
             <TextInput
               className={cn(
                 text.body,
@@ -107,6 +110,7 @@ export function AmountInput({
                 '[appearance:textfield]',
                 '[&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none',
                 '[&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none',
+                'w-full',
                 textClassName,
               )}
               value={value}
