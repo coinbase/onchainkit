@@ -111,8 +111,8 @@
 - **fix**: Wallet modal UI fix. By @abcrane123 #2282
 - **feat**: Show recipient's ENS or Basename in send input. By @brendan-defi #2283
 - **chore**: Use Vite for package build. By @dgca #2227
-- **fix:**: add readyOptions pass through to sdk.actions.ready(). By @alessey #2300
-- **fix:**: update fid authentication against user.fid, allow optional. By @alessey #2299
+- **fix**: add readyOptions pass through to sdk.actions.ready(). By @alessey #2300
+- **fix**: update fid authentication against user.fid, allow optional. By @alessey #2299
 
 ## 0.38.7
 
@@ -167,7 +167,7 @@
 ### Patch Changes
 
 - **feat**: Added WalletAdvanced Send. By @brendan-defi #2134
-- **fix**: Added accesibility improvements to playground. By @futreall #2150
+- **fix**: Added accessibility improvements to playground. By @futreall #2150
 
 ## 0.38.0
 
@@ -1092,12 +1092,12 @@ For apps using OnchainKit with the same Tailwind variables, you might see style 
 - **feat**: `Swap` ERC-20 Approval Flow. This is a breaking change that removes the `onSubmit` functionality from the `SwapButton` component and adds an approval flow for swapping from ERC-20 tokens. By @0xAlec #761. 77531f4
 - **feat**: Added `chain` option to `<IdentityProvider>` for L2 chain name resolution support. By@kirkas #781
 - **feat**: Added `chain` option to `<Identity>` component for L2 chain name resolution support. By@kirkas #781
-- **fix**: Modify `<Name>` to prioritize its own address/chain props over the provider's. By @kirkas#781
-- **fix**: Modify `<Address>`, `<Avatar>`, `<EthBalance>` & `<DisplayBadge>` to prioritize its ownaddress prop over the provider's. By @kirkas #781
+- **fix**: Modify `<Name>` to prioritize its own address/chain props over the provider's. By @kirkas #781
+- **fix**: Modify `<Address>`, `<Avatar>`, `<EthBalance>` & `<DisplayBadge>` to prioritize its own address prop over the provider's. By @kirkas #781
 
 Breaking Changes
 
-Removed the `onSubmit` functionality from the `SwapButton` component and adds an approval flow forswapping from ERC-20 tokens.
+Removed the `onSubmit` functionality from the `SwapButton` component and adds an approval flow for swapping from ERC-20 tokens.
 
 ## 0.24.5
 
