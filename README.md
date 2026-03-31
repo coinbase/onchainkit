@@ -51,7 +51,7 @@
 
 ## 🚀 Quickstart
 
-Run `npm create onchain` to bootstrap an example onchain app with all the batteries included.
+Run `npm create onchain` to bootstrap an example onchain app with everything you need to get started.
 
 ## ✨ Documentation
 
