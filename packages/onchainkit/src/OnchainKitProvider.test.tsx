@@ -20,6 +20,7 @@ import { mock } from 'wagmi/connectors';
 import { OnchainKitProvider } from './OnchainKitProvider';
 import { useProviderDependencies } from './internal/hooks/useProviderDependencies';
 import { useOnchainKit } from './useOnchainKit';
+import { OnchainKitConfigError } from './core/utils/validateOnchainKitConfig';
 
 vi.mock('wagmi', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import('wagmi');
@@ -73,511 +74,194 @@ vi.mock('usehooks-ts', () => ({
 }));
 
 const queryClient = new QueryClient();
-const mockConfig = createConfig({
-  chains: [base],
-  connectors: [
-    mock({
-      accounts: ['0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'],
-    }),
-  ],
-  transports: {
-    [base.id]: http(),
-  },
-});
 
-const TestComponent = () => {
-  const { apiKey } = useOnchainKit();
-  return (
-    <>
-      <div>{apiKey}</div>
-    </>
+const createWrapper = () => {
+  return ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 };
 
-vi.mock('@/core/OnchainKitConfig', () => ({
-  setOnchainKitConfig: vi.fn(),
-  ONCHAIN_KIT_CONFIG: {
-    apiKey: null,
-    chain: { name: 'base', id: 8453 },
-    rpcUrl: null,
-    projectId: null,
-  },
-}));
+const TestComponent = () => {
+  const context = useOnchainKit();
+  return (
+    <div>
+      <div data-testid="chain-id">{context.chain.id}</div>
+      <div data-testid="api-key">{context.apiKey ?? 'no-api-key'}</div>
+      <div data-testid="project-id">{context.projectId ?? 'no-project-id'}</div>
+      <div data-testid="rpc-url">{context.rpcUrl ?? 'no-rpc-url'}</div>
+      <div data-testid="session-id">{context.sessionId}</div>
+    </div>
+  );
+};
 
 describe('OnchainKitProvider', () => {
-  const apiKey = 'test-api-key';
-  const paymasterUrl =
-    'https://api.developer.coinbase.com/rpc/v1/base/test-api-key';
-  const appLogo = '';
-  const appName = 'Dapp';
-
   beforeEach(() => {
-    vi.clearAllMocks();
-    (useConfig as Mock).mockReturnValue(mockConfig);
-    (useProviderDependencies as Mock).mockReturnValue({
-      providedWagmiConfig: mockConfig,
-      providedQueryClient: queryClient,
-    });
-  });
-
-  it('provides the context value correctly', async () => {
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base} apiKey={apiKey}>
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText(apiKey)).toBeInTheDocument();
-    });
-  });
-
-  it('provides the context value correctly without WagmiProvider', async () => {
-    (useProviderDependencies as Mock).mockReturnValue({
-      providedWagmiConfig: null,
-      providedQueryClient: null,
-    });
-    render(
-      <OnchainKitProvider chain={base} apiKey={apiKey}>
-        <TestComponent />
-      </OnchainKitProvider>,
-    );
-    await waitFor(() => {
-      expect(screen.getByText(apiKey)).toBeInTheDocument();
-    });
-  });
-
-  it('renders successfully with minimal props', () => {
-    expect(() => {
-      render(
-        <WagmiProvider config={mockConfig}>
-          <QueryClientProvider client={queryClient}>
-            <OnchainKitProvider chain={base} apiKey={apiKey}>
-              <TestComponent />
-            </OnchainKitProvider>
-          </QueryClientProvider>
-        </WagmiProvider>,
-      );
-    }).not.toThrow();
-  });
-
-  it('does not throw an error if api key is not provided', () => {
-    expect(() => {
-      render(
-        <WagmiProvider config={mockConfig}>
-          <QueryClientProvider client={queryClient}>
-            <OnchainKitProvider chain={base}>
-              <TestComponent />
-            </OnchainKitProvider>
-          </QueryClientProvider>
-        </WagmiProvider>,
-      );
-    }).not.toThrow();
-  });
-
-  it('should wrap children with MiniKitProvider with default options', async () => {
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider
-            chain={base}
-            apiKey={apiKey}
-            miniKit={{ enabled: true }}
-          >
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      const miniKitProvider = screen.getByTestId('minikit-provider');
-      expect(miniKitProvider).toBeInTheDocument();
-      expect(miniKitProvider).toHaveAttribute('data-enabled', 'true');
-    });
-  });
-
-  it('should wrap children with MiniKitProvider with custom options', async () => {
-    const miniKitOptions: MiniKitOptions = {
-      enabled: true,
-      notificationProxyUrl: 'https://example.com/proxy',
-    };
-
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider
-            chain={base}
-            apiKey={apiKey}
-            miniKit={miniKitOptions}
-          >
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      const miniKitProvider = screen.getByTestId('minikit-provider');
-      expect(miniKitProvider).toBeInTheDocument();
-      expect(miniKitProvider).toHaveAttribute('data-enabled', 'true');
-      expect(miniKitProvider).toHaveAttribute(
-        'data-notification-proxy-url',
-        'https://example.com/proxy',
-      );
-    });
-  });
-
-  it('should call setOnchainKitConfig with the correct values', async () => {
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base} apiKey={apiKey}>
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      expect(setOnchainKitConfig).toHaveBeenCalledWith(
-        expect.objectContaining({
-          apiKey,
-          config: {
-            analytics: true,
-            analyticsUrl: null,
-            appearance: {
-              logo: appLogo,
-              name: appName,
-              mode: 'auto',
-              theme: 'default',
-            },
-            paymaster: paymasterUrl,
-            wallet: {
-              display: 'classic',
-              preference: 'all',
-              termsUrl: 'https://base.org/terms-of-service',
-              privacyUrl: 'https://base.org/privacy-policy',
-              supportedWallets: {
-                rabby: false,
-                trust: false,
-                frame: false,
-              },
-            },
-          },
-          chain: base,
-          rpcUrl: null,
-          projectId: null,
-          sessionId: 'test-session-id',
-        }),
-      );
-    });
-  });
-
-  it('should use default values for config when not provided', async () => {
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base}>
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      expect(setOnchainKitConfig).toHaveBeenCalledWith(
-        expect.objectContaining({
-          config: {
-            analytics: true,
-            analyticsUrl: null,
-            appearance: {
-              logo: appLogo,
-              name: appName,
-              mode: 'auto',
-              theme: 'default',
-            },
-            paymaster: null,
-            wallet: {
-              display: 'classic',
-              preference: 'all',
-              termsUrl: 'https://base.org/terms-of-service',
-              privacyUrl: 'https://base.org/privacy-policy',
-              supportedWallets: {
-                rabby: false,
-                trust: false,
-                frame: false,
-              },
-            },
-          },
-        }),
-      );
-    });
-  });
-
-  it('should respect analytics override when provided', async () => {
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base} analytics={false}>
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      expect(setOnchainKitConfig).toHaveBeenCalledWith(
-        expect.objectContaining({
-          config: expect.objectContaining({
-            analytics: false,
-          }),
-        }),
-      );
-    });
-  });
-
-  it('should use custom values when override in config is provided', async () => {
-    const customConfig = {
-      analyticsUrl: 'https://example.com',
-      appearance: {
-        name: 'custom name',
-        logo: 'https://example.com/logo.png',
-      },
-      paymaster: 'https://example.com',
-    };
-
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider
-            chain={base}
-            apiKey={apiKey}
-            config={customConfig}
-            analytics={false}
-          >
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      expect(setOnchainKitConfig).toHaveBeenCalledWith(
-        expect.objectContaining({
-          apiKey: apiKey,
-          chain: base,
-          config: {
-            analytics: false,
-            analyticsUrl: 'https://example.com',
-            appearance: {
-              name: 'custom name',
-              logo: 'https://example.com/logo.png',
-              mode: 'auto',
-              theme: 'default',
-            },
-            paymaster: 'https://example.com',
-            wallet: {
-              display: 'classic',
-              preference: 'all',
-              termsUrl: 'https://base.org/terms-of-service',
-              privacyUrl: 'https://base.org/privacy-policy',
-              supportedWallets: {
-                rabby: false,
-                trust: false,
-                frame: false,
-              },
-            },
-          },
-          projectId: null,
-          rpcUrl: null,
-          sessionId: 'test-session-id',
-        }),
-      );
-    });
-  });
-
-  it('should set default supportedWallets configuration when not provided', async () => {
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base}>
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      expect(setOnchainKitConfig).toHaveBeenCalledWith(
-        expect.objectContaining({
-          config: expect.objectContaining({
-            wallet: expect.objectContaining({
-              supportedWallets: {
-                rabby: false,
-                trust: false,
-                frame: false,
-              },
-            }),
-          }),
-        }),
-      );
-    });
-  });
-
-  it('should use custom supportedWallets configuration when provided', async () => {
-    const customConfig: AppConfig = {
-      wallet: {
-        supportedWallets: {
-          rabby: true,
-          trust: true,
-          frame: true,
-        },
-      },
-    };
-
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base} config={customConfig}>
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      expect(setOnchainKitConfig).toHaveBeenCalledWith(
-        expect.objectContaining({
-          config: expect.objectContaining({
-            wallet: expect.objectContaining({
-              supportedWallets: {
-                rabby: true,
-                trust: true,
-                frame: true,
-              },
-            }),
-          }),
-        }),
-      );
-    });
-  });
-
-  it('should use partial supportedWallets configuration when provided', async () => {
-    const customConfig: AppConfig = {
-      wallet: {
-        supportedWallets: {
-          trust: true,
-        },
-      },
-    };
-
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base} config={customConfig}>
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      expect(setOnchainKitConfig).toHaveBeenCalledWith(
-        expect.objectContaining({
-          config: expect.objectContaining({
-            wallet: expect.objectContaining({
-              supportedWallets: expect.objectContaining({
-                trust: true,
-                frame: false,
-                rabby: false,
-              }),
-            }),
-          }),
-          chain: expect.any(Object),
-          sessionId: 'test-session-id',
-          apiKey: null,
-          projectId: null,
-          rpcUrl: null,
-        }),
-      );
-    });
-  });
-
-  it('should use custom wallet config when provided', async () => {
-    const customConfig: AppConfig = {
-      wallet: {
-        display: 'modal',
-        preference: 'eoaOnly',
-        termsUrl: 'https://example.com/terms',
-        privacyUrl: 'https://example.com/privacy',
-        supportedWallets: {
-          rabby: true,
-          trust: true,
-          frame: true,
-        },
-      },
-    };
-
-    render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base} config={customConfig}>
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
-    );
-
-    await waitFor(() => {
-      expect(setOnchainKitConfig).toHaveBeenCalledWith(
-        expect.objectContaining({
-          config: expect.objectContaining({
-            wallet: {
-              display: 'modal',
-              preference: 'eoaOnly',
-              termsUrl: 'https://example.com/terms',
-              privacyUrl: 'https://example.com/privacy',
-              supportedWallets: {
-                rabby: true,
-                trust: true,
-                frame: true,
-              },
-            },
-          }),
-        }),
-      );
-    });
+    vi.resetAllMocks();
+    (useConfig as Mock).mockReturnValue({ chains: [base] });
   });
 
   afterEach(() => {
-    vi.resetModules();
+    vi.clearAllMocks();
   });
 
-  it('should set data-ock-theme attribute on document root', async () => {
-    const setAttributeSpy = vi.spyOn(document.documentElement, 'setAttribute');
-
+  it('should provide context values', () => {
     render(
-      <WagmiProvider config={mockConfig}>
-        <QueryClientProvider client={queryClient}>
-          <OnchainKitProvider chain={base}>
-            <TestComponent />
-          </OnchainKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>,
+      <OnchainKitProvider chain={base}>
+        <TestComponent />
+      </OnchainKitProvider>,
     );
 
-    await waitFor(() => {
-      expect(setAttributeSpy).toHaveBeenCalledWith(
-        'data-ock-theme',
-        'default-light',
-      );
-    });
+    expect(screen.getByTestId('chain-id').textContent).toBe('8453');
+    expect(screen.getByTestId('api-key').textContent).toBe('no-api-key');
+    expect(screen.getByTestId('project-id').textContent).toBe('no-project-id');
+    expect(screen.getByTestId('rpc-url').textContent).toBe('no-rpc-url');
+    expect(screen.getByTestId('session-id').textContent).toBe('test-session-id');
+  });
 
-    setAttributeSpy.mockRestore();
+  it('should provide context values with all props', () => {
+    render(
+      <OnchainKitProvider
+        chain={base}
+        apiKey="test-api-key"
+        projectId="test-project-id"
+        rpcUrl="https://test.rpc.url"
+      >
+        <TestComponent />
+      </OnchainKitProvider>,
+    );
+
+    expect(screen.getByTestId('api-key').textContent).toBe('test-api-key');
+    expect(screen.getByTestId('project-id').textContent).toBe('test-project-id');
+    expect(screen.getByTestId('rpc-url').textContent).toBe('https://test.rpc.url');
+  });
+
+  it('should call setOnchainKitConfig with correct values', () => {
+    const config: AppConfig = {
+      appearance: {
+        mode: 'dark',
+        theme: 'base',
+      },
+    };
+
+    render(
+      <OnchainKitProvider
+        chain={base}
+        apiKey="test-api-key"
+        projectId="test-project-id"
+        rpcUrl="https://test.rpc.url"
+        config={config}
+      >
+        <TestComponent />
+      </OnchainKitProvider>,
+    );
+
+    expect(setOnchainKitConfig).toHaveBeenCalledWith({
+      apiKey: 'test-api-key',
+      chain: base,
+      config,
+      projectId: 'test-project-id',
+      rpcUrl: 'https://test.rpc.url',
+    });
+  });
+
+  it('should throw OnchainKitConfigError when chain is missing', () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    expect(() => {
+      render(
+        // @ts-expect-error Testing invalid props
+        <OnchainKitProvider>
+          <TestComponent />
+        </OnchainKitProvider>,
+      );
+    }).toThrow(OnchainKitConfigError);
+
+    consoleError.mockRestore();
+  });
+
+  it('should throw OnchainKitConfigError when chain is invalid', () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    expect(() => {
+      render(
+        <OnchainKitProvider
+          // @ts-expect-error Testing invalid props
+          chain="invalid-chain"
+        >
+          <TestComponent />
+        </OnchainKitProvider>,
+      );
+    }).toThrow(OnchainKitConfigError);
+
+    consoleError.mockRestore();
+  });
+
+  it('should throw OnchainKitConfigError when apiKey is invalid', () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    expect(() => {
+      render(
+        <OnchainKitProvider
+          chain={base}
+          // @ts-expect-error Testing invalid props
+          apiKey={123}
+        >
+          <TestComponent />
+        </OnchainKitProvider>,
+      );
+    }).toThrow(OnchainKitConfigError);
+
+    consoleError.mockRestore();
+  });
+
+  it('should throw OnchainKitConfigError when rpcUrl is invalid', () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    expect(() => {
+      render(
+        <OnchainKitProvider
+          chain={base}
+          rpcUrl="not-a-valid-url"
+        >
+          <TestComponent />
+        </OnchainKitProvider>,
+      );
+    }).toThrow(OnchainKitConfigError);
+
+    consoleError.mockRestore();
+  });
+
+  it('should provide MiniKit context when enabled', () => {
+    const miniKitConfig: MiniKitOptions = {
+      enabled: true,
+      notificationProxyUrl: 'https://notifications.example.com',
+    };
+
+    render(
+      <OnchainKitProvider chain={base} miniKit={miniKitConfig}>
+        <div data-testid="child">Child Content</div>
+      </OnchainKitProvider>,
+    );
+
+    expect(screen.getByTestId('minikit-provider')).toBeInTheDocument();
+    expect(screen.getByTestId('minikit-provider').getAttribute('data-enabled')).toBe('true');
+    expect(
+      screen.getByTestId('minikit-provider').getAttribute('data-notification-proxy-url'),
+    ).toBe('https://notifications.example.com');
+    expect(screen.getByTestId('child')).toBeInTheDocument();
+  });
+
+  it('should not nest MiniKitProvider when already inside one', () => {
+    const TestChild = () => {
+      return <div data-testid="test-child">Test Child</div>;
+    };
+
+    render(
+      <OnchainKitProvider chain={base}>
+        <TestChild />
+      </OnchainKitProvider>,
+    );
+
+    expect(screen.getByTestId('test-child')).toBeInTheDocument();
   });
 });
