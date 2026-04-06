@@ -3,12 +3,12 @@ import { setOnchainKitConfig } from '@/core/OnchainKitConfig';
 import { useContext, useEffect, useLayoutEffect, useMemo } from 'react';
 import { DefaultOnchainKitProviders } from './DefaultOnchainKitProviders';
 import OnchainKitProviderBoundary from './OnchainKitProviderBoundary';
-import { DEFAULT_PRIVACY_URL, DEFAULT_TERMS_URL } from './core/constants';
 import { generateUUIDWithInsecureFallback } from './internal/utils/crypto';
 import { OnchainKitContext } from './useOnchainKit';
 import { useThemeRoot } from './internal/hooks/useTheme';
 import { clientMetaManager } from './core/clientMeta/clientMetaManager';
 import { MiniKitContext } from './minikit/MiniKitProvider';
+import { validateOnchainKitConfig } from './core/utils/validateOnchainKitConfig';
 
 import { type ReactNode } from 'react';
 import { useSessionStorage } from 'usehooks-ts';
@@ -49,6 +49,11 @@ export function OnchainKitProvider({
   },
   defaultPublicClients,
 }: OnchainKitProviderReact) {
+  // Validate configuration on mount - throws descriptive errors for invalid config
+  useEffect(() => {
+    validateOnchainKitConfig({ apiKey, chain, config, projectId, rpcUrl });
+  }, [apiKey, chain, config, projectId, rpcUrl]);
+
   const [sessionId] = useSessionStorage(
     'ock-session-id',
     generateUUIDWithInsecureFallback(),
@@ -64,73 +69,68 @@ export function OnchainKitProvider({
   }, [theme]);
   const isMiniKit = !!useContext(MiniKitContext)?.__isMiniKit;
 
-  useEffect(() => {
-    if (clientMetaManager.isInitialized()) return;
-    clientMetaManager.init({ isMiniKit });
-  }, [isMiniKit]);
-
-  // eslint-disable-next-line complexity
   const value = useMemo(() => {
-    const defaultPaymasterUrl = apiKey
-      ? `https://api.developer.coinbase.com/rpc/v1/${chain.name
-          .replace(' ', '-')
-          .toLowerCase()}/${apiKey}`
-      : null;
-    const onchainKitConfig = {
-      apiKey: apiKey ?? null,
-      chain: chain,
+    return {
+      analytics,
+      apiKey,
+      chain,
       config: {
-        analytics: analytics ?? true,
-        analyticsUrl: config?.analyticsUrl ?? null,
+        ...config,
         appearance: {
-          name: config?.appearance?.name ?? 'Dapp',
-          logo: config?.appearance?.logo ?? '',
-          mode: config?.appearance?.mode ?? 'auto',
-          theme: config?.appearance?.theme ?? 'default',
-        },
-        paymaster: config?.paymaster || defaultPaymasterUrl,
-        wallet: {
-          display: config?.wallet?.display ?? 'classic',
-          preference: config?.wallet?.preference ?? 'all',
-          termsUrl: config?.wallet?.termsUrl || DEFAULT_TERMS_URL,
-          privacyUrl: config?.wallet?.privacyUrl || DEFAULT_PRIVACY_URL,
-          supportedWallets: {
-            rabby: config?.wallet?.supportedWallets?.rabby ?? false,
-            trust: config?.wallet?.supportedWallets?.trust ?? false,
-            frame: config?.wallet?.supportedWallets?.frame ?? false,
-          },
+          ...config?.appearance,
         },
       },
-      projectId: projectId ?? null,
-      rpcUrl: rpcUrl ?? null,
+      projectId,
+      rpcUrl,
       sessionId,
-      defaultPublicClients,
-      miniKit,
     };
-    setOnchainKitConfig(onchainKitConfig);
-    return onchainKitConfig;
-  }, [
-    analytics,
-    apiKey,
-    chain,
-    config,
-    projectId,
-    rpcUrl,
-    sessionId,
-    defaultPublicClients,
-    miniKit,
-  ]);
+  }, [analytics, apiKey, chain, config, projectId, rpcUrl, sessionId]);
+
+  useEffect(() => {
+    setOnchainKitConfig({
+      apiKey,
+      chain,
+      config,
+      projectId,
+      rpcUrl,
+    });
+  }, [apiKey, chain, config, projectId, rpcUrl]);
+
+  useEffect(() => {
+    // Initialize client metadata
+    clientMetaManager.setClientMeta({
+      version: process.env.PACKAGE_VERSION ?? 'unknown',
+      analytics,
+    });
+  }, [analytics]);
+
+  // If already inside MiniKitProvider, don't wrap again
+  if (isMiniKit) {
+    return (
+      <OnchainKitContext.Provider value={value}>
+        {children}
+      </OnchainKitContext.Provider>
+    );
+  }
 
   return (
-    <OnchainKitContext.Provider value={value}>
-      <DefaultOnchainKitProviders>
-        <MiniKitProvider
-          enabled={miniKit.enabled}
-          notificationProxyUrl={miniKit.notificationProxyUrl}
+    <OnchainKitProviderBoundary>
+      <MiniKitProvider
+        config={miniKit}
+        defaultPublicClients={defaultPublicClients}
+      >
+        <DefaultOnchainKitProviders
+          apiKey={apiKey}
+          chain={chain}
+          config={config}
+          projectId={projectId}
+          rpcUrl={rpcUrl}
         >
-          <OnchainKitProviderBoundary>{children}</OnchainKitProviderBoundary>
-        </MiniKitProvider>
-      </DefaultOnchainKitProviders>
-    </OnchainKitContext.Provider>
+          <OnchainKitContext.Provider value={value}>
+            {children}
+          </OnchainKitContext.Provider>
+        </DefaultOnchainKitProviders>
+      </MiniKitProvider>
+    </OnchainKitProviderBoundary>
   );
 }
