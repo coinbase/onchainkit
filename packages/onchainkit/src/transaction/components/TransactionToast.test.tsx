@@ -14,9 +14,6 @@ vi.mock('wagmi', () => ({
   useConnect: vi.fn(),
   useConfig: vi.fn(),
   useChainId: vi.fn(),
-}));
-
-vi.mock('wagmi', () => ({
   useShowCallsStatus: vi.fn(),
 }));
 

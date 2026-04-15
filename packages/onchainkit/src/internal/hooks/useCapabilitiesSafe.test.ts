@@ -6,9 +6,6 @@ import { useCapabilitiesSafe } from './useCapabilitiesSafe';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
-}));
-
-vi.mock('wagmi', () => ({
   useCapabilities: vi.fn(),
 }));
 

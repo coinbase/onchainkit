@@ -71,6 +71,7 @@ vi.mock('wagmi', async (importOriginal) => {
     useSendTransaction: vi.fn(() => ({
       sendTransactionAsync: vi.fn(),
     })),
+    useSendCalls: vi.fn(),
   };
 });
 
@@ -85,10 +86,6 @@ vi.mock('@/internal/hooks/useCapabilitiesSafe', () => ({
 
 vi.mock('wagmi/actions', () => ({
   waitForTransactionReceipt: vi.fn(),
-}));
-
-vi.mock('wagmi', () => ({
-  useSendCalls: vi.fn(),
 }));
 
 vi.mock('../path/to/maxSlippageModule', () => ({

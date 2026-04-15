@@ -13,9 +13,6 @@ vi.mock('../components/TransactionProvider', () => ({
 
 vi.mock('wagmi', () => ({
   useChainId: vi.fn(),
-}));
-
-vi.mock('wagmi', () => ({
   useShowCallsStatus: vi.fn(),
 }));
 
