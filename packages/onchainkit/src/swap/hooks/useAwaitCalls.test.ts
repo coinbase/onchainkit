@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { useCallsStatus } from 'wagmi/experimental';
+import { useCallsStatus } from 'wagmi';
 import type { LifecycleStatus } from '../types';
 import { useAwaitCalls } from './useAwaitCalls';
 import { base } from 'viem/chains';
@@ -12,7 +12,7 @@ vi.mock('wagmi/actions', () => ({
   waitForTransactionReceipt: vi.fn(),
 }));
 
-vi.mock('wagmi/experimental', () => ({
+vi.mock('wagmi', () => ({
   useCallsStatus: vi.fn(),
 }));
 
