@@ -158,7 +158,7 @@ All hooks maintain backward compatibility:
 ### Scoped Styling System
 
 #### New Features
-- **Class Prefixing**: All OnchainKit classes automatically prefixed with `ock-`
+- **Class Prefixing**: All OnchainKit classes automatically prefixed with `ock:`
 - **CSS Variable Scoping**: Theme variables use `--ock-` prefix
 - **Data Attribute Theming**: Themes applied via `data-ock-theme` attributes
 
