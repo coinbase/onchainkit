@@ -1,9 +1,9 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { useCallsStatus as useCallsStatusWagmi } from 'wagmi/experimental';
+import { useCallsStatus as useCallsStatusWagmi } from 'wagmi';
 import { useCallsStatus } from './useCallsStatus';
 
-vi.mock('wagmi/experimental', () => ({
+vi.mock('wagmi', () => ({
   useCallsStatus: vi.fn(),
 }));
 

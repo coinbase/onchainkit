@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import type { WalletCapabilities } from 'viem';
 import { useAccount } from 'wagmi';
-import { useCapabilities } from 'wagmi/experimental';
+import { useCapabilities } from 'wagmi';
 import type { UseCapabilitiesSafeParams } from '../../core/types';
 
 export function useCapabilitiesSafe({
