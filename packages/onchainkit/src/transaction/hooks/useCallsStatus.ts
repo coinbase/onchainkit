@@ -1,6 +1,7 @@
 import { useCallsStatus as useCallsStatusWagmi } from 'wagmi/experimental';
 import type { UseCallsStatusParams } from '../types';
 import { normalizeStatus } from '@/internal/utils/normalizeWagmi';
+import { createTransactionError } from '../utils/createTransactionError';
 
 export function useCallsStatus({
   setLifecycleStatus,
@@ -24,11 +25,11 @@ export function useCallsStatus({
   } catch (err) {
     setLifecycleStatus({
       statusName: 'error',
-      statusData: {
-        code: 'TmUCSh01',
-        error: JSON.stringify(err),
-        message: '',
-      },
+      statusData: createTransactionError(
+        'TmUCSh01',
+        err,
+        'Failed to get transaction status. Please verify the transaction ID and try again.',
+      ),
     });
     return { status: 'error', transactionHash: undefined };
   }
