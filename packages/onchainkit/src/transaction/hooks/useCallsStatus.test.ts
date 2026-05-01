@@ -46,8 +46,8 @@ describe('useCallsStatus', () => {
       statusName: 'error',
       statusData: {
         code: 'TmUCSh01',
-        error: JSON.stringify(mockError),
-        message: '',
+        error: expect.any(String),
+        message: 'Failed to get transaction status. Please verify the transaction ID and try again.',
       },
     });
   });
