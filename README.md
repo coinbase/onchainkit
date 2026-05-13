@@ -69,6 +69,11 @@ This project is set up as a monorepo with pnpm workspaces.
 - pnpm v10
 
 ### Getting Started
+### Base Sepolia Faucet
+
+To test applications on Base Sepolia, you can request test ETH from the official Base faucet:
+
+https://www.coinbase.com/faucets/base-ethereum-sepolia-faucet
 
 1. Clone the repository
 
