@@ -1,28 +1,96 @@
 # Error Handling & UX Guidelines
 
-This guide covers how OnchainKit surfaces errors and how to translate them into
-clear, user-friendly messages. Understanding these patterns helps you build apps
-that respond gracefully to every failure scenario.
+This guide explains how OnchainKit surfaces errors and how to translate them into
+clear, user-friendly messages. It is based on the actual TypeScript types in the
+library source.
 
 ---
 
-## Error Categories
+## The `TransactionError` Type
 
-OnchainKit errors fall into five categories. Each has a different cause, expected
-frequency, and recommended UX response.
+All `onError` callbacks in OnchainKit receive a `TransactionError` object, which
+is an alias for `APIError` ([`src/api/types.ts`](../api/types.ts)):
+
+```ts
+// src/api/types.ts
+export type APIError = {
+  code: string;    // error code, e.g. 'UNCAUGHT_TRANSACTION_ERROR'
+  error: string;   // long message (internal, not for users)
+  message: string; // short message (safe to log)
+};
+
+export type TransactionError = APIError;
+```
+
+The `<Transaction>` component exposes `onError` with this exact type
+([`src/transaction/types.ts`](../transaction/types.ts)):
+
+```ts
+// TransactionProps (excerpt)
+onError?: (e: TransactionError) => void;
+```
+
+Note: **`TransactionError` does not have a numeric `.code` field** — it has a
+`string` `.code`. There is no `.code === 4001` on this object. Wallet-level
+rejections (EIP-1193 code `4001`) surface inside the `.error` or `.message`
+string, not as a numeric property.
+
+---
+
+## Checking the Lifecycle Status
+
+For richer state management, prefer `onStatus` over `onError`. It receives a
+`LifecycleStatus` union ([`src/transaction/types.ts`](../transaction/types.ts)):
+
+```ts
+export type LifecycleStatus =
+  | { statusName: 'init';                    statusData: null }
+  | { statusName: 'error';                   statusData: TransactionError }
+  | { statusName: 'transactionIdle';         statusData: null }
+  | { statusName: 'buildingTransaction';     statusData: null }
+  | { statusName: 'transactionPending';      statusData: null }
+  | { statusName: 'transactionLegacyExecuted'; statusData: { transactionHashList: Address[] } }
+  | { statusName: 'success';                 statusData: { transactionReceipts: TransactionReceipt[] } }
+  | { statusName: 'reset';                   statusData: null };
+```
+
+Usage:
+
+```tsx
+import { Transaction } from '@coinbase/onchainkit/transaction';
+import type { LifecycleStatus } from '@coinbase/onchainkit/transaction';
+
+<Transaction
+  chainId={base.id}
+  calls={calls}
+  onStatus={(status: LifecycleStatus) => {
+    if (status.statusName === 'error') {
+      console.log(status.statusData.code);    // string, e.g. 'UNCAUGHT_TRANSACTION_ERROR'
+      console.log(status.statusData.message); // short human-readable message
+    }
+  }}
+  onError={(e) => {
+    // e: TransactionError = { code: string, error: string, message: string }
+    handleError(e);
+  }}
+/>
+```
+
+---
+
+## Error Categories and Recommended UX
+
+OnchainKit errors fall into five categories. Each surfaces differently through
+the `TransactionError.code` string or the `error`/`message` content.
 
 ### 1. Wallet Not Connected
 
-**When it happens:** User triggers an onchain action before connecting a wallet.
-
-**How it surfaces:** Components like `<Transaction>` and `<Swap>` disable
-themselves when no wallet is connected. If you call hooks directly, wagmi throws
-`ConnectorNotConnectedError`.
+**How it surfaces:** Components disable themselves; hooks from wagmi throw before
+reaching OnchainKit. Check with `useAccount()` before rendering onchain actions.
 
 **Recommended message:**
 > "Connect your wallet to continue."
 
-**Pattern:**
 ```tsx
 import { useAccount } from 'wagmi';
 
@@ -36,23 +104,16 @@ function ActionButton() {
 }
 ```
 
-**Guidance:**
-- Show the `<Wallet>` connect button prominently; don't just disable actions silently.
-- Never show a generic "Something went wrong" for this case — the user just needs to connect.
-
 ---
 
 ### 2. Wrong Network
 
-**When it happens:** User is connected to a chain that isn't Base or Base Sepolia.
-
-**How it surfaces:** Transactions fail with RPC errors or wagmi's
-`ChainMismatchError`. The `useChainId()` hook returns an unexpected chain ID.
+**How it surfaces:** Wagmi's `useChainId()` returns an unexpected value.
+The `<Transaction chainId={base.id}>` prop will guard this automatically.
 
 **Recommended message:**
-> "You're on the wrong network. Switch to Base to continue."
+> "Switch to Base to continue."
 
-**Pattern:**
 ```tsx
 import { useChainId, useSwitchChain } from 'wagmi';
 import { base } from 'wagmi/chains';
@@ -75,159 +136,107 @@ function NetworkGuard({ children }: { children: React.ReactNode }) {
 }
 ```
 
-**Guidance:**
-- Detect the mismatch *before* the user hits "Send" — show a persistent banner.
-- If `switchChain` is unavailable (e.g. hardware wallet), show a manual instruction instead.
-
 ---
 
 ### 3. User Rejected / Cancelled
 
-**When it happens:** User dismisses the wallet confirmation popup.
+**How it surfaces:** The `TransactionError.message` string contains text such as
+`"User rejected"`. There is no numeric code — check the `message` or `error`
+field with a string match:
 
-**How it surfaces:** The wallet throws `UserRejectedRequestError` (EIP-1193 code
-`4001`). OnchainKit propagates this via the `onError` callback on `<Transaction>`.
-
-**Recommended message:**
-> "Transaction cancelled."  *(no retry prompt needed — the user chose to cancel)*
-
-**Pattern:**
 ```tsx
-import { Transaction } from '@coinbase/onchainkit/transaction';
+function classifyTransactionError(e: TransactionError): string {
+  const msg = (e.message ?? '').toLowerCase();
+  const detail = (e.error ?? '').toLowerCase();
 
-<Transaction
-  calls={calls}
-  onError={(error) => {
-    if (error.code === 4001 || error.message?.includes('User rejected')) {
-      showToast('Transaction cancelled.');   // quiet, no alarm
-    } else {
-      showToast('Transaction failed. Please try again.');
-    }
-  }}
-/>
+  if (msg.includes('user rejected') || detail.includes('user rejected')) {
+    return 'REJECTED';
+  }
+  if (msg.includes('insufficient funds') || detail.includes('insufficient funds')) {
+    return 'INSUFFICIENT_FUNDS';
+  }
+  if (msg.includes('execution reverted') || detail.includes('execution reverted')) {
+    return 'REVERTED';
+  }
+  if (msg.includes('network') || msg.includes('fetch') || msg.includes('timeout')) {
+    return 'RPC_ERROR';
+  }
+  return e.code ?? 'UNKNOWN';
+}
 ```
 
-**Guidance:**
-- Keep the message short and neutral — the user intentionally cancelled.
-- Do **not** auto-retry or show an error icon for rejections.
-- Log rejections only for analytics, not for error tracking.
+**Recommended message for rejection:**
+> "Transaction cancelled."
+
+Do **not** show an error icon or prompt a retry — the user intentionally cancelled.
 
 ---
 
 ### 4. Insufficient Funds
 
-**When it happens:** User's balance is too low to cover the transaction value + gas.
-
-**How it surfaces:** The RPC returns an error with message containing
-`"insufficient funds"` or code `-32000`. This can be caught in `onError`.
+**How it surfaces:** Surfaces in `TransactionError.message` as
+`"insufficient funds"` from the underlying RPC call (EVM standard).
 
 **Recommended message:**
-> "Insufficient ETH balance to cover this transaction and gas fees."
+> "Insufficient ETH to cover this transaction and gas fees."
 
-**Pattern:**
+Offer a direct path to fund the wallet:
+
 ```tsx
-function parseTransactionError(error: Error): string {
-  const msg = error.message?.toLowerCase() ?? '';
+import { FundButton } from '@coinbase/onchainkit/fund';
 
-  if (msg.includes('insufficient funds')) {
-    return 'Insufficient ETH for this transaction and gas fees.';
-  }
-  if (msg.includes('user rejected') || (error as any).code === 4001) {
-    return 'Transaction cancelled.';
-  }
-  if (msg.includes('nonce too low')) {
-    return 'Transaction conflict detected. Please wait a moment and try again.';
-  }
-  if (msg.includes('execution reverted')) {
-    return 'Transaction failed on-chain. Check your inputs and try again.';
-  }
-  return 'Transaction failed. Please try again.';
-}
+// When classifyTransactionError(e) === 'INSUFFICIENT_FUNDS':
+<div>
+  <p>Insufficient ETH to cover this transaction and gas fees.</p>
+  <FundButton />
+</div>
 ```
-
-**Guidance:**
-- Show the user's current ETH balance alongside the error when possible.
-- Offer a direct link to fund their wallet (e.g. via `<FundButton>`).
 
 ---
 
 ### 5. RPC / Network Errors
 
-**When it happens:** The RPC endpoint is unreachable, rate-limited, or returns an
-unexpected response.
-
-**How it surfaces:** `fetch` failures, `Error: could not detect network`, or
-HTTP `429 Too Many Requests` from the RPC provider.
+**How it surfaces:** Provider or network failures appear in
+`TransactionError.message` as timeout, fetch, or network-related strings.
 
 **Recommended message:**
 > "Network error. Check your connection and try again."
 
-**Pattern:**
-```tsx
-function isRpcError(error: Error): boolean {
-  const msg = error.message?.toLowerCase() ?? '';
-  return (
-    msg.includes('network') ||
-    msg.includes('fetch') ||
-    msg.includes('timeout') ||
-    msg.includes('429') ||
-    msg.includes('could not detect')
-  );
-}
-```
-
-**Guidance:**
-- Implement exponential backoff for automatic retries on RPC errors — don't spam the user with prompts.
-- Consider switching to a fallback RPC URL for production apps (see the [build-app guide](https://docs.base.org/get-started/build-app)).
+Consider implementing exponential backoff before prompting the user to retry
+manually.
 
 ---
 
-## Error Decision Tree
+## Centralised Error Handler
 
-Use this quick reference to decide what message and action to show:
-
-| Error type | User sees | Action offered |
-|---|---|---|
-| Not connected | "Connect your wallet to continue." | Show `<Wallet>` connect button |
-| Wrong network | "Switch to Base to continue." | "Switch to Base" button |
-| User rejected | "Transaction cancelled." | None (user chose this) |
-| Insufficient funds | "Insufficient ETH for gas fees." | "Add funds" / `<FundButton>` |
-| Execution reverted | "Transaction failed on-chain." | "Try again" button |
-| RPC / network | "Network error. Try again." | "Retry" button (with backoff) |
-| Unknown | "Something went wrong. Try again." | "Retry" + support link |
-
----
-
-## Consistent Error Handling Across the App
-
-Rather than duplicating `onError` logic in every component, centralise it:
+Import `TransactionError` from OnchainKit and build a single utility:
 
 ```tsx
-// lib/onchainErrors.ts
-export type OnchainErrorCode =
-  | 'NOT_CONNECTED'
-  | 'WRONG_NETWORK'
-  | 'USER_REJECTED'
+import type { TransactionError } from '@coinbase/onchainkit/transaction';
+
+export type ErrorCategory =
+  | 'REJECTED'
   | 'INSUFFICIENT_FUNDS'
   | 'REVERTED'
   | 'RPC_ERROR'
   | 'UNKNOWN';
 
-export function classifyError(error: Error): OnchainErrorCode {
-  const msg = error.message?.toLowerCase() ?? '';
-  const code = (error as any).code;
+export function classifyTransactionError(e: TransactionError): ErrorCategory {
+  const msg = (e.message ?? '').toLowerCase();
+  const detail = (e.error ?? '').toLowerCase();
+  const combined = `${msg} ${detail}`;
 
-  if (code === 4001 || msg.includes('user rejected')) return 'USER_REJECTED';
-  if (msg.includes('insufficient funds'))              return 'INSUFFICIENT_FUNDS';
-  if (msg.includes('execution reverted'))              return 'REVERTED';
-  if (msg.includes('network') || msg.includes('fetch')) return 'RPC_ERROR';
+  if (combined.includes('user rejected')) return 'REJECTED';
+  if (combined.includes('insufficient funds')) return 'INSUFFICIENT_FUNDS';
+  if (combined.includes('execution reverted')) return 'REVERTED';
+  if (combined.includes('network') || combined.includes('fetch') || combined.includes('timeout')) {
+    return 'RPC_ERROR';
+  }
   return 'UNKNOWN';
 }
 
-export const USER_MESSAGES: Record<OnchainErrorCode, string> = {
-  NOT_CONNECTED:      'Connect your wallet to continue.',
-  WRONG_NETWORK:      'Switch to Base to continue.',
-  USER_REJECTED:      'Transaction cancelled.',
+export const USER_MESSAGES: Record<ErrorCategory, string> = {
+  REJECTED:           'Transaction cancelled.',
   INSUFFICIENT_FUNDS: 'Insufficient ETH for this transaction and gas fees.',
   REVERTED:           'Transaction failed on-chain. Check your inputs and try again.',
   RPC_ERROR:          'Network error. Check your connection and try again.',
@@ -235,19 +244,21 @@ export const USER_MESSAGES: Record<OnchainErrorCode, string> = {
 };
 ```
 
-Then use it in any component:
+Usage in any component:
 
 ```tsx
-import { classifyError, USER_MESSAGES } from '@/lib/onchainErrors';
 import { Transaction } from '@coinbase/onchainkit/transaction';
+import { classifyTransactionError, USER_MESSAGES } from '@/lib/onchainErrors';
 
 <Transaction
+  chainId={base.id}
   calls={calls}
-  onError={(error) => {
-    const code = classifyError(error);
-    if (code !== 'USER_REJECTED') {   // don't toast for intentional cancels
-      showToast(USER_MESSAGES[code]);
+  onError={(e) => {
+    const category = classifyTransactionError(e);
+    if (category !== 'REJECTED') {
+      showToast(USER_MESSAGES[category]);
     }
+    // REJECTED = user intentionally cancelled, no toast needed
   }}
 />
 ```
@@ -256,19 +267,20 @@ import { Transaction } from '@coinbase/onchainkit/transaction';
 
 ## When to Retry vs. Prompt the User
 
-| Situation | Strategy |
+| Error category | Strategy |
 |---|---|
-| RPC timeout / 429 | Auto-retry with exponential backoff (max 3 attempts) |
-| User rejected | Do nothing — user chose to cancel |
-| Insufficient funds | Prompt to add funds, do not retry |
-| Execution reverted | Prompt user to check inputs, do not auto-retry |
-| Unknown error | Show "Try again" button, log to error tracker |
+| `REJECTED` | Do nothing — user chose to cancel |
+| `INSUFFICIENT_FUNDS` | Show `<FundButton>`, do not retry |
+| `REVERTED` | Prompt to check inputs, do not auto-retry |
+| `RPC_ERROR` | Auto-retry with exponential backoff (max 3×), then prompt |
+| `UNKNOWN` | Show "Try again" button, log `e.code` + `e.error` for debugging |
 
 ---
 
 ## Related Resources
 
-- [`<Transaction>` component](https://onchainkit.xyz/transaction/transaction)
-- [`<Wallet>` component](https://onchainkit.xyz/wallet/wallet)
-- [`<FundButton>` component](https://onchainkit.xyz/fund/fund-button)
-- [Base network faucet](https://docs.base.org/docs/tools/network-faucets)
+- [`TransactionError` type source](../api/types.ts)
+- [`LifecycleStatus` type source](../transaction/types.ts)
+- [`<Transaction>` component docs](https://onchainkit.xyz/transaction/transaction)
+- [`<FundButton>` component docs](https://onchainkit.xyz/fund/fund-button)
+- [`<Wallet>` component docs](https://onchainkit.xyz/wallet/wallet)
