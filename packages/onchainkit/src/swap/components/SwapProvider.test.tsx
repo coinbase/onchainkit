@@ -31,7 +31,7 @@ import {
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
-import { useSendCalls } from 'wagmi/experimental';
+import { useSendCalls } from 'wagmi';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import { getSwapQuote } from '../../api/getSwapQuote';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
@@ -87,7 +87,7 @@ vi.mock('wagmi/actions', () => ({
   waitForTransactionReceipt: vi.fn(),
 }));
 
-vi.mock('wagmi/experimental', () => ({
+vi.mock('wagmi', () => ({
   useSendCalls: vi.fn(),
 }));
 
