@@ -3,7 +3,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "pnpm f:ock test",
     "build": "pnpm -r run build",
     "clean:node_modules": "rm -rf node_modules packages/*/node_modules",
     "f:ock": "pnpm --filter @coinbase/onchainkit",
@@ -13,7 +13,11 @@
     "f:minikit-example": "pnpm --filter minikit-example",
     "changeset": "changeset",
     "release:check": "changeset status --verbose --since=origin/main",
-    "release:publish": "changeset publish"
+    "release:publish": "changeset publish",
+    "lint": "pnpm f:ock lint",
+    "lint:fix": "pnpm f:ock lint:fix",
+    "typecheck": "pnpm f:ock typecheck",
+    "validate": "pnpm lint && pnpm typecheck && pnpm test"
   },
   "keywords": [],
   "author": "",
