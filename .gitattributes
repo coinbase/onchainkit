@@ -1,0 +1,49 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# JavaScript
+*.js text eol=lf
+*.jsx text eol=lf
+*.mjs text eol=lf
+*.cjs text eol=lf
+
+# TypeScript
+*.ts text eol=lf
+*.tsx text eol=lf
+*.mts text eol=lf
+*.cts text eol=lf
+
+# Web
+*.html text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+
+# Data
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Config
+*.md text eol=lf
+*.mdx text eol=lf
+*.toml text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg text eol=lf
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+
+# Lock files (should not be normalized)
+pnpm-lock.yaml -diff linguist-generated=true
+package-lock.json -diff linguist-generated=true
