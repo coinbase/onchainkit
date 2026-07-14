@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "cac": "^6.7.14",
-    "express": "^4.21.2",
+    "express": "^4.22.0",
     "open": "^10.1.0",
     "ora": "^8.1.0",
     "picocolors": "^1.1.0",
