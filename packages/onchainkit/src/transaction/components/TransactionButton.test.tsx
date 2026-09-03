@@ -325,4 +325,50 @@ describe('TransactionButton', () => {
     fireEvent.click(button);
     expect(onSubmit).toHaveBeenCalled();
   });
+
+  it('exposes an accessible name and busy state while the transaction is in progress', () => {
+    (useTransactionContext as Mock).mockReturnValue({
+      isLoading: true,
+      lifecycleStatus: { statusName: 'init', statusData: null },
+    });
+    render(<TransactionButton text="Transact" />);
+    const button = screen.getByRole('button', {
+      name: 'Transaction in progress',
+    });
+    expect(button).toHaveAttribute('aria-busy', 'true');
+    expect(screen.getByTestId('ockSpinner')).toBeInTheDocument();
+  });
+
+  it('uses the visible text as the accessible name when not in progress', () => {
+    (useTransactionContext as Mock).mockReturnValue({
+      isLoading: false,
+      lifecycleStatus: { statusName: 'init', statusData: null },
+    });
+    render(<TransactionButton text="Transact" />);
+    const button = screen.getByRole('button', { name: 'Transact' });
+    expect(button).not.toHaveAttribute('aria-label');
+    expect(button).not.toHaveAttribute('aria-busy');
+  });
+
+  it('keeps the result text as the accessible name once the transaction has settled', () => {
+    (useTransactionContext as Mock).mockReturnValue({
+      isLoading: true,
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      receipt: '123',
+    });
+    const { rerender } = render(<TransactionButton text="Transact" />);
+    const successButton = screen.getByRole('button', {
+      name: 'View transaction',
+    });
+    expect(successButton).not.toHaveAttribute('aria-busy');
+
+    (useTransactionContext as Mock).mockReturnValue({
+      isLoading: true,
+      lifecycleStatus: { statusName: 'init', statusData: null },
+      errorMessage: 'blah blah',
+    });
+    rerender(<TransactionButton text="Transact" />);
+    const errorButton = screen.getByRole('button', { name: 'Try again' });
+    expect(errorButton).not.toHaveAttribute('aria-busy');
+  });
 });

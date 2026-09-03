@@ -95,6 +95,10 @@ export function TransactionButton({
     return 'default';
   }, [isLoading, errorMessage, receipt]);
 
+  // The spinner has no text, so while it is showing the button would have no
+  // accessible name. Give it one, and mark it busy, until the pending state ends.
+  const isPending = status === 'pending';
+
   if (render) {
     return render({
       status,
@@ -120,6 +124,8 @@ export function TransactionButton({
       onClick={handleSubmit}
       type="button"
       disabled={isDisabled}
+      aria-busy={isPending || undefined}
+      aria-label={isPending ? 'Transaction in progress' : undefined}
       data-testid="ockTransactionButton_Button"
     >
       {buttonContent}
