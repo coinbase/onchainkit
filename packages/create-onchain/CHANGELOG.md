@@ -1,5 +1,11 @@
 # create-onchain
 
+## 1.1.3
+
+### Patch Changes
+
+- fix: Harden the `create-onchain --manifest` WebSocket server against cross-origin connections and config file code injection - Thanks [@dgca](https://github.com/dgca)! [#2678](https://github.com/coinbase/onchainkit/pull/2678)
+
 ## 1.1.2
 
 ## 1.1.1
