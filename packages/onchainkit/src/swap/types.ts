@@ -204,7 +204,7 @@ export type SwapButtonProps = {
 };
 
 export type SwapConfig = {
-  maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points;
+  maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 3) This is as a percent, not basis points;
 };
 
 export type SwapContextType = {
@@ -293,7 +293,7 @@ export type SwapParams = {
 export type SwapProviderProps = {
   children: React.ReactNode;
   config?: {
-    maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 10) This is as a percent, not basis points
+    maxSlippage: number; // Maximum acceptable slippage for a swap. (default: 3) This is as a percent, not basis points
   };
   experimental: {
     useAggregator: boolean; // Whether to use a DEX aggregator. (default: false)

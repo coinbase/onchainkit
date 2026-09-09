@@ -56,7 +56,7 @@ function customRender({
   if (status === 'error') {
     return (
       <button disabled={isDisabled} onClick={onSubmit} className={className}>
-        Oops there is an error
+        Oops, there is an error
       </button>
     );
   }
