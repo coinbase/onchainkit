@@ -1,3 +1,7 @@
+> [!WARNING]
+>
+> **OnchainKit and the packages in this repository are deprecated and no longer maintained.** They will not receive further updates, bug fixes, or security patches. Do not use them for new projects. For wallet connectivity and Ethereum interactions, consider building directly with [wagmi](https://wagmi.sh/) and [viem](https://viem.sh/).
+
 <div align="center">
   <p>
     <a href="https://onchainkit.xyz">
