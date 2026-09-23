@@ -14,6 +14,9 @@
     "changeset": "changeset",
     "release:check": "changeset status --verbose --since=origin/main",
     "release:publish": "changeset publish"
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "check": "pnpm lint && pnpm typecheck"
   },
   "keywords": [],
   "author": "",
