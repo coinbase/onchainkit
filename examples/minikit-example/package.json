@@ -15,7 +15,7 @@
     "@mantine/core": "^8.2.5",
     "@mantine/hooks": "^8.2.5",
     "@tanstack/react-query": "^5.81.5",
-    "next": "15.3.6",
+    "next": "15.4.10",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "viem": "^2.31.6",
