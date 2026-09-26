@@ -9,6 +9,10 @@ export {
   getOnchainKitConfig,
   setOnchainKitConfig,
 } from './core/OnchainKitConfig';
+export {
+  validateOnchainKitConfig,
+  OnchainKitConfigError,
+} from './core/utils/validateOnchainKitConfig';
 export type {
   AppConfig,
   IsBaseParams,
