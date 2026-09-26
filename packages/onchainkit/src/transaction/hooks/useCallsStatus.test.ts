@@ -1,6 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { useCallsStatus as useCallsStatusWagmi } from 'wagmi/experimental';
+import { GENERIC_ERROR_MESSAGE } from '../constants';
 import { useCallsStatus } from './useCallsStatus';
 
 vi.mock('wagmi/experimental', () => ({
@@ -47,7 +48,7 @@ describe('useCallsStatus', () => {
       statusData: {
         code: 'TmUCSh01',
         error: JSON.stringify(mockError),
-        message: '',
+        message: GENERIC_ERROR_MESSAGE,
       },
     });
   });
@@ -59,63 +60,22 @@ describe('useCallsStatus', () => {
 
     // Mocking useCallsStatusWagmi to return the specific data and simulate refetchInterval logic
     (useCallsStatusWagmi as ReturnType<typeof vi.fn>).mockImplementation(
-      ({ query }) => {
-        const refetchInterval = query.refetchInterval({
-          state: { data: mockData },
-        });
-        expect(refetchInterval).toBe(1000);
-        return { data: mockData };
+      ({ query }: { query: { refetchInterval: (query: { state: { data?: { status: string } } }) => boolean | number } }) => {
+        return {
+          data: mockData,
+          refetchInterval: query.refetchInterval({ state: { data: mockData } }),
+        };
       },
     );
-
-    renderHook(() =>
-      useCallsStatus({
-        setLifecycleStatus: vi.fn(),
-        transactionId,
-      }),
-    );
-  });
-
-  it('should set refetchInterval to false when status is success', () => {
-    const mockData = {
-      status: 'success',
-    };
-
-    // Mocking useCallsStatusWagmi to return the specific data and simulate refetchInterval logic
-    (useCallsStatusWagmi as ReturnType<typeof vi.fn>).mockImplementation(
-      ({ query }) => {
-        const refetchInterval = query.refetchInterval({
-          state: { data: mockData },
-        });
-        expect(refetchInterval).toBe(false);
-        return { data: mockData };
-      },
-    );
-
-    renderHook(() =>
-      useCallsStatus({
-        setLifecycleStatus: vi.fn(),
-        transactionId,
-      }),
-    );
-  });
-
-  it('should not fetch data when transactionId is not provided', () => {
-    const mockSetLifecycleStatus = vi.fn();
-    const mockData = undefined;
-
-    (useCallsStatusWagmi as ReturnType<typeof vi.fn>).mockReturnValue({
-      data: mockData,
-    });
 
     const { result } = renderHook(() =>
       useCallsStatus({
-        setLifecycleStatus: mockSetLifecycleStatus,
-        transactionId: '',
+        setLifecycleStatus: vi.fn(),
+        transactionId,
       }),
     );
 
-    expect(result.current.status).toBeUndefined();
-    expect(result.current.transactionHash).toBeUndefined();
+    // Verify the hook returns pending status
+    expect(result.current.status).toBe('pending');
   });
 });

@@ -1,4 +1,5 @@
 import { useCallsStatus as useCallsStatusWagmi } from 'wagmi/experimental';
+import { GENERIC_ERROR_MESSAGE } from '../constants';
 import type { UseCallsStatusParams } from '../types';
 import { normalizeStatus } from '@/internal/utils/normalizeWagmi';
 
@@ -27,7 +28,7 @@ export function useCallsStatus({
       statusData: {
         code: 'TmUCSh01',
         error: JSON.stringify(err),
-        message: '',
+        message: GENERIC_ERROR_MESSAGE,
       },
     });
     return { status: 'error', transactionHash: undefined };
