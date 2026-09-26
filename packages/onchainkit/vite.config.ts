@@ -12,6 +12,7 @@ import tailwindcss from '@tailwindcss/postcss';
 import autoprefixer from 'autoprefixer';
 import postcssPrefixClassnames from './plugins/postcss-prefix-classnames.js';
 import { babelPrefixReactClassNames } from './plugins/babel-prefix-react-classnames';
+import { dualCSSPlugin } from './plugins/vite-dual-css.js';
 
 const entryPoints = Object.fromEntries(
   glob
@@ -54,6 +55,7 @@ export default defineConfig({
           babelPrefixReactClassNames({
             prefix: CLASSNAME_PREFIX,
             cnUtil: 'cn',
+            universalClass: 'el',
           }),
         ],
       },
@@ -63,6 +65,7 @@ export default defineConfig({
       include: ['src'],
       exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
     }),
+    dualCSSPlugin({ scopedFileName: 'onchainkit.css' }), // Generate scoped styles after build
   ],
   build: {
     minify: false,
@@ -85,7 +88,7 @@ export default defineConfig({
       plugins: [
         tailwindcss({
           base: './src',
-          optimize: process.env.NODE_ENV !== 'development',
+          optimize: false,
         }),
         autoprefixer(),
         postcssPrefixClassnames({
