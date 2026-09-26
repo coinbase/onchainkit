@@ -53,6 +53,51 @@
 
 Run `npm create onchain` to bootstrap an example onchain app with all the batteries included.
 
+## 🧩 How OnchainKit Works
+
+OnchainKit is organized into modular components that work together:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                  OnchainKitProvider                     │
+│  (Wraps your app, provides config & wallet connection)  │
+└─────────────────────────────────────────────────────────┘
+                            │
+        ┌───────────────────┼───────────────────┐
+        ▼                   ▼                   ▼
+┌───────────────┐   ┌───────────────┐   ┌───────────────┐
+│    Wallet     │   │   Identity    │   │  Transaction  │
+│  Connect &    │   │  ENS/Basename │   │   Send txs    │
+│   manage      │   │   resolution  │   │  with UI      │
+└───────────────┘   └───────────────┘   └───────────────┘
+        │                   │                   │
+        ▼                   ▼                   ▼
+┌───────────────┐   ┌───────────────┐   ┌───────────────┐
+│     Swap      │   │     Fund      │   │     NFT       │
+│  Token swaps  │   │  Onramp fiat  │   │  Mint & view  │
+└───────────────┘   └───────────────┘   └───────────────┘
+```
+
+### Core Building Blocks
+
+| Module | Purpose | Key Components |
+|--------|---------|----------------|
+| **Wallet** | Connect wallets, manage accounts | `<Wallet>`, `<ConnectWallet>`, `<WalletDropdown>` |
+| **Identity** | Display ENS/Basename, avatars, badges | `<Identity>`, `<Avatar>`, `<Name>`, `<Badge>` |
+| **Transaction** | Build and send transactions with UI | `<Transaction>`, `<TransactionButton>` |
+| **Swap** | Token swap interface | `<Swap>`, `<SwapAmountInput>` |
+| **Fund** | Fiat onramp to crypto | `<FundButton>` |
+| **NFT** | NFT minting and display | `<NFTCard>`, `<NFTMintCard>` |
+
+### Data Flow
+
+1. **OnchainKitProvider** initializes configuration (chain, API key, appearance)
+2. **Wallet** components handle user authentication and connection
+3. Once connected, **Identity** components can resolve and display user info
+4. **Transaction**, **Swap**, and other components use the connected wallet to execute onchain actions
+
+> **Tip:** Start with `<Wallet>` for authentication, then add other components as needed. All components are designed to work independently or together.
+
 ## ✨ Documentation
 
 For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
