@@ -460,6 +460,98 @@ describe('withValidManifest', () => {
     });
   });
 
+  describe('baseBuilder handling', () => {
+    it('should omit baseBuilder when ownerAddress is missing', () => {
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const manifest: MiniAppManifest = {
+        miniapp: validMiniappBase,
+        baseBuilder: {
+          ownerAddress: undefined as unknown as string,
+        },
+      };
+
+      const result = withValidManifest(manifest);
+      expect(result.baseBuilder).toBeUndefined();
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Invalid manifest baseBuilder. Omitting from manifest.',
+      );
+
+      consoleSpy.mockRestore();
+    });
+
+    it('should omit baseBuilder when ownerAddress is empty string', () => {
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const manifest: MiniAppManifest = {
+        miniapp: validMiniappBase,
+        baseBuilder: {
+          ownerAddress: '',
+        },
+      };
+
+      const result = withValidManifest(manifest);
+      expect(result.baseBuilder).toBeUndefined();
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Invalid manifest baseBuilder. Omitting from manifest.',
+      );
+
+      consoleSpy.mockRestore();
+    });
+
+    it('should not warn when baseBuilder is not provided', () => {
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const manifest: MiniAppManifest = {
+        miniapp: validMiniappBase,
+      };
+
+      const result = withValidManifest(manifest);
+      expect(result.baseBuilder).toBeUndefined();
+      expect(consoleSpy).not.toHaveBeenCalled();
+
+      consoleSpy.mockRestore();
+    });
+
+    it('should include baseBuilder when ownerAddress is present', () => {
+      const manifest: MiniAppManifest = {
+        miniapp: validMiniappBase,
+        baseBuilder: {
+          ownerAddress: '0x1234567890abcdef1234567890abcdef12345678',
+        },
+      };
+
+      const result = withValidManifest(manifest);
+      expect(result.baseBuilder).toEqual({
+        ownerAddress: '0x1234567890abcdef1234567890abcdef12345678',
+      });
+    });
+
+    it('should include baseBuilder alongside accountAssociation', () => {
+      const manifest: MiniAppManifest = {
+        miniapp: validMiniappBase,
+        accountAssociation: {
+          header: 'test-header',
+          payload: 'test-payload',
+          signature: 'test-signature',
+        },
+        baseBuilder: {
+          ownerAddress: '0x1234567890abcdef1234567890abcdef12345678',
+        },
+      };
+
+      const result = withValidManifest(manifest);
+      expect(result.accountAssociation).toEqual({
+        header: 'test-header',
+        payload: 'test-payload',
+        signature: 'test-signature',
+      });
+      expect(result.baseBuilder).toEqual({
+        ownerAddress: '0x1234567890abcdef1234567890abcdef12345678',
+      });
+    });
+  });
+
   describe('edge cases', () => {
     it('should handle all primaryCategory values', () => {
       const categories = [
