@@ -2,7 +2,7 @@
 
 🎉 First off, thank you for considering contributing to OnchainKit, you are the best! ☕️
 
-The following is a set of guidelines for contributing to Base Web. These are just guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
+The following is a set of guidelines for contributing to OnchainKit. These are just guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
 ## Table of Contents
 
