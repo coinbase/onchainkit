@@ -1,7 +1,7 @@
 import { act } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useShowCallsStatus } from 'wagmi/experimental';
+import { useShowCallsStatus } from 'wagmi';
 import { useTransactionContext } from './TransactionProvider';
 import { TransactionToast } from './TransactionToast';
 
@@ -14,9 +14,6 @@ vi.mock('wagmi', () => ({
   useConnect: vi.fn(),
   useConfig: vi.fn(),
   useChainId: vi.fn(),
-}));
-
-vi.mock('wagmi/experimental', () => ({
   useShowCallsStatus: vi.fn(),
 }));
 

@@ -28,7 +28,7 @@ import {
 import { waitForTransactionReceipt } from 'wagmi/actions';
 import { base } from 'wagmi/chains';
 import { mock } from 'wagmi/connectors';
-import { useSendCalls } from 'wagmi/experimental';
+import { useSendCalls } from 'wagmi';
 import { buildSwapTransaction } from '../../api/buildSwapTransaction';
 import type { GetSwapQuoteResponse } from '../../api/types';
 import { useAnalytics } from '../../core/analytics/hooks/useAnalytics';
@@ -86,6 +86,7 @@ vi.mock('wagmi', async (importOriginal) => {
     useAccount: vi.fn(),
     useChainId: vi.fn(),
     useSwitchChain: vi.fn(),
+    useSendCalls: vi.fn(),
   };
 });
 
@@ -100,10 +101,6 @@ vi.mock('@/internal/hooks/useCapabilitiesSafe', () => ({
 
 vi.mock('wagmi/actions', () => ({
   waitForTransactionReceipt: vi.fn(),
-}));
-
-vi.mock('wagmi/experimental', () => ({
-  useSendCalls: vi.fn(),
 }));
 
 vi.mock('../path/to/maxSlippageModule', () => ({

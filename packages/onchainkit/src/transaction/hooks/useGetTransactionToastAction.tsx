@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { useChainId } from 'wagmi';
-import { useShowCallsStatus } from 'wagmi/experimental';
+import { useShowCallsStatus } from 'wagmi';
 import { getChainExplorer } from '../../core/network/getChainExplorer';
 import { cn, text } from '../../styles/theme';
 import { useTransactionContext } from '../components/TransactionProvider';
