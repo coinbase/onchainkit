@@ -1,14 +1,11 @@
 import { renderHook } from '@testing-library/react';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAccount } from 'wagmi';
-import { useCapabilities } from 'wagmi/experimental';
+import { useCapabilities } from 'wagmi';
 import { useCapabilitiesSafe } from './useCapabilitiesSafe';
 
 vi.mock('wagmi', () => ({
   useAccount: vi.fn(),
-}));
-
-vi.mock('wagmi/experimental', () => ({
   useCapabilities: vi.fn(),
 }));
 

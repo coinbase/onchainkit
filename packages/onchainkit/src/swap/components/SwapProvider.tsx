@@ -9,7 +9,7 @@ import {
 import { base } from 'viem/chains';
 import { useAccount, useConfig, useSendTransaction } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
-import { useSendCalls } from 'wagmi/experimental';
+import { useSendCalls } from 'wagmi';
 import { buildSwapTransaction } from '@/api/buildSwapTransaction';
 import { getSwapQuote } from '@/api/getSwapQuote';
 import { useAnalytics } from '@/core/analytics/hooks/useAnalytics';
