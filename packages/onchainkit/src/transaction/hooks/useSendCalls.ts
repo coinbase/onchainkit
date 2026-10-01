@@ -1,4 +1,4 @@
-import { useSendCalls as useSendCallsWagmi } from 'wagmi/experimental';
+import { useSendCalls as useSendCallsWagmi } from 'wagmi';
 import { GENERIC_ERROR_MESSAGE } from '../constants';
 import type { UseSendCallsParams } from '../types';
 import { isUserRejectedRequestError } from '../utils/isUserRejectedRequestError';

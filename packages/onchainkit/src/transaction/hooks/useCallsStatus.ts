@@ -1,4 +1,4 @@
-import { useCallsStatus as useCallsStatusWagmi } from 'wagmi/experimental';
+import { useCallsStatus as useCallsStatusWagmi } from 'wagmi';
 import type { UseCallsStatusParams } from '../types';
 import { normalizeStatus } from '@/internal/utils/normalizeWagmi';
 

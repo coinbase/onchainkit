@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { waitForTransactionReceipt } from 'wagmi/actions';
-import { useCallsStatus } from 'wagmi/experimental';
+import { useCallsStatus } from 'wagmi';
 import type { UseAwaitCallsParams } from '../types';
 import { normalizeStatus } from '@/internal/utils/normalizeWagmi';
 
