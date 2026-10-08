@@ -49,6 +49,37 @@
 
 <br />
 
+## ⛓️ Supported Chains
+
+OnchainKit is designed to work with **Base** and other EVM-compatible networks. Here's what you need to know:
+
+### Full Support
+| Chain | Chain ID | Features |
+|-------|----------|----------|
+| **Base** (mainnet) | 8453 | All features including Paymaster, CDP APIs, EAS attestations |
+| **Base Sepolia** (testnet) | 84532 | All features for testing |
+
+### Partial Support
+| Chain | Features Available | Limitations |
+|-------|-------------------|-------------|
+| **Ethereum** | Identity, Wallet, Transaction components | No Paymaster support |
+| **Optimism** | Identity (EAS attestations), Wallet | Limited CDP API support |
+| **Other EVM chains** | Basic Wallet and Transaction components | No Paymaster, limited API features |
+
+### Feature Availability by Chain
+
+| Feature | Base | Base Sepolia | Ethereum | Other EVM |
+|---------|------|--------------|----------|-----------|
+| Wallet components | ✅ | ✅ | ✅ | ✅ |
+| Transaction components | ✅ | ✅ | ✅ | ✅ |
+| Paymaster (gas sponsorship) | ✅ | ✅ | ❌ | ❌ |
+| CDP Node RPC | ✅ | ✅ | ✅ | ❌ |
+| Swap API | ✅ | ✅ | ❌ | ❌ |
+| EAS Attestations | ✅ | ✅ | ❌ | ❌ |
+| Identity (ENS/Basenames) | ✅ | ✅ | ✅ | ❌ |
+
+> **Note:** OnchainKit uses [viem](https://viem.sh/) under the hood. You can pass any chain from `viem/chains` to the configuration, but some features are optimized for Base.
+
 ## 🚀 Quickstart
 
 Run `npm create onchain` to bootstrap an example onchain app with all the batteries included.
