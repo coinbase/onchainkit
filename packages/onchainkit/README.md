@@ -57,6 +57,34 @@ Run `npm create onchain` to bootstrap an example onchain app with all the batter
 
 For documentation and guides, visit [onchainkit.xyz](https://onchainkit.xyz/).
 
+## 🌐 Supported Networks
+
+OnchainKit is optimized for the **Base ecosystem** and officially supports:
+
+| Network | Chain ID | Type |
+|---|---|---|
+| Base Mainnet | 8453 | Production |
+| Base Sepolia | 84532 | Testnet |
+
+While OnchainKit components work on any EVM-compatible chain, full feature support — including gasless transactions, Coinbase Smart Wallet, and paymaster integration — is only available on Base and Base Sepolia.
+
+To configure your app for Base networks:
+
+```ts
+import { base, baseSepolia } from 'viem/chains';
+import { OnchainKitProvider } from '@coinbase/onchainkit';
+
+// Production (Base Mainnet)
+<OnchainKitProvider chain={base} apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY}>
+  {children}
+</OnchainKitProvider>
+
+// Development (Base Sepolia testnet)
+<OnchainKitProvider chain={baseSepolia} apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY}>
+  {children}
+</OnchainKitProvider>
+```
+
 ## 🛠️ Contributing
 
 ### Overview
