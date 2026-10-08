@@ -18,6 +18,9 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
   "devDependencies": {
     "@actions/core": "^1.11.1",
     "@changesets/cli": "^2.27.10",
