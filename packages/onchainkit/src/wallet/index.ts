@@ -42,3 +42,7 @@ export type {
   WalletDropdownProps,
   WalletProps,
 } from './types';
+
+// Network Guard
+export { useNetworkGuard } from './hooks/useNetworkGuard';
+export { NetworkGuard } from './components/NetworkGuard';
