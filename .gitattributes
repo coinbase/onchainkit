@@ -1,0 +1,54 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Source code
+*.js text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.mjs text eol=lf
+*.cjs text eol=lf
+*.mts text eol=lf
+*.cts text eol=lf
+
+# Web files
+*.html text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.less text eol=lf
+*.svg text eol=lf
+
+# Config and data files
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.env text eol=lf
+*.env.* text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+
+# GitHub Actions
+.github/workflows/*.yml text eol=lf
+
+# Lock files
+pnpm-lock.yaml text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
