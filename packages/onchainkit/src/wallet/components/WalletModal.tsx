@@ -71,7 +71,7 @@ export function WalletModal({
         onError(
           error instanceof Error
             ? error
-            : new Error('Failed to connect wallet'),
+            : new Error('Failed to connect Base Account. Please ensure it is installed and unlocked.'),
         );
       }
     }
@@ -92,7 +92,7 @@ export function WalletModal({
         onError(
           error instanceof Error
             ? error
-            : new Error('Failed to connect wallet'),
+            : new Error('Failed to connect Coinbase Wallet. Please ensure it is installed and unlocked.'),
         );
       }
     }
@@ -113,7 +113,7 @@ export function WalletModal({
     } catch (error) {
       console.error('MetaMask connection error:', error);
       onError?.(
-        error instanceof Error ? error : new Error('Failed to connect wallet'),
+        error instanceof Error ? error : new Error('Failed to connect MetaMask. Please ensure it is installed and unlocked.'),
       );
     }
   }, [connect, onClose, onError, appName, appLogo]);
@@ -134,7 +134,7 @@ export function WalletModal({
     } catch (error) {
       console.error('Phantom connection error:', error);
       onError?.(
-        error instanceof Error ? error : new Error('Failed to connect wallet'),
+        error instanceof Error ? error : new Error('Failed to connect Phantom. Please ensure it is installed and unlocked.'),
       );
     }
   }, [connect, onClose, onError]);
@@ -155,7 +155,7 @@ export function WalletModal({
     } catch (error) {
       console.error('Rabby connection error:', error);
       onError?.(
-        error instanceof Error ? error : new Error('Failed to connect wallet'),
+        error instanceof Error ? error : new Error('Failed to connect Rabby. Please ensure it is installed and unlocked.'),
       );
     }
   }, [connect, onClose, onError]);
@@ -176,7 +176,7 @@ export function WalletModal({
     } catch (error) {
       console.error('Trust Wallet connection error:', error);
       onError?.(
-        error instanceof Error ? error : new Error('Failed to connect wallet'),
+        error instanceof Error ? error : new Error('Failed to connect Trust Wallet. Please ensure it is installed and unlocked.'),
       );
       onClose();
     }
@@ -201,7 +201,7 @@ export function WalletModal({
     } catch (error) {
       console.error('Frame Wallet connection error:', error);
       onError?.(
-        error instanceof Error ? error : new Error('Failed to connect wallet'),
+        error instanceof Error ? error : new Error('Failed to connect Frame Wallet. Please ensure it is installed and unlocked.'),
       );
 
       onClose();
