@@ -21,6 +21,14 @@ export function AutoConnect({
   const connector = connectors[0];
   const { isInMiniApp, isSuccess: isInMiniAppSuccess } = useIsInMiniApp();
 
+  // Reset the connection attempt flag when user disconnects
+  // This allows auto-connect to run again after a disconnect
+  useEffect(() => {
+    if (!isConnected && !isConnecting) {
+      hasAttemptedConnection.current = false;
+    }
+  }, [isConnected, isConnecting]);
+
   useEffect(() => {
     if (
       !enabled ||

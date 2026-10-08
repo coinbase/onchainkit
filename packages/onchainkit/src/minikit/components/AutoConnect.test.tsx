@@ -315,4 +315,73 @@ describe('AutoConnect', () => {
 
     expect(mockConnect).not.toHaveBeenCalled();
   });
+
+  it('should attempt reconnection after disconnect', async () => {
+    Object.defineProperty(sdk, 'context', {
+      value: Promise.resolve({ user: { fid: 123 } }),
+      writable: true,
+      configurable: true,
+    });
+
+    // Start disconnected
+    mockUseAccount.mockReturnValue({
+      isConnected: false,
+      isConnecting: false,
+    });
+
+    const { rerender } = render(
+      <QueryClientProvider client={queryClient}>
+        <WagmiProvider config={createConfig(mockConfig)}>
+          <AutoConnect enabled={true}>
+            <div>Test Child</div>
+          </AutoConnect>
+        </WagmiProvider>
+      </QueryClientProvider>,
+    );
+
+    await act(() => Promise.resolve());
+
+    // First connection attempt
+    expect(mockConnect).toHaveBeenCalledTimes(1);
+
+    // Simulate connected state
+    mockUseAccount.mockReturnValue({
+      isConnected: true,
+      isConnecting: false,
+    });
+
+    rerender(
+      <QueryClientProvider client={queryClient}>
+        <WagmiProvider config={createConfig(mockConfig)}>
+          <AutoConnect enabled={true}>
+            <div>Test Child</div>
+          </AutoConnect>
+        </WagmiProvider>
+      </QueryClientProvider>,
+    );
+
+    await act(() => Promise.resolve());
+
+    // Simulate disconnect
+    mockUseAccount.mockReturnValue({
+      isConnected: false,
+      isConnecting: false,
+    });
+
+    rerender(
+      <QueryClientProvider client={queryClient}>
+        <WagmiProvider config={createConfig(mockConfig)}>
+          <AutoConnect enabled={true}>
+            <div>Test Child</div>
+          </AutoConnect>
+        </WagmiProvider>
+      </QueryClientProvider>,
+    );
+
+    await act(() => Promise.resolve());
+
+    // Should attempt reconnection after disconnect
+    expect(mockConnect).toHaveBeenCalledTimes(2);
+    expect(mockConnect).toHaveBeenLastCalledWith({ connector: mockFarcasterFrame });
+  });
 });
