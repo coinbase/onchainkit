@@ -1,38 +1,19 @@
 {
-  "name": "onchainkit-monorepo",
-  "description": "",
-  "main": "index.js",
+  "name": "onchainkit",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "pnpm -r run build",
-    "clean:node_modules": "rm -rf node_modules packages/*/node_modules",
-    "f:ock": "pnpm --filter @coinbase/onchainkit",
-    "f:play": "pnpm --filter playground",
-    "f:create": "pnpm --filter create-onchain",
-    "f:manifest": "pnpm --filter miniapp-manifest-generator",
-    "f:minikit-example": "pnpm --filter minikit-example",
-    "changeset": "changeset",
-    "release:check": "changeset status --verbose --since=origin/main",
-    "release:publish": "changeset publish"
+    "dev": "pnpm -r run dev",
+    "lint": "pnpm -r run lint",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "validate": "pnpm run lint && pnpm run typecheck && pnpm run test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "clean": "pnpm -r run clean"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
-    "@actions/core": "^1.11.1",
-    "@changesets/cli": "^2.27.10",
-    "@changesets/get-github-info": "^0.6.0",
-    "@eslint/js": "^9.22.0",
-    "concurrently": "^8.0.0",
-    "eslint": "^9.22.0",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-prettier": "^5.2.3",
-    "eslint-plugin-react": "^7.37.4",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "globals": "^16.0.0",
-    "prettier": "^3.5.3",
-    "typescript": "~5.8.3",
-    "typescript-eslint": "^8.26.1"
+    "prettier": "^3.2.5"
   },
-  "packageManager": "pnpm@10.6.3"
+  "packageManager": "pnpm@9.15.4"
 }
