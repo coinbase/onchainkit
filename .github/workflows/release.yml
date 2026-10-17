@@ -33,12 +33,12 @@ jobs:
       - name: 'Setup'
         uses: ./.github/actions/setup
 
+      - name: Install npm with trusted publishing support
+        run: npm install --global npm@11.5.1
+
       - name: Build packages
         shell: bash
         run: pnpm --filter @coinbase/onchainkit --filter create-onchain build
-
-      - name: Set deployment token
-        run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_TOKEN }}"
 
       - name: Handle Release Pull Request or Publish to npm
         id: changesets
@@ -50,4 +50,3 @@ jobs:
           commitMode: github-api
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

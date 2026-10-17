@@ -7,7 +7,23 @@ import { Sign } from './steps/Sign';
 
 const MAX_RECONNECT_ATTEMPTS = 5;
 const RECONNECT_DELAY = 1000;
-const WEBSOCKET_URL = 'ws://localhost:3333';
+// Must be the literal loopback address the CLI binds and serves this page from.
+// `localhost` can resolve to either `::1` or `127.0.0.1`, so it could address a
+// different process than the one holding the session token.
+const WEBSOCKET_URL = 'ws://127.0.0.1:3333';
+
+/**
+ * `create-onchain --manifest` opens this page with a single-use token in the
+ * URL fragment and rejects any WebSocket handshake that does not present it.
+ * A fragment is never sent to a server, so only this page holds the token.
+ */
+function getWebSocketUrl() {
+  const fragment = window.location.hash.replace(/^#/, '');
+  const token = new URLSearchParams(fragment).get('token');
+  return token
+    ? `${WEBSOCKET_URL}/?token=${encodeURIComponent(token)}`
+    : WEBSOCKET_URL;
+}
 
 function Page() {
   const wsRef = useRef<WebSocket | null>(null);
@@ -24,7 +40,7 @@ function Page() {
     let reconnectAttempts = 0;
 
     function connectWebSocket() {
-      wsRef.current = new WebSocket(WEBSOCKET_URL);
+      wsRef.current = new WebSocket(getWebSocketUrl());
 
       wsRef.current.onclose = () => {
         if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {

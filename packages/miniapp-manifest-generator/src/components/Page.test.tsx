@@ -49,6 +49,7 @@ describe('Page', () => {
   });
 
   afterEach(() => {
+    window.location.hash = '';
     vi.clearAllMocks();
     vi.resetAllMocks();
     vi.useRealTimers();
@@ -66,7 +67,27 @@ describe('Page', () => {
   it('should initialize WebSocket connection', () => {
     render(<Page />);
 
-    expect(WebSocketMock).toHaveBeenCalledWith('ws://localhost:3333');
+    expect(WebSocketMock).toHaveBeenCalledWith('ws://127.0.0.1:3333');
+  });
+
+  it('should forward the session token from the URL fragment', () => {
+    window.location.hash = '#token=abc123_-';
+
+    render(<Page />);
+
+    expect(WebSocketMock).toHaveBeenCalledWith(
+      'ws://127.0.0.1:3333/?token=abc123_-',
+    );
+  });
+
+  it('should escape a session token containing URL-unsafe characters', () => {
+    window.location.hash = '#token=a%26b';
+
+    render(<Page />);
+
+    expect(WebSocketMock).toHaveBeenCalledWith(
+      'ws://127.0.0.1:3333/?token=a%26b',
+    );
   });
 
   it('should reconnect on WebSocket close', () => {

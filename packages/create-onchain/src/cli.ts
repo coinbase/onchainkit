@@ -72,8 +72,8 @@ Available Templates:
   }
 
   if (isManifest) {
-    await createMiniKitManifest();
-    process.exit(0);
+    const succeeded = await createMiniKitManifest();
+    process.exit(succeeded ? 0 : 1);
   }
 
   if (isMiniKit) {
