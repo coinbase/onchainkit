@@ -1,5 +1,8 @@
 name: manifest test:coverage
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:

@@ -15,7 +15,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
-    "@coinbase/onchainkit": "latest",
+    "@coinbase/onchainkit": "1.0.0",
     "buffer": "^6.0.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
@@ -40,7 +40,7 @@
     "jsdom": "^24.1.0",
     "tailwindcss": "^4.1.6",
     "typescript-eslint": "^8.24.1",
-    "vite": "^5.4.20",
+    "vite": "^6.4.1",
     "vitest": "^3.0.5"
   },
   "packageManager": "pnpm@10.6.3"

@@ -5,7 +5,11 @@ import { babelPrefixReactClassNames } from '../babel-prefix-react-classnames';
 // Helper function to transform code using the plugin
 function transform(
   code: string,
-  options: { prefix: string; cnUtil?: string | false } = { prefix: 'prefix-' },
+  options: {
+    prefix: string;
+    cnUtil?: string | false;
+    universalClass?: string;
+  } = { prefix: 'prefix-' },
 ): string {
   const result = transformSync(code, {
     plugins: [
@@ -217,5 +221,147 @@ describe('babel-prefix-react-classnames', () => {
     expect(result).toContain(
       'isActive ? `prefix-active-${dynamic}` : "prefix-inactive-class"',
     );
+  });
+
+  describe('universalClass option', () => {
+    it('should add universal class to HTML elements', () => {
+      const code = '<div>Hello</div>';
+      const result = transform(code, {
+        prefix: 'prefix-',
+        universalClass: 'el',
+      });
+      expect(result).toContain('className: "prefix-el"');
+    });
+
+    it('should add universal class to HTML elements with existing className', () => {
+      const code = '<button className="foo">Click</button>';
+      const result = transform(code, {
+        prefix: 'prefix-',
+        universalClass: 'el',
+      });
+      expect(result).toContain('className: "prefix-foo prefix-el"');
+    });
+
+    it('should NOT add universal class to React components', () => {
+      const code = '<MyComponent>Hello</MyComponent>';
+      const result = transform(code, {
+        prefix: 'prefix-',
+        universalClass: 'el',
+      });
+      expect(result).not.toContain('className');
+    });
+
+    it('should NOT add universal class to React components with existing className', () => {
+      const code = '<Button className="foo">Click</Button>';
+      const result = transform(code, {
+        prefix: 'prefix-',
+        universalClass: 'el',
+      });
+      expect(result).toContain('className: "prefix-foo"');
+      expect(result).not.toContain('"prefix-foo el"');
+    });
+
+    it('should add universal class to multiple HTML elements', () => {
+      const code = `
+        <div>
+          <button>Click</button>
+          <span>Text</span>
+        </div>
+      `;
+      const result = transform(code, {
+        prefix: 'prefix-',
+        universalClass: 'el',
+      });
+      // Each HTML element should get the universal class
+      expect(result.match(/className: "prefix-el"/g)?.length).toBe(3);
+    });
+
+    it('should add universal class to HTML elements but not React components in mixed JSX', () => {
+      const code = `
+        <div>
+          <MyComponent />
+          <button>Click</button>
+        </div>
+      `;
+      const result = transform(code, {
+        prefix: 'prefix-',
+        universalClass: 'el',
+      });
+      // Only div and button should get the universal class (2 times), not MyComponent
+      expect(result.match(/className: "prefix-el"/g)?.length).toBe(2);
+    });
+
+    it('should add universal class as first argument in cn() calls for HTML elements', () => {
+      const code = '<button className={cn("foo", "bar")}>Click</button>';
+      const result = transform(code, {
+        prefix: 'prefix-',
+        universalClass: 'el',
+      });
+      expect(result).toContain('cn("prefix-foo"');
+      expect(result).toContain('"prefix-bar"');
+      expect(result).toContain('"prefix-el"');
+    });
+
+    it('should NOT add universal class to JSX member expressions', () => {
+      const code = '<Wallet.Dropdown>Content</Wallet.Dropdown>';
+      const result = transform(code, {
+        prefix: 'prefix-',
+        universalClass: 'el',
+      });
+      expect(result).not.toContain('className');
+    });
+
+    it('should add universal class to template literal className on HTML elements', () => {
+      const code = '<div className={`foo ${bar}`}>Hello</div>';
+      const result = transform(code, {
+        prefix: 'prefix-',
+        universalClass: 'el',
+      });
+      expect(result).toContain('prefix-el');
+      expect(result).toContain('prefix-foo');
+    });
+
+    it('should add universal class to HTML elements without className', () => {
+      const code = '<div>Hello</div>';
+      const result = transform(code, {
+        prefix: 'prefix-',
+        universalClass: 'el',
+      });
+      expect(result).toContain('className: "prefix-el"');
+    });
+
+    it('should not add universal class if no universalClass option is set', () => {
+      const code = '<div>Hello</div>';
+      const result = transform(code, {
+        prefix: 'prefix-',
+      });
+      expect(result).not.toContain('className');
+    });
+
+    it('should handle React components without adding universal class', () => {
+      const code = '<Button className="foo">Click</Button>';
+      const result = transform(code, {
+        prefix: 'prefix-',
+        universalClass: 'el',
+      });
+      // React component should get prefix but not universal class
+      expect(result).toContain('prefix-foo');
+      expect(result).not.toContain('prefix-el');
+    });
+
+    it('should handle multiple HTML elements with and without className', () => {
+      const code = `
+        <div>
+          <span className="text">Hello</span>
+          <button>Click</button>
+        </div>
+      `;
+      const result = transform(code, {
+        prefix: 'prefix-',
+        universalClass: 'el',
+      });
+      // All HTML elements should get universal class
+      expect(result.match(/prefix-el/g)?.length).toBeGreaterThanOrEqual(3);
+    });
   });
 });

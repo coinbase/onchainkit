@@ -11,8 +11,12 @@ on:
     branches:
       - changeset-release/main
 
+permissions:
+  contents: read
+
 jobs:
   test:
+    if: github.head_ref != 'alpha'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -49,6 +53,7 @@ jobs:
         run: |
           mkdir test-project
           cd test-project
+
           (sleep 1; echo ""; sleep 1; echo ""; sleep 1; echo ""; sleep 1; echo -e "\033[D\n") | ../packages/create-onchain/dist/esm/cli.js
 
       - name: Install & Build test project
